@@ -1,7 +1,7 @@
 // Generado por scripts/extraer-banco.mjs equipos — NO EDITAR A MANO.
-// Fuente: docs/banco-ensayos/equipos-comun.html + docs/banco-ensayos/equipos/oq-comun.html + docs/banco-ensayos/equipos/pq-comun.html + docs/banco-ensayos/equipos/iq-autoclave.html + docs/banco-ensayos/equipos/iq-tunel-despirogenizacion.html + docs/banco-ensayos/equipos/iq-liofilizador.html + docs/banco-ensayos/equipos/iq-reactor.html + docs/banco-ensayos/equipos/iq-horno-vacio.html + docs/banco-ensayos/equipos/iq-llenadora.html + docs/banco-ensayos/equipos/iq-lecho-fluido.html + docs/banco-ensayos/equipos/iq-tableteadora.html + docs/banco-ensayos/equipos/iq-encapsuladora.html + docs/banco-ensayos/equipos/iq-granulador.html + docs/banco-ensayos/equipos/iq-recubridora.html + docs/banco-ensayos/equipos/iq-blistera.html + docs/banco-ensayos/equipos/iq-detector-metales.html + docs/banco-ensayos/equipos/iq-etiquetadora.html + docs/banco-ensayos/equipos/iq-mezclador.html + docs/banco-ensayos/equipos/iq-horno-secado.html + docs/banco-ensayos/equipos/oq-reactor.html + docs/banco-ensayos/equipos/pq-reactor.html + docs/banco-ensayos/equipos/oq-tableteadora.html + docs/banco-ensayos/equipos/pq-tableteadora.html + docs/banco-ensayos/equipos/oq-encapsuladora.html + docs/banco-ensayos/equipos/pq-encapsuladora.html + docs/banco-ensayos/equipos/oq-granulador.html + docs/banco-ensayos/equipos/pq-granulador.html + docs/banco-ensayos/equipos/oq-recubridora.html + docs/banco-ensayos/equipos/pq-recubridora.html + docs/banco-ensayos/equipos/oq-blistera.html + docs/banco-ensayos/equipos/pq-blistera.html + docs/banco-ensayos/equipos/oq-detector-metales.html + docs/banco-ensayos/equipos/pq-detector-metales.html + docs/banco-ensayos/equipos/oq-etiquetadora.html + docs/banco-ensayos/equipos/pq-etiquetadora.html + docs/banco-ensayos/equipos/oq-lecho-fluido.html + docs/banco-ensayos/equipos/oq-autoclave.html + docs/banco-ensayos/equipos/oq-mezclador.html + docs/banco-ensayos/equipos/oq-horno.html + docs/banco-ensayos/equipos/pq-lecho-fluido.html + docs/banco-ensayos/equipos/pq-autoclave.html + docs/banco-ensayos/equipos/pq-mezclador.html + docs/banco-ensayos/equipos/pq-horno.html + docs/banco-ensayos/equipos/pq-horno-vacio.html + docs/banco-ensayos/equipos/oq-horno-vacio.html (versión: EQ-COMUN 2026-10-01 v2 + EQ-OQ-COM 2026-10-03 v1 + EQ-PQ-COM 2026-10-03 v1 + EQ-IQ-AU 2026-10-07 v1 + EQ-IQ-TD 2026-10-07 v1 + EQ-IQ-LI 2026-10-07 v1 + EQ-IQ-RC 2026-10-07 v1 + EQ-IQ-VA 2026-10-07 v1 + EQ-IQ-LL 2026-10-07 v1 + EQ-IQ-LF 2026-10-07 v1 + EQ-IQ-TB 2026-10-08 v1 + EQ-IQ-EN 2026-10-08 v1 + EQ-IQ-GR 2026-10-08 v1 + EQ-IQ-RB 2026-10-09 v1 + EQ-IQ-BL 2026-10-09 v1 + EQ-IQ-DM 2026-10-11 v1 + EQ-IQ-ET 2026-10-11 v1 + EQ-IQ-MZ 2026-10-11 v1 + EQ-IQ-HO 2026-10-11 v1 + EQ-OQ-RC 2026-10-07 v1 + EQ-PQ-RC 2026-10-07 v1 + EQ-OQ-TB 2026-10-08 v1 + EQ-PQ-TB 2026-10-08 v1 + EQ-OQ-EN 2026-10-08 v1 + EQ-PQ-EN 2026-10-08 v1 + EQ-OQ-GR 2026-10-08 v1 + EQ-PQ-GR 2026-10-08 v1 + EQ-OQ-RB 2026-10-09 v1 + EQ-PQ-RB 2026-10-09 v1 + EQ-OQ-BL 2026-10-09 v1 + EQ-PQ-BL 2026-10-09 v1 + EQ-OQ-DM 2026-10-11 v1 + EQ-PQ-DM 2026-10-11 v1 + EQ-OQ-ET 2026-10-11 v1 + EQ-PQ-ET 2026-10-11 v1 + EQ-OQ-LF 2026-10-05 v2 + EQ-OQ-AU 2026-10-05 v2 + EQ-OQ-MZ 2026-10-05 v2 + EQ-OQ-HO 2026-10-06 v1 + EQ-PQ-LF 2026-10-05 v2 + EQ-PQ-AU 2026-10-05 v2 + EQ-PQ-MZ 2026-10-05 v2 + EQ-PQ-HO 2026-10-06 v1 + EQ-PQ-VA 2026-10-06 v1 + EQ-OQ-VA 2026-10-06 v1).
+// Fuente: docs/banco-ensayos/equipos-comun.html + docs/banco-ensayos/equipos/oq-comun.html + docs/banco-ensayos/equipos/pq-comun.html + docs/banco-ensayos/equipos/iq-autoclave.html + docs/banco-ensayos/equipos/iq-tunel-despirogenizacion.html + docs/banco-ensayos/equipos/iq-liofilizador.html + docs/banco-ensayos/equipos/iq-reactor.html + docs/banco-ensayos/equipos/iq-horno-vacio.html + docs/banco-ensayos/equipos/iq-llenadora.html + docs/banco-ensayos/equipos/iq-lecho-fluido.html + docs/banco-ensayos/equipos/iq-tableteadora.html + docs/banco-ensayos/equipos/iq-encapsuladora.html + docs/banco-ensayos/equipos/iq-granulador.html + docs/banco-ensayos/equipos/iq-recubridora.html + docs/banco-ensayos/equipos/iq-blistera.html + docs/banco-ensayos/equipos/iq-detector-metales.html + docs/banco-ensayos/equipos/iq-etiquetadora.html + docs/banco-ensayos/equipos/iq-mezclador.html + docs/banco-ensayos/equipos/iq-horno-secado.html + docs/banco-ensayos/equipos/iq-sistema-cremas-vacio.html + docs/banco-ensayos/equipos/oq-reactor.html + docs/banco-ensayos/equipos/pq-reactor.html + docs/banco-ensayos/equipos/oq-sistema-cremas-vacio.html + docs/banco-ensayos/equipos/pq-sistema-cremas-vacio.html + docs/banco-ensayos/equipos/oq-tableteadora.html + docs/banco-ensayos/equipos/pq-tableteadora.html + docs/banco-ensayos/equipos/oq-encapsuladora.html + docs/banco-ensayos/equipos/pq-encapsuladora.html + docs/banco-ensayos/equipos/oq-granulador.html + docs/banco-ensayos/equipos/pq-granulador.html + docs/banco-ensayos/equipos/oq-recubridora.html + docs/banco-ensayos/equipos/pq-recubridora.html + docs/banco-ensayos/equipos/oq-blistera.html + docs/banco-ensayos/equipos/pq-blistera.html + docs/banco-ensayos/equipos/oq-detector-metales.html + docs/banco-ensayos/equipos/pq-detector-metales.html + docs/banco-ensayos/equipos/oq-etiquetadora.html + docs/banco-ensayos/equipos/pq-etiquetadora.html + docs/banco-ensayos/equipos/oq-lecho-fluido.html + docs/banco-ensayos/equipos/oq-autoclave.html + docs/banco-ensayos/equipos/oq-mezclador.html + docs/banco-ensayos/equipos/oq-horno.html + docs/banco-ensayos/equipos/pq-lecho-fluido.html + docs/banco-ensayos/equipos/pq-autoclave.html + docs/banco-ensayos/equipos/pq-mezclador.html + docs/banco-ensayos/equipos/pq-horno.html + docs/banco-ensayos/equipos/pq-horno-vacio.html + docs/banco-ensayos/equipos/oq-horno-vacio.html (versión: EQ-COMUN 2026-10-01 v2 + EQ-OQ-COM 2026-10-03 v1 + EQ-PQ-COM 2026-10-03 v1 + EQ-IQ-AU 2026-10-07 v1 + EQ-IQ-TD 2026-10-07 v1 + EQ-IQ-LI 2026-10-07 v1 + EQ-IQ-RC 2026-10-07 v1 + EQ-IQ-VA 2026-10-07 v1 + EQ-IQ-LL 2026-10-07 v1 + EQ-IQ-LF 2026-10-07 v1 + EQ-IQ-TB 2026-10-08 v1 + EQ-IQ-EN 2026-10-08 v1 + EQ-IQ-GR 2026-10-08 v1 + EQ-IQ-RB 2026-10-09 v1 + EQ-IQ-BL 2026-10-09 v1 + EQ-IQ-DM 2026-10-11 v1 + EQ-IQ-ET 2026-10-11 v1 + EQ-IQ-MZ 2026-10-11 v1 + EQ-IQ-HO 2026-10-11 v1 + EQ-IQ-UC 2026-10-12 v1 + EQ-OQ-RC 2026-10-07 v1 + EQ-PQ-RC 2026-10-07 v1 + EQ-OQ-UC 2026-10-12 v1 + EQ-PQ-UC 2026-10-12 v1 + EQ-OQ-TB 2026-10-08 v1 + EQ-PQ-TB 2026-10-08 v1 + EQ-OQ-EN 2026-10-08 v1 + EQ-PQ-EN 2026-10-08 v1 + EQ-OQ-GR 2026-10-08 v1 + EQ-PQ-GR 2026-10-08 v1 + EQ-OQ-RB 2026-10-09 v1 + EQ-PQ-RB 2026-10-09 v1 + EQ-OQ-BL 2026-10-09 v1 + EQ-PQ-BL 2026-10-09 v1 + EQ-OQ-DM 2026-10-11 v1 + EQ-PQ-DM 2026-10-11 v1 + EQ-OQ-ET 2026-10-11 v1 + EQ-PQ-ET 2026-10-11 v1 + EQ-OQ-LF 2026-10-05 v2 + EQ-OQ-AU 2026-10-05 v2 + EQ-OQ-MZ 2026-10-05 v2 + EQ-OQ-HO 2026-10-06 v1 + EQ-PQ-LF 2026-10-05 v2 + EQ-PQ-AU 2026-10-05 v2 + EQ-PQ-MZ 2026-10-05 v2 + EQ-PQ-HO 2026-10-06 v1 + EQ-PQ-VA 2026-10-06 v1 + EQ-OQ-VA 2026-10-06 v1).
 var BancoEquipos = {
- "version": "EQ-COMUN 2026-10-01 v2 + EQ-OQ-COM 2026-10-03 v1 + EQ-PQ-COM 2026-10-03 v1 + EQ-IQ-AU 2026-10-07 v1 + EQ-IQ-TD 2026-10-07 v1 + EQ-IQ-LI 2026-10-07 v1 + EQ-IQ-RC 2026-10-07 v1 + EQ-IQ-VA 2026-10-07 v1 + EQ-IQ-LL 2026-10-07 v1 + EQ-IQ-LF 2026-10-07 v1 + EQ-IQ-TB 2026-10-08 v1 + EQ-IQ-EN 2026-10-08 v1 + EQ-IQ-GR 2026-10-08 v1 + EQ-IQ-RB 2026-10-09 v1 + EQ-IQ-BL 2026-10-09 v1 + EQ-IQ-DM 2026-10-11 v1 + EQ-IQ-ET 2026-10-11 v1 + EQ-IQ-MZ 2026-10-11 v1 + EQ-IQ-HO 2026-10-11 v1 + EQ-OQ-RC 2026-10-07 v1 + EQ-PQ-RC 2026-10-07 v1 + EQ-OQ-TB 2026-10-08 v1 + EQ-PQ-TB 2026-10-08 v1 + EQ-OQ-EN 2026-10-08 v1 + EQ-PQ-EN 2026-10-08 v1 + EQ-OQ-GR 2026-10-08 v1 + EQ-PQ-GR 2026-10-08 v1 + EQ-OQ-RB 2026-10-09 v1 + EQ-PQ-RB 2026-10-09 v1 + EQ-OQ-BL 2026-10-09 v1 + EQ-PQ-BL 2026-10-09 v1 + EQ-OQ-DM 2026-10-11 v1 + EQ-PQ-DM 2026-10-11 v1 + EQ-OQ-ET 2026-10-11 v1 + EQ-PQ-ET 2026-10-11 v1 + EQ-OQ-LF 2026-10-05 v2 + EQ-OQ-AU 2026-10-05 v2 + EQ-OQ-MZ 2026-10-05 v2 + EQ-OQ-HO 2026-10-06 v1 + EQ-PQ-LF 2026-10-05 v2 + EQ-PQ-AU 2026-10-05 v2 + EQ-PQ-MZ 2026-10-05 v2 + EQ-PQ-HO 2026-10-06 v1 + EQ-PQ-VA 2026-10-06 v1 + EQ-OQ-VA 2026-10-06 v1",
+ "version": "EQ-COMUN 2026-10-01 v2 + EQ-OQ-COM 2026-10-03 v1 + EQ-PQ-COM 2026-10-03 v1 + EQ-IQ-AU 2026-10-07 v1 + EQ-IQ-TD 2026-10-07 v1 + EQ-IQ-LI 2026-10-07 v1 + EQ-IQ-RC 2026-10-07 v1 + EQ-IQ-VA 2026-10-07 v1 + EQ-IQ-LL 2026-10-07 v1 + EQ-IQ-LF 2026-10-07 v1 + EQ-IQ-TB 2026-10-08 v1 + EQ-IQ-EN 2026-10-08 v1 + EQ-IQ-GR 2026-10-08 v1 + EQ-IQ-RB 2026-10-09 v1 + EQ-IQ-BL 2026-10-09 v1 + EQ-IQ-DM 2026-10-11 v1 + EQ-IQ-ET 2026-10-11 v1 + EQ-IQ-MZ 2026-10-11 v1 + EQ-IQ-HO 2026-10-11 v1 + EQ-IQ-UC 2026-10-12 v1 + EQ-OQ-RC 2026-10-07 v1 + EQ-PQ-RC 2026-10-07 v1 + EQ-OQ-UC 2026-10-12 v1 + EQ-PQ-UC 2026-10-12 v1 + EQ-OQ-TB 2026-10-08 v1 + EQ-PQ-TB 2026-10-08 v1 + EQ-OQ-EN 2026-10-08 v1 + EQ-PQ-EN 2026-10-08 v1 + EQ-OQ-GR 2026-10-08 v1 + EQ-PQ-GR 2026-10-08 v1 + EQ-OQ-RB 2026-10-09 v1 + EQ-PQ-RB 2026-10-09 v1 + EQ-OQ-BL 2026-10-09 v1 + EQ-PQ-BL 2026-10-09 v1 + EQ-OQ-DM 2026-10-11 v1 + EQ-PQ-DM 2026-10-11 v1 + EQ-OQ-ET 2026-10-11 v1 + EQ-PQ-ET 2026-10-11 v1 + EQ-OQ-LF 2026-10-05 v2 + EQ-OQ-AU 2026-10-05 v2 + EQ-OQ-MZ 2026-10-05 v2 + EQ-OQ-HO 2026-10-06 v1 + EQ-PQ-LF 2026-10-05 v2 + EQ-PQ-AU 2026-10-05 v2 + EQ-PQ-MZ 2026-10-05 v2 + EQ-PQ-HO 2026-10-06 v1 + EQ-PQ-VA 2026-10-06 v1 + EQ-OQ-VA 2026-10-06 v1",
  "fases": {
   "DQ": [],
   "IQ": [
@@ -4061,6 +4061,257 @@ var BancoEquipos = {
     ],
     "tabla": null,
     "familia": "horno-secado"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-IQ-UC-001",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-IQ-UC-001 — Verificación del P&I y del diagrama de flujo contra lo instalado",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que el P&amp;I y el diagrama de flujo del sistema (recipiente principal, recipientes auxiliares de fase acuosa y oleosa, vacío, CIP y transferencia) corresponden con la instalación física real."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Obtener la revisión vigente del P&amp;I y del diagrama de flujo aprobados<br>\n  2) Recorrer la instalación identificando recipiente principal, auxiliares, homogeneizador, bomba de vacío, líneas de transferencia, válvulas, instrumentos y drenajes<br>\n  3) Confirmar tag, diámetro, material y pendiente de cada línea contra el P&amp;I<br>\n  4) Registrar toda desviación como hallazgo con su disposición"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  El P&amp;I y el diagrama de flujo corresponden con lo instalado en su revisión vigente.<br>\n  No existen líneas, válvulas ni instrumentos sin identificar."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - P&amp;I y diagrama de flujo verificados y firmados (anexo del informe)"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>ISPE Baseline Guide: Sterile Product Manufacturing Facilities."
+     }
+    ],
+    "tabla": null,
+    "familia": "sistema-cremas-vacio"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-IQ-UC-002",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-IQ-UC-002 — Verificación de conexiones de utilidades del sistema",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que las utilidades del sistema están conectadas según especificación: medio térmico o vapor, agua de enfriamiento, energía eléctrica, aire de instrumentos y agua de proceso."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Verificar la acometida del medio calefactor: presión o temperatura, reductor, filtro y trampa<br>\n  2) Verificar el agua de enfriamiento de chaqueta y auxiliares: caudal, válvulas de corte y retorno<br>\n  3) Verificar la acometida eléctrica de agitación, homogeneización y control: voltaje, fases, calibre y protección<br>\n  4) Verificar el aire de instrumentos: presión, filtro y regulador<br>\n  5) Verificar drenajes de recipientes y chaquetas con pendiente y trampa adecuadas<br>\n  6) Registrar los parámetros de cada utilidad en la tabla de utilidades"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Todas las utilidades están conectadas y sus parámetros están dentro de lo especificado por el fabricante.<br>\n  Cada utilidad cuenta con su elemento de corte y medición accesible."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Tabla de utilidades verificada (anexo del informe)"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante del sistema."
+     }
+    ],
+    "tabla": null,
+    "tablaModelo": "UTILIDADES CREMAS",
+    "familia": "sistema-cremas-vacio"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-IQ-UC-003",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-IQ-UC-003 — Verificación del recipiente principal, tapa y sistema de agitación",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que el recipiente principal, la tapa o cabezal elevable, el agitador de ancla y las rasquetas cumplen material, acabados y mecanismos especificados."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Verificar el material del recipiente, la tapa y el agitador contra el certificado del fabricante<br>\n  2) Inspeccionar visualmente los acabados internos: ausencia de picaduras, grietas y zonas de corrosión<br>\n  3) Verificar las rasquetas: material, contacto con la pared, estado y fijación<br>\n  4) Verificar la tapa o cabezal elevable: mecanismo, bloqueo y enclavamiento con vacío o presión en el recipiente<br>\n  5) Verificar el empaque de la tapa: material, asentamiento uniforme y ausencia de daños"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Recipiente, tapa, agitador y rasquetas corresponden a lo especificado y están en condiciones adecuadas.<br>\n  El enclavamiento de tapa opera correctamente."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro fotográfico de recipiente, tapa y agitación (anexo del informe)"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante del sistema."
+     }
+    ],
+    "tabla": null,
+    "familia": "sistema-cremas-vacio"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-IQ-UC-004",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-IQ-UC-004 — Verificación del recipiente a presión y vacío y sus dispositivos de alivio",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que el recipiente principal como equipo a presión y vacío cuenta con placa de datos, memoria de cálculo y dispositivos de alivio calibrados."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Verificar la placa de datos del recipiente: presión y vacío de diseño, temperatura, año y número de serie<br>\n  2) Verificar la memoria de cálculo y el certificado de fabricación del recipiente<br>\n  3) Verificar la válvula de seguridad y el disco de ruptura (si aplican): capacidad, presión de ajuste y certificado<br>\n  4) Verificar el vacuómetro y el manómetro: rango, certificado de calibración vigente e identificación<br>\n  5) Confirmar que la descarga de los alivios está conducida a zona segura"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  El recipiente cuenta con placa, memoria de cálculo y dispositivos de alivio calibrados y vigentes.<br>\n  La presión de ajuste no supera la presión máxima admisible."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Copia de placa, memoria de cálculo y certificados de calibración (anexo del informe)"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>ASME BPVC Sección VIII (recipientes a presión)."
+     }
+    ],
+    "tabla": null,
+    "familia": "sistema-cremas-vacio"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-IQ-UC-005",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-IQ-UC-005 — Verificación de componentes críticos del sistema",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que los componentes críticos del sistema están instalados, identificados y con su documentación de soporte."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Verificar el homogeneizador rotor-estator: modelo, montaje y holgura de diseño<br>\n  2) Verificar la bomba de vacío: modelo, fluido de sello, trampa y válvula antirretorno<br>\n  3) Verificar sensores de temperatura, presión, vacío y nivel, con calibración vigente<br>\n  4) Verificar el filtro de ruptura de vacío y de venteo: grado y certificado<br>\n  5) Verificar bombas de transferencia y descarga y válvula de fondo: tipo y actuador<br>\n  6) Registrar cada componente con su estatus en la tabla de componentes críticos"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Todos los componentes críticos están instalados, identificados y documentados.<br>\n  Los instrumentos de control y monitoreo cuentan con calibración vigente."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Tabla de componentes críticos verificada (anexo del informe)"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>USP &lt;1058&gt;."
+     }
+    ],
+    "tabla": null,
+    "tablaModelo": "COMPONENTES CRÍTICOS CREMAS",
+    "familia": "sistema-cremas-vacio"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-IQ-UC-006",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-IQ-UC-006 — Verificación del sistema de control, recetas, alarmas y enclavamientos",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que el controlador del sistema, sus recetas, alarmas y enclavamientos corresponden a lo especificado y están operativos."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Verificar modelo y versión de firmware del controlador y de la pantalla de operación<br>\n  2) Verificar las recetas cargadas contra la lista aprobada (tiempos, velocidades, temperaturas, vacío y versión)<br>\n  3) Verificar la lista de alarmas: sobretemperatura, nivel bajo, pérdida de vacío, sobrepresión, falla de sello y sobrecorriente<br>\n  4) Verificar enclavamientos: no homogeneiza sin nivel mínimo, no abre con vacío o presión, no calienta sin agitación<br>\n  5) Verificar usuarios, niveles de acceso y registro electrónico de eventos (si aplica 21 CFR Parte 11)<br>\n  6) Verificar respaldo de recetas y procedimiento de restauración"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  El sistema de control corresponde a lo especificado con recetas y alarmas aprobadas.<br>\n  Los enclavamientos de seguridad operan correctamente."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Listado de recetas, alarmas y usuarios verificado (anexo del informe)"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>21 CFR Parte 11 (registros electrónicos, si aplica)."
+     }
+    ],
+    "tabla": null,
+    "familia": "sistema-cremas-vacio"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-IQ-UC-007",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-IQ-UC-007 — Verificación de soldaduras sanitarias y rugosidad del recipiente",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que las soldaduras en contacto con el producto son sanitarias y que la rugosidad del recipiente cumple lo especificado."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Verificar el mapa de soldaduras y los registros de soldador calificado con sus certificados<br>\n  2) Inspeccionar visualmente las soldaduras: uniformes, sin poros, socavados ni decoloración excesiva<br>\n  3) Medir la rugosidad (Ra) en los puntos definidos del mapa con rugosímetro calibrado, por triplicado<br>\n  4) Verificar pasivado del recipiente con su certificado (si aplica)<br>\n  5) Procesar los datos crudos de rugosidad en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Las soldaduras son sanitarias y continuas, con soldadores calificados.<br>\n  La rugosidad promedio cumple el límite especificado en cada punto medido."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Mapa de soldaduras, certificados de soldador y reporte de rugosidad con data cruda (anexo del informe)<br>\n  - Data cruda y reporte estadístico del análisis de rugosidad"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>ASME BPE (equipos de bioprocesamiento)."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "sistema-cremas-vacio"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-IQ-UC-008",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-IQ-UC-008 — Verificación de recipientes auxiliares y documentación del fabricante",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que los recipientes auxiliares de fase acuosa y oleosa están instalados según especificación y que el paquete documental del fabricante está completo."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Verificar los recipientes auxiliares: material, chaqueta, agitación y conexiones de transferencia por vacío<br>\n  2) Verificar los puertos de validación y sus prensaestopas: ubicación y sellado<br>\n  3) Verificar manuales de operación y mantenimiento en su revisión vigente<br>\n  4) Verificar certificados de materiales de recipientes y componentes en contacto con producto<br>\n  5) Verificar protocolos FAT/SAT (si se ejecutaron) con sus desviaciones cerradas"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Los auxiliares corresponden a lo especificado con transferencia por vacío operativa.<br>\n  El paquete documental del fabricante está completo y vigente."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Lista de verificación documental diligenciada (anexo del informe)"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante del sistema."
+     }
+    ],
+    "tabla": null,
+    "familia": "sistema-cremas-vacio"
    }
   ],
   "OQ": [
@@ -4943,6 +5194,1116 @@ var BancoEquipos = {
     ],
     "tabla": null,
     "familia": "reactor"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-UC-001",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-UC-001 — Verificación de parada de emergencia",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que la parada de emergencia detiene el agitador, el homogeneizador, las bombas y la calefacción de forma segura."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Con el sistema en operación simulada, accionar la parada de emergencia<br>\n  2) Verificar la detención del agitador, el homogeneizador y las bombas, y el corte de calefacción<br>\n  3) Verificar la señalización del paro y el requerimiento de rearme manual<br>\n  4) Restablecer y verificar el rearranque controlado"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  La parada de emergencia detiene agitador, homogeneizador, bombas y calefacción.<br>\n  El rearranque exige rearme manual deliberado."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de accionamiento de parada de emergencia (anexo del informe)"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante del sistema."
+     }
+    ],
+    "tabla": null,
+    "familia": "sistema-cremas-vacio"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-UC-002",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-UC-002 — Verificación de interlocks del sistema",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que los interlocks impiden condiciones inseguras: tapa o cabezal abierto, homogeneizador sin nivel mínimo, apertura con vacío o presión, válvula de fondo abierta y movimiento del cabezal elevable."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Con tapa o cabezal abierto o sin bloquear, intentar arrancar: no debe permitirlo<br>\n  2) Con nivel por debajo del mínimo, intentar arrancar el homogeneizador: no debe girar en seco<br>\n  3) Con vacío o presión en el recipiente, intentar abrir: no debe permitirlo<br>\n  4) Con la válvula de fondo abierta durante el proceso, verificar la acción del interlock<br>\n  5) Verificar el movimiento controlado del cabezal elevable (si aplica)<br>\n  6) Registrar cada interlock con su respuesta"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Todos los interlocks impiden la condición insegura correspondiente.<br>\n  Ningún interlock puede puentearse sin herramienta o clave."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Matriz de interlocks con respuesta verificada (anexo del informe)"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante del sistema."
+     }
+    ],
+    "tabla": null,
+    "familia": "sistema-cremas-vacio"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-UC-003",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-UC-003 — Verificación de alarmas y límites",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que cada alarma dispara ante su condición y que la acción asociada ocurre: temperatura, nivel, sobrecorriente, pérdida de vacío, sobrepresión, sello y bomba."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Forzar o simular alta temperatura y verificar el disparo con su acción<br>\n  2) Forzar o simular nivel bajo y alto y verificar el disparo con su acción<br>\n  3) Simular sobrecorriente de los motores y verificar alarma y protección<br>\n  4) Simular pérdida de vacío, sobrepresión, falla del sello o de su fluido de barrera y falla de bomba, verificando cada alarma<br>\n  5) Verificar el registro de cada alarma en el histórico de eventos"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Cada alarma dispara ante su condición y ejecuta su acción asociada.<br>\n  Todas las alarmas quedan registradas en el histórico."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Matriz de alarmas con disparo y acción verificados (anexo del informe)"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante del sistema de control."
+     }
+    ],
+    "tabla": null,
+    "familia": "sistema-cremas-vacio"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-UC-004",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-UC-004 — Verificación de válvula de seguridad o alivio",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que la válvula de seguridad o alivio cuenta con certificado y abre a su presión de ajuste, con vacío y con sobrepresión (si aplica)."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Verificar el certificado de la válvula con su presión de ajuste<br>\n  2) Verificar la prueba de apertura documentada (banco o en sitio según procedimiento)<br>\n  3) Verificar que la descarga está conducida a zona segura<br>\n  4) Registrar el ajuste contra la presión máxima admisible del recipiente"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  La válvula cuenta con certificado vigente y abre a su presión de ajuste.<br>\n  El ajuste no supera la presión máxima admisible."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Certificado de la válvula de seguridad (anexo del informe)"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>ASME BPVC Sección VIII (recipientes a presión)."
+     }
+    ],
+    "tabla": null,
+    "familia": "sistema-cremas-vacio"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-UC-005",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-UC-005 — Verificación de falla y recuperación de energía",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que ante una falla de energía el sistema queda en estado seguro, sin arranque espontáneo, y que el vacío se comporta sin retroceso de agua del anillo líquido o de aceite de la bomba al producto."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Con el sistema en operación simulada, interrumpir la energía<br>\n  2) Verificar el estado seguro: agitación y homogeneización detenidas, calentamiento cortado, válvulas en posición segura<br>\n  3) Verificar que no hay retroceso de agua u aceite al producto por pérdida de vacío<br>\n  4) Restablecer la energía y verificar que no hay arranque espontáneo<br>\n  5) Verificar el rearranque manual controlado"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Ante la falla el sistema queda en estado seguro.<br>\n  No existe arranque espontáneo ni retroceso de fluidos al producto."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de falla y recuperación de energía (anexo del informe)"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante del sistema."
+     }
+    ],
+    "tabla": null,
+    "familia": "sistema-cremas-vacio"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-UC-006",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-UC-006 — Verificación de exactitud de velocidad de agitación",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar la exactitud de la velocidad del agitador de ancla en mínimo, nominal y máximo frente a un tacómetro independiente."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Ajustar la velocidad mínima, nominal y máxima desde el control<br>\n  2) Medir cada punto con un tacómetro independiente calibrado, por triplicado<br>\n  3) Registrar la lectura del control y la del tacómetro en cada punto<br>\n  4) Procesar los datos crudos de velocidad en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  La velocidad indicada está dentro de la tolerancia especificada en los tres puntos.<br>\n  La repetibilidad cumple el criterio en cada punto."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de velocidades con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de velocidad de agitación"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante del sistema."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "sistema-cremas-vacio"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-UC-007",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-UC-007 — Verificación de sentido de giro, rampas y parada",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar el sentido de giro del agitador y sus rampas de aceleración, desaceleración y parada."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Arrancar el agitador y verificar visualmente el sentido de giro contra el indicado en placa o manual<br>\n  2) Medir el tiempo de aceleración hasta la velocidad nominal y el de parada<br>\n  3) Verificar ausencia de golpes o vibración anormal durante las rampas"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  El sentido de giro corresponde al especificado.<br>\n  Las rampas y la parada están dentro de los tiempos especificados sin anomalías."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de sentido de giro y rampas (anexo del informe)"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante del sistema."
+     }
+    ],
+    "tabla": null,
+    "familia": "sistema-cremas-vacio"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-UC-008",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-UC-008 — Verificación de rasquetas: holgura, estado y desgaste",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar el contacto de las rasquetas con la pared: holgura, estado y desgaste, con verificación dimensional y ausencia de escamas del material en el producto."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Medir la holgura de las rasquetas contra la pared en los puntos definidos<br>\n  2) Inspeccionar el estado y el desgaste del material de las rasquetas<br>\n  3) Verificar ausencia de escamas o fragmentos del material en el producto placebo<br>\n  4) Registrar el desgaste contra el criterio de recambio"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  La holgura está dentro de especificación en todos los puntos.<br>\n  Sin escamas del material en el producto y desgaste dentro del criterio."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro dimensional de rasquetas (anexo del informe)"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante del sistema."
+     }
+    ],
+    "tabla": null,
+    "familia": "sistema-cremas-vacio"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-UC-009",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-UC-009 — Verificación de corriente del motor de agitación",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar la corriente del motor de agitación con agua o crema placebo al volumen mínimo y máximo, sin picos anormales."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Cargar agua o crema placebo al volumen mínimo y operar a la velocidad nominal registrando la corriente<br>\n  2) Cargar al volumen máximo y operar registrando la corriente<br>\n  3) Registrar la corriente de arranque en ambos casos<br>\n  4) Procesar los datos crudos de corriente en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  La corriente de operación no supera la nominal de placa en ningún volumen.<br>\n  No existen picos anormales durante la operación estable."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de corrientes con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de corriente del motor"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Placa del motor de agitación."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "sistema-cremas-vacio"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-UC-010",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-UC-010 — Verificación del sello mecánico y fluido de barrera",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar el sello mecánico: sin fugas, con fluido de barrera correcto y presión en rango."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Inspeccionar el sello mecánico: ausencia de fugas de producto o de fluido de barrera<br>\n  2) Verificar el fluido de barrera: nivel, tipo y conexiones correctas<br>\n  3) Medir la presión del fluido de barrera y verificar que está en rango<br>\n  4) Verificar temperatura del sello sin sobrecalentamiento"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  El sello no presenta fugas.<br>\n  El fluido de barrera es correcto con presión en rango."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro del sello mecánico (anexo del informe)"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante del sistema."
+     }
+    ],
+    "tabla": null,
+    "familia": "sistema-cremas-vacio"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-UC-011",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-UC-011 — Verificación de exactitud de velocidad del homogeneizador",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar la velocidad del homogeneizador en mínimo, nominal y máximo, con exactitud frente a un patrón."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Ajustar la velocidad mínima, nominal y máxima desde el control<br>\n  2) Medir cada punto con instrumento independiente calibrado, por triplicado<br>\n  3) Registrar la lectura del control y la del patrón en cada punto<br>\n  4) Procesar los datos crudos de velocidad en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  La velocidad indicada está dentro de la tolerancia especificada en los tres puntos.<br>\n  La repetibilidad cumple el criterio en cada punto."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de velocidades con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de velocidad del homogeneizador"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante del sistema."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "sistema-cremas-vacio"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-UC-012",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-UC-012 — Verificación de sentido, parada y protección en seco",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar el sentido de giro del homogeneizador, su tiempo de parada y la ausencia de giro en seco."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Verificar el sentido de giro contra lo especificado<br>\n  2) Medir el tiempo de parada desde velocidad máxima<br>\n  3) Con nivel por debajo del mínimo, intentar arrancar: no debe girar en seco"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Sentido de giro correcto con parada dentro del tiempo especificado.<br>\n  El homogeneizador no gira en seco."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro del homogeneizador (anexo del informe)"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante del sistema."
+     }
+    ],
+    "tabla": null,
+    "familia": "sistema-cremas-vacio"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-UC-013",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-UC-013 — Verificación dimensional de holgura rotor-estator",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar dimensionalmente la holgura rotor-estator del homogeneizador."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Medir la holgura rotor-estator en los puntos definidos con instrumento calibrado<br>\n  2) Comparar contra la especificación del fabricante<br>\n  3) Verificar ausencia de roces y desgaste anormal"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  La holgura está dentro de especificación en todos los puntos.<br>\n  Sin roces ni desgaste anormal."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro dimensional de holgura (anexo del informe)"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante del sistema."
+     }
+    ],
+    "tabla": null,
+    "familia": "sistema-cremas-vacio"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-UC-014",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-UC-014 — Verificación de corriente y temperatura del homogeneizador",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar la corriente del motor y la temperatura del sello del homogeneizador a máxima velocidad, sin sobrecalentamiento."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Operar el homogeneizador a máxima velocidad con agua o placebo<br>\n  2) Registrar la corriente del motor y compararla contra la nominal de placa<br>\n  3) Medir la temperatura del sello tras la estabilización<br>\n  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  La corriente no supera la nominal de placa.<br>\n  La temperatura del sello está dentro del límite sin sobrecalentamiento."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de corriente y temperatura"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Placa del motor del homogeneizador."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "sistema-cremas-vacio"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-UC-015",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-UC-015 — Funcionamiento a volumen mínimo sin aspiración de aire",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar el funcionamiento a volumen mínimo: el rotor-estator debe quedar sumergido y no aspirar aire."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Cargar agua o placebo al volumen mínimo de operación<br>\n  2) Operar el homogeneizador a la velocidad de rutina<br>\n  3) Verificar que el rotor-estator opera sumergido sin aspiración de aire<br>\n  4) Procesar los datos crudos de nivel y detección de aire en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  A volumen mínimo el rotor-estator opera sumergido sin aspiración de aire.<br>\n  El nivel mínimo operativo queda establecido y documentado."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de volumen mínimo"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Especificación de operación del sistema."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "sistema-cremas-vacio"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-UC-016",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-UC-016 — Verificación del homogeneizador en línea o de recirculación",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar el homogeneizador en línea o de recirculación (si aplica): caudal y presión."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Operar el homogeneizador en línea con agua (si aplica)<br>\n  2) Medir el caudal y la presión de descarga, por triplicado<br>\n  3) Comparar contra lo especificado<br>\n  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Caudal y presión dentro de lo especificado.<br>\n  La repetibilidad cumple el criterio."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis del homogeneizador en línea"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante del sistema."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "sistema-cremas-vacio"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-UC-017",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-UC-017 — Nivel de vacío alcanzable y tiempo de evacuación",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar el nivel de vacío alcanzable y el tiempo de evacuación al valor del proceso, con el recipiente vacío y con carga."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Evacuar el recipiente vacío hasta el valor del proceso registrando el tiempo<br>\n  2) Repetir con carga de agua al volumen de rutina<br>\n  3) Registrar el nivel mínimo alcanzado en cada caso<br>\n  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  El nivel de vacío y el tiempo de evacuación cumplen lo especificado en vacío y con carga.<br>\n  La repetibilidad cumple el criterio."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de vacío con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de vacío alcanzable"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante del sistema."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "sistema-cremas-vacio"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-UC-018",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-UC-018 — Exactitud del transductor de vacío",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar la exactitud del transductor de vacío frente a un patrón en varios puntos."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Comparar la lectura del transductor contra un patrón calibrado en varios puntos del rango<br>\n  2) Registrar por triplicado en cada punto<br>\n  3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  El transductor está dentro de tolerancia en todos los puntos.<br>\n  La repetibilidad cumple el criterio."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis del transductor de vacío"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Certificado del patrón de referencia."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "sistema-cremas-vacio"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-UC-019",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-UC-019 — Prueba de fuga del recipiente",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar la hermeticidad del recipiente: aumento de presión tras aislarlo, durante un tiempo definido, con criterio tomado del URS."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Evacuar el recipiente al valor de prueba y aislarlo<br>\n  2) Registrar la presión a intervalos definidos durante el tiempo de observación<br>\n  3) Calcular la tasa de aumento y compararla contra el criterio del URS<br>\n  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  La tasa de aumento no supera el criterio del URS.<br>\n  Sin fugas detectables en conexiones."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de fuga con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de hermeticidad"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>URS aprobada del sistema."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "sistema-cremas-vacio"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-UC-020",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-UC-020 — Estabilidad del vacío en operación",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar la estabilidad del vacío durante el calentamiento, la agitación y la homogeneización."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Operar con calentamiento, agitación y homogeneización manteniendo el vacío de proceso<br>\n  2) Registrar el vacío a intervalos definidos en cada etapa<br>\n  3) Evaluar la estabilidad en cada etapa<br>\n  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  El vacío se mantiene en banda durante las tres etapas.<br>\n  Sin caídas fuera de criterio."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de estabilidad con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de estabilidad del vacío"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Especificación de operación del sistema."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "sistema-cremas-vacio"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-UC-021",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-UC-021 — Ruptura del vacío con filtro y sin fluidización",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar la ruptura del vacío (ventilación): control, filtro de aire estéril o hidrofóbico (si aplica) y velocidad sin fluidización del producto."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Romper el vacío de forma controlada registrando el tiempo<br>\n  2) Verificar el filtro de aire de ruptura (si aplica): grado, instalación y certificado<br>\n  3) Verificar que la velocidad de ventilación no fluidiza el producto<br>\n  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Ruptura controlada dentro del tiempo definido.<br>\n  Sin fluidización del producto y filtro conforme."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de ruptura del vacío"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante del sistema."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "sistema-cremas-vacio"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-UC-022",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-UC-022 — Bomba de vacío y compatibilidad con volátiles",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar la bomba de vacío (si aplica): tipo, fluido de sello, trampa y compatibilidad con los volátiles del producto."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Verificar el tipo de bomba y su fluido de sello contra lo especificado (si aplica)<br>\n  2) Verificar la trampa de volátiles: instalación y capacidad<br>\n  3) Verificar la compatibilidad con los volátiles del producto según la hoja del fabricante<br>\n  4) Procesar los datos crudos de desempeño en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  La bomba y la trampa corresponden a lo especificado.<br>\n  Compatibilidad documentada con los volátiles del producto."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de la bomba de vacío"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante de la bomba."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "sistema-cremas-vacio"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-UC-023",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-UC-023 — Exactitud del sensor de control de temperatura",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar la exactitud del sensor de control de temperatura frente a un patrón en setpoints bajo, medio y alto del proceso."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Estabilizar con agua en el setpoint bajo, medio y alto del rango del proceso<br>\n  2) Medir cada punto con un patrón de referencia calibrado, por triplicado<br>\n  3) Registrar la lectura del control y la del patrón en cada punto<br>\n  4) Procesar los datos crudos de temperatura en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  El sensor de control está dentro de la tolerancia especificada en los tres setpoints.<br>\n  La repetibilidad cumple el criterio en cada punto."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de exactitud con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de exactitud del sensor de temperatura"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Certificado del patrón de referencia."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "sistema-cremas-vacio"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-UC-024",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-UC-024 — Velocidad de calentamiento y enfriamiento",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar la velocidad de calentamiento y de enfriamiento con agua (o placebo), a volumen mínimo y máximo."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Con agua a volumen mínimo, registrar la curva de calentamiento hasta el setpoint y luego la de enfriamiento<br>\n  2) Repetir con agua a volumen máximo<br>\n  3) Calcular las velocidades promedio de calentamiento y enfriamiento en cada caso<br>\n  4) Procesar los datos crudos de temperatura contra tiempo en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Las velocidades de calentamiento y enfriamiento cumplen lo especificado a ambos volúmenes.<br>\n  Las curvas son reproducibles entre réplicas."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Curvas de calentamiento y enfriamiento con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de velocidad de calentamiento y enfriamiento"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Especificación de operación del sistema."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "sistema-cremas-vacio"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-UC-025",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-UC-025 — Estabilidad y sobreimpulso en el setpoint",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar la estabilidad y el sobreimpulso de la temperatura en el setpoint, con la agitación de rutina."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Estabilizar con agua en el setpoint de rutina con la agitación de rutina<br>\n  2) Registrar la temperatura a intervalos definidos durante el tiempo de observación<br>\n  3) Determinar el sobreimpulso máximo y la banda de estabilidad alcanzada<br>\n  4) Procesar los datos crudos de temperatura en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  El sobreimpulso no supera el límite especificado.<br>\n  La temperatura se mantiene dentro de la banda de estabilidad especificada."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de estabilidad con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de estabilidad y sobreimpulso"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Especificación de operación del sistema."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "sistema-cremas-vacio"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-UC-026",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-UC-026 — Mapeo de temperatura del líquido",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar la uniformidad de temperatura del líquido con termopares en varios puntos (cerca de la pared, centro, fondo y zona del homogeneizador), a volumen mínimo y máximo."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Instalar termopares calibrados en pared, centro, fondo y zona del homogeneizador<br>\n  2) Mapear con agua a volumen mínimo en el setpoint de rutina<br>\n  3) Mapear con agua a volumen máximo en el setpoint de rutina<br>\n  4) Procesar los datos crudos de mapeo en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  La dispersión entre puntos no supera el límite especificado a ambos volúmenes.<br>\n  No existen puntos fríos o calientes fuera de criterio."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Mapas de temperatura con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de mapeo de temperatura"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Especificación de operación del sistema."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "sistema-cremas-vacio"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-UC-027",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-UC-027 — Recipientes auxiliares de fase acuosa y oleosa",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar los recipientes auxiliares de fase acuosa y oleosa: calentamiento, mantenimiento de temperatura y control, con las mismas verificaciones."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Estabilizar cada auxiliar en su setpoint de rutina<br>\n  2) Verificar exactitud, estabilidad y calentamiento con las mismas verificaciones del recipiente principal<br>\n  3) Registrar los resultados por auxiliar<br>\n  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Cada auxiliar cumple exactitud y estabilidad en su setpoint.<br>\n  Sin desvíos fuera de criterio."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registros de auxiliares con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de recipientes auxiliares"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante del sistema."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "sistema-cremas-vacio"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-UC-028",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-UC-028 — Suministro y retorno de medio térmico",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar el suministro y retorno de vapor, agua de enfriamiento o fluido térmico: presión, caudal y trampas de vapor (si aplican)."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Medir la presión y el caudal de suministro del medio térmico en operación<br>\n  2) Verificar el retorno: temperatura o presión de retorno dentro de lo esperado<br>\n  3) Verificar las trampas de vapor (si aplican): tipo, descarga y ausencia de vapor vivo<br>\n  4) Procesar los datos crudos de presión y caudal en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Presión y caudal de suministro cumplen lo especificado.<br>\n  Las trampas descargan condensado sin paso de vapor vivo."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de suministro y retorno con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de suministro de medio térmico"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante del sistema."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "sistema-cremas-vacio"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-UC-029",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-UC-029 — Transferencia de fases por vacío",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar la transferencia de fases desde los recipientes auxiliares por vacío: caudal, tiempo y sin retorno ni arrastre de aire."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Transferir agua desde cada auxiliar por vacío al recipiente principal<br>\n  2) Medir el caudal y el tiempo de transferencia<br>\n  3) Verificar ausencia de retorno y de arrastre de aire<br>\n  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Caudal y tiempo de transferencia dentro de lo especificado.<br>\n  Sin retorno ni arrastre de aire."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de transferencia con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de transferencia de fases"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante del sistema."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "sistema-cremas-vacio"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-UC-030",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-UC-030 — Inducción de polvos por vacío",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar la inducción de polvos (si aplica): velocidad de aspiración, ausencia de aglomerados, atascos o retorno de polvo, con un polvo inerte."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Inducir un polvo inerte por vacío según el procedimiento (si aplica)<br>\n  2) Medir la velocidad de aspiración<br>\n  3) Verificar ausencia de aglomerados, atascos y retorno de polvo<br>\n  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  La velocidad de aspiración cumple lo especificado.<br>\n  Sin aglomerados, atascos ni retorno de polvo."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de inducción con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de inducción de polvos"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante del sistema."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "sistema-cremas-vacio"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-UC-031",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-UC-031 — Exactitud de adiciones por peso o volumen",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar la exactitud de la adición de líquidos o aditivos por pesaje o por volumen (si aplica sistema de adición)."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Ejecutar adiciones de prueba por peso o por volumen en los rangos de uso (si aplica)<br>\n  2) Pesar o medir cada adición con instrumento independiente, por triplicado<br>\n  3) Registrar la cantidad programada contra la realmente adicionada<br>\n  4) Procesar los datos crudos de adiciones en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Cada adición está dentro de la tolerancia especificada.<br>\n  La repetibilidad cumple el criterio."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de adiciones con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de exactitud de adiciones"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Especificación de operación del sistema."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "sistema-cremas-vacio"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-UC-032",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-UC-032 — Calibración de pesaje o nivel",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar el pesaje o nivel (si aplican): calibración con pesas patrón o calibración volumétrica en varios niveles."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Calibrar las celdas de carga con pesas patrón trazables en varios niveles (si aplican)<br>\n  2) Verificar el sensor de nivel contra volumen medido (si aplica)<br>\n  3) Registrar por triplicado en cada nivel<br>\n  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  La indicación está dentro de tolerancia en todos los niveles.<br>\n  Las pesas patrón cuentan con certificado vigente."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de calibración con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de pesaje o nivel"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Certificados de pesas patrón."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "sistema-cremas-vacio"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-UC-033",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-UC-033 — Verificación de válvula de fondo",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar la válvula de fondo: apertura, cierre, estanqueidad y ausencia de goteo y de retención."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Con el recipiente cargado, abrir la válvula de fondo y verificar descarga libre<br>\n  2) Cerrar la válvula y verificar ausencia de goteo durante el tiempo de observación<br>\n  3) Descargar placebo y verificar ausencia de retención de material<br>\n  4) Procesar los datos crudos de retención en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  La válvula abre y cierra completamente con estanqueidad.<br>\n  Sin goteo ni retención fuera de criterio."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de válvula de fondo"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante del sistema."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "sistema-cremas-vacio"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-UC-034",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-UC-034 — Bomba de descarga con producto viscoso",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar la bomba de descarga o de transferencia (si aplica): caudal, presión y funcionamiento con producto viscoso."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Operar la bomba con crema placebo viscosa (si aplica)<br>\n  2) Medir el caudal y la presión de descarga, por triplicado<br>\n  3) Verificar ausencia de cavitación y de calentamiento anormal<br>\n  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Caudal y presión dentro de lo especificado con producto viscoso.<br>\n  Sin cavitación sostenida."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de la bomba de descarga"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante de la bomba."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "sistema-cremas-vacio"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-UC-035",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-UC-035 — Ciclo completo con placebo a volumen máximo y mínimo",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar un ciclo completo con placebo y agua al volumen mínimo y máximo: carga de fases por vacío, calentamiento, emulsificación, desaireación, enfriamiento y descarga, sin alarmas ni desviaciones."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Ejecutar el ciclo completo con placebo al volumen máximo registrando cada etapa<br>\n  2) Ejecutar el ciclo completo con placebo al volumen mínimo<br>\n  3) Verificar la secuencia: carga por vacío, calentamiento, emulsificación, desaireación, enfriamiento y descarga<br>\n  4) Procesar los datos crudos de cada etapa en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Ambos ciclos se completan según la secuencia aprobada.<br>\n  Sin alarmas ni desviaciones no justificadas."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registros de ciclo a volumen máximo y mínimo con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de ciclo completo"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Especificación de operación del sistema."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "sistema-cremas-vacio"
    },
    {
     "kind": "ensayo",
@@ -13960,6 +15321,642 @@ var BancoEquipos = {
     ],
     "tabla": null,
     "familia": "reactor"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-UC-001",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-UC-001 — Tres lotes consecutivos a tamaño nominal",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Demostrar el desempeño consistente del sistema con tres lotes consecutivos a tamaño nominal, con el número justificado por análisis de riesgo."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Justificar el número de lotes con el análisis de riesgo aprobado<br>\n  2) Fabricar tres lotes consecutivos a tamaño nominal registrando los parámetros críticos<br>\n  3) Muestrear cada lote según el plan de muestreo aprobado<br>\n  4) Evaluar los atributos de calidad de cada lote contra especificación<br>\n  5) Procesar los datos crudos de los tres lotes en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Los tres lotes cumplen todos los atributos de calidad.<br>\n  La variabilidad entre lotes está dentro de lo esperado."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registros de los tres lotes con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de lotes consecutivos"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Protocolo de fabricación del producto."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "sistema-cremas-vacio"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-UC-002",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-UC-002 — Lote mínimo y máximo del rango declarado",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Demostrar el desempeño en los extremos del rango declarado (en el mínimo, el rotor-estator y las rasquetas son el límite; en el máximo, la homogeneidad y el enfriamiento)."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Fabricar un lote al tamaño mínimo verificando el cubrimiento del rotor-estator y las rasquetas<br>\n  2) Fabricar un lote al tamaño máximo verificando homogeneidad y enfriamiento<br>\n  3) Muestrear según el plan de muestreo aprobado<br>\n  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Ambos lotes cumplen todos los atributos de calidad.<br>\n  A tamaño mínimo el rotor-estator opera cubierto."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registros de lotes extremos con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de rango declarado"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Protocolo de fabricación del producto."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "sistema-cremas-vacio"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-UC-003",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-UC-003 — Lote de peor caso",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Demostrar el desempeño en el peor caso definido (fórmula con mayor viscosidad, mayor contenido de sólidos o ceras, activo menos soluble, emulsión más difícil de formar, o polímero sensible al cizallamiento)."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Definir y justificar el peor caso con el análisis de riesgo aprobado<br>\n  2) Fabricar el lote de peor caso registrando los parámetros críticos<br>\n  3) Muestrear según el plan de muestreo aprobado<br>\n  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  El lote de peor caso cumple todos los atributos de calidad.<br>\n  La justificación del peor caso está documentada y aprobada."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Justificación del peor caso y registro del lote con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de peor caso"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Análisis de riesgo del proceso."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "sistema-cremas-vacio"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-UC-004",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-UC-004 — Perfil de temperatura de ambas fases al unirse",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar el perfil de temperatura de ambas fases al unirse: la diferencia de temperatura entre fases está dentro del criterio definido."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Registrar la temperatura de la fase acuosa y de la oleosa antes de la unión<br>\n  2) Calcular la diferencia entre fases y compararla contra el criterio<br>\n  3) Repetir en cada lote PQ<br>\n  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  La diferencia de temperatura entre fases está dentro del criterio definido.<br>\n  Sin uniones fuera de criterio."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registros de temperaturas con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de unión de fases"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Protocolo de fabricación del producto."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "sistema-cremas-vacio"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-UC-005",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-UC-005 — Tamaño de gota tras homogeneización y enfriamiento",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar el tiempo y la velocidad de homogeneización mediante el tamaño de gota o de partícula (microscopía o difracción láser) al final de la homogeneización y tras el enfriamiento."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Muestrear al final de la homogeneización y determinar el tamaño de gota por el método aprobado<br>\n  2) Muestrear tras el enfriamiento y repetir la determinación<br>\n  3) Comparar contra la especificación en cada lote<br>\n  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  El tamaño de gota cumple especificación al final de la homogeneización y tras el enfriamiento.<br>\n  Sin crecimiento significativo durante el enfriamiento."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Resultados de tamaño de gota con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de tamaño de gota"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Especificación de calidad del producto."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "sistema-cremas-vacio"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-UC-006",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-UC-006 — Desaireación: densidad y ausencia de burbujas",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar la desaireación: densidad antes y después del vacío, y ausencia de burbujas visibles."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Medir la densidad del producto antes de la desaireación<br>\n  2) Medir la densidad después del vacío con el tiempo definido<br>\n  3) Inspeccionar visualmente la ausencia de burbujas<br>\n  4) Procesar los datos crudos de densidad en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  La densidad final está dentro de especificación.<br>\n  Ausencia de burbujas visibles."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registros de densidad con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de desaireación"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Especificación de calidad del producto."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "sistema-cremas-vacio"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-UC-007",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-UC-007 — Perfil de enfriamiento y viscosidad tras maduración",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar el perfil de enfriamiento del producto: velocidad y uniformidad de la temperatura, y viscosidad final después del tiempo de maduración definido."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Registrar el perfil de enfriamiento del producto en cada lote<br>\n  2) Medir la viscosidad final después del tiempo de maduración definido<br>\n  3) Comparar contra especificación<br>\n  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  El perfil de enfriamiento cumple lo establecido.<br>\n  La viscosidad final tras maduración cumple especificación."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Perfiles de enfriamiento y viscosidades con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de enfriamiento"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Especificación de calidad del producto."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "sistema-cremas-vacio"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-UC-008",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-UC-008 — Disolución del activo sin cristales visibles",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar la disolución del activo (si aplica): ausencia de cristales o partículas visibles."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Inspeccionar el producto al microscopio o contra el método aprobado (si aplica)<br>\n  2) Verificar ausencia de cristales o partículas no disueltas<br>\n  3) Registrar el resultado por lote<br>\n  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Ausencia de cristales o partículas visibles.<br>\n  Activo disuelto conforme a especificación."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registros de disolución con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de disolución del activo"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Especificación de calidad del producto."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "sistema-cremas-vacio"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-UC-009",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-UC-009 — Muestreo en recipiente y durante la descarga",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar los atributos con muestreo en recipiente (superior, medio, fondo y zona cercana a la pared) y durante la descarga (inicio, medio y final)."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Muestrear superior, medio, fondo y zona cercana a la pared al final del proceso<br>\n  2) Muestrear la descarga al inicio, medio y fin<br>\n  3) Evaluar los atributos críticos por punto<br>\n  4) Procesar los datos crudos por punto en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Todos los puntos cumplen dentro de especificación.<br>\n  Sin diferencias significativas entre ubicaciones."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Plan de muestreo y resultados con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de muestreo"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Plan de muestreo aprobado."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "sistema-cremas-vacio"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-UC-010",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-UC-010 — Uniformidad de contenido del activo",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar la uniformidad de contenido del activo (valoración, media y RSD) para demostrar que no hay segregación."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Valorar el activo en las muestras de recipiente y descarga<br>\n  2) Calcular media y RSD por lote<br>\n  3) Comparar contra el criterio de uniformidad<br>\n  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  La media y el RSD cumplen el criterio en cada lote.<br>\n  Sin evidencia de segregación."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Valoraciones con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de uniformidad"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Especificación de calidad del producto."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "sistema-cremas-vacio"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-UC-011",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-UC-011 — Atributos de la crema",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar los atributos de la crema: pH, viscosidad, densidad, aspecto, color, olor y extensibilidad (si aplica)."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Medir pH, viscosidad y densidad con instrumentos calibrados<br>\n  2) Evaluar aspecto, color, olor y extensibilidad (si aplica) contra el patrón aprobado<br>\n  3) Registrar cada atributo por lote<br>\n  4) Procesar los datos crudos de atributos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Todos los atributos cumplen la especificación en cada lote.<br>\n  Aspecto y olor conformes al patrón."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de atributos con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de atributos de la crema"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Especificación de calidad del producto."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "sistema-cremas-vacio"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-UC-012",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-UC-012 — Estabilidad física: centrifugación y ciclos térmicos",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar la estabilidad física (si aplica): prueba de centrifugación y ciclos de temperatura (calor-frío), para detectar separación de fases o cambios de textura."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Someter muestras a centrifugación según el método aprobado (si aplica)<br>\n  2) Someter muestras a ciclos calor-frío definidos<br>\n  3) Evaluar separación de fases y cambios de textura<br>\n  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Sin separación de fases tras centrifugación ni ciclos.<br>\n  Textura conservada dentro de criterio."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Resultados de estabilidad física con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de estabilidad física"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Especificación de calidad del producto."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "sistema-cremas-vacio"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-UC-013",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-UC-013 — Control microbiológico y tiempo de espera del granel",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar la carga microbiana del producto a granel y del agua (si aplica), y el tiempo máximo de espera del granel antes de envasar."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Muestrear el granel para carga microbiana según el plan (si aplica)<br>\n  2) Verificar la calidad microbiológica del agua utilizada (si aplica)<br>\n  3) Registrar el tiempo de espera del granel antes de envasar contra el límite establecido<br>\n  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  La carga microbiana cumple la especificación.<br>\n  El tiempo de espera no supera el límite validado."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Resultados microbiológicos y registro de tiempos con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis microbiológico"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>USP &lt;1111&gt; (límites microbianos, si aplica)."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "sistema-cremas-vacio"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-UC-014",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-UC-014 — Control de proceso dentro de límites todo el ciclo",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar el control de proceso: temperatura, vacío, velocidades y tiempos dentro de límites durante todo el ciclo, sin desviaciones."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Registrar temperatura, vacío, velocidades y tiempos durante todo el ciclo<br>\n  2) Verificar que cada parámetro se mantiene dentro de sus límites<br>\n  3) Registrar desviaciones y su tratamiento"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Todos los parámetros dentro de límites durante todo el ciclo.<br>\n  Sin desviaciones no justificadas."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de parámetros del ciclo (anexo del informe)"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Protocolo de fabricación del producto."
+     }
+    ],
+    "tabla": null,
+    "familia": "sistema-cremas-vacio"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-UC-015",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-UC-015 — Adherencia y residuo tras la descarga (heel)",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar la adherencia en paredes, tapa y rasquetas, y el residuo en el recipiente tras la descarga (heel)."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Inspeccionar paredes, tapa y rasquetas tras la descarga<br>\n  2) Recuperar y pesar el residuo del recipiente y las líneas<br>\n  3) Comparar contra el criterio de residuo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  El residuo no supera el límite establecido.<br>\n  Sin adherencia anormal que impida la descarga."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de residuo (anexo del informe)"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Protocolo de fabricación del producto."
+     }
+    ],
+    "tabla": null,
+    "familia": "sistema-cremas-vacio"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-UC-016",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-UC-016 — Vacío con producto: espuma y arrastre al sistema",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar la estabilidad del vacío con producto, la formación de espuma y el arrastre de producto al sistema de vacío (si aplica)."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Operar con producto bajo vacío registrando la estabilidad<br>\n  2) Evaluar la formación de espuma durante el proceso<br>\n  3) Inspeccionar la trampa y la línea de vacío: sin arrastre de producto (si aplica)"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Vacío estable sin espumado fuera de criterio.<br>\n  Sin arrastre de producto al sistema de vacío."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de vacío con producto (anexo del informe)"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Protocolo de fabricación del producto."
+     }
+    ],
+    "tabla": null,
+    "familia": "sistema-cremas-vacio"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-UC-017",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-UC-017 — Inducción de polvos con producto sin aglomerados",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar la inducción de polvos con producto (si aplica): sin aglomerados ni formación de grumos, y tiempo de humectación dentro del criterio."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Inducir los polvos de la fórmula con producto en proceso (si aplica)<br>\n  2) Medir el tiempo de humectación<br>\n  3) Verificar ausencia de aglomerados y grumos<br>\n  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Tiempo de humectación dentro del criterio.<br>\n  Sin aglomerados ni grumos."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de inducción con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de inducción con producto"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Protocolo de fabricación del producto."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "sistema-cremas-vacio"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-UC-018",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-UC-018 — Descarga: caudal, uniformidad y aire ocluido",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar la descarga: caudal, uniformidad del producto durante la descarga y ausencia de aire ocluido."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Medir el caudal de descarga, por triplicado<br>\n  2) Muestrear al inicio, medio y fin verificando uniformidad<br>\n  3) Verificar ausencia de aire ocluido en el producto descargado<br>\n  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Caudal dentro de lo especificado con uniformidad en toda la descarga.<br>\n  Sin aire ocluido."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de descarga con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de descarga"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Protocolo de fabricación del producto."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "sistema-cremas-vacio"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-UC-019",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-UC-019 — Rendimiento y balance de masa",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar el rendimiento y el balance de masa: carga contra producto descargado, residuo en recipiente y líneas, y pérdidas."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Pesar la carga inicial de cada lote<br>\n  2) Pesar el producto descargado, el residuo y las pérdidas<br>\n  3) Cerrar el balance de masa<br>\n  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  El rendimiento cumple el rango especificado.<br>\n  El balance de masa cierra dentro de tolerancia."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Balances de masa con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de rendimiento"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Protocolo de fabricación del producto."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "sistema-cremas-vacio"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-UC-020",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-UC-020 — Compatibilidad con envasado sin cambios del granel",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar la compatibilidad con envasado (si aplica): el granel se envasa sin cambios de viscosidad, aire ocluido ni separación durante la espera y el llenado."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Mantener el granel en espera según el tiempo definido (si aplica)<br>\n  2) Envasar y verificar viscosidad, aire ocluido y separación<br>\n  3) Comparar contra los atributos del granel recién fabricado"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Sin cambios de viscosidad, aire ocluido ni separación durante espera y llenado.<br>\n  Atributos conformes en el envasado."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de compatibilidad con envasado (anexo del informe)"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Protocolo de fabricación del producto."
+     }
+    ],
+    "tabla": null,
+    "familia": "sistema-cremas-vacio"
    },
    {
     "kind": "ensayo",

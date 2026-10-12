@@ -37,7 +37,7 @@ describe('banco de equipos: contrato', () => {
 
   it('solo familias conocidas', () => {
     const fams = [...new Set(todos.filter((x) => x.familia).map((x) => x.familia))].sort();
-    expect(fams).toEqual(['autoclave', 'blistera', 'detector-metales', 'encapsuladora', 'etiquetadora', 'granulador', 'horno-secado', 'horno-vacio', 'lecho-fluido', 'liofilizador', 'llenadora', 'mezclador', 'reactor', 'recubridora', 'tableteadora', 'tunel-despirogenizacion']);
+    expect(fams).toEqual(['autoclave', 'blistera', 'detector-metales', 'encapsuladora', 'etiquetadora', 'granulador', 'horno-secado', 'horno-vacio', 'lecho-fluido', 'liofilizador', 'llenadora', 'mezclador', 'reactor', 'recubridora', 'sistema-cremas-vacio', 'tableteadora', 'tunel-despirogenizacion']);
   });
 
   it.each([
@@ -57,6 +57,9 @@ describe('banco de equipos: contrato', () => {
     ['IQ', 'etiquetadora', 5], // Nivel 2 (2026-10-11)
     ['IQ', 'mezclador', 5], // Nivel 2 (2026-10-11)
     ['IQ', 'horno-secado', 5], // Nivel 2 (2026-10-11)
+    ['IQ', 'sistema-cremas-vacio', 8], // Nivel 3 (2026-10-12)
+    ['OQ', 'sistema-cremas-vacio', 35], // ENSAYOS.txt usuario (2026-10-12)
+    ['PQ', 'sistema-cremas-vacio', 20], // ENSAYOS.txt usuario (2026-10-12)
     ['OQ', 'lecho-fluido', 11], // 13 cuando se aprueben LF-012/LF-013 (ops omitidas)
     ['OQ', 'autoclave', 18],
     ['OQ', 'mezclador', 13], // 12 si se retira MZ-010 (op omitida)

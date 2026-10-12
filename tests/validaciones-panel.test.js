@@ -318,6 +318,8 @@ describe('Validaciones V7', () => {
     try {
       expect(Validaciones.tieneBancoFam('OQ', 'equipos', 'etiquetadora')).toBe(true);
       expect(Validaciones.tieneBancoFam('PQ', 'equipos', 'etiquetadora')).toBe(true);
+      expect(Validaciones.tieneBancoFam('OQ', 'equipos', 'sistema-cremas-vacio')).toBe(true);
+      expect(Validaciones.tieneBancoFam('PQ', 'equipos', 'sistema-cremas-vacio')).toBe(true);
       expect(Validaciones.tieneBancoFam('OQ', 'equipos', 'secador-bandejas')).toBe(false);
       expect(Validaciones.tieneBancoFam('OQ', 'equipos', 'detector-metales')).toBe(true);
       expect(Validaciones.tieneBancoFam('PQ', 'equipos', 'detector-metales')).toBe(true);

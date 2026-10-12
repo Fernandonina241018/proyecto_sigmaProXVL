@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<style>
+  body { font-family: Tahoma, sans-serif; font-size: 11pt; }
+  strong { text-transform: uppercase; }
+</style>
+<title>Banco de Ensayos PQ — Sistema de Cremas al Vacío</title>
+</head>
+<body>
+
+<p><a href="../equipos.html">← Equipos e Instrumentos</a></p>
+<h2>PQ — Sistema de Cremas al Vacío (banco por familia, Nivel 3)</h2>
+<p>Versión del banco: <span data-banco-version>EQ-PQ-UC 2026-10-12 v1</span></p>
+<p>Ensayos de Calificación de Desempeño específicos del sistema de cremas al vacío, tomados del ENSAYOS.txt del usuario. Se filtran por familia (<code>data-familia="sistema-cremas-vacio"</code>) según la entidad elegida en el paso 1.</p>
+
+<!-- ================= PQ ================= -->
+<section id="fase-pq" data-familia="sistema-cremas-vacio">
+<h2>PQ — Ensayos</h2>
+
+<article data-bloque="3" id="art-EQ-PQ-UC-001" class="ensayo" data-id="EQ-PQ-UC-001" data-fase="PQ" data-cond="ambas" data-familia="sistema-cremas-vacio" data-analisis="si">
+  <h3>EQ-PQ-UC-001 — Tres lotes consecutivos a tamaño nominal</h3>
+  <p><strong>Objetivo:</strong><br>Demostrar el desempeño consistente del sistema con tres lotes consecutivos a tamaño nominal, con el número justificado por análisis de riesgo.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Justificar el número de lotes con el análisis de riesgo aprobado<br>
+  2) Fabricar tres lotes consecutivos a tamaño nominal registrando los parámetros críticos<br>
+  3) Muestrear cada lote según el plan de muestreo aprobado<br>
+  4) Evaluar los atributos de calidad de cada lote contra especificación<br>
+  5) Procesar los datos crudos de los tres lotes en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Los tres lotes cumplen todos los atributos de calidad.<br>
+  La variabilidad entre lotes está dentro de lo esperado.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registros de los tres lotes con data cruda y reporte<br>
+  - Data cruda y reporte estadístico del análisis de lotes consecutivos</p>
+  <p><strong>Referencia:</strong><br>Protocolo de fabricación del producto.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-PQ-UC-002" class="ensayo" data-id="EQ-PQ-UC-002" data-fase="PQ" data-cond="ambas" data-familia="sistema-cremas-vacio" data-analisis="si">
+  <h3>EQ-PQ-UC-002 — Lote mínimo y máximo del rango declarado</h3>
+  <p><strong>Objetivo:</strong><br>Demostrar el desempeño en los extremos del rango declarado (en el mínimo, el rotor-estator y las rasquetas son el límite; en el máximo, la homogeneidad y el enfriamiento).</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Fabricar un lote al tamaño mínimo verificando el cubrimiento del rotor-estator y las rasquetas<br>
+  2) Fabricar un lote al tamaño máximo verificando homogeneidad y enfriamiento<br>
+  3) Muestrear según el plan de muestreo aprobado<br>
+  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Ambos lotes cumplen todos los atributos de calidad.<br>
+  A tamaño mínimo el rotor-estator opera cubierto.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registros de lotes extremos con data cruda y reporte<br>
+  - Data cruda y reporte estadístico del análisis de rango declarado</p>
+  <p><strong>Referencia:</strong><br>Protocolo de fabricación del producto.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-PQ-UC-003" class="ensayo" data-id="EQ-PQ-UC-003" data-fase="PQ" data-cond="ambas" data-familia="sistema-cremas-vacio" data-analisis="si">
+  <h3>EQ-PQ-UC-003 — Lote de peor caso</h3>
+  <p><strong>Objetivo:</strong><br>Demostrar el desempeño en el peor caso definido (fórmula con mayor viscosidad, mayor contenido de sólidos o ceras, activo menos soluble, emulsión más difícil de formar, o polímero sensible al cizallamiento).</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Definir y justificar el peor caso con el análisis de riesgo aprobado<br>
+  2) Fabricar el lote de peor caso registrando los parámetros críticos<br>
+  3) Muestrear según el plan de muestreo aprobado<br>
+  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  El lote de peor caso cumple todos los atributos de calidad.<br>
+  La justificación del peor caso está documentada y aprobada.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Justificación del peor caso y registro del lote con data cruda y reporte<br>
+  - Data cruda y reporte estadístico del análisis de peor caso</p>
+  <p><strong>Referencia:</strong><br>Análisis de riesgo del proceso.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-PQ-UC-004" class="ensayo" data-id="EQ-PQ-UC-004" data-fase="PQ" data-cond="ambas" data-familia="sistema-cremas-vacio" data-analisis="si">
+  <h3>EQ-PQ-UC-004 — Perfil de temperatura de ambas fases al unirse</h3>
+  <p><strong>Objetivo:</strong><br>Verificar el perfil de temperatura de ambas fases al unirse: la diferencia de temperatura entre fases está dentro del criterio definido.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Registrar la temperatura de la fase acuosa y de la oleosa antes de la unión<br>
+  2) Calcular la diferencia entre fases y compararla contra el criterio<br>
+  3) Repetir en cada lote PQ<br>
+  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  La diferencia de temperatura entre fases está dentro del criterio definido.<br>
+  Sin uniones fuera de criterio.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registros de temperaturas con data cruda y reporte<br>
+  - Data cruda y reporte estadístico del análisis de unión de fases</p>
+  <p><strong>Referencia:</strong><br>Protocolo de fabricación del producto.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-PQ-UC-005" class="ensayo" data-id="EQ-PQ-UC-005" data-fase="PQ" data-cond="ambas" data-familia="sistema-cremas-vacio" data-analisis="si">
+  <h3>EQ-PQ-UC-005 — Tamaño de gota tras homogeneización y enfriamiento</h3>
+  <p><strong>Objetivo:</strong><br>Verificar el tiempo y la velocidad de homogeneización mediante el tamaño de gota o de partícula (microscopía o difracción láser) al final de la homogeneización y tras el enfriamiento.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Muestrear al final de la homogeneización y determinar el tamaño de gota por el método aprobado<br>
+  2) Muestrear tras el enfriamiento y repetir la determinación<br>
+  3) Comparar contra la especificación en cada lote<br>
+  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  El tamaño de gota cumple especificación al final de la homogeneización y tras el enfriamiento.<br>
+  Sin crecimiento significativo durante el enfriamiento.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Resultados de tamaño de gota con data cruda y reporte<br>
+  - Data cruda y reporte estadístico del análisis de tamaño de gota</p>
+  <p><strong>Referencia:</strong><br>Especificación de calidad del producto.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-PQ-UC-006" class="ensayo" data-id="EQ-PQ-UC-006" data-fase="PQ" data-cond="ambas" data-familia="sistema-cremas-vacio" data-analisis="si">
+  <h3>EQ-PQ-UC-006 — Desaireación: densidad y ausencia de burbujas</h3>
+  <p><strong>Objetivo:</strong><br>Verificar la desaireación: densidad antes y después del vacío, y ausencia de burbujas visibles.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Medir la densidad del producto antes de la desaireación<br>
+  2) Medir la densidad después del vacío con el tiempo definido<br>
+  3) Inspeccionar visualmente la ausencia de burbujas<br>
+  4) Procesar los datos crudos de densidad en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  La densidad final está dentro de especificación.<br>
+  Ausencia de burbujas visibles.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registros de densidad con data cruda y reporte<br>
+  - Data cruda y reporte estadístico del análisis de desaireación</p>
+  <p><strong>Referencia:</strong><br>Especificación de calidad del producto.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-PQ-UC-007" class="ensayo" data-id="EQ-PQ-UC-007" data-fase="PQ" data-cond="ambas" data-familia="sistema-cremas-vacio" data-analisis="si">
+  <h3>EQ-PQ-UC-007 — Perfil de enfriamiento y viscosidad tras maduración</h3>
+  <p><strong>Objetivo:</strong><br>Verificar el perfil de enfriamiento del producto: velocidad y uniformidad de la temperatura, y viscosidad final después del tiempo de maduración definido.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Registrar el perfil de enfriamiento del producto en cada lote<br>
+  2) Medir la viscosidad final después del tiempo de maduración definido<br>
+  3) Comparar contra especificación<br>
+  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  El perfil de enfriamiento cumple lo establecido.<br>
+  La viscosidad final tras maduración cumple especificación.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Perfiles de enfriamiento y viscosidades con data cruda y reporte<br>
+  - Data cruda y reporte estadístico del análisis de enfriamiento</p>
+  <p><strong>Referencia:</strong><br>Especificación de calidad del producto.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-PQ-UC-008" class="ensayo" data-id="EQ-PQ-UC-008" data-fase="PQ" data-cond="ambas" data-familia="sistema-cremas-vacio" data-analisis="si">
+  <h3>EQ-PQ-UC-008 — Disolución del activo sin cristales visibles</h3>
+  <p><strong>Objetivo:</strong><br>Verificar la disolución del activo (si aplica): ausencia de cristales o partículas visibles.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Inspeccionar el producto al microscopio o contra el método aprobado (si aplica)<br>
+  2) Verificar ausencia de cristales o partículas no disueltas<br>
+  3) Registrar el resultado por lote<br>
+  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Ausencia de cristales o partículas visibles.<br>
+  Activo disuelto conforme a especificación.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registros de disolución con data cruda y reporte<br>
+  - Data cruda y reporte estadístico del análisis de disolución del activo</p>
+  <p><strong>Referencia:</strong><br>Especificación de calidad del producto.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-PQ-UC-009" class="ensayo" data-id="EQ-PQ-UC-009" data-fase="PQ" data-cond="ambas" data-familia="sistema-cremas-vacio" data-analisis="si">
+  <h3>EQ-PQ-UC-009 — Muestreo en recipiente y durante la descarga</h3>
+  <p><strong>Objetivo:</strong><br>Verificar los atributos con muestreo en recipiente (superior, medio, fondo y zona cercana a la pared) y durante la descarga (inicio, medio y final).</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Muestrear superior, medio, fondo y zona cercana a la pared al final del proceso<br>
+  2) Muestrear la descarga al inicio, medio y fin<br>
+  3) Evaluar los atributos críticos por punto<br>
+  4) Procesar los datos crudos por punto en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Todos los puntos cumplen dentro de especificación.<br>
+  Sin diferencias significativas entre ubicaciones.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Plan de muestreo y resultados con data cruda y reporte<br>
+  - Data cruda y reporte estadístico del análisis de muestreo</p>
+  <p><strong>Referencia:</strong><br>Plan de muestreo aprobado.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-PQ-UC-010" class="ensayo" data-id="EQ-PQ-UC-010" data-fase="PQ" data-cond="ambas" data-familia="sistema-cremas-vacio" data-analisis="si">
+  <h3>EQ-PQ-UC-010 — Uniformidad de contenido del activo</h3>
+  <p><strong>Objetivo:</strong><br>Verificar la uniformidad de contenido del activo (valoración, media y RSD) para demostrar que no hay segregación.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Valorar el activo en las muestras de recipiente y descarga<br>
+  2) Calcular media y RSD por lote<br>
+  3) Comparar contra el criterio de uniformidad<br>
+  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  La media y el RSD cumplen el criterio en cada lote.<br>
+  Sin evidencia de segregación.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Valoraciones con data cruda y reporte<br>
+  - Data cruda y reporte estadístico del análisis de uniformidad</p>
+  <p><strong>Referencia:</strong><br>Especificación de calidad del producto.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-PQ-UC-011" class="ensayo" data-id="EQ-PQ-UC-011" data-fase="PQ" data-cond="ambas" data-familia="sistema-cremas-vacio" data-analisis="si">
+  <h3>EQ-PQ-UC-011 — Atributos de la crema</h3>
+  <p><strong>Objetivo:</strong><br>Verificar los atributos de la crema: pH, viscosidad, densidad, aspecto, color, olor y extensibilidad (si aplica).</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Medir pH, viscosidad y densidad con instrumentos calibrados<br>
+  2) Evaluar aspecto, color, olor y extensibilidad (si aplica) contra el patrón aprobado<br>
+  3) Registrar cada atributo por lote<br>
+  4) Procesar los datos crudos de atributos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Todos los atributos cumplen la especificación en cada lote.<br>
+  Aspecto y olor conformes al patrón.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro de atributos con data cruda y reporte<br>
+  - Data cruda y reporte estadístico del análisis de atributos de la crema</p>
+  <p><strong>Referencia:</strong><br>Especificación de calidad del producto.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-PQ-UC-012" class="ensayo" data-id="EQ-PQ-UC-012" data-fase="PQ" data-cond="ambas" data-familia="sistema-cremas-vacio" data-analisis="si">
+  <h3>EQ-PQ-UC-012 — Estabilidad física: centrifugación y ciclos térmicos</h3>
+  <p><strong>Objetivo:</strong><br>Verificar la estabilidad física (si aplica): prueba de centrifugación y ciclos de temperatura (calor-frío), para detectar separación de fases o cambios de textura.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Someter muestras a centrifugación según el método aprobado (si aplica)<br>
+  2) Someter muestras a ciclos calor-frío definidos<br>
+  3) Evaluar separación de fases y cambios de textura<br>
+  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Sin separación de fases tras centrifugación ni ciclos.<br>
+  Textura conservada dentro de criterio.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Resultados de estabilidad física con data cruda y reporte<br>
+  - Data cruda y reporte estadístico del análisis de estabilidad física</p>
+  <p><strong>Referencia:</strong><br>Especificación de calidad del producto.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-PQ-UC-013" class="ensayo" data-id="EQ-PQ-UC-013" data-fase="PQ" data-cond="ambas" data-familia="sistema-cremas-vacio" data-analisis="si">
+  <h3>EQ-PQ-UC-013 — Control microbiológico y tiempo de espera del granel</h3>
+  <p><strong>Objetivo:</strong><br>Verificar la carga microbiana del producto a granel y del agua (si aplica), y el tiempo máximo de espera del granel antes de envasar.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Muestrear el granel para carga microbiana según el plan (si aplica)<br>
+  2) Verificar la calidad microbiológica del agua utilizada (si aplica)<br>
+  3) Registrar el tiempo de espera del granel antes de envasar contra el límite establecido<br>
+  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  La carga microbiana cumple la especificación.<br>
+  El tiempo de espera no supera el límite validado.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Resultados microbiológicos y registro de tiempos con data cruda y reporte<br>
+  - Data cruda y reporte estadístico del análisis microbiológico</p>
+  <p><strong>Referencia:</strong><br>USP &lt;1111&gt; (límites microbianos, si aplica).</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-PQ-UC-014" class="ensayo" data-id="EQ-PQ-UC-014" data-fase="PQ" data-cond="ambas" data-familia="sistema-cremas-vacio">
+  <h3>EQ-PQ-UC-014 — Control de proceso dentro de límites todo el ciclo</h3>
+  <p><strong>Objetivo:</strong><br>Verificar el control de proceso: temperatura, vacío, velocidades y tiempos dentro de límites durante todo el ciclo, sin desviaciones.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Registrar temperatura, vacío, velocidades y tiempos durante todo el ciclo<br>
+  2) Verificar que cada parámetro se mantiene dentro de sus límites<br>
+  3) Registrar desviaciones y su tratamiento</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Todos los parámetros dentro de límites durante todo el ciclo.<br>
+  Sin desviaciones no justificadas.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro de parámetros del ciclo (anexo del informe)</p>
+  <p><strong>Referencia:</strong><br>Protocolo de fabricación del producto.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-PQ-UC-015" class="ensayo" data-id="EQ-PQ-UC-015" data-fase="PQ" data-cond="ambas" data-familia="sistema-cremas-vacio">
+  <h3>EQ-PQ-UC-015 — Adherencia y residuo tras la descarga (heel)</h3>
+  <p><strong>Objetivo:</strong><br>Verificar la adherencia en paredes, tapa y rasquetas, y el residuo en el recipiente tras la descarga (heel).</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Inspeccionar paredes, tapa y rasquetas tras la descarga<br>
+  2) Recuperar y pesar el residuo del recipiente y las líneas<br>
+  3) Comparar contra el criterio de residuo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  El residuo no supera el límite establecido.<br>
+  Sin adherencia anormal que impida la descarga.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro de residuo (anexo del informe)</p>
+  <p><strong>Referencia:</strong><br>Protocolo de fabricación del producto.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-PQ-UC-016" class="ensayo" data-id="EQ-PQ-UC-016" data-fase="PQ" data-cond="ambas" data-familia="sistema-cremas-vacio">
+  <h3>EQ-PQ-UC-016 — Vacío con producto: espuma y arrastre al sistema</h3>
+  <p><strong>Objetivo:</strong><br>Verificar la estabilidad del vacío con producto, la formación de espuma y el arrastre de producto al sistema de vacío (si aplica).</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Operar con producto bajo vacío registrando la estabilidad<br>
+  2) Evaluar la formación de espuma durante el proceso<br>
+  3) Inspeccionar la trampa y la línea de vacío: sin arrastre de producto (si aplica)</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Vacío estable sin espumado fuera de criterio.<br>
+  Sin arrastre de producto al sistema de vacío.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro de vacío con producto (anexo del informe)</p>
+  <p><strong>Referencia:</strong><br>Protocolo de fabricación del producto.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-PQ-UC-017" class="ensayo" data-id="EQ-PQ-UC-017" data-fase="PQ" data-cond="ambas" data-familia="sistema-cremas-vacio" data-analisis="si">
+  <h3>EQ-PQ-UC-017 — Inducción de polvos con producto sin aglomerados</h3>
+  <p><strong>Objetivo:</strong><br>Verificar la inducción de polvos con producto (si aplica): sin aglomerados ni formación de grumos, y tiempo de humectación dentro del criterio.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Inducir los polvos de la fórmula con producto en proceso (si aplica)<br>
+  2) Medir el tiempo de humectación<br>
+  3) Verificar ausencia de aglomerados y grumos<br>
+  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Tiempo de humectación dentro del criterio.<br>
+  Sin aglomerados ni grumos.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro de inducción con data cruda y reporte<br>
+  - Data cruda y reporte estadístico del análisis de inducción con producto</p>
+  <p><strong>Referencia:</strong><br>Protocolo de fabricación del producto.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-PQ-UC-018" class="ensayo" data-id="EQ-PQ-UC-018" data-fase="PQ" data-cond="ambas" data-familia="sistema-cremas-vacio" data-analisis="si">
+  <h3>EQ-PQ-UC-018 — Descarga: caudal, uniformidad y aire ocluido</h3>
+  <p><strong>Objetivo:</strong><br>Verificar la descarga: caudal, uniformidad del producto durante la descarga y ausencia de aire ocluido.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Medir el caudal de descarga, por triplicado<br>
+  2) Muestrear al inicio, medio y fin verificando uniformidad<br>
+  3) Verificar ausencia de aire ocluido en el producto descargado<br>
+  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Caudal dentro de lo especificado con uniformidad en toda la descarga.<br>
+  Sin aire ocluido.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro de descarga con data cruda y reporte<br>
+  - Data cruda y reporte estadístico del análisis de descarga</p>
+  <p><strong>Referencia:</strong><br>Protocolo de fabricación del producto.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-PQ-UC-019" class="ensayo" data-id="EQ-PQ-UC-019" data-fase="PQ" data-cond="ambas" data-familia="sistema-cremas-vacio" data-analisis="si">
+  <h3>EQ-PQ-UC-019 — Rendimiento y balance de masa</h3>
+  <p><strong>Objetivo:</strong><br>Verificar el rendimiento y el balance de masa: carga contra producto descargado, residuo en recipiente y líneas, y pérdidas.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Pesar la carga inicial de cada lote<br>
+  2) Pesar el producto descargado, el residuo y las pérdidas<br>
+  3) Cerrar el balance de masa<br>
+  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  El rendimiento cumple el rango especificado.<br>
+  El balance de masa cierra dentro de tolerancia.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Balances de masa con data cruda y reporte<br>
+  - Data cruda y reporte estadístico del análisis de rendimiento</p>
+  <p><strong>Referencia:</strong><br>Protocolo de fabricación del producto.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-PQ-UC-020" class="ensayo" data-id="EQ-PQ-UC-020" data-fase="PQ" data-cond="ambas" data-familia="sistema-cremas-vacio">
+  <h3>EQ-PQ-UC-020 — Compatibilidad con envasado sin cambios del granel</h3>
+  <p><strong>Objetivo:</strong><br>Verificar la compatibilidad con envasado (si aplica): el granel se envasa sin cambios de viscosidad, aire ocluido ni separación durante la espera y el llenado.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Mantener el granel en espera según el tiempo definido (si aplica)<br>
+  2) Envasar y verificar viscosidad, aire ocluido y separación<br>
+  3) Comparar contra los atributos del granel recién fabricado</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Sin cambios de viscosidad, aire ocluido ni separación durante espera y llenado.<br>
+  Atributos conformes en el envasado.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro de compatibilidad con envasado (anexo del informe)</p>
+  <p><strong>Referencia:</strong><br>Protocolo de fabricación del producto.</p>
+</article>
+
+</section>
+</body>
+</html>

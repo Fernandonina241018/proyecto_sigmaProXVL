@@ -39,6 +39,7 @@ const Validaciones = (() => {
       { id: 'secador-bandejas', nombre: 'Secador de bandejas' },
       { id: 'secador-tambor', nombre: 'Secador de tambor' },
       { id: 'reactor', nombre: 'Reactor' },
+      { id: 'sistema-cremas-vacio', nombre: 'Sistema de cremas al vacío' },
       { id: 'detector-metales', nombre: 'Detector de metales' },
       { id: 'balanza', nombre: 'Balanza analítica / precisión' },
       { id: 'phmetro', nombre: 'pH-metro' },

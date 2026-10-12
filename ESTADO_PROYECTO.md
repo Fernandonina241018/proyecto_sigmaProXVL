@@ -4794,3 +4794,7 @@ Render inyectaba el `PORT` como variable de entorno; Fly.io también (`process.e
 - **Qué:** `tsconfig.json` (allowJs+checkJs, noEmit, strict off) + `js/core/types-globals.d.ts` (globales entre scripts) + JSDoc `@type` en `plantilla-docx.js` (nodos/primero), `indexx-validaciones.js` (DOM narrowings) + script `npm run typecheck`.
 - **Cero cambios de runtime:** diff solo comentarios + 1 var temporal idéntica (`tgt`); `generador-docx.js` sin toques.
 - **Verificación:** `tsc` 0 errores; `node --check` OK; Vitest 431/431; backend 67/67.
+
+### 2026-10-12 (165): IQ+OQ+PQ sistema-cremas-vacio desde ENSAYOS.txt (63 ensayos)
+- **Qué:** nueva entidad `sistema-cremas-vacio` (Nivel 3). Creados `iq-sistema-cremas-vacio.html` (8 EQ-IQ-UC: P&ID, utilidades, recipiente/tapa/agitación, presión-vacío, críticos, control+Part 11, rugosidad con análisis, auxiliares/documentación), `oq-sistema-cremas-vacio.html` (35 EQ-OQ-UC, 25 con análisis: ancla/rasquetas, rotor-estator, vacío, térmica, transferencia, placebo) y `pq-sistema-cremas-vacio.html` (20 EQ-PQ-UC, 16 con análisis: 3 lotes, extremos, peor caso, gota, desaireación, uniformidad, micro, balance).
+- **Verificación:** extractor `--estricto` OK (703 artículos); Vitest 434/434, backend 67/67. Cremas: 8ª familia Nivel 3 completa.
