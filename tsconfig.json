@@ -1,0 +1,21 @@
+{
+  "compilerOptions": {
+    "target": "ES2020",
+    "lib": ["ES2020", "DOM"],
+    "module": "CommonJS",
+    "moduleResolution": "Node",
+    "allowJs": true,
+    "checkJs": true,
+    "noEmit": true,
+    "strict": false,
+    "noImplicitAny": false,
+    "strictNullChecks": false,
+    "types": []
+  },
+  "include": [
+    "js/core/types-globals.d.ts",
+    "js/core/plantilla-docx.js",
+    "js/core/generador-docx.js",
+    "js/core/indexx-validaciones.js"
+  ]
+}

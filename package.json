@@ -7,6 +7,7 @@
     "test": "vitest run",
     "test:coverage": "vitest run --coverage",
     "test:watch": "vitest",
+    "typecheck": "tsc --project tsconfig.json",
     "doctor": "npx react-doctor@latest"
   },
   "devDependencies": {

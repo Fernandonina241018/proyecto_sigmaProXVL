@@ -4789,3 +4789,8 @@ Render inyectaba el `PORT` como variable de entorno; Fly.io también (`process.e
 - **H-15 horno-vacío:** nuevo VA-011 solventes residuales condicional (ICH Q3C / USP <467>) + filas 6.7–6.8 en REF + RES a 11 ensayos.
 - **Pendiente con decisión tuya:** 13 ops omitidas (LF-012/013, MZ-010, AU-012 — 5 decisiones), H-06/H-07 parametrización por entidad, H-18 fotoestabilidad, H-19/H-20 valores numéricos, split horno-secado-lab.
 - **Verificación:** extractores equipos/estabilidad/almacenes `--estricto` OK (640+46+43); Vitest 431/431, backend 67/67.
+
+### 2026-10-11 (164): Fase 1 TS — JSDoc + checkJs en 3 archivos núcleo (tsc 50→0)
+- **Qué:** `tsconfig.json` (allowJs+checkJs, noEmit, strict off) + `js/core/types-globals.d.ts` (globales entre scripts) + JSDoc `@type` en `plantilla-docx.js` (nodos/primero), `indexx-validaciones.js` (DOM narrowings) + script `npm run typecheck`.
+- **Cero cambios de runtime:** diff solo comentarios + 1 var temporal idéntica (`tgt`); `generador-docx.js` sin toques.
+- **Verificación:** `tsc` 0 errores; `node --check` OK; Vitest 431/431; backend 67/67.

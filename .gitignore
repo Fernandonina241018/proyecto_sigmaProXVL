@@ -58,7 +58,9 @@ Red_Neuronal/analisis_creditos.py
 # TypeScript sources (no build step, out of sync)
 *.ts
 !vitest.config.ts
+!js/core/types-globals.d.ts
 tsconfig.json
+!tsconfig.json
 types.d.ts
 
 # Backup / stale

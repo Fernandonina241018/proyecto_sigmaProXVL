@@ -1165,8 +1165,8 @@ const Validaciones = (() => {
       const si = document.getElementById('v7-search');
       if (si && si.addEventListener) {
         si.addEventListener('input', function () {
-          const q = si.value.toLowerCase();
-          root.querySelectorAll('.v7-cat').forEach((c) => {
+          const q = /** @type {HTMLInputElement} */ (si).value.toLowerCase();
+          root.querySelectorAll('.v7-cat').forEach((/** @type {HTMLElement} */ c) => {
             const n = (c.getAttribute('data-name') || '').toLowerCase();
             c.style.display = !q || n.indexOf(q) >= 0 ? '' : 'none';
           });
@@ -1194,14 +1194,15 @@ const Validaciones = (() => {
         + '</nav>'
         + '<main class="v7-main"></main>'
         + '<aside class="v7-side"></aside>';
-      ov.addEventListener('click', function (e) {
-        const rb = e.target && e.target.closest ? e.target.closest('[data-route]') : null;
+      ov.addEventListener('click', function (/** @type {MouseEvent} */ e) {
+        const tgt = /** @type {HTMLElement|null} */ (e.target);
+        const rb = tgt && tgt.closest ? tgt.closest('[data-route]') : null;
         if (rb) {
           try { window.location.hash = '#/' + rb.getAttribute('data-route'); } catch (err) {}
           return;
         }
-        const sw = e.target && e.target.closest
-          ? (e.target.closest('[data-act="area"]') || e.target.closest('.v7-avatar')) : null;
+        const sw = tgt && tgt.closest
+          ? (tgt.closest('[data-act="area"]') || tgt.closest('.v7-avatar')) : null;
         if (sw) {
           try {
             if (typeof Auth !== 'undefined' && Auth.selectArea) { Auth.selectArea(); return; }
@@ -1239,7 +1240,7 @@ const Validaciones = (() => {
   function init() {
     try {
       if (typeof window !== 'undefined' && window.addEventListener) {
-        window.addEventListener('sigma-area', function (e) {
+        window.addEventListener('sigma-area', function (/** @type {CustomEvent} */ e) {
           apply(e && e.detail ? e.detail.area : null);
         });
         window.addEventListener('hashchange', onHash);

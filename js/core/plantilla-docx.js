@@ -379,6 +379,7 @@ const PlantillaDocx = (() => {
   // Reemplazo de texto dentro de párrafos (aunque el texto esté partido en varios runs).
   function reemplazarEnParrafo(p, buscar, valor, despuesDe) {
     const re = /(<w:t(?:\s[^>]*)?>)([^<]*)(<\/w:t>)/g;
+    /** @type {Array<{i:number,len:number,open:string,txt:string,close:string,nuevo?:string}>} */
     const nodos = [];
     let m;
     while ((m = re.exec(p))) nodos.push({ i: m.index, len: m[0].length, open: m[1], txt: desc(m[2]), close: m[3] });
@@ -392,7 +393,9 @@ const PlantillaDocx = (() => {
     const idx = full.indexOf(buscar, desde);
     if (idx < 0) return p;
     const fin = idx + buscar.length;
-    let pos = 0, primero = null;
+    let pos = 0;
+    /** @type {{i:number,len:number,open:string,txt:string,close:string,nuevo?:string}|null} */
+    let primero = null;
     nodos.forEach((n) => {
       const a = pos, b = pos + n.txt.length;
       pos = b;
