@@ -117,4 +117,49 @@ describe('banco de equipos: contrato', () => {
     });
     expect(sin).toEqual([]);
   });
+
+  it('secuencia sin huecos por familia y fase (salvo omitidas declaradas)', () => {
+    // Huecos intencionales por decisión documentada (no son olvidos).
+    const HUECOS_OK = { 'EQ-OQ-LF': [12, 13] };
+    const malos = [];
+    const grupos = new Map();
+    ensayos.filter((x) => x.familia).forEach((x) => {
+      const m = /^([A-Z]+-[A-Z]+(?:-[A-Z]+)?)-(\d+)$/.exec(x.id);
+      if (!m) { malos.push(x.id + ' (formato)'); return; }
+      const k = x.fase + '|' + m[1];
+      if (!grupos.has(k)) grupos.set(k, []);
+      grupos.get(k).push(+m[2]);
+    });
+    grupos.forEach((nums, k) => {
+      const max = Math.max.apply(null, nums);
+      for (let n = 1; n <= max; n++) {
+        const pref = k.split('|')[1];
+        if (nums.indexOf(n) < 0 && (HUECOS_OK[pref] || []).indexOf(n) < 0) malos.push(k + '-' + n + ' (hueco)');
+      }
+    });
+    expect(malos).toEqual([]);
+  });
+
+  it('crosswalk IQ Nivel 2 vs núcleo común: sin solapes (Jaccard < 0.50)', () => {
+    const N2 = ['tableteadora', 'encapsuladora', 'granulador', 'recubridora', 'blistera', 'detector-metales', 'etiquetadora', 'mezclador', 'horno-secado'];
+    const iq = ensayos.filter((x) => x.fase === 'IQ');
+    expect([...new Set(iq.filter((x) => N2.indexOf(x.familia) >= 0).map((x) => x.familia))].sort()).toEqual(N2.slice().sort());
+    const STOP = new Set(['para', 'como', 'esta', 'este', 'entre', 'sobre', 'ante', 'cada', 'todos', 'todas', 'donde', 'cuando', 'porque', 'desde', 'hasta', 'hacia', 'durante', 'mediante']);
+    const toks = (x) => new Set(plano(x).toLowerCase().replace(/[^a-záéíóúñ0-9\s]/g, ' ').split(/\s+/).filter((w) => w.length > 3 && !STOP.has(w)));
+    const jac = (a, b) => {
+      const A = toks(a), Cb = toks(b);
+      let i = 0;
+      A.forEach((w) => { if (Cb.has(w)) i++; });
+      return i / (A.size + Cb.size - i);
+    };
+    const comun = iq.filter((x) => !x.familia);
+    const solapes = [];
+    iq.filter((x) => N2.indexOf(x.familia) >= 0).forEach((n2) => {
+      comun.forEach((c) => {
+        const v = jac(n2, c);
+        if (v >= 0.5) solapes.push(n2.id + ' vs ' + c.id + ' (' + v.toFixed(2) + ')');
+      });
+    });
+    expect(solapes).toEqual([]);
+  });
 });

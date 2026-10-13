@@ -600,16 +600,24 @@ const Validaciones = (() => {
   // H-01 (auditoría FDA): OQ/PQ sin banco de familia no se emite — solo saldría
   // el artículo común y el protocolo no demostraría operación ni desempeño.
   // IQ siempre tiene núcleo común; estabilidad/almacenes tienen bancos completos.
-  function tieneBancoFam(fase, catId, entId) {
-    if (catId !== 'equipos' || (fase !== 'OQ' && fase !== 'PQ')) return true;
+  // H-01 + mejora #3 (fail-closed): tres estados en vez de booleano.
+  // 'ok' = hay banco de familia; 'sin-banco' = la familia no tiene banco
+  // (no se genera); 'no-cargado' = el banco no está disponible (tampoco
+  // se genera: antes fallaba abierto devolviendo true).
+  function estadoBancoFam(fase, catId, entId) {
+    if (catId !== 'equipos' || (fase !== 'OQ' && fase !== 'PQ')) return 'ok';
     try {
-      if (typeof BancoEquipos !== 'undefined' && BancoEquipos.fases) {
+      if (typeof BancoEquipos !== 'undefined' && BancoEquipos && BancoEquipos.fases) {
         const items = (BancoEquipos.fases[fase] || []).filter((i) => i.id && (i.bloque === 2 || i.bloque === 3));
         const ent = String(entId || '').trim();
-        return items.some((i) => i.familia && (!ent || i.familia === ent));
+        return items.some((i) => i.familia && (!ent || i.familia === ent)) ? 'ok' : 'sin-banco';
       }
     } catch (e) {}
-    return true;
+    return 'no-cargado';
+  }
+
+  function tieneBancoFam(fase, catId, entId) {
+    return estadoBancoFam(fase, catId, entId) === 'ok';
   }
 
   function contarGen(fase, cond, catId, entId) {
@@ -894,12 +902,16 @@ const Validaciones = (() => {
 
     function pintarResumen3() {
       if (!step3 || !conGen) return;
-      // Fases sin banco de familia: se desmarcan, se deshabilitan y se rotulan.
+      // Fases sin banco de familia (o banco no cargado): se desmarcan,
+      // se deshabilitan y se rotulan con el motivo.
       step3.querySelectorAll('.gen-fase').forEach((ch) => {
-        const bloqueada = !tieneBancoFam(ch.value, catId, entActual);
+        const est = estadoBancoFam(ch.value, catId, entActual);
+        const bloqueada = est !== 'ok';
         if (bloqueada) ch.checked = false;
         ch.disabled = bloqueada;
-        if (bloqueada) ch.title = 'Sin banco de ensayos de esta familia: no se genera protocolo vacío.';
+        if (bloqueada) ch.title = est === 'no-cargado'
+          ? 'Banco de ensayos no cargado: no se puede generar.'
+          : 'Sin banco de ensayos de esta familia: no se genera protocolo vacío.';
         else ch.removeAttribute('title');
         const lab = ch.closest ? ch.closest('.v7-check') : null;
         if (lab) lab.classList.toggle('sin-banco', bloqueada);
@@ -961,7 +973,12 @@ const Validaciones = (() => {
       // H-01: nunca emitir OQ/PQ sin banco de familia (defensa en profundidad).
       const bloqueadas = sel.fases.filter((f) => !tieneBancoFam(f, catId, entActual));
       let permitidas = sel.fases.filter((f) => tieneBancoFam(f, catId, entActual));
-      if (!permitidas.length) { setGenMsg('Sin banco de ensayos de la familia para ' + bloqueadas.join(', ') + ': no se genera protocolo vacío.', false); return; }
+      if (!permitidas.length) {
+        const motivo = bloqueadas.some((f) => estadoBancoFam(f, catId, entActual) === 'no-cargado')
+          ? 'Banco de ensayos no cargado: recargue la página antes de generar.'
+          : 'Sin banco de ensayos de la familia para ' + bloqueadas.join(', ') + ': no se genera protocolo vacío.';
+        setGenMsg(motivo, false); return;
+      }
       // H-05: fases con "[n]" sin entrada en la tabla de límites no se emiten.
       if (typeof PlantillaDocx !== 'undefined' && PlantillaDocx.limitesResumen) {
         const sinTabla = permitidas.filter((f) => {
@@ -1262,6 +1279,6 @@ const Validaciones = (() => {
   return {
     CATS, ROUTES, ENTIDADES, SCHEMAS, FASES_GEN, GEN_FASES, AREAS_GERENCIA, parseRoute, catById, getSchema, getEntidades,
     entidadPorNombre,
-    puestoGerente, firmantesHtml, saveDraft, loadDraft, saveGen, loadGen, viewEntidad, show, hide, apply, currentArea, render, contarGen, tieneBancoFam, resolverDescripcion,
+    puestoGerente, firmantesHtml, saveDraft, loadDraft, saveGen, loadGen, viewEntidad, show, hide, apply, currentArea, render, contarGen, tieneBancoFam, estadoBancoFam, resolverDescripcion,
   };
 })();

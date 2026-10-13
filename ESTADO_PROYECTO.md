@@ -4813,3 +4813,9 @@ Render inyectaba el `PORT` como variable de entorno; Fly.io también (`process.e
 - **Causa:** la tabla de 4 columnas seguía viéndose mal en Word pese al grid y tcW correctos en XML.
 - **Qué:** revertidos 83b08ac, be289b5 y 96afe88 (columna separada, réplica de diseño y fix tcW). Resumen vuelve a 3 cols con `CÓDIGO — título` en Especificaciones. Se conservan: títulos sin código (167), refs de ensayos en tabla + tabla DQ (166) y fase 1 TS.
 - **Verificación:** Vitest 442/442, backend 67/67, `tsc` 0 errores.
+
+### 2026-10-13 (172): Mejoras #3 + #9 + #11 (fail-closed, crosswalk IQ, secuencia sin huecos)
+- **#3:** `estadoBancoFam()` ok/sin-banco/no-cargado; `tieneBancoFam` solo true con ok; UI distingue motivo; tests con banco ausente.
+- **#9:** crosswalk Jaccard N2 vs común, umbral 0.50 (máx real 0.36); exige los 9 add-ons.
+- **#11:** secuencia 1..máx sin huecos por familia-fase (allowlist LF-012/013 omitidas).
+- **Verificación:** suites parciales OK (commit intermedio).

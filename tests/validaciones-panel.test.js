@@ -332,6 +332,24 @@ describe('Validaciones V7', () => {
     } finally { delete globalThis.BancoEquipos; }
   });
 
+  test('fail-closed: banco ausente bloquea (no-cargado), no falla abierto', () => {
+    delete globalThis.BancoEquipos;
+    try {
+      expect(Validaciones.estadoBancoFam('OQ', 'equipos', 'reactor')).toBe('no-cargado');
+      expect(Validaciones.tieneBancoFam('OQ', 'equipos', 'reactor')).toBe(false);
+      expect(Validaciones.tieneBancoFam('PQ', 'equipos', 'tableteadora')).toBe(false);
+    } finally { delete globalThis.BancoEquipos; }
+  });
+
+  test('estadoBancoFam distingue ok / sin-banco', () => {
+    globalThis.BancoEquipos = require('../js/core/banco-equipos-data.js');
+    try {
+      expect(Validaciones.estadoBancoFam('OQ', 'equipos', 'reactor')).toBe('ok');
+      expect(Validaciones.estadoBancoFam('PQ', 'equipos', 'secador-bandejas')).toBe('sin-banco');
+      expect(Validaciones.estadoBancoFam('IQ', 'equipos', 'secador-bandejas')).toBe('ok');
+    } finally { delete globalThis.BancoEquipos; }
+  });
+
   test('H-09: esquema común trae URS y riesgo con código y versión', () => {
     const ks = Validaciones.SCHEMAS._comun.map((f) => f.k);
     ['ursCodigo', 'ursVersion', 'riesgoCodigo', 'riesgoVersion'].forEach((k) => expect(ks).toContain(k));
