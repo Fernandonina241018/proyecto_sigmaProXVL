@@ -6307,6 +6307,37 @@ var BancoEquipos = {
    },
    {
     "kind": "ensayo",
+    "id": "EQ-OQ-UC-036",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-UC-036 — Controles de registros electrónicos del HMI (21 CFR Parte 11)",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar los controles de registros electrónicos del HMI o controlador (si aplica sistema computarizado): roles, pista de auditoría, firmas electrónicas y respaldo/restauración."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Verificar usuarios, roles y niveles de acceso contra la lista aprobada (si aplica)<br>\n  2) Ejecutar una acción trazable y verificar su registro en la pista de auditoría con usuario, fecha y hora<br>\n  3) Verificar el significado de la firma electrónica (revisión/aprobación) y su manifestación (nombre, fecha, significado)<br>\n  4) Ejecutar el respaldo de recetas y parámetros y verificar su restauración en un entorno de prueba o según procedimiento<br>\n  5) Verificar la sincronización de fecha y hora con la red (si aplica)"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Roles y accesos corresponden a lo aprobado.<br>\n  La pista de auditoría registra usuario, fecha, hora y significado; el respaldo restaura correctamente."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de roles, pista de auditoría y respaldo verificados (anexo del informe)"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>21 CFR Parte 11 (registros y firmas electrónicas)."
+     }
+    ],
+    "tabla": null,
+    "familia": "sistema-cremas-vacio"
+   },
+   {
+    "kind": "ensayo",
     "id": "EQ-OQ-TB-001",
     "bloque": 3,
     "cond": "ambas",
@@ -7127,6 +7158,37 @@ var BancoEquipos = {
    },
    {
     "kind": "ensayo",
+    "id": "EQ-OQ-TB-027",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-TB-027 — Controles de registros electrónicos del HMI (21 CFR Parte 11)",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar los controles de registros electrónicos del HMI o controlador (si aplica sistema computarizado): roles, pista de auditoría, firmas electrónicas y respaldo/restauración."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Verificar usuarios, roles y niveles de acceso contra la lista aprobada (si aplica)<br>\n  2) Ejecutar una acción trazable y verificar su registro en la pista de auditoría con usuario, fecha y hora<br>\n  3) Verificar el significado de la firma electrónica (revisión/aprobación) y su manifestación (nombre, fecha, significado)<br>\n  4) Ejecutar el respaldo de recetas y parámetros y verificar su restauración en un entorno de prueba o según procedimiento<br>\n  5) Verificar la sincronización de fecha y hora con la red (si aplica)"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Roles y accesos corresponden a lo aprobado.<br>\n  La pista de auditoría registra usuario, fecha, hora y significado; el respaldo restaura correctamente."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de roles, pista de auditoría y respaldo verificados (anexo del informe)"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>21 CFR Parte 11 (registros y firmas electrónicas)."
+     }
+    ],
+    "tabla": null,
+    "familia": "tableteadora"
+   },
+   {
+    "kind": "ensayo",
     "id": "EQ-OQ-EN-001",
     "bloque": 3,
     "cond": "ambas",
@@ -7916,6 +7978,37 @@ var BancoEquipos = {
     ],
     "tabla": null,
     "analisis": "si",
+    "familia": "encapsuladora"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-EN-026",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-EN-026 — Controles de registros electrónicos del HMI (21 CFR Parte 11)",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar los controles de registros electrónicos del HMI o controlador (si aplica sistema computarizado): roles, pista de auditoría, firmas electrónicas y respaldo/restauración."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Verificar usuarios, roles y niveles de acceso contra la lista aprobada (si aplica)<br>\n  2) Ejecutar una acción trazable y verificar su registro en la pista de auditoría con usuario, fecha y hora<br>\n  3) Verificar el significado de la firma electrónica (revisión/aprobación) y su manifestación (nombre, fecha, significado)<br>\n  4) Ejecutar el respaldo de formatos y parámetros y verificar su restauración en un entorno de prueba o según procedimiento<br>\n  5) Verificar la sincronización de fecha y hora con la red (si aplica)"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Roles y accesos corresponden a lo aprobado.<br>\n  La pista de auditoría registra usuario, fecha, hora y significado; el respaldo restaura correctamente."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de roles, pista de auditoría y respaldo verificados (anexo del informe)"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>21 CFR Parte 11 (registros y firmas electrónicas)."
+     }
+    ],
+    "tabla": null,
     "familia": "encapsuladora"
    },
    {
@@ -9444,6 +9537,37 @@ var BancoEquipos = {
    },
    {
     "kind": "ensayo",
+    "id": "EQ-OQ-RB-025",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-RB-025 — Controles de registros electrónicos del HMI (21 CFR Parte 11)",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar los controles de registros electrónicos del HMI o controlador (si aplica sistema computarizado): roles, pista de auditoría, firmas electrónicas y respaldo/restauración."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Verificar usuarios, roles y niveles de acceso contra la lista aprobada (si aplica)<br>\n  2) Ejecutar una acción trazable y verificar su registro en la pista de auditoría con usuario, fecha y hora<br>\n  3) Verificar el significado de la firma electrónica (revisión/aprobación) y su manifestación (nombre, fecha, significado)<br>\n  4) Ejecutar el respaldo de recetas y parámetros y verificar su restauración en un entorno de prueba o según procedimiento<br>\n  5) Verificar la sincronización de fecha y hora con la red (si aplica)"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Roles y accesos corresponden a lo aprobado.<br>\n  La pista de auditoría registra usuario, fecha, hora y significado; el respaldo restaura correctamente."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de roles, pista de auditoría y respaldo verificados (anexo del informe)"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>21 CFR Parte 11 (registros y firmas electrónicas)."
+     }
+    ],
+    "tabla": null,
+    "familia": "recubridora"
+   },
+   {
+    "kind": "ensayo",
     "id": "EQ-OQ-BL-001",
     "bloque": 3,
     "cond": "ambas",
@@ -10289,6 +10413,37 @@ var BancoEquipos = {
     ],
     "tabla": null,
     "analisis": "si",
+    "familia": "blistera"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-BL-028",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-BL-028 — Controles de registros electrónicos del HMI (21 CFR Parte 11)",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar los controles de registros electrónicos del HMI o controlador (si aplica sistema computarizado): roles, pista de auditoría, firmas electrónicas y respaldo/restauración."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Verificar usuarios, roles y niveles de acceso contra la lista aprobada (si aplica)<br>\n  2) Ejecutar una acción trazable y verificar su registro en la pista de auditoría con usuario, fecha y hora<br>\n  3) Verificar el significado de la firma electrónica (revisión/aprobación) y su manifestación (nombre, fecha, significado)<br>\n  4) Ejecutar el respaldo de formatos y parámetros y verificar su restauración en un entorno de prueba o según procedimiento<br>\n  5) Verificar la sincronización de fecha y hora con la red (si aplica)"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Roles y accesos corresponden a lo aprobado.<br>\n  La pista de auditoría registra usuario, fecha, hora y significado; el respaldo restaura correctamente."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de roles, pista de auditoría y respaldo verificados (anexo del informe)"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>21 CFR Parte 11 (registros y firmas electrónicas)."
+     }
+    ],
+    "tabla": null,
     "familia": "blistera"
    },
    {
@@ -11815,6 +11970,37 @@ var BancoEquipos = {
      {
       "et": "Referencia",
       "html": "<strong>Referencia:</strong><br>Especificación de operación de la etiquetadora."
+     }
+    ],
+    "tabla": null,
+    "familia": "etiquetadora"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-ET-030",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-ET-030 — Controles de registros electrónicos del HMI (21 CFR Parte 11)",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar los controles de registros electrónicos del HMI o controlador (si aplica sistema computarizado): roles, pista de auditoría, firmas electrónicas y respaldo/restauración."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Verificar usuarios, roles y niveles de acceso contra la lista aprobada (si aplica)<br>\n  2) Ejecutar una acción trazable y verificar su registro en la pista de auditoría con usuario, fecha y hora<br>\n  3) Verificar el significado de la firma electrónica (revisión/aprobación) y su manifestación (nombre, fecha, significado)<br>\n  4) Ejecutar el respaldo de formatos y parámetros y verificar su restauración en un entorno de prueba o según procedimiento<br>\n  5) Verificar la sincronización de fecha y hora con la red (si aplica)"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Roles y accesos corresponden a lo aprobado.<br>\n  La pista de auditoría registra usuario, fecha, hora y significado; el respaldo restaura correctamente."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de roles, pista de auditoría y respaldo verificados (anexo del informe)"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>21 CFR Parte 11 (registros y firmas electrónicas)."
      }
     ],
     "tabla": null,

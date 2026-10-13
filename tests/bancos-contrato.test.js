@@ -58,7 +58,7 @@ describe('banco de equipos: contrato', () => {
     ['IQ', 'mezclador', 5], // Nivel 2 (2026-10-11)
     ['IQ', 'horno-secado', 5], // Nivel 2 (2026-10-11)
     ['IQ', 'sistema-cremas-vacio', 8], // Nivel 3 (2026-10-12)
-    ['OQ', 'sistema-cremas-vacio', 35], // ENSAYOS.txt usuario (2026-10-12)
+    ['OQ', 'sistema-cremas-vacio', 36], // ENSAYOS.txt usuario (2026-10-12)
     ['PQ', 'sistema-cremas-vacio', 20], // ENSAYOS.txt usuario (2026-10-12)
     ['OQ', 'lecho-fluido', 11], // 13 cuando se aprueben LF-012/LF-013 (ops omitidas)
     ['OQ', 'autoclave', 18],
@@ -66,19 +66,19 @@ describe('banco de equipos: contrato', () => {
     ['OQ', 'horno-secado', 16],
     ['OQ', 'reactor', 27], // ENSAYOS.txt usuario (2026-10-07) + RC-027 ATEX (H-14)
     ['PQ', 'reactor', 14], // ENSAYOS.txt usuario (2026-10-07)
-    ['OQ', 'tableteadora', 26], // ENSAYOS.txt usuario (2026-10-08)
+    ['OQ', 'tableteadora', 27], // ENSAYOS.txt usuario (2026-10-08)
     ['PQ', 'tableteadora', 19], // ENSAYOS.txt usuario (2026-10-08)
-    ['OQ', 'encapsuladora', 25], // ENSAYOS.txt usuario (2026-10-08)
+    ['OQ', 'encapsuladora', 26], // ENSAYOS.txt usuario (2026-10-08)
     ['PQ', 'encapsuladora', 18], // ENSAYOS.txt usuario (2026-10-08)
     ['OQ', 'granulador', 24], // ENSAYOS.txt usuario (2026-10-08)
     ['PQ', 'granulador', 16], // ENSAYOS.txt usuario (2026-10-08)
-    ['OQ', 'recubridora', 24], // ENSAYOS.txt usuario (2026-10-09)
+    ['OQ', 'recubridora', 25], // ENSAYOS.txt usuario (2026-10-09)
     ['PQ', 'recubridora', 18], // ENSAYOS.txt usuario (2026-10-09)
-    ['OQ', 'blistera', 27], // ENSAYOS.txt usuario (2026-10-09)
+    ['OQ', 'blistera', 28], // ENSAYOS.txt usuario (2026-10-09)
     ['PQ', 'blistera', 19], // ENSAYOS.txt usuario (2026-10-09)
     ['OQ', 'detector-metales', 20], // ENSAYOS.txt usuario (2026-10-11)
     ['PQ', 'detector-metales', 15], // ENSAYOS.txt usuario (2026-10-11)
-    ['OQ', 'etiquetadora', 29], // ENSAYOS.txt usuario (2026-10-11)
+    ['OQ', 'etiquetadora', 30], // ENSAYOS.txt usuario (2026-10-11)
     ['PQ', 'etiquetadora', 20], // ENSAYOS.txt usuario (2026-10-11)
     ['PQ', 'lecho-fluido', 16],
     ['PQ', 'autoclave', 17],

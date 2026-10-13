@@ -4833,3 +4833,7 @@ Render inyectaba el `PORT` como variable de entorno; Fly.io también (`process.e
 - **Motor:** entradas LIMITES con `fam`+`clave` estables; `parametrosFamilia()`, `aplicarLimites(items, draft)` (valor del borrador = aprobado con fuente URS; si no, catálogo provisional), `paramsFaltantes()`; `limitesResumen()` con borrador; `generar()` sustituye con draft.
 - **UI:** Paso 2 con fieldset de parámetros por entidad (req, con unidad); validar/recoger/cargar los incluyen; badge del Paso 3 con borrador actual; descarga bloquea listando faltantes (nunca provisional silencioso).
 - **Verificación:** 4 tests nuevos; Vitest 450/450, backend 67/67, `tsc` 0 errores.
+
+### 2026-10-13 (175): Mejora #8 — Part 11 HMI en 6 familias (patrón LI-007)
+- **Qué:** nuevo ensayo OQ por familia (roles, audit trail, firma electrónica, backup/restore, fecha/hora): TB-027, EN-026, RB-025, BL-028, ET-030, UC-036. Sin flag de análisis (verificación operativa, como LI-007).
+- **Verificación:** extractor --estricto OK (709 artículos); Vitest 450/450, backend 67/67.
