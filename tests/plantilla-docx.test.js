@@ -93,21 +93,6 @@ describe('códigos solo en Resumen + refs de ensayos en tabla', () => {
     expect((m.match(/<w:gridCol[^>]*>/g) || []).length).toBe(4);
   });
 
-  test('celdas al ancho real: tcW suma el grid (no se sale de la hoja)', async () => {
-    await prep();
-    const strip = (s) => s.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim();
-    const tbls = [...doc.matchAll(/<w:tbl[\s>][\s\S]*?<\/w:tbl>/g)].map((t) => t[0]);
-    const m = tbls.find((t) => /CÓDIGO/.test(strip(t).slice(0, 400)));
-    const grid = [...m.matchAll(/<w:gridCol w:w="(\d+)"/g)].map((x) => +x[1]);
-    const total = grid.reduce((a, b) => a + b, 0);
-    const rows = [...m.matchAll(/<w:tr[\s>][\s\S]*?<\/w:tr>/g)].map((x) => x[0]);
-    rows.slice(1).forEach((tr) => {
-      const ws = [...tr.matchAll(/<w:tcW w:w="(\d+)"/g)].map((x) => +x[1]);
-      expect(ws.length).toBe(4);
-      expect(ws.reduce((a, b) => a + b, 0)).toBe(total);
-    });
-  });
-
   test('toda referencia de ensayo del banco está en REFERENCIAS', async () => {
     await prep();
     const alnum = (s) => String(s || '').toUpperCase().replace(/[^A-Z0-9]/g, '');

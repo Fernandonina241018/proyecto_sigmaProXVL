@@ -4816,8 +4816,3 @@ Render inyectaba el `PORT` como variable de entorno; Fly.io también (`process.e
 ### 2026-10-12 (169): Resumen replica diseño aprobado (caption 3 celdas, anchos 14/17/51/18)
 - **Qué:** caption vuelve a 3 celdas como el .docx de referencia; CÓDIGO al 25% del ancho medio; DQ suma columna veredicto `☐ C ☐ NC`.
 - **Verificación:** Vitest 442/442, backend 67/67, `tsc` 0 errores.
-
-### 2026-10-12 (170): Fix Resumen fuera de la hoja (tcW por celda)
-- **Causa:** las celdas clonadas heredaban el tcW de origen (fila sumaba 17.820 twips vs 9.360 útiles).
-- **Qué:** `fijarAnchos()` reescribe el tcW de cada celda de filas de 4 celdas al grid real; caption intacto.
-- **Verificación:** test tcW=suma grid; Vitest 443/443, backend 67/67, `tsc` 0 errores.
