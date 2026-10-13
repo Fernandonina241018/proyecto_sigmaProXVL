@@ -567,8 +567,10 @@ const PlantillaDocx = (() => {
     return pts;
   }
 
+  // Títulos sin código de banco (el código vive solo en la tabla Resumen).
+  // Cubre EQ-IQ-001, EQ-OQ-COM-001, EQ-PQ-LF-004, EST-OQ-010, ALM-DQ-001, etc.
   const tituloLimpio = (art) => String(art.titulo || art.id || '')
-    .replace(/^[A-Z]{2,5}-[A-Z]{2}(-[A-Z]{2})?-\d{2,4}\s*[—–-]\s*/, '').trim();
+    .replace(/^[A-Z]{2,5}(?:-[A-Z]{2,5})+-\d{2,4}\s*[—–-]\s*/, '').trim();
 
   function fechaTexto(f) {
     const m = /^(\d{4})-(\d{2})-(\d{2})/.exec(String(f || ''));

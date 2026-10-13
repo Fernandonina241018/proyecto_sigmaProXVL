@@ -505,3 +505,19 @@ describe('Objetivo en su propia línea (requisitos del modelo)', () => {
     expect(holder.startsWith('Objetivo:')).toBe(false);
   });
 });
+
+describe('títulos sin código de banco (código solo en Resumen)', () => {
+  test('OQ balanza: EQ-OQ-COM-001 fuera del título 7.x', async () => {
+    const u8 = new Uint8Array(readFileSync(resolve(raiz, P.PLANTILLAS.OQ)));
+    const r = await P.generar('OQ', u8, banco, DRAFT,
+      { id: 'balanza', nombre: 'Balanza' }, 'ambas');
+    expect(r.ensayos).toContain('EQ-OQ-COM-001');
+    const arch = Object.fromEntries((await P._interno.leerZip(r.bytes)).map((a) => [a.nombre, dec(a.datos)]));
+    const plano = arch['word/document.xml'].replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ');
+    // el código ya no va en el título del acápite...
+    expect(plano).not.toContain('EQ-OQ-COM-001 — VERIFICACIÓN');
+    expect(plano).toContain('VERIFICACIÓN DE LOS INSTRUMENTOS DE MEDICIÓN A UTILIZAR EN EL OQ');
+    // ...solo en la tabla Resumen
+    expect(plano).toContain('EQ-OQ-COM-001 — Verificación de los instrumentos');
+  });
+});

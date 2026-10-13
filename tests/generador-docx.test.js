@@ -388,4 +388,16 @@ describe('Objetivo en su propia línea en DQ', () => {
       .map((x) => x[0].replace(/<[^>]+>/g, '').trim().replace(/\s+/g, ' ')).join(' | ');
     expect(plano).toContain('CÓDIGO');
   });
+
+  test('acápites DQ sin código de banco en el título', async () => {
+    const docx = require('docx');
+    const { unzipXml } = await import('./helpers/unzip-xml.mjs');
+    const m = GeneradorDocx.buildModelo('DQ', DRAFT, ENT, 'ambas');
+    const buf = await docx.Packer.toBuffer(GeneradorDocx.modeloADocx(m));
+    const xml = unzipXml(buf, 'word/document.xml');
+    const paras = [...xml.matchAll(/<w:p\b[\s\S]*?<\/w:p>/g)]
+      .map((x) => x[0].replace(/<[^>]+>/g, '').trim().replace(/\s+/g, ' '));
+    expect(paras.filter((t) => /^ENSAYO /.test(t) && /ALM-DQ-/.test(t))).toEqual([]);
+    expect(paras.some((t) => /^ENSAYO /.test(t))).toBe(true);
+  });
 });

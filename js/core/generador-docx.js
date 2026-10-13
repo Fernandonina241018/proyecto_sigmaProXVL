@@ -196,8 +196,13 @@ const GeneradorDocx = (() => {
     return pts.slice(0, 14);
   }
 
-  function alcanceTexto(draft, entidad) {
-    const d = draft || {};
+  // Títulos sin código de banco (el código vive solo en la tabla Resumen).
+  function tituloLimpioDQ(a) {
+    return String((a && a.titulo) || (a && a.id) || '')
+      .replace(/^[A-Z]{2,5}(?:-[A-Z]{2,5})+-\d{2,4}\s*[—–-]\s*/, '').trim();
+  }
+
+  function alcanceTexto(draft, entidad) {    const d = draft || {};
     const desc = String(d.descripcion || '').trim() || (entidad && entidad.nombre) || 'almacén';
     const cod = String(d.codigo || '').trim();
     const ubi = String(d.ubicacion || '').trim();
@@ -457,7 +462,7 @@ const GeneradorDocx = (() => {
       ] }));
     };
     const ensayoADoc = (it, ctx) => {
-      H2(it.num + ' — ' + it.titulo, debeSaltar(it.articulo));
+      H2(it.num + ' — ' + tituloLimpioDQ(it.articulo || it), debeSaltar(it.articulo));
       (it.articulo.secciones || []).forEach((s) => {
         // Etiqueta 'Objetivo:' sola en su línea (igual que en vía plantilla) + texto debajo
         if (/^objetivo/i.test(s.et || '')) P([{ t: 'Objetivo:', b: true }]);

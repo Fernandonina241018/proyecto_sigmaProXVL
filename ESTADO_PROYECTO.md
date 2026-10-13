@@ -4803,3 +4803,8 @@ Render inyectaba el `PORT` como variable de entorno; Fly.io también (`process.e
 - **Qué (plantilla IQ/OQ/PQ):** `OPC.incluirCodigoEnsayo=false` (opción conservada por compat); tabla Resumen con columna `Código — Especificaciones` y filas `CÓDIGO — título` (solo ensayos del banco); referencias propias de cada ensayo anexadas a REFERENCIAS con numeración continua y dedupe (aviso si el modelo no trae tabla).
 - **Qué (DQ):** tabla `N°/CÓDIGO/ENSAYO` en RESUMEN + referencias de ensayos como `[código, texto]` en REFERENCIAS (copia defensiva de `T.refModelo`).
 - **Verificación:** 6 tests nuevos; Vitest 440/440, backend 67/67, `tsc` 0 errores.
+
+### 2026-10-12 (167): Títulos sin código de banco (código solo en Resumen)
+- **Causa:** `tituloLimpio` solo pelaba códigos de 2 letras por segmento (`EQ-IQ-001`); `EQ-OQ-COM-001` (COM, 3 letras) sobrevivía en el título del acápite.
+- **Qué:** regex a `^[A-Z]{2,5}(?:-[A-Z]{2,5})+-\d{2,4}` en plantilla + `tituloLimpioDQ()` en motor DQ (H2 sin código; tablas Resumen conservan `CÓDIGO — título`).
+- **Verificación:** 2 tests nuevos; Vitest 442/442, backend 67/67, `tsc` 0 errores.
