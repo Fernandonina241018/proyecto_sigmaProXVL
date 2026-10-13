@@ -5834,7 +5834,7 @@ var BancoEquipos = {
     "secciones": [
      {
       "et": "Objetivo",
-      "html": "<strong>Objetivo:</strong><br>Verificar la ruptura del vacío (ventilación): control, filtro de aire estéril o hidrofóbico (si aplica) y velocidad sin fluidización del producto."
+      "html": "<strong>Objetivo:</strong><br>Verificar la ruptura del vacío (ventilación): control, filtro de aire hidrofóbico de venteo (producto no estéril: no se requiere grado estéril) y velocidad sin fluidización del producto."
      },
      {
       "et": "Procedimiento",
@@ -10055,11 +10055,11 @@ var BancoEquipos = {
      },
      {
       "et": "Procedimiento",
-      "html": "<strong>Procedimiento:</strong><br>\n  1) Tomar muestras a velocidad mínima, nominal y máxima<br>\n  2) Ejecutar la prueba de fuga con azul de metileno o por vacío (si aplica)<br>\n  3) Medir la resistencia al pelado con dinamómetro (si aplica)<br>\n  4) Registrar los resultados por velocidad"
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Tomar muestras a velocidad mínima, nominal y máxima<br>\n  2) Definir en el protocolo aprobado el método de hermeticidad (azul de metileno o vacío, según USP &lt;1207&gt;) y aplicarlo<br>\n  3) Medir la resistencia al pelado con dinamómetro (si aplica)<br>\n  4) Registrar los resultados por velocidad"
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Sin fugas en la prueba aplicada.<br>\n  La resistencia al pelado cumple el criterio (si aplica)."
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Sin fugas con el método definido en el protocolo aprobado.<br>\n  La resistencia al pelado cumple el criterio (si aplica)."
      },
      {
       "et": "Documentos entregables",
@@ -10366,11 +10366,11 @@ var BancoEquipos = {
      },
      {
       "et": "Procedimiento",
-      "html": "<strong>Procedimiento:</strong><br>\n  1) Interrumpir la energía y verificar que la línea se detiene o el producto se retiene<br>\n  2) Interrumpir el aire comprimido (si aplica al rechazo) y verificar la acción segura<br>\n  3) Simular la falla interna según el procedimiento del fabricante y verificar que ningún producto pasa sin detección"
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Interrumpir la energía y verificar que la línea se detiene o el producto se retiene<br>\n  2) Interrumpir el aire comprimido (si aplica al rechazo) y verificar la acción segura<br>\n  3) Simular la falla interna según el procedimiento del fabricante y verificar que ningún producto pasa sin detección<br>\n  4) Medir el tiempo de detención de la línea y de actuación del rechazo en cada caso"
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Ante cualquier falla el producto no pasa sin detección.<br>\n  La línea se detiene o el producto se desvía a rechazo."
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Ante cualquier falla el producto no pasa sin detección.<br>\n  La línea se detiene o el producto se desvía a rechazo, dentro de los tiempos definidos en el protocolo aprobado."
      },
      {
       "et": "Documentos entregables",
@@ -15719,11 +15719,11 @@ var BancoEquipos = {
      },
      {
       "et": "Procedimiento",
-      "html": "<strong>Procedimiento:</strong><br>\n  1) Muestrear el granel para carga microbiana según el plan (si aplica)<br>\n  2) Verificar la calidad microbiológica del agua utilizada (si aplica)<br>\n  3) Registrar el tiempo de espera del granel antes de envasar contra el límite establecido<br>\n  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Muestrear el granel para recuento microbiano (USP &lt;61&gt;) y microorganismos especificados (USP &lt;62&gt;) según el plan (si aplica)<br>\n  2) Verificar la calidad microbiológica del agua utilizada (si aplica)<br>\n  3) Registrar el tiempo de espera del granel antes de envasar contra el límite establecido<br>\n  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  La carga microbiana cumple la especificación.<br>\n  El tiempo de espera no supera el límite validado."
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Recuento y microorganismos especificados dentro de los límites de la especificación del producto.<br>\n  El tiempo de espera no supera el límite validado."
      },
      {
       "et": "Documentos entregables",
@@ -15731,7 +15731,7 @@ var BancoEquipos = {
      },
      {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>USP &lt;1111&gt; (límites microbianos, si aplica)."
+      "html": "<strong>Referencia:</strong><br>USP &lt;61&gt; (recuento microbiano); USP &lt;62&gt; (microorganismos especificados); USP &lt;1111&gt; (límites microbianos, si aplica)."
      }
     ],
     "tabla": null,
@@ -17443,7 +17443,7 @@ var BancoEquipos = {
      },
      {
       "et": "Procedimiento",
-      "html": "<strong>Procedimiento:</strong><br>\n  1) Determinar la distribución de tamaño de partícula por tamizado<br>\n  2) Medir densidad aparente, compactada y calcular el índice de compresibilidad<br>\n  3) Medir la fluidez (ángulo de reposo o caudal por orificio)<br>\n  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Determinar la distribución de tamaño de partícula por el método definido en el protocolo aprobado (tamizado USP &lt;786&gt; o difracción láser USP &lt;429&gt;)<br>\n  2) Medir densidad aparente, compactada y calcular el índice de compresibilidad<br>\n  3) Medir la fluidez (ángulo de reposo o caudal por orificio)<br>\n  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
      },
      {
       "et": "Criterio de aceptación",
@@ -17479,7 +17479,7 @@ var BancoEquipos = {
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  La media y el RSD cumplen el criterio en cada lote.<br>\n  Sin evidencia de segregación."
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  La media y el RSD cumplen el criterio interno de la especificación del producto en cada lote.<br>\n  Sin evidencia de segregación."
      },
      {
       "et": "Documentos entregables",
@@ -17487,7 +17487,7 @@ var BancoEquipos = {
      },
      {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>USP &lt;905&gt; (criterio aplicable)."
+      "html": "<strong>Referencia:</strong><br>Especificación del producto (criterio interno de uniformidad en granel; USP &lt;905&gt; no aplica a granel, solo a unidades de dosificación)."
      }
     ],
     "tabla": null,

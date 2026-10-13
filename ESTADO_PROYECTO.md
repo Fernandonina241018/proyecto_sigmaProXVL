@@ -4819,3 +4819,12 @@ Render inyectaba el `PORT` como variable de entorno; Fly.io también (`process.e
 - **#9:** crosswalk Jaccard N2 vs común, umbral 0.50 (máx real 0.36); exige los 9 add-ons.
 - **#11:** secuencia 1..máx sin huecos por familia-fase (allowlist LF-012/013 omitidas).
 - **Verificación:** suites parciales OK (commit intermedio).
+
+### 2026-10-13 (173): Mejora #7 — 6 correcciones puntuales de bancos
+- **GR-011:** fuera USP <905> en granel → criterio interno de especificación.
+- **GR-010:** método de tamaño definido en protocolo aprobado (<786> o <429>).
+- **UC-013:** USP <61>/<62> con límites de especificación.
+- **UC-021 OQ:** filtro hidrofóbico (no estéril en producto no estéril).
+- **BL-020:** método de hermeticidad definido en protocolo (<1207>).
+- **DM-003:** tiempos de detención/rechazo medidos contra protocolo aprobado.
+- **Verificación:** extractor --estricto OK; Vitest 446/446, backend 67/67.
