@@ -4837,3 +4837,7 @@ Render inyectaba el `PORT` como variable de entorno; Fly.io también (`process.e
 ### 2026-10-13 (175): Mejora #8 — Part 11 HMI en 6 familias (patrón LI-007)
 - **Qué:** nuevo ensayo OQ por familia (roles, audit trail, firma electrónica, backup/restore, fecha/hora): TB-027, EN-026, RB-025, BL-028, ET-030, UC-036. Sin flag de análisis (verificación operativa, como LI-007).
 - **Verificación:** extractor --estricto OK (709 artículos); Vitest 450/450, backend 67/67.
+
+### 2026-10-13 (176): Mejora #4 — plan estadístico común en 179 ensayos
+- **Qué:** bloque estándar `Plan estadístico` (variable, n, puntos, media/RSD/IC95/ANOVA, tendencia por regresión, Grubbs sin exclusión silenciosa, criterio del ensayo) en cada ensayo con análisis de TB/EN/RB/GR/UC (OQ+PQ); 6 frases vagas precisadas con método (regresión/ANOVA al 95 %).
+- **Verificación:** extractor --estricto OK (709 artículos); Vitest 450/450, backend 67/67.

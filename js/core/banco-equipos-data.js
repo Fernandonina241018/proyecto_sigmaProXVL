@@ -5366,6 +5366,10 @@ var BancoEquipos = {
       "html": "<strong>Procedimiento:</strong><br>\n  1) Ajustar la velocidad mínima, nominal y máxima desde el control<br>\n  2) Medir cada punto con un tacómetro independiente calibrado, por triplicado<br>\n  3) Registrar la lectura del control y la del tacómetro en cada punto<br>\n  4) Procesar los datos crudos de velocidad en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
      },
      {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+     },
+     {
       "et": "Criterio de aceptación",
       "html": "<strong>Criterio de aceptación:</strong><br>\n  La velocidad indicada está dentro de la tolerancia especificada en los tres puntos.<br>\n  La repetibilidad cumple el criterio en cada punto."
      },
@@ -5460,6 +5464,10 @@ var BancoEquipos = {
       "html": "<strong>Procedimiento:</strong><br>\n  1) Cargar agua o crema placebo al volumen mínimo y operar a la velocidad nominal registrando la corriente<br>\n  2) Cargar al volumen máximo y operar registrando la corriente<br>\n  3) Registrar la corriente de arranque en ambos casos<br>\n  4) Procesar los datos crudos de corriente en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
      },
      {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+     },
+     {
       "et": "Criterio de aceptación",
       "html": "<strong>Criterio de aceptación:</strong><br>\n  La corriente de operación no supera la nominal de placa en ningún volumen.<br>\n  No existen picos anormales durante la operación estable."
      },
@@ -5521,6 +5529,10 @@ var BancoEquipos = {
      {
       "et": "Procedimiento",
       "html": "<strong>Procedimiento:</strong><br>\n  1) Ajustar la velocidad mínima, nominal y máxima desde el control<br>\n  2) Medir cada punto con instrumento independiente calibrado, por triplicado<br>\n  3) Registrar la lectura del control y la del patrón en cada punto<br>\n  4) Procesar los datos crudos de velocidad en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
      },
      {
       "et": "Criterio de aceptación",
@@ -5617,6 +5629,10 @@ var BancoEquipos = {
       "html": "<strong>Procedimiento:</strong><br>\n  1) Operar el homogeneizador a máxima velocidad con agua o placebo<br>\n  2) Registrar la corriente del motor y compararla contra la nominal de placa<br>\n  3) Medir la temperatura del sello tras la estabilización<br>\n  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
      },
      {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+     },
+     {
       "et": "Criterio de aceptación",
       "html": "<strong>Criterio de aceptación:</strong><br>\n  La corriente no supera la nominal de placa.<br>\n  La temperatura del sello está dentro del límite sin sobrecalentamiento."
      },
@@ -5647,6 +5663,10 @@ var BancoEquipos = {
      {
       "et": "Procedimiento",
       "html": "<strong>Procedimiento:</strong><br>\n  1) Cargar agua o placebo al volumen mínimo de operación<br>\n  2) Operar el homogeneizador a la velocidad de rutina<br>\n  3) Verificar que el rotor-estator opera sumergido sin aspiración de aire<br>\n  4) Procesar los datos crudos de nivel y detección de aire en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
      },
      {
       "et": "Criterio de aceptación",
@@ -5681,6 +5701,10 @@ var BancoEquipos = {
       "html": "<strong>Procedimiento:</strong><br>\n  1) Operar el homogeneizador en línea con agua (si aplica)<br>\n  2) Medir el caudal y la presión de descarga, por triplicado<br>\n  3) Comparar contra lo especificado<br>\n  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
      },
      {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+     },
+     {
       "et": "Criterio de aceptación",
       "html": "<strong>Criterio de aceptación:</strong><br>\n  Caudal y presión dentro de lo especificado.<br>\n  La repetibilidad cumple el criterio."
      },
@@ -5711,6 +5735,10 @@ var BancoEquipos = {
      {
       "et": "Procedimiento",
       "html": "<strong>Procedimiento:</strong><br>\n  1) Evacuar el recipiente vacío hasta el valor del proceso registrando el tiempo<br>\n  2) Repetir con carga de agua al volumen de rutina<br>\n  3) Registrar el nivel mínimo alcanzado en cada caso<br>\n  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
      },
      {
       "et": "Criterio de aceptación",
@@ -5745,6 +5773,10 @@ var BancoEquipos = {
       "html": "<strong>Procedimiento:</strong><br>\n  1) Comparar la lectura del transductor contra un patrón calibrado en varios puntos del rango<br>\n  2) Registrar por triplicado en cada punto<br>\n  3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
      },
      {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+     },
+     {
       "et": "Criterio de aceptación",
       "html": "<strong>Criterio de aceptación:</strong><br>\n  El transductor está dentro de tolerancia en todos los puntos.<br>\n  La repetibilidad cumple el criterio."
      },
@@ -5775,6 +5807,10 @@ var BancoEquipos = {
      {
       "et": "Procedimiento",
       "html": "<strong>Procedimiento:</strong><br>\n  1) Evacuar el recipiente al valor de prueba y aislarlo<br>\n  2) Registrar la presión a intervalos definidos durante el tiempo de observación<br>\n  3) Calcular la tasa de aumento y compararla contra el criterio del URS<br>\n  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
      },
      {
       "et": "Criterio de aceptación",
@@ -5809,6 +5845,10 @@ var BancoEquipos = {
       "html": "<strong>Procedimiento:</strong><br>\n  1) Operar con calentamiento, agitación y homogeneización manteniendo el vacío de proceso<br>\n  2) Registrar el vacío a intervalos definidos en cada etapa<br>\n  3) Evaluar la estabilidad en cada etapa<br>\n  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
      },
      {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+     },
+     {
       "et": "Criterio de aceptación",
       "html": "<strong>Criterio de aceptación:</strong><br>\n  El vacío se mantiene en banda durante las tres etapas.<br>\n  Sin caídas fuera de criterio."
      },
@@ -5839,6 +5879,10 @@ var BancoEquipos = {
      {
       "et": "Procedimiento",
       "html": "<strong>Procedimiento:</strong><br>\n  1) Romper el vacío de forma controlada registrando el tiempo<br>\n  2) Verificar el filtro de aire de ruptura (si aplica): grado, instalación y certificado<br>\n  3) Verificar que la velocidad de ventilación no fluidiza el producto<br>\n  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
      },
      {
       "et": "Criterio de aceptación",
@@ -5873,6 +5917,10 @@ var BancoEquipos = {
       "html": "<strong>Procedimiento:</strong><br>\n  1) Verificar el tipo de bomba y su fluido de sello contra lo especificado (si aplica)<br>\n  2) Verificar la trampa de volátiles: instalación y capacidad<br>\n  3) Verificar la compatibilidad con los volátiles del producto según la hoja del fabricante<br>\n  4) Procesar los datos crudos de desempeño en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
      },
      {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+     },
+     {
       "et": "Criterio de aceptación",
       "html": "<strong>Criterio de aceptación:</strong><br>\n  La bomba y la trampa corresponden a lo especificado.<br>\n  Compatibilidad documentada con los volátiles del producto."
      },
@@ -5903,6 +5951,10 @@ var BancoEquipos = {
      {
       "et": "Procedimiento",
       "html": "<strong>Procedimiento:</strong><br>\n  1) Estabilizar con agua en el setpoint bajo, medio y alto del rango del proceso<br>\n  2) Medir cada punto con un patrón de referencia calibrado, por triplicado<br>\n  3) Registrar la lectura del control y la del patrón en cada punto<br>\n  4) Procesar los datos crudos de temperatura en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
      },
      {
       "et": "Criterio de aceptación",
@@ -5937,6 +5989,10 @@ var BancoEquipos = {
       "html": "<strong>Procedimiento:</strong><br>\n  1) Con agua a volumen mínimo, registrar la curva de calentamiento hasta el setpoint y luego la de enfriamiento<br>\n  2) Repetir con agua a volumen máximo<br>\n  3) Calcular las velocidades promedio de calentamiento y enfriamiento en cada caso<br>\n  4) Procesar los datos crudos de temperatura contra tiempo en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
      },
      {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+     },
+     {
       "et": "Criterio de aceptación",
       "html": "<strong>Criterio de aceptación:</strong><br>\n  Las velocidades de calentamiento y enfriamiento cumplen lo especificado a ambos volúmenes.<br>\n  Las curvas son reproducibles entre réplicas."
      },
@@ -5967,6 +6023,10 @@ var BancoEquipos = {
      {
       "et": "Procedimiento",
       "html": "<strong>Procedimiento:</strong><br>\n  1) Estabilizar con agua en el setpoint de rutina con la agitación de rutina<br>\n  2) Registrar la temperatura a intervalos definidos durante el tiempo de observación<br>\n  3) Determinar el sobreimpulso máximo y la banda de estabilidad alcanzada<br>\n  4) Procesar los datos crudos de temperatura en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
      },
      {
       "et": "Criterio de aceptación",
@@ -6001,6 +6061,10 @@ var BancoEquipos = {
       "html": "<strong>Procedimiento:</strong><br>\n  1) Instalar termopares calibrados en pared, centro, fondo y zona del homogeneizador<br>\n  2) Mapear con agua a volumen mínimo en el setpoint de rutina<br>\n  3) Mapear con agua a volumen máximo en el setpoint de rutina<br>\n  4) Procesar los datos crudos de mapeo en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
      },
      {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+     },
+     {
       "et": "Criterio de aceptación",
       "html": "<strong>Criterio de aceptación:</strong><br>\n  La dispersión entre puntos no supera el límite especificado a ambos volúmenes.<br>\n  No existen puntos fríos o calientes fuera de criterio."
      },
@@ -6031,6 +6095,10 @@ var BancoEquipos = {
      {
       "et": "Procedimiento",
       "html": "<strong>Procedimiento:</strong><br>\n  1) Estabilizar cada auxiliar en su setpoint de rutina<br>\n  2) Verificar exactitud, estabilidad y calentamiento con las mismas verificaciones del recipiente principal<br>\n  3) Registrar los resultados por auxiliar<br>\n  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
      },
      {
       "et": "Criterio de aceptación",
@@ -6065,6 +6133,10 @@ var BancoEquipos = {
       "html": "<strong>Procedimiento:</strong><br>\n  1) Medir la presión y el caudal de suministro del medio térmico en operación<br>\n  2) Verificar el retorno: temperatura o presión de retorno dentro de lo esperado<br>\n  3) Verificar las trampas de vapor (si aplican): tipo, descarga y ausencia de vapor vivo<br>\n  4) Procesar los datos crudos de presión y caudal en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
      },
      {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+     },
+     {
       "et": "Criterio de aceptación",
       "html": "<strong>Criterio de aceptación:</strong><br>\n  Presión y caudal de suministro cumplen lo especificado.<br>\n  Las trampas descargan condensado sin paso de vapor vivo."
      },
@@ -6095,6 +6167,10 @@ var BancoEquipos = {
      {
       "et": "Procedimiento",
       "html": "<strong>Procedimiento:</strong><br>\n  1) Transferir agua desde cada auxiliar por vacío al recipiente principal<br>\n  2) Medir el caudal y el tiempo de transferencia<br>\n  3) Verificar ausencia de retorno y de arrastre de aire<br>\n  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
      },
      {
       "et": "Criterio de aceptación",
@@ -6129,6 +6205,10 @@ var BancoEquipos = {
       "html": "<strong>Procedimiento:</strong><br>\n  1) Inducir un polvo inerte por vacío según el procedimiento (si aplica)<br>\n  2) Medir la velocidad de aspiración<br>\n  3) Verificar ausencia de aglomerados, atascos y retorno de polvo<br>\n  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
      },
      {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+     },
+     {
       "et": "Criterio de aceptación",
       "html": "<strong>Criterio de aceptación:</strong><br>\n  La velocidad de aspiración cumple lo especificado.<br>\n  Sin aglomerados, atascos ni retorno de polvo."
      },
@@ -6159,6 +6239,10 @@ var BancoEquipos = {
      {
       "et": "Procedimiento",
       "html": "<strong>Procedimiento:</strong><br>\n  1) Ejecutar adiciones de prueba por peso o por volumen en los rangos de uso (si aplica)<br>\n  2) Pesar o medir cada adición con instrumento independiente, por triplicado<br>\n  3) Registrar la cantidad programada contra la realmente adicionada<br>\n  4) Procesar los datos crudos de adiciones en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
      },
      {
       "et": "Criterio de aceptación",
@@ -6193,6 +6277,10 @@ var BancoEquipos = {
       "html": "<strong>Procedimiento:</strong><br>\n  1) Calibrar las celdas de carga con pesas patrón trazables en varios niveles (si aplican)<br>\n  2) Verificar el sensor de nivel contra volumen medido (si aplica)<br>\n  3) Registrar por triplicado en cada nivel<br>\n  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
      },
      {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+     },
+     {
       "et": "Criterio de aceptación",
       "html": "<strong>Criterio de aceptación:</strong><br>\n  La indicación está dentro de tolerancia en todos los niveles.<br>\n  Las pesas patrón cuentan con certificado vigente."
      },
@@ -6223,6 +6311,10 @@ var BancoEquipos = {
      {
       "et": "Procedimiento",
       "html": "<strong>Procedimiento:</strong><br>\n  1) Con el recipiente cargado, abrir la válvula de fondo y verificar descarga libre<br>\n  2) Cerrar la válvula y verificar ausencia de goteo durante el tiempo de observación<br>\n  3) Descargar placebo y verificar ausencia de retención de material<br>\n  4) Procesar los datos crudos de retención en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
      },
      {
       "et": "Criterio de aceptación",
@@ -6257,6 +6349,10 @@ var BancoEquipos = {
       "html": "<strong>Procedimiento:</strong><br>\n  1) Operar la bomba con crema placebo viscosa (si aplica)<br>\n  2) Medir el caudal y la presión de descarga, por triplicado<br>\n  3) Verificar ausencia de cavitación y de calentamiento anormal<br>\n  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
      },
      {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+     },
+     {
       "et": "Criterio de aceptación",
       "html": "<strong>Criterio de aceptación:</strong><br>\n  Caudal y presión dentro de lo especificado con producto viscoso.<br>\n  Sin cavitación sostenida."
      },
@@ -6287,6 +6383,10 @@ var BancoEquipos = {
      {
       "et": "Procedimiento",
       "html": "<strong>Procedimiento:</strong><br>\n  1) Ejecutar el ciclo completo con placebo al volumen máximo registrando cada etapa<br>\n  2) Ejecutar el ciclo completo con placebo al volumen mínimo<br>\n  3) Verificar la secuencia: carga por vacío, calentamiento, emulsificación, desaireación, enfriamiento y descarga<br>\n  4) Procesar los datos crudos de cada etapa en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
      },
      {
       "et": "Criterio de aceptación",
@@ -6507,6 +6607,10 @@ var BancoEquipos = {
       "html": "<strong>Procedimiento:</strong><br>\n  1) Ajustar la velocidad mínima, nominal y máxima desde el control<br>\n  2) Medir cada punto con un tacómetro independiente calibrado, por triplicado<br>\n  3) Registrar la lectura del control y la del tacómetro en cada punto<br>\n  4) Procesar los datos crudos de velocidad en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
      },
      {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+     },
+     {
       "et": "Criterio de aceptación",
       "html": "<strong>Criterio de aceptación:</strong><br>\n  La velocidad indicada está dentro de la tolerancia especificada en los tres puntos.<br>\n  La repetibilidad cumple el criterio en cada punto."
      },
@@ -6537,6 +6641,10 @@ var BancoEquipos = {
      {
       "et": "Procedimiento",
       "html": "<strong>Procedimiento:</strong><br>\n  1) Ajustar la velocidad del alimentador en mínimo, nominal y máximo (si aplica)<br>\n  2) Medir cada punto con instrumento independiente, por triplicado<br>\n  3) Verificar el sentido de giro contra lo especificado<br>\n  4) Procesar los datos crudos de velocidad en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
      },
      {
       "et": "Criterio de aceptación",
@@ -6600,6 +6708,10 @@ var BancoEquipos = {
      {
       "et": "Procedimiento",
       "html": "<strong>Procedimiento:</strong><br>\n  1) Ajustar la profundidad de llenado en mínimo, medio y máximo<br>\n  2) Medir la profundidad resultante con instrumento calibrado, por triplicado en cada punto<br>\n  3) Verificar la respuesta del ajuste (sin juego excesivo ni saltos)<br>\n  4) Procesar los datos crudos de profundidad en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
      },
      {
       "et": "Criterio de aceptación",
@@ -6758,6 +6870,10 @@ var BancoEquipos = {
       "html": "<strong>Procedimiento:</strong><br>\n  1) Instalar la celda de referencia calibrada según el procedimiento del fabricante<br>\n  2) Medir la fuerza indicada contra la referencia en varios puntos del rango declarado, por triplicado<br>\n  3) Registrar la lectura del control y la de la celda en cada punto<br>\n  4) Procesar los datos crudos de fuerza en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
      },
      {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+     },
+     {
       "et": "Criterio de aceptación",
       "html": "<strong>Criterio de aceptación:</strong><br>\n  La fuerza indicada está dentro de la tolerancia especificada en todos los puntos.<br>\n  La repetibilidad cumple el criterio."
      },
@@ -6788,6 +6904,10 @@ var BancoEquipos = {
      {
       "et": "Procedimiento",
       "html": "<strong>Procedimiento:</strong><br>\n  1) Medir la precompresión indicada contra referencia en varios puntos, por triplicado<br>\n  2) Medir la fuerza de eyección contra referencia en varios puntos, por triplicado<br>\n  3) Registrar lecturas del control y de referencia<br>\n  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
      },
      {
       "et": "Criterio de aceptación",
@@ -6822,6 +6942,10 @@ var BancoEquipos = {
       "html": "<strong>Procedimiento:</strong><br>\n  1) Variar el ajuste de profundidad o espesor en al menos cinco puntos del rango<br>\n  2) Registrar la fuerza medida en cada punto, por triplicado<br>\n  3) Ajustar la recta de regresión ajuste contra fuerza<br>\n  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
      },
      {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+     },
+     {
       "et": "Criterio de aceptación",
       "html": "<strong>Criterio de aceptación:</strong><br>\n  La relación es lineal dentro del criterio (coeficiente de correlación aprobado).<br>\n  Sin histéresis significativa al subir y bajar el ajuste."
      },
@@ -6852,6 +6976,10 @@ var BancoEquipos = {
      {
       "et": "Procedimiento",
       "html": "<strong>Procedimiento:</strong><br>\n  1) Operar en continuo a cada velocidad probada durante el tiempo definido<br>\n  2) Registrar la fuerza principal a intervalos definidos<br>\n  3) Evaluar deriva y variabilidad en cada velocidad<br>\n  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
      },
      {
       "et": "Criterio de aceptación",
@@ -6886,6 +7014,10 @@ var BancoEquipos = {
       "html": "<strong>Procedimiento:</strong><br>\n  1) Operar con placebo a velocidad nominal con el control automático activo (si aplica)<br>\n  2) Inducir una variación de peso (cambio de ajuste) y registrar la respuesta del lazo<br>\n  3) Medir el tiempo de corrección hasta retornar a la banda<br>\n  4) Verificar ausencia de oscilación sostenida<br>\n  5) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
      },
      {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+     },
+     {
       "et": "Criterio de aceptación",
       "html": "<strong>Criterio de aceptación:</strong><br>\n  El lazo corrige la variación dentro del tiempo especificado.<br>\n  Sin oscilación sostenida tras la corrección."
      },
@@ -6916,6 +7048,10 @@ var BancoEquipos = {
      {
       "et": "Procedimiento",
       "html": "<strong>Procedimiento:</strong><br>\n  1) Inducir tabletas fuera de límites (ajuste de fuerza fuera de banda) de forma controlada<br>\n  2) Verificar el desvío de cada tableta mala al recipiente de rechazo<br>\n  3) Verificar el conteo de rechazadas contra las inducidas<br>\n  4) Inspeccionar el recipiente de buenas: ninguna mala debe estar presente<br>\n  5) Procesar los datos crudos de conteo en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
      },
      {
       "et": "Criterio de aceptación",
@@ -6950,6 +7086,10 @@ var BancoEquipos = {
       "html": "<strong>Procedimiento:</strong><br>\n  1) Operar con placebo y activar el muestreador automático (si aplica)<br>\n  2) Verificar la toma en los intervalos programados<br>\n  3) Comparar la muestra automática contra muestreo manual simultáneo<br>\n  4) Procesar los datos crudos comparativos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
      },
      {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+     },
+     {
       "et": "Criterio de aceptación",
       "html": "<strong>Criterio de aceptación:</strong><br>\n  El muestreador toma en los intervalos programados.<br>\n  La muestra automática es representativa (sin sesgo contra el manual)."
      },
@@ -6982,6 +7122,10 @@ var BancoEquipos = {
       "html": "<strong>Procedimiento:</strong><br>\n  1) Operar una cantidad conocida de ciclos con el contador activo (si aplica)<br>\n  2) Contar manualmente o por método independiente el mismo lote<br>\n  3) Comparar ambas cuentas, por triplicado<br>\n  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
      },
      {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+     },
+     {
       "et": "Criterio de aceptación",
       "html": "<strong>Criterio de aceptación:</strong><br>\n  El conteo automático coincide con el independiente dentro de tolerancia.<br>\n  Sin tabletas contadas de más ni de menos fuera de criterio."
      },
@@ -7012,6 +7156,10 @@ var BancoEquipos = {
      {
       "et": "Procedimiento",
       "html": "<strong>Procedimiento:</strong><br>\n  1) Medir la presión negativa en la cámara de compresión con instrumento calibrado<br>\n  2) Medir el caudal de extracción en los puntos definidos<br>\n  3) Verificar el desempolvador: operación y puntos de aspiración libres<br>\n  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
      },
      {
       "et": "Criterio de aceptación",
@@ -7108,6 +7256,10 @@ var BancoEquipos = {
       "html": "<strong>Procedimiento:</strong><br>\n  1) Correr granulado placebo a velocidad mínima registrando peso, espesor, dureza y friabilidad<br>\n  2) Repetir a velocidad nominal y a velocidad máxima<br>\n  3) Registrar alarmas e intervenciones en cada corrida<br>\n  4) Procesar los datos crudos de atributos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
      },
      {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+     },
+     {
       "et": "Criterio de aceptación",
       "html": "<strong>Criterio de aceptación:</strong><br>\n  Peso, espesor, dureza y friabilidad dentro de lo esperado a las tres velocidades.<br>\n  Sin alarmas ni desviaciones no justificadas."
      },
@@ -7138,6 +7290,10 @@ var BancoEquipos = {
      {
       "et": "Procedimiento",
       "html": "<strong>Procedimiento:</strong><br>\n  1) Operar con placebo a velocidad nominal de forma estable<br>\n  2) Cambiar el ajuste de fuerza en escalones definidos sin detener la máquina<br>\n  3) Registrar la fuerza y los atributos resultantes en cada escalón<br>\n  4) Verificar ausencia de saltos o inestabilidad en la transición<br>\n  5) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
      },
      {
       "et": "Criterio de aceptación",
@@ -7327,6 +7483,10 @@ var BancoEquipos = {
       "html": "<strong>Procedimiento:</strong><br>\n  1) Ajustar la velocidad mínima, nominal y máxima desde el control<br>\n  2) Medir cada punto con contador o cronómetro independiente, por triplicado<br>\n  3) Registrar la lectura del control y la independiente<br>\n  4) Procesar los datos crudos de velocidad en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
      },
      {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+     },
+     {
       "et": "Criterio de aceptación",
       "html": "<strong>Criterio de aceptación:</strong><br>\n  La velocidad indicada está dentro de tolerancia en los tres puntos.<br>\n  La repetibilidad cumple el criterio."
      },
@@ -7452,6 +7612,10 @@ var BancoEquipos = {
       "html": "<strong>Procedimiento:</strong><br>\n  1) Correr cápsulas vacías a velocidad nominal<br>\n  2) Contar cápsulas correctamente orientadas contra el total en muestras definidas<br>\n  3) Calcular el porcentaje de orientación correcta<br>\n  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
      },
      {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+     },
+     {
       "et": "Criterio de aceptación",
       "html": "<strong>Criterio de aceptación:</strong><br>\n  El porcentaje de orientación cumple el mínimo definido.<br>\n  Sin deterioro del porcentaje a velocidad máxima."
      },
@@ -7482,6 +7646,10 @@ var BancoEquipos = {
      {
       "et": "Procedimiento",
       "html": "<strong>Procedimiento:</strong><br>\n  1) Correr cápsulas vacías registrando el nivel de vacío por posición<br>\n  2) Contar cápsulas bien separadas contra el total<br>\n  3) Calcular el porcentaje de separación correcta<br>\n  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
      },
      {
       "et": "Criterio de aceptación",
@@ -7516,6 +7684,10 @@ var BancoEquipos = {
       "html": "<strong>Procedimiento:</strong><br>\n  1) Correr cápsulas vacías y tomar una muestra definida<br>\n  2) Medir la longitud de cierre con instrumento calibrado<br>\n  3) Verificar el bloqueo (locking) correcto por tracción o inspección definida<br>\n  4) Inspeccionar abolladuras y perforaciones<br>\n  5) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
      },
      {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+     },
+     {
       "et": "Criterio de aceptación",
       "html": "<strong>Criterio de aceptación:</strong><br>\n  La longitud de cierre está dentro de especificación.<br>\n  Bloqueo correcto sin abolladuras ni perforaciones."
      },
@@ -7546,6 +7718,10 @@ var BancoEquipos = {
      {
       "et": "Procedimiento",
       "html": "<strong>Procedimiento:</strong><br>\n  1) Ajustar la fuerza o presión de cierre en varios puntos (si aplica)<br>\n  2) Medir el valor resultante con instrumento independiente, por triplicado<br>\n  3) Verificar repetibilidad en el punto nominal<br>\n  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
      },
      {
       "et": "Criterio de aceptación",
@@ -7580,6 +7756,10 @@ var BancoEquipos = {
       "html": "<strong>Procedimiento:</strong><br>\n  1) Verificar el giro del agitador de tolva y del alimentador (si aplica)<br>\n  2) Medir la velocidad en los puntos de ajuste, por triplicado<br>\n  3) Verificar el sentido de giro contra lo especificado<br>\n  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
      },
      {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+     },
+     {
       "et": "Criterio de aceptación",
       "html": "<strong>Criterio de aceptación:</strong><br>\n  Giro correcto con velocidad dentro de tolerancia.<br>\n  Sentido de giro conforme a especificación."
      },
@@ -7610,6 +7790,10 @@ var BancoEquipos = {
      {
       "et": "Procedimiento",
       "html": "<strong>Procedimiento:</strong><br>\n  1) Ajustar el volumen de dosificación en mínimo, medio y máximo<br>\n  2) Dosificar placebo y pesar el llenado resultante, por triplicado<br>\n  3) Verificar la respuesta del ajuste sin juego excesivo<br>\n  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
      },
      {
       "et": "Criterio de aceptación",
@@ -7644,6 +7828,10 @@ var BancoEquipos = {
       "html": "<strong>Procedimiento:</strong><br>\n  1) Medir la fuerza de compactación indicada contra referencia (si aplica), por triplicado<br>\n  2) Registrar en varios puntos del rango<br>\n  3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
      },
      {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+     },
+     {
       "et": "Criterio de aceptación",
       "html": "<strong>Criterio de aceptación:</strong><br>\n  La fuerza indicada está dentro de tolerancia.<br>\n  La repetibilidad cumple el criterio."
      },
@@ -7674,6 +7862,10 @@ var BancoEquipos = {
      {
       "et": "Procedimiento",
       "html": "<strong>Procedimiento:</strong><br>\n  1) Variar el ajuste de dosificación en al menos cinco puntos del rango<br>\n  2) Dosificar placebo y pesar el llenado, por triplicado<br>\n  3) Ajustar la recta de regresión ajuste contra peso<br>\n  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
      },
      {
       "et": "Criterio de aceptación",
@@ -7708,6 +7900,10 @@ var BancoEquipos = {
       "html": "<strong>Procedimiento:</strong><br>\n  1) Operar en continuo a cada velocidad probada durante el tiempo definido<br>\n  2) Pesar el llenado a intervalos definidos<br>\n  3) Evaluar deriva y variabilidad<br>\n  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
      },
      {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+     },
+     {
       "et": "Criterio de aceptación",
       "html": "<strong>Criterio de aceptación:</strong><br>\n  El llenado se mantiene en banda sin deriva.<br>\n  La variabilidad cumple el criterio."
      },
@@ -7738,6 +7934,10 @@ var BancoEquipos = {
      {
       "et": "Procedimiento",
       "html": "<strong>Procedimiento:</strong><br>\n  1) Verificar la balanza en línea con pesas patrón trazables en varios puntos (si aplica)<br>\n  2) Verificar el muestreador: toma en intervalos programados y representatividad (si aplica)<br>\n  3) Registrar por triplicado<br>\n  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
      },
      {
       "et": "Criterio de aceptación",
@@ -7772,6 +7972,10 @@ var BancoEquipos = {
       "html": "<strong>Procedimiento:</strong><br>\n  1) Inducir cápsulas malas de forma controlada (vacías, mal cerradas, fuera de peso)<br>\n  2) Verificar el desvío de cada una al recipiente de rechazo<br>\n  3) Verificar el conteo de rechazadas contra las inducidas<br>\n  4) Inspeccionar el recipiente de buenas: ninguna mala presente<br>\n  5) Procesar los datos crudos de conteo en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
      },
      {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+     },
+     {
       "et": "Criterio de aceptación",
       "html": "<strong>Criterio de aceptación:</strong><br>\n  El 100% de las cápsulas malas inducidas se rechaza.<br>\n  Ninguna mala llega al recipiente de buenas."
      },
@@ -7802,6 +8006,10 @@ var BancoEquipos = {
      {
       "et": "Procedimiento",
       "html": "<strong>Procedimiento:</strong><br>\n  1) Operar con placebo con el lazo activo (si aplica)<br>\n  2) Inducir una variación de peso y registrar la respuesta<br>\n  3) Medir el tiempo de corrección hasta retornar a la banda<br>\n  4) Verificar ausencia de oscilación sostenida<br>\n  5) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
      },
      {
       "et": "Criterio de aceptación",
@@ -7836,6 +8044,10 @@ var BancoEquipos = {
       "html": "<strong>Procedimiento:</strong><br>\n  1) Medir la presión negativa en la cámara de llenado con instrumento calibrado<br>\n  2) Medir el caudal de extracción en los puntos definidos<br>\n  3) Verificar el desempolvador: operación y aspiración conectada<br>\n  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
      },
      {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+     },
+     {
       "et": "Criterio de aceptación",
       "html": "<strong>Criterio de aceptación:</strong><br>\n  Presión negativa y caudal dentro de lo especificado.<br>\n  Sin acumulación visible de polvo."
      },
@@ -7866,6 +8078,10 @@ var BancoEquipos = {
      {
       "et": "Procedimiento",
       "html": "<strong>Procedimiento:</strong><br>\n  1) Operar con placebo y activar el pulidor o desempolvador (si aplica)<br>\n  2) Inspeccionar las cápsulas a la salida: ausencia de polvo residual<br>\n  3) Verificar elementos pulidores sin daño a las cápsulas<br>\n  4) Procesar los datos crudos de inspección en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
      },
      {
       "et": "Criterio de aceptación",
@@ -7900,6 +8116,10 @@ var BancoEquipos = {
       "html": "<strong>Procedimiento:</strong><br>\n  1) Identificar los filtros del sistema de extracción (si aplica) con su clasificación<br>\n  2) Verificar certificados y programa de recambio<br>\n  3) Verificar asentamiento sin bypass y diferencial con calibración vigente<br>\n  4) Procesar los datos crudos de diferencial en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
      },
      {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+     },
+     {
       "et": "Criterio de aceptación",
       "html": "<strong>Criterio de aceptación:</strong><br>\n  Los filtros corresponden a lo especificado con certificados vigentes.<br>\n  Diferencial dentro de rango sin bypass."
      },
@@ -7932,6 +8152,10 @@ var BancoEquipos = {
       "html": "<strong>Procedimiento:</strong><br>\n  1) Correr placebo a velocidad mínima registrando llenado, cierre y rechazo<br>\n  2) Repetir a velocidad nominal y a velocidad máxima<br>\n  3) Registrar alarmas e intervenciones<br>\n  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
      },
      {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+     },
+     {
       "et": "Criterio de aceptación",
       "html": "<strong>Criterio de aceptación:</strong><br>\n  Llenado, cierre y rechazo dentro de lo esperado a las tres velocidades.<br>\n  Sin alarmas ni desviaciones no justificadas."
      },
@@ -7962,6 +8186,10 @@ var BancoEquipos = {
      {
       "et": "Procedimiento",
       "html": "<strong>Procedimiento:</strong><br>\n  1) Operar con placebo de forma estable<br>\n  2) Cambiar el ajuste en escalones definidos sin detener la máquina<br>\n  3) Registrar el llenado resultante en cada escalón<br>\n  4) Verificar ausencia de saltos o inestabilidad<br>\n  5) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
      },
      {
       "et": "Criterio de aceptación",
@@ -8151,6 +8379,10 @@ var BancoEquipos = {
       "html": "<strong>Procedimiento:</strong><br>\n  1) Ajustar la velocidad mínima, nominal y máxima desde el control<br>\n  2) Medir cada punto con un tacómetro independiente calibrado, por triplicado<br>\n  3) Registrar la lectura del control y la del tacómetro<br>\n  4) Procesar los datos crudos de velocidad en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
      },
      {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+     },
+     {
       "et": "Criterio de aceptación",
       "html": "<strong>Criterio de aceptación:</strong><br>\n  La velocidad indicada está dentro de tolerancia en los tres puntos.<br>\n  La repetibilidad cumple el criterio."
      },
@@ -8181,6 +8413,10 @@ var BancoEquipos = {
      {
       "et": "Procedimiento",
       "html": "<strong>Procedimiento:</strong><br>\n  1) Ajustar la velocidad del chopper en mínimo, nominal y máximo (si aplica)<br>\n  2) Medir cada punto con instrumento independiente, por triplicado<br>\n  3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
      },
      {
       "et": "Criterio de aceptación",
@@ -8215,6 +8451,10 @@ var BancoEquipos = {
       "html": "<strong>Procedimiento:</strong><br>\n  1) Verificar el sentido de giro de impulsor y chopper contra lo especificado<br>\n  2) Medir los tiempos de aceleración y desaceleración<br>\n  3) Verificar ausencia de golpes o vibración anormal en las rampas<br>\n  4) Procesar los datos crudos de tiempos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
      },
      {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+     },
+     {
       "et": "Criterio de aceptación",
       "html": "<strong>Criterio de aceptación:</strong><br>\n  Sentidos de giro correctos con rampas dentro de lo especificado.<br>\n  Sin anomalías durante las rampas."
      },
@@ -8245,6 +8485,10 @@ var BancoEquipos = {
      {
       "et": "Procedimiento",
       "html": "<strong>Procedimiento:</strong><br>\n  1) Medir la holgura impulsor-cuba en los puntos definidos con instrumento calibrado<br>\n  2) Medir la holgura chopper-cuba en los puntos definidos<br>\n  3) Comparar contra la especificación del fabricante<br>\n  4) Procesar los datos crudos dimensionales en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
      },
      {
       "et": "Criterio de aceptación",
@@ -8279,6 +8523,10 @@ var BancoEquipos = {
       "html": "<strong>Procedimiento:</strong><br>\n  1) Registrar la potencia o torque en vacío a las velocidades de uso<br>\n  2) Registrar con carga inerte a las velocidades de uso<br>\n  3) Verificar la exactitud de la lectura frente a un patrón<br>\n  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
      },
      {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+     },
+     {
       "et": "Criterio de aceptación",
       "html": "<strong>Criterio de aceptación:</strong><br>\n  La lectura es exacta frente al patrón en vacío y con carga.<br>\n  La señal es estable y repetible."
      },
@@ -8309,6 +8557,10 @@ var BancoEquipos = {
      {
       "et": "Procedimiento",
       "html": "<strong>Procedimiento:</strong><br>\n  1) Operar a velocidad nominal y registrar vibración y ruido (si aplica)<br>\n  2) Medir la temperatura del motor y reductor tras la estabilización<br>\n  3) Comparar contra los límites del fabricante<br>\n  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
      },
      {
       "et": "Criterio de aceptación",
@@ -8343,6 +8595,10 @@ var BancoEquipos = {
       "html": "<strong>Procedimiento:</strong><br>\n  1) Inspeccionar el sello del eje: ausencia de fugas de producto y de aire<br>\n  2) Medir la presión del aire de sello y verificar que está en rango (si aplica)<br>\n  3) Verificar el fluido de barrera si lo hay: nivel y conexiones<br>\n  4) Procesar los datos crudos de presión en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
      },
      {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+     },
+     {
       "et": "Criterio de aceptación",
       "html": "<strong>Criterio de aceptación:</strong><br>\n  Sin fugas en el sello del eje.<br>\n  La presión de aire de sello está en rango."
      },
@@ -8373,6 +8629,10 @@ var BancoEquipos = {
      {
       "et": "Procedimiento",
       "html": "<strong>Procedimiento:</strong><br>\n  1) Ajustar el caudal en varios puntos del rango de uso<br>\n  2) Medir el caudal real con agua por método gravimétrico o volumétrico, por triplicado<br>\n  3) Registrar el ajuste contra el caudal medido<br>\n  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
      },
      {
       "et": "Criterio de aceptación",
@@ -8407,6 +8667,10 @@ var BancoEquipos = {
       "html": "<strong>Procedimiento:</strong><br>\n  1) Verificar el tipo de boquilla instalada y su posición contra el diseño<br>\n  2) Verificar el patrón de aspersión con agua sobre superficie de prueba<br>\n  3) Verificar el punto de impacto sobre el lecho<br>\n  4) Procesar los datos crudos de cobertura en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
      },
      {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+     },
+     {
       "et": "Criterio de aceptación",
       "html": "<strong>Criterio de aceptación:</strong><br>\n  El patrón de aspersión es uniforme y cubre el lecho.<br>\n  La posición corresponde al diseño."
      },
@@ -8437,6 +8701,10 @@ var BancoEquipos = {
      {
       "et": "Procedimiento",
       "html": "<strong>Procedimiento:</strong><br>\n  1) Ejecutar adiciones de agua de igual duración en corridas sucesivas<br>\n  2) Registrar el caudal durante cada adición a intervalos definidos<br>\n  3) Evaluar la estabilidad intra-adición y la repetibilidad entre corridas<br>\n  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
      },
      {
       "et": "Criterio de aceptación",
@@ -8471,6 +8739,10 @@ var BancoEquipos = {
       "html": "<strong>Procedimiento:</strong><br>\n  1) Ajustar la presión del aire de atomización en el rango de uso (si aplica boquilla neumática)<br>\n  2) Medir la presión real con instrumento independiente, por triplicado<br>\n  3) Verificar estabilidad durante la aspersión<br>\n  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
      },
      {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+     },
+     {
       "et": "Criterio de aceptación",
       "html": "<strong>Criterio de aceptación:</strong><br>\n  La presión está dentro de tolerancia y es estable.<br>\n  La repetibilidad cumple el criterio."
      },
@@ -8501,6 +8773,10 @@ var BancoEquipos = {
      {
       "et": "Procedimiento",
       "html": "<strong>Procedimiento:</strong><br>\n  1) Estabilizar con agua a volumen mínimo y verificar exactitud en setpoints definidos (si aplica camisa)<br>\n  2) Registrar las curvas de calentamiento y enfriamiento a volumen mínimo y máximo<br>\n  3) Calcular velocidades y estabilidad<br>\n  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
      },
      {
       "et": "Criterio de aceptación",
@@ -8535,6 +8811,10 @@ var BancoEquipos = {
       "html": "<strong>Procedimiento:</strong><br>\n  1) Evacuar o presurizar la cuba (si aplica) hasta el nivel de prueba<br>\n  2) Registrar el nivel alcanzable contra lo especificado<br>\n  3) Aislar y ejecutar la prueba de fuga con registro a intervalos<br>\n  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
      },
      {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+     },
+     {
       "et": "Criterio de aceptación",
       "html": "<strong>Criterio de aceptación:</strong><br>\n  El nivel alcanzable cumple lo especificado.<br>\n  La fuga no supera el límite."
      },
@@ -8565,6 +8845,10 @@ var BancoEquipos = {
      {
       "et": "Procedimiento",
       "html": "<strong>Procedimiento:</strong><br>\n  1) Ajustar el caudal de nitrógeno en el rango de uso (si aplica inertización)<br>\n  2) Medir el caudal real y registrar la lectura del sensor de O₂<br>\n  3) Verificar que el O₂ baja al nivel especificado<br>\n  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
      },
      {
       "et": "Criterio de aceptación",
@@ -8599,6 +8883,10 @@ var BancoEquipos = {
       "html": "<strong>Procedimiento:</strong><br>\n  1) Medir la presión del aire comprimido en operación<br>\n  2) Verificar el suministro de agua (presión y caudal si aplica)<br>\n  3) Verificar el voltaje de alimentación en operación<br>\n  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
      },
      {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+     },
+     {
       "et": "Criterio de aceptación",
       "html": "<strong>Criterio de aceptación:</strong><br>\n  Todos los suministros están dentro de su rango operativo.<br>\n  Sin caídas fuera de rango durante la operación."
      },
@@ -8629,6 +8917,10 @@ var BancoEquipos = {
      {
       "et": "Procedimiento",
       "html": "<strong>Procedimiento:</strong><br>\n  1) Calibrar las celdas de carga con pesas patrón trazables en varios niveles (si aplican)<br>\n  2) Registrar la indicación contra el patrón, por triplicado<br>\n  3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
      },
      {
       "et": "Criterio de aceptación",
@@ -8663,6 +8955,10 @@ var BancoEquipos = {
       "html": "<strong>Procedimiento:</strong><br>\n  1) Operar la válvula de descarga: apertura y cierre completos<br>\n  2) Verificar estanqueidad con la válvula cerrada<br>\n  3) Descargar placebo y verificar ausencia de retención de material<br>\n  4) Procesar los datos crudos de retención en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
      },
      {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+     },
+     {
       "et": "Criterio de aceptación",
       "html": "<strong>Criterio de aceptación:</strong><br>\n  Apertura y cierre completos con estanqueidad.<br>\n  Sin retención de material fuera de criterio."
      },
@@ -8693,6 +8989,10 @@ var BancoEquipos = {
      {
       "et": "Procedimiento",
       "html": "<strong>Procedimiento:</strong><br>\n  1) Verificar la velocidad del molino contra lo especificado (si aplica)<br>\n  2) Verificar la malla instalada: tipo, número e integridad<br>\n  3) Verificar el sentido de giro<br>\n  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
      },
      {
       "et": "Criterio de aceptación",
@@ -8727,6 +9027,10 @@ var BancoEquipos = {
       "html": "<strong>Procedimiento:</strong><br>\n  1) Correr placebo al volumen mínimo: mezcla en seco, adición y amasado<br>\n  2) Correr placebo al volumen máximo con la misma secuencia<br>\n  3) Verificar visualmente el movimiento del lecho y que el impulsor no quede descubierto<br>\n  4) Registrar alarmas e intervenciones<br>\n  5) Procesar los datos crudos de potencia en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
      },
      {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+     },
+     {
       "et": "Criterio de aceptación",
       "html": "<strong>Criterio de aceptación:</strong><br>\n  Ambas corridas se completan sin alarmas ni desviaciones no justificadas.<br>\n  Movimiento del lecho adecuado con impulsor cubierto."
      },
@@ -8757,6 +9061,10 @@ var BancoEquipos = {
      {
       "et": "Procedimiento",
       "html": "<strong>Procedimiento:</strong><br>\n  1) Registrar el perfil de potencia durante la adición de agua al placebo<br>\n  2) Repetir en corridas sucesivas<br>\n  3) Comparar la forma y los valores entre corridas<br>\n  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
      },
      {
       "et": "Criterio de aceptación",
@@ -8915,6 +9223,10 @@ var BancoEquipos = {
       "html": "<strong>Procedimiento:</strong><br>\n  1) Ajustar la velocidad mínima, nominal y máxima desde el control<br>\n  2) Medir cada punto con un tacómetro independiente calibrado, por triplicado<br>\n  3) Registrar la lectura del control y la del tacómetro<br>\n  4) Procesar los datos crudos de velocidad en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
      },
      {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+     },
+     {
       "et": "Criterio de aceptación",
       "html": "<strong>Criterio de aceptación:</strong><br>\n  La velocidad indicada está dentro de tolerancia en los tres puntos.<br>\n  La repetibilidad cumple el criterio."
      },
@@ -8945,6 +9257,10 @@ var BancoEquipos = {
      {
       "et": "Procedimiento",
       "html": "<strong>Procedimiento:</strong><br>\n  1) Verificar el sentido de giro de recubrimiento y el de descarga<br>\n  2) Medir los tiempos de aceleración y parada<br>\n  3) Verificar ausencia de golpes o vibración anormal<br>\n  4) Procesar los datos crudos de tiempos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
      },
      {
       "et": "Criterio de aceptación",
@@ -9041,6 +9357,10 @@ var BancoEquipos = {
       "html": "<strong>Procedimiento:</strong><br>\n  1) Ajustar el ventilador en mínimo, nominal y máximo<br>\n  2) Medir el caudal de entrada y de escape en cada punto, por triplicado<br>\n  3) Determinar la relación frecuencia contra caudal<br>\n  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
      },
      {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+     },
+     {
       "et": "Criterio de aceptación",
       "html": "<strong>Criterio de aceptación:</strong><br>\n  Los caudales cumplen lo especificado en los tres puntos.<br>\n  La relación frecuencia-caudal es consistente."
      },
@@ -9071,6 +9391,10 @@ var BancoEquipos = {
      {
       "et": "Procedimiento",
       "html": "<strong>Procedimiento:</strong><br>\n  1) Estabilizar en setpoint bajo, medio y alto del rango de proceso<br>\n  2) Medir exactitud contra patrón, estabilidad y sobreimpulso en cada punto<br>\n  3) Medir el tiempo de respuesta ante cambio de setpoint<br>\n  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
      },
      {
       "et": "Criterio de aceptación",
@@ -9105,6 +9429,10 @@ var BancoEquipos = {
       "html": "<strong>Procedimiento:</strong><br>\n  1) Operar el sistema de deshumidificación (si aplica) en sus puntos de ajuste<br>\n  2) Medir la humedad o punto de rocío con instrumento independiente, por triplicado<br>\n  3) Verificar estabilidad en cada punto<br>\n  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
      },
      {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+     },
+     {
       "et": "Criterio de aceptación",
       "html": "<strong>Criterio de aceptación:</strong><br>\n  La humedad o punto de rocío está dentro de tolerancia.<br>\n  Estabilidad dentro de criterio."
      },
@@ -9135,6 +9463,10 @@ var BancoEquipos = {
      {
       "et": "Procedimiento",
       "html": "<strong>Procedimiento:</strong><br>\n  1) Operar el bombo con extracción nominal y medir el diferencial<br>\n  2) Verificar que se mantiene ligeramente negativo de forma estable<br>\n  3) Forzar el desvío y verificar la alarma<br>\n  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
      },
      {
       "et": "Criterio de aceptación",
@@ -9200,6 +9532,10 @@ var BancoEquipos = {
       "html": "<strong>Procedimiento:</strong><br>\n  1) Ajustar el caudal en varios puntos del rango de uso<br>\n  2) Medir el caudal real con agua por método gravimétrico o volumétrico, por triplicado<br>\n  3) Registrar el ajuste contra el caudal medido<br>\n  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
      },
      {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+     },
+     {
       "et": "Criterio de aceptación",
       "html": "<strong>Criterio de aceptación:</strong><br>\n  El caudal está dentro de tolerancia en todos los puntos.<br>\n  La repetibilidad cumple el criterio."
      },
@@ -9230,6 +9566,10 @@ var BancoEquipos = {
      {
       "et": "Procedimiento",
       "html": "<strong>Procedimiento:</strong><br>\n  1) Ajustar las presiones de atomización y patrón en cada pistola<br>\n  2) Medir con instrumento independiente, por triplicado por pistola<br>\n  3) Verificar repetibilidad entre pistolas<br>\n  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
      },
      {
       "et": "Criterio de aceptación",
@@ -9264,6 +9604,10 @@ var BancoEquipos = {
       "html": "<strong>Procedimiento:</strong><br>\n  1) Asperjar agua sobre superficie de prueba con cada pistola<br>\n  2) Medir el ancho y evaluar la forma y uniformidad del patrón<br>\n  3) Cerrar y verificar ausencia de goteo durante el tiempo definido<br>\n  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
      },
      {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+     },
+     {
       "et": "Criterio de aceptación",
       "html": "<strong>Criterio de aceptación:</strong><br>\n  El patrón es uniforme con ancho dentro de especificación.<br>\n  Sin goteo al cerrar."
      },
@@ -9294,6 +9638,10 @@ var BancoEquipos = {
      {
       "et": "Procedimiento",
       "html": "<strong>Procedimiento:</strong><br>\n  1) Medir la distancia y el ángulo de cada pistola respecto al lecho<br>\n  2) Medir la separación entre pistolas (si hay más de una)<br>\n  3) Documentar las posiciones con croquis acotado<br>\n  4) Desmontar y remontar verificando reproducibilidad<br>\n  5) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
      },
      {
       "et": "Criterio de aceptación",
@@ -9359,6 +9707,10 @@ var BancoEquipos = {
       "html": "<strong>Procedimiento:</strong><br>\n  1) Verificar la agitación del tanque: operación continua sin zonas muertas visibles<br>\n  2) Verificar la recirculación (si aplica): caudal y retorno al tanque<br>\n  3) Verificar ausencia de sedimentación en el tiempo de espera definido<br>\n  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
      },
      {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+     },
+     {
       "et": "Criterio de aceptación",
       "html": "<strong>Criterio de aceptación:</strong><br>\n  Agitación continua sin zonas muertas.<br>\n  Sin sedimentación en el tiempo de espera definido."
      },
@@ -9389,6 +9741,10 @@ var BancoEquipos = {
      {
       "et": "Procedimiento",
       "html": "<strong>Procedimiento:</strong><br>\n  1) Ejecutar aspersiones de agua de igual duración en corridas sucesivas<br>\n  2) Registrar el caudal durante cada aspersión a intervalos definidos<br>\n  3) Evaluar estabilidad intra-aspersión y repetibilidad entre corridas<br>\n  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
      },
      {
       "et": "Criterio de aceptación",
@@ -9423,6 +9779,10 @@ var BancoEquipos = {
       "html": "<strong>Procedimiento:</strong><br>\n  1) Instalar termopares calibrados en los puntos definidos del bombo vacío<br>\n  2) Mapear en el setpoint de rutina durante el tiempo definido<br>\n  3) Determinar la dispersión entre puntos<br>\n  4) Procesar los datos crudos de mapeo en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
      },
      {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+     },
+     {
       "et": "Criterio de aceptación",
       "html": "<strong>Criterio de aceptación:</strong><br>\n  La dispersión entre puntos no supera el límite especificado.<br>\n  Sin puntos fuera de criterio."
      },
@@ -9453,6 +9813,10 @@ var BancoEquipos = {
      {
       "et": "Procedimiento",
       "html": "<strong>Procedimiento:</strong><br>\n  1) Operar con carga inerte registrando entrada, escape y lecho<br>\n  2) Variar la entrada en el rango de uso y registrar las respuestas<br>\n  3) Establecer la correlación entre las tres temperaturas<br>\n  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
      },
      {
       "et": "Criterio de aceptación",
@@ -9487,6 +9851,10 @@ var BancoEquipos = {
       "html": "<strong>Procedimiento:</strong><br>\n  1) Asperjar agua al caudal máximo declarado con carga inerte<br>\n  2) Registrar la humedad o temperatura del escape durante la aspersión<br>\n  3) Verificar que el escape no se satura y el lecho no cambia su comportamiento<br>\n  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
      },
      {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+     },
+     {
       "et": "Criterio de aceptación",
       "html": "<strong>Criterio de aceptación:</strong><br>\n  Al caudal máximo el escape no se satura.<br>\n  El lecho mantiene su comportamiento (sin sobrehumectación)."
      },
@@ -9517,6 +9885,10 @@ var BancoEquipos = {
      {
       "et": "Procedimiento",
       "html": "<strong>Procedimiento:</strong><br>\n  1) Correr placebo con agua a carga mínima registrando el comportamiento del lecho<br>\n  2) Correr placebo con agua a carga máxima<br>\n  3) Inspeccionar pegado, rotura o erosión en ambas cargas<br>\n  4) Registrar alarmas e intervenciones<br>\n  5) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
      },
      {
       "et": "Criterio de aceptación",
@@ -15524,6 +15896,10 @@ var BancoEquipos = {
       "html": "<strong>Procedimiento:</strong><br>\n  1) Justificar el número de lotes con el análisis de riesgo aprobado<br>\n  2) Fabricar tres lotes consecutivos a tamaño nominal registrando los parámetros críticos<br>\n  3) Muestrear cada lote según el plan de muestreo aprobado<br>\n  4) Evaluar los atributos de calidad de cada lote contra especificación<br>\n  5) Procesar los datos crudos de los tres lotes en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
      },
      {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+     },
+     {
       "et": "Criterio de aceptación",
       "html": "<strong>Criterio de aceptación:</strong><br>\n  Los tres lotes cumplen todos los atributos de calidad.<br>\n  La variabilidad entre lotes está dentro de lo esperado."
      },
@@ -15554,6 +15930,10 @@ var BancoEquipos = {
      {
       "et": "Procedimiento",
       "html": "<strong>Procedimiento:</strong><br>\n  1) Fabricar un lote al tamaño mínimo verificando el cubrimiento del rotor-estator y las rasquetas<br>\n  2) Fabricar un lote al tamaño máximo verificando homogeneidad y enfriamiento<br>\n  3) Muestrear según el plan de muestreo aprobado<br>\n  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
      },
      {
       "et": "Criterio de aceptación",
@@ -15588,6 +15968,10 @@ var BancoEquipos = {
       "html": "<strong>Procedimiento:</strong><br>\n  1) Definir y justificar el peor caso con el análisis de riesgo aprobado<br>\n  2) Fabricar el lote de peor caso registrando los parámetros críticos<br>\n  3) Muestrear según el plan de muestreo aprobado<br>\n  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
      },
      {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+     },
+     {
       "et": "Criterio de aceptación",
       "html": "<strong>Criterio de aceptación:</strong><br>\n  El lote de peor caso cumple todos los atributos de calidad.<br>\n  La justificación del peor caso está documentada y aprobada."
      },
@@ -15618,6 +16002,10 @@ var BancoEquipos = {
      {
       "et": "Procedimiento",
       "html": "<strong>Procedimiento:</strong><br>\n  1) Registrar la temperatura de la fase acuosa y de la oleosa antes de la unión<br>\n  2) Calcular la diferencia entre fases y compararla contra el criterio<br>\n  3) Repetir en cada lote PQ<br>\n  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
      },
      {
       "et": "Criterio de aceptación",
@@ -15652,6 +16040,10 @@ var BancoEquipos = {
       "html": "<strong>Procedimiento:</strong><br>\n  1) Muestrear al final de la homogeneización y determinar el tamaño de gota por el método aprobado<br>\n  2) Muestrear tras el enfriamiento y repetir la determinación<br>\n  3) Comparar contra la especificación en cada lote<br>\n  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
      },
      {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+     },
+     {
       "et": "Criterio de aceptación",
       "html": "<strong>Criterio de aceptación:</strong><br>\n  El tamaño de gota cumple especificación al final de la homogeneización y tras el enfriamiento.<br>\n  Sin crecimiento significativo durante el enfriamiento."
      },
@@ -15682,6 +16074,10 @@ var BancoEquipos = {
      {
       "et": "Procedimiento",
       "html": "<strong>Procedimiento:</strong><br>\n  1) Medir la densidad del producto antes de la desaireación<br>\n  2) Medir la densidad después del vacío con el tiempo definido<br>\n  3) Inspeccionar visualmente la ausencia de burbujas<br>\n  4) Procesar los datos crudos de densidad en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
      },
      {
       "et": "Criterio de aceptación",
@@ -15716,6 +16112,10 @@ var BancoEquipos = {
       "html": "<strong>Procedimiento:</strong><br>\n  1) Registrar el perfil de enfriamiento del producto en cada lote<br>\n  2) Medir la viscosidad final después del tiempo de maduración definido<br>\n  3) Comparar contra especificación<br>\n  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
      },
      {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+     },
+     {
       "et": "Criterio de aceptación",
       "html": "<strong>Criterio de aceptación:</strong><br>\n  El perfil de enfriamiento cumple lo establecido.<br>\n  La viscosidad final tras maduración cumple especificación."
      },
@@ -15746,6 +16146,10 @@ var BancoEquipos = {
      {
       "et": "Procedimiento",
       "html": "<strong>Procedimiento:</strong><br>\n  1) Inspeccionar el producto al microscopio o contra el método aprobado (si aplica)<br>\n  2) Verificar ausencia de cristales o partículas no disueltas<br>\n  3) Registrar el resultado por lote<br>\n  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
      },
      {
       "et": "Criterio de aceptación",
@@ -15780,8 +16184,12 @@ var BancoEquipos = {
       "html": "<strong>Procedimiento:</strong><br>\n  1) Muestrear superior, medio, fondo y zona cercana a la pared al final del proceso<br>\n  2) Muestrear la descarga al inicio, medio y fin<br>\n  3) Evaluar los atributos críticos por punto<br>\n  4) Procesar los datos crudos por punto en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
      },
      {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+     },
+     {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Todos los puntos cumplen dentro de especificación.<br>\n  Sin diferencias significativas entre ubicaciones."
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Todos los puntos cumplen dentro de especificación.<br>\n  Sin diferencias significativas entre ubicaciones (ANOVA sin diferencia significativa al 95 % de confianza)."
      },
      {
       "et": "Documentos entregables",
@@ -15810,6 +16218,10 @@ var BancoEquipos = {
      {
       "et": "Procedimiento",
       "html": "<strong>Procedimiento:</strong><br>\n  1) Valorar el activo en las muestras de recipiente y descarga<br>\n  2) Calcular media y RSD por lote<br>\n  3) Comparar contra el criterio de uniformidad<br>\n  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
      },
      {
       "et": "Criterio de aceptación",
@@ -15844,6 +16256,10 @@ var BancoEquipos = {
       "html": "<strong>Procedimiento:</strong><br>\n  1) Medir pH, viscosidad y densidad con instrumentos calibrados<br>\n  2) Evaluar aspecto, color, olor y extensibilidad (si aplica) contra el patrón aprobado<br>\n  3) Registrar cada atributo por lote<br>\n  4) Procesar los datos crudos de atributos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
      },
      {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+     },
+     {
       "et": "Criterio de aceptación",
       "html": "<strong>Criterio de aceptación:</strong><br>\n  Todos los atributos cumplen la especificación en cada lote.<br>\n  Aspecto y olor conformes al patrón."
      },
@@ -15876,6 +16292,10 @@ var BancoEquipos = {
       "html": "<strong>Procedimiento:</strong><br>\n  1) Someter muestras a centrifugación según el método aprobado (si aplica)<br>\n  2) Someter muestras a ciclos calor-frío definidos<br>\n  3) Evaluar separación de fases y cambios de textura<br>\n  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
      },
      {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+     },
+     {
       "et": "Criterio de aceptación",
       "html": "<strong>Criterio de aceptación:</strong><br>\n  Sin separación de fases tras centrifugación ni ciclos.<br>\n  Textura conservada dentro de criterio."
      },
@@ -15906,6 +16326,10 @@ var BancoEquipos = {
      {
       "et": "Procedimiento",
       "html": "<strong>Procedimiento:</strong><br>\n  1) Muestrear el granel para recuento microbiano (USP &lt;61&gt;) y microorganismos especificados (USP &lt;62&gt;) según el plan (si aplica)<br>\n  2) Verificar la calidad microbiológica del agua utilizada (si aplica)<br>\n  3) Registrar el tiempo de espera del granel antes de envasar contra el límite establecido<br>\n  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
      },
      {
       "et": "Criterio de aceptación",
@@ -16033,6 +16457,10 @@ var BancoEquipos = {
       "html": "<strong>Procedimiento:</strong><br>\n  1) Inducir los polvos de la fórmula con producto en proceso (si aplica)<br>\n  2) Medir el tiempo de humectación<br>\n  3) Verificar ausencia de aglomerados y grumos<br>\n  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
      },
      {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+     },
+     {
       "et": "Criterio de aceptación",
       "html": "<strong>Criterio de aceptación:</strong><br>\n  Tiempo de humectación dentro del criterio.<br>\n  Sin aglomerados ni grumos."
      },
@@ -16065,6 +16493,10 @@ var BancoEquipos = {
       "html": "<strong>Procedimiento:</strong><br>\n  1) Medir el caudal de descarga, por triplicado<br>\n  2) Muestrear al inicio, medio y fin verificando uniformidad<br>\n  3) Verificar ausencia de aire ocluido en el producto descargado<br>\n  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
      },
      {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+     },
+     {
       "et": "Criterio de aceptación",
       "html": "<strong>Criterio de aceptación:</strong><br>\n  Caudal dentro de lo especificado con uniformidad en toda la descarga.<br>\n  Sin aire ocluido."
      },
@@ -16095,6 +16527,10 @@ var BancoEquipos = {
      {
       "et": "Procedimiento",
       "html": "<strong>Procedimiento:</strong><br>\n  1) Pesar la carga inicial de cada lote<br>\n  2) Pesar el producto descargado, el residuo y las pérdidas<br>\n  3) Cerrar el balance de masa<br>\n  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
      },
      {
       "et": "Criterio de aceptación",
@@ -16160,6 +16596,10 @@ var BancoEquipos = {
       "html": "<strong>Procedimiento:</strong><br>\n  1) Justificar el número de lotes con el análisis de riesgo aprobado<br>\n  2) Fabricar tres lotes consecutivos a velocidad nominal registrando los parámetros críticos<br>\n  3) Muestrear cada lote según el plan de muestreo aprobado<br>\n  4) Evaluar los atributos de calidad de cada lote contra especificación<br>\n  5) Procesar los datos crudos de los tres lotes en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
      },
      {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+     },
+     {
       "et": "Criterio de aceptación",
       "html": "<strong>Criterio de aceptación:</strong><br>\n  Los tres lotes cumplen todos los atributos de calidad.<br>\n  La variabilidad entre lotes está dentro de lo esperado."
      },
@@ -16190,6 +16630,10 @@ var BancoEquipos = {
      {
       "et": "Procedimiento",
       "html": "<strong>Procedimiento:</strong><br>\n  1) Fabricar una corrida a velocidad mínima registrando atributos críticos<br>\n  2) Fabricar una corrida a velocidad máxima registrando atributos críticos<br>\n  3) Muestrear inicio, mitad y final de cada corrida<br>\n  4) Procesar los datos crudos de ambas corridas en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
      },
      {
       "et": "Criterio de aceptación",
@@ -16224,6 +16668,10 @@ var BancoEquipos = {
       "html": "<strong>Procedimiento:</strong><br>\n  1) Definir y justificar el peor caso con el análisis de riesgo aprobado<br>\n  2) Fabricar el lote de peor caso registrando los parámetros críticos<br>\n  3) Muestrear según el plan de muestreo aprobado<br>\n  4) Procesar los datos crudos del peor caso en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
      },
      {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+     },
+     {
       "et": "Criterio de aceptación",
       "html": "<strong>Criterio de aceptación:</strong><br>\n  El lote de peor caso cumple todos los atributos de calidad.<br>\n  La justificación del peor caso está documentada y aprobada."
      },
@@ -16256,8 +16704,12 @@ var BancoEquipos = {
       "html": "<strong>Procedimiento:</strong><br>\n  1) Muestrear al inicio, a la mitad y al final de cada corrida PQ<br>\n  2) Muestrear adicionalmente tras cada paro o ajuste de la máquina<br>\n  3) Evaluar peso, espesor, dureza y friabilidad por punto<br>\n  4) Procesar los datos crudos por punto en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
      },
      {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+     },
+     {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Todos los puntos cumplen los atributos dentro de especificación.<br>\n  Sin tendencia significativa entre inicio, mitad y final."
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Todos los puntos cumplen los atributos dentro de especificación.<br>\n  Sin tendencia significativa entre inicio, mitad y final (regresión sin pendiente significativa al 95 % de confianza)."
      },
      {
       "et": "Documentos entregables",
@@ -16286,6 +16738,10 @@ var BancoEquipos = {
      {
       "et": "Procedimiento",
       "html": "<strong>Procedimiento:</strong><br>\n  1) Pesar tabletas individuales y calcular promedio y variación de peso por lote<br>\n  2) Medir espesor y dureza con instrumentos calibrados<br>\n  3) Determinar la friabilidad según el método aprobado<br>\n  4) Procesar los datos crudos de atributos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
      },
      {
       "et": "Criterio de aceptación",
@@ -16320,6 +16776,10 @@ var BancoEquipos = {
       "html": "<strong>Procedimiento:</strong><br>\n  1) Aplicar el método de la especificación (variación de peso o uniformidad de contenido)<br>\n  2) Evaluar las unidades requeridas por lote según USP &lt;905&gt;<br>\n  3) Calcular el valor de aceptación en cada lote<br>\n  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
      },
      {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+     },
+     {
       "et": "Criterio de aceptación",
       "html": "<strong>Criterio de aceptación:</strong><br>\n  El valor de aceptación cumple USP &lt;905&gt; en cada lote.<br>\n  Sin unidades fuera de los límites individuales."
      },
@@ -16352,8 +16812,12 @@ var BancoEquipos = {
       "html": "<strong>Procedimiento:</strong><br>\n  1) Determinar la desintegración según el método aprobado en cada lote<br>\n  2) Determinar el perfil de disolución según el método aprobado en cada lote<br>\n  3) Registrar los resultados por lote y punto de muestreo<br>\n  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
      },
      {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+     },
+     {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Desintegración y disolución cumplen especificación en cada lote.<br>\n  Sin diferencias significativas entre lotes."
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Desintegración y disolución cumplen especificación en cada lote.<br>\n  Sin diferencias significativas entre lotes (ANOVA sin diferencia significativa al 95 % de confianza)."
      },
      {
       "et": "Documentos entregables",
@@ -16382,6 +16846,10 @@ var BancoEquipos = {
      {
       "et": "Procedimiento",
       "html": "<strong>Procedimiento:</strong><br>\n  1) Inspeccionar visualmente las muestras de cada lote contra el patrón de defectos<br>\n  2) Clasificar y contar defectos por tipo (laminación, capping, sticking, picking, descostrado, manchas)<br>\n  3) Registrar los defectos por lote y punto de muestreo<br>\n  4) Procesar los datos crudos de defectos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
      },
      {
       "et": "Criterio de aceptación",
@@ -16416,6 +16884,10 @@ var BancoEquipos = {
       "html": "<strong>Procedimiento:</strong><br>\n  1) Definir las estaciones a evaluar (todas o muestra justificada por riesgo)<br>\n  2) Recoger tabletas por estación identificada durante la corrida<br>\n  3) Medir peso y dureza por estación<br>\n  4) Procesar los datos crudos por estación en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
      },
      {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+     },
+     {
       "et": "Criterio de aceptación",
       "html": "<strong>Criterio de aceptación:</strong><br>\n  Todas las estaciones evaluadas cumplen peso y dureza.<br>\n  Ninguna estación se desvía significativamente del promedio."
      },
@@ -16446,6 +16918,10 @@ var BancoEquipos = {
      {
       "et": "Procedimiento",
       "html": "<strong>Procedimiento:</strong><br>\n  1) Registrar la fuerza de compresión, precompresión y eyección a intervalos definidos durante la corrida<br>\n  2) Graficar la tendencia de cada fuerza contra el tiempo<br>\n  3) Evaluar deriva y variabilidad<br>\n  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
      },
      {
       "et": "Criterio de aceptación",
@@ -16480,6 +16956,10 @@ var BancoEquipos = {
       "html": "<strong>Procedimiento:</strong><br>\n  1) Operar la corrida con el control automático activo (si aplica)<br>\n  2) Registrar el peso promedio reportado por el sistema contra verificaciones manuales<br>\n  3) Verificar la corrección de derivas sin oscilación<br>\n  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
      },
      {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+     },
+     {
       "et": "Criterio de aceptación",
       "html": "<strong>Criterio de aceptación:</strong><br>\n  El peso se mantiene dentro de límites durante toda la corrida.<br>\n  Las correcciones no generan oscilación."
      },
@@ -16510,6 +16990,10 @@ var BancoEquipos = {
      {
       "et": "Procedimiento",
       "html": "<strong>Procedimiento:</strong><br>\n  1) Observar el flujo en tolva y alimentador durante la corrida<br>\n  2) Registrar eventos de puentes, canalización o interrupciones de flujo<br>\n  3) Verificar el llenado con nivel bajo de tolva<br>\n  4) Procesar los datos crudos de peso contra nivel en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
      },
      {
       "et": "Criterio de aceptación",
@@ -16544,6 +17028,10 @@ var BancoEquipos = {
       "html": "<strong>Procedimiento:</strong><br>\n  1) Muestrear el granulado o las tabletas al inicio, medio y final de la corrida (si aplica evaluación de segregación)<br>\n  2) Valorar el contenido de activo en cada punto<br>\n  3) Comparar los tres puntos entre sí<br>\n  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
      },
      {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+     },
+     {
       "et": "Criterio de aceptación",
       "html": "<strong>Criterio de aceptación:</strong><br>\n  Sin diferencia significativa de contenido entre inicio, medio y final.<br>\n  El contenido cumple especificación en los tres puntos."
      },
@@ -16574,6 +17062,10 @@ var BancoEquipos = {
      {
       "et": "Procedimiento",
       "html": "<strong>Procedimiento:</strong><br>\n  1) Durante la corrida PQ, registrar las tabletas rechazadas por el sistema automático<br>\n  2) Verificar una muestra de rechazadas: corresponden a causa real (fuera de límites)<br>\n  3) Verificar que las tabletas buenas no se desvían al rechazo<br>\n  4) Procesar los datos crudos de rechazo en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
      },
      {
       "et": "Criterio de aceptación",
@@ -16608,6 +17100,10 @@ var BancoEquipos = {
       "html": "<strong>Procedimiento:</strong><br>\n  1) Registrar la presión negativa y el caudal de extracción durante la corrida<br>\n  2) Recoger y pesar el polvo retenido en el sistema de extracción por lote<br>\n  3) Inspeccionar la cámara de compresión al final: sin acumulación indebida<br>\n  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
      },
      {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+     },
+     {
       "et": "Criterio de aceptación",
       "html": "<strong>Criterio de aceptación:</strong><br>\n  La extracción mantiene los parámetros durante toda la corrida.<br>\n  El polvo generado está dentro de lo esperado sin acumulación indebida."
      },
@@ -16638,6 +17134,10 @@ var BancoEquipos = {
      {
       "et": "Procedimiento",
       "html": "<strong>Procedimiento:</strong><br>\n  1) Pesar la carga inicial de granulado de cada lote<br>\n  2) Pesar tabletas buenas, rechazos y polvo recogido al final<br>\n  3) Calcular el rendimiento y cerrar el balance de masa<br>\n  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
      },
      {
       "et": "Criterio de aceptación",
@@ -16672,6 +17172,10 @@ var BancoEquipos = {
       "html": "<strong>Procedimiento:</strong><br>\n  1) Operar de forma continua durante la duración más larga prevista (si aplica)<br>\n  2) Registrar parámetros críticos y atributos a intervalos definidos<br>\n  3) Registrar intervenciones, paros y alarmas<br>\n  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
      },
      {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+     },
+     {
       "et": "Criterio de aceptación",
       "html": "<strong>Criterio de aceptación:</strong><br>\n  La máquina sostiene la operación continua sin deriva fuera de criterio.<br>\n  Los atributos se mantienen en especificación durante toda la duración."
      },
@@ -16702,6 +17206,10 @@ var BancoEquipos = {
      {
       "et": "Procedimiento",
       "html": "<strong>Procedimiento:</strong><br>\n  1) Provocar una detención controlada durante la corrida (si aplica evaluación)<br>\n  2) Registrar el material afectado y aplicar el descarte definido<br>\n  3) Reanudar y verificar el retorno a especificación<br>\n  4) Procesar los datos crudos del antes y después en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
      },
      {
       "et": "Criterio de aceptación",
@@ -16736,6 +17244,10 @@ var BancoEquipos = {
       "html": "<strong>Procedimiento:</strong><br>\n  1) Registrar la humedad ambiental durante cada corrida PQ (si aplica, producto higroscópico)<br>\n  2) Correlacionar humedad contra peso, dureza y friabilidad<br>\n  3) Verificar el control ambiental del área durante las corridas<br>\n  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
      },
      {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+     },
+     {
       "et": "Criterio de aceptación",
       "html": "<strong>Criterio de aceptación:</strong><br>\n  Dentro del rango ambiental controlado los atributos cumplen especificación.<br>\n  El rango ambiental queda establecido y documentado."
      },
@@ -16766,6 +17278,10 @@ var BancoEquipos = {
      {
       "et": "Procedimiento",
       "html": "<strong>Procedimiento:</strong><br>\n  1) Justificar el número de lotes con el análisis de riesgo aprobado<br>\n  2) Fabricar tres lotes consecutivos a velocidad nominal registrando parámetros críticos<br>\n  3) Muestrear cada lote según el plan de muestreo aprobado<br>\n  4) Evaluar los atributos de calidad de cada lote contra especificación<br>\n  5) Procesar los datos crudos de los tres lotes en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
      },
      {
       "et": "Criterio de aceptación",
@@ -16800,6 +17316,10 @@ var BancoEquipos = {
       "html": "<strong>Procedimiento:</strong><br>\n  1) Fabricar una corrida a velocidad mínima registrando atributos críticos<br>\n  2) Fabricar una corrida a velocidad máxima registrando atributos críticos<br>\n  3) Muestrear inicio, mitad y final de cada corrida<br>\n  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
      },
      {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+     },
+     {
       "et": "Criterio de aceptación",
       "html": "<strong>Criterio de aceptación:</strong><br>\n  Ambas corridas cumplen todos los atributos de calidad.<br>\n  Sin llenado incompleto atribuible a la velocidad fuera de criterio."
      },
@@ -16830,6 +17350,10 @@ var BancoEquipos = {
      {
       "et": "Procedimiento",
       "html": "<strong>Procedimiento:</strong><br>\n  1) Definir y justificar el peor caso con el análisis de riesgo aprobado<br>\n  2) Fabricar el lote de peor caso registrando los parámetros críticos<br>\n  3) Muestrear según el plan de muestreo aprobado<br>\n  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
      },
      {
       "et": "Criterio de aceptación",
@@ -16864,8 +17388,12 @@ var BancoEquipos = {
       "html": "<strong>Procedimiento:</strong><br>\n  1) Muestrear al inicio, a la mitad y al final de cada corrida PQ<br>\n  2) Muestrear adicionalmente tras cada paro o ajuste<br>\n  3) Evaluar peso de llenado, cierre y aspecto por punto<br>\n  4) Procesar los datos crudos por punto en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
      },
      {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+     },
+     {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Todos los puntos cumplen los atributos dentro de especificación.<br>\n  Sin tendencia significativa entre inicio, mitad y final."
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Todos los puntos cumplen los atributos dentro de especificación.<br>\n  Sin tendencia significativa entre inicio, mitad y final (regresión sin pendiente significativa al 95 % de confianza)."
      },
      {
       "et": "Documentos entregables",
@@ -16894,6 +17422,10 @@ var BancoEquipos = {
      {
       "et": "Procedimiento",
       "html": "<strong>Procedimiento:</strong><br>\n  1) Tarar cápsulas vacías del mismo lote<br>\n  2) Pesar cápsulas llenas y calcular el neto individual y promedio<br>\n  3) Evaluar la variación de peso contra el criterio<br>\n  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
      },
      {
       "et": "Criterio de aceptación",
@@ -16928,6 +17460,10 @@ var BancoEquipos = {
       "html": "<strong>Procedimiento:</strong><br>\n  1) Aplicar el método de la especificación (variación de peso o uniformidad de contenido)<br>\n  2) Evaluar las unidades requeridas por lote según USP &lt;905&gt;<br>\n  3) Calcular el valor de aceptación en cada lote<br>\n  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
      },
      {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+     },
+     {
       "et": "Criterio de aceptación",
       "html": "<strong>Criterio de aceptación:</strong><br>\n  El valor de aceptación cumple USP &lt;905&gt; en cada lote.<br>\n  Sin unidades fuera de los límites individuales."
      },
@@ -16958,6 +17494,10 @@ var BancoEquipos = {
      {
       "et": "Procedimiento",
       "html": "<strong>Procedimiento:</strong><br>\n  1) Medir la longitud de cierre en la muestra de cada lote<br>\n  2) Inspeccionar aspecto contra el patrón de defectos<br>\n  3) Clasificar y contar defectos por tipo<br>\n  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
      },
      {
       "et": "Criterio de aceptación",
@@ -16992,8 +17532,12 @@ var BancoEquipos = {
       "html": "<strong>Procedimiento:</strong><br>\n  1) Determinar la desintegración según el método aprobado en cada lote<br>\n  2) Determinar el perfil de disolución según el método aprobado en cada lote<br>\n  3) Registrar los resultados por lote y punto de muestreo<br>\n  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
      },
      {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+     },
+     {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Desintegración y disolución cumplen especificación en cada lote.<br>\n  Sin diferencias significativas entre lotes."
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Desintegración y disolución cumplen especificación en cada lote.<br>\n  Sin diferencias significativas entre lotes (ANOVA sin diferencia significativa al 95 % de confianza)."
      },
      {
       "et": "Documentos entregables",
@@ -17022,6 +17566,10 @@ var BancoEquipos = {
      {
       "et": "Procedimiento",
       "html": "<strong>Procedimiento:</strong><br>\n  1) Definir los segmentos o estaciones a evaluar (si aplica)<br>\n  2) Recoger cápsulas por segmento durante la corrida<br>\n  3) Pesar el llenado neto por segmento<br>\n  4) Procesar los datos crudos por segmento en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
      },
      {
       "et": "Criterio de aceptación",
@@ -17056,6 +17604,10 @@ var BancoEquipos = {
       "html": "<strong>Procedimiento:</strong><br>\n  1) Registrar el peso de llenado a intervalos definidos durante la corrida<br>\n  2) Graficar la tendencia contra el tiempo<br>\n  3) Evaluar deriva y variabilidad<br>\n  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
      },
      {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+     },
+     {
       "et": "Criterio de aceptación",
       "html": "<strong>Criterio de aceptación:</strong><br>\n  El peso se mantiene en banda sin deriva.<br>\n  La variabilidad cumple el criterio."
      },
@@ -17086,6 +17638,10 @@ var BancoEquipos = {
      {
       "et": "Procedimiento",
       "html": "<strong>Procedimiento:</strong><br>\n  1) Observar el flujo en tolva durante la corrida<br>\n  2) Registrar eventos de puentes o canalización<br>\n  3) Verificar el llenado con nivel bajo de tolva<br>\n  4) Procesar los datos crudos de peso contra nivel en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
      },
      {
       "et": "Criterio de aceptación",
@@ -17120,6 +17676,10 @@ var BancoEquipos = {
       "html": "<strong>Procedimiento:</strong><br>\n  1) Muestrear al inicio, medio y final de la corrida (si aplica evaluación)<br>\n  2) Valorar el contenido de activo en cada punto<br>\n  3) Comparar los tres puntos entre sí<br>\n  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
      },
      {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+     },
+     {
       "et": "Criterio de aceptación",
       "html": "<strong>Criterio de aceptación:</strong><br>\n  Sin diferencia significativa entre inicio, medio y final.<br>\n  El contenido cumple especificación en los tres puntos."
      },
@@ -17150,6 +17710,10 @@ var BancoEquipos = {
      {
       "et": "Procedimiento",
       "html": "<strong>Procedimiento:</strong><br>\n  1) Durante la corrida PQ, registrar las cápsulas rechazadas por el sistema<br>\n  2) Verificar una muestra de rechazadas: corresponden a causa real<br>\n  3) Verificar que las cápsulas buenas no se desvían al rechazo<br>\n  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
      },
      {
       "et": "Criterio de aceptación",
@@ -17184,6 +17748,10 @@ var BancoEquipos = {
       "html": "<strong>Procedimiento:</strong><br>\n  1) Registrar la presión negativa y el caudal durante la corrida<br>\n  2) Recoger y pesar el polvo retenido por lote<br>\n  3) Inspeccionar la cámara al final: sin acumulación indebida<br>\n  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
      },
      {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+     },
+     {
       "et": "Criterio de aceptación",
       "html": "<strong>Criterio de aceptación:</strong><br>\n  La extracción mantiene los parámetros durante la corrida.<br>\n  El polvo generado está dentro de lo esperado."
      },
@@ -17214,6 +17782,10 @@ var BancoEquipos = {
      {
       "et": "Procedimiento",
       "html": "<strong>Procedimiento:</strong><br>\n  1) Pesar la carga inicial de polvo y las cápsulas vacías de cada lote<br>\n  2) Contar y pesar cápsulas buenas, rechazos (incluidas vacías) y polvo recogido<br>\n  3) Cerrar el balance de masa<br>\n  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
      },
      {
       "et": "Criterio de aceptación",
@@ -17248,6 +17820,10 @@ var BancoEquipos = {
       "html": "<strong>Procedimiento:</strong><br>\n  1) Operar de forma continua durante la duración más larga prevista (si aplica)<br>\n  2) Registrar parámetros críticos y atributos a intervalos definidos<br>\n  3) Registrar intervenciones, paros y alarmas<br>\n  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
      },
      {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+     },
+     {
       "et": "Criterio de aceptación",
       "html": "<strong>Criterio de aceptación:</strong><br>\n  Operación continua sin deriva fuera de criterio.<br>\n  Los atributos se mantienen en especificación."
      },
@@ -17278,6 +17854,10 @@ var BancoEquipos = {
      {
       "et": "Procedimiento",
       "html": "<strong>Procedimiento:</strong><br>\n  1) Provocar una detención controlada durante la corrida (si aplica evaluación)<br>\n  2) Registrar el material afectado y aplicar el descarte definido<br>\n  3) Reanudar y verificar el retorno a especificación<br>\n  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
      },
      {
       "et": "Criterio de aceptación",
@@ -17312,6 +17892,10 @@ var BancoEquipos = {
       "html": "<strong>Procedimiento:</strong><br>\n  1) Registrar la humedad ambiental durante cada corrida PQ (si aplica)<br>\n  2) Correlacionar humedad contra separación, cierre y defectos<br>\n  3) Verificar el control ambiental del área<br>\n  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
      },
      {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+     },
+     {
       "et": "Criterio de aceptación",
       "html": "<strong>Criterio de aceptación:</strong><br>\n  Dentro del rango ambiental controlado los atributos cumplen especificación.<br>\n  El rango ambiental queda establecido y documentado."
      },
@@ -17342,6 +17926,10 @@ var BancoEquipos = {
      {
       "et": "Procedimiento",
       "html": "<strong>Procedimiento:</strong><br>\n  1) Justificar el número de lotes con el análisis de riesgo aprobado<br>\n  2) Fabricar tres lotes consecutivos a tamaño nominal registrando parámetros críticos<br>\n  3) Muestrear cada lote según el plan de muestreo aprobado<br>\n  4) Evaluar los atributos del granulado de cada lote contra especificación<br>\n  5) Procesar los datos crudos de los tres lotes en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
      },
      {
       "et": "Criterio de aceptación",
@@ -17376,6 +17964,10 @@ var BancoEquipos = {
       "html": "<strong>Procedimiento:</strong><br>\n  1) Fabricar un lote al tamaño mínimo registrando el cubrimiento del impulsor<br>\n  2) Fabricar un lote al tamaño máximo<br>\n  3) Muestrear según el plan de muestreo aprobado<br>\n  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
      },
      {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+     },
+     {
       "et": "Criterio de aceptación",
       "html": "<strong>Criterio de aceptación:</strong><br>\n  Ambos lotes cumplen todos los atributos de calidad.<br>\n  A tamaño mínimo el impulsor opera cubierto."
      },
@@ -17406,6 +17998,10 @@ var BancoEquipos = {
      {
       "et": "Procedimiento",
       "html": "<strong>Procedimiento:</strong><br>\n  1) Definir y justificar el peor caso con el análisis de riesgo aprobado<br>\n  2) Fabricar el lote de peor caso registrando los parámetros críticos<br>\n  3) Muestrear según el plan de muestreo aprobado<br>\n  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
      },
      {
       "et": "Criterio de aceptación",
@@ -17440,6 +18036,10 @@ var BancoEquipos = {
       "html": "<strong>Procedimiento:</strong><br>\n  1) Registrar el perfil de potencia o torque en cada lote PQ<br>\n  2) Determinar la forma del perfil y el valor al punto final<br>\n  3) Comparar los perfiles entre lotes<br>\n  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
      },
      {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+     },
+     {
       "et": "Criterio de aceptación",
       "html": "<strong>Criterio de aceptación:</strong><br>\n  La forma del perfil es consistente entre lotes.<br>\n  El valor al punto final está dentro de la banda aprobada."
      },
@@ -17470,6 +18070,10 @@ var BancoEquipos = {
      {
       "et": "Procedimiento",
       "html": "<strong>Procedimiento:</strong><br>\n  1) Registrar el tiempo, el caudal real y la cantidad total adicionada en cada lote<br>\n  2) Inspeccionar paredes y tapa: sin acumulación ni formación de masas<br>\n  3) Comparar contra lo definido en el protocolo de fabricación<br>\n  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
      },
      {
       "et": "Criterio de aceptación",
@@ -17504,6 +18108,10 @@ var BancoEquipos = {
       "html": "<strong>Procedimiento:</strong><br>\n  1) Aplicar el criterio de punto final definido (potencia, tiempo o combinación)<br>\n  2) Verificar su respuesta ante variaciones de humedad o materia prima entre lotes<br>\n  3) Confirmar que el criterio discrimina el punto correcto (atributos del granulado)<br>\n  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
      },
      {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+     },
+     {
       "et": "Criterio de aceptación",
       "html": "<strong>Criterio de aceptación:</strong><br>\n  El criterio responde a variaciones y no es un valor fijo ciego.<br>\n  El granulado en el punto final cumple atributos."
      },
@@ -17534,6 +18142,10 @@ var BancoEquipos = {
      {
       "et": "Procedimiento",
       "html": "<strong>Procedimiento:</strong><br>\n  1) Registrar la temperatura de la masa durante el amasado en cada lote (si aplica)<br>\n  2) Verificar que no supera el límite para activos termolábiles<br>\n  3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
      },
      {
       "et": "Criterio de aceptación",
@@ -17568,8 +18180,12 @@ var BancoEquipos = {
       "html": "<strong>Procedimiento:</strong><br>\n  1) Muestrear superior, medio, inferior y cerca de pared al final del amasado<br>\n  2) Muestrear la descarga al inicio, medio y fin<br>\n  3) Evaluar humedad y aspecto por punto<br>\n  4) Procesar los datos crudos por punto en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
      },
      {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+     },
+     {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Todos los puntos cumplen dentro de especificación.<br>\n  Sin diferencias significativas entre ubicaciones."
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Todos los puntos cumplen dentro de especificación.<br>\n  Sin diferencias significativas entre ubicaciones (ANOVA sin diferencia significativa al 95 % de confianza)."
      },
      {
       "et": "Documentos entregables",
@@ -17598,6 +18214,10 @@ var BancoEquipos = {
      {
       "et": "Procedimiento",
       "html": "<strong>Procedimiento:</strong><br>\n  1) Medir la humedad del granulado húmedo al final del amasado<br>\n  2) Medir la humedad residual tras el secado según el protocolo del secador<br>\n  3) Referenciar los resultados al protocolo del secador correspondiente<br>\n  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
      },
      {
       "et": "Criterio de aceptación",
@@ -17632,6 +18252,10 @@ var BancoEquipos = {
       "html": "<strong>Procedimiento:</strong><br>\n  1) Determinar la distribución de tamaño de partícula por el método definido en el protocolo aprobado (tamizado USP &lt;786&gt; o difracción láser USP &lt;429&gt;)<br>\n  2) Medir densidad aparente, compactada y calcular el índice de compresibilidad<br>\n  3) Medir la fluidez (ángulo de reposo o caudal por orificio)<br>\n  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
      },
      {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+     },
+     {
       "et": "Criterio de aceptación",
       "html": "<strong>Criterio de aceptación:</strong><br>\n  Distribución, densidades y fluidez cumplen especificación.<br>\n  Sin finos excesivos fuera de criterio."
      },
@@ -17662,6 +18286,10 @@ var BancoEquipos = {
      {
       "et": "Procedimiento",
       "html": "<strong>Procedimiento:</strong><br>\n  1) Valorar el activo en las muestras de cuba y descarga<br>\n  2) Calcular media y RSD por lote<br>\n  3) Comparar contra el criterio de uniformidad<br>\n  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
      },
      {
       "et": "Criterio de aceptación",
@@ -17696,6 +18324,10 @@ var BancoEquipos = {
       "html": "<strong>Procedimiento:</strong><br>\n  1) Inspeccionar visualmente el granulado de cada lote<br>\n  2) Inspeccionar paredes y tapa de la cuba tras la descarga<br>\n  3) Clasificar hallazgos (grumos, pegado, zonas sobrehúmedas)<br>\n  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
      },
      {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+     },
+     {
       "et": "Criterio de aceptación",
       "html": "<strong>Criterio de aceptación:</strong><br>\n  Sin grumos ni zonas sobrehúmedas fuera de criterio.<br>\n  Sin pegado significativo en paredes."
      },
@@ -17726,6 +18358,10 @@ var BancoEquipos = {
      {
       "et": "Procedimiento",
       "html": "<strong>Procedimiento:</strong><br>\n  1) Observar el movimiento del lecho durante el amasado<br>\n  2) Verificar ausencia de adherencia excesiva al impulsor y a la cuba<br>\n  3) Registrar la corriente del motor durante el amasado<br>\n  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
      },
      {
       "et": "Criterio de aceptación",
@@ -17760,6 +18396,10 @@ var BancoEquipos = {
       "html": "<strong>Procedimiento:</strong><br>\n  1) Pesar la carga inicial de cada lote<br>\n  2) Pesar el granulado descargado, el residual de cuba y el polvo recogido<br>\n  3) Cerrar el balance de masa<br>\n  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
      },
      {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+     },
+     {
       "et": "Criterio de aceptación",
       "html": "<strong>Criterio de aceptación:</strong><br>\n  El rendimiento cumple el rango especificado.<br>\n  El balance de masa cierra dentro de tolerancia."
      },
@@ -17790,6 +18430,10 @@ var BancoEquipos = {
      {
       "et": "Procedimiento",
       "html": "<strong>Procedimiento:</strong><br>\n  1) Pasar el granulado húmedo por el molino o calibrador (si aplica)<br>\n  2) Determinar el rendimiento de la molienda<br>\n  3) Medir la distribución de tamaño tras la molienda<br>\n  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
      },
      {
       "et": "Criterio de aceptación",
@@ -17824,6 +18468,10 @@ var BancoEquipos = {
       "html": "<strong>Procedimiento:</strong><br>\n  1) Ejecutar la prueba de desafío definida (compresión de tabletas o llenado de cápsulas con el granulado, si aplica)<br>\n  2) Medir fluidez y atributos resultantes<br>\n  3) Comparar contra los criterios de aptitud<br>\n  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
      },
      {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+     },
+     {
       "et": "Criterio de aceptación",
       "html": "<strong>Criterio de aceptación:</strong><br>\n  El granulado es apto para la siguiente etapa según la prueba de desafío.<br>\n  Los atributos resultantes cumplen especificación."
      },
@@ -17854,6 +18502,10 @@ var BancoEquipos = {
      {
       "et": "Procedimiento",
       "html": "<strong>Procedimiento:</strong><br>\n  1) Justificar el número de lotes con el análisis de riesgo aprobado<br>\n  2) Fabricar tres lotes consecutivos a carga nominal registrando parámetros críticos<br>\n  3) Muestrear cada lote según el plan de muestreo aprobado<br>\n  4) Evaluar los atributos de calidad de cada lote contra especificación<br>\n  5) Procesar los datos crudos de los tres lotes en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
      },
      {
       "et": "Criterio de aceptación",
@@ -17888,6 +18540,10 @@ var BancoEquipos = {
       "html": "<strong>Procedimiento:</strong><br>\n  1) Fabricar un lote a carga mínima registrando el movimiento del lecho<br>\n  2) Fabricar un lote a carga máxima<br>\n  3) Muestrear según el plan de muestreo aprobado<br>\n  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
      },
      {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+     },
+     {
       "et": "Criterio de aceptación",
       "html": "<strong>Criterio de aceptación:</strong><br>\n  Ambos lotes cumplen todos los atributos de calidad.<br>\n  Movimiento del lecho adecuado en ambos extremos."
      },
@@ -17918,6 +18574,10 @@ var BancoEquipos = {
      {
       "et": "Procedimiento",
       "html": "<strong>Procedimiento:</strong><br>\n  1) Definir y justificar el peor caso con el análisis de riesgo aprobado<br>\n  2) Fabricar el lote de peor caso registrando los parámetros críticos<br>\n  3) Muestrear según el plan de muestreo aprobado<br>\n  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
      },
      {
       "et": "Criterio de aceptación",
@@ -17952,6 +18612,10 @@ var BancoEquipos = {
       "html": "<strong>Procedimiento:</strong><br>\n  1) Pesar la muestra grande antes del recubrimiento<br>\n  2) Pesar la misma muestra después del recubrimiento<br>\n  3) Calcular el aumento de peso porcentual<br>\n  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
      },
      {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+     },
+     {
       "et": "Criterio de aceptación",
       "html": "<strong>Criterio de aceptación:</strong><br>\n  El aumento de peso está dentro del rango especificado.<br>\n  La repetibilidad entre lotes cumple el criterio."
      },
@@ -17982,6 +18646,10 @@ var BancoEquipos = {
      {
       "et": "Procedimiento",
       "html": "<strong>Procedimiento:</strong><br>\n  1) Pesar tabletas individuales de la muestra final<br>\n  2) Calcular media, desviación y RSD del aumento de peso<br>\n  3) Comparar contra el criterio de uniformidad<br>\n  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
      },
      {
       "et": "Criterio de aceptación",
@@ -18016,6 +18684,10 @@ var BancoEquipos = {
       "html": "<strong>Procedimiento:</strong><br>\n  1) Tomar tabletas de distintas ubicaciones del lote (si aplica evaluación de color)<br>\n  2) Medir el color con colorímetro calibrado y calcular ΔE<br>\n  3) Comparar entre ubicaciones<br>\n  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
      },
      {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+     },
+     {
       "et": "Criterio de aceptación",
       "html": "<strong>Criterio de aceptación:</strong><br>\n  El ΔE entre ubicaciones cumple el criterio especificado.<br>\n  Sin diferencias visuales fuera de criterio."
      },
@@ -18046,6 +18718,10 @@ var BancoEquipos = {
      {
       "et": "Procedimiento",
       "html": "<strong>Procedimiento:</strong><br>\n  1) Muestrear distintas zonas del bombo al final del recubrimiento<br>\n  2) Determinar el aumento de peso por zona<br>\n  3) Comparar las zonas entre sí<br>\n  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
      },
      {
       "et": "Criterio de aceptación",
@@ -18111,6 +18787,10 @@ var BancoEquipos = {
       "html": "<strong>Procedimiento:</strong><br>\n  1) Medir la humedad del núcleo antes del recubrimiento<br>\n  2) Medir la humedad del producto recubierto al final<br>\n  3) Comparar contra los límites especificados<br>\n  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
      },
      {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+     },
+     {
       "et": "Criterio de aceptación",
       "html": "<strong>Criterio de aceptación:</strong><br>\n  La humedad del producto recubierto cumple especificación.<br>\n  Sin ganancia de humedad fuera de criterio."
      },
@@ -18141,6 +18821,10 @@ var BancoEquipos = {
      {
       "et": "Procedimiento",
       "html": "<strong>Procedimiento:</strong><br>\n  1) Determinar la desintegración según el método aprobado en cada lote<br>\n  2) Determinar el perfil de disolución (incluida resistencia en medio ácido si aplica entérico)<br>\n  3) Registrar los resultados por lote<br>\n  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
      },
      {
       "et": "Criterio de aceptación",
@@ -18175,6 +18859,10 @@ var BancoEquipos = {
       "html": "<strong>Procedimiento:</strong><br>\n  1) Valorar el activo en el producto recubierto de cada lote (si aplica)<br>\n  2) Cuantificar los productos de degradación por el método aprobado<br>\n  3) Comparar contra especificación<br>\n  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
      },
      {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+     },
+     {
       "et": "Criterio de aceptación",
       "html": "<strong>Criterio de aceptación:</strong><br>\n  La valoración cumple especificación.<br>\n  Los productos de degradación no superan el límite."
      },
@@ -18205,6 +18893,10 @@ var BancoEquipos = {
      {
       "et": "Procedimiento",
       "html": "<strong>Procedimiento:</strong><br>\n  1) Determinar la friabilidad del producto recubierto (si aplica)<br>\n  2) Recoger y pesar fragmentos y tabletas rotas al final del lote<br>\n  3) Comparar contra el criterio<br>\n  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
      },
      {
       "et": "Criterio de aceptación",
@@ -18239,6 +18931,10 @@ var BancoEquipos = {
       "html": "<strong>Procedimiento:</strong><br>\n  1) Registrar temperaturas de producto, escape y entrada durante todo el ciclo<br>\n  2) Registrar el flujo de aire durante el ciclo<br>\n  3) Verificar ausencia de desvíos contra las bandas definidas<br>\n  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
      },
      {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+     },
+     {
       "et": "Criterio de aceptación",
       "html": "<strong>Criterio de aceptación:</strong><br>\n  Los perfiles se mantienen en banda durante todo el ciclo.<br>\n  Sin desvíos fuera de criterio."
      },
@@ -18269,6 +18965,10 @@ var BancoEquipos = {
      {
       "et": "Procedimiento",
       "html": "<strong>Procedimiento:</strong><br>\n  1) Registrar el caudal real durante la aspersión a intervalos definidos<br>\n  2) Comparar contra el caudal programado<br>\n  3) Verificar estabilidad y ausencia de obstrucción de pistolas<br>\n  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
      },
      {
       "et": "Criterio de aceptación",
@@ -18303,6 +19003,10 @@ var BancoEquipos = {
       "html": "<strong>Procedimiento:</strong><br>\n  1) Pesar los sólidos de suspensión aplicados en cada lote<br>\n  2) Determinar el recubrimiento recuperado en las tabletas por aumento de peso<br>\n  3) Estimar las pérdidas en paredes, filtros y pistolas<br>\n  4) Calcular la eficiencia y cerrar el balance<br>\n  5) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
      },
      {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+     },
+     {
       "et": "Criterio de aceptación",
       "html": "<strong>Criterio de aceptación:</strong><br>\n  La eficiencia cumple el rango especificado.<br>\n  El balance cierra dentro de tolerancia."
      },
@@ -18333,6 +19037,10 @@ var BancoEquipos = {
      {
       "et": "Procedimiento",
       "html": "<strong>Procedimiento:</strong><br>\n  1) Ejecutar el secado final y enfriamiento según el protocolo<br>\n  2) Medir la humedad y la temperatura del lecho al final<br>\n  3) Verificar que alcanzan los criterios antes de descargar<br>\n  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
      },
      {
       "et": "Criterio de aceptación",
@@ -18367,6 +19075,10 @@ var BancoEquipos = {
       "html": "<strong>Procedimiento:</strong><br>\n  1) Medir la viscosidad de la suspensión antes y durante la aspersión<br>\n  2) Verificar la agitación continua sin sedimentación<br>\n  3) Verificar el hold time: comportamiento al límite del tiempo de espera definido<br>\n  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
      },
      {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+     },
+     {
       "et": "Criterio de aceptación",
       "html": "<strong>Criterio de aceptación:</strong><br>\n  Viscosidad estable durante la aspersión.<br>\n  La suspensión es apta hasta el hold time definido."
      },
@@ -18397,6 +19109,10 @@ var BancoEquipos = {
      {
       "et": "Procedimiento",
       "html": "<strong>Procedimiento:</strong><br>\n  1) Descargar el lote e inspeccionar rotura o daño por la descarga<br>\n  2) Pesar el producto descargado y calcular el rendimiento<br>\n  3) Cerrar el balance de masa del lote<br>\n  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
      },
      {
       "et": "Criterio de aceptación",
