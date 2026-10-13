@@ -1068,59 +1068,16 @@ const PlantillaDocx = (() => {
         const cab = celdas(fs[0]);
         cab[0] = textoCelda(cab[0], 'Tabla ' + nProc + '.' + nSub + '-1');
         const base = fs[2] || fs[fs.length - 1];
-        // Columna CÓDIGO separada: la tabla del modelo trae 3 cols
-        // (Índice|Especificaciones|C-NC) y se lleva a 4
-        // (N°|CÓDIGO|Ensayo|C-NC) repartiendo el ancho de Especificaciones.
-        // Si el modelo no trae esa forma, se degrada a "CÓDIGO — título".
-        const insertaCelda = (tr, pos, celdaXml) => {
-          const cuerpo = tr.slice(tr.indexOf('>') + 1, tr.lastIndexOf('</w:tr>'));
-          const partes = hijos(cuerpo);
-          let k = 0, puesta = false;
-          const out = partes.map((h) => {
-            if (h.tag !== 'w:tc') return h.xml;
-            const x = (k === pos) ? celdaXml + h.xml : h.xml;
-            if (k === pos) puesta = true;
-            k++;
-            return x;
-          }).join('');
-          return tr.slice(0, tr.indexOf('>') + 1) + out + (puesta ? '' : celdaXml) + '</w:tr>';
-        };
-        const baseCeldas = celdas(base);
-        const hdrCeldas = celdas(fs[1]);
-        const gridM = /<w:tblGrid>([\s\S]*?)<\/w:tblGrid>/.exec(tb);
-        const anchos = gridM ? [...gridM[1].matchAll(/w:w="(\d+)"/g)].map((m) => +m[1]) : [];
-        const puede4 = baseCeldas.length === 3 && hdrCeldas.length === 3 && anchos.length === 3;
-        const capCeldas = puede4 ? celdas(fs[0]) : [];
-        const cap4 = puede4
-          ? insertaCelda(conCeldas(clonar(fs[0]), cab), 3,
-              textoCelda(clonar(capCeldas[2] || capCeldas[0]), '').replace(/<w:vMerge[^>]*\/>/g, ''))
-          : conCeldas(fs[0], cab);
-        const hdr4 = puede4
-          ? insertaCelda(conCeldas(clonar(fs[1]), [hdrCeldas[0],
-              textoCelda(clonar(hdrCeldas[1]), 'CÓDIGO'), hdrCeldas[1]]), 3, clonar(hdrCeldas[2]))
-          : null;
+        // Encabezado de la columna: código + título del ensayo.
+        const hdr = celdas(clonar(fs[1]));
+        if (hdr.length > 2) hdr[1] = textoCelda(hdr[1], 'Código — Especificaciones');
         const datos = resumenFilas.map((f, i) => {
-          if (!puede4) {
-            const c = celdas(clonar(base));
-            c[0] = textoCelda(c[0], String(i + 1));
-            c[1] = textoCelda(c[1], f.id + ' — ' + f.tit);
-            return conCeldas(clonar(base), c);
-          }
-          const fila3 = conCeldas(clonar(base), [
-            textoCelda(clonar(baseCeldas[0]), String(i + 1)),
-            textoCelda(clonar(baseCeldas[1]), f.id),
-            textoCelda(clonar(baseCeldas[1]), f.tit),
-          ]);
-          return insertaCelda(fila3, 3, clonar(baseCeldas[2]));
+          const c = celdas(clonar(base));
+          c[0] = textoCelda(c[0], String(i + 1));
+          c[1] = textoCelda(c[1], f.id + ' — ' + f.tit);
+          return conCeldas(clonar(base), c);
         });
-        let txml = conFilas(tb, [cap4].concat(hdr4 ? [hdr4] : [fs[1]], datos));
-        if (puede4) {
-          const wCod = Math.round(anchos[1] * 0.32);
-          const rejilla = [anchos[0], wCod, anchos[1] - wCod, anchos[2]]
-            .map((w) => '<w:gridCol w:w="' + w + '"/>').join('');
-          txml = txml.replace(/<w:tblGrid>[\s\S]*?<\/w:tblGrid>/, '<w:tblGrid>' + rejilla + '</w:tblGrid>');
-        }
-        seg[it] = { tag: 'w:tbl', xml: txml };
+        seg[it] = { tag: 'w:tbl', xml: conFilas(tb, [conCeldas(fs[0], cab), conCeldas(fs[1], hdr)].concat(datos)) };
       }
       conclusiones += seg.filter((x) => x.tag === 'w:tbl' && /^CONCLUSI/.test(norm(texto(x.xml)))).length;
       nuevo.push(...seg);

@@ -517,8 +517,7 @@ describe('títulos sin código de banco (código solo en Resumen)', () => {
     // el código ya no va en el título del acápite...
     expect(plano).not.toContain('EQ-OQ-COM-001 — VERIFICACIÓN');
     expect(plano).toContain('VERIFICACIÓN DE LOS INSTRUMENTOS DE MEDICIÓN A UTILIZAR EN EL OQ');
-    // ...solo en la tabla Resumen (columna CÓDIGO separada)
-    expect(plano).toContain('EQ-OQ-COM-001');
-    expect(plano).toContain('Verificación de los instrumentos de medición');
+    // ...solo en la tabla Resumen
+    expect(plano).toContain('EQ-OQ-COM-001 — Verificación de los instrumentos');
   });
 });

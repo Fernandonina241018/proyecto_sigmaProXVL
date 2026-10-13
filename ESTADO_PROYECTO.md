@@ -4808,7 +4808,3 @@ Render inyectaba el `PORT` como variable de entorno; Fly.io también (`process.e
 - **Causa:** `tituloLimpio` solo pelaba códigos de 2 letras por segmento (`EQ-IQ-001`); `EQ-OQ-COM-001` (COM, 3 letras) sobrevivía en el título del acápite.
 - **Qué:** regex a `^[A-Z]{2,5}(?:-[A-Z]{2,5})+-\d{2,4}` en plantilla + `tituloLimpioDQ()` en motor DQ (H2 sin código; tablas Resumen conservan `CÓDIGO — título`).
 - **Verificación:** 2 tests nuevos; Vitest 442/442, backend 67/67, `tsc` 0 errores.
-
-### 2026-10-12 (168): Columna CÓDIGO separada en Resumen (plantilla IQ/OQ/PQ)
-- **Qué:** tabla Resumen de 3→4 cols (N°|CÓDIGO|Ensayo|C-NC) con grid recalculado (total constante); caption y encabezado extendidos; degradación a "CÓDIGO — título" si el modelo no trae la forma esperada.
-- **Verificación:** estructura 4 celdas + 4 gridCols en test; Vitest 442/442, backend 67/67, `tsc` 0 errores.
