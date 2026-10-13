@@ -357,4 +357,13 @@ describe('Validaciones V7', () => {
     expect(src3).toContain('Complete URS y análisis de riesgo');
     expect(src3).toContain('Sin banco de familia');
   });
+
+  test('#1/#2: UI pide parámetros del banco y bloquea sin ellos', () => {
+    const src = readFileSync(join(core, 'indexx-validaciones.js'), 'utf-8');
+    expect(src).toContain('v7-params');
+    expect(src).toContain('Parámetros del banco (fuente: URS aprobada)');
+    expect(src).toContain('paramsFaltantes');
+    expect(src).toContain('Faltan ');
+    expect(src).toContain('parámetro(s) del banco en el paso 2');
+  });
 });

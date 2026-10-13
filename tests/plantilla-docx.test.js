@@ -498,7 +498,43 @@ describe('Objetivo en su propia línea (etiqueta sola + texto debajo)', () => {
     }
   });
 
-  describe('H-05/H-08/H-09/H-11: límites, bloques fijos y trazabilidad', () => {
+  describe('parámetros por entidad H-05/#1', () => {
+  test('parametrosFamilia por familia con claves estables', () => {
+    const mz = P.parametrosFamilia('mezclador').map((p) => p.clave);
+    expect(mz).toContain('mz_err_vel');
+    expect(mz).toContain('pqmz_rendimiento');
+    expect(P.parametrosFamilia('mezclador').every((p) => p.label && p.unidad)).toBe(true);
+    expect(P.parametrosFamilia('lecho-fluido').map((p) => p.clave)).toContain('lf_rsd_humedad');
+    expect(P.parametrosFamilia('estabilidad').map((p) => p.clave)).toContain('est_sobreimpulso');
+    expect(P.parametrosFamilia('tableteadora')).toEqual([]);
+  });
+
+  test('aplicarLimites usa el borrador y marca aprobado con fuente URS', () => {
+    const items = [{ id: 'EQ-OQ-MZ-006', bloque: 3, secciones: [{ et: 'Procedimiento', html: 'Error menor o igual a ±[2]% en los tres puntos' }] }];
+    const d = { param_mz_err_vel: '3', ursCodigo: 'URS-01', ursVersion: '2.0' };
+    const out = P.aplicarLimites(items, d);
+    expect(out[0].secciones[0].html).toContain('±3%');
+    expect(out[0].secciones[0].html).not.toContain('[2]');
+    expect(out[0].limitesAplicados[0].estado).toBe('aprobado');
+    expect(out[0].limitesAplicados[0].fuente).toBe('URS URS-01 v2.0');
+    // sin borrador: valor de catálogo provisional (sin regresión)
+    const out0 = P.aplicarLimites(items);
+    expect(out0[0].secciones[0].html).toContain('±2%');
+    expect(out0[0].limitesAplicados[0].estado).not.toMatch(/^aprobado/i);
+  });
+
+  test('paramsFaltantes reporta lo sin valor', () => {
+    globalThis.BancoEquipos = require('../js/core/banco-equipos-data.js');
+    try {
+      const falt0 = P.paramsFaltantes('OQ', 'equipos', 'mezclador', 'ambas', {});
+      expect(falt0.map((p) => p.clave)).toContain('mz_err_vel');
+      const d = { param_mz_err_vel: '3', param_mz_t_corto: '1', param_mz_t_medio: '10', param_mz_t_largo: '30' };
+      expect(P.paramsFaltantes('OQ', 'equipos', 'mezclador', 'ambas', d)).toEqual([]);
+    } finally { delete globalThis.BancoEquipos; }
+  });
+});
+
+describe('H-05/H-08/H-09/H-11: límites, bloques fijos y trazabilidad', () => {
     test('aplicarLimites sustituye "[n]" desde la tabla (EQ-OQ-MZ-006)', () => {
       const items = [{ id: 'EQ-OQ-MZ-006', bloque: 3, secciones: [{ et: 'Procedimiento', html: 'Error menor o igual a ±[2]% en los tres puntos' }] }];
       const out = P.aplicarLimites(items);

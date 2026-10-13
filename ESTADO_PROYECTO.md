@@ -4828,3 +4828,8 @@ Render inyectaba el `PORT` como variable de entorno; Fly.io también (`process.e
 - **BL-020:** método de hermeticidad definido en protocolo (<1207>).
 - **DM-003:** tiempos de detención/rechazo medidos contra protocolo aprobado.
 - **Verificación:** extractor --estricto OK; Vitest 446/446, backend 67/67.
+
+### 2026-10-13 (174): Mejoras #1 + #2 — parámetros por entidad con fuente URS y bloqueo
+- **Motor:** entradas LIMITES con `fam`+`clave` estables; `parametrosFamilia()`, `aplicarLimites(items, draft)` (valor del borrador = aprobado con fuente URS; si no, catálogo provisional), `paramsFaltantes()`; `limitesResumen()` con borrador; `generar()` sustituye con draft.
+- **UI:** Paso 2 con fieldset de parámetros por entidad (req, con unidad); validar/recoger/cargar los incluyen; badge del Paso 3 con borrador actual; descarga bloquea listando faltantes (nunca provisional silencioso).
+- **Verificación:** 4 tests nuevos; Vitest 450/450, backend 67/67, `tsc` 0 errores.

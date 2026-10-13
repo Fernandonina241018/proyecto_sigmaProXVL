@@ -588,39 +588,83 @@ const PlantillaDocx = (() => {
   // y cambiar estado a "aprobado" con la versión de la URS como fuente.
   // ---------------------------------------------------------------
   const LIMITES = [
-    { id: 'EQ-OQ-HO-008', token: '40', parametro: 'Temperatura segura de descarga', valor: '40', unidad: '°C', fuente: 'banco de ensayos', version: 'EQ-OQ-HO 2026-10-06 v1', estado: 'provisional — confirmar contra URS' },
-    { id: 'EQ-OQ-MZ-006', token: '2', parametro: 'Error de velocidad de agitación', valor: '2', unidad: '% (tolerancia ±)', fuente: 'banco de ensayos', version: 'EQ-OQ-MZ 2026-10-05 v2', estado: 'provisional — confirmar contra URS' },
-    { id: 'EQ-OQ-MZ-007', token: '1', parametro: 'Tiempo corto de prueba / tolerancia de tiempo', valor: '1', unidad: 'min / %', fuente: 'banco de ensayos', version: 'EQ-OQ-MZ 2026-10-05 v2', estado: 'provisional — confirmar contra URS' },
-    { id: 'EQ-OQ-MZ-007', token: '10', parametro: 'Tiempo medio de prueba', valor: '10', unidad: 'min', fuente: 'banco de ensayos', version: 'EQ-OQ-MZ 2026-10-05 v2', estado: 'provisional — confirmar contra URS' },
-    { id: 'EQ-OQ-MZ-007', token: '30', parametro: 'Tiempo largo de prueba', valor: '30', unidad: 'min', fuente: 'banco de ensayos', version: 'EQ-OQ-MZ 2026-10-05 v2', estado: 'provisional — confirmar contra URS' },
-    { id: 'EQ-PQ-LF-004', token: '5', parametro: 'RSD de humedad entre ubicaciones', valor: '5', unidad: '%', fuente: 'banco de ensayos', version: 'EQ-PQ-LF 2026-10-05 v2', estado: 'provisional — confirmar contra URS' },
-    { id: 'EQ-PQ-LF-005', token: '10', parametro: 'Intervalo de muestreo / superposición de curvas', valor: '10', unidad: 'min / %', fuente: 'banco de ensayos', version: 'EQ-PQ-LF 2026-10-05 v2', estado: 'provisional — confirmar contra URS' },
-    { id: 'EQ-PQ-LF-010', token: '15', parametro: 'Intervalo de registro de ΔP', valor: '15', unidad: 'min', fuente: 'banco de ensayos', version: 'EQ-PQ-LF 2026-10-05 v2', estado: 'provisional — confirmar contra URS' },
-    { id: 'EQ-PQ-LF-011', token: '95', parametro: 'Rendimiento mínimo', valor: '95', unidad: '%', fuente: 'banco de ensayos', version: 'EQ-PQ-LF 2026-10-05 v2', estado: 'provisional — confirmar contra URS' },
-    { id: 'EQ-PQ-LF-011', token: '2', parametro: 'Pérdida máxima de finos', valor: '2', unidad: '%', fuente: 'banco de ensayos', version: 'EQ-PQ-LF 2026-10-05 v2', estado: 'provisional — confirmar contra URS' },
-    { id: 'EQ-PQ-LF-012', token: '10', parametro: 'Intervalo de registro de temperatura', valor: '10', unidad: 'min', fuente: 'banco de ensayos', version: 'EQ-PQ-LF 2026-10-05 v2', estado: 'provisional — confirmar contra URS' },
-    { id: 'EQ-PQ-LF-013', token: '5', parametro: 'Intervalo de registro por sonda', valor: '5', unidad: 'min', fuente: 'banco de ensayos', version: 'EQ-PQ-LF 2026-10-05 v2', estado: 'provisional — confirmar contra URS' },
-    { id: 'EQ-PQ-LF-013', token: '3', parametro: 'ΔT máximo entre sondas', valor: '3', unidad: '°C', fuente: 'banco de ensayos', version: 'EQ-PQ-LF 2026-10-05 v2', estado: 'provisional — confirmar contra URS' },
-    { id: 'EQ-PQ-MZ-014', token: '98', parametro: 'Rendimiento mínimo', valor: '98', unidad: '%', fuente: 'banco de ensayos', version: 'EQ-PQ-MZ 2026-10-05 v2', estado: 'provisional — confirmar contra URS' },
-    { id: 'EST-OQ-010', token: '2', parametro: 'Sobreimpulso máximo', valor: '2', unidad: '°C', fuente: 'banco de ensayos', version: 'EST-OQ-CAM 2026-10-06 v1', estado: 'provisional — confirmar contra URS' },
+    { fam: 'horno-secado', clave: 'ho_temp_descarga', id: 'EQ-OQ-HO-008', token: '40', parametro: 'Temperatura segura de descarga', valor: '40', unidad: '°C', fuente: 'banco de ensayos', version: 'EQ-OQ-HO 2026-10-06 v1', estado: 'provisional — confirmar contra URS' },
+    { fam: 'mezclador', clave: 'mz_err_vel', id: 'EQ-OQ-MZ-006', token: '2', parametro: 'Error de velocidad de agitación', valor: '2', unidad: '% (tolerancia ±)', fuente: 'banco de ensayos', version: 'EQ-OQ-MZ 2026-10-05 v2', estado: 'provisional — confirmar contra URS' },
+    { fam: 'mezclador', clave: 'mz_t_corto', id: 'EQ-OQ-MZ-007', token: '1', parametro: 'Tiempo corto de prueba / tolerancia de tiempo', valor: '1', unidad: 'min / %', fuente: 'banco de ensayos', version: 'EQ-OQ-MZ 2026-10-05 v2', estado: 'provisional — confirmar contra URS' },
+    { fam: 'mezclador', clave: 'mz_t_medio', id: 'EQ-OQ-MZ-007', token: '10', parametro: 'Tiempo medio de prueba', valor: '10', unidad: 'min', fuente: 'banco de ensayos', version: 'EQ-OQ-MZ 2026-10-05 v2', estado: 'provisional — confirmar contra URS' },
+    { fam: 'mezclador', clave: 'mz_t_largo', id: 'EQ-OQ-MZ-007', token: '30', parametro: 'Tiempo largo de prueba', valor: '30', unidad: 'min', fuente: 'banco de ensayos', version: 'EQ-OQ-MZ 2026-10-05 v2', estado: 'provisional — confirmar contra URS' },
+    { fam: 'lecho-fluido', clave: 'lf_rsd_humedad', id: 'EQ-PQ-LF-004', token: '5', parametro: 'RSD de humedad entre ubicaciones', valor: '5', unidad: '%', fuente: 'banco de ensayos', version: 'EQ-PQ-LF 2026-10-05 v2', estado: 'provisional — confirmar contra URS' },
+    { fam: 'lecho-fluido', clave: 'lf_intervalo_muestreo', id: 'EQ-PQ-LF-005', token: '10', parametro: 'Intervalo de muestreo / superposición de curvas', valor: '10', unidad: 'min / %', fuente: 'banco de ensayos', version: 'EQ-PQ-LF 2026-10-05 v2', estado: 'provisional — confirmar contra URS' },
+    { fam: 'lecho-fluido', clave: 'lf_intervalo_dp', id: 'EQ-PQ-LF-010', token: '15', parametro: 'Intervalo de registro de ΔP', valor: '15', unidad: 'min', fuente: 'banco de ensayos', version: 'EQ-PQ-LF 2026-10-05 v2', estado: 'provisional — confirmar contra URS' },
+    { fam: 'lecho-fluido', clave: 'lf_rendimiento', id: 'EQ-PQ-LF-011', token: '95', parametro: 'Rendimiento mínimo', valor: '95', unidad: '%', fuente: 'banco de ensayos', version: 'EQ-PQ-LF 2026-10-05 v2', estado: 'provisional — confirmar contra URS' },
+    { fam: 'lecho-fluido', clave: 'lf_perdida_finos', id: 'EQ-PQ-LF-011', token: '2', parametro: 'Pérdida máxima de finos', valor: '2', unidad: '%', fuente: 'banco de ensayos', version: 'EQ-PQ-LF 2026-10-05 v2', estado: 'provisional — confirmar contra URS' },
+    { fam: 'lecho-fluido', clave: 'lf_intervalo_temp', id: 'EQ-PQ-LF-012', token: '10', parametro: 'Intervalo de registro de temperatura', valor: '10', unidad: 'min', fuente: 'banco de ensayos', version: 'EQ-PQ-LF 2026-10-05 v2', estado: 'provisional — confirmar contra URS' },
+    { fam: 'lecho-fluido', clave: 'lf_intervalo_sonda', id: 'EQ-PQ-LF-013', token: '5', parametro: 'Intervalo de registro por sonda', valor: '5', unidad: 'min', fuente: 'banco de ensayos', version: 'EQ-PQ-LF 2026-10-05 v2', estado: 'provisional — confirmar contra URS' },
+    { fam: 'lecho-fluido', clave: 'lf_deltaT', id: 'EQ-PQ-LF-013', token: '3', parametro: 'ΔT máximo entre sondas', valor: '3', unidad: '°C', fuente: 'banco de ensayos', version: 'EQ-PQ-LF 2026-10-05 v2', estado: 'provisional — confirmar contra URS' },
+    { fam: 'mezclador', clave: 'pqmz_rendimiento', id: 'EQ-PQ-MZ-014', token: '98', parametro: 'Rendimiento mínimo', valor: '98', unidad: '%', fuente: 'banco de ensayos', version: 'EQ-PQ-MZ 2026-10-05 v2', estado: 'provisional — confirmar contra URS' },
+    { fam: 'estabilidad', clave: 'est_sobreimpulso', id: 'EST-OQ-010', token: '2', parametro: 'Sobreimpulso máximo', valor: '2', unidad: '°C', fuente: 'banco de ensayos', version: 'EST-OQ-CAM 2026-10-06 v1', estado: 'provisional — confirmar contra URS' },
   ];
 
   function limitesDe(id) {
     return LIMITES.filter((l) => l.id === id);
   }
 
-  // Sustituye "[token]" por el valor aprobado (solo en el ensayo de la entrada).
-  function aplicarLimites(items) {
+  // Mejora #1: parámetros por entidad. Cada entrada LIMITES tiene `clave`
+  // (estable) y `fam` (familia/entidad). El Paso 2 pide el valor con fuente
+  // URS; el motor sustituye el valor del borrador o bloquea si falta.
+  function campoParam(clave) {
+    return 'param_' + String(clave || '').trim();
+  }
+
+  function valorParam(draft, clave) {
+    const v = draft ? draft[campoParam(clave)] : null;
+    const t = String(v == null ? '' : v).trim();
+    return t ? t : null;
+  }
+
+  function ursFuente(draft) {
+    const u = String((draft && draft.ursCodigo) || '').trim() || '?';
+    const uv = String((draft && draft.ursVersion) || '').trim() || '?';
+    const ok = u !== '?' && uv !== '?';
+    return { texto: 'URS ' + u + ' v' + uv, ok };
+  }
+
+  // Parámetros de una familia/entidad para el Paso 2 (orden del banco).
+  function parametrosFamilia(famId) {
+    const fam = String(famId || '').trim();
+    const vistos = {};
+    return LIMITES.filter((l) => l.fam === fam && !vistos[l.clave] && (vistos[l.clave] = true))
+      .map((l) => ({ clave: l.clave, label: l.parametro, unidad: l.unidad, defecto: l.valor }));
+  }
+
+  // Sustituye "[token]" por el valor del borrador (aprobado con fuente URS)
+  // o por el valor de catálogo (provisional). Sin valor en ningún lado,
+  // el token sobrevive y `paramsFaltantes` lo reporta para bloquear.
+  function aplicarLimites(items, draft) {
+    const d = draft || {};
+    const urs = ursFuente(d);
     return (items || []).map((it) => {
       const ls = it && it.id ? limitesDe(it.id) : [];
       if (!ls.length) return it;
       const cl = Object.assign({}, it);
       cl.secciones = (it.secciones || []).map((s) => {
         let html = String(s.html || '');
-        ls.forEach((l) => { html = html.split('[' + l.token + ']').join(l.valor); });
+        ls.forEach((l) => {
+          const v = valorParam(d, l.clave);
+          html = html.split('[' + l.token + ']').join(v != null ? v : l.valor);
+        });
         return Object.assign({}, s, { html });
       });
-      cl.limitesAplicados = ls;
+      cl.limitesAplicados = ls.map((l) => {
+        const v = valorParam(d, l.clave);
+        if (v == null) return l;
+        return Object.assign({}, l, {
+          valor: v,
+          fuente: urs.texto,
+          version: urs.texto,
+          estado: urs.ok ? 'aprobado' : 'confirmado en borrador — pendiente URS',
+        });
+      });
       return cl;
     });
   }
@@ -646,13 +690,31 @@ const PlantillaDocx = (() => {
   }
 
   // Resumen de pendientes para el Paso 3 (misma selección que generar()).
-  function limitesResumen(fase, catId, entId, cond) {
+  // Con borrador, los valores confirmados salen de pendientes.
+  function limitesResumen(fase, catId, entId, cond, draft) {
     try {
       const b = mezclarComun(banco(catId), fase, catId);
       const items = ((b.fases && b.fases[fase]) || []).filter((i) => i.id && (i.bloque === 2 || i.bloque === 3)
         && pasaCondicion(i.cond, cond || 'ambas') && (!i.familia || !entId || i.familia === entId));
-      return limitesPendientes(aplicarLimites(items));
+      return limitesPendientes(aplicarLimites(items, draft));
     } catch (e) { return { sinEntrada: [], provisionales: [] }; }
+  }
+
+  // Parámetros sin valor en el borrador (bloquean la descarga, mejora #1/#2).
+  function paramsFaltantes(fase, catId, entId, cond, draft) {
+    try {
+      const b = mezclarComun(banco(catId), fase, catId);
+      const items = ((b.fases && b.fases[fase]) || []).filter((i) => i.id && (i.bloque === 2 || i.bloque === 3)
+        && pasaCondicion(i.cond, cond || 'ambas') && (!i.familia || !entId || i.familia === entId));
+      const d = draft || {};
+      const falt = [];
+      items.forEach((it) => {
+        limitesDe(it.id).forEach((l) => {
+          if (valorParam(d, l.clave) == null) falt.push({ id: it.id, token: l.token, clave: l.clave, label: l.parametro, unidad: l.unidad });
+        });
+      });
+      return falt;
+    } catch (e) { return []; }
   }
 
   // H-08/H-11 (auditoría FDA): bloques fijos al final de cada protocolo.
@@ -901,7 +963,7 @@ const PlantillaDocx = (() => {
     const artReq = ensayosTodos.find((a) => /requisitos previos/i.test(a.titulo || ''));
     // H-05: los valores "[n]" se sustituyen desde la tabla de límites (trazables).
     // H-08/H-11: bloques fijos de desviaciones e informe al final (fuera del resumen).
-    const ensayos = aplicarLimites(ensayosTodos.filter((a) => a !== artReq)).concat(bloquesFijos(fase));
+    const ensayos = aplicarLimites(ensayosTodos.filter((a) => a !== artReq), d).concat(bloquesFijos(fase));
     const ctx = contexto(d, entidad, filtro, ensayosTodos);
     if (!ctx.rango) avisos.push('Sin rango de temperatura/HR en el borrador: se imprime el rango del banco.');
     if (!ensayos.length) avisos.push('El banco no tiene ensayos ' + fase + ' para la condición seleccionada.');
@@ -1452,7 +1514,7 @@ const PlantillaDocx = (() => {
 
   return {
     FASES, PLANTILLAS, OPC, SALTO_PAGINA, SALTO_H1, SALTO_H2, SALTO_TABLA, soporta, configurar, generar, descargar, banco, mezclarComun,
-    LIMITES, limitesDe, aplicarLimites, limitesPendientes, limitesResumen, bloquesFijos, rtmLineas,
+    LIMITES, limitesDe, aplicarLimites, limitesPendientes, limitesResumen, paramsFaltantes, parametrosFamilia, bloquesFijos, rtmLineas,
     _interno: { leerZip, escribirZip, hijos, texto, reemplazarEnParrafo, congelar, lineas, estructura, puntosVerificacion, puntosTabla, fechaTexto, crc32, llenarFirmas, fijarTahoma11, debeSaltar, debeSaltarH1, debeSaltarH2, debeSaltarTabla, saltoPrevio },
   };
 })();

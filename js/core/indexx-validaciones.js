@@ -757,7 +757,7 @@ const Validaciones = (() => {
 
     function validar() {
       let falta = 0;
-      schema.forEach((f) => {
+      schemaTotal().forEach((f) => {
         if (!f.req) return;
         const el = form.querySelector('[data-k="' + f.k + '"]');
         if (!el || (el.type !== 'file' && !String(el.value || '').trim())) falta++;
@@ -767,7 +767,7 @@ const Validaciones = (() => {
 
     function recoger() {
       const data = {};
-      schema.forEach((f) => {
+      schemaTotal().forEach((f) => {
         const el = form.querySelector('[data-k="' + f.k + '"]');
         if (!el) return;
         if (f.tipo === 'file') { if (el.files && el.files[0]) data[f.k] = el.files[0].name; return; }
@@ -779,10 +779,52 @@ const Validaciones = (() => {
     }
 
     function cargar(data) {
-      schema.forEach((f) => {
+      schemaTotal().forEach((f) => {
         const el = form.querySelector('[data-k="' + f.k + '"]');
         if (el && f.tipo !== 'file' && data[f.k] != null) el.value = data[f.k];
       });
+    }
+
+    // ---- Parámetros de límites por entidad (mejora #1, H-05) ----
+    // El Paso 2 pide cada valor del banco con su unidad; el motor los
+    // inserta con fuente URS o bloquea la descarga si falta alguno.
+    function famParams() {
+      if (!conGen) return [];
+      if (typeof PlantillaDocx === 'undefined' || !PlantillaDocx.parametrosFamilia) return [];
+      const fam = catId === 'estabilidad' ? 'estabilidad' : entActual;
+      try { return PlantillaDocx.parametrosFamilia(fam) || []; } catch (e) { return []; }
+    }
+
+    function schemaTotal() {
+      const extra = famParams().map((p) => ({
+        k: 'param_' + p.clave,
+        label: p.label + ' (' + p.unidad + ')',
+        tipo: 'text',
+        req: true,
+      }));
+      return schema.concat(extra);
+    }
+
+    function pintarParametros(draft) {
+      let box = form.querySelector('.v7-params');
+      const ps = famParams();
+      if (!ps.length) { if (box) box.hidden = true; return; }
+      if (!box && form.insertAdjacentHTML) {
+        const acts = form.querySelector('.v7-form-actions');
+        const html = '<fieldset class="v7-fs v7-params"><legend>Parámetros del banco (fuente: URS aprobada)</legend><div class="v7-grid"></div></fieldset>';
+        if (acts && acts.insertAdjacentHTML) acts.insertAdjacentHTML('beforebegin', html);
+        else form.insertAdjacentHTML('beforeend', html);
+        box = form.querySelector('.v7-params');
+      }
+      if (!box) return;
+      box.hidden = false;
+      const grid = box.querySelector('.v7-grid') || box;
+      const d = draft || {};
+      grid.innerHTML = ps.map((p) => {
+        const k = 'param_' + p.clave;
+        const v = d[k] != null ? String(d[k]) : '';
+        return fieldHtml({ k, label: p.label + ' (' + p.unidad + ')', tipo: 'text', req: true }, v);
+      }).join('');
     }
 
     // ---- Firmantes (T0 automático + T2 con 2 combobox) ----
@@ -919,13 +961,16 @@ const Validaciones = (() => {
       const sel = leerSel3();
       const box = step3.querySelector('.v7-genresumen');
       if (box) {
+        // Badge con el borrador actual: lo confirmado sale de pendientes.
+        let vista = null;
+        try { vista = recoger(); } catch (e) { vista = null; }
         const parts = sel.fases.map((f) => {
           const n = contarGen(f, sel.cond, catId, entActual);
           let extra = '';
           // H-05: rotula límites provisionales o sin tabla (nunca silencioso).
           if (typeof PlantillaDocx !== 'undefined' && PlantillaDocx.limitesResumen) {
             try {
-              const pend = PlantillaDocx.limitesResumen(f, catId, entActual, sel.cond);
+              const pend = PlantillaDocx.limitesResumen(f, catId, entActual, sel.cond, vista);
               if ((pend.sinEntrada || []).length) extra += ' · ⛔ ' + pend.sinEntrada.length + ' límite(s) sin tabla';
               else if ((pend.provisionales || []).length) extra += ' · ⚠ ' + pend.provisionales.length + ' límite(s) provisional(es)';
             } catch (e) {}
@@ -1006,6 +1051,20 @@ const Validaciones = (() => {
         || !String(draft.riesgoCodigo || '').trim() || !String(draft.riesgoVersion || '').trim()) {
         setGenMsg('Complete URS y análisis de riesgo (código y versión) del paso 2 antes de generar.', false); return;
       }
+      // Mejora #1/#2: parámetros del banco sin valor en el borrador bloquean
+      // la descarga (nunca un provisional silencioso en el .docx).
+      if (typeof PlantillaDocx !== 'undefined' && PlantillaDocx.paramsFaltantes) {
+        try {
+          const falt = [];
+          sel.fases.forEach((f) => {
+            PlantillaDocx.paramsFaltantes(f, catId, entActual, sel.cond, draft).forEach((p) => falt.push(p));
+          });
+          if (falt.length) {
+            const prim = falt.slice(0, 3).map((p) => p.id + ' [' + p.token + '] ' + p.label).join('; ');
+            setGenMsg('Faltan ' + falt.length + ' parámetro(s) del banco en el paso 2: ' + prim + (falt.length > 3 ? '…' : ''), false); return;
+          }
+        } catch (e) {}
+      }
       const ent = entidadObj();
       const btn = step3.querySelector('.v7-btn-download');
       if (btn) btn.disabled = true;
@@ -1072,6 +1131,7 @@ const Validaciones = (() => {
       main.querySelectorAll('.v7-ent').forEach((b) => b.classList.toggle('sel', b.getAttribute('data-ent') === entId));
       step2.hidden = false;
       const draft = loadDraft(entActual);
+      pintarParametros(draft);
       cargar(draft);
       pintarDescripcion();
       setMsg(Object.keys(draft).length ? 'Borrador cargado' : '', true);
