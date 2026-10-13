@@ -4841,3 +4841,8 @@ Render inyectaba el `PORT` como variable de entorno; Fly.io también (`process.e
 ### 2026-10-13 (176): Mejora #4 — plan estadístico común en 179 ensayos
 - **Qué:** bloque estándar `Plan estadístico` (variable, n, puntos, media/RSD/IC95/ANOVA, tendencia por regresión, Grubbs sin exclusión silenciosa, criterio del ensayo) en cada ensayo con análisis de TB/EN/RB/GR/UC (OQ+PQ); 6 frases vagas precisadas con método (regresión/ANOVA al 95 %).
 - **Verificación:** extractor --estricto OK (709 artículos); Vitest 450/450, backend 67/67.
+
+### 2026-10-13 (177): Mejoras #5 + #6 — matriz de desafío y empaque 211.122/125/130
+- **#5:** línea de matriz de desafío (n por condición en protocolo aprobado; 100 % malas / 0 % buenas) en TB-018/019, EN-019, BL-023/024, ET-023/024/025/026 y DM-015.
+- **#6:** PQ-BL-018 y PQ-ET-019 con prospecto/estuche/faltantes, despeje con doble firma, conciliación con destrucción de sobrantes y refs 21 CFR 211.122/125/130.
+- **Verificación:** extractor --estricto OK; Vitest 451/451, backend 67/67.

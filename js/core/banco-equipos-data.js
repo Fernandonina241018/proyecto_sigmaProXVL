@@ -7019,7 +7019,7 @@ var BancoEquipos = {
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  El lazo corrige la variación dentro del tiempo especificado.<br>\n  Sin oscilación sostenida tras la corrección."
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  El lazo corrige la variación dentro del tiempo especificado.<br>\n  Sin oscilación sostenida tras la corrección.<br>\n  Matriz de desafío: número de unidades por condición definido en el protocolo aprobado; el 100 % de las unidades malas se rechaza y el 0 % de las unidades buenas se rechaza."
      },
      {
       "et": "Documentos entregables",
@@ -7055,7 +7055,7 @@ var BancoEquipos = {
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  El 100% de las tabletas malas inducidas se rechaza.<br>\n  Ninguna tableta mala llega al recipiente de buenas."
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  El 100% de las tabletas malas inducidas se rechaza.<br>\n  Ninguna tableta mala llega al recipiente de buenas.<br>\n  Matriz de desafío: número de unidades por condición definido en el protocolo aprobado; el 100 % de las unidades malas se rechaza y el 0 % de las unidades buenas se rechaza."
      },
      {
       "et": "Documentos entregables",
@@ -7977,7 +7977,7 @@ var BancoEquipos = {
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  El 100% de las cápsulas malas inducidas se rechaza.<br>\n  Ninguna mala llega al recipiente de buenas."
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  El 100% de las cápsulas malas inducidas se rechaza.<br>\n  Ninguna mala llega al recipiente de buenas.<br>\n  Matriz de desafío: número de unidades por condición definido en el protocolo aprobado; el 100 % de las unidades malas se rechaza y el 0 % de las unidades buenas se rechaza."
      },
      {
       "et": "Documentos entregables",
@@ -10648,7 +10648,7 @@ var BancoEquipos = {
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  El 100% de las muestras de desafío se detecta y rechaza.<br>\n  Sin defectos no detectados."
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  El 100% de las muestras de desafío se detecta y rechaza.<br>\n  Sin defectos no detectados.<br>\n  Matriz de desafío: número de unidades por condición definido en el protocolo aprobado; el 100 % de las unidades malas se rechaza y el 0 % de las unidades buenas se rechaza."
      },
      {
       "et": "Documentos entregables",
@@ -10679,7 +10679,7 @@ var BancoEquipos = {
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  El 100% de los defectos inducidos se rechaza.<br>\n  Ningún malo llega al recipiente de buenos."
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  El 100% de los defectos inducidos se rechaza.<br>\n  Ningún malo llega al recipiente de buenos.<br>\n  Matriz de desafío: número de unidades por condición definido en el protocolo aprobado; el 100 % de las unidades malas se rechaza y el 0 % de las unidades buenas se rechaza."
      },
      {
       "et": "Documentos entregables",
@@ -11275,7 +11275,7 @@ var BancoEquipos = {
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  El 100% de las piezas de prueba se desvía al rechazo.<br>\n  Ningún producto bueno se desvía indebidamente."
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  El 100% de las piezas de prueba se desvía al rechazo.<br>\n  Ningún producto bueno se desvía indebidamente.<br>\n  Matriz de desafío: número de unidades por condición definido en el protocolo aprobado; el 100 % de las unidades malas se rechaza y el 0 % de las unidades buenas se rechaza."
      },
      {
       "et": "Documentos entregables",
@@ -12147,7 +12147,7 @@ var BancoEquipos = {
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  El 100% de las muestras de desafío se detecta y rechaza.<br>\n  Sin defectos no detectados."
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  El 100% de las muestras de desafío se detecta y rechaza.<br>\n  Sin defectos no detectados.<br>\n  Matriz de desafío: número de unidades por condición definido en el protocolo aprobado; el 100 % de las unidades malas se rechaza y el 0 % de las unidades buenas se rechaza."
      },
      {
       "et": "Documentos entregables",
@@ -12178,7 +12178,7 @@ var BancoEquipos = {
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  La etiqueta equivocada se detecta y rechaza.<br>\n  Ninguna unidad con etiqueta equivocada pasa como buena."
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  La etiqueta equivocada se detecta y rechaza.<br>\n  Ninguna unidad con etiqueta equivocada pasa como buena.<br>\n  Matriz de desafío: número de unidades por condición definido en el protocolo aprobado; el 100 % de las unidades malas se rechaza y el 0 % de las unidades buenas se rechaza."
      },
      {
       "et": "Documentos entregables",
@@ -12209,7 +12209,7 @@ var BancoEquipos = {
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  El 100% de los defectos inducidos se rechaza.<br>\n  Ningún malo llega al recipiente de buenos."
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  El 100% de los defectos inducidos se rechaza.<br>\n  Ningún malo llega al recipiente de buenos.<br>\n  Matriz de desafío: número de unidades por condición definido en el protocolo aprobado; el 100 % de las unidades malas se rechaza y el 0 % de las unidades buenas se rechaza."
      },
      {
       "et": "Documentos entregables",
@@ -12240,7 +12240,7 @@ var BancoEquipos = {
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Sin producto verificado como bueno durante la falla.<br>\n  Línea detenida o rechazo total."
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Sin producto verificado como bueno durante la falla.<br>\n  Línea detenida o rechazo total.<br>\n  Matriz de desafío: número de unidades por condición definido en el protocolo aprobado; el 100 % de las unidades malas se rechaza y el 0 % de las unidades buenas se rechaza."
      },
      {
       "et": "Documentos entregables",
@@ -19679,15 +19679,15 @@ var BancoEquipos = {
     "secciones": [
      {
       "et": "Objetivo",
-      "html": "<strong>Objetivo:</strong><br>Verificar el estuchado o empaque secundario (si aplica): los blísteres pasan por el estuchador sin atascos ni daños."
+      "html": "<strong>Objetivo:</strong><br>Verificar el estuchado o empaque secundario (si aplica): los blísteres pasan por el estuchador sin atascos ni daños, con prospecto y estuche correctos y sin faltantes."
      },
      {
       "et": "Procedimiento",
-      "html": "<strong>Procedimiento:</strong><br>\n  1) Pasar los blísteres por el estuchador (si aplica)<br>\n  2) Registrar atascos y daños<br>\n  3) Procesar los datos crudos de defectos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Pasar los blísteres por el estuchador (si aplica)<br>\n  2) Registrar atascos y daños<br>\n  3) Verificar prospecto correcto, estuche correcto y ausencia de faltantes en cada unidad<br>\n  4) Ejecutar el despeje de línea con lista de verificación y doble firma antes y después del lote<br>\n  5) Conciliar materiales impresos (recibidos = aplicados + rechazados + sobrantes + destruidos) dentro del límite definido, con destrucción documentada de sobrantes<br>\n  6) Procesar los datos crudos de defectos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Sin atascos que detengan la línea fuera de criterio.<br>\n  Sin daños a los blísteres por el estuchado."
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Sin atascos que detengan la línea fuera de criterio.<br>\n  Sin daños a los blísteres por el estuchado.<br>\n  Prospecto y estuche correctos sin faltantes.<br>\n  Despeje con doble firma y conciliación dentro del límite con sobrantes destruidos."
      },
      {
       "et": "Documentos entregables",
@@ -19695,7 +19695,7 @@ var BancoEquipos = {
      },
      {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>Manual del fabricante del estuchador."
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante del estuchador; 21 CFR 211.122, 211.125 y 211.130 (empaque, etiquetado y controles)."
      }
     ],
     "tabla": null,
@@ -20774,15 +20774,15 @@ var BancoEquipos = {
     "secciones": [
      {
       "et": "Objetivo",
-      "html": "<strong>Objetivo:</strong><br>Verificar que las unidades etiquetadas pasan por el estuchado o el encajado sin atascos ni daño."
+      "html": "<strong>Objetivo:</strong><br>Verificar que las unidades etiquetadas pasan por el estuchado o el encajado sin atascos ni daño, con prospecto y estuche correctos y sin faltantes."
      },
      {
       "et": "Procedimiento",
-      "html": "<strong>Procedimiento:</strong><br>\n  1) Pasar las unidades por el estuchado o encajado (si aplica)<br>\n  2) Registrar atascos y daños<br>\n  3) Verificar la integridad de etiqueta y código tras el paso"
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Pasar las unidades por el estuchado o encajado (si aplica)<br>\n  2) Registrar atascos y daños<br>\n  3) Verificar la integridad de etiqueta y código tras el paso<br>\n  4) Verificar prospecto correcto, estuche correcto y ausencia de faltantes en cada unidad<br>\n  5) Ejecutar el despeje de línea con lista de verificación y doble firma antes y después del lote<br>\n  6) Conciliar materiales impresos (recibidos = aplicados + rechazados + sobrantes + destruidos) dentro del límite definido, con destrucción documentada de sobrantes"
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Sin atascos que detengan la línea fuera de criterio.<br>\n  Sin daño a etiqueta ni código."
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Sin atascos que detengan la línea fuera de criterio.<br>\n  Sin daño a etiqueta ni código.<br>\n  Prospecto y estuche correctos sin faltantes.<br>\n  Despeje con doble firma y conciliación dentro del límite con sobrantes destruidos."
      },
      {
       "et": "Documentos entregables",
@@ -20790,7 +20790,7 @@ var BancoEquipos = {
      },
      {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>Manual del fabricante del estuchador."
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante del estuchador; 21 CFR 211.122, 211.125 y 211.130 (empaque, etiquetado y controles)."
      }
     ],
     "tabla": null,

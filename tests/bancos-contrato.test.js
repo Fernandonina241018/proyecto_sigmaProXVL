@@ -162,4 +162,17 @@ describe('banco de equipos: contrato', () => {
     });
     expect(solapes).toEqual([]);
   });
+
+  it('matriz de desafío en rechazo/visión + empaque 211.122/125/130', () => {
+    const desafio = ['EQ-OQ-TB-018', 'EQ-OQ-TB-019', 'EQ-OQ-EN-019', 'EQ-OQ-BL-023', 'EQ-OQ-BL-024', 'EQ-OQ-ET-023', 'EQ-OQ-ET-024', 'EQ-OQ-ET-025', 'EQ-OQ-ET-026', 'EQ-OQ-DM-015'];
+    const sinMatriz = desafio.filter((id) => {
+      const x = ensayos.find((e) => e.id === id);
+      return !x || !/Matriz de desafío[^.]*100 % de las unidades malas se rechaza y el 0 % de las unidades buenas se rechaza/.test(plano(x));
+    });
+    expect(sinMatriz).toEqual([]);
+    ['EQ-PQ-BL-018', 'EQ-PQ-ET-019'].forEach((id) => {
+      const t = plano(ensayos.find((e) => e.id === id)).toLowerCase();
+      ['prospecto', 'doble firma', 'destruidos', '211.122'].forEach((k) => expect(t).toContain(k));
+    });
+  });
 });
