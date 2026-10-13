@@ -4808,3 +4808,8 @@ Render inyectaba el `PORT` como variable de entorno; Fly.io también (`process.e
 - **Causa:** `tituloLimpio` solo pelaba códigos de 2 letras por segmento (`EQ-IQ-001`); `EQ-OQ-COM-001` (COM, 3 letras) sobrevivía en el título del acápite.
 - **Qué:** regex a `^[A-Z]{2,5}(?:-[A-Z]{2,5})+-\d{2,4}` en plantilla + `tituloLimpioDQ()` en motor DQ (H2 sin código; tablas Resumen conservan `CÓDIGO — título`).
 - **Verificación:** 2 tests nuevos; Vitest 442/442, backend 67/67, `tsc` 0 errores.
+
+### 2026-10-12 (171): Rollback columna CÓDIGO separada (Resumen vuelve a código — título juntos)
+- **Causa:** la tabla de 4 columnas seguía viéndose mal en Word pese al grid y tcW correctos en XML.
+- **Qué:** revertidos 83b08ac, be289b5 y 96afe88 (columna separada, réplica de diseño y fix tcW). Resumen vuelve a 3 cols con `CÓDIGO — título` en Especificaciones. Se conservan: títulos sin código (167), refs de ensayos en tabla + tabla DQ (166) y fase 1 TS.
+- **Verificación:** Vitest 442/442, backend 67/67, `tsc` 0 errores.
