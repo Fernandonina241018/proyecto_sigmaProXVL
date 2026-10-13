@@ -1090,11 +1090,8 @@ const PlantillaDocx = (() => {
         const gridM = /<w:tblGrid>([\s\S]*?)<\/w:tblGrid>/.exec(tb);
         const anchos = gridM ? [...gridM[1].matchAll(/w:w="(\d+)"/g)].map((m) => +m[1]) : [];
         const puede4 = baseCeldas.length === 3 && hdrCeldas.length === 3 && anchos.length === 3;
-        const capCeldas = puede4 ? celdas(fs[0]) : [];
-        const cap4 = puede4
-          ? insertaCelda(conCeldas(clonar(fs[0]), cab), 3,
-              textoCelda(clonar(capCeldas[2] || capCeldas[0]), '').replace(/<w:vMerge[^>]*\/>/g, ''))
-          : conCeldas(fs[0], cab);
+        // Caption como en el diseño aprobado: 3 celdas (la 4ª queda vacía).
+        const cap4 = conCeldas(fs[0], cab);
         const hdr4 = puede4
           ? insertaCelda(conCeldas(clonar(fs[1]), [hdrCeldas[0],
               textoCelda(clonar(hdrCeldas[1]), 'CÓDIGO'), hdrCeldas[1]]), 3, clonar(hdrCeldas[2]))
@@ -1115,7 +1112,8 @@ const PlantillaDocx = (() => {
         });
         let txml = conFilas(tb, [cap4].concat(hdr4 ? [hdr4] : [fs[1]], datos));
         if (puede4) {
-          const wCod = Math.round(anchos[1] * 0.32);
+          // Anchos del diseño aprobado: ~14% N° / 17% CÓDIGO / 51% Ensayo / 18% C-NC.
+          const wCod = Math.round(anchos[1] * 0.25);
           const rejilla = [anchos[0], wCod, anchos[1] - wCod, anchos[2]]
             .map((w) => '<w:gridCol w:w="' + w + '"/>').join('');
           txml = txml.replace(/<w:tblGrid>[\s\S]*?<\/w:tblGrid>/, '<w:tblGrid>' + rejilla + '</w:tblGrid>');

@@ -304,7 +304,7 @@ const GeneradorDocx = (() => {
     // Listado de ensayos con códigos (solo banco, bloques 2-3).
     const resList = articulos.filter((a) => a.bloque === 3 || a.bloque === 2);
     if (resList.length) {
-      proc.push({ t: 'tabla', headers: ['N°', 'CÓDIGO', 'ENSAYO'], rows: resList.map((a, i) => [String(i + 1), a.id, a.titulo]) });
+      proc.push({ t: 'tabla', headers: ['N°', 'CÓDIGO', 'ENSAYO', 'C/NC'], rows: resList.map((a, i) => [String(i + 1), a.id, a.titulo, '☐ C ☐ NC']) });
     }
     articulos.filter((a) => a.bloque === 4).forEach((a) => {
       proc.push({ t: 'ensayo', num: numera(a), titulo: a.titulo, articulo: a, sinConclusion: true });

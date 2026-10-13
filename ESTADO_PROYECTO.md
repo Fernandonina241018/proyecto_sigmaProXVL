@@ -4812,3 +4812,7 @@ Render inyectaba el `PORT` como variable de entorno; Fly.io también (`process.e
 ### 2026-10-12 (168): Columna CÓDIGO separada en Resumen (plantilla IQ/OQ/PQ)
 - **Qué:** tabla Resumen de 3→4 cols (N°|CÓDIGO|Ensayo|C-NC) con grid recalculado (total constante); caption y encabezado extendidos; degradación a "CÓDIGO — título" si el modelo no trae la forma esperada.
 - **Verificación:** estructura 4 celdas + 4 gridCols en test; Vitest 442/442, backend 67/67, `tsc` 0 errores.
+
+### 2026-10-12 (169): Resumen replica diseño aprobado (caption 3 celdas, anchos 14/17/51/18)
+- **Qué:** caption vuelve a 3 celdas como el .docx de referencia; CÓDIGO al 25% del ancho medio; DQ suma columna veredicto `☐ C ☐ NC`.
+- **Verificación:** Vitest 442/442, backend 67/67, `tsc` 0 errores.

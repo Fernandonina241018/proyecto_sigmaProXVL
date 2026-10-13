@@ -359,13 +359,13 @@ describe('Objetivo en su propia línea en DQ', () => {
     expect(anx0.contenido.map((c) => c.texto || '').join(' ')).not.toContain('TRAZABILIDAD');
   });
 
-  test('Resumen trae tabla N°/CÓDIGO/ENSAYO con los ensayos del banco', () => {
+  test('Resumen trae tabla N°/CÓDIGO/ENSAYO/C-NC con los ensayos del banco', () => {
     const m = GeneradorDocx.buildModelo('DQ', DRAFT, ENT, 'ambas');
     const proc = m.secciones.find((s) => s.h1.startsWith('PROCEDIMIENTO'));
     const tab = proc.contenido.find((c) => c.t === 'tabla');
-    expect(tab.headers).toEqual(['N°', 'CÓDIGO', 'ENSAYO']);
+    expect(tab.headers).toEqual(['N°', 'CÓDIGO', 'ENSAYO', 'C/NC']);
     expect(tab.rows.length).toBeGreaterThan(0);
-    expect(tab.rows.every((r) => r[1] && r[2])).toBe(true);
+    expect(tab.rows.every((r) => r[1] && r[2] && r[3] === '☐ C ☐ NC')).toBe(true);
     expect(tab.rows[0][0]).toBe('1');
   });
 
