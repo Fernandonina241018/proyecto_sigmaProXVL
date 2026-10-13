@@ -73,12 +73,24 @@ describe('códigos solo en Resumen + refs de ensayos en tabla', () => {
     plano = doc.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ');
   };
 
-  test('sin código por ensayo; Resumen con columna CÓDIGO', async () => {
+  test('sin código por ensayo; Resumen con columna CÓDIGO separada', async () => {
     await prep();
     expect(plano).not.toContain('Código del ensayo en el banco');
-    expect(plano).toContain('Código — Especificaciones');
+    expect(plano).toContain('CÓDIGO');
     const primero = (banco.fases.IQ || []).find((i) => i.id && (i.bloque === 2 || i.bloque === 3));
-    expect(plano).toContain(primero.id + ' —');
+    expect(plano).toContain(primero.id);
+    // estructura: filas de datos con 4 celdas (N°|CÓDIGO|Ensayo|C-NC)
+    const strip = (s) => s.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim();
+    const tbls = [...doc.matchAll(/<w:tbl[\s>][\s\S]*?<\/w:tbl>/g)].map((t) => t[0]);
+    const m = tbls.find((t) => /CÓDIGO/.test(strip(t).slice(0, 400)));
+    expect(m).toBeTruthy();
+    const rows = [...m.matchAll(/<w:tr[\s>][\s\S]*?<\/w:tr>/g)];
+    expect(rows.length).toBeGreaterThan(2);
+    rows.slice(1).forEach((rr) => {
+      const n = [...rr[0].matchAll(/<w:tc[\s>]/g)].length;
+      expect(n).toBe(4);
+    });
+    expect((m.match(/<w:gridCol[^>]*>/g) || []).length).toBe(4);
   });
 
   test('toda referencia de ensayo del banco está en REFERENCIAS', async () => {
