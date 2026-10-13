@@ -4846,3 +4846,8 @@ Render inyectaba el `PORT` como variable de entorno; Fly.io también (`process.e
 - **#5:** línea de matriz de desafío (n por condición en protocolo aprobado; 100 % malas / 0 % buenas) en TB-018/019, EN-019, BL-023/024, ET-023/024/025/026 y DM-015.
 - **#6:** PQ-BL-018 y PQ-ET-019 con prospecto/estuche/faltantes, despeje con doble firma, conciliación con destrucción de sobrantes y refs 21 CFR 211.122/125/130.
 - **Verificación:** extractor --estricto OK; Vitest 451/451, backend 67/67.
+
+### 2026-10-13 (178): Tabla 7.2 instrumentos en blanco — copiada a OQ/PQ y generada exacta
+- **Plantillas:** tabla IQ 7.2-1 (Índice | Equipos/Instrumento | Código | Fecha de Calibración | N.º Certificado + 5 filas en blanco 1–5) copiada a `OQ-1-400AAAA.docx` (conserva su caption 7.3-1) y `PQ-1-400AAAA.docx` (7.2-1). Backup en `/tmp/opencode/plantillas-backup/`.
+- **Motor:** `EQ-OQ-COM-001` y `EQ-PQ-COM-001` con `data-tabla-modelo="INSTRUMENTOS DE MEDICIÓN"` (IQ ya lo tenía en EQ-IQ-002); el 7.2 sale con la tabla del modelo en blanco en vez de la lista C/NC con los puntos a–d.
+- **Verificación:** extractor --estricto OK (709); .docx OQ/PQ generados traen 7 filas con índices 1–5 y sin avisos; Vitest 454/454, backend 67/67, `tsc` limpio.

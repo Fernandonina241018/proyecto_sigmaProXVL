@@ -142,6 +142,13 @@ describe('OQ autoclave (banco por familia)', () => {
     expect(r.ensayos.every((id) => !id.includes('-AU-'))).toBe(true);
     expect(doc).not.toContain('EQ-OQ-AU-001');
   });
+
+  it('COM-001 sale con la tabla de instrumentos del modelo (en blanco)', async () => {
+    const { doc } = await genOQ({ id: 'balanza', nombre: 'Balanza' });
+    const txt = doc.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ');
+    expect(txt).toContain('Equipos/Instrumento');
+    expect(txt).toContain('Fecha de Calibración');
+  });
 });
 
 describe('PQ lecho fluido (banco por familia)', () => {
@@ -178,6 +185,13 @@ describe('PQ lecho fluido (banco por familia)', () => {
     const { r, doc } = await genPQ({ id: 'autoclave', nombre: 'Autoclave' });
     expect(r.ensayos.every((id) => !id.includes('-LF-'))).toBe(true);
     expect(doc).not.toContain('EQ-PQ-LF-001');
+  });
+
+  it('COM-001 sale con la tabla de instrumentos del modelo (en blanco)', async () => {
+    const { doc } = await genPQ({ id: 'balanza', nombre: 'Balanza' });
+    const txt = doc.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ');
+    expect(txt).toContain('Equipos/Instrumento');
+    expect(txt).toContain('Fecha de Calibración');
   });
 });
 

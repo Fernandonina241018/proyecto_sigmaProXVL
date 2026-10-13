@@ -4343,7 +4343,8 @@ var BancoEquipos = {
       "html": "<strong>Referencia:</strong><br>USP &lt;1058&gt;; EU GMP Anexo 15."
      }
     ],
-    "tabla": null
+    "tabla": null,
+    "tablaModelo": "INSTRUMENTOS DE MEDICIÓN"
    },
    {
     "kind": "ensayo",
@@ -15431,7 +15432,8 @@ var BancoEquipos = {
       "html": "<strong>Referencia:</strong><br>USP &lt;1058&gt;; EU GMP Anexo 15."
      }
     ],
-    "tabla": null
+    "tabla": null,
+    "tablaModelo": "INSTRUMENTOS DE MEDICIÓN"
    },
    {
     "kind": "ensayo",

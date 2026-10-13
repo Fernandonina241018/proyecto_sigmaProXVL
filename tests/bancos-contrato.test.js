@@ -175,4 +175,11 @@ describe('banco de equipos: contrato', () => {
       ['prospecto', 'doble firma', 'destruidos', '211.122'].forEach((k) => expect(t).toContain(k));
     });
   });
+
+  it('instrumentos 7.2 usan la tabla del modelo (en blanco), no lista de verificación', () => {
+    ['EQ-IQ-002', 'EQ-OQ-COM-001', 'EQ-PQ-COM-001'].forEach((id) => {
+      const x = ensayos.find((e) => e.id === id);
+      expect(x && x.tablaModelo).toBe('INSTRUMENTOS DE MEDICIÓN');
+    });
+  });
 });
