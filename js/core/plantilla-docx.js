@@ -1085,6 +1085,18 @@ const PlantillaDocx = (() => {
           }).join('');
           return tr.slice(0, tr.indexOf('>') + 1) + out + (puesta ? '' : celdaXml) + '</w:tr>';
         };
+        // Las celdas clonadas heredan el tcW de origen: se reescriben al
+        // ancho real de cada columna o la tabla se sale de la hoja.
+        const fijarAnchos = (tr, lista) => {
+          let k = 0;
+          return tr.replace(/<w:tc[\s>][\s\S]*?<\/w:tc>/g, (celda) => {
+            if (k >= lista.length) return celda;
+            const w = lista[k++];
+            if (/<w:tcW\b[^>]*>/.test(celda)) return celda.replace(/<w:tcW\b[^>]*>/, '<w:tcW w:w="' + w + '" w:type="dxa"/>');
+            if (/<w:tcPr>/.test(celda)) return celda.replace(/(<w:tcPr>)/, '$1<w:tcW w:w="' + w + '" w:type="dxa"/>');
+            return celda;
+          });
+        };
         const baseCeldas = celdas(base);
         const hdrCeldas = celdas(fs[1]);
         const gridM = /<w:tblGrid>([\s\S]*?)<\/w:tblGrid>/.exec(tb);
@@ -1114,9 +1126,15 @@ const PlantillaDocx = (() => {
         if (puede4) {
           // Anchos del diseño aprobado: ~14% N° / 17% CÓDIGO / 51% Ensayo / 18% C-NC.
           const wCod = Math.round(anchos[1] * 0.25);
-          const rejilla = [anchos[0], wCod, anchos[1] - wCod, anchos[2]]
+          const anchos4 = [anchos[0], wCod, anchos[1] - wCod, anchos[2]];
+          const rejilla = anchos4
             .map((w) => '<w:gridCol w:w="' + w + '"/>').join('');
           txml = txml.replace(/<w:tblGrid>[\s\S]*?<\/w:tblGrid>/, '<w:tblGrid>' + rejilla + '</w:tblGrid>');
+          // Celdas al ancho real (las clonadas heredan el de origen).
+          txml = txml.replace(/<w:tr[\s>][\s\S]*?<\/w:tr>/g, (tr) => {
+            const n = (tr.match(/<w:tc[\s>]/g) || []).length;
+            return n === 4 ? fijarAnchos(tr, anchos4) : tr;
+          });
         }
         seg[it] = { tag: 'w:tbl', xml: txml };
       }
