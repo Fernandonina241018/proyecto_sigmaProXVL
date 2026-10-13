@@ -62,6 +62,53 @@ describe.each(['IQ', 'OQ', 'PQ'])('%s con formato del modelo', (fase) => {
   });
 });
 
+describe('códigos solo en Resumen + refs de ensayos en tabla', () => {
+  let r, doc, plano;
+  const prep = async () => {
+    if (r) return;
+    const u8 = new Uint8Array(readFileSync(resolve(raiz, P.PLANTILLAS.IQ)));
+    r = await P.generar('IQ', u8, banco, DRAFT, ENT, 'ambas');
+    const arch = Object.fromEntries((await P._interno.leerZip(r.bytes)).map((a) => [a.nombre, dec(a.datos)]));
+    doc = arch['word/document.xml'];
+    plano = doc.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ');
+  };
+
+  test('sin código por ensayo; Resumen con columna CÓDIGO', async () => {
+    await prep();
+    expect(plano).not.toContain('Código del ensayo en el banco');
+    expect(plano).toContain('Código — Especificaciones');
+    const primero = (banco.fases.IQ || []).find((i) => i.id && (i.bloque === 2 || i.bloque === 3));
+    expect(plano).toContain(primero.id + ' —');
+  });
+
+  test('toda referencia de ensayo del banco está en REFERENCIAS', async () => {
+    await prep();
+    const alnum = (s) => String(s || '').toUpperCase().replace(/[^A-Z0-9]/g, '');
+    const seg = plano.slice(plano.indexOf('REFERENCIAS:'), plano.indexOf('ANEXOS:') < 0 ? undefined : plano.indexOf('ANEXOS:'));
+    const refs = (banco.fases.IQ || [])
+      .filter((i) => i.id && (i.bloque === 2 || i.bloque === 3) && !/requisitos previos/i.test(i.titulo || ''))
+      .flatMap((a) => (a.secciones || []).filter((s) => /^referencia/i.test(s.et || '')).map((s) => s.html.replace(/<[^>]+>/g, ' ').replace(/^\s*Referencia:\s*/i, '').trim()))
+      .filter(Boolean);
+    expect(refs.length).toBeGreaterThan(0);
+    for (const t of new Set(refs.map(alnum))) {
+      if (t.length >= 12) expect(alnum(seg)).toContain(t.slice(0, 30));
+    }
+  });
+
+  test('OPC.incluirCodigoEnsayo=true reimprime el código (compat)', async () => {
+    const bak = P.OPC.incluirCodigoEnsayo;
+    P.OPC.incluirCodigoEnsayo = true;
+    try {
+      const u8 = new Uint8Array(readFileSync(resolve(raiz, P.PLANTILLAS.IQ)));
+      const r2 = await P.generar('IQ', u8, banco, DRAFT, ENT, 'ambas');
+      const a2 = Object.fromEntries((await P._interno.leerZip(r2.bytes)).map((x) => [x.nombre, dec(x.datos)]));
+      expect(a2['word/document.xml'].replace(/<[^>]+>/g, ' ')).toContain('Código del ensayo en el banco');
+    } finally {
+      P.OPC.incluirCodigoEnsayo = bak;
+    }
+  });
+});
+
 describe('ajustes del usuario: firmas, encabezado, control de cambios', () => {
   const D2 = { ...DRAFT, codigo: '1000625', controlCambios: 'CC-042', versionProtocolo: '02' };
   let r, arch;

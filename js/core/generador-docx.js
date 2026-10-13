@@ -296,6 +296,11 @@ const GeneradorDocx = (() => {
     });
     proc.push({ t: 'h2', texto: 'RESUMEN:', salto: true });
     proc.push({ t: 'bul', texto: T.resumen });
+    // Listado de ensayos con códigos (solo banco, bloques 2-3).
+    const resList = articulos.filter((a) => a.bloque === 3 || a.bloque === 2);
+    if (resList.length) {
+      proc.push({ t: 'tabla', headers: ['N°', 'CÓDIGO', 'ENSAYO'], rows: resList.map((a, i) => [String(i + 1), a.id, a.titulo]) });
+    }
     articulos.filter((a) => a.bloque === 4).forEach((a) => {
       proc.push({ t: 'ensayo', num: numera(a), titulo: a.titulo, articulo: a, sinConclusion: true });
     });
@@ -312,13 +317,28 @@ const GeneradorDocx = (() => {
       { t: 'h2', texto: T.registroIntro },
       { t: 'registro' },
     ]);
-    // 9. REFERENCIAS (banco si tiene contenido, si no modelo)
+    // 9. REFERENCIAS (banco si tiene contenido, si no modelo + propias de cada ensayo)
     const refBank = articulos.find((a) => a.bloque === 6 && a.tabla);
-    let refFilas = T.refModelo;
+    // Copia: T.refModelo es compartido entre generaciones, nunca mutarlo.
+    let refFilas = (T.refModelo || []).map((r) => [r[0], r[1]]);
     if (refBank) {
       const nb = refBank.tabla.rows.filter((r) => (r[0] || r[1] || '').trim());
       if (nb.length) refFilas = nb.map((r) => [r[0] || '', r[1] || '']);
     }
+    const normRefDQ = (t) => String(t || '').toUpperCase().replace(/\s+/g, ' ').replace(/[.\s]+$/, '').trim();
+    const textoRefDQ = (s) => String((s && s.html) || '')
+      .replace(/^<strong>[^<]*:<\/strong>\s*(<br\s*\/?>)?\s*/i, '')
+      .replace(/<br\s*\/?>/gi, ' ').replace(/<[^>]+>/g, ' ')
+      .replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&amp;/g, '&').replace(/&nbsp;/g, ' ')
+      .replace(/\s+/g, ' ').trim();
+    articulos.filter((a) => a.bloque === 2 || a.bloque === 3).forEach((a) => {
+      ((a.secciones || []).filter((s) => /^referencia/i.test(s.et || ''))).forEach((s) => {
+        const t = textoRefDQ(s);
+        if (t && !refFilas.some((r) => normRefDQ((r[0] || '') + ' ' + (r[1] || '')) === normRefDQ(t) || normRefDQ(r[1] || '') === normRefDQ(t))) {
+          refFilas.push([a.id, t]);
+        }
+      });
+    });
     H1('REFERENCIAS:', [{ t: 'tablaRef', filas: refFilas }]);
     // 10. ANEXOS (banco + trazabilidad URS–riesgo H-09)
     const anex = [];
@@ -483,6 +503,7 @@ const GeneradorDocx = (() => {
         else if (it.t === 'firmas') TABLA_FIRMAS();
         else if (it.t === 'ensayo') ensayoADoc(it, modelo.ctx);
         else if (it.t === 'tablaDatos') TABLA(['CAMPO', 'VALOR'], it.filas);
+        else if (it.t === 'tabla') TABLA(it.headers, it.rows);
         else if (it.t === 'registro') {
           const rows = [];
           for (let i = 0; i < 16; i++) rows.push(['', '', '', '']);

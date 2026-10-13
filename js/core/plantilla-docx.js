@@ -23,7 +23,9 @@ const PlantillaDocx = (() => {
   const MIME_DOCX = 'application/vnd.openxmlformats-officedocument.wordprocessingml.document';
 
   const OPC = {
-    incluirCodigoEnsayo: true, // línea "Código del ensayo en el banco: ALM-IQ-001" (trazabilidad)
+    // Apagado: el código vive solo en la tabla Resumen ("CÓDIGO — título").
+    // Se conserva la opción por compatibilidad (pasar a true lo reimprime).
+    incluirCodigoEnsayo: false, // línea "Código del ensayo en el banco: ALM-IQ-001" (trazabilidad)
     itemsRegistroPorDefecto: 12, // filas de la tabla de registro (modelo OQ/PQ)
     maxItemsRegistro: 60,
     // Ensayos OQ/PQ que usan la tabla de registro del modelo (Área / Tiempo /
@@ -973,13 +975,19 @@ const PlantillaDocx = (() => {
     }
 
     const resumenFilas = [];
+    const refsEnsayo = [];
+    const normRef = (t) => String(t || '').toUpperCase().replace(/\s+/g, ' ').replace(/[.\s]+$/, '').trim();
     ensayos.forEach((art) => {
       nSub++;
       const e = estructura(art, ctx);
       const tit = tituloLimpio(art);
       const bm = '_SigmaSec' + nProc + '_' + nSub;
       toc[bm] = tit;
-      if (!art.fijo) resumenFilas.push(tit);
+      // Solo ensayos del banco: código + título al Resumen; referencia a la tabla.
+      if (!art.fijo) {
+        resumenFilas.push({ id: art.id, tit });
+        if (e.referencia && !refsEnsayo.some((r) => normRef(r) === normRef(e.referencia))) refsEnsayo.push(e.referencia);
+      }
       P(parrafo(T.h2, [{ t: tit.toUpperCase() + ':', b: true }], { salto: debeSaltar(art), marcador: bm }));
       if (OPC.incluirCodigoEnsayo && !art.fijo) {
         P(parrafo(T.nota, [{ t: 'Código del ensayo en el banco: ', b: true }, { t: art.id }], { sinNum: true, runNormal: 1 }));
@@ -1058,13 +1066,16 @@ const PlantillaDocx = (() => {
         const cab = celdas(fs[0]);
         cab[0] = textoCelda(cab[0], 'Tabla ' + nProc + '.' + nSub + '-1');
         const base = fs[2] || fs[fs.length - 1];
-        const datos = resumenFilas.map((t, i) => {
+        // Encabezado de la columna: código + título del ensayo.
+        const hdr = celdas(clonar(fs[1]));
+        if (hdr.length > 2) hdr[1] = textoCelda(hdr[1], 'Código — Especificaciones');
+        const datos = resumenFilas.map((f, i) => {
           const c = celdas(clonar(base));
           c[0] = textoCelda(c[0], String(i + 1));
-          if (c.length > 2) c[1] = textoCelda(c[1], t);
+          c[1] = textoCelda(c[1], f.id + ' — ' + f.tit);
           return conCeldas(clonar(base), c);
         });
-        seg[it] = { tag: 'w:tbl', xml: conFilas(tb, [conCeldas(fs[0], cab), fs[1]].concat(datos)) };
+        seg[it] = { tag: 'w:tbl', xml: conFilas(tb, [conCeldas(fs[0], cab), conCeldas(fs[1], hdr)].concat(datos)) };
       }
       conclusiones += seg.filter((x) => x.tag === 'w:tbl' && /^CONCLUSI/.test(norm(texto(x.xml)))).length;
       nuevo.push(...seg);
@@ -1177,6 +1188,11 @@ const PlantillaDocx = (() => {
         const v = r[2] && !vacio(r[2]) ? ' — ' + r[2] : '';
         return String(r[1]).toUpperCase() + v.toUpperCase();
       });
+      // Referencias propias de cada ensayo del banco, tras las del banco.
+      refsEnsayo.forEach((t) => {
+        const u = String(t).toUpperCase();
+        if (!refs.some((r) => normRef(r) === normRef(u))) refs.push(u);
+      });
       if (refs.length) {
         const fs = filas(parts[iRef + 1].xml);
         const base = fs[1];
@@ -1188,6 +1204,9 @@ const PlantillaDocx = (() => {
         });
         parts[iRef + 1] = { tag: 'w:tbl', xml: conFilas(parts[iRef + 1].xml, [fs[0]].concat(datos)) };
       }
+    }
+    if (refsEnsayo.length && !(iRef >= 0 && refArt && parts[iRef + 1] && parts[iRef + 1].tag === 'w:tbl')) {
+      avisos.push('Referencias de ' + refsEnsayo.length + ' ensayo(s) sin tabla de referencias en el modelo; se conservan en cada ensayo.');
     }
     const iAnx = inf.findIndex((x) => x.estilo === 'Heading1' && /^ANEXOS/.test(sinEsp(x.texto).toUpperCase()));
     const anxDiv = items.find((i) => !i.id && i.bloque === 8 && (!i.familia || !entId || i.familia === entId));

@@ -4798,3 +4798,8 @@ Render inyectaba el `PORT` como variable de entorno; Fly.io también (`process.e
 ### 2026-10-12 (165): IQ+OQ+PQ sistema-cremas-vacio desde ENSAYOS.txt (63 ensayos)
 - **Qué:** nueva entidad `sistema-cremas-vacio` (Nivel 3). Creados `iq-sistema-cremas-vacio.html` (8 EQ-IQ-UC: P&ID, utilidades, recipiente/tapa/agitación, presión-vacío, críticos, control+Part 11, rugosidad con análisis, auxiliares/documentación), `oq-sistema-cremas-vacio.html` (35 EQ-OQ-UC, 25 con análisis: ancla/rasquetas, rotor-estator, vacío, térmica, transferencia, placebo) y `pq-sistema-cremas-vacio.html` (20 EQ-PQ-UC, 16 con análisis: 3 lotes, extremos, peor caso, gota, desaireación, uniformidad, micro, balance).
 - **Verificación:** extractor `--estricto` OK (703 artículos); Vitest 434/434, backend 67/67. Cremas: 8ª familia Nivel 3 completa.
+
+### 2026-10-12 (166): Códigos solo en Resumen + refs de ensayos en tabla (plantilla y DQ)
+- **Qué (plantilla IQ/OQ/PQ):** `OPC.incluirCodigoEnsayo=false` (opción conservada por compat); tabla Resumen con columna `Código — Especificaciones` y filas `CÓDIGO — título` (solo ensayos del banco); referencias propias de cada ensayo anexadas a REFERENCIAS con numeración continua y dedupe (aviso si el modelo no trae tabla).
+- **Qué (DQ):** tabla `N°/CÓDIGO/ENSAYO` en RESUMEN + referencias de ensayos como `[código, texto]` en REFERENCIAS (copia defensiva de `T.refModelo`).
+- **Verificación:** 6 tests nuevos; Vitest 440/440, backend 67/67, `tsc` 0 errores.

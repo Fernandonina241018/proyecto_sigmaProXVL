@@ -358,4 +358,34 @@ describe('Objetivo en su propia línea en DQ', () => {
     const anx0 = m0.secciones.find((s) => /^ANEXOS/.test(s.h1));
     expect(anx0.contenido.map((c) => c.texto || '').join(' ')).not.toContain('TRAZABILIDAD');
   });
+
+  test('Resumen trae tabla N°/CÓDIGO/ENSAYO con los ensayos del banco', () => {
+    const m = GeneradorDocx.buildModelo('DQ', DRAFT, ENT, 'ambas');
+    const proc = m.secciones.find((s) => s.h1.startsWith('PROCEDIMIENTO'));
+    const tab = proc.contenido.find((c) => c.t === 'tabla');
+    expect(tab.headers).toEqual(['N°', 'CÓDIGO', 'ENSAYO']);
+    expect(tab.rows.length).toBeGreaterThan(0);
+    expect(tab.rows.every((r) => r[1] && r[2])).toBe(true);
+    expect(tab.rows[0][0]).toBe('1');
+  });
+
+  test('REFERENCIAS incluye las propias de cada ensayo con su código', () => {
+    const m = GeneradorDocx.buildModelo('DQ', DRAFT, ENT, 'ambas');
+    const ref = m.secciones.find((s) => /^REFERENCIAS/.test(s.h1));
+    const filas = ref.contenido[0].filas;
+    const conCodigo = filas.filter((r) => /^[A-Z]+-[A-Z]+-[0-9]+$/.test(r[0] || ''));
+    expect(conCodigo.length).toBeGreaterThan(0);
+    expect(conCodigo.every((r) => (r[1] || '').trim())).toBe(true);
+  });
+
+  test('tabla resumen DQ se renderiza en el .docx', async () => {
+    const docx = require('docx');
+    const { unzipXml } = await import('./helpers/unzip-xml.mjs');
+    const m = GeneradorDocx.buildModelo('DQ', DRAFT, ENT, 'ambas');
+    const buf = await docx.Packer.toBuffer(GeneradorDocx.modeloADocx(m));
+    const xml = unzipXml(buf, 'word/document.xml');
+    const plano = [...xml.matchAll(/<w:p\b[\s\S]*?<\/w:p>/g)]
+      .map((x) => x[0].replace(/<[^>]+>/g, '').trim().replace(/\s+/g, ' ')).join(' | ');
+    expect(plano).toContain('CÓDIGO');
+  });
 });
