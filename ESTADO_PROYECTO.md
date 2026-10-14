@@ -4870,3 +4870,7 @@ Render inyectaba el `PORT` como variable de entorno; Fly.io también (`process.e
 - **Bancos:** `oq/pq-refrigerador-lab.html` (EQ-OQ-RF 19 + EQ-PQ-RF 14) y `oq/pq-congelador-lab.html` (EQ-OQ-CG 19 + EQ-PQ-CG 14) desde ENSAYOS.txt; números del .txt como guía (renumerado 1..N), `(*)` ignorado, valores con `()` como "definido en el protocolo aprobado" (sin `[n]` nuevos).
 - **Fix raíz:** el motor descartaba la sección `Plan estadístico` (los 179 ensayos del #4 tampoco la imprimían); `estructura()` la extrae y `generar()` la emite tras el procedimiento. Candado nuevo en plantilla-equipos.
 - **Verificación:** extractor --estricto OK (783 artículos); OQ-RF genera 20 ensayos con tabla de instrumentos y plan; Vitest 460/460, backend 67/67, `tsc` limpio.
+
+### 2026-10-14 (183): Borradas fichas viejas de neveras
+- **Borradas:** `equipos/congelador.html`, `equipos/refrigerador-lab.html`, `almacenes/congelador.html` (fichas índice obsoletas con códigos inexistentes; sin referencias en código, extractor ni tests). Quedan solo los bancos RF/CG creados.
+- **Verificación:** extractor --estricto OK (783); Vitest 460/460, backend 67/67.
