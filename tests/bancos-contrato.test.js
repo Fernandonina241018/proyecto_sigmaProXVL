@@ -37,7 +37,7 @@ describe('banco de equipos: contrato', () => {
 
   it('solo familias conocidas', () => {
     const fams = [...new Set(todos.filter((x) => x.familia).map((x) => x.familia))].sort();
-    expect(fams).toEqual(['autoclave', 'blistera', 'detector-metales', 'encapsuladora', 'etiquetadora', 'granulador', 'horno-secado', 'horno-vacio', 'lecho-fluido', 'liofilizador', 'llenadora', 'mezclador', 'reactor', 'recubridora', 'sistema-cremas-vacio', 'tableteadora', 'tunel-despirogenizacion']);
+    expect(fams).toEqual(['autoclave', 'blistera', 'congelador-lab', 'detector-metales', 'encapsuladora', 'etiquetadora', 'granulador', 'horno-secado', 'horno-vacio', 'lecho-fluido', 'liofilizador', 'llenadora', 'mezclador', 'reactor', 'recubridora', 'refrigerador-lab', 'sistema-cremas-vacio', 'tableteadora', 'tunel-despirogenizacion']);
   });
 
   it.each([
@@ -80,6 +80,10 @@ describe('banco de equipos: contrato', () => {
     ['PQ', 'detector-metales', 15], // ENSAYOS.txt usuario (2026-10-11)
     ['OQ', 'etiquetadora', 30], // ENSAYOS.txt usuario (2026-10-11)
     ['PQ', 'etiquetadora', 20], // ENSAYOS.txt usuario (2026-10-11)
+    ['OQ', 'refrigerador-lab', 19], // ENSAYOS.txt neveras (2026-10-14)
+    ['PQ', 'refrigerador-lab', 14], // ENSAYOS.txt neveras (2026-10-14)
+    ['OQ', 'congelador-lab', 19], // ENSAYOS.txt neveras (2026-10-14)
+    ['PQ', 'congelador-lab', 14], // ENSAYOS.txt neveras (2026-10-14)
     ['PQ', 'lecho-fluido', 16],
     ['PQ', 'autoclave', 17],
     ['PQ', 'mezclador', 14],

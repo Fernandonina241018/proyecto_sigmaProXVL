@@ -4865,3 +4865,8 @@ Render inyectaba el `PORT` como variable de entorno; Fly.io también (`process.e
 ### 2026-10-13 (181): Entrada al módulo siempre al dashboard
 - **Cambio:** `show()` resetea el hash a `#/banco` si trae otra ruta; reingresar a Validaciones ya no aterriza en la última vista (firmas, entidad, etc.).
 - **Verificación:** test nuevo (firmas/entidad → banco); Vitest 455/455, backend 67/67.
+
+### 2026-10-14 (182): Bancos OQ/PQ de neveras (RF + CG, 66 ensayos) + fix Plan estadístico
+- **Bancos:** `oq/pq-refrigerador-lab.html` (EQ-OQ-RF 19 + EQ-PQ-RF 14) y `oq/pq-congelador-lab.html` (EQ-OQ-CG 19 + EQ-PQ-CG 14) desde ENSAYOS.txt; números del .txt como guía (renumerado 1..N), `(*)` ignorado, valores con `()` como "definido en el protocolo aprobado" (sin `[n]` nuevos).
+- **Fix raíz:** el motor descartaba la sección `Plan estadístico` (los 179 ensayos del #4 tampoco la imprimían); `estructura()` la extrae y `generar()` la emite tras el procedimiento. Candado nuevo en plantilla-equipos.
+- **Verificación:** extractor --estricto OK (783 artículos); OQ-RF genera 20 ensayos con tabla de instrumentos y plan; Vitest 460/460, backend 67/67, `tsc` limpio.

@@ -538,6 +538,7 @@ const PlantillaDocx = (() => {
     return {
       objetivo: una(/^objetivo/i).join(' '),
       procedimiento: niveles(una(/^procedimiento/i)),
+      plan: una(/^plan estadístico/i).join(' '),
       criterios: una(/^criterio/i),
       entregables: niveles(una(/entregable/i)),
       notas: una(/^nota/i),
@@ -1079,6 +1080,7 @@ const PlantillaDocx = (() => {
         });
       };
       lista('Procedimiento:', e.procedimiento);
+      if (e.plan) P(parrafo(T.nota, [{ t: 'Plan estadístico: ', b: true }, { t: e.plan }], { sinNum: true, runNormal: 1 }));
       lista('Criterios de aceptación:', e.criterios.map((t) => ({ nivel: 0, t })));
       lista('Documentos entregables:', e.entregables);
       e.otros.forEach((t) => P(parrafo(T.nota, [{ t }], { sinNum: true, runNormal: 1 })));

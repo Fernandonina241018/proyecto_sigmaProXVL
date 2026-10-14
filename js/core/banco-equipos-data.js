@@ -1,7 +1,7 @@
 // Generado por scripts/extraer-banco.mjs equipos — NO EDITAR A MANO.
-// Fuente: docs/banco-ensayos/equipos-comun.html + docs/banco-ensayos/equipos/oq-comun.html + docs/banco-ensayos/equipos/pq-comun.html + docs/banco-ensayos/equipos/iq-autoclave.html + docs/banco-ensayos/equipos/iq-tunel-despirogenizacion.html + docs/banco-ensayos/equipos/iq-liofilizador.html + docs/banco-ensayos/equipos/iq-reactor.html + docs/banco-ensayos/equipos/iq-horno-vacio.html + docs/banco-ensayos/equipos/iq-llenadora.html + docs/banco-ensayos/equipos/iq-lecho-fluido.html + docs/banco-ensayos/equipos/iq-tableteadora.html + docs/banco-ensayos/equipos/iq-encapsuladora.html + docs/banco-ensayos/equipos/iq-granulador.html + docs/banco-ensayos/equipos/iq-recubridora.html + docs/banco-ensayos/equipos/iq-blistera.html + docs/banco-ensayos/equipos/iq-detector-metales.html + docs/banco-ensayos/equipos/iq-etiquetadora.html + docs/banco-ensayos/equipos/iq-mezclador.html + docs/banco-ensayos/equipos/iq-horno-secado.html + docs/banco-ensayos/equipos/iq-sistema-cremas-vacio.html + docs/banco-ensayos/equipos/oq-reactor.html + docs/banco-ensayos/equipos/pq-reactor.html + docs/banco-ensayos/equipos/oq-sistema-cremas-vacio.html + docs/banco-ensayos/equipos/pq-sistema-cremas-vacio.html + docs/banco-ensayos/equipos/oq-tableteadora.html + docs/banco-ensayos/equipos/pq-tableteadora.html + docs/banco-ensayos/equipos/oq-encapsuladora.html + docs/banco-ensayos/equipos/pq-encapsuladora.html + docs/banco-ensayos/equipos/oq-granulador.html + docs/banco-ensayos/equipos/pq-granulador.html + docs/banco-ensayos/equipos/oq-recubridora.html + docs/banco-ensayos/equipos/pq-recubridora.html + docs/banco-ensayos/equipos/oq-blistera.html + docs/banco-ensayos/equipos/pq-blistera.html + docs/banco-ensayos/equipos/oq-detector-metales.html + docs/banco-ensayos/equipos/pq-detector-metales.html + docs/banco-ensayos/equipos/oq-etiquetadora.html + docs/banco-ensayos/equipos/pq-etiquetadora.html + docs/banco-ensayos/equipos/oq-lecho-fluido.html + docs/banco-ensayos/equipos/oq-autoclave.html + docs/banco-ensayos/equipos/oq-mezclador.html + docs/banco-ensayos/equipos/oq-horno.html + docs/banco-ensayos/equipos/pq-lecho-fluido.html + docs/banco-ensayos/equipos/pq-autoclave.html + docs/banco-ensayos/equipos/pq-mezclador.html + docs/banco-ensayos/equipos/pq-horno.html + docs/banco-ensayos/equipos/pq-horno-vacio.html + docs/banco-ensayos/equipos/oq-horno-vacio.html (versión: EQ-COMUN 2026-10-01 v2 + EQ-OQ-COM 2026-10-03 v1 + EQ-PQ-COM 2026-10-03 v1 + EQ-IQ-AU 2026-10-07 v1 + EQ-IQ-TD 2026-10-07 v1 + EQ-IQ-LI 2026-10-07 v1 + EQ-IQ-RC 2026-10-07 v1 + EQ-IQ-VA 2026-10-07 v1 + EQ-IQ-LL 2026-10-07 v1 + EQ-IQ-LF 2026-10-07 v1 + EQ-IQ-TB 2026-10-08 v1 + EQ-IQ-EN 2026-10-08 v1 + EQ-IQ-GR 2026-10-08 v1 + EQ-IQ-RB 2026-10-09 v1 + EQ-IQ-BL 2026-10-09 v1 + EQ-IQ-DM 2026-10-11 v1 + EQ-IQ-ET 2026-10-11 v1 + EQ-IQ-MZ 2026-10-11 v1 + EQ-IQ-HO 2026-10-11 v1 + EQ-IQ-UC 2026-10-12 v1 + EQ-OQ-RC 2026-10-07 v1 + EQ-PQ-RC 2026-10-07 v1 + EQ-OQ-UC 2026-10-12 v1 + EQ-PQ-UC 2026-10-12 v1 + EQ-OQ-TB 2026-10-08 v1 + EQ-PQ-TB 2026-10-08 v1 + EQ-OQ-EN 2026-10-08 v1 + EQ-PQ-EN 2026-10-08 v1 + EQ-OQ-GR 2026-10-08 v1 + EQ-PQ-GR 2026-10-08 v1 + EQ-OQ-RB 2026-10-09 v1 + EQ-PQ-RB 2026-10-09 v1 + EQ-OQ-BL 2026-10-09 v1 + EQ-PQ-BL 2026-10-09 v1 + EQ-OQ-DM 2026-10-11 v1 + EQ-PQ-DM 2026-10-11 v1 + EQ-OQ-ET 2026-10-11 v1 + EQ-PQ-ET 2026-10-11 v1 + EQ-OQ-LF 2026-10-05 v2 + EQ-OQ-AU 2026-10-05 v2 + EQ-OQ-MZ 2026-10-05 v2 + EQ-OQ-HO 2026-10-06 v1 + EQ-PQ-LF 2026-10-05 v2 + EQ-PQ-AU 2026-10-05 v2 + EQ-PQ-MZ 2026-10-05 v2 + EQ-PQ-HO 2026-10-06 v1 + EQ-PQ-VA 2026-10-06 v1 + EQ-OQ-VA 2026-10-06 v1).
+// Fuente: docs/banco-ensayos/equipos-comun.html + docs/banco-ensayos/equipos/oq-comun.html + docs/banco-ensayos/equipos/pq-comun.html + docs/banco-ensayos/equipos/iq-autoclave.html + docs/banco-ensayos/equipos/iq-tunel-despirogenizacion.html + docs/banco-ensayos/equipos/iq-liofilizador.html + docs/banco-ensayos/equipos/iq-reactor.html + docs/banco-ensayos/equipos/iq-horno-vacio.html + docs/banco-ensayos/equipos/iq-llenadora.html + docs/banco-ensayos/equipos/iq-lecho-fluido.html + docs/banco-ensayos/equipos/iq-tableteadora.html + docs/banco-ensayos/equipos/iq-encapsuladora.html + docs/banco-ensayos/equipos/iq-granulador.html + docs/banco-ensayos/equipos/iq-recubridora.html + docs/banco-ensayos/equipos/iq-blistera.html + docs/banco-ensayos/equipos/iq-detector-metales.html + docs/banco-ensayos/equipos/iq-etiquetadora.html + docs/banco-ensayos/equipos/iq-mezclador.html + docs/banco-ensayos/equipos/iq-horno-secado.html + docs/banco-ensayos/equipos/iq-sistema-cremas-vacio.html + docs/banco-ensayos/equipos/oq-reactor.html + docs/banco-ensayos/equipos/pq-reactor.html + docs/banco-ensayos/equipos/oq-sistema-cremas-vacio.html + docs/banco-ensayos/equipos/pq-sistema-cremas-vacio.html + docs/banco-ensayos/equipos/oq-tableteadora.html + docs/banco-ensayos/equipos/pq-tableteadora.html + docs/banco-ensayos/equipos/oq-encapsuladora.html + docs/banco-ensayos/equipos/pq-encapsuladora.html + docs/banco-ensayos/equipos/oq-granulador.html + docs/banco-ensayos/equipos/pq-granulador.html + docs/banco-ensayos/equipos/oq-recubridora.html + docs/banco-ensayos/equipos/pq-recubridora.html + docs/banco-ensayos/equipos/oq-blistera.html + docs/banco-ensayos/equipos/pq-blistera.html + docs/banco-ensayos/equipos/oq-detector-metales.html + docs/banco-ensayos/equipos/pq-detector-metales.html + docs/banco-ensayos/equipos/oq-etiquetadora.html + docs/banco-ensayos/equipos/pq-etiquetadora.html + docs/banco-ensayos/equipos/oq-lecho-fluido.html + docs/banco-ensayos/equipos/oq-autoclave.html + docs/banco-ensayos/equipos/oq-mezclador.html + docs/banco-ensayos/equipos/oq-horno.html + docs/banco-ensayos/equipos/pq-lecho-fluido.html + docs/banco-ensayos/equipos/pq-autoclave.html + docs/banco-ensayos/equipos/pq-mezclador.html + docs/banco-ensayos/equipos/pq-horno.html + docs/banco-ensayos/equipos/pq-horno-vacio.html + docs/banco-ensayos/equipos/oq-horno-vacio.html + docs/banco-ensayos/equipos/oq-refrigerador-lab.html + docs/banco-ensayos/equipos/pq-refrigerador-lab.html + docs/banco-ensayos/equipos/oq-congelador-lab.html + docs/banco-ensayos/equipos/pq-congelador-lab.html (versión: EQ-COMUN 2026-10-01 v2 + EQ-OQ-COM 2026-10-03 v1 + EQ-PQ-COM 2026-10-03 v1 + EQ-IQ-AU 2026-10-07 v1 + EQ-IQ-TD 2026-10-07 v1 + EQ-IQ-LI 2026-10-07 v1 + EQ-IQ-RC 2026-10-07 v1 + EQ-IQ-VA 2026-10-07 v1 + EQ-IQ-LL 2026-10-07 v1 + EQ-IQ-LF 2026-10-07 v1 + EQ-IQ-TB 2026-10-08 v1 + EQ-IQ-EN 2026-10-08 v1 + EQ-IQ-GR 2026-10-08 v1 + EQ-IQ-RB 2026-10-09 v1 + EQ-IQ-BL 2026-10-09 v1 + EQ-IQ-DM 2026-10-11 v1 + EQ-IQ-ET 2026-10-11 v1 + EQ-IQ-MZ 2026-10-11 v1 + EQ-IQ-HO 2026-10-11 v1 + EQ-IQ-UC 2026-10-12 v1 + EQ-OQ-RC 2026-10-07 v1 + EQ-PQ-RC 2026-10-07 v1 + EQ-OQ-UC 2026-10-12 v1 + EQ-PQ-UC 2026-10-12 v1 + EQ-OQ-TB 2026-10-08 v1 + EQ-PQ-TB 2026-10-08 v1 + EQ-OQ-EN 2026-10-08 v1 + EQ-PQ-EN 2026-10-08 v1 + EQ-OQ-GR 2026-10-08 v1 + EQ-PQ-GR 2026-10-08 v1 + EQ-OQ-RB 2026-10-09 v1 + EQ-PQ-RB 2026-10-09 v1 + EQ-OQ-BL 2026-10-09 v1 + EQ-PQ-BL 2026-10-09 v1 + EQ-OQ-DM 2026-10-11 v1 + EQ-PQ-DM 2026-10-11 v1 + EQ-OQ-ET 2026-10-11 v1 + EQ-PQ-ET 2026-10-11 v1 + EQ-OQ-LF 2026-10-05 v2 + EQ-OQ-AU 2026-10-05 v2 + EQ-OQ-MZ 2026-10-05 v2 + EQ-OQ-HO 2026-10-06 v1 + EQ-PQ-LF 2026-10-05 v2 + EQ-PQ-AU 2026-10-05 v2 + EQ-PQ-MZ 2026-10-05 v2 + EQ-PQ-HO 2026-10-06 v1 + EQ-PQ-VA 2026-10-06 v1 + EQ-OQ-VA 2026-10-06 v1 + EQ-OQ-RF 2026-10-14 v1 + EQ-PQ-RF 2026-10-14 v1 + EQ-OQ-CG 2026-10-14 v1 + EQ-PQ-CG 2026-10-14 v1).
 var BancoEquipos = {
- "version": "EQ-COMUN 2026-10-01 v2 + EQ-OQ-COM 2026-10-03 v1 + EQ-PQ-COM 2026-10-03 v1 + EQ-IQ-AU 2026-10-07 v1 + EQ-IQ-TD 2026-10-07 v1 + EQ-IQ-LI 2026-10-07 v1 + EQ-IQ-RC 2026-10-07 v1 + EQ-IQ-VA 2026-10-07 v1 + EQ-IQ-LL 2026-10-07 v1 + EQ-IQ-LF 2026-10-07 v1 + EQ-IQ-TB 2026-10-08 v1 + EQ-IQ-EN 2026-10-08 v1 + EQ-IQ-GR 2026-10-08 v1 + EQ-IQ-RB 2026-10-09 v1 + EQ-IQ-BL 2026-10-09 v1 + EQ-IQ-DM 2026-10-11 v1 + EQ-IQ-ET 2026-10-11 v1 + EQ-IQ-MZ 2026-10-11 v1 + EQ-IQ-HO 2026-10-11 v1 + EQ-IQ-UC 2026-10-12 v1 + EQ-OQ-RC 2026-10-07 v1 + EQ-PQ-RC 2026-10-07 v1 + EQ-OQ-UC 2026-10-12 v1 + EQ-PQ-UC 2026-10-12 v1 + EQ-OQ-TB 2026-10-08 v1 + EQ-PQ-TB 2026-10-08 v1 + EQ-OQ-EN 2026-10-08 v1 + EQ-PQ-EN 2026-10-08 v1 + EQ-OQ-GR 2026-10-08 v1 + EQ-PQ-GR 2026-10-08 v1 + EQ-OQ-RB 2026-10-09 v1 + EQ-PQ-RB 2026-10-09 v1 + EQ-OQ-BL 2026-10-09 v1 + EQ-PQ-BL 2026-10-09 v1 + EQ-OQ-DM 2026-10-11 v1 + EQ-PQ-DM 2026-10-11 v1 + EQ-OQ-ET 2026-10-11 v1 + EQ-PQ-ET 2026-10-11 v1 + EQ-OQ-LF 2026-10-05 v2 + EQ-OQ-AU 2026-10-05 v2 + EQ-OQ-MZ 2026-10-05 v2 + EQ-OQ-HO 2026-10-06 v1 + EQ-PQ-LF 2026-10-05 v2 + EQ-PQ-AU 2026-10-05 v2 + EQ-PQ-MZ 2026-10-05 v2 + EQ-PQ-HO 2026-10-06 v1 + EQ-PQ-VA 2026-10-06 v1 + EQ-OQ-VA 2026-10-06 v1",
+ "version": "EQ-COMUN 2026-10-01 v2 + EQ-OQ-COM 2026-10-03 v1 + EQ-PQ-COM 2026-10-03 v1 + EQ-IQ-AU 2026-10-07 v1 + EQ-IQ-TD 2026-10-07 v1 + EQ-IQ-LI 2026-10-07 v1 + EQ-IQ-RC 2026-10-07 v1 + EQ-IQ-VA 2026-10-07 v1 + EQ-IQ-LL 2026-10-07 v1 + EQ-IQ-LF 2026-10-07 v1 + EQ-IQ-TB 2026-10-08 v1 + EQ-IQ-EN 2026-10-08 v1 + EQ-IQ-GR 2026-10-08 v1 + EQ-IQ-RB 2026-10-09 v1 + EQ-IQ-BL 2026-10-09 v1 + EQ-IQ-DM 2026-10-11 v1 + EQ-IQ-ET 2026-10-11 v1 + EQ-IQ-MZ 2026-10-11 v1 + EQ-IQ-HO 2026-10-11 v1 + EQ-IQ-UC 2026-10-12 v1 + EQ-OQ-RC 2026-10-07 v1 + EQ-PQ-RC 2026-10-07 v1 + EQ-OQ-UC 2026-10-12 v1 + EQ-PQ-UC 2026-10-12 v1 + EQ-OQ-TB 2026-10-08 v1 + EQ-PQ-TB 2026-10-08 v1 + EQ-OQ-EN 2026-10-08 v1 + EQ-PQ-EN 2026-10-08 v1 + EQ-OQ-GR 2026-10-08 v1 + EQ-PQ-GR 2026-10-08 v1 + EQ-OQ-RB 2026-10-09 v1 + EQ-PQ-RB 2026-10-09 v1 + EQ-OQ-BL 2026-10-09 v1 + EQ-PQ-BL 2026-10-09 v1 + EQ-OQ-DM 2026-10-11 v1 + EQ-PQ-DM 2026-10-11 v1 + EQ-OQ-ET 2026-10-11 v1 + EQ-PQ-ET 2026-10-11 v1 + EQ-OQ-LF 2026-10-05 v2 + EQ-OQ-AU 2026-10-05 v2 + EQ-OQ-MZ 2026-10-05 v2 + EQ-OQ-HO 2026-10-06 v1 + EQ-PQ-LF 2026-10-05 v2 + EQ-PQ-AU 2026-10-05 v2 + EQ-PQ-MZ 2026-10-05 v2 + EQ-PQ-HO 2026-10-06 v1 + EQ-PQ-VA 2026-10-06 v1 + EQ-OQ-VA 2026-10-06 v1 + EQ-OQ-RF 2026-10-14 v1 + EQ-PQ-RF 2026-10-14 v1 + EQ-OQ-CG 2026-10-14 v1 + EQ-PQ-CG 2026-10-14 v1",
  "fases": {
   "DQ": [],
   "IQ": [
@@ -15401,6 +15401,1474 @@ var BancoEquipos = {
     "bloque": 8,
     "html": "<p><strong>ANEXOS:</strong></p>\n<table>\n<tbody><tr><th>SECCIÓN</th><th>TÍTULO</th></tr>\n<tr><td>8.1</td><td>Anexo A — Registros de vacío, curvas de temperatura y mapeos por setpoint</td></tr>\n<tr><td>8.2</td><td>Anexo B — Certificados de patrones e instrumentos, y planos de sensores</td></tr>\n<tr><td>8.3</td><td>Anexo C — Matrices de interlocks y alarmas, y ficha de bomba y trampa</td></tr>\n</tbody></table>",
     "familia": "horno-vacio"
+   },
+   {
+    "kind": "div",
+    "clase": "portada",
+    "bloque": 1,
+    "html": "<p><strong>PORTADA DEL PROTOCOLO OQ</strong></p>\n<p><strong>Logo:</strong><br><img class=\"ent-logo\" alt=\"Logo de la entidad\"></p>\n<p><strong>Calificación de Operación de <span class=\"equipo\">equipo</span>:</strong> <span class=\"ent-descripcion\">______</span></p>\n<ol>\n  <li><strong>Marca:</strong> <span class=\"ent-marca\">______</span></li>\n  <li><strong>Modelo:</strong> <span class=\"ent-modelo\">______</span></li>\n  <li><strong>Código:</strong> <span class=\"ent-codigo\">______</span></li>\n</ol>",
+    "familia": "refrigerador-lab"
+   },
+   {
+    "kind": "div",
+    "clase": "firmas",
+    "bloque": 1,
+    "html": "<p><strong>FLUJO DE FIRMAS DEL PROTOCOLO:</strong></p>\n<p>Este apartado establece que los responsables revisan y aprueban el presente protocolo, declarando que está apto para su ejecución. Cualquier cambio posterior a la firma obliga a reiniciar el flujo de firmas, con el fin de garantizar que todos los departamentos involucrados estén al tanto de los ensayos a ejecutar.</p>\n<ol>\n  <li><strong>Elaborado Por:</strong> <br> Analista de validaciones — elabora / Nombre: ______ Firma: ______ Fecha: ______</li><br>\n  <li><strong>Revisado Por:</strong> <br> Coordinador de validaciones — revisa / Nombre: ______ Firma: ______ Fecha: ______</li><br>\n  <li><strong>Revisado Por:</strong> <br> Gerente de Área — revisa / Nombre: ______ Firma: ______ Fecha: ______</li><br>\n  <li><strong>Aprobado por:</strong> <br> Gerente de gestión de calidad — aprueba / Nombre: ______ Firma: ______ Fecha: ______</li><br>\n</ol>",
+    "familia": "refrigerador-lab"
+   },
+   {
+    "kind": "div",
+    "clase": "responsabilidades",
+    "bloque": 1,
+    "html": "<p><strong>RESPONSABILIDADES DEL PROTOCOLO:</strong></p>\n<p><strong>Responsabilidad del Analista de validaciones:</strong></p>\n<ol><li>Coordinar la ejecución de la Calificación de Operación con las áreas involucradas, asegurando personal, <span class=\"equipo\">equipo</span>, instrumentos y documentación.</li><li>Verificar que los instrumentos de medición estén identificados y con calibración vigente.</li><li>Ejecutar y/o supervisar los ensayos del protocolo según los criterios aprobados.</li><li>Registrar los datos de forma completa, legible y trazable (ALCOA+).</li><li>Documentar las desviaciones según los procedimientos internos vigentes.</li><li>Elaborar el informe de calificación con resultados, conclusiones y anexos.</li></ol>\n<p><strong>Responsabilidad del Coordinador de validaciones:</strong></p>\n<ol><li>Revisar técnicamente el protocolo antes de su ejecución.</li><li>Asignar al analista responsable y coordinar recursos.</li><li>Revisar las desviaciones, su tratamiento y las CAPA asociadas.</li><li>Revisar el informe final y autorizar el inicio de la PQ.</li></ol>\n<p><strong>Responsabilidad del Gerente de Área:</strong></p>\n<ol><li>Garantizar la disponibilidad del <span class=\"equipo\">equipo</span> y los accesos para la ejecución.</li><li>Facilitar la documentación técnica del fabricante y del proveedor.</li><li>Implementar las acciones operativas derivadas de desviaciones y CAPA.</li></ol>\n<p><strong>Responsabilidad del Gerente de gestión de calidad:</strong></p>\n<ol><li>Aprobar el protocolo y sus criterios de aceptación.</li><li>Aprobar las desviaciones y sus evaluaciones de impacto.</li><li>Emitir el dictamen final del estado de calificación.</li></ol>",
+    "familia": "refrigerador-lab"
+   },
+   {
+    "kind": "div",
+    "clase": "alcance",
+    "bloque": 1,
+    "html": "<p><strong>ALCANCE</strong></p>\n<p>Esta calificación aplica a <span class=\"equipo\">equipo</span>, según protocolo OQ, y cubre los ensayos listados en el índice.</p>",
+    "familia": "refrigerador-lab"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-RF-001",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-RF-001 — Alarmas de alta y baja temperatura",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que las alarmas de alta y baja temperatura de la cámara disparan en el límite definido y con el retardo definido."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Llevar la cámara al límite de alarma alta definido en el protocolo aprobado y verificar el disparo<br>\n  2) Repetir en el límite de alarma baja y verificar el disparo<br>\n  3) Medir el retardo de cada disparo contra el retardo definido en el protocolo aprobado"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Cada alarma dispara en su límite definido.<br>\n  El retardo medido está dentro de lo definido."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de disparos y retardos de alarma (anexo del informe)"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante del equipo."
+     }
+    ],
+    "tabla": null,
+    "familia": "refrigerador-lab"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-RF-002",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-RF-002 — Alarma de puerta abierta, falla de sensor, corte de energía y batería baja",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que cada condición anormal de la cámara genera su alarma (si aplica)."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Simular puerta abierta y verificar su alarma<br>\n  2) Simular falla de sensor y verificar su alarma (si aplica)<br>\n  3) Simular corte de energía y verificar su alarma y la batería de respaldo (si aplica)"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Cada condición simulada genera su alarma.<br>\n  La batería de respaldo sostiene la alarma (si aplica)."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de alarmas simuladas (anexo del informe)"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante del equipo."
+     }
+    ],
+    "tabla": null,
+    "familia": "refrigerador-lab"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-RF-003",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-RF-003 — Notificación remota de alarmas",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que la alarma llega al responsable por la vía remota definida (si aplica)."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Provocar una alarma y verificar su recepción por SMS, correo o sistema de monitoreo (si aplica)<br>\n  2) Registrar destinatario, vía y tiempo de llegada"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  La notificación llega al destinatario definido por la vía definida (si aplica)."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de notificaciones con destinatario y tiempo (anexo del informe)"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante del equipo."
+     }
+    ],
+    "tabla": null,
+    "familia": "refrigerador-lab"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-RF-004",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-RF-004 — Alarma independiente del control",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que la alarma independiente sigue funcionando si falla el controlador principal."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Simular la falla del controlador principal según el procedimiento del fabricante<br>\n  2) Provocar una condición de alarma y verificar que la alarma independiente actúa"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  La alarma independiente actúa sin el controlador principal."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de la prueba de independencia (anexo del informe)"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante del equipo."
+     }
+    ],
+    "tabla": null,
+    "familia": "refrigerador-lab"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-RF-005",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-RF-005 — Falla y recuperación de energía",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar el tiempo que la unidad mantiene el rango sin energía, el tiempo de recuperación y el arranque correcto."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Cortar la energía con la cámara vacía y registrar el tiempo que mantiene el rango<br>\n  2) Restablecer la energía y medir el tiempo de recuperación hasta el rango<br>\n  3) Verificar el arranque correcto sin intervención"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Tiempos registrados contra lo definido en el protocolo aprobado.<br>\n  Arranque correcto sin intervención."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de tiempos de mantenimiento y recuperación (anexo del informe)"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante del equipo."
+     }
+    ],
+    "tabla": null,
+    "familia": "refrigerador-lab"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-RF-006",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-RF-006 — Cerradura o control de acceso de la puerta",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que el acceso a la cámara está restringido al personal autorizado (si aplica)."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Intentar la apertura sin credencial y verificar el bloqueo (si aplica)<br>\n  2) Verificar la apertura con credencial autorizada"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Solo el personal autorizado logra el acceso (si aplica)."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de la prueba de acceso (anexo del informe)"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante del equipo."
+     }
+    ],
+    "tabla": null,
+    "familia": "refrigerador-lab"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-RF-007",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-RF-007 — Exactitud del sensor de control frente a patrón",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar la exactitud del sensor de control contra un patrón en cada setpoint de la tabla."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Comparar la lectura del sensor de control contra el patrón en cada setpoint de la tabla<br>\n  2) Registrar las diferencias por setpoint<br>\n  3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  La diferencia está dentro del criterio definido en el protocolo aprobado en cada setpoint."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de exactitud por setpoint con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de exactitud"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante del equipo. URS aprobada (rangos y criterios)."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "refrigerador-lab"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-RF-008",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-RF-008 — Estabilidad del control en cada setpoint",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que la oscilación del ciclo del compresor (histéresis) se mantiene dentro del rango en cada setpoint."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Registrar la oscilación del ciclo del compresor en cada setpoint<br>\n  2) Verificar que la histéresis mantiene la cámara dentro del rango<br>\n  3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  La oscilación está dentro del rango en cada setpoint."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de histéresis por setpoint con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de estabilidad del control"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante del equipo. URS aprobada (rangos y criterios)."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "refrigerador-lab"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-RF-009",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-RF-009 — Tiempo de enfriamiento y sobreimpulso",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar el tiempo de enfriamiento desde temperatura ambiente hasta el setpoint y el sobreimpulso."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Partir de temperatura ambiente y medir el tiempo hasta alcanzar el setpoint<br>\n  2) Registrar el sobreimpulso máximo alcanzado<br>\n  3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Tiempo y sobreimpulso dentro de lo definido en el protocolo aprobado."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de enfriamiento con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de enfriamiento"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante del equipo. URS aprobada (rangos y criterios)."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "refrigerador-lab"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-RF-010",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-RF-010 — Recuperación tras apertura de puerta",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar el tiempo de retorno al rango tras una apertura de puerta de duración definida según el uso real."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Abrir la puerta por la duración definida según el uso real<br>\n  2) Medir el tiempo de retorno de la cámara al rango<br>\n  3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  La cámara retorna al rango dentro del tiempo definido en el protocolo aprobado."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de recuperación con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de recuperación"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante del equipo."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "refrigerador-lab"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-RF-011",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-RF-011 — Ciclo de descongelación",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar el efecto del ciclo de descongelación sobre la temperatura de cámara y el tiempo de recuperación."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Registrar la temperatura de cámara durante el ciclo de descongelación<br>\n  2) Medir el tiempo de recuperación hasta el rango<br>\n  3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Efecto y recuperación dentro de lo definido en el protocolo aprobado.<br>\n  En congeladores de descongelación automática este es el ensayo más crítico."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro del ciclo con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de descongelación"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante del equipo."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "refrigerador-lab"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-RF-012",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-RF-012 — Circulación de aire",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar los ventiladores y la ausencia de zonas sin flujo (si aplica)."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Verificar los ventiladores en operación<br>\n  2) Confirmar la ausencia de zonas sin flujo (si aplica)<br>\n  3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Ventiladores operativos.<br>\n  Sin zonas sin flujo (si aplica)."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de circulación con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de circulación"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante del equipo."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "refrigerador-lab"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-RF-013",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-RF-013 — Distribución de sensores del mapeo en vacío",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que los sensores del mapeo cubren niveles, esquinas y puntos críticos de la cámara vacía."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Ubicar sensores en los niveles y en las esquinas, cerca de la puerta, de la salida de aire y del evaporador<br>\n  2) Justificar el número de sensores por el volumen en el protocolo aprobado<br>\n  3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  La distribución cubre niveles, esquinas, puerta, salida de aire y evaporador.<br>\n  El número de sensores está justificado por el volumen."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Plano de sensores con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de distribución"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>URS aprobada (rangos y criterios)."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "refrigerador-lab"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-RF-014",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-RF-014 — Duración del estudio de mapeo en vacío",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que la duración del mapeo por setpoint está definida y justificada con la unidad estable."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Operar la unidad estable por la duración definida y justificada por setpoint (mínimo habitual 24 h)<br>\n  2) Registrar el estudio completo<br>\n  3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  La duración cumple lo definido y justificado por setpoint."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro del estudio con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de duración"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>URS aprobada (rangos y criterios)."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "refrigerador-lab"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-RF-015",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-RF-015 — Punto frío, punto caliente y sensor de monitoreo",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Identificar el punto frío y el punto caliente y verificar que el sensor de monitoreo está en posición representativa."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Identificar el punto frío y el punto caliente de la cámara<br>\n  2) Verificar que el sensor de monitoreo está en una posición representativa<br>\n  3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Puntos frío y caliente identificados.<br>\n  Sensor de monitoreo en posición representativa."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de puntos con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de puntos"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>URS aprobada (rangos y criterios)."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "refrigerador-lab"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-RF-016",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-RF-016 — Criterio de aceptación del mapeo en vacío",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que todos los sensores se mantienen dentro del rango del URS durante todo el estudio."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Revisar todos los registros del estudio por sensor y setpoint<br>\n  2) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Todos los sensores dentro del rango del URS durante todo el estudio."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro del estudio con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis del mapeo en vacío"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>URS aprobada (rangos y criterios)."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "refrigerador-lab"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-RF-017",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-RF-017 — Registrador independiente frente a control y patrón",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar la diferencia entre el registrador independiente, el sensor de control y el patrón."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Comparar en simultáneo el registrador independiente, el sensor de control y el patrón<br>\n  2) Registrar las diferencias"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  La diferencia está dentro del criterio definido en el protocolo aprobado."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro comparativo (anexo del informe)"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante del equipo."
+     }
+    ],
+    "tabla": null,
+    "familia": "refrigerador-lab"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-RF-018",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-RF-018 — Intervalo de registro y marca de tiempo",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar el intervalo de registro y la exactitud de la marca de tiempo del sistema de monitoreo."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Verificar el intervalo de registro contra lo definido<br>\n  2) Verificar la exactitud de fecha y hora contra un patrón"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Intervalo y marca de tiempo exactos según lo definido."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de la verificación (anexo del informe)"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante del equipo."
+     }
+    ],
+    "tabla": null,
+    "familia": "refrigerador-lab"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-RF-019",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-RF-019 — Integridad de datos y respaldo",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar la integridad de los registros y su respaldo (si aplica)."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Verificar el respaldo de los registros según el procedimiento (si aplica)<br>\n  2) Verificar los controles de integridad de datos (si aplica)"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Respaldo disponible e íntegro (si aplica)."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de respaldo verificado (anexo del informe)"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante del equipo."
+     }
+    ],
+    "tabla": null,
+    "familia": "refrigerador-lab"
+   },
+   {
+    "kind": "resumen",
+    "id": "EQ-OQ-RF-RES",
+    "bloque": 4,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-RF-RES — Tabla resumen de los ensayos del OQ",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Consolidar el listado de ensayos del OQ del refrigerador para la tabla resumen del protocolo."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Confirmar que los ensayos EQ-OQ-RF-001 a EQ-OQ-RF-019 están incluidos en el índice del protocolo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Los 19 ensayos aparecen en la tabla resumen con su veredicto."
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>EU GMP Anexo 15."
+     }
+    ],
+    "tabla": null,
+    "familia": "refrigerador-lab"
+   },
+   {
+    "kind": "tabla",
+    "id": "EQ-OQ-RF-REF",
+    "bloque": 6,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-RF-REF — Referencias del OQ de refrigerador",
+    "secciones": [],
+    "tabla": {
+     "headers": [
+      "SECCIÓN",
+      "TÍTULO",
+      "ESTADO"
+     ],
+     "rows": [
+      [
+       "6.1",
+       "Manual del fabricante del equipo — Setpoints, alarmas y límites de diseño",
+       "VIGENTE"
+      ],
+      [
+       "6.2",
+       "URS aprobada — Rangos, criterios de aceptación y posiciones de monitoreo",
+       "VIGENTE"
+      ],
+      [
+       "6.3",
+       "EU GMP Anexo 15 — Cualificación y validación: el OQ demuestra operación según especificaciones aprobadas",
+       "VIGENTE"
+      ]
+     ]
+    },
+    "familia": "refrigerador-lab"
+   },
+   {
+    "kind": "div",
+    "clase": "anexos",
+    "bloque": 8,
+    "html": "<p><strong>ANEXOS:</strong></p>\n<table>\n<tbody><tr><th>SECCIÓN</th><th>TÍTULO</th></tr>\n<tr><td>8.1</td><td>Anexo A — Registros de mapeo, curvas de temperatura por setpoint y posición</td></tr>\n<tr><td>8.2</td><td>Anexo B — Certificados de calibración de patrones e instrumentos</td></tr>\n<tr><td>8.3</td><td>Anexo C — Registros de alarmas, respaldos y notificaciones verificadas</td></tr>\n</tbody></table>",
+    "familia": "refrigerador-lab"
+   },
+   {
+    "kind": "div",
+    "clase": "portada",
+    "bloque": 1,
+    "html": "<p><strong>PORTADA DEL PROTOCOLO OQ</strong></p>\n<p><strong>Logo:</strong><br><img class=\"ent-logo\" alt=\"Logo de la entidad\"></p>\n<p><strong>Calificación de Operación de <span class=\"equipo\">equipo</span>:</strong> <span class=\"ent-descripcion\">______</span></p>\n<ol>\n  <li><strong>Marca:</strong> <span class=\"ent-marca\">______</span></li>\n  <li><strong>Modelo:</strong> <span class=\"ent-modelo\">______</span></li>\n  <li><strong>Código:</strong> <span class=\"ent-codigo\">______</span></li>\n</ol>",
+    "familia": "congelador-lab"
+   },
+   {
+    "kind": "div",
+    "clase": "firmas",
+    "bloque": 1,
+    "html": "<p><strong>FLUJO DE FIRMAS DEL PROTOCOLO:</strong></p>\n<p>Este apartado establece que los responsables revisan y aprueban el presente protocolo, declarando que está apto para su ejecución. Cualquier cambio posterior a la firma obliga a reiniciar el flujo de firmas, con el fin de garantizar que todos los departamentos involucrados estén al tanto de los ensayos a ejecutar.</p>\n<ol>\n  <li><strong>Elaborado Por:</strong> <br> Analista de validaciones — elabora / Nombre: ______ Firma: ______ Fecha: ______</li><br>\n  <li><strong>Revisado Por:</strong> <br> Coordinador de validaciones — revisa / Nombre: ______ Firma: ______ Fecha: ______</li><br>\n  <li><strong>Revisado Por:</strong> <br> Gerente de Área — revisa / Nombre: ______ Firma: ______ Fecha: ______</li><br>\n  <li><strong>Aprobado por:</strong> <br> Gerente de gestión de calidad — aprueba / Nombre: ______ Firma: ______ Fecha: ______</li><br>\n</ol>",
+    "familia": "congelador-lab"
+   },
+   {
+    "kind": "div",
+    "clase": "responsabilidades",
+    "bloque": 1,
+    "html": "<p><strong>RESPONSABILIDADES DEL PROTOCOLO:</strong></p>\n<p><strong>Responsabilidad del Analista de validaciones:</strong></p>\n<ol><li>Coordinar la ejecución de la Calificación de Operación con las áreas involucradas, asegurando personal, <span class=\"equipo\">equipo</span>, instrumentos y documentación.</li><li>Verificar que los instrumentos de medición estén identificados y con calibración vigente.</li><li>Ejecutar y/o supervisar los ensayos del protocolo según los criterios aprobados.</li><li>Registrar los datos de forma completa, legible y trazable (ALCOA+).</li><li>Documentar las desviaciones según los procedimientos internos vigentes.</li><li>Elaborar el informe de calificación con resultados, conclusiones y anexos.</li></ol>\n<p><strong>Responsabilidad del Coordinador de validaciones:</strong></p>\n<ol><li>Revisar técnicamente el protocolo antes de su ejecución.</li><li>Asignar al analista responsable y coordinar recursos.</li><li>Revisar las desviaciones, su tratamiento y las CAPA asociadas.</li><li>Revisar el informe final y autorizar el inicio de la PQ.</li></ol>\n<p><strong>Responsabilidad del Gerente de Área:</strong></p>\n<ol><li>Garantizar la disponibilidad del <span class=\"equipo\">equipo</span> y los accesos para la ejecución.</li><li>Facilitar la documentación técnica del fabricante y del proveedor.</li><li>Implementar las acciones operativas derivadas de desviaciones y CAPA.</li></ol>\n<p><strong>Responsabilidad del Gerente de gestión de calidad:</strong></p>\n<ol><li>Aprobar el protocolo y sus criterios de aceptación.</li><li>Aprobar las desviaciones y sus evaluaciones de impacto.</li><li>Emitir el dictamen final del estado de calificación.</li></ol>",
+    "familia": "congelador-lab"
+   },
+   {
+    "kind": "div",
+    "clase": "alcance",
+    "bloque": 1,
+    "html": "<p><strong>ALCANCE</strong></p>\n<p>Esta calificación aplica a <span class=\"equipo\">equipo</span>, según protocolo OQ, y cubre los ensayos listados en el índice.</p>",
+    "familia": "congelador-lab"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-CG-001",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-CG-001 — Alarmas de alta y baja temperatura",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que las alarmas de alta y baja temperatura de la cámara disparan en el límite definido y con el retardo definido."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Llevar la cámara al límite de alarma alta definido en el protocolo aprobado y verificar el disparo<br>\n  2) Repetir en el límite de alarma baja y verificar el disparo<br>\n  3) Medir el retardo de cada disparo contra el retardo definido en el protocolo aprobado"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Cada alarma dispara en su límite definido.<br>\n  El retardo medido está dentro de lo definido."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de disparos y retardos de alarma (anexo del informe)"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante del equipo."
+     }
+    ],
+    "tabla": null,
+    "familia": "congelador-lab"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-CG-002",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-CG-002 — Alarma de puerta abierta, falla de sensor, corte de energía y batería baja",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que cada condición anormal de la cámara genera su alarma (si aplica)."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Simular puerta abierta y verificar su alarma<br>\n  2) Simular falla de sensor y verificar su alarma (si aplica)<br>\n  3) Simular corte de energía y verificar su alarma y la batería de respaldo (si aplica)"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Cada condición simulada genera su alarma.<br>\n  La batería de respaldo sostiene la alarma (si aplica)."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de alarmas simuladas (anexo del informe)"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante del equipo."
+     }
+    ],
+    "tabla": null,
+    "familia": "congelador-lab"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-CG-003",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-CG-003 — Notificación remota de alarmas",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que la alarma llega al responsable por la vía remota definida (si aplica)."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Provocar una alarma y verificar su recepción por SMS, correo o sistema de monitoreo (si aplica)<br>\n  2) Registrar destinatario, vía y tiempo de llegada"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  La notificación llega al destinatario definido por la vía definida (si aplica)."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de notificaciones con destinatario y tiempo (anexo del informe)"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante del equipo."
+     }
+    ],
+    "tabla": null,
+    "familia": "congelador-lab"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-CG-004",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-CG-004 — Alarma independiente del control",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que la alarma independiente sigue funcionando si falla el controlador principal."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Simular la falla del controlador principal según el procedimiento del fabricante<br>\n  2) Provocar una condición de alarma y verificar que la alarma independiente actúa"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  La alarma independiente actúa sin el controlador principal."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de la prueba de independencia (anexo del informe)"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante del equipo."
+     }
+    ],
+    "tabla": null,
+    "familia": "congelador-lab"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-CG-005",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-CG-005 — Falla y recuperación de energía",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar el tiempo que la unidad mantiene el rango sin energía, el tiempo de recuperación y el arranque correcto."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Cortar la energía con la cámara vacía y registrar el tiempo que mantiene el rango<br>\n  2) Restablecer la energía y medir el tiempo de recuperación hasta el rango<br>\n  3) Verificar el arranque correcto sin intervención"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Tiempos registrados contra lo definido en el protocolo aprobado.<br>\n  Arranque correcto sin intervención."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de tiempos de mantenimiento y recuperación (anexo del informe)"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante del equipo."
+     }
+    ],
+    "tabla": null,
+    "familia": "congelador-lab"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-CG-006",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-CG-006 — Cerradura o control de acceso de la puerta",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que el acceso a la cámara está restringido al personal autorizado (si aplica)."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Intentar la apertura sin credencial y verificar el bloqueo (si aplica)<br>\n  2) Verificar la apertura con credencial autorizada"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Solo el personal autorizado logra el acceso (si aplica)."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de la prueba de acceso (anexo del informe)"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante del equipo."
+     }
+    ],
+    "tabla": null,
+    "familia": "congelador-lab"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-CG-007",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-CG-007 — Exactitud del sensor de control frente a patrón",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar la exactitud del sensor de control contra un patrón en cada setpoint de la tabla."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Comparar la lectura del sensor de control contra el patrón en cada setpoint de la tabla<br>\n  2) Registrar las diferencias por setpoint<br>\n  3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  La diferencia está dentro del criterio definido en el protocolo aprobado en cada setpoint."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de exactitud por setpoint con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de exactitud"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante del equipo. URS aprobada (rangos y criterios)."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "congelador-lab"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-CG-008",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-CG-008 — Estabilidad del control en cada setpoint",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que la oscilación del ciclo del compresor (histéresis) se mantiene dentro del rango en cada setpoint."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Registrar la oscilación del ciclo del compresor en cada setpoint<br>\n  2) Verificar que la histéresis mantiene la cámara dentro del rango<br>\n  3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  La oscilación está dentro del rango en cada setpoint."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de histéresis por setpoint con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de estabilidad del control"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante del equipo. URS aprobada (rangos y criterios)."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "congelador-lab"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-CG-009",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-CG-009 — Tiempo de enfriamiento y sobreimpulso",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar el tiempo de enfriamiento desde temperatura ambiente hasta el setpoint y el sobreimpulso."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Partir de temperatura ambiente y medir el tiempo hasta alcanzar el setpoint<br>\n  2) Registrar el sobreimpulso máximo alcanzado<br>\n  3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Tiempo y sobreimpulso dentro de lo definido en el protocolo aprobado."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de enfriamiento con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de enfriamiento"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante del equipo. URS aprobada (rangos y criterios)."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "congelador-lab"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-CG-010",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-CG-010 — Recuperación tras apertura de puerta",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar el tiempo de retorno al rango tras una apertura de puerta de duración definida según el uso real."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Abrir la puerta por la duración definida según el uso real<br>\n  2) Medir el tiempo de retorno de la cámara al rango<br>\n  3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  La cámara retorna al rango dentro del tiempo definido en el protocolo aprobado."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de recuperación con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de recuperación"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante del equipo."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "congelador-lab"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-CG-011",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-CG-011 — Ciclo de descongelación",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar el efecto del ciclo de descongelación sobre la temperatura de cámara y el tiempo de recuperación."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Registrar la temperatura de cámara durante el ciclo de descongelación<br>\n  2) Medir el tiempo de recuperación hasta el rango<br>\n  3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Efecto y recuperación dentro de lo definido en el protocolo aprobado.<br>\n  En congeladores de descongelación automática este es el ensayo más crítico."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro del ciclo con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de descongelación"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante del equipo."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "congelador-lab"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-CG-012",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-CG-012 — Circulación de aire",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar los ventiladores y la ausencia de zonas sin flujo (si aplica)."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Verificar los ventiladores en operación<br>\n  2) Confirmar la ausencia de zonas sin flujo (si aplica)<br>\n  3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Ventiladores operativos.<br>\n  Sin zonas sin flujo (si aplica)."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de circulación con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de circulación"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante del equipo."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "congelador-lab"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-CG-013",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-CG-013 — Distribución de sensores del mapeo en vacío",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que los sensores del mapeo cubren niveles, esquinas y puntos críticos de la cámara vacía."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Ubicar sensores en los niveles y en las esquinas, cerca de la puerta, de la salida de aire y del evaporador<br>\n  2) Justificar el número de sensores por el volumen en el protocolo aprobado<br>\n  3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  La distribución cubre niveles, esquinas, puerta, salida de aire y evaporador.<br>\n  El número de sensores está justificado por el volumen."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Plano de sensores con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de distribución"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>URS aprobada (rangos y criterios)."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "congelador-lab"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-CG-014",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-CG-014 — Duración del estudio de mapeo en vacío",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que la duración del mapeo por setpoint está definida y justificada con la unidad estable."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Operar la unidad estable por la duración definida y justificada por setpoint (mínimo habitual 24 h)<br>\n  2) Registrar el estudio completo<br>\n  3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  La duración cumple lo definido y justificado por setpoint."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro del estudio con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de duración"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>URS aprobada (rangos y criterios)."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "congelador-lab"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-CG-015",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-CG-015 — Punto frío, punto caliente y sensor de monitoreo",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Identificar el punto frío y el punto caliente y verificar que el sensor de monitoreo está en posición representativa."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Identificar el punto frío y el punto caliente de la cámara<br>\n  2) Verificar que el sensor de monitoreo está en una posición representativa<br>\n  3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Puntos frío y caliente identificados.<br>\n  Sensor de monitoreo en posición representativa."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de puntos con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de puntos"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>URS aprobada (rangos y criterios)."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "congelador-lab"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-CG-016",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-CG-016 — Criterio de aceptación del mapeo en vacío",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que todos los sensores se mantienen dentro del rango del URS durante todo el estudio."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Revisar todos los registros del estudio por sensor y setpoint<br>\n  2) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Todos los sensores dentro del rango del URS durante todo el estudio."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro del estudio con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis del mapeo en vacío"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>URS aprobada (rangos y criterios)."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "congelador-lab"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-CG-017",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-CG-017 — Registrador independiente frente a control y patrón",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar la diferencia entre el registrador independiente, el sensor de control y el patrón."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Comparar en simultáneo el registrador independiente, el sensor de control y el patrón<br>\n  2) Registrar las diferencias"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  La diferencia está dentro del criterio definido en el protocolo aprobado."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro comparativo (anexo del informe)"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante del equipo."
+     }
+    ],
+    "tabla": null,
+    "familia": "congelador-lab"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-CG-018",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-CG-018 — Intervalo de registro y marca de tiempo",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar el intervalo de registro y la exactitud de la marca de tiempo del sistema de monitoreo."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Verificar el intervalo de registro contra lo definido<br>\n  2) Verificar la exactitud de fecha y hora contra un patrón"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Intervalo y marca de tiempo exactos según lo definido."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de la verificación (anexo del informe)"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante del equipo."
+     }
+    ],
+    "tabla": null,
+    "familia": "congelador-lab"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-CG-019",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-CG-019 — Integridad de datos y respaldo",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar la integridad de los registros y su respaldo (si aplica)."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Verificar el respaldo de los registros según el procedimiento (si aplica)<br>\n  2) Verificar los controles de integridad de datos (si aplica)"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Respaldo disponible e íntegro (si aplica)."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de respaldo verificado (anexo del informe)"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante del equipo."
+     }
+    ],
+    "tabla": null,
+    "familia": "congelador-lab"
+   },
+   {
+    "kind": "resumen",
+    "id": "EQ-OQ-CG-RES",
+    "bloque": 4,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-CG-RES — Tabla resumen de los ensayos del OQ",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Consolidar el listado de ensayos del OQ del congelador para la tabla resumen del protocolo."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Confirmar que los ensayos EQ-OQ-CG-001 a EQ-OQ-CG-019 están incluidos en el índice del protocolo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Los 19 ensayos aparecen en la tabla resumen con su veredicto."
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>EU GMP Anexo 15."
+     }
+    ],
+    "tabla": null,
+    "familia": "congelador-lab"
+   },
+   {
+    "kind": "tabla",
+    "id": "EQ-OQ-CG-REF",
+    "bloque": 6,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-CG-REF — Referencias del OQ de congelador",
+    "secciones": [],
+    "tabla": {
+     "headers": [
+      "SECCIÓN",
+      "TÍTULO",
+      "ESTADO"
+     ],
+     "rows": [
+      [
+       "6.1",
+       "Manual del fabricante del equipo — Setpoints, alarmas y límites de diseño",
+       "VIGENTE"
+      ],
+      [
+       "6.2",
+       "URS aprobada — Rangos, criterios de aceptación y posiciones de monitoreo",
+       "VIGENTE"
+      ],
+      [
+       "6.3",
+       "EU GMP Anexo 15 — Cualificación y validación: el OQ demuestra operación según especificaciones aprobadas",
+       "VIGENTE"
+      ]
+     ]
+    },
+    "familia": "congelador-lab"
+   },
+   {
+    "kind": "div",
+    "clase": "anexos",
+    "bloque": 8,
+    "html": "<p><strong>ANEXOS:</strong></p>\n<table>\n<tbody><tr><th>SECCIÓN</th><th>TÍTULO</th></tr>\n<tr><td>8.1</td><td>Anexo A — Registros de mapeo, curvas de temperatura por setpoint y posición</td></tr>\n<tr><td>8.2</td><td>Anexo B — Certificados de calibración de patrones e instrumentos</td></tr>\n<tr><td>8.3</td><td>Anexo C — Registros de alarmas, respaldos y notificaciones verificadas</td></tr>\n</tbody></table>",
+    "familia": "congelador-lab"
    }
   ],
   "PQ": [
@@ -23924,6 +25392,1174 @@ var BancoEquipos = {
     "bloque": 8,
     "html": "<p><strong>ANEXOS:</strong></p>\n<table>\n<tbody><tr><th>SECCIÓN</th><th>TÍTULO</th></tr>\n<tr><td>8.1</td><td>Anexo A — Registros de ciclos, curvas de vacío y temperatura, y mapeos con carga</td></tr>\n<tr><td>8.2</td><td>Anexo B — Certificados del material de referencia, patrones e instrumentos</td></tr>\n<tr><td>8.3</td><td>Anexo C — Comparativas entre corridas, analistas y posiciones</td></tr>\n</tbody></table>",
     "familia": "horno-vacio"
+   },
+   {
+    "kind": "div",
+    "clase": "portada",
+    "bloque": 1,
+    "html": "<p><strong>PORTADA DEL PROTOCOLO PQ</strong></p>\n<p><strong>Logo:</strong><br><img class=\"ent-logo\" alt=\"Logo de la entidad\"></p>\n<p><strong>Calificación de Desempeño de <span class=\"equipo\">equipo</span>:</strong> <span class=\"ent-descripcion\">______</span></p>\n<ol>\n  <li><strong>Marca:</strong> <span class=\"ent-marca\">______</span></li>\n  <li><strong>Modelo:</strong> <span class=\"ent-modelo\">______</span></li>\n  <li><strong>Código:</strong> <span class=\"ent-codigo\">______</span></li>\n</ol>",
+    "familia": "refrigerador-lab"
+   },
+   {
+    "kind": "div",
+    "clase": "firmas",
+    "bloque": 1,
+    "html": "<p><strong>FLUJO DE FIRMAS DEL PROTOCOLO:</strong></p>\n<p>Este apartado establece que los responsables revisan y aprueban el presente protocolo, declarando que está apto para su ejecución. Cualquier cambio posterior a la firma obliga a reiniciar el flujo de firmas, con el fin de garantizar que todos los departamentos involucrados estén al tanto de los ensayos a ejecutar.</p>\n<ol>\n  <li><strong>Elaborado Por:</strong> <br> Analista de validaciones — elabora / Nombre: ______ Firma: ______ Fecha: ______</li><br>\n  <li><strong>Revisado Por:</strong> <br> Coordinador de validaciones — revisa / Nombre: ______ Firma: ______ Fecha: ______</li><br>\n  <li><strong>Revisado Por:</strong> <br> Gerente de Área — revisa / Nombre: ______ Firma: ______ Fecha: ______</li><br>\n  <li><strong>Aprobado por:</strong> <br> Gerente de gestión de calidad — aprueba / Nombre: ______ Firma: ______ Fecha: ______</li><br>\n</ol>",
+    "familia": "refrigerador-lab"
+   },
+   {
+    "kind": "div",
+    "clase": "responsabilidades",
+    "bloque": 1,
+    "html": "<p><strong>RESPONSABILIDADES DEL PROTOCOLO:</strong></p>\n<p><strong>Responsabilidad del Analista de validaciones:</strong></p>\n<ol><li>Coordinar la ejecución de la Calificación de Desempeño con producción y control de calidad, asegurando personal, <span class=\"equipo\">equipo</span>, instrumentos y documentación.</li><li>Verificar que los instrumentos de medición estén identificados y con calibración vigente.</li><li>Ejecutar y/o supervisar los ensayos del protocolo según los criterios aprobados.</li><li>Registrar los datos de forma completa, legible y trazable (ALCOA+).</li><li>Documentar las desviaciones según los procedimientos internos vigentes.</li><li>Elaborar el informe de calificación con resultados, conclusiones y anexos.</li></ol>\n<p><strong>Responsabilidad del Coordinador de validaciones:</strong></p>\n<ol><li>Revisar técnicamente el protocolo antes de su ejecución.</li><li>Asignar al analista responsable y coordinar recursos.</li><li>Revisar las desviaciones, su tratamiento y las CAPA asociadas.</li><li>Revisar el informe final y dictaminar el desempeño del equipo.</li></ol>\n<p><strong>Responsabilidad del Gerente de Área:</strong></p>\n<ol><li>Garantizar la disponibilidad del <span class=\"equipo\">equipo</span> y los accesos para la ejecución.</li><li>Facilitar la documentación técnica del fabricante y del proveedor.</li><li>Implementar las acciones operativas derivadas de desviaciones y CAPA.</li></ol>\n<p><strong>Responsabilidad del Gerente de gestión de calidad:</strong></p>\n<ol><li>Aprobar el protocolo y sus criterios de aceptación.</li><li>Aprobar las desviaciones y sus evaluaciones de impacto.</li><li>Emitir el dictamen final del estado de calificación.</li></ol>",
+    "familia": "refrigerador-lab"
+   },
+   {
+    "kind": "div",
+    "clase": "alcance",
+    "bloque": 1,
+    "html": "<p><strong>ALCANCE</strong></p>\n<p>Esta calificación aplica a <span class=\"equipo\">equipo</span>, según protocolo PQ, y cubre los ensayos listados en el índice.</p>",
+    "familia": "refrigerador-lab"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-RF-001",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-RF-001 — Mapeo con carga máxima",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar la uniformidad de temperatura con la cámara en carga máxima, en cada setpoint."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Cargar la cámara al máximo definido y ubicar sensores entre el material y en su interior (si aplica)<br>\n  2) Ejecutar el mapeo en cada setpoint<br>\n  3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Todos los sensores dentro del rango durante todo el estudio."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro del mapeo con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de carga máxima"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>URS aprobada (rangos y criterios)."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "refrigerador-lab"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-RF-002",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-RF-002 — Mapeo con carga mínima",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar la uniformidad con la cámara casi vacía, que oscila más, en cada setpoint."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Operar la cámara con carga mínima y ejecutar el mapeo en cada setpoint<br>\n  2) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Todos los sensores dentro del rango durante todo el estudio."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro del mapeo con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de carga mínima"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>URS aprobada (rangos y criterios)."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "refrigerador-lab"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-RF-003",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-RF-003 — Puntos frío y caliente con carga",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que los puntos frío y caliente del OQ se mantienen con carga, o reubicar el sensor de monitoreo si se desplazaron."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Comparar los puntos del OQ contra los del mapeo con carga<br>\n  2) Reubicar el sensor de monitoreo si los puntos se desplazaron y documentar la nueva posición<br>\n  3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Puntos confirmados o sensor reubicado con posición documentada."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro comparativo con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de puntos con carga"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>URS aprobada (rangos y criterios)."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "refrigerador-lab"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-RF-004",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-RF-004 — Criterio de aceptación del mapeo con carga",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que todos los sensores se mantienen dentro del rango durante todo el estudio, con duración justificada."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Revisar todos los registros del estudio por sensor, carga y setpoint<br>\n  2) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Todos los sensores dentro del rango durante todo el estudio.<br>\n  Duración justificada (por ejemplo 24 a 72 h por setpoint)."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro del estudio con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis del mapeo con carga"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>URS aprobada (rangos y criterios)."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "refrigerador-lab"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-RF-005",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-RF-005 — Apertura de puerta con carga",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar el tiempo de recuperación con carga ante aperturas de duración y frecuencia según el uso real."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Abrir la puerta de 1 a 5 min varias veces al día (o según el uso real definido en el protocolo aprobado)<br>\n  2) Medir el tiempo de recuperación en cada evento<br>\n  3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  La cámara retorna al rango dentro del tiempo definido en el protocolo aprobado."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de eventos con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de aperturas"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante del equipo."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "refrigerador-lab"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-RF-006",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-RF-006 — Falla de energía con carga",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar el tiempo hasta salir del rango (hold-up) con carga máxima y mínima, y el tiempo de recuperación."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Cortar la energía con carga máxima y medir el tiempo hasta salir del rango<br>\n  2) Repetir con carga mínima<br>\n  3) Restablecer y medir el tiempo de recuperación<br>\n  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Tiempos registrados contra lo definido en el protocolo aprobado.<br>\n  Este dato fija el procedimiento de traslado del producto."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de hold-up con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de falla con carga"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante del equipo."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "refrigerador-lab"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-RF-007",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-RF-007 — Respuesta de alarmas con carga",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que las alarmas disparan dentro del retardo y el aviso llega al responsable (si aplica)."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Provocar alarmas con la cámara cargada y medir el retardo<br>\n  2) Verificar que el aviso llega al responsable (si aplica)<br>\n  3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Disparo dentro del retardo definido y aviso recibido (si aplica)."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de alarmas con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de alarmas con carga"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante del equipo."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "refrigerador-lab"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-RF-008",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-RF-008 — Descongelación con carga",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que el producto, medido en amortiguador, no sale del límite durante el ciclo (si aplica)."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Medir el producto en amortiguador durante el ciclo de descongelación (si aplica)<br>\n  2) Registrar el tiempo de recuperación<br>\n  3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  El producto no sale del límite durante el ciclo (si aplica)."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro del ciclo con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de descongelación con carga"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante del equipo."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "refrigerador-lab"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-RF-009",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-RF-009 — Operación continua en uso de rutina",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar el desempeño durante un período representativo con uso de rutina."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Operar la cámara de 7 a 14 días (o el período definido en el protocolo aprobado) con uso de rutina<br>\n  2) Registrar excursiones y eventos<br>\n  3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Operación dentro del rango durante todo el período salvo excursiones tratadas."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro continuo con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de operación continua"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>URS aprobada (rangos y criterios)."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "refrigerador-lab"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-RF-010",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-RF-010 — Peor caso ambiental",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar el desempeño con temperatura alta del local y condensador al límite (si aplica)."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Ejecutar el estudio en la condición más caliente definida (si aplica)<br>\n  2) Si no puede probarse en verano, aplicar la verificación estacional definida en el protocolo aprobado<br>\n  3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Desempeño dentro del rango en el peor caso definido (si aplica)."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro del estudio con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de peor caso"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante del equipo."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "refrigerador-lab"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-RF-011",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-RF-011 — Comparación de sensores durante el estudio",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Comparar el sensor de control, el de monitoreo y los de mapeo durante el estudio."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Comparar en simultáneo las tres lecturas durante el estudio<br>\n  2) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Diferencias dentro del criterio definido en el protocolo aprobado."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro comparativo con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis comparativo"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante del equipo."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "refrigerador-lab"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-RF-012",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-RF-012 — Continuidad del registro y alarmas del sistema independiente",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar el registro sin huecos y las alarmas del sistema independiente con destinatarios probados."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Revisar la continuidad del registro sin huecos en todo el estudio<br>\n  2) Probar las alarmas del sistema independiente con sus destinatarios"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Registro continuo sin huecos.<br>\n  Alarmas probadas con destinatarios confirmados."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de continuidad y pruebas (anexo del informe)"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante del equipo."
+     }
+    ],
+    "tabla": null,
+    "familia": "refrigerador-lab"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-RF-013",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-RF-013 — Procedimiento de excursión",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar cómo se detecta, se registra, se evalúa el impacto sobre el producto y se documenta una excursión."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Simular o revisar una excursión y aplicar el procedimiento de detección y registro<br>\n  2) Evaluar el impacto sobre el producto y documentar"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Excursión detectada, registrada y evaluada con impacto documentado."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de excursión tratada (anexo del informe)"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante del equipo."
+     }
+    ],
+    "tabla": null,
+    "familia": "refrigerador-lab"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-RF-014",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-RF-014 — Tiempo máximo de excursión aceptable",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que el tiempo máximo aceptable deriva de la estabilidad del producto almacenado y no del valor de fábrica."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Contrastar el límite aplicado contra los datos de estabilidad del producto<br>\n  2) Registrar el fundamento del límite en el informe"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  El límite deriva de la estabilidad del producto almacenado."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Fundamento documentado del límite (anexo del informe)"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>URS aprobada (rangos y criterios)."
+     }
+    ],
+    "tabla": null,
+    "familia": "refrigerador-lab"
+   },
+   {
+    "kind": "resumen",
+    "id": "EQ-PQ-RF-RES",
+    "bloque": 4,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-RF-RES — Tabla resumen de los ensayos del PQ",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Consolidar el listado de ensayos del PQ del refrigerador para la tabla resumen del protocolo."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Confirmar que los ensayos EQ-PQ-RF-001 a EQ-PQ-RF-014 están incluidos en el índice del protocolo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Los 14 ensayos aparecen en la tabla resumen con su veredicto."
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>EU GMP Anexo 15."
+     }
+    ],
+    "tabla": null,
+    "familia": "refrigerador-lab"
+   },
+   {
+    "kind": "tabla",
+    "id": "EQ-PQ-RF-REF",
+    "bloque": 6,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-RF-REF — Referencias del PQ de refrigerador",
+    "secciones": [],
+    "tabla": {
+     "headers": [
+      "SECCIÓN",
+      "TÍTULO",
+      "ESTADO"
+     ],
+     "rows": [
+      [
+       "6.1",
+       "Manual del fabricante del equipo — Setpoints, alarmas y límites de diseño",
+       "VIGENTE"
+      ],
+      [
+       "6.2",
+       "URS aprobada — Rangos, criterios de aceptación y posiciones de monitoreo",
+       "VIGENTE"
+      ],
+      [
+       "6.3",
+       "EU GMP Anexo 15 — Cualificación y validación: el PQ demuestra operación según especificaciones aprobadas",
+       "VIGENTE"
+      ]
+     ]
+    },
+    "familia": "refrigerador-lab"
+   },
+   {
+    "kind": "div",
+    "clase": "anexos",
+    "bloque": 8,
+    "html": "<p><strong>ANEXOS:</strong></p>\n<table>\n<tbody><tr><th>SECCIÓN</th><th>TÍTULO</th></tr>\n<tr><td>8.1</td><td>Anexo A — Registros de mapeo con carga, hold-up y operación continua</td></tr>\n<tr><td>8.2</td><td>Anexo B — Certificados de calibración de patrones e instrumentos</td></tr>\n<tr><td>8.3</td><td>Anexo C — Registros de retos, excursiones y alarmas verificadas</td></tr>\n</tbody></table>",
+    "familia": "refrigerador-lab"
+   },
+   {
+    "kind": "div",
+    "clase": "portada",
+    "bloque": 1,
+    "html": "<p><strong>PORTADA DEL PROTOCOLO PQ</strong></p>\n<p><strong>Logo:</strong><br><img class=\"ent-logo\" alt=\"Logo de la entidad\"></p>\n<p><strong>Calificación de Desempeño de <span class=\"equipo\">equipo</span>:</strong> <span class=\"ent-descripcion\">______</span></p>\n<ol>\n  <li><strong>Marca:</strong> <span class=\"ent-marca\">______</span></li>\n  <li><strong>Modelo:</strong> <span class=\"ent-modelo\">______</span></li>\n  <li><strong>Código:</strong> <span class=\"ent-codigo\">______</span></li>\n</ol>",
+    "familia": "congelador-lab"
+   },
+   {
+    "kind": "div",
+    "clase": "firmas",
+    "bloque": 1,
+    "html": "<p><strong>FLUJO DE FIRMAS DEL PROTOCOLO:</strong></p>\n<p>Este apartado establece que los responsables revisan y aprueban el presente protocolo, declarando que está apto para su ejecución. Cualquier cambio posterior a la firma obliga a reiniciar el flujo de firmas, con el fin de garantizar que todos los departamentos involucrados estén al tanto de los ensayos a ejecutar.</p>\n<ol>\n  <li><strong>Elaborado Por:</strong> <br> Analista de validaciones — elabora / Nombre: ______ Firma: ______ Fecha: ______</li><br>\n  <li><strong>Revisado Por:</strong> <br> Coordinador de validaciones — revisa / Nombre: ______ Firma: ______ Fecha: ______</li><br>\n  <li><strong>Revisado Por:</strong> <br> Gerente de Área — revisa / Nombre: ______ Firma: ______ Fecha: ______</li><br>\n  <li><strong>Aprobado por:</strong> <br> Gerente de gestión de calidad — aprueba / Nombre: ______ Firma: ______ Fecha: ______</li><br>\n</ol>",
+    "familia": "congelador-lab"
+   },
+   {
+    "kind": "div",
+    "clase": "responsabilidades",
+    "bloque": 1,
+    "html": "<p><strong>RESPONSABILIDADES DEL PROTOCOLO:</strong></p>\n<p><strong>Responsabilidad del Analista de validaciones:</strong></p>\n<ol><li>Coordinar la ejecución de la Calificación de Desempeño con producción y control de calidad, asegurando personal, <span class=\"equipo\">equipo</span>, instrumentos y documentación.</li><li>Verificar que los instrumentos de medición estén identificados y con calibración vigente.</li><li>Ejecutar y/o supervisar los ensayos del protocolo según los criterios aprobados.</li><li>Registrar los datos de forma completa, legible y trazable (ALCOA+).</li><li>Documentar las desviaciones según los procedimientos internos vigentes.</li><li>Elaborar el informe de calificación con resultados, conclusiones y anexos.</li></ol>\n<p><strong>Responsabilidad del Coordinador de validaciones:</strong></p>\n<ol><li>Revisar técnicamente el protocolo antes de su ejecución.</li><li>Asignar al analista responsable y coordinar recursos.</li><li>Revisar las desviaciones, su tratamiento y las CAPA asociadas.</li><li>Revisar el informe final y dictaminar el desempeño del equipo.</li></ol>\n<p><strong>Responsabilidad del Gerente de Área:</strong></p>\n<ol><li>Garantizar la disponibilidad del <span class=\"equipo\">equipo</span> y los accesos para la ejecución.</li><li>Facilitar la documentación técnica del fabricante y del proveedor.</li><li>Implementar las acciones operativas derivadas de desviaciones y CAPA.</li></ol>\n<p><strong>Responsabilidad del Gerente de gestión de calidad:</strong></p>\n<ol><li>Aprobar el protocolo y sus criterios de aceptación.</li><li>Aprobar las desviaciones y sus evaluaciones de impacto.</li><li>Emitir el dictamen final del estado de calificación.</li></ol>",
+    "familia": "congelador-lab"
+   },
+   {
+    "kind": "div",
+    "clase": "alcance",
+    "bloque": 1,
+    "html": "<p><strong>ALCANCE</strong></p>\n<p>Esta calificación aplica a <span class=\"equipo\">equipo</span>, según protocolo PQ, y cubre los ensayos listados en el índice.</p>",
+    "familia": "congelador-lab"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-CG-001",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-CG-001 — Mapeo con carga máxima",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar la uniformidad de temperatura con la cámara en carga máxima, en cada setpoint."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Cargar la cámara al máximo definido y ubicar sensores entre el material y en su interior (si aplica)<br>\n  2) Ejecutar el mapeo en cada setpoint<br>\n  3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Todos los sensores dentro del rango durante todo el estudio."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro del mapeo con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de carga máxima"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>URS aprobada (rangos y criterios)."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "congelador-lab"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-CG-002",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-CG-002 — Mapeo con carga mínima",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar la uniformidad con la cámara casi vacía, que oscila más, en cada setpoint."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Operar la cámara con carga mínima y ejecutar el mapeo en cada setpoint<br>\n  2) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Todos los sensores dentro del rango durante todo el estudio."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro del mapeo con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de carga mínima"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>URS aprobada (rangos y criterios)."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "congelador-lab"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-CG-003",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-CG-003 — Puntos frío y caliente con carga",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que los puntos frío y caliente del OQ se mantienen con carga, o reubicar el sensor de monitoreo si se desplazaron."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Comparar los puntos del OQ contra los del mapeo con carga<br>\n  2) Reubicar el sensor de monitoreo si los puntos se desplazaron y documentar la nueva posición<br>\n  3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Puntos confirmados o sensor reubicado con posición documentada."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro comparativo con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de puntos con carga"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>URS aprobada (rangos y criterios)."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "congelador-lab"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-CG-004",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-CG-004 — Criterio de aceptación del mapeo con carga",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que todos los sensores se mantienen dentro del rango durante todo el estudio, con duración justificada."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Revisar todos los registros del estudio por sensor, carga y setpoint<br>\n  2) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Todos los sensores dentro del rango durante todo el estudio.<br>\n  Duración justificada (por ejemplo 24 a 72 h por setpoint)."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro del estudio con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis del mapeo con carga"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>URS aprobada (rangos y criterios)."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "congelador-lab"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-CG-005",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-CG-005 — Apertura de puerta con carga",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar el tiempo de recuperación con carga ante aperturas de duración y frecuencia según el uso real."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Abrir la puerta de 1 a 5 min varias veces al día (o según el uso real definido en el protocolo aprobado)<br>\n  2) Medir el tiempo de recuperación en cada evento<br>\n  3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  La cámara retorna al rango dentro del tiempo definido en el protocolo aprobado."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de eventos con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de aperturas"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante del equipo."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "congelador-lab"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-CG-006",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-CG-006 — Falla de energía con carga",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar el tiempo hasta salir del rango (hold-up) con carga máxima y mínima, y el tiempo de recuperación."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Cortar la energía con carga máxima y medir el tiempo hasta salir del rango<br>\n  2) Repetir con carga mínima<br>\n  3) Restablecer y medir el tiempo de recuperación<br>\n  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Tiempos registrados contra lo definido en el protocolo aprobado.<br>\n  Este dato fija el procedimiento de traslado del producto."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de hold-up con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de falla con carga"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante del equipo."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "congelador-lab"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-CG-007",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-CG-007 — Respuesta de alarmas con carga",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que las alarmas disparan dentro del retardo y el aviso llega al responsable (si aplica)."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Provocar alarmas con la cámara cargada y medir el retardo<br>\n  2) Verificar que el aviso llega al responsable (si aplica)<br>\n  3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Disparo dentro del retardo definido y aviso recibido (si aplica)."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de alarmas con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de alarmas con carga"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante del equipo."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "congelador-lab"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-CG-008",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-CG-008 — Descongelación con carga",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que el producto, medido en amortiguador, no sale del límite durante el ciclo (si aplica)."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Medir el producto en amortiguador durante el ciclo de descongelación (si aplica)<br>\n  2) Registrar el tiempo de recuperación<br>\n  3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  El producto no sale del límite durante el ciclo (si aplica)."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro del ciclo con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de descongelación con carga"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante del equipo."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "congelador-lab"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-CG-009",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-CG-009 — Operación continua en uso de rutina",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar el desempeño durante un período representativo con uso de rutina."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Operar la cámara de 7 a 14 días (o el período definido en el protocolo aprobado) con uso de rutina<br>\n  2) Registrar excursiones y eventos<br>\n  3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Operación dentro del rango durante todo el período salvo excursiones tratadas."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro continuo con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de operación continua"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>URS aprobada (rangos y criterios)."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "congelador-lab"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-CG-010",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-CG-010 — Peor caso ambiental",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar el desempeño con temperatura alta del local y condensador al límite (si aplica)."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Ejecutar el estudio en la condición más caliente definida (si aplica)<br>\n  2) Si no puede probarse en verano, aplicar la verificación estacional definida en el protocolo aprobado<br>\n  3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Desempeño dentro del rango en el peor caso definido (si aplica)."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro del estudio con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de peor caso"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante del equipo."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "congelador-lab"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-CG-011",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-CG-011 — Comparación de sensores durante el estudio",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Comparar el sensor de control, el de monitoreo y los de mapeo durante el estudio."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Comparar en simultáneo las tres lecturas durante el estudio<br>\n  2) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Diferencias dentro del criterio definido en el protocolo aprobado."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro comparativo con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis comparativo"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante del equipo."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "congelador-lab"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-CG-012",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-CG-012 — Continuidad del registro y alarmas del sistema independiente",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar el registro sin huecos y las alarmas del sistema independiente con destinatarios probados."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Revisar la continuidad del registro sin huecos en todo el estudio<br>\n  2) Probar las alarmas del sistema independiente con sus destinatarios"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Registro continuo sin huecos.<br>\n  Alarmas probadas con destinatarios confirmados."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de continuidad y pruebas (anexo del informe)"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante del equipo."
+     }
+    ],
+    "tabla": null,
+    "familia": "congelador-lab"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-CG-013",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-CG-013 — Procedimiento de excursión",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar cómo se detecta, se registra, se evalúa el impacto sobre el producto y se documenta una excursión."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Simular o revisar una excursión y aplicar el procedimiento de detección y registro<br>\n  2) Evaluar el impacto sobre el producto y documentar"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Excursión detectada, registrada y evaluada con impacto documentado."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de excursión tratada (anexo del informe)"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante del equipo."
+     }
+    ],
+    "tabla": null,
+    "familia": "congelador-lab"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-CG-014",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-CG-014 — Tiempo máximo de excursión aceptable",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que el tiempo máximo aceptable deriva de la estabilidad del producto almacenado y no del valor de fábrica."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Contrastar el límite aplicado contra los datos de estabilidad del producto<br>\n  2) Registrar el fundamento del límite en el informe"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  El límite deriva de la estabilidad del producto almacenado."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Fundamento documentado del límite (anexo del informe)"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>URS aprobada (rangos y criterios)."
+     }
+    ],
+    "tabla": null,
+    "familia": "congelador-lab"
+   },
+   {
+    "kind": "resumen",
+    "id": "EQ-PQ-CG-RES",
+    "bloque": 4,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-CG-RES — Tabla resumen de los ensayos del PQ",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Consolidar el listado de ensayos del PQ del congelador para la tabla resumen del protocolo."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Confirmar que los ensayos EQ-PQ-CG-001 a EQ-PQ-CG-014 están incluidos en el índice del protocolo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Los 14 ensayos aparecen en la tabla resumen con su veredicto."
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>EU GMP Anexo 15."
+     }
+    ],
+    "tabla": null,
+    "familia": "congelador-lab"
+   },
+   {
+    "kind": "tabla",
+    "id": "EQ-PQ-CG-REF",
+    "bloque": 6,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-CG-REF — Referencias del PQ de congelador",
+    "secciones": [],
+    "tabla": {
+     "headers": [
+      "SECCIÓN",
+      "TÍTULO",
+      "ESTADO"
+     ],
+     "rows": [
+      [
+       "6.1",
+       "Manual del fabricante del equipo — Setpoints, alarmas y límites de diseño",
+       "VIGENTE"
+      ],
+      [
+       "6.2",
+       "URS aprobada — Rangos, criterios de aceptación y posiciones de monitoreo",
+       "VIGENTE"
+      ],
+      [
+       "6.3",
+       "EU GMP Anexo 15 — Cualificación y validación: el PQ demuestra operación según especificaciones aprobadas",
+       "VIGENTE"
+      ]
+     ]
+    },
+    "familia": "congelador-lab"
+   },
+   {
+    "kind": "div",
+    "clase": "anexos",
+    "bloque": 8,
+    "html": "<p><strong>ANEXOS:</strong></p>\n<table>\n<tbody><tr><th>SECCIÓN</th><th>TÍTULO</th></tr>\n<tr><td>8.1</td><td>Anexo A — Registros de mapeo con carga, hold-up y operación continua</td></tr>\n<tr><td>8.2</td><td>Anexo B — Certificados de calibración de patrones e instrumentos</td></tr>\n<tr><td>8.3</td><td>Anexo C — Registros de retos, excursiones y alarmas verificadas</td></tr>\n</tbody></table>",
+    "familia": "congelador-lab"
    }
   ]
  }

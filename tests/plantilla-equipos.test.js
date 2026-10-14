@@ -193,6 +193,16 @@ describe('PQ lecho fluido (banco por familia)', () => {
     expect(txt).toContain('Equipos/Instrumento');
     expect(txt).toContain('Fecha de Calibración');
   });
+
+  it('el Plan estadístico del banco se imprime en el protocolo', async () => {
+    const u8 = new Uint8Array(readFileSync(resolve(raiz, P.PLANTILLAS.OQ)));
+    const r = await P.generar('OQ', u8, banco, DRAFT_PQ, { id: 'refrigerador-lab', nombre: 'Refrigerador' }, 'ambas');
+    const arch = Object.fromEntries((await P._interno.leerZip(r.bytes)).map((a) => [a.nombre, dec(a.datos)]));
+    const txt = arch['word/document.xml'].replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ');
+    expect(r.ensayos).toContain('EQ-OQ-RF-007');
+    expect(txt).toContain('Plan estadístico:');
+    expect(txt).toContain('Grubbs');
+  });
 });
 
 describe('PQ autoclave (banco por familia, fuente ENSAYOS.txt)', () => {

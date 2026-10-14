@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<style>
+  body { font-family: Tahoma, sans-serif; font-size: 11pt; }
+  strong { text-transform: uppercase; }
+</style>
+<title>Banco de Ensayos PQ — Congelador de laboratorio (−20 °C)</title>
+</head>
+<body>
+
+<p><a href="../equipos.html">← Equipos e Instrumentos</a></p>
+<h2>PQ — Congelador de laboratorio (−20 °C) (banco por familia)</h2>
+<p>Versión del banco: <span data-banco-version>EQ-PQ-CG 2026-10-14 v1</span></p>
+<p>Ensayos de Calificación de Desempeño específicos del congelador (<span class="equipo">equipo</span>). Se filtran por familia (<code>data-familia="congelador-lab"</code>) según la entidad elegida en el paso 1. Fuente: ENSAYOS.txt del usuario (neveras).</p>
+
+<!-- ================= PQ ================= -->
+<section id="fase-pq" data-familia="congelador-lab">
+<h2>PQ — Ensayos</h2>
+
+<div class="portada" data-bloque="1">
+<p><strong>PORTADA DEL PROTOCOLO PQ</strong></p>
+<p><strong>Logo:</strong><br><img class="ent-logo" alt="Logo de la entidad"></p>
+<p><strong>Calificación de Desempeño de <span class="equipo">equipo</span>:</strong> <span class="ent-descripcion">______</span></p>
+<ol>
+  <li><strong>Marca:</strong> <span class="ent-marca">______</span></li>
+  <li><strong>Modelo:</strong> <span class="ent-modelo">______</span></li>
+  <li><strong>Código:</strong> <span class="ent-codigo">______</span></li>
+</ol>
+</div>
+
+<div class="firmas" data-bloque="1">
+<p><strong>FLUJO DE FIRMAS DEL PROTOCOLO:</strong></p>
+<p>Este apartado establece que los responsables revisan y aprueban el presente protocolo, declarando que está apto para su ejecución. Cualquier cambio posterior a la firma obliga a reiniciar el flujo de firmas, con el fin de garantizar que todos los departamentos involucrados estén al tanto de los ensayos a ejecutar.</p>
+<ol>
+  <li><strong>Elaborado Por:</strong> <br> Analista de validaciones — elabora / Nombre: ______ Firma: ______ Fecha: ______</li><br>
+  <li><strong>Revisado Por:</strong> <br> Coordinador de validaciones — revisa / Nombre: ______ Firma: ______ Fecha: ______</li><br>
+  <li><strong>Revisado Por:</strong> <br> Gerente de Área — revisa / Nombre: ______ Firma: ______ Fecha: ______</li><br>
+  <li><strong>Aprobado por:</strong> <br> Gerente de gestión de calidad — aprueba / Nombre: ______ Firma: ______ Fecha: ______</li><br>
+</ol>
+</div>
+
+<div class="responsabilidades" data-bloque="1">
+<p><strong>RESPONSABILIDADES DEL PROTOCOLO:</strong></p>
+<p><strong>Responsabilidad del Analista de validaciones:</strong></p>
+<ol><li>Coordinar la ejecución de la Calificación de Desempeño con producción y control de calidad, asegurando personal, <span class="equipo">equipo</span>, instrumentos y documentación.</li><li>Verificar que los instrumentos de medición estén identificados y con calibración vigente.</li><li>Ejecutar y/o supervisar los ensayos del protocolo según los criterios aprobados.</li><li>Registrar los datos de forma completa, legible y trazable (ALCOA+).</li><li>Documentar las desviaciones según los procedimientos internos vigentes.</li><li>Elaborar el informe de calificación con resultados, conclusiones y anexos.</li></ol>
+<p><strong>Responsabilidad del Coordinador de validaciones:</strong></p>
+<ol><li>Revisar técnicamente el protocolo antes de su ejecución.</li><li>Asignar al analista responsable y coordinar recursos.</li><li>Revisar las desviaciones, su tratamiento y las CAPA asociadas.</li><li>Revisar el informe final y dictaminar el desempeño del equipo.</li></ol>
+<p><strong>Responsabilidad del Gerente de Área:</strong></p>
+<ol><li>Garantizar la disponibilidad del <span class="equipo">equipo</span> y los accesos para la ejecución.</li><li>Facilitar la documentación técnica del fabricante y del proveedor.</li><li>Implementar las acciones operativas derivadas de desviaciones y CAPA.</li></ol>
+<p><strong>Responsabilidad del Gerente de gestión de calidad:</strong></p>
+<ol><li>Aprobar el protocolo y sus criterios de aceptación.</li><li>Aprobar las desviaciones y sus evaluaciones de impacto.</li><li>Emitir el dictamen final del estado de calificación.</li></ol>
+</div>
+
+<div class="alcance" data-bloque="1">
+<p><strong>ALCANCE</strong></p>
+<p>Esta calificación aplica a <span class="equipo">equipo</span>, según protocolo PQ, y cubre los ensayos listados en el índice.</p>
+</div>
+
+
+<article data-bloque="3" id="art-EQ-PQ-CG-001" class="ensayo" data-id="EQ-PQ-CG-001" data-fase="PQ" data-cond="ambas" data-familia="congelador-lab" data-analisis="si">
+  <h3>EQ-PQ-CG-001 — Mapeo con carga máxima</h3>
+  <p><strong>Objetivo:</strong><br>Verificar la uniformidad de temperatura con la cámara en carga máxima, en cada setpoint.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Cargar la cámara al máximo definido y ubicar sensores entre el material y en su interior (si aplica)<br>
+  2) Ejecutar el mapeo en cada setpoint<br>
+  3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Todos los sensores dentro del rango durante todo el estudio.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro del mapeo con data cruda y reporte<br>
+  - Data cruda y reporte estadístico del análisis de carga máxima</p>
+  <p><strong>Referencia:</strong><br>URS aprobada (rangos y criterios).</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-PQ-CG-002" class="ensayo" data-id="EQ-PQ-CG-002" data-fase="PQ" data-cond="ambas" data-familia="congelador-lab" data-analisis="si">
+  <h3>EQ-PQ-CG-002 — Mapeo con carga mínima</h3>
+  <p><strong>Objetivo:</strong><br>Verificar la uniformidad con la cámara casi vacía, que oscila más, en cada setpoint.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Operar la cámara con carga mínima y ejecutar el mapeo en cada setpoint<br>
+  2) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Todos los sensores dentro del rango durante todo el estudio.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro del mapeo con data cruda y reporte<br>
+  - Data cruda y reporte estadístico del análisis de carga mínima</p>
+  <p><strong>Referencia:</strong><br>URS aprobada (rangos y criterios).</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-PQ-CG-003" class="ensayo" data-id="EQ-PQ-CG-003" data-fase="PQ" data-cond="ambas" data-familia="congelador-lab" data-analisis="si">
+  <h3>EQ-PQ-CG-003 — Puntos frío y caliente con carga</h3>
+  <p><strong>Objetivo:</strong><br>Verificar que los puntos frío y caliente del OQ se mantienen con carga, o reubicar el sensor de monitoreo si se desplazaron.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Comparar los puntos del OQ contra los del mapeo con carga<br>
+  2) Reubicar el sensor de monitoreo si los puntos se desplazaron y documentar la nueva posición<br>
+  3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Puntos confirmados o sensor reubicado con posición documentada.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro comparativo con data cruda y reporte<br>
+  - Data cruda y reporte estadístico del análisis de puntos con carga</p>
+  <p><strong>Referencia:</strong><br>URS aprobada (rangos y criterios).</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-PQ-CG-004" class="ensayo" data-id="EQ-PQ-CG-004" data-fase="PQ" data-cond="ambas" data-familia="congelador-lab" data-analisis="si">
+  <h3>EQ-PQ-CG-004 — Criterio de aceptación del mapeo con carga</h3>
+  <p><strong>Objetivo:</strong><br>Verificar que todos los sensores se mantienen dentro del rango durante todo el estudio, con duración justificada.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Revisar todos los registros del estudio por sensor, carga y setpoint<br>
+  2) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Todos los sensores dentro del rango durante todo el estudio.<br>
+  Duración justificada (por ejemplo 24 a 72 h por setpoint).</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro del estudio con data cruda y reporte<br>
+  - Data cruda y reporte estadístico del análisis del mapeo con carga</p>
+  <p><strong>Referencia:</strong><br>URS aprobada (rangos y criterios).</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-PQ-CG-005" class="ensayo" data-id="EQ-PQ-CG-005" data-fase="PQ" data-cond="ambas" data-familia="congelador-lab" data-analisis="si">
+  <h3>EQ-PQ-CG-005 — Apertura de puerta con carga</h3>
+  <p><strong>Objetivo:</strong><br>Verificar el tiempo de recuperación con carga ante aperturas de duración y frecuencia según el uso real.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Abrir la puerta de 1 a 5 min varias veces al día (o según el uso real definido en el protocolo aprobado)<br>
+  2) Medir el tiempo de recuperación en cada evento<br>
+  3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  La cámara retorna al rango dentro del tiempo definido en el protocolo aprobado.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro de eventos con data cruda y reporte<br>
+  - Data cruda y reporte estadístico del análisis de aperturas</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante del equipo.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-PQ-CG-006" class="ensayo" data-id="EQ-PQ-CG-006" data-fase="PQ" data-cond="ambas" data-familia="congelador-lab" data-analisis="si">
+  <h3>EQ-PQ-CG-006 — Falla de energía con carga</h3>
+  <p><strong>Objetivo:</strong><br>Verificar el tiempo hasta salir del rango (hold-up) con carga máxima y mínima, y el tiempo de recuperación.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Cortar la energía con carga máxima y medir el tiempo hasta salir del rango<br>
+  2) Repetir con carga mínima<br>
+  3) Restablecer y medir el tiempo de recuperación<br>
+  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Tiempos registrados contra lo definido en el protocolo aprobado.<br>
+  Este dato fija el procedimiento de traslado del producto.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro de hold-up con data cruda y reporte<br>
+  - Data cruda y reporte estadístico del análisis de falla con carga</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante del equipo.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-PQ-CG-007" class="ensayo" data-id="EQ-PQ-CG-007" data-fase="PQ" data-cond="ambas" data-familia="congelador-lab" data-analisis="si">
+  <h3>EQ-PQ-CG-007 — Respuesta de alarmas con carga</h3>
+  <p><strong>Objetivo:</strong><br>Verificar que las alarmas disparan dentro del retardo y el aviso llega al responsable (si aplica).</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Provocar alarmas con la cámara cargada y medir el retardo<br>
+  2) Verificar que el aviso llega al responsable (si aplica)<br>
+  3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Disparo dentro del retardo definido y aviso recibido (si aplica).</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro de alarmas con data cruda y reporte<br>
+  - Data cruda y reporte estadístico del análisis de alarmas con carga</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante del equipo.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-PQ-CG-008" class="ensayo" data-id="EQ-PQ-CG-008" data-fase="PQ" data-cond="ambas" data-familia="congelador-lab" data-analisis="si">
+  <h3>EQ-PQ-CG-008 — Descongelación con carga</h3>
+  <p><strong>Objetivo:</strong><br>Verificar que el producto, medido en amortiguador, no sale del límite durante el ciclo (si aplica).</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Medir el producto en amortiguador durante el ciclo de descongelación (si aplica)<br>
+  2) Registrar el tiempo de recuperación<br>
+  3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  El producto no sale del límite durante el ciclo (si aplica).</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro del ciclo con data cruda y reporte<br>
+  - Data cruda y reporte estadístico del análisis de descongelación con carga</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante del equipo.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-PQ-CG-009" class="ensayo" data-id="EQ-PQ-CG-009" data-fase="PQ" data-cond="ambas" data-familia="congelador-lab" data-analisis="si">
+  <h3>EQ-PQ-CG-009 — Operación continua en uso de rutina</h3>
+  <p><strong>Objetivo:</strong><br>Verificar el desempeño durante un período representativo con uso de rutina.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Operar la cámara de 7 a 14 días (o el período definido en el protocolo aprobado) con uso de rutina<br>
+  2) Registrar excursiones y eventos<br>
+  3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Operación dentro del rango durante todo el período salvo excursiones tratadas.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro continuo con data cruda y reporte<br>
+  - Data cruda y reporte estadístico del análisis de operación continua</p>
+  <p><strong>Referencia:</strong><br>URS aprobada (rangos y criterios).</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-PQ-CG-010" class="ensayo" data-id="EQ-PQ-CG-010" data-fase="PQ" data-cond="ambas" data-familia="congelador-lab" data-analisis="si">
+  <h3>EQ-PQ-CG-010 — Peor caso ambiental</h3>
+  <p><strong>Objetivo:</strong><br>Verificar el desempeño con temperatura alta del local y condensador al límite (si aplica).</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Ejecutar el estudio en la condición más caliente definida (si aplica)<br>
+  2) Si no puede probarse en verano, aplicar la verificación estacional definida en el protocolo aprobado<br>
+  3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Desempeño dentro del rango en el peor caso definido (si aplica).</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro del estudio con data cruda y reporte<br>
+  - Data cruda y reporte estadístico del análisis de peor caso</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante del equipo.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-PQ-CG-011" class="ensayo" data-id="EQ-PQ-CG-011" data-fase="PQ" data-cond="ambas" data-familia="congelador-lab" data-analisis="si">
+  <h3>EQ-PQ-CG-011 — Comparación de sensores durante el estudio</h3>
+  <p><strong>Objetivo:</strong><br>Comparar el sensor de control, el de monitoreo y los de mapeo durante el estudio.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Comparar en simultáneo las tres lecturas durante el estudio<br>
+  2) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Diferencias dentro del criterio definido en el protocolo aprobado.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro comparativo con data cruda y reporte<br>
+  - Data cruda y reporte estadístico del análisis comparativo</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante del equipo.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-PQ-CG-012" class="ensayo" data-id="EQ-PQ-CG-012" data-fase="PQ" data-cond="ambas" data-familia="congelador-lab">
+  <h3>EQ-PQ-CG-012 — Continuidad del registro y alarmas del sistema independiente</h3>
+  <p><strong>Objetivo:</strong><br>Verificar el registro sin huecos y las alarmas del sistema independiente con destinatarios probados.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Revisar la continuidad del registro sin huecos en todo el estudio<br>
+  2) Probar las alarmas del sistema independiente con sus destinatarios</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Registro continuo sin huecos.<br>
+  Alarmas probadas con destinatarios confirmados.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro de continuidad y pruebas (anexo del informe)</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante del equipo.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-PQ-CG-013" class="ensayo" data-id="EQ-PQ-CG-013" data-fase="PQ" data-cond="ambas" data-familia="congelador-lab">
+  <h3>EQ-PQ-CG-013 — Procedimiento de excursión</h3>
+  <p><strong>Objetivo:</strong><br>Verificar cómo se detecta, se registra, se evalúa el impacto sobre el producto y se documenta una excursión.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Simular o revisar una excursión y aplicar el procedimiento de detección y registro<br>
+  2) Evaluar el impacto sobre el producto y documentar</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Excursión detectada, registrada y evaluada con impacto documentado.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro de excursión tratada (anexo del informe)</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante del equipo.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-PQ-CG-014" class="ensayo" data-id="EQ-PQ-CG-014" data-fase="PQ" data-cond="ambas" data-familia="congelador-lab">
+  <h3>EQ-PQ-CG-014 — Tiempo máximo de excursión aceptable</h3>
+  <p><strong>Objetivo:</strong><br>Verificar que el tiempo máximo aceptable deriva de la estabilidad del producto almacenado y no del valor de fábrica.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Contrastar el límite aplicado contra los datos de estabilidad del producto<br>
+  2) Registrar el fundamento del límite en el informe</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  El límite deriva de la estabilidad del producto almacenado.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Fundamento documentado del límite (anexo del informe)</p>
+  <p><strong>Referencia:</strong><br>URS aprobada (rangos y criterios).</p>
+</article>
+
+<article data-bloque="4" id="art-EQ-PQ-CG-RES" class="ensayo" data-id="EQ-PQ-CG-RES" data-fase="PQ" data-cond="ambas" data-familia="congelador-lab">
+  <h3>EQ-PQ-CG-RES — Tabla resumen de los ensayos del PQ</h3>
+  <p><strong>Objetivo:</strong><br>Consolidar el listado de ensayos del PQ del congelador para la tabla resumen del protocolo.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Confirmar que los ensayos EQ-PQ-CG-001 a EQ-PQ-CG-014 están incluidos en el índice del protocolo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Los 14 ensayos aparecen en la tabla resumen con su veredicto.</p>
+  <p><strong>Referencia:</strong><br>EU GMP Anexo 15.</p>
+</article>
+
+<article data-bloque="6" id="art-EQ-PQ-CG-REF" class="ensayo tabla-info" data-id="EQ-PQ-CG-REF" data-fase="PQ" data-cond="ambas" data-familia="congelador-lab">
+  <h3>EQ-PQ-CG-REF — Referencias del PQ de congelador</h3>
+  <table>
+    <tr><th>SECCIÓN</th><th>TÍTULO</th><th>ESTADO</th></tr>
+    <tr><td>6.1</td><td>Manual del fabricante del equipo — Setpoints, alarmas y límites de diseño</td><td>VIGENTE</td></tr>
+    <tr><td>6.2</td><td>URS aprobada — Rangos, criterios de aceptación y posiciones de monitoreo</td><td>VIGENTE</td></tr>
+    <tr><td>6.3</td><td>EU GMP Anexo 15 — Cualificación y validación: el PQ demuestra operación según especificaciones aprobadas</td><td>VIGENTE</td></tr>
+  </table>
+</article>
+
+<div class="anexos" data-bloque="8">
+<p><strong>ANEXOS:</strong></p>
+<table>
+<tr><th>SECCIÓN</th><th>TÍTULO</th></tr>
+<tr><td>8.1</td><td>Anexo A — Registros de mapeo con carga, hold-up y operación continua</td></tr>
+<tr><td>8.2</td><td>Anexo B — Certificados de calibración de patrones e instrumentos</td></tr>
+<tr><td>8.3</td><td>Anexo C — Registros de retos, excursiones y alarmas verificadas</td></tr>
+</table>
+</div>
+
+</section>
+
+</body>
+</html>
