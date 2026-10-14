@@ -4851,3 +4851,9 @@ Render inyectaba el `PORT` como variable de entorno; Fly.io también (`process.e
 - **Plantillas:** tabla IQ 7.2-1 (Índice | Equipos/Instrumento | Código | Fecha de Calibración | N.º Certificado + 5 filas en blanco 1–5) copiada a `OQ-1-400AAAA.docx` (conserva su caption 7.3-1) y `PQ-1-400AAAA.docx` (7.2-1). Backup en `/tmp/opencode/plantillas-backup/`.
 - **Motor:** `EQ-OQ-COM-001` y `EQ-PQ-COM-001` con `data-tabla-modelo="INSTRUMENTOS DE MEDICIÓN"` (IQ ya lo tenía en EQ-IQ-002); el 7.2 sale con la tabla del modelo en blanco en vez de la lista C/NC con los puntos a–d.
 - **Verificación:** extractor --estricto OK (709); .docx OQ/PQ generados traen 7 filas con índices 1–5 y sin avisos; Vitest 454/454, backend 67/67, `tsc` limpio.
+
+### 2026-10-13 (179): Fix portada OQ/PQ en OnlyOffice — cirugía exacta de plantillas
+- **Causa:** el copiado anterior re-serializó `document.xml` (prefijos `mc/r/...` → `ns1…ns11`); OnlyOffice dejaba la 1.ª hoja sin logo ni portada. IQ nunca se reescribió y se veía bien.
+- **Fix:** restauradas OQ/PQ del backup y tabla 7.2-1 de IQ insertada por reemplazo exacto del bloque `<w:tbl>`; fuera de la tabla byte-idéntico al original (verificado). OQ conserva caption 7.3-1, PQ 7.2-1, ambas con 5 filas en blanco 1–5.
+- **Muestras:** `/tmp/opencode/muestra-OQ-balanza.docx` y `muestra-PQ-balanza.docx` para verificar portada en OnlyOffice.
+- **Verificación:** extractor --estricto OK; Vitest 454/454, backend 67/67, `tsc` limpio.
