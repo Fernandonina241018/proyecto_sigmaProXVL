@@ -4874,3 +4874,8 @@ Render inyectaba el `PORT` como variable de entorno; Fly.io también (`process.e
 ### 2026-10-14 (183): Borradas fichas viejas de neveras
 - **Borradas:** `equipos/congelador.html`, `equipos/refrigerador-lab.html`, `almacenes/congelador.html` (fichas índice obsoletas con códigos inexistentes; sin referencias en código, extractor ni tests). Quedan solo los bancos RF/CG creados.
 - **Verificación:** extractor --estricto OK (783); Vitest 460/460, backend 67/67.
+
+### 2026-10-14 (184): Fecha con calendario flotante dd/Mmm/aaaa (flatpickr)
+- **Cambio:** flatpickr 4.6.13 + locale es por CDN (convención de indexx.html); `fieldHtml` marca `.v7-fecha`; `mejorarFecha()` muestra `dd/Mmm/aaaa` (altFormat `d/M/Y`) y guarda `aaaa-mm-dd`; sin CDN sigue el date nativo; `cargar()` sincroniza el picker.
+- **Nota:** `docs/plantillas/IQ-1-400AAAA.docx` aparece modificado en el workdir desde las 19:30 (cambio del usuario, no de este lote; se deja intacto y sin commitear).
+- **Verificación:** test nuevo (CDN, clase, opciones altInput/altFormat/dateFormat/locale, idempotencia, fallback); Vitest 461/461, backend 67/67, `tsc` limpio.

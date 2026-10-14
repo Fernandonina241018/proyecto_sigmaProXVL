@@ -514,15 +514,31 @@ const Validaciones = (() => {
       return lab + '<select data-k="' + f.k + '"' + req + auto + '>' + opts + '</select></label>';
     }
     if (f.tipo === 'date') {
-      return lab + '<input type="date" data-k="' + f.k + '"' + req + auto + ' value="' + esc(v) + '"></label>';
-    }
-    if (f.tipo === 'number') {
+      return lab + '<input type="date" class="v7-fecha" data-k="' + f.k + '"' + req + auto + ' value="' + esc(v) + '"></label>';
+    }    if (f.tipo === 'number') {
       return lab + '<input type="number" step="any" data-k="' + f.k + '"' + req + auto + ' value="' + esc(v) + '"></label>';
     }
     if (f.tipo === 'file') {
       return lab + '<input type="file" accept="image/*" data-k="' + f.k + '"' + req + auto + '></label>';
     }
     return lab + '<input type="text" data-k="' + f.k + '"' + req + auto + ' value="' + esc(v) + '"></label>';
+  }
+
+  // Calendario flotante (flatpickr, CDN): muestra dd/Mmm/aaaa y guarda aaaa-mm-dd.
+  // Sin flatpickr (offline) el input date nativo sigue funcionando: mejora progresiva.
+  function mejorarFecha(el) {
+    try {
+      if (!el || !el.getAttribute || el.getAttribute('type') !== 'date' || el._flatpickr) return false;
+      const FP = (typeof flatpickr !== 'undefined') ? flatpickr
+        : (typeof window !== 'undefined' && window.flatpickr) || null;
+      if (!FP) return false;
+      FP(el, {
+        altInput: true, altFormat: 'd/M/Y', dateFormat: 'Y-m-d',
+        locale: (FP.l10ns && FP.l10ns.es) ? 'es' : 'default',
+        allowInput: true, defaultDate: el.value || null,
+      });
+      return true;
+    } catch (e) { return false; }
   }
 
   const FASES_GEN = ['DQ', 'IQ', 'OQ', 'PQ'];
@@ -748,6 +764,9 @@ const Validaciones = (() => {
     const conGen = GEN_CATS.indexOf(catId) >= 0;
     let entActual = null;
     const msg = form.querySelector('.v7-form-msg');
+    try {
+      form.querySelectorAll('.v7-fecha').forEach((el) => mejorarFecha(el));
+    } catch (e) {}
 
     function setMsg(text, ok) {
       if (msg) {
@@ -783,6 +802,10 @@ const Validaciones = (() => {
       schemaTotal().forEach((f) => {
         const el = form.querySelector('[data-k="' + f.k + '"]');
         if (el && f.tipo !== 'file' && data[f.k] != null) el.value = data[f.k];
+        // El calendario flotante no se entera de value directo: sincronizar.
+        try {
+          if (el && el._flatpickr) el._flatpickr.setDate(el.value || null);
+        } catch (e) {}
       });
     }
 
@@ -1344,6 +1367,6 @@ const Validaciones = (() => {
   return {
     CATS, ROUTES, ENTIDADES, SCHEMAS, FASES_GEN, GEN_FASES, AREAS_GERENCIA, parseRoute, catById, getSchema, getEntidades,
     entidadPorNombre,
-    puestoGerente, firmantesHtml, saveDraft, loadDraft, saveGen, loadGen, viewEntidad, show, hide, apply, currentArea, render, contarGen, tieneBancoFam, estadoBancoFam, resolverDescripcion,
+    puestoGerente, firmantesHtml, saveDraft, loadDraft, saveGen, loadGen, viewEntidad, show, hide, apply, currentArea, render, contarGen, tieneBancoFam, estadoBancoFam, resolverDescripcion, mejorarFecha,
   };
 })();

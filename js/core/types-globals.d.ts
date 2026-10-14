@@ -13,6 +13,7 @@ declare var PlantillaDocx: any;
 declare var Auth: any;
 declare var AreaSelect: any;
 declare var ValidacionesManifest: any;
+declare var flatpickr: any;
 declare var API_URL: any;
 declare var fetchWithTimeout: any;
 

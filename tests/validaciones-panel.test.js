@@ -98,8 +98,7 @@ describe('Validaciones V7', () => {
     expect(Validaciones.parseRoute('#/entidad')).toBe('banco');
   });
 
-  test('entrar al módulo siempre cae al dashboard (banco)', () => {
-    globalThis.location.hash = '#/firmas';
+  test('entrar al módulo siempre cae al dashboard (banco)', () => {    globalThis.location.hash = '#/firmas';
     Validaciones.show();
     expect(globalThis.location.hash).toBe('#/banco');
     globalThis.location.hash = '#/entidad/equipos';
@@ -108,6 +107,34 @@ describe('Validaciones V7', () => {
     globalThis.location.hash = '#/banco';
     Validaciones.show();
     expect(globalThis.location.hash).toBe('#/banco');
+  });
+
+  test('fecha con calendario flotante dd/Mmm/aaaa (flatpickr, con fallback nativo)', () => {
+    const html = readFileSync(join(__dirname, '..', 'indexx.html'), 'utf-8');
+    expect(html).toContain('flatpickr.min.css');
+    expect(html).toContain('flatpickr.min.js');
+    expect(html).toContain('l10n/es.js');
+    expect(Validaciones.viewEntidad('equipos')).toContain('class="v7-fecha"');
+    const llamadas = [];
+    globalThis.flatpickr = Object.assign(
+      function (el, opts) { llamadas.push([el, opts]); },
+      { l10ns: { es: {} } }
+    );
+    try {
+      const el = fakeEl();
+      el.getAttribute = (a) => (a === 'type' ? 'date' : null);
+      el.value = '2026-10-14';
+      expect(Validaciones.mejorarFecha(el)).toBe(true);
+      expect(llamadas.length).toBe(1);
+      expect(llamadas[0][1].altInput).toBe(true);
+      expect(llamadas[0][1].altFormat).toBe('d/M/Y');
+      expect(llamadas[0][1].dateFormat).toBe('Y-m-d');
+      expect(llamadas[0][1].locale).toBe('es');
+      el._flatpickr = {};
+      expect(Validaciones.mejorarFecha(el)).toBe(false);
+      expect(Validaciones.mejorarFecha(null)).toBe(false);
+    } finally { delete globalThis.flatpickr; }
+    expect(Validaciones.mejorarFecha(fakeEl())).toBe(false);
   });
 
   test('planilla adaptativa: comunes + específicos por categoría', () => {
