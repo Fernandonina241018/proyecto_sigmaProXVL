@@ -197,16 +197,22 @@ describe('Validaciones V7', () => {
     }
   });
 
-  test('paso 1: combobox con buscador en equipos, botones en el resto', () => {
+  test('paso 1: combobox con buscador en equipos y estabilidad, botones en el resto', () => {
     const eq = Validaciones.viewEntidad('equipos');
     expect(eq).toContain('v7-ent-input');
     expect(eq).toContain('v7-ents-dl');
     expect(eq).toContain('Escriba para buscar');
     expect(eq).not.toContain('class="v7-ent"');
+    const est = Validaciones.viewEntidad('estabilidad');
+    expect(est).toContain('v7-ent-input');
+    expect(est).toContain('v7-ents-dl');
+    expect(est).toContain('Cabina estabilidad acelerada');
+    expect(est).not.toContain('class="v7-ent"');
     const alm = Validaciones.viewEntidad('almacenes');
     expect(alm).toContain('class="v7-ent"');
     expect(alm).not.toContain('v7-ent-input');
     expect(Validaciones.entidadPorNombre('equipos', 'balanza analítica / precisión')).toEqual({ id: 'balanza', nombre: 'Balanza analítica / precisión' });
+    expect(Validaciones.entidadPorNombre('estabilidad', 'cabina estabilidad acelerada (38–42 °c)')).toEqual({ id: 'cabina-est-acelerada', nombre: 'Cabina estabilidad acelerada (38–42 °C)' });
     expect(Validaciones.entidadPorNombre('equipos', 'no existe')).toBe(null);
     expect(Validaciones.entidadPorNombre('equipos', '')).toBe(null);
   });

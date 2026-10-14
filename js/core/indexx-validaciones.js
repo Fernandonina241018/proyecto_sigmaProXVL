@@ -675,7 +675,8 @@ const Validaciones = (() => {
   }
 
   function paso1Html(catId, ents) {
-    if (ents.length > UMBRAL_COMBO) {
+    // Estabilidad usa combobox como equipos aunque tenga pocas entidades.
+    if (ents.length > UMBRAL_COMBO || catId === 'estabilidad') {
       return '<div class="v7-combo">'
         + '<input type="text" class="v7-ent-input" list="v7-ents-dl" placeholder="Escriba para buscar el equipo…" autocomplete="off" aria-label="Buscar entidad">'
         + '<datalist id="v7-ents-dl">'

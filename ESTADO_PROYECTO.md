@@ -4857,3 +4857,7 @@ Render inyectaba el `PORT` como variable de entorno; Fly.io también (`process.e
 - **Fix:** restauradas OQ/PQ del backup y tabla 7.2-1 de IQ insertada por reemplazo exacto del bloque `<w:tbl>`; fuera de la tabla byte-idéntico al original (verificado). OQ conserva caption 7.3-1, PQ 7.2-1, ambas con 5 filas en blanco 1–5.
 - **Muestras:** `/tmp/opencode/muestra-OQ-balanza.docx` y `muestra-PQ-balanza.docx` para verificar portada en OnlyOffice.
 - **Verificación:** extractor --estricto OK; Vitest 454/454, backend 67/67, `tsc` limpio.
+
+### 2026-10-13 (180): Estabilidad con combobox como equipos
+- **Cambio:** `paso1Html()` usa combobox con buscador en `estabilidad` además de `equipos` (antes solo con >10 entidades; estabilidad tiene 6 y salía con botones).
+- **Verificación:** test de paso 1 actualizado (combo en equipos+estabilidad, botones en almacenes); Vitest 454/454, backend 67/67.
