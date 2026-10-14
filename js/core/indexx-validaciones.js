@@ -1262,6 +1262,10 @@ const Validaciones = (() => {
     try {
       if (typeof document === 'undefined' || !document.createElement) return false;
       hide();
+      // Entrada al módulo: siempre al dashboard (banco), nunca a la última vista.
+      try {
+        if (typeof window !== 'undefined' && window.location && parseRoute(window.location.hash) !== 'banco') window.location.hash = '#/banco';
+      } catch (err) {}
       const ov = document.createElement('div');
       ov.id = 'validaciones-app';
       ov.innerHTML = '<nav class="v7-rail" aria-label="Navegación de validaciones">'

@@ -98,6 +98,18 @@ describe('Validaciones V7', () => {
     expect(Validaciones.parseRoute('#/entidad')).toBe('banco');
   });
 
+  test('entrar al módulo siempre cae al dashboard (banco)', () => {
+    globalThis.location.hash = '#/firmas';
+    Validaciones.show();
+    expect(globalThis.location.hash).toBe('#/banco');
+    globalThis.location.hash = '#/entidad/equipos';
+    Validaciones.show();
+    expect(globalThis.location.hash).toBe('#/banco');
+    globalThis.location.hash = '#/banco';
+    Validaciones.show();
+    expect(globalThis.location.hash).toBe('#/banco');
+  });
+
   test('planilla adaptativa: comunes + específicos por categoría', () => {
     const comun = ['responsable', 'fecha'];
     const eq = Validaciones.getSchema('equipos').map((f) => f.k);

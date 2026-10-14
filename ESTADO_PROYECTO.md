@@ -4861,3 +4861,7 @@ Render inyectaba el `PORT` como variable de entorno; Fly.io también (`process.e
 ### 2026-10-13 (180): Estabilidad con combobox como equipos
 - **Cambio:** `paso1Html()` usa combobox con buscador en `estabilidad` además de `equipos` (antes solo con >10 entidades; estabilidad tiene 6 y salía con botones).
 - **Verificación:** test de paso 1 actualizado (combo en equipos+estabilidad, botones en almacenes); Vitest 454/454, backend 67/67.
+
+### 2026-10-13 (181): Entrada al módulo siempre al dashboard
+- **Cambio:** `show()` resetea el hash a `#/banco` si trae otra ruta; reingresar a Validaciones ya no aterriza en la última vista (firmas, entidad, etc.).
+- **Verificación:** test nuevo (firmas/entidad → banco); Vitest 455/455, backend 67/67.
