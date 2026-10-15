@@ -109,8 +109,7 @@ describe('Validaciones V7', () => {
     expect(globalThis.location.hash).toBe('#/banco');
   });
 
-  test('fecha con calendario flotante dd/Mmm/aaaa (flatpickr, con fallback nativo)', () => {
-    const html = readFileSync(join(__dirname, '..', 'indexx.html'), 'utf-8');
+  test('fecha con calendario flotante dd/Mmm/aaaa (flatpickr, con fallback nativo)', () => {    const html = readFileSync(join(__dirname, '..', 'indexx.html'), 'utf-8');
     expect(html).toContain('flatpickr.min.css');
     expect(html).toContain('flatpickr.min.js');
     expect(html).toContain('l10n/es.js');
@@ -135,6 +134,16 @@ describe('Validaciones V7', () => {
       expect(Validaciones.mejorarFecha(null)).toBe(false);
     } finally { delete globalThis.flatpickr; }
     expect(Validaciones.mejorarFecha(fakeEl())).toBe(false);
+  });
+
+  test('sistemas: banco de agua purificada cableado (conteo y gate)', () => {
+    globalThis.BancoSistemas = require('../js/core/banco-sistemas-data.js');
+    try {
+      expect(Validaciones.contarGen('OQ', 'ambas', 'sistemas', 'agua-purificada')).toBe(33);
+      expect(Validaciones.contarGen('PQ', 'ambas', 'sistemas', 'agua-purificada')).toBe(23);
+      expect(Validaciones.tieneBancoFam('OQ', 'sistemas', 'agua-purificada')).toBe(true);
+      expect(Validaciones.tieneBancoFam('PQ', 'sistemas', 'hvac')).toBe(true);
+    } finally { delete globalThis.BancoSistemas; }
   });
 
   test('planilla adaptativa: comunes + específicos por categoría', () => {
@@ -178,7 +187,11 @@ describe('Validaciones V7', () => {
     expect(alm).toContain('class="gen-fase"');
     expect(alm).toContain('Generar y descargar');
     expect(alm).not.toContain('Generar (próximamente)');
-    for (const cat of ['sistemas', 'software']) {
+    const sis = Validaciones.viewEntidad('sistemas');
+    expect(sis).toContain('Protocolos a generar');
+    expect(sis).toContain('Generar y descargar');
+    expect(sis).not.toContain('Generar (próximamente)');
+    for (const cat of ['software']) {
       const h = Validaciones.viewEntidad(cat);
       expect(h).toContain('Generar (próximamente)');
       expect(h).toContain('próximamente para esta categoría');

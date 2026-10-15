@@ -1474,6 +1474,7 @@ const PlantillaDocx = (() => {
     try {
       if (cat === 'equipos' && typeof BancoEquipos !== 'undefined') return BancoEquipos;
       if (cat === 'estabilidad' && typeof BancoEstabilidad !== 'undefined') return BancoEstabilidad;
+      if (cat === 'sistemas' && typeof BancoSistemas !== 'undefined') return BancoSistemas;
       if (typeof BancoAlmacenes !== 'undefined') return BancoAlmacenes;
       if (typeof GeneradorDocx !== 'undefined' && GeneradorDocx.banco) return GeneradorDocx.banco();
     } catch (e) { /* sigue */ }

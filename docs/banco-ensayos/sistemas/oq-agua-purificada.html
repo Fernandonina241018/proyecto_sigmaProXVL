@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<style>
+  body { font-family: Tahoma, sans-serif; font-size: 11pt; }
+  strong { text-transform: uppercase; }
+</style>
+<title>Banco de Ensayos OQ — Sistema de agua purificada</title>
+</head>
+<body>
+
+<p><a href="../sistemas.html">← Sistemas</a></p>
+<h2>OQ — Sistema de agua purificada (banco por familia)</h2>
+<p>Versión del banco: <span data-banco-version>SIS-OQ-AP 2026-10-14 v1</span></p>
+<p>Ensayos de Calificación de Operación específicos del sistema de agua purificada y WFI (<span class="equipo">equipo</span>). Se filtran por familia (<code>data-familia="agua-purificada"</code>) según la entidad elegida en el paso 1. Fuente: ENSAYOS.txt del usuario (sistema de agua).</p>
+
+<!-- ================= OQ ================= -->
+<section id="fase-oq" data-familia="agua-purificada">
+<h2>OQ — Ensayos</h2>
+
+<div class="portada" data-bloque="1">
+<p><strong>PORTADA DEL PROTOCOLO OQ</strong></p>
+<p><strong>Logo:</strong><br><img class="ent-logo" alt="Logo de la entidad"></p>
+<p><strong>Calificación de Operación de <span class="equipo">equipo</span>:</strong> <span class="ent-descripcion">______</span></p>
+<ol>
+  <li><strong>Marca:</strong> <span class="ent-marca">______</span></li>
+  <li><strong>Modelo:</strong> <span class="ent-modelo">______</span></li>
+  <li><strong>Código:</strong> <span class="ent-codigo">______</span></li>
+</ol>
+</div>
+
+<div class="firmas" data-bloque="1">
+<p><strong>FLUJO DE FIRMAS DEL PROTOCOLO:</strong></p>
+<p>Este apartado establece que los responsables revisan y aprueban el presente protocolo, declarando que está apto para su ejecución. Cualquier cambio posterior a la firma obliga a reiniciar el flujo de firmas, con el fin de garantizar que todos los departamentos involucrados estén al tanto de los ensayos a ejecutar.</p>
+<ol>
+  <li><strong>Elaborado Por:</strong> <br> Analista de validaciones — elabora / Nombre: ______ Firma: ______ Fecha: ______</li><br>
+  <li><strong>Revisado Por:</strong> <br> Coordinador de validaciones — revisa / Nombre: ______ Firma: ______ Fecha: ______</li><br>
+  <li><strong>Revisado Por:</strong> <br> Gerente de Área — revisa / Nombre: ______ Firma: ______ Fecha: ______</li><br>
+  <li><strong>Aprobado por:</strong> <br> Gerente de gestión de calidad — aprueba / Nombre: ______ Firma: ______ Fecha: ______</li><br>
+</ol>
+</div>
+
+<div class="responsabilidades" data-bloque="1">
+<p><strong>RESPONSABILIDADES DEL PROTOCOLO:</strong></p>
+<p><strong>Responsabilidad del Analista de validaciones:</strong></p>
+<ol><li>Coordinar la ejecución de la Calificación de Operación con producción, control de calidad e ingeniería, asegurando personal, <span class="equipo">equipo</span>, instrumentos y documentación.</li><li>Verificar que los instrumentos de medición estén identificados y con calibración vigente.</li><li>Ejecutar y/o supervisar los ensayos del protocolo según los criterios aprobados.</li><li>Registrar los datos de forma completa, legible y trazable (ALCOA+).</li><li>Documentar las desviaciones según los procedimientos internos vigentes.</li><li>Elaborar el informe de calificación con resultados, conclusiones y anexos.</li></ol>
+<p><strong>Responsabilidad del Coordinador de validaciones:</strong></p>
+<ol><li>Revisar técnicamente el protocolo antes de su ejecución.</li><li>Asignar al analista responsable y coordinar recursos.</li><li>Revisar las desviaciones, su tratamiento y las CAPA asociadas.</li><li>Revisar el informe final y autorizar la siguiente fase.</li></ol>
+<p><strong>Responsabilidad del Gerente de Área:</strong></p>
+<ol><li>Garantizar la disponibilidad del <span class="equipo">equipo</span> y los accesos para la ejecución.</li><li>Facilitar la documentación técnica del fabricante y del proveedor.</li><li>Implementar las acciones operativas derivadas de desviaciones y CAPA.</li></ol>
+<p><strong>Responsabilidad del Gerente de gestión de calidad:</strong></p>
+<ol><li>Aprobar el protocolo y sus criterios de aceptación.</li><li>Aprobar las desviaciones y sus evaluaciones de impacto.</li><li>Emitir el dictamen final del estado de calificación.</li></ol>
+</div>
+
+<div class="alcance" data-bloque="1">
+<p><strong>ALCANCE</strong></p>
+<p>Esta calificación aplica a <span class="equipo">equipo</span>, según protocolo OQ, y cubre los ensayos listados en el índice.</p>
+</div>
+
+
+<article data-bloque="3" id="art-SIS-OQ-AP-001" class="ensayo" data-id="SIS-OQ-AP-001" data-fase="OQ" data-cond="ambas" data-familia="agua-purificada">
+  <h3>SIS-OQ-AP-001 — Parada de emergencia</h3>
+  <p><strong>Objetivo:</strong><br>Verificar la parada de emergencia del sistema de agua.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Identificar las paradas de emergencia del sistema<br>
+  2) Accionar la parada y verificar el estado seguro del sistema</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  La parada lleva el sistema a estado seguro.<br>
+  Se exige rearme manual según lo definido.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro de la prueba (anexo del informe)</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante del sistema.</p>
+</article>
+
+<article data-bloque="3" id="art-SIS-OQ-AP-002" class="ensayo" data-id="SIS-OQ-AP-002" data-fase="OQ" data-cond="ambas" data-familia="agua-purificada">
+  <h3>SIS-OQ-AP-002 — Interlocks de protección</h3>
+  <p><strong>Objetivo:</strong><br>Verificar los interlocks: nivel mínimo del tanque, alta temperatura, y presión y caudal mínimos de la bomba.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Simular nivel mínimo del tanque y verificar que la bomba no opera en seco<br>
+  2) Simular alta temperatura y verificar la protección<br>
+  3) Simular presión y caudal mínimos de la bomba y verificar la respuesta</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Cada interlock actúa ante su condición.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro de interlocks simulados (anexo del informe)</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante del sistema.</p>
+</article>
+
+<article data-bloque="3" id="art-SIS-OQ-AP-003" class="ensayo" data-id="SIS-OQ-AP-003" data-fase="OQ" data-cond="ambas" data-familia="agua-purificada">
+  <h3>SIS-OQ-AP-003 — Alarmas y límites</h3>
+  <p><strong>Objetivo:</strong><br>Verificar que cada alarma dispara y que ocurre la acción asociada.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Provocar conductividad alta y verificar disparo y acción<br>
+  2) Provocar TOC alto, caudal bajo en el loops, diferencial de filtros, bajo nivel, cloro residual alto en la entrada de la RO y falla de UV, y verificar cada disparo<br>
+  3) Verificar el desvío a drenaje del agua fuera de especificación</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Cada alarma dispara.<br>
+  El agua fuera de especificación se desvía a drenaje.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro de alarmas y acciones (anexo del informe)</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante del sistema.</p>
+</article>
+
+<article data-bloque="3" id="art-SIS-OQ-AP-004" class="ensayo" data-id="SIS-OQ-AP-004" data-fase="OQ" data-cond="ambas" data-familia="agua-purificada">
+  <h3>SIS-OQ-AP-004 — Falla y recuperación de energía</h3>
+  <p><strong>Objetivo:</strong><br>Verificar estado seguro ante falla de energía, recirculación al reiniciar y ausencia de estancamiento prolongado.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Cortar la energía y verificar el estado seguro<br>
+  2) Restablecer y verificar la recirculación<br>
+  3) Verificar que no hay estancamiento prolongado</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Estado seguro ante la falla.<br>
+  Recirculación al reiniciar sin estancamiento prolongado.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro de la prueba (anexo del informe)</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante del sistema.</p>
+</article>
+
+<article data-bloque="3" id="art-SIS-OQ-AP-005" class="ensayo" data-id="SIS-OQ-AP-005" data-fase="OQ" data-cond="ambas" data-familia="agua-purificada">
+  <h3>SIS-OQ-AP-005 — Respaldo y redundancia</h3>
+  <p><strong>Objetivo:</strong><br>Verificar la bomba de loops duplicada y el cambio automático (si aplica).</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Simular la falla de la bomba principal (si aplica)<br>
+  2) Verificar el cambio automático a la bomba de respaldo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  El cambio automático opera (si aplica).</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro de la prueba (anexo del informe)</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante del sistema.</p>
+</article>
+
+<article data-bloque="3" id="art-SIS-OQ-AP-006" class="ensayo" data-id="SIS-OQ-AP-006" data-fase="OQ" data-cond="ambas" data-familia="agua-purificada" data-analisis="si">
+  <h3>SIS-OQ-AP-006 — Filtro multimedia</h3>
+  <p><strong>Objetivo:</strong><br>Verificar caudal, caída de presión y retrolavado del filtro multimedia.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Medir el caudal y la caída de presión<br>
+  2) Ejecutar el retrolavado y verificar secuencia y tiempos<br>
+  3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Caudal y caída de presión dentro de lo definido en el protocolo aprobado.<br>
+  Retrolavado con secuencia y tiempos definidos.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro con data cruda y reporte<br>
+  - Data cruda y reporte estadístico del análisis del filtro multimedia</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante del sistema.</p>
+</article>
+
+<article data-bloque="3" id="art-SIS-OQ-AP-007" class="ensayo" data-id="SIS-OQ-AP-007" data-fase="OQ" data-cond="ambas" data-familia="agua-purificada" data-analisis="si">
+  <h3>SIS-OQ-AP-007 — Ablandador</h3>
+  <p><strong>Objetivo:</strong><br>Verificar ciclos de regeneración, dureza a la salida y consumo de sal.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Ejecutar los ciclos de regeneración y registrarlos<br>
+  2) Medir la dureza a la salida y el consumo de sal<br>
+  3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Dureza a la salida dentro de lo definido en el protocolo aprobado.<br>
+  Ciclos y consumo según lo definido.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro con data cruda y reporte<br>
+  - Data cruda y reporte estadístico del análisis del ablandador</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante del sistema.</p>
+</article>
+
+<article data-bloque="3" id="art-SIS-OQ-AP-008" class="ensayo" data-id="SIS-OQ-AP-008" data-fase="OQ" data-cond="ambas" data-familia="agua-purificada" data-analisis="si">
+  <h3>SIS-OQ-AP-008 — Carbón activado</h3>
+  <p><strong>Objetivo:</strong><br>Verificar eliminación de cloro, caudal y retrolavado; la verificación de cloro residual a la salida es crítica para proteger la RO.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Medir la eliminación de cloro y el caudal<br>
+  2) Ejecutar el retrolavado<br>
+  3) Verificar el cloro residual a la salida<br>
+  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Cloro residual a la salida dentro de lo definido en el protocolo aprobado.<br>
+  Caudal y retrolavado según lo definido.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro con data cruda y reporte<br>
+  - Data cruda y reporte estadístico del análisis del carbón activado</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante del sistema.</p>
+</article>
+
+<article data-bloque="3" id="art-SIS-OQ-AP-009" class="ensayo" data-id="SIS-OQ-AP-009" data-fase="OQ" data-cond="ambas" data-familia="agua-purificada" data-analisis="si">
+  <h3>SIS-OQ-AP-009 — Dosificación química</h3>
+  <p><strong>Objetivo:</strong><br>Verificar la exactitud de las bombas dosificadoras y la alarma de nivel de químico (si aplica).</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Verificar la exactitud de las bombas dosificadoras de antiscalante o bisulfito (si aplica)<br>
+  2) Verificar la alarma de nivel de químico<br>
+  3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Exactitud dentro de lo definido en el protocolo aprobado.<br>
+  Alarma de nivel operativa (si aplica).</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro con data cruda y reporte<br>
+  - Data cruda y reporte estadístico del análisis de dosificación</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante del sistema.</p>
+</article>
+
+<article data-bloque="3" id="art-SIS-OQ-AP-010" class="ensayo" data-id="SIS-OQ-AP-010" data-fase="OQ" data-cond="ambas" data-familia="agua-purificada" data-analisis="si">
+  <h3>SIS-OQ-AP-010 — Filtros de cartucho</h3>
+  <p><strong>Objetivo:</strong><br>Verificar la caída de presión y el estado de los filtros de cartucho.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Medir la caída de presión<br>
+  2) Verificar el estado de los cartuchos<br>
+  3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Caída de presión dentro de lo definido en el protocolo aprobado.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro con data cruda y reporte<br>
+  - Data cruda y reporte estadístico del análisis de cartuchos</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante del sistema.</p>
+</article>
+
+<article data-bloque="3" id="art-SIS-OQ-AP-011" class="ensayo" data-id="SIS-OQ-AP-011" data-fase="OQ" data-cond="ambas" data-familia="agua-purificada" data-analisis="si">
+  <h3>SIS-OQ-AP-011 — Caudales de ósmosis inversa</h3>
+  <p><strong>Objetivo:</strong><br>Verificar caudales de permeado, rechazo y recirculación, con la relación de recuperación dentro del criterio.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Medir caudales de permeado, rechazo y recirculación<br>
+  2) Calcular la relación de recuperación<br>
+  3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Relación de recuperación dentro del criterio definido.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro con data cruda y reporte<br>
+  - Data cruda y reporte estadístico del análisis de caudales</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante del sistema.</p>
+</article>
+
+<article data-bloque="3" id="art-SIS-OQ-AP-012" class="ensayo" data-id="SIS-OQ-AP-012" data-fase="OQ" data-cond="ambas" data-familia="agua-purificada" data-analisis="si">
+  <h3>SIS-OQ-AP-012 — Presiones de ósmosis inversa</h3>
+  <p><strong>Objetivo:</strong><br>Verificar la presión de la bomba de alta presión y las presiones por etapa.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Medir la presión de la bomba de alta presión<br>
+  2) Medir las presiones por etapa<br>
+  3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Presiones dentro de lo definido en el protocolo aprobado.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro con data cruda y reporte<br>
+  - Data cruda y reporte estadístico del análisis de presiones</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante del sistema.</p>
+</article>
+
+<article data-bloque="3" id="art-SIS-OQ-AP-013" class="ensayo" data-id="SIS-OQ-AP-013" data-fase="OQ" data-cond="ambas" data-familia="agua-purificada" data-analisis="si">
+  <h3>SIS-OQ-AP-013 — Conductividad del permeado</h3>
+  <p><strong>Objetivo:</strong><br>Verificar el rendimiento de rechazo de sales a las condiciones de diseño.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Medir la conductividad del permeado a las condiciones de diseño<br>
+  2) Calcular el rechazo de sales<br>
+  3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Rechazo de sales dentro de lo definido en el protocolo aprobado.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro con data cruda y reporte<br>
+  - Data cruda y reporte estadístico del análisis del permeado</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante del sistema.</p>
+</article>
+
+<article data-bloque="3" id="art-SIS-OQ-AP-014" class="ensayo" data-id="SIS-OQ-AP-014" data-fase="OQ" data-cond="ambas" data-familia="agua-purificada" data-analisis="si">
+  <h3>SIS-OQ-AP-014 — Segundo paso de ósmosis</h3>
+  <p><strong>Objetivo:</strong><br>Verificar el funcionamiento del segundo paso y la conductividad resultante (si aplica).</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Operar el segundo paso (si aplica)<br>
+  2) Medir la conductividad resultante<br>
+  3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Conductividad resultante dentro de lo definido en el protocolo aprobado (si aplica).</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro con data cruda y reporte<br>
+  - Data cruda y reporte estadístico del análisis del segundo paso</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante del sistema.</p>
+</article>
+
+<article data-bloque="3" id="art-SIS-OQ-AP-015" class="ensayo" data-id="SIS-OQ-AP-015" data-fase="OQ" data-cond="ambas" data-familia="agua-purificada" data-analisis="si">
+  <h3>SIS-OQ-AP-015 — Sanitización de la RO y de la EDI</h3>
+  <p><strong>Objetivo:</strong><br>Verificar ciclo, temperaturas, concentraciones y tiempos, con enjuague completo.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Ejecutar la sanitización química o por agua caliente según el procedimiento<br>
+  2) Registrar ciclo, temperaturas, concentraciones y tiempos<br>
+  3) Verificar el enjuague completo<br>
+  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Parámetros dentro de lo definido en el protocolo aprobado.<br>
+  Enjuague completo verificado.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro con data cruda y reporte<br>
+  - Data cruda y reporte estadístico del análisis de sanitización</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante del sistema.</p>
+</article>
+
+<article data-bloque="3" id="art-SIS-OQ-AP-016" class="ensayo" data-id="SIS-OQ-AP-016" data-fase="OQ" data-cond="ambas" data-familia="agua-purificada">
+  <h3>SIS-OQ-AP-016 — Tanque de almacenamiento</h3>
+  <p><strong>Objetivo:</strong><br>Verificar nivel, sensores, alarmas de nivel alto y bajo, y control de reposición.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Verificar sensores y control de nivel<br>
+  2) Provocar nivel alto y bajo y verificar sus alarmas<br>
+  3) Verificar el control de reposición</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Alarmas de nivel alto y bajo operativas.<br>
+  Reposición automática según lo definido.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro de la prueba (anexo del informe)</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante del sistema.</p>
+</article>
+
+<article data-bloque="3" id="art-SIS-OQ-AP-017" class="ensayo" data-id="SIS-OQ-AP-017" data-fase="OQ" data-cond="ambas" data-familia="agua-purificada">
+  <h3>SIS-OQ-AP-017 — Filtro de venteo hidrofóbico</h3>
+  <p><strong>Objetivo:</strong><br>Verificar la integridad del filtro de venteo hidrofóbico de 0,2 µm.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Ejecutar la prueba de integridad del filtro de venteo<br>
+  2) Registrar el resultado</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Integridad confirmada según el criterio del fabricante.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro de integridad (anexo del informe)</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante del sistema.</p>
+</article>
+
+<article data-bloque="3" id="art-SIS-OQ-AP-018" class="ensayo" data-id="SIS-OQ-AP-018" data-fase="OQ" data-cond="ambas" data-familia="agua-purificada" data-analisis="si">
+  <h3>SIS-OQ-AP-018 — Bola de aspersión del tanque</h3>
+  <p><strong>Objetivo:</strong><br>Verificar cobertura y caudal de la bola de aspersión para mantener húmedas las superficies superiores (si aplica).</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Operar la bola de aspersión (si aplica)<br>
+  2) Verificar cobertura y medir el caudal<br>
+  3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Cobertura completa y caudal dentro de lo definido en el protocolo aprobado (si aplica).</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro con data cruda y reporte<br>
+  - Data cruda y reporte estadístico del análisis de aspersión</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante del sistema.</p>
+</article>
+
+<article data-bloque="3" id="art-SIS-OQ-AP-019" class="ensayo" data-id="SIS-OQ-AP-019" data-fase="OQ" data-cond="ambas" data-familia="agua-purificada" data-analisis="si">
+  <h3>SIS-OQ-AP-019 — Temperatura del tanque</h3>
+  <p><strong>Objetivo:</strong><br>Verificar control y estabilidad de la temperatura del tanque (si aplica a sistema caliente o con enfriamiento).</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Registrar la temperatura del tanque en operación (si aplica)<br>
+  2) Verificar control y estabilidad<br>
+  3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Temperatura controlada y estable según lo definido (si aplica).</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro con data cruda y reporte<br>
+  - Data cruda y reporte estadístico del análisis de temperatura</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante del sistema.</p>
+</article>
+
+<article data-bloque="3" id="art-SIS-OQ-AP-020" class="ensayo" data-id="SIS-OQ-AP-020" data-fase="OQ" data-cond="ambas" data-familia="agua-purificada" data-analisis="si">
+  <h3>SIS-OQ-AP-020 — Bomba del loops</h3>
+  <p><strong>Objetivo:</strong><br>Verificar caudal, presión y velocidad (VFD) de la bomba en el rango operativo.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Medir caudal y presión en el rango operativo<br>
+  2) Verificar la velocidad del variador<br>
+  3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Caudal, presión y velocidad en rango operativo.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro con data cruda y reporte<br>
+  - Data cruda y reporte estadístico del análisis de la bomba</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante del sistema.</p>
+</article>
+
+<article data-bloque="3" id="art-SIS-OQ-AP-021" class="ensayo" data-id="SIS-OQ-AP-021" data-fase="OQ" data-cond="ambas" data-familia="agua-purificada" data-analisis="si">
+  <h3>SIS-OQ-AP-021 — Velocidad de flujo en el loops</h3>
+  <p><strong>Objetivo:</strong><br>Verificar el caudal en el retorno y la velocidad mínima definida en el URS, con todos los puntos de uso abiertos.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Medir el caudal en el retorno<br>
+  2) Abrir todos los puntos de uso y verificar que la velocidad no baja del mínimo (práctica habitual: al menos 1 m/s con régimen turbulento)<br>
+  3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Velocidad igual o mayor al mínimo del URS con todos los puntos abiertos.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro con data cruda y reporte<br>
+  - Data cruda y reporte estadístico del análisis de velocidad</p>
+  <p><strong>Referencia:</strong><br>URS aprobada (rangos y criterios).</p>
+</article>
+
+<article data-bloque="3" id="art-SIS-OQ-AP-022" class="ensayo" data-id="SIS-OQ-AP-022" data-fase="OQ" data-cond="ambas" data-familia="agua-purificada" data-analisis="si">
+  <h3>SIS-OQ-AP-022 — Presión positiva en la red</h3>
+  <p><strong>Objetivo:</strong><br>Verificar presión positiva en toda la red, incluida la de retorno, y en el punto más lejano.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Medir la presión en la red y en el retorno<br>
+  2) Medir la presión en el punto más lejano<br>
+  3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Presión positiva en toda la red incluido el retorno.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro con data cruda y reporte<br>
+  - Data cruda y reporte estadístico del análisis de presión</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante del sistema.</p>
+</article>
+
+<article data-bloque="3" id="art-SIS-OQ-AP-023" class="ensayo" data-id="SIS-OQ-AP-023" data-fase="OQ" data-cond="ambas" data-familia="agua-purificada" data-analisis="si">
+  <h3>SIS-OQ-AP-023 — Lámpara UV</h3>
+  <p><strong>Objetivo:</strong><br>Verificar intensidad, vida útil de la lámpara y alarma; si es de 254 nm para desinfección, el sensor debe calibrarse.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Medir la intensidad UV<br>
+  2) Verificar la vida útil de la lámpara y su alarma<br>
+  3) Calibrar el sensor si es de 254 nm para desinfección<br>
+  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Intensidad dentro de lo definido en el protocolo aprobado.<br>
+  Alarma operativa; sensor calibrado si es de 254 nm.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro con data cruda y reporte<br>
+  - Data cruda y reporte estadístico del análisis UV</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante del sistema.</p>
+</article>
+
+<article data-bloque="3" id="art-SIS-OQ-AP-024" class="ensayo" data-id="SIS-OQ-AP-024" data-fase="OQ" data-cond="ambas" data-familia="agua-purificada" data-analisis="si">
+  <h3>SIS-OQ-AP-024 — Ozono en el loops</h3>
+  <p><strong>Objetivo:</strong><br>Verificar generación, concentración en el loops, destrucción previa a los puntos de uso y ausencia en el agua usada (si se usa).</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Medir la generación y la concentración en el loops (si se usa)<br>
+  2) Verificar la destrucción previa a los puntos de uso<br>
+  3) Verificar la ausencia en el agua usada<br>
+  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Destrucción previa efectiva y ausencia en el agua usada (si se usa).</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro con data cruda y reporte<br>
+  - Data cruda y reporte estadístico del análisis de ozono</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante del sistema.</p>
+</article>
+
+<article data-bloque="3" id="art-SIS-OQ-AP-025" class="ensayo" data-id="SIS-OQ-AP-025" data-fase="OQ" data-cond="ambas" data-familia="agua-purificada" data-analisis="si">
+  <h3>SIS-OQ-AP-025 — Intercambiador de calor</h3>
+  <p><strong>Objetivo:</strong><br>Verificar enfriamiento o calentamiento del loops, con control de temperatura y barrera de doble pared o presión diferencial (si aplica).</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Verificar el control de temperatura del intercambiador (si aplica)<br>
+  2) Verificar la barrera de doble pared o la presión diferencial<br>
+  3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Control efectivo y barrera íntegra (si aplica).</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro con data cruda y reporte<br>
+  - Data cruda y reporte estadístico del análisis del intercambiador</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante del sistema.</p>
+</article>
+
+<article data-bloque="3" id="art-SIS-OQ-AP-026" class="ensayo" data-id="SIS-OQ-AP-026" data-fase="OQ" data-cond="ambas" data-familia="agua-purificada" data-analisis="si">
+  <h3>SIS-OQ-AP-026 — Pendiente y drenabilidad</h3>
+  <p><strong>Objetivo:</strong><br>Verificar en campo que el loops se drena y no queda agua retenida.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Drenar el loops y verificar el drenaje completo en campo<br>
+  2) Verificar que no queda agua retenida<br>
+  3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Drenaje completo sin agua retenida.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro con data cruda y reporte<br>
+  - Data cruda y reporte estadístico del análisis de drenabilidad</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante del sistema.</p>
+</article>
+
+<article data-bloque="3" id="art-SIS-OQ-AP-027" class="ensayo" data-id="SIS-OQ-AP-027" data-fase="OQ" data-cond="ambas" data-familia="agua-purificada" data-analisis="si">
+  <h3>SIS-OQ-AP-027 — Ramales muertos</h3>
+  <p><strong>Objetivo:</strong><br>Medir la longitud de cada ramal en relación con su diámetro (regla de 3D) y revisar válvulas de diafragma y de punto de uso.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Medir cada ramal y su diámetro y aplicar la regla de 3D<br>
+  2) Revisar válvulas de diafragma y de punto de uso<br>
+  3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Ramales dentro de la regla de 3D o justificados.<br>
+  Válvulas sanitarias y operativas.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro con data cruda y reporte<br>
+  - Data cruda y reporte estadístico del análisis de ramales</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante del sistema.</p>
+</article>
+
+<article data-bloque="3" id="art-SIS-OQ-AP-028" class="ensayo" data-id="SIS-OQ-AP-028" data-fase="OQ" data-cond="ambas" data-familia="agua-purificada">
+  <h3>SIS-OQ-AP-028 — Sanitización del loops</h3>
+  <p><strong>Objetivo:</strong><br>Verificar que todos los puntos, incluidos los de uso y el retorno, alcancen la temperatura o la concentración y el tiempo definidos.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Ejecutar la sanitización térmica con agua caliente (típicamente 80 °C) o vapor limpio, o con ozono o peróxido, según aplique<br>
+  2) Verificar temperatura o concentración y tiempo en todos los puntos incluidos uso y retorno</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Todos los puntos alcanzan lo definido.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro de la sanitización (anexo del informe)</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante del sistema.</p>
+</article>
+
+<article data-bloque="3" id="art-SIS-OQ-AP-029" class="ensayo" data-id="SIS-OQ-AP-029" data-fase="OQ" data-cond="ambas" data-familia="agua-purificada">
+  <h3>SIS-OQ-AP-029 — Enjuague posterior a sanitización</h3>
+  <p><strong>Objetivo:</strong><br>Verificar la ausencia de residuos del sanitizante.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Medir conductividad o prueba específica del sanitizante tras el enjuague</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Ausencia de residuos según el criterio definido.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro del enjuague (anexo del informe)</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante del sistema.</p>
+</article>
+
+<article data-bloque="3" id="art-SIS-OQ-AP-030" class="ensayo" data-id="SIS-OQ-AP-030" data-fase="OQ" data-cond="ambas" data-familia="agua-purificada" data-analisis="si">
+  <h3>SIS-OQ-AP-030 — Conductividad y TOC en línea</h3>
+  <p><strong>Objetivo:</strong><br>Verificar exactitud frente a un patrón o a medición de laboratorio, y alarmas (si aplica a TOC en línea).</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Comparar conductividad y TOC en línea contra patrón o laboratorio (si aplica)<br>
+  2) Verificar el factor de respuesta y la correlación del TOC con el laboratorio<br>
+  3) Verificar las alarmas<br>
+  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Exactitud dentro de lo definido en el protocolo aprobado.<br>
+  Alarmas operativas.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro con data cruda y reporte<br>
+  - Data cruda y reporte estadístico del análisis en línea</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante del sistema.</p>
+</article>
+
+<article data-bloque="3" id="art-SIS-OQ-AP-031" class="ensayo" data-id="SIS-OQ-AP-031" data-fase="OQ" data-cond="ambas" data-familia="agua-purificada" data-analisis="si">
+  <h3>SIS-OQ-AP-031 — Temperatura en el loops</h3>
+  <p><strong>Objetivo:</strong><br>Verificar sensores y registro de temperatura en el loops (si aplica).</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Verificar sensores y registro de temperatura (si aplica)<br>
+  2) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Registro exacto según lo definido (si aplica).</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro con data cruda y reporte<br>
+  - Data cruda y reporte estadístico del análisis de temperatura</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante del sistema.</p>
+</article>
+
+<article data-bloque="3" id="art-SIS-OQ-AP-032" class="ensayo" data-id="SIS-OQ-AP-032" data-fase="OQ" data-cond="ambas" data-familia="agua-purificada" data-analisis="si">
+  <h3>SIS-OQ-AP-032 — Puntos de muestreo</h3>
+  <p><strong>Objetivo:</strong><br>Verificar identificación, accesibilidad, diseño sanitario, drenaje previo y válvulas de muestreo.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Verificar identificación y accesibilidad de cada punto<br>
+  2) Verificar diseño sanitario, drenaje previo y válvulas<br>
+  3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Puntos identificados, accesibles y sanitarios.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro con data cruda y reporte<br>
+  - Data cruda y reporte estadístico del análisis de puntos</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante del sistema.</p>
+</article>
+
+<article data-bloque="3" id="art-SIS-OQ-AP-033" class="ensayo" data-id="SIS-OQ-AP-033" data-fase="OQ" data-cond="ambas" data-familia="agua-purificada">
+  <h3>SIS-OQ-AP-033 — Operación continua del sistema</h3>
+  <p><strong>Objetivo:</strong><br>Verificar la operación continua del sistema completo durante el período de prueba, con agua de producto dentro de los límites.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Operar el sistema completo durante 72 h (o el período definido en el protocolo aprobado)<br>
+  2) Verificar conductividad dentro de los límites, sin alarmas ni desviaciones</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Agua dentro de los límites durante todo el período.<br>
+  Sin alarmas ni desviaciones no tratadas.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro de la operación (anexo del informe)</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante del sistema.</p>
+</article>
+
+<article data-bloque="4" id="art-SIS-OQ-AP-RES" class="ensayo" data-id="SIS-OQ-AP-RES" data-fase="OQ" data-cond="ambas" data-familia="agua-purificada">
+  <h3>SIS-OQ-AP-RES — Tabla resumen de los ensayos del OQ</h3>
+  <p><strong>Objetivo:</strong><br>Consolidar el listado de ensayos del OQ del sistema de agua para la tabla resumen del protocolo.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Confirmar que los ensayos SIS-OQ-AP-001 a SIS-OQ-AP-033 están incluidos en el índice del protocolo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Los 33 ensayos aparecen en la tabla resumen con su veredicto.</p>
+  <p><strong>Referencia:</strong><br>EU GMP Anexo 15.</p>
+</article>
+
+<article data-bloque="6" id="art-SIS-OQ-AP-REF" class="ensayo tabla-info" data-id="SIS-OQ-AP-REF" data-fase="OQ" data-cond="ambas" data-familia="agua-purificada">
+  <h3>SIS-OQ-AP-REF — Referencias del OQ del sistema de agua</h3>
+  <table>
+    <tr><th>SECCIÓN</th><th>TÍTULO</th><th>ESTADO</th></tr>
+    <tr><td>6.1</td><td>Manual del fabricante del sistema — Etapas, setpoints y límites de diseño</td><td>VIGENTE</td></tr>
+    <tr><td>6.2</td><td>URS aprobada — Calidad del agua, caudales y criterios de aceptación</td><td>VIGENTE</td></tr>
+    <tr><td>6.3</td><td>EU GMP Anexo 15 — Cualificación y validación: el OQ demuestra operación según especificaciones aprobadas</td><td>VIGENTE</td></tr>
+  </table>
+</article>
+
+<div class="anexos" data-bloque="8">
+<p><strong>ANEXOS:</strong></p>
+<table>
+<tr><th>SECCIÓN</th><th>TÍTULO</th></tr>
+<tr><td>8.1</td><td>Anexo A — Registros de operación, curvas y tendencias por etapa</td></tr>
+<tr><td>8.2</td><td>Anexo B — Certificados de calibración de instrumentos en línea y patrones</td></tr>
+<tr><td>8.3</td><td>Anexo C — Registros de sanitizaciones, alarmas y excursiones</td></tr>
+</table>
+</div>
+
+</section>
+
+</body>
+</html>

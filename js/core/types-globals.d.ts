@@ -7,6 +7,7 @@
 // TODO(fase 2): sustituir por imports ES al migrar a .ts.
 declare var BancoEquipos: any;
 declare var BancoEstabilidad: any;
+declare var BancoSistemas: any;
 declare var BancoAlmacenes: any;
 declare var GeneradorDocx: any;
 declare var PlantillaDocx: any;
