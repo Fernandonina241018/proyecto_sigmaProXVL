@@ -4905,3 +4905,7 @@ Render inyectaba el `PORT` como variable de entorno; Fly.io también (`process.e
 - **HVAC:** REF +OMS TRS 937 Anexo 2 (OQ/PQ) e ISO 14644-2 (PQ); refs OQ-25 (cascada→OMS) y PQ-1 (monitoreo→14644-2).
 - **Vapor:** PQ-16 a unidades EN 285:2015 (3,5 mL/100 mL, era % v/v).
 - **Verificación:** extractor --estricto OK; Vitest 477/477, backend 67/67.
+
+### 2026-10-14 (190): Campos faltantes en esquema de Sistemas
+- **Cambio:** `SCHEMAS.sistemas` suma `codigo` y `ubicacion` (req) + `controlCambios` y `versionProtocolo` (opcionales); el blindaje de generar pedía Código inexistente.
+- **Verificación:** test de esquema; Vitest 478/478, backend 67/67.

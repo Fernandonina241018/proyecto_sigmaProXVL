@@ -136,8 +136,7 @@ describe('Validaciones V7', () => {
     expect(Validaciones.mejorarFecha(fakeEl())).toBe(false);
   });
 
-  test('sistemas: banco de agua purificada cableado (conteo y gate)', () => {
-    globalThis.BancoSistemas = require('../js/core/banco-sistemas-data.js');
+  test('sistemas: banco de agua purificada cableado (conteo y gate)', () => {    globalThis.BancoSistemas = require('../js/core/banco-sistemas-data.js');
     try {
       expect(Validaciones.contarGen('OQ', 'ambas', 'sistemas', 'agua-purificada')).toBe(33);
       expect(Validaciones.contarGen('PQ', 'ambas', 'sistemas', 'agua-purificada')).toBe(23);
@@ -148,6 +147,12 @@ describe('Validaciones V7', () => {
       expect(Validaciones.tieneBancoFam('OQ', 'sistemas', 'agua-purificada')).toBe(true);
       expect(Validaciones.tieneBancoFam('PQ', 'sistemas', 'hvac')).toBe(true);
     } finally { delete globalThis.BancoSistemas; }
+  });
+
+  test('sistemas: esquema trae código y ubicación (blindaje de generar)', () => {
+    const ks = Validaciones.getSchema('sistemas').map((f) => f.k);
+    ['descripcion', 'sistema', 'codigo', 'ubicacion', 'ursCodigo', 'riesgoCodigo'].forEach((k) => expect(ks).toContain(k));
+    expect(new Set(ks).size).toBe(ks.length);
   });
 
   test('planilla adaptativa: comunes + específicos por categoría', () => {

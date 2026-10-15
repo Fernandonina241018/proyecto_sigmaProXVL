@@ -271,8 +271,12 @@ const Validaciones = (() => {
     sistemas: [
       { k: 'descripcion', label: 'Descripción', tipo: 'text', req: true },
       { k: 'sistema', label: 'Sistema', tipo: 'select', req: true, opciones: ['HVAC', 'Agua purificada', 'Vapor limpio', 'Aire comprimido'] },
+      { k: 'codigo', label: 'Código', tipo: 'text', req: true },
+      { k: 'ubicacion', label: 'Ubicación', tipo: 'text', req: true },
       { k: 'area', label: 'Área que atiende', tipo: 'text', req: true },
       { k: 'setpoints', label: 'Setpoints', tipo: 'text', req: true },
+      { k: 'controlCambios', label: 'Control de cambios #', tipo: 'text', req: false },
+      { k: 'versionProtocolo', label: 'Versión del protocolo', tipo: 'text', req: false },
     ],
     software: [
       { k: 'descripcion', label: 'Descripción', tipo: 'text', req: true },
