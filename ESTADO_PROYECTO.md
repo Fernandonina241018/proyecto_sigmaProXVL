@@ -4909,3 +4909,7 @@ Render inyectaba el `PORT` como variable de entorno; Fly.io también (`process.e
 ### 2026-10-14 (190): Campos faltantes en esquema de Sistemas
 - **Cambio:** `SCHEMAS.sistemas` suma `codigo` y `ubicacion` (req) + `controlCambios` y `versionProtocolo` (opcionales); el blindaje de generar pedía Código inexistente.
 - **Verificación:** test de esquema; Vitest 478/478, backend 67/67.
+
+### 2026-10-14 (191): Marca y modelo en esquema de Sistemas
+- **Cambio:** `SCHEMAS.sistemas` suma `marca` y `modelo` (req); alimentan portada y encabezado del .docx.
+- **Verificación:** Vitest 478/478, backend 67/67.
