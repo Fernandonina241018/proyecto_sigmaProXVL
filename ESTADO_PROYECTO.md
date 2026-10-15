@@ -4895,3 +4895,8 @@ Render inyectaba el `PORT` como variable de entorno; Fly.io también (`process.e
 - **Bancos:** `sistemas/oq-hvac.html` (38) y `pq-hvac.html` (22) desde ENSAYOS.txt; números como guía, línea 1 ignorada, todo PQ con análisis, estériles condicional, valores con caveat literales (ISO 8/7, 0,01 %, 10–15 Pa, 6/12 meses).
 - **REF:** Manual + URS + Anexo 15 + ISO 14644-1 + Anexo 1 (solo si aplica); refs puntuales a conteo (14644-1) y zona A (Anexo 1).
 - **Verificación:** extractor --estricto OK (124); OQ/PQ generan 38/22; Vitest 475/475, backend 67/67, `tsc` limpio.
+
+### 2026-10-14 (188): Vapor limpio — bancos OQ/PQ (SIS-*-VL, 51 ensayos)
+- **Bancos:** `sistemas/oq-vapor-limpio.html` (26) y `pq-vapor-limpio.html` (25); línea 1 ignorada, todo PQ con análisis, `(*)` fuera, valores EN 285 literales con caveat.
+- **REF:** Manual + URS + Anexo 15 + EN 285 + ISPE Vol 4 (parte vapor); refs puntuales a calidad → EN 285.
+- **Verificación:** extractor --estricto OK (179); OQ/PQ generan 26/25; Vitest 477/477, backend 67/67.

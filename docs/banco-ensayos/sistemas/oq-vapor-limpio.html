@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<style>
+  body { font-family: Tahoma, sans-serif; font-size: 11pt; }
+  strong { text-transform: uppercase; }
+</style>
+<title>Banco de Ensayos OQ — Vapor limpio</title>
+</head>
+<body>
+
+<p><a href="../sistemas.html">← Sistemas</a></p>
+<h2>OQ — Vapor limpio (banco por familia)</h2>
+<p>Versión del banco: <span data-banco-version>SIS-OQ-VL 2026-10-14 v1</span></p>
+<p>Ensayos de Calificación de Operación específicos del vapor limpio (<span class="equipo">equipo</span>). Se filtran por familia (<code>data-familia="vapor-limpio"</code>) según la entidad elegida en el paso 1. Fuente: ENSAYOS.txt del usuario (vapor limpio).</p>
+
+<!-- ================= OQ ================= -->
+<section id="fase-oq" data-familia="vapor-limpio">
+<h2>OQ — Ensayos</h2>
+
+<div class="portada" data-bloque="1">
+<p><strong>PORTADA DEL PROTOCOLO OQ</strong></p>
+<p><strong>Logo:</strong><br><img class="ent-logo" alt="Logo de la entidad"></p>
+<p><strong>Calificación de Operación de <span class="equipo">equipo</span>:</strong> <span class="ent-descripcion">______</span></p>
+<ol>
+  <li><strong>Marca:</strong> <span class="ent-marca">______</span></li>
+  <li><strong>Modelo:</strong> <span class="ent-modelo">______</span></li>
+  <li><strong>Código:</strong> <span class="ent-codigo">______</span></li>
+</ol>
+</div>
+
+<div class="firmas" data-bloque="1">
+<p><strong>FLUJO DE FIRMAS DEL PROTOCOLO:</strong></p>
+<p>Este apartado establece que los responsables revisan y aprueban el presente protocolo, declarando que está apto para su ejecución. Cualquier cambio posterior a la firma obliga a reiniciar el flujo de firmas, con el fin de garantizar que todos los departamentos involucrados estén al tanto de los ensayos a ejecutar.</p>
+<ol>
+  <li><strong>Elaborado Por:</strong> <br> Analista de validaciones — elabora / Nombre: ______ Firma: ______ Fecha: ______</li><br>
+  <li><strong>Revisado Por:</strong> <br> Coordinador de validaciones — revisa / Nombre: ______ Firma: ______ Fecha: ______</li><br>
+  <li><strong>Revisado Por:</strong> <br> Gerente de Área — revisa / Nombre: ______ Firma: ______ Fecha: ______</li><br>
+  <li><strong>Aprobado por:</strong> <br> Gerente de gestión de calidad — aprueba / Nombre: ______ Firma: ______ Fecha: ______</li><br>
+</ol>
+</div>
+
+<div class="responsabilidades" data-bloque="1">
+<p><strong>RESPONSABILIDADES DEL PROTOCOLO:</strong></p>
+<p><strong>Responsabilidad del Analista de validaciones:</strong></p>
+<ol><li>Coordinar la ejecución de la Calificación de Operación con producción, control de calidad e ingeniería, asegurando personal, <span class="equipo">equipo</span>, instrumentos y documentación.</li><li>Verificar que los instrumentos de medición estén identificados y con calibración vigente.</li><li>Ejecutar y/o supervisar los ensayos del protocolo según los criterios aprobados.</li><li>Registrar los datos de forma completa, legible y trazable (ALCOA+).</li><li>Documentar las desviaciones según los procedimientos internos vigentes.</li><li>Elaborar el informe de calificación con resultados, conclusiones y anexos.</li></ol>
+<p><strong>Responsabilidad del Coordinador de validaciones:</strong></p>
+<ol><li>Revisar técnicamente el protocolo antes de su ejecución.</li><li>Asignar al analista responsable y coordinar recursos.</li><li>Revisar las desviaciones, su tratamiento y las CAPA asociadas.</li><li>Revisar el informe final y autorizar la siguiente fase.</li></ol>
+<p><strong>Responsabilidad del Gerente de Área:</strong></p>
+<ol><li>Garantizar la disponibilidad del <span class="equipo">equipo</span> y los accesos para la ejecución.</li><li>Facilitar la documentación técnica del fabricante y del proveedor.</li><li>Implementar las acciones operativas derivadas de desviaciones y CAPA.</li></ol>
+<p><strong>Responsabilidad del Gerente de gestión de calidad:</strong></p>
+<ol><li>Aprobar el protocolo y sus criterios de aceptación.</li><li>Aprobar las desviaciones y sus evaluaciones de impacto.</li><li>Emitir el dictamen final del estado de calificación.</li></ol>
+</div>
+
+<div class="alcance" data-bloque="1">
+<p><strong>ALCANCE</strong></p>
+<p>Esta calificación aplica a <span class="equipo">equipo</span>, según protocolo OQ, y cubre los ensayos listados en el índice.</p>
+</div>
+
+
+<article data-bloque="3" id="art-SIS-OQ-VL-001" class="ensayo" data-id="SIS-OQ-VL-001" data-fase="OQ" data-cond="ambas" data-familia="vapor-limpio">
+  <h3>SIS-OQ-VL-001 — Válvulas de seguridad</h3>
+  <p><strong>Objetivo:</strong><br>Verificar el certificado vigente y la prueba de apertura a la presión de tarado.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Verificar el certificado vigente de cada válvula<br>
+  2) Probar la apertura a la presión de tarado</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Certificado vigente.<br>
+  Apertura a la presión de tarado.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro y certificados (anexo del informe)</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante del sistema.</p>
+</article>
+
+<article data-bloque="3" id="art-SIS-OQ-VL-002" class="ensayo" data-id="SIS-OQ-VL-002" data-fase="OQ" data-cond="ambas" data-familia="vapor-limpio">
+  <h3>SIS-OQ-VL-002 — Parada de emergencia</h3>
+  <p><strong>Objetivo:</strong><br>Verificar la despresurización y el estado seguro ante parada de emergencia.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Accionar la parada de emergencia<br>
+  2) Verificar despresurización y estado seguro</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Despresurización completa y estado seguro.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro de la prueba (anexo del informe)</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante del sistema.</p>
+</article>
+
+<article data-bloque="3" id="art-SIS-OQ-VL-003" class="ensayo" data-id="SIS-OQ-VL-003" data-fase="OQ" data-cond="ambas" data-familia="vapor-limpio">
+  <h3>SIS-OQ-VL-003 — Interlocks del generador</h3>
+  <p><strong>Objetivo:</strong><br>Verificar nivel mínimo con calefacción inhibida, sobrepresión, sobretemperatura y falta de agua de alimentación.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Simular nivel mínimo y verificar calefacción inhibida<br>
+  2) Simular sobrepresión y sobretemperatura y verificar la respuesta<br>
+  3) Simular falta de agua de alimentación y verificar el bloqueo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Cada interlock actúa ante su condición.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro de interlocks simulados (anexo del informe)</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante del sistema.</p>
+</article>
+
+<article data-bloque="3" id="art-SIS-OQ-VL-004" class="ensayo" data-id="SIS-OQ-VL-004" data-fase="OQ" data-cond="ambas" data-familia="vapor-limpio">
+  <h3>SIS-OQ-VL-004 — Alarmas y límites</h3>
+  <p><strong>Objetivo:</strong><br>Verificar que cada alarma dispara y que ocurre la acción asociada.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Provocar conductividad alta del condensado y verificar disparo y acción<br>
+  2) Provocar presión alta o baja, nivel, falla de bomba de alimentación y falla de purgador, y verificar<br>
+  3) Verificar el desvío de vapor fuera de especificación a drenaje</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Cada alarma dispara.<br>
+  El vapor fuera de especificación se desvía a drenaje.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro de alarmas y acciones (anexo del informe)</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante del sistema.</p>
+</article>
+
+<article data-bloque="3" id="art-SIS-OQ-VL-005" class="ensayo" data-id="SIS-OQ-VL-005" data-fase="OQ" data-cond="ambas" data-familia="vapor-limpio">
+  <h3>SIS-OQ-VL-005 — Falla y recuperación de energía</h3>
+  <p><strong>Objetivo:</strong><br>Verificar estado seguro, sin arranque espontáneo, y ausencia de retorno de condensado al generador.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Cortar la energía y verificar el estado seguro<br>
+  2) Restablecer y verificar que no hay arranque espontáneo<br>
+  3) Verificar que no retorna condensado al generador</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Estado seguro sin arranque espontáneo.<br>
+  Sin retorno de condensado.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro de la prueba (anexo del informe)</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante del sistema.</p>
+</article>
+
+<article data-bloque="3" id="art-SIS-OQ-VL-006" class="ensayo" data-id="SIS-OQ-VL-006" data-fase="OQ" data-cond="ambas" data-familia="vapor-limpio">
+  <h3>SIS-OQ-VL-006 — Redundancia</h3>
+  <p><strong>Objetivo:</strong><br>Verificar el cambio a la bomba o generador de reserva (si aplica).</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Simular la falla del equipo principal (si aplica)<br>
+  2) Verificar el cambio a la reserva</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Cambio efectivo a la reserva (si aplica).</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro de la prueba (anexo del informe)</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante del sistema.</p>
+</article>
+
+<article data-bloque="3" id="art-SIS-OQ-VL-007" class="ensayo" data-id="SIS-OQ-VL-007" data-fase="OQ" data-cond="ambas" data-familia="vapor-limpio" data-analisis="si">
+  <h3>SIS-OQ-VL-007 — Alimentación del generador</h3>
+  <p><strong>Objetivo:</strong><br>Verificar el caudal y la presión de alimentación de agua y de vapor de calefacción.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Medir el caudal y la presión de alimentación de agua<br>
+  2) Medir el caudal y la presión del vapor de calefacción<br>
+  3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Alimentación dentro de lo definido en el protocolo aprobado.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro con data cruda y reporte<br>
+  - Data cruda y reporte estadístico del análisis de alimentación</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante del sistema.</p>
+</article>
+
+<article data-bloque="3" id="art-SIS-OQ-VL-008" class="ensayo" data-id="SIS-OQ-VL-008" data-fase="OQ" data-cond="ambas" data-familia="vapor-limpio" data-analisis="si">
+  <h3>SIS-OQ-VL-008 — Capacidad del generador</h3>
+  <p><strong>Objetivo:</strong><br>Verificar la producción de vapor puro a la demanda nominal y a la máxima declarada, con presión de salida estable.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Operar a la demanda nominal y medir la producción con presión estable<br>
+  2) Operar a la máxima declarada y verificar estabilidad<br>
+  3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Producción conforme con presión estable en ambas demandas.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro con data cruda y reporte<br>
+  - Data cruda y reporte estadístico del análisis de capacidad</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante del sistema.</p>
+</article>
+
+<article data-bloque="3" id="art-SIS-OQ-VL-009" class="ensayo" data-id="SIS-OQ-VL-009" data-fase="OQ" data-cond="ambas" data-familia="vapor-limpio" data-analisis="si">
+  <h3>SIS-OQ-VL-009 — Respuesta a variaciones de demanda</h3>
+  <p><strong>Objetivo:</strong><br>Verificar el aumento brusco y la caída de demanda, con tiempo de recuperación y estabilidad de presión.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Provocar aumento brusco (por ejemplo apertura simultánea de varios usuarios)<br>
+  2) Provocar la caída y medir el tiempo de recuperación y la estabilidad<br>
+  3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Recuperación y estabilidad dentro de lo definido en el protocolo aprobado.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro con data cruda y reporte<br>
+  - Data cruda y reporte estadístico del análisis de demanda</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante del sistema.</p>
+</article>
+
+<article data-bloque="3" id="art-SIS-OQ-VL-010" class="ensayo" data-id="SIS-OQ-VL-010" data-fase="OQ" data-cond="ambas" data-familia="vapor-limpio" data-analisis="si">
+  <h3>SIS-OQ-VL-010 — Nivel y purga del generador</h3>
+  <p><strong>Objetivo:</strong><br>Verificar el control de nivel y la purga continua o de fondo, con secuencia y tiempos.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Verificar el control de nivel<br>
+  2) Verificar la secuencia y los tiempos de la purga continua o de fondo<br>
+  3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Nivel controlado con purga según secuencia y tiempos.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro con data cruda y reporte<br>
+  - Data cruda y reporte estadístico del análisis de nivel</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante del sistema.</p>
+</article>
+
+<article data-bloque="3" id="art-SIS-OQ-VL-011" class="ensayo" data-id="SIS-OQ-VL-011" data-fase="OQ" data-cond="ambas" data-familia="vapor-limpio" data-analisis="si">
+  <h3>SIS-OQ-VL-011 — Separador de gotas</h3>
+  <p><strong>Objetivo:</strong><br>Verificar la eficiencia de separación de gotas, con verificación por caída de presión y por el condensado.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Verificar la caída de presión en el separador o trampa de arrastre<br>
+  2) Verificar la eficiencia por el condensado<br>
+  3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Separación efectiva según lo definido.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro con data cruda y reporte<br>
+  - Data cruda y reporte estadístico del análisis del separador</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante del sistema.</p>
+</article>
+
+<article data-bloque="3" id="art-SIS-OQ-VL-012" class="ensayo" data-id="SIS-OQ-VL-012" data-fase="OQ" data-cond="ambas" data-familia="vapor-limpio" data-analisis="si">
+  <h3>SIS-OQ-VL-012 — Temperatura y presión de salida</h3>
+  <p><strong>Objetivo:</strong><br>Verificar la exactitud del control en el rango operativo.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Medir temperatura y presión de salida en el rango operativo<br>
+  2) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Control exacto en el rango operativo.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro con data cruda y reporte<br>
+  - Data cruda y reporte estadístico del análisis de salida</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante del sistema.</p>
+</article>
+
+<article data-bloque="3" id="art-SIS-OQ-VL-013" class="ensayo" data-id="SIS-OQ-VL-013" data-fase="OQ" data-cond="ambas" data-familia="vapor-limpio" data-analisis="si">
+  <h3>SIS-OQ-VL-013 — Enfriamiento y drenaje del condensado</h3>
+  <p><strong>Objetivo:</strong><br>Verificar el sistema de enfriamiento y drenaje del condensado del generador.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Verificar el enfriamiento del condensado<br>
+  2) Verificar su drenaje<br>
+  3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Enfriamiento y drenaje efectivos.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro con data cruda y reporte<br>
+  - Data cruda y reporte estadístico del análisis de drenaje</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante del sistema.</p>
+</article>
+
+<article data-bloque="3" id="art-SIS-OQ-VL-014" class="ensayo" data-id="SIS-OQ-VL-014" data-fase="OQ" data-cond="ambas" data-familia="vapor-limpio">
+  <h3>SIS-OQ-VL-014 — Pendiente y drenabilidad de líneas</h3>
+  <p><strong>Objetivo:</strong><br>Verificar en campo que el condensado fluye hacia los purgadores, sin tramos con contrapendiente.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Recorrer las líneas y verificar la pendiente en campo<br>
+  2) Verificar que el condensado fluye hacia los purgadores</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Sin tramos con contrapendiente.<br>
+  Flujo hacia purgadores confirmado.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro de campo (anexo del informe)</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante del sistema.</p>
+</article>
+
+<article data-bloque="3" id="art-SIS-OQ-VL-015" class="ensayo" data-id="SIS-OQ-VL-015" data-fase="OQ" data-cond="ambas" data-familia="vapor-limpio">
+  <h3>SIS-OQ-VL-015 — Purgadores</h3>
+  <p><strong>Objetivo:</strong><br>Verificar el funcionamiento de cada purgador, su ubicación en puntos bajos y al final de ramales, con prueba individual.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Probar individualmente cada purgador: descarga de condensado sin fuga de vapor vivo<br>
+  2) Verificar ubicación en puntos bajos y al final de ramales</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Cada purgador descarga sin fuga de vapor vivo.<br>
+  Ubicación conforme.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro individual por purgador (anexo del informe)</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante del sistema.</p>
+</article>
+
+<article data-bloque="3" id="art-SIS-OQ-VL-016" class="ensayo" data-id="SIS-OQ-VL-016" data-fase="OQ" data-cond="ambas" data-familia="vapor-limpio">
+  <h3>SIS-OQ-VL-016 — Ramales muertos de vapor</h3>
+  <p><strong>Objetivo:</strong><br>Verificar la longitud respecto al diámetro (regla de 3D) en puntos de uso y válvulas.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Medir cada ramal y su diámetro en puntos de uso y válvulas<br>
+  2) Aplicar la regla de 3D o el criterio adoptado</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Dentro de la regla de 3D o del criterio adoptado.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro de ramales (anexo del informe)</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante del sistema.</p>
+</article>
+
+<article data-bloque="3" id="art-SIS-OQ-VL-017" class="ensayo" data-id="SIS-OQ-VL-017" data-fase="OQ" data-cond="ambas" data-familia="vapor-limpio">
+  <h3>SIS-OQ-VL-017 — Caída de presión en distribución</h3>
+  <p><strong>Objetivo:</strong><br>Verificar la caída de presión hasta el punto más lejano con todos los usuarios operando.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Operar todos los usuarios a la vez<br>
+  2) Medir la presión en el punto más lejano</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Presión dentro de lo definido en el protocolo aprobado en el punto más lejano.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro de la prueba (anexo del informe)</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante del sistema.</p>
+</article>
+
+<article data-bloque="3" id="art-SIS-OQ-VL-018" class="ensayo" data-id="SIS-OQ-VL-018" data-fase="OQ" data-cond="ambas" data-familia="vapor-limpio">
+  <h3>SIS-OQ-VL-018 — Venteo de aire en el arranque</h3>
+  <p><strong>Objetivo:</strong><br>Verificar la eliminación de aire en líneas y equipos, sin bolsas de gas.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Arrancar y verificar el venteo de aire en líneas y equipos</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Sin bolsas de gas en el arranque.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro de la prueba (anexo del informe)</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante del sistema.</p>
+</article>
+
+<article data-bloque="3" id="art-SIS-OQ-VL-019" class="ensayo" data-id="SIS-OQ-VL-019" data-fase="OQ" data-cond="ambas" data-familia="vapor-limpio">
+  <h3>SIS-OQ-VL-019 — Aislamiento térmico</h3>
+  <p><strong>Objetivo:</strong><br>Verificar temperatura superficial segura y pérdida de calor dentro del criterio.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Medir la temperatura superficial<br>
+  2) Verificar la pérdida de calor contra el criterio definido en el protocolo aprobado</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Superficie segura con pérdida dentro de lo definido en el protocolo aprobado.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro de la prueba (anexo del informe)</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante del sistema.</p>
+</article>
+
+<article data-bloque="3" id="art-SIS-OQ-VL-020" class="ensayo" data-id="SIS-OQ-VL-020" data-fase="OQ" data-cond="ambas" data-familia="vapor-limpio" data-analisis="si">
+  <h3>SIS-OQ-VL-020 — Puntos de muestreo de vapor</h3>
+  <p><strong>Objetivo:</strong><br>Verificar el diseño sanitario, el condensador de muestreo con enfriamiento, la válvula y la conexión estéril.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Verificar el diseño sanitario de cada punto<br>
+  2) Verificar el serpentín de enfriamiento, la válvula y la conexión estéril<br>
+  3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Puntos sanitarios con enfriamiento efectivo.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro con data cruda y reporte<br>
+  - Data cruda y reporte estadístico del análisis de puntos</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante del sistema.</p>
+</article>
+
+<article data-bloque="3" id="art-SIS-OQ-VL-021" class="ensayo" data-id="SIS-OQ-VL-021" data-fase="OQ" data-cond="ambas" data-familia="vapor-limpio" data-analisis="si">
+  <h3>SIS-OQ-VL-021 — Reductoras de presión</h3>
+  <p><strong>Objetivo:</strong><br>Verificar el control de la presión aguas abajo y que no generan sobrecalentamiento excesivo (si aplica).</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Verificar cada reguladora y reductora y su presión aguas abajo (si aplica)<br>
+  2) Verificar que no genera sobrecalentamiento excesivo<br>
+  3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Presión aguas abajo controlada sin sobrecalentamiento excesivo (si aplica).</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro con data cruda y reporte<br>
+  - Data cruda y reporte estadístico del análisis de reductoras</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante del sistema.</p>
+</article>
+
+<article data-bloque="3" id="art-SIS-OQ-VL-022" class="ensayo" data-id="SIS-OQ-VL-022" data-fase="OQ" data-cond="ambas" data-familia="vapor-limpio" data-analisis="si">
+  <h3>SIS-OQ-VL-022 — Calidad del vapor en régimen</h3>
+  <p><strong>Objetivo:</strong><br>Verificar sequedad, gases no condensables y sobrecalentamiento en la salida del generador con el sistema en régimen.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Medir sequedad, gases no condensables y sobrecalentamiento en un punto de referencia<br>
+  2) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Dentro de los límites definidos en el protocolo aprobado.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro con data cruda y reporte<br>
+  - Data cruda y reporte estadístico del análisis de calidad</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante del sistema. EN 285 (calidad del vapor y del condensado; verifica la edición que adoptes).</p>
+</article>
+
+<article data-bloque="3" id="art-SIS-OQ-VL-023" class="ensayo" data-id="SIS-OQ-VL-023" data-fase="OQ" data-cond="ambas" data-familia="vapor-limpio" data-analisis="si">
+  <h3>SIS-OQ-VL-023 — Calidad del condensado de arranque</h3>
+  <p><strong>Objetivo:</strong><br>Verificar que tras la puesta en marcha el condensado alcanza el límite en un tiempo definido.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Arrancar y muestrear el condensado en el tiempo<br>
+  2) Registrar el tiempo hasta alcanzar el límite (cuánto purgar antes de usar)<br>
+  3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Límite alcanzado en el tiempo definido.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro con data cruda y reporte<br>
+  - Data cruda y reporte estadístico del análisis de arranque</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante del sistema.</p>
+</article>
+
+<article data-bloque="3" id="art-SIS-OQ-VL-024" class="ensayo" data-id="SIS-OQ-VL-024" data-fase="OQ" data-cond="ambas" data-familia="vapor-limpio">
+  <h3>SIS-OQ-VL-024 — Arranque tras paro prolongado</h3>
+  <p><strong>Objetivo:</strong><br>Verificar purga, calentamiento de líneas y tiempo hasta vapor en especificación.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Purgar y calentar las líneas tras el paro prolongado<br>
+  2) Medir el tiempo hasta vapor en especificación</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Tiempo dentro de lo definido en el protocolo aprobado.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro del arranque (anexo del informe)</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante del sistema.</p>
+</article>
+
+<article data-bloque="3" id="art-SIS-OQ-VL-025" class="ensayo" data-id="SIS-OQ-VL-025" data-fase="OQ" data-cond="ambas" data-familia="vapor-limpio">
+  <h3>SIS-OQ-VL-025 — Purga de condensado tras paro</h3>
+  <p><strong>Objetivo:</strong><br>Verificar que no hay acumulación en puntos bajos tras la purga.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Purgar tras el paro y revisar puntos bajos</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Sin acumulación en puntos bajos.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro de la purga (anexo del informe)</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante del sistema.</p>
+</article>
+
+<article data-bloque="3" id="art-SIS-OQ-VL-026" class="ensayo" data-id="SIS-OQ-VL-026" data-fase="OQ" data-cond="ambas" data-familia="vapor-limpio" data-analisis="si">
+  <h3>SIS-OQ-VL-026 — Operación continua del sistema</h3>
+  <p><strong>Objetivo:</strong><br>Verificar la operación continua del sistema completo durante un período definido, a demanda variable, sin alarmas ni desviaciones.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Operar 72 h (o el período definido) a demanda variable<br>
+  2) Verificar ausencia de alarmas y desviaciones<br>
+  3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Operación continua sin alarmas ni desviaciones no tratadas.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro con data cruda y reporte<br>
+  - Data cruda y reporte estadístico del análisis de operación</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante del sistema.</p>
+</article>
+
+<article data-bloque="4" id="art-SIS-OQ-VL-RES" class="ensayo" data-id="SIS-OQ-VL-RES" data-fase="OQ" data-cond="ambas" data-familia="vapor-limpio">
+  <h3>SIS-OQ-VL-RES — Tabla resumen de los ensayos del OQ</h3>
+  <p><strong>Objetivo:</strong><br>Consolidar el listado de ensayos del OQ del vapor limpio para la tabla resumen del protocolo.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Confirmar que los ensayos SIS-OQ-VL-001 a SIS-OQ-VL-026 están incluidos en el índice del protocolo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Los 26 ensayos aparecen en la tabla resumen con su veredicto.</p>
+  <p><strong>Referencia:</strong><br>EU GMP Anexo 15.</p>
+</article>
+
+<article data-bloque="6" id="art-SIS-OQ-VL-REF" class="ensayo tabla-info" data-id="SIS-OQ-VL-REF" data-fase="OQ" data-cond="ambas" data-familia="vapor-limpio">
+  <h3>SIS-OQ-VL-REF — Referencias del OQ del vapor limpio</h3>
+  <table>
+    <tr><th>SECCIÓN</th><th>TÍTULO</th><th>ESTADO</th></tr>
+    <tr><td>6.1</td><td>Manual del fabricante del sistema — Generador, distribución y trampas</td><td>VIGENTE</td></tr>
+    <tr><td>6.2</td><td>URS aprobada — Presiones, calidad del vapor y criterios de aceptación</td><td>VIGENTE</td></tr>
+    <tr><td>6.3</td><td>EU GMP Anexo 15 — Cualificación y validación: el OQ demuestra operación según especificaciones aprobadas</td><td>VIGENTE</td></tr>
+    <tr><td>6.4</td><td>EN 285 — Esterilizadores a vapor: calidad del vapor y del condensado</td><td>VIGENTE</td></tr>
+    <tr><td>6.5</td><td>ISPE Baseline Guide Vol. 4 — Sistemas de agua y vapor, 3.ª ed. (parte de vapor)</td><td>VIGENTE</td></tr>
+  </table>
+</article>
+
+<div class="anexos" data-bloque="8">
+<p><strong>ANEXOS:</strong></p>
+<table>
+<tr><th>SECCIÓN</th><th>TÍTULO</th></tr>
+<tr><td>8.1</td><td>Anexo A — Registros de presiones, temperaturas y calidad por punto</td></tr>
+<tr><td>8.2</td><td>Anexo B — Certificados de calibración y de válvulas de seguridad</td></tr>
+<tr><td>8.3</td><td>Anexo C — Análisis de condensado, alarmas y excursiones</td></tr>
+</table>
+</div>
+
+</section>
+
+</body>
+</html>

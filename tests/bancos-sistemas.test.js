@@ -37,7 +37,7 @@ describe('banco de sistemas: contrato', () => {
 
   it('solo familias conocidas', () => {
     const fams = [...new Set(todos.filter((x) => x.familia).map((x) => x.familia))].sort();
-    expect(fams).toEqual(['agua-purificada', 'hvac']);
+    expect(fams).toEqual(['agua-purificada', 'hvac', 'vapor-limpio']);
   });
 
   it.each([
@@ -45,6 +45,8 @@ describe('banco de sistemas: contrato', () => {
     ['PQ', 'agua-purificada', 23], // ENSAYOS.txt sistema de agua (2026-10-14)
     ['OQ', 'hvac', 38], // ENSAYOS.txt HVAC (2026-10-14)
     ['PQ', 'hvac', 22], // ENSAYOS.txt HVAC (2026-10-14)
+    ['OQ', 'vapor-limpio', 26], // ENSAYOS.txt vapor limpio (2026-10-14)
+    ['PQ', 'vapor-limpio', 25], // ENSAYOS.txt vapor limpio (2026-10-14)
   ])('%s %s tiene %i ensayos propios', (fase, fam, n) => {
     expect(familia.filter((x) => x.fase === fase && x.familia === fam).length).toBe(n);
   });
