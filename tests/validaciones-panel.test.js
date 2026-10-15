@@ -151,7 +151,7 @@ describe('Validaciones V7', () => {
 
   test('sistemas: esquema trae código y ubicación (blindaje de generar)', () => {
     const ks = Validaciones.getSchema('sistemas').map((f) => f.k);
-    ['descripcion', 'sistema', 'codigo', 'ubicacion', 'ursCodigo', 'riesgoCodigo'].forEach((k) => expect(ks).toContain(k));
+    ['descripcion', 'marca', 'modelo', 'sistema', 'codigo', 'ubicacion', 'ursCodigo', 'riesgoCodigo'].forEach((k) => expect(ks).toContain(k));
     expect(new Set(ks).size).toBe(ks.length);
   });
 

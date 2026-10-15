@@ -270,6 +270,8 @@ const Validaciones = (() => {
     ],
     sistemas: [
       { k: 'descripcion', label: 'Descripción', tipo: 'text', req: true },
+      { k: 'marca', label: 'Marca', tipo: 'text', req: true },
+      { k: 'modelo', label: 'Modelo', tipo: 'text', req: true },
       { k: 'sistema', label: 'Sistema', tipo: 'select', req: true, opciones: ['HVAC', 'Agua purificada', 'Vapor limpio', 'Aire comprimido'] },
       { k: 'codigo', label: 'Código', tipo: 'text', req: true },
       { k: 'ubicacion', label: 'Ubicación', tipo: 'text', req: true },
