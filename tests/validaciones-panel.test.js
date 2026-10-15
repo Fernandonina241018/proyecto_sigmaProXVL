@@ -141,6 +141,8 @@ describe('Validaciones V7', () => {
     try {
       expect(Validaciones.contarGen('OQ', 'ambas', 'sistemas', 'agua-purificada')).toBe(33);
       expect(Validaciones.contarGen('PQ', 'ambas', 'sistemas', 'agua-purificada')).toBe(23);
+      expect(Validaciones.contarGen('OQ', 'ambas', 'sistemas', 'hvac')).toBe(38);
+      expect(Validaciones.contarGen('PQ', 'ambas', 'sistemas', 'hvac')).toBe(22);
       expect(Validaciones.tieneBancoFam('OQ', 'sistemas', 'agua-purificada')).toBe(true);
       expect(Validaciones.tieneBancoFam('PQ', 'sistemas', 'hvac')).toBe(true);
     } finally { delete globalThis.BancoSistemas; }

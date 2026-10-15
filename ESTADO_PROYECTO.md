@@ -4890,3 +4890,8 @@ Render inyectaba el `PORT` como variable de entorno; Fly.io también (`process.e
 - **Referencias puntuales:** PQ-13 +USP 1231, PQ-15 +USP 1231 endotoxinas WFI, OQ-27 +ISPE Vol. 4.
 - **Matiz 3D:** "o el criterio adoptado" en objetivo, procedimiento y criterio de OQ-27.
 - **Verificación:** extractor --estricto OK; Vitest 473/473, backend 67/67.
+
+### 2026-10-14 (187): HVAC — bancos OQ/PQ (SIS-*-HV, 60 ensayos)
+- **Bancos:** `sistemas/oq-hvac.html` (38) y `pq-hvac.html` (22) desde ENSAYOS.txt; números como guía, línea 1 ignorada, todo PQ con análisis, estériles condicional, valores con caveat literales (ISO 8/7, 0,01 %, 10–15 Pa, 6/12 meses).
+- **REF:** Manual + URS + Anexo 15 + ISO 14644-1 + Anexo 1 (solo si aplica); refs puntuales a conteo (14644-1) y zona A (Anexo 1).
+- **Verificación:** extractor --estricto OK (124); OQ/PQ generan 38/22; Vitest 475/475, backend 67/67, `tsc` limpio.

@@ -37,12 +37,14 @@ describe('banco de sistemas: contrato', () => {
 
   it('solo familias conocidas', () => {
     const fams = [...new Set(todos.filter((x) => x.familia).map((x) => x.familia))].sort();
-    expect(fams).toEqual(['agua-purificada']);
+    expect(fams).toEqual(['agua-purificada', 'hvac']);
   });
 
   it.each([
     ['OQ', 'agua-purificada', 33], // ENSAYOS.txt sistema de agua (2026-10-14)
     ['PQ', 'agua-purificada', 23], // ENSAYOS.txt sistema de agua (2026-10-14)
+    ['OQ', 'hvac', 38], // ENSAYOS.txt HVAC (2026-10-14)
+    ['PQ', 'hvac', 22], // ENSAYOS.txt HVAC (2026-10-14)
   ])('%s %s tiene %i ensayos propios', (fase, fam, n) => {
     expect(familia.filter((x) => x.fase === fase && x.familia === fam).length).toBe(n);
   });
