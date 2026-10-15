@@ -4900,3 +4900,8 @@ Render inyectaba el `PORT` como variable de entorno; Fly.io también (`process.e
 - **Bancos:** `sistemas/oq-vapor-limpio.html` (26) y `pq-vapor-limpio.html` (25); línea 1 ignorada, todo PQ con análisis, `(*)` fuera, valores EN 285 literales con caveat.
 - **REF:** Manual + URS + Anexo 15 + EN 285 + ISPE Vol 4 (parte vapor); refs puntuales a calidad → EN 285.
 - **Verificación:** extractor --estricto OK (179); OQ/PQ generan 26/25; Vitest 477/477, backend 67/67.
+
+### 2026-10-14 (189): Brechas HVAC + fix NCG vapor
+- **HVAC:** REF +OMS TRS 937 Anexo 2 (OQ/PQ) e ISO 14644-2 (PQ); refs OQ-25 (cascada→OMS) y PQ-1 (monitoreo→14644-2).
+- **Vapor:** PQ-16 a unidades EN 285:2015 (3,5 mL/100 mL, era % v/v).
+- **Verificación:** extractor --estricto OK; Vitest 477/477, backend 67/67.

@@ -1953,7 +1953,7 @@ var BancoSistemas = {
      },
      {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>URS aprobada (rangos y criterios)."
+      "html": "<strong>Referencia:</strong><br>URS aprobada (rangos y criterios); OMS TRS 937 Anexo 2 (cascada de presiones)."
      }
     ],
     "tabla": null,
@@ -2662,6 +2662,11 @@ var BancoSistemas = {
       [
        "6.5",
        "EU GMP Anexo 1 — Áreas estériles (solo si aplica al alcance)",
+       "VIGENTE"
+      ],
+      [
+       "6.6",
+       "OMS TRS 937 Anexo 2 — HVAC: cascada de presiones y diferenciales",
        "VIGENTE"
       ]
      ]
@@ -4643,7 +4648,7 @@ var BancoSistemas = {
      },
      {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>URS aprobada (rangos y criterios). ISO 14644-1 (clasificación por partículas)."
+      "html": "<strong>Referencia:</strong><br>URS aprobada (rangos y criterios). ISO 14644-1 (clasificación por partículas); ISO 14644-2 (monitoreo en operación)."
      }
     ],
     "tabla": null,
@@ -5471,6 +5476,16 @@ var BancoSistemas = {
        "6.5",
        "EU GMP Anexo 1 — Áreas estériles (solo si aplica al alcance)",
        "VIGENTE"
+      ],
+      [
+       "6.6",
+       "OMS TRS 937 Anexo 2 — HVAC: cascada de presiones y diferenciales",
+       "VIGENTE"
+      ],
+      [
+       "6.7",
+       "ISO 14644-2 — Monitoreo de la limpieza del aire en operación",
+       "VIGENTE"
       ]
      ]
     },
@@ -5880,7 +5895,7 @@ var BancoSistemas = {
     "secciones": [
      {
       "et": "Objetivo",
-      "html": "<strong>Objetivo:</strong><br>Verificar 3,5% v/v como máximo (referencia habitual)."
+      "html": "<strong>Objetivo:</strong><br>Verificar 3,5 mL por 100 mL de condensado como máximo (referencia habitual de EN 285)."
      },
      {
       "et": "Procedimiento",
