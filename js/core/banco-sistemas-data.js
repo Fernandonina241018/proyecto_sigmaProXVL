@@ -942,11 +942,11 @@ var BancoSistemas = {
     "secciones": [
      {
       "et": "Objetivo",
-      "html": "<strong>Objetivo:</strong><br>Medir la longitud de cada ramal en relación con su diámetro (regla de 3D) y revisar válvulas de diafragma y de punto de uso."
+      "html": "<strong>Objetivo:</strong><br>Medir la longitud de cada ramal en relación con su diámetro (regla de 3D o el criterio adoptado) y revisar válvulas de diafragma y de punto de uso."
      },
      {
       "et": "Procedimiento",
-      "html": "<strong>Procedimiento:</strong><br>\n  1) Medir cada ramal y su diámetro y aplicar la regla de 3D<br>\n  2) Revisar válvulas de diafragma y de punto de uso<br>\n  3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Medir cada ramal y su diámetro y aplicar la regla de 3D o el criterio adoptado<br>\n  2) Revisar válvulas de diafragma y de punto de uso<br>\n  3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
      },
      {
       "et": "Plan estadístico",
@@ -954,7 +954,7 @@ var BancoSistemas = {
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Ramales dentro de la regla de 3D o justificados.<br>\n  Válvulas sanitarias y operativas."
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Ramales dentro de la regla de 3D o del criterio adoptado.<br>\n  Válvulas sanitarias y operativas."
      },
      {
       "et": "Documentos entregables",
@@ -962,7 +962,7 @@ var BancoSistemas = {
      },
      {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>Manual del fabricante del sistema."
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante del sistema; ISPE Baseline Guide Vol. 4 (ramales y distribución)."
      }
     ],
     "tabla": null,
@@ -1224,6 +1224,21 @@ var BancoSistemas = {
       [
        "6.3",
        "EU GMP Anexo 15 — Cualificación y validación: el OQ demuestra operación según especificaciones aprobadas",
+       "VIGENTE"
+      ],
+      [
+       "6.4",
+       "USP 1231 — Agua para uso farmacéutico: validación del sistema y niveles de alerta y acción",
+       "VIGENTE"
+      ],
+      [
+       "6.5",
+       "ISPE Baseline Guide Vol. 4 — Sistemas de agua y vapor, 3.ª ed.: diseño, operación y ciclo de vida",
+       "VIGENTE"
+      ],
+      [
+       "6.6",
+       "FDA — Guide to Inspections of High Purity Water Systems: criterios de inspección",
        "VIGENTE"
       ]
      ]
@@ -1728,7 +1743,7 @@ var BancoSistemas = {
      },
      {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>USP 645 (conductividad); USP 643 (TOC); más la especificación adoptada."
+      "html": "<strong>Referencia:</strong><br>USP 645 (conductividad); USP 643 (TOC); más la especificación adoptada; USP 1231 (validación del sistema y niveles de alerta y acción)."
      }
     ],
     "tabla": null,
@@ -1800,7 +1815,7 @@ var BancoSistemas = {
      },
      {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>URS aprobada (rangos y criterios)."
+      "html": "<strong>Referencia:</strong><br>URS aprobada (rangos y criterios); USP 1231 (endotoxinas en WFI)."
      }
     ],
     "tabla": null,
@@ -2149,6 +2164,21 @@ var BancoSistemas = {
       [
        "6.3",
        "EU GMP Anexo 15 — Cualificación y validación: el PQ demuestra operación según especificaciones aprobadas",
+       "VIGENTE"
+      ],
+      [
+       "6.4",
+       "USP 1231 — Agua para uso farmacéutico: validación del sistema y niveles de alerta y acción",
+       "VIGENTE"
+      ],
+      [
+       "6.5",
+       "ISPE Baseline Guide Vol. 4 — Sistemas de agua y vapor, 3.ª ed.: diseño, operación y ciclo de vida",
+       "VIGENTE"
+      ],
+      [
+       "6.6",
+       "FDA — Guide to Inspections of High Purity Water Systems: criterios de inspección",
        "VIGENTE"
       ]
      ]
