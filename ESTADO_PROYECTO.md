@@ -4913,3 +4913,8 @@ Render inyectaba el `PORT` como variable de entorno; Fly.io también (`process.e
 ### 2026-10-14 (191): Marca y modelo en esquema de Sistemas
 - **Cambio:** `SCHEMAS.sistemas` suma `marca` y `modelo` (req); alimentan portada y encabezado del .docx.
 - **Verificación:** Vitest 478/478, backend 67/67.
+
+### 2026-10-15 (192): Aire comprimido — bancos OQ/PQ (SIS-*-AC, 66 ensayos)
+- **Bancos:** `sistemas/oq-aire-comprimido.html` (38) y `pq-aire-comprimido.html` (28); línea 1 ignorada, todo PQ con análisis, `(*)`/`()` a "si aplica" o fuera, partes ISO 8573 literales.
+- **REF:** Manual + URS + Anexo 15 + ISO 8573; refs puntuales a calidad → ISO 8573.
+- **Verificación:** extractor --estricto OK (249); OQ/PQ generan 38/28; Vitest 480/480, backend 67/67.

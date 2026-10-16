@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<style>
+  body { font-family: Tahoma, sans-serif; font-size: 11pt; }
+  strong { text-transform: uppercase; }
+</style>
+<title>Banco de Ensayos OQ — Aire comprimido</title>
+</head>
+<body>
+
+<p><a href="../sistemas.html">← Sistemas</a></p>
+<h2>OQ — Aire comprimido (banco por familia)</h2>
+<p>Versión del banco: <span data-banco-version>SIS-OQ-AC 2026-10-15 v1</span></p>
+<p>Ensayos de Calificación de Operación específicos del aire comprimido (<span class="equipo">equipo</span>). Se filtran por familia (<code>data-familia="aire-comprimido"</code>) según la entidad elegida en el paso 1. Fuente: ENSAYOS.txt del usuario (aire comprimido).</p>
+
+<!-- ================= OQ ================= -->
+<section id="fase-oq" data-familia="aire-comprimido">
+<h2>OQ — Ensayos</h2>
+
+<div class="portada" data-bloque="1">
+<p><strong>PORTADA DEL PROTOCOLO OQ</strong></p>
+<p><strong>Logo:</strong><br><img class="ent-logo" alt="Logo de la entidad"></p>
+<p><strong>Calificación de Operación de <span class="equipo">equipo</span>:</strong> <span class="ent-descripcion">______</span></p>
+<ol>
+  <li><strong>Marca:</strong> <span class="ent-marca">______</span></li>
+  <li><strong>Modelo:</strong> <span class="ent-modelo">______</span></li>
+  <li><strong>Código:</strong> <span class="ent-codigo">______</span></li>
+</ol>
+</div>
+
+<div class="firmas" data-bloque="1">
+<p><strong>FLUJO DE FIRMAS DEL PROTOCOLO:</strong></p>
+<p>Este apartado establece que los responsables revisan y aprueban el presente protocolo, declarando que está apto para su ejecución. Cualquier cambio posterior a la firma obliga a reiniciar el flujo de firmas, con el fin de garantizar que todos los departamentos involucrados estén al tanto de los ensayos a ejecutar.</p>
+<ol>
+  <li><strong>Elaborado Por:</strong> <br> Analista de validaciones — elabora / Nombre: ______ Firma: ______ Fecha: ______</li><br>
+  <li><strong>Revisado Por:</strong> <br> Coordinador de validaciones — revisa / Nombre: ______ Firma: ______ Fecha: ______</li><br>
+  <li><strong>Revisado Por:</strong> <br> Gerente de Área — revisa / Nombre: ______ Firma: ______ Fecha: ______</li><br>
+  <li><strong>Aprobado por:</strong> <br> Gerente de gestión de calidad — aprueba / Nombre: ______ Firma: ______ Fecha: ______</li><br>
+</ol>
+</div>
+
+<div class="responsabilidades" data-bloque="1">
+<p><strong>RESPONSABILIDADES DEL PROTOCOLO:</strong></p>
+<p><strong>Responsabilidad del Analista de validaciones:</strong></p>
+<ol><li>Coordinar la ejecución de la Calificación de Operación con producción, control de calidad e ingeniería, asegurando personal, <span class="equipo">equipo</span>, instrumentos y documentación.</li><li>Verificar que los instrumentos de medición estén identificados y con calibración vigente.</li><li>Ejecutar y/o supervisar los ensayos del protocolo según los criterios aprobados.</li><li>Registrar los datos de forma completa, legible y trazable (ALCOA+).</li><li>Documentar las desviaciones según los procedimientos internos vigentes.</li><li>Elaborar el informe de calificación con resultados, conclusiones y anexos.</li></ol>
+<p><strong>Responsabilidad del Coordinador de validaciones:</strong></p>
+<ol><li>Revisar técnicamente el protocolo antes de su ejecución.</li><li>Asignar al analista responsable y coordinar recursos.</li><li>Revisar las desviaciones, su tratamiento y las CAPA asociadas.</li><li>Revisar el informe final y autorizar la siguiente fase.</li></ol>
+<p><strong>Responsabilidad del Gerente de Área:</strong></p>
+<ol><li>Garantizar la disponibilidad del <span class="equipo">equipo</span> y los accesos para la ejecución.</li><li>Facilitar la documentación técnica del fabricante y del proveedor.</li><li>Implementar las acciones operativas derivadas de desviaciones y CAPA.</li></ol>
+<p><strong>Responsabilidad del Gerente de gestión de calidad:</strong></p>
+<ol><li>Aprobar el protocolo y sus criterios de aceptación.</li><li>Aprobar las desviaciones y sus evaluaciones de impacto.</li><li>Emitir el dictamen final del estado de calificación.</li></ol>
+</div>
+
+<div class="alcance" data-bloque="1">
+<p><strong>ALCANCE</strong></p>
+<p>Esta calificación aplica a <span class="equipo">equipo</span>, según protocolo OQ, y cubre los ensayos listados en el índice.</p>
+</div>
+
+
+<article data-bloque="3" id="art-SIS-OQ-AC-001" class="ensayo" data-id="SIS-OQ-AC-001" data-fase="OQ" data-cond="ambas" data-familia="aire-comprimido">
+  <h3>SIS-OQ-AC-001 — Válvulas de seguridad de los receptores</h3>
+  <p><strong>Objetivo:</strong><br>Verificar el certificado vigente y la prueba de apertura.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Verificar el certificado vigente de cada válvula<br>
+  2) Probar la apertura</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Certificado vigente.<br>
+  Apertura conforme.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro y certificados (anexo del informe)</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante del sistema.</p>
+</article>
+
+<article data-bloque="3" id="art-SIS-OQ-AC-002" class="ensayo" data-id="SIS-OQ-AC-002" data-fase="OQ" data-cond="ambas" data-familia="aire-comprimido">
+  <h3>SIS-OQ-AC-002 — Parada de emergencia</h3>
+  <p><strong>Objetivo:</strong><br>Verificar la parada de emergencia y la despresurización a estado seguro.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Accionar la parada de emergencia<br>
+  2) Verificar la despresurización a estado seguro</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Despresurización completa y estado seguro.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro de la prueba (anexo del informe)</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante del sistema.</p>
+</article>
+
+<article data-bloque="3" id="art-SIS-OQ-AC-003" class="ensayo" data-id="SIS-OQ-AC-003" data-fase="OQ" data-cond="ambas" data-familia="aire-comprimido">
+  <h3>SIS-OQ-AC-003 — Interlocks del compresor</h3>
+  <p><strong>Objetivo:</strong><br>Verificar alta temperatura, baja presión de aceite o refrigerante, sobrecarga del motor y presión máxima.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Simular cada condición de protección<br>
+  2) Verificar la respuesta del interlock</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Cada interlock actúa ante su condición.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro de interlocks simulados (anexo del informe)</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante del sistema.</p>
+</article>
+
+<article data-bloque="3" id="art-SIS-OQ-AC-004" class="ensayo" data-id="SIS-OQ-AC-004" data-fase="OQ" data-cond="ambas" data-familia="aire-comprimido">
+  <h3>SIS-OQ-AC-004 — Alarmas y límites</h3>
+  <p><strong>Objetivo:</strong><br>Verificar que cada alarma dispara y que ocurre la acción asociada.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Provocar punto de rocío alto, diferencial alto de filtros, baja presión, alta temperatura, falla de drenaje y falla del secador<br>
+  2) Verificar cada disparo y su acción</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Cada alarma dispara y ejecuta su acción.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro de alarmas y acciones (anexo del informe)</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante del sistema.</p>
+</article>
+
+<article data-bloque="3" id="art-SIS-OQ-AC-005" class="ensayo" data-id="SIS-OQ-AC-005" data-fase="OQ" data-cond="ambas" data-familia="aire-comprimido">
+  <h3>SIS-OQ-AC-005 — Falla del secador en marcha</h3>
+  <p><strong>Objetivo:</strong><br>Verificar que el sistema alarma y aísla o inhibe la entrega de aire húmedo a los puntos críticos.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Simular la falla del secador con el compresor en marcha<br>
+  2) Verificar alarma y aislamiento o inhibición de la entrega a puntos críticos</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Ningún punto crítico recibe aire húmedo sin alarma y bloqueo.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro de la prueba (anexo del informe)</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante del sistema.</p>
+</article>
+
+<article data-bloque="3" id="art-SIS-OQ-AC-006" class="ensayo" data-id="SIS-OQ-AC-006" data-fase="OQ" data-cond="ambas" data-familia="aire-comprimido">
+  <h3>SIS-OQ-AC-006 — Falla y recuperación de energía</h3>
+  <p><strong>Objetivo:</strong><br>Verificar estado seguro, secuencia de reinicio ordenada y presión estable antes de entregar aire.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Cortar la energía y verificar el estado seguro<br>
+  2) Restablecer con secuencia ordenada y verificar presión estable antes de entregar</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Reinicio ordenado con presión estable.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro de la prueba (anexo del informe)</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante del sistema.</p>
+</article>
+
+<article data-bloque="3" id="art-SIS-OQ-AC-007" class="ensayo" data-id="SIS-OQ-AC-007" data-fase="OQ" data-cond="ambas" data-familia="aire-comprimido">
+  <h3>SIS-OQ-AC-007 — Redundancia</h3>
+  <p><strong>Objetivo:</strong><br>Verificar el cambio automático entre compresores y entre torres del secador, con registro de presión y punto de rocío (si aplica).</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Simular la falla del equipo líder (si aplica)<br>
+  2) Verificar el cambio automático con registro de presión y rocío</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Transferencia automática con variables dentro de lo definido en el protocolo aprobado (si aplica).</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro de la transferencia (anexo del informe)</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante del sistema.</p>
+</article>
+
+<article data-bloque="3" id="art-SIS-OQ-AC-008" class="ensayo" data-id="SIS-OQ-AC-008" data-fase="OQ" data-cond="ambas" data-familia="aire-comprimido" data-analisis="si">
+  <h3>SIS-OQ-AC-008 — Capacidad del compresor</h3>
+  <p><strong>Objetivo:</strong><br>Verificar el caudal entregado a presión nominal y a máxima demanda declarada.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Medir el caudal entregado a presión nominal<br>
+  2) Medir a máxima demanda declarada<br>
+  3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Caudal dentro de lo definido en el protocolo aprobado en ambas condiciones.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro con data cruda y reporte<br>
+  - Data cruda y reporte estadístico del análisis de capacidad</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante del sistema.</p>
+</article>
+
+<article data-bloque="3" id="art-SIS-OQ-AC-009" class="ensayo" data-id="SIS-OQ-AC-009" data-fase="OQ" data-cond="ambas" data-familia="aire-comprimido">
+  <h3>SIS-OQ-AC-009 — Control de presión</h3>
+  <p><strong>Objetivo:</strong><br>Verificar la banda de carga y descarga o el control por variador, sin ciclado excesivo.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Verificar la banda de carga y descarga o el variador<br>
+  2) Verificar ausencia de ciclado excesivo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Control estable sin ciclado excesivo.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro de la prueba (anexo del informe)</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante del sistema.</p>
+</article>
+
+<article data-bloque="3" id="art-SIS-OQ-AC-010" class="ensayo" data-id="SIS-OQ-AC-010" data-fase="OQ" data-cond="ambas" data-familia="aire-comprimido" data-analisis="si">
+  <h3>SIS-OQ-AC-010 — Temperatura del posenfriador</h3>
+  <p><strong>Objetivo:</strong><br>Verificar que la temperatura de salida está dentro del rango de diseño del secador.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Medir la temperatura de salida del posenfriador<br>
+  2) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Dentro del rango de diseño del secador.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro con data cruda y reporte<br>
+  - Data cruda y reporte estadístico del análisis de temperatura</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante del sistema.</p>
+</article>
+
+<article data-bloque="3" id="art-SIS-OQ-AC-011" class="ensayo" data-id="SIS-OQ-AC-011" data-fase="OQ" data-cond="ambas" data-familia="aire-comprimido">
+  <h3>SIS-OQ-AC-011 — Drenajes de condensado</h3>
+  <p><strong>Objetivo:</strong><br>Verificar cada drenaje, sin fuga de aire ni retención de agua, en receptor, posenfriador y filtros.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Probar cada drenaje del receptor, posenfriador y filtros</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Sin fuga de aire ni retención de agua.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro por drenaje (anexo del informe)</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante del sistema.</p>
+</article>
+
+<article data-bloque="3" id="art-SIS-OQ-AC-012" class="ensayo" data-id="SIS-OQ-AC-012" data-fase="OQ" data-cond="ambas" data-familia="aire-comprimido" data-analisis="si">
+  <h3>SIS-OQ-AC-012 — Tanque receptor</h3>
+  <p><strong>Objetivo:</strong><br>Verificar volumen suficiente para picos sin caída de presión, y drenaje desde el punto bajo.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Provocar picos de demanda y verificar que no cae la presión<br>
+  2) Verificar el drenaje desde el punto bajo<br>
+  3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Sin caída de presión ante picos.<br>
+  Drenaje efectivo.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro con data cruda y reporte<br>
+  - Data cruda y reporte estadístico del análisis del receptor</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante del sistema.</p>
+</article>
+
+<article data-bloque="3" id="art-SIS-OQ-AC-013" class="ensayo" data-id="SIS-OQ-AC-013" data-fase="OQ" data-cond="ambas" data-familia="aire-comprimido" data-analisis="si">
+  <h3>SIS-OQ-AC-013 — Punto de rocío de salida</h3>
+  <p><strong>Objetivo:</strong><br>Verificar el punto de rocío a presión en demanda nominal y máxima, con las condiciones de entrada de diseño.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Medir el rocío a demanda nominal y máxima con temperatura y humedad de entrada de diseño<br>
+  2) Comparar contra un sensor de referencia calibrado<br>
+  3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Dentro del límite del URS en ambas demandas.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro con data cruda y reporte<br>
+  - Data cruda y reporte estadístico del análisis de rocío</p>
+  <p><strong>Referencia:</strong><br>URS aprobada (rangos y criterios).</p>
+</article>
+
+<article data-bloque="3" id="art-SIS-OQ-AC-014" class="ensayo" data-id="SIS-OQ-AC-014" data-fase="OQ" data-cond="ambas" data-familia="aire-comprimido" data-analisis="si">
+  <h3>SIS-OQ-AC-014 — Regeneración del desecante</h3>
+  <p><strong>Objetivo:</strong><br>Verificar tiempos, caudal de purga, sin sobrecalentamiento y consumo de purga dentro del criterio.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Registrar tiempos y caudal de purga del ciclo<br>
+  2) Verificar ausencia de sobrecalentamiento y consumo dentro del criterio<br>
+  3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Ciclo dentro de lo definido en el protocolo aprobado.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro con data cruda y reporte<br>
+  - Data cruda y reporte estadístico del análisis de regeneración</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante del sistema.</p>
+</article>
+
+<article data-bloque="3" id="art-SIS-OQ-AC-015" class="ensayo" data-id="SIS-OQ-AC-015" data-fase="OQ" data-cond="ambas" data-familia="aire-comprimido" data-analisis="si">
+  <h3>SIS-OQ-AC-015 — Conmutación de torres</h3>
+  <p><strong>Objetivo:</strong><br>Verificar que el punto de rocío no sube por encima del límite durante el cambio.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Registrar el rocío en continuo durante la conmutación<br>
+  2) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Sin picos sobre el límite durante el cambio.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro con data cruda y reporte<br>
+  - Data cruda y reporte estadístico del análisis de conmutación</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante del sistema.</p>
+</article>
+
+<article data-bloque="3" id="art-SIS-OQ-AC-016" class="ensayo" data-id="SIS-OQ-AC-016" data-fase="OQ" data-cond="ambas" data-familia="aire-comprimido" data-analisis="si">
+  <h3>SIS-OQ-AC-016 — Alarma de punto de rocío</h3>
+  <p><strong>Objetivo:</strong><br>Verificar umbral y retardo definidos, con respuesta verificada.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Provocar el umbral y medir el retardo<br>
+  2) Verificar la respuesta<br>
+  3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Umbral y retardo dentro de lo definido en el protocolo aprobado.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro con data cruda y reporte<br>
+  - Data cruda y reporte estadístico del análisis de alarma</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante del sistema.</p>
+</article>
+
+<article data-bloque="3" id="art-SIS-OQ-AC-017" class="ensayo" data-id="SIS-OQ-AC-017" data-fase="OQ" data-cond="ambas" data-familia="aire-comprimido" data-analisis="si">
+  <h3>SIS-OQ-AC-017 — Secador refrigerativo</h3>
+  <p><strong>Objetivo:</strong><br>Verificar temperatura de evaporador y drenaje, si hay uno antes del desecante.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Medir la temperatura del evaporador si hay secador refrigerativo previo<br>
+  2) Verificar su drenaje<br>
+  3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Dentro de lo definido si aplica.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro con data cruda y reporte<br>
+  - Data cruda y reporte estadístico del análisis del secador</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante del sistema.</p>
+</article>
+
+<article data-bloque="3" id="art-SIS-OQ-AC-018" class="ensayo" data-id="SIS-OQ-AC-018" data-fase="OQ" data-cond="ambas" data-familia="aire-comprimido" data-analisis="si">
+  <h3>SIS-OQ-AC-018 — Caída de presión de filtros</h3>
+  <p><strong>Objetivo:</strong><br>Verificar la caída de cada filtro nuevo dentro de la especificación del fabricante, y alarma al límite.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Medir la caída de cada filtro nuevo contra la especificación del fabricante<br>
+  2) Verificar la alarma al límite definido<br>
+  3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Dentro de especificación con alarma al límite.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro con data cruda y reporte<br>
+  - Data cruda y reporte estadístico del análisis de filtros</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante del sistema.</p>
+</article>
+
+<article data-bloque="3" id="art-SIS-OQ-AC-019" class="ensayo" data-id="SIS-OQ-AC-019" data-fase="OQ" data-cond="ambas" data-familia="aire-comprimido">
+  <h3>SIS-OQ-AC-019 — Carcasas y drenajes de filtros</h3>
+  <p><strong>Objetivo:</strong><br>Verificar ausencia de fuga y de acumulación de condensado.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Inspeccionar carcasas y drenajes</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Sin fuga ni acumulación.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro de la inspección (anexo del informe)</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante del sistema.</p>
+</article>
+
+<article data-bloque="3" id="art-SIS-OQ-AC-020" class="ensayo" data-id="SIS-OQ-AC-020" data-fase="OQ" data-cond="ambas" data-familia="aire-comprimido" data-analisis="si">
+  <h3>SIS-OQ-AC-020 — Carbón activado</h3>
+  <p><strong>Objetivo:</strong><br>Verificar la eliminación de vapor de aceite aguas abajo.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Medir el vapor de aceite aguas abajo del carbón<br>
+  2) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Eliminación dentro de lo definido en el protocolo aprobado.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro con data cruda y reporte<br>
+  - Data cruda y reporte estadístico del análisis de carbón</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante del sistema.</p>
+</article>
+
+<article data-bloque="3" id="art-SIS-OQ-AC-021" class="ensayo" data-id="SIS-OQ-AC-021" data-fase="OQ" data-cond="ambas" data-familia="aire-comprimido" data-analisis="si">
+  <h3>SIS-OQ-AC-021 — Filtros terminales</h3>
+  <p><strong>Objetivo:</strong><br>Verificar integridad, disposición y caída en servicio de los filtros de 0,2 µm en puntos críticos.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Probar la integridad por punto de burbuja, difusión o intrusión de agua<br>
+  2) Verificar la disposición del filtro y la caída en servicio<br>
+  3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Integridad confirmada con caída dentro de lo definido en el protocolo aprobado.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro con data cruda y reporte<br>
+  - Data cruda y reporte estadístico del análisis de terminales</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante del sistema.</p>
+</article>
+
+<article data-bloque="3" id="art-SIS-OQ-AC-022" class="ensayo" data-id="SIS-OQ-AC-022" data-fase="OQ" data-cond="ambas" data-familia="aire-comprimido" data-analisis="si">
+  <h3>SIS-OQ-AC-022 — Posición de filtros tras el secador</h3>
+  <p><strong>Objetivo:</strong><br>Verificar que la filtración de partículas posterior al secador retiene el polvo del desecante.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Verificar la posición de la filtración respecto al secador<br>
+  2) Verificar la retención del polvo del desecante<br>
+  3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Retención efectiva del polvo del desecante.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro con data cruda y reporte<br>
+  - Data cruda y reporte estadístico del análisis de posición</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante del sistema.</p>
+</article>
+
+<article data-bloque="3" id="art-SIS-OQ-AC-023" class="ensayo" data-id="SIS-OQ-AC-023" data-fase="OQ" data-cond="ambas" data-familia="aire-comprimido" data-analisis="si">
+  <h3>SIS-OQ-AC-023 — Caída de presión en distribución</h3>
+  <p><strong>Objetivo:</strong><br>Verificar la caída desde el receptor hasta el punto más lejano a máxima demanda, con todos los usuarios operando.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Operar todos los usuarios a máxima demanda<br>
+  2) Medir hasta el punto más lejano<br>
+  3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Caída dentro de lo definido en el protocolo aprobado.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro con data cruda y reporte<br>
+  - Data cruda y reporte estadístico del análisis de distribución</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante del sistema.</p>
+</article>
+
+<article data-bloque="3" id="art-SIS-OQ-AC-024" class="ensayo" data-id="SIS-OQ-AC-024" data-fase="OQ" data-cond="ambas" data-familia="aire-comprimido">
+  <h3>SIS-OQ-AC-024 — Pendiente y drenabilidad</h3>
+  <p><strong>Objetivo:</strong><br>Verificar que el condensado fluye a drenajes y no queda retenido.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Recorrer las líneas y verificar pendiente y drenajes</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Sin condensado retenido.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro de campo (anexo del informe)</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante del sistema.</p>
+</article>
+
+<article data-bloque="3" id="art-SIS-OQ-AC-025" class="ensayo" data-id="SIS-OQ-AC-025" data-fase="OQ" data-cond="ambas" data-familia="aire-comprimido">
+  <h3>SIS-OQ-AC-025 — Ramales muertos y puntos bajos</h3>
+  <p><strong>Objetivo:</strong><br>Verificar longitud respecto al diámetro, y ubicación de drenajes y filtros.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Medir ramales y puntos bajos contra su diámetro<br>
+  2) Verificar drenajes y filtros asociados</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Ramales conformes con drenaje y filtrado.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro de campo (anexo del informe)</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante del sistema.</p>
+</article>
+
+<article data-bloque="3" id="art-SIS-OQ-AC-026" class="ensayo" data-id="SIS-OQ-AC-026" data-fase="OQ" data-cond="ambas" data-familia="aire-comprimido" data-analisis="si">
+  <h3>SIS-OQ-AC-026 — Prueba de fugas</h3>
+  <p><strong>Objetivo:</strong><br>Verificar la caída de presión con el sistema aislado y la detección por ultrasonido, con criterio de fuga máxima del URS.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Aislar el sistema y medir la caída de presión<br>
+  2) Localizar fugas por ultrasonido<br>
+  3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Fuga total dentro del máximo del URS.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro con data cruda y reporte<br>
+  - Data cruda y reporte estadístico del análisis de fugas</p>
+  <p><strong>Referencia:</strong><br>URS aprobada (rangos y criterios).</p>
+</article>
+
+<article data-bloque="3" id="art-SIS-OQ-AC-027" class="ensayo" data-id="SIS-OQ-AC-027" data-fase="OQ" data-cond="ambas" data-familia="aire-comprimido">
+  <h3>SIS-OQ-AC-027 — Identificación y conexiones</h3>
+  <p><strong>Objetivo:</strong><br>Verificar línea rotulada con sentido de flujo, sin conexión cruzada con aire sin calidad definida, y acoples incompatibles con otros gases.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Verificar rotulado y sentido de flujo<br>
+  2) Verificar ausencia de conexión cruzada con aire de planta o instrumentación<br>
+  3) Verificar acoples incompatibles con otros gases</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Línea identificada sin cruzadas y con acoples dedicados.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro fotográfico y de verificación (anexo del informe)</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante del sistema.</p>
+</article>
+
+<article data-bloque="3" id="art-SIS-OQ-AC-028" class="ensayo" data-id="SIS-OQ-AC-028" data-fase="OQ" data-cond="ambas" data-familia="aire-comprimido">
+  <h3>SIS-OQ-AC-028 — Reguladores de punto de uso</h3>
+  <p><strong>Objetivo:</strong><br>Verificar control de presión y ausencia de contaminación por desgaste (si aplica).</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Verificar cada regulador y válvula de punto de uso (si aplica)<br>
+  2) Verificar ausencia de contaminación por desgaste</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Control efectivo sin contaminación (si aplica).</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro de la prueba (anexo del informe)</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante del sistema.</p>
+</article>
+
+<article data-bloque="3" id="art-SIS-OQ-AC-029" class="ensayo" data-id="SIS-OQ-AC-029" data-fase="OQ" data-cond="ambas" data-familia="aire-comprimido">
+  <h3>SIS-OQ-AC-029 — Limpieza de la tubería</h3>
+  <p><strong>Objetivo:</strong><br>Verificar ausencia de partículas, aceite y residuos de soldadura tras purga o soplado, si no se cubrió en IQ.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Purgar o soplar y verificar partículas, aceite y residuos, si no se cubrió en IQ<br>
+  2) Registrar el resultado</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Tubería limpia según criterio si aplica.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro de limpieza (anexo del informe)</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante del sistema.</p>
+</article>
+
+<article data-bloque="3" id="art-SIS-OQ-AC-030" class="ensayo" data-id="SIS-OQ-AC-030" data-fase="OQ" data-cond="ambas" data-familia="aire-comprimido" data-analisis="si">
+  <h3>SIS-OQ-AC-030 — Calidad del aire en línea base</h3>
+  <p><strong>Objetivo:</strong><br>Medir a la salida del secador y tras los filtros finales: rocío, partículas, aceite y vapor, con límites del URS.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Medir punto de rocío a presión<br>
+  2) Medir partículas (ISO 8573-4) y aceite total, aerosol y vapor (ISO 8573-2 y 8573-5)<br>
+  3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Dentro de los límites del URS.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro con data cruda y reporte<br>
+  - Data cruda y reporte estadístico del análisis de línea base</p>
+  <p><strong>Referencia:</strong><br>URS aprobada (rangos y criterios). ISO 8573 (aire comprimido: calidad y métodos; verifica la edición que adoptes).</p>
+</article>
+
+<article data-bloque="3" id="art-SIS-OQ-AC-031" class="ensayo" data-id="SIS-OQ-AC-031" data-fase="OQ" data-cond="ambas" data-familia="aire-comprimido" data-analisis="si">
+  <h3>SIS-OQ-AC-031 — Gases en el aire</h3>
+  <p><strong>Objetivo:</strong><br>Verificar CO, CO2, SO2 y NOx, si el aire contacta producto y el URS lo exige (ISO 8573-6).</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Medir los gases si hay contacto directo y el URS lo exige<br>
+  2) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Dentro de los límites si aplica.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro con data cruda y reporte<br>
+  - Data cruda y reporte estadístico del análisis de gases</p>
+  <p><strong>Referencia:</strong><br>URS aprobada (rangos y criterios).</p>
+</article>
+
+<article data-bloque="3" id="art-SIS-OQ-AC-032" class="ensayo" data-id="SIS-OQ-AC-032" data-fase="OQ" data-cond="ambas" data-familia="aire-comprimido" data-analisis="si">
+  <h3>SIS-OQ-AC-032 — Sensor de rocío en línea</h3>
+  <p><strong>Objetivo:</strong><br>Verificar exactitud frente a patrón, y registro continuo con alarma.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Comparar el sensor contra su patrón<br>
+  2) Verificar registro continuo y alarma<br>
+  3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Exactitud dentro de lo definido en el protocolo aprobado con alarma operativa.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro con data cruda y reporte<br>
+  - Data cruda y reporte estadístico del análisis del sensor</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante del sistema.</p>
+</article>
+
+<article data-bloque="3" id="art-SIS-OQ-AC-033" class="ensayo" data-id="SIS-OQ-AC-033" data-fase="OQ" data-cond="ambas" data-familia="aire-comprimido" data-analisis="si">
+  <h3>SIS-OQ-AC-033 — Contadores y sensores en línea</h3>
+  <p><strong>Objetivo:</strong><br>Verificar exactitud y alarmas del contador de partículas o sensores de presión en línea.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Comparar contra referencia y verificar alarmas<br>
+  2) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Exactitud dentro de lo definido en el protocolo aprobado con alarmas operativas.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro con data cruda y reporte<br>
+  - Data cruda y reporte estadístico del análisis en línea</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante del sistema.</p>
+</article>
+
+<article data-bloque="3" id="art-SIS-OQ-AC-034" class="ensayo" data-id="SIS-OQ-AC-034" data-fase="OQ" data-cond="ambas" data-familia="aire-comprimido" data-analisis="si">
+  <h3>SIS-OQ-AC-034 — Intervalo de registro y marca de tiempo</h3>
+  <p><strong>Objetivo:</strong><br>Verificar el intervalo de registro y la exactitud de la marca de tiempo.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Verificar el intervalo de registro<br>
+  2) Verificar fecha y hora<br>
+  3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Intervalo y marca exactos según lo definido.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro con data cruda y reporte<br>
+  - Data cruda y reporte estadístico del análisis de registro</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante del sistema.</p>
+</article>
+
+<article data-bloque="3" id="art-SIS-OQ-AC-035" class="ensayo" data-id="SIS-OQ-AC-035" data-fase="OQ" data-cond="ambas" data-familia="aire-comprimido">
+  <h3>SIS-OQ-AC-035 — Suministro eléctrico y enfriamiento</h3>
+  <p><strong>Objetivo:</strong><br>Verificar caudal y temperatura en rango, y ventilación y admisión de la sala (el aire aspirado debe estar libre de contaminantes).</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Verificar suministro eléctrico y agua de enfriamiento si el compresor es refrigerado por agua<br>
+  2) Verificar ventilación, temperatura y admisión libre de escape, solventes y vapores</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Servicios en rango con admisión limpia.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro de servicios (anexo del informe)</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante del sistema.</p>
+</article>
+
+<article data-bloque="3" id="art-SIS-OQ-AC-036" class="ensayo" data-id="SIS-OQ-AC-036" data-fase="OQ" data-cond="ambas" data-familia="aire-comprimido">
+  <h3>SIS-OQ-AC-036 — Sala de compresores</h3>
+  <p><strong>Objetivo:</strong><br>Verificar espacio y condiciones de admisión.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Verificar espacio y admisión de la sala</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Condiciones dentro de lo definido en el protocolo aprobado.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro de la verificación (anexo del informe)</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante del sistema.</p>
+</article>
+
+<article data-bloque="3" id="art-SIS-OQ-AC-037" class="ensayo" data-id="SIS-OQ-AC-037" data-fase="OQ" data-cond="ambas" data-familia="aire-comprimido" data-analisis="si">
+  <h3>SIS-OQ-AC-037 — Operación continua del sistema</h3>
+  <p><strong>Objetivo:</strong><br>Verificar la operación continua durante un período definido con demanda variable.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Operar 72 h (o el período definido) con demanda variable<br>
+  2) Verificar presión estable, rocío en límite y sin alarmas<br>
+  3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Operación continua sin alarmas no tratadas.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro con data cruda y reporte<br>
+  - Data cruda y reporte estadístico del análisis de operación</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante del sistema.</p>
+</article>
+
+<article data-bloque="3" id="art-SIS-OQ-AC-038" class="ensayo" data-id="SIS-OQ-AC-038" data-fase="OQ" data-cond="ambas" data-familia="aire-comprimido" data-analisis="si">
+  <h3>SIS-OQ-AC-038 — Aumento brusco de demanda</h3>
+  <p><strong>Objetivo:</strong><br>Verificar caída de presión, tiempo de recuperación y estabilidad.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Provocar el aumento brusco y medir caída y recuperación<br>
+  2) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Recuperación y estabilidad dentro de lo definido en el protocolo aprobado.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro con data cruda y reporte<br>
+  - Data cruda y reporte estadístico del análisis de demanda</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante del sistema.</p>
+</article>
+
+<article data-bloque="4" id="art-SIS-OQ-AC-RES" class="ensayo" data-id="SIS-OQ-AC-RES" data-fase="OQ" data-cond="ambas" data-familia="aire-comprimido">
+  <h3>SIS-OQ-AC-RES — Tabla resumen de los ensayos del OQ</h3>
+  <p><strong>Objetivo:</strong><br>Consolidar el listado de ensayos del OQ del aire comprimido para la tabla resumen del protocolo.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Confirmar que los ensayos SIS-OQ-AC-001 a SIS-OQ-AC-038 están incluidos en el índice del protocolo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Los 38 ensayos aparecen en la tabla resumen con su veredicto.</p>
+  <p><strong>Referencia:</strong><br>EU GMP Anexo 15.</p>
+</article>
+
+<article data-bloque="6" id="art-SIS-OQ-AC-REF" class="ensayo tabla-info" data-id="SIS-OQ-AC-REF" data-fase="OQ" data-cond="ambas" data-familia="aire-comprimido">
+  <h3>SIS-OQ-AC-REF — Referencias del OQ del aire comprimido</h3>
+  <table>
+    <tr><th>SECCIÓN</th><th>TÍTULO</th><th>ESTADO</th></tr>
+    <tr><td>6.1</td><td>Manual del fabricante del sistema — Compresor, secador y filtros</td><td>VIGENTE</td></tr>
+    <tr><td>6.2</td><td>URS aprobada — Punto de rocío, presiones y clases ISO 8573</td><td>VIGENTE</td></tr>
+    <tr><td>6.3</td><td>EU GMP Anexo 15 — Cualificación y validación: el OQ demuestra operación según especificaciones aprobadas</td><td>VIGENTE</td></tr>
+    <tr><td>6.4</td><td>ISO 8573 — Aire comprimido: calidad y métodos de medición</td><td>VIGENTE</td></tr>
+  </table>
+</article>
+
+<div class="anexos" data-bloque="8">
+<p><strong>ANEXOS:</strong></p>
+<table>
+<tr><th>SECCIÓN</th><th>TÍTULO</th></tr>
+<tr><td>8.1</td><td>Anexo A — Registros de rocío, presiones y calidad por punto</td></tr>
+<tr><td>8.2</td><td>Anexo B — Certificados de calibración de sensores y patrones</td></tr>
+<tr><td>8.3</td><td>Anexo C — Análisis de laboratorio, alarmas y excursiones</td></tr>
+</table>
+</div>
+
+</section>
+
+</body>
+</html>

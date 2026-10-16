@@ -21,7 +21,7 @@ const BANCOS = {
   // estabilidad: banco común de cámaras ICH Q1A (sin familias por ahora).
   estabilidad: { src: ['estabilidad/iq-camaras.html', 'estabilidad/oq-camaras.html', 'estabilidad/pq-camaras.html'], dst: 'banco-estabilidad-data.js', global: 'BancoEstabilidad' },
   // sistemas: un archivo por familia y fase (p. ej. OQ/PQ de agua purificada).
-  sistemas: { src: ['sistemas/oq-agua-purificada.html', 'sistemas/pq-agua-purificada.html', 'sistemas/oq-hvac.html', 'sistemas/pq-hvac.html', 'sistemas/oq-vapor-limpio.html', 'sistemas/pq-vapor-limpio.html'], dst: 'banco-sistemas-data.js', global: 'BancoSistemas' },
+  sistemas: { src: ['sistemas/oq-agua-purificada.html', 'sistemas/pq-agua-purificada.html', 'sistemas/oq-hvac.html', 'sistemas/pq-hvac.html', 'sistemas/oq-vapor-limpio.html', 'sistemas/pq-vapor-limpio.html', 'sistemas/oq-aire-comprimido.html', 'sistemas/pq-aire-comprimido.html'], dst: 'banco-sistemas-data.js', global: 'BancoSistemas' },
 };
 const cat = process.argv[2] && !process.argv[2].startsWith('--') ? process.argv[2] : 'equipos';
 const ESTRICTO = process.argv.includes('--estricto');
