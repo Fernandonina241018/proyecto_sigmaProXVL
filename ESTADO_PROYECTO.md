@@ -4923,3 +4923,8 @@ Render inyectaba el `PORT` como variable de entorno; Fly.io también (`process.e
 - **Verificado:** partes ISO 8573-2 a -9 citadas correctamente (incl. gases CO/CO2/SO2/NOx de la parte 6).
 - **Brechas:** REF +ISO 8573-1 (clases) en OQ/PQ; refs PQ-10 (humedad→-3), PQ-14 (gases→-6), PQ-15 (agua líquida→-9).
 - **Verificación:** extractor --estricto OK; Vitest 480/480, backend 67/67.
+
+### 2026-10-15 (194): Plan de mejora adoptado — Fase 0 inventario
+- **Decisiones:** commit+push tras cada cambio; estadística adecuada por ensayo (no genérica); criterio sin fuente = "pendiente del responsable"; bitácora única ESTADO_PROYECTO.md.
+- **Fase 0:** `docs/auditoria-ensayos/inventario-ensayos.csv` con 1051 ensayos (143 IQ, 520 OQ, 387 PQ, 1 DQ): 17 P0, 208 P1, 182 P2. Hallazgo grueso: 598 con análisis vs 403 con plan estadístico (195 sin plan).
+- **Verificación:** conteo por script contra los 4 bancos; sin cambios de código.
