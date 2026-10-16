@@ -4928,3 +4928,8 @@ Render inyectaba el `PORT` como variable de entorno; Fly.io también (`process.e
 - **Decisiones:** commit+push tras cada cambio; estadística adecuada por ensayo (no genérica); criterio sin fuente = "pendiente del responsable"; bitácora única ESTADO_PROYECTO.md.
 - **Fase 0:** `docs/auditoria-ensayos/inventario-ensayos.csv` con 1051 ensayos (143 IQ, 520 OQ, 387 PQ, 1 DQ): 17 P0, 208 P1, 182 P2. Hallazgo grueso: 598 con análisis vs 403 con plan estadístico (195 sin plan).
 - **Verificación:** conteo por script contra los 4 bancos; sin cambios de código.
+
+### 2026-10-15 (195): Piloto P0 — 17 revisados, 0 P0 reales + matriz de hallazgos
+- **Revisión:** los 17 P0 del heurístico verifican bloqueos sin forzarlos (challenge seguro); se rebajan a revisado-conforme. Ninguna maniobra peligrosa.
+- **Hallazgos abiertos:** 4 P1 (criterios con valores sin fuente → pendiente del responsable), 12 P2 (1 ajuste sin autorización + 11 estadística por ensayo), 2 P3 (redacción).
+- **Artefacto:** `docs/auditoria-ensayos/matriz-hallazgos.csv` (35 filas). Sin cambios en bancos (pendiente tu visto bueno).
