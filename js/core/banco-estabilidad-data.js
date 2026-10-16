@@ -558,8 +558,12 @@ var BancoEstabilidad = {
       "html": "<strong>Procedimiento:</strong><br>\n  1) Estabilizar la cámara en su setpoint de trabajo y definir la duración de apertura según el uso real (por ejemplo 1 a 5 min)<br>\n  2) Abrir la puerta el tiempo definido, cerrarla y medir el tiempo de retorno a banda<br>\n  3) Repetir 3 veces y registrar cada recuperación<br>\n  4) Confirmar que las aperturas breves de uso real quedan cubiertas<br>\n  a) Recuperación dentro del límite (picos breves aceptados como inevitables según ICH Q1A)<br>\n  5) Procesar los datos crudos de recuperación en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
      },
      {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = tiempo medido en el procedimiento por repetición; tamaño de muestra = las repeticiones definidas en el procedimiento; estadísticos = media y rango de las repeticiones; criterio = todas las repeticiones dentro del tiempo definido; sin comparaciones entre grupos (no aplica ANOVA); valores atípicos con investigación documentada, sin exclusión silenciosa."
+     },
+     {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Recuperación en el tiempo previsto en las 3 repeticiones."
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Recuperación en el tiempo previsto en las 3 repeticiones. Límite pendiente de confirmación por el responsable en el protocolo aprobado."
      },
      {
       "et": "Documentos entregables",
@@ -1118,8 +1122,12 @@ var BancoEstabilidad = {
       "html": "<strong>Procedimiento:</strong><br>\n  1) Definir duración (por ejemplo 1 a 5 min) y frecuencia de apertura según el uso real de la cámara<br>\n  2) Abrir la puerta el tiempo definido con carga, cerrarla y medir el tiempo de retorno a límites<br>\n  3) Repetir 3 veces y registrar cada recuperación con el registro continuo<br>\n  4) Confirmar que el uso real queda cubierto por lo ensayado<br>\n  a) Recuperación dentro del límite en las 3 repeticiones<br>\n  5) Procesar los datos crudos de recuperación en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
      },
      {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = tiempo medido en el procedimiento por repetición; tamaño de muestra = las repeticiones definidas en el procedimiento; estadísticos = media y rango de las repeticiones; criterio = todas las repeticiones dentro del tiempo definido; sin comparaciones entre grupos (no aplica ANOVA); valores atípicos con investigación documentada, sin exclusión silenciosa."
+     },
+     {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Recuperación en el tiempo previsto con carga."
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Recuperación en el tiempo previsto con carga. Límite pendiente de confirmación por el responsable en el protocolo aprobado."
      },
      {
       "et": "Documentos entregables",

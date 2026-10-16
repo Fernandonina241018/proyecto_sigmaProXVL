@@ -1148,7 +1148,7 @@ var BancoAlmacenes = {
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Rango mantenido con carga; recuperación &lt; 30 min; alarma de excursión operativa y registrada."
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Rango mantenido con carga; recuperación &lt; 30 min; alarma de excursión operativa y registrada. Límite pendiente de confirmación por el responsable en el protocolo aprobado."
      },
      {
       "et": "Documentos entregables",

@@ -4933,3 +4933,10 @@ Render inyectaba el `PORT` como variable de entorno; Fly.io también (`process.e
 - **Revisión:** los 17 P0 del heurístico verifican bloqueos sin forzarlos (challenge seguro); se rebajan a revisado-conforme. Ninguna maniobra peligrosa.
 - **Hallazgos abiertos:** 4 P1 (criterios con valores sin fuente → pendiente del responsable), 12 P2 (1 ajuste sin autorización + 11 estadística por ensayo), 2 P3 (redacción).
 - **Artefacto:** `docs/auditoria-ensayos/matriz-hallazgos.csv` (35 filas). Sin cambios en bancos (pendiente tu visto bueno).
+
+### 2026-10-15 (196): Paquete piloto P0 aplicado
+- **Estadística por ensayo:** N/A justificada en 5 interlocks; plan específico sin ANOVA en HO-010, VA-014, RF/CG-010, RF/CG-PQ-005, EST-OQ-012 y EST-PQ-007.
+- **Criterios:** pendiente del responsable en HO-010, EST-OQ-012, EST-PQ-007 y ALM-OQ-005.
+- **Matriz:** 5 filas void (describían ficha obsoleta estabilidad.html no cableada) + 4 nuevas; 39 filas.
+- **Aviso:** `docs/banco-ensayos/estabilidad.html` es duplicado obsoleto no cableado (el banco real está en estabilidad/*-camaras.html); pendiente tu decisión (borrar o no).
+- **Verificación:** 3 extractores --estricto OK; Vitest 480/480, backend 67/67.

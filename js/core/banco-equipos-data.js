@@ -12468,6 +12468,10 @@ var BancoEquipos = {
       "html": "<strong>Procedimiento:</strong><br>\n  1) Dejar el <span class=\"equipo\">equipo</span> detenido en condición segura y disponer de la matriz de interlocks (condición y respuesta esperada)<br>\n  2) Desinflar el gasket del contenedor e intentar arrancar el ciclo<br>\n  a) El arranque queda inhibido y el HMI muestra el mensaje de interlock<br>\n  3) Desplazar el contenedor de su posición e intentar arrancar<br>\n  a) El arranque queda inhibido y el HMI muestra el mensaje de interlock<br>\n  4) Retirar una manga o filtro e intentar arrancar<br>\n  a) El arranque queda inhibido y el HMI muestra el mensaje de interlock<br>\n  5) Abrir la puerta de la cámara e intentar arrancar<br>\n  a) El arranque queda inhibido y el HMI muestra el mensaje de interlock<br>\n  6) Con el ventilador detenido, demandar calefacción y confirmar que la calefacción no energiza<br>\n  7) Arrancar en condición normal, abrir la puerta durante la marcha y confirmar la detención del ciclo<br>\n  8) Restituir todas las condiciones a normal, confirmar marcha permitida y cerrar la matriz con hora y respuesta de cada prueba"
      },
      {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>No aplica: verificación funcional por atributo (inhibe/no inhibe, 100 % de los casos); sin inferencia estadística."
+     },
+     {
       "et": "Criterio de aceptación",
       "html": "<strong>Criterio de aceptación:</strong><br>\n  El 100% de los interlocks ensayados inhibe el arranque o detiene la marcha con mensaje en el HMI.<br>\n  La calefacción no energiza sin ventilador en marcha."
      },
@@ -12905,6 +12909,10 @@ var BancoEquipos = {
       "html": "<strong>Procedimiento:</strong><br>\n  1) Verificar IQ aprobada y <span class=\"equipo\">equipo</span> liberado para OQ, con ciclo de prueba programado en cámara vacía<br>\n  2) Arrancar el ciclo y esperar a la fase de esterilización<br>\n  3) Accionar la parada de emergencia o el aborto y medir con cronómetro el tiempo hasta el corte del vapor<br>\n  4) Confirmar la despresurización controlada sin apertura de la puerta<br>\n  5) Intentar abrir la puerta con la cámara presurizada o por encima de 80 °C<br>\n  a) La puerta queda bloqueada hasta presión menor o igual a 0,2 bar y temperatura segura<br>\n  6) Confirmar que el rearranque exige una acción deliberada del operador y que el equipo no continúa el ciclo solo<br>\n  7) Dejar el <span class=\"equipo\">equipo</span> en condición segura y anotar cualquier desviación"
      },
      {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>No aplica: verificación funcional por atributo (inhibe/no inhibe, 100 % de los casos); sin inferencia estadística."
+     },
+     {
       "et": "Criterio de aceptación",
       "html": "<strong>Criterio de aceptación:</strong><br>\n  Estado seguro con despresurización controlada; puerta bloqueada hasta condición segura.<br>\n  Sin rearranque automático ni continuación del ciclo."
      },
@@ -12934,6 +12942,10 @@ var BancoEquipos = {
      {
       "et": "Procedimiento",
       "html": "<strong>Procedimiento:</strong><br>\n  1) Dejar el <span class=\"equipo\">equipo</span> detenido en condición segura y disponer de la matriz de interlocks<br>\n  2) Presurizar la cámara a 1 bar o calentarla por encima de 80 °C e intentar abrir la puerta<br>\n  a) La apertura queda bloqueada<br>\n  3) Dejar la puerta mal cerrada e intentar iniciar el ciclo<br>\n  a) El inicio queda inhibido con mensaje en el HMI<br>\n  4) En autoclave de doble puerta: abrir el lado de carga e intentar abrir el lado de descarga<br>\n  a) La segunda puerta queda bloqueada, y viceversa<br>\n  5) Cerrar correctamente y confirmar el permiso de marcha<br>\n  6) Registrar cada intento con hora, condición y respuesta del <span class=\"equipo\">equipo</span>"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>No aplica: verificación funcional por atributo (inhibe/no inhibe, 100 % de los casos); sin inferencia estadística."
      },
      {
       "et": "Criterio de aceptación",
@@ -13637,6 +13649,10 @@ var BancoEquipos = {
       "html": "<strong>Procedimiento:</strong><br>\n  1) Dejar el <span class=\"equipo\">equipo</span> detenido en condición segura y disponer de la matriz de interlocks<br>\n  2) Abrir la jaula o guarda e intentar arrancar<br>\n  a) El arranque queda inhibido con mensaje en el HMI<br>\n  3) Desbloquear el contenedor o retirar el bin e intentar arrancar<br>\n  a) El arranque queda inhibido con mensaje en el HMI<br>\n  4) Abrir la puerta de carga e intentar arrancar<br>\n  a) El arranque queda inhibido con mensaje en el HMI<br>\n  5) Arrancar en condición normal y abrir la guarda durante la marcha, confirmando la detención<br>\n  6) Restituir todo a normal, confirmar marcha permitida y cerrar la matriz"
      },
      {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>No aplica: verificación funcional por atributo (inhibe/no inhibe, 100 % de los casos); sin inferencia estadística."
+     },
+     {
       "et": "Criterio de aceptación",
       "html": "<strong>Criterio de aceptación:</strong><br>\n  El 100% de los interlocks inhibe el arranque o detiene la marcha."
      },
@@ -14197,6 +14213,10 @@ var BancoEquipos = {
       "html": "<strong>Procedimiento:</strong><br>\n  1) Dejar el <span class=\"equipo\">equipo</span> en calentamiento nominal y disponer de la matriz de interlocks<br>\n  2) Abrir la puerta y confirmar la respuesta diseñada (corte de calefacción, alarma o detención)<br>\n  3) Simular falla de ventilación y confirmar la inhibición de la calefacción<br>\n  4) Intentar arrancar con la puerta abierta y confirmar que queda impedido<br>\n  a) Cada interlock ejecuta su acción diseñada con mensaje<br>\n  5) Restituir todo a normal y cerrar la matriz"
      },
      {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>No aplica: verificación funcional por atributo (inhibe/no inhibe, 100 % de los casos); sin inferencia estadística."
+     },
+     {
       "et": "Criterio de aceptación",
       "html": "<strong>Criterio de aceptación:</strong><br>\n  El 100% de los interlocks ejecuta su acción."
      },
@@ -14418,8 +14438,12 @@ var BancoEquipos = {
       "html": "<strong>Procedimiento:</strong><br>\n  1) Estabilizar el horno en su setpoint de trabajo y definir la duración de apertura según el uso real<br>\n  2) Abrir la puerta el tiempo definido, cerrarla y medir el tiempo de retorno a banda<br>\n  3) Repetir 3 veces y registrar cada recuperación<br>\n  4) Confirmar que el uso real queda cubierto por lo ensayado<br>\n  a) Recuperación dentro del límite en las 3 repeticiones<br>\n  5) Procesar los datos crudos de recuperación en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
      },
      {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = tiempo medido en el procedimiento por repetición; tamaño de muestra = las repeticiones definidas en el procedimiento; estadísticos = media y rango de las repeticiones; criterio = todas las repeticiones dentro del tiempo definido; sin comparaciones entre grupos (no aplica ANOVA); valores atípicos con investigación documentada, sin exclusión silenciosa."
+     },
+     {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Recuperación en el tiempo previsto."
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Recuperación en el tiempo previsto. Límite pendiente de confirmación por el responsable en el protocolo aprobado."
      },
      {
       "et": "Documentos entregables",
@@ -15176,6 +15200,10 @@ var BancoEquipos = {
       "html": "<strong>Procedimiento:</strong><br>\n  1) Partir del horno a temperatura ambiente, aplicar el vacío de trabajo y fijar el setpoint<br>\n  2) Medir con cronómetro el tiempo hasta entrar en banda y estabilizar<br>\n  3) Ventilar, abrir la puerta el tiempo definido, cerrar, re-evaporar y medir el tiempo de recuperación<br>\n  4) Repetir en un segundo setpoint representativo<br>\n  a) Tiempos dentro de lo previsto por el fabricante<br>\n  5) Procesar los datos crudos de tiempos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
      },
      {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = tiempo medido en el procedimiento por repetición; tamaño de muestra = las repeticiones definidas en el procedimiento; estadísticos = media y rango de las repeticiones; criterio = todas las repeticiones dentro del tiempo definido; sin comparaciones entre grupos (no aplica ANOVA); valores atípicos con investigación documentada, sin exclusión silenciosa."
+     },
+     {
       "et": "Criterio de aceptación",
       "html": "<strong>Criterio de aceptación:</strong><br>\n  Tiempos de calentamiento y recuperación conformes y repetibles."
      },
@@ -15741,7 +15769,7 @@ var BancoEquipos = {
      },
      {
       "et": "Plan estadístico",
-      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+      "html": "<strong>Plan estadístico:</strong><br>Variable = tiempo medido en el procedimiento por repetición; tamaño de muestra = las repeticiones definidas en el procedimiento; estadísticos = media y rango de las repeticiones; criterio = todas las repeticiones dentro del tiempo definido; sin comparaciones entre grupos (no aplica ANOVA); valores atípicos con investigación documentada, sin exclusión silenciosa."
      },
      {
       "et": "Criterio de aceptación",
@@ -16475,7 +16503,7 @@ var BancoEquipos = {
      },
      {
       "et": "Plan estadístico",
-      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+      "html": "<strong>Plan estadístico:</strong><br>Variable = tiempo medido en el procedimiento por repetición; tamaño de muestra = las repeticiones definidas en el procedimiento; estadísticos = media y rango de las repeticiones; criterio = todas las repeticiones dentro del tiempo definido; sin comparaciones entre grupos (no aplica ANOVA); valores atípicos con investigación documentada, sin exclusión silenciosa."
      },
      {
       "et": "Criterio de aceptación",
@@ -25582,7 +25610,7 @@ var BancoEquipos = {
      },
      {
       "et": "Plan estadístico",
-      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+      "html": "<strong>Plan estadístico:</strong><br>Variable = tiempo medido en el procedimiento por repetición; tamaño de muestra = las repeticiones definidas en el procedimiento; estadísticos = media y rango de las repeticiones; criterio = todas las repeticiones dentro del tiempo definido; sin comparaciones entre grupos (no aplica ANOVA); valores atípicos con investigación documentada, sin exclusión silenciosa."
      },
      {
       "et": "Criterio de aceptación",
@@ -26166,7 +26194,7 @@ var BancoEquipos = {
      },
      {
       "et": "Plan estadístico",
-      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+      "html": "<strong>Plan estadístico:</strong><br>Variable = tiempo medido en el procedimiento por repetición; tamaño de muestra = las repeticiones definidas en el procedimiento; estadísticos = media y rango de las repeticiones; criterio = todas las repeticiones dentro del tiempo definido; sin comparaciones entre grupos (no aplica ANOVA); valores atípicos con investigación documentada, sin exclusión silenciosa."
      },
      {
       "et": "Criterio de aceptación",
