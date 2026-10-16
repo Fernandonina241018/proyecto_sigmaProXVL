@@ -4940,3 +4940,12 @@ Render inyectaba el `PORT` como variable de entorno; Fly.io también (`process.e
 - **Matriz:** 5 filas void (describían ficha obsoleta estabilidad.html no cableada) + 4 nuevas; 39 filas.
 - **Aviso:** `docs/banco-ensayos/estabilidad.html` es duplicado obsoleto no cableado (el banco real está en estabilidad/*-camaras.html); pendiente tu decisión (borrar o no).
 - **Verificación:** 3 extractores --estricto OK; Vitest 480/480, backend 67/67.
+
+### 2026-10-16 (197): Auditoría de código del repo — informe + must-fix
+- **Alcance:** repo completo revisado en modo lectura (frontend vanilla, backend Express, CI, scripts, extractores). Sin cambios de código.
+- **Entregable:** `docs/auditoria-codigo/must-fix.md` con los 3 Must fix para análisis individual:
+  - MF-1 XSS almacenado: preview `iframe srcdoc` sin `sandbox` (`js/core/indexx-firma.js:105/288`); un usuario puede robar sesión y credenciales de firma del revisor/admin.
+  - MF-2 Carrera en la cadena de auditoría: leer hash + insertar sin transacción (`backend/database.js:333-359`, solo PG); dos usuarios concurrentes rompen `verifyAuditChain`.
+  - MF-3 Límite 100 KB rompe `amend` y snapshots WORM (`backend/server.js:127-137`; rutas `:1231` y `:815`) → 413 con reportes reales.
+- **Should/Nice (fuera del md):** paginación de bandeja pending (filtro post-fetch), IP de auditoría falsificable (`getClientIP`), cambio de contraseña parcial, `publish` sin rate-limit, features sin UI (reopen/sendback/amend y snapshots), capa PG sin tests, `newAssignee` sin validar, drift PG/local en perfil, límite de firmas compartido por NAT, `papaparse` npm sin uso, `extraer-banco-almacenes.mjs` obsoleto, mockups sin referencias.
+- **Verificación:** revisión estática (no se ejecutaron suites en esta pasada); sin cambios funcionales; pendiente tu decisión por hallazgo.
