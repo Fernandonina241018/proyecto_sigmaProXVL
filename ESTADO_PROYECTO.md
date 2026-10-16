@@ -4918,3 +4918,8 @@ Render inyectaba el `PORT` como variable de entorno; Fly.io también (`process.e
 - **Bancos:** `sistemas/oq-aire-comprimido.html` (38) y `pq-aire-comprimido.html` (28); línea 1 ignorada, todo PQ con análisis, `(*)`/`()` a "si aplica" o fuera, partes ISO 8573 literales.
 - **REF:** Manual + URS + Anexo 15 + ISO 8573; refs puntuales a calidad → ISO 8573.
 - **Verificación:** extractor --estricto OK (249); OQ/PQ generan 38/28; Vitest 480/480, backend 67/67.
+
+### 2026-10-15 (193): Pasada normativa aire comprimido
+- **Verificado:** partes ISO 8573-2 a -9 citadas correctamente (incl. gases CO/CO2/SO2/NOx de la parte 6).
+- **Brechas:** REF +ISO 8573-1 (clases) en OQ/PQ; refs PQ-10 (humedad→-3), PQ-14 (gases→-6), PQ-15 (agua líquida→-9).
+- **Verificación:** extractor --estricto OK; Vitest 480/480, backend 67/67.

@@ -5022,6 +5022,11 @@ var BancoSistemas = {
        "6.4",
        "ISO 8573 — Aire comprimido: calidad y métodos de medición",
        "VIGENTE"
+      ],
+      [
+       "6.5",
+       "ISO 8573-1 — Clases de pureza del aire comprimido",
+       "VIGENTE"
       ]
      ]
     },
@@ -8267,7 +8272,7 @@ var BancoSistemas = {
      },
      {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>URS aprobada (rangos y criterios)."
+      "html": "<strong>Referencia:</strong><br>URS aprobada (rangos y criterios); ISO 8573-3 (medición de humedad)."
      }
     ],
     "tabla": null,
@@ -8391,7 +8396,7 @@ var BancoSistemas = {
     "secciones": [
      {
       "et": "Objetivo",
-      "html": "<strong>Objetivo:</strong><br>Verificar CO, CO2, SO2 y NOx."
+      "html": "<strong>Objetivo:</strong><br>Verificar CO, CO2, SO2 y NOx (ISO 8573-6)."
      },
      {
       "et": "Procedimiento",
@@ -8447,7 +8452,7 @@ var BancoSistemas = {
      },
      {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>URS aprobada (rangos y criterios)."
+      "html": "<strong>Referencia:</strong><br>URS aprobada (rangos y criterios); ISO 8573-9 (agua líquida)."
      }
     ],
     "tabla": null,
@@ -8981,6 +8986,11 @@ var BancoSistemas = {
       [
        "6.4",
        "ISO 8573 — Aire comprimido: calidad y métodos de medición",
+       "VIGENTE"
+      ],
+      [
+       "6.5",
+       "ISO 8573-1 — Clases de pureza del aire comprimido",
        "VIGENTE"
       ]
      ]
