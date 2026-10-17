@@ -720,11 +720,26 @@ function buildPostgres() {
     // admin, con motivo obligatorio. La fila queda como lápida visible N días
     // en bandeja (aviso al revisor) en vez de desaparecer con un 404 mudo.
     // (La auditoría conserva SIGN_SESSION_REJECT/DELETE como rastro.)
-    async function deleteSignSession({ id, username, userRole, reason }) {
+    // Cupo de reportes EN FIRMA por usuario (plan control reportes): sesiones
+    // abiertas del creador, la más antigua primero. El endpoint decide cancelar.
+    async function signQuotaInfo(username) {
+        return all(
+            `SELECT id, name, created_at FROM report_signatures
+             WHERE created_by = $1 AND status NOT IN ('complete','rejected','deleted')
+             ORDER BY id ASC`,
+            [username]
+        );
+    }
+
+    async function deleteSignSession({ id, username, userRole, reason, allowOpen }) {
         const row = await get('SELECT * FROM report_signatures WHERE id = $1', [id]);
         if (!row) return { error: 'Sesión no encontrada', code: 'not-found' };
         const session = _parseSignRow(row);
-        if (session.status !== 'rejected' && session.status !== 'complete') {
+        if (session.status === 'deleted') {
+            return { error: 'La sesión ya está eliminada', code: 'not-deletable' };
+        }
+        // allowOpen: cancelación de abiertas por cupo (solo endpoint). Admin: cualquier estado.
+        if (!allowOpen && userRole !== 'admin' && session.status !== 'rejected' && session.status !== 'complete') {
             return { error: 'Solo se pueden eliminar sesiones rechazadas o completas', code: 'not-deletable' };
         }
         if (userRole !== 'admin' && session.created_by !== username) {
@@ -982,7 +997,7 @@ function buildPostgres() {
         return elig;
     }
 
-    return { run, get, all, initDatabase, createInitialAdmin, getUserByUsername, getUserBySignatureCode, isSignatureCodeTaken, getUserById, createUser, updateLastLogin, getAllUsers, getUsersList, countUsers, toggleUserActive, changePassword, setPasswordTemp, updateUserProfile, updateUserProfileById, changeRole, logAccess, logAuditEvent, getAuditLog, verifyAuditChain, blacklistToken, isTokenBlacklisted, cleanExpiredBlacklist, registerDevice, isDeviceTrusted, getUserDevices, getAllDevices, countDevices, countUserDevices, setDeviceTrust, removeDevice, save2FASecret, get2FASecret, enable2FA, disable2FA, has2FAEnabled, createSnapshot, getSnapshots, getSnapshotById, createSignSession, getSignSession, listSignSessions, signSessionStep, importSignSession, rejectSignSession, reopenSignSession, sendbackSignSession, amendSignSession, deleteSignSession, unsignSessionStep, dismissSignSession, purgeSignSessions };}
+    return { run, get, all, initDatabase, createInitialAdmin, getUserByUsername, getUserBySignatureCode, isSignatureCodeTaken, getUserById, createUser, updateLastLogin, getAllUsers, getUsersList, countUsers, toggleUserActive, changePassword, setPasswordTemp, updateUserProfile, updateUserProfileById, changeRole, logAccess, logAuditEvent, getAuditLog, verifyAuditChain, blacklistToken, isTokenBlacklisted, cleanExpiredBlacklist, registerDevice, isDeviceTrusted, getUserDevices, getAllDevices, countDevices, countUserDevices, setDeviceTrust, removeDevice, save2FASecret, get2FASecret, enable2FA, disable2FA, has2FAEnabled, createSnapshot, getSnapshots, getSnapshotById, createSignSession, getSignSession, listSignSessions, signQuotaInfo, signSessionStep, importSignSession, rejectSignSession, reopenSignSession, sendbackSignSession, amendSignSession, deleteSignSession, unsignSessionStep, dismissSignSession, purgeSignSessions };}
 
 // ───── Local JSON store ─────
 function buildLocalStore() {
@@ -1450,15 +1465,29 @@ function buildLocalStore() {
         return { dryRun: false, deleted: targets.map(_purgeMeta), count: targets.length };
     }
 
+    // Mirror local del cupo en firma (plan control reportes)
+    async function signQuotaInfo(username) {
+        return state.report_signatures
+            .filter(function(s) {
+                return s.created_by === username && s.status !== 'complete' && s.status !== 'rejected' && s.status !== 'deleted';
+            })
+            .sort(function(a, b) { return a.id - b.id; })
+            .map(function(s) { return { id: s.id, name: s.name, created_at: s.created_at }; });
+    }
+
     // Mirror local de deleteSignSession (borrado suave Opción A)
-    async function deleteSignSession({ id, username, userRole, reason }) {
+    async function deleteSignSession({ id, username, userRole, reason, allowOpen }) {
         var idx = -1;
         for (var i = 0; i < state.report_signatures.length; i++) {
             if (state.report_signatures[i].id === id) { idx = i; break; }
         }
         if (idx === -1) return { error: 'Sesión no encontrada', code: 'not-found' };
         var s = state.report_signatures[idx];
-        if (s.status !== 'rejected' && s.status !== 'complete') {
+        if (s.status === 'deleted') {
+            return { error: 'La sesión ya está eliminada', code: 'not-deletable' };
+        }
+        // allowOpen: cancelación de abiertas por cupo (solo endpoint). Admin: cualquier estado.
+        if (!allowOpen && userRole !== 'admin' && s.status !== 'rejected' && s.status !== 'complete') {
             return { error: 'Solo se pueden eliminar sesiones rechazadas o completas', code: 'not-deletable' };
         }
         if (userRole !== 'admin' && s.created_by !== username) {
@@ -1732,7 +1761,7 @@ function buildLocalStore() {
         return _localSignView(s);
     }
 
-    return { run, get, all, initDatabase, createInitialAdmin, getUserByUsername, getUserBySignatureCode, isSignatureCodeTaken, getUserById, createUser, updateLastLogin, getAllUsers, getUsersList, countUsers, toggleUserActive, changePassword, setPasswordTemp, updateUserProfile, updateUserProfileById, changeRole, logAccess, logAuditEvent, getAuditLog, verifyAuditChain, blacklistToken, isTokenBlacklisted, cleanExpiredBlacklist, registerDevice, isDeviceTrusted, getUserDevices, getAllDevices, countDevices, countUserDevices, setDeviceTrust, removeDevice, save2FASecret, get2FASecret, enable2FA, disable2FA, has2FAEnabled, createSnapshot, getSnapshots, getSnapshotById, createSignSession, getSignSession, listSignSessions, signSessionStep, importSignSession, rejectSignSession, reopenSignSession, sendbackSignSession, amendSignSession, deleteSignSession, unsignSessionStep, dismissSignSession, purgeSignSessions };}
+    return { run, get, all, initDatabase, createInitialAdmin, getUserByUsername, getUserBySignatureCode, isSignatureCodeTaken, getUserById, createUser, updateLastLogin, getAllUsers, getUsersList, countUsers, toggleUserActive, changePassword, setPasswordTemp, updateUserProfile, updateUserProfileById, changeRole, logAccess, logAuditEvent, getAuditLog, verifyAuditChain, blacklistToken, isTokenBlacklisted, cleanExpiredBlacklist, registerDevice, isDeviceTrusted, getUserDevices, getAllDevices, countDevices, countUserDevices, setDeviceTrust, removeDevice, save2FASecret, get2FASecret, enable2FA, disable2FA, has2FAEnabled, createSnapshot, getSnapshots, getSnapshotById, createSignSession, getSignSession, listSignSessions, signQuotaInfo, signSessionStep, importSignSession, rejectSignSession, reopenSignSession, sendbackSignSession, amendSignSession, deleteSignSession, unsignSessionStep, dismissSignSession, purgeSignSessions };}
 
 const impl = build();
 module.exports = {
@@ -1778,6 +1807,7 @@ module.exports = {
     createSignSession:    (...a) => impl.createSignSession(...a),
     getSignSession:       (...a) => impl.getSignSession(...a),
     listSignSessions:     (...a) => impl.listSignSessions(...a),
+    signQuotaInfo:        (...a) => impl.signQuotaInfo(...a),
     signSessionStep:      (...a) => impl.signSessionStep(...a),
     importSignSession:     (...a) => impl.importSignSession(...a),
     rejectSignSession:      (...a) => impl.rejectSignSession(...a),

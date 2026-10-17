@@ -926,6 +926,43 @@ function _isSignCandidate(session, user) {
     return false; // prepared solo lo firma el creador al publicar
 }
 
+// ── Cupo de reportes EN FIRMA por usuario (plan control reportes) ──
+// Al publicar con N abiertas: sin acceptReplace → 409 con la lista de las más
+// antiguas; con acceptReplace → las cancela (soft-delete auditado) y sigue.
+// Nunca toca reportes firmados (esos solo salen por purga de retención).
+const SIGN_MAX_OPEN = Math.max(parseInt(process.env.SIGN_MAX_OPEN) || 10, 1);
+
+async function _enforceSignQuota(req, signer, acceptReplace) {
+    const open = await db.signQuotaInfo(signer.username);
+    if (open.length < SIGN_MAX_OPEN) return { ok: true };
+    const needed = open.length - (SIGN_MAX_OPEN - 1); // deja hueco para la nueva
+    const victims = open.slice(0, needed);
+    if (!acceptReplace) {
+        return {
+            ok: false, code: 'quota', total: open.length, max: SIGN_MAX_OPEN,
+            error: 'Tienes ' + open.length + ' reportes en firma (máximo ' + SIGN_MAX_OPEN + '). Confirma la cancelación de los más antiguos para publicar otro.',
+            items: victims.map((v) => ({ id: v.id, name: v.name, created_at: v.created_at || '' })),
+        };
+    }
+    const cancelled = [];
+    for (const v of victims) {
+        const r = await db.deleteSignSession({
+            id: v.id, username: signer.username, userRole: signer.role,
+            reason: 'Cancelada por cupo (' + SIGN_MAX_OPEN + ' en firma) — autorizada al publicar otro reporte',
+            allowOpen: true,
+        });
+        if (r && !r.error) {
+            cancelled.push(r.id);
+            await db.logAuditEvent({
+                username: signer.username, action: 'SIGN_SESSION_DELETE', success: 1,
+                ip: getClientIP(req), userAgent: req.headers['user-agent'],
+                module: 'FIRMA', details: JSON.stringify({ sessionId: r.id, reason: r.deleted_reason, via: 'quota' }),
+            });
+        }
+    }
+    return { ok: true, cancelled };
+}
+
 // POST /api/sign-sessions — publicar reporte a bandeja (firma prepared incluida)
 app.post('/api/sign-sessions', requireAuth, async (req, res) => {
     try {
@@ -941,6 +978,8 @@ app.post('/api/sign-sessions', requireAuth, async (req, res) => {
         }
         const signer = await _checkSignCredentials(req, res);
         if (!signer) return; // respuesta ya enviada
+        const quota = await _enforceSignQuota(req, signer, req.body.acceptReplace === true);
+        if (!quota.ok) return res.status(409).json(quota);
         const nombreCompleto = [signer.nombre, signer.apellido].filter(Boolean).join(' ') || signer.username;
         const session = await db.createSignSession({
             name: name.trim(), html,
@@ -961,7 +1000,7 @@ app.post('/api/sign-sessions', requireAuth, async (req, res) => {
             ip: getClientIP(req), userAgent: req.headers['user-agent'],
             module: 'FIRMA', details: JSON.stringify({ sessionId: session.id, docHash: session.doc_hash }),
         });
-        res.json({ ok: true, session: _stripSignSession(session) });
+        res.json({ ok: true, session: _stripSignSession(session), cancelled: quota.cancelled || [] });
     } catch (err) {
         console.error('Error creating sign session:', err);
         res.status(500).json({ error: 'Error al publicar reporte a firma' });
@@ -985,6 +1024,8 @@ app.post('/api/sign-sessions/import', requireAuth, verifyLimiter, async (req, re
         }
         const signer = await _checkSignCredentials(req, res);
         if (!signer) return; // respuesta ya enviada
+        const quota = await _enforceSignQuota(req, signer, req.body.acceptReplace === true);
+        if (!quota.ok) return res.status(409).json(quota);
         const nombreCompleto = [signer.nombre, signer.apellido].filter(Boolean).join(' ') || signer.username;
         const embedded = extractEmbeddedSignatures(html);
         const session = await db.importSignSession({
@@ -1008,7 +1049,7 @@ app.post('/api/sign-sessions/import', requireAuth, verifyLimiter, async (req, re
             ip: getClientIP(req), userAgent: req.headers['user-agent'],
             module: 'FIRMA', details: JSON.stringify({ sessionId: session.id, docHash: session.doc_hash }),
         });
-        res.json({ ok: true, session: _stripSignSession(session) });
+        res.json({ ok: true, session: _stripSignSession(session), cancelled: quota.cancelled || [] });
     } catch (err) {
         console.error('Error importing sign session:', err);
         res.status(500).json({ error: 'Error al publicar reporte a bandeja' });

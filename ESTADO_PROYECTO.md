@@ -4968,3 +4968,10 @@ Render inyectaba el `PORT` como variable de entorno; Fly.io también (`process.e
 - **Tests:** `backend/tests/sign-tray.test.js` (5): candidato más allá de la ventana vieja, conteo exacto, bandeja normal = 1 consulta, vacía, offset fuera de rango.
 - **Verificación:** `node --check` OK en los 3 archivos; backend 72/72 (67 + 5 nuevos); sin cambios de frontend.
 - **Nota:** el conteo escanea todas las páginas (O(n)); queda `shortcut:` en el módulo con el upgrade (filtro en SQL) si la bandeja crece a miles.
+
+### 2026-10-16 (201): Cupo de reportes en firma (10) con aviso en el modal (Paso 2 plan reportes)
+- **Regla:** máx **10 abiertas por usuario**. Al publicar con el cupo lleno → 409 `code=quota` con la lista de las más antiguas; el aviso ⚠️ sale **en el mismo modal** y el botón pasa a "Cancelar los más antiguos y publicar"; el 2º clic reintenta con `acceptReplace:true`: el servidor cancela (soft-delete con motivo + auditoría `SIGN_SESSION_DELETE` con `via:quota`) y publica. Sin aceptar → bloqueado con mensaje. **Los firmados no se tocan por cupo** (solo purga por retención, Paso 4).
+- **Backend:** `signQuotaInfo` (ambos stores: abiertas del creador, más antigua primero); `deleteSignSession` acepta `allowOpen` (solo la vía de cupo) y rechaza borrar ya-eliminadas; helper `_enforceSignQuota` + guarda en **las 2 rutas de publicación** (`POST /api/sign-sessions` y `/import`); env `SIGN_MAX_OPEN` (default 10).
+- **Frontend:** el modal del módulo estadístico (`ReporteManager.js`) y el de la página Firmar (`indexx-firma.js`) manejan el 409 con el helper compartido `firmaQuotaWarnHtml`; toast final con ids cancelados.
+- **Tests:** `backend/tests/sign-quota.test.js` (5: conteo/orden, guarda sin allowOpen, cancelación con motivo, firmadas fuera del cupo, admin) + `tests/firma-quota.test.js` (2: helper y flujo 409→confirmar→retry con `acceptReplace`, happy-dom).
+- **Verificación:** `node --check` OK (4 archivos); backend 77/77; Vitest 483/483; tsc OK.

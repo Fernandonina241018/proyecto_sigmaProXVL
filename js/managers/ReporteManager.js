@@ -2443,6 +2443,7 @@ tr:hover td{background:#f7faff}
         document.body.appendChild(overlay);
         const close = function(){ overlay.remove(); };
         overlay.querySelector('#pub-cancel').onclick = close;
+        let pubAcceptReplace = false;
         overlay.querySelector('#pub-ok').onclick = async function(){
             const errEl = overlay.querySelector('#pub-err');
             const code = overlay.querySelector('#pub-code').value.trim();
@@ -2460,12 +2461,22 @@ tr:hover td{background:#f7faff}
                     name: base, html: html,
                     assignedReviewer: reviewer, assignedApprover: approver,
                     signatureCode: code, password: pass,
+                    acceptReplace: pubAcceptReplace,
                     // Zona horaria del firmante: el servidor estampa la firma en hora local
                     // del navegador (igual que la portada). Sin esto cae a UTC (Fly.io).
                     tzOffset: new Date().getTimezoneOffset()
                 });
+                if (data && data.code === 'quota') {
+                    pubAcceptReplace = true;
+                    overlay.querySelector('#pub-ok').textContent = '⚠️ Cancelar los más antiguos y publicar';
+                    errEl.innerHTML = (typeof firmaQuotaWarnHtml === 'function')
+                        ? firmaQuotaWarnHtml(data)
+                        : ('⚠️ ' + (data.error || ''));
+                    return;
+                }
                 if (!data || !data.ok) { errEl.textContent = '❌ ' + ((data && data.error) || 'Error al publicar'); return; }
                 close();
+                if (data.cancelled && data.cancelled.length) showToast('🗑 Cancelados ' + data.cancelled.length + ' reportes en firma por cupo');
                 try { sessionStorage.setItem('__firma_session_id', String(data.session.id)); } catch(e){}
                 onDone(data.session.id);
             } catch(e) {

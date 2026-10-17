@@ -528,6 +528,19 @@ function firmaUpdatePublishBtn() {
 }
 
 // FASE 3 — publica el .html cargado a mano a la bandeja del servidor
+// Aviso de cupo (plan control reportes): 409 code=quota mostrado en el mismo
+// modal; el siguiente clic reintenta con acceptReplace y cancela las más antiguas.
+function firmaQuotaWarnHtml(res) {
+  var items = (res && res.items) || [];
+  var list = items.map(function(v) {
+    return '• #' + v.id + ' ' + escapeHtml(v.name || '') +
+      (v.created_at ? ' (' + escapeHtml(String(v.created_at).slice(0, 10)) + ')' : '');
+  }).join('<br>');
+  return '⚠️ Tienes ' + ((res && res.total) || items.length) + ' reportes en firma (máx ' +
+    ((res && res.max) || 10) + '). Para publicar este se cancelará' + (items.length > 1 ? 'n' : '') +
+    ' los más antiguos (queda en auditoría):<br>' + list;
+}
+
 async function firmaPublishLoaded() {
   if (!_firmaCurrentHtml) { showToast('Carga un reporte primero'); return; }
   if (_firmaSessionId) { showToast('Esta sesión ya está publicada (#' + _firmaSessionId + ')'); return; }
@@ -572,6 +585,7 @@ async function firmaPublishLoaded() {
     selR.innerHTML = '<option value="">(sin conexión)</option>';
   }
   overlay.querySelector('#fpub-cancel').onclick = function() { overlay.remove(); };
+  var fpubAcceptReplace = false;
   overlay.querySelector('#fpub-ok').onclick = async function() {
     var errEl = overlay.querySelector('#fpub-err');
     var code = overlay.querySelector('#fpub-code').value.trim();
@@ -589,11 +603,19 @@ async function firmaPublishLoaded() {
         html: _firmaCurrentHtml,
         assignedReviewer: reviewer, assignedApprover: approver,
         signatureCode: code, password: pass,
+        acceptReplace: fpubAcceptReplace,
         tzOffset: new Date().getTimezoneOffset()
       });
+      if (res && res.code === 'quota') {
+        fpubAcceptReplace = true;
+        overlay.querySelector('#fpub-ok').textContent = '⚠️ Cancelar los más antiguos y publicar';
+        errEl.innerHTML = firmaQuotaWarnHtml(res);
+        return;
+      }
       if (!res || !res.ok) { errEl.textContent = '❌ ' + ((res && res.error) || 'Error al publicar'); return; }
       overlay.remove();
-      showToast('✅ Publicado a bandeja (sesión #' + res.session.id + ')');
+      showToast('✅ Publicado a bandeja (sesión #' + res.session.id + ')' +
+        (res.cancelled && res.cancelled.length ? ' · 🗑 cancelados: ' + res.cancelled.join(', ') : ''));
       // P1 — el borrador ya es sesión: se abre y el tab pasa a Mías.
       _firmaOpenSession(res.session.id).then(function() { firmaLoadBandeja('mine'); });
     } catch (e) {
