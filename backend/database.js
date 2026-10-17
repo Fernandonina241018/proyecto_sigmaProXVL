@@ -968,7 +968,13 @@ function buildPostgres() {
         limit = Math.min(Math.max(parseInt(limit) || 50, 1), 200);
         offset = Math.max(parseInt(offset) || 0, 0);
         let rows;
-        if (scope === 'mine') {
+        if (scope === 'all') {
+            // Vista admin "Todas": historial completo sin filtros de elegibilidad.
+            rows = await all(
+                'SELECT * FROM report_signatures ORDER BY id DESC LIMIT $1 OFFSET $2',
+                [limit, offset]
+            );
+        } else if (scope === 'mine') {
             rows = await all(
                 'SELECT * FROM report_signatures WHERE created_by = $1 ORDER BY id DESC LIMIT $2 OFFSET $3',
                 [username, limit, offset]
@@ -1785,6 +1791,7 @@ function buildLocalStore() {
         // Aviso de borrado: lápidas recientes visibles para los involucrados.
         var cutoff = new Date(Date.now() - 7 * 86400000).toISOString();
         var list = state.report_signatures.filter(function(s) {
+            if (scope === 'all') return true; // vista admin (Todas)
             if (scope === 'mine') return s.created_by === username;
             if (s.status === 'deleted') {
                 return involved(s) && String(s.deleted_at || '') > cutoff && !dismissed(s);

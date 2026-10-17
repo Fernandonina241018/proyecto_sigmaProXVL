@@ -4986,3 +4986,10 @@ Render inyectaba el `PORT` como variable de entorno; Fly.io también (`process.e
 - **Bug verificado:** el step "Purga real" usaba `if: inputs.dry_run == 'false'`, imposible en evento `schedule` (inputs vacíos) → la purga real nunca corría y la retención prometida en la UI (182/90) no ocurría. Fix: `github.event_name == 'schedule' || inputs.dry_run == 'false'`.
 - **Decisión (usuario):** se mantienen 182 (firmadas) / 90 (rechazadas) / 90 (expiración de abiertas) — documentar en SOP.
 - **Verificación:** cambio declarativo; se valida en la próxima corrida programada (domingo 03:00 UTC) revisando logs; el dry-run sigue corriendo siempre.
+
+### 2026-10-16 (204): Vista admin "Todas" en bandeja de firmas (Paso 5 plan reportes)
+- **Cambio:** nuevo scope `all` (solo admin — otros roles se coercionan a pending): tab 🗂 "Todas" oculta por defecto y visible solo para admin; lista todo el historial (ajenas, completas, rechazadas y canceladas) con el dueño en la meta y 🗑 para eliminar cualquier estado excepto ya-canceladas (completas con descarga previa; el resto motivo obligatorio + auditoría `SIGN_SESSION_DELETE`). Las canceladas se etiquetan "🗑️ Cancelada" + motivo y ya no muestran 🚫.
+- **Backend:** `listSignSessions` scope `all` en ambos stores (desc por id, sin filtros); GET `/api/sign-sessions` acepta `scope=all` solo si `role=admin`; el DELETE ya permitía admin borrar cualquier estado (guard del Paso 2).
+- **UX:** confirm de borrado neutralizado ("la eliminación queda registrada en auditoría").
+- **Tests:** backend `sign-quota.test.js` +1 (scope all incluye ajenos y lápidas, orden desc); vitest `tests/firma-admin-band.test.js` (2: tab solo admin; render con dueño, cancelada y botones).
+- **Verificación:** `node --check` OK (4 archivos); backend 81/81; Vitest 485/485; tsc OK; Playwright 1/1.

@@ -1057,16 +1057,21 @@ app.post('/api/sign-sessions/import', requireAuth, verifyLimiter, async (req, re
     }
 });
 
-// GET /api/sign-sessions — bandeja (?scope=mine|pending, ?count=1)
+// GET /api/sign-sessions — bandeja (?scope=mine|pending, scope=all solo admin, ?count=1)
 app.get('/api/sign-sessions', requireAuth, async (req, res) => {
     try {
-        const scope = req.query.scope === 'mine' ? 'mine' : 'pending';
+        const scope = req.query.scope === 'mine' ? 'mine'
+            : (req.query.scope === 'all' && req.user.role === 'admin') ? 'all'
+            : 'pending';
         const limit = Math.min(parseInt(req.query.limit) || 50, 200);
         const offset = parseInt(req.query.offset) || 0;
         const me = { username: req.user.username, role: req.user.role };
         let sessions;
         const isCand = (s) => _isSignCandidate(s, me);
-        if (scope === 'mine') {
+        if (scope === 'all') {
+            sessions = await db.listSignSessions({ scope: 'all', limit, offset });
+            if (req.query.count === '1') return res.json({ ok: true, count: sessions.length });
+        } else if (scope === 'mine') {
             sessions = await db.listSignSessions({ scope: 'mine', username: me.username, limit, offset });
             if (req.query.count === '1') return res.json({ ok: true, count: sessions.length });
         } else {

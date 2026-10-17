@@ -71,3 +71,11 @@ test('admin puede borrar una abierta ajena (sin allowOpen)', async () => {
   assert.ok(!r.error, JSON.stringify(r));
   assert.equal(r.status, 'deleted');
 });
+
+test('scope all (vista admin): lista todo, incluidos ajenos y lápidas, en orden desc', async () => {
+  const all = await db.listSignSessions({ scope: 'all', limit: 200, offset: 0 });
+  assert.ok(all.some((s) => s.created_by === 'q_otro'), 'incluye de otros usuarios');
+  assert.ok(all.some((s) => s.status === 'deleted'), 'incluye canceladas');
+  const ids = all.map((s) => s.id);
+  assert.deepEqual(ids, ids.slice().sort((a, b) => b - a));
+});
