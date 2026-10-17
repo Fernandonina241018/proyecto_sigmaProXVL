@@ -102,7 +102,7 @@ function firmaRestoreState() {
 
     var preview = document.getElementById('firmaPreview');
     if (preview) {
-      preview.innerHTML = '<iframe srcdoc="' + escapeHtml(html).replace(/"/g,'&quot;') + '" style="width:100%;height:100%;border:none;min-height:70vh"></iframe>';
+      preview.innerHTML = '<iframe sandbox srcdoc="' + escapeHtml(html).replace(/"/g,'&quot;') + '" style="width:100%;height:100%;border:none;min-height:70vh"></iframe>';
     }
 
     firmaRenderEditor();
@@ -285,7 +285,7 @@ function firmaLoadHtml(html, originalName) {
   // Render preview in iframe
   var preview = document.getElementById('firmaPreview');
   if (preview) {
-    preview.innerHTML = '<iframe srcdoc="' + escapeHtml(html).replace(/"/g,'&quot;') + '" style="width:100%;height:100%;border:none;min-height:70vh"></iframe>';
+    preview.innerHTML = '<iframe sandbox srcdoc="' + escapeHtml(html).replace(/"/g,'&quot;') + '" style="width:100%;height:100%;border:none;min-height:70vh"></iframe>';
   }
 
   // Extract signature data

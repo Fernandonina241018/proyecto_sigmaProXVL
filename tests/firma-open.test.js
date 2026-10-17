@@ -95,6 +95,14 @@ describe('_firmaOpenSession integración real (happy-dom)', () => {
     expect(iframe.srcdoc).toMatch('Ana');
   });
 
+  test('preview va en iframe sandbox (sin scripts ni same-origin)', async () => {
+    const { sandbox, document } = loadOpenHarness();
+    await vm.runInContext('_firmaOpenSession(99)', sandbox);
+    const iframe = document.querySelector('#firmaPreview iframe');
+    expect(iframe.hasAttribute('sandbox')).toBe(true);
+    expect(iframe.getAttribute('sandbox')).not.toMatch(/allow-scripts|allow-same-origin/);
+  });
+
   test('status refleja 1/3', async () => {
     const { sandbox, document } = loadOpenHarness();
     await vm.runInContext('_firmaOpenSession(99)', sandbox);

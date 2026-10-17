@@ -147,7 +147,7 @@ describe('Revalidación de snapshot restaurado (fix móvil)', () => {
   });
 
   test('offline → conserva snapshot (fail-open)', async () => {
-    const { sandbox } = loadHarness(async () => { throw new Error('offline'); });
+    const { sandbox, document } = loadHarness(async () => { throw new Error('offline'); });
     seedSnapshot(sandbox, { version: 1 });
     await vm.runInContext('firmaRestoreState()', sandbox);
     await vm.runInContext('_firmaRevalidateRestored()', sandbox);
@@ -155,6 +155,10 @@ describe('Revalidación de snapshot restaurado (fix móvil)', () => {
     expect(st).toMatch('Ana');
     const sid = await vm.runInContext('_firmaSessionId', sandbox);
     expect(sid).toBe(99);
+    // El iframe restaurado también va sandbox (misma defensa que firmaLoadHtml).
+    const fr = document.querySelector('#firmaPreview iframe');
+    expect(fr.hasAttribute('sandbox')).toBe(true);
+    expect(fr.getAttribute('sandbox')).not.toMatch(/allow-scripts|allow-same-origin/);
   });
 
   test('borrador (sin sesión) → no consulta al servidor', async () => {

@@ -4949,3 +4949,9 @@ Render inyectaba el `PORT` como variable de entorno; Fly.io también (`process.e
   - MF-3 Límite 100 KB rompe `amend` y snapshots WORM (`backend/server.js:127-137`; rutas `:1231` y `:815`) → 413 con reportes reales.
 - **Should/Nice (fuera del md):** paginación de bandeja pending (filtro post-fetch), IP de auditoría falsificable (`getClientIP`), cambio de contraseña parcial, `publish` sin rate-limit, features sin UI (reopen/sendback/amend y snapshots), capa PG sin tests, `newAssignee` sin validar, drift PG/local en perfil, límite de firmas compartido por NAT, `papaparse` npm sin uso, `extraer-banco-almacenes.mjs` obsoleto, mockups sin referencias.
 - **Verificación:** revisión estática (no se ejecutaron suites en esta pasada); sin cambios funcionales; pendiente tu decisión por hallazgo.
+
+### 2026-10-16 (198): MF-1 aplicado — sandbox en preview de reportes (XSS almacenado)
+- **Cambio:** atributo `sandbox` (sin `allow-scripts`/`allow-same-origin`) en los 2 iframes del preview: `js/core/indexx-firma.js:105` (restaurar estado) y `:288` (cargar HTML). Un reporte publicado/importado ya no puede ejecutar scripts dentro de la app (`auth_token` y modal de firma quedan fuera de su alcance).
+- **Tests:** caso nuevo en `tests/firma-open.test.js` (iframe con sandbox y sin allow-*) + asserts en `tests/firma-cargado.test.js` (ruta `firmaRestoreState`).
+- **Verificación:** prueba real en Chromium del ataque: con sandbox el script NO ejecuta; sin sandbox ejecuta y toca el DOM padre (vulnerabilidad confirmada y cerrada). Vitest 481/481, tsc OK, backend 67/67. Nota: el e2e Playwright "revisor ve pendiente…" falla también en el commit base sin este cambio (aparece "Elige tu área de trabajo" y no deja `.nav-item[data-page="datos"]`); preexistente local, no atribuible a este fix.
+- **Pendiente:** MF-2 (carrera cadena de auditoría) y MF-3 (límite 100 KB en amend/snapshots).
