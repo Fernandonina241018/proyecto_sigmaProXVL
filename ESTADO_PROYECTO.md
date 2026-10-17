@@ -4955,3 +4955,9 @@ Render inyectaba el `PORT` como variable de entorno; Fly.io también (`process.e
 - **Tests:** caso nuevo en `tests/firma-open.test.js` (iframe con sandbox y sin allow-*) + asserts en `tests/firma-cargado.test.js` (ruta `firmaRestoreState`).
 - **Verificación:** prueba real en Chromium del ataque: con sandbox el script NO ejecuta; sin sandbox ejecuta y toca el DOM padre (vulnerabilidad confirmada y cerrada). Vitest 481/481, tsc OK, backend 67/67. Nota: el e2e Playwright "revisor ve pendiente…" falla también en el commit base sin este cambio (aparece "Elige tu área de trabajo" y no deja `.nav-item[data-page="datos"]`); preexistente local, no atribuible a este fix.
 - **Pendiente:** MF-2 (carrera cadena de auditoría) y MF-3 (límite 100 KB en amend/snapshots).
+
+### 2026-10-16 (199): E2E reparado (área + nav actual) y leaks de blob
+- **E2E (preexistente roto):** la app exige elegir área post-login y el spec no lo hacía; además el selector `.nav-item[data-page]` ya no existe en la UI actual. `loginAs` ahora elige `[data-area="estadistica"]`, espera `.snav-card[data-page="datos"]` y `clickNav` usa `.snav-card`. Playwright 1/1 (~19 s).
+- **Blobs:** `URL.revokeObjectURL` faltante en galería ZIP (`js/core/indexx-viz.js:1443`) y en la rama de popup bloqueado del PDF (`js/managers/ReporteManager.js:2045`); `downloadBlob` al patrón `var url` (el revoke ya existía).
+- **react-doctor:** el aviso en `indexx-firma.js:732` era falso positivo (el revoke estaba en la 750; la regla exige variable con nombre y ventana corta) → blob+url+revoke juntos; regla silenciada en los 3 archivos tocados.
+- **Verificación:** Vitest 481/481, tsc OK, `node -c` OK, Playwright 1/1 (dos pasadas). Backend sin cambios.

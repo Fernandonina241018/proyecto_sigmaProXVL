@@ -1440,9 +1440,11 @@ async function vizDownloadGalleryZip() {
     if (count === 0) { showToast('No se pudieron generar imágenes'); return; }
     var blob = await zip.generateAsync({ type: 'blob', compression: 'DEFLATE', compressionOptions: { level: 6 } });
     var a = document.createElement('a');
-    a.href = URL.createObjectURL(blob);
+    var url = URL.createObjectURL(blob);
+    a.href = url;
     a.download = 'viz-gallery-' + Date.now() + '.zip';
     a.click();
+    URL.revokeObjectURL(url);
     showToast('✓ ' + count + ' gráficos en ZIP');
   } catch(e) {
     console.error(e);

@@ -61,8 +61,21 @@ async function loginAs(page, username, password) {
   // Cambio forzado en primer login: reemplaza password Y signatureCode
   const forced = await maybeForcePassword(page, pw);
   const creds = forced || { password: pw, sigCode: null };
-  await expect(page.locator('.nav-item[data-page="datos"]')).toBeVisible({ timeout: 15000 });
+  await pickArea(page);
+  await expect(page.locator('.snav-card[data-page="datos"]')).toBeVisible({ timeout: 15000 });
   return creds;
+}
+
+// Puerta de área post-login (sessionStorage fresco por contexto → siempre sale).
+async function pickArea(page) {
+  const overlay = page.locator('#area-select-overlay');
+  try {
+    await expect(overlay).toBeVisible({ timeout: 10000 });
+  } catch {
+    return; // sin overlay: el área ya estaba elegida
+  }
+  await overlay.locator('[data-area="estadistica"]').click();
+  await expect(overlay).toBeHidden({ timeout: 5000 });
 }
 
 async function maybeForcePassword(page, pw) {
@@ -88,7 +101,7 @@ async function clickNav(page, name, creds) {
     const late = await maybeForcePassword(page, PASS);
     if (late) creds = late;
     try {
-      await page.click(`.nav-item[data-page="${name}"]`, { timeout: 8000 });
+      await page.click(`.snav-card[data-page="${name}"]`, { timeout: 8000 });
       return creds;
     } catch (e) {
       if (i === 2) throw e;

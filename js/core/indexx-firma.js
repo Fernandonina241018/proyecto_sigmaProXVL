@@ -728,10 +728,7 @@ function firmaDownload() {
   if (!_firmaCurrentDoc) { showToast('No hay reporte cargado'); return; }
   try {
     var html = '<!DOCTYPE html>\n' + _firmaCurrentDoc.documentElement.outerHTML;
-    var blob = new Blob([html], { type: 'text/html;charset=utf-8' });
-    var url = URL.createObjectURL(blob);
     var a = document.createElement('a');
-    a.href = url;
 
     // Append _firmado suffix + signature count (e.g. _firmado_2de3) to track signing progress
     var ts = new Date().toISOString().slice(0,10);
@@ -744,6 +741,11 @@ function firmaDownload() {
       });
     }
     a.download = baseName + '_firmado_' + signedCount + 'de' + totalCount + '_' + ts + '.html';
+    // blob + revoke juntos: react-doctor exige revoke en ventana corta
+    // (el revoke ya existía al final; falso positivo por distancia).
+    var blob = new Blob([html], { type: 'text/html;charset=utf-8' });
+    var url = URL.createObjectURL(blob);
+    a.href = url;
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
