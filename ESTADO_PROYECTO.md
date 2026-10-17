@@ -4993,3 +4993,9 @@ Render inyectaba el `PORT` como variable de entorno; Fly.io también (`process.e
 - **UX:** confirm de borrado neutralizado ("la eliminación queda registrada en auditoría").
 - **Tests:** backend `sign-quota.test.js` +1 (scope all incluye ajenos y lápidas, orden desc); vitest `tests/firma-admin-band.test.js` (2: tab solo admin; render con dueño, cancelada y botones).
 - **Verificación:** `node --check` OK (4 archivos); backend 81/81; Vitest 485/485; tsc OK; Playwright 1/1.
+
+### 2026-10-16 (205): Cierre — control de reportes estadísticos en bandeja (Pasos 0-5)
+- **Commits:** `b6c44e2` (paginación >150), `ff34da8` (cupo 10 + aviso en modal), `f7a9c14` (expiración 90d de olvidadas), `59ecb84` (purga real semanal en schedule), `b587493` (vista admin "Todas" + baja de cualquier estado).
+- **Política vigente (acordada con el responsable):** cupo duro SOLO a abiertas (10; cancelación asistida con aviso en el mismo modal; las firmadas nunca se borran por conteo); expiración de abiertas a 90 días (soft-delete auditado `SIGN_SESSION_EXPIRE`); retención 182/90 que por fin corre (la purga real ahora sí se dispara por `schedule`); vista admin "Todas" con baja de cualquier estado (motivo obligatorio + auditoría). Nada de esto toca el banco de ensayos.
+- **Verificación final:** backend 81/81; Vitest 485/485; tsc OK; Playwright 1/1; `node --check` OK.
+- **Pendientes:** (1) revisar los logs de la próxima corrida programada de purga (domingo 03:00 UTC) para confirmar la purga real en producción; (2) reflejar las retenciones 182/90/90 en el SOP del área (cita de retención, CFR 21 Part 11); (3) los 3 avisos react-doctor restantes son preexistentes (nav `indexx-ui.js`, `ReporteManager.js`) o el loop secuencial deliberado (`server.js:950`, la cadena de auditoría exige orden).
