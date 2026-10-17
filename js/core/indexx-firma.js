@@ -1491,6 +1491,10 @@ async function firmaLoadBandeja(scope) {
     var active = t.dataset.scope === _firmaBandejaScope;
     t.classList.toggle('act', active);
     t.setAttribute('aria-selected', active ? 'true' : 'false');
+    if (active) {
+      // La píldora hace scroll horizontal si no caben las tabs: mantén la activa visible.
+      try { t.scrollIntoView({ block: 'nearest', inline: 'nearest' }); } catch (e) {}
+    }
   });
   var list = document.getElementById('firmaBandejaList');
   if (!list) return;
