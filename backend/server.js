@@ -945,6 +945,7 @@ async function _enforceSignQuota(req, signer, acceptReplace) {
         };
     }
     const cancelled = [];
+    // Secuencial a propósito: la cadena de auditoría exige orden de inserción.
     for (const v of victims) {
         const r = await db.deleteSignSession({
             id: v.id, username: signer.username, userRole: signer.role,
@@ -1348,14 +1349,16 @@ app.delete('/api/sign-sessions/:id', requireAuth, async (req, res) => {
 });
 
 // POST /api/admin/purge — purga por retención (solo admin).
-// Borra complete/rejected viejas (nunca pending/partial). dryRun lista.
-// Defaults por env RETENTION_DAYS (182) y REJECTED_DAYS (90).
+// Borra complete/rejected viejas (nunca pending/partial físicamente) y
+// CANCELA abiertas olvidadas > expireOpenDays (soft-delete auditado).
+// Defaults por env RETENTION_DAYS (182), REJECTED_DAYS (90), OPEN_EXPIRE_DAYS (90).
 app.post('/api/admin/purge', requireAuth, requireAdmin, async (req, res) => {
     try {
         const retentionDays = parseInt((req.body && req.body.retentionDays) ?? process.env.RETENTION_DAYS ?? 182);
         const rejectedDays = parseInt((req.body && req.body.rejectedDays) ?? process.env.REJECTED_DAYS ?? 90);
+        const expireOpenDays = parseInt((req.body && req.body.expireOpenDays) ?? process.env.OPEN_EXPIRE_DAYS ?? 90);
         const dryRun = !req.body || req.body.dryRun !== false;
-        const result = await db.purgeSignSessions({ retentionDays, rejectedDays, dryRun });
+        const result = await db.purgeSignSessions({ retentionDays, rejectedDays, expireOpenDays, dryRun });
         if (!dryRun && result.count > 0) {
             await db.logAuditEvent({
                 username: req.user.username, action: 'SIGN_SESSION_PURGE', success: 1,
@@ -1367,7 +1370,18 @@ app.post('/api/admin/purge', requireAuth, requireAdmin, async (req, res) => {
                 }),
             });
         }
-        res.json({ ok: true, ...result, retentionDays, rejectedDays });
+        if (!dryRun && result.expiredCount > 0) {
+            await db.logAuditEvent({
+                username: req.user.username, action: 'SIGN_SESSION_EXPIRE', success: 1,
+                ip: getClientIP(req), userAgent: req.headers['user-agent'],
+                module: 'FIRMA', details: JSON.stringify({
+                    count: result.expiredCount,
+                    ids: result.expired.map(function(d) { return d.id; }),
+                    expireOpenDays,
+                }),
+            });
+        }
+        res.json({ ok: true, ...result, retentionDays, rejectedDays, expireOpenDays });
     } catch (err) {
         console.error('Error purging sign sessions:', err);
         res.status(500).json({ error: 'Error en purga' });

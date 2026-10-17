@@ -4975,3 +4975,14 @@ Render inyectaba el `PORT` como variable de entorno; Fly.io también (`process.e
 - **Frontend:** el modal del módulo estadístico (`ReporteManager.js`) y el de la página Firmar (`indexx-firma.js`) manejan el 409 con el helper compartido `firmaQuotaWarnHtml`; toast final con ids cancelados.
 - **Tests:** `backend/tests/sign-quota.test.js` (5: conteo/orden, guarda sin allowOpen, cancelación con motivo, firmadas fuera del cupo, admin) + `tests/firma-quota.test.js` (2: helper y flujo 409→confirmar→retry con `acceptReplace`, happy-dom).
 - **Verificación:** `node --check` OK (4 archivos); backend 77/77; Vitest 483/483; tsc OK.
+
+### 2026-10-16 (202): Expiración de abiertas olvidadas a 90 días (Paso 3 plan reportes)
+- **Cambio:** la purga ahora **cancela** (soft-delete, `deleted_by='system'`, motivo "Expirada por antigüedad (sin firmar por más de N días)", evento `SIGN_SESSION_EXPIRE`) las sesiones abiertas sin actividad > `OPEN_EXPIRE_DAYS` (default 90; param `expireOpenDays`). **Nunca borrado físico**; el dryRun las lista aparte (`expiredCandidates`/`expiredCount`). Retenciones existentes (182/90) intactas; la purga sigue sin borrar pending/partial.
+- **Tests:** `backend/tests/purge-expire.test.js` (3: dryRun no toca y real cancela con motivo; reciente intacta; plazo configurable). Los tests de retención de `sign-sessions.test.js` pasan `expireOpenDays: 100000` para conservar su semántica (son de retención, no de expiración).
+- **Verificación:** `node --check` OK; backend 80/80.
+- Comentario menor: loop de cancelación del cupo documentado como secuencial a propósito (la cadena de auditoría exige orden).
+
+### 2026-10-16 (203): Purga real semanal activada (Paso 4 plan reportes)
+- **Bug verificado:** el step "Purga real" usaba `if: inputs.dry_run == 'false'`, imposible en evento `schedule` (inputs vacíos) → la purga real nunca corría y la retención prometida en la UI (182/90) no ocurría. Fix: `github.event_name == 'schedule' || inputs.dry_run == 'false'`.
+- **Decisión (usuario):** se mantienen 182 (firmadas) / 90 (rechazadas) / 90 (expiración de abiertas) — documentar en SOP.
+- **Verificación:** cambio declarativo; se valida en la próxima corrida programada (domingo 03:00 UTC) revisando logs; el dry-run sigue corriendo siempre.

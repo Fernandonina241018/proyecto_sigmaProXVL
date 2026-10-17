@@ -88,7 +88,8 @@ function _sendbackEligible(session, toRole, actor) {
 }
 
 // LOTE A — Purga por retención (compartido PG/local): solo complete/
-// rejected/deleted viejas por updated_at. Jamás toca pending/partial.
+// rejected/deleted viejas por updated_at. Jamás toca pending/partial
+// (la expiración de abiertas es aparte: _purgeOpenExpired, soft-delete).
 // Las lápidas purgan con el plazo de rechazadas.
 function _purgeEligible(sessions, retentionDays, rejectedDays, nowMs) {
     const rMs = Math.max(parseInt(retentionDays) || 182, 1) * 86400000;
@@ -98,6 +99,18 @@ function _purgeEligible(sessions, retentionDays, rejectedDays, nowMs) {
         if (s.status === 'complete') return age > rMs;
         if (s.status === 'rejected' || s.status === 'deleted') return age > jMs;
         return false;
+    });
+}
+
+// Expiración de abiertas olvidadas (plan control reportes): pending/partial
+// sin actividad por expireOpenDays → canceladas (borrado suave con motivo,
+// nunca físico). Se ejecuta en la purga, con el mismo gate de dryRun.
+function _purgeOpenExpired(sessions, expireOpenDays, nowMs) {
+    const xMs = Math.max(parseInt(expireOpenDays) || 90, 1) * 86400000;
+    return sessions.filter(function(s) {
+        if (s.status === 'complete' || s.status === 'rejected' || s.status === 'deleted') return false;
+        const age = nowMs - new Date(s.updated_at || s.created_at || 0).getTime();
+        return age > xMs;
     });
 }
 
@@ -698,22 +711,48 @@ function buildPostgres() {
         return _parseSignRow(updated[0]);
     }
 
-    async function purgeSignSessions({ retentionDays = 182, rejectedDays = 90, dryRun = true, limit = 200, _now } = {}) {
+    async function purgeSignSessions({ retentionDays = 182, rejectedDays = 90, expireOpenDays = 90, dryRun = true, limit = 200, _now } = {}) {
         limit = Math.min(Math.max(parseInt(limit) || 200, 1), 1000);
+        const nowMs = _now || Date.now();
         const rows = await all(
             `SELECT id, name, doc_hash, status, created_by, created_at, updated_at
              FROM report_signatures WHERE status IN ('complete','rejected','deleted')
              ORDER BY id ASC LIMIT $1`,
             [limit]
         );
-        const targets = _purgeEligible(rows, retentionDays, rejectedDays, _now || Date.now());
-        if (dryRun) return { dryRun: true, candidates: targets.map(_purgeMeta), count: targets.length };
+        const targets = _purgeEligible(rows, retentionDays, rejectedDays, nowMs);
+        const openRows = await all(
+            `SELECT id, name, doc_hash, status, created_by, created_at, updated_at
+             FROM report_signatures WHERE status NOT IN ('complete','rejected','deleted')
+             ORDER BY id ASC LIMIT $1`,
+            [limit]
+        );
+        const expired = _purgeOpenExpired(openRows, expireOpenDays, nowMs);
+        if (dryRun) {
+            return {
+                dryRun: true, candidates: targets.map(_purgeMeta), count: targets.length,
+                expiredCandidates: expired.map(_purgeMeta), expiredCount: expired.length,
+            };
+        }
         const deleted = [];
         for (const t of targets) {
             await run('DELETE FROM report_signatures WHERE id = $1', [t.id]);
             deleted.push(_purgeMeta(t));
         }
-        return { dryRun: false, deleted, count: deleted.length };
+        const expiredDone = [];
+        for (const x of expired) {
+            const reason = 'Expirada por antigüedad (sin firmar por más de ' + expireOpenDays + ' días)';
+            await run(
+                `UPDATE report_signatures SET status = 'deleted', version = version + 1,
+                 deleted_by = 'system', deleted_reason = $1,
+                 deleted_at = to_char(now(),'YYYY-MM-DD"T"HH24:MI:SS'),
+                 updated_at = to_char(now(),'YYYY-MM-DD"T"HH24:MI:SS')
+                 WHERE id = $2`,
+                [reason, x.id]
+            );
+            expiredDone.push(_purgeMeta(x));
+        }
+        return { dryRun: false, deleted, count: deleted.length, expired: expiredDone, expiredCount: expiredDone.length };
     }
 
     // Borrado suave (Opción A): solo rechazadas o completas, solo creador o
@@ -1449,20 +1488,44 @@ function buildLocalStore() {
         return out;
     }
 
-    // Mirror local de purgeSignSessions
-    async function purgeSignSessions({ retentionDays = 182, rejectedDays = 90, dryRun = true, limit = 200, _now } = {}) {
+    // Mirror local de purgeSignSessions (retención + expiración de abiertas)
+    async function purgeSignSessions({ retentionDays = 182, rejectedDays = 90, expireOpenDays = 90, dryRun = true, limit = 200, _now } = {}) {
         limit = Math.min(Math.max(parseInt(limit) || 200, 1), 1000);
+        var nowMs = _now || Date.now();
         var cands = state.report_signatures
             .filter(function(s) { return s.status === 'complete' || s.status === 'rejected' || s.status === 'deleted'; })
             .sort(function(a, b) { return a.id - b.id; })
             .slice(0, limit);
-        var targets = _purgeEligible(cands, retentionDays, rejectedDays, _now || Date.now());
-        if (dryRun) return { dryRun: true, candidates: targets.map(_purgeMeta), count: targets.length };
+        var targets = _purgeEligible(cands, retentionDays, rejectedDays, nowMs);
+        var openCands = state.report_signatures
+            .filter(function(s) { return s.status !== 'complete' && s.status !== 'rejected' && s.status !== 'deleted'; })
+            .sort(function(a, b) { return a.id - b.id; })
+            .slice(0, limit);
+        var expired = _purgeOpenExpired(openCands, expireOpenDays, nowMs);
+        if (dryRun) {
+            return {
+                dryRun: true, candidates: targets.map(_purgeMeta), count: targets.length,
+                expiredCandidates: expired.map(_purgeMeta), expiredCount: expired.length,
+            };
+        }
         var ids = {};
         targets.forEach(function(t) { ids[t.id] = true; });
         state.report_signatures = state.report_signatures.filter(function(s) { return !ids[s.id]; });
+        var reason = 'Expirada por antigüedad (sin firmar por más de ' + expireOpenDays + ' días)';
+        var expiredDone = [];
+        expired.forEach(function(x) {
+            var s = state.report_signatures.find(function(y) { return y.id === x.id; });
+            if (!s) return;
+            s.status = 'deleted';
+            s.version += 1;
+            s.deleted_by = 'system';
+            s.deleted_reason = reason;
+            s.deleted_at = new Date().toISOString();
+            s.updated_at = new Date().toISOString();
+            expiredDone.push(_purgeMeta(s));
+        });
         save();
-        return { dryRun: false, deleted: targets.map(_purgeMeta), count: targets.length };
+        return { dryRun: false, deleted: targets.map(_purgeMeta), count: targets.length, expired: expiredDone, expiredCount: expiredDone.length };
     }
 
     // Mirror local del cupo en firma (plan control reportes)
