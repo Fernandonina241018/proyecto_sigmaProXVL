@@ -4961,3 +4961,10 @@ Render inyectaba el `PORT` como variable de entorno; Fly.io también (`process.e
 - **Blobs:** `URL.revokeObjectURL` faltante en galería ZIP (`js/core/indexx-viz.js:1443`) y en la rama de popup bloqueado del PDF (`js/managers/ReporteManager.js:2045`); `downloadBlob` al patrón `var url` (el revoke ya existía).
 - **react-doctor:** el aviso en `indexx-firma.js:732` era falso positivo (el revoke estaba en la 750; la regla exige variable con nombre y ventana corta) → blob+url+revoke juntos; regla silenciada en los 3 archivos tocados.
 - **Verificación:** Vitest 481/481, tsc OK, `node -c` OK, Playwright 1/1 (dos pasadas). Backend sin cambios.
+
+### 2026-10-16 (200): Bandeja de firmas — paginación real >150 (Paso 1 plan reportes)
+- **Cambio:** nuevo `backend/sign-tray.js` (puro): `collectSignTray` pagina en lotes de 200 hasta juntar `offset+limit` candidatos (listado) o agotar filas (conteo exacto del badge). `server.js` GET `/api/sign-sessions` abandona la ventana fija `limit*3` que ocultaba pendientes después de la posición 150 y subcontaba el badge.
+- **Contrato JSON intacto:** `{ok, sessions, limit, offset}` / `{ok, count}`.
+- **Tests:** `backend/tests/sign-tray.test.js` (5): candidato más allá de la ventana vieja, conteo exacto, bandeja normal = 1 consulta, vacía, offset fuera de rango.
+- **Verificación:** `node --check` OK en los 3 archivos; backend 72/72 (67 + 5 nuevos); sin cambios de frontend.
+- **Nota:** el conteo escanea todas las páginas (O(n)); queda `shortcut:` en el módulo con el upgrade (filtro en SQL) si la bandeja crece a miles.

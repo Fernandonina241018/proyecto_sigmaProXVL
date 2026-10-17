@@ -41,6 +41,7 @@ const QRCode  = require('qrcode');
 const db      = require('./database');
 const { extractEmbeddedSignatures } = require('./sign-html'); // FASE 3
 const { signStampTZ } = require('./sign-stamp');
+const { collectSignTray } = require('./sign-tray');
 // tzOffset: minutos de Date.getTimezoneOffset() del firmante (UTC-local).
 function _signFecha(req) { return signStampTZ(new Date(), req.body && req.body.tzOffset); }
 
@@ -1022,14 +1023,16 @@ app.get('/api/sign-sessions', requireAuth, async (req, res) => {
         const offset = parseInt(req.query.offset) || 0;
         const me = { username: req.user.username, role: req.user.role };
         let sessions;
+        const isCand = (s) => _isSignCandidate(s, me);
         if (scope === 'mine') {
             sessions = await db.listSignSessions({ scope: 'mine', username: me.username, limit, offset });
+            if (req.query.count === '1') return res.json({ ok: true, count: sessions.length });
         } else {
-            const cands = await db.listSignSessions({ scope: 'pending', limit: limit * 3, offset: 0 });
-            sessions = cands.filter((s) => _isSignCandidate(s, me)).slice(offset, offset + limit);
-        }
-        if (req.query.count === '1') {
-            return res.json({ ok: true, count: sessions.length });
+            const fetchPage = (lim, off) => db.listSignSessions({ scope: 'pending', limit: lim, offset: off });
+            if (req.query.count === '1') {
+                return res.json({ ok: true, count: await collectSignTray({ fetchPage, isCandidate: isCand, scope: 'count' }) });
+            }
+            sessions = await collectSignTray({ fetchPage, isCandidate: isCand, offset, limit });
         }
         res.json({ ok: true, sessions: sessions.map(_stripSignSession), limit, offset });
     } catch (err) {
