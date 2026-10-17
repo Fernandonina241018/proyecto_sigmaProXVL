@@ -1147,6 +1147,7 @@ function vizSaveToGallery() {
   var sheetName = (typeof trabajoSheets !== 'undefined' && trabajoSheets[sheetIdx]) ? trabajoSheets[sheetIdx].name : '';
   _V.gallery.unshift({ id: id, title: title, type: _V.type || '', vars: structuredClone(_V.vals), palette: _V.palette, thumb: thumb, createdAt: Date.now(), sourceFile: datosCurrentFileName || '', sourceSheetIndex: sheetIdx, sourceSheetName: sheetName });
   if (_V.gallery.length > 100) _V.gallery = _V.gallery.slice(0, 100);
+  _V.gallery = _V_galleryDedup(_V.gallery);
   vizRefreshGallery();
   _V_saveGallery();
   showToast('✓ Guardado en galería');
@@ -1342,14 +1343,33 @@ function _V_saveGallery() {
   }
 }
 
+function _V_gallerySig(g) {
+  return JSON.stringify({ t: g.type, v: g.vars, p: g.palette, s: g.sourceSheetName || '' });
+}
+// Elimina remanentes repetidos (mismo tipo/columnas/hoja/paleta) quedando la copia más reciente.
+// techo: si dos hojas distintas tienen una columna con el mismo nombre, colapsan a una; aceptable.
+function _V_galleryDedup(arr) {
+  var seen = {}, out = [];
+  for (var i = 0; i < arr.length; i++) {
+    var g = arr[i];
+    if (!g) continue;
+    var sig = _V_gallerySig(g);
+    if (seen[sig]) continue;
+    seen[sig] = true;
+    out.push(g);
+  }
+  return out;
+}
+
 function _V_loadGallery() {
   try {
     var saved = _V_storageScope().sGet('sigmaPro_vizGallery');
     if (saved) {
       var parsed = JSON.parse(saved);
       if (Array.isArray(parsed)) {
-        _V.gallery = parsed.slice(0, 100);
-        var dirty = false;
+        var loaded = parsed.slice(0, 100);
+        _V.gallery = _V_galleryDedup(loaded);
+        var dirty = _V.gallery.length !== loaded.length;
         _V.gallery.forEach(function(g) {
           if (g.thumb && g.thumb.indexOf('image/png') >= 0) { delete g.thumb; dirty = true; }
         });
@@ -1624,10 +1644,12 @@ function _V_batchGenerate(type, colX, selectedCols) {
 
     var title = _V_autoTitle();
     var id = Date.now() + count;
-    _V.gallery.unshift({ id: id, title: title, type: savedType, vars: savedVars, palette: _V.palette, thumb: thumb });
+    var sheetIdx = typeof trabajoActiveSheetIndex !== 'undefined' ? trabajoActiveSheetIndex : -1;
+    var sheetName = (typeof trabajoSheets !== 'undefined' && trabajoSheets[sheetIdx]) ? trabajoSheets[sheetIdx].name : '';
+    _V.gallery.unshift({ id: id, title: title, type: savedType, vars: savedVars, palette: _V.palette, thumb: thumb, createdAt: Date.now(), sourceFile: datosCurrentFileName || '', sourceSheetIndex: sheetIdx, sourceSheetName: sheetName });
     count++;
   });
-
+  _V.gallery = _V_galleryDedup(_V.gallery);
   _V.opts.anim = oldAnim;
 
   if (_V.gallery.length > 0) {
