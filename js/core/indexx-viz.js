@@ -1562,87 +1562,59 @@ function showBatchGraphModal() {
   var colOpts = '<option value="">— Seleccionar —</option>';
   sheet.headers.forEach(function(c) { colOpts += '<option value="' + c.replace(/"/g, '&quot;') + '">' + escapeHtml(c) + '</option>'; });
   var typeItems = [
-    {v:'histogram', l:'Histograma'},
-    {v:'bar', l:'Barras'},
-    {v:'line', l:'Líneas'},
-    {v:'area', l:'Área'},
-    {v:'scatter', l:'Dispersión'},
-    {v:'control', l:'Control'},
-    {v:'dotplot', l:'Puntos'}
+    {v:'histogram', l:'Histograma', svg:'<path d="M3 20V12h5v8M8 20V5h6v15M14 20V9h6v11"/>'},
+    {v:'bar', l:'Barras', svg:'<rect x="3" y="22" width="8" height="12" rx="1.5"/><rect x="14" y="14" width="8" height="20" rx="1.5"/><rect x="25" y="8" width="8" height="26" rx="1.5"/><rect x="36" y="18" width="8" height="16" rx="1.5"/>'},
+    {v:'line', l:'Líneas', svg:'<polyline points="2,28 10,18 20,23 30,10 40,15 47,9" stroke-linecap="round" stroke-linejoin="round"/>'},
+    {v:'area', l:'Área', svg:'<path d="M2,28 L10,18 L20,23 L30,10 L40,15 L47,9 L47,34 L2,34Z"/><polyline points="2,28 10,18 20,23 30,10 40,15 47,9" stroke-linecap="round" stroke-linejoin="round"/>'},
+    {v:'scatter', l:'Dispersión', svg:'<circle cx="5" cy="30" r="2.5"/><circle cx="9" cy="24" r="2.5"/><circle cx="14" cy="28" r="2.5"/><circle cx="18" cy="18" r="2.5"/><circle cx="22" cy="25" r="2.5"/><circle cx="26" cy="14" r="2.5"/>'},
+    {v:'control', l:'Control', svg:'<polyline points="2,28 8,22 14,26 20,14 26,20 32,8 38,16 44,12" stroke-linecap="round" stroke-linejoin="round"/><line x1="2" y1="28" x2="46" y2="28" stroke-dasharray="4,3"/>'},
+    {v:'dotplot', l:'Puntos', svg:'<circle cx="5" cy="26" r="2.2"/><circle cx="8" cy="20" r="2.2"/><circle cx="12" cy="24" r="2.2"/><circle cx="15" cy="14" r="2.2"/><circle cx="19" cy="22" r="2.2"/><circle cx="22" cy="10" r="2.2"/><circle cx="26" cy="19" r="2.2"/><circle cx="30" cy="8" r="2.2"/><circle cx="34" cy="17" r="2.2"/><circle cx="39" cy="6" r="2.2"/><circle cx="42" cy="14" r="2.2"/><circle cx="46" cy="11" r="2.2"/>'}
   ];
   var typeHtml = typeItems.map(function(t) {
-    return '<label class="vizb-type"><input type="radio" name="vizbType" value="'+t.v+'"'+(t.v==='histogram'?' checked':'')+'><span class="vizb-dot"></span>'+escapeHtml(t.l)+'</label>';
+    return '<div class="type">' +
+      '<input type="radio" name="type" id="ty-'+t.v+'" value="'+t.v+'"'+(t.v==='histogram'?' checked':'')+'>' +
+      '<label for="ty-'+t.v+'"><svg viewBox="0 0 34 22" aria-hidden="true" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">'+t.svg+'</svg>'+escapeHtml(t.l)+'</label>' +
+      '</div>';
   }).join('');
   modal.innerHTML = '' +
-  '<style>' +
-    '.vizb-head{display:flex;justify-content:space-between;align-items:flex-start;padding:20px 22px 4px}' +
-    '.vizb-head h2{margin:0;font-size:17px;font-weight:600}' +
-    '.vizb-head p{margin:4px 0 0;font-size:13px;color:var(--text-muted)}' +
-    '.vizb-x{background:none;border:0;color:var(--text-muted);font-size:20px;line-height:1;padding:4px 8px;border-radius:6px}' +
-    '.vizb-x:hover{background:var(--panel-2);color:var(--text)}' +
-    '.vizb-body{padding:16px 22px;overflow:auto;display:flex;flex-direction:column;gap:20px}' +
-    '.vizb-sec-title{font-size:13px;font-weight:600;margin:0 0 8px;color:var(--text)}' +
-    '.vizb-types{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}' +
-    '.vizb-type{display:flex;align-items:center;gap:8px;padding:10px;background:var(--panel-2);border:1px solid var(--line);border-radius:var(--r-ctl);cursor:pointer;font-size:13px;color:var(--text-muted)}' +
-    '.vizb-type input{opacity:0;position:absolute}' +
-    '.vizb-type input:checked+.vizb-dot{border-color:var(--accent);background:var(--accent)}' +
-    '.vizb-type:hover{color:var(--text)}' +
-    '.vizb-dot{width:16px;height:16px;border-radius:50%;border:1.5px solid #4a5068;background:var(--panel-2)}' +
-    '.vizb-col-tools{display:flex;gap:8px;align-items:center;margin-bottom:6px}' +
-    '.vizb-search{flex:1;background:var(--panel-2);border:1px solid var(--line);border-radius:var(--r-ctl);padding:8px 12px;color:var(--text);font:inherit;font-size:13px}' +
-    '.vizb-selall{margin-bottom:8px}' +
-    '.vizb-selall label{display:flex;align-items:center;gap:10px;padding:9px 12px;border:1px dashed #3a4058;border-radius:var(--r-ctl);font-size:13.5px;font-weight:600;cursor:pointer;user-select:none}' +
-    '.vizb-selall label:hover{background:var(--panel-2)}' +
-    '.vizb-box{width:16px;height:16px;border-radius:4px;border:1.5px solid #4a5068;display:grid;place-items:center;flex:none}' +
-    '.vizb-selall input:checked+.vizb-box,.vizb-selall input:indeterminate+.vizb-box{background:var(--accent);border-color:var(--accent)}' +
-    '.vizb-chips{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px;max-height:210px;overflow:auto}' +
-    '.vizb-chip{position:relative}' +
-    '.vizb-chip label{display:flex;align-items:center;gap:8px;padding:8px 10px;border:1px solid var(--line);border-radius:var(--r-chip);background:var(--panel-2);font-size:13px;cursor:pointer;user-select:none}' +
-    '.vizb-chip label:hover{color:var(--text)}' +
-    '.vizb-chip input{opacity:0;position:absolute}' +
-    '.vizb-chip input:checked+label{border-color:var(--accent);background:rgba(124,106,242,.12)}' +
-    '.vizb-hint{font-size:12.5px;color:var(--text-muted);margin:8px 0 0;min-height:1.2em}' +
-    '.vizb-hint.warn{color:var(--danger)}' +
-    '.vizb-foot{display:flex;justify-content:flex-end;gap:10px;padding:14px 22px 20px;border-top:1px solid var(--line)}' +
-  '</style>' +
-  '<div class="modal-box vizb-modal">' +
-    '<div class="vizb-head">' +
-      '<div>' +
-        '<h2>🔁 Generar múltiples gráficos</h2>' +
-        '<p>Se crea un gráfico por cada columna seleccionada.</p>' +
+  '<div class="backdrop" id="vizbBackdrop">' +
+    '<div class="modal" role="dialog" aria-modal="true" aria-labelledby="vizbT">' +
+      '<div class="head">' +
+        '<div>' +
+          '<h2 id="vizbT">🔁 Generar múltiples gráficos</h2>' +
+          '<p>Se crea un gráfico por cada columna seleccionada.</p>' +
+        '</div>' +
+        '<button class="x" id="vizbClose" aria-label="Cerrar">×</button>' +
       '</div>' +
-      '<button class="vizb-x" id="vizbClose" aria-label="Cerrar">×</button>' +
-    '</div>' +
-    '<div class="vizb-body">' +
-      '<fieldset style="border:0;padding:0;margin:0">' +
-        '<legend class="vizb-sec-title">Tipo de gráfico</legend>' +
-        '<div class="vizb-types" id="vizbTypes">'+typeHtml+'</div>' +
-      '</fieldset>' +
-      '<div style="display:flex;gap:8px;align-items:flex-start;margin-top:4px">' +
-        '<div style="flex:1">' +
+      '<div class="body">' +
+        '<fieldset style="border:0;padding:0;margin:0">' +
+          '<legend class="sec-title" style="padding:0">Tipo de gráfico</legend>' +
+          '<div class="types" id="vizbTypes">'+typeHtml+'</div>' +
+        '</fieldset>' +
+        '<div>' +
+          '<p class="sec-title">Columnas</p>' +
+          '<div class="col-tools">' +
+            '<input class="search" id="vizbQ" type="search" placeholder="Buscar columna" aria-label="Buscar columna">' +
+          '</div>' +
+          '<div class="selall">' +
+            '<input type="checkbox" id="vizbSelall">' +
+            '<label for="vizbSelall"><span class="box"><svg viewBox="0 0 10 10"><path class="tick" d="M1.5 5.2l2.4 2.4L8.5 2.5"/><path class="dash" d="M2 5h6"/></svg></span><span id="vizbSelallText">Seleccionar todas</span></label>' +
+          '</div>' +
+          '<div class="chips" id="vizbChips"></div>' +
+          '<p class="hint" id="vizbHint"></p>' +
+        '</div>' +
+        '<div id="vizbXRow" style="display:none;margin-top:10px">' +
           '<span style="font-size:11px;color:var(--text-muted);white-space:nowrap;display:block;margin-bottom:2px">Eje X</span>' +
           '<select id="vizbColX" style="width:100%;background:var(--panel-2);border:1px solid var(--line);border-radius:8px;color:var(--text);padding:6px 8px;font:inherit">'+colOpts+'</select>' +
         '</div>' +
-        '<div style="display:flex;align-items:center;gap:6px;font-size:11px;color:var(--text-muted);cursor:pointer">' +
+        '<div style="display:flex;align-items:center;gap:6px;font-size:11px;color:var(--text-muted);cursor:pointer;margin-top:4px">' +
           '<input type="checkbox" id="vizbAutoIdx"'+autoChecked+'> <span style="user-select:none">🔢 Índice automático</span>' +
         '</div>' +
       '</div>' +
-      '<div>' +
-        '<p class="vizb-sec-title">Columnas</p>' +
-        '<div class="vizb-col-tools">' +
-          '<input class="vizb-search" id="vizbQ" type="search" placeholder="Buscar columna">' +
-        '</div>' +
-        '<div class="vizb-selall">' +
-          '<input type="checkbox" id="vizbSelall">'+
-          '<label for="vizbSelall"><span class="vizb-box"></span><span id="vizbSelallText">Seleccionar todas</span></label>' +
-        '</div>' +
-        '<div class="vizb-chips" id="vizbChips"></div>' +
-        '<p class="vizb-hint" id="vizbHint"></p>' +
+      '<div class="foot">' +
+        '<button class="btn" id="vizbCancel">Cancelar</button>' +
+        '<button class="btn primary" id="vizbGo" disabled>Generar</button>' +
       '</div>' +
-    '</div>' +
-    '<div class="vizb-foot">' +
-      '<button class="btn btn-secondary" id="vizbCancel">Cancelar</button>' +
-      '<button class="btn btn-primary" id="vizbGo" disabled>Generar</button>' +
     '</div>' +
   '</div>';
   document.body.appendChild(modal);
@@ -1657,6 +1629,7 @@ function showBatchGraphModal() {
   var elGo = modal.querySelector('#vizbGo');
   var elX = modal.querySelector('#vizbColX');
   var elAuto = modal.querySelector('#vizbAutoIdx');
+  var elTypes = modal.querySelector('#vizbTypes');
 
   function visibleHeaders() {
     var q = (elQ.value || '').toLowerCase();
@@ -1667,20 +1640,21 @@ function showBatchGraphModal() {
     var hs = visibleHeaders();
     elChips.innerHTML = hs.length ? hs.map(function(col) {
       var sid = 'vizbChk-' + String(col).replace(/[^a-zA-Z0-9_-]/g, '_');
-      return '<div class="vizb-chip">' +
+      return '<div class="chip">' +
         '<input type="checkbox" id="'+sid+'" data-col="'+escapeHtml(col)+'"'+(selected.has(col)?' checked':'')+'>' +
-        '<label for="'+sid+'">'+escapeHtml(col)+'</label>' +
+        '<label for="'+sid+'"><span class="box"><svg viewBox="0 0 10 10"><path d="M1.5 5.2l2.4 2.4L8.5 2.5"/></svg></span>' +
+        '<span class="name">'+escapeHtml(col)+'</span><span class="kind">'+escapeHtml(col)+'</span></label>' +
         '</div>';
-    }).join('') : '<p class="vizb-hint" style="grid-column:1/-1">Ninguna columna coincide.</p>';
+    }).join('') : '<p class="hint" style="grid-column:1/-1">Ninguna columna coincide.</p>';
   }
 
   function update() {
     var n = selected.size;
     elGo.disabled = n === 0;
     elGo.textContent = n === 0 ? 'Generar' : 'Generar '+n+(n===1?' gráfico':' gráficos');
-    elHint.className = 'vizb-hint';
+    elHint.className = 'hint';
     if (n === 0) elHint.textContent = 'Selecciona al menos una columna.';
-    else if (n > MAX) { elHint.textContent = 'Vas a generar '+n+' gráficos; puede tardar.'; elHint.className = 'vizb-hint warn'; }
+    else if (n > MAX) { elHint.textContent = 'Vas a generar '+n+' gráficos; puede tardar.'; elHint.className = 'hint warn'; }
     else elHint.textContent = n+' columna'+(n!==1?'s':'')+' seleccionada'+(n!==1?'s':'');
     var hs = visibleHeaders();
     var sel = hs.filter(function(c){ return selected.has(c); }).length;
@@ -1690,21 +1664,24 @@ function showBatchGraphModal() {
     elSelText.textContent = elQ.value ? 'Seleccionar los '+hs.length+' resultados' : 'Seleccionar todas';
   }
 
-  var tr0 = modal.querySelector('.vizb-types input:checked');
-  var hideX = tr0 ? (tr0.value === 'histogram' || tr0.value === 'dotplot') : true;
-  elX.parentElement.style.display = hideX ? 'none' : '';
+  var hideX = true;
+  // Event delegation en el contenedor de tipos (evita querySelectorAll().forEach
+  // sobre elementos creados vía innerHTML, que falla en algunos entornos vm).
+  elTypes.addEventListener('change', function(e) {
+    if (e.target.tagName === 'INPUT' && e.target.name === 'type') {
+      var hide = e.target.value === 'histogram' || e.target.value === 'dotplot';
+      if (elX && elX.parentElement) elX.parentElement.style.display = hide ? 'none' : '';
+      if (hide) { elAuto.checked = false; _V.vals.x = ''; }
+      renderChips(); update();
+    }
+  });
+  var rChecked = elTypes.querySelector('input:checked');
+  if (rChecked) hideX = (rChecked.value === 'histogram' || rChecked.value === 'dotplot');
+  if (elX && elX.parentElement) elX.parentElement.style.display = hideX ? 'none' : '';
 
   renderChips();
   update();
 
-  modal.querySelectorAll('.vizb-types input').forEach(function(r) {
-    r.addEventListener('change', function() {
-      var hide = r.value === 'histogram' || r.value === 'dotplot';
-      elX.parentElement.style.display = hide ? 'none' : '';
-      if (hide) { elAuto.checked = false; _V.vals.x = ''; }
-      renderChips(); update();
-    });
-  });
   elQ.addEventListener('input', function() { renderChips(); update(); });
   elSel.addEventListener('change', function() {
     var hs = visibleHeaders();
@@ -1726,7 +1703,7 @@ function showBatchGraphModal() {
   modal.querySelector('#vizbCancel').addEventListener('click', function() { modal.remove(); });
   modal.querySelector('#vizbClose').addEventListener('click', function() { modal.remove(); });
   modal.querySelector('#vizbGo').addEventListener('click', function() {
-    var tr = modal.querySelector('.vizb-types input:checked');
+    var tr = elTypes.querySelector('input:checked');
     var type = tr ? tr.value : 'histogram';
     var autoIdx = elAuto.checked;
     var colX = autoIdx ? '__index__' : elX.value;
@@ -1740,7 +1717,6 @@ function showBatchGraphModal() {
   });
   modal.addEventListener('click', function(e) { if (e.target === modal) modal.remove(); });
 }
-
 function _V_batchGenerate(type, colX, selectedCols) {
   var mappedType = _V_TYPE_MAP[type] || 'barras';
   var count = 0;

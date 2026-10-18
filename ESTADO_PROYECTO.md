@@ -5017,9 +5017,10 @@ Render inyectaba el `PORT` como variable de entorno; Fly.io también (`process.e
 - **Verificación:** `node --check` OK (3 archivos); Vitest 491/491; backend 81/81; tsc OK; Playwright 1/1.
 - **Shortcut:** si dos hojas distintas del mismo archivo se llaman igual, se consideran la misma hoja (aceptable; subir a comparación por índice de hoja únicamente si hace falta).
 
-### 2026-10-17 (209): Modal "Generar múltiples gráficos" — select-all y chips
+### 2026-10-17 (209): Modal "Generar múltiples gráficos" — select-all y chips (diseño exacto)
 - **Problema:** al generar varios gráficos había que seleccionar cada columna una a una en el modal, sin forma de marcar todas de golpe.
-- **Fix:** se reescribe `showBatchGraphModal` en `js/core/indexx-viz.js` con chips por columna, buscador, botones "Todas"/"Ninguna" (maestro con estado indeterminado), tipos de gráfico como botones con icono, eje X + índice automático ocultables para histograma/puntos, y botón Generar deshabilitado si 0 columnas (aviso si >12). Estilos embebidos en el modal (`vizb-*`), sin tocar CSS global.
-- **Tests:** `tests/viz-batch-modal.test.js` (8: render, select-all, indeterminado al desmarcar uno, desmarcar todo, filtro busca + select-all sobre visibles, _V_batchGenerate con columnas, eje X oculto en histograma, eje X visible en scatter).
+- **Fix:** se reescribe `showBatchGraphModal` en `js/core/indexx-viz.js` usando exactamente el diseño pasado (clases `.backdrop`, `.modal`, `.types`, `.type`, `.chip`, `.selall`, `.chips`, `.foot`, `.btn`): chips por columna con buscador, botón maestro "Seleccionar todas" con estado indeterminado, tipos de gráfico como botones con icono SVG, eje X e índice automático ocultos por defecto y mostrados solo cuando el tipo lo requiere, botón Generar deshabilitado si 0 columnas (aviso si >12).
+- **Problema técnico:** `addEventListener` sobre elementos obtenidos con `querySelectorAll().forEach()` falla en el contexto vm de vitest para elementos creados vía `innerHTML`. Se usó event delegation en el contenedor padre (`#vizbTypes.addEventListener('change', ...)`) y `elX` puede ser null en vm, se agregó guarda `if (elX && elX.parentElement)`.
+- **Tests:** `tests/viz-batch-modal.test.js` (8: render, select-all marca todas, indeterminado al desmarcar uno, desmarcar todo, filtro busca + select-all sobre visibles, _V_batchGenerate con columnas, eje X oculto en histograma, tipo scatter cambia y muestra eje X).
 - **Verificación:** `node --check` OK (2 archivos); Vitest 495/495; backend 81/81; tsc OK; Playwright 1/1.
 - **Shortcut:** todas las columnas son seleccionables (el backend ya filtra las que no tienen datos); no se detecta tipo numérico en el frontend para evitar complejidad innecesaria.

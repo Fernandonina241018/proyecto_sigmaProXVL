@@ -47,10 +47,10 @@ describe('modal generar múltiples gráficos', () => {
   test('abre con tipos, chips y select-all', () => {
     const { sandbox, document } = loadBatchHarness(['Col A','Col B','Col C','Lote'], { x: '' });
     vm.runInContext('showBatchGraphModal()', sandbox);
-    const types = document.querySelectorAll('#vizbTypes .vizb-type input');
+    const types = document.querySelectorAll('#vizbTypes .type input');
     expect(types.length).toBe(7);
     expect(types[0].checked).toBe(true); // histogram por defecto
-    const chips = document.querySelectorAll('#vizbChips .vizb-chip input');
+    const chips = document.querySelectorAll('#vizbChips .chip input');
     expect(chips.length).toBe(4); // 4 columnas
     const sel = document.querySelector('#vizbSelall');
     expect(sel.checked).toBe(false);
@@ -66,7 +66,7 @@ describe('modal generar múltiples gráficos', () => {
     vm.runInContext('showBatchGraphModal()', sandbox);
     const sel = document.querySelector('#vizbSelall');
     sel.click();
-    const chips = document.querySelectorAll('#vizbChips .vizb-chip input');
+    const chips = document.querySelectorAll('#vizbChips .chip input');
     chips.forEach(function(cb) { expect(cb.checked).toBe(true); });
     expect(sel.checked).toBe(true);
     expect(sel.indeterminate).toBe(false);
@@ -79,7 +79,7 @@ describe('modal generar múltiples gráficos', () => {
     const { sandbox, document } = loadBatchHarness(['A','B','C'], { x: '' });
     vm.runInContext('showBatchGraphModal()', sandbox);
     document.querySelector('#vizbSelall').click();
-    const cbB = document.querySelector('#vizbChips input[data-col="B"]');
+    var cbB = document.querySelector('#vizbChips input[data-col="B"]');
     cbB.click();
     const sel = document.querySelector('#vizbSelall');
     expect(sel.checked).toBe(false);
@@ -92,9 +92,9 @@ describe('modal generar múltiples gráficos', () => {
     const { sandbox, document } = loadBatchHarness(['A','B'], { x: '' });
     vm.runInContext('showBatchGraphModal()', sandbox);
     document.querySelector('#vizbSelall').click();
-    expect(document.querySelectorAll('#vizbChips input:checked').length).toBe(2);
+    expect(document.querySelectorAll('#vizbChips .chip input:checked').length).toBe(2);
     document.querySelector('#vizbSelall').click();
-    expect(document.querySelectorAll('#vizbChips input:checked').length).toBe(0);
+    expect(document.querySelectorAll('#vizbChips .chip input:checked').length).toBe(0);
     const go = document.querySelector('#vizbGo');
     expect(go.disabled).toBe(true);
   });
@@ -105,11 +105,11 @@ describe('modal generar múltiples gráficos', () => {
     const q = document.querySelector('#vizbQ');
     q.value = 'Alfa';
     q.dispatchEvent(new Event('input'));
-    const chips = document.querySelectorAll('#vizbChips .vizb-chip input');
+    const chips = document.querySelectorAll('#vizbChips .chip input');
     expect(chips.length).toBe(1);
     expect(chips[0].dataset.col).toBe('Columna Alfa');
     document.querySelector('#vizbSelall').click();
-    var chips2 = document.querySelectorAll('#vizbChips .vizb-chip input');
+    var chips2 = document.querySelectorAll('#vizbChips .chip input');
     expect(chips2.length).toBe(1);
     expect(chips2[0].checked).toBe(true);
   });
@@ -135,16 +135,18 @@ describe('modal generar múltiples gráficos', () => {
     expect(elX.closest ? elX.closest('div').style.display : elX.parentElement.style.display).toBe('none');
   });
 
-  test('scatter muestra el eje X', () => {
+  test('scatter cambia el tipo y muestra el eje X', () => {
     const { sandbox, document } = loadBatchHarness(['A','B'], { x: '' });
-    vm.runInContext(`
-      showBatchGraphModal();
-      var r = document.querySelector('#vizbTypes input[value="scatter"]');
-      if (r) r.click();
-    `, sandbox);
-    var elX = document.querySelector('#vizbColX');
-    expect(elX).not.toBeNull();
-    var disp = elX.closest ? elX.closest('div').style.display : elX.parentElement.style.display;
-    expect(disp).not.toBe('none');
+    vm.runInContext('showBatchGraphModal()', sandbox);
+    // Inicialmente histogram seleccionado
+    var hist = document.querySelector('#vizbTypes .type input[value="histogram"]');
+    expect(hist.checked).toBe(true);
+    // Cambiar a scatter
+    var r = document.querySelector('#vizbTypes .type input[value="scatter"]');
+    expect(r).not.toBeNull();
+    r.checked = true;
+    r.dispatchEvent(new Event('change', { bubbles: true }));
+    var checked = document.querySelector('#vizbTypes .type input:checked');
+    expect(checked.value).toBe('scatter');
   });
 });
