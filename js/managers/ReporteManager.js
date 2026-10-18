@@ -2708,8 +2708,11 @@ tr:hover td{background:#f7faff}
         '<div id="rep-graf-list">';
       allGraphs.forEach(function(g) {
         var isChecked = selected.indexOf(g.id) >= 0;
-        html += '<label style="display:flex;align-items:center;gap:10px;padding:8px 10px;border-radius:6px;cursor:pointer;transition:background .1s;margin-bottom:4px" onmouseenter="this.style.background=\'var(--item-hover)\'" onmouseleave="this.style.background=\'\'">' +
-          '<input type="checkbox" data-graf-id="' + g.id + '" ' + (isChecked ? 'checked' : '') + ' onchange="ReporteManager.toggleGraficoReporte(' + g.id + ',this.checked)" style="width:16px;height:16px;flex-shrink:0">' +
+        var holdStyle = g.hold ? 'opacity:0.5;cursor:not-allowed' : '';
+        var holdEnter = g.hold ? '' : "this.style.background='var(--item-hover)'";
+        var holdLeave = g.hold ? '' : "this.style.background=''";
+        html += '<label style="display:flex;align-items:center;gap:10px;padding:8px 10px;border-radius:6px;' + (g.hold ? 'opacity:0.5' : '') + ';margin-bottom:4px" onmouseenter="' + holdEnter + '" onmouseleave="' + holdLeave + '">' +
+          '<input type="checkbox" data-graf-id="' + g.id + '" ' + (isChecked ? 'checked' : '') + (g.hold ? ' disabled' : '') + ' onchange="ReporteManager.toggleGraficoReporte(' + g.id + ',this.checked)" style="width:16px;height:16px;flex-shrink:0;' + holdStyle + '">' +
           '<img src="' + g.imagen + '" alt="" style="width:50px;height:30px;object-fit:cover;border-radius:4px;flex-shrink:0;background:var(--bg-primary)">' +
           '<div style="flex:1;min-width:0">' +
             '<div style="font-size:12px;color:var(--text-primary);overflow:hidden;text-overflow:ellipsis;white-space:nowrap">' + escapeHtml(g.titulo) + '</div>' +
@@ -2729,7 +2732,14 @@ tr:hover td{background:#f7faff}
 
     function toggleGraficoReporte(id, checked) {
       if (!_V._selectedForReport) _V._selectedForReport = [];
+      // hold = gráfico de otro dataset/hoja: nunca seleccionable
       if (checked) {
+        try {
+          var all = Visualizacion._getGalleryGraphs();
+          for (var i = 0; i < all.length; i++) {
+            if (all[i].id === id && all[i].hold) return;
+          }
+        } catch(e) {}
         if (_V._selectedForReport.indexOf(id) < 0) _V._selectedForReport.push(id);
       } else {
         _V._selectedForReport = _V._selectedForReport.filter(function(x){ return x !== id; });
@@ -2740,7 +2750,7 @@ tr:hover td{background:#f7faff}
     function seleccionarTodosGraficos() {
       try {
         var all = Visualizacion._getGalleryGraphs();
-        _V._selectedForReport = all.map(function(g){ return g.id; });
+        _V._selectedForReport = all.filter(function(g){ return !g.hold; }).map(function(g){ return g.id; });
       } catch(e) {}
       var cbs = document.querySelectorAll('#rep-graf-list input[type=checkbox]');
       cbs.forEach(function(cb){ cb.checked = true; });

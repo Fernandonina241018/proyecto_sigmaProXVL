@@ -317,18 +317,37 @@ function _V_idxData(maxLen) {
 }
 
 // ══ EXTERNAL API (Reportes) ═══════════════════════════════════
+// ¿Este gráfico pertenece al dataset/hoja que tiene el foco ahora?
+// ceiling: si dos hojas distintas comparten nombre de columna, no importa aquí;
+// comparamos archivo + hoja (nombre e índice), no contenido de columnas.
+function _V_graficoPerteneceActual(g) {
+  var currentFile = typeof datosCurrentFileName !== 'undefined' ? datosCurrentFileName : '';
+  if (g.sourceFile !== currentFile) return false;
+  var currentSheet = '';
+  var currentSheetIdx = -1;
+  if (typeof trabajoSheets !== 'undefined' && typeof trabajoActiveSheetIndex !== 'undefined') {
+    var s = trabajoSheets[trabajoActiveSheetIndex];
+    currentSheet = s ? s.name : '';
+    currentSheetIdx = trabajoActiveSheetIndex;
+  }
+  if (currentSheet !== '') {
+    return g.sourceSheetName === currentSheet || g.sourceSheetIndex === currentSheetIdx;
+  }
+  return true;
+}
+
 window.Visualizacion = {
   _getGalleryGraphs: function() {
     var graficos = [];
     if (typeof _V === 'undefined' || !_V.gallery) return graficos;
     _V.gallery.forEach(function(g) {
-      if (g && g.url) graficos.push({ id: g.id, imagen: g.url, titulo: g.title, tipo: g.type || 'desconocido' });
-      else if (g && g.vars) {
-        try {
-          var staticImg = _V_generateStaticImage(g);
-          if (staticImg) graficos.push({ id: g.id, imagen: staticImg, titulo: g.title, tipo: g.type || 'desconocido' });
-        } catch(e) { /* skip */ }
+      if (!g) return;
+      var hold = !_V_graficoPerteneceActual(g);
+      var url = g.url;
+      if (!url && g.vars) {
+        try { url = _V_generateStaticImage(g); } catch(e) { /* skip */ }
       }
+      if (url) graficos.push({ id: g.id, imagen: url, titulo: g.title, tipo: g.type || 'desconocido', hold: hold });
     });
     return graficos;
   },
@@ -341,7 +360,11 @@ window.Visualizacion = {
     try {
       var cutoff = Date.now() - 30 * 60 * 1000;
       var currentFile = typeof datosCurrentFileName !== 'undefined' ? datosCurrentFileName : null;
+      // Gráficos de otro dataset/hoja (hold) nunca entran al reporte,
+      // aunque se pida "incluir todos": no tienen sentido sobre datos ajenos.
       _V.gallery.forEach(function(g) {
+        if (!g) return;
+        if (!_V_graficoPerteneceActual(g)) return;
         if (!includeAll && g.createdAt && g.createdAt < cutoff) return;
         if (currentFile && g.sourceFile && g.sourceFile !== currentFile) return;
         if (g && g.url) graficos.push({ id: g.id, imagen: g.url, titulo: g.title, tipo: g.type || 'desconocido' });
@@ -1173,14 +1196,31 @@ function vizRefreshGallery() {
   var existing = strip.querySelectorAll('.gal-thumb');
   existing.forEach(function(el) { el.remove(); });
 
+  var currentFile = typeof datosCurrentFileName !== 'undefined' ? datosCurrentFileName : '';
+  var currentSheet = '';
+  var currentSheetIdx = -1;
+  if (typeof trabajoSheets !== 'undefined' && typeof trabajoActiveSheetIndex !== 'undefined') {
+    var s = trabajoSheets[trabajoActiveSheetIndex];
+    currentSheet = s ? s.name : '';
+    currentSheetIdx = trabajoActiveSheetIndex;
+  }
   _V.gallery.forEach(function(g) {
+    var belongs = _V_graficoPerteneceActual(g);
     var div = document.createElement('div');
-    div.className = 'gal-thumb' + (_V._activeGalleryId === g.id ? ' active' : '');
+    div.className = 'gal-thumb' + (_V._activeGalleryId === g.id ? ' active' : '') + (belongs ? '' : ' hold');
+    if (!belongs) {
+      div.style.opacity = '0.45';
+      div.style.pointerEvents = 'none';
+      div.title = 'Gráfico de otro dataset/hoja — no seleccionable';
+    } else {
+      div.style.opacity = '';
+      div.style.pointerEvents = '';
+    }
     var thumbSrc = escapeHtml(g.thumb || g.url || '');
     div.innerHTML = (thumbSrc ? '<img src="' + thumbSrc + '" alt="' + escapeHtml(g.title) + '">' : '<div class="gal-noimg">' + (g.type ? g.type[0].toUpperCase() : '?') + '</div>') +
       '<button class="gal-del" onclick="event.stopPropagation();vizDelGallery(' + g.id + ')">✕</button>' +
       '<div class="gal-name">' + escapeHtml(g.title) + '</div>';
-    div.onclick = function() { _V_showGalleryChart(g); };
+    if (belongs) div.onclick = function() { _V_showGalleryChart(g); };
     strip.appendChild(div);
   });
 }
