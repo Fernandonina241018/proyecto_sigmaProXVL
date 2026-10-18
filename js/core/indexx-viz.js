@@ -1553,84 +1553,192 @@ var _V_TYPE_MAP = {
 function showBatchGraphModal() {
   var sheet = _V_getSheet();
   if (!sheet || !sheet.headers || !sheet.headers.length) { showToast('No hay datos cargados'); return; }
-  // Sin modales duplicados: un modal previo abierto duplicaría los checkboxes
-  // y generaría columnas repetidas o ya desmarcadas en el otro modal.
   var prev = document.getElementById('vizBatchModal');
   if (prev) prev.remove();
   var modal = document.createElement('div');
   modal.className = 'modal-overlay';
   modal.id = 'vizBatchModal';
+  var autoChecked = (_V.vals && _V.vals.x === '__index__') ? ' checked' : '';
   var colOpts = '<option value="">— Seleccionar —</option>';
   sheet.headers.forEach(function(c) { colOpts += '<option value="' + c.replace(/"/g, '&quot;') + '">' + escapeHtml(c) + '</option>'; });
-  var colChkHtml = sheet.headers.map(function(col) {
-    var safeId = 'vizModalChk-' + String(col).replace(/[^a-zA-Z0-9_-]/g, '_');
-    return '<label style="font-size:11px;color:var(--text-muted);cursor:pointer;display:flex;align-items:center;gap:2px;padding:2px 0">' +
-      '<input type="checkbox" class="viz-modal-batch-chk" data-col="' + col.replace(/"/g, '&quot;') + '" id="' + safeId + '"> ' + escapeHtml(col) + '</label>';
+  var typeItems = [
+    {v:'histogram', l:'Histograma'},
+    {v:'bar', l:'Barras'},
+    {v:'line', l:'Líneas'},
+    {v:'area', l:'Área'},
+    {v:'scatter', l:'Dispersión'},
+    {v:'control', l:'Control'},
+    {v:'dotplot', l:'Puntos'}
+  ];
+  var typeHtml = typeItems.map(function(t) {
+    return '<label class="vizb-type"><input type="radio" name="vizbType" value="'+t.v+'"'+(t.v==='histogram'?' checked':'')+'><span class="vizb-dot"></span>'+escapeHtml(t.l)+'</label>';
   }).join('');
-  modal.innerHTML = '<div class="modal-box" style="min-width:420px">' +
-    '<div class="modal-title">🔁 Generar múltiples gráficos</div>' +
-    '<div style="display:flex;gap:8px;flex-wrap:wrap;margin:8px 0">' +
-      '<div class="modal-row"><span class="modal-label">Tipo</span>' +
-        '<select id="vizModalType" class="modal-select" style="min-width:120px">' +
-          '<option value="histogram">▦ Histograma</option>' +
-          '<option value="bar">📊 Barras</option>' +
-          '<option value="line">📈 Líneas</option>' +
-          '<option value="area">📉 Área</option>' +
-          '<option value="scatter">⬡ Dispersión</option>' +
-          '<option value="control">📈 Control</option>' +
-          '<option value="dotplot">● Puntos</option>' +
-        '</select></div>' +
-      '<div class="modal-row" id="vizModalXRow"><span class="modal-label">Eje X</span>' +
-        '<select id="vizModalColX" class="modal-select" style="min-width:120px">' + colOpts + '</select></div>' +
+  modal.innerHTML = '' +
+  '<style>' +
+    '.vizb-head{display:flex;justify-content:space-between;align-items:flex-start;padding:20px 22px 4px}' +
+    '.vizb-head h2{margin:0;font-size:17px;font-weight:600}' +
+    '.vizb-head p{margin:4px 0 0;font-size:13px;color:var(--text-muted)}' +
+    '.vizb-x{background:none;border:0;color:var(--text-muted);font-size:20px;line-height:1;padding:4px 8px;border-radius:6px}' +
+    '.vizb-x:hover{background:var(--panel-2);color:var(--text)}' +
+    '.vizb-body{padding:16px 22px;overflow:auto;display:flex;flex-direction:column;gap:20px}' +
+    '.vizb-sec-title{font-size:13px;font-weight:600;margin:0 0 8px;color:var(--text)}' +
+    '.vizb-types{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}' +
+    '.vizb-type{display:flex;align-items:center;gap:8px;padding:10px;background:var(--panel-2);border:1px solid var(--line);border-radius:var(--r-ctl);cursor:pointer;font-size:13px;color:var(--text-muted)}' +
+    '.vizb-type input{opacity:0;position:absolute}' +
+    '.vizb-type input:checked+.vizb-dot{border-color:var(--accent);background:var(--accent)}' +
+    '.vizb-type:hover{color:var(--text)}' +
+    '.vizb-dot{width:16px;height:16px;border-radius:50%;border:1.5px solid #4a5068;background:var(--panel-2)}' +
+    '.vizb-col-tools{display:flex;gap:8px;align-items:center;margin-bottom:6px}' +
+    '.vizb-search{flex:1;background:var(--panel-2);border:1px solid var(--line);border-radius:var(--r-ctl);padding:8px 12px;color:var(--text);font:inherit;font-size:13px}' +
+    '.vizb-selall{margin-bottom:8px}' +
+    '.vizb-selall label{display:flex;align-items:center;gap:10px;padding:9px 12px;border:1px dashed #3a4058;border-radius:var(--r-ctl);font-size:13.5px;font-weight:600;cursor:pointer;user-select:none}' +
+    '.vizb-selall label:hover{background:var(--panel-2)}' +
+    '.vizb-box{width:16px;height:16px;border-radius:4px;border:1.5px solid #4a5068;display:grid;place-items:center;flex:none}' +
+    '.vizb-selall input:checked+.vizb-box,.vizb-selall input:indeterminate+.vizb-box{background:var(--accent);border-color:var(--accent)}' +
+    '.vizb-chips{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px;max-height:210px;overflow:auto}' +
+    '.vizb-chip{position:relative}' +
+    '.vizb-chip label{display:flex;align-items:center;gap:8px;padding:8px 10px;border:1px solid var(--line);border-radius:var(--r-chip);background:var(--panel-2);font-size:13px;cursor:pointer;user-select:none}' +
+    '.vizb-chip label:hover{color:var(--text)}' +
+    '.vizb-chip input{opacity:0;position:absolute}' +
+    '.vizb-chip input:checked+label{border-color:var(--accent);background:rgba(124,106,242,.12)}' +
+    '.vizb-hint{font-size:12.5px;color:var(--text-muted);margin:8px 0 0;min-height:1.2em}' +
+    '.vizb-hint.warn{color:var(--danger)}' +
+    '.vizb-foot{display:flex;justify-content:flex-end;gap:10px;padding:14px 22px 20px;border-top:1px solid var(--line)}' +
+  '</style>' +
+  '<div class="modal-box vizb-modal">' +
+    '<div class="vizb-head">' +
+      '<div>' +
+        '<h2>🔁 Generar múltiples gráficos</h2>' +
+        '<p>Se crea un gráfico por cada columna seleccionada.</p>' +
+      '</div>' +
+      '<button class="vizb-x" id="vizbClose" aria-label="Cerrar">×</button>' +
     '</div>' +
-    '<label style="display:flex;align-items:center;gap:6px;font-size:11px;color:var(--text-muted);cursor:pointer;padding:2px 0 6px" id="vizModalAutoIdxRow">' +
-      '<input type="checkbox" id="vizModalAutoIdx"' + (_V.vals.x === '__index__' ? ' checked' : '') + '> 🔢 Índice automático (1, 2, 3...)</label>' +
-    '<div style="font-size:11px;color:var(--text-faint);margin:4px 0 2px">Columnas a graficar:</div>' +
-    '<div style="display:flex;flex-wrap:wrap;gap:4px 12px;max-height:200px;overflow-y:auto;padding:4px 0">' + colChkHtml + '</div>' +
-    '<div id="vizModalSelCount" style="font-size:11px;color:var(--text-faint);margin-top:4px">0 columnas seleccionadas</div>' +
-    '<div class="modal-actions" style="margin-top:10px">' +
-      '<button class="btn btn-secondary" id="vizModalCancel">Cancelar</button>' +
-      '<button class="btn btn-primary" id="vizModalGenerate">🎨 Generar</button>' +
-    '</div></div>';
+    '<div class="vizb-body">' +
+      '<fieldset style="border:0;padding:0;margin:0">' +
+        '<legend class="vizb-sec-title">Tipo de gráfico</legend>' +
+        '<div class="vizb-types" id="vizbTypes">'+typeHtml+'</div>' +
+      '</fieldset>' +
+      '<div style="display:flex;gap:8px;align-items:flex-start;margin-top:4px">' +
+        '<div style="flex:1">' +
+          '<span style="font-size:11px;color:var(--text-muted);white-space:nowrap;display:block;margin-bottom:2px">Eje X</span>' +
+          '<select id="vizbColX" style="width:100%;background:var(--panel-2);border:1px solid var(--line);border-radius:8px;color:var(--text);padding:6px 8px;font:inherit">'+colOpts+'</select>' +
+        '</div>' +
+        '<div style="display:flex;align-items:center;gap:6px;font-size:11px;color:var(--text-muted);cursor:pointer">' +
+          '<input type="checkbox" id="vizbAutoIdx"'+autoChecked+'> <span style="user-select:none">🔢 Índice automático</span>' +
+        '</div>' +
+      '</div>' +
+      '<div>' +
+        '<p class="vizb-sec-title">Columnas</p>' +
+        '<div class="vizb-col-tools">' +
+          '<input class="vizb-search" id="vizbQ" type="search" placeholder="Buscar columna">' +
+        '</div>' +
+        '<div class="vizb-selall">' +
+          '<input type="checkbox" id="vizbSelall">'+
+          '<label for="vizbSelall"><span class="vizb-box"></span><span id="vizbSelallText">Seleccionar todas</span></label>' +
+        '</div>' +
+        '<div class="vizb-chips" id="vizbChips"></div>' +
+        '<p class="vizb-hint" id="vizbHint"></p>' +
+      '</div>' +
+    '</div>' +
+    '<div class="vizb-foot">' +
+      '<button class="btn btn-secondary" id="vizbCancel">Cancelar</button>' +
+      '<button class="btn btn-primary" id="vizbGo" disabled>Generar</button>' +
+    '</div>' +
+  '</div>';
   document.body.appendChild(modal);
-  // Contador vivo + alcance al modal (nunca al documento: evita fugas entre modales).
-  var updBatchCount = function() {
-    var n = modal.querySelectorAll('.viz-modal-batch-chk:checked').length;
-    var cc = modal.querySelector('#vizModalSelCount');
-    if (cc) cc.textContent = n + (n === 1 ? ' columna seleccionada' : ' columnas seleccionadas');
-    var gb = modal.querySelector('#vizModalGenerate');
-    if (gb) gb.textContent = '🎨 Generar' + (n ? ' (' + n + ')' : '');
-  };
-  modal.querySelectorAll('.viz-modal-batch-chk').forEach(function(cb) { cb.addEventListener('change', updBatchCount); });
-  updBatchCount();
-  document.getElementById('vizModalAutoIdx').onchange = function() {
-    _V.vals.x = this.checked ? '__index__' : '';
+
+  var selected = new Set();
+  var MAX = 12;
+  var elQ = modal.querySelector('#vizbQ');
+  var elSel = modal.querySelector('#vizbSelall');
+  var elSelText = modal.querySelector('#vizbSelallText');
+  var elChips = modal.querySelector('#vizbChips');
+  var elHint = modal.querySelector('#vizbHint');
+  var elGo = modal.querySelector('#vizbGo');
+  var elX = modal.querySelector('#vizbColX');
+  var elAuto = modal.querySelector('#vizbAutoIdx');
+
+  function visibleHeaders() {
+    var q = (elQ.value || '').toLowerCase();
+    return sheet.headers.filter(function(c) { return c.toLowerCase().indexOf(q) >= 0; });
+  }
+
+  function renderChips() {
+    var hs = visibleHeaders();
+    elChips.innerHTML = hs.length ? hs.map(function(col) {
+      var sid = 'vizbChk-' + String(col).replace(/[^a-zA-Z0-9_-]/g, '_');
+      return '<div class="vizb-chip">' +
+        '<input type="checkbox" id="'+sid+'" data-col="'+escapeHtml(col)+'"'+(selected.has(col)?' checked':'')+'>' +
+        '<label for="'+sid+'">'+escapeHtml(col)+'</label>' +
+        '</div>';
+    }).join('') : '<p class="vizb-hint" style="grid-column:1/-1">Ninguna columna coincide.</p>';
+  }
+
+  function update() {
+    var n = selected.size;
+    elGo.disabled = n === 0;
+    elGo.textContent = n === 0 ? 'Generar' : 'Generar '+n+(n===1?' gráfico':' gráficos');
+    elHint.className = 'vizb-hint';
+    if (n === 0) elHint.textContent = 'Selecciona al menos una columna.';
+    else if (n > MAX) { elHint.textContent = 'Vas a generar '+n+' gráficos; puede tardar.'; elHint.className = 'vizb-hint warn'; }
+    else elHint.textContent = n+' columna'+(n!==1?'s':'')+' seleccionada'+(n!==1?'s':'');
+    var hs = visibleHeaders();
+    var sel = hs.filter(function(c){ return selected.has(c); }).length;
+    elSel.checked = hs.length > 0 && sel === hs.length;
+    elSel.indeterminate = sel > 0 && sel < hs.length;
+    elSel.disabled = hs.length === 0;
+    elSelText.textContent = elQ.value ? 'Seleccionar los '+hs.length+' resultados' : 'Seleccionar todas';
+  }
+
+  var tr0 = modal.querySelector('.vizb-types input:checked');
+  var hideX = tr0 ? (tr0.value === 'histogram' || tr0.value === 'dotplot') : true;
+  elX.parentElement.style.display = hideX ? 'none' : '';
+
+  renderChips();
+  update();
+
+  modal.querySelectorAll('.vizb-types input').forEach(function(r) {
+    r.addEventListener('change', function() {
+      var hide = r.value === 'histogram' || r.value === 'dotplot';
+      elX.parentElement.style.display = hide ? 'none' : '';
+      if (hide) { elAuto.checked = false; _V.vals.x = ''; }
+      renderChips(); update();
+    });
+  });
+  elQ.addEventListener('input', function() { renderChips(); update(); });
+  elSel.addEventListener('change', function() {
+    var hs = visibleHeaders();
+    if (elSel.checked) hs.forEach(function(c){ selected.add(c); });
+    else hs.forEach(function(c){ selected.delete(c); });
+    renderChips(); update();
+  });
+  elAuto.addEventListener('change', function() {
+    _V.vals.x = elAuto.checked ? '__index__' : '';
     _V_syncAutoIdxUI();
-  };
-  document.getElementById('vizModalCancel').onclick = function() { modal.remove(); };
-  document.getElementById('vizModalGenerate').onclick = function() {
-    var type = document.getElementById('vizModalType').value;
-    var autoIdx = document.getElementById('vizModalAutoIdx').checked;
-    var colX = autoIdx ? '__index__' : document.getElementById('vizModalColX').value;
-    var checkboxes = modal.querySelectorAll('.viz-modal-batch-chk:checked');
-    var selected = [];
-    checkboxes.forEach(function(cb) { if (cb.checked) selected.push(cb.dataset.col); });
-    // Sin repetidos (encabezados duplicados en la hoja generarían el mismo gráfico dos veces).
-    var seenCols = {};
-    selected = selected.filter(function(c) { if (seenCols[c]) return false; seenCols[c] = true; return true; });
-    if (!selected.length) { showToast('Selecciona al menos una columna'); return; }
+  });
+  elChips.addEventListener('change', function(e) {
+    var cb = e.target.tagName === 'INPUT' ? e.target : null;
+    if (!cb || !cb.dataset.col) return;
+    if (cb.checked) selected.add(cb.dataset.col);
+    else selected.delete(cb.dataset.col);
+    renderChips(); update();
+  });
+  modal.querySelector('#vizbCancel').addEventListener('click', function() { modal.remove(); });
+  modal.querySelector('#vizbClose').addEventListener('click', function() { modal.remove(); });
+  modal.querySelector('#vizbGo').addEventListener('click', function() {
+    var tr = modal.querySelector('.vizb-types input:checked');
+    var type = tr ? tr.value : 'histogram';
+    var autoIdx = elAuto.checked;
+    var colX = autoIdx ? '__index__' : elX.value;
+    var arr = [], seen = {};
+    selected.forEach(function(c){ if (!seen[c]) { seen[c] = true; arr.push(c); } });
+    if (!arr.length) { showToast('Selecciona al menos una columna'); return; }
     if (type !== 'histogram' && type !== 'dotplot' && !autoIdx && !colX) { showToast('Selecciona Eje X o activa índice automático'); return; }
     modal.remove();
     loadPage('visualizacion');
-    setTimeout(function() { _V_batchGenerate(type, colX, selected); }, 150);
-  };
-  modal.onclick = function(e) { if (e.target === modal) modal.remove(); };
-  document.getElementById('vizModalType').onchange = function() {
-    var hide = this.value === 'histogram' || this.value === 'dotplot';
-    document.getElementById('vizModalXRow').style.display = hide ? 'none' : 'flex';
-    document.getElementById('vizModalAutoIdxRow').style.display = hide ? 'none' : 'flex';
-  };
-  document.getElementById('vizModalType').dispatchEvent(new Event('change'));
+    setTimeout(function() { _V_batchGenerate(type, colX, arr); }, 150);
+  });
+  modal.addEventListener('click', function(e) { if (e.target === modal) modal.remove(); });
 }
 
 function _V_batchGenerate(type, colX, selectedCols) {
