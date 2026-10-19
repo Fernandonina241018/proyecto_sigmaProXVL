@@ -5021,3 +5021,8 @@ Render inyectaba el `PORT` como variable de entorno; Fly.io también (`process.e
 - **Problema:** el modal se quedaba "invisible" al generar gráficos múltiples: faltaba el CSS de las clases `.backdrop`, `.modal`, `.chip`, `.type`, `.selall`, `.btn` etc., y el backdrop nunca recibía la clase `open` (tenía `display:none`), así que ni siquiera se mostraba el overlay.
 - **Fix:** inyectar el `<style>` del diseño embebido dentro del `innerHTML` del modal (autocontenido, sin tocar CSS global) y cambiar `<div class="backdrop" id="vizbBackdrop">` por `<div class="backdrop open" id="vizbBackdrop">`.
 - **Tests:** `node --check` OK; Vitest 495/495; backend 81/81 (los 3 fallos intermitentes son el quirk preexistente de `data.json` compartido, no relacionados); tsc OK; Playwright 1/1.
+
+### 2026-10-17 (211): Reporte de errores en generación de gráficos múltiples
+- **Problema:** al generar varios gráficos de una vez, los errores se tragaban en silencio: si una columna no tenía datos para el tipo elegido, o era la misma que el Eje X, simplemente se omitía sin avisar. El contador `errs` nunca se incrementaba y el mensaje final siempre decía "✅ X gráfico(s) generado(s)" aunque faltaran columnas.
+- **Fix:** en `_V_batchGenerate` (`js/core/indexx-viz.js`), cuando una columna falla (config null, o col === colX) se incrementa `errs` y se muestra un toast identificando la columna y el motivo (ej. "⚠️ Columna A: es la misma que el Eje X" / "⚠️ Columna B: no hay datos para este tipo de gráfico"). El mensaje final ahora suma los errores, ej. "✅ 3 gráfico(s) generado(s) · 2 columna(s) con error".
+- **Tests:** `node --check` OK; Vitest 495/495; backend 81/81; tsc OK; Playwright 1/1.

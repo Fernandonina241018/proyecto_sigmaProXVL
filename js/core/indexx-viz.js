@@ -1741,6 +1741,11 @@ function showBatchGraphModal() {
   if (rChecked) hideX = (rChecked.value === 'histogram' || rChecked.value === 'dotplot');
   if (elX && elX.parentElement) elX.parentElement.style.display = hideX ? 'none' : '';
 
+  // Al abrir, seleccionar todas las columnas visibles y activar índice automático.
+  var hs0 = visibleHeaders();
+  hs0.forEach(function(c){ selected.add(c); });
+  elAuto.checked = true;
+  _V.vals.x = '__index__';
   renderChips();
   update();
 
@@ -1799,17 +1804,29 @@ function _V_batchGenerate(type, colX, selectedCols) {
       _V.type = 'dotplot';
       _V.vals = { variable: col };
     } else if (type === 'scatter') {
-      if (col === colX) return;
+      if (col === colX) {
+        errs++;
+        showToast('⚠️ ' + escapeHtml(col) + ': es la misma que el Eje X', true);
+        return;
+      }
       _V.type = 'dispersion';
       _V.vals = { x: colX, y: col };
     } else {
-      if (col === colX) return;
+      if (col === colX) {
+        errs++;
+        showToast('⚠️ ' + escapeHtml(col) + ': es la misma que el Eje X', true);
+        return;
+      }
       _V.type = mappedType;
       _V.vals = { x: colX, y: col };
     }
 
     var config = _V_buildConfig();
-    if (!config) return;
+    if (!config) {
+      errs++;
+      showToast('⚠️ ' + escapeHtml(col) + ': no hay datos para este tipo de gráfico', true);
+      return;
+    }
     config.options.responsive = false;
     config.options.animation = false;
 
@@ -1846,9 +1863,9 @@ function _V_batchGenerate(type, colX, selectedCols) {
   _V_saveGallery();
 
   var msg = '';
-  if (count > 0) msg = '✅ ' + count + ' gráfico(s) generado(s) y guardados en galería';
+  if (count > 0) msg = '✅ ' + count + ' gráfico(s) generado(s) y guardado(s) en galería';
   else msg = 'No se generaron gráficos';
-  if (errs > 0) msg += ' (' + errs + ' error(es))';
+  if (errs > 0) msg += ' · ' + errs + ' columna(s) con error';
   showToast(msg);
 }
 
