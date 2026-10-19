@@ -5046,3 +5046,12 @@ Render inyectaba el `PORT` como variable de entorno; Fly.io también (`process.e
   1. `printReport` ahora busca el HTML del reporte en múltiples sitios: `window.__currentReportHTML`, luego `.doc`, luego `.rep-layout` / `.rep-preview` / `.reporte-impreso`.
   2. El `onclick` del botón cambió a `(window.printReport||window.print)()` — si `printReport` no existe (archivo HTML abierto directamente), usa `window.print()` como fallback, que imprime toda la ventana (que en un archivo HTML descargado es solo el reporte).
 - **Tests:** `node --check` OK; Vitest 495/495; backend 81/81; tsc OK; Playwright 1/1.
+
+### 2026-10-19 (215): Botón Imprimir de la página de firma — causa raíz (sandbox)
+- **Causa raíz (medida con probe en Chromium):** el `#printButton` viaja **dentro del HTML del reporte**, que la página de firma muestra en un `<iframe sandbox srcdoc="...">` (`indexx-firma.js`). El atributo `sandbox` **sin `allow-scripts` desactiva los `onclick` inline**: el probe confirmó `onclick ejecutado: false`. Por eso el botón "no hacía nada" sin error visible — los 3 intentos anteriores fallaron porque el problema no era `window.print()` vs `window.printReport()`, sino que **el handler nunca se ejecutaba**.
+- **Fix:**
+  1. Nuevo botón "🖨️ Imprimir" en la **UI de la app** (`indexx-ui.js`, pie de la página de firma) → `onclick="firmaPrint()"` (fuera del iframe, sí se ejecuta).
+  2. `firmaPrint()` (`indexx-firma.js`): abre el documento firmado (`_firmaCurrentDoc`) en una ventana nueva y lo imprime. Se quitan los `<script>` al imprimir (la ventana no lleva sandbox).
+  3. `_firmaHtmlForPreview()` quita el `#printButton` muerto del HTML del preview (sigue sirviendo en el `.html` descargado, donde sí corre).
+  4. `window.printReport` (ReporteManager) también filtra `<script>` por la misma razón.
+- **Tests:** nuevo `e2e/print-button.spec.js` (el botón abre la ventana con el reporte; no queda `#printButton` dentro del iframe). `node --check` OK; Vitest 495/495; backend 81/81; tsc OK; Playwright 2/2.

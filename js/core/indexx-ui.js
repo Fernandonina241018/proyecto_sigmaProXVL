@@ -632,6 +632,7 @@ var leftPanels = {
       '</div>' +
       '<div class="fp-foot">' +
         '<button type="button" class="fp-btn" id="firmaDownloadBtn">⬇ Descargar reporte firmado</button>' +
+        '<button type="button" class="fp-btn" id="firmaPrintBtn" onclick="firmaPrint()">🖨️ Imprimir</button>' +
         '<button type="button" class="fp-btn" id="firmaPublishBtn" style="display:none">📤 Publicar a bandeja</button>' +
         '<button type="button" class="fp-btn" id="firmaResetBtn" style="display:none">🔄 Reiniciar firmas</button>' +
         '<p class="fp-hint" id="firmaFootHint"></p>' +
