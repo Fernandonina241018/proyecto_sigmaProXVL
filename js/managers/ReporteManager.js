@@ -19,6 +19,11 @@ const ReporteManager = (() => {
     window.printReport = function() {
         var html = window.__currentReportHTML;
         if (!html) {
+            // Fallback: capturar el reporte desde el DOM actual (ej. cuando se muestra en la página)
+            var docEl = document.querySelector('.doc');
+            html = docEl ? docEl.outerHTML : null;
+        }
+        if (!html) {
             showToast('⚠️ No hay reporte generado para imprimir', true);
             return;
         }

@@ -5034,3 +5034,8 @@ Render inyectaba el `PORT` como variable de entorno; Fly.io también (`process.e
   2. En `generarHTML`, guardar el HTML generado en `window.__currentReportHTML` antes de retornar.
   3. Cambiar el `onclick` del botón de `window.print()` a `window.printReport()`.
 - **Tests:** `node --check` OK; Vitest 495/495; backend 81/81; tsc OK; Playwright 1/1.
+
+### 2026-10-19 (213): Botón imprimir reportes — fallback al DOM actual
+- **Problema:** el botón "Imprimir / PDF" no hacía nada al hacer clic: `window.printReport` dependía exclusivamente de `window.__currentReportHTML`, que puede estar vacío si el reporte se muestra en la página actual sin pasar por `generarHTML` (o si el usuario abrió el HTML descargado directamente).
+- **Fix:** `printReport` ahora busca primero `window.__currentReportHTML`; si está vacío, captura el contenedor `.doc` del DOM actual (`document.querySelector('.doc').outerHTML`) e imprime eso en una ventana independiente. Así funciona tanto si el reporte se generó vía `generarHTML` como si se muestra directamente en la página.
+- **Tests:** `node --check` OK; Vitest 495/495; backend 81/81; tsc OK; Playwright 1/1.
