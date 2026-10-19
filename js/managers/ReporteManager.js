@@ -15,6 +15,23 @@ const ReporteManager = (() => {
         N_MIN: 30,   OUTLIER_IQR: 1.5, SKEW_MODERATE: 0.5
     };
 
+    // Imprime el reporte HTML en una ventana independiente (no imprime toda la app)
+    window.printReport = function() {
+        var html = window.__currentReportHTML;
+        if (!html) {
+            showToast('⚠️ No hay reporte generado para imprimir', true);
+            return;
+        }
+        var w = window.open('', '_blank');
+        if (!w) {
+            showToast('⚠️ No se pudo abrir ventana de impresión (¿bloqueador de pop-ups?)', true);
+            return;
+        }
+        w.document.write(html);
+        w.document.close();
+        w.print();
+    };
+
     let currentLang = 'es';
 
     const I18N = {
@@ -2020,8 +2037,10 @@ tr:hover td{background:#f7faff}
   </div>
 </div>
 <script>document.addEventListener('click',function(e){var e2=e.target.closest('.toc-entry');if(e2){e.preventDefault();var id=e2.getAttribute('href').replace(/^#/,'');var t=document.querySelector('[data-id="'+id+'"]')||document.getElementById(id);if(t)t.scrollIntoView({behavior:'smooth',block:'start'})}})</script>
-<div id="printButton" style="position:fixed;bottom:20px;right:20px;z-index:999"><button onclick="window.print()" style="padding:10px 20px;background:#1a3a6b;color:white;border:none;border-radius:6px;cursor:pointer;font-family:'JetBrains Mono',monospace;font-size:9pt;box-shadow:0 4px 12px rgba(0,0,0,.2)">🖨️ Imprimir / PDF</button></div>
+<div id="printButton" style="position:fixed;bottom:20px;right:20px;z-index:999"><button onclick="window.printReport()" style="padding:10px 20px;background:#1a3a6b;color:white;border:none;border-radius:6px;cursor:pointer;font-family:'JetBrains Mono',monospace;font-size:9pt;box-shadow:0 4px 12px rgba(0,0,0,.2)">🖨️ Imprimir / PDF</button></div>
 </body></html>`;
+    window.__currentReportHTML = html;
+    return html;
     }
 
     // ── Descarga ──────────────────────────
