@@ -53,32 +53,31 @@ describe('modal generar múltiples gráficos', () => {
     const chips = document.querySelectorAll('#vizbChips .chip input');
     expect(chips.length).toBe(4); // 4 columnas
     const sel = document.querySelector('#vizbSelall');
-    expect(sel.checked).toBe(false);
-    expect(sel.indeterminate).toBe(false);
-    const go = document.querySelector('#vizbGo');
-    expect(go.disabled).toBe(true);
-    const hint = document.querySelector('#vizbHint').textContent;
-    expect(hint).toContain('Selecciona al menos');
-  });
-
-  test('select-all marca todas y actualiza contador', () => {
-    const { sandbox, document } = loadBatchHarness(['A','B','C'], { x: '' });
-    vm.runInContext('showBatchGraphModal()', sandbox);
-    const sel = document.querySelector('#vizbSelall');
-    sel.click();
-    const chips = document.querySelectorAll('#vizbChips .chip input');
-    chips.forEach(function(cb) { expect(cb.checked).toBe(true); });
     expect(sel.checked).toBe(true);
     expect(sel.indeterminate).toBe(false);
     const go = document.querySelector('#vizbGo');
     expect(go.disabled).toBe(false);
-    expect(go.textContent).toContain('3');
+    const hint = document.querySelector('#vizbHint').textContent;
+    expect(hint).toContain('4 columna');
+  });
+
+  test('select-all desmarca todo (viene todo marcado)', () => {
+    const { sandbox, document } = loadBatchHarness(['A','B','C'], { x: '' });
+    vm.runInContext('showBatchGraphModal()', sandbox);
+    const sel = document.querySelector('#vizbSelall');
+    expect(sel.checked).toBe(true);
+    sel.click();
+    const chips = document.querySelectorAll('#vizbChips .chip input');
+    chips.forEach(function(cb) { expect(cb.checked).toBe(false); });
+    expect(sel.checked).toBe(false);
+    expect(sel.indeterminate).toBe(false);
+    const go = document.querySelector('#vizbGo');
+    expect(go.disabled).toBe(true);
   });
 
   test('desmarcar uno individual pone el maestro en indeterminado', () => {
     const { sandbox, document } = loadBatchHarness(['A','B','C'], { x: '' });
     vm.runInContext('showBatchGraphModal()', sandbox);
-    document.querySelector('#vizbSelall').click();
     var cbB = document.querySelector('#vizbChips input[data-col="B"]');
     cbB.click();
     const sel = document.querySelector('#vizbSelall');
@@ -88,15 +87,16 @@ describe('modal generar múltiples gráficos', () => {
     expect(go.disabled).toBe(false);
   });
 
-  test('select-all desmarca todo', () => {
+  test('select-all desmarca todo y vuelve a marcar (toggle)', () => {
     const { sandbox, document } = loadBatchHarness(['A','B'], { x: '' });
     vm.runInContext('showBatchGraphModal()', sandbox);
-    document.querySelector('#vizbSelall').click();
     expect(document.querySelectorAll('#vizbChips .chip input:checked').length).toBe(2);
     document.querySelector('#vizbSelall').click();
     expect(document.querySelectorAll('#vizbChips .chip input:checked').length).toBe(0);
+    document.querySelector('#vizbSelall').click();
+    expect(document.querySelectorAll('#vizbChips .chip input:checked').length).toBe(2);
     const go = document.querySelector('#vizbGo');
-    expect(go.disabled).toBe(true);
+    expect(go.disabled).toBe(false);
   });
 
   test('buscar filtra chips y select-all aplica solo visibles', () => {
@@ -108,7 +108,7 @@ describe('modal generar múltiples gráficos', () => {
     const chips = document.querySelectorAll('#vizbChips .chip input');
     expect(chips.length).toBe(1);
     expect(chips[0].dataset.col).toBe('Columna Alfa');
-    document.querySelector('#vizbSelall').click();
+    expect(chips[0].checked).toBe(true);
     var chips2 = document.querySelectorAll('#vizbChips .chip input');
     expect(chips2.length).toBe(1);
     expect(chips2[0].checked).toBe(true);
@@ -117,14 +117,14 @@ describe('modal generar múltiples gráficos', () => {
   test('generar llama a _V_batchGenerate con las columnas seleccionadas', () => {
     const { sandbox, document, result } = loadBatchHarness(['A','B','C'], { x: '' });
     vm.runInContext('showBatchGraphModal()', sandbox);
-    // Select-all marca todas (listener directo, funciona en vm)
-    document.querySelector('#vizbSelall').click();
-    expect(document.querySelector('#vizbGo').disabled).toBe(false);
+    // Al abrir ya vienen todas marcadas y el índice automático activado
+    expect(document.querySelectorAll('#vizbChips .chip input:checked').length).toBe(3);
+    expect(document.querySelector('#vizbAutoIdx').checked).toBe(true);
     // El handler de click (addEventListener estándar) llama a _V_batchGenerate con
     // tipo, eje X y las columnas seleccionadas; lo invocamos directamente desde fuera
     // del contexto vm porque dispatchEvent no propaga de forma fiable en vitest.
-    sandbox._V_batchGenerate('histogram', '', ['A', 'B', 'C']);
-    expect(result.generated).toEqual({ type: 'histogram', colX: '', cols: ['A', 'B', 'C'] });
+    sandbox._V_batchGenerate('histogram', '__index__', ['A', 'B', 'C']);
+    expect(result.generated).toEqual({ type: 'histogram', colX: '__index__', cols: ['A', 'B', 'C'] });
   });
 
   test('histogram oculta el eje X', () => {
