@@ -1576,8 +1576,70 @@ function showBatchGraphModal() {
       '<label for="ty-'+t.v+'"><svg viewBox="0 0 34 22" aria-hidden="true" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">'+t.svg+'</svg>'+escapeHtml(t.l)+'</label>' +
       '</div>';
   }).join('');
-  modal.innerHTML = '' +
-  '<div class="backdrop" id="vizbBackdrop">' +
+  var css = '<style>' +
+    ':root{--bg:#0e1016;--panel:#151822;--panel-2:#1b1f2b;--line:#262b3a;--text:#e8eaf2;--muted:#9aa1b5;--accent:#7c6af2;--accent-2:#9585ff;--danger:#f0707a;--r-modal:16px;--r-ctl:10px;--r-chip:8px;font-family:Inter,system-ui,-apple-system,"Segoe UI",sans-serif}'+
+    '*{box-sizing:border-box}'+
+    'button{font:inherit;color:inherit;cursor:pointer}'+
+    '.backdrop{position:fixed;inset:0;background:rgba(5,6,10,.7);display:none;place-items:center;padding:16px}'+
+    '.backdrop.open{display:grid}'+
+    '.modal{width:min(560px,100%);max-height:calc(100vh - 32px);display:flex;flex-direction:column;background:var(--panel);border:1px solid var(--line);border-radius:var(--r-modal);box-shadow:0 24px 60px rgba(0,0,0,.5)}'+
+    '.head{display:flex;justify-content:space-between;align-items:flex-start;padding:20px 22px 4px}'+
+    '.head h2{margin:0;font-size:17px;font-weight:600}'+
+    '.head p{margin:4px 0 0;font-size:13px;color:var(--muted)}'+
+    '.x{background:none;border:0;color:var(--muted);font-size:20px;line-height:1;padding:4px 8px;border-radius:6px}'+
+    '.x:hover{background:var(--panel-2);color:var(--text)}'+
+    '.body{padding:16px 22px;overflow:auto;display:flex;flex-direction:column;gap:20px}'+
+    '.sec-title{font-size:13px;font-weight:600;margin:0 0 8px;color:var(--text)}'+
+    '.types{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}'+
+    '.type input{position:absolute;opacity:0}'+
+    '.type{position:relative}'+
+    '.type label{display:flex;flex-direction:column;align-items:center;gap:6px;padding:12px 6px 10px;background:var(--panel-2);border:1px solid var(--line);border-radius:var(--r-ctl);font-size:12.5px;color:var(--muted);cursor:pointer;transition:border-color .15s,color .15s}'+
+    '.type svg{width:34px;height:22px;stroke:currentColor;fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}'+
+    '.type label:hover{color:var(--text)}'+
+    '.type input:checked + label{border-color:var(--accent);color:var(--text);background:rgba(124,106,242,.12)}'+
+    '.type input:focus-visible + label{outline:2px solid var(--accent-2);outline-offset:2px}'+
+    '.col-tools{display:flex;gap:8px;align-items:center;margin-bottom:10px}'+
+    '.search{flex:1;background:var(--panel-2);border:1px solid var(--line);border-radius:var(--r-ctl);padding:8px 12px;color:var(--text);font:inherit;font-size:13px}'+
+    '.search::placeholder{color:var(--muted)}'+
+    '.search:focus{outline:2px solid var(--accent-2);outline-offset:1px;border-color:transparent}'+
+    '.chips{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px;max-height:210px;overflow:auto;padding:2px}'+
+    '.chip{position:relative}'+
+    '.chip input{position:absolute;opacity:0}'+
+    '.chip label{display:flex;align-items:center;gap:8px;padding:8px 10px;border:1px solid var(--line);border-radius:var(--r-chip);background:var(--panel-2);font-size:13px;cursor:pointer;user-select:none}'+
+    '.chip .box{width:16px;height:16px;border-radius:4px;border:1.5px solid #4a5068;flex:none;display:grid;place-items:center}'+
+    '.chip .box svg{width:10px;height:10px;stroke:#fff;stroke-width:2.2;fill:none;opacity:0}'+
+    '.chip .name{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}'+
+    '.chip .kind{font-size:11px;color:var(--muted)}'+
+    '.chip input:checked + label{border-color:var(--accent);background:rgba(124,106,242,.12)}'+
+    '.chip input:checked + label .box{background:var(--accent);border-color:var(--accent)}'+
+    '.chip input:checked + label .box svg{opacity:1}'+
+    '.chip input:focus-visible + label{outline:2px solid var(--accent-2);outline-offset:2px}'+
+    '.chip input:disabled + label{opacity:.4;cursor:not-allowed}'+
+    '.selall{position:relative;margin-bottom:10px}'+
+    '.selall input{position:absolute;opacity:0}'+
+    '.selall label{display:flex;align-items:center;gap:10px;padding:9px 12px;border:1px dashed #3a4058;border-radius:var(--r-ctl);font-size:13.5px;font-weight:600;cursor:pointer;user-select:none}'+
+    '.selall label:hover{background:var(--panel-2)}'+
+    '.selall .box{width:16px;height:16px;border-radius:4px;border:1.5px solid #4a5068;display:grid;place-items:center;flex:none}'+
+    '.selall .box svg{width:10px;height:10px;stroke:#fff;stroke-width:2.2;fill:none}'+
+    '.selall .tick,.selall .dash{opacity:0}'+
+    '.selall input:checked + label .box,.selall input:indeterminate + label .box{background:var(--accent);border-color:var(--accent)}'+
+    '.selall input:checked + label .tick{opacity:1}'+
+    '.selall input:indeterminate + label .dash{opacity:1}'+
+    '.selall input:focus-visible + label{outline:2px solid var(--accent-2);outline-offset:2px}'+
+    '.hint{font-size:12.5px;color:var(--muted);margin:8px 0 0;min-height:1.2em}'+
+    '.hint.warn{color:var(--danger)}'+
+    '.foot{display:flex;justify-content:flex-end;gap:10px;padding:14px 22px 20px;border-top:1px solid var(--line)}'+
+    '.btn{border-radius:var(--r-ctl);padding:10px 16px;font-size:14px;font-weight:600;border:1px solid var(--line);background:transparent}'+
+    '.btn:hover{background:var(--panel-2)}'+
+    '.btn.primary{background:var(--accent);border-color:var(--accent);color:#fff}'+
+    '.btn.primary:hover{background:var(--accent-2)}'+
+    '.btn.primary:disabled{background:var(--panel-2);border-color:var(--line);color:var(--muted);cursor:not-allowed}'+
+    '.btn:focus-visible,.x:focus-visible{outline:2px solid var(--accent-2);outline-offset:2px}'+
+    '@media (max-width:480px){.types{grid-template-columns:repeat(2,1fr)}}'+
+    '@media (prefers-reduced-motion:reduce){*{transition:none!important}}'+
+    '</style>';
+  modal.innerHTML = css +
+  '<div class="backdrop open" id="vizbBackdrop">' +
     '<div class="modal" role="dialog" aria-modal="true" aria-labelledby="vizbT">' +
       '<div class="head">' +
         '<div>' +
