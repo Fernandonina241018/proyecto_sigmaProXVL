@@ -19,9 +19,13 @@ const ReporteManager = (() => {
     window.printReport = function() {
         var html = window.__currentReportHTML;
         if (!html) {
-            // Fallback: capturar el reporte desde el DOM actual (ej. cuando se muestra en la página)
+            // Fallback: capturar el reporte desde el DOM actual
             var docEl = document.querySelector('.doc');
-            html = docEl ? docEl.outerHTML : null;
+            if (docEl) html = docEl.outerHTML;
+            if (!html) {
+                var repEl = document.querySelector('.rep-layout, .rep-preview, .reporte-impreso');
+                if (repEl) html = repEl.outerHTML;
+            }
         }
         if (!html) {
             showToast('⚠️ No hay reporte generado para imprimir', true);
@@ -2042,7 +2046,7 @@ tr:hover td{background:#f7faff}
   </div>
 </div>
 <script>document.addEventListener('click',function(e){var e2=e.target.closest('.toc-entry');if(e2){e.preventDefault();var id=e2.getAttribute('href').replace(/^#/,'');var t=document.querySelector('[data-id="'+id+'"]')||document.getElementById(id);if(t)t.scrollIntoView({behavior:'smooth',block:'start'})}})</script>
-<div id="printButton" style="position:fixed;bottom:20px;right:20px;z-index:999"><button onclick="window.printReport()" style="padding:10px 20px;background:#1a3a6b;color:white;border:none;border-radius:6px;cursor:pointer;font-family:'JetBrains Mono',monospace;font-size:9pt;box-shadow:0 4px 12px rgba(0,0,0,.2)">🖨️ Imprimir / PDF</button></div>
+<div id="printButton" style="position:fixed;bottom:20px;right:20px;z-index:999"><button onclick="(window.printReport||window.print)()" style="padding:10px 20px;background:#1a3a6b;color:white;border:none;border-radius:6px;cursor:pointer;font-family:'JetBrains Mono',monospace;font-size:9pt;box-shadow:0 4px 12px rgba(0,0,0,.2)">🖨️ Imprimir / PDF</button></div>
 </body></html>`;
     window.__currentReportHTML = html;
     return html;

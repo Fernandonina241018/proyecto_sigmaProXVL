@@ -5039,3 +5039,10 @@ Render inyectaba el `PORT` como variable de entorno; Fly.io también (`process.e
 - **Problema:** el botón "Imprimir / PDF" no hacía nada al hacer clic: `window.printReport` dependía exclusivamente de `window.__currentReportHTML`, que puede estar vacío si el reporte se muestra en la página actual sin pasar por `generarHTML` (o si el usuario abrió el HTML descargado directamente).
 - **Fix:** `printReport` ahora busca primero `window.__currentReportHTML`; si está vacío, captura el contenedor `.doc` del DOM actual (`document.querySelector('.doc').outerHTML`) e imprime eso en una ventana independiente. Así funciona tanto si el reporte se generó vía `generarHTML` como si se muestra directamente en la página.
 - **Tests:** `node --check` OK; Vitest 495/495; backend 81/81; tsc OK; Playwright 1/1.
+
+### 2026-10-19 (214): Botón imprimir reportes — fallback robusto y onclick seguro
+- **Problema:** el botón seguía sin hacer nada: (1) `window.printReport` puede no estar definida si el HTML se abre directamente (archivo descargado sin cargar ReporteManager.js); (2) el `onclick="window.printReport()"` falla silenciosamente si la función no existe.
+- **Fix:** en `ReporteManager.js`:
+  1. `printReport` ahora busca el HTML del reporte en múltiples sitios: `window.__currentReportHTML`, luego `.doc`, luego `.rep-layout` / `.rep-preview` / `.reporte-impreso`.
+  2. El `onclick` del botón cambió a `(window.printReport||window.print)()` — si `printReport` no existe (archivo HTML abierto directamente), usa `window.print()` como fallback, que imprime toda la ventana (que en un archivo HTML descargado es solo el reporte).
+- **Tests:** `node --check` OK; Vitest 495/495; backend 81/81; tsc OK; Playwright 1/1.
