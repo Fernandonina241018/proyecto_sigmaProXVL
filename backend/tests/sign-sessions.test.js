@@ -513,11 +513,12 @@ test('purge dryRun lista sin borrar; real borra viejas complete', async () => {
     signature: {}, expectedVersion: 2,
   });
   const future = Date.now() + 400 * 86400000; // +400 días
-  const dry = await db.purgeSignSessions({ retentionDays: 365, dryRun: true, _now: future });
+  // expireOpenDays alto: este test es de retención, sin expiración de abiertas
+  const dry = await db.purgeSignSessions({ retentionDays: 365, dryRun: true, expireOpenDays: 100000, _now: future });
   assert.equal(dry.dryRun, true);
   assert.ok(dry.candidates.some((c) => c.id === s.id));
   assert.ok((await db.getSignSession(s.id)) !== null, 'dryRun no borra');
-  const real = await db.purgeSignSessions({ retentionDays: 365, dryRun: false, _now: future });
+  const real = await db.purgeSignSessions({ retentionDays: 365, dryRun: false, expireOpenDays: 100000, _now: future });
   assert.ok(real.deleted.some((d) => d.id === s.id && d.doc_hash));
   assert.equal(await db.getSignSession(s.id), null);
 });
@@ -529,8 +530,8 @@ test('purge jamás toca pending/partial ni recientes', async () => {
     preparedSignature: { nombre: 'Ana' },
   });
   const future = Date.now() + 400 * 86400000;
-  // pending aunque vieja → intacta
-  const r1 = await db.purgeSignSessions({ retentionDays: 365, dryRun: false, _now: future });
+  // pending aunque vieja → intacta (sin expiración en este test de retención)
+  const r1 = await db.purgeSignSessions({ retentionDays: 365, dryRun: false, expireOpenDays: 100000, _now: future });
   assert.ok(!r1.deleted.some((d) => d.id === s.id));
   // complete reciente → intacta
   await db.signSessionStep({

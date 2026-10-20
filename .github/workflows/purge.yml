@@ -1,9 +1,10 @@
 name: Purge
 
-# LOTE A — purga semanal de bandeja por retención.
+# LOTE A — purga semanal de bandeja por retención + expiración de abiertas.
 # Secrets requeridos: BACKEND_URL, ADMIN_USERNAME, ADMIN_PASSWORD.
-# Flujo: dryRun primero (visible en logs); solo purga real si DRY_RUN=false.
-# Nunca toca pending/partial (lo garantiza el endpoint).
+# Flujo: dryRun siempre visible en logs; purga real en el run programado
+# (schedule) o al disparar manualmente con dry_run=false.
+# Nunca borra pending/partial: las abiertas olvidadas se CANCELAN (soft-delete).
 # Retry anti-cold-start: el backend en Fly duerme (min_machines_running=0);
 # el login reintenta 5 veces con pausas para darle tiempo a despertar.
 
@@ -44,8 +45,8 @@ jobs:
             -H "Authorization: Bearer ${{ steps.login.outputs.token }}" \
             -H 'Content-Type: application/json' -d '{}'
 
-      - name: Purga real (solo si dry_run=false)
-        if: inputs.dry_run == 'false'
+      - name: Purga real (schedule o dry_run=false)
+        if: github.event_name == 'schedule' || inputs.dry_run == 'false'
         run: |
           curl -sf -X POST "${{ secrets.BACKEND_URL }}/api/admin/purge" \
             -H "Authorization: Bearer ${{ steps.login.outputs.token }}" \
