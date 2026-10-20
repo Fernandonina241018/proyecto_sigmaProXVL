@@ -264,6 +264,8 @@ function initFirmarReportePage() {
 
   var downloadBtn = document.getElementById('firmaDownloadBtn');
   if (downloadBtn) downloadBtn.onclick = firmaDownload;
+  var printBtn = document.getElementById('firmaPrintBtn');
+  if (printBtn) printBtn.onclick = firmaPrint;
 
   // FASE 2 — la bandeja siempre visible al entrar (fail-open si no hay servidor)
   _firmaSessionId = null;
@@ -784,6 +786,25 @@ function firmaDownload() {
     showToast('Error al descargar: ' + e.message);
   }
 }
+
+// Imprimir el reporte actual en ventana aparte (botón en la UI de la app;
+// el que viaja dentro del HTML vive en iframe sandbox y su onclick no se
+// ejecuta).
+function firmaPrint() {
+  if (!_firmaCurrentDoc) { showToast('No hay reporte cargado'); return; }
+  try {
+    var html = '<!DOCTYPE html>' + _firmaCurrentDoc.documentElement.outerHTML;
+    var w = window.open('', '_blank');
+    if (!w) { showToast('No se pudo abrir ventana de impresión (¿bloqueador de pop-ups?)', true); return; }
+    w.document.write(html);
+    w.document.close();
+    w.focus();
+    w.print();
+  } catch(e) {
+    showToast('Error al imprimir: ' + e.message);
+  }
+}
+
 // ════════════════════════════════════════════════════════════════
 
 // FEAT: firma-verificacion — password modal y verificación API
