@@ -8,7 +8,8 @@
     "test:coverage": "vitest run --coverage",
     "test:watch": "vitest",
     "typecheck": "tsc --project tsconfig.json",
-    "doctor": "npx react-doctor@latest"
+    "doctor": "npx react-doctor@latest",
+    "preflight": "node scripts/preflight.mjs"
   },
   "devDependencies": {
     "@playwright/test": "^1.63.0",
