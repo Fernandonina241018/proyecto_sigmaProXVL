@@ -5034,3 +5034,13 @@ Render inyectaba el `PORT` como variable de entorno; Fly.io también (`process.e
 - **Nivel 3 — preflight local:** nuevo `scripts/preflight.mjs` + `npm run preflight` que replica la batería de CI (vitest → backend → E2E) y se detiene en el primer fallo. Para correr **antes** de `git push` y ver el fallo en local, no en producción.
 - **Verificación:** YAML del workflow validado (3 jobs, ambos deploys con `needs: [quality-gate]`); preflight ejecutado en verde; **preflight validado en rojo** rompiendo `firmaLoadBandeja` a propósito (detectó 5 tests rotos) y restaurando; `node --check` OK; Vitest 503/503; backend 81/81; Playwright 1/1.
 - **Pendiente (Nivel 4 — staging real):** segunda app Fly + **base de datos separada** (obligatorio: staging con la misma DB contamina los registros firmados y rompe la trazabilidad 21 CFR Part 11), servir el frontend en staging (hoy ningún workflow lo despliega) y deploy de PR a staging. Requiere decidir hosting, presupuesto de DB y quién prueba.
+
+### 2026-10-20 (213): Hook pre-push, template de PR y puerto E2E exclusivo
+- **Problema:** el preflight no era utilizable en local: Playwright abortaba con *"port is already used"* porque el estático del E2E usaba el 5500, que es el puerto del servidor de desarrollo (Electron) y ya estaba ocupado. Además el preflight dependía de que uno se acordara de correrlo.
+- **Fix:**
+  1. **`.githooks/pre-push`** (versionado): invoca `npm run preflight` y **cancela el push** si algo falla. Salida deliberada: `SKIP_PREFLIGHT=1 git push`.
+  2. **`scripts/install-hooks.mjs`** + `npm run setup:hooks`: copia **solo** el pre-push a `.git/hooks/`. No usa `core.hooksPath` porque ese ajuste desactivaría el `pre-commit` de react-doctor, que queda intacto. Avisa si detecta `core.hooksPath` configurado.
+  3. **`.github/PULL_REQUEST_TEMPLATE.md`**: qué cambió, por qué, **qué NO cambia**, cómo se probó, nivel de riesgo, cómo se revierte y checklist de 21 CFR Part 11.
+  4. **`playwright.config.js`**: el estático del E2E pasa de 5500 a **5510** (exclusivo del E2E). El backend sigue en 3000 con `reuseExistingServer:false` → el E2E nunca toca la base de desarrollo. `CORS_ORIGINS` del E2E ajustado a 5510.
+- **Verificación:** push **cancelado** con `firmaLoadBandeja` roto a propósito (el hook lo paró); push **permitido** con código sano; `pre-commit` de react-doctor intacto; E2E 1/1 en el 5510; preflight completo en verde (Vitest 503/503 · backend 81/81 · Playwright 1/1).
+- **Flujo diario resultante:** rama → test primero → `npm run preflight` (o push, que lo corre solo) → PR (quality-gate en CI) → merge → deploy.
