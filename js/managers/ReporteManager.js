@@ -31,8 +31,6 @@ const ReporteManager = (() => {
             showToast('⚠️ No hay reporte generado para imprimir', true);
             return;
         }
-        // Sin <script>: la ventana de impresión no lleva sandbox.
-        html = String(html).replace(/<script[\s\S]*?<\/script>/gi, '');
         var w = window.open('', '_blank');
         if (!w) {
             showToast('⚠️ No se pudo abrir ventana de impresión (¿bloqueador de pop-ups?)', true);

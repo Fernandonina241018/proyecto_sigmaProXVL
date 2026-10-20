@@ -102,7 +102,7 @@ function firmaRestoreState() {
 
     var preview = document.getElementById('firmaPreview');
     if (preview) {
-      preview.innerHTML = '<iframe sandbox srcdoc="' + escapeHtml(_firmaHtmlForPreview(html)).replace(/"/g,'&quot;') + '" style="width:100%;height:100%;border:none;min-height:70vh"></iframe>';
+      preview.innerHTML = '<iframe sandbox srcdoc="' + escapeHtml(html).replace(/"/g,'&quot;') + '" style="width:100%;height:100%;border:none;min-height:70vh"></iframe>';
     }
 
     firmaRenderEditor();
@@ -291,7 +291,7 @@ function firmaLoadHtml(html, originalName) {
   // Render preview in iframe
   var preview = document.getElementById('firmaPreview');
   if (preview) {
-    preview.innerHTML = '<iframe sandbox srcdoc="' + escapeHtml(_firmaHtmlForPreview(html)).replace(/"/g,'&quot;') + '" style="width:100%;height:100%;border:none;min-height:70vh"></iframe>';
+    preview.innerHTML = '<iframe sandbox srcdoc="' + escapeHtml(html).replace(/"/g,'&quot;') + '" style="width:100%;height:100%;border:none;min-height:70vh"></iframe>';
   }
 
   // Extract signature data
@@ -730,7 +730,7 @@ function _firmaUpdateReportBadge() {
   var preview = document.getElementById('firmaPreview');
   if (preview) {
     var iframe = preview.querySelector('iframe');
-    if (iframe) iframe.srcdoc = _firmaHtmlForPreview(_firmaCurrentHtml);
+    if (iframe) iframe.srcdoc = _firmaCurrentHtml;
   }
 }
 
@@ -746,39 +746,10 @@ function firmaUpdatePreview(role, field, value) {
     if (preview) {
       var iframe = preview.querySelector('iframe');
       if (iframe) {
-        iframe.srcdoc = _firmaHtmlForPreview(_firmaCurrentHtml);
+        iframe.srcdoc = _firmaCurrentHtml;
       }
     }
   }
-}
-
-// FEAT: imprimir el reporte firmado desde la UI de la app.
-// El #printButton que viaja dentro del HTML no sirve en el preview: el reporte
-// vive en un iframe sandbox y sin allow-scripts los onclick inline NO se
-// ejecutan (comprobado en Chromium). Este botón está fuera del iframe, por eso
-// sí responde; abre el documento firmado en una ventana aparte y lo imprime.
-function firmaPrint() {
-  if (!_firmaCurrentDoc) { showToast('No hay reporte cargado'); return; }
-  try {
-    // Sin <script>: la ventana de impresión no lleva sandbox, y el preview sí lo
-    // usa justamente para aislar el HTML del usuario.
-    var html = ('<!DOCTYPE html>\n' + _firmaCurrentDoc.documentElement.outerHTML)
-      .replace(/<script[\s\S]*?<\/script>/gi, '');
-    var w = window.open('', '_blank');
-    if (!w) { showToast('No se pudo abrir la ventana de impresión (¿bloqueador de pop-ups?)', true); return; }
-    w.document.write(html);
-    w.document.close();
-    w.focus();
-    w.print();
-  } catch(e) {
-    showToast('Error al imprimir: ' + e.message, true);
-  }
-}
-
-// Quita el #printButton del HTML para el preview (muerto dentro del sandbox);
-// en el .html descargado sigue sirviendo porque ahí sí corre el onclick.
-function _firmaHtmlForPreview(html) {
-  return String(html || '').replace(/<div id="printButton"[\s\S]*?<\/div>/g, '');
 }
 
 function firmaDownload() {
