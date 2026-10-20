@@ -1,0 +1,30 @@
+#!/usr/bin/env bash
+# Hook pre-push — no deja subir código sin pasar la batería completa.
+#
+# Se instala con:  npm run setup:hooks
+# Se salta a propósito con:  SKIP_PREFLIGHT=1 git push
+#
+# Corre lo mismo que CI (vitest + backend + E2E). Si algo falla, el push
+# se cancela: así el error aparece en tu máquina y no en producción.
+
+set -u
+
+if [ "${SKIP_PREFLIGHT:-0}" = "1" ]; then
+  echo "⚠️  Preflight omitido (SKIP_PREFLIGHT=1) — el push continúa."
+  exit 0
+fi
+
+repo_root="$(git rev-parse --show-toplevel 2>/dev/null || echo ".")"
+cd "$repo_root" || exit 1
+
+echo "🚧 Preflight: vitest → backend → E2E (esto tarda ~40s)..."
+if ! npm run preflight; then
+  echo ""
+  echo "❌ Push CANCELADO: el preflight falló."
+  echo "   Arregla lo que falló y vuelve a hacer push."
+  echo "   Para saltarlo a propósito: SKIP_PREFLIGHT=1 git push"
+  exit 1
+fi
+
+echo "✅ Preflight OK — continúo con el push."
+exit 0

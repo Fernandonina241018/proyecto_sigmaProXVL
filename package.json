@@ -9,7 +9,8 @@
     "test:watch": "vitest",
     "typecheck": "tsc --project tsconfig.json",
     "doctor": "npx react-doctor@latest",
-    "preflight": "node scripts/preflight.mjs"
+    "preflight": "node scripts/preflight.mjs",
+    "setup:hooks": "node scripts/install-hooks.mjs"
   },
   "devDependencies": {
     "@playwright/test": "^1.63.0",
