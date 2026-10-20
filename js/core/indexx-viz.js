@@ -317,37 +317,18 @@ function _V_idxData(maxLen) {
 }
 
 // ══ EXTERNAL API (Reportes) ═══════════════════════════════════
-// ¿Este gráfico pertenece al dataset/hoja que tiene el foco ahora?
-// ceiling: si dos hojas distintas comparten nombre de columna, no importa aquí;
-// comparamos archivo + hoja (nombre e índice), no contenido de columnas.
-function _V_graficoPerteneceActual(g) {
-  var currentFile = typeof datosCurrentFileName !== 'undefined' ? datosCurrentFileName : '';
-  if (g.sourceFile !== currentFile) return false;
-  var currentSheet = '';
-  var currentSheetIdx = -1;
-  if (typeof trabajoSheets !== 'undefined' && typeof trabajoActiveSheetIndex !== 'undefined') {
-    var s = trabajoSheets[trabajoActiveSheetIndex];
-    currentSheet = s ? s.name : '';
-    currentSheetIdx = trabajoActiveSheetIndex;
-  }
-  if (currentSheet !== '') {
-    return g.sourceSheetName === currentSheet || g.sourceSheetIndex === currentSheetIdx;
-  }
-  return true;
-}
-
 window.Visualizacion = {
   _getGalleryGraphs: function() {
     var graficos = [];
     if (typeof _V === 'undefined' || !_V.gallery) return graficos;
     _V.gallery.forEach(function(g) {
-      if (!g) return;
-      var hold = !_V_graficoPerteneceActual(g);
-      var url = g.url;
-      if (!url && g.vars) {
-        try { url = _V_generateStaticImage(g); } catch(e) { /* skip */ }
+      if (g && g.url) graficos.push({ id: g.id, imagen: g.url, titulo: g.title, tipo: g.type || 'desconocido' });
+      else if (g && g.vars) {
+        try {
+          var staticImg = _V_generateStaticImage(g);
+          if (staticImg) graficos.push({ id: g.id, imagen: staticImg, titulo: g.title, tipo: g.type || 'desconocido' });
+        } catch(e) { /* skip */ }
       }
-      if (url) graficos.push({ id: g.id, imagen: url, titulo: g.title, tipo: g.type || 'desconocido', hold: hold });
     });
     return graficos;
   },
@@ -360,11 +341,7 @@ window.Visualizacion = {
     try {
       var cutoff = Date.now() - 30 * 60 * 1000;
       var currentFile = typeof datosCurrentFileName !== 'undefined' ? datosCurrentFileName : null;
-      // Gráficos de otro dataset/hoja (hold) nunca entran al reporte,
-      // aunque se pida "incluir todos": no tienen sentido sobre datos ajenos.
       _V.gallery.forEach(function(g) {
-        if (!g) return;
-        if (!_V_graficoPerteneceActual(g)) return;
         if (!includeAll && g.createdAt && g.createdAt < cutoff) return;
         if (currentFile && g.sourceFile && g.sourceFile !== currentFile) return;
         if (g && g.url) graficos.push({ id: g.id, imagen: g.url, titulo: g.title, tipo: g.type || 'desconocido' });
@@ -1170,7 +1147,6 @@ function vizSaveToGallery() {
   var sheetName = (typeof trabajoSheets !== 'undefined' && trabajoSheets[sheetIdx]) ? trabajoSheets[sheetIdx].name : '';
   _V.gallery.unshift({ id: id, title: title, type: _V.type || '', vars: structuredClone(_V.vals), palette: _V.palette, thumb: thumb, createdAt: Date.now(), sourceFile: datosCurrentFileName || '', sourceSheetIndex: sheetIdx, sourceSheetName: sheetName });
   if (_V.gallery.length > 100) _V.gallery = _V.gallery.slice(0, 100);
-  _V.gallery = _V_galleryDedup(_V.gallery);
   vizRefreshGallery();
   _V_saveGallery();
   showToast('✓ Guardado en galería');
@@ -1196,31 +1172,14 @@ function vizRefreshGallery() {
   var existing = strip.querySelectorAll('.gal-thumb');
   existing.forEach(function(el) { el.remove(); });
 
-  var currentFile = typeof datosCurrentFileName !== 'undefined' ? datosCurrentFileName : '';
-  var currentSheet = '';
-  var currentSheetIdx = -1;
-  if (typeof trabajoSheets !== 'undefined' && typeof trabajoActiveSheetIndex !== 'undefined') {
-    var s = trabajoSheets[trabajoActiveSheetIndex];
-    currentSheet = s ? s.name : '';
-    currentSheetIdx = trabajoActiveSheetIndex;
-  }
   _V.gallery.forEach(function(g) {
-    var belongs = _V_graficoPerteneceActual(g);
     var div = document.createElement('div');
-    div.className = 'gal-thumb' + (_V._activeGalleryId === g.id ? ' active' : '') + (belongs ? '' : ' hold');
-    if (!belongs) {
-      div.style.opacity = '0.45';
-      div.style.pointerEvents = 'none';
-      div.title = 'Gráfico de otro dataset/hoja — no seleccionable';
-    } else {
-      div.style.opacity = '';
-      div.style.pointerEvents = '';
-    }
+    div.className = 'gal-thumb' + (_V._activeGalleryId === g.id ? ' active' : '');
     var thumbSrc = escapeHtml(g.thumb || g.url || '');
     div.innerHTML = (thumbSrc ? '<img src="' + thumbSrc + '" alt="' + escapeHtml(g.title) + '">' : '<div class="gal-noimg">' + (g.type ? g.type[0].toUpperCase() : '?') + '</div>') +
       '<button class="gal-del" onclick="event.stopPropagation();vizDelGallery(' + g.id + ')">✕</button>' +
       '<div class="gal-name">' + escapeHtml(g.title) + '</div>';
-    if (belongs) div.onclick = function() { _V_showGalleryChart(g); };
+    div.onclick = function() { _V_showGalleryChart(g); };
     strip.appendChild(div);
   });
 }
@@ -1383,33 +1342,14 @@ function _V_saveGallery() {
   }
 }
 
-function _V_gallerySig(g) {
-  return JSON.stringify({ t: g.type, v: g.vars, p: g.palette, s: g.sourceSheetName || '' });
-}
-// Elimina remanentes repetidos (mismo tipo/columnas/hoja/paleta) quedando la copia más reciente.
-// techo: si dos hojas distintas tienen una columna con el mismo nombre, colapsan a una; aceptable.
-function _V_galleryDedup(arr) {
-  var seen = {}, out = [];
-  for (var i = 0; i < arr.length; i++) {
-    var g = arr[i];
-    if (!g) continue;
-    var sig = _V_gallerySig(g);
-    if (seen[sig]) continue;
-    seen[sig] = true;
-    out.push(g);
-  }
-  return out;
-}
-
 function _V_loadGallery() {
   try {
     var saved = _V_storageScope().sGet('sigmaPro_vizGallery');
     if (saved) {
       var parsed = JSON.parse(saved);
       if (Array.isArray(parsed)) {
-        var loaded = parsed.slice(0, 100);
-        _V.gallery = _V_galleryDedup(loaded);
-        var dirty = _V.gallery.length !== loaded.length;
+        _V.gallery = parsed.slice(0, 100);
+        var dirty = false;
         _V.gallery.forEach(function(g) {
           if (g.thumb && g.thumb.indexOf('image/png') >= 0) { delete g.thumb; dirty = true; }
         });
@@ -1553,237 +1493,86 @@ var _V_TYPE_MAP = {
 function showBatchGraphModal() {
   var sheet = _V_getSheet();
   if (!sheet || !sheet.headers || !sheet.headers.length) { showToast('No hay datos cargados'); return; }
+  // Sin modales duplicados: un modal previo abierto duplicaría los checkboxes
+  // y generaría columnas repetidas o ya desmarcadas en el otro modal.
   var prev = document.getElementById('vizBatchModal');
   if (prev) prev.remove();
   var modal = document.createElement('div');
   modal.className = 'modal-overlay';
   modal.id = 'vizBatchModal';
-  var autoChecked = (_V.vals && _V.vals.x === '__index__') ? ' checked' : '';
   var colOpts = '<option value="">— Seleccionar —</option>';
   sheet.headers.forEach(function(c) { colOpts += '<option value="' + c.replace(/"/g, '&quot;') + '">' + escapeHtml(c) + '</option>'; });
-  var typeItems = [
-    {v:'histogram', l:'Histograma', svg:'<path d="M3 20V12h5v8M8 20V5h6v15M14 20V9h6v11"/>'},
-    {v:'bar', l:'Barras', svg:'<rect x="3" y="22" width="8" height="12" rx="1.5"/><rect x="14" y="14" width="8" height="20" rx="1.5"/><rect x="25" y="8" width="8" height="26" rx="1.5"/><rect x="36" y="18" width="8" height="16" rx="1.5"/>'},
-    {v:'line', l:'Líneas', svg:'<polyline points="2,28 10,18 20,23 30,10 40,15 47,9" stroke-linecap="round" stroke-linejoin="round"/>'},
-    {v:'area', l:'Área', svg:'<path d="M2,28 L10,18 L20,23 L30,10 L40,15 L47,9 L47,34 L2,34Z"/><polyline points="2,28 10,18 20,23 30,10 40,15 47,9" stroke-linecap="round" stroke-linejoin="round"/>'},
-    {v:'scatter', l:'Dispersión', svg:'<circle cx="5" cy="30" r="2.5"/><circle cx="9" cy="24" r="2.5"/><circle cx="14" cy="28" r="2.5"/><circle cx="18" cy="18" r="2.5"/><circle cx="22" cy="25" r="2.5"/><circle cx="26" cy="14" r="2.5"/>'},
-    {v:'control', l:'Control', svg:'<polyline points="2,28 8,22 14,26 20,14 26,20 32,8 38,16 44,12" stroke-linecap="round" stroke-linejoin="round"/><line x1="2" y1="28" x2="46" y2="28" stroke-dasharray="4,3"/>'},
-    {v:'dotplot', l:'Puntos', svg:'<circle cx="5" cy="26" r="2.2"/><circle cx="8" cy="20" r="2.2"/><circle cx="12" cy="24" r="2.2"/><circle cx="15" cy="14" r="2.2"/><circle cx="19" cy="22" r="2.2"/><circle cx="22" cy="10" r="2.2"/><circle cx="26" cy="19" r="2.2"/><circle cx="30" cy="8" r="2.2"/><circle cx="34" cy="17" r="2.2"/><circle cx="39" cy="6" r="2.2"/><circle cx="42" cy="14" r="2.2"/><circle cx="46" cy="11" r="2.2"/>'}
-  ];
-  var typeHtml = typeItems.map(function(t) {
-    return '<div class="type">' +
-      '<input type="radio" name="type" id="ty-'+t.v+'" value="'+t.v+'"'+(t.v==='histogram'?' checked':'')+'>' +
-      '<label for="ty-'+t.v+'"><svg viewBox="0 0 34 22" aria-hidden="true" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">'+t.svg+'</svg>'+escapeHtml(t.l)+'</label>' +
-      '</div>';
+  var colChkHtml = sheet.headers.map(function(col) {
+    var safeId = 'vizModalChk-' + String(col).replace(/[^a-zA-Z0-9_-]/g, '_');
+    return '<label style="font-size:11px;color:var(--text-muted);cursor:pointer;display:flex;align-items:center;gap:2px;padding:2px 0">' +
+      '<input type="checkbox" class="viz-modal-batch-chk" data-col="' + col.replace(/"/g, '&quot;') + '" id="' + safeId + '"> ' + escapeHtml(col) + '</label>';
   }).join('');
-  var css = '<style>' +
-    ':root{--bg:#0e1016;--panel:#151822;--panel-2:#1b1f2b;--line:#262b3a;--text:#e8eaf2;--muted:#9aa1b5;--accent:#7c6af2;--accent-2:#9585ff;--danger:#f0707a;--r-modal:16px;--r-ctl:10px;--r-chip:8px;font-family:Inter,system-ui,-apple-system,"Segoe UI",sans-serif}'+
-    '*{box-sizing:border-box}'+
-    'button{font:inherit;color:inherit;cursor:pointer}'+
-    '.backdrop{position:fixed;inset:0;background:rgba(5,6,10,.7);display:none;place-items:center;padding:16px}'+
-    '.backdrop.open{display:grid}'+
-    '.modal{width:min(560px,100%);max-height:calc(100vh - 32px);display:flex;flex-direction:column;background:var(--panel);border:1px solid var(--line);border-radius:var(--r-modal);box-shadow:0 24px 60px rgba(0,0,0,.5)}'+
-    '.head{display:flex;justify-content:space-between;align-items:flex-start;padding:20px 22px 4px}'+
-    '.head h2{margin:0;font-size:17px;font-weight:600}'+
-    '.head p{margin:4px 0 0;font-size:13px;color:var(--muted)}'+
-    '.x{background:none;border:0;color:var(--muted);font-size:20px;line-height:1;padding:4px 8px;border-radius:6px}'+
-    '.x:hover{background:var(--panel-2);color:var(--text)}'+
-    '.body{padding:16px 22px;overflow:auto;display:flex;flex-direction:column;gap:20px}'+
-    '.sec-title{font-size:13px;font-weight:600;margin:0 0 8px;color:var(--text)}'+
-    '.types{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}'+
-    '.type input{position:absolute;opacity:0}'+
-    '.type{position:relative}'+
-    '.type label{display:flex;flex-direction:column;align-items:center;gap:6px;padding:12px 6px 10px;background:var(--panel-2);border:1px solid var(--line);border-radius:var(--r-ctl);font-size:12.5px;color:var(--muted);cursor:pointer;transition:border-color .15s,color .15s}'+
-    '.type svg{width:34px;height:22px;stroke:currentColor;fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}'+
-    '.type label:hover{color:var(--text)}'+
-    '.type input:checked + label{border-color:var(--accent);color:var(--text);background:rgba(124,106,242,.12)}'+
-    '.type input:focus-visible + label{outline:2px solid var(--accent-2);outline-offset:2px}'+
-    '.col-tools{display:flex;gap:8px;align-items:center;margin-bottom:10px}'+
-    '.search{flex:1;background:var(--panel-2);border:1px solid var(--line);border-radius:var(--r-ctl);padding:8px 12px;color:var(--text);font:inherit;font-size:13px}'+
-    '.search::placeholder{color:var(--muted)}'+
-    '.search:focus{outline:2px solid var(--accent-2);outline-offset:1px;border-color:transparent}'+
-    '.chips{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px;max-height:210px;overflow:auto;padding:2px}'+
-    '.chip{position:relative}'+
-    '.chip input{position:absolute;opacity:0}'+
-    '.chip label{display:flex;align-items:center;gap:8px;padding:8px 10px;border:1px solid var(--line);border-radius:var(--r-chip);background:var(--panel-2);font-size:13px;cursor:pointer;user-select:none}'+
-    '.chip .box{width:16px;height:16px;border-radius:4px;border:1.5px solid #4a5068;flex:none;display:grid;place-items:center}'+
-    '.chip .box svg{width:10px;height:10px;stroke:#fff;stroke-width:2.2;fill:none;opacity:0}'+
-    '.chip .name{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}'+
-    '.chip .kind{font-size:11px;color:var(--muted)}'+
-    '.chip input:checked + label{border-color:var(--accent);background:rgba(124,106,242,.12)}'+
-    '.chip input:checked + label .box{background:var(--accent);border-color:var(--accent)}'+
-    '.chip input:checked + label .box svg{opacity:1}'+
-    '.chip input:focus-visible + label{outline:2px solid var(--accent-2);outline-offset:2px}'+
-    '.chip input:disabled + label{opacity:.4;cursor:not-allowed}'+
-    '.selall{position:relative;margin-bottom:10px}'+
-    '.selall input{position:absolute;opacity:0}'+
-    '.selall label{display:flex;align-items:center;gap:10px;padding:9px 12px;border:1px dashed #3a4058;border-radius:var(--r-ctl);font-size:13.5px;font-weight:600;cursor:pointer;user-select:none}'+
-    '.selall label:hover{background:var(--panel-2)}'+
-    '.selall .box{width:16px;height:16px;border-radius:4px;border:1.5px solid #4a5068;display:grid;place-items:center;flex:none}'+
-    '.selall .box svg{width:10px;height:10px;stroke:#fff;stroke-width:2.2;fill:none}'+
-    '.selall .tick,.selall .dash{opacity:0}'+
-    '.selall input:checked + label .box,.selall input:indeterminate + label .box{background:var(--accent);border-color:var(--accent)}'+
-    '.selall input:checked + label .tick{opacity:1}'+
-    '.selall input:indeterminate + label .dash{opacity:1}'+
-    '.selall input:focus-visible + label{outline:2px solid var(--accent-2);outline-offset:2px}'+
-    '.hint{font-size:12.5px;color:var(--muted);margin:8px 0 0;min-height:1.2em}'+
-    '.hint.warn{color:var(--danger)}'+
-    '.foot{display:flex;justify-content:flex-end;gap:10px;padding:14px 22px 20px;border-top:1px solid var(--line)}'+
-    '.btn{border-radius:var(--r-ctl);padding:10px 16px;font-size:14px;font-weight:600;border:1px solid var(--line);background:transparent}'+
-    '.btn:hover{background:var(--panel-2)}'+
-    '.btn.primary{background:var(--accent);border-color:var(--accent);color:#fff}'+
-    '.btn.primary:hover{background:var(--accent-2)}'+
-    '.btn.primary:disabled{background:var(--panel-2);border-color:var(--line);color:var(--muted);cursor:not-allowed}'+
-    '.btn:focus-visible,.x:focus-visible{outline:2px solid var(--accent-2);outline-offset:2px}'+
-    '@media (max-width:480px){.types{grid-template-columns:repeat(2,1fr)}}'+
-    '@media (prefers-reduced-motion:reduce){*{transition:none!important}}'+
-    '</style>';
-  modal.innerHTML = css +
-  '<div class="backdrop open" id="vizbBackdrop">' +
-    '<div class="modal" role="dialog" aria-modal="true" aria-labelledby="vizbT">' +
-      '<div class="head">' +
-        '<div>' +
-          '<h2 id="vizbT">🔁 Generar múltiples gráficos</h2>' +
-          '<p>Se crea un gráfico por cada columna seleccionada.</p>' +
-        '</div>' +
-        '<button class="x" id="vizbClose" aria-label="Cerrar">×</button>' +
-      '</div>' +
-      '<div class="body">' +
-        '<fieldset style="border:0;padding:0;margin:0">' +
-          '<legend class="sec-title" style="padding:0">Tipo de gráfico</legend>' +
-          '<div class="types" id="vizbTypes">'+typeHtml+'</div>' +
-        '</fieldset>' +
-        '<div>' +
-          '<p class="sec-title">Columnas</p>' +
-          '<div class="col-tools">' +
-            '<input class="search" id="vizbQ" type="search" placeholder="Buscar columna" aria-label="Buscar columna">' +
-          '</div>' +
-          '<div class="selall">' +
-            '<input type="checkbox" id="vizbSelall">' +
-            '<label for="vizbSelall"><span class="box"><svg viewBox="0 0 10 10"><path class="tick" d="M1.5 5.2l2.4 2.4L8.5 2.5"/><path class="dash" d="M2 5h6"/></svg></span><span id="vizbSelallText">Seleccionar todas</span></label>' +
-          '</div>' +
-          '<div class="chips" id="vizbChips"></div>' +
-          '<p class="hint" id="vizbHint"></p>' +
-        '</div>' +
-        '<div id="vizbXRow" style="display:none;margin-top:10px">' +
-          '<span style="font-size:11px;color:var(--text-muted);white-space:nowrap;display:block;margin-bottom:2px">Eje X</span>' +
-          '<select id="vizbColX" style="width:100%;background:var(--panel-2);border:1px solid var(--line);border-radius:8px;color:var(--text);padding:6px 8px;font:inherit">'+colOpts+'</select>' +
-        '</div>' +
-        '<div style="display:flex;align-items:center;gap:6px;font-size:11px;color:var(--text-muted);cursor:pointer;margin-top:4px">' +
-          '<input type="checkbox" id="vizbAutoIdx"'+autoChecked+'> <span style="user-select:none">🔢 Índice automático</span>' +
-        '</div>' +
-      '</div>' +
-      '<div class="foot">' +
-        '<button class="btn" id="vizbCancel">Cancelar</button>' +
-        '<button class="btn primary" id="vizbGo" disabled>Generar</button>' +
-      '</div>' +
+  modal.innerHTML = '<div class="modal-box" style="min-width:420px">' +
+    '<div class="modal-title">🔁 Generar múltiples gráficos</div>' +
+    '<div style="display:flex;gap:8px;flex-wrap:wrap;margin:8px 0">' +
+      '<div class="modal-row"><span class="modal-label">Tipo</span>' +
+        '<select id="vizModalType" class="modal-select" style="min-width:120px">' +
+          '<option value="histogram">▦ Histograma</option>' +
+          '<option value="bar">📊 Barras</option>' +
+          '<option value="line">📈 Líneas</option>' +
+          '<option value="area">📉 Área</option>' +
+          '<option value="scatter">⬡ Dispersión</option>' +
+          '<option value="control">📈 Control</option>' +
+          '<option value="dotplot">● Puntos</option>' +
+        '</select></div>' +
+      '<div class="modal-row" id="vizModalXRow"><span class="modal-label">Eje X</span>' +
+        '<select id="vizModalColX" class="modal-select" style="min-width:120px">' + colOpts + '</select></div>' +
     '</div>' +
-  '</div>';
+    '<label style="display:flex;align-items:center;gap:6px;font-size:11px;color:var(--text-muted);cursor:pointer;padding:2px 0 6px" id="vizModalAutoIdxRow">' +
+      '<input type="checkbox" id="vizModalAutoIdx"' + (_V.vals.x === '__index__' ? ' checked' : '') + '> 🔢 Índice automático (1, 2, 3...)</label>' +
+    '<div style="font-size:11px;color:var(--text-faint);margin:4px 0 2px">Columnas a graficar:</div>' +
+    '<div style="display:flex;flex-wrap:wrap;gap:4px 12px;max-height:200px;overflow-y:auto;padding:4px 0">' + colChkHtml + '</div>' +
+    '<div id="vizModalSelCount" style="font-size:11px;color:var(--text-faint);margin-top:4px">0 columnas seleccionadas</div>' +
+    '<div class="modal-actions" style="margin-top:10px">' +
+      '<button class="btn btn-secondary" id="vizModalCancel">Cancelar</button>' +
+      '<button class="btn btn-primary" id="vizModalGenerate">🎨 Generar</button>' +
+    '</div></div>';
   document.body.appendChild(modal);
-
-  var selected = new Set();
-  var MAX = 12;
-  var elQ = modal.querySelector('#vizbQ');
-  var elSel = modal.querySelector('#vizbSelall');
-  var elSelText = modal.querySelector('#vizbSelallText');
-  var elChips = modal.querySelector('#vizbChips');
-  var elHint = modal.querySelector('#vizbHint');
-  var elGo = modal.querySelector('#vizbGo');
-  var elX = modal.querySelector('#vizbColX');
-  var elAuto = modal.querySelector('#vizbAutoIdx');
-  var elTypes = modal.querySelector('#vizbTypes');
-
-  function visibleHeaders() {
-    var q = (elQ.value || '').toLowerCase();
-    return sheet.headers.filter(function(c) { return c.toLowerCase().indexOf(q) >= 0; });
-  }
-
-  function renderChips() {
-    var hs = visibleHeaders();
-    elChips.innerHTML = hs.length ? hs.map(function(col) {
-      var sid = 'vizbChk-' + String(col).replace(/[^a-zA-Z0-9_-]/g, '_');
-      return '<div class="chip">' +
-        '<input type="checkbox" id="'+sid+'" data-col="'+escapeHtml(col)+'"'+(selected.has(col)?' checked':'')+'>' +
-        '<label for="'+sid+'"><span class="box"><svg viewBox="0 0 10 10"><path d="M1.5 5.2l2.4 2.4L8.5 2.5"/></svg></span>' +
-        '<span class="name">'+escapeHtml(col)+'</span><span class="kind">'+escapeHtml(col)+'</span></label>' +
-        '</div>';
-    }).join('') : '<p class="hint" style="grid-column:1/-1">Ninguna columna coincide.</p>';
-  }
-
-  function update() {
-    var n = selected.size;
-    elGo.disabled = n === 0;
-    elGo.textContent = n === 0 ? 'Generar' : 'Generar '+n+(n===1?' gráfico':' gráficos');
-    elHint.className = 'hint';
-    if (n === 0) elHint.textContent = 'Selecciona al menos una columna.';
-    else if (n > MAX) { elHint.textContent = 'Vas a generar '+n+' gráficos; puede tardar.'; elHint.className = 'hint warn'; }
-    else elHint.textContent = n+' columna'+(n!==1?'s':'')+' seleccionada'+(n!==1?'s':'');
-    var hs = visibleHeaders();
-    var sel = hs.filter(function(c){ return selected.has(c); }).length;
-    elSel.checked = hs.length > 0 && sel === hs.length;
-    elSel.indeterminate = sel > 0 && sel < hs.length;
-    elSel.disabled = hs.length === 0;
-    elSelText.textContent = elQ.value ? 'Seleccionar los '+hs.length+' resultados' : 'Seleccionar todas';
-  }
-
-  var hideX = true;
-  // Event delegation en el contenedor de tipos (evita querySelectorAll().forEach
-  // sobre elementos creados vía innerHTML, que falla en algunos entornos vm).
-  elTypes.addEventListener('change', function(e) {
-    if (e.target.tagName === 'INPUT' && e.target.name === 'type') {
-      var hide = e.target.value === 'histogram' || e.target.value === 'dotplot';
-      if (elX && elX.parentElement) elX.parentElement.style.display = hide ? 'none' : '';
-      if (hide) { elAuto.checked = false; _V.vals.x = ''; }
-      renderChips(); update();
-    }
-  });
-  var rChecked = elTypes.querySelector('input:checked');
-  if (rChecked) hideX = (rChecked.value === 'histogram' || rChecked.value === 'dotplot');
-  if (elX && elX.parentElement) elX.parentElement.style.display = hideX ? 'none' : '';
-
-  // Al abrir, seleccionar todas las columnas visibles y activar índice automático.
-  var hs0 = visibleHeaders();
-  hs0.forEach(function(c){ selected.add(c); });
-  elAuto.checked = true;
-  _V.vals.x = '__index__';
-  renderChips();
-  update();
-
-  elQ.addEventListener('input', function() { renderChips(); update(); });
-  elSel.addEventListener('change', function() {
-    var hs = visibleHeaders();
-    if (elSel.checked) hs.forEach(function(c){ selected.add(c); });
-    else hs.forEach(function(c){ selected.delete(c); });
-    renderChips(); update();
-  });
-  elAuto.addEventListener('change', function() {
-    _V.vals.x = elAuto.checked ? '__index__' : '';
+  // Contador vivo + alcance al modal (nunca al documento: evita fugas entre modales).
+  var updBatchCount = function() {
+    var n = modal.querySelectorAll('.viz-modal-batch-chk:checked').length;
+    var cc = modal.querySelector('#vizModalSelCount');
+    if (cc) cc.textContent = n + (n === 1 ? ' columna seleccionada' : ' columnas seleccionadas');
+    var gb = modal.querySelector('#vizModalGenerate');
+    if (gb) gb.textContent = '🎨 Generar' + (n ? ' (' + n + ')' : '');
+  };
+  modal.querySelectorAll('.viz-modal-batch-chk').forEach(function(cb) { cb.addEventListener('change', updBatchCount); });
+  updBatchCount();
+  document.getElementById('vizModalAutoIdx').onchange = function() {
+    _V.vals.x = this.checked ? '__index__' : '';
     _V_syncAutoIdxUI();
-  });
-  elChips.addEventListener('change', function(e) {
-    var cb = e.target.tagName === 'INPUT' ? e.target : null;
-    if (!cb || !cb.dataset.col) return;
-    if (cb.checked) selected.add(cb.dataset.col);
-    else selected.delete(cb.dataset.col);
-    renderChips(); update();
-  });
-  modal.querySelector('#vizbCancel').addEventListener('click', function() { modal.remove(); });
-  modal.querySelector('#vizbClose').addEventListener('click', function() { modal.remove(); });
-  modal.querySelector('#vizbGo').addEventListener('click', function() {
-    var tr = elTypes.querySelector('input:checked');
-    var type = tr ? tr.value : 'histogram';
-    var autoIdx = elAuto.checked;
-    var colX = autoIdx ? '__index__' : elX.value;
-    var arr = [], seen = {};
-    selected.forEach(function(c){ if (!seen[c]) { seen[c] = true; arr.push(c); } });
-    if (!arr.length) { showToast('Selecciona al menos una columna'); return; }
+  };
+  document.getElementById('vizModalCancel').onclick = function() { modal.remove(); };
+  document.getElementById('vizModalGenerate').onclick = function() {
+    var type = document.getElementById('vizModalType').value;
+    var autoIdx = document.getElementById('vizModalAutoIdx').checked;
+    var colX = autoIdx ? '__index__' : document.getElementById('vizModalColX').value;
+    var checkboxes = modal.querySelectorAll('.viz-modal-batch-chk:checked');
+    var selected = [];
+    checkboxes.forEach(function(cb) { if (cb.checked) selected.push(cb.dataset.col); });
+    // Sin repetidos (encabezados duplicados en la hoja generarían el mismo gráfico dos veces).
+    var seenCols = {};
+    selected = selected.filter(function(c) { if (seenCols[c]) return false; seenCols[c] = true; return true; });
+    if (!selected.length) { showToast('Selecciona al menos una columna'); return; }
     if (type !== 'histogram' && type !== 'dotplot' && !autoIdx && !colX) { showToast('Selecciona Eje X o activa índice automático'); return; }
     modal.remove();
     loadPage('visualizacion');
-    setTimeout(function() { _V_batchGenerate(type, colX, arr); }, 150);
-  });
-  modal.addEventListener('click', function(e) { if (e.target === modal) modal.remove(); });
+    setTimeout(function() { _V_batchGenerate(type, colX, selected); }, 150);
+  };
+  modal.onclick = function(e) { if (e.target === modal) modal.remove(); };
+  document.getElementById('vizModalType').onchange = function() {
+    var hide = this.value === 'histogram' || this.value === 'dotplot';
+    document.getElementById('vizModalXRow').style.display = hide ? 'none' : 'flex';
+    document.getElementById('vizModalAutoIdxRow').style.display = hide ? 'none' : 'flex';
+  };
+  document.getElementById('vizModalType').dispatchEvent(new Event('change'));
 }
+
 function _V_batchGenerate(type, colX, selectedCols) {
   var mappedType = _V_TYPE_MAP[type] || 'barras';
   var count = 0;
@@ -1804,29 +1593,17 @@ function _V_batchGenerate(type, colX, selectedCols) {
       _V.type = 'dotplot';
       _V.vals = { variable: col };
     } else if (type === 'scatter') {
-      if (col === colX) {
-        errs++;
-        showToast('⚠️ ' + escapeHtml(col) + ': es la misma que el Eje X', true);
-        return;
-      }
+      if (col === colX) return;
       _V.type = 'dispersion';
       _V.vals = { x: colX, y: col };
     } else {
-      if (col === colX) {
-        errs++;
-        showToast('⚠️ ' + escapeHtml(col) + ': es la misma que el Eje X', true);
-        return;
-      }
+      if (col === colX) return;
       _V.type = mappedType;
       _V.vals = { x: colX, y: col };
     }
 
     var config = _V_buildConfig();
-    if (!config) {
-      errs++;
-      showToast('⚠️ ' + escapeHtml(col) + ': no hay datos para este tipo de gráfico', true);
-      return;
-    }
+    if (!config) return;
     config.options.responsive = false;
     config.options.animation = false;
 
@@ -1847,12 +1624,10 @@ function _V_batchGenerate(type, colX, selectedCols) {
 
     var title = _V_autoTitle();
     var id = Date.now() + count;
-    var sheetIdx = typeof trabajoActiveSheetIndex !== 'undefined' ? trabajoActiveSheetIndex : -1;
-    var sheetName = (typeof trabajoSheets !== 'undefined' && trabajoSheets[sheetIdx]) ? trabajoSheets[sheetIdx].name : '';
-    _V.gallery.unshift({ id: id, title: title, type: savedType, vars: savedVars, palette: _V.palette, thumb: thumb, createdAt: Date.now(), sourceFile: datosCurrentFileName || '', sourceSheetIndex: sheetIdx, sourceSheetName: sheetName });
+    _V.gallery.unshift({ id: id, title: title, type: savedType, vars: savedVars, palette: _V.palette, thumb: thumb });
     count++;
   });
-  _V.gallery = _V_galleryDedup(_V.gallery);
+
   _V.opts.anim = oldAnim;
 
   if (_V.gallery.length > 0) {
@@ -1863,9 +1638,9 @@ function _V_batchGenerate(type, colX, selectedCols) {
   _V_saveGallery();
 
   var msg = '';
-  if (count > 0) msg = '✅ ' + count + ' gráfico(s) generado(s) y guardado(s) en galería';
+  if (count > 0) msg = '✅ ' + count + ' gráfico(s) generado(s) y guardados en galería';
   else msg = 'No se generaron gráficos';
-  if (errs > 0) msg += ' · ' + errs + ' columna(s) con error';
+  if (errs > 0) msg += ' (' + errs + ' error(es))';
   showToast(msg);
 }
 

@@ -41,7 +41,6 @@ const QRCode  = require('qrcode');
 const db      = require('./database');
 const { extractEmbeddedSignatures } = require('./sign-html'); // FASE 3
 const { signStampTZ } = require('./sign-stamp');
-const { collectSignTray } = require('./sign-tray');
 // tzOffset: minutos de Date.getTimezoneOffset() del firmante (UTC-local).
 function _signFecha(req) { return signStampTZ(new Date(), req.body && req.body.tzOffset); }
 
@@ -926,44 +925,6 @@ function _isSignCandidate(session, user) {
     return false; // prepared solo lo firma el creador al publicar
 }
 
-// ── Cupo de reportes EN FIRMA por usuario (plan control reportes) ──
-// Al publicar con N abiertas: sin acceptReplace → 409 con la lista de las más
-// antiguas; con acceptReplace → las cancela (soft-delete auditado) y sigue.
-// Nunca toca reportes firmados (esos solo salen por purga de retención).
-const SIGN_MAX_OPEN = Math.max(parseInt(process.env.SIGN_MAX_OPEN) || 10, 1);
-
-async function _enforceSignQuota(req, signer, acceptReplace) {
-    const open = await db.signQuotaInfo(signer.username);
-    if (open.length < SIGN_MAX_OPEN) return { ok: true };
-    const needed = open.length - (SIGN_MAX_OPEN - 1); // deja hueco para la nueva
-    const victims = open.slice(0, needed);
-    if (!acceptReplace) {
-        return {
-            ok: false, code: 'quota', total: open.length, max: SIGN_MAX_OPEN,
-            error: 'Tienes ' + open.length + ' reportes en firma (máximo ' + SIGN_MAX_OPEN + '). Confirma la cancelación de los más antiguos para publicar otro.',
-            items: victims.map((v) => ({ id: v.id, name: v.name, created_at: v.created_at || '' })),
-        };
-    }
-    const cancelled = [];
-    // Secuencial a propósito: la cadena de auditoría exige orden de inserción.
-    for (const v of victims) {
-        const r = await db.deleteSignSession({
-            id: v.id, username: signer.username, userRole: signer.role,
-            reason: 'Cancelada por cupo (' + SIGN_MAX_OPEN + ' en firma) — autorizada al publicar otro reporte',
-            allowOpen: true,
-        });
-        if (r && !r.error) {
-            cancelled.push(r.id);
-            await db.logAuditEvent({
-                username: signer.username, action: 'SIGN_SESSION_DELETE', success: 1,
-                ip: getClientIP(req), userAgent: req.headers['user-agent'],
-                module: 'FIRMA', details: JSON.stringify({ sessionId: r.id, reason: r.deleted_reason, via: 'quota' }),
-            });
-        }
-    }
-    return { ok: true, cancelled };
-}
-
 // POST /api/sign-sessions — publicar reporte a bandeja (firma prepared incluida)
 app.post('/api/sign-sessions', requireAuth, async (req, res) => {
     try {
@@ -979,8 +940,6 @@ app.post('/api/sign-sessions', requireAuth, async (req, res) => {
         }
         const signer = await _checkSignCredentials(req, res);
         if (!signer) return; // respuesta ya enviada
-        const quota = await _enforceSignQuota(req, signer, req.body.acceptReplace === true);
-        if (!quota.ok) return res.status(409).json(quota);
         const nombreCompleto = [signer.nombre, signer.apellido].filter(Boolean).join(' ') || signer.username;
         const session = await db.createSignSession({
             name: name.trim(), html,
@@ -1001,7 +960,7 @@ app.post('/api/sign-sessions', requireAuth, async (req, res) => {
             ip: getClientIP(req), userAgent: req.headers['user-agent'],
             module: 'FIRMA', details: JSON.stringify({ sessionId: session.id, docHash: session.doc_hash }),
         });
-        res.json({ ok: true, session: _stripSignSession(session), cancelled: quota.cancelled || [] });
+        res.json({ ok: true, session: _stripSignSession(session) });
     } catch (err) {
         console.error('Error creating sign session:', err);
         res.status(500).json({ error: 'Error al publicar reporte a firma' });
@@ -1025,8 +984,6 @@ app.post('/api/sign-sessions/import', requireAuth, verifyLimiter, async (req, re
         }
         const signer = await _checkSignCredentials(req, res);
         if (!signer) return; // respuesta ya enviada
-        const quota = await _enforceSignQuota(req, signer, req.body.acceptReplace === true);
-        if (!quota.ok) return res.status(409).json(quota);
         const nombreCompleto = [signer.nombre, signer.apellido].filter(Boolean).join(' ') || signer.username;
         const embedded = extractEmbeddedSignatures(html);
         const session = await db.importSignSession({
@@ -1050,36 +1007,29 @@ app.post('/api/sign-sessions/import', requireAuth, verifyLimiter, async (req, re
             ip: getClientIP(req), userAgent: req.headers['user-agent'],
             module: 'FIRMA', details: JSON.stringify({ sessionId: session.id, docHash: session.doc_hash }),
         });
-        res.json({ ok: true, session: _stripSignSession(session), cancelled: quota.cancelled || [] });
+        res.json({ ok: true, session: _stripSignSession(session) });
     } catch (err) {
         console.error('Error importing sign session:', err);
         res.status(500).json({ error: 'Error al publicar reporte a bandeja' });
     }
 });
 
-// GET /api/sign-sessions — bandeja (?scope=mine|pending, scope=all solo admin, ?count=1)
+// GET /api/sign-sessions — bandeja (?scope=mine|pending, ?count=1)
 app.get('/api/sign-sessions', requireAuth, async (req, res) => {
     try {
-        const scope = req.query.scope === 'mine' ? 'mine'
-            : (req.query.scope === 'all' && req.user.role === 'admin') ? 'all'
-            : 'pending';
+        const scope = req.query.scope === 'mine' ? 'mine' : 'pending';
         const limit = Math.min(parseInt(req.query.limit) || 50, 200);
         const offset = parseInt(req.query.offset) || 0;
         const me = { username: req.user.username, role: req.user.role };
         let sessions;
-        const isCand = (s) => _isSignCandidate(s, me);
-        if (scope === 'all') {
-            sessions = await db.listSignSessions({ scope: 'all', limit, offset });
-            if (req.query.count === '1') return res.json({ ok: true, count: sessions.length });
-        } else if (scope === 'mine') {
+        if (scope === 'mine') {
             sessions = await db.listSignSessions({ scope: 'mine', username: me.username, limit, offset });
-            if (req.query.count === '1') return res.json({ ok: true, count: sessions.length });
         } else {
-            const fetchPage = (lim, off) => db.listSignSessions({ scope: 'pending', limit: lim, offset: off });
-            if (req.query.count === '1') {
-                return res.json({ ok: true, count: await collectSignTray({ fetchPage, isCandidate: isCand, scope: 'count' }) });
-            }
-            sessions = await collectSignTray({ fetchPage, isCandidate: isCand, offset, limit });
+            const cands = await db.listSignSessions({ scope: 'pending', limit: limit * 3, offset: 0 });
+            sessions = cands.filter((s) => _isSignCandidate(s, me)).slice(offset, offset + limit);
+        }
+        if (req.query.count === '1') {
+            return res.json({ ok: true, count: sessions.length });
         }
         res.json({ ok: true, sessions: sessions.map(_stripSignSession), limit, offset });
     } catch (err) {
@@ -1354,16 +1304,14 @@ app.delete('/api/sign-sessions/:id', requireAuth, async (req, res) => {
 });
 
 // POST /api/admin/purge — purga por retención (solo admin).
-// Borra complete/rejected viejas (nunca pending/partial físicamente) y
-// CANCELA abiertas olvidadas > expireOpenDays (soft-delete auditado).
-// Defaults por env RETENTION_DAYS (182), REJECTED_DAYS (90), OPEN_EXPIRE_DAYS (90).
+// Borra complete/rejected viejas (nunca pending/partial). dryRun lista.
+// Defaults por env RETENTION_DAYS (182) y REJECTED_DAYS (90).
 app.post('/api/admin/purge', requireAuth, requireAdmin, async (req, res) => {
     try {
         const retentionDays = parseInt((req.body && req.body.retentionDays) ?? process.env.RETENTION_DAYS ?? 182);
         const rejectedDays = parseInt((req.body && req.body.rejectedDays) ?? process.env.REJECTED_DAYS ?? 90);
-        const expireOpenDays = parseInt((req.body && req.body.expireOpenDays) ?? process.env.OPEN_EXPIRE_DAYS ?? 90);
         const dryRun = !req.body || req.body.dryRun !== false;
-        const result = await db.purgeSignSessions({ retentionDays, rejectedDays, expireOpenDays, dryRun });
+        const result = await db.purgeSignSessions({ retentionDays, rejectedDays, dryRun });
         if (!dryRun && result.count > 0) {
             await db.logAuditEvent({
                 username: req.user.username, action: 'SIGN_SESSION_PURGE', success: 1,
@@ -1375,18 +1323,7 @@ app.post('/api/admin/purge', requireAuth, requireAdmin, async (req, res) => {
                 }),
             });
         }
-        if (!dryRun && result.expiredCount > 0) {
-            await db.logAuditEvent({
-                username: req.user.username, action: 'SIGN_SESSION_EXPIRE', success: 1,
-                ip: getClientIP(req), userAgent: req.headers['user-agent'],
-                module: 'FIRMA', details: JSON.stringify({
-                    count: result.expiredCount,
-                    ids: result.expired.map(function(d) { return d.id; }),
-                    expireOpenDays,
-                }),
-            });
-        }
-        res.json({ ok: true, ...result, retentionDays, rejectedDays, expireOpenDays });
+        res.json({ ok: true, ...result, retentionDays, rejectedDays });
     } catch (err) {
         console.error('Error purging sign sessions:', err);
         res.status(500).json({ error: 'Error en purga' });

@@ -88,8 +88,7 @@ function _sendbackEligible(session, toRole, actor) {
 }
 
 // LOTE A — Purga por retención (compartido PG/local): solo complete/
-// rejected/deleted viejas por updated_at. Jamás toca pending/partial
-// (la expiración de abiertas es aparte: _purgeOpenExpired, soft-delete).
+// rejected/deleted viejas por updated_at. Jamás toca pending/partial.
 // Las lápidas purgan con el plazo de rechazadas.
 function _purgeEligible(sessions, retentionDays, rejectedDays, nowMs) {
     const rMs = Math.max(parseInt(retentionDays) || 182, 1) * 86400000;
@@ -99,18 +98,6 @@ function _purgeEligible(sessions, retentionDays, rejectedDays, nowMs) {
         if (s.status === 'complete') return age > rMs;
         if (s.status === 'rejected' || s.status === 'deleted') return age > jMs;
         return false;
-    });
-}
-
-// Expiración de abiertas olvidadas (plan control reportes): pending/partial
-// sin actividad por expireOpenDays → canceladas (borrado suave con motivo,
-// nunca físico). Se ejecuta en la purga, con el mismo gate de dryRun.
-function _purgeOpenExpired(sessions, expireOpenDays, nowMs) {
-    const xMs = Math.max(parseInt(expireOpenDays) || 90, 1) * 86400000;
-    return sessions.filter(function(s) {
-        if (s.status === 'complete' || s.status === 'rejected' || s.status === 'deleted') return false;
-        const age = nowMs - new Date(s.updated_at || s.created_at || 0).getTime();
-        return age > xMs;
     });
 }
 
@@ -711,74 +698,33 @@ function buildPostgres() {
         return _parseSignRow(updated[0]);
     }
 
-    async function purgeSignSessions({ retentionDays = 182, rejectedDays = 90, expireOpenDays = 90, dryRun = true, limit = 200, _now } = {}) {
+    async function purgeSignSessions({ retentionDays = 182, rejectedDays = 90, dryRun = true, limit = 200, _now } = {}) {
         limit = Math.min(Math.max(parseInt(limit) || 200, 1), 1000);
-        const nowMs = _now || Date.now();
         const rows = await all(
             `SELECT id, name, doc_hash, status, created_by, created_at, updated_at
              FROM report_signatures WHERE status IN ('complete','rejected','deleted')
              ORDER BY id ASC LIMIT $1`,
             [limit]
         );
-        const targets = _purgeEligible(rows, retentionDays, rejectedDays, nowMs);
-        const openRows = await all(
-            `SELECT id, name, doc_hash, status, created_by, created_at, updated_at
-             FROM report_signatures WHERE status NOT IN ('complete','rejected','deleted')
-             ORDER BY id ASC LIMIT $1`,
-            [limit]
-        );
-        const expired = _purgeOpenExpired(openRows, expireOpenDays, nowMs);
-        if (dryRun) {
-            return {
-                dryRun: true, candidates: targets.map(_purgeMeta), count: targets.length,
-                expiredCandidates: expired.map(_purgeMeta), expiredCount: expired.length,
-            };
-        }
+        const targets = _purgeEligible(rows, retentionDays, rejectedDays, _now || Date.now());
+        if (dryRun) return { dryRun: true, candidates: targets.map(_purgeMeta), count: targets.length };
         const deleted = [];
         for (const t of targets) {
             await run('DELETE FROM report_signatures WHERE id = $1', [t.id]);
             deleted.push(_purgeMeta(t));
         }
-        const expiredDone = [];
-        for (const x of expired) {
-            const reason = 'Expirada por antigüedad (sin firmar por más de ' + expireOpenDays + ' días)';
-            await run(
-                `UPDATE report_signatures SET status = 'deleted', version = version + 1,
-                 deleted_by = 'system', deleted_reason = $1,
-                 deleted_at = to_char(now(),'YYYY-MM-DD"T"HH24:MI:SS'),
-                 updated_at = to_char(now(),'YYYY-MM-DD"T"HH24:MI:SS')
-                 WHERE id = $2`,
-                [reason, x.id]
-            );
-            expiredDone.push(_purgeMeta(x));
-        }
-        return { dryRun: false, deleted, count: deleted.length, expired: expiredDone, expiredCount: expiredDone.length };
+        return { dryRun: false, deleted, count: deleted.length };
     }
 
     // Borrado suave (Opción A): solo rechazadas o completas, solo creador o
     // admin, con motivo obligatorio. La fila queda como lápida visible N días
     // en bandeja (aviso al revisor) en vez de desaparecer con un 404 mudo.
     // (La auditoría conserva SIGN_SESSION_REJECT/DELETE como rastro.)
-    // Cupo de reportes EN FIRMA por usuario (plan control reportes): sesiones
-    // abiertas del creador, la más antigua primero. El endpoint decide cancelar.
-    async function signQuotaInfo(username) {
-        return all(
-            `SELECT id, name, created_at FROM report_signatures
-             WHERE created_by = $1 AND status NOT IN ('complete','rejected','deleted')
-             ORDER BY id ASC`,
-            [username]
-        );
-    }
-
-    async function deleteSignSession({ id, username, userRole, reason, allowOpen }) {
+    async function deleteSignSession({ id, username, userRole, reason }) {
         const row = await get('SELECT * FROM report_signatures WHERE id = $1', [id]);
         if (!row) return { error: 'Sesión no encontrada', code: 'not-found' };
         const session = _parseSignRow(row);
-        if (session.status === 'deleted') {
-            return { error: 'La sesión ya está eliminada', code: 'not-deletable' };
-        }
-        // allowOpen: cancelación de abiertas por cupo (solo endpoint). Admin: cualquier estado.
-        if (!allowOpen && userRole !== 'admin' && session.status !== 'rejected' && session.status !== 'complete') {
+        if (session.status !== 'rejected' && session.status !== 'complete') {
             return { error: 'Solo se pueden eliminar sesiones rechazadas o completas', code: 'not-deletable' };
         }
         if (userRole !== 'admin' && session.created_by !== username) {
@@ -968,13 +914,7 @@ function buildPostgres() {
         limit = Math.min(Math.max(parseInt(limit) || 50, 1), 200);
         offset = Math.max(parseInt(offset) || 0, 0);
         let rows;
-        if (scope === 'all') {
-            // Vista admin "Todas": historial completo sin filtros de elegibilidad.
-            rows = await all(
-                'SELECT * FROM report_signatures ORDER BY id DESC LIMIT $1 OFFSET $2',
-                [limit, offset]
-            );
-        } else if (scope === 'mine') {
+        if (scope === 'mine') {
             rows = await all(
                 'SELECT * FROM report_signatures WHERE created_by = $1 ORDER BY id DESC LIMIT $2 OFFSET $3',
                 [username, limit, offset]
@@ -1042,7 +982,7 @@ function buildPostgres() {
         return elig;
     }
 
-    return { run, get, all, initDatabase, createInitialAdmin, getUserByUsername, getUserBySignatureCode, isSignatureCodeTaken, getUserById, createUser, updateLastLogin, getAllUsers, getUsersList, countUsers, toggleUserActive, changePassword, setPasswordTemp, updateUserProfile, updateUserProfileById, changeRole, logAccess, logAuditEvent, getAuditLog, verifyAuditChain, blacklistToken, isTokenBlacklisted, cleanExpiredBlacklist, registerDevice, isDeviceTrusted, getUserDevices, getAllDevices, countDevices, countUserDevices, setDeviceTrust, removeDevice, save2FASecret, get2FASecret, enable2FA, disable2FA, has2FAEnabled, createSnapshot, getSnapshots, getSnapshotById, createSignSession, getSignSession, listSignSessions, signQuotaInfo, signSessionStep, importSignSession, rejectSignSession, reopenSignSession, sendbackSignSession, amendSignSession, deleteSignSession, unsignSessionStep, dismissSignSession, purgeSignSessions };}
+    return { run, get, all, initDatabase, createInitialAdmin, getUserByUsername, getUserBySignatureCode, isSignatureCodeTaken, getUserById, createUser, updateLastLogin, getAllUsers, getUsersList, countUsers, toggleUserActive, changePassword, setPasswordTemp, updateUserProfile, updateUserProfileById, changeRole, logAccess, logAuditEvent, getAuditLog, verifyAuditChain, blacklistToken, isTokenBlacklisted, cleanExpiredBlacklist, registerDevice, isDeviceTrusted, getUserDevices, getAllDevices, countDevices, countUserDevices, setDeviceTrust, removeDevice, save2FASecret, get2FASecret, enable2FA, disable2FA, has2FAEnabled, createSnapshot, getSnapshots, getSnapshotById, createSignSession, getSignSession, listSignSessions, signSessionStep, importSignSession, rejectSignSession, reopenSignSession, sendbackSignSession, amendSignSession, deleteSignSession, unsignSessionStep, dismissSignSession, purgeSignSessions };}
 
 // ───── Local JSON store ─────
 function buildLocalStore() {
@@ -1494,69 +1434,31 @@ function buildLocalStore() {
         return out;
     }
 
-    // Mirror local de purgeSignSessions (retención + expiración de abiertas)
-    async function purgeSignSessions({ retentionDays = 182, rejectedDays = 90, expireOpenDays = 90, dryRun = true, limit = 200, _now } = {}) {
+    // Mirror local de purgeSignSessions
+    async function purgeSignSessions({ retentionDays = 182, rejectedDays = 90, dryRun = true, limit = 200, _now } = {}) {
         limit = Math.min(Math.max(parseInt(limit) || 200, 1), 1000);
-        var nowMs = _now || Date.now();
         var cands = state.report_signatures
             .filter(function(s) { return s.status === 'complete' || s.status === 'rejected' || s.status === 'deleted'; })
             .sort(function(a, b) { return a.id - b.id; })
             .slice(0, limit);
-        var targets = _purgeEligible(cands, retentionDays, rejectedDays, nowMs);
-        var openCands = state.report_signatures
-            .filter(function(s) { return s.status !== 'complete' && s.status !== 'rejected' && s.status !== 'deleted'; })
-            .sort(function(a, b) { return a.id - b.id; })
-            .slice(0, limit);
-        var expired = _purgeOpenExpired(openCands, expireOpenDays, nowMs);
-        if (dryRun) {
-            return {
-                dryRun: true, candidates: targets.map(_purgeMeta), count: targets.length,
-                expiredCandidates: expired.map(_purgeMeta), expiredCount: expired.length,
-            };
-        }
+        var targets = _purgeEligible(cands, retentionDays, rejectedDays, _now || Date.now());
+        if (dryRun) return { dryRun: true, candidates: targets.map(_purgeMeta), count: targets.length };
         var ids = {};
         targets.forEach(function(t) { ids[t.id] = true; });
         state.report_signatures = state.report_signatures.filter(function(s) { return !ids[s.id]; });
-        var reason = 'Expirada por antigüedad (sin firmar por más de ' + expireOpenDays + ' días)';
-        var expiredDone = [];
-        expired.forEach(function(x) {
-            var s = state.report_signatures.find(function(y) { return y.id === x.id; });
-            if (!s) return;
-            s.status = 'deleted';
-            s.version += 1;
-            s.deleted_by = 'system';
-            s.deleted_reason = reason;
-            s.deleted_at = new Date().toISOString();
-            s.updated_at = new Date().toISOString();
-            expiredDone.push(_purgeMeta(s));
-        });
         save();
-        return { dryRun: false, deleted: targets.map(_purgeMeta), count: targets.length, expired: expiredDone, expiredCount: expiredDone.length };
-    }
-
-    // Mirror local del cupo en firma (plan control reportes)
-    async function signQuotaInfo(username) {
-        return state.report_signatures
-            .filter(function(s) {
-                return s.created_by === username && s.status !== 'complete' && s.status !== 'rejected' && s.status !== 'deleted';
-            })
-            .sort(function(a, b) { return a.id - b.id; })
-            .map(function(s) { return { id: s.id, name: s.name, created_at: s.created_at }; });
+        return { dryRun: false, deleted: targets.map(_purgeMeta), count: targets.length };
     }
 
     // Mirror local de deleteSignSession (borrado suave Opción A)
-    async function deleteSignSession({ id, username, userRole, reason, allowOpen }) {
+    async function deleteSignSession({ id, username, userRole, reason }) {
         var idx = -1;
         for (var i = 0; i < state.report_signatures.length; i++) {
             if (state.report_signatures[i].id === id) { idx = i; break; }
         }
         if (idx === -1) return { error: 'Sesión no encontrada', code: 'not-found' };
         var s = state.report_signatures[idx];
-        if (s.status === 'deleted') {
-            return { error: 'La sesión ya está eliminada', code: 'not-deletable' };
-        }
-        // allowOpen: cancelación de abiertas por cupo (solo endpoint). Admin: cualquier estado.
-        if (!allowOpen && userRole !== 'admin' && s.status !== 'rejected' && s.status !== 'complete') {
+        if (s.status !== 'rejected' && s.status !== 'complete') {
             return { error: 'Solo se pueden eliminar sesiones rechazadas o completas', code: 'not-deletable' };
         }
         if (userRole !== 'admin' && s.created_by !== username) {
@@ -1791,7 +1693,6 @@ function buildLocalStore() {
         // Aviso de borrado: lápidas recientes visibles para los involucrados.
         var cutoff = new Date(Date.now() - 7 * 86400000).toISOString();
         var list = state.report_signatures.filter(function(s) {
-            if (scope === 'all') return true; // vista admin (Todas)
             if (scope === 'mine') return s.created_by === username;
             if (s.status === 'deleted') {
                 return involved(s) && String(s.deleted_at || '') > cutoff && !dismissed(s);
@@ -1831,7 +1732,7 @@ function buildLocalStore() {
         return _localSignView(s);
     }
 
-    return { run, get, all, initDatabase, createInitialAdmin, getUserByUsername, getUserBySignatureCode, isSignatureCodeTaken, getUserById, createUser, updateLastLogin, getAllUsers, getUsersList, countUsers, toggleUserActive, changePassword, setPasswordTemp, updateUserProfile, updateUserProfileById, changeRole, logAccess, logAuditEvent, getAuditLog, verifyAuditChain, blacklistToken, isTokenBlacklisted, cleanExpiredBlacklist, registerDevice, isDeviceTrusted, getUserDevices, getAllDevices, countDevices, countUserDevices, setDeviceTrust, removeDevice, save2FASecret, get2FASecret, enable2FA, disable2FA, has2FAEnabled, createSnapshot, getSnapshots, getSnapshotById, createSignSession, getSignSession, listSignSessions, signQuotaInfo, signSessionStep, importSignSession, rejectSignSession, reopenSignSession, sendbackSignSession, amendSignSession, deleteSignSession, unsignSessionStep, dismissSignSession, purgeSignSessions };}
+    return { run, get, all, initDatabase, createInitialAdmin, getUserByUsername, getUserBySignatureCode, isSignatureCodeTaken, getUserById, createUser, updateLastLogin, getAllUsers, getUsersList, countUsers, toggleUserActive, changePassword, setPasswordTemp, updateUserProfile, updateUserProfileById, changeRole, logAccess, logAuditEvent, getAuditLog, verifyAuditChain, blacklistToken, isTokenBlacklisted, cleanExpiredBlacklist, registerDevice, isDeviceTrusted, getUserDevices, getAllDevices, countDevices, countUserDevices, setDeviceTrust, removeDevice, save2FASecret, get2FASecret, enable2FA, disable2FA, has2FAEnabled, createSnapshot, getSnapshots, getSnapshotById, createSignSession, getSignSession, listSignSessions, signSessionStep, importSignSession, rejectSignSession, reopenSignSession, sendbackSignSession, amendSignSession, deleteSignSession, unsignSessionStep, dismissSignSession, purgeSignSessions };}
 
 const impl = build();
 module.exports = {
@@ -1877,7 +1778,6 @@ module.exports = {
     createSignSession:    (...a) => impl.createSignSession(...a),
     getSignSession:       (...a) => impl.getSignSession(...a),
     listSignSessions:     (...a) => impl.listSignSessions(...a),
-    signQuotaInfo:        (...a) => impl.signQuotaInfo(...a),
     signSessionStep:      (...a) => impl.signSessionStep(...a),
     importSignSession:     (...a) => impl.importSignSession(...a),
     rejectSignSession:      (...a) => impl.rejectSignSession(...a),
