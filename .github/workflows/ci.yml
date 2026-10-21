@@ -42,6 +42,9 @@ jobs:
       - run: npm test
       # LOTE E: coverage backend real (node --test la mide nativo).
       # concurrency=1: los archivos comparten data.json local en CI.
+      # El store persiste entre corridas: se borra para que la 2ª corrida
+      # (coverage) no herede los eventos de auditoría de la 1ª.
+      - run: rm -f data.json
       - run: node --test --test-concurrency=1 --experimental-test-coverage "tests/*.test.js"
       - run: node -c server.js && node -c database.js && node -c ml-proxy.js && node -c sign-html.js && node -c sign-stamp.js
       # Gate: solo HIGH/CRITICAL bloquean (los 2 moderate de qs/express4
@@ -64,6 +67,10 @@ jobs:
           python-version: '3.11'
 
       - run: npm ci
+      # El E2E arranca `node backend/server.js` → necesita las deps del
+      # backend (dotenv, express...). El `npm ci` de la raíz no las instala.
+      - run: npm ci
+        working-directory: backend
       - run: npx playwright install --with-deps chromium
       - run: npx playwright test
       - uses: actions/upload-artifact@v4
