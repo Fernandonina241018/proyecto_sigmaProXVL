@@ -11,8 +11,8 @@ jobs:
   quality-gate:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
         with:
           node-version: 22
           cache: 'npm'
@@ -20,7 +20,7 @@ jobs:
       - run: npm ci
       - name: Frontend unit (vitest)
         run: npm test
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@v6
         with:
           python-version: '3.11'
       # El E2E arranca `node backend/server.js` → necesita las deps del
@@ -30,21 +30,24 @@ jobs:
       - run: npx playwright install --with-deps chromium
       - name: E2E (playwright)
         run: npx playwright test
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v6
         if: failure()
         with:
           name: playwright-report
           path: test-results/
+          # Si el fallo fue antes de Playwright, no hay test-results/: no
+          # ensuciar el log con un warning de "no files found".
+          if-no-files-found: ignore
 
   deploy-backend:
     needs: [quality-gate]
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       # OPT-8: gate — no desplegar backend con tests rotos.
       # OJO: sin defaults working-directory — flyctl debe correr desde
       # la raíz (fly.toml usa 'backend/Dockerfile' relativo a raíz).
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v5
         with:
           node-version: 22
           cache: 'npm'
@@ -63,9 +66,9 @@ jobs:
     needs: [quality-gate]
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       # OPT-8: gate mínimo — el servicio no debe ni compilar roto
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@v6
         with:
           python-version: '3.11'
       - run: python -m py_compile ml_service/main.py ml_service/drift_worker.py ml_service/nlp_models.py
