@@ -738,9 +738,13 @@ function firmaUpdatePreview(role, field, value) {
   if (!_firmaCurrentDoc) return;
   var el = _firmaCurrentDoc.querySelector('[data-signature-role="' + role + '"] [data-signature-field="' + field + '"]');
   if (el) {
-    el.textContent = value || '';
-    el.style.color = '#1a202c';
-    el.style.fontStyle = 'normal';
+    // Sin dato → el mismo '—' y el mismo estilo que usa el reporte para los
+    // campos sin valor (gris claro, cursiva). Antes se escribía '' y además
+    // se forzó color oscuro: el campo quedaba EN BLANCO y parecía roto.
+    var has = !!value && value !== '—';
+    el.textContent = has ? value : '—';
+    el.style.color = has ? '#1a202c' : '#cbd5e0';
+    el.style.fontStyle = has ? 'normal' : 'italic';
     _firmaCurrentHtml = '<!DOCTYPE html>\n' + _firmaCurrentDoc.documentElement.outerHTML;
     var preview = document.getElementById('firmaPreview');
     if (preview) {
