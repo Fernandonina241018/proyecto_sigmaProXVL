@@ -35,8 +35,10 @@ describe('impresión del reporte en la página de firma', () => {
     expect(firma).not.toMatch(/<iframe[^>]*sandbox="[^"]*allow-scripts/);
   });
 
-  test('el #printButton del reporte se oculta SOLO en la vista previa', () => {
-    expect(firma).toContain('#printButton{display:none!important}');
-    expect(firma).toMatch(/iframe\.srcdoc = _firmaPreviewHtml\(/);
+  test('la vista previa muestra el reporte tal cual (sin estilos inyectados)', () => {
+    // El reporte ya no trae botón de imprimir propio (se borró de generarHTML),
+    // así que la vista previa lo muestra sin parcheos.
+    expect(firma).not.toContain('_firmaPreviewHtml');
+    expect(firma).toContain('iframe.srcdoc = _firmaCurrentHtml;');
   });
 });

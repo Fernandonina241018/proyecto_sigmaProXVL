@@ -102,7 +102,7 @@ function firmaRestoreState() {
 
     var preview = document.getElementById('firmaPreview');
     if (preview) {
-      preview.innerHTML = '<iframe sandbox srcdoc="' + escapeHtml(_firmaPreviewHtml(html)).replace(/"/g,'&quot;') + '" style="width:100%;height:100%;border:none;min-height:70vh"></iframe>';
+      preview.innerHTML = '<iframe sandbox srcdoc="' + escapeHtml(html).replace(/"/g,'&quot;') + '" style="width:100%;height:100%;border:none;min-height:70vh"></iframe>';
     }
 
     firmaRenderEditor();
@@ -291,7 +291,7 @@ function firmaLoadHtml(html, originalName) {
   // Render preview in iframe
   var preview = document.getElementById('firmaPreview');
   if (preview) {
-    preview.innerHTML = '<iframe sandbox srcdoc="' + escapeHtml(_firmaPreviewHtml(html)).replace(/"/g,'&quot;') + '" style="width:100%;height:100%;border:none;min-height:70vh"></iframe>';
+    preview.innerHTML = '<iframe sandbox srcdoc="' + escapeHtml(html).replace(/"/g,'&quot;') + '" style="width:100%;height:100%;border:none;min-height:70vh"></iframe>';
   }
 
   // Extract signature data
@@ -730,7 +730,7 @@ function _firmaUpdateReportBadge() {
   var preview = document.getElementById('firmaPreview');
   if (preview) {
     var iframe = preview.querySelector('iframe');
-    if (iframe) iframe.srcdoc = _firmaPreviewHtml(_firmaCurrentHtml);
+    if (iframe) iframe.srcdoc = _firmaCurrentHtml;
   }
 }
 
@@ -750,7 +750,7 @@ function firmaUpdatePreview(role, field, value) {
     if (preview) {
       var iframe = preview.querySelector('iframe');
       if (iframe) {
-        iframe.srcdoc = _firmaPreviewHtml(_firmaCurrentHtml);
+        iframe.srcdoc = _firmaCurrentHtml;
       }
     }
   }
@@ -1204,16 +1204,6 @@ async function firmaUnsignSession(role, code, password, reason) {
   }
 }
 
-// ── Impresión del reporte (vista previa en iframe sandbox total, MF-1) ──
-// El reporte trae su propio botón onclick="window.print()", pero el sandbox sin
-// allow-scripts bloquea todo JS del reporte: el clic no hace nada. En la vista
-// previa se oculta ese botón (solo en el srcdoc mostrado; _firmaCurrentHtml, lo
-// que se firma y descarga, NO se toca) y la app ofrece su propio botón Imprimir.
-function _firmaPreviewHtml(html) {
-  var css = '<style>#printButton{display:none!important}</style>';
-  html = String(html || '');
-  return /<\/head>/i.test(html) ? html.replace(/<\/head>/i, css + '</head>') : html + css;
-}
 
 // Imprime el reporte cargado con un iframe auxiliar fuera de pantalla.
 // sandbox SIN allow-scripts: ningún script del reporte puede ejecutarse.

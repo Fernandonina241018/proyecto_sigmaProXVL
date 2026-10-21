@@ -120,9 +120,13 @@ describe('generarHTML — el reporte conserva sus firmas', () => {
     expect(html).toContain('audit-box');
   });
 
-  test('el botón de imprimir sigue en el HTML del reporte', async () => {
+  test('el reporte NO lleva botón de imprimir propio (la app lo ofrece)', async () => {
     const html = await generar();
-    expect(html).toContain('id="printButton"');
+    // El botón del reporte vivía dentro del iframe sandbox, donde su
+    // onclick nunca se ejecutaba. Ahora la app tiene su propio botón
+    // (firmaPrint) en la cabecera de la vista previa.
+    expect(html).not.toContain('id="printButton"');
+    expect(html).not.toContain('onclick="window.print()"');
   });
 
   test('no deja "undefined" colgando en el HTML', async () => {
