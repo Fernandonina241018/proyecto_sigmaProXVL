@@ -30,15 +30,24 @@ describe('impresión del reporte en la página de firma', () => {
     expect(firma).toMatch(/contentWindow[\s\S]{0,600}?\.print\(\)/);
   });
 
-  test('la vista previa sigue en sandbox total (MF-1)', () => {
-    expect((firma.match(/<iframe sandbox srcdoc=/g) || []).length).toBeGreaterThan(0);
+  test('la vista previa sigue en sandbox sin allow-scripts (MF-1)', () => {
+    expect((firma.match(/<iframe sandbox="allow-same-origin" srcdoc=/g) || []).length).toBeGreaterThan(0);
     expect(firma).not.toMatch(/<iframe[^>]*sandbox="[^"]*allow-scripts/);
+  });
+
+  test('la vista previa conserva el scroll al firmarse', () => {
+    // Al firmarse, el srcdoc se re-evalúa y el iframe volvía al inicio
+    // (medido: 2464px → 0): el apartado 09 (firmas, a ~2600px) quedaba
+    // fuera de la vista y el usuario creía que el reporte no tenía firmas.
+    // En impresión y descarga sí se ve, porque ahí va el documento completo.
+    expect(firma).toContain('_firmaPreviewSetHtml');
+    expect(firma).toMatch(/iframe\.addEventListener\('load'[\s\S]{0,300}?scrollTo\(0, y\)/);
+    expect(firma).toMatch(/_firmaPreviewSetHtml\(iframe, _firmaCurrentHtml\)/);
   });
 
   test('la vista previa muestra el reporte tal cual (sin estilos inyectados)', () => {
     // El reporte ya no trae botón de imprimir propio (se borró de generarHTML),
     // así que la vista previa lo muestra sin parcheos.
     expect(firma).not.toContain('_firmaPreviewHtml');
-    expect(firma).toContain('iframe.srcdoc = _firmaCurrentHtml;');
   });
 });

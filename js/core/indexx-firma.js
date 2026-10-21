@@ -102,7 +102,7 @@ function firmaRestoreState() {
 
     var preview = document.getElementById('firmaPreview');
     if (preview) {
-      preview.innerHTML = '<iframe sandbox srcdoc="' + escapeHtml(html).replace(/"/g,'&quot;') + '" style="width:100%;height:100%;border:none;min-height:70vh"></iframe>';
+      preview.innerHTML = '<iframe sandbox="allow-same-origin" srcdoc="' + escapeHtml(html).replace(/"/g,'&quot;') + '" style="width:100%;height:100%;border:none;min-height:70vh"></iframe>';
     }
 
     firmaRenderEditor();
@@ -291,7 +291,7 @@ function firmaLoadHtml(html, originalName) {
   // Render preview in iframe
   var preview = document.getElementById('firmaPreview');
   if (preview) {
-    preview.innerHTML = '<iframe sandbox srcdoc="' + escapeHtml(html).replace(/"/g,'&quot;') + '" style="width:100%;height:100%;border:none;min-height:70vh"></iframe>';
+    preview.innerHTML = '<iframe sandbox="allow-same-origin" srcdoc="' + escapeHtml(html).replace(/"/g,'&quot;') + '" style="width:100%;height:100%;border:none;min-height:70vh"></iframe>';
   }
 
   // Extract signature data
@@ -730,8 +730,32 @@ function _firmaUpdateReportBadge() {
   var preview = document.getElementById('firmaPreview');
   if (preview) {
     var iframe = preview.querySelector('iframe');
-    if (iframe) iframe.srcdoc = _firmaCurrentHtml;
+    if (iframe) _firmaPreviewSetHtml(iframe, _firmaCurrentHtml);
   }
+}
+
+// Recarga la vista previa CONSERVANDO la posición del scroll.
+// Por qué: al firmarse, el `srcdoc` se re-evalúa y el iframe vuelve al
+// inicio del reporte (medido: 2464px → 0). El apartado 09 (firmas) queda a
+// ~2600px, fuera de la vista, y el usuario conclude que "no hay firmas".
+// En la impresión y en la descarga sí se ve porque ahí se muestra el
+// documento completo.
+// MF-1: el sandbox sigue SIN `allow-scripts` → ningún script del reporte se
+// ejecuta. `allow-same-origin` solo permite que esta página lea y escriba
+// el scroll del marco (y el token ya viaja en cookie SameSite=None, así que
+// no se expone nada nuevo por-request).
+function _firmaPreviewSetHtml(iframe, html) {
+  if (!iframe) return;
+  var y = 0;
+  try { y = iframe.contentWindow.scrollY || 0; } catch (e) { y = 0; }
+  try {
+    // El listener va en el ELEMENTO iframe: al cambiar el srcdoc se crea un
+    // documento nuevo y los listeners del contentWindow viejo se pierden.
+    iframe.addEventListener('load', function () {
+      try { iframe.contentWindow.scrollTo(0, y); } catch (e) { /* fail-open */ }
+    }, { once: true });
+  } catch (e) { /* sin same-origin: se pierde la posición, igual que antes */ }
+  iframe.srcdoc = html;
 }
 
 function firmaUpdatePreview(role, field, value) {
@@ -750,7 +774,7 @@ function firmaUpdatePreview(role, field, value) {
     if (preview) {
       var iframe = preview.querySelector('iframe');
       if (iframe) {
-        iframe.srcdoc = _firmaCurrentHtml;
+        _firmaPreviewSetHtml(iframe, _firmaCurrentHtml);
       }
     }
   }

@@ -95,12 +95,18 @@ describe('_firmaOpenSession integración real (happy-dom)', () => {
     expect(iframe.srcdoc).toMatch('Ana');
   });
 
-  test('preview va en iframe sandbox (sin scripts ni same-origin)', async () => {
+  test('preview va en iframe sandbox (sin scripts)', async () => {
+    // MF-1 (XSS almacenado): el reporte NUNCA puede ejecutar scripts. Eso lo
+    // garantiza que el sandbox NO tenga `allow-scripts` — da igual el origen.
+    // `allow-same-origin` sí está (desde 2026-10-20): sin él la app no puede
+    // restaurar el scroll del marco al firmarse y el apartado 09 (firmas)
+    // quedaba fuera de la vista. El token ya viajaba en cookie SameSite=None,
+    // así que no se expone nada nuevo por request.
     const { sandbox, document } = loadOpenHarness();
     await vm.runInContext('_firmaOpenSession(99)', sandbox);
     const iframe = document.querySelector('#firmaPreview iframe');
     expect(iframe.hasAttribute('sandbox')).toBe(true);
-    expect(iframe.getAttribute('sandbox')).not.toMatch(/allow-scripts|allow-same-origin/);
+    expect(iframe.getAttribute('sandbox')).not.toMatch(/allow-scripts/);
   });
 
   test('status refleja 1/3', async () => {

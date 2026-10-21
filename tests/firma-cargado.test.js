@@ -155,10 +155,13 @@ describe('Revalidación de snapshot restaurado (fix móvil)', () => {
     expect(st).toMatch('Ana');
     const sid = await vm.runInContext('_firmaSessionId', sandbox);
     expect(sid).toBe(99);
-    // El iframe restaurado también va sandbox (misma defensa que firmaLoadHtml).
+    // El iframe restaurado también va sandbox (misma defensa que firmaLoadHtml):
+    // sin `allow-scripts` el reporte no puede ejecutar nada. `allow-same-origin`
+    // está permitido (ver tests/firma-open.test.js): sirve para restaurar el
+    // scroll al firmarse.
     const fr = document.querySelector('#firmaPreview iframe');
     expect(fr.hasAttribute('sandbox')).toBe(true);
-    expect(fr.getAttribute('sandbox')).not.toMatch(/allow-scripts|allow-same-origin/);
+    expect(fr.getAttribute('sandbox')).not.toMatch(/allow-scripts/);
   });
 
   test('borrador (sin sesión) → no consulta al servidor', async () => {
