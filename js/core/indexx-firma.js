@@ -102,7 +102,7 @@ function firmaRestoreState() {
 
     var preview = document.getElementById('firmaPreview');
     if (preview) {
-      preview.innerHTML = '<iframe sandbox srcdoc="' + escapeHtml(html).replace(/"/g,'&quot;') + '" style="width:100%;height:100%;border:none;min-height:70vh"></iframe>';
+      preview.innerHTML = '<iframe sandbox srcdoc="' + escapeHtml(_firmaPreviewHtml(html)).replace(/"/g,'&quot;') + '" style="width:100%;height:100%;border:none;min-height:70vh"></iframe>';
     }
 
     firmaRenderEditor();
@@ -264,8 +264,6 @@ function initFirmarReportePage() {
 
   var downloadBtn = document.getElementById('firmaDownloadBtn');
   if (downloadBtn) downloadBtn.onclick = firmaDownload;
-  var printBtn = document.getElementById('firmaPrintBtn');
-  if (printBtn) printBtn.onclick = firmaPrint;
 
   // FASE 2 — la bandeja siempre visible al entrar (fail-open si no hay servidor)
   _firmaSessionId = null;
@@ -293,7 +291,7 @@ function firmaLoadHtml(html, originalName) {
   // Render preview in iframe
   var preview = document.getElementById('firmaPreview');
   if (preview) {
-    preview.innerHTML = '<iframe sandbox srcdoc="' + escapeHtml(html).replace(/"/g,'&quot;') + '" style="width:100%;height:100%;border:none;min-height:70vh"></iframe>';
+    preview.innerHTML = '<iframe sandbox srcdoc="' + escapeHtml(_firmaPreviewHtml(html)).replace(/"/g,'&quot;') + '" style="width:100%;height:100%;border:none;min-height:70vh"></iframe>';
   }
 
   // Extract signature data
@@ -732,7 +730,7 @@ function _firmaUpdateReportBadge() {
   var preview = document.getElementById('firmaPreview');
   if (preview) {
     var iframe = preview.querySelector('iframe');
-    if (iframe) iframe.srcdoc = _firmaCurrentHtml;
+    if (iframe) iframe.srcdoc = _firmaPreviewHtml(_firmaCurrentHtml);
   }
 }
 
@@ -748,7 +746,7 @@ function firmaUpdatePreview(role, field, value) {
     if (preview) {
       var iframe = preview.querySelector('iframe');
       if (iframe) {
-        iframe.srcdoc = _firmaCurrentHtml;
+        iframe.srcdoc = _firmaPreviewHtml(_firmaCurrentHtml);
       }
     }
   }
@@ -786,25 +784,6 @@ function firmaDownload() {
     showToast('Error al descargar: ' + e.message);
   }
 }
-
-// Imprimir el reporte actual en ventana aparte (botón en la UI de la app;
-// el que viaja dentro del HTML vive en iframe sandbox y su onclick no se
-// ejecuta).
-function firmaPrint() {
-  if (!_firmaCurrentDoc) { showToast('No hay reporte cargado'); return; }
-  try {
-    var html = '<!DOCTYPE html>' + _firmaCurrentDoc.documentElement.outerHTML;
-    var w = window.open('', '_blank');
-    if (!w) { showToast('No se pudo abrir ventana de impresión (¿bloqueador de pop-ups?)', true); return; }
-    w.document.write(html);
-    w.document.close();
-    w.focus();
-    w.print();
-  } catch(e) {
-    showToast('Error al imprimir: ' + e.message);
-  }
-}
-
 // ════════════════════════════════════════════════════════════════
 
 // FEAT: firma-verificacion — password modal y verificación API
@@ -1219,6 +1198,45 @@ async function firmaUnsignSession(role, code, password, reason) {
     console.error('Error unsigning:', e);
     showToast('❌ Error de conexión con el servidor', true);
   }
+}
+
+// ── Impresión del reporte (vista previa en iframe sandbox total, MF-1) ──
+// El reporte trae su propio botón onclick="window.print()", pero el sandbox sin
+// allow-scripts bloquea todo JS del reporte: el clic no hace nada. En la vista
+// previa se oculta ese botón (solo en el srcdoc mostrado; _firmaCurrentHtml, lo
+// que se firma y descarga, NO se toca) y la app ofrece su propio botón Imprimir.
+function _firmaPreviewHtml(html) {
+  var css = '<style>#printButton{display:none!important}</style>';
+  html = String(html || '');
+  return /<\/head>/i.test(html) ? html.replace(/<\/head>/i, css + '</head>') : html + css;
+}
+
+// Imprime el reporte cargado con un iframe auxiliar fuera de pantalla.
+// sandbox SIN allow-scripts: ningún script del reporte puede ejecutarse.
+// allow-same-origin solo permite que esta página invoque print() sobre él;
+// allow-modals es el permiso que el navegador exige para print().
+function firmaPrint() {
+  if (!_firmaCurrentHtml) { showToast('Carga un reporte para imprimir'); return; }
+  var old = document.getElementById('firmaPrintFrame');
+  if (old && old.parentNode) old.parentNode.removeChild(old);
+  var frame = document.createElement('iframe');
+  frame.id = 'firmaPrintFrame';
+  frame.setAttribute('sandbox', 'allow-same-origin allow-modals');
+  frame.setAttribute('aria-hidden', 'true');
+  frame.style.cssText = 'visibility:hidden;position:fixed;right:0;bottom:0;width:0;height:0;border:0';
+  frame.onload = function () {
+    try {
+      var w = frame.contentWindow;
+      w.onafterprint = function () { if (frame.parentNode) frame.parentNode.removeChild(frame); };
+      w.focus();
+      w.print();
+    } catch (e) {
+      showToast('No se pudo imprimir: ' + e.message);
+      if (frame.parentNode) frame.parentNode.removeChild(frame);
+    }
+  };
+  frame.srcdoc = _firmaCurrentHtml;
+  document.body.appendChild(frame);
 }
 
 function firmaToggleFS() {

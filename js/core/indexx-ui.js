@@ -632,7 +632,6 @@ var leftPanels = {
       '</div>' +
       '<div class="fp-foot">' +
         '<button type="button" class="fp-btn" id="firmaDownloadBtn">⬇ Descargar reporte firmado</button>' +
-        '<button type="button" class="fp-btn" id="firmaPrintBtn">🖨️ Imprimir</button>' +
         '<button type="button" class="fp-btn" id="firmaPublishBtn" style="display:none">📤 Publicar a bandeja</button>' +
         '<button type="button" class="fp-btn" id="firmaResetBtn" style="display:none">🔄 Reiniciar firmas</button>' +
         '<p class="fp-hint" id="firmaFootHint"></p>' +
@@ -951,7 +950,7 @@ var rightPanels = {
   ml: function() { return typeof MLManager !== 'undefined' ? MLManager.buildRightPanel() : ''; },
   firmarReporte: function() { return '<div class="page-body" style="display:flex;flex-direction:column;gap:12px;height:100%">' +
     '<div class="page-card" style="flex:1;display:flex;flex-direction:column;min-height:0">' +
-      '<div class="page-card-header"><span class="page-card-icon">📄</span><span class="page-card-title">Vista previa del reporte</span><button onclick="firmaToggleFS()" style="margin-left:auto;padding:5px 10px;border-radius:5px;font-size:11px;font-weight:600;cursor:pointer;background:rgba(124,106,247,.12);color:#9d94f5;border:none;font-family:inherit;transition:all .14s;display:flex;align-items:center" title="Pantalla completa" onmouseover="this.style.background=\'rgba(124,106,247,.22)\'" onmouseout="this.style.background=\'rgba(124,106,247,.12)\'"><span style="font-size:22px;line-height:1">⛶</span></button></div>' +
+      '<div class="page-card-header"><span class="page-card-icon">📄</span><span class="page-card-title">Vista previa del reporte</span><button onclick="firmaPrint()" style="margin-left:auto;padding:5px 10px;border-radius:5px;font-size:11px;font-weight:600;cursor:pointer;background:rgba(124,106,247,.12);color:#9d94f5;border:none;font-family:inherit;transition:all .14s;display:flex;align-items:center;gap:4px" title="Imprimir reporte" onmouseover="this.style.background=\'rgba(124,106,247,.22)\'" onmouseout="this.style.background=\'rgba(124,106,247,.12)\'">🖨️ Imprimir</button><button onclick="firmaToggleFS()" style="margin-left:6px;padding:5px 10px;border-radius:5px;font-size:11px;font-weight:600;cursor:pointer;background:rgba(124,106,247,.12);color:#9d94f5;border:none;font-family:inherit;transition:all .14s;display:flex;align-items:center" title="Pantalla completa" onmouseover="this.style.background=\'rgba(124,106,247,.22)\'" onmouseout="this.style.background=\'rgba(124,106,247,.12)\'"><span style="font-size:22px;line-height:1">⛶</span></button></div>' +
       '<div class="page-card-body" id="firmaPreview" style="flex:1;padding:0;overflow:auto;display:flex;align-items:center;justify-content:center;min-height:300px">' +
         '<div style="color:var(--text-faint);font-size:13px">Carga un reporte .html para previsualizarlo aquí</div></div></div></div>'; },
   'modelo-estadistico': function() { return typeof MLStatsManager !== 'undefined' ? MLStatsManager.renderModelPage() : '<div class="page-body"><div style="color:var(--text-faint)">Modelo no disponible</div></div>'; },
