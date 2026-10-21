@@ -47,8 +47,10 @@ jobs:
       - run: rm -f data.json
       - run: node --test --test-concurrency=1 --experimental-test-coverage "tests/*.test.js"
       - run: node -c server.js && node -c database.js && node -c ml-proxy.js && node -c sign-html.js && node -c sign-stamp.js
-      # Gate: solo HIGH/CRITICAL bloquean (los 2 moderate de qs/express4
-      # están documentados; el fix real es migrar a express 5)
+      # Gate: solo HIGH/CRITICAL bloquean. A 2026-10-20 el store está limpio
+      # (0 vulnerabilidades) tras actualizar express 4.22.3 + proxy-addr 2.0.8
+      # (GHSA-jqcg-44mw-7w3h, IP spoofing). Si vuelve a aparecer una moderate
+      # de qs/express4, se documenta aquí; lo que bloquea es high/critical.
       - run: npm audit --audit-level=high
 
   e2e:
