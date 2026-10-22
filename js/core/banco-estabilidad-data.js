@@ -1,7 +1,7 @@
 // Generado por scripts/extraer-banco.mjs estabilidad — NO EDITAR A MANO.
-// Fuente: docs/banco-ensayos/estabilidad/iq-camaras.html + docs/banco-ensayos/estabilidad/oq-camaras.html + docs/banco-ensayos/estabilidad/pq-camaras.html (versión: EST-IQ-CAM 2026-10-06 v1 + EST-OQ-CAM 2026-10-06 v1 + EST-PQ-CAM 2026-10-06 v1).
+// Fuente: docs/banco-ensayos/estabilidad/iq-camaras.html + docs/banco-ensayos/estabilidad/oq-camaras.html + docs/banco-ensayos/estabilidad/pq-camaras.html (versión: EST-IQ-CAM 2026-10-21 v2 + EST-OQ-CAM 2026-10-21 v2 + EST-PQ-CAM 2026-10-21 v2).
 var BancoEstabilidad = {
- "version": "EST-IQ-CAM 2026-10-06 v1 + EST-OQ-CAM 2026-10-06 v1 + EST-PQ-CAM 2026-10-06 v1",
+ "version": "EST-IQ-CAM 2026-10-21 v2 + EST-OQ-CAM 2026-10-21 v2 + EST-PQ-CAM 2026-10-21 v2",
  "fases": {
   "IQ": [
    {
@@ -32,7 +32,7 @@ var BancoEstabilidad = {
     "kind": "div",
     "clase": "def-usp",
     "bloque": 1,
-    "html": "<p><strong>DEFINICIÓN USP</strong></p>\n<p>Calificación de Instalación: conjunto documentado de actividades necesarias para establecer que un instrumento se entrega según su diseño y especificación, y que está correctamente instalado en el entorno seleccionado y es adecuado para él (USP &lt;1058&gt;).</p>"
+    "html": "<p><strong>DEFINICIÓN USP</strong></p>\n<p>Calificación de Instalación: conjunto documentado de actividades necesarias para establecer que un instrumento se entrega según su diseño y especificación, y que está correctamente instalado en el entorno seleccionado y es adecuado para él (<span class=\"refnorma\"></span>).</p>"
    },
    {
     "kind": "div",
@@ -147,7 +147,7 @@ var BancoEstabilidad = {
       ],
       [
        "6.2",
-       "USP <1058> — Analytical Instrument Qualification",
+       "EU GMP Anexo 15 — Cualificación y validación",
        "VIGENTE"
       ],
       [
@@ -199,7 +199,7 @@ var BancoEstabilidad = {
     "kind": "div",
     "clase": "def-usp",
     "bloque": 1,
-    "html": "<p><strong>DEFINICIÓN USP</strong></p>\n<p>Calificación de Operación: colección documentada de las actividades necesarias para demostrar que un instrumento se desempeña de manera uniforme de acuerdo con las especificaciones definidas por el usuario y es apropiado para el uso previsto, en el entorno seleccionado (USP &lt;1058&gt;).</p>"
+    "html": "<p><strong>DEFINICIÓN USP</strong></p>\n<p>Calificación de Operación: colección documentada de las actividades necesarias para demostrar que un instrumento se desempeña de manera uniforme de acuerdo con las especificaciones definidas por el usuario y es apropiado para el uso previsto, en el entorno seleccionado (<span class=\"refnorma\"></span>).</p>"
    },
    {
     "kind": "div",
@@ -412,7 +412,7 @@ var BancoEstabilidad = {
      },
      {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>USP &lt;1058&gt;; ICH Q1A(R2) (tolerancias)."
+      "html": "<strong>Referencia:</strong><br><span class=\"refnorma\"></span>; ICH Q1A(R2) (tolerancias)."
      }
     ],
     "tabla": null,
@@ -443,7 +443,7 @@ var BancoEstabilidad = {
      },
      {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>USP &lt;1058&gt;; ICH Q1A(R2)."
+      "html": "<strong>Referencia:</strong><br><span class=\"refnorma\"></span>."
      }
     ],
     "tabla": null,
@@ -474,7 +474,7 @@ var BancoEstabilidad = {
      },
      {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>USP &lt;1058&gt;; ICH Q1A(R2)."
+      "html": "<strong>Referencia:</strong><br><span class=\"refnorma\"></span>."
      }
     ],
     "tabla": null,
@@ -726,7 +726,7 @@ var BancoEstabilidad = {
      },
      {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>USP &lt;1058&gt;; EU GMP Anexo 15."
+      "html": "<strong>Referencia:</strong><br><span class=\"refnorma\"></span>."
      }
     ],
     "tabla": null,
@@ -845,7 +845,7 @@ var BancoEstabilidad = {
       ],
       [
        "6.3",
-       "USP <1058> — Analytical Instrument Qualification: sensores y patrones asociados",
+       "EU GMP Anexo 15 — Cualificación y validación: sensores y patrones asociados",
        "VIGENTE"
       ],
       [
@@ -912,7 +912,7 @@ var BancoEstabilidad = {
     "kind": "div",
     "clase": "def-usp",
     "bloque": 1,
-    "html": "<p><strong>DEFINICIÓN USP</strong></p>\n<p>Calificación de Desempeño: colección documentada de las actividades necesarias para demostrar que un instrumento se desempeña de manera uniforme de acuerdo con las especificaciones definidas por el usuario y es apropiado para el uso previsto, en las condiciones reales de uso (USP &lt;1058&gt;).</p>"
+    "html": "<p><strong>DEFINICIÓN USP</strong></p>\n<p>Calificación de Desempeño: colección documentada de las actividades necesarias para demostrar que un instrumento se desempeña de manera uniforme de acuerdo con las especificaciones definidas por el usuario y es apropiado para el uso previsto, en las condiciones reales de uso (<span class=\"refnorma\"></span>).</p>"
    },
    {
     "kind": "div",
@@ -1321,7 +1321,7 @@ var BancoEstabilidad = {
      },
      {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>USP &lt;1058&gt;; EU GMP Anexo 15."
+      "html": "<strong>Referencia:</strong><br><span class=\"refnorma\"></span>."
      }
     ],
     "tabla": null,
@@ -1562,7 +1562,7 @@ var BancoEstabilidad = {
       ],
       [
        "6.3",
-       "USP <1058> — Analytical Instrument Qualification: sensores y patrones asociados",
+       "EU GMP Anexo 15 — Cualificación y validación: sensores y patrones asociados",
        "VIGENTE"
       ],
       [

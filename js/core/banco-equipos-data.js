@@ -1,7 +1,7 @@
 // Generado por scripts/extraer-banco.mjs equipos — NO EDITAR A MANO.
-// Fuente: docs/banco-ensayos/equipos-comun.html + docs/banco-ensayos/equipos/oq-comun.html + docs/banco-ensayos/equipos/pq-comun.html + docs/banco-ensayos/equipos/iq-autoclave.html + docs/banco-ensayos/equipos/iq-tunel-despirogenizacion.html + docs/banco-ensayos/equipos/iq-liofilizador.html + docs/banco-ensayos/equipos/iq-reactor.html + docs/banco-ensayos/equipos/iq-horno-vacio.html + docs/banco-ensayos/equipos/iq-llenadora.html + docs/banco-ensayos/equipos/iq-lecho-fluido.html + docs/banco-ensayos/equipos/iq-tableteadora.html + docs/banco-ensayos/equipos/iq-encapsuladora.html + docs/banco-ensayos/equipos/iq-granulador.html + docs/banco-ensayos/equipos/iq-recubridora.html + docs/banco-ensayos/equipos/iq-blistera.html + docs/banco-ensayos/equipos/iq-detector-metales.html + docs/banco-ensayos/equipos/iq-etiquetadora.html + docs/banco-ensayos/equipos/iq-mezclador.html + docs/banco-ensayos/equipos/iq-horno-secado.html + docs/banco-ensayos/equipos/iq-sistema-cremas-vacio.html + docs/banco-ensayos/equipos/oq-reactor.html + docs/banco-ensayos/equipos/pq-reactor.html + docs/banco-ensayos/equipos/oq-sistema-cremas-vacio.html + docs/banco-ensayos/equipos/pq-sistema-cremas-vacio.html + docs/banco-ensayos/equipos/oq-tableteadora.html + docs/banco-ensayos/equipos/pq-tableteadora.html + docs/banco-ensayos/equipos/oq-encapsuladora.html + docs/banco-ensayos/equipos/pq-encapsuladora.html + docs/banco-ensayos/equipos/oq-granulador.html + docs/banco-ensayos/equipos/pq-granulador.html + docs/banco-ensayos/equipos/oq-recubridora.html + docs/banco-ensayos/equipos/pq-recubridora.html + docs/banco-ensayos/equipos/oq-blistera.html + docs/banco-ensayos/equipos/pq-blistera.html + docs/banco-ensayos/equipos/oq-detector-metales.html + docs/banco-ensayos/equipos/pq-detector-metales.html + docs/banco-ensayos/equipos/oq-etiquetadora.html + docs/banco-ensayos/equipos/pq-etiquetadora.html + docs/banco-ensayos/equipos/oq-lecho-fluido.html + docs/banco-ensayos/equipos/oq-autoclave.html + docs/banco-ensayos/equipos/oq-mezclador.html + docs/banco-ensayos/equipos/oq-horno.html + docs/banco-ensayos/equipos/pq-lecho-fluido.html + docs/banco-ensayos/equipos/pq-autoclave.html + docs/banco-ensayos/equipos/pq-mezclador.html + docs/banco-ensayos/equipos/pq-horno.html + docs/banco-ensayos/equipos/pq-horno-vacio.html + docs/banco-ensayos/equipos/oq-horno-vacio.html + docs/banco-ensayos/equipos/oq-refrigerador-lab.html + docs/banco-ensayos/equipos/pq-refrigerador-lab.html + docs/banco-ensayos/equipos/oq-congelador-lab.html + docs/banco-ensayos/equipos/pq-congelador-lab.html (versión: EQ-COMUN 2026-10-01 v2 + EQ-OQ-COM 2026-10-03 v1 + EQ-PQ-COM 2026-10-03 v1 + EQ-IQ-AU 2026-10-07 v1 + EQ-IQ-TD 2026-10-07 v1 + EQ-IQ-LI 2026-10-07 v1 + EQ-IQ-RC 2026-10-07 v1 + EQ-IQ-VA 2026-10-07 v1 + EQ-IQ-LL 2026-10-07 v1 + EQ-IQ-LF 2026-10-07 v1 + EQ-IQ-TB 2026-10-08 v1 + EQ-IQ-EN 2026-10-08 v1 + EQ-IQ-GR 2026-10-08 v1 + EQ-IQ-RB 2026-10-09 v1 + EQ-IQ-BL 2026-10-09 v1 + EQ-IQ-DM 2026-10-11 v1 + EQ-IQ-ET 2026-10-11 v1 + EQ-IQ-MZ 2026-10-11 v1 + EQ-IQ-HO 2026-10-11 v1 + EQ-IQ-UC 2026-10-12 v1 + EQ-OQ-RC 2026-10-07 v1 + EQ-PQ-RC 2026-10-07 v1 + EQ-OQ-UC 2026-10-12 v1 + EQ-PQ-UC 2026-10-12 v1 + EQ-OQ-TB 2026-10-08 v1 + EQ-PQ-TB 2026-10-08 v1 + EQ-OQ-EN 2026-10-08 v1 + EQ-PQ-EN 2026-10-08 v1 + EQ-OQ-GR 2026-10-08 v1 + EQ-PQ-GR 2026-10-08 v1 + EQ-OQ-RB 2026-10-09 v1 + EQ-PQ-RB 2026-10-09 v1 + EQ-OQ-BL 2026-10-09 v1 + EQ-PQ-BL 2026-10-09 v1 + EQ-OQ-DM 2026-10-11 v1 + EQ-PQ-DM 2026-10-11 v1 + EQ-OQ-ET 2026-10-11 v1 + EQ-PQ-ET 2026-10-11 v1 + EQ-OQ-LF 2026-10-05 v2 + EQ-OQ-AU 2026-10-05 v2 + EQ-OQ-MZ 2026-10-05 v2 + EQ-OQ-HO 2026-10-06 v1 + EQ-PQ-LF 2026-10-05 v2 + EQ-PQ-AU 2026-10-05 v2 + EQ-PQ-MZ 2026-10-05 v2 + EQ-PQ-HO 2026-10-06 v1 + EQ-PQ-VA 2026-10-06 v1 + EQ-OQ-VA 2026-10-06 v1 + EQ-OQ-RF 2026-10-14 v1 + EQ-PQ-RF 2026-10-14 v1 + EQ-OQ-CG 2026-10-14 v1 + EQ-PQ-CG 2026-10-14 v1).
+// Fuente: docs/banco-ensayos/equipos-comun.html + docs/banco-ensayos/equipos/oq-comun.html + docs/banco-ensayos/equipos/pq-comun.html + docs/banco-ensayos/equipos/iq-autoclave.html + docs/banco-ensayos/equipos/iq-tunel-despirogenizacion.html + docs/banco-ensayos/equipos/iq-liofilizador.html + docs/banco-ensayos/equipos/iq-reactor.html + docs/banco-ensayos/equipos/iq-horno-vacio.html + docs/banco-ensayos/equipos/iq-llenadora.html + docs/banco-ensayos/equipos/iq-lecho-fluido.html + docs/banco-ensayos/equipos/iq-tableteadora.html + docs/banco-ensayos/equipos/iq-encapsuladora.html + docs/banco-ensayos/equipos/iq-granulador.html + docs/banco-ensayos/equipos/iq-recubridora.html + docs/banco-ensayos/equipos/iq-blistera.html + docs/banco-ensayos/equipos/iq-detector-metales.html + docs/banco-ensayos/equipos/iq-etiquetadora.html + docs/banco-ensayos/equipos/iq-mezclador.html + docs/banco-ensayos/equipos/iq-horno-secado.html + docs/banco-ensayos/equipos/iq-sistema-cremas-vacio.html + docs/banco-ensayos/equipos/oq-reactor.html + docs/banco-ensayos/equipos/pq-reactor.html + docs/banco-ensayos/equipos/oq-sistema-cremas-vacio.html + docs/banco-ensayos/equipos/pq-sistema-cremas-vacio.html + docs/banco-ensayos/equipos/oq-tableteadora.html + docs/banco-ensayos/equipos/pq-tableteadora.html + docs/banco-ensayos/equipos/oq-encapsuladora.html + docs/banco-ensayos/equipos/pq-encapsuladora.html + docs/banco-ensayos/equipos/oq-granulador.html + docs/banco-ensayos/equipos/pq-granulador.html + docs/banco-ensayos/equipos/oq-recubridora.html + docs/banco-ensayos/equipos/pq-recubridora.html + docs/banco-ensayos/equipos/oq-blistera.html + docs/banco-ensayos/equipos/pq-blistera.html + docs/banco-ensayos/equipos/oq-detector-metales.html + docs/banco-ensayos/equipos/pq-detector-metales.html + docs/banco-ensayos/equipos/oq-etiquetadora.html + docs/banco-ensayos/equipos/pq-etiquetadora.html + docs/banco-ensayos/equipos/oq-lecho-fluido.html + docs/banco-ensayos/equipos/oq-autoclave.html + docs/banco-ensayos/equipos/oq-mezclador.html + docs/banco-ensayos/equipos/oq-horno.html + docs/banco-ensayos/equipos/pq-lecho-fluido.html + docs/banco-ensayos/equipos/pq-autoclave.html + docs/banco-ensayos/equipos/pq-mezclador.html + docs/banco-ensayos/equipos/pq-horno.html + docs/banco-ensayos/equipos/pq-horno-vacio.html + docs/banco-ensayos/equipos/oq-horno-vacio.html + docs/banco-ensayos/equipos/oq-refrigerador-lab.html + docs/banco-ensayos/equipos/pq-refrigerador-lab.html + docs/banco-ensayos/equipos/oq-congelador-lab.html + docs/banco-ensayos/equipos/pq-congelador-lab.html (versión: EQ-COMUN 2026-10-21 v3 + EQ-OQ-COM 2026-10-21 v2 + EQ-PQ-COM 2026-10-21 v2 + EQ-IQ-AU 2026-10-07 v1 + EQ-IQ-TD 2026-10-07 v1 + EQ-IQ-LI 2026-10-07 v1 + EQ-IQ-RC 2026-10-21 v2 + EQ-IQ-VA 2026-10-21 v2 + EQ-IQ-LL 2026-10-07 v1 + EQ-IQ-LF 2026-10-07 v1 + EQ-IQ-TB 2026-10-08 v1 + EQ-IQ-EN 2026-10-08 v1 + EQ-IQ-GR 2026-10-08 v1 + EQ-IQ-RB 2026-10-09 v1 + EQ-IQ-BL 2026-10-09 v1 + EQ-IQ-DM 2026-10-11 v1 + EQ-IQ-ET 2026-10-11 v1 + EQ-IQ-MZ 2026-10-11 v1 + EQ-IQ-HO 2026-10-11 v1 + EQ-IQ-UC 2026-10-21 v2 + EQ-OQ-RC 2026-10-07 v1 + EQ-PQ-RC 2026-10-07 v1 + EQ-OQ-UC 2026-10-12 v1 + EQ-PQ-UC 2026-10-12 v1 + EQ-OQ-TB 2026-10-08 v1 + EQ-PQ-TB 2026-10-08 v1 + EQ-OQ-EN 2026-10-08 v1 + EQ-PQ-EN 2026-10-08 v1 + EQ-OQ-GR 2026-10-08 v1 + EQ-PQ-GR 2026-10-08 v1 + EQ-OQ-RB 2026-10-09 v1 + EQ-PQ-RB 2026-10-09 v1 + EQ-OQ-BL 2026-10-09 v1 + EQ-PQ-BL 2026-10-09 v1 + EQ-OQ-DM 2026-10-11 v1 + EQ-PQ-DM 2026-10-11 v1 + EQ-OQ-ET 2026-10-11 v1 + EQ-PQ-ET 2026-10-11 v1 + EQ-OQ-LF 2026-10-21 v3 + EQ-OQ-AU 2026-10-21 v3 + EQ-OQ-MZ 2026-10-21 v3 + EQ-OQ-HO 2026-10-21 v2 + EQ-PQ-LF 2026-10-21 v3 + EQ-PQ-AU 2026-10-21 v3 + EQ-PQ-MZ 2026-10-21 v3 + EQ-PQ-HO 2026-10-21 v2 + EQ-PQ-VA 2026-10-21 v2 + EQ-OQ-VA 2026-10-21 v2 + EQ-OQ-RF 2026-10-14 v1 + EQ-PQ-RF 2026-10-14 v1 + EQ-OQ-CG 2026-10-14 v1 + EQ-PQ-CG 2026-10-14 v1).
 var BancoEquipos = {
- "version": "EQ-COMUN 2026-10-01 v2 + EQ-OQ-COM 2026-10-03 v1 + EQ-PQ-COM 2026-10-03 v1 + EQ-IQ-AU 2026-10-07 v1 + EQ-IQ-TD 2026-10-07 v1 + EQ-IQ-LI 2026-10-07 v1 + EQ-IQ-RC 2026-10-07 v1 + EQ-IQ-VA 2026-10-07 v1 + EQ-IQ-LL 2026-10-07 v1 + EQ-IQ-LF 2026-10-07 v1 + EQ-IQ-TB 2026-10-08 v1 + EQ-IQ-EN 2026-10-08 v1 + EQ-IQ-GR 2026-10-08 v1 + EQ-IQ-RB 2026-10-09 v1 + EQ-IQ-BL 2026-10-09 v1 + EQ-IQ-DM 2026-10-11 v1 + EQ-IQ-ET 2026-10-11 v1 + EQ-IQ-MZ 2026-10-11 v1 + EQ-IQ-HO 2026-10-11 v1 + EQ-IQ-UC 2026-10-12 v1 + EQ-OQ-RC 2026-10-07 v1 + EQ-PQ-RC 2026-10-07 v1 + EQ-OQ-UC 2026-10-12 v1 + EQ-PQ-UC 2026-10-12 v1 + EQ-OQ-TB 2026-10-08 v1 + EQ-PQ-TB 2026-10-08 v1 + EQ-OQ-EN 2026-10-08 v1 + EQ-PQ-EN 2026-10-08 v1 + EQ-OQ-GR 2026-10-08 v1 + EQ-PQ-GR 2026-10-08 v1 + EQ-OQ-RB 2026-10-09 v1 + EQ-PQ-RB 2026-10-09 v1 + EQ-OQ-BL 2026-10-09 v1 + EQ-PQ-BL 2026-10-09 v1 + EQ-OQ-DM 2026-10-11 v1 + EQ-PQ-DM 2026-10-11 v1 + EQ-OQ-ET 2026-10-11 v1 + EQ-PQ-ET 2026-10-11 v1 + EQ-OQ-LF 2026-10-05 v2 + EQ-OQ-AU 2026-10-05 v2 + EQ-OQ-MZ 2026-10-05 v2 + EQ-OQ-HO 2026-10-06 v1 + EQ-PQ-LF 2026-10-05 v2 + EQ-PQ-AU 2026-10-05 v2 + EQ-PQ-MZ 2026-10-05 v2 + EQ-PQ-HO 2026-10-06 v1 + EQ-PQ-VA 2026-10-06 v1 + EQ-OQ-VA 2026-10-06 v1 + EQ-OQ-RF 2026-10-14 v1 + EQ-PQ-RF 2026-10-14 v1 + EQ-OQ-CG 2026-10-14 v1 + EQ-PQ-CG 2026-10-14 v1",
+ "version": "EQ-COMUN 2026-10-21 v3 + EQ-OQ-COM 2026-10-21 v2 + EQ-PQ-COM 2026-10-21 v2 + EQ-IQ-AU 2026-10-07 v1 + EQ-IQ-TD 2026-10-07 v1 + EQ-IQ-LI 2026-10-07 v1 + EQ-IQ-RC 2026-10-21 v2 + EQ-IQ-VA 2026-10-21 v2 + EQ-IQ-LL 2026-10-07 v1 + EQ-IQ-LF 2026-10-07 v1 + EQ-IQ-TB 2026-10-08 v1 + EQ-IQ-EN 2026-10-08 v1 + EQ-IQ-GR 2026-10-08 v1 + EQ-IQ-RB 2026-10-09 v1 + EQ-IQ-BL 2026-10-09 v1 + EQ-IQ-DM 2026-10-11 v1 + EQ-IQ-ET 2026-10-11 v1 + EQ-IQ-MZ 2026-10-11 v1 + EQ-IQ-HO 2026-10-11 v1 + EQ-IQ-UC 2026-10-21 v2 + EQ-OQ-RC 2026-10-07 v1 + EQ-PQ-RC 2026-10-07 v1 + EQ-OQ-UC 2026-10-12 v1 + EQ-PQ-UC 2026-10-12 v1 + EQ-OQ-TB 2026-10-08 v1 + EQ-PQ-TB 2026-10-08 v1 + EQ-OQ-EN 2026-10-08 v1 + EQ-PQ-EN 2026-10-08 v1 + EQ-OQ-GR 2026-10-08 v1 + EQ-PQ-GR 2026-10-08 v1 + EQ-OQ-RB 2026-10-09 v1 + EQ-PQ-RB 2026-10-09 v1 + EQ-OQ-BL 2026-10-09 v1 + EQ-PQ-BL 2026-10-09 v1 + EQ-OQ-DM 2026-10-11 v1 + EQ-PQ-DM 2026-10-11 v1 + EQ-OQ-ET 2026-10-11 v1 + EQ-PQ-ET 2026-10-11 v1 + EQ-OQ-LF 2026-10-21 v3 + EQ-OQ-AU 2026-10-21 v3 + EQ-OQ-MZ 2026-10-21 v3 + EQ-OQ-HO 2026-10-21 v2 + EQ-PQ-LF 2026-10-21 v3 + EQ-PQ-AU 2026-10-21 v3 + EQ-PQ-MZ 2026-10-21 v3 + EQ-PQ-HO 2026-10-21 v2 + EQ-PQ-VA 2026-10-21 v2 + EQ-OQ-VA 2026-10-21 v2 + EQ-OQ-RF 2026-10-14 v1 + EQ-PQ-RF 2026-10-14 v1 + EQ-OQ-CG 2026-10-14 v1 + EQ-PQ-CG 2026-10-14 v1",
  "fases": {
   "DQ": [],
   "IQ": [
@@ -33,7 +33,7 @@ var BancoEquipos = {
     "kind": "div",
     "clase": "def-usp",
     "bloque": 1,
-    "html": "<p><strong>DEFINICIÓN USP</strong></p>\n<p>Calificación de Instalación: conjunto documentado de actividades necesarias para establecer que un instrumento se entrega según su diseño y especificación, y que está correctamente instalado en el entorno seleccionado y es adecuado para él (USP &lt;1058&gt;).</p>"
+    "html": "<p><strong>DEFINICIÓN USP</strong></p>\n<p>Calificación de Instalación: conjunto documentado de actividades necesarias para establecer que un instrumento se entrega según su diseño y especificación, y que está correctamente instalado en el entorno seleccionado y es adecuado para él (<span class=\"refnorma\"></span>).</p>"
    },
    {
     "kind": "div",
@@ -54,7 +54,7 @@ var BancoEquipos = {
      },
      {
       "et": "Procedimiento",
-      "html": "<strong>Procedimiento:</strong><br>\n  1) Calificación de Diseño (DQ) aprobada, o justificación documentada cuando no aplique (equipo estándar de catálogo)<br>\n  2) Especificación de requisitos de usuario (URS) aprobada<br>\n  3) Clasificación del equipo según USP &lt;1058&gt; (grupo A, B o C) o análisis de riesgo documentado<br>\n  4) Manual de instalación, operación y mantenimiento del fabricante disponible<br>\n  5) Equipo registrado en SAP con su código interno<br>\n  6) Instructivo de operación y limpieza vigente o en borrador aprobado para la calificación<br>\n  7) Personal ejecutor capacitado en el presente protocolo<br>\n  8) Sin desviaciones ni controles de cambio abiertos que impidan iniciar la IQ"
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Calificación de Diseño (DQ) aprobada, o justificación documentada cuando no aplique (equipo estándar de catálogo)<br>\n  2) Especificación de requisitos de usuario (URS) aprobada<br>\n  3) Clasificación del equipo según su impacto en la calidad del producto (grupo A, B o C) o análisis de riesgo documentado<br>\n  4) Manual de instalación, operación y mantenimiento del fabricante disponible<br>\n  5) Equipo registrado en SAP con su código interno<br>\n  6) Instructivo de operación y limpieza vigente o en borrador aprobado para la calificación<br>\n  7) Personal ejecutor capacitado en el presente protocolo<br>\n  8) Sin desviaciones ni controles de cambio abiertos que impidan iniciar la IQ"
      },
      {
       "et": "Criterio de aceptación",
@@ -70,7 +70,7 @@ var BancoEquipos = {
      },
      {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>USP &lt;1058&gt;; EU GMP Anexo 15."
+      "html": "<strong>Referencia:</strong><br><span class=\"refnorma\"></span>."
      }
     ],
     "tabla": null
@@ -100,7 +100,7 @@ var BancoEquipos = {
      },
      {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>USP &lt;1058&gt;; EU GMP Anexo 15."
+      "html": "<strong>Referencia:</strong><br><span class=\"refnorma\"></span>."
      }
     ],
     "tabla": null,
@@ -131,7 +131,7 @@ var BancoEquipos = {
      },
      {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>USP &lt;1058&gt;."
+      "html": "<strong>Referencia:</strong><br><span class=\"refnorma\"></span>."
      }
     ],
     "tabla": null
@@ -161,7 +161,7 @@ var BancoEquipos = {
      },
      {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>USP &lt;1058&gt;."
+      "html": "<strong>Referencia:</strong><br><span class=\"refnorma\"></span>."
      }
     ],
     "tabla": null,
@@ -192,7 +192,7 @@ var BancoEquipos = {
      },
      {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>USP &lt;1058&gt;; EU GMP Anexo 15."
+      "html": "<strong>Referencia:</strong><br><span class=\"refnorma\"></span>."
      }
     ],
     "tabla": null,
@@ -227,7 +227,7 @@ var BancoEquipos = {
      },
      {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>USP &lt;1058&gt; (Montaje e instalación); manual del fabricante."
+      "html": "<strong>Referencia:</strong><br><span class=\"refnorma\"></span> (Montaje e instalación); manual del fabricante."
      }
     ],
     "tabla": null
@@ -257,7 +257,7 @@ var BancoEquipos = {
      },
      {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>USP &lt;1058&gt;; EU GMP Capítulo 3."
+      "html": "<strong>Referencia:</strong><br><span class=\"refnorma\"></span>."
      }
     ],
     "tabla": null,
@@ -292,7 +292,7 @@ var BancoEquipos = {
      },
      {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>USP &lt;1058&gt;; ISO/IEC 17025."
+      "html": "<strong>Referencia:</strong><br><span class=\"refnorma\"></span>."
      }
     ],
     "tabla": null,
@@ -327,7 +327,7 @@ var BancoEquipos = {
      },
      {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>USP &lt;1058&gt;."
+      "html": "<strong>Referencia:</strong><br><span class=\"refnorma\"></span>."
      }
     ],
     "tabla": null
@@ -361,7 +361,7 @@ var BancoEquipos = {
      },
      {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>USP &lt;1058&gt;; ISPE Baseline Guide Vol. 5."
+      "html": "<strong>Referencia:</strong><br><span class=\"refnorma\"></span>; ISPE Baseline Guide Vol. 5."
      }
     ],
     "tabla": null,
@@ -461,11 +461,11 @@ var BancoEquipos = {
      },
      {
       "et": "Nota",
-      "html": "<strong>Nota:</strong><br>\n  Si el equipo no tiene software ni firmware configurable (USP &lt;1058&gt; grupo A), el ensayo se declara No Aplica."
+      "html": "<strong>Nota:</strong><br>\n  Si el equipo no tiene software ni firmware configurable (grupo A de la clasificación por impacto), el ensayo se declara No Aplica."
      },
      {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>USP &lt;1058&gt;; GAMP 5; 21 CFR Part 11; EU GMP Anexo 11."
+      "html": "<strong>Referencia:</strong><br><span class=\"refnorma\"></span>; GAMP 5; 21 CFR Part 11; EU GMP Anexo 11."
      }
     ],
     "tabla": null
@@ -495,7 +495,7 @@ var BancoEquipos = {
      },
      {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>USP &lt;1058&gt;."
+      "html": "<strong>Referencia:</strong><br><span class=\"refnorma\"></span>."
      }
     ],
     "tabla": null
@@ -695,7 +695,7 @@ var BancoEquipos = {
      },
      {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>USP &lt;1058&gt;; EU GMP Anexo 15."
+      "html": "<strong>Referencia:</strong><br><span class=\"refnorma\"></span>."
      }
     ],
     "tabla": null
@@ -782,56 +782,51 @@ var BancoEquipos = {
      "rows": [
       [
        "1",
-       "USP <1058> Analytical Instrument Qualification",
-       "USP vigente"
-      ],
-      [
-       "2",
        "EU GMP Anexo 15 — Calificación y validación",
        "2015"
       ],
       [
-       "3",
+       "2",
        "EU GMP Anexo 11 — Sistemas informatizados",
        "2011"
       ],
       [
-       "4",
+       "3",
        "ISPE GAMP 5 — A Risk-Based Approach to Compliant GxP Computerized Systems",
        "2.ª edición, 2022"
       ],
       [
-       "5",
+       "4",
        "21 CFR Part 11 — Electronic Records; Electronic Signatures",
        "Vigente"
       ],
       [
-       "6",
+       "5",
        "ISPE Baseline Guide Vol. 5 — Commissioning and Qualification",
        "2.ª edición, 2019"
       ],
       [
-       "7",
+       "6",
        "ASME BPE — Bioprocessing Equipment",
        "Edición vigente"
       ],
       [
-       "8",
+       "7",
        "ASME BPVC Sección VIII — Recipientes a presión",
        "Edición vigente"
       ],
       [
-       "9",
+       "8",
        "ISO 14644-3 / EN 1822 — Salas limpias y filtros de alta eficiencia",
        "Edición vigente"
       ],
       [
-       "10",
+       "9",
        "FDA 21 CFR 177 / USP <88> — Materiales poliméricos en contacto",
        "Vigente"
       ],
       [
-       "11",
+       "10",
        "______",
        "______"
       ]
@@ -1803,7 +1798,7 @@ var BancoEquipos = {
      },
      {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>USP &lt;1058&gt;."
+      "html": "<strong>Referencia:</strong><br><span class=\"refnorma\"></span>."
      }
     ],
     "tabla": null,
@@ -2054,7 +2049,7 @@ var BancoEquipos = {
      },
      {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>USP &lt;1058&gt;."
+      "html": "<strong>Referencia:</strong><br><span class=\"refnorma\"></span>."
      }
     ],
     "tabla": null,
@@ -4212,7 +4207,7 @@ var BancoEquipos = {
      },
      {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>USP &lt;1058&gt;."
+      "html": "<strong>Referencia:</strong><br><span class=\"refnorma\"></span>."
      }
     ],
     "tabla": null,
@@ -4340,7 +4335,7 @@ var BancoEquipos = {
      },
      {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>USP &lt;1058&gt;; EU GMP Anexo 15."
+      "html": "<strong>Referencia:</strong><br><span class=\"refnorma\"></span>."
      }
     ],
     "tabla": null,
@@ -12411,7 +12406,7 @@ var BancoEquipos = {
     "kind": "div",
     "clase": "def-usp",
     "bloque": 1,
-    "html": "<p><strong>DEFINICIÓN USP</strong></p>\n<p>Calificación de Operación: colección documentada de las actividades necesarias para demostrar que un instrumento se desempeña de manera uniforme de acuerdo con las especificaciones definidas por el usuario y es apropiado para el uso previsto, en el entorno seleccionado (USP &lt;1058&gt;).</p>",
+    "html": "<p><strong>DEFINICIÓN USP</strong></p>\n<p>Calificación de Operación: colección documentada de las actividades necesarias para demostrar que un instrumento se desempeña de manera uniforme de acuerdo con las especificaciones definidas por el usuario y es apropiado para el uso previsto, en el entorno seleccionado (<span class=\"refnorma\"></span>).</p>",
     "familia": "lecho-fluido"
    },
    {
@@ -12512,7 +12507,7 @@ var BancoEquipos = {
      },
      {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>EU GMP Anexo 15; USP &lt;1058&gt; (sensores asociados)."
+      "html": "<strong>Referencia:</strong><br><span class=\"refnorma\"></span> (sensores asociados)."
      }
     ],
     "tabla": null,
@@ -12606,7 +12601,7 @@ var BancoEquipos = {
      },
      {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>USP &lt;1058&gt;; EU GMP Anexo 15."
+      "html": "<strong>Referencia:</strong><br><span class=\"refnorma\"></span>."
      }
     ],
     "tabla": null,
@@ -12827,7 +12822,7 @@ var BancoEquipos = {
       ],
       [
        "6.4",
-       "USP <1058> — Analytical Instrument Qualification: exactitud de sensores e instrumentos asociados",
+       "ISPE Baseline Guide Vol. 5 — Equipment for the Production of Pharmaceutical Products: exactitud de sensores e instrumentos asociados",
        "VIGENTE"
       ],
       [
@@ -12883,7 +12878,7 @@ var BancoEquipos = {
     "kind": "div",
     "clase": "def-usp",
     "bloque": 1,
-    "html": "<p><strong>DEFINICIÓN USP</strong></p>\n<p>Calificación de Operación: colección documentada de las actividades necesarias para demostrar que un instrumento se desempeña de manera uniforme de acuerdo con las especificaciones definidas por el usuario y es apropiado para el uso previsto, en el entorno seleccionado (USP &lt;1058&gt;).</p>",
+    "html": "<p><strong>DEFINICIÓN USP</strong></p>\n<p>Calificación de Operación: colección documentada de las actividades necesarias para demostrar que un instrumento se desempeña de manera uniforme de acuerdo con las especificaciones definidas por el usuario y es apropiado para el uso previsto, en el entorno seleccionado (<span class=\"refnorma\"></span>).</p>",
     "familia": "autoclave"
    },
    {
@@ -13112,7 +13107,7 @@ var BancoEquipos = {
      },
      {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>USP &lt;1058&gt;; EN 285 (termometría)."
+      "html": "<strong>Referencia:</strong><br><span class=\"refnorma\"></span>; EN 285 (termometría)."
      }
     ],
     "tabla": null,
@@ -13592,7 +13587,7 @@ var BancoEquipos = {
     "kind": "div",
     "clase": "def-usp",
     "bloque": 1,
-    "html": "<p><strong>DEFINICIÓN USP</strong></p>\n<p>Calificación de Operación: colección documentada de las actividades necesarias para demostrar que un instrumento se desempeña de manera uniforme de acuerdo con las especificaciones definidas por el usuario y es apropiado para el uso previsto, en el entorno seleccionado (USP &lt;1058&gt;).</p>",
+    "html": "<p><strong>DEFINICIÓN USP</strong></p>\n<p>Calificación de Operación: colección documentada de las actividades necesarias para demostrar que un instrumento se desempeña de manera uniforme de acuerdo con las especificaciones definidas por el usuario y es apropiado para el uso previsto, en el entorno seleccionado (<span class=\"refnorma\"></span>).</p>",
     "familia": "mezclador"
    },
    {
@@ -13786,7 +13781,7 @@ var BancoEquipos = {
      },
      {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>USP &lt;1058&gt;; manual del fabricante."
+      "html": "<strong>Referencia:</strong><br><span class=\"refnorma\"></span>; manual del fabricante."
      }
     ],
     "tabla": null,
@@ -14074,7 +14069,7 @@ var BancoEquipos = {
       ],
       [
        "6.4",
-       "USP <1058> — Analytical Instrument Qualification: tacómetros, cronómetros e instrumentos asociados",
+       "ISPE Baseline Guide Vol. 5 — Equipment for the Production of Pharmaceutical Products: tacómetros, cronómetros e instrumentos asociados",
        "VIGENTE"
       ],
       [
@@ -14125,7 +14120,7 @@ var BancoEquipos = {
     "kind": "div",
     "clase": "def-usp",
     "bloque": 1,
-    "html": "<p><strong>DEFINICIÓN USP</strong></p>\n<p>Calificación de Operación: colección documentada de las actividades necesarias para demostrar que un instrumento se desempeña de manera uniforme de acuerdo con las especificaciones definidas por el usuario y es apropiado para el uso previsto, en el entorno seleccionado (USP &lt;1058&gt;).</p>",
+    "html": "<p><strong>DEFINICIÓN USP</strong></p>\n<p>Calificación de Operación: colección documentada de las actividades necesarias para demostrar que un instrumento se desempeña de manera uniforme de acuerdo con las especificaciones definidas por el usuario y es apropiado para el uso previsto, en el entorno seleccionado (<span class=\"refnorma\"></span>).</p>",
     "familia": "horno-secado"
    },
    {
@@ -14319,7 +14314,7 @@ var BancoEquipos = {
      },
      {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>USP &lt;1058&gt;; manual del fabricante."
+      "html": "<strong>Referencia:</strong><br><span class=\"refnorma\"></span>; manual del fabricante."
      }
     ],
     "tabla": null,
@@ -14351,7 +14346,7 @@ var BancoEquipos = {
      },
      {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>USP &lt;1058&gt;; manual del fabricante."
+      "html": "<strong>Referencia:</strong><br><span class=\"refnorma\"></span>; manual del fabricante."
      }
     ],
     "tabla": null,
@@ -14611,7 +14606,7 @@ var BancoEquipos = {
      },
      {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>USP &lt;1058&gt;; EU GMP Anexo 15."
+      "html": "<strong>Referencia:</strong><br><span class=\"refnorma\"></span>."
      }
     ],
     "tabla": null,
@@ -14698,7 +14693,7 @@ var BancoEquipos = {
       ],
       [
        "6.2",
-       "USP <1058> — Analytical Instrument Qualification: sensores y patrones asociados",
+       "ISPE Baseline Guide Vol. 5 — Equipment for the Production of Pharmaceutical Products: sensores y patrones asociados",
        "VIGENTE"
       ],
       [
@@ -14764,7 +14759,7 @@ var BancoEquipos = {
     "kind": "div",
     "clase": "def-usp",
     "bloque": 1,
-    "html": "<p><strong>DEFINICIÓN USP</strong></p>\n<p>Calificación de Operación: colección documentada de las actividades necesarias para demostrar que un instrumento se desempeña de manera uniforme de acuerdo con las especificaciones definidas por el usuario y es apropiado para el uso previsto, en el entorno seleccionado (USP &lt;1058&gt;).</p>",
+    "html": "<p><strong>DEFINICIÓN USP</strong></p>\n<p>Calificación de Operación: colección documentada de las actividades necesarias para demostrar que un instrumento se desempeña de manera uniforme de acuerdo con las especificaciones definidas por el usuario y es apropiado para el uso previsto, en el entorno seleccionado (<span class=\"refnorma\"></span>).</p>",
     "familia": "horno-vacio"
    },
    {
@@ -14986,7 +14981,7 @@ var BancoEquipos = {
      },
      {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>USP &lt;1058&gt;; manual del fabricante."
+      "html": "<strong>Referencia:</strong><br><span class=\"refnorma\"></span>; manual del fabricante."
      }
     ],
     "tabla": null,
@@ -15145,7 +15140,7 @@ var BancoEquipos = {
      },
      {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>USP &lt;1058&gt;; manual del fabricante."
+      "html": "<strong>Referencia:</strong><br><span class=\"refnorma\"></span>; manual del fabricante."
      }
     ],
     "tabla": null,
@@ -15177,7 +15172,7 @@ var BancoEquipos = {
      },
      {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>USP &lt;1058&gt;; manual del fabricante."
+      "html": "<strong>Referencia:</strong><br><span class=\"refnorma\"></span>; manual del fabricante."
      }
     ],
     "tabla": null,
@@ -15396,7 +15391,7 @@ var BancoEquipos = {
       ],
       [
        "6.2",
-       "USP <1058> — Analytical Instrument Qualification: sensores y patrones asociados",
+       "ISPE Baseline Guide Vol. 5 — Equipment for the Production of Pharmaceutical Products: sensores y patrones asociados",
        "VIGENTE"
       ],
       [
@@ -16925,7 +16920,7 @@ var BancoEquipos = {
      },
      {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>USP &lt;1058&gt;; EU GMP Anexo 15."
+      "html": "<strong>Referencia:</strong><br><span class=\"refnorma\"></span>."
      }
     ],
     "tabla": null,
@@ -22357,7 +22352,7 @@ var BancoEquipos = {
     "kind": "div",
     "clase": "def-usp",
     "bloque": 1,
-    "html": "<p><strong>DEFINICIÓN USP</strong></p>\n<p>Calificación de Desempeño: colección documentada de las actividades necesarias para demostrar que un instrumento se desempeña de manera uniforme de acuerdo con las especificaciones definidas por el usuario y es apropiado para el uso previsto, en las condiciones reales de uso (USP &lt;1058&gt;).</p>",
+    "html": "<p><strong>DEFINICIÓN USP</strong></p>\n<p>Calificación de Desempeño: colección documentada de las actividades necesarias para demostrar que un instrumento se desempeña de manera uniforme de acuerdo con las especificaciones definidas por el usuario y es apropiado para el uso previsto, en las condiciones reales de uso (<span class=\"refnorma\"></span>).</p>",
     "familia": "lecho-fluido"
    },
    {
@@ -22997,7 +22992,7 @@ var BancoEquipos = {
     "kind": "div",
     "clase": "def-usp",
     "bloque": 1,
-    "html": "<p><strong>DEFINICIÓN USP</strong></p>\n<p>Calificación de Desempeño: colección documentada de las actividades necesarias para demostrar que un instrumento se desempeña de manera uniforme de acuerdo con las especificaciones definidas por el usuario y es apropiado para el uso previsto, en las condiciones reales de uso (USP &lt;1058&gt;).</p>",
+    "html": "<p><strong>DEFINICIÓN USP</strong></p>\n<p>Calificación de Desempeño: colección documentada de las actividades necesarias para demostrar que un instrumento se desempeña de manera uniforme de acuerdo con las especificaciones definidas por el usuario y es apropiado para el uso previsto, en las condiciones reales de uso (<span class=\"refnorma\"></span>).</p>",
     "familia": "autoclave"
    },
    {
@@ -23687,7 +23682,7 @@ var BancoEquipos = {
     "kind": "div",
     "clase": "def-usp",
     "bloque": 1,
-    "html": "<p><strong>DEFINICIÓN USP</strong></p>\n<p>Calificación de Desempeño: colección documentada de las actividades necesarias para demostrar que un instrumento se desempeña de manera uniforme de acuerdo con las especificaciones definidas por el usuario y es apropiado para el uso previsto, en las condiciones reales de uso (USP &lt;1058&gt;).</p>",
+    "html": "<p><strong>DEFINICIÓN USP</strong></p>\n<p>Calificación de Desempeño: colección documentada de las actividades necesarias para demostrar que un instrumento se desempeña de manera uniforme de acuerdo con las especificaciones definidas por el usuario y es apropiado para el uso previsto, en las condiciones reales de uso (<span class=\"refnorma\"></span>).</p>",
     "familia": "mezclador"
    },
    {
@@ -24267,7 +24262,7 @@ var BancoEquipos = {
     "kind": "div",
     "clase": "def-usp",
     "bloque": 1,
-    "html": "<p><strong>DEFINICIÓN USP</strong></p>\n<p>Calificación de Desempeño: colección documentada de las actividades necesarias para demostrar que un instrumento se desempeña de manera uniforme de acuerdo con las especificaciones definidas por el usuario y es apropiado para el uso previsto, en las condiciones reales de uso (USP &lt;1058&gt;).</p>",
+    "html": "<p><strong>DEFINICIÓN USP</strong></p>\n<p>Calificación de Desempeño: colección documentada de las actividades necesarias para demostrar que un instrumento se desempeña de manera uniforme de acuerdo con las especificaciones definidas por el usuario y es apropiado para el uso previsto, en las condiciones reales de uso (<span class=\"refnorma\"></span>).</p>",
     "familia": "horno-secado"
    },
    {
@@ -24780,7 +24775,7 @@ var BancoEquipos = {
      },
      {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>USP &lt;1058&gt;; EU GMP Anexo 15."
+      "html": "<strong>Referencia:</strong><br><span class=\"refnorma\"></span>."
      }
     ],
     "tabla": null,
@@ -24897,7 +24892,7 @@ var BancoEquipos = {
       ],
       [
        "6.2",
-       "USP <1058> — Analytical Instrument Qualification: sensores y patrones asociados",
+       "ISPE Baseline Guide Vol. 5 — Equipment for the Production of Pharmaceutical Products: sensores y patrones asociados",
        "VIGENTE"
       ],
       [
@@ -24968,7 +24963,7 @@ var BancoEquipos = {
     "kind": "div",
     "clase": "def-usp",
     "bloque": 1,
-    "html": "<p><strong>DEFINICIÓN USP</strong></p>\n<p>Calificación de Desempeño: colección documentada de las actividades necesarias para demostrar que un instrumento se desempeña de manera uniforme de acuerdo con las especificaciones definidas por el usuario y es apropiado para el uso previsto, en las condiciones reales de uso (USP &lt;1058&gt;).</p>",
+    "html": "<p><strong>DEFINICIÓN USP</strong></p>\n<p>Calificación de Desempeño: colección documentada de las actividades necesarias para demostrar que un instrumento se desempeña de manera uniforme de acuerdo con las especificaciones definidas por el usuario y es apropiado para el uso previsto, en las condiciones reales de uso (<span class=\"refnorma\"></span>).</p>",
     "familia": "horno-vacio"
    },
    {
@@ -25382,7 +25377,7 @@ var BancoEquipos = {
       ],
       [
        "6.3",
-       "USP <1058> — Analytical Instrument Qualification: sensores y patrones asociados",
+       "ISPE Baseline Guide Vol. 5 — Equipment for the Production of Pharmaceutical Products: sensores y patrones asociados",
        "VIGENTE"
       ],
       [

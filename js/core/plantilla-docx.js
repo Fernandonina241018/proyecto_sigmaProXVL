@@ -480,6 +480,44 @@ const PlantillaDocx = (() => {
     return r;
   }
 
+  // Referencia normativa según el TIPO del equipo (dato `tipo` de ENTIDADES en
+  // indexx-validaciones.js). Es la ÚNICA fuente: el banco de ensayos no
+  // escribe el estándar en el texto, lo pide con la marca
+  // <span class="refnorma"></span> y aquí se resuelve con esta tabla.
+  //   M = maquinaria de producción → EU GMP Anexo 15 + ISPE Baseline Guide Vol. 5
+  //   Q = estabilidad (ICH Q1A)     → EU GMP Anexo 15 + ICH Q1A(R2)
+  //   L = instrumento analítico      → USP <1058> + EU GMP Anexo 15
+  // USP <1058> es "Analytical Instrument Qualification": solo aplica a
+  // instrumentos analíticos, NUNCA a maquinaria de producción.
+  const REFS_NORMATIVAS = {
+    M: 'EU GMP Anexo 15; ISPE Baseline Guide Vol. 5',
+    Q: 'EU GMP Anexo 15; ICH Q1A(R2)',
+    L: 'USP <1058> — Analytical Instrument Qualification; EU GMP Anexo 15',
+  };
+
+  function refNormativa(entidad) {
+    const tipo = String((entidad && entidad.tipo) || '').trim().toUpperCase();
+    if (tipo && REFS_NORMATIVAS[tipo]) return REFS_NORMATIVAS[tipo];
+    return REFS_NORMATIVAS.L;
+  }
+
+  // ¿Este banco usa la marca refnorma (es decir, ¿el tipo importa aquí)?
+  function bancoUsaRefNormativa(banco) {
+    try {
+      const fases = (banco && banco.fases) || {};
+      for (const k of Object.keys(fases)) {
+        for (const it of (fases[k] || [])) {
+          const html = (it && it.html) || '';
+          if (html.indexOf('refnorma') >= 0) return true;
+          for (const s of (it && it.secciones) || []) {
+            if (String((s && s.html) || '').indexOf('refnorma') >= 0) return true;
+          }
+        }
+      }
+    } catch (e) { /* fail-open */ }
+    return false;
+  }
+
   function contexto(draft, entidad, filtro, articulos) {
     const d = draft || {};
     const nombre = String(d.descripcion || '').trim() || (entidad && entidad.nombre) || '';
@@ -488,6 +526,7 @@ const PlantillaDocx = (() => {
       rango: rangoTexto(d),
       cond: COND_TXT[filtro] || COND_TXT.ambas,
       lista: (articulos || []).map((a) => a.id).join(', '),
+      refnorma: refNormativa(entidad),
     };
   }
 
@@ -502,6 +541,7 @@ const PlantillaDocx = (() => {
     s = s.replace(reClase('rango'), (m, off, str) => (ctx.rango ? pon(ctx.rango)(m, off, str) : m.replace(/<[^>]+>/g, '')));
     s = s.replace(reClase('cond'), pon(ctx.cond));
     s = s.replace(reClase('lista-resumen'), pon(ctx.lista));
+    s = s.replace(reClase('refnorma'), (m, off, str) => (ctx.refnorma ? pon(ctx.refnorma)(m, off, str) : m.replace(/<[^>]+>/g, '')));
     s = s.replace(/<img[^>]*>/g, '');
     return s;
   }
@@ -968,6 +1008,12 @@ const PlantillaDocx = (() => {
     const ctx = contexto(d, entidad, filtro, ensayosTodos);
     if (!ctx.rango) avisos.push('Sin rango de temperatura/HR en el borrador: se imprime el rango del banco.');
     if (!ensayos.length) avisos.push('El banco no tiene ensayos ' + fase + ' para la condición seleccionada.');
+    // La referencia normativa depende del tipo de equipo (M/Q/L). Si la entidad
+    // no lo declara y el banco usa la marca refnorma, se avisa: evita que un
+    // equipo se califique con la norma de otro tipo por olvido.
+    if (entidad && !entidad.tipo && bancoUsaRefNormativa(banco)) {
+      avisos.push('La entidad no declara tipo (M = producción, Q = estabilidad, L = analítico): se usa la referencia normativa analítica por defecto.');
+    }
 
     // ---- plantilla ----
     const archivos = await leerZip(plantillaU8);
@@ -1516,7 +1562,7 @@ const PlantillaDocx = (() => {
   }
 
   return {
-    FASES, PLANTILLAS, OPC, SALTO_PAGINA, SALTO_H1, SALTO_H2, SALTO_TABLA, soporta, configurar, generar, descargar, banco, mezclarComun,
+    FASES, PLANTILLAS, OPC, SALTO_PAGINA, SALTO_H1, SALTO_H2, SALTO_TABLA, REFS_NORMATIVAS, refNormativa, soporta, configurar, generar, descargar, banco, mezclarComun,
     LIMITES, limitesDe, aplicarLimites, limitesPendientes, limitesResumen, paramsFaltantes, parametrosFamilia, bloquesFijos, rtmLineas,
     _interno: { leerZip, escribirZip, hijos, texto, reemplazarEnParrafo, congelar, lineas, estructura, puntosVerificacion, puntosTabla, fechaTexto, crc32, llenarFirmas, fijarTahoma11, debeSaltar, debeSaltarH1, debeSaltarH2, debeSaltarTabla, saltoPrevio },
   };
