@@ -322,7 +322,11 @@ function _V_idxData(maxLen) {
 // comparamos archivo + hoja (nombre e índice), no contenido de columnas.
 function _V_graficoPerteneceActual(g) {
   var currentFile = typeof datosCurrentFileName !== 'undefined' ? datosCurrentFileName : '';
-  if (g.sourceFile !== currentFile) return false;
+  // sourceFile ausente = gráfico guardado antes de persistirlo: no se puede comparar por archivo.
+  // Con un dataset cargado se valida por hoja; sin dataset cargado se deja en hold (por si se borró).
+  var legacy = (g.sourceFile == null);
+  if (legacy) { if (!currentFile) return false; }
+  else if (g.sourceFile !== currentFile) return false;
   var currentSheet = '';
   var currentSheetIdx = -1;
   if (typeof trabajoSheets !== 'undefined' && typeof trabajoActiveSheetIndex !== 'undefined') {
@@ -331,8 +335,13 @@ function _V_graficoPerteneceActual(g) {
     currentSheetIdx = trabajoActiveSheetIndex;
   }
   if (currentSheet !== '') {
-    return g.sourceSheetName === currentSheet || g.sourceSheetIndex === currentSheetIdx;
+    if (!(g.sourceSheetName === currentSheet || g.sourceSheetIndex === currentSheetIdx)) return false;
   }
+  // Adopción pegajosa: un gráfico heredado (sin sourceFile) que ya se ha
+  // validado contra el dataset/hoja actuales queda con su origen fijado. Sin
+  // esto se asumía el dataset actual en cada llamada y un gráfico de otro
+  // archivo podía entrar en el reporte de un dataset distinto.
+  if (legacy) g.sourceFile = currentFile;
   return true;
 }
 
@@ -1360,6 +1369,7 @@ function _V_saveGallery() {
       if (g.thumb) item.thumb = g.thumb;
       if (g.url) item.url = g.url;
       if (g.createdAt) item.createdAt = g.createdAt;
+      if (g.sourceFile !== undefined) item.sourceFile = g.sourceFile;
       if (g.sourceSheetIndex !== undefined) item.sourceSheetIndex = g.sourceSheetIndex;
       if (g.sourceSheetName) item.sourceSheetName = g.sourceSheetName;
       return item;
@@ -1374,6 +1384,7 @@ function _V_saveGallery() {
           if (g.palette) item.palette = g.palette;
           if (g.url) item.url = g.url;
           if (g.createdAt) item.createdAt = g.createdAt;
+          if (g.sourceFile !== undefined) item.sourceFile = g.sourceFile;
           if (g.sourceSheetIndex !== undefined) item.sourceSheetIndex = g.sourceSheetIndex;
           if (g.sourceSheetName) item.sourceSheetName = g.sourceSheetName;
           return item;
