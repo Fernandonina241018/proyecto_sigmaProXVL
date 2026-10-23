@@ -37,7 +37,7 @@ describe('banco de equipos: contrato', () => {
 
   it('solo familias conocidas', () => {
     const fams = [...new Set(todos.filter((x) => x.familia).map((x) => x.familia))].sort();
-    expect(fams).toEqual(['autoclave', 'blistera', 'congelador-lab', 'detector-metales', 'encapsuladora', 'etiquetadora', 'granulador', 'horno-secado', 'horno-vacio', 'lecho-fluido', 'liofilizador', 'llenadora', 'mezclador', 'reactor', 'recubridora', 'refrigerador-lab', 'sistema-cremas-vacio', 'tableteadora', 'tunel-despirogenizacion']);
+    expect(fams).toEqual(['autoclave', 'balanza', 'blistera', 'congelador-lab', 'detector-metales', 'encapsuladora', 'etiquetadora', 'granulador', 'horno-secado', 'horno-vacio', 'lecho-fluido', 'liofilizador', 'llenadora', 'mezclador', 'reactor', 'recubridora', 'refrigerador-lab', 'sistema-cremas-vacio', 'tableteadora', 'tunel-despirogenizacion']);
   });
 
   it.each([

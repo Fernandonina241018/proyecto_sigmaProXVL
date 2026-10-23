@@ -1,7 +1,7 @@
 // Generado por scripts/extraer-banco.mjs equipos — NO EDITAR A MANO.
-// Fuente: docs/banco-ensayos/equipos-comun.html + docs/banco-ensayos/equipos/oq-comun.html + docs/banco-ensayos/equipos/pq-comun.html + docs/banco-ensayos/equipos/iq-autoclave.html + docs/banco-ensayos/equipos/iq-tunel-despirogenizacion.html + docs/banco-ensayos/equipos/iq-liofilizador.html + docs/banco-ensayos/equipos/iq-reactor.html + docs/banco-ensayos/equipos/iq-horno-vacio.html + docs/banco-ensayos/equipos/iq-llenadora.html + docs/banco-ensayos/equipos/iq-lecho-fluido.html + docs/banco-ensayos/equipos/iq-tableteadora.html + docs/banco-ensayos/equipos/iq-encapsuladora.html + docs/banco-ensayos/equipos/iq-granulador.html + docs/banco-ensayos/equipos/iq-recubridora.html + docs/banco-ensayos/equipos/iq-blistera.html + docs/banco-ensayos/equipos/iq-detector-metales.html + docs/banco-ensayos/equipos/iq-etiquetadora.html + docs/banco-ensayos/equipos/iq-mezclador.html + docs/banco-ensayos/equipos/iq-horno-secado.html + docs/banco-ensayos/equipos/iq-sistema-cremas-vacio.html + docs/banco-ensayos/equipos/oq-reactor.html + docs/banco-ensayos/equipos/pq-reactor.html + docs/banco-ensayos/equipos/oq-sistema-cremas-vacio.html + docs/banco-ensayos/equipos/pq-sistema-cremas-vacio.html + docs/banco-ensayos/equipos/oq-tableteadora.html + docs/banco-ensayos/equipos/pq-tableteadora.html + docs/banco-ensayos/equipos/oq-encapsuladora.html + docs/banco-ensayos/equipos/pq-encapsuladora.html + docs/banco-ensayos/equipos/oq-granulador.html + docs/banco-ensayos/equipos/pq-granulador.html + docs/banco-ensayos/equipos/oq-recubridora.html + docs/banco-ensayos/equipos/pq-recubridora.html + docs/banco-ensayos/equipos/oq-blistera.html + docs/banco-ensayos/equipos/pq-blistera.html + docs/banco-ensayos/equipos/oq-detector-metales.html + docs/banco-ensayos/equipos/pq-detector-metales.html + docs/banco-ensayos/equipos/oq-etiquetadora.html + docs/banco-ensayos/equipos/pq-etiquetadora.html + docs/banco-ensayos/equipos/oq-lecho-fluido.html + docs/banco-ensayos/equipos/oq-autoclave.html + docs/banco-ensayos/equipos/oq-mezclador.html + docs/banco-ensayos/equipos/oq-horno.html + docs/banco-ensayos/equipos/pq-lecho-fluido.html + docs/banco-ensayos/equipos/pq-autoclave.html + docs/banco-ensayos/equipos/pq-mezclador.html + docs/banco-ensayos/equipos/pq-horno.html + docs/banco-ensayos/equipos/pq-horno-vacio.html + docs/banco-ensayos/equipos/oq-horno-vacio.html + docs/banco-ensayos/equipos/oq-refrigerador-lab.html + docs/banco-ensayos/equipos/pq-refrigerador-lab.html + docs/banco-ensayos/equipos/oq-congelador-lab.html + docs/banco-ensayos/equipos/pq-congelador-lab.html (versión: EQ-COMUN 2026-10-21 v3 + EQ-OQ-COM 2026-10-21 v2 + EQ-PQ-COM 2026-10-21 v2 + EQ-IQ-AU 2026-10-07 v1 + EQ-IQ-TD 2026-10-07 v1 + EQ-IQ-LI 2026-10-07 v1 + EQ-IQ-RC 2026-10-21 v2 + EQ-IQ-VA 2026-10-21 v2 + EQ-IQ-LL 2026-10-07 v1 + EQ-IQ-LF 2026-10-07 v1 + EQ-IQ-TB 2026-10-08 v1 + EQ-IQ-EN 2026-10-08 v1 + EQ-IQ-GR 2026-10-08 v1 + EQ-IQ-RB 2026-10-09 v1 + EQ-IQ-BL 2026-10-09 v1 + EQ-IQ-DM 2026-10-11 v1 + EQ-IQ-ET 2026-10-11 v1 + EQ-IQ-MZ 2026-10-11 v1 + EQ-IQ-HO 2026-10-11 v1 + EQ-IQ-UC 2026-10-21 v2 + EQ-OQ-RC 2026-10-07 v1 + EQ-PQ-RC 2026-10-07 v1 + EQ-OQ-UC 2026-10-12 v1 + EQ-PQ-UC 2026-10-12 v1 + EQ-OQ-TB 2026-10-08 v1 + EQ-PQ-TB 2026-10-08 v1 + EQ-OQ-EN 2026-10-08 v1 + EQ-PQ-EN 2026-10-08 v1 + EQ-OQ-GR 2026-10-08 v1 + EQ-PQ-GR 2026-10-08 v1 + EQ-OQ-RB 2026-10-09 v1 + EQ-PQ-RB 2026-10-09 v1 + EQ-OQ-BL 2026-10-09 v1 + EQ-PQ-BL 2026-10-09 v1 + EQ-OQ-DM 2026-10-11 v1 + EQ-PQ-DM 2026-10-11 v1 + EQ-OQ-ET 2026-10-11 v1 + EQ-PQ-ET 2026-10-11 v1 + EQ-OQ-LF 2026-10-21 v3 + EQ-OQ-AU 2026-10-21 v3 + EQ-OQ-MZ 2026-10-21 v3 + EQ-OQ-HO 2026-10-21 v2 + EQ-PQ-LF 2026-10-21 v3 + EQ-PQ-AU 2026-10-21 v3 + EQ-PQ-MZ 2026-10-21 v3 + EQ-PQ-HO 2026-10-21 v2 + EQ-PQ-VA 2026-10-21 v2 + EQ-OQ-VA 2026-10-21 v2 + EQ-OQ-RF 2026-10-14 v1 + EQ-PQ-RF 2026-10-14 v1 + EQ-OQ-CG 2026-10-14 v1 + EQ-PQ-CG 2026-10-14 v1).
+// Fuente: docs/banco-ensayos/equipos-comun.html + docs/banco-ensayos/equipos/oq-comun.html + docs/banco-ensayos/equipos/pq-comun.html + docs/banco-ensayos/equipos/iq-autoclave.html + docs/banco-ensayos/equipos/iq-tunel-despirogenizacion.html + docs/banco-ensayos/equipos/iq-liofilizador.html + docs/banco-ensayos/equipos/iq-reactor.html + docs/banco-ensayos/equipos/iq-horno-vacio.html + docs/banco-ensayos/equipos/iq-llenadora.html + docs/banco-ensayos/equipos/iq-lecho-fluido.html + docs/banco-ensayos/equipos/iq-tableteadora.html + docs/banco-ensayos/equipos/iq-encapsuladora.html + docs/banco-ensayos/equipos/iq-granulador.html + docs/banco-ensayos/equipos/iq-recubridora.html + docs/banco-ensayos/equipos/iq-blistera.html + docs/banco-ensayos/equipos/iq-detector-metales.html + docs/banco-ensayos/equipos/iq-etiquetadora.html + docs/banco-ensayos/equipos/iq-mezclador.html + docs/banco-ensayos/equipos/iq-horno-secado.html + docs/banco-ensayos/equipos/iq-sistema-cremas-vacio.html + docs/banco-ensayos/equipos/oq-reactor.html + docs/banco-ensayos/equipos/pq-reactor.html + docs/banco-ensayos/equipos/oq-sistema-cremas-vacio.html + docs/banco-ensayos/equipos/pq-sistema-cremas-vacio.html + docs/banco-ensayos/equipos/oq-tableteadora.html + docs/banco-ensayos/equipos/pq-tableteadora.html + docs/banco-ensayos/equipos/oq-encapsuladora.html + docs/banco-ensayos/equipos/pq-encapsuladora.html + docs/banco-ensayos/equipos/oq-granulador.html + docs/banco-ensayos/equipos/pq-granulador.html + docs/banco-ensayos/equipos/oq-recubridora.html + docs/banco-ensayos/equipos/pq-recubridora.html + docs/banco-ensayos/equipos/oq-blistera.html + docs/banco-ensayos/equipos/pq-blistera.html + docs/banco-ensayos/equipos/oq-detector-metales.html + docs/banco-ensayos/equipos/pq-detector-metales.html + docs/banco-ensayos/equipos/oq-etiquetadora.html + docs/banco-ensayos/equipos/pq-etiquetadora.html + docs/banco-ensayos/equipos/oq-lecho-fluido.html + docs/banco-ensayos/equipos/oq-autoclave.html + docs/banco-ensayos/equipos/oq-mezclador.html + docs/banco-ensayos/equipos/oq-horno.html + docs/banco-ensayos/equipos/pq-lecho-fluido.html + docs/banco-ensayos/equipos/pq-autoclave.html + docs/banco-ensayos/equipos/pq-mezclador.html + docs/banco-ensayos/equipos/pq-horno.html + docs/banco-ensayos/equipos/pq-horno-vacio.html + docs/banco-ensayos/equipos/oq-horno-vacio.html + docs/banco-ensayos/equipos/oq-refrigerador-lab.html + docs/banco-ensayos/equipos/pq-refrigerador-lab.html + docs/banco-ensayos/equipos/oq-congelador-lab.html + docs/banco-ensayos/equipos/pq-congelador-lab.html + docs/banco-ensayos/equipos/oq-balanza.html (versión: EQ-COMUN 2026-10-21 v3 + EQ-OQ-COM 2026-10-21 v2 + EQ-PQ-COM 2026-10-21 v2 + EQ-IQ-AU 2026-10-07 v1 + EQ-IQ-TD 2026-10-07 v1 + EQ-IQ-LI 2026-10-07 v1 + EQ-IQ-RC 2026-10-21 v2 + EQ-IQ-VA 2026-10-21 v2 + EQ-IQ-LL 2026-10-07 v1 + EQ-IQ-LF 2026-10-07 v1 + EQ-IQ-TB 2026-10-08 v1 + EQ-IQ-EN 2026-10-08 v1 + EQ-IQ-GR 2026-10-08 v1 + EQ-IQ-RB 2026-10-09 v1 + EQ-IQ-BL 2026-10-09 v1 + EQ-IQ-DM 2026-10-11 v1 + EQ-IQ-ET 2026-10-11 v1 + EQ-IQ-MZ 2026-10-11 v1 + EQ-IQ-HO 2026-10-11 v1 + EQ-IQ-UC 2026-10-21 v2 + EQ-OQ-RC 2026-10-07 v1 + EQ-PQ-RC 2026-10-07 v1 + EQ-OQ-UC 2026-10-12 v1 + EQ-PQ-UC 2026-10-12 v1 + EQ-OQ-TB 2026-10-08 v1 + EQ-PQ-TB 2026-10-08 v1 + EQ-OQ-EN 2026-10-08 v1 + EQ-PQ-EN 2026-10-08 v1 + EQ-OQ-GR 2026-10-08 v1 + EQ-PQ-GR 2026-10-08 v1 + EQ-OQ-RB 2026-10-09 v1 + EQ-PQ-RB 2026-10-09 v1 + EQ-OQ-BL 2026-10-09 v1 + EQ-PQ-BL 2026-10-09 v1 + EQ-OQ-DM 2026-10-11 v1 + EQ-PQ-DM 2026-10-11 v1 + EQ-OQ-ET 2026-10-11 v1 + EQ-PQ-ET 2026-10-11 v1 + EQ-OQ-LF 2026-10-21 v3 + EQ-OQ-AU 2026-10-21 v3 + EQ-OQ-MZ 2026-10-21 v3 + EQ-OQ-HO 2026-10-21 v2 + EQ-PQ-LF 2026-10-21 v3 + EQ-PQ-AU 2026-10-21 v3 + EQ-PQ-MZ 2026-10-21 v3 + EQ-PQ-HO 2026-10-21 v2 + EQ-PQ-VA 2026-10-21 v2 + EQ-OQ-VA 2026-10-21 v2 + EQ-OQ-RF 2026-10-14 v1 + EQ-PQ-RF 2026-10-14 v1 + EQ-OQ-CG 2026-10-14 v1 + EQ-PQ-CG 2026-10-14 v1 + EQ-OQ-BA 2026-10-22 v1).
 var BancoEquipos = {
- "version": "EQ-COMUN 2026-10-21 v3 + EQ-OQ-COM 2026-10-21 v2 + EQ-PQ-COM 2026-10-21 v2 + EQ-IQ-AU 2026-10-07 v1 + EQ-IQ-TD 2026-10-07 v1 + EQ-IQ-LI 2026-10-07 v1 + EQ-IQ-RC 2026-10-21 v2 + EQ-IQ-VA 2026-10-21 v2 + EQ-IQ-LL 2026-10-07 v1 + EQ-IQ-LF 2026-10-07 v1 + EQ-IQ-TB 2026-10-08 v1 + EQ-IQ-EN 2026-10-08 v1 + EQ-IQ-GR 2026-10-08 v1 + EQ-IQ-RB 2026-10-09 v1 + EQ-IQ-BL 2026-10-09 v1 + EQ-IQ-DM 2026-10-11 v1 + EQ-IQ-ET 2026-10-11 v1 + EQ-IQ-MZ 2026-10-11 v1 + EQ-IQ-HO 2026-10-11 v1 + EQ-IQ-UC 2026-10-21 v2 + EQ-OQ-RC 2026-10-07 v1 + EQ-PQ-RC 2026-10-07 v1 + EQ-OQ-UC 2026-10-12 v1 + EQ-PQ-UC 2026-10-12 v1 + EQ-OQ-TB 2026-10-08 v1 + EQ-PQ-TB 2026-10-08 v1 + EQ-OQ-EN 2026-10-08 v1 + EQ-PQ-EN 2026-10-08 v1 + EQ-OQ-GR 2026-10-08 v1 + EQ-PQ-GR 2026-10-08 v1 + EQ-OQ-RB 2026-10-09 v1 + EQ-PQ-RB 2026-10-09 v1 + EQ-OQ-BL 2026-10-09 v1 + EQ-PQ-BL 2026-10-09 v1 + EQ-OQ-DM 2026-10-11 v1 + EQ-PQ-DM 2026-10-11 v1 + EQ-OQ-ET 2026-10-11 v1 + EQ-PQ-ET 2026-10-11 v1 + EQ-OQ-LF 2026-10-21 v3 + EQ-OQ-AU 2026-10-21 v3 + EQ-OQ-MZ 2026-10-21 v3 + EQ-OQ-HO 2026-10-21 v2 + EQ-PQ-LF 2026-10-21 v3 + EQ-PQ-AU 2026-10-21 v3 + EQ-PQ-MZ 2026-10-21 v3 + EQ-PQ-HO 2026-10-21 v2 + EQ-PQ-VA 2026-10-21 v2 + EQ-OQ-VA 2026-10-21 v2 + EQ-OQ-RF 2026-10-14 v1 + EQ-PQ-RF 2026-10-14 v1 + EQ-OQ-CG 2026-10-14 v1 + EQ-PQ-CG 2026-10-14 v1",
+ "version": "EQ-COMUN 2026-10-21 v3 + EQ-OQ-COM 2026-10-21 v2 + EQ-PQ-COM 2026-10-21 v2 + EQ-IQ-AU 2026-10-07 v1 + EQ-IQ-TD 2026-10-07 v1 + EQ-IQ-LI 2026-10-07 v1 + EQ-IQ-RC 2026-10-21 v2 + EQ-IQ-VA 2026-10-21 v2 + EQ-IQ-LL 2026-10-07 v1 + EQ-IQ-LF 2026-10-07 v1 + EQ-IQ-TB 2026-10-08 v1 + EQ-IQ-EN 2026-10-08 v1 + EQ-IQ-GR 2026-10-08 v1 + EQ-IQ-RB 2026-10-09 v1 + EQ-IQ-BL 2026-10-09 v1 + EQ-IQ-DM 2026-10-11 v1 + EQ-IQ-ET 2026-10-11 v1 + EQ-IQ-MZ 2026-10-11 v1 + EQ-IQ-HO 2026-10-11 v1 + EQ-IQ-UC 2026-10-21 v2 + EQ-OQ-RC 2026-10-07 v1 + EQ-PQ-RC 2026-10-07 v1 + EQ-OQ-UC 2026-10-12 v1 + EQ-PQ-UC 2026-10-12 v1 + EQ-OQ-TB 2026-10-08 v1 + EQ-PQ-TB 2026-10-08 v1 + EQ-OQ-EN 2026-10-08 v1 + EQ-PQ-EN 2026-10-08 v1 + EQ-OQ-GR 2026-10-08 v1 + EQ-PQ-GR 2026-10-08 v1 + EQ-OQ-RB 2026-10-09 v1 + EQ-PQ-RB 2026-10-09 v1 + EQ-OQ-BL 2026-10-09 v1 + EQ-PQ-BL 2026-10-09 v1 + EQ-OQ-DM 2026-10-11 v1 + EQ-PQ-DM 2026-10-11 v1 + EQ-OQ-ET 2026-10-11 v1 + EQ-PQ-ET 2026-10-11 v1 + EQ-OQ-LF 2026-10-21 v3 + EQ-OQ-AU 2026-10-21 v3 + EQ-OQ-MZ 2026-10-21 v3 + EQ-OQ-HO 2026-10-21 v2 + EQ-PQ-LF 2026-10-21 v3 + EQ-PQ-AU 2026-10-21 v3 + EQ-PQ-MZ 2026-10-21 v3 + EQ-PQ-HO 2026-10-21 v2 + EQ-PQ-VA 2026-10-21 v2 + EQ-OQ-VA 2026-10-21 v2 + EQ-OQ-RF 2026-10-14 v1 + EQ-PQ-RF 2026-10-14 v1 + EQ-OQ-CG 2026-10-14 v1 + EQ-PQ-CG 2026-10-14 v1 + EQ-OQ-BA 2026-10-22 v1",
  "fases": {
   "DQ": [],
   "IQ": [
@@ -16892,6 +16892,609 @@ var BancoEquipos = {
     "bloque": 8,
     "html": "<p><strong>ANEXOS:</strong></p>\n<table>\n<tbody><tr><th>SECCIÓN</th><th>TÍTULO</th></tr>\n<tr><td>8.1</td><td>Anexo A — Registros de mapeo, curvas de temperatura por setpoint y posición</td></tr>\n<tr><td>8.2</td><td>Anexo B — Certificados de calibración de patrones e instrumentos</td></tr>\n<tr><td>8.3</td><td>Anexo C — Registros de alarmas, respaldos y notificaciones verificadas</td></tr>\n</tbody></table>",
     "familia": "congelador-lab"
+   },
+   {
+    "kind": "div",
+    "clase": "portada",
+    "bloque": 1,
+    "html": "<p><strong>PORTADA DEL PROTOCOLO OQ</strong></p>\n<p><strong>Logo:</strong><br><img class=\"ent-logo\" alt=\"Logo de la entidad\"></p>\n<p><strong>Calificación de Operación de <span class=\"equipo\">equipo</span>:</strong> <span class=\"ent-descripcion\">______</span></p>\n<ol>\n  <li><strong>Marca:</strong> <span class=\"ent-marca\">______</span></li>\n  <li><strong>Modelo:</strong> <span class=\"ent-modelo\">______</span></li>\n  <li><strong>Código:</strong> <span class=\"ent-codigo\">______</span></li>\n</ol>",
+    "familia": "balanza"
+   },
+   {
+    "kind": "div",
+    "clase": "firmas",
+    "bloque": 1,
+    "html": "<p><strong>FLUJO DE FIRMAS DEL PROTOCOLO:</strong></p>\n<p>Este apartado establece que los responsables revisan y aprueban el presente protocolo, declarando que está apto para su ejecución. Cualquier cambio posterior a la firma obliga a reiniciar el flujo de firmas, con el fin de garantizar que todos los departamentos involucrados estén al tanto de los ensayos a ejecutar.</p>\n<ol>\n  <li><strong>Elaborado Por:</strong> <br> Analista de validaciones — elabora / Nombre: ______ Firma: ______ Fecha: ______</li><br>\n  <li><strong>Revisado Por:</strong> <br> Coordinador de validaciones — revisa / Nombre: ______ Firma: ______ Fecha: ______</li><br>\n  <li><strong>Revisado Por:</strong> <br> Gerente de Área — revisa / Nombre: ______ Firma: ______ Fecha: ______</li><br>\n  <li><strong>Aprobado por:</strong> <br> Gerente de gestión de calidad — aprueba / Nombre: ______ Firma: ______ Fecha: ______</li><br>\n</ol>",
+    "familia": "balanza"
+   },
+   {
+    "kind": "div",
+    "clase": "responsabilidades",
+    "bloque": 1,
+    "html": "<p><strong>RESPONSABILIDADES DEL PROTOCOLO:</strong></p>\n<p><strong>Responsabilidad del Analista de validaciones:</strong></p>\n<ol><li>Coordinar la ejecución de la Calificación de Operación con las áreas involucradas, asegurando personal, <span class=\"equipo\">equipo</span>, bins, placebo o excipiente, instrumentos y documentación.</li><li>Verificar que los instrumentos de medición estén identificados y con calibración vigente.</li><li>Ejecutar y/o supervisar los ensayos del protocolo según los criterios aprobados.</li><li>Registrar los datos de forma completa, legible y trazable (ALCOA+).</li><li>Documentar las desviaciones según los procedimientos internos vigentes.</li><li>Elaborar el informe de calificación con resultados, conclusiones y anexos.</li></ol>\n<p><strong>Responsabilidad del Coordinador de validaciones:</strong></p>\n<ol><li>Revisar técnicamente el protocolo antes de su ejecución.</li><li>Asignar al analista responsable y coordinar recursos.</li><li>Revisar las desviaciones, su tratamiento y las CAPA asociadas.</li><li>Revisar el informe final y autorizar el inicio de la PQ.</li></ol>\n<p><strong>Responsabilidad del Gerente de Área:</strong></p>\n<ol><li>Garantizar la disponibilidad del <span class=\"equipo\">equipo</span> y los accesos para la ejecución.</li><li>Facilitar la documentación técnica del fabricante y del proveedor.</li><li>Implementar las acciones operativas derivadas de desviaciones y CAPA.</li></ol>\n<p><strong>Responsabilidad del Gerente de gestión de calidad:</strong></p>\n<ol><li>Aprobar el protocolo y sus criterios de aceptación.</li><li>Aprobar las desviaciones y sus evaluaciones de impacto.</li><li>Emitir el dictamen final del estado de calificación.</li></ol>",
+    "familia": "balanza"
+   },
+   {
+    "kind": "div",
+    "clase": "alcance",
+    "bloque": 1,
+    "html": "<p><strong>ALCANCE</strong></p>\n<p>Esta calificación aplica a <span class=\"equipo\">equipo</span>, según protocolo OQ, y cubre los ensayos listados en el índice.</p>",
+    "familia": "balanza"
+   },
+   {
+    "kind": "div",
+    "clase": "def-usp",
+    "bloque": 1,
+    "html": "<p><strong>DEFINICIÓN USP</strong></p>\n<p>Calificación de Operación: colección documentada de las actividades necesarias para demostrar que un instrumento se desempeña de manera uniforme de acuerdo con las especificaciones definidas por el usuario y es apropiado para el uso previsto, en el entorno seleccionado (<span class=\"refnorma\"></span>).</p>",
+    "familia": "balanza"
+   },
+   {
+    "kind": "div",
+    "clase": "nota-datos",
+    "bloque": 1,
+    "html": "<p><strong>NOTA — DATOS DIGITALES</strong></p>\n<p>Si el equipo entrega datos digitales, se procesan directamente y se anexan la data cruda y el reporte estadístico como parte de la evidencia.</p>",
+    "familia": "balanza"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-BA-001",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-BA-001 — Nivelación, indicador de nivel y alarma de desnivel",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que la balanza se nivela correctamente y que el indicador de nivel señala el desnivel."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Nivelar la balanza con el indicador de nivel y registrar la posición de las patas de apoyo<br>\n  2) Inclinar deliberadamente la balanza dentro del margen de seguridad del fabricante y verificar que el indicador o la alarma señalan el desnivel<br>\n  3) Restablecer la nivelación y confirmar que el indicador vuelve a su estado normal"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  El indicador de nivel refleja la condición real de nivelación.<br>\n  La alarma o aviso de desnivel, si el equipo la tiene, se activa y se cancela al restablecer la nivelación."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de nivelación y respuesta del indicador (anexo del informe)"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante del equipo; <span class=\"refnorma\"></span>."
+     }
+    ],
+    "tabla": null,
+    "familia": "balanza"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-BA-002",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-BA-002 — Pantalla, unidades, resolución y funciones de teclado",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que la pantalla, las unidades de medida, la resolución y las teclas funcionan según la especificación del usuario."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Verificar que todos los segmentos o caracteres de la pantalla se muestran correctamente<br>\n  2) Verificar que la resolución (división de escala) mostrada coincide con la definida en el protocolo aprobado<br>\n  3) Cambiar entre las unidades habilitadas y verificar la conversión mostrada<br>\n  4) Accionar cada tecla (cero, tara, unidades, impresión) y verificar la función asociada"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  La pantalla muestra todos los caracteres sin fallas.<br>\n  La resolución y las unidades corresponden con lo definido en el protocolo aprobado.<br>\n  Cada tecla ejecuta su función."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de verificación de pantalla, unidades y teclas (anexo del informe)"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante del equipo; URS aprobada."
+     }
+    ],
+    "tabla": null,
+    "familia": "balanza"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-BA-003",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-BA-003 — Control de acceso, roles y registro de actividad",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar, cuando el equipo gestiona usuarios o genera registros electrónicos, que el acceso está controlado y que las acciones críticas quedan registradas con fecha y hora."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Verificar que el acceso requiere identificación individual y que existen roles con privilegios diferenciados<br>\n  2) Intentar una acción restringida con un rol sin privilegio y verificar que se bloquea<br>\n  3) Ejecutar un ajuste, una modificación de parámetro y una pesada, y verificar el registro de actividad con usuario, fecha y hora<br>\n  4) Verificar que la fecha y la hora del equipo coinciden con la referencia horaria definida en el protocolo aprobado<br>\n  5) Confirmar que los registros no pueden modificarse ni borrarse por el usuario operativo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  El acceso es individual y los roles restringen las acciones según lo definido.<br>\n  Cada acción crítica queda registrada con usuario, fecha y hora.<br>\n  Los registros no son modificables por el usuario operativo.<br>\n  Si el equipo no gestiona usuarios ni registros electrónicos, el ensayo se declara no aplica con su justificación."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de roles, intentos restringidos y extracto del registro de actividad (anexo del informe)"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>21 CFR Part 11; GAMP5 2.ª ed.; EU GMP Anexo 11."
+     }
+    ],
+    "tabla": null,
+    "familia": "balanza"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-BA-004",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-BA-004 — Ajuste interno o calibración automática",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que la función de ajuste (interno o con pesa externa) se ejecuta, se registra y deja la balanza dentro de su exactitud."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Ejecutar la función de ajuste según el manual del fabricante y registrar el resultado mostrado o impreso<br>\n  2) Verificar con una pesa patrón que la lectura posterior al ajuste está dentro del criterio definido en el protocolo aprobado<br>\n  3) Verificar que el equipo registra el ajuste, o que el registro manual está definido en el procedimiento<br>\n  4) Verificar el aviso por temperatura o por tiempo transcurrido que solicita un nuevo ajuste, si el equipo lo tiene"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  El ajuste se completa sin error y queda registrado.<br>\n  La lectura posterior al ajuste está dentro del criterio definido en el protocolo aprobado."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro del ajuste y de la verificación posterior con pesa patrón (anexo del informe)"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante del equipo; <span class=\"refnorma\"></span>."
+     }
+    ],
+    "tabla": null,
+    "familia": "balanza"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-BA-005",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-BA-005 — Estabilidad del cero y tiempo de estabilización",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que el cero se mantiene estable sin carga y determinar el tiempo que tarda la lectura en estabilizarse tras colocar una carga."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Encender la balanza y esperar el tiempo de calentamiento definido por el fabricante<br>\n  2) Registrar lecturas de cero sin carga a intervalos regulares durante el período definido en el protocolo aprobado<br>\n  3) Colocar una pesa patrón y medir el tiempo hasta que aparece el indicador de estabilidad<br>\n  4) Repetir la medición del tiempo de estabilización al menos tres veces<br>\n  5) Procesar los datos crudos de la deriva del cero y del tiempo de estabilización en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = lectura de cero (en unidades de masa) y tiempo de estabilización (s); tamaño de muestra = las lecturas del período definido y un mínimo de 3 mediciones de tiempo; estadísticos = media, desviación estándar y rango de las lecturas de cero, y media y máximo del tiempo; tendencia = pendiente de la regresión del cero contra el tiempo, para cuantificar la deriva; criterio = el especificado en el criterio de aceptación de este ensayo. Sin ANOVA: es un solo equipo en una sola condición."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  La deriva del cero está dentro del criterio definido en el protocolo aprobado.<br>\n  El tiempo de estabilización está dentro del valor declarado por el fabricante o definido en el protocolo aprobado."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de lecturas de cero y tiempos de estabilización con data cruda y reporte<br>\n  - Data cruda y reporte estadístico de la deriva del cero y del tiempo de estabilización"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante del equipo; EURAMET cg-18."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "balanza"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-BA-006",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-BA-006 — Repetibilidad",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Determinar la repetibilidad de la balanza con una carga de prueba, según USP &lt;41&gt;."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Seleccionar una pesa patrón con valor cercano al peso neto más pequeño que se pesará en rutina, o al definido en el protocolo aprobado<br>\n  2) Colocar y retirar la pesa al menos 10 veces, registrando la lectura en cada ocasión, con retorno a cero entre pesadas<br>\n  3) Calcular la desviación estándar de las lecturas<br>\n  4) Procesar los datos crudos de repetibilidad en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = lectura de la pesa patrón (en unidades de masa); tamaño de muestra = mínimo 10 pesadas consecutivas; estadísticos = media, desviación estándar y RSD; cálculo del cociente 2 × SD / peso neto más pequeño, aplicando el piso de 0,41 d cuando corresponda; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo. Sin ANOVA ni comparación entre grupos."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Dos veces la desviación estándar, dividida entre el peso neto más pequeño, no excede 0,10 % (USP &lt;41&gt;).<br>\n  Si la desviación estándar es menor que 0,41 d (d = división de escala), se usa 0,41 d en el cálculo."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de las pesadas de repetibilidad con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de repetibilidad"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>USP &lt;41&gt;; USP &lt;1251&gt;; <span class=\"refnorma\"></span>."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "balanza"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-BA-007",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-BA-007 — Exactitud con pesas patrón",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que la balanza indica el valor correcto de masa en puntos representativos de su rango de uso."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Seleccionar pesas patrón certificadas y trazables que cubran el rango de uso definido en el protocolo aprobado, incluida la carga mínima y la máxima de uso<br>\n  2) Pesar cada pesa al menos tres veces, con retorno a cero entre pesadas, y registrar las lecturas<br>\n  3) Calcular el error de cada punto como la diferencia entre la lectura media y el valor convencional de la pesa<br>\n  4) Procesar los datos crudos de exactitud en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = lectura de la balanza frente al valor convencional de la pesa en cada punto; tamaño de muestra = mínimo 3 pesadas por punto; estadísticos = media, desviación estándar y error (media menos valor nominal) por punto, con su intervalo de confianza al 95 %; criterio = el especificado en el criterio de aceptación de este ensayo. Sin ANOVA: cada punto se evalúa contra su tolerancia, sin comparar puntos entre sí."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  El error en cada punto está dentro de ±0,10 % del valor de la pesa (USP &lt;41&gt;), o del criterio más estricto definido en el protocolo aprobado.<br>\n  La incertidumbre de las pesas patrón es compatible con la tolerancia que se verifica, según su certificado vigente."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de pesadas de exactitud por punto con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de exactitud<br>\n  - Certificados vigentes de las pesas patrón (anexo del informe)"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>USP &lt;41&gt;; OIML R 76-1; <span class=\"refnorma\"></span>."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "balanza"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-BA-008",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-BA-008 — Linealidad",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que la respuesta de la balanza es lineal en todo el rango de uso definido."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Seleccionar como mínimo 5 pesas patrón que cubran el rango de uso, desde aproximadamente 10 % hasta 100 % de la capacidad definida en el protocolo aprobado<br>\n  2) Pesar cada pesa al menos tres veces, en orden ascendente y luego descendente<br>\n  3) Calcular la regresión de la lectura frente al valor nominal y los residuos de cada punto<br>\n  4) Procesar los datos crudos de linealidad en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = lectura de la balanza frente al valor nominal de cada pesa; tamaño de muestra = mínimo 5 puntos con 3 pesadas cada uno; estadísticos = regresión lineal (pendiente, intercepto, coeficiente de determinación) y residuos por punto; intervalo de confianza al 95 % de la pendiente y el intercepto; criterio = el especificado en el criterio de aceptación de este ensayo. Sin ANOVA."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  El coeficiente de determinación y los residuos están dentro de lo definido en el protocolo aprobado.<br>\n  Ningún residuo excede la tolerancia de exactitud del ensayo de exactitud."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de pesadas de linealidad con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de linealidad"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>OIML R 76-1; EURAMET cg-18; <span class=\"refnorma\"></span>."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "balanza"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-BA-009",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-BA-009 — Excentricidad (carga descentrada)",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que la lectura no depende de la posición de la carga sobre el platillo."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Seleccionar una pesa patrón de aproximadamente un tercio de la capacidad máxima, o la definida en el protocolo aprobado<br>\n  2) Pesarla en el centro del platillo y luego en cada uno de los cuatro cuadrantes, con retorno a cero entre pesadas<br>\n  3) Repetir la secuencia al menos tres veces<br>\n  4) Calcular la diferencia de cada posición respecto del centro<br>\n  5) Procesar los datos crudos de excentricidad en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = lectura de la pesa en cada una de las 5 posiciones; tamaño de muestra = mínimo 3 secuencias completas; estadísticos = media por posición, diferencia respecto del centro y desviación estándar; comparación entre posiciones con ANOVA de un factor (posición) solo si el protocolo aprobado lo define; criterio = el especificado en el criterio de aceptación de este ensayo."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  La diferencia entre cada posición y el centro está dentro del criterio definido en el protocolo aprobado."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de pesadas por posición con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de excentricidad"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>OIML R 76-1; EURAMET cg-18."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "balanza"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-BA-010",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-BA-010 — Histéresis y retorno a cero",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que la lectura de cero vuelve a su valor inicial tras retirar una carga y que la respuesta no depende del sentido de la carga."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Registrar el cero inicial sin carga<br>\n  2) Colocar una carga cercana a la capacidad de uso definida en el protocolo aprobado, mantenerla el tiempo definido y retirarla<br>\n  3) Registrar el cero tras retirar la carga y repetir al menos tres veces<br>\n  4) Comparar la lectura de un punto intermedio al subir y al bajar la carga<br>\n  5) Procesar los datos crudos de retorno a cero e histéresis en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = desplazamiento del cero tras la carga y diferencia entre lectura ascendente y descendente; tamaño de muestra = mínimo 3 ciclos; estadísticos = media, desviación estándar y máximo de las diferencias; criterio = el especificado en el criterio de aceptación de este ensayo. Sin ANOVA."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  La diferencia del cero antes y después de la carga está dentro del criterio definido en el protocolo aprobado.<br>\n  La diferencia entre la lectura ascendente y descendente está dentro del criterio definido en el protocolo aprobado."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de cero y lecturas ascendentes y descendentes con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de histéresis"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>OIML R 76-1; Manual del fabricante del equipo."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "balanza"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-BA-011",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-BA-011 — Peso mínimo",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Determinar el peso mínimo por debajo del cual la balanza no cumple el requisito de repetibilidad, para su rotulación y uso."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Tomar la desviación estándar obtenida en el ensayo de repetibilidad, o repetir la serie con la pesa de menor valor de uso<br>\n  2) Calcular el peso mínimo con el cociente definido por USP &lt;41&gt; y USP &lt;1251&gt;<br>\n  3) Verificar que el peso mínimo calculado es menor que el peso neto más pequeño que se pesará en rutina<br>\n  4) Documentar y rotular el peso mínimo en la balanza o en el procedimiento de uso<br>\n  5) Procesar los datos crudos del peso mínimo en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = desviación estándar de la serie de repetibilidad y peso mínimo calculado; tamaño de muestra = la serie de repetibilidad (mínimo 10 pesadas); estadísticos = desviación estándar, aplicando el piso de 0,41 d cuando corresponda, y peso mínimo resultante con el factor de USP &lt;1251&gt;; criterio = el especificado en el criterio de aceptación de este ensayo. Sin ANOVA."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  El peso mínimo calculado está documentado y rotulado.<br>\n  El peso mínimo es menor o igual que el peso neto más pequeño de uso rutinario definido en el protocolo aprobado."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Cálculo del peso mínimo con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del peso mínimo"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>USP &lt;41&gt;; USP &lt;1251&gt;."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "balanza"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-BA-012",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-BA-012 — Alarmas de sobrecarga y mensajes de error",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que la balanza advierte la sobrecarga y los estados de error sin entregar lecturas engañosas."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Colocar una carga que supere la capacidad máxima dentro del margen de seguridad del fabricante y verificar la indicación de sobrecarga<br>\n  2) Retirar la carga y verificar que la lectura vuelve a la normalidad<br>\n  3) Provocar, si el fabricante lo permite, un estado de error no destructivo (por ejemplo, plato retirado) y verificar el mensaje<br>\n  4) No se fuerza ni se puentea ningún dispositivo de protección"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  La sobrecarga se indica y no se muestra una lectura numérica engañosa.<br>\n  Cada error provocado muestra su mensaje y se recupera al corregir la causa."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de indicaciones de sobrecarga y error (anexo del informe)"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante del equipo."
+     }
+    ],
+    "tabla": null,
+    "familia": "balanza"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-BA-013",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-BA-013 — Corte y recuperación de energía",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que, ante un corte de energía y su retorno, la balanza conserva su configuración y no pierde la integridad de los datos."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Registrar la configuración (unidades, parámetros de ajuste, usuarios) antes del corte<br>\n  2) Interrumpir la energía durante el tiempo definido en el protocolo aprobado y restablecerla<br>\n  3) Verificar que la balanza arranca, conserva la configuración y completa su calentamiento<br>\n  4) Verificar con una pesa patrón que la lectura es correcta tras el restablecimiento"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  La configuración se conserva tras el corte.<br>\n  No se pierden ni alteran registros existentes.<br>\n  La lectura con pesa patrón tras el restablecimiento está dentro del criterio de exactitud."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de configuración antes y después del corte y verificación con pesa patrón (anexo del informe)"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante del equipo; GAMP5 2.ª ed."
+     }
+    ],
+    "tabla": null,
+    "familia": "balanza"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-BA-014",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-BA-014 — Transferencia e impresión de datos",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar, cuando el equipo transfiere o imprime resultados, que el dato transferido coincide con el mostrado en pantalla y lleva su identificación."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Realizar pesadas de valores conocidos y transferir o imprimir cada resultado<br>\n  2) Comparar el valor transferido o impreso con el mostrado en pantalla<br>\n  3) Verificar que el registro incluye fecha, hora, identificación del equipo y del usuario, según lo definido en el protocolo aprobado<br>\n  4) Verificar que un dato no se transfiere si la lectura no es estable, según la configuración del equipo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  El valor transferido o impreso coincide con el de pantalla.<br>\n  El registro trae la identificación definida en el protocolo aprobado.<br>\n  Si el equipo no transfiere ni imprime datos, el ensayo se declara no aplica con su justificación."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Muestras de impresión o archivos transferidos con su comparación (anexo del informe)"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante del equipo; 21 CFR Part 11; ALCOA+."
+     }
+    ],
+    "tabla": null,
+    "familia": "balanza"
+   },
+   {
+    "kind": "resumen",
+    "id": "EQ-OQ-BA-RES",
+    "bloque": 4,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-BA-RES — Tabla resumen de los ensayos del OQ",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Consolidar el listado de ensayos del OQ de la balanza para la tabla resumen del protocolo."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Confirmar que los ensayos EQ-OQ-BA-001 a EQ-OQ-BA-014 están incluidos en el índice del protocolo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Los 14 ensayos aparecen en la tabla resumen con su veredicto."
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>EU GMP Anexo 15."
+     }
+    ],
+    "tabla": null,
+    "familia": "balanza"
+   },
+   {
+    "kind": "tabla",
+    "id": "EQ-OQ-BA-REF",
+    "bloque": 6,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-BA-REF — Referencias del OQ de balanza",
+    "secciones": [],
+    "tabla": {
+     "headers": [
+      "SECCIÓN",
+      "TÍTULO",
+      "ESTADO"
+     ],
+     "rows": [
+      [
+       "6.1",
+       "Manual del fabricante del equipo — Resolución, capacidad, ajuste y límites de operación",
+       "VIGENTE"
+      ],
+      [
+       "6.2",
+       "URS aprobada — Rango de uso, peso neto más pequeño y criterios de aceptación",
+       "VIGENTE"
+      ],
+      [
+       "6.3",
+       "USP <41> Balances — Requisitos de repetibilidad y exactitud",
+       "VIGENTE"
+      ],
+      [
+       "6.4",
+       "USP <1251> Weighing on Analytical Balances — Peso mínimo y buenas prácticas de pesada",
+       "VIGENTE"
+      ],
+      [
+       "6.5",
+       "USP <1058> — Analytical Instrument Qualification",
+       "VIGENTE"
+      ],
+      [
+       "6.6",
+       "EU GMP Anexo 15 — Calificación y validación",
+       "VIGENTE"
+      ],
+      [
+       "6.7",
+       "OIML R 76-1 / EURAMET cg-18 — Ensayos de excentricidad, linealidad e histéresis",
+       "VIGENTE"
+      ],
+      [
+       "6.8",
+       "21 CFR Part 11 y GAMP5 2.ª ed. — Control de acceso y registros electrónicos",
+       "VIGENTE"
+      ]
+     ]
+    },
+    "familia": "balanza"
+   },
+   {
+    "kind": "div",
+    "clase": "anexos",
+    "bloque": 8,
+    "html": "<p><strong>ANEXOS:</strong></p>\n<table>\n<tbody><tr><th>SECCIÓN</th><th>TÍTULO</th></tr>\n<tr><td>8.1</td><td>Anexo A — Registros de pesadas (cero, repetibilidad, exactitud, linealidad, excentricidad, histéresis)</td></tr>\n<tr><td>8.2</td><td>Anexo B — Certificados de calibración de las pesas patrón y de los instrumentos auxiliares</td></tr>\n<tr><td>8.3</td><td>Anexo C — Registros de ajuste, de actividad del equipo y de transferencia de datos</td></tr>\n</tbody></table>",
+    "familia": "balanza"
    }
   ],
   "PQ": [

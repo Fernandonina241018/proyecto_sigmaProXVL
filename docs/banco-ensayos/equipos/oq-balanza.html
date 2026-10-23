@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<style>
+  body { font-family: Tahoma, sans-serif; font-size: 11pt; }
+  strong { text-transform: uppercase; }
+</style>
+<title>Banco de Ensayos OQ — Balanza analítica / precisión</title>
+</head>
+<body>
+
+<p><a href="../equipos.html">← Equipos e Instrumentos</a></p>
+<h2>OQ — Balanza analítica / precisión (banco por familia)</h2>
+<p>Versión del banco: <span data-banco-version>EQ-OQ-BA 2026-10-22 v1</span></p>
+<p>Ensayos de Calificación de Operación específicos de la balanza (<span class="equipo">equipo</span>). Se filtran por familia (<code>data-familia="balanza"</code>) según la entidad elegida en el paso 1. Fuente: borrador del asistente basado en USP &lt;41&gt;, USP &lt;1251&gt;, OIML R 76-1 y EURAMET cg-18; pendiente de revisión del responsable técnico.</p>
+
+<!-- ================= OQ ================= -->
+<section id="fase-oq" data-familia="balanza">
+<h2>OQ — Ensayos</h2>
+
+<div class="portada" data-bloque="1">
+<p><strong>PORTADA DEL PROTOCOLO OQ</strong></p>
+<p><strong>Logo:</strong><br><img class="ent-logo" alt="Logo de la entidad"></p>
+<p><strong>Calificación de Operación de <span class="equipo">equipo</span>:</strong> <span class="ent-descripcion">______</span></p>
+<ol>
+  <li><strong>Marca:</strong> <span class="ent-marca">______</span></li>
+  <li><strong>Modelo:</strong> <span class="ent-modelo">______</span></li>
+  <li><strong>Código:</strong> <span class="ent-codigo">______</span></li>
+</ol>
+</div>
+
+<div class="firmas" data-bloque="1">
+<p><strong>FLUJO DE FIRMAS DEL PROTOCOLO:</strong></p>
+<p>Este apartado establece que los responsables revisan y aprueban el presente protocolo, declarando que está apto para su ejecución. Cualquier cambio posterior a la firma obliga a reiniciar el flujo de firmas, con el fin de garantizar que todos los departamentos involucrados estén al tanto de los ensayos a ejecutar.</p>
+<ol>
+  <li><strong>Elaborado Por:</strong> <br> Analista de validaciones — elabora / Nombre: ______ Firma: ______ Fecha: ______</li><br>
+  <li><strong>Revisado Por:</strong> <br> Coordinador de validaciones — revisa / Nombre: ______ Firma: ______ Fecha: ______</li><br>
+  <li><strong>Revisado Por:</strong> <br> Gerente de Área — revisa / Nombre: ______ Firma: ______ Fecha: ______</li><br>
+  <li><strong>Aprobado por:</strong> <br> Gerente de gestión de calidad — aprueba / Nombre: ______ Firma: ______ Fecha: ______</li><br>
+</ol>
+</div>
+
+<div class="responsabilidades" data-bloque="1">
+<p><strong>RESPONSABILIDADES DEL PROTOCOLO:</strong></p>
+<p><strong>Responsabilidad del Analista de validaciones:</strong></p>
+<ol><li>Coordinar la ejecución de la Calificación de Operación con las áreas involucradas, asegurando personal, <span class="equipo">equipo</span>, bins, placebo o excipiente, instrumentos y documentación.</li><li>Verificar que los instrumentos de medición estén identificados y con calibración vigente.</li><li>Ejecutar y/o supervisar los ensayos del protocolo según los criterios aprobados.</li><li>Registrar los datos de forma completa, legible y trazable (ALCOA+).</li><li>Documentar las desviaciones según los procedimientos internos vigentes.</li><li>Elaborar el informe de calificación con resultados, conclusiones y anexos.</li></ol>
+<p><strong>Responsabilidad del Coordinador de validaciones:</strong></p>
+<ol><li>Revisar técnicamente el protocolo antes de su ejecución.</li><li>Asignar al analista responsable y coordinar recursos.</li><li>Revisar las desviaciones, su tratamiento y las CAPA asociadas.</li><li>Revisar el informe final y autorizar el inicio de la PQ.</li></ol>
+<p><strong>Responsabilidad del Gerente de Área:</strong></p>
+<ol><li>Garantizar la disponibilidad del <span class="equipo">equipo</span> y los accesos para la ejecución.</li><li>Facilitar la documentación técnica del fabricante y del proveedor.</li><li>Implementar las acciones operativas derivadas de desviaciones y CAPA.</li></ol>
+<p><strong>Responsabilidad del Gerente de gestión de calidad:</strong></p>
+<ol><li>Aprobar el protocolo y sus criterios de aceptación.</li><li>Aprobar las desviaciones y sus evaluaciones de impacto.</li><li>Emitir el dictamen final del estado de calificación.</li></ol>
+</div>
+
+<div class="alcance" data-bloque="1">
+<p><strong>ALCANCE</strong></p>
+<p>Esta calificación aplica a <span class="equipo">equipo</span>, según protocolo OQ, y cubre los ensayos listados en el índice.</p>
+</div>
+
+<div class="def-usp" data-bloque="1">
+<p><strong>DEFINICIÓN USP</strong></p>
+<p>Calificación de Operación: colección documentada de las actividades necesarias para demostrar que un instrumento se desempeña de manera uniforme de acuerdo con las especificaciones definidas por el usuario y es apropiado para el uso previsto, en el entorno seleccionado (<span class="refnorma"></span>).</p>
+</div>
+
+<div class="nota-datos" data-bloque="1">
+<p><strong>NOTA — DATOS DIGITALES</strong></p>
+<p>Si el equipo entrega datos digitales, se procesan directamente y se anexan la data cruda y el reporte estadístico como parte de la evidencia.</p>
+</div>
+
+<article data-bloque="3" id="art-EQ-OQ-BA-001" class="ensayo" data-id="EQ-OQ-BA-001" data-fase="OQ" data-cond="ambas" data-familia="balanza">
+  <h3>EQ-OQ-BA-001 — Nivelación, indicador de nivel y alarma de desnivel</h3>
+  <p><strong>Objetivo:</strong><br>Verificar que la balanza se nivela correctamente y que el indicador de nivel señala el desnivel.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Nivelar la balanza con el indicador de nivel y registrar la posición de las patas de apoyo<br>
+  2) Inclinar deliberadamente la balanza dentro del margen de seguridad del fabricante y verificar que el indicador o la alarma señalan el desnivel<br>
+  3) Restablecer la nivelación y confirmar que el indicador vuelve a su estado normal</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  El indicador de nivel refleja la condición real de nivelación.<br>
+  La alarma o aviso de desnivel, si el equipo la tiene, se activa y se cancela al restablecer la nivelación.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro de nivelación y respuesta del indicador (anexo del informe)</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante del equipo; <span class="refnorma"></span>.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-OQ-BA-002" class="ensayo" data-id="EQ-OQ-BA-002" data-fase="OQ" data-cond="ambas" data-familia="balanza">
+  <h3>EQ-OQ-BA-002 — Pantalla, unidades, resolución y funciones de teclado</h3>
+  <p><strong>Objetivo:</strong><br>Verificar que la pantalla, las unidades de medida, la resolución y las teclas funcionan según la especificación del usuario.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Verificar que todos los segmentos o caracteres de la pantalla se muestran correctamente<br>
+  2) Verificar que la resolución (división de escala) mostrada coincide con la definida en el protocolo aprobado<br>
+  3) Cambiar entre las unidades habilitadas y verificar la conversión mostrada<br>
+  4) Accionar cada tecla (cero, tara, unidades, impresión) y verificar la función asociada</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  La pantalla muestra todos los caracteres sin fallas.<br>
+  La resolución y las unidades corresponden con lo definido en el protocolo aprobado.<br>
+  Cada tecla ejecuta su función.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro de verificación de pantalla, unidades y teclas (anexo del informe)</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante del equipo; URS aprobada.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-OQ-BA-003" class="ensayo" data-id="EQ-OQ-BA-003" data-fase="OQ" data-cond="ambas" data-familia="balanza">
+  <h3>EQ-OQ-BA-003 — Control de acceso, roles y registro de actividad</h3>
+  <p><strong>Objetivo:</strong><br>Verificar, cuando el equipo gestiona usuarios o genera registros electrónicos, que el acceso está controlado y que las acciones críticas quedan registradas con fecha y hora.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Verificar que el acceso requiere identificación individual y que existen roles con privilegios diferenciados<br>
+  2) Intentar una acción restringida con un rol sin privilegio y verificar que se bloquea<br>
+  3) Ejecutar un ajuste, una modificación de parámetro y una pesada, y verificar el registro de actividad con usuario, fecha y hora<br>
+  4) Verificar que la fecha y la hora del equipo coinciden con la referencia horaria definida en el protocolo aprobado<br>
+  5) Confirmar que los registros no pueden modificarse ni borrarse por el usuario operativo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  El acceso es individual y los roles restringen las acciones según lo definido.<br>
+  Cada acción crítica queda registrada con usuario, fecha y hora.<br>
+  Los registros no son modificables por el usuario operativo.<br>
+  Si el equipo no gestiona usuarios ni registros electrónicos, el ensayo se declara no aplica con su justificación.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro de roles, intentos restringidos y extracto del registro de actividad (anexo del informe)</p>
+  <p><strong>Referencia:</strong><br>21 CFR Part 11; GAMP5 2.ª ed.; EU GMP Anexo 11.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-OQ-BA-004" class="ensayo" data-id="EQ-OQ-BA-004" data-fase="OQ" data-cond="ambas" data-familia="balanza">
+  <h3>EQ-OQ-BA-004 — Ajuste interno o calibración automática</h3>
+  <p><strong>Objetivo:</strong><br>Verificar que la función de ajuste (interno o con pesa externa) se ejecuta, se registra y deja la balanza dentro de su exactitud.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Ejecutar la función de ajuste según el manual del fabricante y registrar el resultado mostrado o impreso<br>
+  2) Verificar con una pesa patrón que la lectura posterior al ajuste está dentro del criterio definido en el protocolo aprobado<br>
+  3) Verificar que el equipo registra el ajuste, o que el registro manual está definido en el procedimiento<br>
+  4) Verificar el aviso por temperatura o por tiempo transcurrido que solicita un nuevo ajuste, si el equipo lo tiene</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  El ajuste se completa sin error y queda registrado.<br>
+  La lectura posterior al ajuste está dentro del criterio definido en el protocolo aprobado.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro del ajuste y de la verificación posterior con pesa patrón (anexo del informe)</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante del equipo; <span class="refnorma"></span>.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-OQ-BA-005" class="ensayo" data-id="EQ-OQ-BA-005" data-fase="OQ" data-cond="ambas" data-familia="balanza" data-analisis="si">
+  <h3>EQ-OQ-BA-005 — Estabilidad del cero y tiempo de estabilización</h3>
+  <p><strong>Objetivo:</strong><br>Verificar que el cero se mantiene estable sin carga y determinar el tiempo que tarda la lectura en estabilizarse tras colocar una carga.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Encender la balanza y esperar el tiempo de calentamiento definido por el fabricante<br>
+  2) Registrar lecturas de cero sin carga a intervalos regulares durante el período definido en el protocolo aprobado<br>
+  3) Colocar una pesa patrón y medir el tiempo hasta que aparece el indicador de estabilidad<br>
+  4) Repetir la medición del tiempo de estabilización al menos tres veces<br>
+  5) Procesar los datos crudos de la deriva del cero y del tiempo de estabilización en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = lectura de cero (en unidades de masa) y tiempo de estabilización (s); tamaño de muestra = las lecturas del período definido y un mínimo de 3 mediciones de tiempo; estadísticos = media, desviación estándar y rango de las lecturas de cero, y media y máximo del tiempo; tendencia = pendiente de la regresión del cero contra el tiempo, para cuantificar la deriva; criterio = el especificado en el criterio de aceptación de este ensayo. Sin ANOVA: es un solo equipo en una sola condición.</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  La deriva del cero está dentro del criterio definido en el protocolo aprobado.<br>
+  El tiempo de estabilización está dentro del valor declarado por el fabricante o definido en el protocolo aprobado.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro de lecturas de cero y tiempos de estabilización con data cruda y reporte<br>
+  - Data cruda y reporte estadístico de la deriva del cero y del tiempo de estabilización</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante del equipo; EURAMET cg-18.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-OQ-BA-006" class="ensayo" data-id="EQ-OQ-BA-006" data-fase="OQ" data-cond="ambas" data-familia="balanza" data-analisis="si">
+  <h3>EQ-OQ-BA-006 — Repetibilidad</h3>
+  <p><strong>Objetivo:</strong><br>Determinar la repetibilidad de la balanza con una carga de prueba, según USP &lt;41&gt;.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Seleccionar una pesa patrón con valor cercano al peso neto más pequeño que se pesará en rutina, o al definido en el protocolo aprobado<br>
+  2) Colocar y retirar la pesa al menos 10 veces, registrando la lectura en cada ocasión, con retorno a cero entre pesadas<br>
+  3) Calcular la desviación estándar de las lecturas<br>
+  4) Procesar los datos crudos de repetibilidad en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = lectura de la pesa patrón (en unidades de masa); tamaño de muestra = mínimo 10 pesadas consecutivas; estadísticos = media, desviación estándar y RSD; cálculo del cociente 2 × SD / peso neto más pequeño, aplicando el piso de 0,41 d cuando corresponda; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo. Sin ANOVA ni comparación entre grupos.</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Dos veces la desviación estándar, dividida entre el peso neto más pequeño, no excede 0,10 % (USP &lt;41&gt;).<br>
+  Si la desviación estándar es menor que 0,41 d (d = división de escala), se usa 0,41 d en el cálculo.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro de las pesadas de repetibilidad con data cruda y reporte<br>
+  - Data cruda y reporte estadístico del análisis de repetibilidad</p>
+  <p><strong>Referencia:</strong><br>USP &lt;41&gt;; USP &lt;1251&gt;; <span class="refnorma"></span>.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-OQ-BA-007" class="ensayo" data-id="EQ-OQ-BA-007" data-fase="OQ" data-cond="ambas" data-familia="balanza" data-analisis="si">
+  <h3>EQ-OQ-BA-007 — Exactitud con pesas patrón</h3>
+  <p><strong>Objetivo:</strong><br>Verificar que la balanza indica el valor correcto de masa en puntos representativos de su rango de uso.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Seleccionar pesas patrón certificadas y trazables que cubran el rango de uso definido en el protocolo aprobado, incluida la carga mínima y la máxima de uso<br>
+  2) Pesar cada pesa al menos tres veces, con retorno a cero entre pesadas, y registrar las lecturas<br>
+  3) Calcular el error de cada punto como la diferencia entre la lectura media y el valor convencional de la pesa<br>
+  4) Procesar los datos crudos de exactitud en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = lectura de la balanza frente al valor convencional de la pesa en cada punto; tamaño de muestra = mínimo 3 pesadas por punto; estadísticos = media, desviación estándar y error (media menos valor nominal) por punto, con su intervalo de confianza al 95 %; criterio = el especificado en el criterio de aceptación de este ensayo. Sin ANOVA: cada punto se evalúa contra su tolerancia, sin comparar puntos entre sí.</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  El error en cada punto está dentro de ±0,10 % del valor de la pesa (USP &lt;41&gt;), o del criterio más estricto definido en el protocolo aprobado.<br>
+  La incertidumbre de las pesas patrón es compatible con la tolerancia que se verifica, según su certificado vigente.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro de pesadas de exactitud por punto con data cruda y reporte<br>
+  - Data cruda y reporte estadístico del análisis de exactitud<br>
+  - Certificados vigentes de las pesas patrón (anexo del informe)</p>
+  <p><strong>Referencia:</strong><br>USP &lt;41&gt;; OIML R 76-1; <span class="refnorma"></span>.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-OQ-BA-008" class="ensayo" data-id="EQ-OQ-BA-008" data-fase="OQ" data-cond="ambas" data-familia="balanza" data-analisis="si">
+  <h3>EQ-OQ-BA-008 — Linealidad</h3>
+  <p><strong>Objetivo:</strong><br>Verificar que la respuesta de la balanza es lineal en todo el rango de uso definido.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Seleccionar como mínimo 5 pesas patrón que cubran el rango de uso, desde aproximadamente 10 % hasta 100 % de la capacidad definida en el protocolo aprobado<br>
+  2) Pesar cada pesa al menos tres veces, en orden ascendente y luego descendente<br>
+  3) Calcular la regresión de la lectura frente al valor nominal y los residuos de cada punto<br>
+  4) Procesar los datos crudos de linealidad en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = lectura de la balanza frente al valor nominal de cada pesa; tamaño de muestra = mínimo 5 puntos con 3 pesadas cada uno; estadísticos = regresión lineal (pendiente, intercepto, coeficiente de determinación) y residuos por punto; intervalo de confianza al 95 % de la pendiente y el intercepto; criterio = el especificado en el criterio de aceptación de este ensayo. Sin ANOVA.</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  El coeficiente de determinación y los residuos están dentro de lo definido en el protocolo aprobado.<br>
+  Ningún residuo excede la tolerancia de exactitud del ensayo de exactitud.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro de pesadas de linealidad con data cruda y reporte<br>
+  - Data cruda y reporte estadístico del análisis de linealidad</p>
+  <p><strong>Referencia:</strong><br>OIML R 76-1; EURAMET cg-18; <span class="refnorma"></span>.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-OQ-BA-009" class="ensayo" data-id="EQ-OQ-BA-009" data-fase="OQ" data-cond="ambas" data-familia="balanza" data-analisis="si">
+  <h3>EQ-OQ-BA-009 — Excentricidad (carga descentrada)</h3>
+  <p><strong>Objetivo:</strong><br>Verificar que la lectura no depende de la posición de la carga sobre el platillo.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Seleccionar una pesa patrón de aproximadamente un tercio de la capacidad máxima, o la definida en el protocolo aprobado<br>
+  2) Pesarla en el centro del platillo y luego en cada uno de los cuatro cuadrantes, con retorno a cero entre pesadas<br>
+  3) Repetir la secuencia al menos tres veces<br>
+  4) Calcular la diferencia de cada posición respecto del centro<br>
+  5) Procesar los datos crudos de excentricidad en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = lectura de la pesa en cada una de las 5 posiciones; tamaño de muestra = mínimo 3 secuencias completas; estadísticos = media por posición, diferencia respecto del centro y desviación estándar; comparación entre posiciones con ANOVA de un factor (posición) solo si el protocolo aprobado lo define; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  La diferencia entre cada posición y el centro está dentro del criterio definido en el protocolo aprobado.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro de pesadas por posición con data cruda y reporte<br>
+  - Data cruda y reporte estadístico del análisis de excentricidad</p>
+  <p><strong>Referencia:</strong><br>OIML R 76-1; EURAMET cg-18.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-OQ-BA-010" class="ensayo" data-id="EQ-OQ-BA-010" data-fase="OQ" data-cond="ambas" data-familia="balanza" data-analisis="si">
+  <h3>EQ-OQ-BA-010 — Histéresis y retorno a cero</h3>
+  <p><strong>Objetivo:</strong><br>Verificar que la lectura de cero vuelve a su valor inicial tras retirar una carga y que la respuesta no depende del sentido de la carga.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Registrar el cero inicial sin carga<br>
+  2) Colocar una carga cercana a la capacidad de uso definida en el protocolo aprobado, mantenerla el tiempo definido y retirarla<br>
+  3) Registrar el cero tras retirar la carga y repetir al menos tres veces<br>
+  4) Comparar la lectura de un punto intermedio al subir y al bajar la carga<br>
+  5) Procesar los datos crudos de retorno a cero e histéresis en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = desplazamiento del cero tras la carga y diferencia entre lectura ascendente y descendente; tamaño de muestra = mínimo 3 ciclos; estadísticos = media, desviación estándar y máximo de las diferencias; criterio = el especificado en el criterio de aceptación de este ensayo. Sin ANOVA.</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  La diferencia del cero antes y después de la carga está dentro del criterio definido en el protocolo aprobado.<br>
+  La diferencia entre la lectura ascendente y descendente está dentro del criterio definido en el protocolo aprobado.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro de cero y lecturas ascendentes y descendentes con data cruda y reporte<br>
+  - Data cruda y reporte estadístico del análisis de histéresis</p>
+  <p><strong>Referencia:</strong><br>OIML R 76-1; Manual del fabricante del equipo.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-OQ-BA-011" class="ensayo" data-id="EQ-OQ-BA-011" data-fase="OQ" data-cond="ambas" data-familia="balanza" data-analisis="si">
+  <h3>EQ-OQ-BA-011 — Peso mínimo</h3>
+  <p><strong>Objetivo:</strong><br>Determinar el peso mínimo por debajo del cual la balanza no cumple el requisito de repetibilidad, para su rotulación y uso.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Tomar la desviación estándar obtenida en el ensayo de repetibilidad, o repetir la serie con la pesa de menor valor de uso<br>
+  2) Calcular el peso mínimo con el cociente definido por USP &lt;41&gt; y USP &lt;1251&gt;<br>
+  3) Verificar que el peso mínimo calculado es menor que el peso neto más pequeño que se pesará en rutina<br>
+  4) Documentar y rotular el peso mínimo en la balanza o en el procedimiento de uso<br>
+  5) Procesar los datos crudos del peso mínimo en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = desviación estándar de la serie de repetibilidad y peso mínimo calculado; tamaño de muestra = la serie de repetibilidad (mínimo 10 pesadas); estadísticos = desviación estándar, aplicando el piso de 0,41 d cuando corresponda, y peso mínimo resultante con el factor de USP &lt;1251&gt;; criterio = el especificado en el criterio de aceptación de este ensayo. Sin ANOVA.</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  El peso mínimo calculado está documentado y rotulado.<br>
+  El peso mínimo es menor o igual que el peso neto más pequeño de uso rutinario definido en el protocolo aprobado.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Cálculo del peso mínimo con data cruda y reporte<br>
+  - Data cruda y reporte estadístico del peso mínimo</p>
+  <p><strong>Referencia:</strong><br>USP &lt;41&gt;; USP &lt;1251&gt;.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-OQ-BA-012" class="ensayo" data-id="EQ-OQ-BA-012" data-fase="OQ" data-cond="ambas" data-familia="balanza">
+  <h3>EQ-OQ-BA-012 — Alarmas de sobrecarga y mensajes de error</h3>
+  <p><strong>Objetivo:</strong><br>Verificar que la balanza advierte la sobrecarga y los estados de error sin entregar lecturas engañosas.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Colocar una carga que supere la capacidad máxima dentro del margen de seguridad del fabricante y verificar la indicación de sobrecarga<br>
+  2) Retirar la carga y verificar que la lectura vuelve a la normalidad<br>
+  3) Provocar, si el fabricante lo permite, un estado de error no destructivo (por ejemplo, plato retirado) y verificar el mensaje<br>
+  4) No se fuerza ni se puentea ningún dispositivo de protección</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  La sobrecarga se indica y no se muestra una lectura numérica engañosa.<br>
+  Cada error provocado muestra su mensaje y se recupera al corregir la causa.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro de indicaciones de sobrecarga y error (anexo del informe)</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante del equipo.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-OQ-BA-013" class="ensayo" data-id="EQ-OQ-BA-013" data-fase="OQ" data-cond="ambas" data-familia="balanza">
+  <h3>EQ-OQ-BA-013 — Corte y recuperación de energía</h3>
+  <p><strong>Objetivo:</strong><br>Verificar que, ante un corte de energía y su retorno, la balanza conserva su configuración y no pierde la integridad de los datos.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Registrar la configuración (unidades, parámetros de ajuste, usuarios) antes del corte<br>
+  2) Interrumpir la energía durante el tiempo definido en el protocolo aprobado y restablecerla<br>
+  3) Verificar que la balanza arranca, conserva la configuración y completa su calentamiento<br>
+  4) Verificar con una pesa patrón que la lectura es correcta tras el restablecimiento</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  La configuración se conserva tras el corte.<br>
+  No se pierden ni alteran registros existentes.<br>
+  La lectura con pesa patrón tras el restablecimiento está dentro del criterio de exactitud.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro de configuración antes y después del corte y verificación con pesa patrón (anexo del informe)</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante del equipo; GAMP5 2.ª ed.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-OQ-BA-014" class="ensayo" data-id="EQ-OQ-BA-014" data-fase="OQ" data-cond="ambas" data-familia="balanza">
+  <h3>EQ-OQ-BA-014 — Transferencia e impresión de datos</h3>
+  <p><strong>Objetivo:</strong><br>Verificar, cuando el equipo transfiere o imprime resultados, que el dato transferido coincide con el mostrado en pantalla y lleva su identificación.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Realizar pesadas de valores conocidos y transferir o imprimir cada resultado<br>
+  2) Comparar el valor transferido o impreso con el mostrado en pantalla<br>
+  3) Verificar que el registro incluye fecha, hora, identificación del equipo y del usuario, según lo definido en el protocolo aprobado<br>
+  4) Verificar que un dato no se transfiere si la lectura no es estable, según la configuración del equipo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  El valor transferido o impreso coincide con el de pantalla.<br>
+  El registro trae la identificación definida en el protocolo aprobado.<br>
+  Si el equipo no transfiere ni imprime datos, el ensayo se declara no aplica con su justificación.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Muestras de impresión o archivos transferidos con su comparación (anexo del informe)</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante del equipo; 21 CFR Part 11; ALCOA+.</p>
+</article>
+
+<article data-bloque="4" id="art-EQ-OQ-BA-RES" class="ensayo" data-id="EQ-OQ-BA-RES" data-fase="OQ" data-cond="ambas" data-familia="balanza">
+  <h3>EQ-OQ-BA-RES — Tabla resumen de los ensayos del OQ</h3>
+  <p><strong>Objetivo:</strong><br>Consolidar el listado de ensayos del OQ de la balanza para la tabla resumen del protocolo.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Confirmar que los ensayos EQ-OQ-BA-001 a EQ-OQ-BA-014 están incluidos en el índice del protocolo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Los 14 ensayos aparecen en la tabla resumen con su veredicto.</p>
+  <p><strong>Referencia:</strong><br>EU GMP Anexo 15.</p>
+</article>
+
+<article data-bloque="6" id="art-EQ-OQ-BA-REF" class="ensayo tabla-info" data-id="EQ-OQ-BA-REF" data-fase="OQ" data-cond="ambas" data-familia="balanza">
+  <h3>EQ-OQ-BA-REF — Referencias del OQ de balanza</h3>
+  <table>
+    <tr><th>SECCIÓN</th><th>TÍTULO</th><th>ESTADO</th></tr>
+    <tr><td>6.1</td><td>Manual del fabricante del equipo — Resolución, capacidad, ajuste y límites de operación</td><td>VIGENTE</td></tr>
+    <tr><td>6.2</td><td>URS aprobada — Rango de uso, peso neto más pequeño y criterios de aceptación</td><td>VIGENTE</td></tr>
+    <tr><td>6.3</td><td>USP &lt;41&gt; Balances — Requisitos de repetibilidad y exactitud</td><td>VIGENTE</td></tr>
+    <tr><td>6.4</td><td>USP &lt;1251&gt; Weighing on Analytical Balances — Peso mínimo y buenas prácticas de pesada</td><td>VIGENTE</td></tr>
+    <tr><td>6.5</td><td>USP &lt;1058&gt; — Analytical Instrument Qualification</td><td>VIGENTE</td></tr>
+    <tr><td>6.6</td><td>EU GMP Anexo 15 — Calificación y validación</td><td>VIGENTE</td></tr>
+    <tr><td>6.7</td><td>OIML R 76-1 / EURAMET cg-18 — Ensayos de excentricidad, linealidad e histéresis</td><td>VIGENTE</td></tr>
+    <tr><td>6.8</td><td>21 CFR Part 11 y GAMP5 2.ª ed. — Control de acceso y registros electrónicos</td><td>VIGENTE</td></tr>
+  </table>
+</article>
+
+<div class="anexos" data-bloque="8">
+<p><strong>ANEXOS:</strong></p>
+<table>
+<tr><th>SECCIÓN</th><th>TÍTULO</th></tr>
+<tr><td>8.1</td><td>Anexo A — Registros de pesadas (cero, repetibilidad, exactitud, linealidad, excentricidad, histéresis)</td></tr>
+<tr><td>8.2</td><td>Anexo B — Certificados de calibración de las pesas patrón y de los instrumentos auxiliares</td></tr>
+<tr><td>8.3</td><td>Anexo C — Registros de ajuste, de actividad del equipo y de transferencia de datos</td></tr>
+</table>
+</div>
+
+</section>
+
+</body>
+</html>

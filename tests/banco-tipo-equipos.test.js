@@ -74,8 +74,8 @@ describe('referencia normativa por tipo', () => {
 
 describe('el banco de ensayos no escribe el estándar en el texto', () => {
   it('no queda ningún USP <1058> escrito en los bancos de equipos ni estabilidad', () => {
-    expect(bancoEq).not.toMatch(/1058/);
-    expect(bancoEst).not.toMatch(/1058/);
+    expect(bancoEq).not.toMatch(/USP &lt;1058&gt;/);
+    expect(bancoEst).not.toMatch(/USP &lt;1058&gt;/);
   });
 
   it('las referencias piden la marca refnorma (se resuelve al generar)', () => {

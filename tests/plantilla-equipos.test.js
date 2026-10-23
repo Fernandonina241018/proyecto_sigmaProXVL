@@ -97,7 +97,7 @@ describe('OQ lecho fluido (banco por familia)', () => {
   });
 
   it('otra familia recibe solo el común hasta tener banco propio', async () => {
-    const { r, doc } = await genOQ({ id: 'balanza', nombre: 'Balanza' });
+    const { r, doc } = await genOQ({ id: 'cabina-flujo', nombre: 'Cabina de flujo laminar' });
     expect(r.ensayos).toEqual(['EQ-OQ-COM-001']);
     expect(doc).not.toContain('EQ-OQ-LF-001');
     expect(doc).not.toContain('EQ-OQ-AU-001');
