@@ -90,6 +90,23 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (SigmaProXVL) con spr
 
 ## CAMBIOS RECIENTES
 
+### 2026-10-24 (17): Skill Analista Senior de Validaciones Farmacéuticas
+
+**Cambio:** Creación de skill `.opencode/skills/analista-senior-validaciones-farmaceutica/SKILL.md` con perfil de Analista Senior de Validaciones para la industria farmacéutica (CSV, GMP, 21 CFR Parte 11, Annex 11, IQ/OQ/PQ).
+
+**Incluye:**
+- Instrucción especial para el **banco de ensayos**: activa optimización interna al estilo `/prompt` (buenas prácticas Anthropic: rol claro, contexto, estructura XML, ejemplos, formato de salida explícito) con **enfoque de alto nivel** (arquitectura, alcance, hitos, riesgos regulatorios, entregables antes que detalles de bajo nivel).
+- Relaciona el banco de ensayos con validación farmacéutica: alcance GMP, VMP, protocolos IQ/OQ/PQ, sistemas sujetos a 21 CFR Parte 11 / Annex 11, criterios de aceptación, matriz de trazabilidad, evidencia para inspecciones regulatorias.
+
+**Archivos afectados:**
+- `.opencode/skills/analista-senior-validaciones-farmaceutica/SKILL.md` — **NUEVO** (skill del analista senior de validaciones)
+
+**Por qué:** Permite invocar `/skill analista-senior-validaciones-farmaceutica` para desarrollar el banco de ensayos con enfoque regulatorio farmacéutico y optimización de prompts automática.
+
+**Riesgo:** Bajo. Solo se agrega un archivo de instrucciones; no modifica código del proyecto.
+
+---
+
 ### 2026-10-24 (16): Comando /prompt v2 — Implementación de prompt_optimizer
 
 **Cambio:** Reemplazo del comando `/prompt` básico por la versión v2 (prompt_optimizer_v2.md).
