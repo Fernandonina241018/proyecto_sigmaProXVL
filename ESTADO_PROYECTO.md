@@ -90,6 +90,20 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (SigmaProXVL) con spr
 
 ## CAMBIOS RECIENTES
 
+### 2026-10-24 (16): Comando /prompt v2 — Implementación de prompt_optimizer
+
+**Cambio:** Reemplazo del comando `/prompt` básico por la versión v2 (prompt_optimizer_v2.md).
+
+**Archivos afectados:**
+- `.opencode/commands/prompt.md` — Reescrito con el contenido completo de v2 (633 líneas): session bootstrap, lectura de Brain2, skill acquisition con matriz y autogeneración, token budget, autoevaluación con validación, documentación en Brain2, métricas de sesión.
+- `opencode.json` — Removido el bloque `command.prompt` duplicado (el comando ahora vive exclusivamente en `.opencode/commands/prompt.md`).
+
+**Por qué:** El comando anterior era un template básico de 4 líneas. La v2 añade manejo de errores, presupuesto de tokens por complejidad (atomic/composite/systemic), autogeneración de skills faltantes, estado de sesión persistente, validación de aprendizaje antes de documentar en Brain2, y versionado del comando.
+
+**Riesgo:** Bajo. Solo cambia la definición de configuración del comando; no modifica código del proyecto. Brain2 y rutas `/mnt/skills/` no están disponibles en este entorno Linux, por lo que el comando opera en modo DEGRADED (sin contexto histórico) sin romper.
+
+---
+
 ### 2026-09-12 (15): Report Charts — Compresión JPEG + reducción de canvas
 
 **Problema:** Reportes con muchos gráficos fallaban por tamaño del HTML (cada chart era PNG base64 ~1MB).

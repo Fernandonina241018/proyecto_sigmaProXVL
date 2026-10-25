@@ -1,4 +1,3 @@
-cat > /mnt/user-data/outputs/prompt_optimizer_v2.md << 'MDEOF'
 ---
 description: Optimizar un prompt usando mejores prácticas de Anthropic
 agent: general
@@ -632,5 +631,3 @@ Mostrar métricas al usuario **solo si** `DEBUG_MODE = true`.
 
 *StatAnalyzer Pro — Agent Command v2.0.0*
 *Mejoras: Error handling · Token budget · Skill autogen · Session state · Validación aprendizaje · Version control*
-MDEOF
-echo "Archivo generado: $(wc -l < /mnt/user-data/outputs/prompt_optimizer_v2.md) líneas"
