@@ -90,20 +90,22 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (SigmaProXVL) con spr
 
 ## CAMBIOS RECIENTES
 
-### 2026-10-24 (17): Skill Analista Senior de Validaciones Farmacéuticas
+### 2026-10-24 (17): Skill Analista Senior Generalista
 
-**Cambio:** Creación de skill `.opencode/skills/analista-senior-validaciones-farmaceutica/SKILL.md` con perfil de Analista Senior de Validaciones para la industria farmacéutica (CSV, GMP, 21 CFR Parte 11, Annex 11, IQ/OQ/PQ).
+**Cambio:** Reescritura de skill `.opencode/skills/analista-senior-validaciones-farmaceutica/SKILL.md` como perfil **generalista** de Analista Senior, adaptable a cualquier dominio o tema.
 
 **Incluye:**
+- Rol general de Analista Senior con metodología de alto nivel aplicable a cualquier industria (6 pasos: alcance, normas, criterios de aceptación, entregables/hitos, riesgos, evidencia).
+- Tabla de adaptación a dominios específicos (farmacéutico, financiero, salud, software, manufactura, TI).
 - Instrucción especial para el **banco de ensayos**: activa optimización interna al estilo `/prompt` (buenas prácticas Anthropic: rol claro, contexto, estructura XML, ejemplos, formato de salida explícito) con **enfoque de alto nivel** (arquitectura, alcance, hitos, riesgos regulatorios, entregables antes que detalles de bajo nivel).
-- Relaciona el banco de ensayos con validación farmacéutica: alcance GMP, VMP, protocolos IQ/OQ/PQ, sistemas sujetos a 21 CFR Parte 11 / Annex 11, criterios de aceptación, matriz de trazabilidad, evidencia para inspecciones regulatorias.
+- Relaciona el banco de ensayos con validación farmacéutica cuando corresponda: GMP, VMP, IQ/OQ/PQ, 21 CFR Parte 11, Annex 11, matriz de trazabilidad.
 
 **Archivos afectados:**
-- `.opencode/skills/analista-senior-validaciones-farmaceutica/SKILL.md` — **NUEVO** (skill del analista senior de validaciones)
+- `.opencode/skills/analista-senior-validaciones-farmaceutica/SKILL.md` — **REESCRITO** (skill generalista, anteriormente específico de validaciones farmacéuticas)
 
-**Por qué:** Permite invocar `/skill analista-senior-validaciones-farmaceutica` para desarrollar el banco de ensayos con enfoque regulatorio farmacéutico y optimización de prompts automática.
+**Por qué:** Permite invocar `/skill analista-senior-validaciones-farmaceutica` para cualquier tema con enfoque de alto nivel, y aplica optimización `/prompt` automática cuando el tema es el banco de ensayos.
 
-**Riesgo:** Bajo. Solo se agrega un archivo de instrucciones; no modifica código del proyecto.
+**Riesgo:** Bajo. Solo se reescribe un archivo de instrucciones; no modifica código del proyecto.
 
 ---
 
