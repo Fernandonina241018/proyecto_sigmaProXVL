@@ -90,6 +90,38 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (SigmaProXVL) con spr
 
 ## CAMBIOS RECIENTES
 
+### 2026-10-24 (18): Refnorma IQ general — normas regulatorias internacionales
+
+**Cambio:** Completado todos los `<span class="refnorma"></span>` vacíos en el banco de ensayos IQ general (`docs/banco-ensayos/equipos-comun.html`) con normas regulatorias internacionales aplicables a cada ensayo de Calificación de Instalación.
+
+**Normas asignadas por ensayo:**
+| Ensayo | Norma asignada |
+|--------|---------------|
+| EQ-IQ-001 Prerrequisitos | EU GMP Anexo 15 — Calificación y validación |
+| EQ-IQ-002 Instrumentos de medición | ISO/IEC 17025 — Competencia de laboratorios de ensayo y calibración |
+| EQ-IQ-003 Recepción y entrega | EU GMP Capítulo 3 — Instalaciones y equipamiento |
+| EQ-IQ-004 Identificación | EU GMP Capítulo 4 — Documentación |
+| EQ-IQ-005 Ubicación | EU GMP Capítulo 3 — Instalaciones y equipamiento |
+| EQ-IQ-020 Montaje, nivelación, anclaje | EU GMP Anexo 15 — Calificación y validación |
+| EQ-IQ-006 Mantenimiento preventivo | EU GMP Anexo 15 — Calificación y validación |
+| EQ-IQ-007 Calibración | ISO/IEC 17025 — Calibración trazable a patrones nacionales |
+| EQ-IQ-008 Componentes principales | EU GMP Capítulo 3 — Instalaciones y equipamiento |
+| EQ-IQ-009 Utilidades y ambiente | EU GMP Anexo 15 — Calificación y validación |
+| EQ-IQ-010 Software/firmware/red | 21 CFR Parte 11 — Registros electrónicos y firmas electrónicas |
+| EQ-IQ-011 Encendido y diagnóstico | EU GMP Anexo 15 — Calificación y validación |
+| EQ-IQ-016 Tabla resumen IQ | EU GMP Anexo 15 — Calificación y validación |
+
+**Archivos afectados:**
+| Archivo | Cambio |
+|---------|--------|
+| `docs/banco-ensayos/equipos-comun.html` | 14 `refnorma` vacíos completados con normas regulatorias internacionales (líneas 78, 107, 129, 151, 175, 194, 220, 239, 260, 280, 306, 382, 399, 524) |
+
+**Por qué:** El IQ general tenía placeholders `refnorma` vacíos en todos los ensayos, lo que dejaba sin sustento normativo la calificación de instalación. Cada ensayo ahora cita la norma aplicable (EU GMP, ISO/IEC 17025, 21 CFR Parte 11).
+
+**Riesgo:** Bajo. Solo se completa texto de referencia normativa; no se modifica lógica ni estructura del documento.
+
+---
+
 ### 2026-10-24 (17): Skill Analista Senior Generalista
 
 **Cambio:** Reescritura de skill `.opencode/skills/analista-senior-validaciones-farmaceutica/SKILL.md` como perfil **generalista** de Analista Senior, adaptable a cualquier dominio o tema.
