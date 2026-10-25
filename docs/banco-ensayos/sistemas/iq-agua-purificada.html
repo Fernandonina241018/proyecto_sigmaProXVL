@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<style>
+  body { font-family: Tahoma, sans-serif; font-size: 11pt; }
+  strong { text-transform: uppercase; }
+</style>
+<title>Banco de Ensayos IQ — Sistema de agua purificada</title>
+</head>
+<body>
+
+<p><a href="../sistemas.html">← Sistemas</a></p>
+<h2>IQ — Sistema de agua purificada / WFI (banco por familia, Nivel 3)</h2>
+<p>Versión del banco: <span data-banco-version>SIS-IQ-AP 2026-10-24 v1</span></p>
+<p>Ensayos de Calificación de Instalación específicos del sistema de agua purificada y WFI. Se suman al IQ general y se filtran por familia (<code>data-familia="agua-purificada"</code>) según la entidad elegida en el paso 1.</p>
+
+<!-- ================= IQ ================= -->
+<section id="fase-iq" data-familia="agua-purificada">
+<h2>IQ — Ensayos</h2>
+
+<article data-bloque="3" id="art-SIS-IQ-AP-001" class="ensayo" data-id="SIS-IQ-AP-001" data-fase="IQ" data-cond="ambas" data-familia="agua-purificada">
+  <h3>SIS-IQ-AP-001 — Verificación de red de distribución y materiales</h3>
+  <p><strong>Objetivo:</strong><br>Verificar que la red de distribución de agua purificada está construida con materiales compatibles, sin puntos muertos y con pendiente adecuada para drenaje.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Verificar materiales de tuberías, válvulas y accesorios (acero inoxidable 316L o equivalente aprobado)<br>
+  2) Verificar ausencia de puntos muertos (legs ciegos) en la red de distribución<br>
+  3) Verificar pendiente de tuberías hacia puntos de drenaje (mínimo 1-3% según diseño)<br>
+  4) Verificar soldaduras y uniones: terminación sanitaria, sin grietas ni porosidad<br>
+  5) Verificar identificaciones de tuberías: contenido, dirección de flujo, número de línea<br>
+  6) Registrar toda desviación como hallazgo con su disposición</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Materiales conforme a especificación de diseño.<br>
+  Sin puntos muertos en la red de distribución.<br>
+  Pendiente y drenaje adecuados.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Matriz material-diseño-vs-instalado<br>
+  - Registro fotográfico de tuberías y uniones (anexo del informe)</p>
+  <p><strong>Referencia:</strong><br><span class="refnorma">USP &lt;1231&gt; — Agua para usos farmacéuticos</span>; EU GMP Parte II.</p>
+</article>
+
+<article data-bloque="3" id="art-SIS-IQ-AP-002" class="ensayo" data-id="SIS-IQ-AP-002" data-fase="IQ" data-cond="ambas" data-familia="agua-purificada">
+  <h3>SIS-IQ-AP-002 — Verificación de puntos de uso y tomas de muestra</h3>
+  <p><strong>Objetivo:</strong><br>Verificar que los puntos de uso y tomas de muestra están instalados en ubicaciones correctas, con válvulas de purga y drenaje adecuadas.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Identificar cada punto de uso y toma de muestra contra el plano de distribución<br>
+  2) Verificar ubicación, altura y accesibilidad para operación y muestreo<br>
+  3) Verificar válvulas de purga y drenaje en cada punto de uso<br>
+  4) Verificar dispositivos de retorno (si aplican) para mantener circulación en circuito cerrado<br>
+  5) Verificar identificaciones y etiquetas en cada punto de uso<br>
+  6) Registrar cada punto de uso en la tabla correspondiente</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Puntos de uso instalados en ubicación correcta según plano.<br>
+  Válvulas de purga y drenaje en cada punto de uso.<br>
+  Identificaciones y etiquetas presentes.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Listado de puntos de uso (ubicación, tipo, válvula de purga)<br>
+  - Plano de distribución con puntos de uso marcados</p>
+  <p><strong>Referencia:</strong><br><span class="refnorma">USP &lt;1231&gt; — Agua para usos farmacéuticos</span>; PDA TR-64.</p>
+</article>
+
+<article data-bloque="3" id="art-SIS-IQ-AP-003" class="ensayo" data-id="SIS-IQ-AP-003" data-fase="IQ" data-cond="ambas" data-familia="agua-purificada">
+  <h3>SIS-IQ-AP-003 — Verificación de sistema de sanitización</h3>
+  <p><strong>Objetivo:</strong><br>Verificar que el sistema de sanitización (ozono, agua caliente, productos químicos) está instalado y configurado para mantener la calidad microbiológica del agua.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Identificar método de sanitización: agua caliente (≥80°C), ozono o desinfectante químico aprobado<br>
+  2) Verificar equipo de sanitización instalado: generador de ozono, intercambiador de calor, dosificadora<br>
+  3) Verificar puntos de inyección y contacto con el agua<br>
+  4) Verificar registros de parámetros de sanitización: temperatura, concentración, tiempo de contacto<br>
+  5) Verificar procedimiento de sanitización escrito y aprobado<br>
+  6) Registrar configuración del sistema de sanitización</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Sistema de sanitización instalado y operativo.<br>
+  Parámetros de sanitización definidos y documentados.<br>
+  Procedimiento escrito y aprobado disponible.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Descripción del sistema de sanitización instalado<br>
+  - Procedimiento de sanitización aprobado<br>
+  - Registro de parámetros de sanitización</p>
+  <p><strong>Referencia:</strong><br><span class="refnorma">USP &lt;1231&gt; — Agua para usos farmacéuticos</span>; EU GMP Parte II.</p>
+</article>
+
+<article data-bloque="3" id="art-SIS-IQ-AP-004" class="ensayo" data-id="SIS-IQ-AP-004" data-fase="IQ" data-cond="ambas" data-familia="agua-purificada">
+  <h3>SIS-IQ-AP-004 — Verificación de estanqueidad de la red</h3>
+  <p><strong>Objetivo:</strong><br>Verificar que la red de distribución de agua purificada no presenta fugas y mantiene la presión de operación.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Realizar prueba de presión de la red con agua o aire según procedimiento de ingeniería<br>
+  2) Verificar manómetros: calibración vigente, rango adecuado<br>
+  3) Monitorear caída de presión durante el período de prueba definido<br>
+  4) Inspeccionar uniones, válvulas y accesorios en busca de fugas visibles<br>
+  5) Registrar presión inicial, final y duración de la prueba<br>
+  6) Registrar cualquier fuga detectada con ubicación y medida correctiva</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Caída de presión dentro del criterio definido en el procedimiento de prueba.<br>
+  Sin fugas visibles en uniones, válvulas ni accesorios.<br>
+  Prueba documentada con resultados registrados.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro de prueba de estanqueidad (presión inicial/final, duración)<br>
+  - Reporte de fugas detectadas y medidas correctivas (si aplica)</p>
+  <p><strong>Referencia:</strong><br><span class="refnorma">EU GMP Parte II — Requisitos para agua purificada</span>; manual del fabricante del sistema.</p>
+</article>
+
+<article data-bloque="3" id="art-SIS-IQ-AP-005" class="ensayo" data-id="SIS-IQ-AP-005" data-fase="IQ" data-cond="ambas" data-familia="agua-purificada">
+  <h3>SIS-IQ-AP-005 — Verificación de instrumentos de medición (conductividad, TOC)</h3>
+  <p><strong>Objetivo:</strong><br>Verificar que los instrumentos de medición en línea (conductividad, TOC, temperatura) están instalados, identificados y con calibración vigente.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Listar instrumentos en línea: conductividad, TOC, temperatura, pH (si aplica)<br>
+  2) Verificar ubicación: puntos representativos de la red (distal, proximal, puntos críticos)<br>
+  3) Verificar etiqueta de calibración vigente por instrumento<br>
+  4) Verificar conexión al sistema de control/registro de datos<br>
+  5) Verificar alarmas configuradas: límites de alerta y acción para cada parámetro<br>
+  6) Registrar cada instrumento en la tabla de instrumentos de medición</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  100% de instrumentos instalados en ubicación representativa.<br>
+  Etiqueta de calibración vigente por instrumento.<br>
+  Alarmas configuradas para límites de alerta y acción.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Tabla de instrumentos en línea (modelo/serie/ubicación/certificado)<br>
+  - Copias de certificados de calibración<br>
+  - Captura de pantalla de alarmas configuradas</p>
+  <p><strong>Referencia:</strong><br><span class="refnorma">ISO/IEC 17025 — Competencia de laboratorios de ensayo y calibración</span>; USP &lt;1231&gt;.</p>
+</article>
+
+<article data-bloque="3" id="art-SIS-IQ-AP-006" class="ensayo" data-id="SIS-IQ-AP-006" data-fase="IQ" data-cond="ambas" data-familia="agua-purificada">
+  <h3>SIS-IQ-AP-006 — Verificación de válvulas y puntos muertos</h3>
+  <p><strong>Objetivo:</strong><br>Verificar que las válvulas están instaladas correctamente, sin puntos muertos que comprometan la calidad del agua, y con función de drenaje adecuada.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Identificar cada válvula: tipo, ubicación, función (corte, control, purga, drenaje)<br>
+  2) Verificar operación: apertura/cierre suave, sin fugas en asiento ni empaque<br>
+  3) Verificar ausencia de puntos muertos en configuración de válvulas<br>
+  4) Verificar válvulas de drenaje en puntos bajos de la red<br>
+  5) Verificar válvulas de alivio de presión (si aplica)<br>
+  6) Registrar cada válvula en la tabla correspondiente con su estatus</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Válvulas operan correctamente sin fugas.<br>
+  Sin puntos muertos en la configuración de válvulas.<br>
+  Válvulas de drenaje en puntos bajos instaladas.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Tabla de válvulas (tipo/ubicación/función/estatus)<br>
+  - Registro fotográfico de válvulas críticas (anexo del informe)</p>
+  <p><strong>Referencia:</strong><br><span class="refnorma">USP &lt;1231&gt; — Agua para usos farmacéuticos</span>; manual del fabricante del sistema.</p>
+</article>
+
+<article data-bloque="3" id="art-SIS-IQ-AP-007" class="ensayo" data-id="SIS-IQ-AP-007" data-fase="IQ" data-cond="ambas" data-familia="agua-purificada">
+  <h3>SIS-IQ-AP-007 — Verificación de registros y trazabilidad del sistema de agua</h3>
+  <p><strong>Objetivo:</strong><br>Verificar que el sistema genera registros de calidad del agua (conductividad, TOC, temperatura, flujo) con trazabilidad y que los datos están protegidos según 21 CFR Parte 11.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Verificar sistema de registro de datos: servidor, base de datos, software de adquisición<br>
+  2) Verificar parámetros registrados: conductividad, TOC, temperatura, caudal, presión<br>
+  3) Verificar frecuencia de registro y periodo de retención de datos<br>
+  4) Verificar integridad de datos: audit trail, acceso restringido, firma electrónica (si aplica)<br>
+  5) Verificar copias de seguridad y recuperación de datos<br>
+  6) Registrar configuración del sistema de registro</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Sistema de registro operativo con parámetros críticos capturados.<br>
+  Audit trail activo y acceso restringido.<br>
+  Copias de seguridad definidas y probadas.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Configuración del sistema de registro de datos<br>
+  - Evidencia de audit trail activo<br>
+  - Procedimiento de copias de seguridad</p>
+  <p><strong>Referencia:</strong><br><span class="refnorma">21 CFR Parte 11 — Registros electrónicos y firmas electrónicas</span>; EU GMP Anexo 11.</p>
+</article>
+
+<article data-bloque="4" id="art-SIS-IQ-AP-RES" class="ensayo" data-id="SIS-IQ-AP-RES" data-fase="IQ" data-cond="ambas" data-familia="agua-purificada" data-resumen="IQ">
+  <h3>SIS-IQ-AP-RES — Tabla resumen de los ensayos del IQ de agua purificada</h3>
+  <p><strong>Objetivo:</strong><br>Consolidar en una matriz el resultado de todos los ensayos IQ de agua purificada como acta de cierre de la fase.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Listar los ensayos del protocolo (<span class="lista-resumen" data-fase-lista="IQ"></span>) con su veredicto (C/NC/NA) y fecha de ejecución<br>
+  2) Justificar cada ensayo declarado No Aplica<br>
+  3) Listar desviaciones abiertas con su estado y plan de cierre<br>
+  4) Firmar el acta de cierre IQ de agua purificada</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  100% de ensayos IQ de agua purificada ejecutados o justificados como No Aplica; cero desviaciones críticas abiertas; acta firmada.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Matriz resumen IQ de agua purificada firmada<br>
+  - Acta de cierre de fase IQ de agua purificada</p>
+  <p><strong>Referencia:</strong><br><span class="refnorma">EU GMP Anexo 15 — Calificación y validación</span>.</p>
+</article>
+
+<article data-bloque="6" id="art-SIS-IQ-AP-REF" class="ensayo tabla-info" data-id="SIS-IQ-AP-REF" data-fase="IQ" data-cond="ambas" data-familia="agua-purificada">
+  <h3>SIS-IQ-AP-REF — Referencias del IQ de agua purificada</h3>
+  <table border="1" cellpadding="4">
+    <tr><th>N°</th><th>Documento</th><th>Código / Versión</th></tr>
+    <tr><td>1</td><td>USP &lt;1231&gt; — Agua para usos farmacéuticos</td><td>Edición vigente</td></tr>
+    <tr><td>2</td><td>EU GMP Parte II — Requisitos para agua purificada y WFI</td><td>Vigente</td></tr>
+    <tr><td>3</td><td>PDA TR-64 — Qualification Guidance</td><td>Edición vigente</td></tr>
+    <tr><td>4</td><td>21 CFR Parte 11 — Registros electrónicos y firmas electrónicas</td><td>Vigente</td></tr>
+    <tr><td>5</td><td>EU GMP Anexo 11 — Sistemas informatizados</td><td>Vigente</td></tr>
+    <tr><td>6</td><td>EU GMP Anexo 15 — Calificación y validación</td><td>Vigente</td></tr>
+    <tr><td>7</td><td>______</td><td>______</td></tr>
+  </table>
+</article>
+
+<div class="anexos" data-bloque="8">
+<p><strong>ANEXOS:</strong></p>
+<ul>
+  <li>Anexo A — Matriz material-diseño-vs-instalado de la red</li>
+  <li>Anexo B — Certificados de calibración de instrumentos en línea</li>
+  <li>Anexo C — Plano de distribución con puntos de uso y tomas de muestra</li>
+  <li>Anexo D — Registro de prueba de estanqueidad</li>
+</ul>
+</div>
+
+</section>
+
+</body>
+</html>

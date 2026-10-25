@@ -90,6 +90,33 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (SigmaProXVL) con spr
 
 ## CAMBIOS RECIENTES
 
+### 2026-10-24 (19): IQ detallado por sistema — HVAC, agua purificada, vapor limpio, aire comprimido
+
+**Cambio:** Creación de 4 archivos de IQ detallado por sistema de instalaciones, cerrando la brecha regulatoria de sistemas sin IQ (solo tenían OQ y PQ). Cada archivo sigue el patrón de `equipos/iq-*.html` con bloque 1 (portada/firmas/responsabilidades/alcance/def-USP/nota-datos), bloque 3 (ensayos de calificación), bloque 4 (resumen), bloque 6 (referencias) y bloque 8 (anexos), con `refnorma` asignado a cada ensayo.
+
+**Archivos creados:**
+| Archivo | IDs IQ | Norma principal |
+|---------|--------|-----------------|
+| `docs/banco-ensayos/sistemas/iq-hvac.html` | HVAC-IQ-002…008, HVAC-IQ-RES, HVAC-IQ-REF | EU GMP Anexo 1, ISO 14644-1, EN 1822 |
+| `docs/banco-ensayos/sistemas/iq-agua-purificada.html` | SIS-IQ-AP-001…007, SIS-IQ-AP-RES, SIS-IQ-AP-REF | USP <1231>, EU GMP Parte II |
+| `docs/banco-ensayos/sistemas/iq-vapor-limpio.html` | SIS-IQ-VL-001…007, SIS-IQ-VL-RES, SIS-IQ-VL-REF | EN 285, EU GMP Anexo 1 |
+| `docs/banco-ensayos/sistemas/iq-aire-comprimido.html` | SIS-IQ-AC-001…007, SIS-IQ-AC-RES, SIS-IQ-AC-REF | ISO 8573-1, EU GMP Parte II |
+
+**Archivos modificados:**
+| Archivo | Cambio |
+|---------|--------|
+| `docs/banco-ensayos/sistemas.html` | +Tabla IQ por sistema con enlaces a los 4 archivos IQ |
+| `docs/banco-ensayos/sistemas/hvac.html` | IQ: "HVAC-IQ-001" → "HVAC-IQ-001…008 (ver iq-hvac.html)" |
+| `docs/banco-ensayos/sistemas/agua-purificada.html` | IQ: "pendiente" → "SIS-IQ-AP-001…007 (ver iq-agua-purificada.html)" |
+| `docs/banco-ensayos/sistemas/vapor-limpio.html` | IQ: "pendiente" → "SIS-IQ-VL-001…007 (ver iq-vapor-limpio.html)" |
+| `docs/banco-ensayos/sistemas/aire-comprimido.html` | IQ: "pendiente" → "SIS-IQ-AC-001…007 (ver iq-aire-comprimido.html)" |
+
+**Por qué:** Los sistemas de instalaciones (HVAC, agua purificada, vapor limpio, aire comprimido) tenían OQ y PQ bien desarrollados pero cero IQ, lo que rompe la secuencia regulatoria DQ→IQ→OQ→PQ exigida por EU GMP Anexo 15. Con estos 4 archivos, todas las instalaciones (equipos, almacenes, sistemas) tienen IQ completo.
+
+**Riesgo:** Bajo. Solo se agregan archivos HTML estáticos de banco de ensayos; no se modifica código del proyecto ni lógica de aplicación.
+
+---
+
 ### 2026-10-24 (18): Refnorma IQ general — normas regulatorias internacionales
 
 **Cambio:** Completado todos los `<span class="refnorma"></span>` vacíos en el banco de ensayos IQ general (`docs/banco-ensayos/equipos-comun.html`) con normas regulatorias internacionales aplicables a cada ensayo de Calificación de Instalación.

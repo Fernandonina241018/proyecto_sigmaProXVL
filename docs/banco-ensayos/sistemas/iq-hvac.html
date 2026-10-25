@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<style>
+  body { font-family: Tahoma, sans-serif; font-size: 11pt; }
+  strong { text-transform: uppercase; }
+</style>
+<title>Banco de Ensayos IQ — HVAC / Climatización</title>
+</head>
+<body>
+
+<p><a href="../sistemas.html">← Sistemas</a></p>
+<h2>IQ — HVAC / Climatización (banco por familia, Nivel 3)</h2>
+<p>Versión del banco: <span data-banco-version>SIS-IQ-HV 2026-10-24 v1</span></p>
+<p>Ensayos de Calificación de Instalación específicos del HVAC. Se suman al IQ general y se filtran por familia (<code>data-familia="hvac"</code>) según la entidad elegida en el paso 1.</p>
+
+<!-- ================= IQ ================= -->
+<section id="fase-iq" data-familia="hvac">
+<h2>IQ — Ensayos</h2>
+
+<article data-bloque="3" id="art-HVAC-IQ-002" class="ensayo" data-id="HVAC-IQ-002" data-fase="IQ" data-cond="ambas" data-familia="hvac">
+  <h3>HVAC-IQ-002 — Verificación de UMA y componentes mecánicos</h3>
+  <p><strong>Objetivo:</strong><br>Verificar que las Unidades de Tratamiento de Aire (UMA), ventiladores, serpentines y componentes mecánicos están instalados conforme al diseño y las especificaciones del fabricante.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Registrar modelo, número de serie y capacidad de cada UMA<br>
+  2) Verificar instalación física contra plano as-built: ubicación, anclaje, accesibilidad para mantenimiento<br>
+  3) Inspeccionar serpentines de calefacción, refrigeración y humidificación: sin fugas, sin daños, fijados correctamente<br>
+  4) Verificar ventiladores: dirección de giro, correas, poleas, cojinetes lubricados<br>
+  5) Verificar drenajes de bandeja de condensados con pendiente adecuada y sifón funcionando<br>
+  6) Registrar toda desviación como hallazgo con su disposición</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Los componentes mecánicos corresponden al diseño aprobado.<br>
+  Sin fugas, daños ni componentes sueltos.<br>
+  Accesibilidad para mantenimiento garantizada.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro fotográfico de UMA y componentes (anexo del informe)<br>
+  - Checklist de verificación mecánica firmado</p>
+  <p><strong>Referencia:</strong><br><span class="refnorma">EU GMP Anexo 1 — Fabricación de productos estériles</span>; ISO 14644-1.</p>
+</article>
+
+<article data-bloque="3" id="art-HVAC-IQ-003" class="ensayo" data-id="HVAC-IQ-003" data-fase="IQ" data-cond="ambas" data-familia="hvac">
+  <h3>HVAC-IQ-003 — Verificación de filtros HEPA y clasificación de aire</h3>
+  <p><strong>Objetivo:</strong><br>Verificar que los filtros HEPA instalados corresponden a la clase de filtración especificada y que la clasificación de área (grado A/B/C/D) se mantiene según el diseño.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Identificar cada filtro HEPA: ubicación, posición en el plenum o terminal de difusor<br>
+  2) Verificar certificado de fábrica de cada filtro: clase EN 1822 (H13/H14), número de serie, prueba de fuga integridad<br>
+  3) Verificar marcos y juntas: sin daños, asentamiento correcto, sin vías de derivación (bypass)<br>
+  4) Verificar etiquetado de filtros con fecha de instalación y fecha de reemplazo prevista<br>
+  5) Confirmar que la clasificación de aire del área coincide con el grado especificado en la URS</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Cada filtro HEPA cuenta con certificado de fábrica trazable a su número de serie.<br>
+  Marcos y juntas sin daños, sin vías de derivación.<br>
+  Clasificación de aire conforme al grado especificado.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Certificados de fábrica de filtros HEPA<br>
+  - Registro de filtros instalados (ubicación, serie, fecha de instalación)</p>
+  <p><strong>Referencia:</strong><br><span class="refnorma">EN 1822 — Filtros de partículas de alta eficiencia (EPA, HEPA, ULPA)</span>; ISO 14644-3.</p>
+</article>
+
+<article data-bloque="3" id="art-HVAC-IQ-004" class="ensayo" data-id="HVAC-IQ-004" data-fase="IQ" data-cond="ambas" data-familia="hvac">
+  <h3>HVAC-IQ-004 — Verificación de sensores de temperatura, humedad y presión diferencial</h3>
+  <p><strong>Objetivo:</strong><br>Verificar que los sensores T/H y de presión diferencial están instalados en las ubicaciones correctas, identificados y con calibración vigente.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Inventariar sensores: modelo, número de serie, ubicación, rango de medida<br>
+  2) Verificar ubicación contra plano de puntos de monitoreo: retornos, suministro, áreas críticas<br>
+  3) Verificar etiqueta de calibración vigente por sensor<br>
+  4) Confirmar setpoints configurados en el sistema de control (BMS/SCADA): temperatura, humedad relativa, presión diferencial<br>
+  5) Verificar conectividad y transmisión de señal al sistema de control central<br>
+  6) Registrar cada sensor en la tabla de instrumentos de medición</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  100% de sensores instalados en ubicación correcta según plano.<br>
+  Etiqueta de calibración vigente por sensor.<br>
+  Setpoints configurados coinciden con la URS.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Tabla de instrumentos de medición (modelo/serie/ubicación/certificado)<br>
+  - Copias de certificados de calibración<br>
+  - Captura de pantalla de setpoints en BMS/SCADA</p>
+  <p><strong>Referencia:</strong><br><span class="refnorma">ISO/IEC 17025 — Competencia de laboratorios de ensayo y calibración</span>; EU GMP Anexo 15.</p>
+</article>
+
+<article data-bloque="3" id="art-HVAC-IQ-005" class="ensayo" data-id="HVAC-IQ-005" data-fase="IQ" data-cond="ambas" data-familia="hvac">
+  <h3>HVAC-IQ-005 — Verificación de ductos y distribución de aire</h3>
+  <p><strong>Objetivo:</strong><br>Verificar que los ductos, difusores, retornos y registro de aire están instalados conforme al plano as-built, sin fugas ni obstrucciones.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Recorrido con plano as-built identificando ductos de suministro, retorno y extracción<br>
+  2) Verificar diámetro, material y aislamiento de ductos contra especificaciones<br>
+  3) Inspeccionar difusores, rejillas y retornos: ubicación, orientación, sin obstrucciones<br>
+  4) Verificar registros de volumen y cortafuegos: funcionamiento, identificación<br>
+  5) Verificar estanqueidad de uniones y conexiones (sin fugas visibles)<br>
+  6) Registrar diferencias plano-vs-instalado con justificación</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Ductos y componentes corresponden al plano as-built.<br>
+  Sin fugas, obstrucciones ni componentes sin identificar.<br>
+  Diferencias documentadas y justificadas.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Plano as-built con ductos verificados y firmado<br>
+  - Matriz ducto-vs-instalado<br>
+  - Registro fotográfico de difusores y retornos</p>
+  <p><strong>Referencia:</strong><br><span class="refnorma">EU GMP Anexo 1 — Fabricación de productos estériles</span>; ASHRAE Handbook HVAC Applications.</p>
+</article>
+
+<article data-bloque="3" id="art-HVAC-IQ-006" class="ensayo" data-id="HVAC-IQ-006" data-fase="IQ" data-cond="ambas" data-familia="hvac">
+  <h3>HVAC-IQ-006 — Verificación de sistemas de control y alarmas</h3>
+  <p><strong>Objetivo:</strong><br>Verificar que el sistema de control (BMS/SCADA/PLC) del HVAC opera correctamente, con alarmas configuradas y funciones de seguridad activas.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Verificar lógica de control: secuenciamiento de arranque/parada, modos de operación<br>
+  2) Verificar alarmas configuradas: alta/baja temperatura, alta/baja HR, alta/baja presión diferencial, falla de filtro<br>
+  3) Verificar simulación de alarma: activación, visualización en BMS, notificación al responsable<br>
+  4) Verificar interconexión con sistema de gestión de edificios (BMS) o SCADA<br>
+  5) Verificar respaldo de energía (UPS/generador) para equipos críticos de control<br>
+  6) Registrar configuración de alarmas y resultados de pruebas</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Lógica de control opera según especificación.<br>
+  Alarmas configuradas y funcionales para todos los parámetros críticos.<br>
+  Respaldo de energía verificado para equipos de control.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro de configuración de alarmas (BMS/SCADA)<br>
+  - Pruebas de activación de alarma (captura de pantalla/log)<br>
+  - Verificación de respaldo de energía</p>
+  <p><strong>Referencia:</strong><br><span class="refnorma">EU GMP Anexo 11 — Sistemas informatizados</span>; 21 CFR Parte 11.</p>
+</article>
+
+<article data-bloque="3" id="art-HVAC-IQ-007" class="ensayo" data-id="HVAC-IQ-007" data-fase="IQ" data-cond="ambas" data-familia="hvac">
+  <h3>HVAC-IQ-007 — Verificación de renovaciones de aire y flujo unidireccional</h3>
+  <p><strong>Objetivo:</strong><br>Verificar que las renovaciones de aire por hora (ACH) y el patrón de flujo (unidireccional o turbulento) corresponden al grado de clasificación del área.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Verificar número de renovaciones de aire calculado contra diseño (ACH = caudal/volumen)<br>
+  2) Verificar velocidad de aire en difusores de suministro (m/s)<br>
+  3) Verificar patrón de flujo visual (cintas de humo o similar) en áreas de grado A/B<br>
+  4) Verificar dirección del flujo de aire entre zonas de diferente clasificación (de más limpio a menos limpio)<br>
+  5) Registrar mediciones y observaciones de flujo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Renovaciones de aire dentro del rango especificado para el grado del área.<br>
+  Patrón de flujo conforme al diseño (unidireccional en grado A/B).<br>
+  Dirección de flujo de aire entre zonas correcta.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro de mediciones de caudal y velocidad de aire<br>
+  - Prueba visual de patrón de flujo (fotos/video)<br>
+  - Cálculo de ACH por área</p>
+  <p><strong>Referencia:</strong><br><span class="refnorma">ISO 14644-1 — Clasificación de limpieza del aire en salas limpias</span>; EU GMP Anexo 1.</p>
+</article>
+
+<article data-bloque="3" id="art-HVAC-IQ-008" class="ensayo" data-id="HVAC-IQ-008" data-fase="IQ" data-cond="ambas" data-familia="hvac">
+  <h3>HVAC-IQ-008 — Verificación de registros de calibración de instrumentos HVAC</h3>
+  <p><strong>Objetivo:</strong><br>Verificar que todos los instrumentos de medición asociados al HVAC (manómetros, termómetros, higrómetros, transmisores de presión) cuentan con calibración vigente y trazable.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Listar todos los instrumentos de medición del sistema HVAC<br>
+  2) Verificar certificado de calibración vigente por instrumento (no vencido)<br>
+  3) Verificar trazabilidad a patrones nacionales o internacionales<br>
+  4) Verificar incertidumbre declarada en el certificado<br>
+  5) Anexar certificados al legajo de calificación</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  100% de instrumentos con certificado de calibración vigente.<br>
+  Trazabilidad a patrones reconocidos.<br>
+  Incertidumbre declarada compatible con el uso previsto.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Listado de instrumentos HVAC con certificado de calibración<br>
+  - Copias de certificados de calibración (anexo del informe)</p>
+  <p><strong>Referencia:</strong><br><span class="refnorma">ISO/IEC 17025 — Calibración trazable a patrones nacionales o internacionales</span>.</p>
+</article>
+
+<article data-bloque="4" id="art-HVAC-IQ-RES" class="ensayo" data-id="HVAC-IQ-RES" data-fase="IQ" data-cond="ambas" data-familia="hvac" data-resumen="IQ">
+  <h3>HVAC-IQ-RES — Tabla resumen de los ensayos del IQ de HVAC</h3>
+  <p><strong>Objetivo:</strong><br>Consolidar en una matriz el resultado de todos los ensayos IQ de HVAC como acta de cierre de la fase.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Listar los ensayos del protocolo (<span class="lista-resumen" data-fase-lista="IQ"></span>) con su veredicto (C/NC/NA) y fecha de ejecución<br>
+  2) Justificar cada ensayo declarado No Aplica<br>
+  3) Listar desviaciones abiertas con su estado y plan de cierre<br>
+  4) Firmar el acta de cierre IQ de HVAC</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  100% de ensayos IQ de HVAC ejecutados o justificados como No Aplica; cero desviaciones críticas abiertas; acta firmada.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Matriz resumen IQ de HVAC firmada<br>
+  - Acta de cierre de fase IQ de HVAC</p>
+  <p><strong>Referencia:</strong><br><span class="refnorma">EU GMP Anexo 15 — Calificación y validación</span>.</p>
+</article>
+
+<article data-bloque="6" id="art-HVAC-IQ-REF" class="ensayo tabla-info" data-id="HVAC-IQ-REF" data-fase="IQ" data-cond="ambas" data-familia="hvac">
+  <h3>HVAC-IQ-REF — Referencias del IQ de HVAC</h3>
+  <table border="1" cellpadding="4">
+    <tr><th>N°</th><th>Documento</th><th>Código / Versión</th></tr>
+    <tr><td>1</td><td>EU GMP Anexo 1 — Fabricación de productos estériles</td><td>Vigente</td></tr>
+    <tr><td>2</td><td>ISO 14644-1 — Clasificación de limpieza del aire en salas limpias</td><td>Edición vigente</td></tr>
+    <tr><td>3</td><td>ISO 14644-3 — Métodos de ensayo para salas limpias</td><td>Edición vigente</td></tr>
+    <tr><td>4</td><td>EN 1822 — Filtros de partículas de alta eficiencia</td><td>Edición vigente</td></tr>
+    <tr><td>5</td><td>ASHRAE Handbook — HVAC Applications</td><td>Edición vigente</td></tr>
+    <tr><td>6</td><td>EU GMP Anexo 15 — Calificación y validación</td><td>Vigente</td></tr>
+    <tr><td>7</td><td>______</td><td>______</td></tr>
+  </table>
+</article>
+
+<div class="anexos" data-bloque="8">
+<p><strong>ANEXOS:</strong></p>
+<ul>
+  <li>Anexo A — Certificados de fábrica de filtros HEPA</li>
+  <li>Anexo B — Certificados de calibración de sensores e instrumentos</li>
+  <li>Anexo C — Plano as-built de ductos y distribución de aire</li>
+  <li>Anexo D — Registro de configuración de alarmas (BMS/SCADA)</li>
+</ul>
+</div>
+
+</section>
+
+</body>
+</html>
