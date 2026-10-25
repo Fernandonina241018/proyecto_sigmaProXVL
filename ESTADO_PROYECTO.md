@@ -4973,7 +4973,7 @@ Render inyectaba el `PORT` como variable de entorno; Fly.io también (`process.e
 - **Verificación:** test nuevo (CDN, clase, opciones altInput/altFormat/dateFormat/locale, idempotencia, fallback); Vitest 461/461, backend 67/67, `tsc` limpio.
 
 ### 2026-10-14 (185): Sistema de agua purificada — bancos OQ/PQ + infraestructura de Sistemas
-- **Bancos:** `sistemas/oq-agua-purificada.html` (SIS-OQ-AP 33) y `pq-agua-purificada.html` (SIS-PQ-AP 23) desde ENSAYOS.txt; línea 1 ignorada, todo PQ con análisis, PW+WFI condicional, sin IQ; valores `()` como "definido en el protocolo aprobado".
+- **Bancos:** `sistemas/oq-agua-purificada.html` (SIS-OQ-AP 33) y `pq-agua-purificada.html` (SIS-PQ-AP 23) desde ENSAYOS.txt; línea 1 ignorada, todo PQ con análisis, PW+WFI condicional; IQ completo (`sistemas/iq-agua-purificada.html`, SIS-IQ-AP-001…007 + RES + REF); valores `()` como "definido en el protocolo aprobado".
 - **Infraestructura Sistemas (nueva):** extractor `sistemas` → `banco-sistemas-data.js`; motor `banco()` + script en indexx.html; UI `GEN_CATS` + `GEN_FASES.sistemas=['OQ','PQ']` + `contarGen`; contrato `tests/bancos-sistemas.test.js`.
 - **Verificación:** extractor --estricto OK (60); OQ/PQ generan 33/23 con plan; Vitest 473/473, backend 67/67, `tsc` limpio.
 
