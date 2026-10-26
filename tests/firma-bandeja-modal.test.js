@@ -1,6 +1,7 @@
-// Bandeja de firmas en MODAL (reemplaza la pastilla de tabs + listado).
-// Verifica: admin ve todas (scope=all), no-admin solo las suyas (scope=mine),
-// y los reportes se separan en grupos con "Rechazados" y "Cancelados" aparte.
+// Bandeja de firmas en MODAL moderno (tarjetas + pestañas por estado).
+// Verifica: admin ve todas (scope=all), no-admin solo las suyas + pendientes
+// asignados (scope=mine + scope=pending), y los reportes se separan en
+// páginas: Pendientes / Completadas / Rechazadas / Canceladas.
 import { readFileSync } from 'fs';
 import { join, dirname } from 'path';
 import { fileURLToPath } from 'url';
@@ -38,23 +39,32 @@ function loadModalHarness(role, sessions) {
   return { sandbox, document, urls };
 }
 
-describe('bandeja en modal (reemplaza pastilla de tabs)', () => {
-  test('admin usa scope=all y separa grupos (Rechazados ≠ Cancelados)', async () => {
+describe('bandeja en modal moderno (pestañas por estado)', () => {
+  test('admin usa scope=all y muestra las 4 pestañas + autor de ajenos', async () => {
     const sessions = [
       { id: 1, name: 'A', status: 'pending', signed_count: 0, next_role: 'reviewed', created_by: 'ana' },
       { id: 2, name: 'B', status: 'complete', signed_count: 3, created_by: 'beto' },
       { id: 3, name: 'C', status: 'rejected', signed_count: 1, created_by: 'ana', rejected_by: 'beto' },
-      { id: 4, name: 'D', status: 'deleted', signed_count: 1, created_by: 'ana', deleted_reason: 'x' },
+      { id: 4, name: 'D', status: 'deleted', signed_count: 1, created_by: 'ana', deleted_by: 'ana', deleted_reason: 'x' },
     ];
     const { sandbox, document, urls } = loadModalHarness('admin', sessions);
     await vm.runInContext('firmaOpenBandejaModal()', sandbox);
     await new Promise((r) => setTimeout(r, 30));
     expect(urls.some((u) => u.includes('scope=all'))).toBe(true);
+    // 4 pestañas de estado
+    expect(document.querySelectorAll('#fbandejaTabs .fbandeja-tab').length).toBe(4);
+    // métricas presentes
+    expect(document.getElementById('fbandejaM-pending').textContent).toBe('1');
+    expect(document.getElementById('fbandejaM-done').textContent).toBe('1');
+    expect(document.getElementById('fbandejaM-rejected').textContent).toBe('1');
+    expect(document.getElementById('fbandejaM-cancelled').textContent).toBe('1');
+    // páginas (secciones) presentes con sus etiquetas
     const txt = document.getElementById('firmaModalList').textContent;
-    expect(txt).toMatch('Sin firma');
-    expect(txt).toMatch('Completados');
-    expect(txt).toMatch('Rechazados');
-    expect(txt).toMatch('Cancelados');
+    expect(txt).toMatch('Pendientes');
+    expect(txt).toMatch('Completadas');
+    expect(txt).toMatch('Rechazadas');
+    expect(txt).toMatch('Canceladas');
+    expect(txt).toMatch('✍ 0/3'); // progreso de firma en la tarjeta pendiente
     expect(txt).toMatch('de beto'); // admin ve el autor de reportes ajenos
   });
 
@@ -68,7 +78,7 @@ describe('bandeja en modal (reemplaza pastilla de tabs)', () => {
     expect(urls.some((u) => u.includes('scope=mine'))).toBe(true);
     expect(urls.some((u) => u.includes('scope=pending'))).toBe(true);
     expect(urls.some((u) => u.includes('scope=all'))).toBe(false);
-    expect(document.getElementById('firmaModalList').textContent).toMatch('Rechazados');
+    expect(document.getElementById('firmaModalList').textContent).toMatch('Rechazadas');
   });
 
   test('sin reportes muestra hint según rol', async () => {

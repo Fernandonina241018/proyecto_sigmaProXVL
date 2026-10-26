@@ -90,6 +90,34 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (SigmaProXVL) con spr
 
 ## CAMBIOS RECIENTES
 
+### 2026-10-26 (21): Rediseño del modal de Bandeja de firmas (tarjetas + pestañas por estado)
+
+**Cambio:** Integración del diseño moderno de la bandeja de firmas (mockup HTML aprobado), reemplazando el modal anterior de grupos apilados por un modal con **4 pestañas por estado de ciclo de vida**: **Pendientes** (0+1+2 firmas) · **Completadas** (3) · **Rechazadas** · **Canceladas**. El progreso "✍ X/3 firmas" se muestra dentro de cada tarjeta.
+
+Componentes nuevos:
+- **Header** (eyebrow + título + subtítulo + botón cerrar).
+- **Métricas** (4 contadores Pendientes/Completadas/Rechazadas/Canceladas con conteos reales de la API).
+- **Buscador + filtro por estado** (filtra en vivo dentro de la página activa).
+- **Pestañas de estado** (navegación, una vista a la vez, con contador).
+- **Tarjetas en grid** (no lista): título, tag de estado coloreado, meta (`#id`, firmas, asignado, motivo) y acciones ⓘ (abrir reporte) + 🚫/⌫ (rechazar/eliminar según estado).
+- **Modal de confirmación propio** (en vez de `confirm()`/`prompt()` nativos) para rechazar/eliminar, con motivo obligatorio en eliminaciones.
+- **Footer** con indicador "en vivo" + nota de resultados + botones Refrescar/Cerrar.
+- **Tema-adaptable** (claro/oscuro) vía variables CSS.
+
+**Archivos afectados:**
+| Archivo | Cambio |
+|---------|--------|
+| `js/core/indexx-firma.js` | Reescribe modal: `_firmaPages` (4 estados), `_firmaGroupSessions`, `firmaOpenBandejaModal`, `firmaRenderBandejaModal`, `_firmaBandejaItemHtml` (tarjeta) + `_firmaModalSetPage`, `_firmaModalApply`, `_firmaModalRenderTabs`, `_firmaModalWireActions`, `_firmaModalConfirm`, `_firmaModalConfirmReject/Delete`, `_firmaDoReject`, `_firmaModalClose/Keydown` |
+| `css/core/indexx.css` | +~90 líneas `.fbandeja-*` (modal, métricas, pestañas, tarjetas, confirmación) con variables CSS + `@media` responsive |
+| `tests/firma-bandeja-modal.test.js` | Actualizado a 4 pestañas + métricas + progreso "✍ X/3" |
+| `e2e/sign-flow.spec.js` | `.fglass-item` → `.fbandeja-record` en localizadores de la bandeja |
+
+**Por qué:** El usuario aprobó la integración total de un mockup HTML moderno (bandeja en tarjetas con pestañas por estado, métricas, búsqueda y confirmación propia). Se mantiene la lógica de datos/acciones existente (scope por rol, `_firmaOpenSession`, rechazo/borrado con auditoría); solo cambia la presentación.
+
+**Riesgo:** Medio (cambio de UI del modal). La acción ⓘ abre el reporte (igual que el clic en la tarjeta). Se reutilizan `firmaDeleteComplete` (descarga previa) y `_firmaDoDelete`. 534/534 tests vitest pasan.
+
+---
+
 ### 2026-10-26 (20): Bandeja de firmas en modal + miniaturas con tooltip + colores tema-adaptables
 
 **Cambio:** Tres mejoras de UI/UX sobre la página "Firmar Reporte", la galería de Visualización y la página "Análisis Estadístico":

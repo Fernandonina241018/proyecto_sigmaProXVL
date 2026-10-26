@@ -121,7 +121,7 @@ test('revisor ve pendiente, abre y firma; sale de sus pendientes', async ({ page
   const bandeja = page.locator('#firmaModalList');
   await expect(bandeja).toBeVisible({ timeout: 15000 });
 
-  const item = bandeja.locator('.fglass-item', { hasText: sessionName });
+  const item = bandeja.locator('.fbandeja-record', { hasText: sessionName });
   await expect(item).toBeVisible({ timeout: 15000 });
   await item.click();
 
@@ -143,5 +143,5 @@ test('revisor ve pendiente, abre y firma; sale de sus pendientes', async ({ page
   // Ya no aparece en sus pendientes: reabrir la bandeja y comprobar ausencia.
   await openBtn.click();
   await expect(page.locator('#firmaModalList')).toBeVisible({ timeout: 15000 });
-  await expect(page.locator('#firmaModalList .fglass-item', { hasText: sessionName })).toHaveCount(0, { timeout: 15000 });
+  await expect(page.locator('#firmaModalList .fbandeja-record', { hasText: sessionName })).toHaveCount(0, { timeout: 15000 });
 });
