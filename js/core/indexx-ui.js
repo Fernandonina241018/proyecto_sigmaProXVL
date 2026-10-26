@@ -606,22 +606,9 @@ var leftPanels = {
           '<div id="firmaSignatureEditor" style="display:flex;flex-direction:column;gap:10px;overflow-y:auto;min-height:0"></div>' +
           '</div></details></div>' +
         '<div id="firmaStatus" style="display:none"></div>' +
-        '<details class="fp-acc" id="firmaAccBandeja" open>' +
-          '<summary>Bandeja de firmas <span class="fp-badge" id="firmaPendingBadge" style="display:none"></span></summary>' +
-          '<div class="fp-acc-body">' +
-          '<div style="display:flex;gap:6px;align-items:stretch">' +
-            '<div class="fp-tabs" id="firmaTabs" role="tablist" style="margin:0 auto">' +
-              '<button type="button" class="firma-tab" role="tab" data-scope="pending" aria-selected="true"><i>📥</i><span class="l">Pendientes</span></button>' +
-              '<button type="button" class="firma-tab" role="tab" data-scope="mine" aria-selected="false"><i>👤</i><span class="l">Mías</span></button>' +
-              '<button type="button" class="firma-tab" role="tab" data-scope="all" aria-selected="false" style="display:none"><i>🗂</i><span class="l">Todas</span></button>' +
-              '<button type="button" class="firma-tab" role="tab" data-scope="cargado" aria-selected="false"><i>📄</i><span class="l">Cargado</span></button>' +
-            '</div>' +
-            '<button type="button" class="fp-btn fglass-btn is-round" id="firmaRefreshBtn" title="Refrescar bandeja">↻</button>' +
-          '</div>' +
-            '<div class="fp-list" id="firmaBandejaList">' +
-              '<div style="font-size:10px;color:var(--text-faint);text-align:center;padding:6px">Sin datos — abre la página para cargar</div></div>' +
-          '</div>' +
-        '</details>' +
+        '<div class="fp-acc" id="firmaAccBandeja" style="padding:10px">' +
+          '<button type="button" class="fglass-btn is-primary" id="firmaOpenBandejaBtn" onclick="firmaOpenBandejaModal()" style="width:100%;display:flex;align-items:center;justify-content:center;gap:8px;padding:12px;font-size:12px;border-radius:10px">🗂 Abrir bandeja de firmas <span class="fp-badge" id="firmaPendingBadge" style="display:none"></span></button>' +
+        '</div>' +
         '<details class="fp-acc" id="firmaAccCargar">' +
           '<summary>Cargar reporte</summary>' +
           '<div class="fp-acc-body">' +

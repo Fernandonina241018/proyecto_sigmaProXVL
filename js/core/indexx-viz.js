@@ -191,6 +191,7 @@ function _V_injectCSS() {
     + '.viz-root .gal-del{position:absolute;top:3px;right:3px;width:18px;height:18px;border-radius:50%;background:rgba(0,0,0,.75);border:none;color:#fff;font-size:9px;cursor:pointer;display:none;align-items:center;justify-content:center}'
     + '.viz-root .gal-thumb:hover .gal-del{display:flex}'
     + '.viz-root .gal-name{position:absolute;bottom:0;left:0;right:0;background:rgba(0,0,0,.65);font-size:9px;color:var(--t2);padding:2px 5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}'
+    + '.viz-root .gal-num{position:absolute;top:3px;left:3px;min-width:18px;height:18px;padding:0 4px;border-radius:9px;background:rgba(123,111,224,.92);color:#fff;font-size:9px;font-weight:700;display:flex;align-items:center;justify-content:center;box-sizing:border-box;z-index:2}'
     + '.viz-root .chart-area{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px;overflow:hidden;position:relative;background:var(--bg0)}'
     + '.viz-root .empty-state{display:flex;flex-direction:column;align-items:center;gap:14px;text-align:center}'
     + '.viz-root .empty-icon{width:72px;height:72px;border-radius:50%;background:var(--accDim);border:1.5px solid var(--accBorder);display:flex;align-items:center;justify-content:center;font-size:30px}'
@@ -1213,7 +1214,7 @@ function vizRefreshGallery() {
     currentSheet = s ? s.name : '';
     currentSheetIdx = trabajoActiveSheetIndex;
   }
-  _V.gallery.forEach(function(g) {
+  _V.gallery.forEach(function(g, idx) {
     var belongs = _V_graficoPerteneceActual(g);
     var div = document.createElement('div');
     div.className = 'gal-thumb' + (_V._activeGalleryId === g.id ? ' active' : '') + (belongs ? '' : ' hold');
@@ -1224,9 +1225,18 @@ function vizRefreshGallery() {
     } else {
       div.style.opacity = '';
       div.style.pointerEvents = '';
+      // Tooltip con datos del gráfico: número, tipo, hoja, archivo y fecha.
+      var _td = _V_TYPES[g.type];
+      var _tip = '#' + (idx + 1) + ' · ' + escapeHtml(g.title || 'Gráfico');
+      if (_td && _td.lbl) _tip += '\nTipo: ' + escapeHtml(_td.lbl);
+      _tip += '\nHoja: ' + escapeHtml(g.sourceSheetName || '—');
+      _tip += '\nArchivo: ' + escapeHtml(g.sourceFile || currentFile || '—');
+      if (g.createdAt) _tip += '\nFecha: ' + escapeHtml(_V_formatDate(new Date(g.createdAt)));
+      div.title = _tip;
     }
     var thumbSrc = escapeHtml(g.thumb || g.url || '');
-    div.innerHTML = (thumbSrc ? '<img src="' + thumbSrc + '" alt="' + escapeHtml(g.title) + '">' : '<div class="gal-noimg">' + (g.type ? g.type[0].toUpperCase() : '?') + '</div>') +
+    div.innerHTML = '<span class="gal-num">' + (idx + 1) + '</span>' +
+      (thumbSrc ? '<img src="' + thumbSrc + '" alt="' + escapeHtml(g.title) + '">' : '<div class="gal-noimg">' + (g.type ? g.type[0].toUpperCase() : '?') + '</div>') +
       '<button class="gal-del" onclick="event.stopPropagation();vizDelGallery(' + g.id + ')">✕</button>' +
       '<div class="gal-name">' + escapeHtml(g.title) + '</div>';
     if (belongs) div.onclick = function() { _V_showGalleryChart(g); };

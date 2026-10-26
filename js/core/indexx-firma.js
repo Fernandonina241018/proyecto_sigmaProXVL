@@ -132,7 +132,8 @@ function initFirmarReportePage() {
   var status = document.getElementById('firmaStatus');
   var actions = document.getElementById('firmaActions');
 
-  // FASE 2 — tabs de bandeja (no dependen del dropZone)
+  // FASE 2 — la bandeja se abre en un modal (el botón lleva onclick inline).
+  // Compatibilidad legacy: si aún existen tabs (harness de tests), se enlazan.
   var bandTabs = document.querySelectorAll('#firmaTabs .firma-tab');
   bandTabs.forEach(function(t) {
     t.onclick = function() { firmaLoadBandeja(t.dataset.scope); };
@@ -1540,8 +1541,165 @@ function firmaDiscardDraft() {
   showToast('Borrador descartado');
 }
 
+// ══ Bandeja en MODAL (reemplaza la pastilla de tabs + listado) ═════
+var _firmaModalEl = null;
+var _firmaModalScope = 'mine';
+
+// Grupos de la bandeja, en orden de presentación.
+var _firmaGroups = [
+  { key: 'sinFirma',    label: 'Sin firma',   icon: '📄' },
+  { key: 'unaFirma',    label: '1 firma',     icon: '✍️' },
+  { key: 'dosFirmas',   label: '2 firmas',    icon: '✍️' },
+  { key: 'completados', label: 'Completados', icon: '✅' },
+  { key: 'rechazados',  label: 'Rechazados',  icon: '🚫' },
+  { key: 'cancelados',  label: 'Cancelados',  icon: '🗑️' },
+];
+
+function _firmaGroupSessions(sessions) {
+  var out = { sinFirma: [], unaFirma: [], dosFirmas: [], completados: [], rechazados: [], cancelados: [] };
+  (sessions || []).forEach(function(s) {
+    var sc = s.signed_count || 0;
+    if (s.status === 'complete') out.completados.push(s);
+    else if (s.status === 'rejected') out.rechazados.push(s);
+    else if (s.status === 'deleted') out.cancelados.push(s);
+    else if (sc === 0) out.sinFirma.push(s);
+    else if (sc === 1) out.unaFirma.push(s);
+    else out.dosFirmas.push(s);
+  });
+  return out;
+}
+
+function _firmaModalSessionInfo() {
+  try { return (typeof Auth !== 'undefined' && Auth.getSession) ? Auth.getSession() : null; }
+  catch (e) { return null; }
+}
+
+function firmaOpenBandejaModal() {
+  var me = _firmaModalSessionInfo();
+  _firmaModalScope = (me && me.role === 'admin') ? 'all' : 'mine';
+  if (_firmaModalEl) { _firmaModalEl.remove(); _firmaModalEl = null; }
+  var overlay = document.createElement('div');
+  overlay.className = 'modal-overlay';
+  overlay.innerHTML =
+    '<div class="modal-box" style="max-width:640px;max-height:82vh;padding:0;gap:0">' +
+    '<div class="modal-title" style="padding:16px 18px;border-bottom:1px solid var(--border)">🗂 Bandeja de firmas' +
+    (_firmaModalScope === 'all' ? ' · Todas' : ' · Mis reportes') + '</div>' +
+    '<div id="firmaModalList" style="overflow-y:auto;padding:14px 16px;display:flex;flex-direction:column;gap:14px;min-height:120px">' +
+    '<div class="fglass-hint" style="padding:24px">Cargando…</div></div>' +
+    '<div style="display:flex;gap:8px;justify-content:flex-end;padding:12px 16px;border-top:1px solid var(--border)">' +
+    '<button type="button" id="firmaModalRefresh" class="btn btn-secondary">↻ Refrescar</button>' +
+    '<button type="button" id="firmaModalClose" class="btn btn-primary">Cerrar</button>' +
+    '</div></div>';
+  document.body.appendChild(overlay);
+  _firmaModalEl = overlay;
+  overlay.querySelector('#firmaModalClose').onclick = function() { _firmaModalEl = null; overlay.remove(); };
+  overlay.querySelector('#firmaModalRefresh').onclick = function() { firmaRenderBandejaModal(); };
+  overlay.addEventListener('click', function(e) { if (e.target === overlay) { _firmaModalEl = null; overlay.remove(); } });
+  firmaRenderBandejaModal();
+}
+
+// Renderiza los reportes agrupados por estado dentro del modal abierto.
+async function firmaRenderBandejaModal() {
+  var list = _firmaModalEl ? _firmaModalEl.querySelector('#firmaModalList') : null;
+  if (!list) return;
+  list.innerHTML = '<div class="fglass-hint" style="padding:24px">Cargando…</div>';
+  var me = _firmaModalSessionInfo();
+  var isAdmin = !!(me && me.role === 'admin');
+  try {
+    var sessions = [];
+    if (_firmaModalScope === 'all') {
+      var dAll = await _firmaApiGet('/api/sign-sessions?scope=all&limit=200');
+      if (!dAll || !dAll.ok) throw new Error((dAll && dAll.error) || 'sin servidor');
+      sessions = dAll.sessions || [];
+    } else {
+      // No-admin: sus reportes (mine) + los que tiene asignados para firmar (pending),
+      // mezclados y sin duplicados. Preserva el flujo de revisión/aprobación.
+      var _results = await Promise.allSettled([
+        _firmaApiGet('/api/sign-sessions?scope=mine&limit=200'),
+        _firmaApiGet('/api/sign-sessions?scope=pending&limit=200'),
+      ]);
+      var _seen = {};
+      _results.forEach(function(r) {
+        if (r.status !== 'fulfilled' || !r.value || !r.value.ok) return;
+        (r.value.sessions || []).forEach(function(s) { if (!_seen[s.id]) { _seen[s.id] = true; sessions.push(s); } });
+      });
+      sessions.sort(function(a, b) { return (b.id || 0) - (a.id || 0); });
+    }
+    firmaUpdatePendingBadge();
+    if (!sessions.length) {
+      list.innerHTML = '<div class="fglass-hint" style="padding:24px">Sin reportes' +
+        (isAdmin ? '' : ' creados por ti') + '</div>';
+      return;
+    }
+    var groups = _firmaGroupSessions(sessions);
+    list.innerHTML = '';
+    _firmaGroups.forEach(function(gdef) {
+      var items = groups[gdef.key] || [];
+      if (!items.length) return;
+      var wrap = document.createElement('div');
+      var html = '<div style="font-size:11px;font-weight:700;color:var(--text-primary);display:flex;align-items:center;gap:6px;margin-bottom:6px">' +
+        gdef.icon + ' ' + gdef.label +
+        ' <span style="font-weight:600;color:var(--text-faint);font-size:10px">(' + items.length + ')</span></div>';
+      items.forEach(function(s) { html += _firmaBandejaItemHtml(s, isAdmin, me); });
+      wrap.innerHTML = html;
+      list.appendChild(wrap);
+    });
+    list.querySelectorAll('[data-open]').forEach(function(item) {
+      item.onclick = function() {
+        _firmaOpenSession(parseInt(item.getAttribute('data-open')));
+        if (_firmaModalEl) { _firmaModalEl.remove(); _firmaModalEl = null; }
+      };
+    });
+    list.querySelectorAll('[data-reject]').forEach(function(btn) {
+      btn.onclick = function(e) { e.stopPropagation(); firmaRejectSession(parseInt(btn.getAttribute('data-reject'))); };
+    });
+    list.querySelectorAll('[data-del]').forEach(function(btn) {
+      btn.onclick = function(e) { e.stopPropagation(); firmaDeleteSession(parseInt(btn.getAttribute('data-del'))); };
+    });
+    list.querySelectorAll('[data-del-complete]').forEach(function(btn) {
+      btn.onclick = function(e) { e.stopPropagation(); firmaDeleteComplete(parseInt(btn.getAttribute('data-del-complete')), btn.getAttribute('data-name')); };
+    });
+  } catch (e) {
+    list.innerHTML = '<div class="fglass-hint" style="padding:24px">Bandeja no disponible (sin conexión)</div>';
+  }
+}
+
+// HTML de un ítem de la bandeja dentro del modal.
+function _firmaBandejaItemHtml(s, isAdmin, me) {
+  var isMine = me && (s.created_by === me.username || isAdmin);
+  var stLbl = s.status === 'complete' ? '✅ Completa'
+    : s.status === 'rejected' ? '🚫 Rechazada' + (s.rejected_by ? ' por ' + escapeHtml(s.rejected_by) : '')
+    : s.status === 'deleted' ? '🗑️ Cancelada'
+    : ('✍️ ' + (s.signed_count || 0) + '/3' + (s.next_role ? ' · toca: ' + escapeHtml(s.next_role) : ''));
+  var who = s.next_role === 'reviewed' && s.assigned_reviewer ? ' → ' + escapeHtml(s.assigned_reviewer)
+    : s.next_role === 'approved' && s.assigned_approver ? ' → ' + escapeHtml(s.assigned_approver) : '';
+  var btnsHtml = '';
+  if (s.status !== 'complete' && s.status !== 'rejected' && s.status !== 'deleted') {
+    btnsHtml += '<button data-reject="' + s.id + '" title="Rechazar y sacar de pendientes" class="fglass-btn is-round40">🚫</button>';
+  }
+  if (isMine && s.status === 'complete') {
+    btnsHtml += '<button data-del-complete="' + s.id + '" data-name="' + escapeHtml(s.name) + '" title="Eliminar reporte completo (recomienda descargar antes)" class="fglass-btn is-danger is-round40">🗑</button>';
+  } else if (isMine && s.status === 'rejected') {
+    btnsHtml += '<button data-del="' + s.id + '" title="Eliminar definitivamente (ya rechazada)" class="fglass-btn is-danger is-round40">🗑</button>';
+  } else if (isAdmin && s.status !== 'deleted') {
+    btnsHtml += '<button data-del="' + s.id + '" title="Eliminar (admin; queda en auditoría)" class="fglass-btn is-danger is-round40">🗑</button>';
+  }
+  var meta = '#' + s.id + ' · ' + stLbl + who +
+    (isAdmin && s.created_by ? ' · de ' + escapeHtml(s.created_by) : '') +
+    (s.status === 'rejected' && s.rejected_reason ? ' · “' + escapeHtml(s.rejected_reason) + '”' : '') +
+    (s.status === 'deleted' && s.deleted_reason ? ' · “' + escapeHtml(s.deleted_reason) + '”' : '');
+  return '<div class="fglass-item has-side" data-open="' + s.id + '" style="cursor:pointer">' +
+    '<div class="fglass-main">' +
+    '<div class="fglass-name">' + escapeHtml(s.name) + '</div>' +
+    '<div class="fglass-meta">' + meta + '</div>' +
+    '</div>' +
+    (btnsHtml ? '<div class="fglass-side">' + btnsHtml + '</div>' : '') +
+    '</div>';
+}
+
 // Carga la bandeja (tabs Pendientes/Mías/Cargado)
 async function firmaLoadBandeja(scope) {
+  if (_firmaModalEl) firmaRenderBandejaModal();
   if (scope) _firmaBandejaScope = scope;
   var tabs = document.querySelectorAll('#firmaTabs .firma-tab');
   tabs.forEach(function(t) {

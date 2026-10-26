@@ -114,7 +114,14 @@ test('revisor ve pendiente, abre y firma; sale de sus pendientes', async ({ page
   let creds = await loginAs(page, E2E_USERS.rev);
   creds = await clickNav(page, 'firmarReporte', creds);
 
-  const item = page.locator('#firmaBandejaList', { hasText: sessionName });
+  // La bandeja ahora se abre en un modal (reemplaza la pastilla de tabs).
+  const openBtn = page.locator('#firmaOpenBandejaBtn');
+  await expect(openBtn).toBeVisible({ timeout: 15000 });
+  await openBtn.click();
+  const bandeja = page.locator('#firmaModalList');
+  await expect(bandeja).toBeVisible({ timeout: 15000 });
+
+  const item = bandeja.locator('.fglass-item', { hasText: sessionName });
   await expect(item).toBeVisible({ timeout: 15000 });
   await item.click();
 
@@ -133,6 +140,8 @@ test('revisor ve pendiente, abre y firma; sale de sus pendientes', async ({ page
   await expect(done).toBeVisible({ timeout: 15000 });
   await done.getByRole('button', { name: /Entendido/ }).click();
 
-  // Ya no aparece en sus pendientes
-  await expect(page.locator('#firmaBandejaList', { hasText: sessionName })).toHaveCount(0, { timeout: 15000 });
+  // Ya no aparece en sus pendientes: reabrir la bandeja y comprobar ausencia.
+  await openBtn.click();
+  await expect(page.locator('#firmaModalList')).toBeVisible({ timeout: 15000 });
+  await expect(page.locator('#firmaModalList .fglass-item', { hasText: sessionName })).toHaveCount(0, { timeout: 15000 });
 });

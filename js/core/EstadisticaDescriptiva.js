@@ -1571,31 +1571,31 @@ function generarHTML(analisisResultado) {
                 <div class="ar-kpi-card" style="margin-bottom:16px;max-width:100%;overflow:hidden;">
                     <div class="ar-kpi-col-label" style="font-size:0.95rem;margin-bottom:10px;">📊 PCA - Análisis de Componentes Principales</div>
                     <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:8px;font-size:0.8rem;">
-                        <div style="background:#f5f5f5;padding:8px;border-radius:4px;text-align:center;">
-                            <div style="color:#aaa;font-size:0.7rem;">Observaciones</div>
+                        <div style="background:var(--item-bg);padding:8px;border-radius:4px;text-align:center;">
+                            <div style="color:var(--text-faint);font-size:0.7rem;">Observaciones</div>
                             <div style="font-weight:bold;font-size:0.95rem;">${data.nObservaciones || '—'}</div>
                         </div>
-                        <div style="background:#f5f5f5;padding:8px;border-radius:4px;text-align:center;">
-                            <div style="color:#aaa;font-size:0.7rem;">Variables</div>
+                        <div style="background:var(--item-bg);padding:8px;border-radius:4px;text-align:center;">
+                            <div style="color:var(--text-faint);font-size:0.7rem;">Variables</div>
                             <div style="font-weight:bold;font-size:0.95rem;">${data.nVariables || '—'}</div>
                         </div>
-                        <div style="background:#f5f5f5;padding:8px;border-radius:4px;text-align:center;">
-                            <div style="color:#aaa;font-size:0.7rem;">Componentes</div>
+                        <div style="background:var(--item-bg);padding:8px;border-radius:4px;text-align:center;">
+                            <div style="color:var(--text-faint);font-size:0.7rem;">Componentes</div>
                             <div style="font-weight:bold;font-size:0.95rem;">${nComp}</div>
                         </div>
-                        <div style="background:#e8f5e9;padding:8px;border-radius:4px;text-align:center;">
-                            <div style="color:#2e7d32;font-size:0.7rem;">Varianza Total</div>
-                            <div style="font-weight:bold;font-size:0.95rem;color:#2e7d32;">${cumVar[cumVar.length - 1]?.toFixed(1) || '—'}%</div>
+                        <div style="background:rgba(110,231,183,.12);padding:8px;border-radius:4px;text-align:center;">
+                            <div style="color:var(--accent-alt);font-size:0.7rem;">Varianza Total</div>
+                            <div style="font-weight:bold;font-size:0.95rem;color:var(--accent-alt);">${cumVar[cumVar.length - 1]?.toFixed(1) || '—'}%</div>
                         </div>
                     </div>
                 </div>
                 <div class="ar-kpi-card" style="margin-bottom:16px;overflow-x:auto;">
                     <div class="ar-kpi-col-label" style="font-size:0.85rem;margin-bottom:8px;">📈 Varianza Explicada por Componente</div>
                     <table style="width:100%;min-width:280px;border-collapse:collapse;font-size:0.7rem;table-layout:fixed;">
-                        <thead><tr style="background:#e3f2fd;"><th style="padding:5px;text-align:center;width:50px;">PC</th><th style="padding:5px;text-align:right;">Autovalor</th><th style="padding:5px;text-align:right;">% Var</th><th style="padding:5px;text-align:right;">% Acum</th></tr></thead>
+                        <thead><tr style="background:var(--bg-accent);"><th style="padding:5px;text-align:center;width:50px;">PC</th><th style="padding:5px;text-align:right;">Autovalor</th><th style="padding:5px;text-align:right;">% Var</th><th style="padding:5px;text-align:right;">% Acum</th></tr></thead>
                         <tbody>
                             ${eigenvalues.slice(0, Math.min(10, nComp)).map((ev, i) => `
-                                <tr style="border-bottom:1px solid #eee;"><td style="padding:4px;text-align:center;font-weight:bold;">PC${i + 1}</td>
+                                <tr style="border-bottom:1px solid var(--border);"><td style="padding:4px;text-align:center;font-weight:bold;">PC${i + 1}</td>
                                 <td style="padding:4px;text-align:right;">${ev?.toFixed(3) || '—'}</td>
                                 <td style="padding:4px;text-align:right;">${varExp[i]?.toFixed(1) || '—'}%</td>
                                 <td style="padding:4px;text-align:right;font-weight:bold;">${cumVar[i]?.toFixed(1) || '—'}%</td></tr>
@@ -1606,19 +1606,19 @@ function generarHTML(analisisResultado) {
                 <div class="ar-kpi-card" style="margin-bottom:16px;overflow-x:auto;">
                     <div class="ar-kpi-col-label" style="font-size:0.85rem;margin-bottom:8px;">📋 Cargas Factoriales (Loadings)</div>
                     <table style="width:100%;min-width:250px;border-collapse:collapse;font-size:0.7rem;table-layout:fixed;">
-                        <thead><tr style="background:#e8f5e9;"><th style="padding:5px;text-align:left;width:60px;">Variable</th>${Array.from({length: Math.min(3, nComp)}, (_, i) => `<th style="padding:5px;text-align:right;">PC${i + 1}</th>`).join('')}</tr></thead>
+                        <thead><tr style="background:rgba(110,231,183,.12);"><th style="padding:5px;text-align:left;width:60px;">Variable</th>${Array.from({length: Math.min(3, nComp)}, (_, i) => `<th style="padding:5px;text-align:right;">PC${i + 1}</th>`).join('')}</tr></thead>
                         <tbody>
                             ${cols.slice(0, 10).map((col, i) => {
                                 const loadings = data.loadings || [];
                                 const cargasFactor = loadings.map(f => f[i]);
-                                return `<tr style="border-bottom:1px solid #eee;"><td style="padding:4px;font-weight:500;font-size:0.7rem;">${escapeHtml(col)}</td>
+                                return `<tr style="border-bottom:1px solid var(--border);"><td style="padding:4px;font-weight:500;font-size:0.7rem;">${escapeHtml(col)}</td>
                                         ${Array.from({length: Math.min(3, nComp)}, (_, j) => `<td style="padding:4px;text-align:right;">${cargasFactor[j]?.toFixed(3) || '—'}</td>`).join('')}
                                     </tr>`;
                             }).join('')}
                         </tbody>
                     </table>
                 </div>
-                ${data.interpretacion ? `<div class="ar-formula" style="margin-top:12px;padding:10px;background:#fff3e0;border-radius:6px;border-left:4px solid #ff9800;"><span class="ar-formula-icon">💬</span><div><div class="ar-formula-desc" style="font-size:0.8rem;line-height:1.4;">${escapeHtml(data.interpretacion)}</div></div></div>` : ''}
+                ${data.interpretacion ? `<div class="ar-formula" style="margin-top:12px;padding:10px;background:var(--bg-warning);border-radius:6px;border-left:4px solid #ff9800;"><span class="ar-formula-icon">💬</span><div><div class="ar-formula-desc" style="font-size:0.8rem;line-height:1.4;">${escapeHtml(data.interpretacion)}</div></div></div>` : ''}
             `;
         }
 
@@ -1635,22 +1635,22 @@ function generarHTML(analisisResultado) {
                 <div class="ar-kpi-card" style="margin-bottom:16px;max-width:100%;overflow:hidden;">
                     <div class="ar-kpi-col-label" style="font-size:0.95rem;margin-bottom:10px;">📊 Análisis Factorial - Resumen</div>
                     <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:8px;font-size:0.8rem;">
-                        <div style="background:#f5f5f5;padding:8px;border-radius:4px;text-align:center;"><div style="color:#aaa;font-size:0.7rem;">Observaciones</div><div style="font-weight:bold;font-size:0.95rem;">${data.nObservaciones || '—'}</div></div>
-                        <div style="background:#f5f5f5;padding:8px;border-radius:4px;text-align:center;"><div style="color:#aaa;font-size:0.7rem;">Variables</div><div style="font-weight:bold;font-size:0.95rem;">${data.nVariables || '—'}</div></div>
-                        <div style="background:#f5f5f5;padding:8px;border-radius:4px;text-align:center;"><div style="color:#aaa;font-size:0.7rem;">Factores</div><div style="font-weight:bold;font-size:0.95rem;">${nFact}</div></div>
-                        <div style="background:#e8f5e9;padding:8px;border-radius:4px;text-align:center;"><div style="color:#2e7d32;font-size:0.7rem;">KMO</div><div style="font-weight:bold;font-size:0.95rem;">${kmo > 0 ? kmo.toFixed(3) : '—'}</div></div>
+                        <div style="background:var(--item-bg);padding:8px;border-radius:4px;text-align:center;"><div style="color:var(--text-faint);font-size:0.7rem;">Observaciones</div><div style="font-weight:bold;font-size:0.95rem;">${data.nObservaciones || '—'}</div></div>
+                        <div style="background:var(--item-bg);padding:8px;border-radius:4px;text-align:center;"><div style="color:var(--text-faint);font-size:0.7rem;">Variables</div><div style="font-weight:bold;font-size:0.95rem;">${data.nVariables || '—'}</div></div>
+                        <div style="background:var(--item-bg);padding:8px;border-radius:4px;text-align:center;"><div style="color:var(--text-faint);font-size:0.7rem;">Factores</div><div style="font-weight:bold;font-size:0.95rem;">${nFact}</div></div>
+                        <div style="background:rgba(110,231,183,.12);padding:8px;border-radius:4px;text-align:center;"><div style="color:var(--accent-alt);font-size:0.7rem;">KMO</div><div style="font-weight:bold;font-size:0.95rem;">${kmo > 0 ? kmo.toFixed(3) : '—'}</div></div>
                     </div>
                 </div>
-                ${bartlett && bartlett.chi2 ? `<div class="ar-kpi-card" style="margin-top:8px;"><div class="ar-kpi-col-label" style="font-size:0.9rem;">📐 Test de Bartlett</div><div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;font-size:0.8rem;"><div style="background:#f5f5f5;padding:6px;border-radius:4px;text-align:center;"><div style="color:#aaa;font-size:0.7rem;">χ²</div><div style="font-weight:bold;">${bartlett.chi2?.toFixed(2) || '—'}</div></div><div style="background:#f5f5f5;padding:6px;border-radius:4px;text-align:center;"><div style="color:#aaa;font-size:0.7rem;">gl</div><div style="font-weight:bold;">${bartlett.df || '—'}</div></div><div style="background:#e8f5e9;padding:6px;border-radius:4px;text-align:center;"><div style="color:#2e7d32;font-size:0.7rem;">Valor p</div><div style="font-weight:bold;">${bartlett.pValue?.toFixed(4) || '—'}</div></div></div></div>` : ''}
+                ${bartlett && bartlett.chi2 ? `<div class="ar-kpi-card" style="margin-top:8px;"><div class="ar-kpi-col-label" style="font-size:0.9rem;">📐 Test de Bartlett</div><div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;font-size:0.8rem;"><div style="background:var(--item-bg);padding:6px;border-radius:4px;text-align:center;"><div style="color:var(--text-faint);font-size:0.7rem;">χ²</div><div style="font-weight:bold;">${bartlett.chi2?.toFixed(2) || '—'}</div></div><div style="background:var(--item-bg);padding:6px;border-radius:4px;text-align:center;"><div style="color:var(--text-faint);font-size:0.7rem;">gl</div><div style="font-weight:bold;">${bartlett.df || '—'}</div></div><div style="background:rgba(110,231,183,.12);padding:6px;border-radius:4px;text-align:center;"><div style="color:var(--accent-alt);font-size:0.7rem;">Valor p</div><div style="font-weight:bold;">${bartlett.pValue?.toFixed(4) || '—'}</div></div></div></div>` : ''}
                 <div class="ar-kpi-card" style="margin-top:8px;overflow-x:auto;">
                     <div class="ar-kpi-col-label" style="font-size:0.9rem;">📈 Matriz de Cargas Factoriales</div>
                     <table style="width:100%;border-collapse:collapse;font-size:0.75rem;min-width:300px;">
-                        <tr style="background:#e0e0e0;"><th style="padding:4px;text-align:left;">Variable</th>${Array.from({length: Math.min(3, nFact)}, (_, i) => `<th style="padding:4px;text-align:right;">F${i+1}</th>`).join('')}<th style="padding:4px;text-align:right;">h²</th></tr>
+                        <tr style="background:var(--item-bg);"><th style="padding:4px;text-align:left;">Variable</th>${Array.from({length: Math.min(3, nFact)}, (_, i) => `<th style="padding:4px;text-align:right;">F${i+1}</th>`).join('')}<th style="padding:4px;text-align:right;">h²</th></tr>
                         ${cols.slice(0, 12).map((col, i) => {
                             const loadings = data.loadings || [];
                             const comun = data.communality || [];
                             const cargasFactor = loadings.map(f => f[i]);
-                            return `<tr style="${i%2===0?'background:#f9f9f9':''}"><td style="padding:3px;font-size:0.7rem;">${escapeHtml(col.substring(0,12))}</td>
+                            return `<tr style="${i%2===0?'background:transparent':''}"><td style="padding:3px;font-size:0.7rem;">${escapeHtml(col.substring(0,12))}</td>
                                     ${Array.from({length: Math.min(3, nFact)}, (_, j) => `<td style="padding:3px;text-align:right;">${cargasFactor[j]?.toFixed(3) || '—'}</td>`).join('')}
                                     <td style="padding:3px;text-align:right;font-weight:bold;">${comun[i]?.toFixed(3) || '—'}</td></tr>`;
                         }).join('')}
@@ -1773,7 +1773,7 @@ function generarHTML(analisisResultado) {
                                 <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Límites</span><span class="ar-kpi-sub-v">${limitsDisplay}</span></div>`;
                     };
                     return `<div class="ar-kpi-card ar-kpi-multi"><div class="ar-kpi-col-label">${escapeHtml(col)}</div>
-                            <div class="ar-kpi-sub-grid" style="margin-bottom:8px;"><div style="font-weight:600;color:#e74c3c;grid-column:1/-1;">IQR</div>${renderOutlierMethod(val.IQR)}</div>
+                            <div class="ar-kpi-sub-grid" style="margin-bottom:8px;"><div style="font-weight:600;color:var(--text-danger);grid-column:1/-1;">IQR</div>${renderOutlierMethod(val.IQR)}</div>
                             <div class="ar-kpi-sub-grid"><div style="font-weight:600;color:#3498db;grid-column:1/-1;">Z-Score</div>${renderOutlierMethod(val.ZScore)}</div>
                             ${dispersionBadgeHTML}${dispersionLimitsHTML}
                             </div>`;
@@ -1811,18 +1811,18 @@ function generarHTML(analisisResultado) {
             if (data.error) return `<p class="ar-error">${escapeHtml(data.error)}</p>`;
             const desvRows = (data.desviaciones || []).map(d => `
                 <tr>
-                    <td style="padding:4px 8px;border:1px solid #e2e8f0;text-align:right">${d.concentracion}</td>
-                    <td style="padding:4px 8px;border:1px solid #e2e8f0;text-align:right">${d.areaObservada}</td>
-                    <td style="padding:4px 8px;border:1px solid #e2e8f0;text-align:right">${d.areaRetrocalculada}</td>
-                    <td style="padding:4px 8px;border:1px solid #e2e8f0;text-align:right;${Math.abs(d.desviacionPct) > 5 ? 'color:#c53030;font-weight:600' : ''}">${d.desviacionPct}%</td>
+                    <td style="padding:4px 8px;border:1px solid var(--border);text-align:right">${d.concentracion}</td>
+                    <td style="padding:4px 8px;border:1px solid var(--border);text-align:right">${d.areaObservada}</td>
+                    <td style="padding:4px 8px;border:1px solid var(--border);text-align:right">${d.areaRetrocalculada}</td>
+                    <td style="padding:4px 8px;border:1px solid var(--border);text-align:right;${Math.abs(d.desviacionPct) > 5 ? 'color:var(--text-danger);font-weight:600' : ''}">${d.desviacionPct}%</td>
                 </tr>`).join('');
             const resRows = (data.residuos || []).map((r, i) => {
                 return `
                 <tr>
-                    <td style="padding:4px 8px;border:1px solid #e2e8f0;text-align:right">${i + 1}</td>
-                    <td style="padding:4px 8px;border:1px solid #e2e8f0;text-align:right">${data.desviaciones?.[i]?.areaObservada ?? '—'}</td>
-                    <td style="padding:4px 8px;border:1px solid #e2e8f0;text-align:right">${data.predicciones?.[i] ?? '—'}</td>
-                    <td style="padding:4px 8px;border:1px solid #e2e8f0;text-align:right">${r.toFixed(4)}</td>
+                    <td style="padding:4px 8px;border:1px solid var(--border);text-align:right">${i + 1}</td>
+                    <td style="padding:4px 8px;border:1px solid var(--border);text-align:right">${data.desviaciones?.[i]?.areaObservada ?? '—'}</td>
+                    <td style="padding:4px 8px;border:1px solid var(--border);text-align:right">${data.predicciones?.[i] ?? '—'}</td>
+                    <td style="padding:4px 8px;border:1px solid var(--border);text-align:right">${r.toFixed(4)}</td>
                 </tr>`}).join('');
             const icInterText = data.icInterceptLower != null
                 ? `[${data.icInterceptLower}, ${data.icInterceptUpper}]`
@@ -1865,25 +1865,25 @@ function generarHTML(analisisResultado) {
                         <div class="ar-kpi-badge ${fdaClass}" style="margin-top:4px">${fdaLabel}</div>
                     </div>
                     ${data.desviaciones?.length ? `<details style="margin-top:8px">
-                        <summary style="cursor:pointer;font-size:0.85rem;color:#718096">📊 Ver tabla de desviaciones por nivel</summary>
+                        <summary style="cursor:pointer;font-size:0.85rem;color:var(--text-muted)">📊 Ver tabla de desviaciones por nivel</summary>
                         <table style="width:100%;margin-top:8px;border-collapse:collapse;font-size:0.8rem">
-                            <thead><tr style="background:#000">
-                                <th style="padding:4px 8px;border:1px solid #333;text-align:right;color:#fff">Conc.</th>
-                                <th style="padding:4px 8px;border:1px solid #333;text-align:right;color:#fff">Área obs.</th>
-                                <th style="padding:4px 8px;border:1px solid #333;text-align:right;color:#fff">Área retro.</th>
-                                <th style="padding:4px 8px;border:1px solid #333;text-align:right;color:#fff">% Desv.</th>
+                            <thead><tr style="background:var(--item-bg)">
+                                <th style="padding:4px 8px;border:1px solid var(--border);text-align:right;color:var(--text-primary)">Conc.</th>
+                                <th style="padding:4px 8px;border:1px solid var(--border);text-align:right;color:var(--text-primary)">Área obs.</th>
+                                <th style="padding:4px 8px;border:1px solid var(--border);text-align:right;color:var(--text-primary)">Área retro.</th>
+                                <th style="padding:4px 8px;border:1px solid var(--border);text-align:right;color:var(--text-primary)">% Desv.</th>
                             </tr></thead>
                             <tbody>${desvRows}</tbody>
                         </table>
                     </details>` : ''}
                     ${data.residuos?.length ? `<details style="margin-top:8px">
-                        <summary style="cursor:pointer;font-size:0.85rem;color:#718096">📉 Ver residuales</summary>
+                        <summary style="cursor:pointer;font-size:0.85rem;color:var(--text-muted)">📉 Ver residuales</summary>
                         <table style="width:100%;margin-top:8px;border-collapse:collapse;font-size:0.8rem">
-                            <thead><tr style="background:#000">
-                                <th style="padding:4px 8px;border:1px solid #333;text-align:right;color:#fff">#</th>
-                                <th style="padding:4px 8px;border:1px solid #333;text-align:right;color:#fff">Observado</th>
-                                <th style="padding:4px 8px;border:1px solid #333;text-align:right;color:#fff">Predicho</th>
-                                <th style="padding:4px 8px;border:1px solid #333;text-align:right;color:#fff">Residual</th>
+                            <thead><tr style="background:var(--item-bg)">
+                                <th style="padding:4px 8px;border:1px solid var(--border);text-align:right;color:var(--text-primary)">#</th>
+                                <th style="padding:4px 8px;border:1px solid var(--border);text-align:right;color:var(--text-primary)">Observado</th>
+                                <th style="padding:4px 8px;border:1px solid var(--border);text-align:right;color:var(--text-primary)">Predicho</th>
+                                <th style="padding:4px 8px;border:1px solid var(--border);text-align:right;color:var(--text-primary)">Residual</th>
                             </tr></thead>
                             <tbody>${resRows}</tbody>
                         </table>
@@ -1894,17 +1894,17 @@ function generarHTML(analisisResultado) {
             if (data.error) return `<p class="ar-error">${escapeHtml(data.error)}</p>`;
             const coefRows = (data.coeficientes || []).map((c, i) => `
                 <tr>
-                    <td style="padding:4px 8px;border:1px solid #e2e8f0;text-align:left">${escapeHtml(c.variable || 'X' + (i+1))}</td>
-                    <td style="padding:4px 8px;border:1px solid #e2e8f0;text-align:right">${c.valor?.toFixed(4) ?? '—'}</td>
-                    <td style="padding:4px 8px;border:1px solid #e2e8f0;text-align:right">${c.ee?.toFixed(4) ?? '—'}</td>
-                    <td style="padding:4px 8px;border:1px solid #e2e8f0;text-align:right">${c.t?.toFixed(4) ?? '—'}</td>
-                    <td style="padding:4px 8px;border:1px solid #e2e8f0;text-align:right;${c.p < 0.05 ? 'color:#c53030;font-weight:600' : ''}">${c.p?.toFixed(4) ?? '—'}</td>
+                    <td style="padding:4px 8px;border:1px solid var(--border);text-align:left">${escapeHtml(c.variable || 'X' + (i+1))}</td>
+                    <td style="padding:4px 8px;border:1px solid var(--border);text-align:right">${c.valor?.toFixed(4) ?? '—'}</td>
+                    <td style="padding:4px 8px;border:1px solid var(--border);text-align:right">${c.ee?.toFixed(4) ?? '—'}</td>
+                    <td style="padding:4px 8px;border:1px solid var(--border);text-align:right">${c.t?.toFixed(4) ?? '—'}</td>
+                    <td style="padding:4px 8px;border:1px solid var(--border);text-align:right;${c.p < 0.05 ? 'color:var(--text-danger);font-weight:600' : ''}">${c.p?.toFixed(4) ?? '—'}</td>
                 </tr>`).join('');
             const resRows = (data.residuos || []).map((r, i) => `
                 <tr>
-                    <td style="padding:4px 8px;border:1px solid #e2e8f0;text-align:right">${i + 1}</td>
-                    <td style="padding:4px 8px;border:1px solid #e2e8f0;text-align:right">${data.predicciones?.[i]?.toFixed(4) ?? '—'}</td>
-                    <td style="padding:4px 8px;border:1px solid #e2e8f0;text-align:right">${r.toFixed(4)}</td>
+                    <td style="padding:4px 8px;border:1px solid var(--border);text-align:right">${i + 1}</td>
+                    <td style="padding:4px 8px;border:1px solid var(--border);text-align:right">${data.predicciones?.[i]?.toFixed(4) ?? '—'}</td>
+                    <td style="padding:4px 8px;border:1px solid var(--border);text-align:right">${r.toFixed(4)}</td>
                 </tr>`).join('');
             return `<div class="ar-kpi-card ar-kpi-multi"><div class="ar-kpi-col-label">📊 Y = f(${data.columnasX?.join(', ') || 'X₁,...,Xₖ'})</div>
                     <div class="ar-kpi-sub-grid">
@@ -1918,25 +1918,25 @@ function generarHTML(analisisResultado) {
                     </div>
                     <div class="ar-formula" style="margin-top:12px;"><span class="ar-formula-icon">📐</span><div><div class="ar-formula-eq">${data.formula || data.modelo || ''}</div><div class="ar-formula-desc">${escapeHtml(data.interpretacion || '')}</div></div></div>
                     ${coefRows ? `<details style="margin-top:8px">
-                        <summary style="cursor:pointer;font-size:0.85rem;color:#718096">📋 Ver coeficientes del modelo</summary>
+                        <summary style="cursor:pointer;font-size:0.85rem;color:var(--text-muted)">📋 Ver coeficientes del modelo</summary>
                         <table style="width:100%;margin-top:8px;border-collapse:collapse;font-size:0.8rem">
-                            <thead><tr style="background:#000">
-                                <th style="padding:4px 8px;border:1px solid #333;text-align:left;color:#fff">Variable</th>
-                                <th style="padding:4px 8px;border:1px solid #333;text-align:right;color:#fff">β</th>
-                                <th style="padding:4px 8px;border:1px solid #333;text-align:right;color:#fff">EE</th>
-                                <th style="padding:4px 8px;border:1px solid #333;text-align:right;color:#fff">t</th>
-                                <th style="padding:4px 8px;border:1px solid #333;text-align:right;color:#fff">p</th>
+                            <thead><tr style="background:var(--item-bg)">
+                                <th style="padding:4px 8px;border:1px solid var(--border);text-align:left;color:var(--text-primary)">Variable</th>
+                                <th style="padding:4px 8px;border:1px solid var(--border);text-align:right;color:var(--text-primary)">β</th>
+                                <th style="padding:4px 8px;border:1px solid var(--border);text-align:right;color:var(--text-primary)">EE</th>
+                                <th style="padding:4px 8px;border:1px solid var(--border);text-align:right;color:var(--text-primary)">t</th>
+                                <th style="padding:4px 8px;border:1px solid var(--border);text-align:right;color:var(--text-primary)">p</th>
                             </tr></thead>
                             <tbody>${coefRows}</tbody>
                         </table>
                     </details>` : ''}
                     ${data.residuos?.length ? `<details style="margin-top:8px">
-                        <summary style="cursor:pointer;font-size:0.85rem;color:#718096">📉 Ver residuales</summary>
+                        <summary style="cursor:pointer;font-size:0.85rem;color:var(--text-muted)">📉 Ver residuales</summary>
                         <table style="width:100%;margin-top:8px;border-collapse:collapse;font-size:0.8rem">
-                            <thead><tr style="background:#000">
-                                <th style="padding:4px 8px;border:1px solid #333;text-align:right;color:#fff">#</th>
-                                <th style="padding:4px 8px;border:1px solid #333;text-align:right;color:#fff">Predicho</th>
-                                <th style="padding:4px 8px;border:1px solid #333;text-align:right;color:#fff">Residual</th>
+                            <thead><tr style="background:var(--item-bg)">
+                                <th style="padding:4px 8px;border:1px solid var(--border);text-align:right;color:var(--text-primary)">#</th>
+                                <th style="padding:4px 8px;border:1px solid var(--border);text-align:right;color:var(--text-primary)">Predicho</th>
+                                <th style="padding:4px 8px;border:1px solid var(--border);text-align:right;color:var(--text-primary)">Residual</th>
                             </tr></thead>
                             <tbody>${resRows}</tbody>
                         </table>
@@ -1947,14 +1947,14 @@ function generarHTML(analisisResultado) {
             if (data.error) return `<p class="ar-error">${escapeHtml(data.error)}</p>`;
             const coefRows = (data.coeficientes || []).map((c, i) => `
                 <tr>
-                    <td style="padding:4px 8px;border:1px solid #e2e8f0;text-align:center">${i === 0 ? 'x⁰ (cte)' : 'x' + 'ⁱ'.repeat(i)}</td>
-                    <td style="padding:4px 8px;border:1px solid #e2e8f0;text-align:right">${(typeof c === 'number' ? c : c.valor)?.toFixed(4) ?? '—'}</td>
+                    <td style="padding:4px 8px;border:1px solid var(--border);text-align:center">${i === 0 ? 'x⁰ (cte)' : 'x' + 'ⁱ'.repeat(i)}</td>
+                    <td style="padding:4px 8px;border:1px solid var(--border);text-align:right">${(typeof c === 'number' ? c : c.valor)?.toFixed(4) ?? '—'}</td>
                 </tr>`).join('');
             const resRows = (data.residuos || []).map((r, i) => `
                 <tr>
-                    <td style="padding:4px 8px;border:1px solid #e2e8f0;text-align:right">${i + 1}</td>
-                    <td style="padding:4px 8px;border:1px solid #e2e8f0;text-align:right">${data.predicciones?.[i]?.toFixed(4) ?? '—'}</td>
-                    <td style="padding:4px 8px;border:1px solid #e2e8f0;text-align:right">${r.toFixed(4)}</td>
+                    <td style="padding:4px 8px;border:1px solid var(--border);text-align:right">${i + 1}</td>
+                    <td style="padding:4px 8px;border:1px solid var(--border);text-align:right">${data.predicciones?.[i]?.toFixed(4) ?? '—'}</td>
+                    <td style="padding:4px 8px;border:1px solid var(--border);text-align:right">${r.toFixed(4)}</td>
                 </tr>`).join('');
             return `<div class="ar-kpi-card ar-kpi-multi"><div class="ar-kpi-col-label">📈 Y = f(${data.columnaX || 'X'}) - Grado ${data.grado || 2}</div>
                     <div class="ar-kpi-sub-grid">
@@ -1968,22 +1968,22 @@ function generarHTML(analisisResultado) {
                     </div>
                     <div class="ar-formula" style="margin-top:12px;"><span class="ar-formula-icon">📐</span><div><div class="ar-formula-eq">${data.formula || data.modelo || ''}</div><div class="ar-formula-desc">${escapeHtml(data.interpretacion || '')}</div></div></div>
                     ${coefRows ? `<details style="margin-top:8px">
-                        <summary style="cursor:pointer;font-size:0.85rem;color:#718096">📋 Ver coeficientes polinomiales</summary>
+                        <summary style="cursor:pointer;font-size:0.85rem;color:var(--text-muted)">📋 Ver coeficientes polinomiales</summary>
                         <table style="width:100%;margin-top:8px;border-collapse:collapse;font-size:0.8rem">
-                            <thead><tr style="background:#000">
-                                <th style="padding:4px 8px;border:1px solid #333;text-align:center;color:#fff">Término</th>
-                                <th style="padding:4px 8px;border:1px solid #333;text-align:right;color:#fff">Coeficiente</th>
+                            <thead><tr style="background:var(--item-bg)">
+                                <th style="padding:4px 8px;border:1px solid var(--border);text-align:center;color:var(--text-primary)">Término</th>
+                                <th style="padding:4px 8px;border:1px solid var(--border);text-align:right;color:var(--text-primary)">Coeficiente</th>
                             </tr></thead>
                             <tbody>${coefRows}</tbody>
                         </table>
                     </details>` : ''}
                     ${data.residuos?.length ? `<details style="margin-top:8px">
-                        <summary style="cursor:pointer;font-size:0.85rem;color:#718096">📉 Ver residuales</summary>
+                        <summary style="cursor:pointer;font-size:0.85rem;color:var(--text-muted)">📉 Ver residuales</summary>
                         <table style="width:100%;margin-top:8px;border-collapse:collapse;font-size:0.8rem">
-                            <thead><tr style="background:#000">
-                                <th style="padding:4px 8px;border:1px solid #333;text-align:right;color:#fff">#</th>
-                                <th style="padding:4px 8px;border:1px solid #333;text-align:right;color:#fff">Predicho</th>
-                                <th style="padding:4px 8px;border:1px solid #333;text-align:right;color:#fff">Residual</th>
+                            <thead><tr style="background:var(--item-bg)">
+                                <th style="padding:4px 8px;border:1px solid var(--border);text-align:right;color:var(--text-primary)">#</th>
+                                <th style="padding:4px 8px;border:1px solid var(--border);text-align:right;color:var(--text-primary)">Predicho</th>
+                                <th style="padding:4px 8px;border:1px solid var(--border);text-align:right;color:var(--text-primary)">Residual</th>
                             </tr></thead>
                             <tbody>${resRows}</tbody>
                         </table>
@@ -1994,26 +1994,26 @@ function generarHTML(analisisResultado) {
             if (data.error) return `<p class="ar-error">${escapeHtml(data.error)}</p>`;
             const confMat = data.vp != null ? `
                 <table style="width:100%;margin-top:8px;border-collapse:collapse;font-size:0.8rem">
-                    <thead><tr style="background:#000">
-                        <th style="padding:4px 8px;border:1px solid #333;text-align:center;color:#fff"></th>
-                        <th style="padding:4px 8px;border:1px solid #333;text-align:center;color:#fff">Real +</th>
-                        <th style="padding:4px 8px;border:1px solid #333;text-align:center;color:#fff">Real −</th>
+                    <thead><tr style="background:var(--item-bg)">
+                        <th style="padding:4px 8px;border:1px solid var(--border);text-align:center;color:var(--text-primary)"></th>
+                        <th style="padding:4px 8px;border:1px solid var(--border);text-align:center;color:var(--text-primary)">Real +</th>
+                        <th style="padding:4px 8px;border:1px solid var(--border);text-align:center;color:var(--text-primary)">Real −</th>
                     </tr></thead>
                     <tbody>
-                        <tr><td style="padding:4px 8px;border:1px solid #e2e8f0;font-weight:600">Pred +</td>
-                            <td style="padding:4px 8px;border:1px solid #e2e8f0;text-align:center;background:#1a3a1a;color:#6f6">${data.vp}</td>
-                            <td style="padding:4px 8px;border:1px solid #e2e8f0;text-align:center;background:#3a1a1a;color:#f66">${data.fp}</td></tr>
-                        <tr><td style="padding:4px 8px;border:1px solid #e2e8f0;font-weight:600">Pred −</td>
-                            <td style="padding:4px 8px;border:1px solid #e2e8f0;text-align:center;background:#3a1a1a;color:#f66">${data.fn}</td>
-                            <td style="padding:4px 8px;border:1px solid #e2e8f0;text-align:center;background:#1a3a1a;color:#6f6">${data.vn}</td></tr>
+                        <tr><td style="padding:4px 8px;border:1px solid var(--border);font-weight:600">Pred +</td>
+                            <td style="padding:4px 8px;border:1px solid var(--border);text-align:center;background:rgba(110,231,183,.12);color:var(--accent-alt)">${data.vp}</td>
+                            <td style="padding:4px 8px;border:1px solid var(--border);text-align:center;background:rgba(248,113,113,.12);color:var(--accent-error)">${data.fp}</td></tr>
+                        <tr><td style="padding:4px 8px;border:1px solid var(--border);font-weight:600">Pred −</td>
+                            <td style="padding:4px 8px;border:1px solid var(--border);text-align:center;background:rgba(248,113,113,.12);color:var(--accent-error)">${data.fn}</td>
+                            <td style="padding:4px 8px;border:1px solid var(--border);text-align:center;background:rgba(110,231,183,.12);color:var(--accent-alt)">${data.vn}</td></tr>
                     </tbody>
                 </table>` : '';
             const classRows = (data.clasificacion || []).map((c, i) => `
                 <tr>
-                    <td style="padding:4px 8px;border:1px solid #e2e8f0;text-align:right">${i + 1}</td>
-                    <td style="padding:4px 8px;border:1px solid #e2e8f0;text-align:right">${c.real}</td>
-                    <td style="padding:4px 8px;border:1px solid #e2e8f0;text-align:right">${c.probabilidad?.toFixed(4) ?? '—'}</td>
-                    <td style="padding:4px 8px;border:1px solid #e2e8f0;text-align:right;${c.clasificado === c.real ? 'color:#6f6' : 'color:#f66;font-weight:600'}">${c.clasificado}</td>
+                    <td style="padding:4px 8px;border:1px solid var(--border);text-align:right">${i + 1}</td>
+                    <td style="padding:4px 8px;border:1px solid var(--border);text-align:right">${c.real}</td>
+                    <td style="padding:4px 8px;border:1px solid var(--border);text-align:right">${c.probabilidad?.toFixed(4) ?? '—'}</td>
+                    <td style="padding:4px 8px;border:1px solid var(--border);text-align:right;${c.clasificado === c.real ? 'color:var(--accent-alt)' : 'color:var(--accent-error);font-weight:600'}">${c.clasificado}</td>
                 </tr>`).join('');
             return `<div class="ar-kpi-card ar-kpi-multi"><div class="ar-kpi-col-label">🔐 Clasificación: Y = f(${data.columnasX?.join(', ') || 'X₁,...,Xₖ'})</div>
                     <div class="ar-kpi-sub-grid">
@@ -2028,15 +2028,15 @@ function generarHTML(analisisResultado) {
                     </div>
                     <div class="ar-formula" style="margin-top:12px;"><span class="ar-formula-icon">📐</span><div><div class="ar-formula-eq">${data.formula || data.modelo || ''}</div><div class="ar-formula-desc">${escapeHtml(data.interpretacion || '')}</div></div></div>
                     ${confMat ? `<details style="margin-top:8px">
-                        <summary style="cursor:pointer;font-size:0.85rem;color:#718096">📊 Matriz de confusión</summary>${confMat}</details>` : ''}
+                        <summary style="cursor:pointer;font-size:0.85rem;color:var(--text-muted)">📊 Matriz de confusión</summary>${confMat}</details>` : ''}
                     ${classRows ? `<details style="margin-top:8px">
-                        <summary style="cursor:pointer;font-size:0.85rem;color:#718096">📋 Clasificación por observación</summary>
+                        <summary style="cursor:pointer;font-size:0.85rem;color:var(--text-muted)">📋 Clasificación por observación</summary>
                         <table style="width:100%;margin-top:8px;border-collapse:collapse;font-size:0.8rem">
-                            <thead><tr style="background:#000">
-                                <th style="padding:4px 8px;border:1px solid #333;text-align:right;color:#fff">#</th>
-                                <th style="padding:4px 8px;border:1px solid #333;text-align:right;color:#fff">Real</th>
-                                <th style="padding:4px 8px;border:1px solid #333;text-align:right;color:#fff">Prob.</th>
-                                <th style="padding:4px 8px;border:1px solid #333;text-align:right;color:#fff">Clasif.</th>
+                            <thead><tr style="background:var(--item-bg)">
+                                <th style="padding:4px 8px;border:1px solid var(--border);text-align:right;color:var(--text-primary)">#</th>
+                                <th style="padding:4px 8px;border:1px solid var(--border);text-align:right;color:var(--text-primary)">Real</th>
+                                <th style="padding:4px 8px;border:1px solid var(--border);text-align:right;color:var(--text-primary)">Prob.</th>
+                                <th style="padding:4px 8px;border:1px solid var(--border);text-align:right;color:var(--text-primary)">Clasif.</th>
                             </tr></thead>
                             <tbody>${classRows}</tbody>
                         </table>
@@ -2062,24 +2062,24 @@ function generarHTML(analisisResultado) {
             const icUpper = (result.diferenciaMedias != null && se != null) ? (result.diferenciaMedias + 1.96 * se).toFixed(4) : '—';
             const groupRows = (g1.n != null && g2.n != null) ? `
                 <table style="width:100%;margin-top:8px;border-collapse:collapse;font-size:0.8rem">
-                    <thead><tr style="background:#000">
-                        <th style="padding:4px 8px;border:1px solid #333;text-align:left;color:#fff">Grupo</th>
-                        <th style="padding:4px 8px;border:1px solid #333;text-align:right;color:#fff">n</th>
-                        <th style="padding:4px 8px;border:1px solid #333;text-align:right;color:#fff">Media</th>
-                        <th style="padding:4px 8px;border:1px solid #333;text-align:right;color:#fff">Varianza</th>
-                        <th style="padding:4px 8px;border:1px solid #333;text-align:right;color:#fff">DE</th>
+                    <thead><tr style="background:var(--item-bg)">
+                        <th style="padding:4px 8px;border:1px solid var(--border);text-align:left;color:var(--text-primary)">Grupo</th>
+                        <th style="padding:4px 8px;border:1px solid var(--border);text-align:right;color:var(--text-primary)">n</th>
+                        <th style="padding:4px 8px;border:1px solid var(--border);text-align:right;color:var(--text-primary)">Media</th>
+                        <th style="padding:4px 8px;border:1px solid var(--border);text-align:right;color:var(--text-primary)">Varianza</th>
+                        <th style="padding:4px 8px;border:1px solid var(--border);text-align:right;color:var(--text-primary)">DE</th>
                     </tr></thead>
                     <tbody>
-                        <tr><td style="padding:4px 8px;border:1px solid #e2e8f0">Grupo 1</td>
-                            <td style="padding:4px 8px;border:1px solid #e2e8f0;text-align:right">${g1.n ?? '—'}</td>
-                            <td style="padding:4px 8px;border:1px solid #e2e8f0;text-align:right">${g1.media?.toFixed(4) ?? '—'}</td>
-                            <td style="padding:4px 8px;border:1px solid #e2e8f0;text-align:right">${g1.varianza?.toFixed(4) ?? '—'}</td>
-                            <td style="padding:4px 8px;border:1px solid #e2e8f0;text-align:right">${Math.sqrt(g1.varianza || 0).toFixed(4)}</td></tr>
-                        <tr><td style="padding:4px 8px;border:1px solid #e2e8f0">Grupo 2</td>
-                            <td style="padding:4px 8px;border:1px solid #e2e8f0;text-align:right">${g2.n ?? '—'}</td>
-                            <td style="padding:4px 8px;border:1px solid #e2e8f0;text-align:right">${g2.media?.toFixed(4) ?? '—'}</td>
-                            <td style="padding:4px 8px;border:1px solid #e2e8f0;text-align:right">${g2.varianza?.toFixed(4) ?? '—'}</td>
-                            <td style="padding:4px 8px;border:1px solid #e2e8f0;text-align:right">${Math.sqrt(g2.varianza || 0).toFixed(4)}</td></tr>
+                        <tr><td style="padding:4px 8px;border:1px solid var(--border)">Grupo 1</td>
+                            <td style="padding:4px 8px;border:1px solid var(--border);text-align:right">${g1.n ?? '—'}</td>
+                            <td style="padding:4px 8px;border:1px solid var(--border);text-align:right">${g1.media?.toFixed(4) ?? '—'}</td>
+                            <td style="padding:4px 8px;border:1px solid var(--border);text-align:right">${g1.varianza?.toFixed(4) ?? '—'}</td>
+                            <td style="padding:4px 8px;border:1px solid var(--border);text-align:right">${Math.sqrt(g1.varianza || 0).toFixed(4)}</td></tr>
+                        <tr><td style="padding:4px 8px;border:1px solid var(--border)">Grupo 2</td>
+                            <td style="padding:4px 8px;border:1px solid var(--border);text-align:right">${g2.n ?? '—'}</td>
+                            <td style="padding:4px 8px;border:1px solid var(--border);text-align:right">${g2.media?.toFixed(4) ?? '—'}</td>
+                            <td style="padding:4px 8px;border:1px solid var(--border);text-align:right">${g2.varianza?.toFixed(4) ?? '—'}</td>
+                            <td style="padding:4px 8px;border:1px solid var(--border);text-align:right">${Math.sqrt(g2.varianza || 0).toFixed(4)}</td></tr>
                     </tbody>
                 </table>` : '';
             return `<div class="ar-kpi-card ar-kpi-multi"><div class="ar-kpi-col-label">${groupKey}</div>
@@ -2093,7 +2093,7 @@ function generarHTML(analisisResultado) {
                     </div>
                     <div class="ar-kpi-badge ${result.significativo ? 'ar-badge-danger' : 'ar-badge-ok'}">${result.significativo ? '✗ Significativo (p < 0.05)' : '✓ No significativo (p ≥ 0.05)'}</div>
                     </div>
-                    ${groupRows ? `<details style="margin-top:8px"><summary style="cursor:pointer;font-size:0.85rem;color:#718096">📊 Estadísticos por grupo</summary>${groupRows}</details>` : ''}
+                    ${groupRows ? `<details style="margin-top:8px"><summary style="cursor:pointer;font-size:0.85rem;color:var(--text-muted)">📊 Estadísticos por grupo</summary>${groupRows}</details>` : ''}
                     <div class="ar-formula" style="margin-top:12px;"><span class="ar-formula-icon">💬</span><div><div class="ar-formula-desc">${escapeHtml(result.interpretacion || '')}</div></div></div>`;
         }
         // ANOVA One-Way
@@ -2105,33 +2105,33 @@ function generarHTML(analisisResultado) {
             const etaSqLabel = etaSq !== '—' ? (parseFloat(etaSq) >= 0.14 ? '✓ Grande' : parseFloat(etaSq) >= 0.06 ? '⚠ Medio' : '○ Pequeño') : '—';
             const ssRows = (data.SSB != null) ? `
                 <table style="width:100%;margin-top:8px;border-collapse:collapse;font-size:0.8rem">
-                    <thead><tr style="background:#000">
-                        <th style="padding:4px 8px;border:1px solid #333;text-align:left;color:#fff">Fuente</th>
-                        <th style="padding:4px 8px;border:1px solid #333;text-align:right;color:#fff">SS</th>
-                        <th style="padding:4px 8px;border:1px solid #333;text-align:right;color:#fff">gl</th>
-                        <th style="padding:4px 8px;border:1px solid #333;text-align:right;color:#fff">MS</th>
-                        <th style="padding:4px 8px;border:1px solid #333;text-align:right;color:#fff">F</th>
-                        <th style="padding:4px 8px;border:1px solid #333;text-align:right;color:#fff">p</th>
+                    <thead><tr style="background:var(--item-bg)">
+                        <th style="padding:4px 8px;border:1px solid var(--border);text-align:left;color:var(--text-primary)">Fuente</th>
+                        <th style="padding:4px 8px;border:1px solid var(--border);text-align:right;color:var(--text-primary)">SS</th>
+                        <th style="padding:4px 8px;border:1px solid var(--border);text-align:right;color:var(--text-primary)">gl</th>
+                        <th style="padding:4px 8px;border:1px solid var(--border);text-align:right;color:var(--text-primary)">MS</th>
+                        <th style="padding:4px 8px;border:1px solid var(--border);text-align:right;color:var(--text-primary)">F</th>
+                        <th style="padding:4px 8px;border:1px solid var(--border);text-align:right;color:var(--text-primary)">p</th>
                     </tr></thead>
                     <tbody>
-                        <tr><td style="padding:4px 8px;border:1px solid #e2e8f0">Entre grupos</td>
-                            <td style="padding:4px 8px;border:1px solid #e2e8f0;text-align:right">${data.SSB.toFixed(4)}</td>
-                            <td style="padding:4px 8px;border:1px solid #e2e8f0;text-align:right">${data.dfEntre}</td>
-                            <td style="padding:4px 8px;border:1px solid #e2e8f0;text-align:right">${data.MSB?.toFixed(4) ?? '—'}</td>
-                            <td style="padding:4px 8px;border:1px solid #e2e8f0;text-align:right;font-weight:600">${data.estadisticoF?.toFixed(4) ?? '—'}</td>
-                            <td style="padding:4px 8px;border:1px solid #e2e8f0;text-align:right;${data.significativo ? 'color:#c53030;font-weight:600' : ''}">${data.valorP?.toFixed(4) ?? '—'}</td></tr>
-                        <tr><td style="padding:4px 8px;border:1px solid #e2e8f0">Dentro grupos</td>
-                            <td style="padding:4px 8px;border:1px solid #e2e8f0;text-align:right">${data.SSW.toFixed(4)}</td>
-                            <td style="padding:4px 8px;border:1px solid #e2e8f0;text-align:right">${data.dfDentro}</td>
-                            <td style="padding:4px 8px;border:1px solid #e2e8f0;text-align:right">${data.MSW?.toFixed(4) ?? '—'}</td>
-                            <td style="padding:4px 8px;border:1px solid #e2e8f0;text-align:right"></td>
-                            <td style="padding:4px 8px;border:1px solid #e2e8f0;text-align:right"></td></tr>
-                        <tr style="background:var(--item-bg)"><td style="padding:4px 8px;border:1px solid #e2e8f0;font-weight:600">Total</td>
-                            <td style="padding:4px 8px;border:1px solid #e2e8f0;text-align:right;font-weight:600">${(data.SSB + data.SSW).toFixed(4)}</td>
-                            <td style="padding:4px 8px;border:1px solid #e2e8f0;text-align:right">${data.dfEntre + data.dfDentro}</td>
-                            <td style="padding:4px 8px;border:1px solid #e2e8f0;text-align:right"></td>
-                            <td style="padding:4px 8px;border:1px solid #e2e8f0;text-align:right"></td>
-                            <td style="padding:4px 8px;border:1px solid #e2e8f0;text-align:right"></td></tr>
+                        <tr><td style="padding:4px 8px;border:1px solid var(--border)">Entre grupos</td>
+                            <td style="padding:4px 8px;border:1px solid var(--border);text-align:right">${data.SSB.toFixed(4)}</td>
+                            <td style="padding:4px 8px;border:1px solid var(--border);text-align:right">${data.dfEntre}</td>
+                            <td style="padding:4px 8px;border:1px solid var(--border);text-align:right">${data.MSB?.toFixed(4) ?? '—'}</td>
+                            <td style="padding:4px 8px;border:1px solid var(--border);text-align:right;font-weight:600">${data.estadisticoF?.toFixed(4) ?? '—'}</td>
+                            <td style="padding:4px 8px;border:1px solid var(--border);text-align:right;${data.significativo ? 'color:var(--text-danger);font-weight:600' : ''}">${data.valorP?.toFixed(4) ?? '—'}</td></tr>
+                        <tr><td style="padding:4px 8px;border:1px solid var(--border)">Dentro grupos</td>
+                            <td style="padding:4px 8px;border:1px solid var(--border);text-align:right">${data.SSW.toFixed(4)}</td>
+                            <td style="padding:4px 8px;border:1px solid var(--border);text-align:right">${data.dfDentro}</td>
+                            <td style="padding:4px 8px;border:1px solid var(--border);text-align:right">${data.MSW?.toFixed(4) ?? '—'}</td>
+                            <td style="padding:4px 8px;border:1px solid var(--border);text-align:right"></td>
+                            <td style="padding:4px 8px;border:1px solid var(--border);text-align:right"></td></tr>
+                        <tr style="background:var(--item-bg)"><td style="padding:4px 8px;border:1px solid var(--border);font-weight:600">Total</td>
+                            <td style="padding:4px 8px;border:1px solid var(--border);text-align:right;font-weight:600">${(data.SSB + data.SSW).toFixed(4)}</td>
+                            <td style="padding:4px 8px;border:1px solid var(--border);text-align:right">${data.dfEntre + data.dfDentro}</td>
+                            <td style="padding:4px 8px;border:1px solid var(--border);text-align:right"></td>
+                            <td style="padding:4px 8px;border:1px solid var(--border);text-align:right"></td>
+                            <td style="padding:4px 8px;border:1px solid var(--border);text-align:right"></td></tr>
                     </tbody>
                 </table>` : '';
             return `<div class="ar-kpi-card ar-kpi-multi"><div class="ar-kpi-col-label">${gruposLabel}</div>
@@ -2146,7 +2146,7 @@ function generarHTML(analisisResultado) {
                     </div>
                     <div class="ar-kpi-badge ${data.significativo ? 'ar-badge-danger' : 'ar-badge-ok'}">${data.significativo ? '✗ Significativo (p < 0.05)' : '✓ No significativo (p ≥ 0.05)'}</div>
                     </div>
-                    ${ssRows ? `<details open style="margin-top:8px"><summary style="cursor:pointer;font-size:0.85rem;color:#718096">📋 Tabla ANOVA</summary>${ssRows}</details>` : ''}
+                    ${ssRows ? `<details open style="margin-top:8px"><summary style="cursor:pointer;font-size:0.85rem;color:var(--text-muted)">📋 Tabla ANOVA</summary>${ssRows}</details>` : ''}
                     <div class="ar-formula" style="margin-top:12px;"><span class="ar-formula-icon">💬</span><div><div class="ar-formula-desc">${escapeHtml(data.interpretacion || '')}</div></div></div>`;
         }
         // Chi-Cuadrado
@@ -2241,9 +2241,9 @@ function generarHTML(analisisResultado) {
             const r2Text = data.r2 >= 0.999 ? '✓ Excelente (R² ≥ 0.999)' : data.r2 >= 0.99 ? '⚠ Aceptable (R² ≥ 0.99)' : '✗ Bajo (R² < 0.99)';
             const rr = data.resumenResiduos;
             const resRows = (data.residuos || []).map(function(r, i) {
-                return '<tr><td style="padding:4px 8px;border:1px solid #e2e8f0;text-align:right">' + (i + 1) + '</td>' +
-                    '<td style="padding:4px 8px;border:1px solid #e2e8f0;text-align:right">' + (data.predicciones?.[i]?.toFixed(6) ?? '—') + '</td>' +
-                    '<td style="padding:4px 8px;border:1px solid #e2e8f0;text-align:right">' + r.toFixed(6) + '</td></tr>';
+                return '<tr><td style="padding:4px 8px;border:1px solid var(--border);text-align:right">' + (i + 1) + '</td>' +
+                    '<td style="padding:4px 8px;border:1px solid var(--border);text-align:right">' + (data.predicciones?.[i]?.toFixed(6) ?? '—') + '</td>' +
+                    '<td style="padding:4px 8px;border:1px solid var(--border);text-align:right">' + r.toFixed(6) + '</td></tr>';
             }).join('');
             return `<div class="ar-kpi-card ar-kpi-multi"><div class="ar-kpi-col-label">📈 Curva: ${escapeHtml(data.columnaX || 'X')} → ${escapeHtml(data.columnaY || 'Y')}</div>
                     <div class="ar-kpi-sub-grid">
@@ -2256,8 +2256,8 @@ function generarHTML(analisisResultado) {
                     </div>
                     <div class="ar-kpi-badge ${r2Class}">${r2Text}</div>
                     <div class="ar-formula" style="margin-top:8px;"><span class="ar-formula-icon">💬</span><div><div class="ar-formula-desc">${escapeHtml(data.interpretacion || '')}</div></div></div>
-                    ${rr ? '<details style="margin-top:8px"><summary style="cursor:pointer;font-size:0.85rem;color:#718096">📉 Resumen de residuos</summary><table style="width:100%;margin-top:8px;border-collapse:collapse;font-size:0.8rem"><thead><tr style="background:#000"><th style="padding:4px 8px;border:1px solid #333;text-align:right;color:#fff">Mín</th><th style="padding:4px 8px;border:1px solid #333;text-align:right;color:#fff">Q1</th><th style="padding:4px 8px;border:1px solid #333;text-align:right;color:#fff">Mediana</th><th style="padding:4px 8px;border:1px solid #333;text-align:right;color:#fff">Q3</th><th style="padding:4px 8px;border:1px solid #333;text-align:right;color:#fff">Máx</th><th style="padding:4px 8px;border:1px solid #333;text-align:right;color:#fff">SSE</th></tr></thead><tbody><tr><td style="padding:4px 8px;border:1px solid #e2e8f0;text-align:right">' + rr.min + '</td><td style="padding:4px 8px;border:1px solid #e2e8f0;text-align:right">' + rr.q1 + '</td><td style="padding:4px 8px;border:1px solid #e2e8f0;text-align:right">' + rr.mediana + '</td><td style="padding:4px 8px;border:1px solid #e2e8f0;text-align:right">' + rr.q3 + '</td><td style="padding:4px 8px;border:1px solid #e2e8f0;text-align:right">' + rr.max + '</td><td style="padding:4px 8px;border:1px solid #e2e8f0;text-align:right;font-weight:bold">' + rr.sse + '</td></tr></tbody></table><div style="font-size:0.75rem;color:#718096;margin-top:4px;text-align:right">Residuo total (SSE) = ' + rr.sse + '</div></details>' : ''}
-                    ${data.residuos?.length ? '<details style="margin-top:8px"><summary style="cursor:pointer;font-size:0.85rem;color:#718096">📋 Ver residuales por observación</summary><table style="width:100%;margin-top:8px;border-collapse:collapse;font-size:0.8rem"><thead><tr style="background:#000"><th style="padding:4px 8px;border:1px solid #333;text-align:right;color:#fff">#</th><th style="padding:4px 8px;border:1px solid #333;text-align:right;color:#fff">Predicho</th><th style="padding:4px 8px;border:1px solid #333;text-align:right;color:#fff">Residual</th></tr></thead><tbody>' + resRows + '</tbody></table></details>' : ''}
+                    ${rr ? '<details style="margin-top:8px"><summary style="cursor:pointer;font-size:0.85rem;color:var(--text-muted)">📉 Resumen de residuos</summary><table style="width:100%;margin-top:8px;border-collapse:collapse;font-size:0.8rem"><thead><tr style="background:var(--item-bg)"><th style="padding:4px 8px;border:1px solid var(--border);text-align:right;color:var(--text-primary)">Mín</th><th style="padding:4px 8px;border:1px solid var(--border);text-align:right;color:var(--text-primary)">Q1</th><th style="padding:4px 8px;border:1px solid var(--border);text-align:right;color:var(--text-primary)">Mediana</th><th style="padding:4px 8px;border:1px solid var(--border);text-align:right;color:var(--text-primary)">Q3</th><th style="padding:4px 8px;border:1px solid var(--border);text-align:right;color:var(--text-primary)">Máx</th><th style="padding:4px 8px;border:1px solid var(--border);text-align:right;color:var(--text-primary)">SSE</th></tr></thead><tbody><tr><td style="padding:4px 8px;border:1px solid var(--border);text-align:right">' + rr.min + '</td><td style="padding:4px 8px;border:1px solid var(--border);text-align:right">' + rr.q1 + '</td><td style="padding:4px 8px;border:1px solid var(--border);text-align:right">' + rr.mediana + '</td><td style="padding:4px 8px;border:1px solid var(--border);text-align:right">' + rr.q3 + '</td><td style="padding:4px 8px;border:1px solid var(--border);text-align:right">' + rr.max + '</td><td style="padding:4px 8px;border:1px solid var(--border);text-align:right;font-weight:bold">' + rr.sse + '</td></tr></tbody></table><div style="font-size:0.75rem;color:var(--text-muted);margin-top:4px;text-align:right">Residuo total (SSE) = ' + rr.sse + '</div></details>' : ''}
+                    ${data.residuos?.length ? '<details style="margin-top:8px"><summary style="cursor:pointer;font-size:0.85rem;color:var(--text-muted)">📋 Ver residuales por observación</summary><table style="width:100%;margin-top:8px;border-collapse:collapse;font-size:0.8rem"><thead><tr style="background:var(--item-bg)"><th style="padding:4px 8px;border:1px solid var(--border);text-align:right;color:var(--text-primary)">#</th><th style="padding:4px 8px;border:1px solid var(--border);text-align:right;color:var(--text-primary)">Predicho</th><th style="padding:4px 8px;border:1px solid var(--border);text-align:right;color:var(--text-primary)">Residual</th></tr></thead><tbody>' + resRows + '</tbody></table></details>' : ''}
                     </div>`;
         }
         // Límites de Cuantificación
@@ -2483,7 +2483,7 @@ function generarHTML(analisisResultado) {
                         <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Bloques</span><span class="ar-kpi-sub-v">${data.bloques ?? '—'}</span></div>
                     </div>
                     <div class="ar-kpi-badge ${data.significativo ? 'ar-badge-danger' : 'ar-badge-ok'}">${data.significativo ? '✗ Significativo (p < 0.05)' : '✓ No significativo (p ≥ 0.05)'}</div>
-                    <div style="margin-top:8px;font-size:0.75rem;color:#aaa;">Rangos: ${tratamientosInfo}</div>
+                    <div style="margin-top:8px;font-size:0.75rem;color:var(--text-faint);">Rangos: ${tratamientosInfo}</div>
                     </div>
                     <div class="ar-formula" style="margin-top:12px;"><span class="ar-formula-icon">💬</span><div><div class="ar-formula-desc">${escapeHtml(data.interpretacion || '')}</div></div></div>`;
         }
@@ -2648,10 +2648,10 @@ function generarHTML(analisisResultado) {
     let html = `
     <div class="resultados-globales" style="background:transparent; border-radius:10px; padding:12px; margin-bottom:20px;">
         <div style="display:flex; gap:24px; flex-wrap:wrap; align-items:center;">
-            <div><span style="color:#c4c4be;">📊 Columnas numéricas</span><br><strong style="font-size:20px;color:#f0f0ed;">${cols.length}</strong></div>
-            <div><span style="color:#c4c4be;">📈 Estadísticos ejecutados</span><br><strong style="font-size:20px;color:#f0f0ed;">${statKeys.length}</strong></div>
-            <div><span style="color:#c4c4be;">🔬 Filas analizadas</span><br><strong style="font-size:20px;color:#f0f0ed;">${analisisResultado.totalFilas}</strong></div>
-            <div><span style="color:#c4c4be;">📦 Total de datos</span><br><strong style="font-size:20px;color:#f0f0ed;">${analisisResultado.totalDatos?.toLocaleString() || (analisisResultado.totalFilas * cols.length)}</strong></div>
+            <div><span style="color:var(--text-faint);">📊 Columnas numéricas</span><br><strong style="font-size:20px;color:var(--text-primary);">${cols.length}</strong></div>
+            <div><span style="color:var(--text-faint);">📈 Estadísticos ejecutados</span><br><strong style="font-size:20px;color:var(--text-primary);">${statKeys.length}</strong></div>
+            <div><span style="color:var(--text-faint);">🔬 Filas analizadas</span><br><strong style="font-size:20px;color:var(--text-primary);">${analisisResultado.totalFilas}</strong></div>
+            <div><span style="color:var(--text-faint);">📦 Total de datos</span><br><strong style="font-size:20px;color:var(--text-primary);">${analisisResultado.totalDatos?.toLocaleString() || (analisisResultado.totalFilas * cols.length)}</strong></div>
         </div>
     </div>`;
 
@@ -2659,15 +2659,15 @@ function generarHTML(analisisResultado) {
     if (analisisResultado.registrosPorColumna && Object.keys(analisisResultado.registrosPorColumna).length > 0) {
         html += `
     <div style="margin-bottom:20px;">
-        <h4 style="color:#f0f0ed; font-size:12px; text-transform:uppercase; letter-spacing:1px; margin-bottom:8px;">📋 Registros válidos por columna</h4>
+        <h4 style="color:var(--text-primary); font-size:12px; text-transform:uppercase; letter-spacing:1px; margin-bottom:8px;">📋 Registros válidos por columna</h4>
         <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(120px, 1fr)); gap:8px; font-size:11px;">
         `;
         Object.entries(analisisResultado.registrosPorColumna).forEach(([col, count]) => {
             const total = analisisResultado.totalFilas;
             const pct = ((count / total) * 100).toFixed(1);
-            html += `<div style="background:rgba(255,255,255,.05); padding:8px; border-left:2px solid #c8a951; border-radius:3px;">
-                <span style="color:#c4c4be;">${col}</span><br>
-                <strong style="color:#f0f0ed;">${count}</strong> / ${total} (${pct}%)
+            html += `<div style="background:var(--item-bg); padding:8px; border-left:2px solid #c8a951; border-radius:3px;">
+                <span style="color:var(--text-faint);">${col}</span><br>
+                <strong style="color:var(--text-primary);">${count}</strong> / ${total} (${pct}%)
             </div>`;
         });
         html += `</div>
@@ -2751,7 +2751,7 @@ function generarHTML(analisisResultado) {
     // 3. SECCIÓN GENERAL FINAL (notas metodológicas globales, glosario)
     // ────────────────────────────────────────────────────────────────────────────
     html += `
-    <div class="ar-notes-section" style="margin-top:24px; padding-top:16px; border-top:0.5px solid rgba(255,255,255,0.1);">
+    <div class="ar-notes-section" style="margin-top:24px; padding-top:16px; border-top:0.5px solid var(--border);">
         <div class="ar-notes-title">📚 Notas metodológicas generales</div>
         <div class="ar-notes-grid">
             <div class="ar-note-card">
@@ -2767,7 +2767,7 @@ function generarHTML(analisisResultado) {
                 <div class="ar-note-desc">Si configuraste umbrales en <strong>Parámetros → Dispersión</strong>, se mostrarán semáforos 🟢/🟡/🔴 junto a los valores.</div>
             </div>
         </div>
-        <div style="margin-top:12px; font-size:10px; color:#888; text-align:center;">
+        <div style="margin-top:12px; font-size:10px; color:var(--text-faint); text-align:center;">
             Reporte generado automáticamente por StatLab · ${(function(_d){var _m='Ene,Feb,Mar,Abr,May,Jun,Jul,Ago,Sep,Oct,Nov,Dic'.split(',');return ('0'+_d.getDate()).slice(-2)+'/'+_m[_d.getMonth()]+'/'+_d.getFullYear()+' '+_d.toLocaleTimeString('es-ES',{hour:'2-digit',minute:'2-digit',hour12:true});})(new Date())}
         </div>
     </div>`;

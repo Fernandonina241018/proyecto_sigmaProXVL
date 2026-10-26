@@ -90,6 +90,32 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (SigmaProXVL) con spr
 
 ## CAMBIOS RECIENTES
 
+### 2026-10-26 (20): Bandeja de firmas en modal + miniaturas con tooltip + colores tema-adaptables
+
+**Cambio:** Tres mejoras de UI/UX sobre la página "Firmar Reporte", la galería de Visualización y la página "Análisis Estadístico":
+
+1. **Bandeja de firmas → modal agrupado por estado.** La pastilla de tabs (Pendientes/Mías/Todas/Cargado) y el listado se reemplazan por un botón "🗂 Abrir bandeja de firmas" que abre un modal. El modal agrupa los reportes en 6 secciones con contador: **Sin firma (0) · 1 firma · 2 firmas · Completados (3) · Rechazados (`rejected`) · Cancelados (`deleted`)**. Visibilidad por rol: **admin ve todas** (`scope=all`), los demás roles ven **solo sus reportes** (`scope=mine`, `created_by = me`). Cada ítem conserva sus acciones (abrir, 🚫 rechazar, 🗑 eliminar con descarga previa en completas).
+
+2. **Miniaturas de galería con número + tooltip.** Cada miniatura muestra un número incremental (`.gal-num`, 1 = más reciente) y un tooltip al pasar el mouse con: número, título, tipo de gráfico, hoja de origen, archivo y fecha.
+
+3. **Colores tema-adaptables en Análisis Estadístico + EDA.** Se sustituyeron ~160 colores hex hardcodeados de `EstadisticaDescriptiva.generarHTML()` por variables CSS (`var(--border)`, `var(--item-bg)`, `var(--text-primary)`, `var(--text-muted)`, `var(--text-faint)`, `var(--accent-alt)`, `var(--text-danger)`, `var(--bg-accent)`, `var(--bg-warning)`) para que la información sea visible en modo claro y oscuro. El heatmap de correlación del EDA (`drawHeatmap` + `_corrColor`) ahora adapta cuadrícula, textos y celdas según `data-theme`.
+
+**Archivos afectados:**
+| Archivo | Cambio |
+|---------|--------|
+| `js/core/indexx-ui.js:609-613` | Pastilla de tabs + lista → botón "Abrir bandeja de firmas" |
+| `js/core/indexx-firma.js` | Nuevas `firmaOpenBandejaModal()`, `firmaRenderBandejaModal()`, `_firmaGroupSessions()`, `_firmaBandejaItemHtml()` + handler en `initFirmarReportePage()` |
+| `js/core/indexx-viz.js` | `.gal-num` (CSS) + número incremental y tooltip en `vizRefreshGallery()` |
+| `js/core/EstadisticaDescriptiva.js` | ~160 colores hex → variables CSS en `generarHTML()` |
+| `js/managers/EDAManager.js` | `drawHeatmap()`/`_corrColor()` adaptados a tema (`_edaIsLight()`) |
+| `tests/firma-bandeja-modal.test.js` | **NUEVO** — 3 tests del modal (scope por rol, grupos, hint) |
+
+**Por qué:** El usuario pidió que la bandeja de firmas no se muestre como listado sino como modal agrupado por estado (con rechazados y cancelados separados), que el admin vea todos los reportes y el resto solo los suyos, y que los colores del análisis estadístico/visualización sean siempre legibles en claro y oscuro. Las miniaturas ahora comunican más (número y datos al hover).
+
+**Riesgo:** Medio (cambio de UI). Los tests existentes de la bandeja se preservan (la lógica legacy de `firmaLoadBandeja` se conserva como compatibilidad con el harness de tests). 534/534 tests pasan.
+
+---
+
 ### 2026-10-24 (19): IQ detallado por sistema — HVAC, agua purificada, vapor limpio, aire comprimido
 
 **Cambio:** Creación de 4 archivos de IQ detallado por sistema de instalaciones, cerrando la brecha regulatoria de sistemas sin IQ (solo tenían OQ y PQ). Cada archivo sigue el patrón de `equipos/iq-*.html` con bloque 1 (portada/firmas/responsabilidades/alcance/def-USP/nota-datos), bloque 3 (ensayos de calificación), bloque 4 (resumen), bloque 6 (referencias) y bloque 8 (anexos), con `refnorma` asignado a cada ensayo.

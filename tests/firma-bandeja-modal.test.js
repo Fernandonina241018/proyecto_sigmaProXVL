@@ -1,0 +1,80 @@
+// Bandeja de firmas en MODAL (reemplaza la pastilla de tabs + listado).
+// Verifica: admin ve todas (scope=all), no-admin solo las suyas (scope=mine),
+// y los reportes se separan en grupos con "Rechazados" y "Cancelados" aparte.
+import { readFileSync } from 'fs';
+import { join, dirname } from 'path';
+import { fileURLToPath } from 'url';
+import vm from 'vm';
+import { Window } from 'happy-dom';
+
+const __dirname = dirname(fileURLToPath(import.meta.url));
+const core = join(__dirname, '..', 'js', 'core');
+
+function loadModalHarness(role, sessions) {
+  const window = new Window();
+  const document = window.document;
+  document.body.innerHTML = '<div id="firmaPendingBadge"></div>';
+  const urls = [];
+  const sandbox = {
+    console, window, document,
+    DOMParser: window.DOMParser,
+    localStorage: window.localStorage,
+    sessionStorage: window.sessionStorage,
+    showToast: () => {},
+    escapeHtml: (s) => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;'),
+    fetchWithTimeout: async (url) => {
+      urls.push(String(url));
+      if (String(url).includes('count=1')) return { json: async () => ({ ok: true, count: 0 }) };
+      if (String(url).includes('scope=')) return { json: async () => ({ ok: true, sessions }) };
+      throw new Error('offline:' + url);
+    },
+    Auth: { getToken: () => 't', getSession: () => ({ username: 'ana', role }) },
+    API_URL: 'http://x',
+  };
+  sandbox.globalThis = sandbox;
+  sandbox.self = sandbox;
+  vm.createContext(sandbox);
+  vm.runInContext(readFileSync(join(core, 'indexx-firma.js'), 'utf-8'), sandbox);
+  return { sandbox, document, urls };
+}
+
+describe('bandeja en modal (reemplaza pastilla de tabs)', () => {
+  test('admin usa scope=all y separa grupos (Rechazados ≠ Cancelados)', async () => {
+    const sessions = [
+      { id: 1, name: 'A', status: 'pending', signed_count: 0, next_role: 'reviewed', created_by: 'ana' },
+      { id: 2, name: 'B', status: 'complete', signed_count: 3, created_by: 'beto' },
+      { id: 3, name: 'C', status: 'rejected', signed_count: 1, created_by: 'ana', rejected_by: 'beto' },
+      { id: 4, name: 'D', status: 'deleted', signed_count: 1, created_by: 'ana', deleted_reason: 'x' },
+    ];
+    const { sandbox, document, urls } = loadModalHarness('admin', sessions);
+    await vm.runInContext('firmaOpenBandejaModal()', sandbox);
+    await new Promise((r) => setTimeout(r, 30));
+    expect(urls.some((u) => u.includes('scope=all'))).toBe(true);
+    const txt = document.getElementById('firmaModalList').textContent;
+    expect(txt).toMatch('Sin firma');
+    expect(txt).toMatch('Completados');
+    expect(txt).toMatch('Rechazados');
+    expect(txt).toMatch('Cancelados');
+    expect(txt).toMatch('de beto'); // admin ve el autor de reportes ajenos
+  });
+
+  test('no-admin consulta sus reportes (mine) y sus pendientes (pending)', async () => {
+    const sessions = [
+      { id: 1, name: 'A', status: 'rejected', signed_count: 1, created_by: 'ana' },
+    ];
+    const { sandbox, document, urls } = loadModalHarness('analista', sessions);
+    await vm.runInContext('firmaOpenBandejaModal()', sandbox);
+    await new Promise((r) => setTimeout(r, 30));
+    expect(urls.some((u) => u.includes('scope=mine'))).toBe(true);
+    expect(urls.some((u) => u.includes('scope=pending'))).toBe(true);
+    expect(urls.some((u) => u.includes('scope=all'))).toBe(false);
+    expect(document.getElementById('firmaModalList').textContent).toMatch('Rechazados');
+  });
+
+  test('sin reportes muestra hint según rol', async () => {
+    const { sandbox, document } = loadModalHarness('analista', []);
+    await vm.runInContext('firmaOpenBandejaModal()', sandbox);
+    await new Promise((r) => setTimeout(r, 30));
+    expect(document.getElementById('firmaModalList').textContent).toMatch('creados por ti');
+  });
+});

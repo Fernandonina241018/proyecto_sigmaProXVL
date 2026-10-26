@@ -746,6 +746,11 @@ const EDAManager = (function () {
         setTimeout(() => observer.disconnect(), 5000);
     }
 
+    function _edaIsLight() {
+        try { return document.documentElement.getAttribute('data-theme') === 'light'; }
+        catch (e) { return false; }
+    }
+
     function drawHeatmap(canvas, cols, matrix) {
         if (!canvas || !canvas.getContext) return;
         const ctx       = canvas.getContext('2d');
@@ -753,6 +758,11 @@ const EDAManager = (function () {
         const cellSize  = Math.min(60, Math.max(35, 500 / n));
         const labelW    = 110;
         const labelH    = 45;
+        const isLight   = _edaIsLight();
+        const gridColor = isLight ? '#cbd5e1' : '#3a3a3a';
+        const cellHi    = '#ffffff';
+        const cellLo    = isLight ? '#334155' : '#dcddde';
+        const labelColor = isLight ? '#334155' : '#dcddde';
 
         canvas.width  = labelW + n * cellSize + 10;
         canvas.height = labelH + n * cellSize + 10;
@@ -768,11 +778,11 @@ const EDAManager = (function () {
                 ctx.fillStyle = _corrColor(r);
                 ctx.fillRect(x, y, cellSize, cellSize);
 
-                ctx.strokeStyle = '#3a3a3a';
+                ctx.strokeStyle = gridColor;
                 ctx.lineWidth   = 1;
                 ctx.strokeRect(x, y, cellSize, cellSize);
 
-                ctx.fillStyle  = Math.abs(r) > 0.5 ? '#fff' : '#dcddde';
+                ctx.fillStyle  = Math.abs(r) > 0.5 ? cellHi : cellLo;
                 ctx.font       = `bold 11px 'Segoe UI', monospace`;
                 ctx.textAlign  = 'center';
                 ctx.textBaseline = 'middle';
@@ -780,7 +790,7 @@ const EDAManager = (function () {
             }
         }
 
-        ctx.fillStyle    = '#dcddde';
+        ctx.fillStyle    = labelColor;
         ctx.font         = `bold 10px 'Segoe UI', sans-serif`;
         ctx.textAlign    = 'left';
         ctx.textBaseline = 'middle';
@@ -800,19 +810,20 @@ const EDAManager = (function () {
     }
 
     function _corrColor(r) {
-        // THEME-EDA: dark-adapted heatmap: neutral→accent for pos, neutral→red for neg
-        const neutral = 30;
+        // THEME-EDA: heatmap adaptado a tema: neutral→accent (positivo), neutral→rojo (negativo)
+        const light = _edaIsLight();
+        const neutral = light ? 230 : 30;
         if (r > 0) {
             const t = r;
-            const R = Math.round(neutral + t * (124 - neutral));
-            const G = Math.round(neutral + t * (106 - neutral));
-            const B = Math.round(neutral + t * (247 - neutral));
+            const R = Math.round(neutral + t * ((light ? 109 : 124) - neutral));
+            const G = Math.round(neutral + t * ((light ? 90 : 106) - neutral));
+            const B = Math.round(neutral + t * ((light ? 230 : 247) - neutral));
             return `rgb(${R},${G},${B})`;
         }
         const t = Math.abs(r);
-        const R = Math.round(neutral + t * (239 - neutral));
-        const G = Math.round(neutral - t * neutral);
-        const B = Math.round(neutral - t * neutral);
+        const R = Math.round(neutral + t * ((light ? 239 : 239) - neutral));
+        const G = Math.round(neutral - t * (light ? neutral - 38 : neutral));
+        const B = Math.round(neutral - t * (light ? neutral - 38 : neutral));
         return `rgb(${R},${G},${B})`;
     }
 
