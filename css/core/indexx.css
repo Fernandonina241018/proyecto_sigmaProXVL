@@ -642,11 +642,11 @@
     border-radius: 4px;
     padding: 8px;
     font-family: var(--font-mono);
-    font-size: 12px;
-    color: var(--accent);
+    font-size: 14px;
+    color: var(--text-primary);
     text-align: center;
     overflow-x: auto;
-    font-weight: 500;
+    font-weight: 700;
   }
   .sc-desc { font-size: 11px; color: var(--text-muted); line-height: 1.5; }
   .sc-meta {

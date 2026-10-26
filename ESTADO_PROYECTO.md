@@ -90,6 +90,21 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (SigmaProXVL) con spr
 
 ## CAMBIOS RECIENTES
 
+### 2026-10-26 (22): Legibilidad de fórmulas en cards de estadísticos
+
+**Cambio:** Las fórmulas de las cards de estadísticos cargados para análisis (`.sc-formula`) usaban `var(--accent)` (morado), que en ciertos monitores se veía borroso/ilegible. Se cambió a texto de alto contraste: **blanco en modo oscuro, casi negro en modo claro** (`var(--text-primary)`), en **bold** (`font-weight: 700`) y con **+2px de fuente** (`12px → 14px`).
+
+**Archivos afectados:**
+| Archivo | Cambio |
+|---------|--------|
+| `css/core/indexx.css:640-650` | `.sc-formula`: `color: var(--accent)` → `var(--text-primary)`, `font-weight: 500` → `700`, `font-size: 12px` → `14px` |
+
+**Por qué:** El usuario reportó que el texto morado de las fórmulas (en las cards de "Tests seleccionados") no se leía bien en ciertos monitores. `var(--text-primary)` garantiza contraste WCAG AA/AAA en ambos temas sin tocar el acento global.
+
+**Riesgo:** Bajo. Cambio de una sola regla CSS (presentación), sin lógica.
+
+---
+
 ### 2026-10-26 (21): Rediseño del modal de Bandeja de firmas (tarjetas + pestañas por estado)
 
 **Cambio:** Integración del diseño moderno de la bandeja de firmas (mockup HTML aprobado), reemplazando el modal anterior de grupos apilados por un modal con **4 pestañas por estado de ciclo de vida**: **Pendientes** (0+1+2 firmas) · **Completadas** (3) · **Rechazadas** · **Canceladas**. El progreso "✍ X/3 firmas" se muestra dentro de cada tarjeta.
