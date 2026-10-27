@@ -504,14 +504,15 @@ const ReporteManager = (() => {
         return formatDate(new Date().toISOString().slice(0,10));
     }
 
-    // Store generated hashes to ensure uniqueness
+    // Huella de integridad determinista (SHA-256 sobre el contenido canónico).
+    // Sin timestamp ni aleatoriedad: el mismo reporte produce el mismo hash,
+    // por lo que cualquier edición del contenido se detecta al recalcularlo.
     async function generateHash(meta, res) {
-        const timestamp = Date.now().toString(36) + Math.random().toString(36).slice(2, 6);
-        const s = JSON.stringify({ meta, r: res?.totalFilas, uid: timestamp });
-        const data = new TextEncoder().encode(s);
+        const canonical = JSON.stringify({ meta: meta || {}, resultados: res || {} });
+        const data = new TextEncoder().encode(canonical);
         const hashBuffer = await crypto.subtle.digest('SHA-256', data);
         const hashArray = Array.from(new Uint8Array(hashBuffer));
-        return hashArray.slice(0, 4).map(b => b.toString(16).padStart(2, '0')).join('').toUpperCase();
+        return hashArray.map(b => b.toString(16).padStart(2, '0')).join('').toUpperCase();
     }
     
     function formatReferencia(ref) {
@@ -1077,6 +1078,7 @@ const ReporteManager = (() => {
         const ext=computeExtendedStats(resultados);
         const totalFlags=Object.values(ext).reduce((a,d)=>a+d.flags.length,0);
         const lang=currentLang;
+        const hashId = (hash || '').slice(0, 12); // ID corto para mostrar; el hash completo va en "Hash de Integridad"
         const hypothesisTests = HYPOTHESIS_SET;
         const multivariadoTests = new Set(['Análisis Factorial', 'PCA (Componentes Principales)', 'PCA', 'Análisis de Cluster', 'Análisis Discriminante', 'M-ANOVA']);
         const hypEntries = Object.entries(resultados.resultados).filter(([stat]) => hypothesisTests.has(stat) || multivariadoTests.has(stat));
@@ -1271,7 +1273,7 @@ const ReporteManager = (() => {
 
         return `<!DOCTYPE html>
 <html lang="${lang}"><head><meta charset="UTF-8">
-<title>${t('html_title')} — RPT-${hash}</title>
+<title>${t('html_title')} — RPT-${hashId}</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Source+Serif+4:wght@300;400;600&family=JetBrains+Mono:wght@400;500&display=swap');
 *{box-sizing:border-box;margin:0;padding:0}
@@ -1331,7 +1333,7 @@ tr:hover td{background:#f7faff}
     .sig-grid{page-break-inside:avoid}
     .audit-box{page-break-inside:avoid}
     .doc-footer{page-break-inside:avoid;page-break-before:avoid}
-    @page{margin:1.2cm;size:A4;@bottom-center{content:counter(page) " de " counter(pages);font-family:'JetBrains Mono',monospace;font-size:7.5pt;color:#a0aec0}@bottom-right{content:"RPT-${hash}";font-family:'JetBrains Mono',monospace;font-size:7.5pt;color:#a0aec0}}
+    @page{margin:1.2cm;size:A4;@bottom-center{content:counter(page) " de " counter(pages);font-family:'JetBrains Mono',monospace;font-size:7.5pt;color:#a0aec0}@bottom-right{content:"RPT-${hashId}";font-family:'JetBrains Mono',monospace;font-size:7.5pt;color:#a0aec0}}
 }
 
 </style>
@@ -1348,7 +1350,7 @@ tr:hover td{background:#f7faff}
     <div class="title" style="font-size:26pt;font-weight:300;margin-bottom:6px">${t('html_title')}</div>
     <div class="subtitle" style="font-size:11pt;color:#c8a951;font-weight:300;letter-spacing:1px;margin-bottom:44px">${REGULATORY.standard} — ${t('compliant')}</div>
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px 40px;font-family:'JetBrains Mono',monospace;font-size:8pt;color:rgba(255,255,255,.7);border-top:1px solid rgba(255,255,255,.2);padding-top:22px">
-      <div><strong style="color:#c8a951;display:block;font-size:7pt;letter-spacing:1px;text-transform:uppercase">${t('docId')}</strong>RPT-${hash}</div>
+      <div><strong style="color:#c8a951;display:block;font-size:7pt;letter-spacing:1px;text-transform:uppercase">${t('docId')}</strong>RPT-${hashId}</div>
       <div><strong style="color:#c8a951;display:block;font-size:7pt;letter-spacing:1px;text-transform:uppercase">${t('organization')}</strong>${escapeHtml(meta.organizacion)||'—'}</div>
       <div><strong style="color:#c8a951;display:block;font-size:7pt;letter-spacing:1px;text-transform:uppercase">${t('assay')}</strong>${escapeHtml(meta.ensayo)||'—'}</div>
       <div><strong style="color:#c8a951;display:block;font-size:7pt;letter-spacing:1px;text-transform:uppercase">${t('phase')}</strong>${escapeHtml(meta.fase)||'—'}</div>
@@ -1410,7 +1412,7 @@ tr:hover td{background:#f7faff}
           return `${col} (${count})`;
       }).join(' · '))}</div>
       <div style="grid-column:1/-1">${mRow(t('statistics'),resultados.estadisticos.join(' · '))}</div>
-      <div style="grid-column:1/-1"><span class="ml">${t('integrityHash')}</span><span class="mv" style="font-family:monospace;font-size:9pt">RPT-${hash}</span></div>
+      <div style="grid-column:1/-1"><span class="ml">${t('integrityHash')}</span><span class="mv" style="font-family:monospace;font-size:9pt;word-break:break-all">RPT-${hash}</span></div>
     </div>
   </div>
   <table id="sec04" style="width:100%;border-collapse:collapse;margin-bottom:20px">
@@ -2007,13 +2009,13 @@ tr:hover td{background:#f7faff}
     <div class="sig-grid">${sigBlocks}</div><br>
     <div class="audit-box">
       <strong style="color:#1a3a6b">${t('html_auditMeta')}</strong><br>
-      ${t('docId')}: RPT-${hash} &nbsp;|&nbsp; ${t('software')}: ${REGULATORY.software} &nbsp;|&nbsp; ${t('generated')}: ${nowFormatted()}<br>
+      ${t('docId')}: RPT-${hashId} &nbsp;|&nbsp; ${t('software')}: ${REGULATORY.software} &nbsp;|&nbsp; ${t('generated')}: ${nowFormatted()}<br>
       Standard: ${REGULATORY.standard} &nbsp;|&nbsp; Guideline: ${REGULATORY.guideline}
     </div>
   </div>
 
   <div class="doc-footer">
-    <div><strong style="color:#1a3a6b">RPT-${hash}</strong><br>${REGULATORY.software}</div>
+    <div><strong style="color:#1a3a6b">RPT-${hashId}</strong><br>${REGULATORY.software}</div>
     <div style="text-align:center">${meta.confidencialidad||'CONFIDENTIAL'}</div>
     <div style="text-align:right">${REGULATORY.standard}<br>${todayFormatted()}</div>
   </div>
@@ -2032,16 +2034,86 @@ tr:hover td{background:#f7faff}
         link.click();
         URL.revokeObjectURL(url);
     }
+    function _rmLoadScript(src) {
+        return new Promise(function(resolve) {
+            if (document.querySelector('script[src="' + src + '"]')) { resolve(); return; }
+            var s = document.createElement('script');
+            s.src = src;
+            s.onload = function() { resolve(); };
+            s.onerror = function() { resolve(); }; // resuelve igual; generarPDF hace fallback
+            document.head.appendChild(s);
+        });
+    }
+
+    // Genera un PDF real a partir del HTML del reporte (html2canvas + jsPDF),
+    // con la huella de integridad en los metadatos. Fallback a imprimir.
+    async function generarPDF(html, filename, hash) {
+        try {
+            await _rmLoadScript('https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js');
+            await _rmLoadScript('https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js');
+            if (!window.html2canvas || !window.jspdf) throw new Error('librerías PDF no disponibles');
+
+            const iframe = document.createElement('iframe');
+            iframe.style.cssText = 'position:fixed;left:-10000px;top:0;width:794px;height:1123px;border:0;background:#ffffff;';
+            iframe.srcdoc = html;
+            document.body.appendChild(iframe);
+            await new Promise(function(r) {
+                let done = false;
+                iframe.onload = function() { if (!done) { done = true; r(); } };
+                setTimeout(function() { if (!done) { done = true; r(); } }, 1500);
+            });
+            const ifdoc = iframe.contentDocument || iframe.contentWindow.document;
+
+            const canvas = await window.html2canvas(ifdoc.body, {
+                scale: 2, useCORS: true, backgroundColor: '#ffffff', logging: false
+            });
+            document.body.removeChild(iframe);
+
+            const jsPDF = window.jspdf.jsPDF;
+            const pdf = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
+            pdf.setProperties({
+                title: filename.replace(/\.pdf$/, ''),
+                subject: 'Reporte SigmaProXVL',
+                creator: 'SigmaProXVL',
+                keywords: 'integridad=' + hash
+            });
+
+            const pageW = 210, pageH = 297;
+            const imgH = canvas.height * pageW / canvas.width;
+            const imgData = canvas.toDataURL('image/jpeg', 0.92);
+            let heightLeft = imgH;
+            let position = 0;
+            pdf.addImage(imgData, 'JPEG', 0, position, pageW, imgH);
+            heightLeft -= pageH;
+            while (heightLeft > 1) {
+                position -= pageH;
+                pdf.addPage();
+                pdf.addImage(imgData, 'JPEG', 0, position, pageW, imgH);
+                heightLeft -= pageH;
+            }
+            pdf.save(filename);
+            return true;
+        } catch (e) {
+            console.warn('[ReporteManager] Generación PDF falló, fallback a imprimir:', e);
+            const blob = new Blob([html], { type: 'text/html;charset=utf-8' });
+            const url = URL.createObjectURL(blob);
+            const w = window.open(url, '_blank');
+            if (w) { w.onload = function() { setTimeout(function() { w.print(); URL.revokeObjectURL(url); }, 800); }; }
+            else { URL.revokeObjectURL(url); }
+            return false;
+        }
+    }
+
     async function descargar(formatos, resultados, meta) {
         if (typeof _userCanGenerateReport === 'function' && !_userCanGenerateReport()) {
             showToast('🔒 No tienes permiso para descargar reportes');
             return;
         }
         const hash = await generateHash(meta, resultados);
-        const base = `RPT-${hash}_${new Date().toISOString().slice(0,10)}`;
+        const base = `RPT-${hash.slice(0,10)}_${new Date().toISOString().slice(0,10)}`;
         let delay = 0;
-        if(formatos.includes('html')){setTimeout(async ()=>{const h=await generarHTML(resultados,meta,hash);downloadBlob(h,`${base}.html`,'text/html;charset=utf-8');},delay);delay+=350;}
-        if(formatos.includes('pdf')){setTimeout(async ()=>{const h=await generarHTML(resultados,meta,hash);const blob=new Blob([h],{type:'text/html;charset=utf-8'});const url=URL.createObjectURL(blob);const w=window.open(url,'_blank');if(w){w.onload=function(){setTimeout(function(){w.print();URL.revokeObjectURL(url);},800);};}else{URL.revokeObjectURL(url);}},delay);delay+=350;}
+        // El .html es SOLO para trabajo interno: no se descarga.
+        if(formatos.includes('pdf')){setTimeout(async ()=>{const h=await generarHTML(resultados,meta,hash);await generarPDF(h,`${base}.pdf`,hash);},delay);delay+=350;}
         if(formatos.includes('txt')){setTimeout(()=>downloadBlob(generarTXT(resultados,meta,hash),`${base}.txt`,'text/plain;charset=utf-8'),delay);delay+=350;}
         if(formatos.includes('csv')){setTimeout(()=>downloadBlob(generarCSV(resultados,meta,hash),`${base}.csv`,'text/csv;charset=utf-8'),delay);}
         
@@ -2347,7 +2419,7 @@ tr:hover td{background:#f7faff}
                 return;
             }
             const hash = await generateHash(meta, resultados);
-            const base = `RPT-${hash}_${new Date().toISOString().slice(0,10)}`;
+            const base = `RPT-${hash.slice(0,10)}_${new Date().toISOString().slice(0,10)}`;
             const html = await generarHTML(resultados, meta, hash);
             // FASE 2 — publicar a bandeja (firma prepared + asignados).
             // Fallback local idéntico al flujo anterior si no hay servidor.
@@ -2610,23 +2682,13 @@ tr:hover td{background:#f7faff}
     <p class="rep-format-hint">${t('ui_formatHint')}</p>
 
     <div class="rep-format-list">
-    <label class="rep-format-item" id="fmt-html-wrap">
-      <input type="checkbox" id="fmt-html" value="html" checked>
-      <div class="rep-format-body">
-        <div class="rep-format-icon">🌐</div>
-        <div class="rep-format-info">
-          <div class="rep-format-name">.HTML <span class="rep-fmt-badge-recommended">${t('ui_recommended')}</span> <span class="rep-fmt-badge-pdf">${t('ui_pdfReady')}</span></div>
-          <div class="rep-format-desc">${t('ui_htmlDesc')}</div>
-        </div>
-        <div class="rep-format-checkmark">✓</div>
-      </div>
-    </label>
+    <div class="rep-format-note" style="font-size:11px;color:var(--text-faint);padding:6px 8px;border:1px dashed var(--border);border-radius:6px;margin-bottom:8px">🔒 El <b>.HTML</b> es solo para trabajo interno. La descarga oficial es en <b>.PDF</b> (con hash de integridad).</div>
     <label class="rep-format-item" id="fmt-pdf-wrap">
-      <input type="checkbox" id="fmt-pdf" value="pdf">
+      <input type="checkbox" id="fmt-pdf" value="pdf" checked>
       <div class="rep-format-body">
         <div class="rep-format-icon">📄</div>
         <div class="rep-format-info">
-          <div class="rep-format-name">.PDF</div>
+          <div class="rep-format-name">.PDF <span class="rep-fmt-badge-recommended">${t('ui_recommended')}</span></div>
           <div class="rep-format-desc">${t('ui_pdfDesc') || 'Reporte en formato PDF listo para imprimir.'}</div>
         </div>
         <div class="rep-format-checkmark">✓</div>

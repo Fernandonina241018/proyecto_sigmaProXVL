@@ -90,6 +90,30 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (SigmaProXVL) con spr
 
 ## CAMBIOS RECIENTES
 
+### 2026-10-26 (23): Seguridad del reporte — hash determinista + descarga en PDF real (HTML interno)
+
+**Cambio:** Se refuerza la trazabilidad/integridad del reporte y se limita la descarga:
+
+1. **Hash determinista (Fase A).** `generateHash()` pasa de un identificador aleatorio (SHA-256 truncado a 4 bytes + `Date.now()` + `Math.random()`) a un **SHA-256 completo (64 hex) sobre el contenido canónico** (`JSON.stringify({meta, resultados})`). El mismo reporte produce siempre el mismo hash; cualquier edición se detecta al recalcularlo.
+
+2. **HTML solo interno, descarga en PDF real.** El formato `.HTML` se quita de la descarga (nota "🔒 El .HTML es solo para trabajo interno") y `.PDF` queda como **recomendado y marcado por defecto**. La exportación PDF deja de ser `window.print()` y pasa a generar un **PDF real** (`generarPDF()`: html2canvas + jsPDF, multi-página, con la huella de integridad en los metadatos `keywords=integridad=<hash>`). Fallback a imprimir si las librerías CDN no cargan.
+
+3. **Mostrar ID corto + hash completo.** En el HTML se muestra `RPT-<12 chars>` en título/pie/portada y el **hash SHA-256 completo** en el campo "Hash de Integridad" (con `word-break`).
+
+**Archivos afectados:**
+| Archivo | Cambio |
+|---------|--------|
+| `js/managers/ReporteManager.js:507-516` | `generateHash()` → SHA-256 determinista completo |
+| `js/managers/ReporteManager.js:2036+` | `descargar()`: quita rama `html`; `pdf` llama a `generarPDF()`; `_rmLoadScript()` + `generarPDF()` nuevos |
+| `js/managers/ReporteManager.js:2687-2708` | UI formatos: `.HTML` reemplazado por nota "solo interno"; `.PDF` `checked` + recomendado |
+| `js/managers/ReporteManager.js:1080,1275,1335,1352,1414,2011,2017` | `generarHTML()`: `hashId` corto en portada/pie; hash completo en "Hash de Integridad" |
+
+**Por qué:** El usuario pidió que el HTML sea solo para trabajo interno y que la descarga sea PDF con mejoras de seguridad (integridad). El hash anterior no protegía nada (era un ID aleatorio).
+
+**Riesgo:** Medio. El PDF se genera por rasterización (html2canvas); el texto no es seleccionable. La firma digital PAdES con certificado X.509 queda como fase siguiente (requiere un certificado). 534/534 tests vitest pasan.
+
+---
+
 ### 2026-10-26 (22): Legibilidad de fórmulas en cards de estadísticos
 
 **Cambio:** Las fórmulas de las cards de estadísticos cargados para análisis (`.sc-formula`) usaban `var(--accent)` (morado), que en ciertos monitores se veía borroso/ilegible. Se cambió a texto de alto contraste: **blanco en modo oscuro, casi negro en modo claro** (`var(--text-primary)`), en **bold** (`font-weight: 700`) y con **+2px de fuente** (`12px → 14px`).
