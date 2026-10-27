@@ -210,6 +210,82 @@ window.__sha256Hex = async function (str) {
     } catch (e) { return ''; }
 };
 
+// ── PDF EN SERVIDOR (Chromium headless, mismo motor que "Imprimir") ──
+// Respeta @media print / page-break / @page y deja texto seleccionable.
+// Devuelve true si descargó; false ante CUALQUIER problema (sin sesión,
+// servidor sin Chromium → 503, red, timeout, respuesta no-PDF) para que el
+// caller use el generador anterior. Nunca lanza excepción.
+var __PDF_SERVER_MAX_BYTES = 4.5 * 1024 * 1024; // backend acepta 5 MB de JSON
+
+window.__generarPDFServidor = async function (html, filename, opts) {
+    opts = opts || {};
+    try {
+        if (typeof fetch !== 'function' || typeof API_URL === 'undefined' || !API_URL) return false;
+        if (typeof html !== 'string' || !html.trim()) return false;
+        var token = '';
+        try { if (typeof Auth !== 'undefined' && Auth.getToken) token = Auth.getToken() || ''; } catch (e) { token = ''; }
+        if (!token) return false; // el backend exige Bearer en POST
+        var payload = JSON.stringify({
+            html: html,
+            filename: filename || 'reporte.pdf',
+            sessionId: (opts.sessionId === undefined || opts.sessionId === null) ? null : opts.sessionId,
+            kind: opts.kind || 'reporte'
+        });
+        if (typeof Blob === 'function' && new Blob([payload]).size > __PDF_SERVER_MAX_BYTES) return false;
+        var res = await fetchWithTimeout(API_URL + '/api/pdf/render', {
+            method: 'POST',
+            credentials: 'include',
+            headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + token },
+            body: payload
+        }, opts.timeoutMs || 60000);
+        if (!res || !res.ok) {
+            debugLog('[SigmaProXVL] PDF servidor no disponible (HTTP ' + (res && res.status) + '), uso generador local');
+            return false;
+        }
+        var ct = (res.headers && res.headers.get && res.headers.get('Content-Type')) || '';
+        if (ct.indexOf('application/pdf') === -1) return false;
+        var blob = await res.blob();
+        if (!blob || !blob.size) return false;
+        var url = URL.createObjectURL(blob);
+        var a = document.createElement('a');
+        a.href = url;
+        a.download = filename || 'reporte.pdf';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        setTimeout(function () { try { URL.revokeObjectURL(url); } catch (e) {} }, 1500);
+        return true;
+    } catch (e) {
+        console.warn('[SigmaProXVL] PDF servidor falló, uso generador local:', e && e.message);
+        return false;
+    }
+};
+
+// Quita contenido activo de un HTML SIN ejecutarlo (DOMParser no corre
+// scripts): <script>, iframes/objetos, <base>, meta refresh, on*="..." y
+// URLs javascript:. Lo usa el generador local para no reabrir MF-1.
+// Devuelve null si no pudo sanear (el caller debe abortar: fail-closed).
+window.__htmlSinScripts = function (html) {
+    try {
+        if (typeof DOMParser !== 'function') return null;
+        var d = new DOMParser().parseFromString(String(html || ''), 'text/html');
+        var kill = d.querySelectorAll('script, iframe, frame, frameset, object, embed, base, meta[http-equiv]');
+        for (var i = 0; i < kill.length; i++) { if (kill[i].parentNode) kill[i].parentNode.removeChild(kill[i]); }
+        var all = d.querySelectorAll('*');
+        for (var j = 0; j < all.length; j++) {
+            var el = all[j];
+            var attrs = Array.prototype.slice.call(el.attributes || []);
+            for (var k = 0; k < attrs.length; k++) {
+                var n = String(attrs[k].name || '').toLowerCase();
+                var v = String(attrs[k].value || '');
+                if (n.indexOf('on') === 0) el.removeAttribute(attrs[k].name);
+                else if (/^(href|src|xlink:href|action|formaction|srcdoc)$/.test(n) && (n === 'srcdoc' || /^\s*javascript:/i.test(v))) el.removeAttribute(attrs[k].name);
+            }
+        }
+        return '<!DOCTYPE html>\n' + d.documentElement.outerHTML;
+    } catch (e) { return null; }
+};
+
 // Genera un PDF real (multi-página, rasterizado) desde un string HTML.
 // Devuelve true si descargó, false si falló (el caller decide el fallback).
 window.__generarPDF = async function (html, filename, hash) {
@@ -223,7 +299,10 @@ window.__generarPDF = async function (html, filename, hash) {
 
         var iframe = document.createElement('iframe');
         iframe.style.cssText = 'position:fixed;left:-10000px;top:0;width:794px;height:1123px;border:0;background:#ffffff;';
-        iframe.srcdoc = html;
+        // MF-1: el HTML puede venir de un reporte importado → sin scripts.
+        var safeHtml = window.__htmlSinScripts(html);
+        if (!safeHtml) throw new Error('no se pudo sanear el HTML del reporte');
+        iframe.srcdoc = safeHtml;
         document.body.appendChild(iframe);
         await new Promise(function (r) {
             var done = false;

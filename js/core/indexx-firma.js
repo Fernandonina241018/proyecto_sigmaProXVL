@@ -802,7 +802,15 @@ async function firmaDownload() {
     // Fallback a .html si las librerías PDF no están disponibles (offline).
     var hash = (typeof window.__sha256Hex === 'function') ? await window.__sha256Hex(html) : '';
     var okPdf = false;
-    if (typeof window.__generarPDF === 'function') {
+    // 1) PDF en servidor (mismo motor que Imprimir: respeta secciones).
+    if (typeof window.__generarPDFServidor === 'function') {
+      try { showToast('⏳ Generando PDF…'); } catch (e) {}
+      okPdf = await window.__generarPDFServidor(html, base + '.pdf', {
+        sessionId: _firmaSessionId || null, kind: 'firma'
+      });
+    }
+    // 2) Generador local anterior (html2canvas) si el servidor no está disponible.
+    if (!okPdf && typeof window.__generarPDF === 'function') {
       okPdf = await window.__generarPDF(html, base + '.pdf', hash);
     }
     if (okPdf) {

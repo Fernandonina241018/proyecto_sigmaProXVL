@@ -42,6 +42,10 @@ const db      = require('./database');
 const { extractEmbeddedSignatures } = require('./sign-html'); // FASE 3
 const { signStampTZ } = require('./sign-stamp');
 const { collectSignTray } = require('./sign-tray');
+// PDF en servidor (Chromium headless). Opcional: sin puppeteer-core/Chromium
+// el endpoint responde 503 y el frontend usa el generador anterior.
+const { createPdfRenderer, safePdfFilename } = require('./pdf-render');
+const pdfRenderer = createPdfRenderer();
 // tzOffset: minutos de Date.getTimezoneOffset() del firmante (UTC-local).
 function _signFecha(req) { return signStampTZ(new Date(), req.body && req.body.tzOffset); }
 
@@ -131,7 +135,7 @@ app.use('/api', require('./no-store').apiNoStore);
 const _jsonSmall = express.json({ limit: '100kb' });
 const _jsonReport = express.json({ limit: '5mb' });
 app.use((req, res, next) => {
-    if (req.method === 'POST' && (req.path === '/api/sign-sessions' || req.path === '/api/sign-sessions/import')) {
+    if (req.method === 'POST' && (req.path === '/api/sign-sessions' || req.path === '/api/sign-sessions/import' || req.path === '/api/pdf/render')) {
         return _jsonReport(req, res, next);
     }
     return _jsonSmall(req, res, next);
@@ -228,6 +232,16 @@ const tfaLimiter = rateLimit({
     keyGenerator: (req) => ipKeyGenerator(req.ip || req.socket.remoteAddress),
 });
 
+// PDF en servidor: render costoso (Chromium) → límite propio por IP.
+const pdfLimiter = rateLimit({
+    windowMs: 15 * 60 * 1000,
+    max: 40,
+    message: { error: 'Demasiadas descargas de PDF. Intente de nuevo en unos minutos.' },
+    standardHeaders: true,
+    legacyHeaders: false,
+    keyGenerator: (req) => ipKeyGenerator(req.ip || req.socket.remoteAddress),
+});
+
 // Track de fallos por usuario (en memoria)
 const _userFailures = new Map(); // username -> { count, lockedUntil }
 
@@ -308,6 +322,7 @@ let server;
     // ── Graceful shutdown (solo para producción) ──
     const shutdown = (signal) => {
         console.log(`🛑 ${signal} recibido, cerrando servidor...`);
+        pdfRenderer.close().catch(() => {});
         if (server) {
             server.close(() => {
                 console.log('✅ Servidor cerrado correctamente');
@@ -1390,6 +1405,77 @@ app.post('/api/admin/purge', requireAuth, requireAdmin, async (req, res) => {
     } catch (err) {
         console.error('Error purging sign sessions:', err);
         res.status(500).json({ error: 'Error en purga' });
+    }
+});
+
+// ── PDF en servidor ──────────────────────────────────────────
+// GET /api/pdf/status — ¿está disponible el generador? (para diagnóstico)
+app.get('/api/pdf/status', requireAuth, (req, res) => {
+    res.json({ ok: true, available: pdfRenderer.isAvailable() });
+});
+
+// POST /api/pdf/render — HTML del reporte → PDF (mismo motor que Imprimir).
+// Body: { html, filename?, sessionId?, kind? }. Si trae sessionId se exige
+// el mismo permiso que GET /api/sign-sessions/:id y se registra su doc_hash.
+// Cada exportación queda en la auditoría con SHA-256 del HTML y del PDF.
+app.post('/api/pdf/render', requireAuth, pdfLimiter, async (req, res) => {
+    try {
+        const body = req.body || {};
+        const html = body.html;
+        if (typeof html !== 'string' || !html.trim()) {
+            return res.status(400).json({ error: 'html es requerido', code: 'bad-input' });
+        }
+        if (!pdfRenderer.isAvailable()) {
+            return res.status(503).json({ error: 'Generación de PDF en servidor no disponible', code: 'pdf-unavailable' });
+        }
+        const kind = ['firma', 'reporte'].indexOf(body.kind) !== -1 ? body.kind : 'reporte';
+        let session = null;
+        if (body.sessionId !== undefined && body.sessionId !== null && body.sessionId !== '') {
+            const sid = parseInt(body.sessionId);
+            if (isNaN(sid)) return res.status(400).json({ error: 'sessionId inválido', code: 'bad-input' });
+            session = await db.getSignSession(sid);
+            if (!session) return res.status(404).json({ error: 'Sesión no encontrada', code: 'not-found' });
+            const me = req.user.username;
+            const allowed = req.user.role === 'admin' || session.created_by === me ||
+                session.assigned_reviewer === me || session.assigned_approver === me;
+            if (!allowed) return res.status(403).json({ error: 'No autorizado', code: 'forbidden' });
+        }
+        const filename = safePdfFilename(body.filename);
+
+        let out;
+        try {
+            out = await pdfRenderer.render(html);
+        } catch (e) {
+            const map = { busy: 503, unavailable: 503, timeout: 504, 'too-large': 413, 'bad-input': 400 };
+            const status = map[e.code] || 500;
+            console.warn(`⚠️ [${req.correlationId}] PDF render falló (${e.code}): ${e.message}`);
+            return res.status(status).json({ error: 'No se pudo generar el PDF', code: 'pdf-' + (e.code || 'error') });
+        }
+
+        // Auditoría ANTES de entregar (si no se puede auditar, no se entrega).
+        await db.logAuditEvent({
+            username: req.user.username, action: 'PDF_EXPORT', success: 1,
+            ip: getClientIP(req), userAgent: req.headers['user-agent'],
+            module: kind === 'firma' ? 'FIRMA' : 'REPORTE',
+            details: JSON.stringify({
+                sessionId: session ? session.id : null,
+                docHash: session ? session.doc_hash || null : null,
+                filename, htmlSha256: out.htmlSha256, pdfSha256: out.pdfSha256,
+                bytes: out.bytes, ms: out.ms,
+            }),
+            durationMs: out.ms,
+        });
+
+        res.setHeader('Content-Type', 'application/pdf');
+        res.setHeader('Content-Disposition', 'attachment; filename="' + filename + '"');
+        res.setHeader('Content-Length', String(out.pdf.length));
+        res.setHeader('X-PDF-SHA256', out.pdfSha256);
+        res.setHeader('X-Content-SHA256', out.htmlSha256);
+        res.setHeader('Access-Control-Expose-Headers', 'Content-Disposition, X-PDF-SHA256, X-Content-SHA256, X-Correlation-ID');
+        return res.end(out.pdf);
+    } catch (err) {
+        console.error('Error en /api/pdf/render:', err);
+        return res.status(500).json({ error: 'Error al generar el PDF', code: 'pdf-error' });
     }
 });
 

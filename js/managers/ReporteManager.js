@@ -2037,6 +2037,12 @@ tr:hover td{background:#f7faff}
     // Genera un PDF real a partir del HTML del reporte. Delega en el helper
     // compartido (utils.js: window.__generarPDF). Fallback a imprimir.
     async function generarPDF(html, filename, hash) {
+        // 1) PDF en servidor (mismo motor que Imprimir: respeta secciones).
+        if (typeof window.__generarPDFServidor === 'function') {
+            const okSrv = await window.__generarPDFServidor(html, filename, { kind: 'reporte' });
+            if (okSrv) return true;
+        }
+        // 2) Generador local anterior (html2canvas).
         if (typeof window.__generarPDF === 'function') {
             const ok = await window.__generarPDF(html, filename, hash);
             if (ok) return true;

@@ -90,6 +90,36 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (SigmaProXVL) con spr
 
 ## CAMBIOS RECIENTES
 
+### 2026-10-27 (26): PDF en servidor (Chromium headless) — mismo resultado que "Imprimir"
+
+**Cambio:** Los botones "Descargar borrador / reporte firmado" y la descarga PDF de Reportes generan el PDF en el backend con Chromium headless (`page.pdf()`), el mismo motor que "Imprimir". Respeta `@media print`, `page-break-*`, `@page` (márgenes, "X de N") y el texto queda **seleccionable** (vectorial).
+
+- **Cadena de respaldo (no rompe nada):** servidor → generador local html2canvas (anterior) → `.html`. Cualquier fallo (sin Chromium = 503, red, timeout, cola llena, sin sesión) cae al paso siguiente sin error visible.
+- **Kill switch:** `PDF_SERVER=0` en Fly apaga el render en servidor al instante.
+- **Seguridad:** JS desactivado en Chromium; red bloqueada salvo `data:`/`blob:`/`about:`/Google Fonts (sin SSRF ni `file://`); concurrencia 2, cola 6, timeout 30 s; mismo permiso que `GET /api/sign-sessions/:id` cuando se envía `sessionId`.
+- **Auditoría GxP:** cada exportación registra `PDF_EXPORT` con usuario, `sessionId`, `doc_hash`, SHA-256 del HTML y del PDF (también en cabeceras `X-PDF-SHA256` / `X-Content-SHA256`).
+- **MF-1 (regresión cerrada):** el iframe del generador local ahora carga el HTML saneado (`__htmlSinScripts`, sin `<script>`, `on*`, `javascript:`).
+
+**Archivos afectados:**
+| Archivo | Cambio |
+|---------|--------|
+| `backend/pdf-render.js` | **NUEVO**: renderer con carga perezosa/opcional de puppeteer-core, semáforo, timeout, reciclado de Chromium |
+| `backend/server.js` | `GET /api/pdf/status`, `POST /api/pdf/render` (+límite 5 MB, `pdfLimiter`, cierre en shutdown) |
+| `backend/Dockerfile` | Chromium + fuentes; `puppeteer-core@23.11.1` con `--no-save` (no toca lockfile) |
+| `backend/.env.example` | `PDF_SERVER`, `PUPPETEER_EXECUTABLE_PATH`, `PDF_MAX_CONCURRENT`, `PDF_MAX_QUEUE`, `PDF_TIMEOUT_MS`, `PDF_IDLE_CLOSE_MS` |
+| `backend/tests/pdf-render.test.js` | **NUEVO**: 14 tests con puppeteer falso |
+| `js/core/utils.js` | `__generarPDFServidor()`, `__htmlSinScripts()`; iframe local con HTML saneado |
+| `js/core/indexx-firma.js` | `firmaDownload()`: servidor primero |
+| `js/managers/ReporteManager.js` | `generarPDF()`: servidor primero |
+| `tests/pdf-servidor.test.js` | **NUEVO**: fallback, contrato del request, saneo |
+| `scripts/smoke-pdf.sh` | **NUEVO**: smoke contra backend real (2 páginas, JS bloqueado) |
+| `.github/workflows/ci.yml` | `node -c pdf-render.js` |
+| `backend/package-lock.json` | `body-parser` 1.20.8 → 1.20.9 (fix audit HIGH GHSA-27r3-jxmh-p828) |
+
+**Riesgo:** Bajo-medio. La imagen Docker crece (~350 MB por Chromium) y la primera descarga tras un arranque en frío tarda ~2-4 s extra. **`puppeteer-core` se mantiene con `--no-save` (no toca el lockfile):** formalizarlo con `23.11.1` introduce 10 HIGH en `npm audit --audit-level=high` (transitivas de `@puppeteer/browsers`/`chromium-bidi`), lo que rompería el gate del CI; debe hacerse con una versión parchada (25.x) validando compatibilidad con el Chromium del sistema. **Fix de seguridad incluido:** `body-parser` 1.20.8 → 1.20.9 vía `npm audit fix` (audit en 0).
+
+---
+
 ### 2026-10-26 (25): PDF por secciones (corte inteligente, sin cortar contenido)
 
 **Cambio:** El generador de PDF (`window.__generarPDF()` en `js/core/utils.js`) cortaba el reporte en páginas **cada 297mm fijos**, lo que partía líneas de texto, filas de tabla, títulos y gráficos que caían en un borde de página. Ahora calcula los saltos de página en **bordes de elementos** (`.sec`, `.sec-title`, `.var-block`, `.method-grid`, `.mi`, `.sig-grid`, `.audit-box`, `.doc-footer`, `table`, `tr`, `img`, `.cover`, encabezados).
