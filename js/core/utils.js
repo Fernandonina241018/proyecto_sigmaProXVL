@@ -218,6 +218,9 @@ window.__generarPDF = async function (html, filename, hash) {
         await window.__cargarScript('https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js');
         if (!window.html2canvas || !window.jspdf) throw new Error('librerías PDF no disponibles');
 
+        var scale = 2;
+        var pageW = 210, pageH = 297;
+
         var iframe = document.createElement('iframe');
         iframe.style.cssText = 'position:fixed;left:-10000px;top:0;width:794px;height:1123px;border:0;background:#ffffff;';
         iframe.srcdoc = html;
@@ -228,10 +231,60 @@ window.__generarPDF = async function (html, filename, hash) {
             setTimeout(function () { if (!done) { done = true; r(); } }, 1500);
         });
         var ifdoc = iframe.contentDocument || iframe.contentWindow.document;
+
+        // Bordes "seguros" de corte: tops de elementos que no deben partirse.
+        // Se leen antes de rasterizar; el corte ya no es a cada 297mm ciegos.
+        var noSplitSel = '.sec, .sec-title, .var-block, .method-grid, .mi, .sig-grid, .audit-box, .doc-footer, table, tr, img, .cover, h1, h2, h3';
+        var topsCss = [];
+        try {
+            var els = ifdoc.querySelectorAll(noSplitSel);
+            for (var i = 0; i < els.length; i++) {
+                var t = els[i].getBoundingClientRect().top;
+                if (t == null || isNaN(t) || t < 2) continue;
+                topsCss.push(t);
+            }
+        } catch (e) { /* sin bordes seguros → corte fijo */ }
+
         var canvas = await window.html2canvas(ifdoc.body, {
-            scale: 2, useCORS: true, backgroundColor: '#ffffff', logging: false
+            scale: scale, useCORS: true, backgroundColor: '#ffffff', logging: false
         });
         document.body.removeChild(iframe);
+
+        var imgH = canvas.height * pageW / canvas.width;
+        var mmPerCssPx = (pageW / canvas.width) * scale;
+
+        // Convertir bordes a mm, ordenar y deduplicar líneas muy próximas (< 8mm).
+        var safeLines = [];
+        topsCss.forEach(function (top) {
+            var mm = top * mmPerCssPx;
+            if (mm > 2 && mm < imgH - 2) safeLines.push(mm);
+        });
+        safeLines.sort(function (a, b) { return a - b; });
+        var uniq = [];
+        safeLines.forEach(function (mm) {
+            if (uniq.length && (mm - uniq[uniq.length - 1]) < 8) return;
+            uniq.push(mm);
+        });
+        safeLines = uniq;
+
+        // Inicios de página: cortar en el borde seguro más cercano al límite A4.
+        // Si no hay borde seguro en el rango, cae al corte fijo (target).
+        var starts = [0];
+        var pos = 0;
+        var minGap = pageH * 0.55;
+        while (pos + pageH < imgH - 1) {
+            var target = pos + pageH;
+            var best = target;
+            for (var j = 0; j < safeLines.length; j++) {
+                var s = safeLines[j];
+                if (s <= pos + minGap) continue;
+                if (s > target) break;
+                best = s;
+            }
+            if (best - pos < 1) break; // sin avance: evita loop infinito
+            pos = best;
+            starts.push(pos);
+        }
 
         var jsPDF = window.jspdf.jsPDF;
         var pdf = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
@@ -242,18 +295,14 @@ window.__generarPDF = async function (html, filename, hash) {
             keywords: 'integridad=' + (hash || '')
         });
 
-        var pageW = 210, pageH = 297;
-        var imgH = canvas.height * pageW / canvas.width;
         var imgData = canvas.toDataURL('image/jpeg', 0.92);
-        var heightLeft = imgH;
-        var position = 0;
-        pdf.addImage(imgData, 'JPEG', 0, position, pageW, imgH);
-        heightLeft -= pageH;
-        while (heightLeft > 1) {
-            position -= pageH;
-            pdf.addPage();
-            pdf.addImage(imgData, 'JPEG', 0, position, pageW, imgH);
-            heightLeft -= pageH;
+        for (var k = 0; k < starts.length; k++) {
+            if (k === 0) {
+                pdf.addImage(imgData, 'JPEG', 0, 0, pageW, imgH);
+            } else {
+                pdf.addPage();
+                pdf.addImage(imgData, 'JPEG', 0, -starts[k], pageW, imgH);
+            }
         }
         pdf.save(filename);
         return true;

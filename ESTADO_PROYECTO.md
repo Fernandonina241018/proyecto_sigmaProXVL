@@ -90,6 +90,26 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (SigmaProXVL) con spr
 
 ## CAMBIOS RECIENTES
 
+### 2026-10-26 (25): PDF por secciones (corte inteligente, sin cortar contenido)
+
+**Cambio:** El generador de PDF (`window.__generarPDF()` en `js/core/utils.js`) cortaba el reporte en páginas **cada 297mm fijos**, lo que partía líneas de texto, filas de tabla, títulos y gráficos que caían en un borde de página. Ahora calcula los saltos de página en **bordes de elementos** (`.sec`, `.sec-title`, `.var-block`, `.method-grid`, `.mi`, `.sig-grid`, `.audit-box`, `.doc-footer`, `table`, `tr`, `img`, `.cover`, encabezados).
+
+- Antes de rasterizar, recorre el iframe y recolecta los `top` de esos elementos (en CSS px).
+- Los convierte a mm y los usa como "líneas de corte seguras".
+- Un algoritmo greedy elige el borde seguro más cercano a cada límite A4 (con `minGap = 55%` de página para no crear páginas enanas); si no hay borde en rango, cae al corte fijo.
+- Se mantienen: descarga directa, multi-página y la huella de integridad (`keywords=integridad=<hash>`).
+
+**Archivos afectados:**
+| Archivo | Cambio |
+|---------|--------|
+| `js/core/utils.js:215-305` | `__generarPDF()`: corte por bordes de sección en vez de pasos fijos de 297mm |
+
+**Por qué:** El usuario reportó que el PDF "no respeta las secciones y corta el contenido". La causa era el corte ciego por altura fija; `html2canvas` ignora las reglas `@media print` (`page-break-*`).
+
+**Riesgo:** Medio. El corte heurístico mejora mucho el resultado, pero sigue rasterizado (texto no seleccionable, sin "1 de N" ni pie en cada página). Las tablas muy largas (> 1 página) pueden cortarse entre filas sin repetir el encabezado. 534/534 tests vitest pasan.
+
+---
+
 ### 2026-10-26 (24): Descarga del reporte firmado en PDF real (HTML solo interno, flujo de firma)
 
 **Cambio:** El botón "⬇ Descargar borrador / reporte firmado" (`firmaDownload` en el flujo de firma) ahora descarga un **PDF real** en vez de `.html`, completando "HTML solo interno + descarga PDF" en el flujo que el usuario realmente usa.
