@@ -1249,6 +1249,9 @@ async function firmaUnsignSession(role, code, password, reason) {
 }
 
 
+// NOTA: el botón "Imprimir" está OCULTO temporalmente en indexx-ui.js
+// (style="display:none"). La descarga en PDF ya cubre la impresión; esta
+// función se conserva intacta para reactivar el botón más adelante.
 // Imprime el reporte cargado con un iframe auxiliar fuera de pantalla.
 // sandbox SIN allow-scripts: ningún script del reporte puede ejecutarse.
 // allow-same-origin solo permite que esta página invoque print() sobre él;

@@ -90,6 +90,22 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (SigmaProXVL) con spr
 
 ## CAMBIOS RECIENTES
 
+### 2026-10-27 (27): Ocultar temporalmente el botón "Imprimir" (la descarga PDF lo cubre)
+
+**Cambio:** El botón "🖨️ Imprimir" de la cabecera de la vista previa de firma se **oculta** (no se borra): `display:none` en `indexx-ui.js`. La función `firmaPrint()` y toda su lógica se conservan intactas para reactivarlo más adelante.
+
+**Motivo:** Con la descarga en PDF seguro ya implementada, el botón de imprimir generaba el PDF desde el HTML crudo **sin auditoría ni hash** (un camino de exportación no auditado). Se oculta para no dejar ese bypass, pero se conserva el código para uso futuro.
+
+**Archivos afectados:**
+| Archivo | Cambio |
+|---------|--------|
+| `js/core/indexx-ui.js` | Botón "Imprimir": `display:flex` → `display:none` |
+| `js/core/indexx-firma.js` | Comentario en `firmaPrint()` indicando que está oculto temporalmente |
+
+**Riesgo:** Bajo. Solo se oculta visualmente; no se elimina código ni se altera `firmaPrint()`. 545/545 tests vitest pasan.
+
+---
+
 ### 2026-10-27 (26): PDF en servidor (Chromium headless) — mismo resultado que "Imprimir"
 
 **Cambio:** Los botones "Descargar borrador / reporte firmado" y la descarga PDF de Reportes generan el PDF en el backend con Chromium headless (`page.pdf()`), el mismo motor que "Imprimir". Respeta `@media print`, `page-break-*`, `@page` (márgenes, "X de N") y el texto queda **seleccionable** (vectorial).
