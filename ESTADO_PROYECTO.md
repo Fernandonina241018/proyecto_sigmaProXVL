@@ -90,6 +90,28 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (SigmaProXVL) con spr
 
 ## CAMBIOS RECIENTES
 
+### 2026-10-27 (31): E2E de páginas bajo demanda (cierra el hueco de la Opción D)
+
+**Cambio:** Nuevo `e2e/lazy-pages.spec.js` que, en navegador real, valida que las 4 páginas diferidas de la Opción D se cargan **bajo demanda** y **no rompen la app**:
+
+- **Reportes** (`ReporteManager`) → `#reportes-editor-container .rep-layout` visible + módulo definido.
+- **ML** (`MLManager`) → `#ml-dataset-select` visible + módulo definido.
+- **Validaciones** (admin, banco ~2,6 MB) → `.v7-view/.v7-top` visible + `BancoEquipos` definido.
+- **EDA** (`EDAManager`) → se descarga al ejecutar `runEDA()` (sin dataset, no rompe).
+
+Cada test verifica además que el módulo **NO** estaba en el núcleo antes de entrar y que **no hay errores fatales** (`pageerror` o `console.error` no esperados; se ignoran 401/403/404/red de `/api/ml`).
+
+**Archivos afectados:**
+| Archivo | Cambio |
+|---------|--------|
+| `e2e/lazy-pages.spec.js` | **NUEVO** — 4 tests E2E de carga bajo demanda (Reportes, ML, Validaciones, EDA) |
+
+**Por qué:** el E2E de firma solo cubría login + firma; las páginas diferidas de la Opción D no se ejercitaban en navegador real. Este spec cierra ese hueco y protege contra regresiones del lazy-load.
+
+**Riesgo:** Bajo. Solo añade tests; no toca código de producción. E2E total: **5/5** (4 lazy + firma).
+
+---
+
 ### 2026-10-27 (30): Rendimiento del frontend (Opción D) — versión estable, carga bajo demanda y SRI
 
 **Cambio:** Se ejecuta la **Opción D** de la auditoría (rendimiento de carga del frontend). D1 y D2 completos + la parte segura de D3 (SRI). **No se toca ninguna regla de negocio, API ni flujo de firma.**
