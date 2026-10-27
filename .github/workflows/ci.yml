@@ -41,10 +41,8 @@ jobs:
       - run: npm ci
       - run: npm test
       # LOTE E: coverage backend real (node --test la mide nativo).
-      # concurrency=1: los archivos comparten data.json local en CI.
-      # El store persiste entre corridas: se borra para que la 2ª corrida
-      # (coverage) no herede los eventos de auditoría de la 1ª.
-      - run: rm -f data.json
+      # Los tests usan un DB_FILE temporal por archivo (tests/_db-fixture.js),
+      # así que son herméticos: no dependen de backend/data.json.
       - run: node --test --test-concurrency=1 --experimental-test-coverage "tests/*.test.js"
       - run: node -c server.js && node -c database.js && node -c ml-proxy.js && node -c sign-html.js && node -c sign-stamp.js && node -c pdf-render.js
       # Gate: solo HIGH/CRITICAL bloquean. A 2026-10-20 el store está limpio

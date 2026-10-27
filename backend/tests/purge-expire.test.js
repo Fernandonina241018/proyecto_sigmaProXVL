@@ -4,7 +4,7 @@ const { test, before } = require('node:test');
 const assert = require('node:assert/strict');
 
 delete process.env.DATABASE_URL;
-const db = require('../database');
+const db = require('./_db-fixture');
 
 const HTML = '<html><body>expire</body></html>';
 

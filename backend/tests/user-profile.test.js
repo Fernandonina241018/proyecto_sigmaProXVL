@@ -5,7 +5,7 @@ const { test, before } = require('node:test');
 const assert = require('node:assert/strict');
 
 delete process.env.DATABASE_URL;
-const db = require('../database');
+const db = require('./_db-fixture');
 
 const FULL = {
   nombre: 'Ana', apellido: 'López', email: 'ana@lab.com', telefono: '555-1',

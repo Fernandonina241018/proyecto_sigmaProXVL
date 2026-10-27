@@ -36,6 +36,7 @@ const cookieParser = require('cookie-parser');
 const rateLimit = require('express-rate-limit');
 const { ipKeyGenerator } = rateLimit;
 const helmet  = require('helmet');
+const compression = require('compression');
 const { authenticator } = require('otplib');
 const QRCode  = require('qrcode');
 const db      = require('./database');
@@ -51,6 +52,18 @@ function _signFecha(req) { return signStampTZ(new Date(), req.body && req.body.t
 
 const app  = express();
 const PORT = process.env.PORT || 3000;
+
+// ── Compresión de respuestas (gzip/brotli) ──
+// El HTML del reporte viaja como JSON: comprimirlo reduce ~85% el payload.
+// Los PDF ya están comprimidos por dentro: no se recomprimen.
+app.use(compression({
+    filter: (req, res) => {
+        if (req.path && req.path.indexOf('/api/pdf/') === 0) return false;
+        const type = String(res.getHeader('Content-Type') || '');
+        if (type.indexOf('application/pdf') !== -1) return false;
+        return compression.filter(req, res);
+    },
+}));
 
 // ── CORS manual — primero que todo ────
 // CORS_ORIGINS configurable via env, con fallback a orígenes del proyecto
@@ -1084,11 +1097,11 @@ app.get('/api/sign-sessions', requireAuth, async (req, res) => {
         let sessions;
         const isCand = (s) => _isSignCandidate(s, me);
         if (scope === 'all') {
+            if (req.query.count === '1') return res.json({ ok: true, count: await db.countSignSessions({ scope: 'all' }) });
             sessions = await db.listSignSessions({ scope: 'all', limit, offset });
-            if (req.query.count === '1') return res.json({ ok: true, count: sessions.length });
         } else if (scope === 'mine') {
+            if (req.query.count === '1') return res.json({ ok: true, count: await db.countSignSessions({ scope: 'mine', username: me.username }) });
             sessions = await db.listSignSessions({ scope: 'mine', username: me.username, limit, offset });
-            if (req.query.count === '1') return res.json({ ok: true, count: sessions.length });
         } else {
             const fetchPage = (lim, off) => db.listSignSessions({ scope: 'pending', limit: lim, offset: off });
             if (req.query.count === '1') {

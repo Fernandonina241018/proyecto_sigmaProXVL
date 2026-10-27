@@ -6,7 +6,7 @@ const { test, before } = require('node:test');
 const assert = require('node:assert/strict');
 
 delete process.env.DATABASE_URL;
-const db = require('../database');
+const db = require('./_db-fixture');
 
 const HTML = '<html><body>reporte</body></html>';
 const crypto = require('crypto');
@@ -731,4 +731,22 @@ test('purge elimina lápidas viejas con plazo de rechazadas', async () => {
   assert.ok(dry.candidates.some((c) => c.id === s.id && c.status === 'deleted'));
   assert.ok((await db.getSignSession(s.id)) !== null, 'dryRun no borra');
   assert.equal(g.status, 'rejected');
+});
+
+// ── OPT: listado ligero (sin html) + conteo SQL ──
+test('listado no transfiere html; el detalle sí lo conserva', async () => {
+  const rows = await db.listSignSessions({ scope: 'all', limit: 200, offset: 0 });
+  assert.ok(rows.length > 0);
+  assert.ok(rows.every((r) => r.html === undefined), 'listado sin html');
+  const one = await db.getSignSession(rows[0].id);
+  assert.equal(typeof one.html, 'string');
+});
+
+test('countSignSessions: all/mine total real; pending lo resuelve el endpoint', async () => {
+  const all = await db.countSignSessions({ scope: 'all' });
+  const list = await db.listSignSessions({ scope: 'all', limit: 200, offset: 0 });
+  assert.equal(all, list.length);
+  const mine = await db.countSignSessions({ scope: 'mine', username: 'ana_prep' });
+  assert.ok(mine > 0);
+  assert.equal(await db.countSignSessions({ scope: 'pending', username: 'x' }), null);
 });

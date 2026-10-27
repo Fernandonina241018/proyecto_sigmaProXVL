@@ -6,7 +6,7 @@ const { test, before } = require('node:test');
 const assert = require('node:assert/strict');
 
 delete process.env.DATABASE_URL;
-const db = require('../database');
+const db = require('./_db-fixture');
 
 async function auditEvent(i) {
   await db.logAuditEvent({
@@ -103,6 +103,24 @@ test('REGRESIÓN FASE 4: logAccess con booleano no rompe la cadena', async () =>
   // Al final: inserta filas sin desplazar los conteos de tests anteriores.
   await db.logAccess({ username: 'u', action: 'LOGIN', success: true, ip: '1', userAgent: 't' });
   await db.logAccess({ username: 'u', action: 'LOGIN', success: false, ip: '1', userAgent: 't' });
+  const v = await db.verifyAuditChain();
+  assert.equal(v.valid, true);
+});
+
+test('auditoría: details objeto se guarda una sola vez (sin doble JSON)', async () => {
+  await db.logAuditEvent({
+    username: 'u', action: 'DOUBLE_JSON', success: 1, ip: '1', userAgent: 't',
+    module: 'TEST', details: { sessionId: 7, via: 'quota' },
+  });
+  await db.logAuditEvent({
+    username: 'u', action: 'STRING_JSON', success: 1, ip: '1', userAgent: 't',
+    module: 'TEST', details: JSON.stringify({ sessionId: 8 }),
+  });
+  const rows = await db.getAuditLog(5, 0);
+  const obj = rows.find((r) => r.action === 'DOUBLE_JSON');
+  const str = rows.find((r) => r.action === 'STRING_JSON');
+  assert.deepEqual(JSON.parse(obj.details), { sessionId: 7, via: 'quota' });
+  assert.deepEqual(JSON.parse(str.details), { sessionId: 8 });
   const v = await db.verifyAuditChain();
   assert.equal(v.valid, true);
 });

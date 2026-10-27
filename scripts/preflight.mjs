@@ -8,7 +8,6 @@
 // deploy.yml solo gateaba backend y ML. Este script replica el gate local.
 
 import { spawn } from 'child_process';
-import { rmSync } from 'fs';
 import { fileURLToPath } from 'url';
 import { dirname, join } from 'path';
 
@@ -24,14 +23,15 @@ const STEPS = [
     name: 'Backend (node --test)',
     cmd: 'npm',
     args: ['test', '--prefix', 'backend'],
-    // El store local persiste entre corridas: hay que partir limpio.
-    before: () => rmSync(join(ROOT, 'backend/data.json'), { force: true }),
+    // Hermético desde OPT-A: cada test usa su propio DB_FILE temporal
+    // (backend/tests/_db-fixture.js) y no toca backend/data.json.
   },
   {
     name: 'E2E (playwright)',
     cmd: 'npx',
     args: ['playwright', 'test'],
-    before: () => rmSync(join(ROOT, 'backend/data.json'), { force: true }),
+    // Hermético: playwright.config.js arranca el backend con un DB_FILE
+    // temporal, sin borrar backend/data.json del desarrollo.
   },
 ];
 

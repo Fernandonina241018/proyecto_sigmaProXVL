@@ -90,6 +90,44 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (SigmaProXVL) con spr
 
 ## CAMBIOS RECIENTES
 
+### 2026-10-27 (29): Lote seguro backend (Opción A) — rendimiento, auditoría legible y tests herméticos
+
+**Cambio:** Se ejecuta la **Opción A** completa de la auditoría (6 puntos), sin tocar reglas de negocio ni contratos de la API.
+
+1. **Auditoría legible (sin doble JSON):** `logAuditEvent` ahora acepta `details` como objeto **o** string ya serializado. Antes el caller hacía `JSON.stringify()` y la capa de datos lo volvía a serializar → se guardaba `"{\"sessionId\":1}"`. Las filas nuevas quedan como objeto JSON parseable (la cadena de hash se calcula sobre el texto final, incluida la auditoría antigua).
+2. **Compresión HTTP:** middleware `compression` (gzip/brotli) en el backend. Reduce ~70-85% los JSON grandes (HTML del reporte). Los PDF (`/api/pdf/*`, `application/pdf`) se excluyen porque ya están comprimidos.
+3. **Listados de firmas sin `html`:** `listSignSessions` (PG y local) usa una proyección explícita de columnas sin el documento (~1 MB/fila). El detalle (`getSignSession`) sigue trayendo `html`. Nuevo `countSignSessions` (`COUNT(*)` en SQL para `all`/`mine`); el badge `pending` sigue contando con elegibilidad JS pero sobre filas ligeras.
+4. **Índices compuestos + GIN:** `(status, id DESC)`, `(created_by, status, id)`, `(status, deleted_at)` y GIN en `dismissed_by`. Los dos últimos se crean **después** de los `ALTER TABLE` para que un arranque sobre una BD antigua no falle.
+5. **Postgres local sin TLS:** `DB_SSL=disable` desactiva SSL (dev). Producción (Supabase/Fly) mantiene TLS; `DB_SSL_INSECURE=1` sigue igual.
+6. **Tests backend herméticos:** `DB_FILE` permite apuntar el store JSON a un archivo temporal. Nuevo `tests/_db-fixture.js` (mkdtemp por proceso, limpieza al salir) usado por los 5 test files que tocan la BD. `npm test` ya no depende de `backend/data.json` (antes: 89/95, 6 falsos rojos por store sucio).
+
+**Extra (mismo objetivo):** E2E y preflight dejaron de borrar `backend/data.json`; Playwright arranca el backend con un `DB_FILE` temporal único. El preflight ya no destruye el store de desarrollo.
+
+**Archivos afectados:**
+| Archivo | Cambio |
+|---------|--------|
+| `backend/database.js` | SSL `DB_SSL`, `details` objeto/string, proyección sin `html`, `countSignSessions`, índices, `DB_FILE` |
+| `backend/server.js` | `compression` + rutas de conteo con `countSignSessions` |
+| `backend/package.json`, `backend/package-lock.json` | +`compression@^1.8.2` (audit 0) |
+| `backend/.env.example` | Documenta `DB_SSL` y `DB_FILE` |
+| `backend/tests/_db-fixture.js` | **NUEVO** — store temporal aislado por archivo de test |
+| `backend/tests/{pagination,purge-expire,sign-quota,sign-sessions,user-profile}.test.js` | Usan el fixture; +2 tests (details sin doble JSON, listado sin html + conteo) |
+| `.github/workflows/ci.yml` | Comentario actualizado: tests herméticos (se elimina `rm -f data.json`) |
+| `playwright.config.js` | E2E con `DB_FILE` temporal (no toca el store de desarrollo) |
+| `scripts/preflight.mjs` | Ya no borra `backend/data.json` (tests/E2E herméticos) |
+
+**Verificación:**
+- `node --check` OK en server.js, database.js y tests modificados.
+- Backend: **98/98** (dos corridas seguidas) con `npm test` y `--experimental-test-coverage`.
+- Frontend: **545/545** vitest.
+- E2E: **1/1** Playwright.
+- `npm audit --audit-level=high`: **0 vulnerabilidades**.
+- Prueba manual: `/api/health` y `/api/users` responden con `Content-Encoding: gzip`; auditoría `TEST_OBJ` se lee como objeto y `verifyAuditChain` sigue `valid:true`.
+
+**Riesgo:** Bajo. No cambia reglas de firma/permisos ni el formato de las respuestas de la API (el listado ya se servía sin `html` vía `_stripSignSession`). `DB_SSL=disable` es opt-in (prod intacto). El único coste es crear 4 índices al arrancar (una vez, tablas pequeñas/medianas).
+
+---
+
 ### 2026-10-27 (28): Favicon + PWA (icono de la app)
 
 **Cambio:** Se agrega icono de app (favicon + PWA instalable). Antes `indexx.html` tenía `<link rel="icon" href="data:,">` (favicon vacío, icono genérico del navegador).

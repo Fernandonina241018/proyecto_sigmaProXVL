@@ -21,6 +21,19 @@ const USE_PG = !!process.env.DATABASE_URL;
 const SIGN_ORDER = ['prepared', 'reviewed', 'approved'];
 const APPROVER_ROLES = ['coordinador', 'supervisor', 'gerente'];
 
+// Proyección de listado sin `html`: la bandeja no necesita el documento
+// (~1 MB con JPEGs) y transferirlo por fila saturaba la conexión BD→Node.
+// El detalle (getSignSession) sigue usando SELECT * porque sí lo requiere.
+const SIGN_LIST_COLUMNS = [
+    'id', 'doc_hash', 'name', 'signatures', 'status', 'version',
+    'created_by', 'assigned_reviewer', 'assigned_approver',
+    'rejected_by', 'rejected_reason', 'rejected_at',
+    'reopened_by', 'reopened_reason', 'reopened_at',
+    'sentback_by', 'sentback_to', 'sentback_reason', 'sentback_at',
+    'deleted_by', 'deleted_reason', 'deleted_at',
+    'dismissed_by', 'created_at', 'updated_at',
+].join(', ');
+
 function _signNextRole(signatures) {
     const sigs = signatures || {};
     for (const r of SIGN_ORDER) {
@@ -128,9 +141,13 @@ function build() {
 function buildPostgres() {
     const { Pool } = require('pg');
 
+    // DB_SSL=disable permite un Postgres LOCAL sin TLS (dev). En producción
+    // (Supabase/Fly) el TLS sigue activo por defecto; DB_SSL_INSECURE=1 acepta
+    // certificados no verificados (solo dev).
+    const sslDisabled = String(process.env.DB_SSL || '').toLowerCase() === 'disable';
     const pool = new Pool({
         connectionString: process.env.DATABASE_URL,
-        ssl: { rejectUnauthorized: process.env.DB_SSL_INSECURE === '1' ? false : true },
+        ssl: sslDisabled ? false : { rejectUnauthorized: process.env.DB_SSL_INSECURE === '1' ? false : true },
         idleTimeoutMillis: 10000,
         connectionTimeoutMillis: 5000,
     });
@@ -228,6 +245,11 @@ function buildPostgres() {
         await run(`CREATE INDEX IF NOT EXISTS idx_report_signatures_reviewer ON report_signatures (assigned_reviewer)`);
         await run(`CREATE INDEX IF NOT EXISTS idx_report_signatures_approver ON report_signatures (assigned_approver)`);
         await run(`CREATE INDEX IF NOT EXISTS idx_report_signatures_creator ON report_signatures (created_by)`);
+        // Índices compuestos para las consultas calientes de bandeja/cupo/purga.
+        // Antes solo había índices de una columna: status+id, created_by+status+id
+        // y status+deleted_at caían a escaneo. GIN acelera el descarte por usuario.
+        await run(`CREATE INDEX IF NOT EXISTS idx_report_signatures_status_id ON report_signatures (status, id DESC)`);
+        await run(`CREATE INDEX IF NOT EXISTS idx_report_signatures_creator_status_id ON report_signatures (created_by, status, id)`);
         await run(`ALTER TABLE report_signatures ADD COLUMN IF NOT EXISTS rejected_by TEXT`);
         await run(`ALTER TABLE report_signatures ADD COLUMN IF NOT EXISTS rejected_reason TEXT`);
         await run(`ALTER TABLE report_signatures ADD COLUMN IF NOT EXISTS rejected_at TEXT`);
@@ -242,6 +264,10 @@ function buildPostgres() {
         await run(`ALTER TABLE report_signatures ADD COLUMN IF NOT EXISTS deleted_by TEXT`);
         await run(`ALTER TABLE report_signatures ADD COLUMN IF NOT EXISTS deleted_reason TEXT`);
         await run(`ALTER TABLE report_signatures ADD COLUMN IF NOT EXISTS deleted_at TEXT`);
+        // Índices que dependen de columnas añadidas con ALTER: van al final para
+        // que un arranque sobre una BD antigua (sin dismissed_by/deleted_at) no falle.
+        await run(`CREATE INDEX IF NOT EXISTS idx_report_signatures_status_deleted_at ON report_signatures (status, deleted_at)`);
+        await run(`CREATE INDEX IF NOT EXISTS idx_report_signatures_dismissed_by ON report_signatures USING GIN (dismissed_by)`);
         console.log('✅ Tablas verificadas en PostgreSQL');
         await _migrateAuditHashes();
     }
@@ -364,7 +390,12 @@ function buildPostgres() {
     async function logAuditEvent({ username, action, success, ip, userAgent, module, details, durationMs }) {
         const prevHash = await _getLastRowHash();
         const timestamp = new Date().toISOString();
-        const detailsJson = details ? JSON.stringify(details) : null;
+        // details puede llegar como objeto (recomendado) o como string ya
+        // serializado por el caller. Serializar solo objetos evita la doble
+        // codificación que dejaba la auditoría como JSON escapado ilegible.
+        const detailsJson = details == null || details === ''
+            ? null
+            : (typeof details === 'string' ? details : JSON.stringify(details));
         const data = { username, action, success, ip, userAgent, module: module||'', details: detailsJson||'', durationMs: durationMs||'', timestamp };
         const rowHash = _computeRowHash(prevHash, data);
         await run(`INSERT INTO audit_log (username,action,success,ip,user_agent,module,details,duration_ms,timestamp,prev_hash,row_hash) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11)`,
@@ -971,12 +1002,12 @@ function buildPostgres() {
         if (scope === 'all') {
             // Vista admin "Todas": historial completo sin filtros de elegibilidad.
             rows = await all(
-                'SELECT * FROM report_signatures ORDER BY id DESC LIMIT $1 OFFSET $2',
+                `SELECT ${SIGN_LIST_COLUMNS} FROM report_signatures ORDER BY id DESC LIMIT $1 OFFSET $2`,
                 [limit, offset]
             );
         } else if (scope === 'mine') {
             rows = await all(
-                'SELECT * FROM report_signatures WHERE created_by = $1 ORDER BY id DESC LIMIT $2 OFFSET $3',
+                `SELECT ${SIGN_LIST_COLUMNS} FROM report_signatures WHERE created_by = $1 ORDER BY id DESC LIMIT $2 OFFSET $3`,
                 [username, limit, offset]
             );
         } else {
@@ -985,7 +1016,7 @@ function buildPostgres() {
             // Opción A: las lápidas recientes (N días) siguen visibles para los
             // involucrados como aviso (quién la eliminó y por qué).
             rows = await all(
-                `SELECT * FROM report_signatures
+                `SELECT ${SIGN_LIST_COLUMNS} FROM report_signatures
                  WHERE (status NOT IN ('complete','rejected','deleted')
                         AND NOT (COALESCE(dismissed_by, '{}') @> ARRAY[$1::text]))
                     OR (status = 'deleted'
@@ -997,6 +1028,21 @@ function buildPostgres() {
             );
         }
         return rows.map(_parseSignRow);
+    }
+
+    // Conteo para el badge. all/mine los resuelve SQL (antes se contaba
+    // sessions.length y quedaba topado al limit). pending requiere la
+    // elegibilidad por rol, que es JS: el endpoint lo cuenta con filas ligeras.
+    async function countSignSessions({ scope, username }) {
+        if (scope === 'all') {
+            const row = await get('SELECT COUNT(*)::int AS total FROM report_signatures');
+            return row ? row.total : 0;
+        }
+        if (scope === 'mine') {
+            const row = await get('SELECT COUNT(*)::int AS total FROM report_signatures WHERE created_by = $1', [username || '']);
+            return row ? row.total : 0;
+        }
+        return null;
     }
 
     // Aplica una firma con concurrencia optimista (version). Retorna la
@@ -1042,11 +1088,16 @@ function buildPostgres() {
         return elig;
     }
 
-    return { run, get, all, initDatabase, createInitialAdmin, getUserByUsername, getUserBySignatureCode, isSignatureCodeTaken, getUserById, createUser, updateLastLogin, getAllUsers, getUsersList, countUsers, toggleUserActive, changePassword, setPasswordTemp, updateUserProfile, updateUserProfileById, changeRole, logAccess, logAuditEvent, getAuditLog, verifyAuditChain, blacklistToken, isTokenBlacklisted, cleanExpiredBlacklist, registerDevice, isDeviceTrusted, getUserDevices, getAllDevices, countDevices, countUserDevices, setDeviceTrust, removeDevice, save2FASecret, get2FASecret, enable2FA, disable2FA, has2FAEnabled, createSnapshot, getSnapshots, getSnapshotById, createSignSession, getSignSession, listSignSessions, signQuotaInfo, signSessionStep, importSignSession, rejectSignSession, reopenSignSession, sendbackSignSession, amendSignSession, deleteSignSession, unsignSessionStep, dismissSignSession, purgeSignSessions };}
+    return { run, get, all, initDatabase, createInitialAdmin, getUserByUsername, getUserBySignatureCode, isSignatureCodeTaken, getUserById, createUser, updateLastLogin, getAllUsers, getUsersList, countUsers, toggleUserActive, changePassword, setPasswordTemp, updateUserProfile, updateUserProfileById, changeRole, logAccess, logAuditEvent, getAuditLog, verifyAuditChain, blacklistToken, isTokenBlacklisted, cleanExpiredBlacklist, registerDevice, isDeviceTrusted, getUserDevices, getAllDevices, countDevices, countUserDevices, setDeviceTrust, removeDevice, save2FASecret, get2FASecret, enable2FA, disable2FA, has2FAEnabled, createSnapshot, getSnapshots, getSnapshotById, createSignSession, getSignSession, listSignSessions, countSignSessions, signQuotaInfo, signSessionStep, importSignSession, rejectSignSession, reopenSignSession, sendbackSignSession, amendSignSession, deleteSignSession, unsignSessionStep, dismissSignSession, purgeSignSessions };}
 
 // ───── Local JSON store ─────
 function buildLocalStore() {
-    const DATA_FILE = path.join(__dirname, 'data.json');
+    // DB_FILE permite aislar el store en tests (store temporal por archivo)
+    // sin tocar backend/data.json. En dev/prod sigue siendo data.json.
+    const DATA_FILE = process.env.DB_FILE
+        ? path.resolve(process.env.DB_FILE)
+        : path.join(__dirname, 'data.json');
+    try { fs.mkdirSync(path.dirname(DATA_FILE), { recursive: true }); } catch { /* best effort */ }
     let state = { users: [], audit_log: [], nextUserId: 1, nextAuditId: 1 };
 
     function load() {
@@ -1235,7 +1286,12 @@ function buildLocalStore() {
     async function logAuditEvent({ username, action, success, ip, userAgent, module, details, durationMs }) {
         const prevHash = _getLastRowHash();
         const timestamp = new Date().toISOString();
-        const detailsJson = details ? JSON.stringify(details) : null;
+        // details puede llegar como objeto (recomendado) o como string ya
+        // serializado por el caller. Serializar solo objetos evita la doble
+        // codificación que dejaba la auditoría como JSON escapado ilegible.
+        const detailsJson = details == null || details === ''
+            ? null
+            : (typeof details === 'string' ? details : JSON.stringify(details));
         const data = { username, action, success, ip, userAgent, module: module||'', details: detailsJson||'', durationMs: durationMs||'', timestamp };
         const rowHash = _computeRowHash(prevHash, data);
         state.audit_log.push({ id: state.nextAuditId++, username, action, success: success!==false?1:0, ip, user_agent: userAgent, module: module||null, details: detailsJson, duration_ms: durationMs||null, timestamp, prev_hash: prevHash, row_hash: rowHash });
@@ -1799,7 +1855,22 @@ function buildLocalStore() {
             return s.status !== 'complete' && s.status !== 'rejected' && !dismissed(s);
         });
         return list.sort(function(a, b) { return b.id - a.id; })
-            .slice(offset, offset + limit).map(_localSignView);
+            .slice(offset, offset + limit)
+            .map(function(s) {
+                // Mirror del listado PG: sin html (solo el detalle lo trae).
+                var v = _localSignView(s);
+                delete v.html;
+                return v;
+            });
+    }
+
+    // Mirror local del conteo (all/mine); pending lo cuenta el endpoint.
+    async function countSignSessions({ scope, username }) {
+        if (scope === 'all') return state.report_signatures.length;
+        if (scope === 'mine') {
+            return state.report_signatures.filter(function(s) { return s.created_by === username; }).length;
+        }
+        return null;
     }
 
     async function signSessionStep({ id, role, username, userRole, signature, expectedVersion, newAssignee }) {
@@ -1831,7 +1902,7 @@ function buildLocalStore() {
         return _localSignView(s);
     }
 
-    return { run, get, all, initDatabase, createInitialAdmin, getUserByUsername, getUserBySignatureCode, isSignatureCodeTaken, getUserById, createUser, updateLastLogin, getAllUsers, getUsersList, countUsers, toggleUserActive, changePassword, setPasswordTemp, updateUserProfile, updateUserProfileById, changeRole, logAccess, logAuditEvent, getAuditLog, verifyAuditChain, blacklistToken, isTokenBlacklisted, cleanExpiredBlacklist, registerDevice, isDeviceTrusted, getUserDevices, getAllDevices, countDevices, countUserDevices, setDeviceTrust, removeDevice, save2FASecret, get2FASecret, enable2FA, disable2FA, has2FAEnabled, createSnapshot, getSnapshots, getSnapshotById, createSignSession, getSignSession, listSignSessions, signQuotaInfo, signSessionStep, importSignSession, rejectSignSession, reopenSignSession, sendbackSignSession, amendSignSession, deleteSignSession, unsignSessionStep, dismissSignSession, purgeSignSessions };}
+    return { run, get, all, initDatabase, createInitialAdmin, getUserByUsername, getUserBySignatureCode, isSignatureCodeTaken, getUserById, createUser, updateLastLogin, getAllUsers, getUsersList, countUsers, toggleUserActive, changePassword, setPasswordTemp, updateUserProfile, updateUserProfileById, changeRole, logAccess, logAuditEvent, getAuditLog, verifyAuditChain, blacklistToken, isTokenBlacklisted, cleanExpiredBlacklist, registerDevice, isDeviceTrusted, getUserDevices, getAllDevices, countDevices, countUserDevices, setDeviceTrust, removeDevice, save2FASecret, get2FASecret, enable2FA, disable2FA, has2FAEnabled, createSnapshot, getSnapshots, getSnapshotById, createSignSession, getSignSession, listSignSessions, countSignSessions, signQuotaInfo, signSessionStep, importSignSession, rejectSignSession, reopenSignSession, sendbackSignSession, amendSignSession, deleteSignSession, unsignSessionStep, dismissSignSession, purgeSignSessions };}
 
 const impl = build();
 module.exports = {
@@ -1877,6 +1948,7 @@ module.exports = {
     createSignSession:    (...a) => impl.createSignSession(...a),
     getSignSession:       (...a) => impl.getSignSession(...a),
     listSignSessions:     (...a) => impl.listSignSessions(...a),
+    countSignSessions:    (...a) => impl.countSignSessions(...a),
     signQuotaInfo:        (...a) => impl.signQuotaInfo(...a),
     signSessionStep:      (...a) => impl.signSessionStep(...a),
     importSignSession:     (...a) => impl.importSignSession(...a),

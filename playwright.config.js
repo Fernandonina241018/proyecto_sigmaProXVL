@@ -6,8 +6,13 @@
 // servidor de desarrollo y suele estar ocupado en local, lo que abortaba
 // Playwright con "port is already used". El 5510 es exclusivo del E2E.
 // El backend sigue en 3000 con reuseExistingServer:false → store local limpio
-// (el E2E NUNCA debe tocar la base del desarrollo).
+// (el E2E NUNCA debe tocar la base del desarrollo). DB_FILE apunta a un
+// archivo temporal único por corrida: hermético y sin borrar backend/data.json.
 const { defineConfig } = require('@playwright/test');
+const os = require('os');
+const path = require('path');
+
+const E2E_DB_FILE = path.join(os.tmpdir(), 'statanalyzer-e2e-' + process.pid + '.json');
 
 module.exports = defineConfig({
   testDir: './e2e',
@@ -29,6 +34,8 @@ module.exports = defineConfig({
         ADMIN_USERNAME: 'e2e_admin',
         ADMIN_PASSWORD: 'E2ePass123!',
         JWT_EXPIRES_IN: '1h',
+        // Store temporal (no toca backend/data.json del desarrollo).
+        DB_FILE: E2E_DB_FILE,
         // El E2E corre en 5510 → su origen debe estar permitido.
         CORS_ORIGINS: 'http://localhost:5510,http://127.0.0.1:5510',
       },
