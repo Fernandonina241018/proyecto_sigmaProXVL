@@ -781,13 +781,12 @@ function firmaUpdatePreview(role, field, value) {
   }
 }
 
-function firmaDownload() {
+async function firmaDownload() {
   if (!_firmaCurrentDoc) { showToast('No hay reporte cargado'); return; }
   try {
     var html = '<!DOCTYPE html>\n' + _firmaCurrentDoc.documentElement.outerHTML;
-    var a = document.createElement('a');
 
-    // Append _firmado suffix + signature count (e.g. _firmado_2de3) to track signing progress
+    // Sufijo _firmado + conteo de firmas para rastrear el progreso (e.g. _firmado_2de3).
     var ts = new Date().toISOString().slice(0,10);
     var baseName = (_firmaOriginalName || 'reporte_firmado').replace(/\.html$/i, '');
     var signedCount = 0;
@@ -797,17 +796,29 @@ function firmaDownload() {
         if (_firmaSignatureState && _firmaSignatureState[sd.role] && _firmaSignatureState[sd.role].signed) signedCount++;
       });
     }
-    a.download = baseName + '_firmado_' + signedCount + 'de' + totalCount + '_' + ts + '.html';
-    // blob + revoke juntos: react-doctor exige revoke en ventana corta
-    // (el revoke ya existía al final; falso positivo por distancia).
-    var blob = new Blob([html], { type: 'text/html;charset=utf-8' });
-    var url = URL.createObjectURL(blob);
-    a.href = url;
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    URL.revokeObjectURL(url);
-    showToast('✅ Reporte firmado descargado');
+    var base = baseName + '_firmado_' + signedCount + 'de' + totalCount + '_' + ts;
+
+    // Descarga oficial en PDF (firmas visibles + huella de integridad en metadatos).
+    // Fallback a .html si las librerías PDF no están disponibles (offline).
+    var hash = (typeof window.__sha256Hex === 'function') ? await window.__sha256Hex(html) : '';
+    var okPdf = false;
+    if (typeof window.__generarPDF === 'function') {
+      okPdf = await window.__generarPDF(html, base + '.pdf', hash);
+    }
+    if (okPdf) {
+      showToast('✅ Reporte firmado descargado (PDF)');
+    } else {
+      var a = document.createElement('a');
+      a.download = base + '.html';
+      var blob = new Blob([html], { type: 'text/html;charset=utf-8' });
+      var url = URL.createObjectURL(blob);
+      a.href = url;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+      showToast('✅ Reporte descargado (HTML — sin conexión para PDF)');
+    }
     firmaClearState();
   } catch(e) {
     showToast('Error al descargar: ' + e.message);

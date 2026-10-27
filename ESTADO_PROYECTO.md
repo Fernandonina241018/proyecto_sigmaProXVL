@@ -90,6 +90,28 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (SigmaProXVL) con spr
 
 ## CAMBIOS RECIENTES
 
+### 2026-10-26 (24): Descarga del reporte firmado en PDF real (HTML solo interno, flujo de firma)
+
+**Cambio:** El botón "⬇ Descargar borrador / reporte firmado" (`firmaDownload` en el flujo de firma) ahora descarga un **PDF real** en vez de `.html`, completando "HTML solo interno + descarga PDF" en el flujo que el usuario realmente usa.
+
+- **Helper compartido** en `js/core/utils.js`: `window.__generarPDF()` (html2canvas + jsPDF, multi-página, huella de integridad en metadatos), `window.__cargarScript()` y `window.__sha256Hex()`.
+- **`firmaDownload()`** (`indexx-firma.js`): serializa el HTML firmado (con firmas pintadas), calcula el SHA-256 del contenido, y descarga `reporte_firmado_XdeY_YYYY-MM-DD.pdf`. **Fallback a `.html`** si las librerías CDN no cargan (offline).
+- **`ReporteManager.generarPDF()`** ahora delega en el helper compartido (elimina la copia duplicada `_rmLoadScript`/`generarPDF` local), conservando su fallback a imprimir.
+- El botón "🖨️ Imprimir" (`firmaPrint`) y la vista previa **no se tocan**.
+
+**Archivos afectados:**
+| Archivo | Cambio |
+|---------|--------|
+| `js/core/utils.js` | +`window.__generarPDF()`, `window.__cargarScript()`, `window.__sha256Hex()` (helper compartido) |
+| `js/core/indexx-firma.js:784-816` | `firmaDownload()` → PDF real con fallback a `.html` |
+| `js/managers/ReporteManager.js:2037-2052` | `generarPDF()` delega en `window.__generarPDF`; se elimina la copia local |
+
+**Por qué:** El usuario aclaró que el botón de descarga real es "Descargar borrador/reporte firmado" (flujo de firma) y seguía descargando `.html`. El helper se centraliza para reutilizarlo en Reportes y Firma.
+
+**Riesgo:** Medio. El PDF se genera por rasterización (html2canvas): firmas/gráficos visibles pero texto no seleccionable. Fallback a `.html` garantiza que nunca se pierda la descarga. 534/534 tests vitest pasan.
+
+---
+
 ### 2026-10-26 (23): Seguridad del reporte — hash determinista + descarga en PDF real (HTML interno)
 
 **Cambio:** Se refuerza la trazabilidad/integridad del reporte y se limita la descarga:

@@ -2034,74 +2034,20 @@ tr:hover td{background:#f7faff}
         link.click();
         URL.revokeObjectURL(url);
     }
-    function _rmLoadScript(src) {
-        return new Promise(function(resolve) {
-            if (document.querySelector('script[src="' + src + '"]')) { resolve(); return; }
-            var s = document.createElement('script');
-            s.src = src;
-            s.onload = function() { resolve(); };
-            s.onerror = function() { resolve(); }; // resuelve igual; generarPDF hace fallback
-            document.head.appendChild(s);
-        });
-    }
-
-    // Genera un PDF real a partir del HTML del reporte (html2canvas + jsPDF),
-    // con la huella de integridad en los metadatos. Fallback a imprimir.
+    // Genera un PDF real a partir del HTML del reporte. Delega en el helper
+    // compartido (utils.js: window.__generarPDF). Fallback a imprimir.
     async function generarPDF(html, filename, hash) {
-        try {
-            await _rmLoadScript('https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js');
-            await _rmLoadScript('https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js');
-            if (!window.html2canvas || !window.jspdf) throw new Error('librerías PDF no disponibles');
-
-            const iframe = document.createElement('iframe');
-            iframe.style.cssText = 'position:fixed;left:-10000px;top:0;width:794px;height:1123px;border:0;background:#ffffff;';
-            iframe.srcdoc = html;
-            document.body.appendChild(iframe);
-            await new Promise(function(r) {
-                let done = false;
-                iframe.onload = function() { if (!done) { done = true; r(); } };
-                setTimeout(function() { if (!done) { done = true; r(); } }, 1500);
-            });
-            const ifdoc = iframe.contentDocument || iframe.contentWindow.document;
-
-            const canvas = await window.html2canvas(ifdoc.body, {
-                scale: 2, useCORS: true, backgroundColor: '#ffffff', logging: false
-            });
-            document.body.removeChild(iframe);
-
-            const jsPDF = window.jspdf.jsPDF;
-            const pdf = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
-            pdf.setProperties({
-                title: filename.replace(/\.pdf$/, ''),
-                subject: 'Reporte SigmaProXVL',
-                creator: 'SigmaProXVL',
-                keywords: 'integridad=' + hash
-            });
-
-            const pageW = 210, pageH = 297;
-            const imgH = canvas.height * pageW / canvas.width;
-            const imgData = canvas.toDataURL('image/jpeg', 0.92);
-            let heightLeft = imgH;
-            let position = 0;
-            pdf.addImage(imgData, 'JPEG', 0, position, pageW, imgH);
-            heightLeft -= pageH;
-            while (heightLeft > 1) {
-                position -= pageH;
-                pdf.addPage();
-                pdf.addImage(imgData, 'JPEG', 0, position, pageW, imgH);
-                heightLeft -= pageH;
-            }
-            pdf.save(filename);
-            return true;
-        } catch (e) {
-            console.warn('[ReporteManager] Generación PDF falló, fallback a imprimir:', e);
-            const blob = new Blob([html], { type: 'text/html;charset=utf-8' });
-            const url = URL.createObjectURL(blob);
-            const w = window.open(url, '_blank');
-            if (w) { w.onload = function() { setTimeout(function() { w.print(); URL.revokeObjectURL(url); }, 800); }; }
-            else { URL.revokeObjectURL(url); }
-            return false;
+        if (typeof window.__generarPDF === 'function') {
+            const ok = await window.__generarPDF(html, filename, hash);
+            if (ok) return true;
         }
+        // Fallback: imprimir (sin librerías CDN disponibles)
+        const blob = new Blob([html], { type: 'text/html;charset=utf-8' });
+        const url = URL.createObjectURL(blob);
+        const w = window.open(url, '_blank');
+        if (w) { w.onload = function() { setTimeout(function() { w.print(); URL.revokeObjectURL(url); }, 800); }; }
+        else { URL.revokeObjectURL(url); }
+        return false;
     }
 
     async function descargar(formatos, resultados, meta) {

@@ -185,3 +185,81 @@ function debugLog(...args) {
     if (DEBUG) console.log(...args);
 }
 
+// ========================================
+// PDF REAL (html2canvas + jsPDF) — compartido entre Reportes y Firma
+// ========================================
+
+window.__cargarScript = function (src) {
+    return new Promise(function (resolve) {
+        if (document.querySelector('script[src="' + src + '"]')) { resolve(); return; }
+        var s = document.createElement('script');
+        s.src = src;
+        s.onload = function () { resolve(); };
+        s.onerror = function () { resolve(); }; // resuelve igual; el caller hace fallback
+        document.head.appendChild(s);
+    });
+};
+
+window.__sha256Hex = async function (str) {
+    try {
+        if (!window.crypto || !window.crypto.subtle) return '';
+        var data = new TextEncoder().encode(String(str || ''));
+        var buf = await window.crypto.subtle.digest('SHA-256', data);
+        var arr = Array.from(new Uint8Array(buf));
+        return arr.map(function (b) { return b.toString(16).padStart(2, '0'); }).join('').toUpperCase();
+    } catch (e) { return ''; }
+};
+
+// Genera un PDF real (multi-página, rasterizado) desde un string HTML.
+// Devuelve true si descargó, false si falló (el caller decide el fallback).
+window.__generarPDF = async function (html, filename, hash) {
+    try {
+        await window.__cargarScript('https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js');
+        await window.__cargarScript('https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js');
+        if (!window.html2canvas || !window.jspdf) throw new Error('librerías PDF no disponibles');
+
+        var iframe = document.createElement('iframe');
+        iframe.style.cssText = 'position:fixed;left:-10000px;top:0;width:794px;height:1123px;border:0;background:#ffffff;';
+        iframe.srcdoc = html;
+        document.body.appendChild(iframe);
+        await new Promise(function (r) {
+            var done = false;
+            iframe.onload = function () { if (!done) { done = true; r(); } };
+            setTimeout(function () { if (!done) { done = true; r(); } }, 1500);
+        });
+        var ifdoc = iframe.contentDocument || iframe.contentWindow.document;
+        var canvas = await window.html2canvas(ifdoc.body, {
+            scale: 2, useCORS: true, backgroundColor: '#ffffff', logging: false
+        });
+        document.body.removeChild(iframe);
+
+        var jsPDF = window.jspdf.jsPDF;
+        var pdf = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
+        pdf.setProperties({
+            title: (filename || 'reporte').replace(/\.pdf$/, ''),
+            subject: 'Reporte SigmaProXVL',
+            creator: 'SigmaProXVL',
+            keywords: 'integridad=' + (hash || '')
+        });
+
+        var pageW = 210, pageH = 297;
+        var imgH = canvas.height * pageW / canvas.width;
+        var imgData = canvas.toDataURL('image/jpeg', 0.92);
+        var heightLeft = imgH;
+        var position = 0;
+        pdf.addImage(imgData, 'JPEG', 0, position, pageW, imgH);
+        heightLeft -= pageH;
+        while (heightLeft > 1) {
+            position -= pageH;
+            pdf.addPage();
+            pdf.addImage(imgData, 'JPEG', 0, position, pageW, imgH);
+            heightLeft -= pageH;
+        }
+        pdf.save(filename);
+        return true;
+    } catch (e) {
+        console.warn('[SigmaProXVL] generación PDF falló:', e);
+        return false;
+    }
+};
+
