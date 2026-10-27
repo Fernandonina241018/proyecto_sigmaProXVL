@@ -42,7 +42,7 @@ const Auth = (() => {
         if (!retried) {
             try {
                 var el = document.createElement('script');
-                el.src = 'js/core/area-select.js?t=' + Date.now();
+                el.src = 'js/core/area-select.js?v=' + (window._CACHE_BUST || Date.now());
                 el.onload = el.onerror = function() { _enterWithArea(next, true); };
                 document.body.appendChild(el);
                 return;

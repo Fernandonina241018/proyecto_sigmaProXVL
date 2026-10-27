@@ -947,7 +947,11 @@ var rightPanels = {
 var pageIcons  = { trabajo:'📋', datos:'📊', analisis:'🔬', visualizacion:'📈', reportes:'📄', firmarReporte:'✍️', ml:'🧠', auditoria:'📋', usuarios:'👥', 'modelo-estadistico':'🧠', dispositivos:'🖥️' };
 var pageTitles = { trabajo:'Hoja de Trabajo', datos:'Gestión de Datos', analisis:'Análisis Estadístico', visualizacion:'Visualización', reportes:'Reportes', firmarReporte:'Firmar Reporte', ml:'ML Analysis', auditoria:'Auditoría', usuarios:'Usuarios', 'modelo-estadistico':'Modelo Estadístico', dispositivos:'Dispositivos' };
 
-function loadPage(name) {
+// Grupos de scripts que se cargan bajo demanda (definidos en indexx.html).
+// La página no se pinta hasta que su grupo terminó de descargarse.
+var _SIGMA_PAGE_GROUP = { ml: 'ml', reportes: 'reportes' };
+
+function loadPage(name, _retry) {
   try {
   if (name !== 'login' && typeof _getAllowedPages === 'function') {
     var allowed = _getAllowedPages();
@@ -956,6 +960,28 @@ function loadPage(name) {
       var fallback = allowed.length ? allowed[0] : 'datos';
       if (name !== fallback) { name = fallback; } else { return; }
     }
+  }
+  // Última página pedida: si el usuario cambia mientras un grupo carga,
+  // el callback no debe devolverlo a la página anterior.
+  try { window.__sigmaPageWanted = name; } catch (e) {}
+  var _grp = _SIGMA_PAGE_GROUP[name];
+  if (_grp && !_retry && typeof window !== 'undefined' &&
+      typeof window.__sigmaLoadGroup === 'function' &&
+      typeof window.__sigmaGroupReady === 'function' &&
+      !window.__sigmaGroupReady(_grp)) {
+    window.__sigmaPageLoading = window.__sigmaPageLoading || {};
+    if (!window.__sigmaPageLoading[name]) {
+      window.__sigmaPageLoading[name] = true;
+      try {
+        rightPaneBody.innerHTML = '<div class="page-body"><div style="padding:28px;color:var(--text-faint);font-size:13px">⏳ Cargando ' + (pageTitles[name] || name) + '…</div></div>';
+      } catch (e) {}
+      window.__sigmaLoadGroup(_grp).then(function() {
+        delete window.__sigmaPageLoading[name];
+        if (window.__sigmaPageWanted !== name) return;
+        try { loadPage(name, true); } catch (e) { showToast('Error al cargar ' + name + ': ' + e.message, 1); }
+      });
+    }
+    return;
   }
   currentPage = name;
   document.querySelectorAll('.snav-card').forEach(function(n){ n.classList.remove('active'); });

@@ -10,6 +10,7 @@
     "typecheck": "tsc --project tsconfig.json",
     "doctor": "npx react-doctor@latest",
     "preflight": "node scripts/preflight.mjs",
+    "version:stamp": "node scripts/stamp-version.mjs",
     "setup:hooks": "node scripts/install-hooks.mjs"
   },
   "devDependencies": {

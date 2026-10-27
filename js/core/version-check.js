@@ -8,9 +8,25 @@
 const VersionCheck = (() => {
   const URL = 'version.json';
   const EVERY_MS = 2 * 60 * 1000;
+  // Clave donde el cargador (indexx.html) guarda la versión con la que se
+  // descargaron los assets. Al cambiar version.json, se actualiza para que
+  // el "Recargar" pida la versión nueva sin esperar 10 min de caché.
+  const STORAGE_KEY = 'sigmaPro_asset_v';
   let base = null;
   let timer = null;
   let avisado = false;
+
+  function guardarVersion(v) {
+    try {
+      if (typeof localStorage !== 'undefined') localStorage.setItem(STORAGE_KEY, String(v));
+    } catch (e) {}
+  }
+
+  function versionUsada() {
+    try {
+      return String(window._ASSET_VERSION || '');
+    } catch (e) { return ''; }
+  }
 
   async function remota() {
     const r = await fetch(URL + '?t=' + Date.now(), { cache: 'no-store' });
@@ -42,11 +58,28 @@ const VersionCheck = (() => {
     try {
       const v = await remota();
       if (!v) return;
-      if (!base) { base = v; return; }
-      if (v !== base && !avisado) {
-        avisado = true;
-        toast();
-        stop();
+      if (!base) {
+        base = v;
+        // Primera comprobación de la sesión: deja la versión lista para la
+        // próxima carga. Si los assets se descargaron con una versión
+        // anterior (caché), avisa ya: hay código nuevo en el servidor.
+        guardarVersion(v);
+        const usada = versionUsada();
+        if (usada && usada !== v && !avisado) {
+          avisado = true;
+          toast();
+          stop();
+        }
+        return;
+      }
+      if (v !== base) {
+        base = v;
+        guardarVersion(v);
+        if (!avisado) {
+          avisado = true;
+          toast();
+          stop();
+        }
       }
     } catch (e) {}
   }

@@ -762,6 +762,24 @@ function runSingleStat(nombre) {
 
 function runEDA() {
   if (typeof _userCanAnalyze === 'function' && !_userCanAnalyze()) { showToast('🔒 No tienes permiso para ejecutar análisis'); return; }
+  // EDA se descarga bajo demanda (Opción D2). Si aún no está, se carga
+  // una vez y se reintenta; el usuario ve un aviso mientras tanto.
+  if (typeof EDAManager === 'undefined' && typeof window !== 'undefined' &&
+      typeof window.__sigmaLoadGroup === 'function') {
+    if (!window.__sigmaEdaLoading) {
+      window.__sigmaEdaLoading = true;
+      try { showToast('⏳ Cargando análisis exploratorio…'); } catch (e) {}
+      window.__sigmaLoadGroup('eda').then(function() {
+        window.__sigmaEdaLoading = false;
+        if (typeof EDAManager === 'undefined') {
+          showToast('❌ No se pudo cargar el módulo EDA', 1);
+          return;
+        }
+        runEDA();
+      });
+    }
+    return;
+  }
   if (currentPage !== 'analisis') { loadPage('analisis'); }
 
   var data = getDataForEjecutarAnalisis();

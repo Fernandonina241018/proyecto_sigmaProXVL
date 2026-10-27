@@ -17,7 +17,11 @@ declare var ValidacionesManifest: any;
 declare var flatpickr: any;
 declare var API_URL: any;
 declare var fetchWithTimeout: any;
+declare var showToast: any;
 
 interface Window {
   docx: any;
+  // Cargador bajo demanda de indexx.html (Opción D2).
+  __sigmaLoadGroup?: (name: string) => Promise<void>;
+  __sigmaGroupReady?: (name: string) => boolean;
 }

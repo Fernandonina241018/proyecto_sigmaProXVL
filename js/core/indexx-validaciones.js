@@ -1345,9 +1345,33 @@ const Validaciones = (() => {
     } catch (e) { return false; }
   }
 
+  // Los bancos de ensayos y los generadores .docx (~2,6 MB) se cargan
+  // bajo demanda (Opción D2): solo al entrar al área de Validaciones.
+  // Sin loader (tests o HTML viejo en caché) se comporta como antes y
+  // muestra el módulo al instante.
   function apply(area) {
-    if (area === 'validaciones') return show();
-    return hide();
+    if (area !== 'validaciones') return hide();
+    try {
+      if (typeof window !== 'undefined' &&
+          typeof window.__sigmaLoadGroup === 'function' &&
+          typeof window.__sigmaGroupReady === 'function' &&
+          !window.__sigmaGroupReady('validaciones')) {
+        var abrir = function() {
+          try {
+            if (currentArea() !== 'validaciones') return;
+            if (typeof BancoEquipos === 'undefined') {
+              if (typeof showToast === 'function') showToast('❌ No se pudo cargar el banco de ensayos', 1);
+              return;
+            }
+            show();
+          } catch (e) {}
+        };
+        window.__sigmaLoadGroup('validaciones').then(abrir, abrir);
+        try { if (typeof showToast === 'function') showToast('⏳ Cargando banco de ensayos…'); } catch (e) {}
+        return true;
+      }
+    } catch (e) {}
+    return show();
   }
 
   function onHash() {

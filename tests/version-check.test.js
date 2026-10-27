@@ -9,7 +9,7 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 const core = join(__dirname, '..', 'js', 'core');
 const SRC = readFileSync(join(core, 'version-check.js'), 'utf-8');
 
-function loadHarness(versions) {
+function loadHarness(versions, opts) {
   let i = 0;
   const appended = [];
   let reloaded = false;
@@ -34,7 +34,10 @@ function loadHarness(versions) {
     },
   };
   sandbox.globalThis = sandbox;
-  sandbox.window = { location: { reload: () => { reloaded = true; } } };
+  sandbox.window = {
+    location: { reload: () => { reloaded = true; } },
+    _ASSET_VERSION: (opts && opts.assetVersion) || '',
+  };
   vm.createContext(sandbox);
   vm.runInContext(SRC, sandbox);
   const VC = vm.runInContext('VersionCheck', sandbox);
@@ -56,6 +59,22 @@ describe('version-check', () => {
     // no duplica el aviso
     await h.VC._tick();
     expect(h.appended).toHaveLength(1);
+  });
+
+  test('assets de una versión anterior: avisa en la primera comprobación', async () => {
+    const h = loadHarness(['nueva'], { assetVersion: 'vieja' });
+    expect(h.VC.start()).toBe(true);
+    await h.VC._tick();
+    expect(h.appended).toHaveLength(1);
+    expect(h.appended[0].innerHTML).toContain('Nueva versión');
+  });
+
+  test('primera carga (sin versión guardada) no avisa, solo cachea', async () => {
+    const h = loadHarness(['nueva'], { assetVersion: '' });
+    expect(h.VC.start()).toBe(true);
+    await h.VC._tick();
+    expect(h.appended).toHaveLength(0);
+    expect(h.VC._base()).toBe('nueva');
   });
 
   test('fetch caído no rompe nada', async () => {

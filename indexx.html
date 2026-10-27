@@ -7,18 +7,18 @@
   <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
   <link rel="manifest" href="manifest.webmanifest">
   <meta name="theme-color" content="#7c6af7">
-  <script>window.addEventListener('error',function(e){e.preventDefault();var msg=e.error?e.error.message:e.message;if(!document.body)return;var el=document.getElementById('app-error-global');if(!el){el=document.createElement('div');el.id='app-error-global';el.style.cssText='position:fixed;bottom:0;left:0;right:0;z-index:99999;background:rgba(239,68,68,.15);backdrop-filter:blur(8px);border-top:1px solid rgba(239,68,68,.4);padding:8px 14px;font-size:12px;color:#fca5a5;display:flex;align-items:center;gap:10px;font-family:sans-serif';el.innerHTML='<span style="font-size:16px">⚠️</span><span style="flex:1">Error inesperado. La app continúa funcionando.</span><button onclick="this.parentElement.remove()" style="background:none;border:1px solid rgba(239,68,68,.3);color:#fca5a5;border-radius:4px;padding:2px 10px;cursor:pointer;font-size:11px">Descartar</button>';document.body.appendChild(el)};try{if(typeof Logger!=='undefined')Logger.logError('Uncaught: '+msg)}catch(_){};return true});window.addEventListener('unhandledrejection',function(e){e.preventDefault();var msg=e.reason&&e.reason.message?e.reason.message:'inesperado';if(!document.body)return;var el=document.getElementById('app-error-global');if(!el){el=document.createElement('div');el.id='app-error-global';el.style.cssText='position:fixed;bottom:0;left:0;right:0;z-index:99999;background:rgba(239,68,68,.15);backdrop-filter:blur(8px);border-top:1px solid rgba(239,68,68,.4);padding:8px 14px;font-size:12px;color:#fca5a5;display:flex;align-items:center;gap:10px;font-family:sans-serif';el.innerHTML='<span style="font-size:16px">⚠️</span><span style="flex:1">Error en operación: '+msg+'</span><button onclick="this.parentElement.remove()" style="background:none;border:1px solid rgba(239,68,68,.3);color:#fca5a5;border-radius:4px;padding:2px 10px;cursor:pointer;font-size:11px">Descartar</button>';document.body.appendChild(el)};return true});window._CACHE_BUST = Date.now();</script>
+  <script>window.addEventListener('error',function(e){e.preventDefault();var msg=e.error?e.error.message:e.message;if(!document.body)return;var el=document.getElementById('app-error-global');if(!el){el=document.createElement('div');el.id='app-error-global';el.style.cssText='position:fixed;bottom:0;left:0;right:0;z-index:99999;background:rgba(239,68,68,.15);backdrop-filter:blur(8px);border-top:1px solid rgba(239,68,68,.4);padding:8px 14px;font-size:12px;color:#fca5a5;display:flex;align-items:center;gap:10px;font-family:sans-serif';el.innerHTML='<span style="font-size:16px">⚠️</span><span style="flex:1">Error inesperado. La app continúa funcionando.</span><button onclick="this.parentElement.remove()" style="background:none;border:1px solid rgba(239,68,68,.3);color:#fca5a5;border-radius:4px;padding:2px 10px;cursor:pointer;font-size:11px">Descartar</button>';document.body.appendChild(el)};try{if(typeof Logger!=='undefined')Logger.logError('Uncaught: '+msg)}catch(_){};return true});window.addEventListener('unhandledrejection',function(e){e.preventDefault();var msg=e.reason&&e.reason.message?e.reason.message:'inesperado';if(!document.body)return;var el=document.getElementById('app-error-global');if(!el){el=document.createElement('div');el.id='app-error-global';el.style.cssText='position:fixed;bottom:0;left:0;right:0;z-index:99999;background:rgba(239,68,68,.15);backdrop-filter:blur(8px);border-top:1px solid rgba(239,68,68,.4);padding:8px 14px;font-size:12px;color:#fca5a5;display:flex;align-items:center;gap:10px;font-family:sans-serif';el.innerHTML='<span style="font-size:16px">⚠️</span><span style="flex:1">Error en operación: '+msg+'</span><button onclick="this.parentElement.remove()" style="background:none;border:1px solid rgba(239,68,68,.3);color:#fca5a5;border-radius:4px;padding:2px 10px;cursor:pointer;font-size:11px">Descartar</button>';document.body.appendChild(el)};return true});try{window._ASSET_VERSION=localStorage.getItem('sigmaPro_asset_v')||'';}catch(_){window._ASSET_VERSION='';}window._CACHE_BUST = window._ASSET_VERSION || Date.now();</script>
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="build-revision" content="e11cd37">
+<meta name="build-revision" content="d29e75b">
 <title>Stats Analizer Pro (SAP2.0)</title>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js" integrity="sha384-D/t0ZMqQW31H3az8ktEiNb39wyKnS82iFY52QPACM+IjKW3jDUhyIgh2PApRqJZs" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js" integrity="sha384-vtjasyidUo0kW94K5MXDXntzOJpQgBKXmE7e2Ga4LG0skTTLeBi97eFAXsqewJjw" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js" integrity="sha384-vsrfeLOOY6KuIYKDlmVH5UiBmgIdB1oEf7p01YgWHuqmOHfZr374+odEv96n9tNC" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-zoom@2.2.0/dist/chartjs-plugin-zoom.min.js"></script>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr@4.6.13/dist/flatpickr.min.css">
-<script src="https://cdn.jsdelivr.net/npm/flatpickr@4.6.13/dist/flatpickr.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/flatpickr@4.6.13/dist/l10n/es.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-zoom@2.2.0/dist/chartjs-plugin-zoom.min.js" integrity="sha384-dwwI6ICEN/0ZQlS5owhUa/6ZzvwUPmjH45bFVCAcjgjTulbHJvlE+TGU3g1k0N3R" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr@4.6.13/dist/flatpickr.min.css" integrity="sha384-RkASv+6KfBMW9eknReJIJ6b3UnjKOKC5bOUaNgIY778NFbQ8MtWq9Lr/khUgqtTt" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/flatpickr@4.6.13/dist/flatpickr.min.js" integrity="sha384-5JqMv4L/Xa0hfvtF06qboNdhvuYXUku9ZrhZh3bSk8VXF0A/RuSLHpLsSV9Zqhl6" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/flatpickr@4.6.13/dist/l10n/es.js" integrity="sha384-j/aEP2b+3OKmGqank2qCSosSrlrF9jpIpdgApXq2ryJYBpLSbEi63/PDdL+rKmcQ" crossorigin="anonymous"></script>
 <script>if(typeof Chart!=='undefined'){if(typeof ChartZoom!=='undefined'){Chart.register(ChartZoom);}Chart.defaults.animation.duration=800;Chart.defaults.animation.easing='easeOutQuart';Chart.defaults.plugins.legend.labels.font.family="'Inter',-apple-system,sans-serif";Chart.defaults.plugins.legend.labels.font.size=11;Chart.defaults.plugins.legend.labels.color='#94a3b8';Chart.defaults.plugins.title.font.family="'Outfit',-apple-system,sans-serif";Chart.defaults.plugins.title.font.size=13;Chart.defaults.plugins.title.font.weight='600';Chart.defaults.plugins.title.color='#f1f5f9';Chart.defaults.color='#94a3b8';Chart.defaults.font.family="'Inter',-apple-system,sans-serif"}</script>
 <script>(function(){var t=window._CACHE_BUST||Date.now();['css/core/auth.css','css/pages/auditoria.css','css/pages/usuarios.css','css/pages/ml-predict.css','css/core/indexx.css','css/core/eda-dashboard.css','css/pages/dispositivos.css','css/validaciones-v7.css'].forEach(function(h){var l=document.createElement('link');l.rel='stylesheet';l.href=h+'?t='+t;document.head.appendChild(l)})})();</script>
 <base target="_blank">
@@ -358,8 +358,20 @@
 <div class="autocomplete-list" id="autocompleteList" style="display:none"></div>
 
 <script>
+// ──────────────────────────────────────────────────────────────
+// Cargador de módulos — núcleo + grupos bajo demanda (Opción D2)
+//
+// Núcleo: lo que necesita el login y las páginas de uso diario (31
+// archivos, ~1,4 MB). Grupos: solo se descargan al entrar a su página
+// (~2,7 MB ahorrados en la primera carga; el banco de ensayos solo lo
+// ve el área de Validaciones).
+//
+// La versión (`?v=`) viene de version.json (vía localStorage, ver
+// version-check.js). Si no hay versión todavía, se usa Date.now() para
+// no servir nunca código viejo (mismo comportamiento anterior).
+// ──────────────────────────────────────────────────────────────
 (function(){
-var t = window._CACHE_BUST || Date.now();
+var v = window._CACHE_BUST || Date.now();
 var files = [
   'js/core/estadisticosConfig.js',
   'js/core/StorageScope.js',
@@ -383,36 +395,77 @@ var files = [
   'js/core/version-check.js',
   'js/core/auth.js',
   'js/core/validaciones-manifest.js',
-   'js/core/banco-almacenes-data.js',
-   'js/core/banco-equipos-data.js',
-   'js/core/banco-estabilidad-data.js',
-   'js/core/banco-sistemas-data.js',
-  'js/core/generador-docx.js',
-  'js/core/plantilla-docx.js',
   'js/core/indexx-validaciones.js',
   'js/core/permisos.js',
   'js/core/i18n-core.js',
   'js/managers/AuditoriaManager.js',
   'js/managers/UsuariosManager.js',
-  'js/pages/ml.js',
-  'js/managers/ReporteManager.js',
-  'js/managers/EDAManager.js',
   'js/core/ModeloEstadistico.js',
   'js/managers/MLStatsManager.js',
   'js/core/DeviceFingerprint.js',
   'js/managers/DispositivosManager.js',
 ];
-(function load(i) {
-  if (i >= files.length) return;
+
+// Grupos bajo demanda. El orden dentro de cada grupo importa.
+var groups = {
+  // Área de Validaciones (solo admin): bancos + generadores .docx.
+  validaciones: [
+    'js/core/banco-almacenes-data.js',
+    'js/core/banco-equipos-data.js',
+    'js/core/banco-estabilidad-data.js',
+    'js/core/banco-sistemas-data.js',
+    'js/core/generador-docx.js',
+    'js/core/plantilla-docx.js',
+  ],
+  // Página ML (195 KB).
+  ml: ['js/pages/ml.js'],
+  // EDA (se carga al ejecutar el análisis exploratorio).
+  eda: ['js/managers/EDAManager.js'],
+  // Página Reportes (206 KB).
+  reportes: ['js/managers/ReporteManager.js'],
+};
+
+var loaded = {}, pending = {}, failed = {};
+
+function loadList(list, i, done) {
+  if (i >= list.length) { done(); return; }
   var el = document.createElement('script');
-  el.src = files[i] + '?t=' + t;
-  el.onload = el.onerror = function() { load(i + 1); };
+  el.src = list[i] + '?v=' + v;
+  el.onload = function() { loadList(list, i + 1, done); };
+  el.onerror = function() {
+    failed[list[i]] = true;
+    try { if (window.console && console.warn) console.warn('[loader] No se pudo cargar ' + list[i]); } catch (e) {}
+    loadList(list, i + 1, done);
+  };
   document.body.appendChild(el);
-})(0);
+}
+
+function groupReady(name) { return !!loaded[name]; }
+
+function loadGroup(name) {
+  if (!groups[name] || loaded[name]) return Promise.resolve();
+  if (pending[name]) return pending[name];
+  pending[name] = new Promise(function(resolve) {
+    loadList(groups[name], 0, function() {
+      loaded[name] = true;
+      delete pending[name];
+      resolve();
+    });
+  });
+  return pending[name];
+}
+
+window.__sigmaLoadGroup = loadGroup;
+window.__sigmaGroupReady = groupReady;
+window.__sigmaGroups = groups;
+window.__sigmaCoreFiles = files;
+window.__sigmaLoaderFailed = failed;
+
+loadList(files, 0, function() { window.__sigmaCoreReady = true; });
 })();
 </script>
-<script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
-<script src="https://unpkg.com/docx@8.5.0/build/index.umd.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.1/build/qrcode.min.js" integrity="sha384-HGmnkDZJy7mRkoARekrrj0VjEFSh9a0Z8qxGri/kTTAJkgR8hqD1lHsYSh3JdzRi" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/docx@8.5.0/build/index.umd.js" integrity="sha384-4xaIisuLEy2lo2HkB2C4rEf7v8jbTb2kuogX6TkuEt9feTWKBSFSOzsqNNbV+sKh" crossorigin="anonymous"></script>
 <!-- ML Service URL (Fly.io) -->
 <script>var ML_API_URL = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' ? 'http://localhost:8000' : 'https://sigmapro-ml.fly.dev';</script>
 <script>

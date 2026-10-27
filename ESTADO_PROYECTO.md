@@ -90,6 +90,63 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (SigmaProXVL) con spr
 
 ## CAMBIOS RECIENTES
 
+### 2026-10-27 (30): Rendimiento del frontend (Opción D) — versión estable, carga bajo demanda y SRI
+
+**Cambio:** Se ejecuta la **Opción D** de la auditoría (rendimiento de carga del frontend). D1 y D2 completos + la parte segura de D3 (SRI). **No se toca ninguna regla de negocio, API ni flujo de firma.**
+
+**D1 — Versión estable en vez de `Date.now()` (la caché vuelve a servir):**
+- Antes: todos los JS/CSS se pedían con `?t=<Date.now()>` → cada carga era una URL nueva → **4,17 MB de JS + CSS se re-descargaban siempre**.
+- Ahora: `indexx.html` lee la versión guardada (`localStorage.sigmaPro_asset_v`, la que publica `version.json`) y pide todo con `?v=<versión>`; si aún no hay versión (primera visita) cae a `Date.now()` como antes (nunca sirve código viejo).
+- `version-check.js` guarda la versión remota en la primera comprobación y la actualiza cuando cambia; si los assets cargados son de una versión anterior, muestra el aviso existente **ya en la primera comprobación** (antes solo avisaba si el cambio ocurría con la app abierta).
+- Nuevo `scripts/stamp-version.mjs` + `npm run version:stamp`: sella `version.json` (SHA + timestamp) y `<meta name="build-revision">`. **Paso de release** antes del commit de despliegue; si se omite, la app sigue funcionando: Pages revalida a los 10 min (`max-age=600`) y descarga lo nuevo. No hay bot ni commit automático (evita ruido y no depende de permisos de escritura en `main`).
+
+**D2 — Carga bajo demanda (primer render de 4,17 MB → 1,41 MB):**
+- Núcleo: **31 archivos (1.443.437 B)** — login, datos, trabajo, análisis, visualización, firma y administración.
+- Diferidos: **9 archivos (2.729.300 B, 65,4%)**, en 4 grupos que se descargan **solo al entrar a su página**:
+  | Grupo | Archivos | Se carga al… |
+  |---|---|---|
+  | `validaciones` | 4 bancos + `generador-docx` + `plantilla-docx` (2.567.674 B) | entrar al área Validaciones (admin) |
+  | `ml` | `js/pages/ml.js` (195.068 B) | abrir la página ML |
+  | `reportes` | `js/managers/ReporteManager.js` (206.181 B) | abrir Reportes |
+  | `eda` | `js/managers/EDAManager.js` (43.377 B) | ejecutar el Análisis Exploratorio |
+- El cargador expone `__sigmaLoadGroup(nombre)` / `__sigmaGroupReady(nombre)` (idempotente: un grupo se pide una sola vez; un fallo de red no bloquea el resto).
+- `loadPage()` espera al grupo y muestra «⏳ Cargando…»; guarda `__sigmaPageWanted` para que, si el usuario cambia de página mientras descarga, no lo devuelva a la anterior. `runEDA()` y `Validaciones.apply()` usan el mismo mecanismo, con aviso y error controlado si el módulo no llega.
+- Se mantienen **eager** `ModeloEstadistico` + `MLStatsManager` (44 KB) a propósito: `EstadisticaDescriptiva` los usa para el auto-entrenamiento al correr un test; diferirlos habría cambiado ese comportamiento.
+
+**D3 — SRI en CDNs:**
+- Todos los recursos externos de `indexx.html` llevan ahora `integrity="sha384-…"` + `crossorigin="anonymous"`: PapaParse, xlsx, Chart.js (ya lo tenía), chartjs-plugin-zoom, flatpickr (CSS, JS y l10n/es), docx.
+- `qrcode` estaba sin versión fija (`npm/qrcode/build/...`): se pinneó a **1.5.1** para que el SRI sea verificable.
+- **No se aplicó bundling/minificación (D3 opcional):** exigiría un paso de build y los 40 scripts comparten scope global + `onclick` inline; hacerlo ahora era el mayor riesgo de rotura sin ganancia frente a D1+D2. Queda documentado como mejora futura.
+
+**Archivos afectados:**
+| Archivo | Cambio |
+|---------|--------|
+| `indexx.html` | versión desde localStorage; cargador núcleo/grupos; `?v=` en JS; SRI + `crossorigin`; qrcode pinneado; meta build-revision |
+| `js/core/version-check.js` | persiste/actualiza `sigmaPro_asset_v`; avisa si los assets son de una versión anterior |
+| `js/core/indexx-ui.js` | `loadPage(name, _retry)` + guardia de grupo, placeholder y anti-carrera |
+| `js/core/indexx-analysis.js` | `runEDA()` carga el grupo `eda` bajo demanda |
+| `js/core/indexx-validaciones.js` | `apply('validaciones')` carga bancos/generadores antes de `show()` |
+| `js/core/auth.js` | respaldo de `area-select.js` usa la versión (`?v=`) |
+| `js/core/types-globals.d.ts` | declara `showToast` y `window.__sigma*` para `tsc` |
+| `scripts/stamp-version.mjs` | **NUEVO** — sella `version.json` + `build-revision` |
+| `package.json` | `npm run version:stamp` |
+| `tests/lazy-load.test.js` | **NUEVO** — 6 tests del cargador real (núcleo, grupos, `?v=`, idempotencia) |
+| `tests/cdn-sri.test.js` | **NUEVO** — 2 tests: SRI en todos los CDN + qrcode pinneado |
+| `tests/version-check.test.js` | +2 tests (assets de versión anterior / primera carga) |
+| `tests/validaciones-panel.test.js` | +1 test (espera al grupo antes de pintar el shell) |
+| `version.json` | `d29e75b` + timestamp |
+
+**Verificación:**
+- `node --check` OK en los 5 JS modificados y los 4 test files.
+- Frontend: **556/556** Vitest (41 archivos); backend **98/98**; `tsc` **OK**; E2E **1/1** Playwright.
+- Probe Playwright temporal (borrado, no se commitea): Reportes, ML, EDA y Validaciones cargan su grupo al entrar; `ReporteManager`, `MLManager`, `EDAManager`, `BancoEquipos` y `PlantillaDocx` quedan definidos; sin errores de consola salvo el 401 esperado de `/api/ml/health` (ML local no levantado).
+- Probe de caché: tras la primera visita (`?v=Date.now`), la segunda carga pide **los 31 scripts con `?v=d29e75b`** y los 8 CSS con `?t=d29e75b`; los 9 diferidos no se piden hasta entrar a su página.
+- La app sigue arrancando y el flujo crítico de firma E2E pasa igual.
+
+**Riesgo:** Bajo. No cambia contratos, permisos ni datos. El único cambio de comportamiento visible es el aviso de versión en la primera comprobación si el navegador trae assets cacheados de una versión anterior (es el objetivo). Si `version.json` no se sella, la caché sigue siendo válida y la actualización se produce por revalidación de Pages en ≤10 min.
+
+---
+
 ### 2026-10-27 (29): Lote seguro backend (Opción A) — rendimiento, auditoría legible y tests herméticos
 
 **Cambio:** Se ejecuta la **Opción A** completa de la auditoría (6 puntos), sin tocar reglas de negocio ni contratos de la API.

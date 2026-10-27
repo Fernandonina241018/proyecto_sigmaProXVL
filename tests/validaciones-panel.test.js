@@ -317,6 +317,35 @@ describe('Validaciones V7', () => {
     Validaciones.apply('estadistica');
   });
 
+  test('con loader, apply espera al grupo validaciones antes de mostrar', async () => {
+    globalThis.Auth = { getSession: () => ({ username: 'a', role: 'admin' }), getArea: () => 'validaciones' };
+    let resolver = null;
+    const cargas = [];
+    globalThis.__sigmaLoadGroup = (nombre) => {
+      cargas.push(nombre);
+      return new Promise((res) => { resolver = res; });
+    };
+    globalThis.__sigmaGroupReady = () => false;
+    const toastOriginal = globalThis.showToast;
+    globalThis.showToast = () => {};
+    const bancoOriginal = globalThis.BancoEquipos;
+    globalThis.BancoEquipos = {}; // el grupo cargado lo define
+    try {
+      Validaciones.apply('validaciones');
+      expect(cargas).toEqual(['validaciones']);
+      expect(appEl).toBe(null); // todavía no se pintó el shell
+      resolver();
+      await new Promise((res) => setTimeout(res, 0));
+      expect(appEl).not.toBe(null);
+    } finally {
+      globalThis.showToast = toastOriginal;
+      if (bancoOriginal === undefined) delete globalThis.BancoEquipos;
+      else globalThis.BancoEquipos = bancoOriginal;
+      delete globalThis.__sigmaLoadGroup;
+      delete globalThis.__sigmaGroupReady;
+    }
+  });
+
   test('evento sigma-area conmuta el shell', () => {
     expect(typeof listeners['sigma-area']).toBe('function');
     listeners['sigma-area']({ detail: { area: 'validaciones' } });
