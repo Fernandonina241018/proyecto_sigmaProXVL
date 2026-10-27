@@ -90,6 +90,30 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (SigmaProXVL) con spr
 
 ## CAMBIOS RECIENTES
 
+### 2026-10-27 (28): Favicon + PWA (icono de la app)
+
+**Cambio:** Se agrega icono de app (favicon + PWA instalable). Antes `indexx.html` tenía `<link rel="icon" href="data:,">` (favicon vacío, icono genérico del navegador).
+
+- **Icono por defecto:** cuadrado redondeado con degradado violeta (`#8b7bff → #5a47d5`) y **Σ (sigma)** blanca al centro (marca "SigmaProXVL / Stats Analizer Pro"). Fácil de reemplazar por un logo propio.
+- **Formatos:** `favicon.svg`, `favicon-16.png`, `favicon-32.png`, `favicon-48.png`, `favicon.ico`, `apple-touch-icon.png` (180), `icon-192.png`, `icon-512.png`.
+- **`manifest.webmanifest` (PWA):** `name`, `short_name`, `start_url=./indexx.html`, `display=standalone`, `theme_color=#7c6af7`, `background_color=#0f0f12`, iconos 192/512/svg/180.
+- **Links + `theme-color`** en `indexx.html`, `index.html` (redirect) y `login_redesign.html`.
+
+**Archivos afectados:**
+| Archivo | Cambio |
+|---------|--------|
+| `favicon.svg` | **NUEVO** — icono vectorial (Σ violeta) |
+| `favicon-16.png`, `favicon-32.png`, `favicon-48.png`, `favicon.ico` | **NUEVO** — favicons |
+| `apple-touch-icon.png`, `icon-192.png`, `icon-512.png` | **NUEVO** — iconos PWA / iOS |
+| `manifest.webmanifest` | **NUEVO** — manifest PWA |
+| `indexx.html`, `index.html`, `login_redesign.html` | Links de icono + manifest + `theme-color` |
+
+**Por qué:** El usuario pidió un icono de la app para la pestaña/navegador y una PWA instalable.
+
+**Riesgo:** Bajo. Solo assets estáticos + links en `<head>`; no toca lógica. 545/545 tests vitest pasan.
+
+---
+
 ### 2026-10-27 (27): Ocultar temporalmente el botón "Imprimir" (la descarga PDF lo cubre)
 
 **Cambio:** El botón "🖨️ Imprimir" de la cabecera de la vista previa de firma se **oculta** (no se borra): `display:none` en `indexx-ui.js`. La función `firmaPrint()` y toda su lógica se conservan intactas para reactivarlo más adelante.
