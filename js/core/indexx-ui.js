@@ -894,7 +894,7 @@ var rightPanels = {
         '<button onclick="vizClearGallery()" style="font-size:10px;padding:2px 8px;border-radius:4px;border:1px solid var(--border);background:transparent;color:var(--t3);cursor:pointer;font-family:inherit;transition:all .14s" title="Borrar todos los gráficos guardados" onmouseover="this.style.color=\'var(--accent-error)\';this.style.borderColor=\'rgba(239,68,68,.4)\'" onmouseout="this.style.color=\'var(--t3)\';this.style.borderColor=\'var(--border)\'">✕ Todo</button>' +
       '</div>' +
     '</div>' +
-    '<div class="gallery" id="vizGallery"><div class="gal-label">Guardados</div></div>' +
+    '<div class="gallery" id="vizGallery"><div class="gal-label">Gráficos Guardados</div></div>' +
     '<div class="chart-area">' +
       '<div class="empty-state" id="vizEmptyState">' +
         '<div class="empty-icon">📈</div>' +
