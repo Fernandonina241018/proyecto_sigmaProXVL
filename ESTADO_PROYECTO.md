@@ -90,6 +90,25 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (SigmaProXVL) con spr
 
 ## CAMBIOS RECIENTES
 
+### 2026-10-28 (36): Código del commit en el footer del login
+
+**Cambio:** El footer de la pantalla de login ahora muestra el **código del commit** desplegado (build-revision), junto a la versión: `v1.0 · 8b2da17`.
+
+- Se lee del `<meta name="build-revision">` de `indexx.html`, que el workflow `version.yml` sella automáticamente en cada push (Opción A).
+- El SHA se muestra en `<strong>` (gris más oscuro) con tooltip `Build <sha>`.
+- Fallback: si el meta no existe (HTML viejo), muestra solo `v1.0`.
+
+**Archivos afectados:**
+| Archivo | Cambio |
+|---------|--------|
+| `js/core/auth.js` | `_renderLoginModal`: lee `build-revision` y lo pinta en `.auth-footer` |
+
+**Por qué:** El usuario pidió que el login muestre el código del commit (trazabilidad/soporte).
+
+**Riesgo:** Bajo. Solo presentación; no toca el login. Verificado en navegador: footer `v1.0 · 8b2da17`, sin errores. Vitest 565/565.
+
+---
+
 ### 2026-10-28 (35): Versionado automático en cada push (Opción A)
 
 **Cambio:** Nuevo workflow `.github/workflows/version.yml` que sella `version.json` con el SHA del commit en **cada push a `main`** y commitea el resultado. Así el aviso **"🆕 Nueva versión disponible · Recargar"** aparece **siempre** tras cualquier cambio, sin depender de ejecutar `version:stamp` a mano.

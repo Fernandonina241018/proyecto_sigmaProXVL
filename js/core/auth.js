@@ -191,6 +191,9 @@ const Auth = (() => {
     function _renderLoginModal(reason='') {
         document.getElementById('auth-overlay')?.remove();
         const reasonMsg={timeout:'⏱ Tu sesión expiró por inactividad.',logout:'👋 Sesión cerrada correctamente.'}[reason]||'';
+        // Código del commit desplegado (sello automático en cada push, ver version.yml).
+        const buildRev=((document.querySelector('meta[name="build-revision"]')||{}).content||'').trim();
+        const buildRevHtml=buildRev?' · <strong style="color:#64748b" title="Build '+buildRev+'">'+buildRev+'</strong>':'';
         const overlay=document.createElement('div');
         overlay.id='auth-overlay';
         overlay.innerHTML=`
@@ -256,7 +259,7 @@ const Auth = (() => {
                 <p>Por favor, comunícate con <strong>Soporte Técnico</strong> para restablecer tu acceso.</p>
                 <div class="auth-support-box"><div>📧 soporte@statanalyzer.com</div><div>📞 +1 (800) 000-0000</div></div>
             </div>
-            <div class="auth-footer"><span>FDA 21 CFR Part 11 Compliant</span><span>v1.0</span></div>
+            <div class="auth-footer"><span>FDA 21 CFR Part 11 Compliant</span><span>v1.0${buildRevHtml}</span></div>
         </div>
         <div class="auth-timeout-warn" id="auth-timeout-warn">
             ⏱ Tu sesión expirará en <strong id="auth-warn-countdown">60</strong> segundos por inactividad.
