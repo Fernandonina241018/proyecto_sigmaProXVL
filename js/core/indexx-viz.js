@@ -182,6 +182,10 @@ function _V_injectCSS() {
     + '.viz-root .viz-hint{display:flex;align-items:center;gap:7px}'
     + '.viz-root .viz-hint svg{color:var(--acc2);flex:none}'
     + '.viz-root .viz-selected{color:var(--acc2);font-weight:700;text-align:right}'
+    // Contenido de las cards (Variables/Estilo/Acciones): sin padding duplicado.
+    + '.viz-root .viz-card-content .axis-body{padding:0;max-height:none}'
+    + '.viz-root .viz-card-content .style-body{padding:0}'
+    + '.viz-root .viz-card-content .action-bar{padding:0;border-top:none;background:transparent;margin-top:0}'
     + '.viz-root .axis-body{padding:10px 14px 14px;display:flex;flex-direction:column;gap:9px;overflow-y:auto;max-height:180px;scrollbar-width:thin;scrollbar-color:var(--bg4) transparent}'
     + '.viz-root .axis-hint{color:var(--t3);font-size:11px;padding:2px 0}'
     + '.viz-root .slot{display:flex;flex-direction:column;gap:4px}'
@@ -553,13 +557,15 @@ function vizBuildChartGrid() {
   if (selEl) selEl.textContent = cur ? ('Seleccionado: ' + cur.lbl) : '';
 }
 
-// Contrae/expande la card de "Tipo de gráfico" (rediseño mockup).
-function vizToggleTypeCard(btn) {
-  var card = document.getElementById('vizTypeCard');
+// Contrae/expande cualquier card del sidebar (.viz-card).
+function vizToggleCard(btn) {
+  var card = btn && btn.closest ? btn.closest('.viz-card') : null;
   if (!card) return;
   var collapsed = card.classList.toggle('collapsed');
   if (btn) btn.setAttribute('aria-expanded', collapsed ? 'false' : 'true');
 }
+// Compat: el botón de "Tipo de gráfico" usa vizToggleTypeCard.
+function vizToggleTypeCard(btn) { vizToggleCard(btn); }
 
 function vizBuildPalettes() {
   var el = document.getElementById('vizPalettes');

@@ -568,16 +568,35 @@ var leftPanels = {
         '</div>' +
       '</div>' +
     '</div>' +
-    '<details class="gl" open>' +
-      '<summary class="gl-sum">🔤 Variables</summary><div class="gl-body">' +
-      '<div class="sec-body" id="vizSecAxis">' +
+    '<div class="viz-card collapsed" id="vizVarsCard">' +
+      '<div class="viz-card-head">' +
+        '<div class="viz-card-title-wrap">' +
+          '<div class="viz-card-icon" aria-hidden="true">' +
+            '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20v-6M4 10V4M12 20v-9M12 7V4M20 20v-3M20 13V4"/><circle cx="4" cy="12" r="2"/><circle cx="12" cy="9" r="2"/><circle cx="20" cy="15" r="2"/></svg>' +
+          '</div>' +
+          '<div><div class="viz-card-title">Variables</div><div class="viz-card-sub">Elige las columnas para los ejes</div></div>' +
+        '</div>' +
+        '<button class="viz-collapse" type="button" aria-label="Expandir panel" aria-expanded="false" onclick="vizToggleCard(this)">' +
+          '<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>' +
+        '</button>' +
+      '</div>' +
+      '<div class="viz-card-content">' +
         '<div class="axis-body" id="vizAxisBody"><div class="axis-hint">Selecciona un tipo de gráfico primero</div></div>' +
       '</div>' +
+    '</div>' +
+    '<div class="viz-card collapsed" id="vizStyleCard">' +
+      '<div class="viz-card-head">' +
+        '<div class="viz-card-title-wrap">' +
+          '<div class="viz-card-icon" aria-hidden="true">' +
+            '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><circle cx="8.5" cy="10" r="1" fill="currentColor" stroke="none"/><circle cx="12" cy="7.5" r="1" fill="currentColor" stroke="none"/><circle cx="15.5" cy="10" r="1" fill="currentColor" stroke="none"/><circle cx="9" cy="14.5" r="1" fill="currentColor" stroke="none"/></svg>' +
+          '</div>' +
+          '<div><div class="viz-card-title">Estilo y opciones</div><div class="viz-card-sub">Título, paleta y opciones visuales</div></div>' +
+        '</div>' +
+        '<button class="viz-collapse" type="button" aria-label="Expandir panel" aria-expanded="false" onclick="vizToggleCard(this)">' +
+          '<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>' +
+        '</button>' +
       '</div>' +
-    '</details>' +
-    '<details class="gl" open>' +
-      '<summary class="gl-sum">🎨 Estilo y opciones</summary><div class="gl-body">' +
-      '<div class="sec-body" id="vizSecStyle">' +
+      '<div class="viz-card-content">' +
         '<div class="style-body">' +
           '<div class="style-row"><label class="style-lbl">Título del gráfico</label><input id="vizChartTitle" class="style-inp" type="text" placeholder="Ej: Ventas por mes 2024"></div>' +
           '<div class="style-row"><label class="style-lbl">Paleta de colores</label><div class="palettes" id="vizPalettes"></div></div>' +
@@ -591,17 +610,27 @@ var leftPanels = {
           '</div>' +
         '</div>' +
       '</div>' +
+    '</div>' +
+    '<div class="viz-card collapsed" id="vizActionsCard">' +
+      '<div class="viz-card-head">' +
+        '<div class="viz-card-title-wrap">' +
+          '<div class="viz-card-icon" aria-hidden="true">' +
+            '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 4.5 13.5H11l-1 8.5L19.5 10.5H13l1-8.5Z"/></svg>' +
+          '</div>' +
+          '<div><div class="viz-card-title">Acciones</div><div class="viz-card-sub">Renderiza, guarda o exporta</div></div>' +
+        '</div>' +
+        '<button class="viz-collapse" type="button" aria-label="Expandir panel" aria-expanded="false" onclick="vizToggleCard(this)">' +
+          '<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>' +
+        '</button>' +
       '</div>' +
-    '</details>' +
-    '<details class="gl" open>' +
-      '<summary class="gl-sum">⚡ Acciones</summary><div class="gl-body">' +
-      '<div class="action-bar">' +
-        '<button class="btn btn-viz btn-prim" onclick="vizRenderChart(true)" title="Renderiza y guarda el gráfico en la galería">⚡ Renderizar</button>' +
-        '<button class="btn btn-viz btn-sec"  onclick="vizSaveToGallery()" title="Guardar de nuevo en la galería">💾</button>' +
-        '<button class="btn btn-viz btn-sec"  onclick="vizExportPNG()">↗ PNG</button>' +
+      '<div class="viz-card-content">' +
+        '<div class="action-bar">' +
+          '<button class="btn btn-viz btn-prim" onclick="vizRenderChart(true)" title="Renderiza y guarda el gráfico en la galería">⚡ Renderizar</button>' +
+          '<button class="btn btn-viz btn-sec"  onclick="vizSaveToGallery()" title="Guardar de nuevo en la galería">💾</button>' +
+          '<button class="btn btn-viz btn-sec"  onclick="vizExportPNG()">↗ PNG</button>' +
+        '</div>' +
       '</div>' +
-      '</div>' +
-    '</details>' +
+    '</div>' +
   '</div>'; },
   reportes: function() { return '<div class="left-panel" style="gap:10px"><div id="reportes-sidebar-container"></div></div>'; },
   auditoria: function() { return '<div class="left-panel" style="gap:10px"><button class="btn btn-secondary" style="width:100%;justify-content:center;font-size:11px;flex-shrink:0" onclick="if(typeof AuditoriaManager!==\'undefined\')AuditoriaManager.exportarCSV()">📥 Exportar log completo</button><div class="info-section"><div class="info-section-header">Filtros</div><div style="font-size:11px;color:var(--text-faint);padding:8px">Usa los filtros incluidos en el panel de resultados</div></div></div>'; },

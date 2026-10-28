@@ -90,6 +90,26 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (SigmaProXVL) con spr
 
 ## CAMBIOS RECIENTES
 
+### 2026-10-28 (37): Cards del sidebar de Visualización unificadas (colapsadas por defecto)
+
+**Cambio:** Las cards "Variables", "Estilo y opciones" y "Acciones" del panel izquierdo de Visualización se rediseñan con el mismo lenguaje que "Tipo de gráfico" (`.viz-card`: header con icono + título + subtítulo + botón contraer). **Abren colapsadas por defecto**; "Tipo de gráfico" sigue abierta.
+
+- **Markup:** `<details class="gl">` → `<div class="viz-card collapsed">` con `.viz-card-head` y `.viz-card-content`. Se conservan IDs y onclicks (`vizAxisBody`, `vizPalettes`, `vizChartTitle`, toggles, botones de acción).
+- **JS:** `vizToggleCard(btn)` genérico (colapsa la `.viz-card` más cercana); `vizToggleTypeCard` queda como alias.
+- **CSS:** se neutraliza el padding duplicado dentro de las cards (`.axis-body`, `.style-body`, `.action-bar`).
+
+**Archivos afectados:**
+| Archivo | Cambio |
+|---------|--------|
+| `js/core/indexx-ui.js` | Markup de las 3 cards (colapsadas) + iconos SVG |
+| `js/core/indexx-viz.js` | `vizToggleCard` genérico + CSS del contenido |
+
+**Por qué:** Unificar el sidebar con el diseño de "Tipo de gráfico" (mockup) y que las 3 secundarias abran colapsadas para dejar más espacio al gráfico.
+
+**Riesgo:** Bajo (solo UI del panel de Visualización). Verificado en navegador: 4 cards, las 3 colapsadas y toggle funcional; vitest 574/574.
+
+---
+
 ### 2026-10-28: [FIX] Miniaturas con fondo blanco + índice que rompía la vista previa
 
 1. **Galería/carrusel de gráficos:** las miniaturas del render individual se pintaban sobre `#ffffff` fijo; en modo oscuro (texto/ejes claros) se veían lavadas y distintas a las de "Generar múltiples" (que salían oscuras por casualidad: Chart.js limpia el canvas y el JPEG rellena con negro). Ahora ambas usan `_V_thumbBg()` (`--bg-secondary` del tema, fallback por tema). El render para reportes sigue en blanco.
