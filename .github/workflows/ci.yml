@@ -8,6 +8,7 @@ on:
 
 jobs:
   frontend:
+    if: "!contains(github.event.head_commit.message, '[skip-version]')"
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
@@ -25,6 +26,7 @@ jobs:
       - run: npm run test:coverage
 
   backend:
+    if: "!contains(github.event.head_commit.message, '[skip-version]')"
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -52,6 +54,7 @@ jobs:
       - run: npm audit --audit-level=high
 
   e2e:
+    if: "!contains(github.event.head_commit.message, '[skip-version]')"
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5

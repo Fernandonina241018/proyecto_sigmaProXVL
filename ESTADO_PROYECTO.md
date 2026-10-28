@@ -90,6 +90,27 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (SigmaProXVL) con spr
 
 ## CAMBIOS RECIENTES
 
+### 2026-10-28 (35): Versionado automático en cada push (Opción A)
+
+**Cambio:** Nuevo workflow `.github/workflows/version.yml` que sella `version.json` con el SHA del commit en **cada push a `main`** y commitea el resultado. Así el aviso **"🆕 Nueva versión disponible · Recargar"** aparece **siempre** tras cualquier cambio, sin depender de ejecutar `version:stamp` a mano.
+
+- **Anti-bucle:** el commit del sello lleva `[skip-version]` en el mensaje. `version.yml` lo ignora, y `ci.yml`/`deploy.yml` también (guardas `if:` en sus jobs) para no repetir tests ni redeploys de backend/ML.
+- **Pages** ("deploy from branch") sí publica el commit del sello → `version.json` llega al sitio → el version-check detecta la versión nueva y muestra el toast.
+- Usa `GITHUB_TOKEN` con `contents: write` y `git push origin HEAD:main`.
+
+**Archivos afectados:**
+| Archivo | Cambio |
+|---------|--------|
+| `.github/workflows/version.yml` | **NUEVO** — sella + commitea en cada push a main |
+| `.github/workflows/ci.yml` | Guarda `[skip-version]` en los jobs frontend/backend/e2e |
+| `.github/workflows/deploy.yml` | Guarda `[skip-version]` en quality-gate/deploy-backend/deploy-ml |
+
+**Por qué:** El sellado era manual y se olvidaba; `version.json` quedaba desfasado y el aviso no aparecía. El usuario pidió que aparezca siempre tras cualquier cambio.
+
+**Riesgo:** Bajo-medio (solo CI/CD). Requiere que `main` permita el push del `GITHUB_TOKEN` (sin branch protection que lo bloquee). Verificado el YAML; el próximo push dispara el workflow y crea el commit `chore(version): … [skip-version]`.
+
+---
+
 ### 2026-10-28 (34): Galería — el gráfico renderizado desde el panel izquierdo ahora se guarda igual que los múltiples
 
 **Síntoma:** los gráficos creados con **⚡ Renderizar** en el panel izquierdo de Visualización no aparecían en "Gráficos Guardados", mientras que los de **🔁 Generar múltiples gráficos** sí se guardaban.

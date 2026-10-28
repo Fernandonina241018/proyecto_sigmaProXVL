@@ -9,6 +9,7 @@ jobs:
   # Motivo: deploy.yml solo gateaba backend y ML; el frontend (vitest +
   # Playwright) no tenía barrera, y un bug de UI llegó a producción.
   quality-gate:
+    if: "!contains(github.event.head_commit.message, '[skip-version]')"
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
@@ -40,6 +41,7 @@ jobs:
           if-no-files-found: ignore
 
   deploy-backend:
+    if: "!contains(github.event.head_commit.message, '[skip-version]')"
     needs: [quality-gate]
     runs-on: ubuntu-latest
     steps:
@@ -63,6 +65,7 @@ jobs:
           FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
 
   deploy-ml:
+    if: "!contains(github.event.head_commit.message, '[skip-version]')"
     needs: [quality-gate]
     runs-on: ubuntu-latest
     steps:

@@ -1,0 +1,51 @@
+name: Version stamp
+
+# Opción A — sella version.json con el SHA del commit en cada push a main.
+#
+# Por qué: el aviso "🆕 Nueva versión disponible · Recargar" solo aparece si
+# cambia version.json. Antes había que ejecutar `npm run version:stamp` a mano
+# (y se olvidaba). Este workflow lo hace solo en cada push, y commitea el sello.
+#
+# Anti-bucle: el commit del sello lleva `[skip-version]` en el mensaje, así que
+# este workflow NO se re-dispara, y los de CI/Deploy lo ignoran (guardas en
+# ci.yml / deploy.yml). Pages ("deploy from branch") sí publica el commit del
+# sello, con lo que version.json llega al sitio y el aviso aparece siempre.
+on:
+  push:
+    branches: [ main ]
+
+permissions:
+  contents: write
+
+concurrency:
+  group: version-stamp
+  cancel-in-progress: false
+
+jobs:
+  stamp:
+    if: "!contains(github.event.head_commit.message, '[skip-version]')"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          fetch-depth: 1
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 22
+
+      - name: Sellar versión (SHA del commit que disparó el workflow)
+        run: node scripts/stamp-version.mjs
+
+      - name: Commit y push del sello
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add version.json indexx.html
+          if git diff --cached --quiet; then
+            echo "Sin cambios de versión"
+            exit 0
+          fi
+          git commit -m "chore(version): stamp ${GITHUB_SHA::7} [skip-version]"
+          git push origin HEAD:main
