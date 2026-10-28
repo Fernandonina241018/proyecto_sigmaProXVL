@@ -15,7 +15,7 @@ function paneMinWidthFor(page) {
   if (page === 'datos') return 350;
   if (page === 'analisis') return 350;
   if (page === 'reportes') return 350;
-  if (page === 'visualizacion') return 600;
+  if (page === 'visualizacion') return 500;
   return 160;
 }
 resizer.addEventListener('mousedown', function(e) {

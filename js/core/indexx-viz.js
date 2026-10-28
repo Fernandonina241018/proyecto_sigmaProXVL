@@ -164,13 +164,13 @@ function _V_injectCSS() {
     + '.viz-root .viz-card.collapsed .viz-collapse svg{transform:rotate(-90deg)}'
     + '.viz-root .viz-card-content{display:block}'
     + '.viz-root .viz-card.collapsed .viz-card-content{display:none}'
-    + '.viz-root .viz-tabs{display:flex;gap:5px;margin-bottom:14px;padding:4px;border:1px solid var(--sep);border-radius:12px;background:var(--bg0);flex-shrink:0}'
-    + '.viz-root .viz-tab{position:relative;flex:1 0 auto;min-width:max-content;padding:9px 13px;border:1px solid transparent;border-radius:8px;background:transparent;color:var(--t2);font-size:11px;font-weight:700;cursor:pointer;transition:.18s;white-space:nowrap;font-family:var(--sans)}'
+    + '.viz-root .viz-tabs{display:flex;gap:4px;margin-bottom:14px;padding:4px;border:1px solid var(--sep);border-radius:12px;background:var(--bg0);flex-shrink:0}'
+    + '.viz-root .viz-tab{position:relative;flex:1 0 auto;min-width:max-content;padding:8px 7px;border:1px solid transparent;border-radius:8px;background:transparent;color:var(--t2);font-size:10.5px;font-weight:700;letter-spacing:-.01em;cursor:pointer;transition:.18s;white-space:nowrap;font-family:var(--sans)}'
     + '.viz-root .viz-tab:hover{color:var(--t1);background:var(--bg3)}'
     + '.viz-root .viz-tab[aria-selected="true"]{color:var(--acc2);border-color:var(--accBorder);background:var(--accDim)}'
     + '.viz-root .viz-tab[aria-selected="true"]::after{content:"";position:absolute;bottom:-5px;left:32%;right:32%;height:2px;background:var(--acc);border-radius:5px}'
-    + '.viz-root .viz-options{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}'
-    + '.viz-root .viz-option{position:relative;min-width:0;min-height:114px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:9px;padding:13px 8px;border:1px solid var(--sep);border-radius:14px;background:var(--bg2);color:var(--t2);cursor:pointer;text-align:center;transition:transform .18s,border-color .18s,background .18s,box-shadow .18s;font-family:var(--sans)}'
+    + '.viz-root .viz-options{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}'
+    + '.viz-root .viz-option{position:relative;min-width:0;min-height:108px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;padding:11px 7px;border:1px solid var(--sep);border-radius:14px;background:var(--bg2);color:var(--t2);cursor:pointer;text-align:center;transition:transform .18s,border-color .18s,background .18s,box-shadow .18s;font-family:var(--sans)}'
     + '.viz-root .viz-option:hover{transform:translateY(-2px);border-color:var(--accBorder);background:var(--bg3)}'
     + '.viz-root .viz-option[aria-pressed="true"]{color:var(--acc2);border-color:var(--acc);background:var(--accDim);box-shadow:inset 0 0 0 1px var(--accBorder),0 0 0 3px var(--accDim)}'
     + '.viz-root .viz-option svg{width:43px;height:34px;color:var(--acc2);transition:transform .18s;display:block}'
@@ -701,14 +701,17 @@ function _V_baseOpts() {
         callbacks: {
           label: function(ctx) {
             var label = ctx.dataset.label || '';
-            var val = ctx.parsed.y != null ? ctx.parsed.y : ctx.parsed.r;
-            var raw = ctx.raw;
-            if (ctx.chart.config.type === 'circular' || ctx.chart.config.type === 'dona' || ctx.chart.config.type === 'polar') {
-              val = ctx.parsed;
-              var total = ctx.dataset.data.reduce(function(a, b) { return a + b; }, 0);
-              var pct = total > 0 ? (val / total * 100).toFixed(1) : 0;
-              return label + ': ' + val.toFixed(2) + ' (' + pct + '%)';
+            var chartType = ctx.chart.config.type;
+            // Pie/Doughnut/PolarArea no tienen scales: su valor está en ctx.parsed
+            // (número) o ctx.parsed.r (polar). Comparar por el tipo real de Chart.js,
+            // no por el id interno del tipo de gráfico (circular/dona/polar).
+            if (chartType === 'pie' || chartType === 'doughnut' || chartType === 'polarArea') {
+              var slice = typeof ctx.parsed === 'number' ? ctx.parsed : (ctx.parsed && ctx.parsed.r != null ? ctx.parsed.r : ctx.raw);
+              var total = ctx.dataset.data.reduce(function(a, b) { return a + (typeof b === 'number' ? b : (b && b.r) || 0); }, 0);
+              var pct = total > 0 ? (slice / total * 100).toFixed(1) : 0;
+              return label + ': ' + Number(slice).toFixed(2) + ' (' + pct + '%)';
             }
+            var val = ctx.parsed.y != null ? ctx.parsed.y : ctx.parsed.r;
             return label + ': ' + (typeof val === 'number' ? val.toFixed(4) : val);
           },
         },
@@ -787,7 +790,7 @@ function _V_buildConfig() {
       var nc = _V_numCols();
       var d3 = _V_colData(nc[2] || '', lbl.length);
       if (!d1.length) { showToast('No hay datos para Apiladas'); return null; }
-      var o2 = structuredClone(opts);
+      var o2 = _V_baseOpts();
       o2.scales.x.stacked = true; o2.scales.y.stacked = true;
       return { type: 'bar', data: { labels: lbl, datasets: [
         { label: 'Capa A', data: d1, backgroundColor: c[0] + 'cc', borderRadius: 2 },
@@ -835,7 +838,7 @@ function _V_buildConfig() {
       var pts = [];
       var minLen = Math.min(xd.length, yd.length);
       for (var i = 0; i < minLen; i++) pts.push({ x: xd[i], y: yd[i] });
-      var no = structuredClone(opts);
+      var no = _V_baseOpts();
       return { type: 'scatter', data: { datasets: [{ label: 'Datos', data: pts, backgroundColor: c[0] + '99', pointRadius: 6, pointHoverRadius: 8 }]}, options: no };
     }
     case 'linealidad': {
@@ -861,7 +864,7 @@ function _V_buildConfig() {
       }
       var r2 = ssTot > 0 ? 1 - ssRes / ssTot : 0;
       if (!isFinite(r2)) r2 = 0;
-      var no = structuredClone(opts);
+      var no = _V_baseOpts();
       return { type: 'scatter', data: { datasets: [
         { label: 'Datos', data: pts, backgroundColor: c[0] + '99', pointRadius: 5, order: 2 },
         { label: 'Regresión (R²=' + r2.toFixed(4) + ')', data: [{ x: xMin, y: m * xMin + b }, { x: xMax, y: m * xMax + b }], type: 'line', borderColor: c[1], backgroundColor: 'transparent', pointRadius: 0, borderWidth: 2, order: 1 },
@@ -884,7 +887,7 @@ function _V_buildConfig() {
       var dat = _V_colData(v.val || _V_numCols()[0] || '');
       if (!dat.length || !lbl.length) { showToast('No hay datos para Circular'); return null; }
       var vals = lbl.map(function(_, i) { return dat[i] != null ? dat[i] : Math.round(10 + Math.random() * 80); });
-      var noScales = structuredClone(opts);
+      var noScales = _V_baseOpts();
       delete noScales.scales;
       return { type: 'pie', data: { labels: lbl, datasets: [{ data: vals, backgroundColor: c.slice(0, lbl.length), borderColor: 'rgba(0,0,0,.07)', borderWidth: 2, hoverOffset: 8 }]}, options: noScales };
     }
@@ -893,7 +896,7 @@ function _V_buildConfig() {
       var dat = _V_colData(v.val || _V_numCols()[0] || '');
       if (!dat.length || !lbl.length) { showToast('No hay datos para Dona'); return null; }
       var vals = lbl.map(function(_, i) { return dat[i] != null ? dat[i] : Math.round(10 + Math.random() * 80); });
-      var noScales = structuredClone(opts);
+      var noScales = _V_baseOpts();
       delete noScales.scales;
       return { type: 'doughnut', data: { labels: lbl, datasets: [{ data: vals, backgroundColor: c.slice(0, lbl.length), borderColor: 'rgba(0,0,0,.05)', borderWidth: 2, hoverOffset: 6 }]}, options: Object.assign(noScales, { cutout: '62%' }) };
     }
@@ -902,7 +905,7 @@ function _V_buildConfig() {
       var dat = _V_colData(v.val || _V_numCols()[0] || '');
       if (!dat.length || !lbl.length) { showToast('No hay datos para Polar'); return null; }
       var vals = lbl.map(function(_, i) { return dat[i] != null ? dat[i] : Math.round(20 + Math.random() * 80); });
-      var noScales = structuredClone(opts);
+      var noScales = _V_baseOpts();
       delete noScales.scales;
       return { type: 'polarArea', data: { labels: lbl, datasets: [{ data: vals, backgroundColor: c.slice(0, lbl.length).map(function(cl){ return cl + '99'; }), borderColor: c.slice(0, lbl.length), borderWidth: 1 }]}, options: noScales };
     }
@@ -913,7 +916,7 @@ function _V_buildConfig() {
       var vals = lbl.map(function(_, i) { return d1[i] != null ? d1[i] : Math.round(40 + Math.random() * 60); });
       var d2 = _V_colData(_V_numCols()[1] || '', lbl.length);
       var vals2 = d2.length ? d2 : lbl.map(function() { return Math.round(30 + Math.random() * 60); });
-      var noScales = structuredClone(opts);
+      var noScales = _V_baseOpts();
       delete noScales.scales;
       var gc = _V_isLight() ? 'rgba(0,0,0,.07)' : 'rgba(255,255,255,.07)';
       var tc2 = _V_isLight() ? 'rgba(100,116,139,.7)' : 'rgba(200,200,220,.5)';
@@ -931,7 +934,7 @@ function _V_buildConfig() {
       var pts = raw.map(function(val) {
         return { x: (Math.random() - 0.5) * 1.4, y: val };
       });
-      var o = structuredClone(opts);
+      var o = _V_baseOpts();
       o.scales.x = Object.assign(o.scales.x || {}, {
         type: 'linear', min: -1.2, max: 1.2,
         grid: { display: false },

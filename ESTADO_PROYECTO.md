@@ -90,6 +90,36 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (SigmaProXVL) con spr
 
 ## CAMBIOS RECIENTES
 
+### 2026-10-28 (33): Panel de Visualización 500px + fix de renderizado en 8 tipos de gráfico
+
+**Cambio 1 — Panel más compacto (más ancho para el gráfico):**
+- `paneMinWidthFor('visualizacion')` 600 → **500px** y `#paneLeft.pane-visualizacion` a 500px.
+- Pestañas de categoría más juntas: `.viz-tabs` gap 5 → 4px; `.viz-tab` padding `9px 13px` → `8px 7px`, font-size 11 → 10.5px, `letter-spacing:-.01em`.
+- Tarjetas de tipo de gráfico algo más compactas: `.viz-options` gap 10 → 8px; `.viz-option` min-height 114 → 108px, padding `13px 8px` → `11px 7px`, gap 9 → 8px.
+- Verificado en navegador real (login + `loadPage('visualizacion')`): panel 500px, 5 pestañas en una línea, `scrollWidth === clientWidth` (sin scroll horizontal), 0 errores de consola. El área del gráfico pasa de ~857px a ~957px (canvas 909px).
+
+**Cambio 2 — Fix `DataCloneError` (8 tipos de gráfico no renderizaban):**
+- Causa: `structuredClone(opts)` sobre las opciones de Chart.js, que contienen funciones (`onClick`, `onHover`, callbacks de tooltip) → `DataCloneError: ... could not be cloned`. Afectaba a **Apiladas, Dispersión, Circular, Dona, Polar, Radar, Linealidad y Puntos** (8 de 16 tipos).
+- Fix: sustituir los 8 `structuredClone(opts)` por `_V_baseOpts()` (crea opciones nuevas sin clonar funciones). Afecta también a la generación masiva a galería (`scatter` y `dotplot`).
+- Fix tooltip: el porcentaje de Pie/Doughnut/PolarArea comparaba `ctx.chart.config.type` con los ids internos (`circular`/`dona`/`polar`), que nunca coinciden; ahora usa los tipos reales de Chart.js (`pie`/`doughnut`/`polarArea`) y calcula el valor desde `ctx.parsed`/`ctx.parsed.r`.
+
+**Verificación:** 16/16 tipos renderizados en la app real (sin errores de página) y 7/7 tipos de generación masiva con miniatura. Vitest 556/556. `node --check` OK en los archivos modificados.
+
+**Archivos afectados:**
+| Archivo | Cambio |
+|---------|--------|
+| `js/core/indexx-ui.js:18` | `paneMinWidthFor('visualizacion')` 600 → 500 |
+| `css/core/indexx.css:262` | `#paneLeft.pane-visualizacion` 600px → 500px |
+| `js/core/indexx-viz.js` (CSS inyectado) | Pestañas/opciones compactas (gap, padding, font-size, min-height) |
+| `js/core/indexx-viz.js` (`_V_baseOpts`) | Tooltip pie/doughnut/polarArea por tipo real + valor correcto |
+| `js/core/indexx-viz.js` (`_V_buildConfig`) | 8 × `structuredClone(opts)` → `_V_baseOpts()` |
+
+**Por qué:** El panel a 600px dejaba poco espacio al gráfico (el usuario pidió reducir la separación entre categorías para ganar ancho). Además, 8 tipos de gráfico fallaban al renderizar por clonar funciones con `structuredClone`.
+
+**Riesgo:** Bajo (UI de Visualización + construcción de opciones). Verificado end-to-end en navegador real y con la suite completa.
+
+---
+
 ### 2026-10-28 (32): Rediseño de la card "Tipo de gráfico" (Visualización) + panel 600px
 
 **Cambio:** Se aplica el diseño del mockup `preview_rediseno_tipo_grafico.html` a la card "Tipo de gráfico" de la página Visualización, y se amplía el panel izquierdo para que las pestañas de categoría **no se salgan ni requieran scroll horizontal**.
