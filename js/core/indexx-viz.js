@@ -1033,8 +1033,19 @@ function _V_buildConfig() {
 }
 
 // ══ RENDER ═══════════════════════════════════════════════════════
-function vizRenderChart() {
+// saveToGallery === true → el render nace del botón "Renderizar" del panel
+// izquierdo y se guarda en la galería igual que la generación múltiple.
+// Los renders internos (restaurar sesión, tema, abrir un gráfico guardado)
+// llaman sin argumentos y NO duplican entradas.
+function vizRenderChart(saveToGallery) {
   if (!_V.type) { showToast('Selecciona un tipo de gráfico'); return; }
+
+  if (saveToGallery === true) {
+    // Render explícito del usuario: sale del modo galería para no re-guardar
+    // el gráfico que se estaba visualizando.
+    _V._galleryMode = false;
+    _V._galleryTitle = '';
+  }
 
   var config = _V_buildConfig();
   if (!config) return;
@@ -1119,7 +1130,15 @@ function vizRenderChart() {
     var curSheet = _V._sheetOverride || (typeof getCurrentSheet === 'function' ? getCurrentSheet() : null);
     sessionStorage.setItem('sigmaPro_vizSheetName', curSheet ? curSheet.name : '');
   } catch(e) {}
-  showToast('✓ Gráfico renderizado');
+
+  // Paridad con "Generar múltiples gráficos": cada gráfico renderizado desde el
+  // panel se persiste en la galería. El dedup por tipo/variables/paleta/hoja
+  // evita que re-renderizar el mismo gráfico cree copias repetidas.
+  var savedId = null;
+  if (saveToGallery === true) {
+    try { savedId = vizSaveToGallery({ silent: true }); } catch(e) { savedId = null; }
+  }
+  showToast(savedId !== null ? '✓ Gráfico renderizado y guardado en galería' : '✓ Gráfico renderizado');
 }
 
 function _V_applyReportColors(config) {
@@ -1210,30 +1229,51 @@ function _V_autoTitle() {
 }
 
 // ══ GALLERY ════════════════════════════════════════════════════
-function vizSaveToGallery() {
-  if (!_V.chart) { showToast('Renderiza un gráfico primero'); return; }
+// Clon de la configuración del gráfico. structuredClone falla si algún valor
+// no es clonable; el fallback JSON evita que se pierda el guardado.
+function _V_cloneVals(vals) {
+  try { return structuredClone(vals); } catch (e) {
+    try { return JSON.parse(JSON.stringify(vals || {})); } catch (e2) { return {}; }
+  }
+}
+
+// opts.silent = true → no muestra toast (lo usa el render, que ya informa).
+// Devuelve el id guardado, o null si no había gráfico que guardar.
+function vizSaveToGallery(opts) {
+  var silent = !!(opts && opts.silent);
+  if (!_V.chart) { showToast('Renderiza un gráfico primero'); return null; }
   var canvas = document.getElementById('vizMainChart');
-  if (!canvas) return;
+  if (!canvas) return null;
   var ttlEl = document.getElementById('vizChartTtl');
   var title = ttlEl ? (ttlEl.textContent || (_V_TYPES[_V.type] ? _V_TYPES[_V.type].lbl : 'Gráfico')) : 'Gráfico';
 
-  var thumbC = document.createElement('canvas');
-  thumbC.width = 80; thumbC.height = 48;
-  var thumbCtx = thumbC.getContext('2d');
-  thumbCtx.fillStyle = '#ffffff';
-  thumbCtx.fillRect(0, 0, 80, 48);
-  thumbCtx.drawImage(canvas, 0, 0, 80, 48);
-  var thumb = thumbC.toDataURL('image/jpeg', 0.5);
+  // La miniatura es opcional: igual que en la generación múltiple, un fallo de
+  // canvas (contexto no disponible, canvas 0×0) NO debe abortar el guardado.
+  var thumb = '';
+  try {
+    var thumbC = document.createElement('canvas');
+    thumbC.width = 80; thumbC.height = 48;
+    var thumbCtx = thumbC.getContext('2d');
+    if (thumbCtx) {
+      thumbCtx.fillStyle = '#ffffff';
+      thumbCtx.fillRect(0, 0, 80, 48);
+      thumbCtx.drawImage(canvas, 0, 0, 80, 48);
+      thumb = thumbC.toDataURL('image/jpeg', 0.5);
+    }
+  } catch (e) { thumb = ''; }
 
   var id = Date.now();
   var sheetIdx = typeof trabajoActiveSheetIndex !== 'undefined' ? trabajoActiveSheetIndex : -1;
   var sheetName = (typeof trabajoSheets !== 'undefined' && trabajoSheets[sheetIdx]) ? trabajoSheets[sheetIdx].name : '';
-  _V.gallery.unshift({ id: id, title: title, type: _V.type || '', vars: structuredClone(_V.vals), palette: _V.palette, thumb: thumb, createdAt: Date.now(), sourceFile: datosCurrentFileName || '', sourceSheetIndex: sheetIdx, sourceSheetName: sheetName });
+  _V.gallery.unshift({ id: id, title: title, type: _V.type || '', vars: _V_cloneVals(_V.vals), palette: _V.palette, thumb: thumb, createdAt: Date.now(), sourceFile: (typeof datosCurrentFileName !== 'undefined' ? datosCurrentFileName : '') || '', sourceSheetIndex: sheetIdx, sourceSheetName: sheetName });
   if (_V.gallery.length > 100) _V.gallery = _V.gallery.slice(0, 100);
   _V.gallery = _V_galleryDedup(_V.gallery);
+  // El gráfico visible es el recién guardado: se marca activo en la tira.
+  _V._activeGalleryId = id;
   vizRefreshGallery();
   _V_saveGallery();
-  showToast('✓ Guardado en galería');
+  if (!silent) showToast('✓ Guardado en galería');
+  return id;
 }
 
 function _V_updateGalleryNav() {

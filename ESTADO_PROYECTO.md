@@ -90,6 +90,43 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (SigmaProXVL) con spr
 
 ## CAMBIOS RECIENTES
 
+### 2026-10-28 (34): Galería — el gráfico renderizado desde el panel izquierdo ahora se guarda igual que los múltiples
+
+**Síntoma:** los gráficos creados con **⚡ Renderizar** en el panel izquierdo de Visualización no aparecían en "Gráficos Guardados", mientras que los de **🔁 Generar múltiples gráficos** sí se guardaban.
+
+**Causa raíz (verificada ejecutando el módulo en un DOM simulado):** los dos caminos no hacían lo mismo:
+- `_V_batchGenerate()` (múltiples) hace `_V.gallery.unshift(...)` + `vizRefreshGallery()` + `_V_saveGallery()` → **auto-guarda**.
+- `vizRenderChart()` (panel) solo pinta el canvas; **nunca toca la galería**. Dependía de que el usuario pulsara el botón **💾**, que además no tenía etiqueta (`title`) que lo explicara.
+
+Problemas secundarios del guardado simple detectados en la revisión:
+1. `vizSaveToGallery()` no envolvía la miniatura en `try/catch` (la generación múltiple sí): si `getContext('2d')`/`drawImage`/`toDataURL` falla (canvas 0×0, contexto no disponible), la excepción **abortaba el guardado entero** sin aviso.
+2. `structuredClone(_V.vals)` podía lanzar y abortar el guardado igual.
+3. Tras guardar no se marcaba la entrada como activa en la tira (los múltiples sí, vía `_V_showGalleryChart(_V.gallery[0])`).
+
+**Fix:**
+1. `vizRenderChart(saveToGallery)`: el botón **⚡ Renderizar** ahora llama `vizRenderChart(true)`; al terminar el render llama a `vizSaveToGallery({silent:true})` y muestra un único toast "✓ Gráfico renderizado y guardado en galería". Los renders internos (restaurar de `sessionStorage` en `initVizPage`, cambio de tema en `_V_observeTheme`, abrir un gráfico con `_V_showGalleryChart`) siguen llamando **sin argumento** → no crean entradas.
+2. Un render explícito sale de `_V._galleryMode` (antes, si venías de la galería, el render se consideraba "de galería").
+3. `vizSaveToGallery(opts)` devuelve el `id` guardado (o `null`), acepta `{silent}` y `_V._activeGalleryId = id` para pintar la miniatura activa.
+4. Miniatura tolerante a fallos (`try/catch` → se guarda sin thumb, igual que los múltiples) y `_V_cloneVals()` con fallback JSON si `structuredClone` falla.
+5. Botón 💾 con `title` explicativo.
+
+**Por qué:** el usuario esperaba paridad entre ambos flujos: "tiene que cargarse de la misma manera que los múltiples". El dedup existente por `tipo+variables+paleta+hoja` evita que re-renderizar el mismo gráfico llene la galería de copias.
+
+**Verificación:**
+- Test nuevo `tests/viz-render-galeria.test.js` (9 tests): guarda+persiste+pinta, render interno no guarda, sin duplicados al re-renderizar, variables distintas → entrada nueva, 💾 posterior no duplica, salir de modo galería, abrir de galería no re-guarda, fallo de miniatura no bloquea, guardar sin gráfico avisa.
+- Suite completa **565/565** (42 archivos). `npm run preflight` → **OK** (Playwright 5/5, backend incluido). `node --check` y `tsc` OK.
+
+**Archivos afectados:**
+| Archivo | Cambio |
+|---------|--------|
+| `js/core/indexx-viz.js` | `vizRenderChart(saveToGallery)` + auto-guardado; `_V_cloneVals()`; `vizSaveToGallery(opts)` robusto y con retorno de id |
+| `js/core/indexx-ui.js:599-600` | Botón Renderizar → `vizRenderChart(true)` + `title` en Renderizar y 💾 |
+| `tests/viz-render-galeria.test.js` | **NUEVO** — 9 tests del flujo panel → galería |
+
+**Riesgo:** Bajo. Solo afecta al flujo de guardado de Visualización; la generación múltiple y la carga de gráficos guardados quedan intactas (tests `viz-batch-modal`, `viz-hold`, `viz-hold-persistencia`, `viz-render` en verde).
+
+---
+
 ### 2026-10-28 (33): Panel de Visualización 500px + fix de renderizado en 8 tipos de gráfico
 
 **Cambio 1 — Panel más compacto (más ancho para el gráfico):**

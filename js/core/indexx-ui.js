@@ -596,8 +596,8 @@ var leftPanels = {
     '<details class="gl" open>' +
       '<summary class="gl-sum">⚡ Acciones</summary><div class="gl-body">' +
       '<div class="action-bar">' +
-        '<button class="btn btn-viz btn-prim" onclick="vizRenderChart()">⚡ Renderizar</button>' +
-        '<button class="btn btn-viz btn-sec"  onclick="vizSaveToGallery()">💾</button>' +
+        '<button class="btn btn-viz btn-prim" onclick="vizRenderChart(true)" title="Renderiza y guarda el gráfico en la galería">⚡ Renderizar</button>' +
+        '<button class="btn btn-viz btn-sec"  onclick="vizSaveToGallery()" title="Guardar de nuevo en la galería">💾</button>' +
         '<button class="btn btn-viz btn-sec"  onclick="vizExportPNG()">↗ PNG</button>' +
       '</div>' +
       '</div>' +
