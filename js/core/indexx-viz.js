@@ -88,22 +88,22 @@ var _V_CATS = [
 ];
 
 var _V_TYPES = {
-  barras:     { lbl: 'Barras',      cat: 'comp',  svg: _V_svgBarras() },
-  agrupadas:  { lbl: 'Agrupadas',   cat: 'comp',  svg: _V_svgAgrupadas() },
-  apiladas:   { lbl: 'Apiladas',    cat: 'comp',  svg: _V_svgApiladas() },
-  histograma: { lbl: 'Histograma',  cat: 'dist',  svg: _V_svgHistograma() },
-  dispersion: { lbl: 'Dispersión',  cat: 'dist',  svg: _V_svgDispersion() },
-  burbuja:    { lbl: 'Burbuja',     cat: 'dist',  svg: _V_svgBurbuja() },
-  lineas:     { lbl: 'Líneas',      cat: 'tend',  svg: _V_svgLineas() },
-  area:       { lbl: 'Área',        cat: 'tend',  svg: _V_svgArea() },
-  multi:      { lbl: 'Multi',       cat: 'tend',  svg: _V_svgMulti() },
-  circular:   { lbl: 'Circular',    cat: 'comp2', svg: _V_svgCircular() },
-  dona:       { lbl: 'Dona',        cat: 'comp2', svg: _V_svgDona() },
-  polar:      { lbl: 'Polar',       cat: 'comp2', svg: _V_svgPolar() },
-  radar:      { lbl: 'Radar',       cat: 'stat',  svg: _V_svgRadar() },
-  linealidad: { lbl: 'Linealidad',  cat: 'stat',  svg: _V_svgLinealidad() },
-  control:    { lbl: 'Control',     cat: 'stat',  svg: _V_svgControl() },
-  dotplot:    { lbl: 'Puntos',      cat: 'stat',  svg: _V_svgDotplot() },
+  barras:     { lbl: 'Barras',      cat: 'comp',  desc: 'Muestra valores lado a lado.',              svg: _V_svgBarras() },
+  agrupadas:  { lbl: 'Agrupadas',   cat: 'comp',  desc: 'Compara series por categoría.',             svg: _V_svgAgrupadas() },
+  apiladas:   { lbl: 'Apiladas',    cat: 'comp',  desc: 'Compara partes dentro de cada total.',      svg: _V_svgApiladas() },
+  histograma: { lbl: 'Histograma',  cat: 'dist',  desc: 'Explora la distribución de frecuencias.',   svg: _V_svgHistograma() },
+  dispersion: { lbl: 'Dispersión',  cat: 'dist',  desc: 'Explora relaciones entre variables.',       svg: _V_svgDispersion() },
+  burbuja:    { lbl: 'Burbuja',     cat: 'dist',  desc: 'Compara tres dimensiones con burbujas.',    svg: _V_svgBurbuja() },
+  lineas:     { lbl: 'Líneas',      cat: 'tend',  desc: 'Muestra cambios a lo largo del tiempo.',    svg: _V_svgLineas() },
+  area:       { lbl: 'Área',        cat: 'tend',  desc: 'Destaca la evolución y la magnitud.',       svg: _V_svgArea() },
+  multi:      { lbl: 'Multi',       cat: 'tend',  desc: 'Compara varias series en un mismo eje.',    svg: _V_svgMulti() },
+  circular:   { lbl: 'Circular',    cat: 'comp2', desc: 'Representa partes de un total.',            svg: _V_svgCircular() },
+  dona:       { lbl: 'Dona',        cat: 'comp2', desc: 'Compara proporciones con un centro libre.', svg: _V_svgDona() },
+  polar:      { lbl: 'Polar',       cat: 'comp2', desc: 'Compara valores en un eje radial.',         svg: _V_svgPolar() },
+  radar:      { lbl: 'Radar',       cat: 'stat',  desc: 'Compara varias variables en un radar.',     svg: _V_svgRadar() },
+  linealidad: { lbl: 'Linealidad',  cat: 'stat',  desc: 'Evalúa la relación lineal entre variables.',svg: _V_svgLinealidad() },
+  control:    { lbl: 'Control',     cat: 'stat',  desc: 'Sigue una variable frente a sus límites.',  svg: _V_svgControl() },
+  dotplot:    { lbl: 'Puntos',      cat: 'stat',  desc: 'Muestra la dispersión de cada valor.',      svg: _V_svgDotplot() },
 };
 
 var _V_AXIS = {
@@ -151,6 +151,37 @@ function _V_injectCSS() {
     + '.viz-root .ct svg{width:42px;height:30px;display:block}'
     + '.viz-root .ct-lbl{font-size:10px;font-weight:600;color:var(--t2);text-align:center}'
     + '.viz-root .ct.sel .ct-lbl{color:var(--acc2)}'
+    // ── Rediseño "Tipo de gráfico" (mockup) ──
+    + '.viz-root .viz-card{border:1px solid var(--sep);border-radius:16px;padding:16px;background:linear-gradient(145deg,var(--bg2),var(--bg1));box-shadow:0 8px 24px rgba(0,0,0,.18);flex-shrink:0}'
+    + '.viz-root .viz-card-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:14px}'
+    + '.viz-root .viz-card-title-wrap{display:flex;align-items:center;gap:11px;min-width:0}'
+    + '.viz-root .viz-card-icon{width:38px;height:38px;display:grid;place-items:center;border:1px solid var(--accBorder);border-radius:12px;background:var(--accDim);color:var(--acc2);flex-shrink:0}'
+    + '.viz-root .viz-card-title{font-size:14px;font-weight:750;letter-spacing:-.02em;color:var(--t1)}'
+    + '.viz-root .viz-card-sub{font-size:11px;color:var(--t3);margin-top:2px}'
+    + '.viz-root .viz-collapse{display:grid;place-items:center;width:34px;height:34px;border:1px solid var(--sep);border-radius:10px;background:var(--bg3);color:var(--t2);cursor:pointer;transition:.18s;flex-shrink:0}'
+    + '.viz-root .viz-collapse:hover{color:var(--t1);border-color:var(--accBorder)}'
+    + '.viz-root .viz-collapse svg{transition:transform .2s}'
+    + '.viz-root .viz-card.collapsed .viz-collapse svg{transform:rotate(-90deg)}'
+    + '.viz-root .viz-card-content{display:block}'
+    + '.viz-root .viz-card.collapsed .viz-card-content{display:none}'
+    + '.viz-root .viz-tabs{display:flex;gap:5px;margin-bottom:14px;padding:4px;border:1px solid var(--sep);border-radius:12px;background:var(--bg0);flex-shrink:0}'
+    + '.viz-root .viz-tab{position:relative;flex:1 0 auto;min-width:max-content;padding:9px 13px;border:1px solid transparent;border-radius:8px;background:transparent;color:var(--t2);font-size:11px;font-weight:700;cursor:pointer;transition:.18s;white-space:nowrap;font-family:var(--sans)}'
+    + '.viz-root .viz-tab:hover{color:var(--t1);background:var(--bg3)}'
+    + '.viz-root .viz-tab[aria-selected="true"]{color:var(--acc2);border-color:var(--accBorder);background:var(--accDim)}'
+    + '.viz-root .viz-tab[aria-selected="true"]::after{content:"";position:absolute;bottom:-5px;left:32%;right:32%;height:2px;background:var(--acc);border-radius:5px}'
+    + '.viz-root .viz-options{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}'
+    + '.viz-root .viz-option{position:relative;min-width:0;min-height:114px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:9px;padding:13px 8px;border:1px solid var(--sep);border-radius:14px;background:var(--bg2);color:var(--t2);cursor:pointer;text-align:center;transition:transform .18s,border-color .18s,background .18s,box-shadow .18s;font-family:var(--sans)}'
+    + '.viz-root .viz-option:hover{transform:translateY(-2px);border-color:var(--accBorder);background:var(--bg3)}'
+    + '.viz-root .viz-option[aria-pressed="true"]{color:var(--acc2);border-color:var(--acc);background:var(--accDim);box-shadow:inset 0 0 0 1px var(--accBorder),0 0 0 3px var(--accDim)}'
+    + '.viz-root .viz-option svg{width:43px;height:34px;color:var(--acc2);transition:transform .18s;display:block}'
+    + '.viz-root .viz-option:hover svg{transform:scale(1.05)}'
+    + '.viz-root .viz-option-label{font-size:11px;font-weight:750}'
+    + '.viz-root .viz-check{position:absolute;top:8px;right:8px;width:18px;height:18px;display:grid;place-items:center;border-radius:50%;background:var(--acc2);color:#201b35;font-size:11px;font-weight:900;opacity:0;transform:scale(.75);transition:.18s}'
+    + '.viz-root .viz-option[aria-pressed="true"] .viz-check{opacity:1;transform:scale(1)}'
+    + '.viz-root .viz-card-foot{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:14px;color:var(--t3);font-size:10px}'
+    + '.viz-root .viz-hint{display:flex;align-items:center;gap:7px}'
+    + '.viz-root .viz-hint svg{color:var(--acc2);flex:none}'
+    + '.viz-root .viz-selected{color:var(--acc2);font-weight:700;text-align:right}'
     + '.viz-root .axis-body{padding:10px 14px 14px;display:flex;flex-direction:column;gap:9px;overflow-y:auto;max-height:180px;scrollbar-width:thin;scrollbar-color:var(--bg4) transparent}'
     + '.viz-root .axis-hint{color:var(--t3);font-size:11px;padding:2px 0}'
     + '.viz-root .slot{display:flex;flex-direction:column;gap:4px}'
@@ -493,7 +524,8 @@ function vizBuildCatTabs() {
   var el = document.getElementById('vizCatTabs');
   if (!el) return;
   el.innerHTML = _V_CATS.map(function(c) {
-    return '<button class="cat-tab' + (c.id === _V.cat ? ' act' : '') + '" onclick="vizSelCat(\'' + c.id + '\')">' + c.lbl + '</button>';
+    var sel = c.id === _V.cat;
+    return '<button type="button" class="viz-tab" role="tab" aria-selected="' + (sel ? 'true' : 'false') + '" onclick="vizSelCat(\'' + c.id + '\')">' + c.lbl + '</button>';
   }).join('');
 }
 
@@ -508,10 +540,25 @@ function vizBuildChartGrid() {
   el.innerHTML = cat.types.map(function(t) {
     var typeDef = _V_TYPES[t];
     if (!typeDef) return '';
-    return '<div class="ct' + (_V.type === t ? ' sel' : '') + '" onclick="vizSelType(\'' + t + '\')" title="' + typeDef.lbl + '">' +
+    var sel = _V.type === t;
+    return '<button type="button" class="viz-option" aria-pressed="' + (sel ? 'true' : 'false') + '" onclick="vizSelType(\'' + t + '\')" title="' + typeDef.lbl + '">' +
       typeDef.svg +
-      '<div class="ct-lbl">' + typeDef.lbl + '</div></div>';
+      '<span class="viz-option-label">' + typeDef.lbl + '</span>' +
+      '<span class="viz-check">✓</span></button>';
   }).join('');
+  var cur = _V_TYPES[_V.type];
+  var hintEl = document.getElementById('vizTypeHint');
+  var selEl = document.getElementById('vizSelectedType');
+  if (hintEl) hintEl.textContent = (cur && cur.desc) ? cur.desc : 'Elige un tipo de gráfico para continuar.';
+  if (selEl) selEl.textContent = cur ? ('Seleccionado: ' + cur.lbl) : '';
+}
+
+// Contrae/expande la card de "Tipo de gráfico" (rediseño mockup).
+function vizToggleTypeCard(btn) {
+  var card = document.getElementById('vizTypeCard');
+  if (!card) return;
+  var collapsed = card.classList.toggle('collapsed');
+  if (btn) btn.setAttribute('aria-expanded', collapsed ? 'false' : 'true');
 }
 
 function vizBuildPalettes() {

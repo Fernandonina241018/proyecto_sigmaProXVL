@@ -90,6 +90,29 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (SigmaProXVL) con spr
 
 ## CAMBIOS RECIENTES
 
+### 2026-10-28 (32): Rediseño de la card "Tipo de gráfico" (Visualización) + panel 600px
+
+**Cambio:** Se aplica el diseño del mockup `preview_rediseno_tipo_grafico.html` a la card "Tipo de gráfico" de la página Visualización, y se amplía el panel izquierdo para que las pestañas de categoría **no se salgan ni requieran scroll horizontal**.
+
+- **Panel izquierdo:** `paneMinWidthFor('visualizacion')` 450 → **600px** y `#paneLeft.pane-visualizacion` a 600px.
+- **Card rediseñada:** header (icono + título + subtítulo + botón contraer), pestañas en píldora (`.viz-tabs`/`.viz-tab` con `aria-selected`), opciones como tarjetas (`.viz-option` con icono, etiqueta y ✓), y pie con **hint** (descripción del tipo) + **"Seleccionado: X"**.
+- **Sin scroll horizontal:** verificado en navegador real (`scrollWidth === clientWidth`, 5 pestañas visibles en una línea).
+- **Contraer/expandir** la card (`vizToggleTypeCard`).
+- **Interactividad:** al cambiar categoría se re-renderizan las opciones; al elegir tipo se marca con ✓ y se actualiza el pie. Verificado en navegador (Tendencia → Líneas).
+
+**Archivos afectados:**
+| Archivo | Cambio |
+|---------|--------|
+| `js/core/indexx-viz.js` | `_V_TYPES` con `desc`; `vizBuildCatTabs`/`vizBuildChartGrid` a clases `.viz-*`; nueva `vizToggleTypeCard`; CSS del rediseño |
+| `js/core/indexx-ui.js` | Markup de la card "Tipo de gráfico"; `paneMinWidthFor('visualizacion')` 450→600 |
+| `css/core/indexx.css` | `#paneLeft.pane-visualizacion` 600px |
+
+**Por qué:** Las pestañas de categoría se salían y había que hacer scroll horizontal (con barra oculta). El usuario pidió aplicar el mockup y eliminar el scroll. Se eligió ampliar el panel (Opción 1) para conservar el texto completo en una línea.
+
+**Riesgo:** Bajo-medio (solo UI de Visualización). Verificado: vitest 556/556, navegador sin overflow y sin errores de consola.
+
+---
+
 ### 2026-10-27 (31): E2E de páginas bajo demanda (cierra el hueco de la Opción D)
 
 **Cambio:** Nuevo `e2e/lazy-pages.spec.js` que, en navegador real, valida que las 4 páginas diferidas de la Opción D se cargan **bajo demanda** y **no rompen la app**:

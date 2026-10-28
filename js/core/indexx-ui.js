@@ -15,7 +15,7 @@ function paneMinWidthFor(page) {
   if (page === 'datos') return 350;
   if (page === 'analisis') return 350;
   if (page === 'reportes') return 350;
-  if (page === 'visualizacion') return 450;
+  if (page === 'visualizacion') return 600;
   return 160;
 }
 resizer.addEventListener('mousedown', function(e) {
@@ -547,14 +547,27 @@ var leftPanels = {
     },
 
   visualizacion: function()  { return '<div class="left-panel viz-root datos" id="panelViz" aria-label="Visualización" style="gap:12px;padding:8px;overflow:hidden;display:flex;flex-direction:column;overflow-y:auto">' +
-    '<details class="gl" open>' +
-      '<summary class="gl-sum">📊 Tipo de gráfico</summary><div class="gl-body">' +
-      '<div class="sec-body" id="vizSecType">' +
-        '<div class="cat-tabs" id="vizCatTabs"></div>' +
-        '<div class="chart-grid" id="vizChartGrid"></div>' +
+    '<div class="viz-card" id="vizTypeCard">' +
+      '<div class="viz-card-head">' +
+        '<div class="viz-card-title-wrap">' +
+          '<div class="viz-card-icon" aria-hidden="true">' +
+            '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19V10h4v9M10 19V5h4v14M16 19v-7h4v7"/><path d="M3 21h18"/></svg>' +
+          '</div>' +
+          '<div><div class="viz-card-title">Tipo de gráfico</div><div class="viz-card-sub">Elige una categoría y su representación visual</div></div>' +
+        '</div>' +
+        '<button class="viz-collapse" type="button" aria-label="Contraer panel" aria-expanded="true" onclick="vizToggleTypeCard(this)">' +
+          '<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>' +
+        '</button>' +
       '</div>' +
+      '<div class="viz-card-content" id="vizTypeContent">' +
+        '<nav class="viz-tabs" id="vizCatTabs" role="tablist" aria-label="Categorías de gráficos"></nav>' +
+        '<div class="viz-options" id="vizChartGrid"></div>' +
+        '<div class="viz-card-foot">' +
+          '<div class="viz-hint"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/></svg><span id="vizTypeHint"></span></div>' +
+          '<span class="viz-selected" id="vizSelectedType"></span>' +
+        '</div>' +
       '</div>' +
-    '</details>' +
+    '</div>' +
     '<details class="gl" open>' +
       '<summary class="gl-sum">🔤 Variables</summary><div class="gl-body">' +
       '<div class="sec-body" id="vizSecAxis">' +
