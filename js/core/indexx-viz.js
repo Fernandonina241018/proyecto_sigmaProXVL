@@ -1229,11 +1229,16 @@ function _V_autoTitle() {
 }
 
 // ══ GALLERY ════════════════════════════════════════════════════
-// Clon de la configuración del gráfico. structuredClone falla si algún valor
-// no es clonable; el fallback JSON evita que se pierda el guardado.
+// Copia de la configuración del gráfico. structuredClone cubre cualquier valor
+// anidado; si el entorno no lo soporta o algún valor no es clonable, basta con
+// una copia plana: los slots de _V.vals son siempre cadenas (nombre de columna).
 function _V_cloneVals(vals) {
   try { return structuredClone(vals); } catch (e) {
-    try { return JSON.parse(JSON.stringify(vals || {})); } catch (e2) { return {}; }
+    var out = {};
+    if (vals && typeof vals === 'object') {
+      for (var k in vals) { if (Object.prototype.hasOwnProperty.call(vals, k)) out[k] = vals[k]; }
+    }
+    return out;
   }
 }
 
