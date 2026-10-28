@@ -90,6 +90,16 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (SigmaProXVL) con spr
 
 ## CAMBIOS RECIENTES
 
+### 2026-10-28: [FIX] Miniaturas con fondo blanco + índice que rompía la vista previa
+
+1. **Galería/carrusel de gráficos:** las miniaturas del render individual se pintaban sobre `#ffffff` fijo; en modo oscuro (texto/ejes claros) se veían lavadas y distintas a las de "Generar múltiples" (que salían oscuras por casualidad: Chart.js limpia el canvas y el JPEG rellena con negro). Ahora ambas usan `_V_thumbBg()` (`--bg-secondary` del tema, fallback por tema). El render para reportes sigue en blanco.
+2. **Índice del reporte en la vista previa de firma:** el `srcdoc` hereda la URL base del padre, así que `href="#sec02"` navegaba a `indexx.html#sec02` y el visor se rompía. La copia mostrada en el iframe lleva `<base href="about:srcdoc">` (`_firmaPreviewSrcdoc`). No cambia `_firmaCurrentHtml`, descarga, impresión ni `doc_hash`.
+
+**Archivos:** `js/core/indexx-viz.js`, `js/core/indexx-firma.js`, `tests/viz-thumb-tema.test.js` (nuevo), `tests/firma-toc-preview.test.js` (nuevo).
+**Nota:** las miniaturas ya guardadas conservan el fondo blanco hasta que se vuelva a renderizar ese gráfico.
+
+---
+
 ### 2026-10-28 (36): Código del commit en el footer del login
 
 **Cambio:** El footer de la pantalla de login ahora muestra el **código del commit** desplegado (build-revision), junto a la versión: `v1.0 · 8b2da17`.

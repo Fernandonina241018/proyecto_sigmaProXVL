@@ -102,7 +102,7 @@ function firmaRestoreState() {
 
     var preview = document.getElementById('firmaPreview');
     if (preview) {
-      preview.innerHTML = '<iframe sandbox="allow-same-origin" srcdoc="' + escapeHtml(html).replace(/"/g,'&quot;') + '" style="width:100%;height:100%;border:none;min-height:70vh"></iframe>';
+      preview.innerHTML = '<iframe sandbox="allow-same-origin" srcdoc="' + escapeHtml(_firmaPreviewSrcdoc(html)).replace(/"/g,'&quot;') + '" style="width:100%;height:100%;border:none;min-height:70vh"></iframe>';
     }
 
     firmaRenderEditor();
@@ -292,7 +292,7 @@ function firmaLoadHtml(html, originalName) {
   // Render preview in iframe
   var preview = document.getElementById('firmaPreview');
   if (preview) {
-    preview.innerHTML = '<iframe sandbox="allow-same-origin" srcdoc="' + escapeHtml(html).replace(/"/g,'&quot;') + '" style="width:100%;height:100%;border:none;min-height:70vh"></iframe>';
+    preview.innerHTML = '<iframe sandbox="allow-same-origin" srcdoc="' + escapeHtml(_firmaPreviewSrcdoc(html)).replace(/"/g,'&quot;') + '" style="width:100%;height:100%;border:none;min-height:70vh"></iframe>';
   }
 
   // Extract signature data
@@ -745,6 +745,22 @@ function _firmaUpdateReportBadge() {
 // ejecuta. `allow-same-origin` solo permite que esta página lea y escriba
 // el scroll del marco (y el token ya viaja en cookie SameSite=None, así que
 // no se expone nada nuevo por-request).
+// Índice (TOC) del reporte dentro de la vista previa.
+// Por qué se rompía: un documento `srcdoc` hereda la URL BASE de la página
+// padre, así que <a href="#sec02"> se resolvía como
+// https://<app>/indexx.html#sec02 → el iframe navegaba fuera del reporte y la
+// vista previa quedaba rota/vacía. Con <base href="about:srcdoc"> el enlace
+// apunta al propio documento y el clic solo hace scroll a la sección.
+// Solo se aplica a la COPIA que se muestra en el iframe: _firmaCurrentHtml,
+// _firmaCurrentDoc, la descarga, la impresión y el doc_hash no cambian.
+function _firmaPreviewSrcdoc(html) {
+  var s = String(html || '');
+  var tag = '<base href="about:srcdoc">';
+  if (s.indexOf(tag) !== -1) return s;
+  if (/<head[^>]*>/i.test(s)) return s.replace(/<head[^>]*>/i, function (m) { return m + tag; });
+  return tag + s;
+}
+
 function _firmaPreviewSetHtml(iframe, html) {
   if (!iframe) return;
   var y = 0;
@@ -756,7 +772,7 @@ function _firmaPreviewSetHtml(iframe, html) {
       try { iframe.contentWindow.scrollTo(0, y); } catch (e) { /* fail-open */ }
     }, { once: true });
   } catch (e) { /* sin same-origin: se pierde la posición, igual que antes */ }
-  iframe.srcdoc = html;
+  iframe.srcdoc = _firmaPreviewSrcdoc(html);
 }
 
 function firmaUpdatePreview(role, field, value) {

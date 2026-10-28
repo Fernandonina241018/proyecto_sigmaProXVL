@@ -665,6 +665,25 @@ function _V_isLight() {
   return document.documentElement.getAttribute('data-theme') === 'light';
 }
 
+// Fondo de las miniaturas de la galería = fondo de la tarjeta en el tema
+// actual. Antes se pintaba #ffffff fijo: en modo oscuro el gráfico (texto y
+// ejes claros) quedaba sobre blanco y la miniatura se veía "lavada", distinta
+// a las de "Generar múltiples" (que salían oscuras porque Chart.js borra el
+// canvas y el JPEG rellena lo transparente con negro).
+function _V_thumbBg() {
+  var fallback = _V_isLight() ? '#ffffff' : '#1a1a24';
+  try {
+    var v = getComputedStyle(document.documentElement).getPropertyValue('--bg-secondary');
+    v = String(v || '').trim();
+    if (/^(#[0-9a-f]{3,8}|rgba?\(|hsla?\()/i.test(v)) return v;
+  } catch (e) { /* sin estilos computados (tests) → fallback */ }
+  return fallback;
+}
+function _V_thumbBgPlugin() {
+  var bg = _V_thumbBg();
+  return { id: 'thumbBg', beforeDraw: function(chart) { var ctx = chart.ctx; ctx.save(); ctx.fillStyle = bg; ctx.fillRect(0, 0, chart.width, chart.height); ctx.restore(); } };
+}
+
 function _V_palette() {
   for (var i = 0; i < _V_PALETTES.length; i++) {
     if (_V_PALETTES[i].id === _V.palette) return _V_PALETTES[i].c;
@@ -1260,7 +1279,7 @@ function vizSaveToGallery(opts) {
     thumbC.width = 80; thumbC.height = 48;
     var thumbCtx = thumbC.getContext('2d');
     if (thumbCtx) {
-      thumbCtx.fillStyle = '#ffffff';
+      thumbCtx.fillStyle = _V_thumbBg();
       thumbCtx.fillRect(0, 0, 80, 48);
       thumbCtx.drawImage(canvas, 0, 0, 80, 48);
       thumb = thumbC.toDataURL('image/jpeg', 0.5);
@@ -1954,9 +1973,12 @@ function _V_batchGenerate(type, colX, selectedCols) {
       var tc = document.createElement('canvas');
       tc.width = 80; tc.height = 48;
       var tctx = tc.getContext('2d');
-      tctx.fillStyle = '#ffffff';
+      tctx.fillStyle = _V_thumbBg();
       tctx.fillRect(0, 0, 80, 48);
-      var tch = new Chart(tctx, config);
+      // Chart.js limpia el canvas al dibujar: el fondo se repinta con un plugin
+      // (solo en esta copia de la config, el resto del flujo no cambia).
+      var thumbCfg = Object.assign({}, config, { plugins: (config.plugins || []).concat([_V_thumbBgPlugin()]) });
+      var tch = new Chart(tctx, thumbCfg);
       thumb = tc.toDataURL('image/jpeg', 0.5);
       tch.destroy();
     } catch(e) { /* thumbnail optional */ }
