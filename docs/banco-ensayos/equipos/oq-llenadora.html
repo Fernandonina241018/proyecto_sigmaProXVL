@@ -12,7 +12,7 @@
 
 <p><a href="../equipos.html">← Equipos e Instrumentos</a></p>
 <h2>OQ — Llenadora de Líquidos (banco por familia)</h2>
-<p>Versión del banco: <span data-banco-version>EQ-OQ-LL 2026-10-29 v1</span></p>
+<p>Versión del banco: <span data-banco-version>EQ-OQ-LL 2026-10-29 v2</span></p>
 <p>Ensayos de Calificación de Operación específicos de la llenadora de líquidos y su bombeadora (<span class="equipo">equipo</span>). Se filtran por familia (<code>data-familia="llenadora"</code>) según la entidad elegida en el paso 1. Fuente: ENSAYOS.txt de protocolo.</p>
 
 <!-- ================= OQ ================= -->
@@ -451,12 +451,14 @@
   4) Verificar la expulsión efectiva del envase rechazado y su conteo<br>
   5) Verificar el torque o la integridad del cierre con instrumento calibrado en una muestra de envases, y la ausencia de tapón o sello<br>
   6) Si aplica, verificar la integridad del cierre según USP &lt;671&gt; con la muestra definida en el protocolo<br>
-  7) Procesar los datos crudos de peso y torque en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  7) Procesar los datos crudos de peso y torque en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo<br>
+  8) Si el equipo no cuenta con control de peso en línea o cierre, declarar No Aplica con justificación firmada y pasar al siguiente ensayo</p>
   <p><strong>Plan estadístico:</strong><br>Variable = peso del envase (g) y torque de cierre (unidad del instrumento); tamaño de muestra = mínimo 10 envases por nivel de peso (bajo, nominal y alto) y mínimo 10 envases para torque; estadísticos = media, desviación estándar y RSD por nivel, y proporción de rechazos correctos; criterio = peso y torque dentro de la URS y 100 % de rechazo de los envases fuera de límite; sin ANOVA; valores atípicos con investigación documentada.</p>
   <p><strong>Criterio de aceptación:</strong><br>
   El 100 % de los envases fuera de límite se rechaza y el 100 % de los envases dentro de límite se acepta.<br>
   El peso y el torque cumplen la URS.<br>
-  El cierre está completo y sin daño en la muestra revisada.</p>
+  El cierre está completo y sin daño en la muestra revisada.<br>
+  O bien, No Aplica justificado y firmado.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro de pesos, rechazos y torque con data cruda<br>
   - Data cruda y reporte estadístico del control de peso y cierre</p>
@@ -473,12 +475,14 @@
   4) Inspeccionar visualmente las superficies en contacto y verificar la ausencia de residuo<br>
   5) Tomar la muestra de enjuague final y verificar conductividad, pH o criterio aprobado<br>
   6) Abrir los puntos de drenaje y verificar el vaciado completo sin bolsas de líquido<br>
-  7) Registrar cualquier desviación y su disposición</p>
+  7) Registrar cualquier desviación y su disposición<br>
+  8) Si el equipo no cuenta con ciclo de limpieza o drenaje, declarar No Aplica con justificación firmada y pasar al siguiente ensayo</p>
   <p><strong>Plan estadístico:</strong><br>No aplica: verificación funcional y fisicoquímica del enjuague según el criterio aprobado; sin muestreo inferencial.</p>
   <p><strong>Criterio de aceptación:</strong><br>
   Los parámetros del ciclo de limpieza están dentro del rango aprobado.<br>
   No queda residuo visible ni puntos muertos sin drenaje.<br>
-  El enjuague final cumple el criterio aprobado y el sistema drena por completo.</p>
+  El enjuague final cumple el criterio aprobado y el sistema drena por completo.<br>
+  O bien, No Aplica justificado y firmado.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro del ciclo de limpieza con parámetros<br>
   - Resultados del enjuague final e inspección visual</p>
@@ -494,25 +498,91 @@
   3) Verificar la homogeneidad en los puntos de medición definidos y la estabilidad durante un periodo de corrida<br>
   4) Provocar la desviación de temperatura y verificar la alarma y la acción asociada<br>
   5) Registrar la temperatura del producto y de la camisa en cada punto<br>
-  6) Procesar los datos crudos de temperatura en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  6) Procesar los datos crudos de temperatura en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo<br>
+  7) Si el equipo no cuenta con control de temperatura de producto o camisa, declarar No Aplica con justificación firmada y pasar al siguiente ensayo</p>
   <p><strong>Plan estadístico:</strong><br>Variable = temperatura (°C) medida con patrón frente a la indicada; tamaño de muestra = 3 réplicas por punto (mínimo, nominal y máximo) y serie continua durante la corrida; estadísticos = media, desviación estándar y error por punto, y variación máxima entre puntos de medición; criterio = error y homogeneidad dentro de la URS; sin ANOVA; valores atípicos con investigación documentada.</p>
   <p><strong>Criterio de aceptación:</strong><br>
   La temperatura medida corresponde a la indicada dentro de la tolerancia de la URS en los tres puntos.<br>
   La homogeneidad y la estabilidad cumplen el criterio aprobado.<br>
-  La alarma de desviación actúa según el diseño.</p>
+  La alarma de desviación actúa según el diseño.<br>
+  O bien, No Aplica justificado y firmado.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro de temperaturas con data cruda y reporte<br>
   - Data cruda y reporte estadístico del análisis de temperatura</p>
   <p><strong>Referencia:</strong><br>Manual del fabricante; URS aprobada.</p>
 </article>
 
+<article data-bloque="3" id="art-EQ-OQ-LL-022" class="ensayo" data-id="EQ-OQ-LL-022" data-fase="OQ" data-cond="ambas" data-familia="llenadora" data-analisis="si">
+  <h3>EQ-OQ-LL-022 — Monitoreo ambiental durante la operación</h3>
+  <p><strong>Objetivo:</strong><br>Verificar que el monitoreo ambiental de partículas, microorganismos viables y presión diferencial se ejecuta en los puntos y con la frecuencia aprobados, y que los resultados se mantienen dentro de los límites del Anexo 1 y de la URS.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Verificar el plan de monitoreo ambiental aprobado: puntos, frecuencia, método y límites de alerta y acción<br>
+  2) Operar el <span class="equipo">equipo</span> a velocidad nominal con el formato y volumen aprobados<br>
+  3) Muestrear partículas en el aire en los puntos definidos, en operación y en las intervenciones críticas<br>
+  4) Muestrear viables en aire, superficies y guantes según el plan aprobado<br>
+  5) Registrar la presión diferencial entre locales durante el muestreo<br>
+  6) Comparar cada resultado contra los límites de alerta y acción y registrar las tendencias<br>
+  7) Procesar los datos crudos de monitoreo ambiental en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = conteo de partículas (partículas/m³) y unidades formadoras de colonia (UFC) por punto y muestreo; tamaño de muestra = el definido en el plan de monitoreo ambiental aprobado; estadísticos = media, máximo y tendencia por punto, con comparación contra límites de alerta y acción; criterio = el 100 % de los puntos dentro del límite de acción del Anexo 1 y de la URS, sin tendencia creciente; sin ANOVA; resultados fuera de límite con investigación documentada.</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  El 100 % de los puntos muestreados está dentro del límite de acción del Anexo 1 y de la URS.<br>
+  No existe tendencia creciente ni resultados fuera de límite sin investigación.<br>
+  La presión diferencial se mantiene en el sentido correcto.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro de monitoreo ambiental por punto y muestreo con data cruda<br>
+  - Data cruda y reporte estadístico del monitoreo ambiental</p>
+  <p><strong>Referencia:</strong><br>EU GMP Anexo 1; ISO 14644-1/2; URS aprobada; plan de monitoreo ambiental.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-OQ-LL-023" class="ensayo" data-id="EQ-OQ-LL-023" data-fase="OQ" data-cond="ambas" data-familia="llenadora">
+  <h3>EQ-OQ-LL-023 — Visualización de flujo de aire e intervenciones</h3>
+  <p><strong>Objetivo:</strong><br>Verificar que el flujo de aire protege la zona crítica y que las intervenciones del operador no rompen la primera barrera de aire.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Ejecutar el estudio de humo (smoke study) con el área en reposo y con el <span class="equipo">equipo</span> en operación<br>
+  2) Registrar en video el flujo sobre la zona crítica, las boquillas y la salida de envases<br>
+  3) Simular las intervenciones definidas: ajuste de boquilla, retiro de envase caído, cambio de formato y paso de manos<br>
+  4) Verificar que el flujo no se invierte ni genera turbulencia sobre el producto expuesto<br>
+  5) Verificar la primera barrera de aire y la ausencia de aire no filtrado<br>
+  6) Registrar los hallazgos y las acciones correctivas</p>
+  <p><strong>Plan estadístico:</strong><br>No aplica: verificación funcional por atributo (flujo protegido/no protegido) en cada intervención; sin inferencia estadística.</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  El flujo de aire protege la zona crítica en reposo y en operación.<br>
+  Las intervenciones simuladas no rompen la primera barrera de aire.<br>
+  No existe turbulencia ni aire no filtrado sobre el producto expuesto.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Video del estudio de humo por condición e intervención<br>
+  - Registro de hallazgos y acciones</p>
+  <p><strong>Referencia:</strong><br>EU GMP Anexo 1; ISO 14644-3; URS aprobada.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-OQ-LL-024" class="ensayo" data-id="EQ-OQ-LL-024" data-fase="OQ" data-cond="ambas" data-familia="llenadora">
+  <h3>EQ-OQ-LL-024 — Integridad de filtros esterilizantes y SIP en operación</h3>
+  <p><strong>Objetivo:</strong><br>Verificar que los filtros esterilizantes conservan su integridad antes y después de la operación y que el ciclo SIP se ejecuta con los parámetros aprobados.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Ejecutar la prueba de integridad del filtro (punto de burbuja o difusión) antes de la operación y registrar el resultado<br>
+  2) Ejecutar el ciclo SIP con los parámetros aprobados: temperatura, presión y tiempo<br>
+  3) Verificar los parámetros del ciclo en el registro del equipo y en la medición independiente<br>
+  4) Ejecutar la prueba de integridad después de la operación y comparar con el límite del fabricante<br>
+  5) Verificar que no existe bypass ni conexión que evite el filtro o el ciclo SIP<br>
+  6) Registrar cualquier desviación y su disposición</p>
+  <p><strong>Plan estadístico:</strong><br>No aplica: verificación funcional por atributo (íntegro/no íntegro, cumple/no cumple) con medición directa; sin inferencia estadística.</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  La integridad del filtro cumple el límite del fabricante antes y después de la operación.<br>
+  El ciclo SIP cumple los parámetros de la URS.<br>
+  No existe bypass del filtro ni del ciclo.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro de integridad antes y después<br>
+  - Registro del ciclo SIP con parámetros</p>
+  <p><strong>Referencia:</strong><br>PDA TR 26; EU GMP Anexo 1; URS aprobada.</p>
+</article>
+
 <article data-bloque="4" id="art-EQ-OQ-LL-RES" class="ensayo" data-id="EQ-OQ-LL-RES" data-fase="OQ" data-cond="ambas" data-familia="llenadora">
   <h3>EQ-OQ-LL-RES — Tabla resumen de los ensayos del OQ</h3>
   <p><strong>Objetivo:</strong><br>Consolidar el listado de ensayos del OQ de la llenadora de líquidos para la tabla resumen del protocolo.</p>
   <p><strong>Procedimiento:</strong><br>
-  1) Confirmar que los ensayos EQ-OQ-LL-001 a EQ-OQ-LL-021 están incluidos en el índice del protocolo</p>
+  1) Confirmar que los ensayos EQ-OQ-LL-001 a EQ-OQ-LL-024 están incluidos en el índice del protocolo</p>
   <p><strong>Criterio de aceptación:</strong><br>
-  Los 21 ensayos aparecen en la tabla resumen con su veredicto.</p>
+  Los 24 ensayos aparecen en la tabla resumen con su veredicto.</p>
   <p><strong>Referencia:</strong><br>EU GMP Anexo 15.</p>
 </article>
 
@@ -538,6 +608,10 @@
 <tr><td>8.2</td><td>Anexo B — Certificados de calibración de balanza, tacómetro, caudalímetro, manómetros, termómetros y torquímetro</td></tr>
 <tr><td>8.3</td><td>Anexo C — Matrices de paradas de emergencia, interlocks, alarmas, detección de envase y cambio de formato</td></tr>
 </table>
+<p><strong>LÍMITES Y CRITERIOS (RESUMEN):</strong></p>
+<p>- n mínimo 10 en ensayos cuantitativos; 100 % en atributos.</p>
+<p>- Volumen o peso, velocidad, temperatura, presión, torque, hermeticidad y monitoreo ambiental: definir en URS y especificación del producto (pendiente del responsable).</p>
+<p>- Monitoreo ambiental: límites de alerta y acción del Anexo 1 y de la URS.</p>
 </div>
 
 </section>

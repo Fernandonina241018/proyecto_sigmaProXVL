@@ -829,7 +829,18 @@ const PlantillaDocx = (() => {
         { et: 'Referencia', html: '<strong>Referencia:</strong><br>21 CFR 211.180; 21 CFR 211.194; EU GMP Anexo 15.' },
       ],
     };
-    return [desv, inf];
+    const di = {
+      kind: 'ensayo', id: '', bloque: 3, cond: 'ambas', fijo: 'integridad',
+      titulo: 'INTEGRIDAD DE DATOS Y REGISTROS',
+      secciones: [
+        { et: 'Objetivo', html: '<strong>Objetivo:</strong><br>Asegurar que los datos y registros generados durante la calificación cumplen los principios ALCOA+ y, cuando aplica, 21 CFR Parte 11 y EU GMP Anexo 11.' },
+        { et: 'Procedimiento', html: '<strong>Procedimiento:</strong><br>1) Registrar los datos de forma contemporánea, legible, original, atribuible y completa (ALCOA+)<br>2) Corregir cualquier error con tachado de una línea, valor corregido, motivo, fecha y firma; nunca borrar ni sobrescribir<br>3) Verificar que el audit trail del equipo está activo y registra usuario, fecha, hora, valor anterior y valor nuevo<br>4) Verificar que las firmas electrónicas, si aplican, están vinculadas al registro y no son reutilizables<br>5) Verificar el respaldo y la restauración de los datos del equipo según el procedimiento aprobado<br>6) Revisar los registros por una segunda persona antes de cerrar el informe' },
+        { et: 'Criterios de aceptación', html: '<strong>Criterios de aceptación:</strong><br>El 100 % de los datos es trazable a la persona, fecha, hora e instrumento.<br>No existen borrados, sobrescrituras ni registros incompletos.<br>El audit trail y el respaldo están activos y verificados.<br>La revisión por segunda persona está firmada.' },
+        { et: 'Documentos entregables', html: '<strong>Documentos entregables:</strong><br>- Registro de revisión de datos y trazabilidad<br>- Evidencia de audit trail y de respaldo/restauración' },
+        { et: 'Referencia', html: '<strong>Referencia:</strong><br>21 CFR Parte 11; EU GMP Anexo 11; PIC/S PI 041; OMS TRS 1033 Anexo 5; ALCOA+.' },
+      ],
+    };
+    return [desv, di, inf];
   }
 
   // H-09 (auditoría FDA): anexo de trazabilidad URS–riesgo–ensayo.

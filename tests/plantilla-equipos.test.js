@@ -117,24 +117,26 @@ describe('OQ llenadora de líquidos (banco por familia)', () => {
     return { r, doc: arch['word/document.xml'] };
   };
 
-  it('banco OQ: 23 IDs de la familia llenadora (21 ensayos + RES + REF)', () => {
+  it('banco OQ: 26 IDs de la familia llenadora (24 ensayos + RES + REF)', () => {
     const ids = (banco.fases.OQ || [])
       .filter((i) => i.id && i.familia === 'llenadora').map((i) => i.id);
-    expect(ids).toHaveLength(23);
-    expect(new Set(ids).size).toBe(23);
-    expect(ids.filter((id) => /^EQ-OQ-LL-0(0[1-9]|1[0-9]|2[01])$/.test(id))).toHaveLength(21);
+    expect(ids).toHaveLength(26);
+    expect(new Set(ids).size).toBe(26);
+    expect(ids.filter((id) => /^EQ-OQ-LL-0(0[1-9]|1[0-9]|2[0-4])$/.test(id))).toHaveLength(24);
   });
 
-  it('genera 21 ensayos de familia + el común, con títulos y códigos', async () => {
+  it('genera 24 ensayos de familia + el común, con títulos y códigos', async () => {
     const { r, doc } = await genOQ(ENT_LL);
-    expect(r.ensayos).toHaveLength(22);
+    expect(r.ensayos).toHaveLength(25);
     expect(r.ensayos[0]).toBe('EQ-OQ-COM-001');
     expect(r.ensayos[1]).toBe('EQ-OQ-LL-001');
-    expect(r.ensayos).toContain('EQ-OQ-LL-021');
+    expect(r.ensayos).toContain('EQ-OQ-LL-024');
     for (const id of r.ensayos) expect(doc).toContain(id);
     const txt = doc.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ');
     expect(txt).toContain('EXACTITUD DEL VOLUMEN DE LLENADO');
     expect(txt).toContain('UNIFORMIDAD ENTRE BOQUILLAS');
+    expect(txt).toContain('MONITOREO AMBIENTAL');
+    expect(txt).toContain('INTEGRIDAD DE DATOS');
     const low = txt.toLowerCase();
     expect(low).toContain('la llenadora de líquidos');
     expect(low).not.toContain('el llenadora de líquidos');
@@ -155,24 +157,27 @@ describe('PQ llenadora de líquidos (banco por familia)', () => {
     return { r, doc: arch['word/document.xml'] };
   };
 
-  it('banco PQ: 20 IDs de la familia llenadora (18 ensayos + RES + REF)', () => {
+  it('banco PQ: 25 IDs de la familia llenadora (23 ensayos + RES + REF)', () => {
     const ids = (banco.fases.PQ || [])
       .filter((i) => i.id && i.familia === 'llenadora').map((i) => i.id);
-    expect(ids).toHaveLength(20);
-    expect(new Set(ids).size).toBe(20);
-    expect(ids.filter((id) => /^EQ-PQ-LL-0(0[1-9]|1[0-8])$/.test(id))).toHaveLength(18);
+    expect(ids).toHaveLength(25);
+    expect(new Set(ids).size).toBe(25);
+    expect(ids.filter((id) => /^EQ-PQ-LL-0(0[1-9]|1[0-9]|2[0-3])$/.test(id))).toHaveLength(23);
   });
 
-  it('genera 18 ensayos de familia + el común, con títulos y códigos', async () => {
+  it('genera 23 ensayos de familia + el común, con títulos y códigos', async () => {
     const { r, doc } = await genPQ(ENT_LL);
-    expect(r.ensayos).toHaveLength(19);
+    expect(r.ensayos).toHaveLength(24);
     expect(r.ensayos[0]).toBe('EQ-PQ-COM-001');
     expect(r.ensayos[1]).toBe('EQ-PQ-LL-001');
-    expect(r.ensayos).toContain('EQ-PQ-LL-018');
+    expect(r.ensayos).toContain('EQ-PQ-LL-023');
     for (const id of r.ensayos) expect(doc).toContain(id);
     const txt = doc.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ');
     expect(txt).toContain('TRES LOTES CONSECUTIVOS A VELOCIDAD NOMINAL');
     expect(txt).toContain('CAPACIDAD DEL PROCESO DE LLENADO');
+    expect(txt).toContain('MEDIA FILL');
+    expect(txt).toContain('MONITOREO AMBIENTAL');
+    expect(txt).toContain('INTEGRIDAD DE DATOS');
   });
 });
 

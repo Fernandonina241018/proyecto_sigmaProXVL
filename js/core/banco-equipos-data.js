@@ -1,7 +1,7 @@
 // Generado por scripts/extraer-banco.mjs equipos — NO EDITAR A MANO.
-// Fuente: docs/banco-ensayos/equipos-comun.html + docs/banco-ensayos/equipos/oq-comun.html + docs/banco-ensayos/equipos/pq-comun.html + docs/banco-ensayos/equipos/iq-autoclave.html + docs/banco-ensayos/equipos/iq-tunel-despirogenizacion.html + docs/banco-ensayos/equipos/iq-liofilizador.html + docs/banco-ensayos/equipos/iq-reactor.html + docs/banco-ensayos/equipos/iq-horno-vacio.html + docs/banco-ensayos/equipos/iq-llenadora.html + docs/banco-ensayos/equipos/oq-llenadora.html + docs/banco-ensayos/equipos/oq-llenadora-tubos.html + docs/banco-ensayos/equipos/pq-llenadora.html + docs/banco-ensayos/equipos/iq-lecho-fluido.html + docs/banco-ensayos/equipos/iq-tableteadora.html + docs/banco-ensayos/equipos/iq-encapsuladora.html + docs/banco-ensayos/equipos/iq-granulador.html + docs/banco-ensayos/equipos/iq-recubridora.html + docs/banco-ensayos/equipos/iq-blistera.html + docs/banco-ensayos/equipos/iq-detector-metales.html + docs/banco-ensayos/equipos/iq-etiquetadora.html + docs/banco-ensayos/equipos/iq-mezclador.html + docs/banco-ensayos/equipos/iq-horno-secado.html + docs/banco-ensayos/equipos/iq-sistema-cremas-vacio.html + docs/banco-ensayos/equipos/oq-reactor.html + docs/banco-ensayos/equipos/pq-reactor.html + docs/banco-ensayos/equipos/oq-sistema-cremas-vacio.html + docs/banco-ensayos/equipos/pq-sistema-cremas-vacio.html + docs/banco-ensayos/equipos/oq-tableteadora.html + docs/banco-ensayos/equipos/pq-tableteadora.html + docs/banco-ensayos/equipos/oq-encapsuladora.html + docs/banco-ensayos/equipos/pq-encapsuladora.html + docs/banco-ensayos/equipos/oq-granulador.html + docs/banco-ensayos/equipos/pq-granulador.html + docs/banco-ensayos/equipos/oq-recubridora.html + docs/banco-ensayos/equipos/pq-recubridora.html + docs/banco-ensayos/equipos/oq-blistera.html + docs/banco-ensayos/equipos/pq-blistera.html + docs/banco-ensayos/equipos/oq-detector-metales.html + docs/banco-ensayos/equipos/pq-detector-metales.html + docs/banco-ensayos/equipos/oq-etiquetadora.html + docs/banco-ensayos/equipos/pq-etiquetadora.html + docs/banco-ensayos/equipos/oq-lecho-fluido.html + docs/banco-ensayos/equipos/oq-autoclave.html + docs/banco-ensayos/equipos/oq-mezclador.html + docs/banco-ensayos/equipos/oq-horno.html + docs/banco-ensayos/equipos/pq-lecho-fluido.html + docs/banco-ensayos/equipos/pq-autoclave.html + docs/banco-ensayos/equipos/pq-mezclador.html + docs/banco-ensayos/equipos/pq-horno.html + docs/banco-ensayos/equipos/pq-horno-vacio.html + docs/banco-ensayos/equipos/oq-horno-vacio.html + docs/banco-ensayos/equipos/oq-refrigerador-lab.html + docs/banco-ensayos/equipos/pq-refrigerador-lab.html + docs/banco-ensayos/equipos/oq-congelador-lab.html + docs/banco-ensayos/equipos/pq-congelador-lab.html + docs/banco-ensayos/equipos/oq-balanza.html (versión: EQ-COMUN 2026-10-21 v3 + EQ-OQ-COM 2026-10-21 v2 + EQ-PQ-COM 2026-10-21 v2 + EQ-IQ-AU 2026-10-07 v1 + EQ-IQ-TD 2026-10-07 v1 + EQ-IQ-LI 2026-10-07 v1 + EQ-IQ-RC 2026-10-21 v2 + EQ-IQ-VA 2026-10-21 v2 + EQ-IQ-LL 2026-10-29 v2 + EQ-OQ-LL 2026-10-29 v1 + EQ-OQ-LT 2026-10-29 v1 + EQ-PQ-LL 2026-10-29 v1 + EQ-IQ-LF 2026-10-07 v1 + EQ-IQ-TB 2026-10-08 v1 + EQ-IQ-EN 2026-10-08 v1 + EQ-IQ-GR 2026-10-08 v1 + EQ-IQ-RB 2026-10-09 v1 + EQ-IQ-BL 2026-10-09 v1 + EQ-IQ-DM 2026-10-11 v1 + EQ-IQ-ET 2026-10-11 v1 + EQ-IQ-MZ 2026-10-11 v1 + EQ-IQ-HO 2026-10-11 v1 + EQ-IQ-UC 2026-10-21 v2 + EQ-OQ-RC 2026-10-07 v1 + EQ-PQ-RC 2026-10-07 v1 + EQ-OQ-UC 2026-10-12 v1 + EQ-PQ-UC 2026-10-12 v1 + EQ-OQ-TB 2026-10-08 v1 + EQ-PQ-TB 2026-10-08 v1 + EQ-OQ-EN 2026-10-08 v1 + EQ-PQ-EN 2026-10-08 v1 + EQ-OQ-GR 2026-10-08 v1 + EQ-PQ-GR 2026-10-08 v1 + EQ-OQ-RB 2026-10-09 v1 + EQ-PQ-RB 2026-10-09 v1 + EQ-OQ-BL 2026-10-09 v1 + EQ-PQ-BL 2026-10-09 v1 + EQ-OQ-DM 2026-10-11 v1 + EQ-PQ-DM 2026-10-11 v1 + EQ-OQ-ET 2026-10-11 v1 + EQ-PQ-ET 2026-10-11 v1 + EQ-OQ-LF 2026-10-21 v3 + EQ-OQ-AU 2026-10-21 v3 + EQ-OQ-MZ 2026-10-21 v3 + EQ-OQ-HO 2026-10-21 v2 + EQ-PQ-LF 2026-10-21 v3 + EQ-PQ-AU 2026-10-21 v3 + EQ-PQ-MZ 2026-10-21 v3 + EQ-PQ-HO 2026-10-21 v2 + EQ-PQ-VA 2026-10-21 v2 + EQ-OQ-VA 2026-10-21 v2 + EQ-OQ-RF 2026-10-14 v1 + EQ-PQ-RF 2026-10-14 v1 + EQ-OQ-CG 2026-10-14 v1 + EQ-PQ-CG 2026-10-14 v1 + EQ-OQ-BA 2026-10-22 v1).
+// Fuente: docs/banco-ensayos/equipos-comun.html + docs/banco-ensayos/equipos/oq-comun.html + docs/banco-ensayos/equipos/pq-comun.html + docs/banco-ensayos/equipos/iq-autoclave.html + docs/banco-ensayos/equipos/iq-tunel-despirogenizacion.html + docs/banco-ensayos/equipos/iq-liofilizador.html + docs/banco-ensayos/equipos/iq-reactor.html + docs/banco-ensayos/equipos/iq-horno-vacio.html + docs/banco-ensayos/equipos/iq-llenadora.html + docs/banco-ensayos/equipos/oq-llenadora.html + docs/banco-ensayos/equipos/oq-llenadora-tubos.html + docs/banco-ensayos/equipos/pq-llenadora.html + docs/banco-ensayos/equipos/iq-lecho-fluido.html + docs/banco-ensayos/equipos/iq-tableteadora.html + docs/banco-ensayos/equipos/iq-encapsuladora.html + docs/banco-ensayos/equipos/iq-granulador.html + docs/banco-ensayos/equipos/iq-recubridora.html + docs/banco-ensayos/equipos/iq-blistera.html + docs/banco-ensayos/equipos/iq-detector-metales.html + docs/banco-ensayos/equipos/iq-etiquetadora.html + docs/banco-ensayos/equipos/iq-mezclador.html + docs/banco-ensayos/equipos/iq-horno-secado.html + docs/banco-ensayos/equipos/iq-sistema-cremas-vacio.html + docs/banco-ensayos/equipos/oq-reactor.html + docs/banco-ensayos/equipos/pq-reactor.html + docs/banco-ensayos/equipos/oq-sistema-cremas-vacio.html + docs/banco-ensayos/equipos/pq-sistema-cremas-vacio.html + docs/banco-ensayos/equipos/oq-tableteadora.html + docs/banco-ensayos/equipos/pq-tableteadora.html + docs/banco-ensayos/equipos/oq-encapsuladora.html + docs/banco-ensayos/equipos/pq-encapsuladora.html + docs/banco-ensayos/equipos/oq-granulador.html + docs/banco-ensayos/equipos/pq-granulador.html + docs/banco-ensayos/equipos/oq-recubridora.html + docs/banco-ensayos/equipos/pq-recubridora.html + docs/banco-ensayos/equipos/oq-blistera.html + docs/banco-ensayos/equipos/pq-blistera.html + docs/banco-ensayos/equipos/oq-detector-metales.html + docs/banco-ensayos/equipos/pq-detector-metales.html + docs/banco-ensayos/equipos/oq-etiquetadora.html + docs/banco-ensayos/equipos/pq-etiquetadora.html + docs/banco-ensayos/equipos/oq-lecho-fluido.html + docs/banco-ensayos/equipos/oq-autoclave.html + docs/banco-ensayos/equipos/oq-mezclador.html + docs/banco-ensayos/equipos/oq-horno.html + docs/banco-ensayos/equipos/pq-lecho-fluido.html + docs/banco-ensayos/equipos/pq-autoclave.html + docs/banco-ensayos/equipos/pq-mezclador.html + docs/banco-ensayos/equipos/pq-horno.html + docs/banco-ensayos/equipos/pq-horno-vacio.html + docs/banco-ensayos/equipos/oq-horno-vacio.html + docs/banco-ensayos/equipos/oq-refrigerador-lab.html + docs/banco-ensayos/equipos/pq-refrigerador-lab.html + docs/banco-ensayos/equipos/oq-congelador-lab.html + docs/banco-ensayos/equipos/pq-congelador-lab.html + docs/banco-ensayos/equipos/oq-balanza.html (versión: EQ-COMUN 2026-10-21 v3 + EQ-OQ-COM 2026-10-21 v2 + EQ-PQ-COM 2026-10-21 v2 + EQ-IQ-AU 2026-10-07 v1 + EQ-IQ-TD 2026-10-07 v1 + EQ-IQ-LI 2026-10-07 v1 + EQ-IQ-RC 2026-10-21 v2 + EQ-IQ-VA 2026-10-21 v2 + EQ-IQ-LL 2026-10-29 v3 + EQ-OQ-LL 2026-10-29 v2 + EQ-OQ-LT 2026-10-29 v2 + EQ-PQ-LL 2026-10-29 v2 + EQ-IQ-LF 2026-10-07 v1 + EQ-IQ-TB 2026-10-08 v1 + EQ-IQ-EN 2026-10-08 v1 + EQ-IQ-GR 2026-10-08 v1 + EQ-IQ-RB 2026-10-09 v1 + EQ-IQ-BL 2026-10-09 v1 + EQ-IQ-DM 2026-10-11 v1 + EQ-IQ-ET 2026-10-11 v1 + EQ-IQ-MZ 2026-10-11 v1 + EQ-IQ-HO 2026-10-11 v1 + EQ-IQ-UC 2026-10-21 v2 + EQ-OQ-RC 2026-10-07 v1 + EQ-PQ-RC 2026-10-07 v1 + EQ-OQ-UC 2026-10-12 v1 + EQ-PQ-UC 2026-10-12 v1 + EQ-OQ-TB 2026-10-08 v1 + EQ-PQ-TB 2026-10-08 v1 + EQ-OQ-EN 2026-10-08 v1 + EQ-PQ-EN 2026-10-08 v1 + EQ-OQ-GR 2026-10-08 v1 + EQ-PQ-GR 2026-10-08 v1 + EQ-OQ-RB 2026-10-09 v1 + EQ-PQ-RB 2026-10-09 v1 + EQ-OQ-BL 2026-10-09 v1 + EQ-PQ-BL 2026-10-09 v1 + EQ-OQ-DM 2026-10-11 v1 + EQ-PQ-DM 2026-10-11 v1 + EQ-OQ-ET 2026-10-11 v1 + EQ-PQ-ET 2026-10-11 v1 + EQ-OQ-LF 2026-10-21 v3 + EQ-OQ-AU 2026-10-21 v3 + EQ-OQ-MZ 2026-10-21 v3 + EQ-OQ-HO 2026-10-21 v2 + EQ-PQ-LF 2026-10-21 v3 + EQ-PQ-AU 2026-10-21 v3 + EQ-PQ-MZ 2026-10-21 v3 + EQ-PQ-HO 2026-10-21 v2 + EQ-PQ-VA 2026-10-21 v2 + EQ-OQ-VA 2026-10-21 v2 + EQ-OQ-RF 2026-10-14 v1 + EQ-PQ-RF 2026-10-14 v1 + EQ-OQ-CG 2026-10-14 v1 + EQ-PQ-CG 2026-10-14 v1 + EQ-OQ-BA 2026-10-22 v1).
 var BancoEquipos = {
- "version": "EQ-COMUN 2026-10-21 v3 + EQ-OQ-COM 2026-10-21 v2 + EQ-PQ-COM 2026-10-21 v2 + EQ-IQ-AU 2026-10-07 v1 + EQ-IQ-TD 2026-10-07 v1 + EQ-IQ-LI 2026-10-07 v1 + EQ-IQ-RC 2026-10-21 v2 + EQ-IQ-VA 2026-10-21 v2 + EQ-IQ-LL 2026-10-29 v2 + EQ-OQ-LL 2026-10-29 v1 + EQ-OQ-LT 2026-10-29 v1 + EQ-PQ-LL 2026-10-29 v1 + EQ-IQ-LF 2026-10-07 v1 + EQ-IQ-TB 2026-10-08 v1 + EQ-IQ-EN 2026-10-08 v1 + EQ-IQ-GR 2026-10-08 v1 + EQ-IQ-RB 2026-10-09 v1 + EQ-IQ-BL 2026-10-09 v1 + EQ-IQ-DM 2026-10-11 v1 + EQ-IQ-ET 2026-10-11 v1 + EQ-IQ-MZ 2026-10-11 v1 + EQ-IQ-HO 2026-10-11 v1 + EQ-IQ-UC 2026-10-21 v2 + EQ-OQ-RC 2026-10-07 v1 + EQ-PQ-RC 2026-10-07 v1 + EQ-OQ-UC 2026-10-12 v1 + EQ-PQ-UC 2026-10-12 v1 + EQ-OQ-TB 2026-10-08 v1 + EQ-PQ-TB 2026-10-08 v1 + EQ-OQ-EN 2026-10-08 v1 + EQ-PQ-EN 2026-10-08 v1 + EQ-OQ-GR 2026-10-08 v1 + EQ-PQ-GR 2026-10-08 v1 + EQ-OQ-RB 2026-10-09 v1 + EQ-PQ-RB 2026-10-09 v1 + EQ-OQ-BL 2026-10-09 v1 + EQ-PQ-BL 2026-10-09 v1 + EQ-OQ-DM 2026-10-11 v1 + EQ-PQ-DM 2026-10-11 v1 + EQ-OQ-ET 2026-10-11 v1 + EQ-PQ-ET 2026-10-11 v1 + EQ-OQ-LF 2026-10-21 v3 + EQ-OQ-AU 2026-10-21 v3 + EQ-OQ-MZ 2026-10-21 v3 + EQ-OQ-HO 2026-10-21 v2 + EQ-PQ-LF 2026-10-21 v3 + EQ-PQ-AU 2026-10-21 v3 + EQ-PQ-MZ 2026-10-21 v3 + EQ-PQ-HO 2026-10-21 v2 + EQ-PQ-VA 2026-10-21 v2 + EQ-OQ-VA 2026-10-21 v2 + EQ-OQ-RF 2026-10-14 v1 + EQ-PQ-RF 2026-10-14 v1 + EQ-OQ-CG 2026-10-14 v1 + EQ-PQ-CG 2026-10-14 v1 + EQ-OQ-BA 2026-10-22 v1",
+ "version": "EQ-COMUN 2026-10-21 v3 + EQ-OQ-COM 2026-10-21 v2 + EQ-PQ-COM 2026-10-21 v2 + EQ-IQ-AU 2026-10-07 v1 + EQ-IQ-TD 2026-10-07 v1 + EQ-IQ-LI 2026-10-07 v1 + EQ-IQ-RC 2026-10-21 v2 + EQ-IQ-VA 2026-10-21 v2 + EQ-IQ-LL 2026-10-29 v3 + EQ-OQ-LL 2026-10-29 v2 + EQ-OQ-LT 2026-10-29 v2 + EQ-PQ-LL 2026-10-29 v2 + EQ-IQ-LF 2026-10-07 v1 + EQ-IQ-TB 2026-10-08 v1 + EQ-IQ-EN 2026-10-08 v1 + EQ-IQ-GR 2026-10-08 v1 + EQ-IQ-RB 2026-10-09 v1 + EQ-IQ-BL 2026-10-09 v1 + EQ-IQ-DM 2026-10-11 v1 + EQ-IQ-ET 2026-10-11 v1 + EQ-IQ-MZ 2026-10-11 v1 + EQ-IQ-HO 2026-10-11 v1 + EQ-IQ-UC 2026-10-21 v2 + EQ-OQ-RC 2026-10-07 v1 + EQ-PQ-RC 2026-10-07 v1 + EQ-OQ-UC 2026-10-12 v1 + EQ-PQ-UC 2026-10-12 v1 + EQ-OQ-TB 2026-10-08 v1 + EQ-PQ-TB 2026-10-08 v1 + EQ-OQ-EN 2026-10-08 v1 + EQ-PQ-EN 2026-10-08 v1 + EQ-OQ-GR 2026-10-08 v1 + EQ-PQ-GR 2026-10-08 v1 + EQ-OQ-RB 2026-10-09 v1 + EQ-PQ-RB 2026-10-09 v1 + EQ-OQ-BL 2026-10-09 v1 + EQ-PQ-BL 2026-10-09 v1 + EQ-OQ-DM 2026-10-11 v1 + EQ-PQ-DM 2026-10-11 v1 + EQ-OQ-ET 2026-10-11 v1 + EQ-PQ-ET 2026-10-11 v1 + EQ-OQ-LF 2026-10-21 v3 + EQ-OQ-AU 2026-10-21 v3 + EQ-OQ-MZ 2026-10-21 v3 + EQ-OQ-HO 2026-10-21 v2 + EQ-PQ-LF 2026-10-21 v3 + EQ-PQ-AU 2026-10-21 v3 + EQ-PQ-MZ 2026-10-21 v3 + EQ-PQ-HO 2026-10-21 v2 + EQ-PQ-VA 2026-10-21 v2 + EQ-OQ-VA 2026-10-21 v2 + EQ-OQ-RF 2026-10-14 v1 + EQ-PQ-RF 2026-10-14 v1 + EQ-OQ-CG 2026-10-14 v1 + EQ-PQ-CG 2026-10-14 v1 + EQ-OQ-BA 2026-10-22 v1",
  "fases": {
   "DQ": [],
   "IQ": [
@@ -2403,6 +2403,118 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "familia": "llenadora"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-IQ-LL-009",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-IQ-LL-009 — Clasificación del área limpia, HEPA y presión diferencial",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que el área de llenado cumple la clasificación de limpieza aprobada, que los filtros HEPA están instalados y certificados, y que la presión diferencial se mantiene en el sentido correcto."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Verificar contra plano y URS la clasificación ISO 14644 de la sala, la esclusa y la zona crítica<br>\n  2) Verificar la instalación y el certificado de integridad de cada filtro HEPA<br>\n  3) Medir la presión diferencial entre locales y confirmar el sentido del flujo<br>\n  4) Verificar los puntos y la frecuencia de monitoreo ambiental aprobados<br>\n  5) Verificar la recuperación de la sala y la ausencia de fugas en sellos y penetraciones<br>\n  6) Registrar toda desviación como hallazgo con su disposición"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>No aplica: verificación documental y funcional por atributo; sin inferencia estadística."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  La clasificación y la presión diferencial corresponden a la URS y al Anexo 1.<br>\n  Todos los HEPA cuentan con certificado de integridad vigente.<br>\n  No existen fugas ni puntos sin monitoreo."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Plano de clasificación y presiones diferenciales<br>\n  - Certificados de integridad de HEPA"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>EU GMP Anexo 1; ISO 14644-1/2/3; URS aprobada."
+     }
+    ],
+    "tabla": null,
+    "familia": "llenadora"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-IQ-LL-010",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-IQ-LL-010 — Flujos de personal, material y residuos",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que los flujos de personal, material y residuos están segregados y que las esclusas e interlocks impiden cruces entre zonas limpias y sucias."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Recorrer el flujo de personal desde el vestuario hasta la zona crítica y verificar la secuencia aprobada<br>\n  2) Recorrer el flujo de material, componentes y producto terminado, y verificar la esclusa de transferencia<br>\n  3) Recorrer el flujo de residuos y verificar que no cruza con el producto ni con componentes limpios<br>\n  4) Verificar puertas, interlocks y presión diferencial en cada transición<br>\n  5) Verificar la señalización y los procedimientos de vestimenta y acceso<br>\n  6) Registrar toda desviación como hallazgo con su disposición"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>No aplica: verificación funcional y documental por atributo; sin inferencia estadística."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Los flujos corresponden al plano aprobado y no existen cruces entre limpio y sucio.<br>\n  Las esclusas e interlocks operan correctamente.<br>\n  La señalización y los procedimientos están vigentes."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Diagrama de flujos verificado y firmado<br>\n  - Registro de verificación de esclusas e interlocks"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>EU GMP Anexo 1; URS aprobada; plano de flujos."
+     }
+    ],
+    "tabla": null,
+    "familia": "llenadora"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-IQ-LL-011",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-IQ-LL-011 — Conexiones SIP, puntos de muestreo y drenaje",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que las conexiones de esterilización in situ (SIP), los puntos de muestreo y el drenaje de la línea cumplen el diseño sanitario aprobado."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Verificar contra P&amp;ID las conexiones SIP, válvulas, purgas y puntos de muestreo<br>\n  2) Verificar que todos los tramos drenan y que no existen puntos muertos ni bolsas<br>\n  3) Verificar el tipo, material y certificado de las conexiones sanitarias<br>\n  4) Verificar la ubicación y accesibilidad de los puntos de muestreo<br>\n  5) Verificar la instrumentación asociada (temperatura, presión, conductividad) y su calibración<br>\n  6) Registrar toda desviación como hallazgo con su disposición"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>No aplica: verificación documental y funcional por atributo; sin inferencia estadística."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Las conexiones SIP y los puntos de muestreo corresponden al P&amp;ID aprobado.<br>\n  La línea drena por completo y no tiene puntos muertos.<br>\n  Los instrumentos asociados cuentan con calibración vigente."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - P&amp;ID verificado y firmado<br>\n  - Registro de drenaje y de puntos de muestreo"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>EU GMP Anexo 1; ASME BPE; URS aprobada."
+     }
+    ],
+    "tabla": null,
+    "familia": "llenadora"
+   },
+   {
+    "kind": "div",
+    "clase": "anexos",
+    "bloque": 8,
+    "html": "<p><strong>ANEXOS Y LÍMITES:</strong></p>\n<p>- Clasificación del área y presión diferencial: definir en URS y Anexo 1 (ISO 14644).</p>\n<p>- Integridad de HEPA: límite del fabricante.</p>\n<p>- Ra, continuidad de puesta a tierra y clase de aire comprimido: definir en URS (µm, Ω, ISO 8573-1).</p>\n<p>- SIP y drenaje: parámetros de URS y ASME BPE.</p>",
     "familia": "llenadora"
    },
    {
@@ -5037,7 +5149,7 @@ var BancoEquipos = {
      },
      {
       "et": "Procedimiento",
-      "html": "<strong>Procedimiento:</strong><br>\n  1) Verificar la calibración del control de peso con pesas patrón en el rango de operación<br>\n  2) Ajustar los límites de peso superior e inferior aprobados en la URS<br>\n  3) Procesar envases con peso bajo, nominal y alto, y verificar aceptación o rechazo según el límite<br>\n  4) Verificar la expulsión efectiva del envase rechazado y su conteo<br>\n  5) Verificar el torque o la integridad del cierre con instrumento calibrado en una muestra de envases, y la ausencia de tapón o sello<br>\n  6) Si aplica, verificar la integridad del cierre según USP &lt;671&gt; con la muestra definida en el protocolo<br>\n  7) Procesar los datos crudos de peso y torque en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Verificar la calibración del control de peso con pesas patrón en el rango de operación<br>\n  2) Ajustar los límites de peso superior e inferior aprobados en la URS<br>\n  3) Procesar envases con peso bajo, nominal y alto, y verificar aceptación o rechazo según el límite<br>\n  4) Verificar la expulsión efectiva del envase rechazado y su conteo<br>\n  5) Verificar el torque o la integridad del cierre con instrumento calibrado en una muestra de envases, y la ausencia de tapón o sello<br>\n  6) Si aplica, verificar la integridad del cierre según USP &lt;671&gt; con la muestra definida en el protocolo<br>\n  7) Procesar los datos crudos de peso y torque en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo<br>\n  8) Si el equipo no cuenta con control de peso en línea o cierre, declarar No Aplica con justificación firmada y pasar al siguiente ensayo"
      },
      {
       "et": "Plan estadístico",
@@ -5045,7 +5157,7 @@ var BancoEquipos = {
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  El 100 % de los envases fuera de límite se rechaza y el 100 % de los envases dentro de límite se acepta.<br>\n  El peso y el torque cumplen la URS.<br>\n  El cierre está completo y sin daño en la muestra revisada."
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  El 100 % de los envases fuera de límite se rechaza y el 100 % de los envases dentro de límite se acepta.<br>\n  El peso y el torque cumplen la URS.<br>\n  El cierre está completo y sin daño en la muestra revisada.<br>\n  O bien, No Aplica justificado y firmado."
      },
      {
       "et": "Documentos entregables",
@@ -5073,7 +5185,7 @@ var BancoEquipos = {
      },
      {
       "et": "Procedimiento",
-      "html": "<strong>Procedimiento:</strong><br>\n  1) Verificar las conexiones de limpieza (CIP/COP) y la ausencia de puntos muertos o tramos sin drenaje<br>\n  2) Ejecutar el ciclo de limpieza con los parámetros aprobados: tiempo, temperatura, caudal y concentración del agente<br>\n  3) Verificar los parámetros del ciclo en el registro del equipo y en la medición independiente<br>\n  4) Inspeccionar visualmente las superficies en contacto y verificar la ausencia de residuo<br>\n  5) Tomar la muestra de enjuague final y verificar conductividad, pH o criterio aprobado<br>\n  6) Abrir los puntos de drenaje y verificar el vaciado completo sin bolsas de líquido<br>\n  7) Registrar cualquier desviación y su disposición"
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Verificar las conexiones de limpieza (CIP/COP) y la ausencia de puntos muertos o tramos sin drenaje<br>\n  2) Ejecutar el ciclo de limpieza con los parámetros aprobados: tiempo, temperatura, caudal y concentración del agente<br>\n  3) Verificar los parámetros del ciclo en el registro del equipo y en la medición independiente<br>\n  4) Inspeccionar visualmente las superficies en contacto y verificar la ausencia de residuo<br>\n  5) Tomar la muestra de enjuague final y verificar conductividad, pH o criterio aprobado<br>\n  6) Abrir los puntos de drenaje y verificar el vaciado completo sin bolsas de líquido<br>\n  7) Registrar cualquier desviación y su disposición<br>\n  8) Si el equipo no cuenta con ciclo de limpieza o drenaje, declarar No Aplica con justificación firmada y pasar al siguiente ensayo"
      },
      {
       "et": "Plan estadístico",
@@ -5081,7 +5193,7 @@ var BancoEquipos = {
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Los parámetros del ciclo de limpieza están dentro del rango aprobado.<br>\n  No queda residuo visible ni puntos muertos sin drenaje.<br>\n  El enjuague final cumple el criterio aprobado y el sistema drena por completo."
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Los parámetros del ciclo de limpieza están dentro del rango aprobado.<br>\n  No queda residuo visible ni puntos muertos sin drenaje.<br>\n  El enjuague final cumple el criterio aprobado y el sistema drena por completo.<br>\n  O bien, No Aplica justificado y firmado."
      },
      {
       "et": "Documentos entregables",
@@ -5108,7 +5220,7 @@ var BancoEquipos = {
      },
      {
       "et": "Procedimiento",
-      "html": "<strong>Procedimiento:</strong><br>\n  1) Verificar el setpoint mínimo, nominal y máximo del rango aprobado<br>\n  2) Medir la temperatura con instrumento patrón calibrado en cada punto, por triplicado, y comparar con la indicación del equipo<br>\n  3) Verificar la homogeneidad en los puntos de medición definidos y la estabilidad durante un periodo de corrida<br>\n  4) Provocar la desviación de temperatura y verificar la alarma y la acción asociada<br>\n  5) Registrar la temperatura del producto y de la camisa en cada punto<br>\n  6) Procesar los datos crudos de temperatura en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Verificar el setpoint mínimo, nominal y máximo del rango aprobado<br>\n  2) Medir la temperatura con instrumento patrón calibrado en cada punto, por triplicado, y comparar con la indicación del equipo<br>\n  3) Verificar la homogeneidad en los puntos de medición definidos y la estabilidad durante un periodo de corrida<br>\n  4) Provocar la desviación de temperatura y verificar la alarma y la acción asociada<br>\n  5) Registrar la temperatura del producto y de la camisa en cada punto<br>\n  6) Procesar los datos crudos de temperatura en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo<br>\n  7) Si el equipo no cuenta con control de temperatura de producto o camisa, declarar No Aplica con justificación firmada y pasar al siguiente ensayo"
      },
      {
       "et": "Plan estadístico",
@@ -5116,7 +5228,7 @@ var BancoEquipos = {
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  La temperatura medida corresponde a la indicada dentro de la tolerancia de la URS en los tres puntos.<br>\n  La homogeneidad y la estabilidad cumplen el criterio aprobado.<br>\n  La alarma de desviación actúa según el diseño."
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  La temperatura medida corresponde a la indicada dentro de la tolerancia de la URS en los tres puntos.<br>\n  La homogeneidad y la estabilidad cumplen el criterio aprobado.<br>\n  La alarma de desviación actúa según el diseño.<br>\n  O bien, No Aplica justificado y firmado."
      },
      {
       "et": "Documentos entregables",
@@ -5132,6 +5244,112 @@ var BancoEquipos = {
     "familia": "llenadora"
    },
    {
+    "kind": "ensayo",
+    "id": "EQ-OQ-LL-022",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-LL-022 — Monitoreo ambiental durante la operación",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que el monitoreo ambiental de partículas, microorganismos viables y presión diferencial se ejecuta en los puntos y con la frecuencia aprobados, y que los resultados se mantienen dentro de los límites del Anexo 1 y de la URS."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Verificar el plan de monitoreo ambiental aprobado: puntos, frecuencia, método y límites de alerta y acción<br>\n  2) Operar el <span class=\"equipo\">equipo</span> a velocidad nominal con el formato y volumen aprobados<br>\n  3) Muestrear partículas en el aire en los puntos definidos, en operación y en las intervenciones críticas<br>\n  4) Muestrear viables en aire, superficies y guantes según el plan aprobado<br>\n  5) Registrar la presión diferencial entre locales durante el muestreo<br>\n  6) Comparar cada resultado contra los límites de alerta y acción y registrar las tendencias<br>\n  7) Procesar los datos crudos de monitoreo ambiental en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = conteo de partículas (partículas/m³) y unidades formadoras de colonia (UFC) por punto y muestreo; tamaño de muestra = el definido en el plan de monitoreo ambiental aprobado; estadísticos = media, máximo y tendencia por punto, con comparación contra límites de alerta y acción; criterio = el 100 % de los puntos dentro del límite de acción del Anexo 1 y de la URS, sin tendencia creciente; sin ANOVA; resultados fuera de límite con investigación documentada."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  El 100 % de los puntos muestreados está dentro del límite de acción del Anexo 1 y de la URS.<br>\n  No existe tendencia creciente ni resultados fuera de límite sin investigación.<br>\n  La presión diferencial se mantiene en el sentido correcto."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de monitoreo ambiental por punto y muestreo con data cruda<br>\n  - Data cruda y reporte estadístico del monitoreo ambiental"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>EU GMP Anexo 1; ISO 14644-1/2; URS aprobada; plan de monitoreo ambiental."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "llenadora"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-LL-023",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-LL-023 — Visualización de flujo de aire e intervenciones",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que el flujo de aire protege la zona crítica y que las intervenciones del operador no rompen la primera barrera de aire."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Ejecutar el estudio de humo (smoke study) con el área en reposo y con el <span class=\"equipo\">equipo</span> en operación<br>\n  2) Registrar en video el flujo sobre la zona crítica, las boquillas y la salida de envases<br>\n  3) Simular las intervenciones definidas: ajuste de boquilla, retiro de envase caído, cambio de formato y paso de manos<br>\n  4) Verificar que el flujo no se invierte ni genera turbulencia sobre el producto expuesto<br>\n  5) Verificar la primera barrera de aire y la ausencia de aire no filtrado<br>\n  6) Registrar los hallazgos y las acciones correctivas"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>No aplica: verificación funcional por atributo (flujo protegido/no protegido) en cada intervención; sin inferencia estadística."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  El flujo de aire protege la zona crítica en reposo y en operación.<br>\n  Las intervenciones simuladas no rompen la primera barrera de aire.<br>\n  No existe turbulencia ni aire no filtrado sobre el producto expuesto."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Video del estudio de humo por condición e intervención<br>\n  - Registro de hallazgos y acciones"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>EU GMP Anexo 1; ISO 14644-3; URS aprobada."
+     }
+    ],
+    "tabla": null,
+    "familia": "llenadora"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-LL-024",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-LL-024 — Integridad de filtros esterilizantes y SIP en operación",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que los filtros esterilizantes conservan su integridad antes y después de la operación y que el ciclo SIP se ejecuta con los parámetros aprobados."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Ejecutar la prueba de integridad del filtro (punto de burbuja o difusión) antes de la operación y registrar el resultado<br>\n  2) Ejecutar el ciclo SIP con los parámetros aprobados: temperatura, presión y tiempo<br>\n  3) Verificar los parámetros del ciclo en el registro del equipo y en la medición independiente<br>\n  4) Ejecutar la prueba de integridad después de la operación y comparar con el límite del fabricante<br>\n  5) Verificar que no existe bypass ni conexión que evite el filtro o el ciclo SIP<br>\n  6) Registrar cualquier desviación y su disposición"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>No aplica: verificación funcional por atributo (íntegro/no íntegro, cumple/no cumple) con medición directa; sin inferencia estadística."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  La integridad del filtro cumple el límite del fabricante antes y después de la operación.<br>\n  El ciclo SIP cumple los parámetros de la URS.<br>\n  No existe bypass del filtro ni del ciclo."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de integridad antes y después<br>\n  - Registro del ciclo SIP con parámetros"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>PDA TR 26; EU GMP Anexo 1; URS aprobada."
+     }
+    ],
+    "tabla": null,
+    "familia": "llenadora"
+   },
+   {
     "kind": "resumen",
     "id": "EQ-OQ-LL-RES",
     "bloque": 4,
@@ -5144,11 +5362,11 @@ var BancoEquipos = {
      },
      {
       "et": "Procedimiento",
-      "html": "<strong>Procedimiento:</strong><br>\n  1) Confirmar que los ensayos EQ-OQ-LL-001 a EQ-OQ-LL-021 están incluidos en el índice del protocolo"
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Confirmar que los ensayos EQ-OQ-LL-001 a EQ-OQ-LL-024 están incluidos en el índice del protocolo"
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Los 21 ensayos aparecen en la tabla resumen con su veredicto."
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Los 24 ensayos aparecen en la tabla resumen con su veredicto."
      },
      {
       "et": "Referencia",
@@ -5215,7 +5433,7 @@ var BancoEquipos = {
     "kind": "div",
     "clase": "anexos",
     "bloque": 8,
-    "html": "<p><strong>ANEXOS:</strong></p>\n<table>\n<tbody><tr><th>SECCIÓN</th><th>TÍTULO</th></tr>\n<tr><td>8.1</td><td>Anexo A — Registros crudos y reportes estadísticos (volumen, uniformidad entre boquillas, estabilidad de corrida, viscosidad, nivel, presión y temperatura)</td></tr>\n<tr><td>8.2</td><td>Anexo B — Certificados de calibración de balanza, tacómetro, caudalímetro, manómetros, termómetros y torquímetro</td></tr>\n<tr><td>8.3</td><td>Anexo C — Matrices de paradas de emergencia, interlocks, alarmas, detección de envase y cambio de formato</td></tr>\n</tbody></table>",
+    "html": "<p><strong>ANEXOS:</strong></p>\n<table>\n<tbody><tr><th>SECCIÓN</th><th>TÍTULO</th></tr>\n<tr><td>8.1</td><td>Anexo A — Registros crudos y reportes estadísticos (volumen, uniformidad entre boquillas, estabilidad de corrida, viscosidad, nivel, presión y temperatura)</td></tr>\n<tr><td>8.2</td><td>Anexo B — Certificados de calibración de balanza, tacómetro, caudalímetro, manómetros, termómetros y torquímetro</td></tr>\n<tr><td>8.3</td><td>Anexo C — Matrices de paradas de emergencia, interlocks, alarmas, detección de envase y cambio de formato</td></tr>\n</tbody></table>\n<p><strong>LÍMITES Y CRITERIOS (RESUMEN):</strong></p>\n<p>- n mínimo 10 en ensayos cuantitativos; 100 % en atributos.</p>\n<p>- Volumen o peso, velocidad, temperatura, presión, torque, hermeticidad y monitoreo ambiental: definir en URS y especificación del producto (pendiente del responsable).</p>\n<p>- Monitoreo ambiental: límites de alerta y acción del Anexo 1 y de la URS.</p>",
     "familia": "llenadora"
    },
    {
@@ -6337,7 +6555,7 @@ var BancoEquipos = {
     "kind": "div",
     "clase": "anexos",
     "bloque": 8,
-    "html": "<p><strong>ANEXOS:</strong></p>\n<table>\n<tbody><tr><th>SECCIÓN</th><th>TÍTULO</th></tr>\n<tr><td>8.1</td><td>Anexo A — Registros crudos y reportes estadísticos (peso, uniformidad, estabilidad, velocidad, viscosidad, temperatura, sellado y formatos)</td></tr>\n<tr><td>8.2</td><td>Anexo B — Certificados de calibración de balanza, tacómetro, manómetros, termómetros, torquímetro y medidor de oxígeno</td></tr>\n<tr><td>8.3</td><td>Anexo C — Matrices de paradas, interlocks, alarmas, detección de tubo, rechazo y cambio de formato</td></tr>\n</tbody></table>",
+    "html": "<p><strong>ANEXOS:</strong></p>\n<table>\n<tbody><tr><th>SECCIÓN</th><th>TÍTULO</th></tr>\n<tr><td>8.1</td><td>Anexo A — Registros crudos y reportes estadísticos (peso, uniformidad, estabilidad, velocidad, viscosidad, temperatura, sellado y formatos)</td></tr>\n<tr><td>8.2</td><td>Anexo B — Certificados de calibración de balanza, tacómetro, manómetros, termómetros, torquímetro y medidor de oxígeno</td></tr>\n<tr><td>8.3</td><td>Anexo C — Matrices de paradas, interlocks, alarmas, detección de tubo, rechazo y cambio de formato</td></tr>\n</tbody></table>\n<p><strong>LÍMITES Y CRITERIOS (RESUMEN):</strong></p>\n<p>- n mínimo 10 en ensayos cuantitativos; 100 % en atributos y en sellado.</p>\n<p>- Temperatura, presión y tiempo de sellado, torque y fuga: definir en URS y especificación del producto (pendiente del responsable).</p>\n<p>- 100 % de rechazo de tubos vacíos, sin sello, sin código o mal posicionados.</p>",
     "familia": "llenadora-tubos"
    },
    {
@@ -20048,7 +20266,7 @@ var BancoEquipos = {
      },
      {
       "et": "Procedimiento",
-      "html": "<strong>Procedimiento:</strong><br>\n  1) Definir el torque mínimo y máximo aprobado en la URS o en la especificación del envase<br>\n  2) Tomar un mínimo de 10 envases por lote y por formato, distribuidos al inicio, a la mitad y al final de la corrida<br>\n  3) Medir el torque de apertura con torquímetro calibrado y registrar el valor por envase<br>\n  4) Inspeccionar la integridad del tapón: presencia, posición, rosca completa y ausencia de daño<br>\n  5) Verificar que no hay producto en la rosca ni en el sello<br>\n  6) Procesar los datos crudos de torque en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Definir el torque mínimo y máximo aprobado en la URS o en la especificación del envase<br>\n  2) Tomar un mínimo de 10 envases por lote y por formato, distribuidos al inicio, a la mitad y al final de la corrida<br>\n  3) Medir el torque de apertura con torquímetro calibrado y registrar el valor por envase<br>\n  4) Inspeccionar la integridad del tapón: presencia, posición, rosca completa y ausencia de daño<br>\n  5) Verificar que no hay producto en la rosca ni en el sello<br>\n  6) Procesar los datos crudos de torque en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo<br>\n  7) Si el formato no incluye cierre o torque, declarar No Aplica con justificación firmada y pasar al siguiente ensayo"
      },
      {
       "et": "Plan estadístico",
@@ -20056,7 +20274,7 @@ var BancoEquipos = {
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  El 100 % de los envases muestreados está dentro del rango de torque aprobado.<br>\n  El cierre está íntegro: tapón presente, rosca completa y sin daño.<br>\n  No hay producto en la rosca ni en el sello."
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  El 100 % de los envases muestreados está dentro del rango de torque aprobado.<br>\n  El cierre está íntegro: tapón presente, rosca completa y sin daño.<br>\n  No hay producto en la rosca ni en el sello.<br>\n  O bien, No Aplica justificado y firmado."
      },
      {
       "et": "Documentos entregables",
@@ -20084,7 +20302,7 @@ var BancoEquipos = {
      },
      {
       "et": "Procedimiento",
-      "html": "<strong>Procedimiento:</strong><br>\n  1) Definir el método de integridad (vacío, presión, colorante o equivalente validado) y el tamaño de muestra según el protocolo<br>\n  2) Tomar los envases muestreados al inicio, a la mitad y al final de la corrida, incluyendo envases de cada boquilla<br>\n  3) Ejecutar la prueba de fuga según el método validado y registrar el resultado por envase<br>\n  4) Verificar que los envases conformes no presentan fuga y que los controles positivos (envases con fuga inducida) se detectan<br>\n  5) Calcular la proporción de fallas y comparar contra el límite aprobado<br>\n  6) Procesar los datos crudos de hermeticidad en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Definir el método de integridad (vacío, presión, colorante o equivalente validado) y el tamaño de muestra según el protocolo<br>\n  2) Tomar los envases muestreados al inicio, a la mitad y al final de la corrida, incluyendo envases de cada boquilla<br>\n  3) Ejecutar la prueba de fuga según el método validado y registrar el resultado por envase<br>\n  4) Verificar que los envases conformes no presentan fuga y que los controles positivos (envases con fuga inducida) se detectan<br>\n  5) Calcular la proporción de fallas y comparar contra el límite aprobado<br>\n  6) Procesar los datos crudos de hermeticidad en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo<br>\n  7) Si el producto no requiere prueba de hermeticidad, declarar No Aplica con justificación firmada y pasar al siguiente ensayo"
      },
      {
       "et": "Plan estadístico",
@@ -20092,7 +20310,7 @@ var BancoEquipos = {
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  La proporción de envases con fuga está dentro del límite aprobado.<br>\n  El método detecta el 100 % de los controles positivos.<br>\n  Los envases evaluados cubren todas las boquillas y los tres momentos de la corrida."
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  La proporción de envases con fuga está dentro del límite aprobado.<br>\n  El método detecta el 100 % de los controles positivos.<br>\n  Los envases evaluados cubren todas las boquillas y los tres momentos de la corrida.<br>\n  O bien, No Aplica justificado y firmado."
      },
      {
       "et": "Documentos entregables",
@@ -20120,7 +20338,7 @@ var BancoEquipos = {
      },
      {
       "et": "Procedimiento",
-      "html": "<strong>Procedimiento:</strong><br>\n  1) Verificar la calibración del control de peso con pesas patrón en el rango de operación<br>\n  2) Ajustar los límites superior e inferior aprobados en la URS o en la especificación del producto<br>\n  3) Preparar envases de desafío: subllenados, conformes y sobrellenados, con peso verificado en balanza calibrada<br>\n  4) Pasar cada envase de desafío por la línea y registrar la decisión del equipo (aceptado o rechazado)<br>\n  5) Verificar la expulsión efectiva del envase rechazado y su conteo<br>\n  6) Repetir el desafío al inicio, a la mitad y al final de la corrida<br>\n  7) Procesar los datos crudos de peso y decisión en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Verificar la calibración del control de peso con pesas patrón en el rango de operación<br>\n  2) Ajustar los límites superior e inferior aprobados en la URS o en la especificación del producto<br>\n  3) Preparar envases de desafío: subllenados, conformes y sobrellenados, con peso verificado en balanza calibrada<br>\n  4) Pasar cada envase de desafío por la línea y registrar la decisión del equipo (aceptado o rechazado)<br>\n  5) Verificar la expulsión efectiva del envase rechazado y su conteo<br>\n  6) Repetir el desafío al inicio, a la mitad y al final de la corrida<br>\n  7) Procesar los datos crudos de peso y decisión en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo<br>\n  8) Si el equipo no cuenta con control de peso en línea, declarar No Aplica con justificación firmada y pasar al siguiente ensayo"
      },
      {
       "et": "Plan estadístico",
@@ -20128,7 +20346,7 @@ var BancoEquipos = {
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  El 100 % de los envases subllenados y sobrellenados se rechaza.<br>\n  El 100 % de los envases conformes se acepta.<br>\n  El rechazo se expulsa y se cuenta correctamente."
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  El 100 % de los envases subllenados y sobrellenados se rechaza.<br>\n  El 100 % de los envases conformes se acepta.<br>\n  El rechazo se expulsa y se cuenta correctamente.<br>\n  O bien, No Aplica justificado y firmado."
      },
      {
       "et": "Documentos entregables",
@@ -20156,7 +20374,7 @@ var BancoEquipos = {
      },
      {
       "et": "Procedimiento",
-      "html": "<strong>Procedimiento:</strong><br>\n  1) Ejecutar el ciclo de limpieza aprobado entre dos lotes o productos distintos<br>\n  2) Verificar los parámetros del ciclo: tiempo, temperatura, caudal y concentración del agente<br>\n  3) Inspeccionar visualmente las superficies en contacto y los puntos de difícil acceso<br>\n  4) Tomar muestras de enjuague o de superficie según el método validado y analizar residuo y carga microbiana<br>\n  5) Comparar contra los límites de limpieza validados<br>\n  6) Verificar el drenaje completo y la ausencia de producto retenido<br>\n  7) Registrar cualquier desviación y su disposición"
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Ejecutar el ciclo de limpieza aprobado entre dos lotes o productos distintos<br>\n  2) Verificar los parámetros del ciclo: tiempo, temperatura, caudal y concentración del agente<br>\n  3) Inspeccionar visualmente las superficies en contacto y los puntos de difícil acceso<br>\n  4) Tomar muestras de enjuague o de superficie según el método validado y analizar residuo y carga microbiana<br>\n  5) Comparar contra los límites de limpieza validados<br>\n  6) Verificar el drenaje completo y la ausencia de producto retenido<br>\n  7) Registrar cualquier desviación y su disposición<br>\n  8) Si el equipo no requiere limpieza entre lotes o no aplica, declarar No Aplica con justificación firmada y pasar al siguiente ensayo"
      },
      {
       "et": "Plan estadístico",
@@ -20164,7 +20382,7 @@ var BancoEquipos = {
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Los residuos y la carga microbiana cumplen los límites de limpieza validados.<br>\n  No queda residuo visible ni producto retenido.<br>\n  El sistema drena por completo."
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Los residuos y la carga microbiana cumplen los límites de limpieza validados.<br>\n  No queda residuo visible ni producto retenido.<br>\n  El sistema drena por completo.<br>\n  O bien, No Aplica justificado y firmado."
      },
      {
       "et": "Documentos entregables",
@@ -20191,7 +20409,7 @@ var BancoEquipos = {
      },
      {
       "et": "Procedimiento",
-      "html": "<strong>Procedimiento:</strong><br>\n  1) Definir el límite de bioburden y el método de análisis según la especificación del producto y la farmacopea aplicable<br>\n  2) Tomar muestras del producto al inicio, a la mitad y al final de la corrida, y del primer y último envase llenado<br>\n  3) Analizar las muestras por el método validado y registrar el resultado por muestra<br>\n  4) Comparar cada resultado contra el límite aprobado<br>\n  5) Investigar cualquier resultado fuera de límite y documentar su disposición<br>\n  6) Anexar los reportes del laboratorio con el método utilizado"
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Definir el límite de bioburden y el método de análisis según la especificación del producto y la farmacopea aplicable<br>\n  2) Tomar muestras del producto al inicio, a la mitad y al final de la corrida, y del primer y último envase llenado<br>\n  3) Analizar las muestras por el método validado y registrar el resultado por muestra<br>\n  4) Comparar cada resultado contra el límite aprobado<br>\n  5) Investigar cualquier resultado fuera de límite y documentar su disposición<br>\n  6) Anexar los reportes del laboratorio con el método utilizado<br>\n  7) Si el producto no requiere bioburden, declarar No Aplica con justificación firmada y pasar al siguiente ensayo"
      },
      {
       "et": "Plan estadístico",
@@ -20199,7 +20417,7 @@ var BancoEquipos = {
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  El 100 % de las muestras cumple el límite de bioburden aprobado.<br>\n  Los resultados son trazables al lote, al momento de la corrida y al método utilizado."
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  El 100 % de las muestras cumple el límite de bioburden aprobado.<br>\n  Los resultados son trazables al lote, al momento de la corrida y al método utilizado.<br>\n  O bien, No Aplica justificado y firmado."
      },
      {
       "et": "Documentos entregables",
@@ -20208,6 +20426,184 @@ var BancoEquipos = {
      {
       "et": "Referencia",
       "html": "<strong>Referencia:</strong><br>Especificación del producto; USP &lt;61&gt; y &lt;62&gt; (si aplica); BMR."
+     }
+    ],
+    "tabla": null,
+    "familia": "llenadora"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-LL-019",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-LL-019 — Media fill / simulación de proceso aséptico",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Demostrar que el proceso aséptico de llenado y cierre produce unidades estériles en tres corridas consecutivas, incluida la peor condición y las intervenciones críticas."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Aprobar el protocolo de simulación de proceso aséptico (APS) con el medio de cultivo, el volumen, el formato y las intervenciones a cubrir<br>\n  2) Ejecutar tres corridas consecutivas en las condiciones de peor caso aprobadas (velocidad, formato, duración e intervenciones)<br>\n  3) Incluir las intervenciones críticas definidas: ajuste de boquilla, retiro de envase caído, cambio de componente y paso de manos<br>\n  4) Incubar el 100 % de las unidades llenadas según el método validado y examinar la contaminación<br>\n  5) Registrar por corrida: unidades llenadas, unidades contaminadas, intervenciones y condiciones<br>\n  6) Investigar cualquier unidad contaminada y documentar su disposición"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>No aplica: verificación funcional por atributo (unidad estéril/no estéril) sobre el 100 % de las unidades llenadas en tres corridas consecutivas; sin inferencia estadística."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Tres corridas consecutivas con cero unidades contaminadas.<br>\n  Todas las intervenciones críticas quedan cubiertas.<br>\n  Las condiciones de peor caso están documentadas y aprobadas."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Protocolo APS aprobado<br>\n  - Registro de las tres corridas con unidades e intervenciones<br>\n  - Resultados de incubación e investigación"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>EU GMP Anexo 1; PIC/S PI 007 (validación de procesos asépticos); URS aprobada."
+     }
+    ],
+    "tabla": null,
+    "familia": "llenadora"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-LL-020",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-LL-020 — Monitoreo ambiental durante la producción",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que el monitoreo ambiental de partículas, viables y presión diferencial se mantiene dentro de los límites del Anexo 1 durante la producción real."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Ejecutar el plan de monitoreo ambiental aprobado: puntos, frecuencia, métodos y límites de alerta y acción<br>\n  2) Muestrear partículas y viables en aire, superficies y guantes durante la producción y las intervenciones<br>\n  3) Registrar la presión diferencial entre locales en cada muestreo<br>\n  4) Comparar cada resultado contra los límites de alerta y acción<br>\n  5) Evaluar la tendencia por punto y por lote<br>\n  6) Procesar los datos crudos de monitoreo ambiental en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = conteo de partículas y UFC por punto y muestreo; tamaño de muestra = el definido en el plan de monitoreo ambiental; estadísticos = media, máximo y tendencia por punto; criterio = el 100 % de los puntos dentro del límite de acción del Anexo 1 y de la URS, sin tendencia creciente; sin ANOVA; resultados fuera de límite con investigación documentada."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  El 100 % de los puntos está dentro del límite de acción del Anexo 1 y de la URS.<br>\n  No existe tendencia creciente ni resultado fuera de límite sin investigación.<br>\n  La presión diferencial se mantiene en el sentido correcto."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de monitoreo ambiental por lote y punto con data cruda<br>\n  - Data cruda y reporte estadístico del monitoreo ambiental"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>EU GMP Anexo 1; ISO 14644-1/2; URS aprobada; plan de monitoreo ambiental."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "llenadora"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-LL-021",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-LL-021 — Si aplica: esterilidad, endotoxinas y partículas del producto",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que el producto llenado cumple los ensayos de esterilidad, endotoxinas y material particulado aplicables; si el producto no es estéril o inyectable, declarar No Aplica con justificación firmada."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Confirmar en la especificación del producto si aplican esterilidad, endotoxinas y partículas; si no, pasar al paso 6)<br>\n  2) Tomar muestras al inicio, a la mitad y al final de cada lote según el plan aprobado<br>\n  3) Ejecutar esterilidad según USP &lt;71&gt;, endotoxinas según USP &lt;85&gt; y partículas según USP &lt;788&gt; o &lt;789&gt; según el producto<br>\n  4) Registrar el resultado por muestra y comparar contra la especificación<br>\n  5) Investigar cualquier resultado fuera de especificación y documentar su disposición<br>\n  6) Procesar los datos crudos de esterilidad, endotoxinas y partículas en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo<br>\n  7) Si no aplica: redactar la justificación de No Aplica con firma del ejecutor y del revisor"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = resultado de esterilidad (pasa/falla), endotoxinas (UE/mL) y partículas (partículas/mL); tamaño de muestra = el definido por la farmacopea y el plan del producto; estadísticos = resultado individual y, para endotoxinas y partículas, media y máximo; criterio = el 100 % de las muestras dentro de la especificación del producto; sin ANOVA; resultados fuera de especificación con investigación documentada."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  El 100 % de las muestras cumple la especificación de esterilidad, endotoxinas y partículas.<br>\n  Los resultados son trazables al lote y al método.<br>\n  O bien, No Aplica justificado y firmado."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Reportes analíticos por lote y método<br>\n  - Data cruda y reporte estadístico de los resultados<br>\n  - Justificación de No Aplica, si corresponde"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>USP &lt;71&gt;, &lt;85&gt;, &lt;788&gt; y &lt;789&gt; (según aplique); especificación del producto; EU GMP Anexo 1."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "llenadora"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-LL-022",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-LL-022 — Hold time / tiempo de espera del granel",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que el tiempo de espera del producto a granel antes del llenado no altera el volumen, la carga microbiana ni la integridad del producto."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Definir los tiempos de espera a evaluar (inicio, tiempo máximo aprobado y un punto intermedio) según la URS<br>\n  2) Mantener el granel en las condiciones aprobadas y tomar muestras en cada tiempo<br>\n  3) Medir volumen o peso llenado, bioburden y, si aplica, integridad del cierre en cada tiempo<br>\n  4) Comparar los resultados contra el tiempo cero y contra la especificación<br>\n  5) Evaluar la tendencia del volumen y del bioburden contra el tiempo<br>\n  6) Procesar los datos crudos de hold time en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = volumen o peso llenado (mL o g), bioburden (UFC) e integridad (pasa/falla) por tiempo de espera; tamaño de muestra = mínimo 10 envases por tiempo y al menos 3 tiempos; estadísticos = media, desviación estándar y RSD por tiempo, y regresión del volumen y del bioburden contra el tiempo; criterio = cada tiempo dentro de la especificación y sin tendencia fuera de tolerancia; sin ANOVA; valores atípicos con investigación documentada."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Todos los tiempos evaluados cumplen volumen, bioburden e integridad.<br>\n  No existe tendencia fuera de tolerancia durante el tiempo máximo aprobado.<br>\n  El tiempo máximo se documenta y se aprueba en la URS."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de tiempos, condiciones y resultados con data cruda<br>\n  - Data cruda y reporte estadístico del hold time"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>EU GMP Anexo 1; URS aprobada; especificación del producto."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "llenadora"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-LL-023",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-LL-023 — Despeje de línea",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que el despeje de línea antes y después del lote elimina producto, componentes, envases, etiquetas y documentación del lote anterior."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Ejecutar el despeje de línea según el procedimiento aprobado antes de iniciar el lote<br>\n  2) Verificar la ausencia de producto, envases, tapones, etiquetas y documentación del lote anterior en la línea y en los equipos<br>\n  3) Verificar la limpieza de tolva, boquillas, banda y zona de rechazo<br>\n  4) Verificar la identificación del lote y la documentación en la línea<br>\n  5) Repetir el despeje al finalizar el lote y registrar el resultado<br>\n  6) Confirmar la revisión por una segunda persona con firma y fecha"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>No aplica: verificación funcional por atributo (limpio/no limpio, 100 % de los puntos de la lista de despeje); sin inferencia estadística."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  El 100 % de los puntos de la lista de despeje está conforme.<br>\n  No queda producto, componente, etiqueta ni documento del lote anterior.<br>\n  La revisión por segunda persona está firmada."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Lista de despeje de línea diligenciada y firmada<br>\n  - Registro fotográfico, si aplica"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>21 CFR 211.67 y 211.130; EU GMP Anexo 15; procedimiento interno de despeje de línea."
      }
     ],
     "tabla": null,
@@ -20226,11 +20622,11 @@ var BancoEquipos = {
      },
      {
       "et": "Procedimiento",
-      "html": "<strong>Procedimiento:</strong><br>\n  1) Confirmar que los ensayos EQ-PQ-LL-001 a EQ-PQ-LL-018 están incluidos en el índice del protocolo"
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Confirmar que los ensayos EQ-PQ-LL-001 a EQ-PQ-LL-023 están incluidos en el índice del protocolo"
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Los 18 ensayos aparecen en la tabla resumen con su veredicto."
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Los 23 ensayos aparecen en la tabla resumen con su veredicto."
      },
      {
       "et": "Referencia",
@@ -20302,7 +20698,7 @@ var BancoEquipos = {
     "kind": "div",
     "clase": "anexos",
     "bloque": 8,
-    "html": "<p><strong>ANEXOS:</strong></p>\n<table>\n<tbody><tr><th>SECCIÓN</th><th>TÍTULO</th></tr>\n<tr><td>8.1</td><td>Anexo A — Registros crudos y reportes estadísticos (tres lotes, velocidades, peor caso, deriva, volumen, uniformidad, capacidad, atributos, formatos, conciliación, torque, hermeticidad y peso en línea)</td></tr>\n<tr><td>8.2</td><td>Anexo B — Reportes analíticos (volumen entregable, integridad, bioburden) y certificados de calibración</td></tr>\n<tr><td>8.3</td><td>Anexo C — Análisis de riesgo del número de lotes, definición del peor caso, cartas de control y balances de masa</td></tr>\n</tbody></table>",
+    "html": "<p><strong>ANEXOS:</strong></p>\n<table>\n<tbody><tr><th>SECCIÓN</th><th>TÍTULO</th></tr>\n<tr><td>8.1</td><td>Anexo A — Registros crudos y reportes estadísticos (tres lotes, velocidades, peor caso, deriva, volumen, uniformidad, capacidad, atributos, formatos, conciliación, torque, hermeticidad y peso en línea)</td></tr>\n<tr><td>8.2</td><td>Anexo B — Reportes analíticos (volumen entregable, integridad, bioburden) y certificados de calibración</td></tr>\n<tr><td>8.3</td><td>Anexo C — Análisis de riesgo del número de lotes, definición del peor caso, cartas de control y balances de masa</td></tr>\n</tbody></table>\n<p><strong>LÍMITES Y CRITERIOS (RESUMEN):</strong></p>\n<p>- 3 lotes consecutivos; Cpk ≥ 1,33; n mínimo 10; 100 % de rechazo de subllenados y sobrellenados; 100 % de integridad en la muestra.</p>\n<p>- Media fill: 3 corridas consecutivas con cero unidades contaminadas; monitoreo ambiental dentro del Anexo 1.</p>\n<p>- Esterilidad, endotoxinas y partículas: definir en la especificación del producto; hold time máximo: definir en URS.</p>",
     "familia": "llenadora"
    },
    {

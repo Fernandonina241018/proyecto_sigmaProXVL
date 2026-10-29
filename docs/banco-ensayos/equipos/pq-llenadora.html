@@ -12,7 +12,7 @@
 
 <p><a href="../equipos.html">← Equipos e Instrumentos</a></p>
 <h2>PQ — Llenadora de Líquidos (banco por familia)</h2>
-<p>Versión del banco: <span data-banco-version>EQ-PQ-LL 2026-10-29 v1</span></p>
+<p>Versión del banco: <span data-banco-version>EQ-PQ-LL 2026-10-29 v2</span></p>
 <p>Ensayos de Calificación de Desempeño específicos de la llenadora de líquidos (<span class="equipo">equipo</span>) con producto real o simulado calificado. Se filtran por familia (<code>data-familia="llenadora"</code>) según la entidad elegida en el paso 1. Fuente: ENSAYOS.txt de protocolo.</p>
 
 <!-- ================= PQ ================= -->
@@ -359,12 +359,14 @@
   3) Medir el torque de apertura con torquímetro calibrado y registrar el valor por envase<br>
   4) Inspeccionar la integridad del tapón: presencia, posición, rosca completa y ausencia de daño<br>
   5) Verificar que no hay producto en la rosca ni en el sello<br>
-  6) Procesar los datos crudos de torque en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  6) Procesar los datos crudos de torque en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo<br>
+  7) Si el formato no incluye cierre o torque, declarar No Aplica con justificación firmada y pasar al siguiente ensayo</p>
   <p><strong>Plan estadístico:</strong><br>Variable = torque de cierre (unidad del torquímetro); tamaño de muestra = mínimo 10 envases por lote y por formato; estadísticos = media, desviación estándar, rango y porcentaje de envases dentro del límite; criterio = el 100 % de la muestra dentro del rango de torque aprobado; sin ANOVA; valores atípicos = prueba de Grubbs con investigación documentada.</p>
   <p><strong>Criterio de aceptación:</strong><br>
   El 100 % de los envases muestreados está dentro del rango de torque aprobado.<br>
   El cierre está íntegro: tapón presente, rosca completa y sin daño.<br>
-  No hay producto en la rosca ni en el sello.</p>
+  No hay producto en la rosca ni en el sello.<br>
+  O bien, No Aplica justificado y firmado.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro de torque por envase con data cruda y reporte<br>
   - Data cruda y reporte estadístico del cierre y torque</p>
@@ -380,12 +382,14 @@
   3) Ejecutar la prueba de fuga según el método validado y registrar el resultado por envase<br>
   4) Verificar que los envases conformes no presentan fuga y que los controles positivos (envases con fuga inducida) se detectan<br>
   5) Calcular la proporción de fallas y comparar contra el límite aprobado<br>
-  6) Procesar los datos crudos de hermeticidad en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  6) Procesar los datos crudos de hermeticidad en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo<br>
+  7) Si el producto no requiere prueba de hermeticidad, declarar No Aplica con justificación firmada y pasar al siguiente ensayo</p>
   <p><strong>Plan estadístico:</strong><br>Variable = resultado de integridad por envase (pasa/falla) y, si el método lo permite, magnitud de fuga; tamaño de muestra = el definido en el protocolo, con envases de todas las boquillas y de los tres momentos de la corrida; estadísticos = proporción de fallas con intervalo de confianza al 95 % y, si aplica, media y desviación estándar de la magnitud; criterio = proporción de fallas dentro del límite aprobado y detección del 100 % de los controles positivos; sin ANOVA; resultados anómalos con investigación documentada.</p>
   <p><strong>Criterio de aceptación:</strong><br>
   La proporción de envases con fuga está dentro del límite aprobado.<br>
   El método detecta el 100 % de los controles positivos.<br>
-  Los envases evaluados cubren todas las boquillas y los tres momentos de la corrida.</p>
+  Los envases evaluados cubren todas las boquillas y los tres momentos de la corrida.<br>
+  O bien, No Aplica justificado y firmado.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro de integridad por envase con data cruda y reporte<br>
   - Data cruda y reporte estadístico de hermeticidad</p>
@@ -402,12 +406,14 @@
   4) Pasar cada envase de desafío por la línea y registrar la decisión del equipo (aceptado o rechazado)<br>
   5) Verificar la expulsión efectiva del envase rechazado y su conteo<br>
   6) Repetir el desafío al inicio, a la mitad y al final de la corrida<br>
-  7) Procesar los datos crudos de peso y decisión en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  7) Procesar los datos crudos de peso y decisión en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo<br>
+  8) Si el equipo no cuenta con control de peso en línea, declarar No Aplica con justificación firmada y pasar al siguiente ensayo</p>
   <p><strong>Plan estadístico:</strong><br>Variable = peso del envase (g) y decisión del equipo (acepta/rechaza); tamaño de muestra = mínimo 10 envases por nivel de desafío (subllenado, conforme y sobrellenado) en cada momento de la corrida; estadísticos = media y desviación estándar del peso por nivel, y proporción de decisiones correctas; criterio = 100 % de los envases fuera de límite rechazados y 100 % de los conformes aceptados; sin ANOVA; valores atípicos con investigación documentada.</p>
   <p><strong>Criterio de aceptación:</strong><br>
   El 100 % de los envases subllenados y sobrellenados se rechaza.<br>
   El 100 % de los envases conformes se acepta.<br>
-  El rechazo se expulsa y se cuenta correctamente.</p>
+  El rechazo se expulsa y se cuenta correctamente.<br>
+  O bien, No Aplica justificado y firmado.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro del desafío con peso y decisión por envase<br>
   - Data cruda y reporte estadístico del control de peso en línea</p>
@@ -424,12 +430,14 @@
   4) Tomar muestras de enjuague o de superficie según el método validado y analizar residuo y carga microbiana<br>
   5) Comparar contra los límites de limpieza validados<br>
   6) Verificar el drenaje completo y la ausencia de producto retenido<br>
-  7) Registrar cualquier desviación y su disposición</p>
+  7) Registrar cualquier desviación y su disposición<br>
+  8) Si el equipo no requiere limpieza entre lotes o no aplica, declarar No Aplica con justificación firmada y pasar al siguiente ensayo</p>
   <p><strong>Plan estadístico:</strong><br>No aplica: verificación contra límites de limpieza validados (residuo y micro) sin muestreo inferencial; se reportan los resultados individuales frente al límite.</p>
   <p><strong>Criterio de aceptación:</strong><br>
   Los residuos y la carga microbiana cumplen los límites de limpieza validados.<br>
   No queda residuo visible ni producto retenido.<br>
-  El sistema drena por completo.</p>
+  El sistema drena por completo.<br>
+  O bien, No Aplica justificado y firmado.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro del ciclo de limpieza con parámetros<br>
   - Resultados de residuo y carga microbiana<br>
@@ -446,24 +454,134 @@
   3) Analizar las muestras por el método validado y registrar el resultado por muestra<br>
   4) Comparar cada resultado contra el límite aprobado<br>
   5) Investigar cualquier resultado fuera de límite y documentar su disposición<br>
-  6) Anexar los reportes del laboratorio con el método utilizado</p>
+  6) Anexar los reportes del laboratorio con el método utilizado<br>
+  7) Si el producto no requiere bioburden, declarar No Aplica con justificación firmada y pasar al siguiente ensayo</p>
   <p><strong>Plan estadístico:</strong><br>No aplica: comparación de cada resultado contra el límite microbiológico aprobado; sin inferencia estadística.</p>
   <p><strong>Criterio de aceptación:</strong><br>
   El 100 % de las muestras cumple el límite de bioburden aprobado.<br>
-  Los resultados son trazables al lote, al momento de la corrida y al método utilizado.</p>
+  Los resultados son trazables al lote, al momento de la corrida y al método utilizado.<br>
+  O bien, No Aplica justificado y firmado.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro de muestras y resultados de bioburden<br>
   - Reportes del laboratorio con el método utilizado</p>
   <p><strong>Referencia:</strong><br>Especificación del producto; USP &lt;61&gt; y &lt;62&gt; (si aplica); BMR.</p>
 </article>
 
+<article data-bloque="3" id="art-EQ-PQ-LL-019" class="ensayo" data-id="EQ-PQ-LL-019" data-fase="PQ" data-cond="ambas" data-familia="llenadora">
+  <h3>EQ-PQ-LL-019 — Media fill / simulación de proceso aséptico</h3>
+  <p><strong>Objetivo:</strong><br>Demostrar que el proceso aséptico de llenado y cierre produce unidades estériles en tres corridas consecutivas, incluida la peor condición y las intervenciones críticas.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Aprobar el protocolo de simulación de proceso aséptico (APS) con el medio de cultivo, el volumen, el formato y las intervenciones a cubrir<br>
+  2) Ejecutar tres corridas consecutivas en las condiciones de peor caso aprobadas (velocidad, formato, duración e intervenciones)<br>
+  3) Incluir las intervenciones críticas definidas: ajuste de boquilla, retiro de envase caído, cambio de componente y paso de manos<br>
+  4) Incubar el 100 % de las unidades llenadas según el método validado y examinar la contaminación<br>
+  5) Registrar por corrida: unidades llenadas, unidades contaminadas, intervenciones y condiciones<br>
+  6) Investigar cualquier unidad contaminada y documentar su disposición</p>
+  <p><strong>Plan estadístico:</strong><br>No aplica: verificación funcional por atributo (unidad estéril/no estéril) sobre el 100 % de las unidades llenadas en tres corridas consecutivas; sin inferencia estadística.</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Tres corridas consecutivas con cero unidades contaminadas.<br>
+  Todas las intervenciones críticas quedan cubiertas.<br>
+  Las condiciones de peor caso están documentadas y aprobadas.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Protocolo APS aprobado<br>
+  - Registro de las tres corridas con unidades e intervenciones<br>
+  - Resultados de incubación e investigación</p>
+  <p><strong>Referencia:</strong><br>EU GMP Anexo 1; PIC/S PI 007 (validación de procesos asépticos); URS aprobada.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-PQ-LL-020" class="ensayo" data-id="EQ-PQ-LL-020" data-fase="PQ" data-cond="ambas" data-familia="llenadora" data-analisis="si">
+  <h3>EQ-PQ-LL-020 — Monitoreo ambiental durante la producción</h3>
+  <p><strong>Objetivo:</strong><br>Verificar que el monitoreo ambiental de partículas, viables y presión diferencial se mantiene dentro de los límites del Anexo 1 durante la producción real.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Ejecutar el plan de monitoreo ambiental aprobado: puntos, frecuencia, métodos y límites de alerta y acción<br>
+  2) Muestrear partículas y viables en aire, superficies y guantes durante la producción y las intervenciones<br>
+  3) Registrar la presión diferencial entre locales en cada muestreo<br>
+  4) Comparar cada resultado contra los límites de alerta y acción<br>
+  5) Evaluar la tendencia por punto y por lote<br>
+  6) Procesar los datos crudos de monitoreo ambiental en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = conteo de partículas y UFC por punto y muestreo; tamaño de muestra = el definido en el plan de monitoreo ambiental; estadísticos = media, máximo y tendencia por punto; criterio = el 100 % de los puntos dentro del límite de acción del Anexo 1 y de la URS, sin tendencia creciente; sin ANOVA; resultados fuera de límite con investigación documentada.</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  El 100 % de los puntos está dentro del límite de acción del Anexo 1 y de la URS.<br>
+  No existe tendencia creciente ni resultado fuera de límite sin investigación.<br>
+  La presión diferencial se mantiene en el sentido correcto.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro de monitoreo ambiental por lote y punto con data cruda<br>
+  - Data cruda y reporte estadístico del monitoreo ambiental</p>
+  <p><strong>Referencia:</strong><br>EU GMP Anexo 1; ISO 14644-1/2; URS aprobada; plan de monitoreo ambiental.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-PQ-LL-021" class="ensayo" data-id="EQ-PQ-LL-021" data-fase="PQ" data-cond="ambas" data-familia="llenadora" data-analisis="si">
+  <h3>EQ-PQ-LL-021 — Si aplica: esterilidad, endotoxinas y partículas del producto</h3>
+  <p><strong>Objetivo:</strong><br>Verificar que el producto llenado cumple los ensayos de esterilidad, endotoxinas y material particulado aplicables; si el producto no es estéril o inyectable, declarar No Aplica con justificación firmada.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Confirmar en la especificación del producto si aplican esterilidad, endotoxinas y partículas; si no, pasar al paso 6)<br>
+  2) Tomar muestras al inicio, a la mitad y al final de cada lote según el plan aprobado<br>
+  3) Ejecutar esterilidad según USP &lt;71&gt;, endotoxinas según USP &lt;85&gt; y partículas según USP &lt;788&gt; o &lt;789&gt; según el producto<br>
+  4) Registrar el resultado por muestra y comparar contra la especificación<br>
+  5) Investigar cualquier resultado fuera de especificación y documentar su disposición<br>
+  6) Procesar los datos crudos de esterilidad, endotoxinas y partículas en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo<br>
+  7) Si no aplica: redactar la justificación de No Aplica con firma del ejecutor y del revisor</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = resultado de esterilidad (pasa/falla), endotoxinas (UE/mL) y partículas (partículas/mL); tamaño de muestra = el definido por la farmacopea y el plan del producto; estadísticos = resultado individual y, para endotoxinas y partículas, media y máximo; criterio = el 100 % de las muestras dentro de la especificación del producto; sin ANOVA; resultados fuera de especificación con investigación documentada.</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  El 100 % de las muestras cumple la especificación de esterilidad, endotoxinas y partículas.<br>
+  Los resultados son trazables al lote y al método.<br>
+  O bien, No Aplica justificado y firmado.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Reportes analíticos por lote y método<br>
+  - Data cruda y reporte estadístico de los resultados<br>
+  - Justificación de No Aplica, si corresponde</p>
+  <p><strong>Referencia:</strong><br>USP &lt;71&gt;, &lt;85&gt;, &lt;788&gt; y &lt;789&gt; (según aplique); especificación del producto; EU GMP Anexo 1.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-PQ-LL-022" class="ensayo" data-id="EQ-PQ-LL-022" data-fase="PQ" data-cond="ambas" data-familia="llenadora" data-analisis="si">
+  <h3>EQ-PQ-LL-022 — Hold time / tiempo de espera del granel</h3>
+  <p><strong>Objetivo:</strong><br>Verificar que el tiempo de espera del producto a granel antes del llenado no altera el volumen, la carga microbiana ni la integridad del producto.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Definir los tiempos de espera a evaluar (inicio, tiempo máximo aprobado y un punto intermedio) según la URS<br>
+  2) Mantener el granel en las condiciones aprobadas y tomar muestras en cada tiempo<br>
+  3) Medir volumen o peso llenado, bioburden y, si aplica, integridad del cierre en cada tiempo<br>
+  4) Comparar los resultados contra el tiempo cero y contra la especificación<br>
+  5) Evaluar la tendencia del volumen y del bioburden contra el tiempo<br>
+  6) Procesar los datos crudos de hold time en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = volumen o peso llenado (mL o g), bioburden (UFC) e integridad (pasa/falla) por tiempo de espera; tamaño de muestra = mínimo 10 envases por tiempo y al menos 3 tiempos; estadísticos = media, desviación estándar y RSD por tiempo, y regresión del volumen y del bioburden contra el tiempo; criterio = cada tiempo dentro de la especificación y sin tendencia fuera de tolerancia; sin ANOVA; valores atípicos con investigación documentada.</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Todos los tiempos evaluados cumplen volumen, bioburden e integridad.<br>
+  No existe tendencia fuera de tolerancia durante el tiempo máximo aprobado.<br>
+  El tiempo máximo se documenta y se aprueba en la URS.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro de tiempos, condiciones y resultados con data cruda<br>
+  - Data cruda y reporte estadístico del hold time</p>
+  <p><strong>Referencia:</strong><br>EU GMP Anexo 1; URS aprobada; especificación del producto.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-PQ-LL-023" class="ensayo" data-id="EQ-PQ-LL-023" data-fase="PQ" data-cond="ambas" data-familia="llenadora">
+  <h3>EQ-PQ-LL-023 — Despeje de línea</h3>
+  <p><strong>Objetivo:</strong><br>Verificar que el despeje de línea antes y después del lote elimina producto, componentes, envases, etiquetas y documentación del lote anterior.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Ejecutar el despeje de línea según el procedimiento aprobado antes de iniciar el lote<br>
+  2) Verificar la ausencia de producto, envases, tapones, etiquetas y documentación del lote anterior en la línea y en los equipos<br>
+  3) Verificar la limpieza de tolva, boquillas, banda y zona de rechazo<br>
+  4) Verificar la identificación del lote y la documentación en la línea<br>
+  5) Repetir el despeje al finalizar el lote y registrar el resultado<br>
+  6) Confirmar la revisión por una segunda persona con firma y fecha</p>
+  <p><strong>Plan estadístico:</strong><br>No aplica: verificación funcional por atributo (limpio/no limpio, 100 % de los puntos de la lista de despeje); sin inferencia estadística.</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  El 100 % de los puntos de la lista de despeje está conforme.<br>
+  No queda producto, componente, etiqueta ni documento del lote anterior.<br>
+  La revisión por segunda persona está firmada.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Lista de despeje de línea diligenciada y firmada<br>
+  - Registro fotográfico, si aplica</p>
+  <p><strong>Referencia:</strong><br>21 CFR 211.67 y 211.130; EU GMP Anexo 15; procedimiento interno de despeje de línea.</p>
+</article>
+
 <article data-bloque="4" id="art-EQ-PQ-LL-RES" class="ensayo" data-id="EQ-PQ-LL-RES" data-fase="PQ" data-cond="ambas" data-familia="llenadora">
   <h3>EQ-PQ-LL-RES — Tabla resumen de los ensayos del PQ</h3>
   <p><strong>Objetivo:</strong><br>Consolidar el listado de ensayos del PQ de la llenadora de líquidos para la tabla resumen del protocolo.</p>
   <p><strong>Procedimiento:</strong><br>
-  1) Confirmar que los ensayos EQ-PQ-LL-001 a EQ-PQ-LL-018 están incluidos en el índice del protocolo</p>
+  1) Confirmar que los ensayos EQ-PQ-LL-001 a EQ-PQ-LL-023 están incluidos en el índice del protocolo</p>
   <p><strong>Criterio de aceptación:</strong><br>
-  Los 18 ensayos aparecen en la tabla resumen con su veredicto.</p>
+  Los 23 ensayos aparecen en la tabla resumen con su veredicto.</p>
   <p><strong>Referencia:</strong><br>EU GMP Anexo 15.</p>
 </article>
 
@@ -490,6 +608,10 @@
 <tr><td>8.2</td><td>Anexo B — Reportes analíticos (volumen entregable, integridad, bioburden) y certificados de calibración</td></tr>
 <tr><td>8.3</td><td>Anexo C — Análisis de riesgo del número de lotes, definición del peor caso, cartas de control y balances de masa</td></tr>
 </table>
+<p><strong>LÍMITES Y CRITERIOS (RESUMEN):</strong></p>
+<p>- 3 lotes consecutivos; Cpk ≥ 1,33; n mínimo 10; 100 % de rechazo de subllenados y sobrellenados; 100 % de integridad en la muestra.</p>
+<p>- Media fill: 3 corridas consecutivas con cero unidades contaminadas; monitoreo ambiental dentro del Anexo 1.</p>
+<p>- Esterilidad, endotoxinas y partículas: definir en la especificación del producto; hold time máximo: definir en URS.</p>
 </div>
 
 </section>

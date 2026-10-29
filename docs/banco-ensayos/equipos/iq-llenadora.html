@@ -12,7 +12,7 @@
 
 <p><a href="../equipos.html">← Equipos e Instrumentos</a></p>
 <h2>IQ — Llenadora de Líquidos (banco por familia, Nivel 3)</h2>
-<p>Versión del banco: <span data-banco-version>EQ-IQ-LL 2026-10-29 v2</span></p>
+<p>Versión del banco: <span data-banco-version>EQ-IQ-LL 2026-10-29 v3</span></p>
 <p>Ensayos de Calificación de Instalación específicos de la llenadora de líquidos. Se suman al núcleo común (EQ-IQ-001…EQ-IQ-023) y se filtran por familia (<code>data-familia="llenadora"</code>) según la entidad elegida en el paso 1.</p>
 
 <!-- ================= IQ ================= -->
@@ -166,6 +166,77 @@
   - Lista de verificación documental diligenciada (anexo del informe)</p>
   <p><strong>Referencia:</strong><br>Manual del fabricante de la llenadora.</p>
 </article>
+
+<article data-bloque="3" id="art-EQ-IQ-LL-009" class="ensayo" data-id="EQ-IQ-LL-009" data-fase="IQ" data-cond="ambas">
+  <h3>EQ-IQ-LL-009 — Clasificación del área limpia, HEPA y presión diferencial</h3>
+  <p><strong>Objetivo:</strong><br>Verificar que el área de llenado cumple la clasificación de limpieza aprobada, que los filtros HEPA están instalados y certificados, y que la presión diferencial se mantiene en el sentido correcto.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Verificar contra plano y URS la clasificación ISO 14644 de la sala, la esclusa y la zona crítica<br>
+  2) Verificar la instalación y el certificado de integridad de cada filtro HEPA<br>
+  3) Medir la presión diferencial entre locales y confirmar el sentido del flujo<br>
+  4) Verificar los puntos y la frecuencia de monitoreo ambiental aprobados<br>
+  5) Verificar la recuperación de la sala y la ausencia de fugas en sellos y penetraciones<br>
+  6) Registrar toda desviación como hallazgo con su disposición</p>
+  <p><strong>Plan estadístico:</strong><br>No aplica: verificación documental y funcional por atributo; sin inferencia estadística.</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  La clasificación y la presión diferencial corresponden a la URS y al Anexo 1.<br>
+  Todos los HEPA cuentan con certificado de integridad vigente.<br>
+  No existen fugas ni puntos sin monitoreo.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Plano de clasificación y presiones diferenciales<br>
+  - Certificados de integridad de HEPA</p>
+  <p><strong>Referencia:</strong><br>EU GMP Anexo 1; ISO 14644-1/2/3; URS aprobada.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-IQ-LL-010" class="ensayo" data-id="EQ-IQ-LL-010" data-fase="IQ" data-cond="ambas">
+  <h3>EQ-IQ-LL-010 — Flujos de personal, material y residuos</h3>
+  <p><strong>Objetivo:</strong><br>Verificar que los flujos de personal, material y residuos están segregados y que las esclusas e interlocks impiden cruces entre zonas limpias y sucias.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Recorrer el flujo de personal desde el vestuario hasta la zona crítica y verificar la secuencia aprobada<br>
+  2) Recorrer el flujo de material, componentes y producto terminado, y verificar la esclusa de transferencia<br>
+  3) Recorrer el flujo de residuos y verificar que no cruza con el producto ni con componentes limpios<br>
+  4) Verificar puertas, interlocks y presión diferencial en cada transición<br>
+  5) Verificar la señalización y los procedimientos de vestimenta y acceso<br>
+  6) Registrar toda desviación como hallazgo con su disposición</p>
+  <p><strong>Plan estadístico:</strong><br>No aplica: verificación funcional y documental por atributo; sin inferencia estadística.</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Los flujos corresponden al plano aprobado y no existen cruces entre limpio y sucio.<br>
+  Las esclusas e interlocks operan correctamente.<br>
+  La señalización y los procedimientos están vigentes.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Diagrama de flujos verificado y firmado<br>
+  - Registro de verificación de esclusas e interlocks</p>
+  <p><strong>Referencia:</strong><br>EU GMP Anexo 1; URS aprobada; plano de flujos.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-IQ-LL-011" class="ensayo" data-id="EQ-IQ-LL-011" data-fase="IQ" data-cond="ambas">
+  <h3>EQ-IQ-LL-011 — Conexiones SIP, puntos de muestreo y drenaje</h3>
+  <p><strong>Objetivo:</strong><br>Verificar que las conexiones de esterilización in situ (SIP), los puntos de muestreo y el drenaje de la línea cumplen el diseño sanitario aprobado.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Verificar contra P&amp;ID las conexiones SIP, válvulas, purgas y puntos de muestreo<br>
+  2) Verificar que todos los tramos drenan y que no existen puntos muertos ni bolsas<br>
+  3) Verificar el tipo, material y certificado de las conexiones sanitarias<br>
+  4) Verificar la ubicación y accesibilidad de los puntos de muestreo<br>
+  5) Verificar la instrumentación asociada (temperatura, presión, conductividad) y su calibración<br>
+  6) Registrar toda desviación como hallazgo con su disposición</p>
+  <p><strong>Plan estadístico:</strong><br>No aplica: verificación documental y funcional por atributo; sin inferencia estadística.</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Las conexiones SIP y los puntos de muestreo corresponden al P&amp;ID aprobado.<br>
+  La línea drena por completo y no tiene puntos muertos.<br>
+  Los instrumentos asociados cuentan con calibración vigente.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - P&amp;ID verificado y firmado<br>
+  - Registro de drenaje y de puntos de muestreo</p>
+  <p><strong>Referencia:</strong><br>EU GMP Anexo 1; ASME BPE; URS aprobada.</p>
+</article>
+
+<div class="anexos" data-bloque="8">
+<p><strong>ANEXOS Y LÍMITES:</strong></p>
+<p>- Clasificación del área y presión diferencial: definir en URS y Anexo 1 (ISO 14644).</p>
+<p>- Integridad de HEPA: límite del fabricante.</p>
+<p>- Ra, continuidad de puesta a tierra y clase de aire comprimido: definir en URS (µm, Ω, ISO 8573-1).</p>
+<p>- SIP y drenaje: parámetros de URS y ASME BPE.</p>
+</div>
 
 </section>
 </body>

@@ -90,6 +90,41 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (SigmaProXVL) con spr
 
 ## CAMBIOS RECIENTES
 
+### 2026-10-29 (45): P0 regulatorio — addendum estéril, No Aplica, integridad de datos y límites
+
+**Qué:** Se ejecutó el P0 de mejora sobre los cuatro protocolos nuevos: IQ/OQ/PQ de llenadora de líquidos y OQ de llenadora de tubos.
+
+- **Addendum estéril (Anexo 1):**
+  - **IQ llenadora:** LL-009 clasificación ISO 14644/HEPA/presión diferencial; LL-010 flujos de personal, material y residuos; LL-011 SIP, puntos de muestreo y drenaje.
+  - **OQ llenadora:** LL-022 monitoreo ambiental en operación; LL-023 visualización de flujo de aire e intervenciones; LL-024 integridad de filtros esterilizantes y SIP.
+  - **PQ llenadora:** LL-019 media fill/APS (3 corridas consecutivas); LL-020 monitoreo ambiental en producción; LL-021 esterilidad, endotoxinas y partículas; LL-022 hold time del granel; LL-023 despeje de línea.
+- **Reglas de No Aplica:** se agregó paso y criterio explícito a los 8 ensayos condicionales: OQ LL-019/020/021 y PQ LL-014/015/016/017/018.
+- **Integridad de datos:** nuevo bloque fijo **“INTEGRIDAD DE DATOS Y REGISTROS”** en todos los protocolos (ALCOA+, audit trail, firmas, respaldo/restauración, revisión por segunda persona; 21 CFR Parte 11, Anexo 11, PIC/S PI 041, OMS TRS 1033).
+- **Límites:** resumen de límites y criterios en el anexo de los cuatro protocolos, con los valores conocidos (3 lotes, Cpk ≥ 1,33, n≥10, 100 % de rechazo/integridad, media fill 0 contaminadas) y los valores de producto/URS marcados como pendientes del responsable.
+- **Versiones:** IQ LL v3, OQ LL v2, PQ LL v2, OQ LT v2. Banco regenerado: **872 → 883 artículos**.
+
+**Archivos afectados:**
+| Archivo | Cambio |
+|---------|--------|
+| `docs/banco-ensayos/equipos/iq-llenadora.html` | v3: LL-009 a LL-011 + anexo de límites |
+| `docs/banco-ensayos/equipos/oq-llenadora.html` | v2: LL-022 a LL-024, No Aplica en 019–021, límites |
+| `docs/banco-ensayos/equipos/pq-llenadora.html` | v2: LL-019 a LL-023, No Aplica en 014–018, límites |
+| `docs/banco-ensayos/equipos/oq-llenadora-tubos.html` | v2: resumen de límites |
+| `docs/banco-ensayos/equipos/llenadora.html` | Rangos IQ/OQ/PQ actualizados |
+| `js/core/plantilla-docx.js` | Línea 832: bloque fijo de integridad de datos |
+| `tests/bancos-contrato.test.js` | Contratos IQ 11, OQ 24, PQ 23 |
+| `tests/plantilla-equipos.test.js` | Regresión de generación y títulos estériles |
+| `tests/plantilla-docx.test.js` | Bloques fijos: 3 (desviaciones, integridad, informe) |
+| `js/core/banco-equipos-data.js` | Regenerado: 883 artículos |
+
+**Verificación:**
+```
+node scripts/extraer-banco.mjs equipos --estricto  → OK, 883 artículos, IDs únicos
+npm test                                           → 47 archivos, 617 tests OK
+```
+
+**Pendiente:** completar los valores de producto/URS en la tabla de límites, revisión de Calidad/Validación y PQ de la llenadora de tubos.
+
 ### 2026-10-29 (44): OQ de llenadora y selladora de tubos — 28 ensayos y entidad nueva
 
 **Qué:** Se montó el OQ de la **llenadora y selladora de tubos** a partir de la propuesta del `ENSAYOS.txt` (modificado 19:32), con prefijo `LT`. Se creó la entidad y la familia, y se dejó el PQ como pendiente hasta tener una lista propia.
