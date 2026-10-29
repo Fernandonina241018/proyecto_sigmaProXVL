@@ -400,129 +400,756 @@ function getTrabajoCeldaActivaHTML() {
 }
 
 // ── Límites (especificaciones) ──
-function toggleLimitsMode() {
-  saveLimitsFromInputs();
-  var on = document.getElementById('limitsGlobalToggle').checked;
-  trabajoLimitsMode = on ? 'global' : 'independent';
-  renderLimitsPanel();
-  _persistAllData();
-  var bg = document.querySelector('.toggle-bg');
-  var th = document.querySelector('.toggle-thumb');
-  if (bg) bg.style.background = on ? 'var(--accent)' : '';
-  if (th) { th.style.transform = on ? 'translateX(14px)' : ''; th.style.background = on ? '#fff' : ''; }
+// Sidebar: modo Global (inputs) o Por columna (resumen + modal).
+// El modal por columna se virtualiza a partir de 40 columnas.
+var _limUI = {
+  openName: null, query: '', numericOnly: true,
+  hRow: 0, hOpen: 0, drag: false, raf: null, toastTimer: null,
+  stats: null, statsKey: ''
+};
+var _limitsSavedJSON = null;
+var LIM_GAP = 6;
+var LIM_VIRTUAL_MIN = 40;
+
+function _limSheet() {
+  var s = (typeof getCurrentSheet === 'function') ? getCurrentSheet() : null;
+  if (!s || !s.headers || !s.headers.length) return null;
+  return s;
+}
+
+function _limEnsure() {
+  var sheet = _limSheet();
+  if (!sheet) return null;
+  if (!trabajoLimits) trabajoLimits = { global: { ls: '', li: '', lc: '' }, cols: {} };
+  if (!trabajoLimits.global) trabajoLimits.global = { ls: '', li: '', lc: '' };
+  if (!trabajoLimits.cols) trabajoLimits.cols = {};
+  sheet.headers.forEach(function (h) {
+    if (!trabajoLimits.cols[h]) trabajoLimits.cols[h] = { ls: '', li: '', lc: '' };
+  });
+  return sheet;
+}
+
+function _limNum(v) {
+  if (v === '' || v === null || v === undefined) return null;
+  var n = parseFloat(v);
+  return isFinite(n) ? n : null;
+}
+
+function _limFilled(o) {
+  if (!o) return false;
+  return (o.li !== '' && o.li != null) || (o.lc !== '' && o.lc != null) || (o.ls !== '' && o.ls != null);
+}
+
+function _limFmt(v, dec) {
+  var n = _limNum(v);
+  if (n === null) return '';
+  var p = (dec === undefined) ? 3 : dec;
+  var f = Math.pow(10, p);
+  return String(Math.round(n * f) / f);
+}
+
+// Escape para atributos HTML (comillas incluidas): los headers vienen de CSV.
+function _limAttr(s) {
+  return String(s == null ? '' : s)
+    .replace(/&/g, '&amp;').replace(/"/g, '&quot;')
+    .replace(/</g, '&lt;').replace(/>/g, '&gt;');
+}
+
+function _limStats(sheet) {
+  var rows = sheet.rows || [];
+  return sheet.headers.map(function (h, i) {
+    var vals = [];
+    var min = null, max = null;
+    for (var r = 0; r < rows.length; r++) {
+      var raw = rows[r][i];
+      if (raw === '' || raw === null || raw === undefined) continue;
+      var v = parseFloat(raw);
+      if (!isFinite(v)) continue;
+      vals.push(v);
+      if (min === null || v < min) min = v;
+      if (max === null || v > max) max = v;
+    }
+    var numeric = vals.length > 0 && vals.length >= Math.max(1, Math.ceil(rows.length * 0.6));
+    var cq = null;
+    if (numeric && vals.length >= 3 && typeof EstadisticaDescriptiva !== 'undefined' && EstadisticaDescriptiva.calcularLimitesCuantificacion) {
+      try { cq = EstadisticaDescriptiva.calcularLimitesCuantificacion(vals); } catch (e) { cq = null; }
+    }
+    return {
+      header: h, index: i, numeric: numeric, min: min, max: max,
+      lod: cq ? cq.LOD : null, mdl: cq ? cq.MDL : null, loq: cq ? cq.LOQ : null
+    };
+  });
+}
+
+function _limGetStats(force) {
+  var sheet = _limSheet();
+  if (!sheet) return [];
+  var key = sheet.name + '|' + sheet.rows.length + '|' + sheet.headers.join('\u0001');
+  if (!force && _limUI.stats && _limUI.statsKey === key) return _limUI.stats;
+  var stats = _limStats(sheet);
+  _limUI.stats = stats;
+  _limUI.statsKey = key;
+  return stats;
+}
+
+function _limGlobalCq() {
+  var sheet = _limSheet();
+  if (!sheet || typeof EstadisticaDescriptiva === 'undefined' || !EstadisticaDescriptiva.calcularLimitesCuantificacion) return null;
+  var all = [];
+  var stats = _limGetStats();
+  stats.forEach(function (s) {
+    if (!s.numeric) return;
+    for (var r = 0; r < sheet.rows.length; r++) {
+      var v = parseFloat(sheet.rows[r][s.index]);
+      if (isFinite(v)) all.push(v);
+    }
+  });
+  if (all.length < 3) return null;
+  try { return EstadisticaDescriptiva.calcularLimitesCuantificacion(all); } catch (e) { return null; }
+}
+
+function _limCounts() {
+  var stats = _limGetStats().filter(function (s) { return s.numeric; });
+  var m = stats.length;
+  if (!trabajoLimits) return { n: 0, m: m };
+  if (trabajoLimitsMode === 'global') {
+    return { n: _limFilled(trabajoLimits.global) ? m : 0, m: m };
+  }
+  var n = stats.filter(function (s) {
+    return _limFilled(trabajoLimits.cols ? trabajoLimits.cols[s.header] : null);
+  }).length;
+  return { n: n, m: m };
+}
+
+function _limSnapshot() {
+  try { return JSON.stringify({ mode: trabajoLimitsMode, limits: trabajoLimits || null }); } catch (e) { return ''; }
+}
+
+function _limToast(msg, kind) {
+  var el = document.getElementById('limToast');
+  if (!el) return;
+  el.className = 'lim-toast show ' + kind;
+  el.textContent = msg;
+  if (_limUI.toastTimer) clearTimeout(_limUI.toastTimer);
+  _limUI.toastTimer = setTimeout(function () {
+    el.className = 'lim-toast';
+    _limUI.toastTimer = null;
+  }, 3000);
+}
+
+function _limUpdateStatus() {
+  var el = document.getElementById('limStatus');
+  var txt = document.getElementById('limStatusText');
+  if (!el || !txt) return;
+  var sheet = _limSheet();
+  if (!sheet) {
+    el.classList.remove('ok', 'pending');
+    el.classList.add('idle');
+    txt.textContent = 'Sin datos para límites';
+    return;
+  }
+  if (_limitsSavedJSON === null) _limitsSavedJSON = _limSnapshot();
+  var c = _limCounts();
+  var isSaved = c.n > 0 && _limSnapshot() === _limitsSavedJSON;
+  el.classList.remove('ok', 'pending', 'idle');
+  if (c.n === 0) {
+    el.classList.add('idle');
+    txt.textContent = 'Sin límites definidos';
+  } else if (isSaved) {
+    el.classList.add('ok');
+    txt.textContent = 'Límites guardados · ' + c.n + ' de ' + c.m;
+  } else {
+    el.classList.add('pending');
+    txt.textContent = 'Cambios sin guardar · ' + c.n + ' de ' + c.m;
+  }
+  var cntSide = document.getElementById('limCountSide');
+  if (cntSide) cntSide.textContent = c.n + ' de ' + c.m + ' columnas con límites';
+  var barSide = document.getElementById('limProgressSide');
+  if (barSide) barSide.style.width = (c.m ? Math.round(c.n / c.m * 100) : 0) + '%';
+  // Si hubo cambios después de guardar, el aviso de éxito deja de ser cierto.
+  if (!isSaved) {
+    var t = document.getElementById('limToast');
+    if (t && t.classList.contains('ok')) {
+      t.className = 'lim-toast';
+      if (_limUI.toastTimer) { clearTimeout(_limUI.toastTimer); _limUI.toastTimer = null; }
+    }
+  }
+}
+
+function _limUpdateCounters() {
+  var c = _limCounts();
+  var cnt = document.getElementById('limCount');
+  if (cnt) cnt.textContent = c.n + ' de ' + c.m + ' columnas con límites';
+  var bar = document.getElementById('limProgressBar');
+  if (bar) bar.style.width = (c.m ? Math.round(c.n / c.m * 100) : 0) + '%';
 }
 
 function renderLimitsPanel() {
   var body = document.getElementById('trabajoLimitsBody');
   if (!body) return;
-  var sheet = getCurrentSheet();
-  if (!sheet || !sheet.headers || sheet.headers.length === 0) {
-    body.innerHTML = '<div style="padding:10px;font-size:10px;color:var(--text-faint);text-align:center">Carga datos para definir límites</div>';
+  var sheet = _limEnsure();
+  if (!sheet) {
+    body.innerHTML = '<div class="lim-empty">Carga datos para definir límites</div>';
     return;
   }
-  if (!trabajoLimits) {
-    trabajoLimits = { global: { ls: '', li: '', lc: '' }, cols: {} };
-    sheet.headers.forEach(function(h){ trabajoLimits.cols[h] = { ls: '', li: '', lc: '' }; });
-  }
-  sheet.headers.forEach(function(h){ if (!trabajoLimits.cols[h]) trabajoLimits.cols[h] = { ls: '', li: '', lc: '' }; });
+  _limGetStats(true);
+  var isGlobal = trabajoLimitsMode === 'global';
+  var cq = _limGlobalCq();
+  var c = _limCounts();
+  var g = trabajoLimits.global || { li: '', lc: '', ls: '' };
+
   var html = '';
-  var ld = null;
-  if (typeof EstadisticaDescriptiva !== 'undefined') {
-    var allNum = [];
-    sheet.headers.forEach(function(h, i){
-      var vals = sheet.rows.map(function(r){ return parseFloat(r[i]); }).filter(function(v){ return !isNaN(v) && isFinite(v); });
-      allNum = allNum.concat(vals);
-    });
-    if (allNum.length >= 3) ld = EstadisticaDescriptiva.calcularLimitesCuantificacion(allNum);
-  }
-  // ── LOD / MDL / LOQ cards + validation (if computed) ──
-  if (ld) {
-    var isSeqValid = ld.LOD < ld.MDL && ld.MDL < ld.LOQ;
-    html += '<div style="padding:6px 10px 4px;font-size:10px;color:var(--text-faint);display:flex;align-items:center;gap:4px">📐 Calculados por el método</div>' +
-      '<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:5px;padding:0 10px 6px">' +
-        '<div style="padding:.45rem .5rem;background:var(--bg-primary);border:.5px solid var(--accent-error);border-radius:6px">' +
-          '<div style="font-size:10px;color:var(--accent-error)">LOD</div>' +
-          '<div style="font-size:13px;font-weight:500;color:var(--text-primary);font-variant-numeric:tabular-nums">' + ld.LOD.toFixed(4) + '</div>' +
-          '<div style="font-size:9px;color:var(--text-muted)">detección</div></div>' +
-        '<div style="padding:.45rem .5rem;background:var(--bg-primary);border:.5px solid var(--accent-warn);border-radius:6px">' +
-          '<div style="font-size:10px;color:var(--accent-warn)">MDL</div>' +
-          '<div style="font-size:13px;font-weight:500;color:var(--text-primary);font-variant-numeric:tabular-nums">' + ld.MDL.toFixed(4) + '</div>' +
-          '<div style="font-size:9px;color:var(--text-muted)">método</div></div>' +
-        '<div style="padding:.45rem .5rem;background:var(--bg-primary);border:.5px solid var(--accent);border-radius:6px">' +
-          '<div style="font-size:10px;color:var(--accent)">LOQ</div>' +
-          '<div style="font-size:13px;font-weight:500;color:var(--text-primary);font-variant-numeric:tabular-nums">' + ld.LOQ.toFixed(4) + '</div>' +
-          '<div style="font-size:9px;color:var(--text-muted)">cuantif.</div></div>' +
+  html += '<div class="lim-status idle" id="limStatus" role="status" aria-live="polite"><span class="dot"></span><span id="limStatusText">Sin límites definidos</span></div>';
+  html += '<div class="lim-toast" id="limToast" role="status" aria-live="polite"></div>';
+
+  html += '<div class="lim-mode" role="group" aria-label="Modo de límites">' +
+    '<button type="button" class="lim-seg' + (isGlobal ? ' act' : '') + '" onclick="setLimitsMode(\'global\')" aria-pressed="' + isGlobal + '">Global</button>' +
+    '<button type="button" class="lim-seg' + (!isGlobal ? ' act' : '') + '" onclick="setLimitsMode(\'col\')" aria-pressed="' + (!isGlobal) + '">Por columna</button>' +
+  '</div>';
+
+  html += '<div class="lim-chips">' +
+    (cq
+      ? '<span class="lim-chip red">LOD ' + cq.LOD.toFixed(4) + '</span>' +
+        '<span class="lim-chip amber">MDL ' + cq.MDL.toFixed(4) + '</span>' +
+        '<span class="lim-chip violet">LOQ ' + cq.LOQ.toFixed(4) + '</span>'
+      : '<span class="lim-chip">LOD —</span><span class="lim-chip">MDL —</span><span class="lim-chip">LOQ —</span>') +
+  '</div>';
+
+  if (isGlobal) {
+    html += '<div id="limGlobalPanel">' +
+      '<div class="lim-fields">' +
+        '<div class="lim-field"><label for="limitGlobalLI">Límite Inferior</label>' +
+          '<input type="number" step="any" id="limitGlobalLI" value="' + escapeHtml(g.li) + '" placeholder="—" oninput="limitsGlobalInput()"></div>' +
+        '<div class="lim-field"><label for="limitGlobalLS">Límite Superior</label>' +
+          '<input type="number" step="any" id="limitGlobalLS" value="' + escapeHtml(g.ls) + '" placeholder="—" oninput="limitsGlobalInput()"></div>' +
+        '<div class="lim-field full"><label for="limitGlobalLC">Límite Central</label>' +
+          '<input type="number" step="any" id="limitGlobalLC" value="' + escapeHtml(g.lc) + '" placeholder="—" oninput="limitsGlobalInput()"></div>' +
       '</div>' +
-      '<div style="display:flex;align-items:center;gap:6px;margin:0 10px 8px;padding:.35rem .625rem;background:' + (isSeqValid ? 'rgba(74,222,128,0.12)' : 'rgba(248,113,113,0.12)') + ';border:.5px solid ' + (isSeqValid ? 'rgba(74,222,128,0.3)' : 'rgba(248,113,113,0.3)') + ';border-radius:6px">' +
-      '<span style="font-size:11px;color:' + (isSeqValid ? '#4ade80' : '#f87171') + '">' + (isSeqValid ? '✓' : '✗') + '</span>' +
-      '<span style="font-size:11px;color:' + (isSeqValid ? '#4ade80' : '#f87171') + '">LOD ' + (isSeqValid ? '<' : '≥') + ' MDL ' + (isSeqValid ? '<' : '≥') + ' LOQ</span>' +
-      '<span style="font-size:10px;color:var(--text-muted)">· ' + (isSeqValid ? 'secuencia válida' : 'secuencia inválida') + '</span></div>';
-  }
-  // ── Manual inputs ──
-  html += '<div style="padding:2px 10px 6px;font-size:10px;color:var(--text-faint);display:flex;align-items:center;gap:4px">✏️ Sobrescribir manualmente</div>';
-  if (trabajoLimitsMode === 'global') {
-    var g = trabajoLimits.global || { ls: '', li: '', lc: '' };
-    html += '<div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;padding:0 10px">' +
-      '<div style="display:flex;flex-direction:column;gap:2px">' +
-        '<label style="font-size:11px;color:var(--text-muted)">Límite Superior</label>' +
-        '<input type="number" step="any" id="limitGlobalLS" value="' + escapeHtml(g.ls) + '" placeholder="—" style="height:30px;padding:0 8px;border:.5px solid var(--border);border-radius:6px;background:var(--bg-primary);font-size:12px;color:var(--text-primary);width:100%;box-sizing:border-box">' +
-      '</div>' +
-      '<div style="display:flex;flex-direction:column;gap:2px">' +
-        '<label style="font-size:11px;color:var(--text-muted)">Límite Inferior</label>' +
-        '<input type="number" step="any" id="limitGlobalLI" value="' + escapeHtml(g.li) + '" placeholder="—" style="height:30px;padding:0 8px;border:.5px solid var(--border);border-radius:6px;background:var(--bg-primary);font-size:12px;color:var(--text-primary);width:100%;box-sizing:border-box">' +
+      '<div class="lim-side-actions">' +
+        '<button type="button" class="lim-btn" onclick="limitsApplyGlobal()">Aplicar a todas</button>' +
+        '<button type="button" class="lim-btn danger" onclick="limitsClearGlobal()">Limpiar</button>' +
       '</div>' +
     '</div>' +
-    '<div style="display:flex;flex-direction:column;gap:2px;padding:6px 10px 8px">' +
-      '<label style="font-size:11px;color:var(--text-muted)">Límite Central</label>' +
-      '<input type="number" step="any" id="limitGlobalLC" value="' + escapeHtml(g.lc) + '" placeholder="—" style="height:30px;padding:0 8px;border:.5px solid var(--border);border-radius:6px;background:var(--bg-primary);font-size:12px;color:var(--text-primary);width:100%;box-sizing:border-box">' +
-    '</div>';
+    '<div id="limColPanel" hidden></div>';
   } else {
-    sheet.headers.forEach(function(h, i){
-      var col = trabajoLimits.cols[h] || { ls: '', li: '', lc: '' };
-      var cd = null;
-      if (typeof EstadisticaDescriptiva !== 'undefined') {
-        var vals = sheet.rows.map(function(r){ return parseFloat(r[i]); }).filter(function(v){ return !isNaN(v) && isFinite(v); });
-        if (vals.length >= 3) cd = EstadisticaDescriptiva.calcularLimitesCuantificacion(vals);
-      }
-      html += '<div style="padding:6px 10px;border-bottom:.5px solid var(--border)">' +
-        '<div style="font-size:11px;font-weight:500;color:var(--text-primary);margin-bottom:4px">' + escapeHtml(h) + '</div>' +
-        '<div style="display:flex;gap:4px">' +
-          '<input type="number" step="any" placeholder="LS" id="limitLS_' + i + '" value="' + escapeHtml(col.ls) + '" style="flex:1;min-width:0;height:28px;padding:0 6px;border:.5px solid var(--border);border-radius:4px;background:var(--bg-primary);font-size:12px;color:var(--text-primary)">' +
-          '<input type="number" step="any" placeholder="LI" id="limitLI_' + i + '" value="' + escapeHtml(col.li) + '" style="flex:1;min-width:0;height:28px;padding:0 6px;border:.5px solid var(--border);border-radius:4px;background:var(--bg-primary);font-size:12px;color:var(--text-primary)">' +
-          '<input type="number" step="any" placeholder="LC" id="limitLC_' + i + '" value="' + escapeHtml(col.lc) + '" style="flex:1;min-width:0;height:28px;padding:0 6px;border:.5px solid var(--border);border-radius:4px;background:var(--bg-primary);font-size:12px;color:var(--text-primary)">' +
+    html += '<div id="limGlobalPanel" hidden></div>' +
+      '<div class="lim-summary">' +
+        '<div class="grow">' +
+          '<div class="lim-count" id="limCountSide">' + c.n + ' de ' + c.m + ' columnas con límites</div>' +
+          '<div class="lim-progress"><i id="limProgressSide" style="width:' + (c.m ? Math.round(c.n / c.m * 100) : 0) + '%"></i></div>' +
         '</div>' +
-        (cd ? '<div style="display:flex;gap:8px;font-size:10px;color:var(--text-faint);padding:3px 2px 0"><span>LOD: <b style="color:var(--accent-error)">' + cd.LOD.toFixed(4) + '</b></span><span>MDL: <b style="color:var(--accent-warn)">' + cd.MDL.toFixed(4) + '</b></span><span>LOQ: <b style="color:var(--accent)">' + cd.LOQ.toFixed(4) + '</b></span></div>' : '') +
-      '</div>';
-    });
+        '<button type="button" class="lim-btn primary" onclick="limitsOpenModal()">Editar…</button>' +
+      '</div>' +
+      '<div class="lim-hint">La edición por columna se abre en una ventana aparte para no cargar el panel.</div>';
   }
-  html += '<div style="padding:8px 10px 6px"><button class="btn btn-secondary" style="width:100%;height:34px;font-size:13px;font-weight:500;justify-content:center;gap:6px" onclick="saveLimitsFromInputs();showToast(\'✅ Límites guardados\')">💾 Guardar límites</button></div>';
+
+  html += '<div class="lim-side-actions"><button type="button" class="lim-btn primary" onclick="limitsSave()" style="width:100%">💾 Guardar límites</button></div>';
+
   body.innerHTML = html;
+  _limUpdateStatus();
 }
 
+// Sincroniza los inputs globales con el estado en memoria (sin persistir).
 function saveLimitsFromInputs() {
+  if (!trabajoLimits || !trabajoLimits.global) return;
+  if (trabajoLimitsMode !== 'global') return; // por columna: el estado se edita en el modal
+  var li = document.getElementById('limitGlobalLI');
+  var ls = document.getElementById('limitGlobalLS');
+  var lc = document.getElementById('limitGlobalLC');
+  if (li) trabajoLimits.global.li = li.value;
+  if (ls) trabajoLimits.global.ls = ls.value;
+  if (lc) trabajoLimits.global.lc = lc.value;
+}
+
+function limitsGlobalInput() {
+  saveLimitsFromInputs();
+  _limUpdateStatus();
+}
+
+function setLimitsMode(mode) {
+  var target = (mode === 'col') ? 'independent' : 'global';
+  if (trabajoLimitsMode === target) {
+    if (target !== 'global') limitsOpenModal();
+    return;
+  }
+  saveLimitsFromInputs();
+  trabajoLimitsMode = target;
+  _persistAllData();
+  _limitsSavedJSON = _limSnapshot();
+  renderLimitsPanel();
+  if (target !== 'global') limitsOpenModal();
+}
+
+function limitsApplyGlobal() {
+  var sheet = _limEnsure();
+  if (!sheet) return;
+  saveLimitsFromInputs();
+  var g = trabajoLimits.global;
+  sheet.headers.forEach(function (h) {
+    trabajoLimits.cols[h] = { li: g.li, lc: g.lc, ls: g.ls };
+  });
+  renderLimitsPanel();
+  _limToast('✓ Aplicado a todas las columnas', 'ok');
+}
+
+function limitsClearGlobal() {
   if (!trabajoLimits) return;
-  if (trabajoLimitsMode === 'global') {
-    var lsEl = document.getElementById('limitGlobalLS');
-    var liEl = document.getElementById('limitGlobalLI');
-    var lcEl = document.getElementById('limitGlobalLC');
-    if (lsEl) trabajoLimits.global.ls = lsEl.value;
-    if (liEl) trabajoLimits.global.li = liEl.value;
-    if (lcEl) trabajoLimits.global.lc = lcEl.value;
-  } else {
-    var sheet = getCurrentSheet();
-    if (!sheet) return;
-    sheet.headers.forEach(function(h, i){
-      var lsEl = document.getElementById('limitLS_' + i);
-      var liEl = document.getElementById('limitLI_' + i);
-      var lcEl = document.getElementById('limitLC_' + i);
-      if (!trabajoLimits.cols[h]) trabajoLimits.cols[h] = { ls: '', li: '', lc: '' };
-      if (lsEl) trabajoLimits.cols[h].ls = lsEl.value;
-      if (liEl) trabajoLimits.cols[h].li = liEl.value;
-      if (lcEl) trabajoLimits.cols[h].lc = lcEl.value;
-    });
+  trabajoLimits.global = { li: '', lc: '', ls: '' };
+  renderLimitsPanel();
+  _limToast('🧹 Límites globales vaciados', 'warn');
+}
+
+function limitsSave() {
+  saveLimitsFromInputs();
+  var c = _limCounts();
+  if (!c.n) {
+    _limUpdateStatus();
+    _limToast('⚠ No hay límites definidos que guardar', 'warn');
+    return false;
   }
   _persistAllData();
+  _limitsSavedJSON = _limSnapshot();
+  _limUpdateStatus();
+  _limToast('✓ Límites guardados correctamente', 'ok');
+  return true;
 }
+
+function limitsSaveAndClose() {
+  if (limitsSave()) limitsCloseModal();
+}
+
+// ════════════════════════════════════════════════════════════════
+// LÍMITES — MODAL POR COLUMNA
+// ════════════════════════════════════════════════════════════════
+function limitsEnsureModal() {
+  var existing = document.getElementById('limModal');
+  if (existing) return existing;
+
+  var wrap = document.createElement('div');
+  wrap.innerHTML =
+    '<div class="lim-overlay" id="limModal" role="dialog" aria-modal="true" aria-labelledby="limModalTitle">' +
+      '<div class="lim-modal">' +
+        '<div class="lim-modal-head">' +
+          '<div class="side-card-icon" aria-hidden="true"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8h18M3 16h18M6 5v6M6 13v6M18 5v6M18 13v6"/></svg></div>' +
+          '<div><h2 id="limModalTitle">Límites por columna</h2>' +
+          '<p>Define LI · LC · LS para cada columna. Lo que no definas queda sin límite.</p></div>' +
+          '<button class="lim-modal-close" type="button" aria-label="Cerrar" onclick="limitsCloseModal()">✕</button>' +
+        '</div>' +
+        '<div class="lim-modal-scroll">' +
+          '<div class="lim-modal-body" id="limModalBody">' +
+            '<div class="lim-toolbar">' +
+              '<input type="search" class="lim-search" id="limSearch" placeholder="🔍 Buscar columna…" aria-label="Buscar columna" oninput="limitsSetQuery(this.value)">' +
+              '<label class="lim-num"><input type="checkbox" id="limNumeric" checked onchange="limitsSetNumeric(this.checked)"> Solo numéricas</label>' +
+            '</div>' +
+            '<div class="lim-counter">' +
+              '<span id="limCount">—</span>' +
+              '<div class="lim-progress"><i id="limProgressBar"></i></div>' +
+              '<button class="lim-mini" type="button" onclick="limitsAutoFill()" title="Rellena LI/LS con el mínimo y máximo de cada columna">Auto min/máx</button>' +
+            '</div>' +
+            '<div class="lim-list" id="limList"></div>' +
+          '</div>' +
+          '<div class="lim-fade top" id="limFadeTop" aria-hidden="true"></div>' +
+          '<div class="lim-fade bottom" id="limFadeBottom" aria-hidden="true"></div>' +
+        '</div>' +
+        '<div class="lim-modal-foot">' +
+          '<button class="lim-btn" type="button" onclick="limitsCloseModal()">Cancelar</button>' +
+          '<button class="lim-btn primary" type="button" onclick="limitsSaveAndClose()">💾 Guardar límites</button>' +
+        '</div>' +
+      '</div>' +
+    '</div>';
+
+  var overlay = wrap.firstChild;
+  document.body.appendChild(overlay);
+
+  overlay.addEventListener('click', function (e) { if (e.target === overlay) limitsCloseModal(); });
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && overlay.classList.contains('open')) limitsCloseModal();
+  });
+
+  var bodyEl = overlay.querySelector('#limModalBody');
+  bodyEl.addEventListener('scroll', function () {
+    limitsUpdateFades();
+    if (_limUI.drag || !_limUI.hRow) return;
+    var list = document.getElementById('limList');
+    if (!list) return;
+    if (limitsVisibleCols().length < LIM_VIRTUAL_MIN) return;
+    if (_limUI.raf) return;
+    _limUI.raf = requestAnimationFrame(function () { _limUI.raf = null; limitsRenderList(); });
+  });
+
+  var list = overlay.querySelector('#limList');
+  list.addEventListener('click', function (e) {
+    var head = e.target.closest('.lim-head');
+    if (head && e.target.tagName !== 'INPUT') {
+      limitsToggleRow(head.closest('.lim-row').getAttribute('data-idx'));
+      return;
+    }
+    var calc = e.target.closest('[data-act="calc"]');
+    if (calc) { limitsUseLod(calc.closest('.lim-row').getAttribute('data-idx')); return; }
+    var saveCol = e.target.closest('[data-act="save"]');
+    if (saveCol) {
+      limitsSave();
+      var old = saveCol.textContent;
+      saveCol.textContent = '✓ Guardado';
+      setTimeout(function () { saveCol.textContent = old; }, 1200);
+    }
+  });
+  list.addEventListener('change', function (e) {
+    var inp = e.target.closest('.lim-inputs input');
+    if (!inp) return;
+    limitsSetColFromInput(inp);
+  });
+  list.addEventListener('pointerdown', function (e) {
+    var h = e.target.closest('[data-h]');
+    if (!h) return;
+    limitsStartDrag(e, h);
+  });
+
+  return overlay;
+}
+
+function _limColByIndex(idx) {
+  var sheet = _limSheet();
+  if (!sheet) return null;
+  var i = parseInt(idx, 10);
+  if (isNaN(i) || i < 0 || i >= sheet.headers.length) return null;
+  var h = sheet.headers[i];
+  return { header: h, index: i, values: trabajoLimits.cols[h] || { li: '', lc: '', ls: '' } };
+}
+
+function limitsVisibleCols() {
+  var stats = _limGetStats();
+  return stats.filter(function (s) {
+    return (!_limUI.numericOnly || s.numeric) && s.header.toLowerCase().indexOf(_limUI.query) !== -1;
+  });
+}
+
+function limitsRowHTML(s) {
+  var col = (trabajoLimits && trabajoLimits.cols && trabajoLimits.cols[s.header]) || { li: '', lc: '', ls: '' };
+  var li = _limNum(col.li), lc = _limNum(col.lc), ls = _limNum(col.ls);
+  var any = li !== null || lc !== null || ls !== null;
+  var ok = li !== null && lc !== null && ls !== null && li < lc && lc < ls;
+  var cls = ok ? 'ok' : (any ? 'bad' : '');
+  var btxt = ok ? '✓' : (any ? '!' : '—');
+  var open = _limUI.openName === s.header;
+  var range = (s.min === null ? '—' : _limFmt(s.min)) + '–' + (s.max === null ? '—' : _limFmt(s.max));
+
+  return '<div class="lim-row' + (open ? ' open' : '') + '" data-idx="' + s.index + '">' +
+    '<div class="lim-head">' +
+      '<span class="lim-name" title="' + _limAttr(s.header) + '">' + escapeHtml(s.header) + '</span>' +
+      '<span class="lim-range">' + range + '</span>' +
+      '<span class="lim-inputs">' +
+        '<input type="number" step="any" data-k="li" value="' + _limAttr(col.li) + '" placeholder="LI" aria-label="Límite inferior ' + _limAttr(s.header) + '">' +
+        '<input type="number" step="any" data-k="lc" value="' + _limAttr(col.lc) + '" placeholder="LC" aria-label="Límite central ' + _limAttr(s.header) + '">' +
+        '<input type="number" step="any" data-k="ls" value="' + _limAttr(col.ls) + '" placeholder="LS" aria-label="Límite superior ' + _limAttr(s.header) + '">' +
+      '</span>' +
+      '<span class="lim-badge ' + cls + '">' + btxt + '</span>' +
+      '<span class="lim-chev">' + (open ? '▾' : '▸') + '</span>' +
+    '</div>' +
+    '<div class="lim-editor">' +
+      '<div class="lim-slider">' +
+        '<div class="lim-track"></div><div class="lim-zone"></div>' +
+        '<div class="lim-handle" data-h="li"></div>' +
+        '<div class="lim-marker" data-h="lc"></div>' +
+        '<div class="lim-handle" data-h="ls"></div>' +
+      '</div>' +
+      '<div class="lim-endlabels"><span>' + (s.min === null ? '—' : _limFmt(s.min)) + '</span><span>' + (s.max === null ? '—' : _limFmt(s.max)) + '</span></div>' +
+      '<div class="lim-actions">' +
+        '<button class="lim-mini" type="button" data-act="calc">Usar LOD/LOQ</button>' +
+        '<button class="lim-mini primary" type="button" data-act="save">Guardar columna</button>' +
+      '</div>' +
+    '</div>' +
+  '</div>';
+}
+
+function limitsMeasureHeights() {
+  if (_limUI.hRow && _limUI.hOpen) return;
+  var list = document.getElementById('limList');
+  if (!list) return;
+  var w = list.clientWidth;
+  if (!w) return;
+  var probe = document.createElement('div');
+  probe.style.cssText = 'position:absolute;left:-99999px;top:0;visibility:hidden;display:flex;flex-direction:column;gap:' + LIM_GAP + 'px;width:' + w + 'px';
+  probe.innerHTML = limitsRowHTML({ header: '__p1', index: -1, min: 0, max: 1, numeric: true }) +
+                    limitsRowHTML({ header: '__p2', index: -2, min: 0, max: 1, numeric: true });
+  document.body.appendChild(probe);
+  _limUI.hRow = probe.children[0].getBoundingClientRect().height;
+  probe.children[1].classList.add('open');
+  _limUI.hOpen = probe.children[1].getBoundingClientRect().height;
+  probe.remove();
+}
+
+function _limRowHeight(s) {
+  return (s && s.header === _limUI.openName) ? (_limUI.hOpen || 0) : (_limUI.hRow || 0);
+}
+
+function _limOffsets(vis) {
+  var offs = new Array(vis.length);
+  var y = 0;
+  for (var i = 0; i < vis.length; i++) {
+    offs[i] = y;
+    y += (_limRowHeight(vis[i]) || 1) + LIM_GAP;
+  }
+  return { offs: offs, total: Math.max(0, y - LIM_GAP) };
+}
+
+function limitsRenderList() {
+  var list = document.getElementById('limList');
+  if (!list) return;
+  var vis = limitsVisibleCols();
+
+  var modal = document.getElementById('limModal');
+  var virtual = _limUI.hRow > 0 && vis.length >= LIM_VIRTUAL_MIN && modal && modal.classList.contains('open');
+
+  if (!virtual) {
+    list.style.paddingTop = '';
+    list.style.paddingBottom = '';
+    list.innerHTML = vis.map(limitsRowHTML).join('');
+  } else {
+    var bodyEl = document.getElementById('limModalBody');
+    var g = _limOffsets(vis);
+    var st = bodyEl ? bodyEl.scrollTop : 0;
+    var vh = bodyEl ? bodyEl.clientHeight : 600;
+    var pad = 320;
+    var start = 0;
+    while (start < vis.length && g.offs[start] + _limRowHeight(vis[start]) < st - pad) start++;
+    var end = vis.length;
+    for (var i = start; i < vis.length; i++) {
+      if (g.offs[i] > st + vh + pad) { end = i; break; }
+    }
+    if (end <= start) end = Math.min(vis.length, start + 1);
+    var lastH = _limRowHeight(vis[end - 1]);
+    list.style.paddingTop = g.offs[start] + 'px';
+    list.style.paddingBottom = Math.max(0, g.total - (g.offs[end - 1] + lastH)) + 'px';
+    list.innerHTML = vis.slice(start, end).map(limitsRowHTML).join('');
+  }
+
+  _limUpdateCounters();
+
+  var openRow = list.querySelector('.lim-row.open');
+  if (openRow) {
+    var oIdx = parseInt(openRow.getAttribute('data-idx'), 10);
+    var oStat = _limGetStats().filter(function (x) { return x.index === oIdx; })[0];
+    var oSlider = openRow.querySelector('.lim-slider');
+    if (oStat && oSlider) _limPositionSlider(oSlider, oStat, openRow);
+  }
+
+  limitsUpdateFades();
+}
+
+function limitsUpdateFades() {
+  var bodyEl = document.getElementById('limModalBody');
+  var top = document.getElementById('limFadeTop');
+  var bottom = document.getElementById('limFadeBottom');
+  if (!bodyEl) return;
+  var st = bodyEl.scrollTop;
+  var max = bodyEl.scrollHeight - bodyEl.clientHeight;
+  if (top) top.classList.toggle('on', st > 4);
+  if (bottom) bottom.classList.toggle('on', max > 4 && st < max - 4);
+}
+
+function limitsScrollOpenIntoView() {
+  var bodyEl = document.getElementById('limModalBody');
+  var list = document.getElementById('limList');
+  if (!bodyEl || !list) return;
+  var row = list.querySelector('.lim-row.open');
+  if (!row) return;
+  var rb = row.getBoundingClientRect();
+  var bb = bodyEl.getBoundingClientRect();
+  if (rb.bottom > bb.bottom - 8) bodyEl.scrollTop += rb.bottom - bb.bottom + 12;
+  else if (rb.top < bb.top + 8) bodyEl.scrollTop -= bb.top - rb.top + 12;
+}
+
+function limitsOpenModal() {
+  if (!_limEnsure()) {
+    _limToast('⚠ Carga datos para definir límites', 'warn');
+    return;
+  }
+  var modal = limitsEnsureModal();
+  modal.classList.add('open');
+  document.body.style.overflow = 'hidden';
+  limitsMeasureHeights();
+  var bodyEl = document.getElementById('limModalBody');
+  if (bodyEl) bodyEl.scrollTop = 0;
+  limitsRenderList();
+}
+
+function limitsCloseModal() {
+  var modal = document.getElementById('limModal');
+  if (!modal) return;
+  modal.classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+function limitsToggleRow(idx) {
+  var col = _limColByIndex(idx);
+  if (!col) return;
+  _limUI.openName = (_limUI.openName === col.header) ? null : col.header;
+  limitsRenderList();
+  if (_limUI.openName) limitsScrollOpenIntoView();
+}
+
+function limitsSetQuery(v) {
+  _limUI.query = String(v || '').toLowerCase();
+  var bodyEl = document.getElementById('limModalBody');
+  if (bodyEl) bodyEl.scrollTop = 0;
+  limitsRenderList();
+}
+
+function limitsSetNumeric(on) {
+  _limUI.numericOnly = !!on;
+  var bodyEl = document.getElementById('limModalBody');
+  if (bodyEl) bodyEl.scrollTop = 0;
+  limitsRenderList();
+}
+
+function limitsSetColFromInput(inp) {
+  var row = inp.closest('.lim-row');
+  if (!row) return;
+  var col = _limColByIndex(row.getAttribute('data-idx'));
+  if (!col) return;
+  var k = inp.getAttribute('data-k');
+  var v = inp.value.trim();
+  trabajoLimits.cols[col.header][k] = (v === '' ? '' : v);
+  limitsUpdateRow(col);
+  _limUpdateStatus();
+}
+
+function limitsUpdateRow(col) {
+  var list = document.getElementById('limList');
+  if (!list) return;
+  var row = list.querySelector('.lim-row[data-idx="' + col.index + '"]');
+  if (!row) return;
+  var c = trabajoLimits.cols[col.header] || { li: '', lc: '', ls: '' };
+  var li = _limNum(c.li), lc = _limNum(c.lc), ls = _limNum(c.ls);
+  var any = li !== null || lc !== null || ls !== null;
+  var ok = li !== null && lc !== null && ls !== null && li < lc && lc < ls;
+  var badge = row.querySelector('.lim-badge');
+  if (badge) {
+    badge.className = 'lim-badge ' + (ok ? 'ok' : (any ? 'bad' : ''));
+    badge.textContent = ok ? '✓' : (any ? '!' : '—');
+  }
+  // Slider
+  var slider = row.querySelector('.lim-slider');
+  if (slider) {
+    var s = _limGetStats().filter(function (x) { return x.index === col.index; })[0];
+    if (s) _limPositionSlider(slider, s, row);
+  }
+  _limUpdateCounters();
+}
+
+function _limPositionSlider(slider, s, row) {
+  if (!slider || s.min === null || s.max === null) return;
+  var c = trabajoLimits.cols[s.header] || { li: '', lc: '', ls: '' };
+  var li = _limNum(c.li), lc = _limNum(c.lc), ls = _limNum(c.ls);
+  var liV = li === null ? s.min : li;
+  var lsV = ls === null ? s.max : ls;
+  var lcV = lc === null ? (s.min + s.max) / 2 : lc;
+  var span = (s.max - s.min) || 1;
+  function pct(v) { return Math.max(0, Math.min(100, ((v - s.min) / span) * 100)); }
+  var zone = slider.querySelector('.lim-zone');
+  var hLI = slider.querySelector('[data-h="li"]');
+  var hLC = slider.querySelector('[data-h="lc"]');
+  var hLS = slider.querySelector('[data-h="ls"]');
+  if (hLI) hLI.style.left = pct(liV) + '%';
+  if (hLS) hLS.style.left = pct(lsV) + '%';
+  if (hLC) hLC.style.left = pct(lcV) + '%';
+  if (zone) {
+    zone.style.left = pct(liV) + '%';
+    zone.style.width = Math.max(0, pct(lsV) - pct(liV)) + '%';
+  }
+}
+
+function limitsStartDrag(e, handle) {
+  var row = handle.closest('.lim-row');
+  if (!row) return;
+  var col = _limColByIndex(row.getAttribute('data-idx'));
+  if (!col) return;
+  var which = handle.getAttribute('data-h');
+  var slider = row.querySelector('.lim-slider');
+  var s = _limGetStats().filter(function (x) { return x.index === col.index; })[0];
+  if (!slider || !s || s.min === null || s.max === null) return;
+
+  e.preventDefault();
+  e.stopPropagation();
+  _limUI.drag = true;
+
+  var span = (s.max - s.min) || 1;
+  var dec = span > 20 ? 0 : 2;
+
+  function ensure() {
+    var c = trabajoLimits.cols[col.header];
+    if (_limNum(c.li) === null) c.li = String(_limFmt(s.min));
+    if (_limNum(c.ls) === null) c.ls = String(_limFmt(s.max));
+    if (_limNum(c.lc) === null) c.lc = String(_limFmt((s.min + s.max) / 2));
+  }
+  function move(ev) {
+    var r = slider.getBoundingClientRect();
+    var t = Math.max(0, Math.min(1, (ev.clientX - r.left) / r.width));
+    var v = Number((s.min + t * span).toFixed(dec));
+    var c = trabajoLimits.cols[col.header];
+    var li = _limNum(c.li), lc = _limNum(c.lc), ls = _limNum(c.ls);
+    if (which === 'li') v = Math.min(v, (lc === null ? s.max : lc) - 0.0001);
+    if (which === 'ls') v = Math.max(v, (lc === null ? s.min : lc) + 0.0001);
+    if (which === 'lc') {
+      var lo = li === null ? s.min : li;
+      var hi = ls === null ? s.max : ls;
+      v = Math.max(lo, Math.min(v, hi));
+    }
+    c[which] = String(v);
+    _limPositionSlider(slider, s, row);
+    var inp = row.querySelector('.lim-inputs input[data-k="' + which + '"]');
+    if (inp) inp.value = String(v);
+  }
+  function up() {
+    document.removeEventListener('pointermove', move);
+    document.removeEventListener('pointerup', up);
+    _limUI.drag = false;
+    limitsUpdateRow(col);
+    _limUpdateStatus();
+  }
+  document.addEventListener('pointermove', move);
+  document.addEventListener('pointerup', up);
+}
+
+function limitsAutoFill() {
+  var sheet = _limEnsure();
+  if (!sheet) return;
+  _limGetStats(true).forEach(function (s) {
+    if (!s.numeric || s.min === null || s.max === null) return;
+    trabajoLimits.cols[s.header] = {
+      li: _limFmt(s.min),
+      lc: _limFmt((s.min + s.max) / 2),
+      ls: _limFmt(s.max)
+    };
+  });
+  limitsRenderList();
+  _limUpdateStatus();
+}
+
+function limitsUseLod(idx) {
+  var col = _limColByIndex(idx);
+  if (!col) return;
+  var s = _limGetStats().filter(function (x) { return x.index === col.index; })[0];
+  if (!s || s.min === null || s.max === null) return;
+  if (s.lod !== null && s.loq !== null) {
+    trabajoLimits.cols[col.header] = {
+      li: _limFmt(s.lod, 4),
+      lc: _limFmt((s.lod + s.loq) / 2, 4),
+      ls: _limFmt(s.loq, 4)
+    };
+  } else {
+    var span = s.max - s.min;
+    trabajoLimits.cols[col.header] = {
+      li: _limFmt(s.min + span * 0.2),
+      lc: _limFmt(s.min + span * 0.5),
+      ls: _limFmt(s.min + span * 0.8)
+    };
+  }
+  limitsRenderList();
+  _limUpdateStatus();
+}
+
 
 function getLimits(colName) {
   if (!trabajoLimits) return null;
@@ -1307,6 +1934,8 @@ function limpiarDataset(skipConfirm) {
   trabajoActiveCell = {row:0,col:0};
   datosFilters = [];
   trabajoLimits = null;
+  _limitsSavedJSON = null;
+  if (typeof _limUI !== 'undefined') { _limUI.stats = null; _limUI.statsKey = ''; _limUI.openName = null; }
   datosSourceType = 'none';
   trabajoLimitsMode = 'global';
   updateDatosUI();

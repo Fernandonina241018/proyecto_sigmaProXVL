@@ -90,6 +90,41 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (SigmaProXVL) con spr
 
 ## CAMBIOS RECIENTES
 
+### 2026-10-28 (38): Sidebar de Trabajo/Reportes con `.side-card` + Límites interactivo en modal
+
+**Qué:** Se unifica el diseño de los sidebars de **Trabajo** y **Reportes** con el lenguaje de cards de Visualización (`.side-card`), y se rediseña **Límites** con estado de guardado, modo Global en el sidebar y edición **por columna en un modal** (buscador, filtro numérico, auto min/máx, slider de rango, virtualización y degradados).
+
+- **Card reutilizable `.side-card`** (global en `indexx.css`): header con icono/título/subtítulo, botón contraer y contenido; usa variables del tema (oscuro y claro).
+- **Trabajo** (5 cards): Hoja de Trabajo (**colapsada**), Hojas, Resumen, Celda activa y Límites (abiertas).
+- **Reportes** (3 cards): Acciones, Formatos (**colapsada**) y Regulatory Framework.
+- **Límites · sidebar**:
+  - Indicador de estado: `Límites guardados · N de M`, `Cambios sin guardar · N de M` o `Sin límites definidos`.
+  - Modo **Global** con LI/LC/LS + “Aplicar a todas” + “Limpiar” + “Guardar límites”.
+  - Modo **Por columna**: solo resumen (contador + progreso) y botón “Editar…” (no carga el sidebar).
+  - Aviso transitorio `✓ Límites guardados correctamente` / `⚠ No hay límites definidos que guardar`.
+- **Límites · modal por columna**: buscador, “Solo numéricas”, contador, **Auto min/máx**, filas compactas con LI/LC/LS y badge ✓/!/—, fila expandible con **slider de rango** (LI/LC/LS arrastrables), “Usar LOD/LOQ”, “Guardar columna” y guardado global.
+- **Rendimiento**: la lista del modal se **virtualiza a partir de 40 columnas** (solo se montan las visibles) y muestra **degradados** arriba/abajo cuando hay scroll.
+
+**Archivos afectados:**
+| Archivo | Cambio |
+|---------|--------|
+| `css/core/indexx.css:1546-1738` | +193 líneas: `.side-card`, estados `.lim-status`, modal `.lim-*`, slider, degradados y responsive |
+| `js/core/indexx-ui.js:359-445` | `sideToggleCard()`, helpers `_sideCard()`/`_sideCardIcon()` y `leftPanels.trabajo` reescrito con 5 cards |
+| `js/core/indexx-trabajo.js:402-1100` | Bloque de Límites reescrito: estado, modos, modal por columna, virtualización, slider, auto LOD/LOQ y guardado |
+| `js/core/indexx-trabajo.js:1309-1320` | `limpiarDataset()` invalida caché de stats y estado de guardado |
+| `js/managers/ReporteManager.js:2604-2718` | `buildReportesSidebar()` con 3 `.side-card` (Formatos colapsada) |
+| `tests/limites-panel.test.js` | Nuevo: 11 tests (render, modos, modal, filtros, auto, badge, guardado, estado) |
+
+**Verificación:**
+- `node --check` en los 3 JS modificados: OK.
+- `npx vitest run`: **585 tests / 45 archivos OK** (incluye los 11 nuevos).
+- Prueba real en navegador (servidor local, rol admin):
+  - Trabajo: 5 cards, solo “Hoja de Trabajo” colapsada; contraer/expandir con `aria-expanded`.
+  - Límites: estado inicial “Sin límites definidos”; “Por columna” abre el modal; Auto → “Cambios sin guardar · 4 de 4”; Guardar → “Límites guardados · 4 de 4”, toast y persistencia en `sigmaPro_trabajoLimits`.
+  - 60 columnas: modal virtualizado (9–18 filas en DOM), degradados activos, última columna visible; slider arrastra (LI 120 → 123) y guarda 60/60.
+  - Reportes: 3 cards, solo “Formatos” colapsada.
+  - **0 errores** de página/consola.
+
 ### 2026-10-28 (37): Cards del sidebar de Visualización unificadas (colapsadas por defecto)
 
 **Cambio:** Las cards "Variables", "Estilo y opciones" y "Acciones" del panel izquierdo de Visualización se rediseñan con el mismo lenguaje que "Tipo de gráfico" (`.viz-card`: header con icono + título + subtítulo + botón contraer). **Abren colapsadas por defecto**; "Tipo de gráfico" sigue abierta.

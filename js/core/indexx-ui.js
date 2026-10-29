@@ -356,65 +356,77 @@ var rightPaneTitle = document.getElementById('rightPaneTitle');
 var leftPaneBody   = document.getElementById('leftPaneBody');
 var rightPaneBody  = document.getElementById('rightPaneBody');
 
+// Contrae/expande cualquier card de sidebar (.side-card).
+function sideToggleCard(btn) {
+  var card = btn && btn.closest ? btn.closest('.side-card') : null;
+  if (!card) return;
+  var collapsed = card.classList.toggle('collapsed');
+  btn.setAttribute('aria-expanded', collapsed ? 'false' : 'true');
+  btn.setAttribute('aria-label', collapsed ? 'Expandir' : 'Contraer');
+}
+
+// Chevron + iconos de las cards (inline para no depender del sprite).
+var _SIDE_CHEV = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>';
+function _sideCardIcon(paths) {
+  return '<div class="side-card-icon" aria-hidden="true"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">' + paths + '</svg></div>';
+}
+function _sideCard(id, icon, title, sub, content, collapsed) {
+  var isCollapsed = !!collapsed;
+  return '<section class="side-card' + (isCollapsed ? ' collapsed' : '') + '" id="' + id + '">' +
+    '<header class="side-card-head">' +
+      '<div class="side-card-title-wrap">' + icon +
+        '<div><h3 class="side-card-title">' + title + '</h3><p class="side-card-sub">' + sub + '</p></div>' +
+      '</div>' +
+      '<button class="side-card-collapse" type="button" onclick="sideToggleCard(this)" aria-expanded="' + (isCollapsed ? 'false' : 'true') + '" aria-label="' + (isCollapsed ? 'Expandir' : 'Contraer') + '">' + _SIDE_CHEV + '</button>' +
+    '</header>' +
+    '<div class="side-card-content">' + content + '</div>' +
+  '</section>';
+}
+
 var leftPanels = {
   trabajo: function() {
     // Panel Hoja de Trabajo estilo liquid-glass (mismo sistema .datos).
-    // Dropdowns aplanados a filas directas; mismos onclick/handlers/ids.
-    var isGlobal = trabajoLimitsMode === 'global';
+    // Cards .side-card: Hoja de Trabajo colapsada por defecto; el resto abiertas.
     var _sh = (typeof getCurrentSheet === 'function') ? getCurrentSheet() : null;
     var _shName = _sh ? _sh.name : 'Sin hoja';
     var _shRows = _sh ? _sh.rows.length : 0;
     var _shCols = _sh ? _sh.headers.length : 0;
+
+    var hoja =
+      '<div class="estado' + (_sh ? ' on' : '') + '"><span class="pt"></span><span class="nom" title="' + escapeHtml(_shName) + '">' + escapeHtml(_shName) + '</span>' +
+      '<span class="cnt">' + _shRows + ' filas · ' + _shCols + ' col</span></div>' +
+      '<div class="sec">Acciones</div>' +
+      '<div class="mr" role="button" tabindex="0" onclick="generateSampleData()"><svg class="ic"><use href="#i-gear"/></svg><span class="fl">Configurar datos</span><svg class="ic chev"><use href="#i-chev"/></svg></div>' +
+      '<div class="mr" role="button" tabindex="0" onclick="exportTrabajo()"><svg class="ic"><use href="#i-download"/></svg><span class="fl">Exportar CSV</span><svg class="ic chev"><use href="#i-chev"/></svg></div>' +
+      '<div class="mr" role="button" tabindex="0" onclick="clearCurrentSheet()"><svg class="ic"><use href="#i-trash"/></svg><span class="fl">Limpiar hoja</span><svg class="ic chev"><use href="#i-chev"/></svg></div>' +
+      '<div class="sec">Editar</div>' +
+      '<div class="mr" role="button" tabindex="0" onclick="addRow()"><svg class="ic"><use href="#i-plus"/></svg><span class="fl">Agregar fila</span><svg class="ic chev"><use href="#i-chev"/></svg></div>' +
+      '<div class="mr" role="button" tabindex="0" onclick="addColumn()"><svg class="ic"><use href="#i-plus"/></svg><span class="fl">Agregar columna</span><svg class="ic chev"><use href="#i-chev"/></svg></div>' +
+      '<div class="mr" role="button" tabindex="0" onclick="deleteActiveRow()"><svg class="ic"><use href="#i-minus"/></svg><span class="fl">Eliminar fila</span><svg class="ic chev"><use href="#i-chev"/></svg></div>' +
+      '<div class="mr" role="button" tabindex="0" onclick="deleteActiveColumn()"><svg class="ic"><use href="#i-minus"/></svg><span class="fl">Eliminar columna</span><svg class="ic chev"><use href="#i-chev"/></svg></div>' +
+      '<div class="mr" role="button" tabindex="0" onclick="undoAction()"><svg class="ic"><use href="#i-undo"/></svg><span class="fl">Deshacer</span><svg class="ic chev"><use href="#i-chev"/></svg></div>' +
+      '<div class="mr" role="button" tabindex="0" onclick="redoAction()"><svg class="ic"><use href="#i-redo"/></svg><span class="fl">Rehacer</span><svg class="ic chev"><use href="#i-chev"/></svg></div>' +
+      '<div class="sec">Vista</div>' +
+      '<div class="mr' + (trabajoFreezeFirstCol ? ' on' : '') + '" role="button" tabindex="0" onclick="toggleFreezeCol()"><svg class="ic"><use href="#i-lock"/></svg><span class="fl">Fijar columna 1</span><span class="pill">' + (trabajoFreezeFirstCol ? 'ON' : 'OFF') + '</span></div>' +
+      '<div class="mr' + (trabajoConditionalFormat ? ' on' : '') + '" role="button" tabindex="0" onclick="toggleConditionalFormat()"><svg class="ic"><use href="#i-palette"/></svg><span class="fl">Formato condicional</span><span class="pill">' + (trabajoConditionalFormat ? 'ON' : 'OFF') + '</span></div>';
+
+    var hojas =
+      '<div class="sheetrow">' +
+        '<select id="sheetsSelect" class="sheets-select" onchange="switchToSheet(parseInt(this.value))" aria-label="Hoja activa">' + getSheetsOptionsHTML() + '</select>' +
+        (trabajoSheets.length > 1 ? '<button class="rbtn" onclick="deleteSheet(' + trabajoActiveSheetIndex + ',event)" title="Eliminar hoja">✕</button>' : '') +
+        '<button class="rbtn acc" onclick="createNewSheet()" title="Nueva hoja">＋</button>' +
+      '</div>';
+
+    var resumen = '<div id="trabajoResumen">' + getTrabajoResumenHTML() + '</div>';
+    var celda = '<div id="trabajoCeldaActiva">' + getTrabajoCeldaActivaHTML() + '</div>';
+    var limites = '<div id="trabajoLimitsBody"><div class="lim-empty">Cargando límites…</div></div>';
+
     return '<div class="left-panel datos" id="panelTrabajo" aria-label="Hoja de trabajo" style="gap:12px;padding:8px">' +
-      '<details class="gl">' +
-        '<summary class="gl-sum">📋 Hoja de Trabajo</summary><div class="gl-body">' +
-        '<div class="estado' + (_sh ? ' on' : '') + '"><span class="pt"></span><span class="nom" title="' + escapeHtml(_shName) + '">' + escapeHtml(_shName) + '</span>' +
-        '<span class="cnt">' + _shRows + ' filas · ' + _shCols + ' col</span></div>' +
-        '<div class="sec">Acciones</div>' +
-        '<div class="mr" role="button" tabindex="0" onclick="generateSampleData()"><svg class="ic"><use href="#i-gear"/></svg><span class="fl">Configurar datos</span><svg class="ic chev"><use href="#i-chev"/></svg></div>' +
-        '<div class="mr" role="button" tabindex="0" onclick="exportTrabajo()"><svg class="ic"><use href="#i-download"/></svg><span class="fl">Exportar CSV</span><svg class="ic chev"><use href="#i-chev"/></svg></div>' +
-        '<div class="mr" role="button" tabindex="0" onclick="clearCurrentSheet()"><svg class="ic"><use href="#i-trash"/></svg><span class="fl">Limpiar hoja</span><svg class="ic chev"><use href="#i-chev"/></svg></div>' +
-        '<div class="sec">Editar</div>' +
-        '<div class="mr" role="button" tabindex="0" onclick="addRow()"><svg class="ic"><use href="#i-plus"/></svg><span class="fl">Agregar fila</span><svg class="ic chev"><use href="#i-chev"/></svg></div>' +
-        '<div class="mr" role="button" tabindex="0" onclick="addColumn()"><svg class="ic"><use href="#i-plus"/></svg><span class="fl">Agregar columna</span><svg class="ic chev"><use href="#i-chev"/></svg></div>' +
-        '<div class="mr" role="button" tabindex="0" onclick="deleteActiveRow()"><svg class="ic"><use href="#i-minus"/></svg><span class="fl">Eliminar fila</span><svg class="ic chev"><use href="#i-chev"/></svg></div>' +
-        '<div class="mr" role="button" tabindex="0" onclick="deleteActiveColumn()"><svg class="ic"><use href="#i-minus"/></svg><span class="fl">Eliminar columna</span><svg class="ic chev"><use href="#i-chev"/></svg></div>' +
-        '<div class="mr" role="button" tabindex="0" onclick="undoAction()"><svg class="ic"><use href="#i-undo"/></svg><span class="fl">Deshacer</span><svg class="ic chev"><use href="#i-chev"/></svg></div>' +
-        '<div class="mr" role="button" tabindex="0" onclick="redoAction()"><svg class="ic"><use href="#i-redo"/></svg><span class="fl">Rehacer</span><svg class="ic chev"><use href="#i-chev"/></svg></div>' +
-        '<div class="sec">Vista</div>' +
-        '<div class="mr' + (trabajoFreezeFirstCol ? ' on' : '') + '" role="button" tabindex="0" onclick="toggleFreezeCol()"><svg class="ic"><use href="#i-lock"/></svg><span class="fl">Fijar columna 1</span><span class="pill">' + (trabajoFreezeFirstCol ? 'ON' : 'OFF') + '</span></div>' +
-        '<div class="mr' + (trabajoConditionalFormat ? ' on' : '') + '" role="button" tabindex="0" onclick="toggleConditionalFormat()"><svg class="ic"><use href="#i-palette"/></svg><span class="fl">Formato condicional</span><span class="pill">' + (trabajoConditionalFormat ? 'ON' : 'OFF') + '</span></div>' +
-      '</div></details>' +
-      '<details class="gl" open>' +
-        '<summary class="gl-sum">📑 Hojas</summary><div class="gl-body">' +
-        '<div class="sheetrow">' +
-          '<select id="sheetsSelect" class="sheets-select" onchange="switchToSheet(parseInt(this.value))" aria-label="Hoja activa">' + getSheetsOptionsHTML() + '</select>' +
-          (trabajoSheets.length > 1 ? '<button class="rbtn" onclick="deleteSheet(' + trabajoActiveSheetIndex + ',event)" title="Eliminar hoja">✕</button>' : '') +
-          '<button class="rbtn acc" onclick="createNewSheet()" title="Nueva hoja">＋</button>' +
-        '</div>' +
-      '</div></details>' +
-      '<details class="gl" open>' +
-        '<summary class="gl-sum">📊 Resumen</summary><div class="gl-body">' +
-        '<div id="trabajoResumen">' + getTrabajoResumenHTML() + '</div>' +
-      '</div></details>' +
-      '<details class="gl" open>' +
-        '<summary class="gl-sum">🎯 Celda activa</summary><div class="gl-body">' +
-        '<div id="trabajoCeldaActiva">' + getTrabajoCeldaActivaHTML() + '</div>' +
-      '</div></details>' +
-      '<details class="gl" open>' +
-        '<summary class="gl-sum">📐 Límites</summary><div class="gl-body">' +
-        '<div style="display:flex;align-items:center;gap:8px">' +
-          '<span style="font-size:11px;color:var(--text-muted)">Modo</span>' +
-          '<label style="display:flex;align-items:center;gap:6px;cursor:pointer;font-size:11px;color:var(--text-muted)">' +
-            '<span class="toggle-bg" style="position:relative;width:28px;height:16px;background:' + (isGlobal ? 'var(--accent)' : 'var(--bg-primary)') + ';border:.5px solid var(--border);border-radius:8px;transition:background .15s;pointer-events:none;display:inline-block">' +
-              '<span class="toggle-thumb" style="position:absolute;left:' + (isGlobal ? '14px' : '2px') + ';top:2px;width:10px;height:10px;background:' + (isGlobal ? '#fff' : 'var(--text-muted)') + ';border-radius:50%;transition:transform .15s,background .15s;pointer-events:none"></span>' +
-            '</span>' +
-            '<input type="checkbox" id="limitsGlobalToggle" ' + (isGlobal ? 'checked' : '') + ' onchange="toggleLimitsMode()" style="position:absolute;opacity:0;width:0;height:0">' +
-            '<span>Global</span>' +
-          '</label>' +
-        '</div>' +
-        '<div id="trabajoLimitsBody"></div>' +
-      '</div></details>' +
+      _sideCard('cardTrabajoHoja', _sideCardIcon('<rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M3 15h18M9 3v18M15 3v18"/>'), 'Hoja de Trabajo', 'Datos, edición y vista', hoja, true) +
+      _sideCard('cardTrabajoHojas', _sideCardIcon('<path d="M4 7h16M4 12h16M4 17h16"/>'), 'Hojas', 'Cambia o crea hojas', hojas, false) +
+      _sideCard('cardTrabajoResumen', _sideCardIcon('<path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/>'), 'Resumen', 'Estadísticas rápidas', resumen, false) +
+      _sideCard('cardTrabajoCelda', _sideCardIcon('<circle cx="12" cy="12" r="8"/><path d="M12 2v4M12 18v4M2 12h4M18 12h4"/>'), 'Celda activa', 'Valor y posición', celda, false) +
+      _sideCard('cardTrabajoLimites', _sideCardIcon('<path d="M3 8h18M3 16h18M6 5v6M6 13v6M18 5v6M18 13v6"/>'), 'Límites', 'Especificaciones y cuantificación', limites, false) +
     '</div>';
   },
   datos: function() {

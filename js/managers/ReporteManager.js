@@ -2608,8 +2608,15 @@ tr:hover td{background:#f7faff}
         // Sidebar estilo liquid-glass: secciones colapsables (Formato siempre cerrada).
         return `<div class="rep-sidebar-inner datos" id="panelReportes" aria-label="Opciones de reporte">
   ${nd}
-  <details class="gl" open>
-    <summary class="gl-sum">⚙️ Acciones</summary><div class="gl-body">
+  <section class="side-card" id="repCardAcciones">
+    <header class="side-card-head">
+      <div class="side-card-title-wrap">
+        <div class="side-card-icon" aria-hidden="true"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M19.1 4.9 17 7M7 17l-2.1 2.1"/></svg></div>
+        <div><h3 class="side-card-title">Acciones</h3><p class="side-card-sub">ES / EN · Firma · Limpiar</p></div>
+      </div>
+      <button class="side-card-collapse" type="button" onclick="sideToggleCard(this)" aria-expanded="true" aria-label="Contraer"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></button>
+    </header>
+    <div class="side-card-content">
     <div class="rep-lang-toggle">
       <span class="rep-lang-label">🌐 Idioma / Language</span>
       <div class="rep-lang-btns">
@@ -2627,10 +2634,17 @@ tr:hover td{background:#f7faff}
       </button>
     </div>
     </div>
-  </details>
+  </section>
 
-  <details class="gl">
-    <summary class="gl-sum">⬇️ ${t('ui_formatTitle')}</summary><div class="gl-body">
+  <section class="side-card collapsed" id="repCardFormatos">
+    <header class="side-card-head">
+      <div class="side-card-title-wrap">
+        <div class="side-card-icon" aria-hidden="true"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5"/><path d="M12 15V3"/></svg></div>
+        <div><h3 class="side-card-title">${t('ui_formatTitle')}</h3><p class="side-card-sub">PDF · TXT · CSV</p></div>
+      </div>
+      <button class="side-card-collapse" type="button" onclick="sideToggleCard(this)" aria-expanded="false" aria-label="Expandir"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></button>
+    </header>
+    <div class="side-card-content">
     <p class="rep-format-hint">${t('ui_formatHint')}</p>
 
     <div class="rep-format-list">
@@ -2689,17 +2703,24 @@ tr:hover td{background:#f7faff}
     <span class="rep-fmt-count" id="rep-fmt-count">${t('ui_formatCount',1)}</span>
   </div>
   </div>
-  </details>
+  </section>
 
-  <details class="gl" open>
-    <summary class="gl-sum">📜 ${t('ui_regTitle')}</summary><div class="gl-body">
+  <section class="side-card" id="repCardRegulatory">
+    <header class="side-card-head">
+      <div class="side-card-title-wrap">
+        <div class="side-card-icon" aria-hidden="true"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 4 6v6c0 5 3.4 7.7 8 9 4.6-1.3 8-4 8-9V6l-8-3Z"/><path d="m9 12 2 2 4-4"/></svg></div>
+        <div><h3 class="side-card-title">${t('ui_regTitle')}</h3><p class="side-card-sub">FDA · GAMP 5</p></div>
+      </div>
+      <button class="side-card-collapse" type="button" onclick="sideToggleCard(this)" aria-expanded="true" aria-label="Contraer"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></button>
+    </header>
+    <div class="side-card-content">
     <div class="rep-reg-box" style="background:transparent;border:none;padding:0">
       <div class="rep-reg-row">📋 ${REGULATORY.standard}</div>
       <div class="rep-reg-row">📐 ${REGULATORY.guideline}</div>
       <div class="rep-reg-row">⚗️ ${REGULATORY.software}</div>
     </div>
     </div>
-  </details>
+  </section>
 </div>`;
     }
 
