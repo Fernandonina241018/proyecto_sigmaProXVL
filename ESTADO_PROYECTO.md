@@ -90,6 +90,36 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (SigmaProXVL) con spr
 
 ## CAMBIOS RECIENTES
 
+### 2026-10-29 (41): Banco de ensayos — IQ de llenadora sin criterios vagos + OQ completo (21 ensayos)
+
+**Qué:** Se cerró la evaluación del banco para la llenadora de líquidos: se corrigieron los criterios P1/P2 del IQ y se montó el **OQ por familia** con los 21 ensayos de `ENSAYOS.txt`, replicando la estructura de los OQ ya cargados (portada, firmas, responsabilidades, alcance, resumen, referencias y anexos).
+
+- **IQ (`EQ-IQ-LL 2026-10-29 v2`):** LL-002 (utilidades) ata los límites a la URS y a **ISO 8573-1**; LL-003 (materiales) cita **21 CFR 177 / USP <661> / EU 10/2011** y exige **Ra** medido; LL-005 (filtros) define grado, poro y material; LL-006 (PLC) exige matriz de alarmas con consigna/retardo y **prueba** de restauración del respaldo; LL-007 incorpora **Plan estadístico** (n=3, media/DE/rango, sin ANOVA); LL-004 contrasta capacidad con URS; LL-001 aclara que ISPE estéril aplica solo en aséptico.
+- **OQ (`EQ-OQ-LL 2026-10-29 v1`):** 21 ensayos `EQ-OQ-LL-001…021` (paro de emergencia, interlocks, alarmas, energía, accesos, instrumentos, exactitud de volumen, uniformidad entre boquillas, estabilidad de corrida, velocidad, viscosidad, envase ausente, antigoteo, sincronización, nivel, presión/caudal, conteo, cambio de formato, peso/cierre, limpieza y temperatura). **9 con `data-analisis="si"`** y plan estadístico específico (007, 008, 009, 010, 011, 015, 016, 019, 021).
+- **Documentación:** la ficha `equipos/llenadora.html` deja de decir "pendiente" y lista IQ/OQ reales; se elimina la opción duplicada de `llenadora` en `equipos.html`.
+- **Motor:** el OQ de llenadora se registra en el extractor y en el contrato; al tener banco de familia, la app ya no bloquea la generación del OQ (H-01).
+- **Sincronización:** al regenerar se actualizaron 14 referencias `refnorma` del núcleo IQ que estaban desfasadas en el JS generado desde el commit `0e5e5be`.
+
+**Archivos afectados:**
+| Archivo | Cambio |
+|---------|--------|
+| `docs/banco-ensayos/equipos/iq-llenadora.html` | v2: LL-002/003/005/006 (P1), LL-007 (plan), LL-001/004; línea 15 versión y artículos 22–169 |
+| `docs/banco-ensayos/equipos/oq-llenadora.html` | **Nuevo**: 546 líneas, 21 ensayos + RES + REF + anexos |
+| `docs/banco-ensayos/equipos/llenadora.html` | Ficha con IQ/OQ reales; DQ no aplica; PQ pendiente |
+| `docs/banco-ensayos/equipos.html` | Línea 32: eliminada opción duplicada `llenadora` |
+| `scripts/extraer-banco.mjs` | Línea 20: `equipos/oq-llenadora.html` en la lista de fuentes |
+| `tests/bancos-contrato.test.js` | Línea 50: contrato `OQ llenadora = 21` |
+| `tests/plantilla-equipos.test.js` | Líneas 107–145: regresión de generación (23 IDs, 22 ensayos con el común) |
+| `js/core/banco-equipos-data.js` | Regenerado: 799 → 822 artículos, versión con `EQ-IQ-LL 2026-10-29 v2 + EQ-OQ-LL 2026-10-29 v1` |
+
+**Verificación:**
+```
+node scripts/extraer-banco.mjs equipos --estricto   → OK, 822 artículos, IDs únicos
+npm test                                            → 46 archivos, 601 tests OK
+```
+
+**Pendiente:** PQ de llenadora (no hay lista fuente todavía); OQ/PQ de liofilizador y túnel siguen sin banco de familia.
+
 ### 2026-10-28 (40): Canceladas — borrado definitivo (admin) + retención visible
 
 **Qué:** La pestaña **Canceladas** de la Bandeja de firmas ahora explica su retención y el botón ⌫ del admin funciona de verdad (antes llamaba a un endpoint que rechazaba las sesiones ya canceladas).

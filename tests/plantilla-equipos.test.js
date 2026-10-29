@@ -104,6 +104,40 @@ describe('OQ lecho fluido (banco por familia)', () => {
   });
 });
 
+describe('OQ llenadora de líquidos (banco por familia)', () => {
+  const DRAFT_LL = {
+    codigo: '400900', descripcion: 'Llenadora de líquidos', ubicacion: 'PRODUCCION PLANTA 2',
+    tipo: 'Equipo', marca: 'COMASA', modelo: 'LL-2000', fecha: '2026-10-29',
+  };
+  const ENT_LL = { id: 'llenadora', nombre: 'Llenadora de líquidos' };
+  const genOQ = async (ent) => {
+    const u8 = new Uint8Array(readFileSync(resolve(raiz, P.PLANTILLAS.OQ)));
+    const r = await P.generar('OQ', u8, banco, DRAFT_LL, ent, 'ambas');
+    const arch = Object.fromEntries((await P._interno.leerZip(r.bytes)).map((a) => [a.nombre, dec(a.datos)]));
+    return { r, doc: arch['word/document.xml'] };
+  };
+
+  it('banco OQ: 23 IDs de la familia llenadora (21 ensayos + RES + REF)', () => {
+    const ids = (banco.fases.OQ || [])
+      .filter((i) => i.id && i.familia === 'llenadora').map((i) => i.id);
+    expect(ids).toHaveLength(23);
+    expect(new Set(ids).size).toBe(23);
+    expect(ids.filter((id) => /^EQ-OQ-LL-0(0[1-9]|1[0-9]|2[01])$/.test(id))).toHaveLength(21);
+  });
+
+  it('genera 21 ensayos de familia + el común, con títulos y códigos', async () => {
+    const { r, doc } = await genOQ(ENT_LL);
+    expect(r.ensayos).toHaveLength(22);
+    expect(r.ensayos[0]).toBe('EQ-OQ-COM-001');
+    expect(r.ensayos[1]).toBe('EQ-OQ-LL-001');
+    expect(r.ensayos).toContain('EQ-OQ-LL-021');
+    for (const id of r.ensayos) expect(doc).toContain(id);
+    const txt = doc.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ');
+    expect(txt).toContain('EXACTITUD DEL VOLUMEN DE LLENADO');
+    expect(txt).toContain('UNIFORMIDAD ENTRE BOQUILLAS');
+  });
+});
+
 describe('OQ autoclave (banco por familia)', () => {
   const DRAFT_AU = {
     codigo: '400500', descripcion: 'Autoclave', ubicacion: 'PRODUCCION PLANTA 3',

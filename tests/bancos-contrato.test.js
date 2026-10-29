@@ -47,6 +47,7 @@ describe('banco de equipos: contrato', () => {
     ['IQ', 'reactor', 8], // Nivel 3 (2026-10-07)
     ['IQ', 'horno-vacio', 8], // Nivel 3 (2026-10-07)
     ['IQ', 'llenadora', 8], // Nivel 3 (2026-10-07)
+    ['OQ', 'llenadora', 21], // ENSAYOS.txt usuario (2026-10-29)
     ['IQ', 'lecho-fluido', 8], // Nivel 3 (2026-10-07)
     ['IQ', 'tableteadora', 5], // Nivel 2 (2026-10-08)
     ['IQ', 'encapsuladora', 5], // Nivel 2 (2026-10-08)

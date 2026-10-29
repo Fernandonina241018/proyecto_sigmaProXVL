@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<style>
+  body { font-family: Tahoma, sans-serif; font-size: 11pt; }
+  strong { text-transform: uppercase; }
+</style>
+<title>Banco de Ensayos OQ — Llenadora de Líquidos</title>
+</head>
+<body>
+
+<p><a href="../equipos.html">← Equipos e Instrumentos</a></p>
+<h2>OQ — Llenadora de Líquidos (banco por familia)</h2>
+<p>Versión del banco: <span data-banco-version>EQ-OQ-LL 2026-10-29 v1</span></p>
+<p>Ensayos de Calificación de Operación específicos de la llenadora de líquidos y su bombeadora (<span class="equipo">equipo</span>). Se filtran por familia (<code>data-familia="llenadora"</code>) según la entidad elegida en el paso 1. Fuente: ENSAYOS.txt de protocolo.</p>
+
+<!-- ================= OQ ================= -->
+<section id="fase-oq" data-familia="llenadora">
+<h2>OQ — Ensayos</h2>
+
+<div class="portada" data-bloque="1">
+<p><strong>PORTADA DEL PROTOCOLO OQ</strong></p>
+<p><strong>Logo:</strong><br><img class="ent-logo" alt="Logo de la entidad"></p>
+<p><strong>Calificación de Operación de <span class="equipo">equipo</span>:</strong> <span class="ent-descripcion">______</span></p>
+<ol>
+  <li><strong>Marca:</strong> <span class="ent-marca">______</span></li>
+  <li><strong>Modelo:</strong> <span class="ent-modelo">______</span></li>
+  <li><strong>Código:</strong> <span class="ent-codigo">______</span></li>
+</ol>
+</div>
+
+<div class="firmas" data-bloque="1">
+<p><strong>FLUJO DE FIRMAS DEL PROTOCOLO:</strong></p>
+<p>Este apartado establece que los responsables revisan y aprueban el presente protocolo, declarando que está apto para su ejecución. Cualquier cambio posterior a la firma obliga a reiniciar el flujo de firmas, con el fin de garantizar que todos los departamentos involucrados estén al tanto de los ensayos a ejecutar.</p>
+<ol>
+  <li><strong>Elaborado Por:</strong> <br> Analista de validaciones — elabora / Nombre: ______ Firma: ______ Fecha: ______</li><br>
+  <li><strong>Revisado Por:</strong> <br> Coordinador de validaciones — revisa / Nombre: ______ Firma: ______ Fecha: ______</li><br>
+  <li><strong>Revisado Por:</strong> <br> Gerente de Área — revisa / Nombre: ______ Firma: ______ Fecha: ______</li><br>
+  <li><strong>Aprobado por:</strong> <br> Gerente de gestión de calidad — aprueba / Nombre: ______ Firma: ______ Fecha: ______</li><br>
+</ol>
+</div>
+
+<div class="responsabilidades" data-bloque="1">
+<p><strong>RESPONSABILIDADES DEL PROTOCOLO:</strong></p>
+<p><strong>Responsabilidad del Analista de validaciones:</strong></p>
+<ol><li>Coordinar la ejecución de la Calificación de Operación con las áreas involucradas, asegurando personal, <span class="equipo">equipo</span>, instrumentos y documentación.</li><li>Verificar que los instrumentos de medición estén identificados y con calibración vigente.</li><li>Ejecutar y/o supervisar los ensayos del protocolo según los criterios aprobados.</li><li>Registrar los datos de forma completa, legible y trazable (ALCOA+).</li><li>Documentar las desviaciones según los procedimientos internos vigentes.</li><li>Elaborar el informe de calificación con resultados, conclusiones y anexos.</li></ol>
+<p><strong>Responsabilidad del Coordinador de validaciones:</strong></p>
+<ol><li>Revisar técnicamente el protocolo antes de su ejecución.</li><li>Asignar al analista responsable y coordinar recursos.</li><li>Revisar las desviaciones, su tratamiento y las CAPA asociadas.</li><li>Revisar el informe final y autorizar el inicio de la PQ.</li></ol>
+<p><strong>Responsabilidad del Gerente de Área:</strong></p>
+<ol><li>Garantizar la disponibilidad del <span class="equipo">equipo</span> y los accesos para la ejecución.</li><li>Facilitar la documentación técnica del fabricante y del proveedor.</li><li>Implementar las acciones operativas derivadas de desviaciones y CAPA.</li></ol>
+<p><strong>Responsabilidad del Gerente de gestión de calidad:</strong></p>
+<ol><li>Aprobar el protocolo y sus criterios de aceptación.</li><li>Aprobar las desviaciones y sus evaluaciones de impacto.</li><li>Emitir el dictamen final del estado de calificación.</li></ol>
+</div>
+
+<div class="alcance" data-bloque="1">
+<p><strong>ALCANCE</strong></p>
+<p>Esta calificación aplica a <span class="equipo">equipo</span>, según protocolo OQ, y cubre los ensayos listados en el índice.</p>
+</div>
+
+<div class="def-usp" data-bloque="1">
+<p><strong>DEFINICIÓN USP</strong></p>
+<p>Calificación de Operación: colección documentada de las actividades necesarias para demostrar que un instrumento se desempeña de manera uniforme de acuerdo con las especificaciones definidas por el usuario y es apropiado para el uso previsto, en el entorno seleccionado (<span class="refnorma"></span>).</p>
+</div>
+
+<div class="nota-datos" data-bloque="1">
+<p><strong>NOTA — DATOS DIGITALES</strong></p>
+<p>Si el equipo entrega datos digitales, se procesan directamente y se anexan la data cruda y el reporte estadístico como parte de la evidencia.</p>
+</div>
+
+<article data-bloque="3" id="art-EQ-OQ-LL-001" class="ensayo" data-id="EQ-OQ-LL-001" data-fase="OQ" data-cond="ambas" data-familia="llenadora">
+  <h3>EQ-OQ-LL-001 — Parada de emergencia</h3>
+  <p><strong>Objetivo:</strong><br>Verificar que cada parada de emergencia detiene de inmediato el bombeo, la dosificación, el tapado y la banda, exige rearme manual y señaliza el estado en el HMI.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Verificar la IQ aprobada y el <span class="equipo">equipo</span> liberado para OQ; identificar todas las paradas de emergencia (panel principal y perimetrales) y anotar su ubicación en la tabla<br>
+  2) Avisar a los operadores del área y disponer de cronómetro calibrado y formato de registro; operar con agua o placebo según el BMR, sin producto<br>
+  3) Arrancar el <span class="equipo">equipo</span> y llevarlo a velocidad nominal con bombeo, dosificación y tapado activos<br>
+  4) Accionar la parada de emergencia y medir el tiempo hasta la detención total del bombeo, las boquillas, el tapado y la banda<br>
+  a) El tiempo medido no supera el definido en la URS o en el manual del fabricante<br>
+  b) El HMI muestra el mensaje de parada de emergencia activa<br>
+  5) Sin rearmar, intentar arrancar desde el HMI y confirmar que el arranque queda impedido<br>
+  6) Rearmar la parada según el procedimiento del fabricante y confirmar que el <span class="equipo">equipo</span> queda en condición segura sin arrancar solo<br>
+  7) Repetir los pasos 3) a 6) por cada parada de emergencia del <span class="equipo">equipo</span><br>
+  8) Dejar el <span class="equipo">equipo</span> en condición segura y anotar cualquier desviación</p>
+  <p><strong>Plan estadístico:</strong><br>No aplica: verificación funcional por atributo (detiene/no detiene, 100 % de los casos); sin inferencia estadística.</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Todas las paradas detienen el bombeo, la dosificación, el tapado y la banda dentro del tiempo aprobado.<br>
+  Sin rearme manual el arranque es imposible y el estado queda señalizado en el HMI.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Tabla de paradas de emergencia con ubicación y tiempos medidos<br>
+  - Registro de mensajes del HMI por cada prueba</p>
+  <p><strong>Referencia:</strong><br>EU GMP Anexo 15; GAMP5 2.ª ed. (challenge de funciones de seguridad); manual del fabricante.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-OQ-LL-002" class="ensayo" data-id="EQ-OQ-LL-002" data-fase="OQ" data-cond="ambas" data-familia="llenadora">
+  <h3>EQ-OQ-LL-002 — Interlocks y protecciones</h3>
+  <p><strong>Objetivo:</strong><br>Verificar que el <span class="equipo">equipo</span> impide el arranque o detiene la operación ante cada condición insegura: guarda abierta, ausencia de envase, nivel bajo, tapón ausente, rechazo lleno o abierto y presión de aire baja.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Dejar el <span class="equipo">equipo</span> detenido en condición segura y disponer de la matriz de interlocks (condición y respuesta esperada)<br>
+  2) Abrir la guarda de partes móviles e intentar arrancar; confirmar inhibición y mensaje en el HMI<br>
+  3) Retirar el envase de una estación e intentar dosificar; confirmar inhibición y mensaje en el HMI<br>
+  4) Simular nivel bajo en el tanque e intentar arrancar; confirmar inhibición y mensaje en el HMI<br>
+  5) Retirar el tapón del cabezal e intentar arrancar; confirmar inhibición y mensaje en el HMI<br>
+  6) Simular contenedor de rechazo lleno o abierto; confirmar inhibición o paro según diseño<br>
+  7) Simular presión de aire baja; confirmar paro o inhibición según diseño<br>
+  8) Restituir todas las condiciones a normal, confirmar marcha permitida y cerrar la matriz con hora y respuesta de cada prueba</p>
+  <p><strong>Plan estadístico:</strong><br>No aplica: verificación funcional por atributo (inhibe/no inhibe, 100 % de los casos); sin inferencia estadística.</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  El 100 % de los interlocks ensayados inhibe el arranque o detiene la marcha con mensaje en el HMI.<br>
+  Ninguna condición insegura permite dosificar ni mover la banda.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Matriz de interlocks con condición provocada, respuesta del equipo y mensaje del HMI</p>
+  <p><strong>Referencia:</strong><br>GAMP5 2.ª ed.; EU GMP Anexo 15; manual del fabricante.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-OQ-LL-003" class="ensayo" data-id="EQ-OQ-LL-003" data-fase="OQ" data-cond="ambas" data-familia="llenadora">
+  <h3>EQ-OQ-LL-003 — Alarmas y límites</h3>
+  <p><strong>Objetivo:</strong><br>Verificar que cada alarma del <span class="equipo">equipo</span> dispara ante su condición, dentro del retardo aprobado, ejecuta su acción y queda registrada con fecha y hora.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Obtener del manual y de la URS la lista de alarmas con su consigna, retardo y acción esperada<br>
+  2) Provocar cada alarma aplicable: sin envase, nivel bajo, falla de dosificación, tapón ausente, atascamiento de banda, rechazo lleno, presión de aire baja y parada de emergencia<br>
+  3) Medir el tiempo entre la condición y el disparo, y verificar la acción asociada<br>
+  4) Verificar el registro en el histórico del equipo con fecha, hora, usuario y texto de la alarma (si aplica 21 CFR Parte 11)<br>
+  5) Restablecer cada condición y confirmar que la alarma se reconoce y se borra solo después de corregida</p>
+  <p><strong>Plan estadístico:</strong><br>No aplica: verificación funcional por atributo (dispara/no dispara, 100 % de los casos); sin inferencia estadística.</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  El 100 % de las alarmas dispara ante su condición dentro del retardo aprobado y ejecuta su acción.<br>
+  Todas quedan registradas y solo se reconocen después de corregida la condición.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Matriz de alarmas con consigna, retardo, acción y registro</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante; URS aprobada; 21 CFR Parte 11 (si aplica).</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-OQ-LL-004" class="ensayo" data-id="EQ-OQ-LL-004" data-fase="OQ" data-cond="ambas" data-familia="llenadora">
+  <h3>EQ-OQ-LL-004 — Falla y recuperación de energía</h3>
+  <p><strong>Objetivo:</strong><br>Verificar que ante pérdida de energía el <span class="equipo">equipo</span> queda en estado seguro, sin derrame ni llenado parcial sobre la banda, y que al restablecer la energía no arranca solo y conserva sus parámetros.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Arrancar el <span class="equipo">equipo</span> a velocidad nominal con dosificación activa y registrar los parámetros de proceso<br>
+  2) Interrumpir la energía desde el seccionador autorizado y observar la respuesta: cierre de válvulas, detención del bombeo y de la banda, y ausencia de derrame<br>
+  3) Verificar el estado de la UPS o del respaldo (si aplica) y el tiempo de autonomía declarado<br>
+  4) Restablecer la energía y confirmar que el <span class="equipo">equipo</span> no arranca solo y que exige rearme o confirmación del operador<br>
+  5) Verificar que los parámetros y formatos cargados se conservan o se recuperan según el diseño<br>
+  6) Ejecutar un paro controlado y comparar con el paro por falla<br>
+  7) Registrar el tiempo de detención y las condiciones observadas</p>
+  <p><strong>Plan estadístico:</strong><br>No aplica: verificación funcional por atributo (estado seguro/no seguro, 100 % de los casos); sin inferencia estadística.</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Ante la pérdida de energía no hay derrame ni llenado parcial sobre la banda y el equipo queda en estado seguro.<br>
+  Al restablecer la energía no existe arranque automático.<br>
+  Los parámetros y formatos se conservan según el diseño aprobado.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro de falla y recuperación de energía con parámetros y tiempos</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante; GAMP5 2.ª ed.; EU GMP Anexo 15.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-OQ-LL-005" class="ensayo" data-id="EQ-OQ-LL-005" data-fase="OQ" data-cond="ambas" data-familia="llenadora">
+  <h3>EQ-OQ-LL-005 — Control de acceso y trazabilidad</h3>
+  <p><strong>Objetivo:</strong><br>Verificar que el sistema de control restringe el acceso por usuario y rol, y que los registros y cambios de parámetros quedan trazados de forma íntegra.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Verificar que cada usuario tiene cuenta individual y rol asignado; confirmar que no existen cuentas compartidas ni genéricas<br>
+  2) Verificar la política de contraseña y el bloqueo por intentos fallidos según la URS<br>
+  3) Verificar el cierre de sesión por inactividad y el bloqueo de la pantalla de operación<br>
+  4) Realizar un cambio de parámetro autorizado y otro no autorizado; confirmar que el segundo se rechaza<br>
+  5) Verificar el registro de auditoría: usuario, fecha, hora, valor anterior, valor nuevo y motivo (si aplica)<br>
+  6) Verificar la sincronización del reloj del equipo con la hora patrón<br>
+  7) Verificar la integridad de los registros exportados o impresos y su coincidencia con el histórico</p>
+  <p><strong>Plan estadístico:</strong><br>No aplica: verificación funcional por atributo (permite/rechaza, 100 % de los casos); sin inferencia estadística.</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Solo los usuarios autorizados acceden a cada función y todo cambio queda trazado con usuario, fecha y hora.<br>
+  Los registros son íntegros y coinciden con el histórico del equipo.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Matriz de usuarios y roles verificada<br>
+  - Muestra del registro de auditoría con los cambios ejecutados</p>
+  <p><strong>Referencia:</strong><br>21 CFR Parte 11; GAMP5 2.ª ed.; URS aprobada.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-OQ-LL-006" class="ensayo" data-id="EQ-OQ-LL-006" data-fase="OQ" data-cond="ambas" data-familia="llenadora">
+  <h3>EQ-OQ-LL-006 — Instrumentos críticos del equipo</h3>
+  <p><strong>Objetivo:</strong><br>Verificar que los instrumentos críticos del <span class="equipo">equipo</span> están identificados, con calibración vigente que cubre la ejecución del OQ y con rango y exactitud adecuados al uso.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Listar los instrumentos críticos: sensores de presión, nivel, presencia de envase, caudal, temperatura, encoder de velocidad y celda de carga del control de peso (si aplica)<br>
+  2) Verificar la etiqueta de calibración y que su vigencia cubre todo el periodo de ejecución del OQ<br>
+  3) Comparar el rango y la exactitud de cada instrumento con el rango de proceso de la URS<br>
+  4) Registrar en la tabla: instrumento, fabricante, modelo, serie, código interno, rango, exactitud, última calibración y vencimiento<br>
+  5) Recopilar los certificados de calibración para el anexo del informe</p>
+  <p><strong>Plan estadístico:</strong><br>No aplica: verificación documental y funcional sin muestreo inferencial.</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Todos los instrumentos críticos tienen calibración vigente que cubre la ejecución del OQ.<br>
+  El rango y la exactitud son adecuados para el rango de proceso aprobado.<br>
+  Los certificados están disponibles y anexados.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Tabla de instrumentos críticos del OQ completada<br>
+  - Copias de los certificados de calibración</p>
+  <p><strong>Referencia:</strong><br>EU GMP Anexo 15; ISPE Baseline Guide Vol. 5; manual del fabricante.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-OQ-LL-007" class="ensayo" data-id="EQ-OQ-LL-007" data-fase="OQ" data-cond="ambas" data-familia="llenadora" data-analisis="si">
+  <h3>EQ-OQ-LL-007 — Exactitud del volumen de llenado</h3>
+  <p><strong>Objetivo:</strong><br>Verificar que el volumen llenado corresponde al volumen objetivo en los puntos mínimo, nominal y máximo del rango de operación.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Verificar IQ aprobada, formato instalado y parámetros de dosificación cargados; disponer de balanza calibrada y del formato de registro<br>
+  2) Ajustar el volumen mínimo, nominal y máximo del rango aprobado en la URS<br>
+  3) Llenar un mínimo de 10 envases consecutivos por punto, con agua o placebo según el BMR, y registrar la temperatura del producto<br>
+  4) Pesar cada envase lleno y el envase vacío correspondiente, y convertir la masa a volumen con la densidad a la temperatura registrada<br>
+  5) Calcular el error respecto del volumen objetivo en cada punto<br>
+  6) Procesar los datos crudos de volumen en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = volumen llenado (mL) convertido desde la masa con la densidad a la temperatura registrada; tamaño de muestra = mínimo 10 envases por punto (mínimo, nominal y máximo); estadísticos = media, desviación estándar, RSD, error absoluto y relativo frente al objetivo e intervalo de confianza al 95 % de la media por punto; criterio = la media y cada réplica dentro de la tolerancia de la URS; sin ANOVA (cada punto se evalúa contra su propio objetivo); valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa.</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  La media de cada punto está dentro de la tolerancia de exactitud de la URS.<br>
+  Cada envase individual está dentro del límite individual aprobado.<br>
+  No existen valores atípicos sin investigación documentada.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro de pesos y volúmenes con data cruda y reporte<br>
+  - Data cruda y reporte estadístico de la exactitud de volumen de llenado</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante; URS aprobada (volumen objetivo y tolerancias).</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-OQ-LL-008" class="ensayo" data-id="EQ-OQ-LL-008" data-fase="OQ" data-cond="ambas" data-familia="llenadora" data-analisis="si">
+  <h3>EQ-OQ-LL-008 — Repetibilidad y uniformidad entre boquillas</h3>
+  <p><strong>Objetivo:</strong><br>Verificar que el volumen llenado es repetible en una misma boquilla y uniforme entre todas las boquillas instaladas.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Identificar y numerar cada boquilla instalada; confirmar el formato y el volumen nominal aprobado<br>
+  2) Llenar un mínimo de 10 envases consecutivos por boquilla, recolectando el envase de cada estación de forma identificable<br>
+  3) Pesar cada envase y convertir la masa a volumen con la densidad a la temperatura registrada<br>
+  4) Calcular media, desviación estándar y RSD por boquilla, y la diferencia máxima entre medias de boquillas<br>
+  5) Procesar los datos crudos de volumen por boquilla en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = volumen llenado (mL) por boquilla; tamaño de muestra = mínimo 10 envases por boquilla y todas las boquillas instaladas; estadísticos = media, desviación estándar y RSD por boquilla, y diferencia entre la media máxima y la mínima; comparación entre boquillas con ANOVA de un factor (boquilla) cuando el protocolo aprobado lo defina, con verificación de supuestos; criterio = RSD y diferencia entre boquillas dentro de la URS; valores atípicos = prueba de Grubbs con investigación documentada, sin exclusión silenciosa.</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  El RSD de cada boquilla cumple el límite de repetibilidad de la URS.<br>
+  La diferencia entre la media de la boquilla máxima y la mínima cumple el límite de uniformidad de la URS.<br>
+  Todas las boquillas instaladas quedan evaluadas.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro de volúmenes por boquilla con data cruda y reporte<br>
+  - Data cruda y reporte estadístico de repetibilidad y uniformidad entre boquillas</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante; URS aprobada (límites de repetibilidad y uniformidad).</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-OQ-LL-009" class="ensayo" data-id="EQ-OQ-LL-009" data-fase="OQ" data-cond="ambas" data-familia="llenadora" data-analisis="si">
+  <h3>EQ-OQ-LL-009 — Estabilidad durante la corrida</h3>
+  <p><strong>Objetivo:</strong><br>Verificar que el volumen llenado se mantiene estable durante una corrida continua y que no existe deriva atribuible al calentamiento, a la presión o al desgaste del sistema de dosificación.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Arrancar la corrida a velocidad y volumen nominales con agua o placebo según el BMR<br>
+  2) Tomar muestras al inicio, a la mitad y al final de la corrida, con un mínimo de 10 envases por muestreo y registro de hora<br>
+  3) Registrar las condiciones de proceso en cada muestreo: presión, nivel del tanque y temperatura del producto<br>
+  4) Pesar cada envase y convertir la masa a volumen con la densidad a la temperatura registrada<br>
+  5) Calcular la tendencia del volumen contra el tiempo de corrida<br>
+  6) Procesar los datos crudos de volumen y tiempo en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = volumen llenado (mL) frente al tiempo de corrida; tamaño de muestra = mínimo 10 envases en al menos 3 muestreos distribuidos en la corrida; estadísticos = media y RSD por muestreo, y regresión lineal del volumen contra el tiempo (pendiente e intervalo de confianza al 95 %); criterio = la pendiente no evidencia deriva fuera de la tolerancia de la URS y cada muestreo cumple la exactitud; sin ANOVA; valores atípicos = prueba de Grubbs con investigación documentada.</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  La media de cada muestreo cumple la tolerancia de exactitud de la URS.<br>
+  No existe deriva estadísticamente significativa ni cambio de tendencia dentro de la corrida.<br>
+  Las condiciones registradas se mantienen dentro del rango aprobado.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro de muestreos con hora, condiciones y data cruda<br>
+  - Data cruda y reporte estadístico de estabilidad de la corrida</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante; URS aprobada.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-OQ-LL-010" class="ensayo" data-id="EQ-OQ-LL-010" data-fase="OQ" data-cond="ambas" data-familia="llenadora" data-analisis="si">
+  <h3>EQ-OQ-LL-010 — Exactitud de velocidad</h3>
+  <p><strong>Objetivo:</strong><br>Verificar que la velocidad de llenado indicada por el control corresponde a la velocidad real en los puntos mínimo, nominal y máximo del rango de operación.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Ajustar la velocidad mínima, nominal y máxima desde el control<br>
+  2) Medir cada punto con instrumento independiente calibrado (tacómetro o conteo de envases en intervalo cronometrado), por triplicado<br>
+  3) Registrar la velocidad indicada por el control y la medida en cada punto<br>
+  4) Verificar que la velocidad se mantiene estable durante el intervalo de medición<br>
+  5) Procesar los datos crudos de velocidad en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = velocidad real (envases por minuto o rpm) frente a la indicada; tamaño de muestra = 3 réplicas por punto (mínimo, nominal y máximo); estadísticos = media, desviación estándar y RSD por punto, y error relativo entre la velocidad medida y la indicada; criterio = error y repetibilidad dentro de la tolerancia de la URS; sin ANOVA (cada punto se evalúa contra su consigna); valores atípicos con investigación documentada.</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  La velocidad medida está dentro de la tolerancia de la URS en los tres puntos.<br>
+  La repetibilidad cumple el criterio en cada punto.<br>
+  No existe diferencia entre la velocidad indicada y la real fuera de tolerancia.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro de velocidades con data cruda y reporte<br>
+  - Data cruda y reporte estadístico del análisis de velocidad</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante; URS aprobada.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-OQ-LL-011" class="ensayo" data-id="EQ-OQ-LL-011" data-fase="OQ" data-cond="ambas" data-familia="llenadora" data-analisis="si">
+  <h3>EQ-OQ-LL-011 — Desafío de viscosidad</h3>
+  <p><strong>Objetivo:</strong><br>Verificar que el sistema de dosificación mantiene la exactitud y repetibilidad del volumen en los niveles de viscosidad mínimo, nominal y máximo del rango aprobado.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Preparar soluciones de prueba con los niveles de viscosidad definidos en la URS o el BMR y medir la viscosidad con instrumento calibrado<br>
+  2) Registrar la temperatura de cada solución durante el llenado<br>
+  3) Ajustar el volumen nominal y llenar un mínimo de 10 envases por nivel de viscosidad<br>
+  4) Pesar cada envase y convertir la masa a volumen con la densidad a la temperatura registrada<br>
+  5) Verificar que no hay obstrucción, cavitación ni pérdida de cebado del sistema en ningún nivel<br>
+  6) Procesar los datos crudos de volumen y viscosidad en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = volumen llenado (mL) por nivel de viscosidad; tamaño de muestra = mínimo 10 envases por nivel y al menos 3 niveles; estadísticos = media, desviación estándar y RSD por nivel, y error frente al volumen objetivo; comparación entre niveles con ANOVA de un factor (viscosidad) cuando el protocolo aprobado lo defina, con verificación de supuestos e identificación de la causa; criterio = exactitud y repetibilidad dentro de la URS en todos los niveles; valores atípicos = prueba de Grubbs con investigación documentada.</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  La exactitud y la repetibilidad cumplen la URS en los tres niveles de viscosidad.<br>
+  No existe obstrucción, cavitación ni pérdida de cebado.<br>
+  La temperatura registrada se mantiene dentro del rango aprobado.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro de viscosidad, temperatura y pesos con data cruda<br>
+  - Data cruda y reporte estadístico del desafío de viscosidad</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante; URS aprobada (rango de viscosidad y tolerancias).</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-OQ-LL-012" class="ensayo" data-id="EQ-OQ-LL-012" data-fase="OQ" data-cond="ambas" data-familia="llenadora">
+  <h3>EQ-OQ-LL-012 — Detección de envase ausente</h3>
+  <p><strong>Objetivo:</strong><br>Verificar que el <span class="equipo">equipo</span> no dosifica cuando no hay envase en la estación y que informa o rechaza según el diseño.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Arrancar la línea a velocidad nominal con envases y dosificación activa<br>
+  2) Retirar un envase de forma controlada en cada estación de llenado, una estación a la vez<br>
+  a) La boquilla no dosifica y no hay derrame sobre la banda<br>
+  b) El HMI registra la ausencia de envase o el sistema rechaza según el diseño<br>
+  3) Repetir la prueba con 10 envases consecutivos ausentes en una misma estación<br>
+  4) Verificar que el sensor detecta el envase en la posición correcta y que no hay falsos positivos con envases presentes<br>
+  5) Restablecer la condición normal y confirmar la reanudación sin intervención no documentada</p>
+  <p><strong>Plan estadístico:</strong><br>No aplica: verificación funcional por atributo (dosifica/no dosifica, 100 % de los casos ensayados); sin inferencia estadística.</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  El 100 % de los casos sin envase queda sin dosificar y sin derrame.<br>
+  El evento queda registrado o el envase se rechaza según el diseño.<br>
+  No existen falsos positivos con envases presentes.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Matriz de casos con estación, acción ejecutada y respuesta del equipo</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante; GAMP5 2.ª ed.; URS aprobada.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-OQ-LL-013" class="ensayo" data-id="EQ-OQ-LL-013" data-fase="OQ" data-cond="ambas" data-familia="llenadora">
+  <h3>EQ-OQ-LL-013 — Antigoteo y corte de llenado</h3>
+  <p><strong>Objetivo:</strong><br>Verificar que el corte de llenado es limpio y que no existe goteo desde la boquilla hacia el envase, la banda o la zona de tapado.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Arrancar la línea a velocidad nominal con agua o placebo y volumen nominal<br>
+  2) Ejecutar 30 ciclos de arranque y paro de dosificación, dejando la boquilla en posición de reposo entre ciclos<br>
+  3) Colocar papel de filtro o placa limpia bajo cada boquilla durante el reposo y verificar la presencia de gotas<br>
+  4) Inspeccionar el exterior del envase y la banda en busca de producto<br>
+  5) Verificar el funcionamiento de la bandeja o recipiente de goteo (si aplica) y su vaciado<br>
+  6) Registrar el número de ciclos con goteo y la ubicación</p>
+  <p><strong>Plan estadístico:</strong><br>No aplica: verificación funcional por atributo (gotea/no gotea, 100 % de los ciclos); sin inferencia estadística.</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  No hay goteo que alcance el envase, la banda o la zona de tapado en los 30 ciclos.<br>
+  El corte de llenado no deja producto en el exterior del envase.<br>
+  La bandeja de goteo, si aplica, recoge y evacua correctamente.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro de ciclos con observación de goteo por boquilla</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante; URS aprobada.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-OQ-LL-014" class="ensayo" data-id="EQ-OQ-LL-014" data-fase="OQ" data-cond="ambas" data-familia="llenadora">
+  <h3>EQ-OQ-LL-014 — Sincronización envase–sensor–boquilla</h3>
+  <p><strong>Objetivo:</strong><br>Verificar que la detección del envase, el tiempo de respuesta del control y la actuación de la boquilla están sincronizados en todo el rango de velocidad.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Ajustar la velocidad mínima y máxima del rango aprobado<br>
+  2) Medir con traza del HMI, temporizador o instrumento equivalente el tiempo entre la detección del envase y la apertura de la boquilla<br>
+  3) Verificar que el llenado ocurre centrado en el envase y sin derrame en ambas velocidades<br>
+  4) Revisar 100 envases consecutivos por velocidad y registrar desplazamientos, derrames o envases sin llenar<br>
+  5) Ajustar el parámetro de sincronización solo si el procedimiento lo autoriza y registrar el cambio<br>
+  6) Restablecer el ajuste aprobado y confirmar la reproducibilidad</p>
+  <p><strong>Plan estadístico:</strong><br>No aplica: verificación funcional por atributo (sincronizado/no sincronizado, 100 % de los envases revisados); sin inferencia estadística.</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  El tiempo de respuesta está dentro de la ventana aprobada en ambas velocidades.<br>
+  El 100 % de los envases revisados se llena centrado y sin derrame.<br>
+  Cualquier ajuste queda autorizado y registrado.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro de tiempos de respuesta y revisión de envases por velocidad</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante; GAMP5 2.ª ed.; URS aprobada.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-OQ-LL-015" class="ensayo" data-id="EQ-OQ-LL-015" data-fase="OQ" data-cond="ambas" data-familia="llenadora" data-analisis="si">
+  <h3>EQ-OQ-LL-015 — Nivel y alimentación del tanque/tolva</h3>
+  <p><strong>Objetivo:</strong><br>Verificar que la indicación de nivel y el sistema de alimentación mantienen el nivel dentro del rango aprobado y que la alarma de nivel bajo actúa antes de afectar la dosificación.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Verificar el nivel mínimo, nominal y máximo con medición independiente (regla, caudalímetro o pesada) contra la indicación del equipo<br>
+  2) Verificar la apertura y cierre de la válvula de alimentación y la estabilidad del nivel durante el llenado<br>
+  3) Provocar nivel bajo y confirmar la alarma y la inhibición o paro según el diseño<br>
+  4) Verificar que no hay entrada de aire, espuma ni vórtice en el rango de operación<br>
+  5) Registrar nivel y volumen de alimentación durante un periodo de corrida continua<br>
+  6) Procesar los datos crudos de nivel y volumen en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = nivel o volumen en el tanque (unidad del instrumento) frente a la medición independiente; tamaño de muestra = 3 réplicas por punto (mínimo, nominal y máximo) y serie continua durante la corrida; estadísticos = media, desviación estándar, error absoluto y relativo por punto, y rango de variación durante la corrida; criterio = error y variación dentro de la URS; sin ANOVA; valores atípicos con investigación documentada.</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  La indicación de nivel corresponde a la medición independiente dentro de la tolerancia de la URS.<br>
+  El nivel se mantiene dentro del rango aprobado durante la corrida.<br>
+  La alarma de nivel bajo actúa antes de afectar la dosificación y no hay entrada de aire ni vórtice.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro de niveles y alimentación con data cruda y reporte<br>
+  - Data cruda y reporte estadístico del análisis de nivel</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante; URS aprobada.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-OQ-LL-016" class="ensayo" data-id="EQ-OQ-LL-016" data-fase="OQ" data-cond="ambas" data-familia="llenadora" data-analisis="si">
+  <h3>EQ-OQ-LL-016 — Presión, caudal y sellos del bombeo</h3>
+  <p><strong>Objetivo:</strong><br>Verificar que la presión y el caudal del bombeo son estables y repetibles en el rango de operación, y que los sellos y conexiones no presentan fuga.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Instalar manómetro y caudalímetro calibrados en los puntos de medición definidos por el fabricante<br>
+  2) Ajustar el caudal mínimo, nominal y máximo del rango aprobado<br>
+  3) Medir presión y caudal en cada punto, por triplicado, y registrar la temperatura del producto<br>
+  4) Inspeccionar sellos, empaques y conexiones durante la operación y después de cada punto, sin desmontar el sistema<br>
+  5) Verificar la repetibilidad del bombeo en cada punto y la ausencia de pulsaciones o cavitación<br>
+  6) Procesar los datos crudos de presión y caudal en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = presión (bar) y caudal (L/min o mL/min) por punto; tamaño de muestra = 3 réplicas por punto (mínimo, nominal y máximo); estadísticos = media, desviación estándar y RSD por punto, y error frente a la consigna; criterio = presión y caudal dentro de la URS y RSD dentro del límite aprobado; sin ANOVA (cada punto se evalúa contra su consigna); valores atípicos con investigación documentada.</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  La presión y el caudal están dentro del rango de la URS en los tres puntos.<br>
+  La repetibilidad cumple el límite aprobado.<br>
+  No existen fugas en sellos, empaques ni conexiones.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro de presión, caudal y temperatura con data cruda<br>
+  - Data cruda y reporte estadístico del análisis de bombeo</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante; URS aprobada.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-OQ-LL-017" class="ensayo" data-id="EQ-OQ-LL-017" data-fase="OQ" data-cond="ambas" data-familia="llenadora">
+  <h3>EQ-OQ-LL-017 — Conteo y registros de producción</h3>
+  <p><strong>Objetivo:</strong><br>Verificar que el conteo de envases llenados y rechazados es exacto y que los registros de producción son completos y trazables.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Arrancar la línea a velocidad nominal y poner el contador en cero<br>
+  2) Procesar 100 envases consecutivos y comparar el conteo del equipo con el conteo manual<br>
+  3) Generar rechazos controlados (envase ausente, peso fuera de límite o tapón ausente) y verificar su conteo separado<br>
+  4) Verificar los campos del registro de producción: lote, fecha, hora, operador, formato, volumen y conteos<br>
+  5) Verificar que el contador no se duplica ni se pierde al cambiar de turno o al reiniciar la pantalla<br>
+  6) Verificar la integridad del registro impreso o exportado contra el histórico</p>
+  <p><strong>Plan estadístico:</strong><br>No aplica: verificación funcional por atributo (cuenta/no cuenta, 100 % de los 100 envases); sin inferencia estadística.</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  El conteo del equipo coincide exactamente con el conteo manual.<br>
+  Los rechazos se cuentan por separado y coinciden con los generados.<br>
+  Los registros están completos, firmados y coinciden con el histórico.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro de conteo manual y del equipo<br>
+  - Muestra del registro de producción y del histórico</p>
+  <p><strong>Referencia:</strong><br>21 CFR Parte 11 (si aplica); EU GMP Anexo 15; manual del fabricante.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-OQ-LL-018" class="ensayo" data-id="EQ-OQ-LL-018" data-fase="OQ" data-cond="ambas" data-familia="llenadora">
+  <h3>EQ-OQ-LL-018 — Cambio de formato con parámetros registrados</h3>
+  <p><strong>Objetivo:</strong><br>Verificar que el cambio de formato instala las partes correctas y carga los parámetros aprobados, sin mezclar parámetros del formato anterior.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Registrar el formato y los parámetros actuales del formato en uso<br>
+  2) Ejecutar el cambio al segundo formato según el procedimiento del fabricante: guías, estrella, boquillas y altura<br>
+  3) Cargar la receta o formato desde el control y verificar cada parámetro contra la tabla aprobada<br>
+  4) Verificar que no quedan parámetros del formato anterior y que el control no permite iniciar con parámetros incompletos<br>
+  5) Llenar un envase de primera pieza y verificar volumen, centrado y tapado<br>
+  6) Registrar el cambio con usuario, fecha, hora y parámetros, y volver al formato original verificando la restitución</p>
+  <p><strong>Plan estadístico:</strong><br>No aplica: verificación funcional y documental del cambio de formato; sin muestreo inferencial.</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Las partes instaladas y los parámetros cargados corresponden al formato declarado.<br>
+  No quedan parámetros del formato anterior y el control bloquea el arranque con parámetros incompletos.<br>
+  El cambio queda registrado y la primera pieza cumple los criterios.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro de cambio de formato con parámetros antes y después<br>
+  - Verificación de primera pieza</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante; URS aprobada; procedimiento interno de cambio de formato.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-OQ-LL-019" class="ensayo" data-id="EQ-OQ-LL-019" data-fase="OQ" data-cond="ambas" data-familia="llenadora" data-analisis="si">
+  <h3>EQ-OQ-LL-019 — Cierre y control de peso en línea (si aplica)</h3>
+  <p><strong>Objetivo:</strong><br>Verificar que el control de peso en línea rechaza los envases fuera de límite y que el cierre del envase cumple el criterio aprobado.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Verificar la calibración del control de peso con pesas patrón en el rango de operación<br>
+  2) Ajustar los límites de peso superior e inferior aprobados en la URS<br>
+  3) Procesar envases con peso bajo, nominal y alto, y verificar aceptación o rechazo según el límite<br>
+  4) Verificar la expulsión efectiva del envase rechazado y su conteo<br>
+  5) Verificar el torque o la integridad del cierre con instrumento calibrado en una muestra de envases, y la ausencia de tapón o sello<br>
+  6) Si aplica, verificar la integridad del cierre según USP &lt;671&gt; con la muestra definida en el protocolo<br>
+  7) Procesar los datos crudos de peso y torque en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = peso del envase (g) y torque de cierre (unidad del instrumento); tamaño de muestra = mínimo 10 envases por nivel de peso (bajo, nominal y alto) y mínimo 10 envases para torque; estadísticos = media, desviación estándar y RSD por nivel, y proporción de rechazos correctos; criterio = peso y torque dentro de la URS y 100 % de rechazo de los envases fuera de límite; sin ANOVA; valores atípicos con investigación documentada.</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  El 100 % de los envases fuera de límite se rechaza y el 100 % de los envases dentro de límite se acepta.<br>
+  El peso y el torque cumplen la URS.<br>
+  El cierre está completo y sin daño en la muestra revisada.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro de pesos, rechazos y torque con data cruda<br>
+  - Data cruda y reporte estadístico del control de peso y cierre</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante; URS aprobada; USP &lt;671&gt; (si aplica).</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-OQ-LL-020" class="ensayo" data-id="EQ-OQ-LL-020" data-fase="OQ" data-cond="ambas" data-familia="llenadora">
+  <h3>EQ-OQ-LL-020 — Ciclo de limpieza y drenabilidad (si aplica)</h3>
+  <p><strong>Objetivo:</strong><br>Verificar que el ciclo de limpieza alcanza todas las superficies en contacto y que el sistema drena por completo sin dejar residuos.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Verificar las conexiones de limpieza (CIP/COP) y la ausencia de puntos muertos o tramos sin drenaje<br>
+  2) Ejecutar el ciclo de limpieza con los parámetros aprobados: tiempo, temperatura, caudal y concentración del agente<br>
+  3) Verificar los parámetros del ciclo en el registro del equipo y en la medición independiente<br>
+  4) Inspeccionar visualmente las superficies en contacto y verificar la ausencia de residuo<br>
+  5) Tomar la muestra de enjuague final y verificar conductividad, pH o criterio aprobado<br>
+  6) Abrir los puntos de drenaje y verificar el vaciado completo sin bolsas de líquido<br>
+  7) Registrar cualquier desviación y su disposición</p>
+  <p><strong>Plan estadístico:</strong><br>No aplica: verificación funcional y fisicoquímica del enjuague según el criterio aprobado; sin muestreo inferencial.</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Los parámetros del ciclo de limpieza están dentro del rango aprobado.<br>
+  No queda residuo visible ni puntos muertos sin drenaje.<br>
+  El enjuague final cumple el criterio aprobado y el sistema drena por completo.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro del ciclo de limpieza con parámetros<br>
+  - Resultados del enjuague final e inspección visual</p>
+  <p><strong>Referencia:</strong><br>EU GMP Anexo 15; procedimiento de limpieza validado; manual del fabricante.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-OQ-LL-021" class="ensayo" data-id="EQ-OQ-LL-021" data-fase="OQ" data-cond="ambas" data-familia="llenadora" data-analisis="si">
+  <h3>EQ-OQ-LL-021 — Temperatura de producto o camisa (si aplica)</h3>
+  <p><strong>Objetivo:</strong><br>Verificar que el control de temperatura del producto o de la camisa mantiene el valor aprobado y que su indicación corresponde a la medición patrón.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Verificar el setpoint mínimo, nominal y máximo del rango aprobado<br>
+  2) Medir la temperatura con instrumento patrón calibrado en cada punto, por triplicado, y comparar con la indicación del equipo<br>
+  3) Verificar la homogeneidad en los puntos de medición definidos y la estabilidad durante un periodo de corrida<br>
+  4) Provocar la desviación de temperatura y verificar la alarma y la acción asociada<br>
+  5) Registrar la temperatura del producto y de la camisa en cada punto<br>
+  6) Procesar los datos crudos de temperatura en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = temperatura (°C) medida con patrón frente a la indicada; tamaño de muestra = 3 réplicas por punto (mínimo, nominal y máximo) y serie continua durante la corrida; estadísticos = media, desviación estándar y error por punto, y variación máxima entre puntos de medición; criterio = error y homogeneidad dentro de la URS; sin ANOVA; valores atípicos con investigación documentada.</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  La temperatura medida corresponde a la indicada dentro de la tolerancia de la URS en los tres puntos.<br>
+  La homogeneidad y la estabilidad cumplen el criterio aprobado.<br>
+  La alarma de desviación actúa según el diseño.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro de temperaturas con data cruda y reporte<br>
+  - Data cruda y reporte estadístico del análisis de temperatura</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante; URS aprobada.</p>
+</article>
+
+<article data-bloque="4" id="art-EQ-OQ-LL-RES" class="ensayo" data-id="EQ-OQ-LL-RES" data-fase="OQ" data-cond="ambas" data-familia="llenadora">
+  <h3>EQ-OQ-LL-RES — Tabla resumen de los ensayos del OQ</h3>
+  <p><strong>Objetivo:</strong><br>Consolidar el listado de ensayos del OQ de la llenadora de líquidos para la tabla resumen del protocolo.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Confirmar que los ensayos EQ-OQ-LL-001 a EQ-OQ-LL-021 están incluidos en el índice del protocolo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Los 21 ensayos aparecen en la tabla resumen con su veredicto.</p>
+  <p><strong>Referencia:</strong><br>EU GMP Anexo 15.</p>
+</article>
+
+<article data-bloque="6" id="art-EQ-OQ-LL-REF" class="ensayo tabla-info" data-id="EQ-OQ-LL-REF" data-fase="OQ" data-cond="ambas" data-familia="llenadora">
+  <h3>EQ-OQ-LL-REF — Referencias del OQ de llenadora de líquidos</h3>
+  <table>
+    <tr><th>SECCIÓN</th><th>TÍTULO</th><th>ESTADO</th></tr>
+    <tr><td>6.1</td><td>EU GMP Anexo 15 — Cualificación y validación: la OQ demuestra operación según especificaciones aprobadas</td><td>VIGENTE</td></tr>
+    <tr><td>6.2</td><td>GAMP5 2.ª ed. — Enfoque de challenge a funciones de seguridad, interlocks y alarmas</td><td>VIGENTE</td></tr>
+    <tr><td>6.3</td><td>21 CFR Parte 11 — Registros electrónicos, firmas electrónicas y control de acceso</td><td>VIGENTE</td></tr>
+    <tr><td>6.4</td><td>ISPE Baseline Guide Vol. 5 — Commissioning and Qualification; exactitud de instrumentos y sensores asociados</td><td>VIGENTE</td></tr>
+    <tr><td>6.5</td><td>USP &lt;671&gt; Containers—Performance Testing — Integridad del cierre, si aplica</td><td>VIGENTE</td></tr>
+    <tr><td>6.6</td><td>Manual del fabricante de la llenadora — Setpoints, secuencias, límites de diseño y tolerancias</td><td>VIGENTE</td></tr>
+    <tr><td>6.7</td><td>URS aprobada — Volumen objetivo, tolerancias, rango de viscosidad y criterios de aceptación</td><td>VIGENTE</td></tr>
+  </table>
+</article>
+
+<div class="anexos" data-bloque="8">
+<p><strong>ANEXOS:</strong></p>
+<table>
+<tr><th>SECCIÓN</th><th>TÍTULO</th></tr>
+<tr><td>8.1</td><td>Anexo A — Registros crudos y reportes estadísticos (volumen, uniformidad entre boquillas, estabilidad de corrida, viscosidad, nivel, presión y temperatura)</td></tr>
+<tr><td>8.2</td><td>Anexo B — Certificados de calibración de balanza, tacómetro, caudalímetro, manómetros, termómetros y torquímetro</td></tr>
+<tr><td>8.3</td><td>Anexo C — Matrices de paradas de emergencia, interlocks, alarmas, detección de envase y cambio de formato</td></tr>
+</table>
+</div>
+
+</section>
+
+</body>
+</html>
