@@ -1515,6 +1515,7 @@ details.gl > .gl-body{padding:0 14px 14px}
 .fbandeja-action-danger{color:var(--accent-error)}
 .fbandeja-action-danger:hover{border-color:var(--accent-error);background:rgba(248,113,113,.12)}
 .fbandeja-empty{text-align:center;padding:32px 12px;color:var(--text-muted);font-size:12px}
+.fbandeja-sectionhint{margin:0;padding:2px 18px 10px;font-size:11px;line-height:1.5;color:var(--text-muted)}
 .fbandeja-empty strong{display:block;color:var(--text-primary);margin-bottom:4px;font-size:13px}
 .fbandeja-foot{display:flex;justify-content:space-between;align-items:center;gap:14px;padding:14px 24px;border-top:1px solid var(--border);background:var(--bg-secondary)}
 .fbandeja-footnote{display:flex;align-items:center;gap:8px;color:var(--text-muted);font-size:11px}

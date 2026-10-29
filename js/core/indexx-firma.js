@@ -1594,6 +1594,19 @@ var _firmaPages = [
   { key: 'cancelled', label: 'Canceladas',  icon: '↘', tone: 'muted' },
 ];
 
+// Retención de canceladas: espejo de REJECTED_DAYS del backend (90 días).
+// La purga semanal (workflow Purge) borra físicamente las lápidas más antiguas.
+var _FIRMA_RETENTION_CANCELLED_DAYS = 90;
+
+function _firmaPurgeDate(s) {
+  var base = s.updated_at || s.deleted_at || s.created_at;
+  if (!base) return '';
+  var d = new Date(base);
+  if (isNaN(d.getTime())) return '';
+  d.setDate(d.getDate() + _FIRMA_RETENTION_CANCELLED_DAYS);
+  return ('0' + d.getDate()).slice(-2) + '/' + ('0' + (d.getMonth() + 1)).slice(-2) + '/' + d.getFullYear();
+}
+
 function _firmaGroupSessions(sessions) {
   var out = { pending: [], done: [], rejected: [], cancelled: [] };
   (sessions || []).forEach(function(s) {
@@ -1746,7 +1759,10 @@ async function firmaRenderBandejaModal() {
           var recs = items.length
             ? '<div class="fbandeja-records">' + items.map(function(s) { return _firmaBandejaItemHtml(s, isAdmin, me); }).join('') + '</div>'
             : '<div class="fbandeja-empty"><strong>Sin informes</strong></div>';
-          sec.innerHTML = head + recs;
+          var hint = p.key === 'cancelled'
+            ? '<p class="fbandeja-sectionhint">Se conservan ' + _FIRMA_RETENTION_CANCELLED_DAYS + ' días para trazabilidad; después se eliminan automáticamente (purga semanal).</p>'
+            : '';
+          sec.innerHTML = head + hint + recs;
           list.appendChild(sec);
         });
       }
@@ -1834,7 +1850,10 @@ function _firmaModalWireActions() {
     btn.onclick = function(e) { e.stopPropagation(); _firmaModalConfirmReject(parseInt(btn.getAttribute('data-reject')), btn.getAttribute('data-name')); };
   });
   list.querySelectorAll('[data-del]').forEach(function(btn) {
-    btn.onclick = function(e) { e.stopPropagation(); _firmaModalConfirmDelete(parseInt(btn.getAttribute('data-del')), btn.getAttribute('data-name')); };
+    btn.onclick = function(e) {
+      e.stopPropagation();
+      _firmaModalConfirmDelete(parseInt(btn.getAttribute('data-del')), btn.getAttribute('data-name'), btn.getAttribute('data-hard') === '1');
+    };
   });
   list.querySelectorAll('[data-del-complete]').forEach(function(btn) {
     btn.onclick = function(e) { e.stopPropagation(); firmaDeleteComplete(parseInt(btn.getAttribute('data-del-complete')), btn.getAttribute('data-name')); };
@@ -1869,6 +1888,8 @@ function _firmaBandejaItemHtml(s, isAdmin, me) {
   } else {
     meta = '<span>#' + s.id + '</span><i class="fbandeja-sep"></i><span>Cancelada por ' + escapeHtml(s.deleted_by || '—') + '</span>';
     if (s.deleted_reason) meta += '<i class="fbandeja-sep"></i><span>Motivo: ' + escapeHtml(s.deleted_reason) + '</span>';
+    var _purge = _firmaPurgeDate(s);
+    if (_purge) meta += '<i class="fbandeja-sep"></i><span title="Retención de canceladas: ' + _FIRMA_RETENTION_CANCELLED_DAYS + ' días (purga semanal)">🗑 Se elimina el ' + _purge + '</span>';
   }
   if (isAdmin && s.created_by) meta += '<i class="fbandeja-sep"></i><span>de ' + escapeHtml(s.created_by) + '</span>';
 
@@ -1880,7 +1901,7 @@ function _firmaBandejaItemHtml(s, isAdmin, me) {
   } else if (s.status === 'rejected') {
     if (isMine) actions += '<button type="button" class="fbandeja-action fbandeja-action-danger" data-del="' + s.id + '" data-name="' + escapeHtml(s.name) + '" title="Eliminar definitivamente" aria-label="Eliminar">⌫</button>';
   } else if (s.status === 'deleted') {
-    if (isAdmin) actions += '<button type="button" class="fbandeja-action fbandeja-action-danger" data-del="' + s.id + '" data-name="' + escapeHtml(s.name) + '" title="Eliminar (admin)" aria-label="Eliminar">⌫</button>';
+    if (isAdmin) actions += '<button type="button" class="fbandeja-action fbandeja-action-danger" data-del="' + s.id + '" data-hard="1" data-name="' + escapeHtml(s.name) + '" title="Eliminar definitivamente (admin)" aria-label="Eliminar definitivamente">⌫</button>';
   }
 
   return '<article class="fbandeja-record" data-status="' + statusKey + '" data-open="' + s.id + '">' +
@@ -1933,10 +1954,12 @@ function _firmaModalConfirmReject(id, name) {
   });
 }
 
-function _firmaModalConfirmDelete(id, name) {
+function _firmaModalConfirmDelete(id, name, hard) {
   _firmaModalConfirm({
-    title: '¿Eliminar este registro?',
-    message: '“' + (name || ('#' + id)) + '” se eliminará. El motivo queda registrado en auditoría.',
+    title: hard ? '¿Eliminar definitivamente?' : '¿Eliminar este registro?',
+    message: hard
+      ? '“' + (name || ('#' + id)) + '” está cancelada y se borrará del servidor de forma permanente. No se puede recuperar. El motivo queda registrado en auditoría.'
+      : '“' + (name || ('#' + id)) + '” se eliminará. El motivo queda registrado en auditoría.',
     needReason: true, reasonRequired: true,
     confirmLabel: 'Eliminar',
     onConfirm: function(reason) { _firmaDoDelete(id, reason); },

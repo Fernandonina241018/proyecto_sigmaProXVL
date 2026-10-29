@@ -750,3 +750,30 @@ test('countSignSessions: all/mine total real; pending lo resuelve el endpoint', 
   assert.ok(mine > 0);
   assert.equal(await db.countSignSessions({ scope: 'pending', username: 'x' }), null);
 });
+
+// ── Canceladas: el admin puede eliminarlas definitivamente (hard delete) ──
+test('cancelada: admin la borra físicamente con motivo; el resto no puede', async () => {
+  const s = await db.createSignSession({
+    name: 'RPT-HARD', html: HTML, createdBy: 'ana_prep',
+    assignedReviewer: 'beto_rev', assignedApprover: null,
+    preparedSignature: { nombre: 'Ana' },
+  });
+  // Cancelar (soft delete) como admin
+  const soft = await db.deleteSignSession({ id: s.id, username: 'root_adm', userRole: 'admin', reason: 'duplicada' });
+  assert.equal(soft.status, 'deleted');
+  assert.notEqual(await db.getSignSession(s.id), null);
+
+  // No-admin no puede borrar la lápida
+  const noAdmin = await db.deleteSignSession({ id: s.id, username: 'ana_prep', userRole: 'analista', reason: 'x' });
+  assert.equal(noAdmin.code, 'not-deletable');
+
+  // Admin sin motivo → obligatorio
+  const noReason = await db.deleteSignSession({ id: s.id, username: 'root_adm', userRole: 'admin' });
+  assert.equal(noReason.code, 'reason-required');
+
+  // Admin con motivo → borrado físico
+  const hard = await db.deleteSignSession({ id: s.id, username: 'root_adm', userRole: 'admin', reason: 'limpieza manual' });
+  assert.equal(hard.hardDeleted, true);
+  assert.equal(hard.deleted_reason, 'limpieza manual');
+  assert.equal(await db.getSignSession(s.id), null);
+});

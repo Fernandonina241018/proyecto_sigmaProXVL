@@ -1372,7 +1372,7 @@ app.delete('/api/sign-sessions/:id', requireAuth, async (req, res) => {
         await db.logAuditEvent({
             username: req.user.username, action: 'SIGN_SESSION_DELETE', success: 1,
             ip: getClientIP(req), userAgent: req.headers['user-agent'],
-            module: 'FIRMA', details: JSON.stringify({ sessionId: result.id, reason: result.deleted_reason }),
+            module: 'FIRMA', details: JSON.stringify({ sessionId: result.id, reason: result.deleted_reason, hard: !!result.hardDeleted }),
         });
         res.json({ ok: true, id: result.id, session: _stripSignSession(result) });
     } catch (err) {

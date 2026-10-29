@@ -90,6 +90,39 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (SigmaProXVL) con spr
 
 ## CAMBIOS RECIENTES
 
+### 2026-10-28 (40): Canceladas — borrado definitivo (admin) + retención visible
+
+**Qué:** La pestaña **Canceladas** de la Bandeja de firmas ahora explica su retención y el botón ⌫ del admin funciona de verdad (antes llamaba a un endpoint que rechazaba las sesiones ya canceladas).
+
+- **Backend** (`deleteSignSession`, Postgres y store local): si la sesión ya está `deleted`, un **admin** puede borrarla **físicamente** con motivo obligatorio (`hardDeleted: true`). Los demás roles siguen recibiendo `not-deletable`. La auditoría conserva `SIGN_SESSION_DELETE` con `hard: true|false`.
+- **UI**: el ⌫ de las canceladas pasa a "Eliminar definitivamente (admin)" y el confirm avisa de que el borrado es **permanente**. Se sigue exigiendo motivo.
+- **Transparencia**: cada tarjeta cancelada muestra **🗑 Se elimina el DD/MM/AAAA** (90 días desde `updated_at`/`deleted_at`) y la sección añade el aviso "Se conservan 90 días para trazabilidad; después se eliminan automáticamente (purga semanal)".
+- Se mantiene la purga automática semanal (`.github/workflows/purge.yml`): completadas >182 días, rechazadas/canceladas >90 días y cancelación de abiertas >90 días.
+
+**Archivos afectados:**
+| Archivo | Cambio |
+|---------|--------|
+| `backend/database.js:804-838` | `deleteSignSession`: rama `deleted` → hard delete para admin (motivo obligatorio) |
+| `backend/database.js:1615-1640` | Mismo comportamiento en el store JSON local |
+| `backend/server.js:1374-1378` | Auditoría con `hard: !!result.hardDeleted` |
+| `js/core/indexx-firma.js:1599-1607` | `_FIRMA_RETENTION_CANCELLED_DAYS` (90) + `_firmaPurgeDate()` |
+| `js/core/indexx-firma.js:1763` | Aviso de retención en la sección Canceladas |
+| `js/core/indexx-firma.js:1892` | Fecha estimada de purga en cada tarjeta cancelada |
+| `js/core/indexx-firma.js:1904, 1855, 1957` | Botón/confirm de borrado definitivo (`data-hard`) |
+| `css/core/indexx.css:1518` | `.fbandeja-sectionhint` |
+| `backend/tests/sign-sessions.test.js` | Test: admin hard delete; no-admin y sin motivo bloqueados |
+| `tests/firma-bandeja-modal.test.js` | 3 tests: fecha de purga, confirm permanente, no-admin sin botón |
+
+**Verificación:**
+- `node --check` en `indexx-firma.js`, `backend/database.js`, `backend/server.js`: OK.
+- `npx vitest run`: **598 tests / 46 archivos OK**.
+- `cd backend && npm test`: **99 tests OK**.
+- Navegador real (bandeja mockeada):
+  - Canceladas muestra `Se conservan 90 días…` y `🗑 Se elimina el 01/04/2026`.
+  - Admin ve ⌫ “Eliminar definitivamente”; confirm: *“está cancelada y se borrará del servidor de forma permanente”* con motivo obligatorio.
+  - No-admin no ve el botón.
+  - **0 errores** de página/consola.
+
 ### 2026-10-28 (39): Borrado de dataset/hoja coherente con los gráficos
 
 **Qué:** Al limpiar el dataset, limpiar una hoja o eliminarla, la app ahora **avisa cuántos gráficos se ven afectados** y deja la galería en un estado coherente (archivada y no seleccionable) en vez de mostrar gráficos vacíos que luego desaparecían en silencio de los reportes.

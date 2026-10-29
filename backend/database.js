@@ -806,7 +806,18 @@ function buildPostgres() {
         if (!row) return { error: 'Sesión no encontrada', code: 'not-found' };
         const session = _parseSignRow(row);
         if (session.status === 'deleted') {
-            return { error: 'La sesión ya está eliminada', code: 'not-deletable' };
+            // Lápida (cancelada): solo admin y con motivo → borrado físico.
+            // La auditoría conserva SIGN_SESSION_DELETE como rastro.
+            if (userRole !== 'admin') return { error: 'La sesión ya está eliminada', code: 'not-deletable' };
+            if (!String(reason || '').trim()) {
+                return { error: 'El motivo de eliminación es obligatorio', code: 'reason-required' };
+            }
+            await run('DELETE FROM report_signatures WHERE id = $1', [id]);
+            return Object.assign({}, session, {
+                hardDeleted: true,
+                deleted_by: username,
+                deleted_reason: String(reason).trim().slice(0, 500),
+            });
         }
         // allowOpen: cancelación de abiertas por cupo (solo endpoint). Admin: cualquier estado.
         if (!allowOpen && userRole !== 'admin' && session.status !== 'rejected' && session.status !== 'complete') {
@@ -1609,7 +1620,19 @@ function buildLocalStore() {
         if (idx === -1) return { error: 'Sesión no encontrada', code: 'not-found' };
         var s = state.report_signatures[idx];
         if (s.status === 'deleted') {
-            return { error: 'La sesión ya está eliminada', code: 'not-deletable' };
+            // Lápida (cancelada): solo admin y con motivo → borrado físico.
+            if (userRole !== 'admin') return { error: 'La sesión ya está eliminada', code: 'not-deletable' };
+            if (!String(reason || '').trim()) {
+                return { error: 'El motivo de eliminación es obligatorio', code: 'reason-required' };
+            }
+            var removed = _localSignView(s);
+            state.report_signatures.splice(idx, 1);
+            save();
+            return Object.assign({}, removed, {
+                hardDeleted: true,
+                deleted_by: username,
+                deleted_reason: String(reason).trim().slice(0, 500),
+            });
         }
         // allowOpen: cancelación de abiertas por cupo (solo endpoint). Admin: cualquier estado.
         if (!allowOpen && userRole !== 'admin' && s.status !== 'rejected' && s.status !== 'complete') {

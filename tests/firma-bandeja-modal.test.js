@@ -88,3 +88,46 @@ describe('bandeja en modal moderno (pestañas por estado)', () => {
     expect(document.getElementById('firmaModalList').textContent).toMatch('creados por ti');
   });
 });
+
+describe('canceladas: retención visible y borrado definitivo (admin)', () => {
+  test('muestra la fecha de purga (90 días) y el aviso de retención', async () => {
+    const sessions = [
+      { id: 4, name: 'D', status: 'deleted', signed_count: 1, created_by: 'ana', deleted_by: 'ana', deleted_reason: 'x', updated_at: '2026-01-01T00:00:00' },
+    ];
+    const { sandbox, document } = loadModalHarness('admin', sessions);
+    await vm.runInContext('firmaOpenBandejaModal()', sandbox);
+    await new Promise((r) => setTimeout(r, 30));
+    const txt = document.getElementById('firmaModalList').textContent;
+    expect(txt).toMatch('Se elimina el 01/04/2026');
+    expect(txt).toMatch('Se conservan 90 días');
+  });
+
+  test('admin ve el botón de borrado definitivo y el confirm avisa que es permanente', async () => {
+    const sessions = [
+      { id: 4, name: 'D', status: 'deleted', created_by: 'ana', deleted_by: 'ana', updated_at: '2026-01-01T00:00:00' },
+    ];
+    const { sandbox, document } = loadModalHarness('admin', sessions);
+    await vm.runInContext('firmaOpenBandejaModal()', sandbox);
+    await new Promise((r) => setTimeout(r, 30));
+    const btn = document.querySelector('#firmaModalList [data-del]');
+    expect(btn).toBeTruthy();
+    expect(btn.getAttribute('data-hard')).toBe('1');
+    expect(btn.getAttribute('title')).toMatch('definitivamente');
+    btn.click();
+    const conf = document.querySelector('.fbandeja-confirm.show');
+    expect(conf).toBeTruthy();
+    expect(conf.textContent).toMatch('borrará del servidor de forma permanente');
+  });
+
+  test('no-admin no puede borrar una cancelada (sin botón)', async () => {
+    const sessions = [
+      { id: 7, name: 'E', status: 'deleted', created_by: 'ana', updated_at: '2026-01-01T00:00:00' },
+    ];
+    const { sandbox, document } = loadModalHarness('analista', sessions);
+    await vm.runInContext('firmaOpenBandejaModal()', sandbox);
+    await new Promise((r) => setTimeout(r, 30));
+    const sec = document.querySelector('#fbandeja-page-cancelled');
+    expect(sec).toBeTruthy();
+    expect(sec.querySelector('[data-del]')).toBeNull();
+  });
+});
