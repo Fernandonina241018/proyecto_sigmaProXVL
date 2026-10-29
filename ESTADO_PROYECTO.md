@@ -90,6 +90,33 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (SigmaProXVL) con spr
 
 ## CAMBIOS RECIENTES
 
+### 2026-10-29 (43): Concordancia el/la por entidad — motor con género y ficha de balanza
+
+**Qué:** Se corrigió el artículo fijo en masculino que quedaba delante del nombre del equipo al generar los protocolos (“el Llenadora”, “del Balanza”, “del Cabina”). La corrección es central, sin reescribir los 383 textos.
+
+- **Motor:** mapa `GENERO_POR_ID` (entidades femeninas y plural de termómetros), `generoDe()` y `ajustarArticulos()` ajustan `el/del/al/un` → `la/de la/a la/una` (y plural `los/de los`) justo antes del `<span class="equipo">`. Respeta mayúscula inicial.
+- **Cobertura:** 15 entidades femeninas; 271 ocurrencias en equipos y 112 en estabilidad (383 en total).
+- **Estabilidad:** se reemplazó “la cámara / las cámaras” por “el recinto / los recintos” y se corrigieron concordancias (“todos los recintos”, “recinto vacío”, “siempre va lleno”).
+- **Balanza:** confirmado que **no lleva PQ**; la ficha ahora lista IQ común, OQ reales (`EQ-OQ-BA-001…014`) y PQ como **No aplica** con justificación USP &lt;1058&gt; (OQ + calibración periódica + verificación rutinaria).
+- **Tests:** nuevo `tests/concordancia.test.js` (femenino, masculino, plural, mapa) y aserciones de generación para llenadora, autoclave, balanza, cabina y cuarto.
+
+**Archivos afectados:**
+| Archivo | Cambio |
+|---------|--------|
+| `js/core/plantilla-docx.js` | Líneas 525–558: mapa, `generoDe`, `ajustarArticulos`; 582: aplicación en `congelar`; 1610: export de pruebas |
+| `tests/concordancia.test.js` | **Nuevo**: 64 líneas de pruebas unitarias |
+| `tests/plantilla-equipos.test.js` | Llenadora 139–141, autoclave 211, balanza 227 |
+| `tests/banco-estabilidad.test.js` | Cabina 53 y nuevo caso cuarto masculino 58–65 |
+| `docs/banco-ensayos/equipos/balanza.html` | DQ/IQ/OQ/PQ reales; PQ No aplica justificado |
+| `docs/banco-ensayos/estabilidad/*-camaras.html` | “cámara” → “recinto” y concordancias |
+| `js/core/banco-estabilidad-data.js` | Regenerado con el texto corregido |
+
+**Verificación:**
+```
+node scripts/extraer-banco.mjs estabilidad --estricto   → OK, 46 artículos
+npm test                                                → 47 archivos, 614 tests OK
+```
+
 ### 2026-10-29 (42): PQ de llenadora de líquidos — 18 ensayos y cierre del ciclo IQ/OQ/PQ
 
 **Qué:** Se montó el **PQ por familia** de la llenadora con los 18 ensayos del `ENSAYOS.txt` vigente (el archivo fue reemplazado: ahora contiene el PQ, no el OQ). Con esto la llenadora pasa a tener IQ, OQ y PQ generables desde la app.

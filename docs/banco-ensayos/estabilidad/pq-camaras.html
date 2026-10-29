@@ -13,7 +13,7 @@
 <p><a href="../estabilidad.html">← Estabilidad</a></p>
 <h2>PQ — Cámaras de estabilidad (banco común ICH Q1A)</h2>
 <p>Versión del banco: <span data-banco-version>EST-PQ-CAM 2026-10-21 v2</span></p>
-<p>Ensayos de Calificación de Desempeño comunes a las cámaras de estabilidad (<span class="equipo">equipo</span>) con carga. Sin <code>data-familia</code>: aplican a todas las cámaras. Fuente: ENSAYOS.txt de protocolo.</p>
+<p>Ensayos de Calificación de Desempeño comunes a los recintos de estabilidad (<span class="equipo">equipo</span>) con carga. Sin <code>data-familia</code>: aplican a todos los recintos. Fuente: ENSAYOS.txt de protocolo.</p>
 
 <!-- ================= PQ ================= -->
 <section id="fase-pq">
@@ -90,7 +90,7 @@
   <h3>EST-PQ-002 — Mapeo de HR con carga (si aplica)</h3>
   <p><strong>Objetivo:</strong><br>Mapear la HR del <span class="equipo">equipo</span> en los mismos setpoints del mapeo de temperatura, donde se controle HR.</p>
   <p><strong>Procedimiento:</strong><br>
-  1) Confirmar si la cámara controla HR; si no, pasar al paso 5)<br>
+  1) Confirmar si el recinto controla HR; si no, pasar al paso 5)<br>
   2) Con los mismos sensores y plano del ensayo EST-PQ-001, registrar HR por setpoint con carga<br>
   3) Calcular uniformidad y estabilidad de HR por setpoint<br>
   a) HR dentro de los límites del URS durante todo el estudio<br>
@@ -106,7 +106,7 @@
 
 <article data-bloque="3" id="art-EST-PQ-003" class="ensayo" data-analisis="si" data-id="EST-PQ-003" data-fase="PQ" data-cond="ambas">
   <h3>EST-PQ-003 — Duración del estudio por setpoint</h3>
-  <p><strong>Objetivo:</strong><br>Definir y justificar la duración del mapeo con carga, normalmente de 24 a 72 h por setpoint con la cámara estable, extendida si la URS pide más estabilidad.</p>
+  <p><strong>Objetivo:</strong><br>Definir y justificar la duración del mapeo con carga, normalmente de 24 a 72 h por setpoint con el recinto estable, extendida si la URS pide más estabilidad.</p>
   <p><strong>Procedimiento:</strong><br>
   1) Fijar la duración por setpoint con su justificación (mínimo 24 h; 72 h si la URS exige estabilidad extendida)<br>
   2) Ejecutar el periodo completo sin interrupciones injustificadas<br>
@@ -124,9 +124,9 @@
 
 <article data-bloque="3" id="art-EST-PQ-004" class="ensayo" data-analisis="si" data-id="EST-PQ-004" data-fase="PQ" data-cond="ambas">
   <h3>EST-PQ-004 — Mapeo con carga mínima (si aplica)</h3>
-  <p><strong>Objetivo:</strong><br>Mapear con carga mínima, pues una cámara casi vacía se comporta distinto, con ciclos más rápidos y mayor oscilación; si la cámara siempre opera llena, declarar No Aplica.</p>
+  <p><strong>Objetivo:</strong><br>Mapear con carga mínima, pues un recinto casi vacío se comporta distinto, con ciclos más rápidos y mayor oscilación; si el recinto siempre opera lleno, declarar No Aplica.</p>
   <p><strong>Procedimiento:</strong><br>
-  1) Confirmar si la cámara opera con cargas variables; si siempre va llena, pasar al paso 5)<br>
+  1) Confirmar si el recinto opera con cargas variables; si siempre va lleno, pasar al paso 5)<br>
   2) Configurar la carga mínima representativa y mapear por setpoint crítico<br>
   3) Comparar oscilación y ciclos contra la carga máxima del ensayo EST-PQ-001<br>
   a) Dentro de límites aun con mayor oscilación, o limitación documentada<br>
@@ -180,7 +180,7 @@
   <h3>EST-PQ-007 — Apertura de puerta con carga</h3>
   <p><strong>Objetivo:</strong><br>Verificar la apertura de puerta con carga con duración y frecuencia definidas según el uso real, con tiempo de recuperación a límites.</p>
   <p><strong>Procedimiento:</strong><br>
-  1) Definir duración (por ejemplo 1 a 5 min) y frecuencia de apertura según el uso real de la cámara<br>
+  1) Definir duración (por ejemplo 1 a 5 min) y frecuencia de apertura según el uso real del recinto<br>
   2) Abrir la puerta el tiempo definido con carga, cerrarla y medir el tiempo de retorno a límites<br>
   3) Repetir 3 veces y registrar cada recuperación con el registro continuo<br>
   4) Confirmar que el uso real queda cubierto por lo ensayado<br>
@@ -197,7 +197,7 @@
 
 <article data-bloque="3" id="art-EST-PQ-008" class="ensayo" data-analisis="si" data-id="EST-PQ-008" data-fase="PQ" data-cond="ambas">
   <h3>EST-PQ-008 — Falla de energía con carga</h3>
-  <p><strong>Objetivo:</strong><br>Medir el tiempo que la cámara mantiene condiciones sin alimentación y el tiempo de recuperación al restablecer, definiendo la duración según el escenario a cubrir.</p>
+  <p><strong>Objetivo:</strong><br>Medir el tiempo que el recinto mantiene condiciones sin alimentación y el tiempo de recuperación al restablecer, definiendo la duración según el escenario a cubrir.</p>
   <p><strong>Procedimiento:</strong><br>
   1) Definir la duración de la prueba según el escenario (por ejemplo falla de 30 min) y coordinar el corte<br>
   2) Cortar la energía con carga, anotar la hora y registrar la deriva de temperatura y HR<br>
@@ -216,9 +216,9 @@
 
 <article data-bloque="3" id="art-EST-PQ-009" class="ensayo" data-analisis="si" data-id="EST-PQ-009" data-fase="PQ" data-cond="ambas">
   <h3>EST-PQ-009 — Respuesta de alarmas con carga</h3>
-  <p><strong>Objetivo:</strong><br>Verificar que la alarma dispara dentro del retardo definido y el sistema de notificación funciona, con carga en la cámara.</p>
+  <p><strong>Objetivo:</strong><br>Verificar que la alarma dispara dentro del retardo definido y el sistema de notificación funciona, con carga en el recinto.</p>
   <p><strong>Procedimiento:</strong><br>
-  1) Con carga en la cámara, provocar o simular las alarmas críticas (desviación de temperatura, HR y puerta)<br>
+  1) Con carga en el recinto, provocar o simular las alarmas críticas (desviación de temperatura, HR y puerta)<br>
   2) Medir el tiempo entre la condición y el disparo, y entre el disparo y la notificación<br>
   3) Confirmar acuse y registro en el histórico con hora<br>
   a) Disparo dentro del retardo y notificación recibida<br>
@@ -233,7 +233,7 @@
 
 <article data-bloque="3" id="art-EST-PQ-010" class="ensayo" data-analisis="si" data-id="EST-PQ-010" data-fase="PQ" data-cond="ambas">
   <h3>EST-PQ-010 — Falla de humidificador o compresor</h3>
-  <p><strong>Objetivo:</strong><br>Verificar el comportamiento de la cámara y el tiempo hasta alarma ante falla del humidificador o del compresor.</p>
+  <p><strong>Objetivo:</strong><br>Verificar el comportamiento del recinto y el tiempo hasta alarma ante falla del humidificador o del compresor.</p>
   <p><strong>Procedimiento:</strong><br>
   1) Simular la falla del humidificador (sin aporte de humedad) con carga y registrar la deriva de HR<br>
   2) Simular la falla del compresor (sin frío) y registrar la deriva de temperatura<br>
@@ -270,7 +270,7 @@
 
 <article data-bloque="3" id="art-EST-PQ-012" class="ensayo" data-analisis="si" data-id="EST-PQ-012" data-fase="PQ" data-cond="ambas">
   <h3>EST-PQ-012 — Condiciones ambientales externas (si aplica)</h3>
-  <p><strong>Objetivo:</strong><br>Verificar el desempeño con condiciones ambientales externas cuando la cámara está en un local sin climatización; el peor caso es la temperatura y humedad ambiente más altas.</p>
+  <p><strong>Objetivo:</strong><br>Verificar el desempeño con condiciones ambientales externas cuando el recinto está en un local sin climatización; el peor caso es la temperatura y humedad ambiente más altas.</p>
   <p><strong>Procedimiento:</strong><br>
   1) Confirmar si el local tiene climatización; si la tiene, pasar al paso 5)<br>
   2) Identificar la estación o condición de peor caso (ambiente más caliente y húmedo del año)<br>
@@ -394,7 +394,7 @@
   <h3>EST-PQ-019 — Cambio de setpoint en uso múltiple</h3>
   <p><strong>Objetivo:</strong><br>Verificar el cambio de setpoint en uso múltiple: tiempo de transición y estabilidad antes de cargar muestras nuevas.</p>
   <p><strong>Procedimiento:</strong><br>
-  1) Con la cámara estable en un setpoint, cambiar al siguiente setpoint de uso<br>
+  1) Con el recinto estable en un setpoint, cambiar al siguiente setpoint de uso<br>
   2) Medir el tiempo de transición hasta entrar en banda y estabilizar<br>
   3) Confirmar estabilidad sostenida antes de autorizar la carga de muestras nuevas<br>
   4) Registrar el tiempo de transición aprobado por cambio en la matriz de uso múltiple<br>
@@ -427,7 +427,7 @@
     <tr><td>6.3</td><td>EU GMP Anexo 15 — Cualificación y validación: sensores y patrones asociados</td><td>VIGENTE</td></tr>
     <tr><td>6.4</td><td>EU GMP Anexo 15 — PQ tras IQ/OQ; repetibilidad y peor caso justificados</td><td>VIGENTE</td></tr>
     <tr><td>6.5</td><td>21 CFR Part 11 / 21 CFR 211.180 — Registros electrónicos, respaldo y registros de lote</td><td>VIGENTE</td></tr>
-    <tr><td>6.6</td><td>Manual del fabricante de la cámara — Rangos, alarmas y límites de diseño</td><td>VIGENTE</td></tr>
+    <tr><td>6.6</td><td>Manual del fabricante del recinto — Rangos, alarmas y límites de diseño</td><td>VIGENTE</td></tr>
     <tr><td>6.7</td><td>OMS TRS 961 Anexo 9 Suplemento 8 — Mapeo térmico y monitoreo de cámaras de estabilidad</td><td>VIGENTE</td></tr>
     <tr><td>6.8</td><td>USP &lt;1079.4&gt; — Monitoreo y mapeo de cámaras con temperatura controlada</td><td>VIGENTE</td></tr>
   </table>

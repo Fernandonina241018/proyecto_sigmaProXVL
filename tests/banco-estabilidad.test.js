@@ -49,6 +49,20 @@ describe('OQ cámaras de estabilidad con formato del modelo', () => {
     const txt = doc.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ');
     expect(txt).toContain('CABINA ESTABILIDAD ACELERADA');
     expect(txt).toContain('40');
+    const low = txt.toLowerCase();
+    expect(low).toContain('la cabina estabilidad acelerada');
+    expect(low).not.toContain('del cabina estabilidad acelerada');
+    expect(low).not.toContain('el cabina estabilidad acelerada');
+  });
+
+  it('cuarto real (masculino) conserva el/del', async () => {
+    const draft = Object.assign({}, DRAFT, { descripcion: 'Cuarto estabilidad real' });
+    const u8 = new Uint8Array(readFileSync(resolve(raiz, P.PLANTILLAS.OQ)));
+    const r = await P.generar('OQ', u8, banco, draft, { id: 'cuarto-est-real', nombre: 'Cuarto estabilidad real' }, 'ambas');
+    const arch = Object.fromEntries((await P._interno.leerZip(r.bytes)).map((a) => [a.nombre, dec(a.datos)]));
+    const txt = arch['word/document.xml'].replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').toLowerCase();
+    expect(txt).toContain('del cuarto estabilidad real');
+    expect(txt).not.toContain('de la cuarto estabilidad real');
   });
 
   it('cuarto real genera los mismos 19 (banco común)', async () => {

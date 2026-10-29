@@ -65,7 +65,7 @@ var BancoEstabilidad = {
      },
      {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>Manual del fabricante; plano de la cámara."
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante; plano del recinto."
      }
     ],
     "tabla": null
@@ -157,7 +157,7 @@ var BancoEstabilidad = {
       ],
       [
        "6.4",
-       "Manual del fabricante de la cámara — Instalación y controlador",
+       "Manual del fabricante del recinto — Instalación y controlador",
        "VIGENTE"
       ]
      ]
@@ -216,7 +216,7 @@ var BancoEstabilidad = {
     "secciones": [
      {
       "et": "Objetivo",
-      "html": "<strong>Objetivo:</strong><br>Verificar que la parada de emergencia del <span class=\"equipo\">equipo</span> detiene los sistemas activos y deja la cámara en estado seguro."
+      "html": "<strong>Objetivo:</strong><br>Verificar que la parada de emergencia del <span class=\"equipo\">equipo</span> detiene los sistemas activos y deja el recinto en estado seguro."
      },
      {
       "et": "Procedimiento",
@@ -272,7 +272,7 @@ var BancoEstabilidad = {
     "id": "EST-OQ-003",
     "bloque": 3,
     "cond": "ambas",
-    "titulo": "EST-OQ-003 — Interlocks de la cámara",
+    "titulo": "EST-OQ-003 — Interlocks del recinto",
     "secciones": [
      {
       "et": "Objetivo",
@@ -400,7 +400,7 @@ var BancoEstabilidad = {
      },
      {
       "et": "Procedimiento",
-      "html": "<strong>Procedimiento:</strong><br>\n  1) Disponer del patrón de referencia calibrado (temperatura y HR) y de la tabla de setpoints aprobada de la cámara<br>\n  2) Estabilizar la cámara en cada setpoint de la tabla y comparar control contra patrón<br>\n  3) Registrar por setpoint ambas lecturas y la diferencia<br>\n  a) Diferencia de temperatura menor o igual a ±0,5 °C y de HR menor o igual a ±3% HR<br>\n  4) Repetir en todos los setpoints de la tabla<br>\n  5) Procesar los datos crudos de exactitud en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Disponer del patrón de referencia calibrado (temperatura y HR) y de la tabla de setpoints aprobada del recinto<br>\n  2) Estabilizar el recinto en cada setpoint de la tabla y comparar control contra patrón<br>\n  3) Registrar por setpoint ambas lecturas y la diferencia<br>\n  a) Diferencia de temperatura menor o igual a ±0,5 °C y de HR menor o igual a ±3% HR<br>\n  4) Repetir en todos los setpoints de la tabla<br>\n  5) Procesar los datos crudos de exactitud en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
      },
      {
       "et": "Criterio de aceptación",
@@ -458,11 +458,11 @@ var BancoEstabilidad = {
     "secciones": [
      {
       "et": "Objetivo",
-      "html": "<strong>Objetivo:</strong><br>Verificar la estabilidad y la exactitud del control de HR del <span class=\"equipo\">equipo</span> en cada setpoint con HR; si la cámara no controla HR, declarar No Aplica."
+      "html": "<strong>Objetivo:</strong><br>Verificar la estabilidad y la exactitud del control de HR del <span class=\"equipo\">equipo</span> en cada setpoint con HR; si el recinto no controla HR, declarar No Aplica."
      },
      {
       "et": "Procedimiento",
-      "html": "<strong>Procedimiento:</strong><br>\n  1) Confirmar si la cámara controla HR; si no, pasar al paso 5)<br>\n  2) Fijar cada setpoint con HR de la tabla, estabilizar y registrar cada 5 minutos durante 30 minutos<br>\n  3) Comparar contra el patrón de referencia en cada setpoint<br>\n  a) Estabilidad dentro de ±3% HR y exactitud dentro de ±3% HR contra el patrón<br>\n  4) Procesar los datos crudos de HR en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo<br>\n  5) Sin control de HR: redactar la justificación de No Aplica con firma del ejecutor y del revisor"
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Confirmar si el recinto controla HR; si no, pasar al paso 5)<br>\n  2) Fijar cada setpoint con HR de la tabla, estabilizar y registrar cada 5 minutos durante 30 minutos<br>\n  3) Comparar contra el patrón de referencia en cada setpoint<br>\n  a) Estabilidad dentro de ±3% HR y exactitud dentro de ±3% HR contra el patrón<br>\n  4) Procesar los datos crudos de HR en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo<br>\n  5) Sin control de HR: redactar la justificación de No Aplica con firma del ejecutor y del revisor"
      },
      {
       "et": "Criterio de aceptación",
@@ -493,7 +493,7 @@ var BancoEstabilidad = {
      },
      {
       "et": "Procedimiento",
-      "html": "<strong>Procedimiento:</strong><br>\n  1) Partir de la cámara a temperatura ambiente registrada, fijar el setpoint de trabajo<br>\n  2) Registrar temperatura (y HR si aplica) cada 5 minutos hasta estabilización<br>\n  3) Medir el tiempo hasta entrar en banda y el sobreimpulso máximo sobre el setpoint<br>\n  4) Repetir en un segundo setpoint representativo<br>\n  a) Tiempo de llegada dentro de lo previsto y sobreimpulso menor o igual a [2] °C<br>\n  5) Procesar los datos crudos de llegada en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Partir del recinto a temperatura ambiente registrada, fijar el setpoint de trabajo<br>\n  2) Registrar temperatura (y HR si aplica) cada 5 minutos hasta estabilización<br>\n  3) Medir el tiempo hasta entrar en banda y el sobreimpulso máximo sobre el setpoint<br>\n  4) Repetir en un segundo setpoint representativo<br>\n  a) Tiempo de llegada dentro de lo previsto y sobreimpulso menor o igual a [2] °C<br>\n  5) Procesar los datos crudos de llegada en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
      },
      {
       "et": "Criterio de aceptación",
@@ -520,7 +520,7 @@ var BancoEstabilidad = {
     "secciones": [
      {
       "et": "Objetivo",
-      "html": "<strong>Objetivo:</strong><br>Verificar las combinaciones extremas de temperatura y HR que la cámara puede o no mantener, según su rango declarado."
+      "html": "<strong>Objetivo:</strong><br>Verificar las combinaciones extremas de temperatura y HR que el recinto puede o no mantener, según su rango declarado."
      },
      {
       "et": "Procedimiento",
@@ -555,7 +555,7 @@ var BancoEstabilidad = {
      },
      {
       "et": "Procedimiento",
-      "html": "<strong>Procedimiento:</strong><br>\n  1) Estabilizar la cámara en su setpoint de trabajo y definir la duración de apertura según el uso real (por ejemplo 1 a 5 min)<br>\n  2) Abrir la puerta el tiempo definido, cerrarla y medir el tiempo de retorno a banda<br>\n  3) Repetir 3 veces y registrar cada recuperación<br>\n  4) Confirmar que las aperturas breves de uso real quedan cubiertas<br>\n  a) Recuperación dentro del límite (picos breves aceptados como inevitables según ICH Q1A)<br>\n  5) Procesar los datos crudos de recuperación en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Estabilizar el recinto en su setpoint de trabajo y definir la duración de apertura según el uso real (por ejemplo 1 a 5 min)<br>\n  2) Abrir la puerta el tiempo definido, cerrarla y medir el tiempo de retorno a banda<br>\n  3) Repetir 3 veces y registrar cada recuperación<br>\n  4) Confirmar que las aperturas breves de uso real quedan cubiertas<br>\n  a) Recuperación dentro del límite (picos breves aceptados como inevitables según ICH Q1A)<br>\n  5) Procesar los datos crudos de recuperación en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
      },
      {
       "et": "Plan estadístico",
@@ -582,7 +582,7 @@ var BancoEstabilidad = {
     "id": "EST-OQ-013",
     "bloque": 3,
     "cond": "ambas",
-    "titulo": "EST-OQ-013 — Mapeo de temperatura en cámara vacía",
+    "titulo": "EST-OQ-013 — Mapeo de temperatura en recinto vacío",
     "secciones": [
      {
       "et": "Objetivo",
@@ -590,7 +590,7 @@ var BancoEstabilidad = {
      },
      {
       "et": "Procedimiento",
-      "html": "<strong>Procedimiento:</strong><br>\n  1) Justificar el número de sensores por el volumen de la cámara y distribuirlos según el plano (esquinas, centro, puerta, humidificador, ventilación)<br>\n  2) Correr el mapeo en vacío por setpoint crítico durante 24 h como mínimo, registrando al intervalo definido<br>\n  3) Calcular por sensor promedio, máximo y mínimo; ΔT entre sensores; y estabilidad<br>\n  a) Uniformidad dentro de la tolerancia de la cámara en todos los setpoints<br>\n  4) Procesar los datos crudos del mapeo en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Justificar el número de sensores por el volumen del recinto y distribuirlos según el plano (esquinas, centro, puerta, humidificador, ventilación)<br>\n  2) Correr el mapeo en vacío por setpoint crítico durante 24 h como mínimo, registrando al intervalo definido<br>\n  3) Calcular por sensor promedio, máximo y mínimo; ΔT entre sensores; y estabilidad<br>\n  a) Uniformidad dentro de la tolerancia del recinto en todos los setpoints<br>\n  4) Procesar los datos crudos del mapeo en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
      },
      {
       "et": "Criterio de aceptación",
@@ -617,11 +617,11 @@ var BancoEstabilidad = {
     "secciones": [
      {
       "et": "Objetivo",
-      "html": "<strong>Objetivo:</strong><br>Mapear la HR del <span class=\"equipo\">equipo</span> en los mismos setpoints del mapeo de temperatura; si la cámara no controla HR, declarar No Aplica."
+      "html": "<strong>Objetivo:</strong><br>Mapear la HR del <span class=\"equipo\">equipo</span> en los mismos setpoints del mapeo de temperatura; si el recinto no controla HR, declarar No Aplica."
      },
      {
       "et": "Procedimiento",
-      "html": "<strong>Procedimiento:</strong><br>\n  1) Confirmar si la cámara controla HR; si no, pasar al paso 5)<br>\n  2) Con los mismos sensores y plano del ensayo EST-OQ-013, registrar HR por setpoint durante el mapeo<br>\n  3) Calcular uniformidad y estabilidad de HR por setpoint<br>\n  a) Uniformidad de HR dentro de la tolerancia de la cámara<br>\n  4) Procesar los datos crudos de HR en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo<br>\n  5) Sin control de HR: redactar la justificación de No Aplica con firma del ejecutor y del revisor"
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Confirmar si el recinto controla HR; si no, pasar al paso 5)<br>\n  2) Con los mismos sensores y plano del ensayo EST-OQ-013, registrar HR por setpoint durante el mapeo<br>\n  3) Calcular uniformidad y estabilidad de HR por setpoint<br>\n  a) Uniformidad de HR dentro de la tolerancia del recinto<br>\n  4) Procesar los datos crudos de HR en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo<br>\n  5) Sin control de HR: redactar la justificación de No Aplica con firma del ejecutor y del revisor"
      },
      {
       "et": "Criterio de aceptación",
@@ -652,7 +652,7 @@ var BancoEstabilidad = {
      },
      {
       "et": "Procedimiento",
-      "html": "<strong>Procedimiento:</strong><br>\n  1) Con los datos de los mapeos de los ensayos EST-OQ-013 y EST-OQ-014, identificar los puntos extremos de temperatura y HR<br>\n  2) Declarar el punto frío, el caliente, el seco y el húmedo con su justificación<br>\n  3) Ubicar o confirmar el sensor de monitoreo de rutina en el punto crítico y registrar su posición en el plano<br>\n  4) Verificar que el monitoreo de rutina refleja el peor caso de la cámara<br>\n  a) Puntos críticos identificados y monitoreo ubicado en el peor caso<br>\n  5) Procesar los datos crudos de extremos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Con los datos de los mapeos de los ensayos EST-OQ-013 y EST-OQ-014, identificar los puntos extremos de temperatura y HR<br>\n  2) Declarar el punto frío, el caliente, el seco y el húmedo con su justificación<br>\n  3) Ubicar o confirmar el sensor de monitoreo de rutina en el punto crítico y registrar su posición en el plano<br>\n  4) Verificar que el monitoreo de rutina refleja el peor caso del recinto<br>\n  a) Puntos críticos identificados y monitoreo ubicado en el peor caso<br>\n  5) Procesar los datos crudos de extremos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
      },
      {
       "et": "Criterio de aceptación",
@@ -860,7 +860,7 @@ var BancoEstabilidad = {
       ],
       [
        "6.6",
-       "Manual del fabricante de la cámara — Setpoints, alarmas, ventilación y límites de diseño",
+       "Manual del fabricante del recinto — Setpoints, alarmas, ventilación y límites de diseño",
        "VIGENTE"
       ],
       [
@@ -964,7 +964,7 @@ var BancoEstabilidad = {
      },
      {
       "et": "Procedimiento",
-      "html": "<strong>Procedimiento:</strong><br>\n  1) Confirmar si la cámara controla HR; si no, pasar al paso 5)<br>\n  2) Con los mismos sensores y plano del ensayo EST-PQ-001, registrar HR por setpoint con carga<br>\n  3) Calcular uniformidad y estabilidad de HR por setpoint<br>\n  a) HR dentro de los límites del URS durante todo el estudio<br>\n  4) Procesar los datos crudos de HR en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo<br>\n  5) Sin control de HR: redactar la justificación de No Aplica con firma del ejecutor y del revisor"
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Confirmar si el recinto controla HR; si no, pasar al paso 5)<br>\n  2) Con los mismos sensores y plano del ensayo EST-PQ-001, registrar HR por setpoint con carga<br>\n  3) Calcular uniformidad y estabilidad de HR por setpoint<br>\n  a) HR dentro de los límites del URS durante todo el estudio<br>\n  4) Procesar los datos crudos de HR en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo<br>\n  5) Sin control de HR: redactar la justificación de No Aplica con firma del ejecutor y del revisor"
      },
      {
       "et": "Criterio de aceptación",
@@ -991,7 +991,7 @@ var BancoEstabilidad = {
     "secciones": [
      {
       "et": "Objetivo",
-      "html": "<strong>Objetivo:</strong><br>Definir y justificar la duración del mapeo con carga, normalmente de 24 a 72 h por setpoint con la cámara estable, extendida si la URS pide más estabilidad."
+      "html": "<strong>Objetivo:</strong><br>Definir y justificar la duración del mapeo con carga, normalmente de 24 a 72 h por setpoint con el recinto estable, extendida si la URS pide más estabilidad."
      },
      {
       "et": "Procedimiento",
@@ -1022,11 +1022,11 @@ var BancoEstabilidad = {
     "secciones": [
      {
       "et": "Objetivo",
-      "html": "<strong>Objetivo:</strong><br>Mapear con carga mínima, pues una cámara casi vacía se comporta distinto, con ciclos más rápidos y mayor oscilación; si la cámara siempre opera llena, declarar No Aplica."
+      "html": "<strong>Objetivo:</strong><br>Mapear con carga mínima, pues un recinto casi vacío se comporta distinto, con ciclos más rápidos y mayor oscilación; si el recinto siempre opera lleno, declarar No Aplica."
      },
      {
       "et": "Procedimiento",
-      "html": "<strong>Procedimiento:</strong><br>\n  1) Confirmar si la cámara opera con cargas variables; si siempre va llena, pasar al paso 5)<br>\n  2) Configurar la carga mínima representativa y mapear por setpoint crítico<br>\n  3) Comparar oscilación y ciclos contra la carga máxima del ensayo EST-PQ-001<br>\n  a) Dentro de límites aun con mayor oscilación, o limitación documentada<br>\n  4) Procesar los datos crudos de carga mínima en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo<br>\n  5) Sin cargas variables: redactar la justificación de No Aplica con firma del ejecutor y del revisor"
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Confirmar si el recinto opera con cargas variables; si siempre va lleno, pasar al paso 5)<br>\n  2) Configurar la carga mínima representativa y mapear por setpoint crítico<br>\n  3) Comparar oscilación y ciclos contra la carga máxima del ensayo EST-PQ-001<br>\n  a) Dentro de límites aun con mayor oscilación, o limitación documentada<br>\n  4) Procesar los datos crudos de carga mínima en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo<br>\n  5) Sin cargas variables: redactar la justificación de No Aplica con firma del ejecutor y del revisor"
      },
      {
       "et": "Criterio de aceptación",
@@ -1119,7 +1119,7 @@ var BancoEstabilidad = {
      },
      {
       "et": "Procedimiento",
-      "html": "<strong>Procedimiento:</strong><br>\n  1) Definir duración (por ejemplo 1 a 5 min) y frecuencia de apertura según el uso real de la cámara<br>\n  2) Abrir la puerta el tiempo definido con carga, cerrarla y medir el tiempo de retorno a límites<br>\n  3) Repetir 3 veces y registrar cada recuperación con el registro continuo<br>\n  4) Confirmar que el uso real queda cubierto por lo ensayado<br>\n  a) Recuperación dentro del límite en las 3 repeticiones<br>\n  5) Procesar los datos crudos de recuperación en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Definir duración (por ejemplo 1 a 5 min) y frecuencia de apertura según el uso real del recinto<br>\n  2) Abrir la puerta el tiempo definido con carga, cerrarla y medir el tiempo de retorno a límites<br>\n  3) Repetir 3 veces y registrar cada recuperación con el registro continuo<br>\n  4) Confirmar que el uso real queda cubierto por lo ensayado<br>\n  a) Recuperación dentro del límite en las 3 repeticiones<br>\n  5) Procesar los datos crudos de recuperación en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
      },
      {
       "et": "Plan estadístico",
@@ -1150,7 +1150,7 @@ var BancoEstabilidad = {
     "secciones": [
      {
       "et": "Objetivo",
-      "html": "<strong>Objetivo:</strong><br>Medir el tiempo que la cámara mantiene condiciones sin alimentación y el tiempo de recuperación al restablecer, definiendo la duración según el escenario a cubrir."
+      "html": "<strong>Objetivo:</strong><br>Medir el tiempo que el recinto mantiene condiciones sin alimentación y el tiempo de recuperación al restablecer, definiendo la duración según el escenario a cubrir."
      },
      {
       "et": "Procedimiento",
@@ -1181,11 +1181,11 @@ var BancoEstabilidad = {
     "secciones": [
      {
       "et": "Objetivo",
-      "html": "<strong>Objetivo:</strong><br>Verificar que la alarma dispara dentro del retardo definido y el sistema de notificación funciona, con carga en la cámara."
+      "html": "<strong>Objetivo:</strong><br>Verificar que la alarma dispara dentro del retardo definido y el sistema de notificación funciona, con carga en el recinto."
      },
      {
       "et": "Procedimiento",
-      "html": "<strong>Procedimiento:</strong><br>\n  1) Con carga en la cámara, provocar o simular las alarmas críticas (desviación de temperatura, HR y puerta)<br>\n  2) Medir el tiempo entre la condición y el disparo, y entre el disparo y la notificación<br>\n  3) Confirmar acuse y registro en el histórico con hora<br>\n  a) Disparo dentro del retardo y notificación recibida<br>\n  4) Procesar los datos crudos de respuesta en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Con carga en el recinto, provocar o simular las alarmas críticas (desviación de temperatura, HR y puerta)<br>\n  2) Medir el tiempo entre la condición y el disparo, y entre el disparo y la notificación<br>\n  3) Confirmar acuse y registro en el histórico con hora<br>\n  a) Disparo dentro del retardo y notificación recibida<br>\n  4) Procesar los datos crudos de respuesta en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
      },
      {
       "et": "Criterio de aceptación",
@@ -1212,7 +1212,7 @@ var BancoEstabilidad = {
     "secciones": [
      {
       "et": "Objetivo",
-      "html": "<strong>Objetivo:</strong><br>Verificar el comportamiento de la cámara y el tiempo hasta alarma ante falla del humidificador o del compresor."
+      "html": "<strong>Objetivo:</strong><br>Verificar el comportamiento del recinto y el tiempo hasta alarma ante falla del humidificador o del compresor."
      },
      {
       "et": "Procedimiento",
@@ -1274,7 +1274,7 @@ var BancoEstabilidad = {
     "secciones": [
      {
       "et": "Objetivo",
-      "html": "<strong>Objetivo:</strong><br>Verificar el desempeño con condiciones ambientales externas cuando la cámara está en un local sin climatización; el peor caso es la temperatura y humedad ambiente más altas."
+      "html": "<strong>Objetivo:</strong><br>Verificar el desempeño con condiciones ambientales externas cuando el recinto está en un local sin climatización; el peor caso es la temperatura y humedad ambiente más altas."
      },
      {
       "et": "Procedimiento",
@@ -1492,7 +1492,7 @@ var BancoEstabilidad = {
      },
      {
       "et": "Procedimiento",
-      "html": "<strong>Procedimiento:</strong><br>\n  1) Con la cámara estable en un setpoint, cambiar al siguiente setpoint de uso<br>\n  2) Medir el tiempo de transición hasta entrar en banda y estabilizar<br>\n  3) Confirmar estabilidad sostenida antes de autorizar la carga de muestras nuevas<br>\n  4) Registrar el tiempo de transición aprobado por cambio en la matriz de uso múltiple<br>\n  a) Transición medida y estabilidad confirmada antes de cada carga<br>\n  5) Procesar los datos crudos de transiciones en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Con el recinto estable en un setpoint, cambiar al siguiente setpoint de uso<br>\n  2) Medir el tiempo de transición hasta entrar en banda y estabilizar<br>\n  3) Confirmar estabilidad sostenida antes de autorizar la carga de muestras nuevas<br>\n  4) Registrar el tiempo de transición aprobado por cambio en la matriz de uso múltiple<br>\n  a) Transición medida y estabilidad confirmada antes de cada carga<br>\n  5) Procesar los datos crudos de transiciones en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
      },
      {
       "et": "Criterio de aceptación",
@@ -1577,7 +1577,7 @@ var BancoEstabilidad = {
       ],
       [
        "6.6",
-       "Manual del fabricante de la cámara — Rangos, alarmas y límites de diseño",
+       "Manual del fabricante del recinto — Rangos, alarmas y límites de diseño",
        "VIGENTE"
       ],
       [

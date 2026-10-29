@@ -135,6 +135,10 @@ describe('OQ llenadora de líquidos (banco por familia)', () => {
     const txt = doc.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ');
     expect(txt).toContain('EXACTITUD DEL VOLUMEN DE LLENADO');
     expect(txt).toContain('UNIFORMIDAD ENTRE BOQUILLAS');
+    const low = txt.toLowerCase();
+    expect(low).toContain('la llenadora de líquidos');
+    expect(low).not.toContain('el llenadora de líquidos');
+    expect(low).not.toContain('del llenadora de líquidos');
   });
 });
 
@@ -203,6 +207,9 @@ describe('OQ autoclave (banco por familia)', () => {
     expect(txt).toContain('BOWIE-DICK');
     expect(txt).not.toContain('GASKET INFLABLE');
     expect(txt).not.toContain('LECHO FLUIDO');
+    const low = txt.toLowerCase();
+    expect(low).toContain('del autoclave');
+    expect(low).not.toContain('de la autoclave');
   });
 
   it('lecho fluido no recibe ensayos de autoclave', async () => {
@@ -216,6 +223,9 @@ describe('OQ autoclave (banco por familia)', () => {
     const txt = doc.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ');
     expect(txt).toContain('Equipos/Instrumento');
     expect(txt).toContain('Fecha de Calibración');
+    const low = txt.toLowerCase();
+    expect(low).toContain('de la balanza');
+    expect(low).not.toContain('del balanza');
   });
 });
 

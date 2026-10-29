@@ -518,11 +518,53 @@ const PlantillaDocx = (() => {
     return false;
   }
 
+  // Concordancia de artículo según la entidad. El banco escribe "el <span
+  // class=equipo>" de forma fija; al reemplazar el span por el nombre hay que
+  // ajustar el artículo (la Llenadora, del Balanza, etc.). El mapa cubre las
+  // entidades femeninas y el plural; el resto cae en masculino singular.
+  const GENERO_POR_ID = {
+    tableteadora: 'f', encapsuladora: 'f', llenadora: 'f', etiquetadora: 'f',
+    blistera: 'f', recubridora: 'f', balanza: 'f', incubadora: 'f',
+    centrifuga: 'f', 'cabina-flujo': 'f', 'cabina-bioseguridad': 'f', 'cabina-vacio': 'f',
+    'cabina-est-acelerada': 'f', 'cabina-est-real': 'f',
+    'incubadora-22-27': 'f', 'incubadora-38-42': 'f',
+  };
+  const NUMERO_POR_ID = { termometro: 'p' };
+  const ARTICULOS = {
+    ms: { el: 'el', del: 'del', al: 'al', un: 'un' },
+    fs: { el: 'la', del: 'de la', al: 'a la', un: 'una' },
+    mp: { el: 'los', del: 'de los', al: 'a los', un: 'unos' },
+    fp: { el: 'las', del: 'de las', al: 'a las', un: 'unas' },
+  };
+
+  function generoDe(entidad) {
+    const id = String((entidad && entidad.id) || '').trim();
+    return {
+      genero: (entidad && entidad.genero) || GENERO_POR_ID[id] || 'm',
+      numero: (entidad && entidad.numero) || NUMERO_POR_ID[id] || 's',
+    };
+  }
+
+  function ajustarArticulos(html, genero, numero) {
+    const tabla = ARTICULOS[String(genero || 'm') + (numero === 'p' ? 'p' : 's')] || ARTICULOS.ms;
+    return String(html || '').replace(
+      /\b(el|del|al|un)(\s+)(?=<span[^>]*class=["'][^"']*\bequipo\b)/gi,
+      (m, art, sp) => {
+        const rep = tabla[art.toLowerCase()] || art;
+        const out = art[0] === art[0].toUpperCase() ? rep.charAt(0).toUpperCase() + rep.slice(1) : rep;
+        return out + sp;
+      }
+    );
+  }
+
   function contexto(draft, entidad, filtro, articulos) {
     const d = draft || {};
     const nombre = String(d.descripcion || '').trim() || (entidad && entidad.nombre) || '';
+    const g = generoDe(entidad);
     return {
       entidad: nombre || 'almacén',
+      genero: g.genero,
+      numero: g.numero,
       rango: rangoTexto(d),
       cond: COND_TXT[filtro] || COND_TXT.ambas,
       lista: (articulos || []).map((a) => a.id).join(', '),
@@ -537,6 +579,7 @@ const PlantillaDocx = (() => {
       const prev = str.charAt(off - 1);
       return (/[A-Za-zÁÉÍÓÚáéíóúÑñ]/.test(prev) ? ' ' : '') + esc(v);
     };
+    s = ajustarArticulos(s, ctx.genero, ctx.numero);
     s = s.replace(reClase('equipo'), pon(ctx.entidad));
     s = s.replace(reClase('rango'), (m, off, str) => (ctx.rango ? pon(ctx.rango)(m, off, str) : m.replace(/<[^>]+>/g, '')));
     s = s.replace(reClase('cond'), pon(ctx.cond));
@@ -1564,7 +1607,7 @@ const PlantillaDocx = (() => {
   return {
     FASES, PLANTILLAS, OPC, SALTO_PAGINA, SALTO_H1, SALTO_H2, SALTO_TABLA, REFS_NORMATIVAS, refNormativa, soporta, configurar, generar, descargar, banco, mezclarComun,
     LIMITES, limitesDe, aplicarLimites, limitesPendientes, limitesResumen, paramsFaltantes, parametrosFamilia, bloquesFijos, rtmLineas,
-    _interno: { leerZip, escribirZip, hijos, texto, reemplazarEnParrafo, congelar, lineas, estructura, puntosVerificacion, puntosTabla, fechaTexto, crc32, llenarFirmas, fijarTahoma11, debeSaltar, debeSaltarH1, debeSaltarH2, debeSaltarTabla, saltoPrevio },
+    _interno: { leerZip, escribirZip, hijos, texto, reemplazarEnParrafo, congelar, lineas, estructura, puntosVerificacion, puntosTabla, fechaTexto, crc32, llenarFirmas, fijarTahoma11, debeSaltar, debeSaltarH1, debeSaltarH2, debeSaltarTabla, saltoPrevio, generoDe, ajustarArticulos },
   };
 })();
 
