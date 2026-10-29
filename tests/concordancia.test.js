@@ -40,7 +40,7 @@ describe('ajustarArticulos', () => {
 
 describe('generoDe', () => {
   it('marca las entidades femeninas conocidas', () => {
-    ['tableteadora', 'encapsuladora', 'llenadora', 'etiquetadora', 'blistera',
+    ['tableteadora', 'encapsuladora', 'llenadora', 'llenadora-tubos', 'etiquetadora', 'blistera',
       'recubridora', 'balanza', 'incubadora', 'centrifuga', 'cabina-flujo',
       'cabina-bioseguridad', 'cabina-est-acelerada', 'cabina-est-real',
       'incubadora-22-27', 'incubadora-38-42'].forEach((id) => {

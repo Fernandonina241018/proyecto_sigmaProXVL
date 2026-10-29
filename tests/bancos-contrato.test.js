@@ -37,7 +37,7 @@ describe('banco de equipos: contrato', () => {
 
   it('solo familias conocidas', () => {
     const fams = [...new Set(todos.filter((x) => x.familia).map((x) => x.familia))].sort();
-    expect(fams).toEqual(['autoclave', 'balanza', 'blistera', 'congelador-lab', 'detector-metales', 'encapsuladora', 'etiquetadora', 'granulador', 'horno-secado', 'horno-vacio', 'lecho-fluido', 'liofilizador', 'llenadora', 'mezclador', 'reactor', 'recubridora', 'refrigerador-lab', 'sistema-cremas-vacio', 'tableteadora', 'tunel-despirogenizacion']);
+    expect(fams).toEqual(['autoclave', 'balanza', 'blistera', 'congelador-lab', 'detector-metales', 'encapsuladora', 'etiquetadora', 'granulador', 'horno-secado', 'horno-vacio', 'lecho-fluido', 'liofilizador', 'llenadora', 'llenadora-tubos', 'mezclador', 'reactor', 'recubridora', 'refrigerador-lab', 'sistema-cremas-vacio', 'tableteadora', 'tunel-despirogenizacion']);
   });
 
   it.each([
@@ -48,6 +48,7 @@ describe('banco de equipos: contrato', () => {
     ['IQ', 'horno-vacio', 8], // Nivel 3 (2026-10-07)
     ['IQ', 'llenadora', 8], // Nivel 3 (2026-10-07)
     ['OQ', 'llenadora', 21], // ENSAYOS.txt usuario (2026-10-29)
+    ['OQ', 'llenadora-tubos', 28], // ENSAYOS.txt usuario (2026-10-29)
     ['PQ', 'llenadora', 18], // ENSAYOS.txt usuario (2026-10-29)
     ['IQ', 'lecho-fluido', 8], // Nivel 3 (2026-10-07)
     ['IQ', 'tableteadora', 5], // Nivel 2 (2026-10-08)

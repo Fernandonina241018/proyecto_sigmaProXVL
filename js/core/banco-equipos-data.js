@@ -1,7 +1,7 @@
 // Generado por scripts/extraer-banco.mjs equipos — NO EDITAR A MANO.
-// Fuente: docs/banco-ensayos/equipos-comun.html + docs/banco-ensayos/equipos/oq-comun.html + docs/banco-ensayos/equipos/pq-comun.html + docs/banco-ensayos/equipos/iq-autoclave.html + docs/banco-ensayos/equipos/iq-tunel-despirogenizacion.html + docs/banco-ensayos/equipos/iq-liofilizador.html + docs/banco-ensayos/equipos/iq-reactor.html + docs/banco-ensayos/equipos/iq-horno-vacio.html + docs/banco-ensayos/equipos/iq-llenadora.html + docs/banco-ensayos/equipos/oq-llenadora.html + docs/banco-ensayos/equipos/pq-llenadora.html + docs/banco-ensayos/equipos/iq-lecho-fluido.html + docs/banco-ensayos/equipos/iq-tableteadora.html + docs/banco-ensayos/equipos/iq-encapsuladora.html + docs/banco-ensayos/equipos/iq-granulador.html + docs/banco-ensayos/equipos/iq-recubridora.html + docs/banco-ensayos/equipos/iq-blistera.html + docs/banco-ensayos/equipos/iq-detector-metales.html + docs/banco-ensayos/equipos/iq-etiquetadora.html + docs/banco-ensayos/equipos/iq-mezclador.html + docs/banco-ensayos/equipos/iq-horno-secado.html + docs/banco-ensayos/equipos/iq-sistema-cremas-vacio.html + docs/banco-ensayos/equipos/oq-reactor.html + docs/banco-ensayos/equipos/pq-reactor.html + docs/banco-ensayos/equipos/oq-sistema-cremas-vacio.html + docs/banco-ensayos/equipos/pq-sistema-cremas-vacio.html + docs/banco-ensayos/equipos/oq-tableteadora.html + docs/banco-ensayos/equipos/pq-tableteadora.html + docs/banco-ensayos/equipos/oq-encapsuladora.html + docs/banco-ensayos/equipos/pq-encapsuladora.html + docs/banco-ensayos/equipos/oq-granulador.html + docs/banco-ensayos/equipos/pq-granulador.html + docs/banco-ensayos/equipos/oq-recubridora.html + docs/banco-ensayos/equipos/pq-recubridora.html + docs/banco-ensayos/equipos/oq-blistera.html + docs/banco-ensayos/equipos/pq-blistera.html + docs/banco-ensayos/equipos/oq-detector-metales.html + docs/banco-ensayos/equipos/pq-detector-metales.html + docs/banco-ensayos/equipos/oq-etiquetadora.html + docs/banco-ensayos/equipos/pq-etiquetadora.html + docs/banco-ensayos/equipos/oq-lecho-fluido.html + docs/banco-ensayos/equipos/oq-autoclave.html + docs/banco-ensayos/equipos/oq-mezclador.html + docs/banco-ensayos/equipos/oq-horno.html + docs/banco-ensayos/equipos/pq-lecho-fluido.html + docs/banco-ensayos/equipos/pq-autoclave.html + docs/banco-ensayos/equipos/pq-mezclador.html + docs/banco-ensayos/equipos/pq-horno.html + docs/banco-ensayos/equipos/pq-horno-vacio.html + docs/banco-ensayos/equipos/oq-horno-vacio.html + docs/banco-ensayos/equipos/oq-refrigerador-lab.html + docs/banco-ensayos/equipos/pq-refrigerador-lab.html + docs/banco-ensayos/equipos/oq-congelador-lab.html + docs/banco-ensayos/equipos/pq-congelador-lab.html + docs/banco-ensayos/equipos/oq-balanza.html (versión: EQ-COMUN 2026-10-21 v3 + EQ-OQ-COM 2026-10-21 v2 + EQ-PQ-COM 2026-10-21 v2 + EQ-IQ-AU 2026-10-07 v1 + EQ-IQ-TD 2026-10-07 v1 + EQ-IQ-LI 2026-10-07 v1 + EQ-IQ-RC 2026-10-21 v2 + EQ-IQ-VA 2026-10-21 v2 + EQ-IQ-LL 2026-10-29 v2 + EQ-OQ-LL 2026-10-29 v1 + EQ-PQ-LL 2026-10-29 v1 + EQ-IQ-LF 2026-10-07 v1 + EQ-IQ-TB 2026-10-08 v1 + EQ-IQ-EN 2026-10-08 v1 + EQ-IQ-GR 2026-10-08 v1 + EQ-IQ-RB 2026-10-09 v1 + EQ-IQ-BL 2026-10-09 v1 + EQ-IQ-DM 2026-10-11 v1 + EQ-IQ-ET 2026-10-11 v1 + EQ-IQ-MZ 2026-10-11 v1 + EQ-IQ-HO 2026-10-11 v1 + EQ-IQ-UC 2026-10-21 v2 + EQ-OQ-RC 2026-10-07 v1 + EQ-PQ-RC 2026-10-07 v1 + EQ-OQ-UC 2026-10-12 v1 + EQ-PQ-UC 2026-10-12 v1 + EQ-OQ-TB 2026-10-08 v1 + EQ-PQ-TB 2026-10-08 v1 + EQ-OQ-EN 2026-10-08 v1 + EQ-PQ-EN 2026-10-08 v1 + EQ-OQ-GR 2026-10-08 v1 + EQ-PQ-GR 2026-10-08 v1 + EQ-OQ-RB 2026-10-09 v1 + EQ-PQ-RB 2026-10-09 v1 + EQ-OQ-BL 2026-10-09 v1 + EQ-PQ-BL 2026-10-09 v1 + EQ-OQ-DM 2026-10-11 v1 + EQ-PQ-DM 2026-10-11 v1 + EQ-OQ-ET 2026-10-11 v1 + EQ-PQ-ET 2026-10-11 v1 + EQ-OQ-LF 2026-10-21 v3 + EQ-OQ-AU 2026-10-21 v3 + EQ-OQ-MZ 2026-10-21 v3 + EQ-OQ-HO 2026-10-21 v2 + EQ-PQ-LF 2026-10-21 v3 + EQ-PQ-AU 2026-10-21 v3 + EQ-PQ-MZ 2026-10-21 v3 + EQ-PQ-HO 2026-10-21 v2 + EQ-PQ-VA 2026-10-21 v2 + EQ-OQ-VA 2026-10-21 v2 + EQ-OQ-RF 2026-10-14 v1 + EQ-PQ-RF 2026-10-14 v1 + EQ-OQ-CG 2026-10-14 v1 + EQ-PQ-CG 2026-10-14 v1 + EQ-OQ-BA 2026-10-22 v1).
+// Fuente: docs/banco-ensayos/equipos-comun.html + docs/banco-ensayos/equipos/oq-comun.html + docs/banco-ensayos/equipos/pq-comun.html + docs/banco-ensayos/equipos/iq-autoclave.html + docs/banco-ensayos/equipos/iq-tunel-despirogenizacion.html + docs/banco-ensayos/equipos/iq-liofilizador.html + docs/banco-ensayos/equipos/iq-reactor.html + docs/banco-ensayos/equipos/iq-horno-vacio.html + docs/banco-ensayos/equipos/iq-llenadora.html + docs/banco-ensayos/equipos/oq-llenadora.html + docs/banco-ensayos/equipos/oq-llenadora-tubos.html + docs/banco-ensayos/equipos/pq-llenadora.html + docs/banco-ensayos/equipos/iq-lecho-fluido.html + docs/banco-ensayos/equipos/iq-tableteadora.html + docs/banco-ensayos/equipos/iq-encapsuladora.html + docs/banco-ensayos/equipos/iq-granulador.html + docs/banco-ensayos/equipos/iq-recubridora.html + docs/banco-ensayos/equipos/iq-blistera.html + docs/banco-ensayos/equipos/iq-detector-metales.html + docs/banco-ensayos/equipos/iq-etiquetadora.html + docs/banco-ensayos/equipos/iq-mezclador.html + docs/banco-ensayos/equipos/iq-horno-secado.html + docs/banco-ensayos/equipos/iq-sistema-cremas-vacio.html + docs/banco-ensayos/equipos/oq-reactor.html + docs/banco-ensayos/equipos/pq-reactor.html + docs/banco-ensayos/equipos/oq-sistema-cremas-vacio.html + docs/banco-ensayos/equipos/pq-sistema-cremas-vacio.html + docs/banco-ensayos/equipos/oq-tableteadora.html + docs/banco-ensayos/equipos/pq-tableteadora.html + docs/banco-ensayos/equipos/oq-encapsuladora.html + docs/banco-ensayos/equipos/pq-encapsuladora.html + docs/banco-ensayos/equipos/oq-granulador.html + docs/banco-ensayos/equipos/pq-granulador.html + docs/banco-ensayos/equipos/oq-recubridora.html + docs/banco-ensayos/equipos/pq-recubridora.html + docs/banco-ensayos/equipos/oq-blistera.html + docs/banco-ensayos/equipos/pq-blistera.html + docs/banco-ensayos/equipos/oq-detector-metales.html + docs/banco-ensayos/equipos/pq-detector-metales.html + docs/banco-ensayos/equipos/oq-etiquetadora.html + docs/banco-ensayos/equipos/pq-etiquetadora.html + docs/banco-ensayos/equipos/oq-lecho-fluido.html + docs/banco-ensayos/equipos/oq-autoclave.html + docs/banco-ensayos/equipos/oq-mezclador.html + docs/banco-ensayos/equipos/oq-horno.html + docs/banco-ensayos/equipos/pq-lecho-fluido.html + docs/banco-ensayos/equipos/pq-autoclave.html + docs/banco-ensayos/equipos/pq-mezclador.html + docs/banco-ensayos/equipos/pq-horno.html + docs/banco-ensayos/equipos/pq-horno-vacio.html + docs/banco-ensayos/equipos/oq-horno-vacio.html + docs/banco-ensayos/equipos/oq-refrigerador-lab.html + docs/banco-ensayos/equipos/pq-refrigerador-lab.html + docs/banco-ensayos/equipos/oq-congelador-lab.html + docs/banco-ensayos/equipos/pq-congelador-lab.html + docs/banco-ensayos/equipos/oq-balanza.html (versión: EQ-COMUN 2026-10-21 v3 + EQ-OQ-COM 2026-10-21 v2 + EQ-PQ-COM 2026-10-21 v2 + EQ-IQ-AU 2026-10-07 v1 + EQ-IQ-TD 2026-10-07 v1 + EQ-IQ-LI 2026-10-07 v1 + EQ-IQ-RC 2026-10-21 v2 + EQ-IQ-VA 2026-10-21 v2 + EQ-IQ-LL 2026-10-29 v2 + EQ-OQ-LL 2026-10-29 v1 + EQ-OQ-LT 2026-10-29 v1 + EQ-PQ-LL 2026-10-29 v1 + EQ-IQ-LF 2026-10-07 v1 + EQ-IQ-TB 2026-10-08 v1 + EQ-IQ-EN 2026-10-08 v1 + EQ-IQ-GR 2026-10-08 v1 + EQ-IQ-RB 2026-10-09 v1 + EQ-IQ-BL 2026-10-09 v1 + EQ-IQ-DM 2026-10-11 v1 + EQ-IQ-ET 2026-10-11 v1 + EQ-IQ-MZ 2026-10-11 v1 + EQ-IQ-HO 2026-10-11 v1 + EQ-IQ-UC 2026-10-21 v2 + EQ-OQ-RC 2026-10-07 v1 + EQ-PQ-RC 2026-10-07 v1 + EQ-OQ-UC 2026-10-12 v1 + EQ-PQ-UC 2026-10-12 v1 + EQ-OQ-TB 2026-10-08 v1 + EQ-PQ-TB 2026-10-08 v1 + EQ-OQ-EN 2026-10-08 v1 + EQ-PQ-EN 2026-10-08 v1 + EQ-OQ-GR 2026-10-08 v1 + EQ-PQ-GR 2026-10-08 v1 + EQ-OQ-RB 2026-10-09 v1 + EQ-PQ-RB 2026-10-09 v1 + EQ-OQ-BL 2026-10-09 v1 + EQ-PQ-BL 2026-10-09 v1 + EQ-OQ-DM 2026-10-11 v1 + EQ-PQ-DM 2026-10-11 v1 + EQ-OQ-ET 2026-10-11 v1 + EQ-PQ-ET 2026-10-11 v1 + EQ-OQ-LF 2026-10-21 v3 + EQ-OQ-AU 2026-10-21 v3 + EQ-OQ-MZ 2026-10-21 v3 + EQ-OQ-HO 2026-10-21 v2 + EQ-PQ-LF 2026-10-21 v3 + EQ-PQ-AU 2026-10-21 v3 + EQ-PQ-MZ 2026-10-21 v3 + EQ-PQ-HO 2026-10-21 v2 + EQ-PQ-VA 2026-10-21 v2 + EQ-OQ-VA 2026-10-21 v2 + EQ-OQ-RF 2026-10-14 v1 + EQ-PQ-RF 2026-10-14 v1 + EQ-OQ-CG 2026-10-14 v1 + EQ-PQ-CG 2026-10-14 v1 + EQ-OQ-BA 2026-10-22 v1).
 var BancoEquipos = {
- "version": "EQ-COMUN 2026-10-21 v3 + EQ-OQ-COM 2026-10-21 v2 + EQ-PQ-COM 2026-10-21 v2 + EQ-IQ-AU 2026-10-07 v1 + EQ-IQ-TD 2026-10-07 v1 + EQ-IQ-LI 2026-10-07 v1 + EQ-IQ-RC 2026-10-21 v2 + EQ-IQ-VA 2026-10-21 v2 + EQ-IQ-LL 2026-10-29 v2 + EQ-OQ-LL 2026-10-29 v1 + EQ-PQ-LL 2026-10-29 v1 + EQ-IQ-LF 2026-10-07 v1 + EQ-IQ-TB 2026-10-08 v1 + EQ-IQ-EN 2026-10-08 v1 + EQ-IQ-GR 2026-10-08 v1 + EQ-IQ-RB 2026-10-09 v1 + EQ-IQ-BL 2026-10-09 v1 + EQ-IQ-DM 2026-10-11 v1 + EQ-IQ-ET 2026-10-11 v1 + EQ-IQ-MZ 2026-10-11 v1 + EQ-IQ-HO 2026-10-11 v1 + EQ-IQ-UC 2026-10-21 v2 + EQ-OQ-RC 2026-10-07 v1 + EQ-PQ-RC 2026-10-07 v1 + EQ-OQ-UC 2026-10-12 v1 + EQ-PQ-UC 2026-10-12 v1 + EQ-OQ-TB 2026-10-08 v1 + EQ-PQ-TB 2026-10-08 v1 + EQ-OQ-EN 2026-10-08 v1 + EQ-PQ-EN 2026-10-08 v1 + EQ-OQ-GR 2026-10-08 v1 + EQ-PQ-GR 2026-10-08 v1 + EQ-OQ-RB 2026-10-09 v1 + EQ-PQ-RB 2026-10-09 v1 + EQ-OQ-BL 2026-10-09 v1 + EQ-PQ-BL 2026-10-09 v1 + EQ-OQ-DM 2026-10-11 v1 + EQ-PQ-DM 2026-10-11 v1 + EQ-OQ-ET 2026-10-11 v1 + EQ-PQ-ET 2026-10-11 v1 + EQ-OQ-LF 2026-10-21 v3 + EQ-OQ-AU 2026-10-21 v3 + EQ-OQ-MZ 2026-10-21 v3 + EQ-OQ-HO 2026-10-21 v2 + EQ-PQ-LF 2026-10-21 v3 + EQ-PQ-AU 2026-10-21 v3 + EQ-PQ-MZ 2026-10-21 v3 + EQ-PQ-HO 2026-10-21 v2 + EQ-PQ-VA 2026-10-21 v2 + EQ-OQ-VA 2026-10-21 v2 + EQ-OQ-RF 2026-10-14 v1 + EQ-PQ-RF 2026-10-14 v1 + EQ-OQ-CG 2026-10-14 v1 + EQ-PQ-CG 2026-10-14 v1 + EQ-OQ-BA 2026-10-22 v1",
+ "version": "EQ-COMUN 2026-10-21 v3 + EQ-OQ-COM 2026-10-21 v2 + EQ-PQ-COM 2026-10-21 v2 + EQ-IQ-AU 2026-10-07 v1 + EQ-IQ-TD 2026-10-07 v1 + EQ-IQ-LI 2026-10-07 v1 + EQ-IQ-RC 2026-10-21 v2 + EQ-IQ-VA 2026-10-21 v2 + EQ-IQ-LL 2026-10-29 v2 + EQ-OQ-LL 2026-10-29 v1 + EQ-OQ-LT 2026-10-29 v1 + EQ-PQ-LL 2026-10-29 v1 + EQ-IQ-LF 2026-10-07 v1 + EQ-IQ-TB 2026-10-08 v1 + EQ-IQ-EN 2026-10-08 v1 + EQ-IQ-GR 2026-10-08 v1 + EQ-IQ-RB 2026-10-09 v1 + EQ-IQ-BL 2026-10-09 v1 + EQ-IQ-DM 2026-10-11 v1 + EQ-IQ-ET 2026-10-11 v1 + EQ-IQ-MZ 2026-10-11 v1 + EQ-IQ-HO 2026-10-11 v1 + EQ-IQ-UC 2026-10-21 v2 + EQ-OQ-RC 2026-10-07 v1 + EQ-PQ-RC 2026-10-07 v1 + EQ-OQ-UC 2026-10-12 v1 + EQ-PQ-UC 2026-10-12 v1 + EQ-OQ-TB 2026-10-08 v1 + EQ-PQ-TB 2026-10-08 v1 + EQ-OQ-EN 2026-10-08 v1 + EQ-PQ-EN 2026-10-08 v1 + EQ-OQ-GR 2026-10-08 v1 + EQ-PQ-GR 2026-10-08 v1 + EQ-OQ-RB 2026-10-09 v1 + EQ-PQ-RB 2026-10-09 v1 + EQ-OQ-BL 2026-10-09 v1 + EQ-PQ-BL 2026-10-09 v1 + EQ-OQ-DM 2026-10-11 v1 + EQ-PQ-DM 2026-10-11 v1 + EQ-OQ-ET 2026-10-11 v1 + EQ-PQ-ET 2026-10-11 v1 + EQ-OQ-LF 2026-10-21 v3 + EQ-OQ-AU 2026-10-21 v3 + EQ-OQ-MZ 2026-10-21 v3 + EQ-OQ-HO 2026-10-21 v2 + EQ-PQ-LF 2026-10-21 v3 + EQ-PQ-AU 2026-10-21 v3 + EQ-PQ-MZ 2026-10-21 v3 + EQ-PQ-HO 2026-10-21 v2 + EQ-PQ-VA 2026-10-21 v2 + EQ-OQ-VA 2026-10-21 v2 + EQ-OQ-RF 2026-10-14 v1 + EQ-PQ-RF 2026-10-14 v1 + EQ-OQ-CG 2026-10-14 v1 + EQ-PQ-CG 2026-10-14 v1 + EQ-OQ-BA 2026-10-22 v1",
  "fases": {
   "DQ": [],
   "IQ": [
@@ -5217,6 +5217,1128 @@ var BancoEquipos = {
     "bloque": 8,
     "html": "<p><strong>ANEXOS:</strong></p>\n<table>\n<tbody><tr><th>SECCIÓN</th><th>TÍTULO</th></tr>\n<tr><td>8.1</td><td>Anexo A — Registros crudos y reportes estadísticos (volumen, uniformidad entre boquillas, estabilidad de corrida, viscosidad, nivel, presión y temperatura)</td></tr>\n<tr><td>8.2</td><td>Anexo B — Certificados de calibración de balanza, tacómetro, caudalímetro, manómetros, termómetros y torquímetro</td></tr>\n<tr><td>8.3</td><td>Anexo C — Matrices de paradas de emergencia, interlocks, alarmas, detección de envase y cambio de formato</td></tr>\n</tbody></table>",
     "familia": "llenadora"
+   },
+   {
+    "kind": "div",
+    "clase": "portada",
+    "bloque": 1,
+    "html": "<p><strong>PORTADA DEL PROTOCOLO OQ</strong></p>\n<p><strong>Logo:</strong><br><img class=\"ent-logo\" alt=\"Logo de la entidad\"></p>\n<p><strong>Calificación de Operación de <span class=\"equipo\">equipo</span>:</strong> <span class=\"ent-descripcion\">______</span></p>\n<ol>\n  <li><strong>Marca:</strong> <span class=\"ent-marca\">______</span></li>\n  <li><strong>Modelo:</strong> <span class=\"ent-modelo\">______</span></li>\n  <li><strong>Código:</strong> <span class=\"ent-codigo\">______</span></li>\n</ol>",
+    "familia": "llenadora-tubos"
+   },
+   {
+    "kind": "div",
+    "clase": "firmas",
+    "bloque": 1,
+    "html": "<p><strong>FLUJO DE FIRMAS DEL PROTOCOLO:</strong></p>\n<p>Este apartado establece que los responsables revisan y aprueban el presente protocolo, declarando que está apto para su ejecución. Cualquier cambio posterior a la firma obliga a reiniciar el flujo de firmas, con el fin de garantizar que todos los departamentos involucrados estén al tanto de los ensayos a ejecutar.</p>\n<ol>\n  <li><strong>Elaborado Por:</strong> <br> Analista de validaciones — elabora / Nombre: ______ Firma: ______ Fecha: ______</li><br>\n  <li><strong>Revisado Por:</strong> <br> Coordinador de validaciones — revisa / Nombre: ______ Firma: ______ Fecha: ______</li><br>\n  <li><strong>Revisado Por:</strong> <br> Gerente de Área — revisa / Nombre: ______ Firma: ______ Fecha: ______</li><br>\n  <li><strong>Aprobado por:</strong> <br> Gerente de gestión de calidad — aprueba / Nombre: ______ Firma: ______ Fecha: ______</li><br>\n</ol>",
+    "familia": "llenadora-tubos"
+   },
+   {
+    "kind": "div",
+    "clase": "responsabilidades",
+    "bloque": 1,
+    "html": "<p><strong>RESPONSABILIDADES DEL PROTOCOLO:</strong></p>\n<p><strong>Responsabilidad del Analista de validaciones:</strong></p>\n<ol><li>Coordinar la ejecución de la Calificación de Operación con las áreas involucradas, asegurando personal, <span class=\"equipo\">equipo</span>, instrumentos y documentación.</li><li>Verificar que los instrumentos de medición estén identificados y con calibración vigente.</li><li>Ejecutar y/o supervisar los ensayos del protocolo según los criterios aprobados.</li><li>Registrar los datos de forma completa, legible y trazable (ALCOA+).</li><li>Documentar las desviaciones según los procedimientos internos vigentes.</li><li>Elaborar el informe de calificación con resultados, conclusiones y anexos.</li></ol>\n<p><strong>Responsabilidad del Coordinador de validaciones:</strong></p>\n<ol><li>Revisar técnicamente el protocolo antes de su ejecución.</li><li>Asignar al analista responsable y coordinar recursos.</li><li>Revisar las desviaciones, su tratamiento y las CAPA asociadas.</li><li>Revisar el informe final y autorizar el inicio de la PQ.</li></ol>\n<p><strong>Responsabilidad del Gerente de Área:</strong></p>\n<ol><li>Garantizar la disponibilidad del <span class=\"equipo\">equipo</span> y los accesos para la ejecución.</li><li>Facilitar la documentación técnica del fabricante y del proveedor.</li><li>Implementar las acciones operativas derivadas de desviaciones y CAPA.</li></ol>\n<p><strong>Responsabilidad del Gerente de gestión de calidad:</strong></p>\n<ol><li>Aprobar el protocolo y sus criterios de aceptación.</li><li>Aprobar las desviaciones y sus evaluaciones de impacto.</li><li>Emitir el dictamen final del estado de calificación.</li></ol>",
+    "familia": "llenadora-tubos"
+   },
+   {
+    "kind": "div",
+    "clase": "alcance",
+    "bloque": 1,
+    "html": "<p><strong>ALCANCE</strong></p>\n<p>Esta calificación aplica a <span class=\"equipo\">equipo</span>, según protocolo OQ, y cubre los ensayos listados en el índice.</p>",
+    "familia": "llenadora-tubos"
+   },
+   {
+    "kind": "div",
+    "clase": "def-usp",
+    "bloque": 1,
+    "html": "<p><strong>DEFINICIÓN USP</strong></p>\n<p>Calificación de Operación: colección documentada de las actividades necesarias para demostrar que un instrumento se desempeña de manera uniforme de acuerdo con las especificaciones definidas por el usuario y es apropiado para el uso previsto, en el entorno seleccionado (<span class=\"refnorma\"></span>).</p>",
+    "familia": "llenadora-tubos"
+   },
+   {
+    "kind": "div",
+    "clase": "nota-datos",
+    "bloque": 1,
+    "html": "<p><strong>NOTA — DATOS DIGITALES</strong></p>\n<p>Si el equipo entrega datos digitales, se procesan directamente y se anexan la data cruda y el reporte estadístico como parte de la evidencia.</p>",
+    "familia": "llenadora-tubos"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-LT-001",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-LT-001 — Parada de emergencia",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que cada parada de emergencia detiene de inmediato el llenado, el sellado, la alimentación de tubos y la banda, exige rearme manual y señaliza el estado en el HMI."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Verificar la IQ aprobada y el <span class=\"equipo\">equipo</span> liberado para OQ; identificar todas las paradas de emergencia y anotar su ubicación en la tabla<br>\n  2) Avisar a los operadores del área y disponer de cronómetro calibrado y formato de registro; operar con agua o placebo según el BMR, sin producto<br>\n  3) Arrancar el <span class=\"equipo\">equipo</span> y llevarlo a velocidad nominal con llenado y sellado activos<br>\n  4) Accionar la parada de emergencia y medir el tiempo hasta la detención total del llenado, el sellado, la alimentación y la banda<br>\n  a) El tiempo medido no supera el definido en la URS o en el manual del fabricante<br>\n  b) El HMI muestra el mensaje de parada de emergencia activa<br>\n  5) Sin rearmar, intentar arrancar desde el HMI y confirmar que el arranque queda impedido<br>\n  6) Rearmar la parada según el procedimiento del fabricante y confirmar que el <span class=\"equipo\">equipo</span> queda en condición segura sin arrancar solo<br>\n  7) Repetir los pasos 3) a 6) por cada parada de emergencia del <span class=\"equipo\">equipo</span><br>\n  8) Dejar el <span class=\"equipo\">equipo</span> en condición segura y anotar cualquier desviación"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>No aplica: verificación funcional por atributo (detiene/no detiene, 100 % de los casos); sin inferencia estadística."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Todas las paradas detienen el llenado, el sellado, la alimentación y la banda dentro del tiempo aprobado.<br>\n  Sin rearme manual el arranque es imposible y el estado queda señalizado en el HMI."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Tabla de paradas de emergencia con ubicación y tiempos medidos<br>\n  - Registro de mensajes del HMI por cada prueba"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>EU GMP Anexo 15; GAMP5 2.ª ed. (challenge de funciones de seguridad); manual del fabricante."
+     }
+    ],
+    "tabla": null,
+    "familia": "llenadora-tubos"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-LT-002",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-LT-002 — Interlocks y protecciones",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que el <span class=\"equipo\">equipo</span> impide el movimiento, el llenado y el sellado ante cada condición insegura: guarda o puerta abierta, falta de tubo, presión de aire baja, temperatura de sellado fuera de rango y contenedor de rechazo lleno o abierto."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Dejar el <span class=\"equipo\">equipo</span> detenido en condición segura y disponer de la matriz de interlocks (condición y respuesta esperada)<br>\n  2) Abrir la guarda o puerta de partes móviles e intentar arrancar; confirmar inhibición y mensaje en el HMI<br>\n  3) Retirar el tubo de una estación e intentar llenar y sellar; confirmar inhibición y mensaje en el HMI<br>\n  4) Simular presión de aire baja e intentar arrancar; confirmar paro o inhibición según diseño<br>\n  5) Simular temperatura de sellado fuera de rango e intentar sellar; confirmar inhibición<br>\n  6) Simular contenedor de rechazo lleno o abierto; confirmar inhibición o paro según diseño<br>\n  7) Restituir todas las condiciones a normal, confirmar marcha permitida y cerrar la matriz con hora y respuesta de cada prueba"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>No aplica: verificación funcional por atributo (inhibe/no inhibe, 100 % de los casos); sin inferencia estadística."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  El 100 % de los interlocks ensayados inhibe el movimiento, el llenado o el sellado con mensaje en el HMI.<br>\n  Ninguna condición insegura permite llenar ni sellar."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Matriz de interlocks con condición provocada, respuesta del equipo y mensaje del HMI"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>GAMP5 2.ª ed.; EU GMP Anexo 15; manual del fabricante."
+     }
+    ],
+    "tabla": null,
+    "familia": "llenadora-tubos"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-LT-003",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-LT-003 — Alarmas y límites",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que cada alarma del <span class=\"equipo\">equipo</span> dispara ante su condición, dentro del retardo aprobado, ejecuta su acción y queda registrada con fecha y hora."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Obtener del manual y de la URS la lista de alarmas con su consigna, retardo y acción esperada<br>\n  2) Provocar cada alarma aplicable: falta de tubo, nivel bajo de tolva, presión de aire baja, temperatura de sellado fuera de rango, falla de sellado, rechazo lleno y parada de emergencia<br>\n  3) Medir el tiempo entre la condición y el disparo, y verificar la acción asociada<br>\n  4) Verificar el registro en el histórico del equipo con fecha, hora, usuario y texto de la alarma (si aplica 21 CFR Parte 11)<br>\n  5) Restablecer cada condición y confirmar que la alarma se reconoce y se borra solo después de corregida"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>No aplica: verificación funcional por atributo (dispara/no dispara, 100 % de los casos); sin inferencia estadística."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  El 100 % de las alarmas dispara ante su condición dentro del retardo aprobado y ejecuta su acción.<br>\n  Todas quedan registradas y solo se reconocen después de corregida la condición."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Matriz de alarmas con consigna, retardo, acción y registro"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante; URS aprobada; 21 CFR Parte 11 (si aplica)."
+     }
+    ],
+    "tabla": null,
+    "familia": "llenadora-tubos"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-LT-004",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-LT-004 — Falla y recuperación de energía y aire comprimido",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que ante pérdida de energía o de aire comprimido el <span class=\"equipo\">equipo</span> queda en estado seguro, sin derrame ni tubo parcialmente llenado o sellado, y que al restablecer no arranca solo y conserva receta y parámetros."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Arrancar el <span class=\"equipo\">equipo</span> a velocidad nominal con llenado y sellado activos y registrar los parámetros de proceso<br>\n  2) Interrumpir la energía desde el seccionador autorizado y observar la respuesta: cierre de válvulas, detención del llenado, sellado y banda, y ausencia de derrame<br>\n  3) Restablecer la energía y confirmar que el <span class=\"equipo\">equipo</span> no arranca solo y que exige rearme o confirmación del operador<br>\n  4) Interrumpir el aire comprimido (si aplica) y verificar la acción segura y la ausencia de tubos parciales<br>\n  5) Restablecer el aire y confirmar que la receta y los parámetros se conservan o se recuperan según el diseño<br>\n  6) Ejecutar un paro controlado y comparar con el paro por falla<br>\n  7) Registrar el tiempo de detención y las condiciones observadas"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>No aplica: verificación funcional por atributo (estado seguro/no seguro, 100 % de los casos); sin inferencia estadística."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Ante la pérdida de energía o aire no hay derrame ni tubo parcialmente llenado o sellado y el equipo queda en estado seguro.<br>\n  Al restablecer no existe arranque automático.<br>\n  La receta y los parámetros se conservan según el diseño aprobado."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de falla y recuperación de energía y aire con parámetros y tiempos"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante; GAMP5 2.ª ed.; EU GMP Anexo 15."
+     }
+    ],
+    "tabla": null,
+    "familia": "llenadora-tubos"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-LT-005",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-LT-005 — Control de acceso y trazabilidad",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que el HMI/PLC restringe el acceso por usuario y rol, y que los cambios de parámetros y recetas quedan trazados de forma íntegra."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Verificar que cada usuario tiene cuenta individual y rol asignado; confirmar que no existen cuentas compartidas ni genéricas<br>\n  2) Verificar la política de contraseña y el bloqueo por intentos fallidos según la URS<br>\n  3) Verificar el cierre de sesión por inactividad y el bloqueo de la pantalla de operación<br>\n  4) Realizar un cambio de parámetro autorizado y otro no autorizado; confirmar que el segundo se rechaza<br>\n  5) Verificar el registro de auditoría: usuario, fecha, hora, valor anterior, valor nuevo y motivo (si aplica)<br>\n  6) Verificar la sincronización del reloj del equipo con la hora patrón<br>\n  7) Verificar la integridad de los registros exportados o impresos y su coincidencia con el histórico"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>No aplica: verificación funcional por atributo (permite/rechaza, 100 % de los casos); sin inferencia estadística."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Solo los usuarios autorizados acceden a cada función y todo cambio queda trazado con usuario, fecha y hora.<br>\n  Los registros son íntegros y coinciden con el histórico del equipo."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Matriz de usuarios y roles verificada<br>\n  - Muestra del registro de auditoría con los cambios ejecutados"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>21 CFR Parte 11; GAMP5 2.ª ed.; URS aprobada."
+     }
+    ],
+    "tabla": null,
+    "familia": "llenadora-tubos"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-LT-006",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-LT-006 — Instrumentos críticos del equipo",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que los instrumentos críticos del <span class=\"equipo\">equipo</span> están identificados, con calibración vigente que cubre la ejecución del OQ y con rango y exactitud adecuados al uso."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Listar los instrumentos críticos: sensores de temperatura de sellado y tolva, presión de aire y de sellado, celda de carga (si aplica), encoder de velocidad y sensores de conteo<br>\n  2) Verificar la etiqueta de calibración y que su vigencia cubre todo el periodo de ejecución del OQ<br>\n  3) Comparar el rango y la exactitud de cada instrumento con el rango de proceso de la URS<br>\n  4) Registrar en la tabla: instrumento, fabricante, modelo, serie, código interno, rango, exactitud, última calibración y vencimiento<br>\n  5) Recopilar los certificados de calibración para el anexo del informe"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>No aplica: verificación documental y funcional sin muestreo inferencial."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Todos los instrumentos críticos tienen calibración vigente que cubre la ejecución del OQ.<br>\n  El rango y la exactitud son adecuados para el rango de proceso aprobado.<br>\n  Los certificados están disponibles y anexados."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Tabla de instrumentos críticos del OQ completada<br>\n  - Copias de los certificados de calibración"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>EU GMP Anexo 15; ISPE Baseline Guide Vol. 5; manual del fabricante."
+     }
+    ],
+    "tabla": null,
+    "familia": "llenadora-tubos"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-LT-007",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-LT-007 — Exactitud del peso de llenado",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que el peso llenado corresponde al objetivo en los puntos mínimo, nominal y máximo del rango de operación, con corrección por densidad del producto."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Verificar IQ aprobada, formato instalado y receta cargada; disponer de balanza calibrada y del formato de registro<br>\n  2) Ajustar el peso mínimo, nominal y máximo del rango aprobado en la URS<br>\n  3) Llenar un mínimo de 10 tubos consecutivos por punto con agua o placebo según el BMR, y registrar la temperatura del producto<br>\n  4) Pesar cada tubo lleno y el tubo vacío correspondiente, y convertir la masa a volumen con la densidad a la temperatura registrada<br>\n  5) Calcular el error respecto del peso objetivo en cada punto<br>\n  6) Procesar los datos crudos de peso y volumen en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = peso llenado (g) y volumen convertido con la densidad a la temperatura registrada (mL); tamaño de muestra = mínimo 10 tubos por punto (mínimo, nominal y máximo); estadísticos = media, desviación estándar, RSD, error absoluto y relativo frente al objetivo e intervalo de confianza al 95 % de la media por punto; criterio = la media y cada réplica dentro de la tolerancia de la URS y la especificación del producto; sin ANOVA (cada punto se evalúa contra su objetivo); valores atípicos = prueba de Grubbs con investigación y justificación documentada."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  La media de cada punto está dentro de la tolerancia de exactitud de la URS y la especificación del producto.<br>\n  Cada tubo individual está dentro del límite individual aprobado.<br>\n  No existen valores atípicos sin investigación documentada."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de pesos y volúmenes con data cruda y reporte<br>\n  - Data cruda y reporte estadístico de la exactitud del peso de llenado"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante; URS aprobada (peso objetivo y tolerancias); especificación del producto."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "llenadora-tubos"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-LT-008",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-LT-008 — Repetibilidad y uniformidad entre boquillas",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que el peso llenado es repetible entre ciclos y uniforme entre todas las boquillas o estaciones instaladas."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Identificar y numerar cada boquilla o estación; confirmar el formato y el peso nominal aprobado<br>\n  2) Llenar un mínimo de 10 tubos consecutivos por boquilla, recolectando el tubo de cada estación de forma identificable<br>\n  3) Pesar cada tubo y convertir la masa a volumen con la densidad a la temperatura registrada<br>\n  4) Calcular media, desviación estándar y RSD por boquilla, y la diferencia máxima entre medias de boquillas<br>\n  5) Procesar los datos crudos de peso por boquilla en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = peso o volumen llenado por boquilla; tamaño de muestra = mínimo 10 tubos por boquilla y todas las boquillas instaladas; estadísticos = media, desviación estándar y RSD por boquilla, y diferencia entre la media máxima y la mínima; comparación entre boquillas con ANOVA de un factor (boquilla) cuando el protocolo aprobado lo defina, con verificación de supuestos; criterio = RSD y diferencia entre boquillas dentro de la URS y la especificación del producto; valores atípicos = prueba de Grubbs con investigación documentada."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  El RSD de cada boquilla cumple el límite de repetibilidad de la URS.<br>\n  La diferencia entre la media máxima y la mínima cumple el límite de uniformidad de la URS.<br>\n  Todas las boquillas instaladas quedan evaluadas."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de pesos por boquilla con data cruda y reporte<br>\n  - Data cruda y reporte estadístico de repetibilidad y uniformidad entre boquillas"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante; URS aprobada (límites de repetibilidad y uniformidad)."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "llenadora-tubos"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-LT-009",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-LT-009 — Estabilidad durante la corrida",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que el peso llenado se mantiene estable durante la corrida y que el nivel de la tolva no produce deriva fuera de tolerancia."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Arrancar la corrida a velocidad y peso nominales con agua o placebo según el BMR<br>\n  2) Tomar muestras al inicio, a la mitad y al final de la corrida, con un mínimo de 10 tubos por muestreo y registro de hora<br>\n  3) Registrar el nivel de la tolva, la presión de alimentación y la temperatura del producto en cada muestreo<br>\n  4) Pesar cada tubo y convertir la masa a volumen con la densidad a la temperatura registrada<br>\n  5) Calcular la tendencia del peso contra el tiempo y contra el nivel de tolva<br>\n  6) Procesar los datos crudos de peso, tiempo y nivel en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = peso llenado (g) frente al tiempo de corrida y al nivel de tolva; tamaño de muestra = mínimo 10 tubos en al menos 3 muestreos distribuidos en la corrida; estadísticos = media y RSD por muestreo, y regresión lineal del peso contra el tiempo y contra el nivel (pendiente e intervalo de confianza al 95 %); criterio = la pendiente no evidencia deriva fuera de la tolerancia de la URS y cada muestreo cumple la exactitud; sin ANOVA; valores atípicos = prueba de Grubbs con investigación documentada."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  La media de cada muestreo cumple la tolerancia de exactitud de la URS.<br>\n  No existe deriva estadísticamente significativa por tiempo ni por nivel de tolva.<br>\n  Las condiciones registradas se mantienen dentro del rango aprobado."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de muestreos con hora, nivel y data cruda<br>\n  - Data cruda y reporte estadístico de estabilidad de la corrida"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante; URS aprobada."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "llenadora-tubos"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-LT-010",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-LT-010 — Exactitud de velocidad",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que la velocidad de llenado y sellado indicada por el control corresponde a la velocidad real en los puntos mínimo, nominal y máximo del rango de operación."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Ajustar la velocidad mínima, nominal y máxima desde el control<br>\n  2) Medir cada punto con instrumento independiente calibrado (tacómetro o conteo de tubos en intervalo cronometrado), por triplicado<br>\n  3) Registrar la velocidad indicada por el control y la medida en cada punto<br>\n  4) Verificar que la velocidad se mantiene estable durante el intervalo de medición y que no afecta el peso llenado<br>\n  5) Procesar los datos crudos de velocidad en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = velocidad real (tubos por minuto o rpm) frente a la indicada; tamaño de muestra = 3 réplicas por punto (mínimo, nominal y máximo); estadísticos = media, desviación estándar y RSD por punto, y error relativo entre la velocidad medida y la indicada; criterio = error y repetibilidad dentro de la tolerancia de la URS; sin ANOVA (cada punto se evalúa contra su consigna); valores atípicos con investigación documentada."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  La velocidad medida está dentro de la tolerancia de la URS en los tres puntos.<br>\n  La repetibilidad cumple el criterio en cada punto.<br>\n  No existe diferencia entre la velocidad indicada y la real fuera de tolerancia."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de velocidades con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de velocidad"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante; URS aprobada."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "llenadora-tubos"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-LT-011",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-LT-011 — Desafío de viscosidad y temperatura del producto",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que el sistema de dosificación mantiene la exactitud y repetibilidad en los límites de viscosidad y temperatura del producto, incluida la combinación de peor caso."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Preparar placebos con los niveles de viscosidad y temperatura definidos en la URS o el BMR y medirlos con instrumentos calibrados<br>\n  2) Registrar la temperatura de cada preparación durante el llenado<br>\n  3) Ajustar el peso nominal y llenar un mínimo de 10 tubos por combinación de viscosidad y temperatura<br>\n  4) Pesar cada tubo y convertir la masa a volumen con la densidad a la temperatura registrada<br>\n  5) Verificar que no hay obstrucción, cavitación ni pérdida de cebado en ninguna combinación<br>\n  6) Procesar los datos crudos de peso, viscosidad y temperatura en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = peso o volumen llenado por combinación de viscosidad y temperatura; tamaño de muestra = mínimo 10 tubos por combinación y al menos 3 combinaciones que incluyan el peor caso; estadísticos = media, desviación estándar y RSD por combinación, y error frente al objetivo; comparación entre combinaciones con ANOVA de dos factores (viscosidad y temperatura) cuando el protocolo aprobado lo defina, con verificación de supuestos; criterio = exactitud y repetibilidad dentro de la URS en todas las combinaciones; valores atípicos = prueba de Grubbs con investigación documentada."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  La exactitud y la repetibilidad cumplen la URS en los límites de viscosidad y temperatura.<br>\n  No existe obstrucción, cavitación ni pérdida de cebado.<br>\n  La temperatura registrada se mantiene dentro del rango aprobado."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de viscosidad, temperatura y pesos con data cruda<br>\n  - Data cruda y reporte estadístico del desafío de viscosidad y temperatura"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante; URS aprobada (rango de viscosidad y temperatura)."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "llenadora-tubos"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-LT-012",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-LT-012 — Alimentación, orientación y registro de marca",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que el tubo se alimenta, orienta y posiciona correctamente, y que la marca impresa queda alineada según la especificación."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Cargar el alimentador con tubos del formato aprobado y ajustar las guías según el manual<br>\n  2) Procesar un mínimo de 100 tubos y verificar la orientación y el posicionamiento en cada estación<br>\n  3) Verificar la alineación de la marca impresa contra el patrón aprobado<br>\n  4) Registrar los tubos mal orientados, desplazados o con marca desalineada<br>\n  5) Verificar que el sistema rechaza o detiene el tubo mal posicionado según el diseño<br>\n  6) Ajustar solo si el procedimiento lo autoriza y registrar el cambio"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>No aplica: verificación funcional por atributo (bien/mal posicionado, 100 % de los 100 tubos); sin inferencia estadística."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  El 100 % de los tubos revisados se alimenta y orienta correctamente.<br>\n  La marca impresa queda alineada dentro de la tolerancia aprobada.<br>\n  Los tubos mal posicionados se rechazan o detienen según el diseño."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de alimentación, orientación y alineación de marca por tubo"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante; especificación del tubo; URS aprobada."
+     }
+    ],
+    "tabla": null,
+    "familia": "llenadora-tubos"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-LT-013",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-LT-013 — Detección de tubo ausente o mal posicionado",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que el <span class=\"equipo\">equipo</span> no llena ni sella cuando no hay tubo o está mal posicionado, y que informa o rechaza según el diseño."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Arrancar la línea a velocidad nominal con tubos y llenado activos<br>\n  2) Retirar un tubo de forma controlada en cada estación, una estación a la vez<br>\n  a) La boquilla no dosifica y no hay derrame sobre la banda<br>\n  b) El HMI registra la ausencia o el sistema rechaza según el diseño<br>\n  3) Repetir con 10 tubos consecutivos ausentes en una misma estación<br>\n  4) Presentar un tubo mal posicionado y verificar que no se llena ni se sella<br>\n  5) Restablecer la condición normal y confirmar la reanudación sin intervención no documentada"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>No aplica: verificación funcional por atributo (llena/no llena, 100 % de los casos ensayados); sin inferencia estadística."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  El 100 % de los casos sin tubo o mal posicionado queda sin llenar y sin sellar.<br>\n  El evento queda registrado o el tubo se rechaza según el diseño.<br>\n  No existen falsos positivos con tubos bien posicionados."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Matriz de casos con estación, acción ejecutada y respuesta del equipo"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante; GAMP5 2.ª ed.; URS aprobada."
+     }
+    ],
+    "tabla": null,
+    "familia": "llenadora-tubos"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-LT-014",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-LT-014 — Dosificación, antigoteo y corte limpio",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que el corte de llenado es limpio y que no hay goteo, hilos ni colas de producto en la boquilla ni en el tubo."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Arrancar la línea a velocidad nominal con agua o placebo y peso nominal<br>\n  2) Ejecutar 30 ciclos de arranque y paro de dosificación, dejando la boquilla en posición de reposo entre ciclos<br>\n  3) Colocar papel de filtro o placa limpia bajo cada boquilla durante el reposo y verificar la presencia de gotas o hilos<br>\n  4) Inspeccionar el exterior del tubo y la banda en busca de producto<br>\n  5) Verificar el funcionamiento de la bandeja o recipiente de goteo (si aplica) y su vaciado<br>\n  6) Registrar el número de ciclos con goteo, hilos o colas y la ubicación"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>No aplica: verificación funcional por atributo (gotea/no gotea, 100 % de los ciclos); sin inferencia estadística."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  No hay goteo, hilos ni colas de producto en los 30 ciclos.<br>\n  El corte de llenado no deja producto en el exterior del tubo.<br>\n  La bandeja de goteo, si aplica, recoge y evacua correctamente."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de ciclos con observación de goteo, hilos y colas por boquilla"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante; URS aprobada."
+     }
+    ],
+    "tabla": null,
+    "familia": "llenadora-tubos"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-LT-015",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-LT-015 — Aire atrapado y nivel de llenado",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que el llenado no deja burbujas, vacíos ni espuma por encima del límite, y que el nivel de llenado corresponde al especificado."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Llenar un mínimo de 30 tubos a velocidad y peso nominales con el producto o placebo aprobado<br>\n  2) Inspeccionar cada tubo contra fondo contrastante y con luz adecuada: burbujas, vacíos, espuma y nivel<br>\n  3) Verificar la posición de la boquilla de inmersión (si aplica) y el momento de corte<br>\n  4) Registrar el hallazgo por tubo y por boquilla de origen<br>\n  5) Evaluar la tendencia por boquilla y por momento de la corrida<br>\n  6) Anexar evidencia fotográfica de los hallazgos y de un tubo conforme"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>No aplica: verificación funcional por atributo (conforme/no conforme, 100 % de la muestra visual); sin inferencia estadística."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  El 100 % de la muestra está conforme: sin burbujas, vacíos ni espuma por encima del límite.<br>\n  El nivel de llenado corresponde a la especificación del producto.<br>\n  Cualquier hallazgo tiene investigación y disposición documentada."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de inspección por tubo y boquilla<br>\n  - Evidencia fotográfica"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Especificación del producto; BMR; URS aprobada."
+     }
+    ],
+    "tabla": null,
+    "familia": "llenadora-tubos"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-LT-016",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-LT-016 — Temperatura de tolva y línea de producto",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que el control de temperatura de la tolva y de la línea de producto mantiene el valor aprobado y que su indicación corresponde a la medición patrón."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Verificar el setpoint mínimo, nominal y máximo del rango aprobado<br>\n  2) Medir la temperatura con instrumento patrón calibrado en cada punto, por triplicado, y comparar con la indicación del equipo<br>\n  3) Verificar la homogeneidad en los puntos de medición definidos y la estabilidad durante un periodo de corrida<br>\n  4) Provocar la desviación de temperatura y verificar la alarma y la acción asociada<br>\n  5) Registrar la temperatura de la tolva y de la línea en cada punto<br>\n  6) Procesar los datos crudos de temperatura en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = temperatura (°C) medida con patrón frente a la indicada; tamaño de muestra = 3 réplicas por punto (mínimo, nominal y máximo) y serie continua durante la corrida; estadísticos = media, desviación estándar y error por punto, y variación máxima entre puntos de medición; criterio = error y homogeneidad dentro de la URS; sin ANOVA; valores atípicos con investigación documentada."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  La temperatura medida corresponde a la indicada dentro de la tolerancia de la URS en los tres puntos.<br>\n  La homogeneidad y la estabilidad cumplen el criterio aprobado.<br>\n  La alarma de desviación actúa según el diseño."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de temperaturas con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de temperatura"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante; URS aprobada."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "llenadora-tubos"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-LT-017",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-LT-017 — Alimentación de producto a la tolva",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que el sistema de alimentación mantiene el nivel y la presión de producto en la tolva dentro del rango aprobado y que la alarma de nivel bajo actúa antes de afectar la dosificación."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Verificar la apertura y cierre de la válvula de alimentación y la estabilidad del nivel durante el llenado<br>\n  2) Provocar nivel bajo y confirmar la alarma y la inhibición o paro según el diseño<br>\n  3) Verificar que no hay entrada de aire, espuma ni vórtice en el rango de operación<br>\n  4) Registrar nivel y presión de alimentación durante un periodo de corrida continua<br>\n  5) Verificar la respuesta del sistema ante una demanda súbita de producto<br>\n  6) Registrar cualquier desviación y su disposición"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>No aplica: verificación funcional y de estabilidad del nivel con registro continuo; sin inferencia estadística."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  El nivel y la presión de alimentación se mantienen dentro del rango aprobado durante la corrida.<br>\n  La alarma de nivel bajo actúa antes de afectar la dosificación.<br>\n  No hay entrada de aire ni vórtice."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de nivel y presión de alimentación durante la corrida"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante; URS aprobada."
+     }
+    ],
+    "tabla": null,
+    "familia": "llenadora-tubos"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-LT-018",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-LT-018 — Parámetros de sellado",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que la temperatura, la presión y el tiempo de sellado reales corresponden a los programados en cada estación, dentro de la tolerancia aprobada."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Cargar la receta de sellado aprobada y registrar los valores programados por estación<br>\n  2) Medir temperatura, presión y tiempo reales de sellado en cada estación con instrumentos calibrados, por un mínimo de 10 ciclos<br>\n  3) Comparar el valor real contra el programado en cada estación y ciclo<br>\n  4) Verificar que la temperatura y la presión se mantienen estables durante el ciclo de sellado<br>\n  5) Registrar cualquier desviación y su efecto sobre el sello<br>\n  6) Procesar los datos crudos de sellado en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = temperatura (°C), presión (bar) y tiempo (s) de sellado por estación; tamaño de muestra = mínimo 10 ciclos por estación y todas las estaciones instaladas; estadísticos = media, desviación estándar y error frente al valor programado por variable y estación; criterio = error y variabilidad dentro de la tolerancia de la URS; sin ANOVA entre estaciones (cada estación se evalúa contra su consigna); valores atípicos = prueba de Grubbs con investigación documentada."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  La temperatura, la presión y el tiempo reales están dentro de la tolerancia de la URS en todas las estaciones.<br>\n  La variabilidad cumple el límite aprobado.<br>\n  Toda desviación tiene investigación y disposición documentada."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de parámetros de sellado por estación con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de sellado"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante; URS aprobada; especificación del tubo."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "llenadora-tubos"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-LT-019",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-LT-019 — Integridad del sello en el rango operativo",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que el sello es íntegro en los límites bajo y alto de los parámetros de sellado, mediante prueba de fuga, presión de rotura o inspección visual según el método aprobado."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Definir el método de integridad (fuga, presión de rotura o visual validada) y el tamaño de muestra según el protocolo<br>\n  2) Producir tubos en el límite bajo y alto de temperatura, presión y tiempo de sellado<br>\n  3) Ejecutar la prueba de integridad en cada condición y registrar el resultado por tubo<br>\n  4) Incluir controles positivos (sellos con defecto inducido) y verificar que el método los detecta<br>\n  5) Comparar la proporción de fallas contra el límite aprobado<br>\n  6) Registrar cualquier desviación y su disposición"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>No aplica: verificación funcional por atributo (íntegro/no íntegro) en los límites del rango, con controles positivos; se reporta la proporción de fallas frente al límite aprobado, sin inferencia estadística."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  El 100 % de los tubos evaluados en el rango operativo es íntegro según el método aprobado.<br>\n  El método detecta el 100 % de los controles positivos.<br>\n  La proporción de fallas está dentro del límite de la especificación del producto."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de integridad por tubo y condición<br>\n  - Resultados de los controles positivos"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Método de integridad validado; especificación del producto; manual del fabricante."
+     }
+    ],
+    "tabla": null,
+    "familia": "llenadora-tubos"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-LT-020",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-LT-020 — Recorte del sello y expulsión",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que el recorte de la cola de sellado es correcto y que la expulsión del tubo no lo daña."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Procesar un mínimo de 100 tubos a velocidad nominal<br>\n  2) Inspeccionar el recorte de la cola de sellado: sin rebabas, sin sello incompleto ni corte fuera de posición<br>\n  3) Verificar la expulsión del tubo: sin golpes, deformación ni atascamiento<br>\n  4) Registrar los tubos con recorte o expulsión defectuosa y la estación de origen<br>\n  5) Verificar que el sistema rechaza o detiene el tubo defectuoso según el diseño<br>\n  6) Ajustar solo si el procedimiento lo autoriza y registrar el cambio"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>No aplica: verificación funcional por atributo (conforme/no conforme, 100 % de los 100 tubos); sin inferencia estadística."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  El 100 % de los tubos revisados presenta recorte y expulsión conformes.<br>\n  No hay tubos dañados ni atascados.<br>\n  Los defectuosos se rechazan o detienen según el diseño."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de recorte y expulsión por tubo y estación"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante; especificación del tubo."
+     }
+    ],
+    "tabla": null,
+    "familia": "llenadora-tubos"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-LT-021",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-LT-021 — Codificación de lote y vencimiento",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que el lote y el vencimiento se imprimen con el contenido correcto, en la posición aprobada y con legibilidad verificable."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Cargar el lote y el vencimiento aprobados para la corrida y verificar la receta de codificación<br>\n  2) Procesar un mínimo de 100 tubos y verificar contenido, posición y legibilidad del código<br>\n  3) Comparar el código impreso contra el aprobado en el registro de lote<br>\n  4) Verificar la legibilidad con el método definido (visual o lector) y registrar los ilegibles<br>\n  5) Verificar que el sistema rechaza o detiene el tubo sin código o ilegible según el diseño<br>\n  6) Registrar cualquier desviación y su disposición"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>No aplica: verificación funcional por atributo (correcto/incorrecto, 100 % de los 100 tubos); sin inferencia estadística."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  El 100 % de los tubos revisados presenta lote y vencimiento correctos, en posición y legibles.<br>\n  El código coincide con el registro de lote.<br>\n  Los tubos sin código o ilegibles se rechazan o detienen."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de codificación por tubo y verificación contra el lote"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>21 CFR 211.130 (operaciones de empaque y etiquetado); BMR; URS aprobada."
+     }
+    ],
+    "tabla": null,
+    "familia": "llenadora-tubos"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-LT-022",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-LT-022 — Desafío del sistema de rechazo",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que el sistema rechaza los tubos vacíos, sin sello o sin código, y que no rechaza tubos conformes."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Preparar tubos de desafío: vacíos, sin sello, sin código y conformes, identificados y verificados<br>\n  2) Pasar cada tubo por la línea y registrar la decisión del equipo (aceptado o rechazado)<br>\n  3) Verificar la expulsión efectiva del tubo rechazado y su conteo<br>\n  4) Repetir el desafío al inicio, a la mitad y al final de la corrida<br>\n  5) Verificar que el sistema no rechaza tubos conformes por falsos positivos<br>\n  6) Registrar cualquier desviación y su disposición"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>No aplica: verificación funcional por atributo (acepta/rechaza, 100 % de los tubos de desafío); sin inferencia estadística."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  El 100 % de los tubos vacíos, sin sello o sin código se rechaza.<br>\n  El 100 % de los tubos conformes se acepta.<br>\n  El rechazo se expulsa y se cuenta correctamente."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro del desafío con decisión por tubo"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante; URS aprobada; GAMP5 2.ª ed."
+     }
+    ],
+    "tabla": null,
+    "familia": "llenadora-tubos"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-LT-023",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-LT-023 — Cambio de formato con parámetros registrados",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que el cambio de formato instala las partes correctas y carga los parámetros aprobados, con resultados equivalentes al formato nominal."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Registrar el formato y los parámetros actuales del formato en uso<br>\n  2) Ejecutar el cambio al segundo formato según el procedimiento del fabricante: diámetro y largo del tubo, boquilla y receta<br>\n  3) Cargar la receta o formato desde el control y verificar cada parámetro contra la tabla aprobada<br>\n  4) Verificar que no quedan parámetros del formato anterior y que el control no permite iniciar con parámetros incompletos<br>\n  5) Producir un mínimo de 10 tubos del segundo formato al inicio, a la mitad y al final de la corrida<br>\n  6) Medir peso y calidad visual en cada tubo y comparar contra el formato nominal<br>\n  7) Restituir el formato original y verificar la primera pieza<br>\n  8) Procesar los datos crudos de ambos formatos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = peso o volumen llenado por formato; tamaño de muestra = mínimo 10 tubos por formato y 3 muestreos por corrida; estadísticos = media, desviación estándar y RSD por formato, y diferencia de medias entre formatos con intervalo de confianza al 95 %; criterio = cada formato dentro de su especificación y diferencia entre formatos dentro del límite de equivalencia aprobado; sin ANOVA; valores atípicos con investigación documentada."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  El segundo formato cumple su peso y su calidad visual.<br>\n  Los resultados son equivalentes al formato nominal dentro del límite aprobado.<br>\n  Los parámetros del cambio están registrados y la primera pieza es conforme."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de cambio de formato con parámetros<br>\n  - Resultados de ambos formatos con data cruda y reporte<br>\n  - Data cruda y reporte estadístico de equivalencia entre formatos"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Procedimiento interno de cambio de formato; URS aprobada; manual del fabricante."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "llenadora-tubos"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-LT-024",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-LT-024 — Conteo y registros de producción",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que el conteo de tubos llenados y rechazados es exacto y que los registros de producción son completos y trazables."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Arrancar la línea a velocidad nominal y poner el contador en cero<br>\n  2) Procesar 100 tubos consecutivos y comparar el conteo del equipo con el conteo manual<br>\n  3) Generar rechazos controlados (tubo vacío, sin sello o sin código) y verificar su conteo separado<br>\n  4) Verificar los campos del registro de producción: lote, fecha, hora, operador, formato, peso y conteos<br>\n  5) Verificar que el contador no se duplica ni se pierde al cambiar de turno o al reiniciar la pantalla<br>\n  6) Verificar la integridad del registro impreso o exportado contra el histórico"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>No aplica: verificación funcional por atributo (cuenta/no cuenta, 100 % de los 100 tubos); sin inferencia estadística."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  El conteo del equipo coincide exactamente con el conteo manual.<br>\n  Los rechazos se cuentan por separado y coinciden con los generados.<br>\n  Los registros están completos, firmados y coinciden con el histórico."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de conteo manual y del equipo<br>\n  - Muestra del registro de producción y del histórico"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>21 CFR Parte 11 (si aplica); EU GMP Anexo 15; manual del fabricante."
+     }
+    ],
+    "tabla": null,
+    "familia": "llenadora-tubos"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-LT-025",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-LT-025 — Si aplica: plegado de tubos de aluminio",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar la integridad del plegado y la hermeticidad en tubos de aluminio; si el equipo no cuenta con plegado de aluminio, declarar No Aplica con justificación firmada."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Confirmar si el equipo y el formato incluyen plegado de tubos de aluminio; si no, pasar al paso 6)<br>\n  2) Procesar un mínimo de 30 tubos de aluminio a velocidad nominal<br>\n  3) Inspeccionar el pliegue: sin fisuras, sin bordes cortantes y con cierre uniforme<br>\n  4) Ejecutar la prueba de hermeticidad o de fuga según el método aprobado<br>\n  5) Registrar el resultado por tubo y cualquier desviación<br>\n  6) Si no aplica: redactar la justificación de No Aplica con firma del ejecutor y del revisor"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>No aplica: verificación funcional por atributo (plegado íntegro/no íntegro, 100 % de la muestra) o No Aplica justificado; sin inferencia estadística."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  El 100 % de los tubos evaluados presenta plegado íntegro y hermético.<br>\n  No hay fisuras ni bordes cortantes.<br>\n  O bien, No Aplica justificado y firmado."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de plegado y hermeticidad por tubo<br>\n  - Justificación de No Aplica, si corresponde"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante; especificación del tubo; método de hermeticidad validado."
+     }
+    ],
+    "tabla": null,
+    "familia": "llenadora-tubos"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-LT-026",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-LT-026 — Si aplica: tapado y torque",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que el alimentador de tapas y el torque de cierre cumplen el rango aprobado; si el equipo no aplica tapado, declarar No Aplica con justificación firmada."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Confirmar si el formato y el equipo incluyen tapado; si no, pasar al paso 6)<br>\n  2) Verificar la alimentación y orientación de tapas durante un mínimo de 100 tubos<br>\n  3) Medir el torque de cierre con torquímetro calibrado en un mínimo de 10 tubos<br>\n  4) Inspeccionar la integridad del tapón: presencia, posición y ausencia de daño<br>\n  5) Registrar el resultado por tubo y cualquier desviación<br>\n  6) Si no aplica: redactar la justificación de No Aplica con firma del ejecutor y del revisor"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>No aplica: verificación funcional por atributo (tapado correcto/incorrecto, 100 % de la muestra) o No Aplica justificado; el torque se reporta contra el límite aprobado, sin inferencia estadística."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  El 100 % de los tubos revisados presenta tapón presente, orientado y sin daño.<br>\n  El torque está dentro del rango aprobado.<br>\n  O bien, No Aplica justificado y firmado."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de tapado y torque por tubo<br>\n  - Justificación de No Aplica, si corresponde"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante; especificación del cierre; URS aprobada."
+     }
+    ],
+    "tabla": null,
+    "familia": "llenadora-tubos"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-LT-027",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-LT-027 — Si aplica: inertización con nitrógeno",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar la purga y el oxígeno residual en la inertización con nitrógeno; si el equipo no cuenta con inertización, declarar No Aplica con justificación firmada."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Confirmar si el equipo y el producto requieren inertización; si no, pasar al paso 6)<br>\n  2) Ajustar el caudal y la presión de nitrógeno según la receta aprobada<br>\n  3) Procesar un mínimo de 30 tubos y medir el oxígeno residual con instrumento calibrado<br>\n  4) Registrar el oxígeno residual por tubo y las condiciones de purga<br>\n  5) Verificar que la inertización no altera el peso ni el sellado<br>\n  6) Si no aplica: redactar la justificación de No Aplica con firma del ejecutor y del revisor"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>No aplica: verificación funcional y medición de oxígeno residual contra el límite aprobado, o No Aplica justificado; sin inferencia estadística."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  El oxígeno residual está dentro del límite de la especificación del producto.<br>\n  La inertización no altera el peso ni el sellado.<br>\n  O bien, No Aplica justificado y firmado."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de purga y oxígeno residual por tubo<br>\n  - Justificación de No Aplica, si corresponde"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Especificación del producto; manual del fabricante; URS aprobada."
+     }
+    ],
+    "tabla": null,
+    "familia": "llenadora-tubos"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-LT-028",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-LT-028 — Si aplica: desmontaje y drenabilidad",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que las partes de contacto se desmontan y drenan sin retención de producto; si el equipo no requiere desmontaje, declarar No Aplica con justificación firmada."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Confirmar si el equipo requiere desmontaje para limpieza; si no, pasar al paso 6)<br>\n  2) Desmontar las partes de contacto según el procedimiento del fabricante y verificar accesibilidad<br>\n  3) Inspeccionar las superficies: sin retención de producto, sin puntos muertos ni roscas expuestas<br>\n  4) Verificar el drenaje completo de tolva, boquillas y líneas<br>\n  5) Registrar el resultado y cualquier desviación<br>\n  6) Si no aplica: redactar la justificación de No Aplica con firma del ejecutor y del revisor"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>No aplica: verificación funcional y visual (drena/no drena, retiene/no retiene), o No Aplica justificado; sin inferencia estadística."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Las partes de contacto se desmontan y drenan por completo.<br>\n  No queda producto retenido ni puntos muertos.<br>\n  O bien, No Aplica justificado y firmado."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de desmontaje, inspección y drenaje<br>\n  - Justificación de No Aplica, si corresponde"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Procedimiento de limpieza validado; manual del fabricante; URS aprobada."
+     }
+    ],
+    "tabla": null,
+    "familia": "llenadora-tubos"
+   },
+   {
+    "kind": "resumen",
+    "id": "EQ-OQ-LT-RES",
+    "bloque": 4,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-LT-RES — Tabla resumen de los ensayos del OQ",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Consolidar el listado de ensayos del OQ de la llenadora y selladora de tubos para la tabla resumen del protocolo."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Confirmar que los ensayos EQ-OQ-LT-001 a EQ-OQ-LT-028 están incluidos en el índice del protocolo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Los 28 ensayos aparecen en la tabla resumen con su veredicto."
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>EU GMP Anexo 15."
+     }
+    ],
+    "tabla": null,
+    "familia": "llenadora-tubos"
+   },
+   {
+    "kind": "tabla",
+    "id": "EQ-OQ-LT-REF",
+    "bloque": 6,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-LT-REF — Referencias del OQ de llenadora de tubos",
+    "secciones": [],
+    "tabla": {
+     "headers": [
+      "SECCIÓN",
+      "TÍTULO",
+      "ESTADO"
+     ],
+     "rows": [
+      [
+       "6.1",
+       "EU GMP Anexo 15 — Cualificación y validación: la OQ demuestra operación según especificaciones aprobadas",
+       "VIGENTE"
+      ],
+      [
+       "6.2",
+       "21 CFR 211.100 y 211.110 — Validación de procesos y control de materiales en proceso",
+       "VIGENTE"
+      ],
+      [
+       "6.3",
+       "21 CFR 211.130 — Operaciones de empaque y etiquetado: codificación de lote y vencimiento",
+       "VIGENTE"
+      ],
+      [
+       "6.4",
+       "21 CFR Parte 11 y GAMP5 2.ª ed. — Control de acceso, audit trail y registros electrónicos",
+       "VIGENTE"
+      ],
+      [
+       "6.5",
+       "ISPE Baseline Guide Vol. 5 — Commissioning and Qualification; instrumentos y sensores asociados",
+       "VIGENTE"
+      ],
+      [
+       "6.6",
+       "Manual del fabricante de la llenadora y selladora de tubos — Setpoints, secuencias y límites de diseño",
+       "VIGENTE"
+      ],
+      [
+       "6.7",
+       "URS aprobada y especificación del producto — Peso, viscosidad, temperatura, sellado y criterios de aceptación",
+       "VIGENTE"
+      ],
+      [
+       "6.8",
+       "Especificación del tubo y del cierre — Dimensiones, material y requisitos de integridad",
+       "VIGENTE"
+      ]
+     ]
+    },
+    "familia": "llenadora-tubos"
+   },
+   {
+    "kind": "div",
+    "clase": "anexos",
+    "bloque": 8,
+    "html": "<p><strong>ANEXOS:</strong></p>\n<table>\n<tbody><tr><th>SECCIÓN</th><th>TÍTULO</th></tr>\n<tr><td>8.1</td><td>Anexo A — Registros crudos y reportes estadísticos (peso, uniformidad, estabilidad, velocidad, viscosidad, temperatura, sellado y formatos)</td></tr>\n<tr><td>8.2</td><td>Anexo B — Certificados de calibración de balanza, tacómetro, manómetros, termómetros, torquímetro y medidor de oxígeno</td></tr>\n<tr><td>8.3</td><td>Anexo C — Matrices de paradas, interlocks, alarmas, detección de tubo, rechazo y cambio de formato</td></tr>\n</tbody></table>",
+    "familia": "llenadora-tubos"
    },
    {
     "kind": "ensayo",

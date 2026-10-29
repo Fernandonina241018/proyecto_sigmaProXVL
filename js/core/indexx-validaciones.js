@@ -35,6 +35,7 @@ const Validaciones = (() => {
       { id: 'granulador', nombre: 'Granulador', tipo: 'M' },
       { id: 'lecho-fluido', nombre: 'Lecho fluido', tipo: 'M' },
       { id: 'llenadora', nombre: 'Llenadora de líquidos', tipo: 'M' },
+      { id: 'llenadora-tubos', nombre: 'Llenadora y selladora de tubos', tipo: 'M' },
       { id: 'liofilizador', nombre: 'Liofilizador', tipo: 'M' },
       { id: 'autoclave', nombre: 'Autoclave', tipo: 'M' },
       { id: 'tunel-despirogenizacion', nombre: 'Túnel de despirogenización', tipo: 'M' },

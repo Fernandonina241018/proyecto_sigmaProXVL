@@ -176,6 +176,45 @@ describe('PQ llenadora de líquidos (banco por familia)', () => {
   });
 });
 
+describe('OQ llenadora y selladora de tubos (banco por familia)', () => {
+  const DRAFT_LT = {
+    codigo: '400902', descripcion: 'Llenadora y selladora de tubos', ubicacion: 'PRODUCCION PLANTA 2',
+    tipo: 'Equipo', marca: 'COMASA', modelo: 'LT-3000', fecha: '2026-10-29',
+  };
+  const ENT_LT = { id: 'llenadora-tubos', nombre: 'Llenadora y selladora de tubos' };
+  const genOQ = async (ent) => {
+    const u8 = new Uint8Array(readFileSync(resolve(raiz, P.PLANTILLAS.OQ)));
+    const r = await P.generar('OQ', u8, banco, DRAFT_LT, ent, 'ambas');
+    const arch = Object.fromEntries((await P._interno.leerZip(r.bytes)).map((a) => [a.nombre, dec(a.datos)]));
+    return { r, doc: arch['word/document.xml'] };
+  };
+
+  it('banco OQ: 30 IDs de la familia (28 ensayos + RES + REF) y 8 con análisis', () => {
+    const ids = (banco.fases.OQ || [])
+      .filter((i) => i.id && i.familia === 'llenadora-tubos').map((i) => i.id);
+    expect(ids).toHaveLength(30);
+    expect(new Set(ids).size).toBe(30);
+    expect(ids.filter((id) => /^EQ-OQ-LT-0(0[1-9]|1[0-9]|2[0-8])$/.test(id))).toHaveLength(28);
+    const an = (banco.fases.OQ || []).filter((i) => i.familia === 'llenadora-tubos' && i.analisis);
+    expect(an).toHaveLength(8);
+  });
+
+  it('genera 28 ensayos de familia + el común, con títulos, códigos y concordancia', async () => {
+    const { r, doc } = await genOQ(ENT_LT);
+    expect(r.ensayos).toHaveLength(29);
+    expect(r.ensayos[0]).toBe('EQ-OQ-COM-001');
+    expect(r.ensayos[1]).toBe('EQ-OQ-LT-001');
+    expect(r.ensayos).toContain('EQ-OQ-LT-028');
+    for (const id of r.ensayos) expect(doc).toContain(id);
+    const txt = doc.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ');
+    expect(txt).toContain('EXACTITUD DEL PESO DE LLENADO');
+    expect(txt).toContain('PARÁMETROS DE SELLADO');
+    const low = txt.toLowerCase();
+    expect(low).toContain('la llenadora y selladora de tubos');
+    expect(low).not.toContain('el llenadora y selladora de tubos');
+  });
+});
+
 describe('OQ autoclave (banco por familia)', () => {
   const DRAFT_AU = {
     codigo: '400500', descripcion: 'Autoclave', ubicacion: 'PRODUCCION PLANTA 3',

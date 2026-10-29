@@ -90,6 +90,39 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (SigmaProXVL) con spr
 
 ## CAMBIOS RECIENTES
 
+### 2026-10-29 (44): OQ de llenadora y selladora de tubos — 28 ensayos y entidad nueva
+
+**Qué:** Se montó el OQ de la **llenadora y selladora de tubos** a partir de la propuesta del `ENSAYOS.txt` (modificado 19:32), con prefijo `LT`. Se creó la entidad y la familia, y se dejó el PQ como pendiente hasta tener una lista propia.
+
+- **Entidad:** `llenadora-tubos` — “Llenadora y selladora de tubos”, `tipo: 'M'`, visible en el selector de equipos.
+- **Banco OQ (`EQ-OQ-LT 2026-10-29 v1`):** 28 ensayos `EQ-OQ-LT-001…028` + portada, firmas, responsabilidades, alcance, `RES`, `REF` y anexos.
+- **8 con análisis estadístico:** 007 (peso), 008 (uniformidad entre boquillas), 009 (estabilidad de corrida), 010 (velocidad), 011 (viscosidad/temperatura), 016 (temperatura de tolva), 018 (sellado) y 023 (cambio de formato), cada uno con paso de data cruda, plan específico y entregable.
+- **4 condicionales “Si aplica”:** 025 (plegado de aluminio), 026 (tapado/torque), 027 (nitrógeno) y 028 (desmontaje/drenabilidad), con regla de No Aplica justificado.
+- **Criterios:** atados a la URS y a la especificación del producto; los valores que faltan quedan como pendientes del responsable, sin inventar límites.
+- **Concordancia:** la entidad se agregó al mapa de género para que el protocolo diga “la llenadora y selladora de tubos”.
+
+**Archivos afectados:**
+| Archivo | Cambio |
+|---------|--------|
+| `docs/banco-ensayos/equipos/oq-llenadora-tubos.html` | **Nuevo**: 690 líneas, 28 ensayos + RES + REF + anexos |
+| `docs/banco-ensayos/equipos/llenadora-tubos.html` | **Nuevo**: ficha de la entidad (IQ común, OQ, PQ pendiente) |
+| `js/core/indexx-validaciones.js` | Línea 38: entidad `llenadora-tubos` tipo M |
+| `docs/banco-ensayos/equipos.html` | Línea 32: opción en el selector |
+| `scripts/extraer-banco.mjs` | Línea 20: fuente `oq-llenadora-tubos.html` |
+| `tests/bancos-contrato.test.js` | Líneas 40 y 51: familia y contrato OQ = 28 |
+| `tests/plantilla-equipos.test.js` | Líneas 179–217: regresión de generación (30 IDs, 29 ensayos con el común) |
+| `js/core/plantilla-docx.js` | Mapa de género: `llenadora-tubos: 'f'` |
+| `js/core/banco-equipos-data.js` | Regenerado: 842 → 872 artículos |
+
+**Verificación:**
+```
+node scripts/extraer-banco.mjs equipos --estricto  → OK, 872 artículos, IDs únicos
+npm test                                           → 47 archivos, 617 tests OK
+8 ensayos con análisis: plan, data cruda y entregable completos
+```
+
+**Pendiente:** revisión de la propuesta por Calidad/Validación y PQ de la llenadora de tubos (sin lista fuente todavía).
+
 ### 2026-10-29 (43): Concordancia el/la por entidad — motor con género y ficha de balanza
 
 **Qué:** Se corrigió el artículo fijo en masculino que quedaba delante del nombre del equipo al generar los protocolos (“el Llenadora”, “del Balanza”, “del Cabina”). La corrección es central, sin reescribir los 383 textos.

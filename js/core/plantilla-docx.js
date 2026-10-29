@@ -523,7 +523,7 @@ const PlantillaDocx = (() => {
   // ajustar el artículo (la Llenadora, del Balanza, etc.). El mapa cubre las
   // entidades femeninas y el plural; el resto cae en masculino singular.
   const GENERO_POR_ID = {
-    tableteadora: 'f', encapsuladora: 'f', llenadora: 'f', etiquetadora: 'f',
+    tableteadora: 'f', encapsuladora: 'f', llenadora: 'f', 'llenadora-tubos': 'f', etiquetadora: 'f',
     blistera: 'f', recubridora: 'f', balanza: 'f', incubadora: 'f',
     centrifuga: 'f', 'cabina-flujo': 'f', 'cabina-bioseguridad': 'f', 'cabina-vacio': 'f',
     'cabina-est-acelerada': 'f', 'cabina-est-real': 'f',
