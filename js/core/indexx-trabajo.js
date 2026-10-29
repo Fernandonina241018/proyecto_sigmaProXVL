@@ -1459,26 +1459,62 @@ function switchToSheet(index) {
 function deleteSheet(index, evt) {
   evt && evt.stopPropagation();
   if (trabajoSheets.length <= 1) { showToast('⚠️ No se puede eliminar la única hoja.'); return; }
-  if (!confirm('¿Eliminar la hoja "' + trabajoSheets[index].name + '"?')) return;
+  var _sheetName = trabajoSheets[index] ? trabajoSheets[index].name : '';
+  var _nCharts = 0;
+  try {
+    if (typeof Visualizacion !== 'undefined' && Visualizacion._countChartsForSheet) {
+      _nCharts = Visualizacion._countChartsForSheet(_sheetName, datosCurrentFileName);
+    }
+  } catch (e) {}
+  var _msg = '¿Eliminar la hoja "' + _sheetName + '"?';
+  if (_nCharts > 0) {
+    _msg += '\n\nHay ' + _nCharts + (_nCharts === 1 ? ' gráfico' : ' gráficos') + ' de esta hoja: quedarán archivados y no podrán incluirse en reportes.';
+  }
+  if (!confirm(_msg)) return;
   trabajoSheets.splice(index, 1);
   if (trabajoActiveSheetIndex >= trabajoSheets.length) trabajoActiveSheetIndex = trabajoSheets.length - 1;
+  _invalidarVizActual();
   _persistAllData();
   loadPage('trabajo');
 }
 function deleteAllButFirstSheet() {
   if (trabajoSheets.length <= 1) { showToast('⚠️ Solo hay una hoja.'); return; }
-  if (!confirm('¿Eliminar TODAS las hojas excepto la primera (' + trabajoSheets[0].name + ')?')) return;
+  var _nCharts = 0;
+  try {
+    if (typeof Visualizacion !== 'undefined' && Visualizacion._countChartsForSheet) {
+      for (var _si = 1; _si < trabajoSheets.length; _si++) {
+        _nCharts += Visualizacion._countChartsForSheet(trabajoSheets[_si].name, datosCurrentFileName) || 0;
+      }
+    }
+  } catch (e) {}
+  var _msg = '¿Eliminar TODAS las hojas excepto la primera (' + trabajoSheets[0].name + ')?';
+  if (_nCharts > 0) {
+    _msg += '\n\nHay ' + _nCharts + (_nCharts === 1 ? ' gráfico' : ' gráficos') + ' de esas hojas: quedarán archivados y no podrán incluirse en reportes.';
+  }
+  if (!confirm(_msg)) return;
   for (var i = trabajoSheets.length - 1; i >= 1; i--) trabajoSheets.splice(i, 1);
   trabajoActiveSheetIndex = 0;
+  _invalidarVizActual();
   _persistAllData();
   loadPage('trabajo');
 }
 function clearCurrentSheet() {
   var sheet = getCurrentSheet(); if (!sheet) return;
   if (sheet.locked) { showToast('🔒 Hoja bloqueada. Desbloquéala para editar.'); return; }
-  if (!confirm('¿Limpiar todos los datos de "' + sheet.name + '"?')) return;
+  var _nCharts = 0;
+  try {
+    if (typeof Visualizacion !== 'undefined' && Visualizacion._countChartsForSheet) {
+      _nCharts = Visualizacion._countChartsForSheet(sheet.name, datosCurrentFileName);
+    }
+  } catch (e) {}
+  var _msg = '¿Limpiar todos los datos de "' + sheet.name + '"?';
+  if (_nCharts > 0) {
+    _msg += '\n\nHay ' + _nCharts + (_nCharts === 1 ? ' gráfico' : ' gráficos') + ' de esta hoja: quedarán vacíos hasta que vuelvas a cargar datos.';
+  }
+  if (!confirm(_msg)) return;
   pushUndo();
   sheet.rows = sheet.rows.map(function(){ return Array.from({length: sheet.headers.length}, function(){ return ''; }); });
+  _invalidarVizActual();
   _persistAllData();
   loadPage('trabajo');
 }
@@ -1921,13 +1957,42 @@ function ampliarDatos() {
 }
 
 // ── Limpiar dataset ──
+// Invalida el gráfico visible y el estado de sesión de Visualización.
+// Se usa cuando los datos cambian (limpiar dataset/hoja, borrar hoja).
+function _invalidarVizActual() {
+  var keys = ['sigmaPro_vizType', 'sigmaPro_vizVals', 'sigmaPro_vizPalette', 'sigmaPro_vizSheetName'];
+  for (var i = 0; i < keys.length; i++) {
+    try { sessionStorage.removeItem(keys[i]); } catch (e) {}
+  }
+  try {
+    if (typeof _V !== 'undefined') {
+      _V._sheetOverride = null;
+      _V._activeGalleryId = null;
+      _V._galleryMode = false;
+      _V._galleryTitle = '';
+    }
+  } catch (e) {}
+  try { if (typeof _V_clearChartDisplay === 'function') _V_clearChartDisplay(); } catch (e) {}
+  try { if (typeof vizRefreshGallery === 'function') vizRefreshGallery(); } catch (e) {}
+}
+
 function limpiarDataset(skipConfirm) {
   if (!datosCurrentData && (!trabajoSheets || trabajoSheets.length === 0 || !trabajoSheets[0].rows.some(function(r){ return r.some(function(c){ return c && c.toString().trim(); }); }))) {
     showToast('⚠️ No hay datos cargados para limpiar');
     return;
   }
   // skipConfirm: el panel .datos ya confirmó inline (sin doble diálogo).
-  if (!skipConfirm && !confirm('¿Limpiar el dataset actual? Se perderán los datos en la hoja de trabajo.')) return;
+  var _nCharts = 0;
+  try {
+    if (typeof Visualizacion !== 'undefined' && Visualizacion._countChartsForFile) {
+      _nCharts = Visualizacion._countChartsForFile(datosCurrentFileName);
+    }
+  } catch (e) {}
+  var _msg = '¿Limpiar el dataset actual? Se perderán los datos en la hoja de trabajo.';
+  if (_nCharts > 0) {
+    _msg += '\n\nHay ' + _nCharts + (_nCharts === 1 ? ' gráfico' : ' gráficos') + ' de este dataset: quedarán archivados y no podrán incluirse en reportes.';
+  }
+  if (!skipConfirm && !confirm(_msg)) return;
   datosCurrentData = null;
   trabajoSheets = [{ name:'Hoja1', headers:['Columna1','Columna2','Columna3','Columna4'], rows:Array.from({length:20}, function(){ return ['','','','']; }) }];
   trabajoActiveSheetIndex = 0;
@@ -1937,7 +2002,9 @@ function limpiarDataset(skipConfirm) {
   _limitsSavedJSON = null;
   if (typeof _limUI !== 'undefined') { _limUI.stats = null; _limUI.statsKey = ''; _limUI.openName = null; }
   datosSourceType = 'none';
+  datosCurrentFileName = '';
   trabajoLimitsMode = 'global';
+  _invalidarVizActual();
   updateDatosUI();
   _persistAllData();
   loadPage('trabajo');

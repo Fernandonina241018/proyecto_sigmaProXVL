@@ -382,6 +382,21 @@ function _V_graficoPerteneceActual(g) {
 }
 
 window.Visualizacion = {
+  // Conteo de gráficos asociados a un archivo/hoja (para avisos al borrar datos).
+  _countChartsForFile: function(file) {
+    if (!_V.gallery) return 0;
+    if (!file) return _V.gallery.length; // sin archivo de referencia: todos pueden quedar huérfanos
+    return _V.gallery.filter(function(g) {
+      return !g.sourceFile || g.sourceFile === file;
+    }).length;
+  },
+  _countChartsForSheet: function(sheetName, file) {
+    if (!_V.gallery || !sheetName) return 0;
+    return _V.gallery.filter(function(g) {
+      var fileOk = !file || !g.sourceFile || g.sourceFile === file;
+      return fileOk && g.sourceSheetName === sheetName;
+    }).length;
+  },
   _getGalleryGraphs: function() {
     var graficos = [];
     if (typeof _V === 'undefined' || !_V.gallery) return graficos;
@@ -1341,7 +1356,11 @@ function vizRefreshGallery() {
     if (!belongs) {
       div.style.opacity = '0.45';
       div.style.pointerEvents = 'none';
-      div.title = 'Gráfico de otro dataset/hoja — no seleccionable';
+      div.style.cursor = 'not-allowed';
+      var _why = (g.sourceFile && currentFile && g.sourceFile !== currentFile)
+        ? 'Gráfico de otro dataset — no seleccionable'
+        : (!currentFile ? 'Dataset no disponible — vuelve a cargar el archivo original' : 'Gráfico de otra hoja — no seleccionable');
+      div.title = _why + '\nArchivo: ' + (g.sourceFile || '—') + '\nHoja: ' + (g.sourceSheetName || '—');
     } else {
       div.style.opacity = '';
       div.style.pointerEvents = '';
@@ -1376,6 +1395,18 @@ function _V_galleryNavigate(delta) {
 }
 
 function _V_showGalleryChart(g) {
+  // Si la hoja original ya no existe, no se renderiza un gráfico vacío:
+  // se avisa y se conserva la miniatura (archivada).
+  if (g.vars && g.sourceSheetName && typeof trabajoSheets !== 'undefined') {
+    var _exists = false;
+    for (var _i0 = 0; _i0 < trabajoSheets.length; _i0++) {
+      if (trabajoSheets[_i0].name === g.sourceSheetName) { _exists = true; break; }
+    }
+    if (!_exists) {
+      showToast('⚠️ La hoja "' + g.sourceSheetName + '" ya no está en el dataset. Vuelve a cargar el archivo original.', true);
+      return;
+    }
+  }
   _V._activeGalleryId = g.id;
   vizRefreshGallery();
   var emptyEl = document.getElementById('vizEmptyState');

@@ -93,6 +93,22 @@ function pedirConfLimpiar() {
   var fila = document.getElementById('filaLimpiar');
   var conf = document.getElementById('confLimpiar');
   if (!fila || !conf) { limpiarDataset(); return; } // sin markup nuevo: flujo anterior
+  // Aviso C: si hay gráficos del dataset, se archivan al limpiar.
+  var nCharts = 0;
+  try {
+    if (typeof Visualizacion !== 'undefined' && Visualizacion._countChartsForFile) {
+      nCharts = Visualizacion._countChartsForFile(datosCurrentFileName);
+    }
+  } catch (e) {}
+  var label = conf.querySelector('.fl');
+  if (label) {
+    label.textContent = nCharts > 0
+      ? '¿Limpiar dataset? · ' + nCharts + (nCharts === 1 ? ' gráfico' : ' gráficos')
+      : '¿Limpiar el dataset?';
+    label.title = nCharts > 0
+      ? 'Los gráficos de este dataset quedarán archivados y no podrán incluirse en reportes.'
+      : '';
+  }
   fila.hidden = true;
   conf.hidden = false;
   clearTimeout(_confLimpiarTimer);

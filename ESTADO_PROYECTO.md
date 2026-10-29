@@ -90,6 +90,38 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (SigmaProXVL) con spr
 
 ## CAMBIOS RECIENTES
 
+### 2026-10-28 (39): Borrado de dataset/hoja coherente con los gráficos
+
+**Qué:** Al limpiar el dataset, limpiar una hoja o eliminarla, la app ahora **avisa cuántos gráficos se ven afectados** y deja la galería en un estado coherente (archivada y no seleccionable) en vez de mostrar gráficos vacíos que luego desaparecían en silencio de los reportes.
+
+- **Causa raíz:** la galería solo guarda `vars` (nombres de columna) y una miniatura, no los datos. Al borrar el dataset, `datosCurrentFileName` quedaba con el nombre anterior, así que los gráficos seguían considerándose "del dataset actual" (sin `hold`) pero ya no podían dibujarse ni incluirse en reportes.
+- **`limpiarDataset()`**: limpia `datosCurrentFileName`, invalida el gráfico visible + estado de sesión de Visualización (`sigmaPro_vizType/Vals/Palette/SheetName`) y pide confirmación indicando cuántos gráficos se archivan. El confirm inline del panel Datos muestra `¿Limpiar dataset? · N gráficos` con tooltip explicativo.
+- **`clearCurrentSheet()`, `deleteSheet()`, `deleteAllButFirstSheet()`**: avisan del número de gráficos afectados e invalidan el gráfico visible.
+- **Galería**: los gráficos huérfanos se marcan `hold` (atenuados, no seleccionables) con tooltip `Dataset no disponible — vuelve a cargar el archivo original` + archivo/hoja.
+- **`_V_showGalleryChart()`**: si la hoja original ya no existe, **no renderiza un gráfico vacío**; avisa y conserva la miniatura archivada.
+- **Recuperación**: al volver a cargar el archivo original (mismo nombre de archivo y hoja), el gráfico vuelve a ser válido y seleccionable automáticamente.
+
+**Archivos afectados:**
+| Archivo | Cambio |
+|---------|--------|
+| `js/core/indexx-trabajo.js:1459-1528` | Avisos de gráficos + `_invalidarVizActual()` en `deleteSheet`/`deleteAllButFirstSheet`/`clearCurrentSheet` |
+| `js/core/indexx-trabajo.js:1962-2015` | `_invalidarVizActual()` y `limpiarDataset()`: limpia archivo, invalida viz y avisa |
+| `js/core/indexx-viz.js:386-400` | Nueva API `_countChartsForFile()` / `_countChartsForSheet()` |
+| `js/core/indexx-viz.js:1355-1365` | Tooltip de gráficos en `hold` (motivo + archivo/hoja) |
+| `js/core/indexx-viz.js:1400-1412` | `_V_showGalleryChart()` no dibuja si la hoja ya no existe |
+| `js/core/indexx-datos.js:92-113` | Confirm inline con contador de gráficos (`pedirConfLimpiar`) |
+| `tests/dataset-viz.test.js` | Nuevo: 10 tests (avisos, cancelar, limpieza, invalidación, borrado de hoja) |
+
+**Verificación:**
+- `node --check` en los 3 JS modificados: OK.
+- `npx vitest run`: **595 tests / 46 archivos OK** (10 nuevos).
+- Navegador real:
+  - Inline: `¿Limpiar dataset? · 1 gráfico` + tooltip; confirm nativo con el aviso completo.
+  - Cancelar mantiene archivo y hoja; aceptar deja `datosCurrentFileName=''`, galería con 1 miniatura **hold** (opacidad .45), tooltip "Dataset no disponible…", sin gráfico renderizado.
+  - Recargar el mismo archivo/hoja → el gráfico vuelve a `belongs=true` y a la lista de reportes.
+  - Limpiar hoja: aviso `Hay 1 gráfico de esta hoja: quedarán vacíos…`.
+  - **0 errores** de página/consola.
+
 ### 2026-10-28 (38): Sidebar de Trabajo/Reportes con `.side-card` + Límites interactivo en modal
 
 **Qué:** Se unifica el diseño de los sidebars de **Trabajo** y **Reportes** con el lenguaje de cards de Visualización (`.side-card`), y se rediseña **Límites** con estado de guardado, modo Global en el sidebar y edición **por columna en un modal** (buscador, filtro numérico, auto min/máx, slider de rango, virtualización y degradados).
