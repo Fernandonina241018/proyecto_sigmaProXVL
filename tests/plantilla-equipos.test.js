@@ -138,6 +138,40 @@ describe('OQ llenadora de líquidos (banco por familia)', () => {
   });
 });
 
+describe('PQ llenadora de líquidos (banco por familia)', () => {
+  const DRAFT_LL = {
+    codigo: '400901', descripcion: 'Llenadora de líquidos', ubicacion: 'PRODUCCION PLANTA 2',
+    tipo: 'Equipo', marca: 'COMASA', modelo: 'LL-2000', fecha: '2026-10-29',
+  };
+  const ENT_LL = { id: 'llenadora', nombre: 'Llenadora de líquidos' };
+  const genPQ = async (ent) => {
+    const u8 = new Uint8Array(readFileSync(resolve(raiz, P.PLANTILLAS.PQ)));
+    const r = await P.generar('PQ', u8, banco, DRAFT_LL, ent, 'ambas');
+    const arch = Object.fromEntries((await P._interno.leerZip(r.bytes)).map((a) => [a.nombre, dec(a.datos)]));
+    return { r, doc: arch['word/document.xml'] };
+  };
+
+  it('banco PQ: 20 IDs de la familia llenadora (18 ensayos + RES + REF)', () => {
+    const ids = (banco.fases.PQ || [])
+      .filter((i) => i.id && i.familia === 'llenadora').map((i) => i.id);
+    expect(ids).toHaveLength(20);
+    expect(new Set(ids).size).toBe(20);
+    expect(ids.filter((id) => /^EQ-PQ-LL-0(0[1-9]|1[0-8])$/.test(id))).toHaveLength(18);
+  });
+
+  it('genera 18 ensayos de familia + el común, con títulos y códigos', async () => {
+    const { r, doc } = await genPQ(ENT_LL);
+    expect(r.ensayos).toHaveLength(19);
+    expect(r.ensayos[0]).toBe('EQ-PQ-COM-001');
+    expect(r.ensayos[1]).toBe('EQ-PQ-LL-001');
+    expect(r.ensayos).toContain('EQ-PQ-LL-018');
+    for (const id of r.ensayos) expect(doc).toContain(id);
+    const txt = doc.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ');
+    expect(txt).toContain('TRES LOTES CONSECUTIVOS A VELOCIDAD NOMINAL');
+    expect(txt).toContain('CAPACIDAD DEL PROCESO DE LLENADO');
+  });
+});
+
 describe('OQ autoclave (banco por familia)', () => {
   const DRAFT_AU = {
     codigo: '400500', descripcion: 'Autoclave', ubicacion: 'PRODUCCION PLANTA 3',

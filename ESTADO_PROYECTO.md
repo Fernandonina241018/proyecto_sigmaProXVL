@@ -90,6 +90,35 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (SigmaProXVL) con spr
 
 ## CAMBIOS RECIENTES
 
+### 2026-10-29 (42): PQ de llenadora de líquidos — 18 ensayos y cierre del ciclo IQ/OQ/PQ
+
+**Qué:** Se montó el **PQ por familia** de la llenadora con los 18 ensayos del `ENSAYOS.txt` vigente (el archivo fue reemplazado: ahora contiene el PQ, no el OQ). Con esto la llenadora pasa a tener IQ, OQ y PQ generables desde la app.
+
+- **PQ (`EQ-PQ-LL 2026-10-29 v1`):** 18 ensayos `EQ-PQ-LL-001…018` con portada, firmas, responsabilidades, alcance, `RES`, `REF` y anexos, igual que los PQ existentes.
+- **13 ensayos con análisis estadístico:** los 12 marcados en el .txt (001–008, 011, 012, 015, 016) más **LL-014 (cierre y torque)**, que se trata como variable numérica por decisión del usuario.
+- **Criterios acordados:** LL-005 cita **USP &lt;698&gt;** para volumen entregable y deja la farmacopea del mercado como pendiente del responsable; LL-007 exige **Cpk ≥ 1,33** con USL/LSL de la URS.
+- **Cobertura:** tres lotes consecutivos, extremos de velocidad, peor caso, deriva inicio/mitad/final, volumen individual y promedio, uniformidad entre boquillas, capacidad, atributos del producto, visual, paros/reinicio, cambio de formato, conciliación, registros, torque, hermeticidad, peso en línea, limpieza y bioburden.
+- **Documentación:** la ficha de la entidad ya lista el PQ; el `ENSAYOS.txt` quedó sin la lista de OQ, que se conserva en el banco y en el commit `849f129`.
+
+**Archivos afectados:**
+| Archivo | Cambio |
+|---------|--------|
+| `docs/banco-ensayos/equipos/pq-llenadora.html` | **Nuevo**: 498 líneas, 18 ensayos + RES + REF + anexos |
+| `docs/banco-ensayos/equipos/llenadora.html` | Línea 21: PQ real (común + familia) |
+| `scripts/extraer-banco.mjs` | Línea 20: `equipos/pq-llenadora.html` en la lista de fuentes |
+| `tests/bancos-contrato.test.js` | Línea 51: contrato `PQ llenadora = 18` |
+| `tests/plantilla-equipos.test.js` | Líneas 141–177: regresión de generación (20 IDs, 19 ensayos con el común) |
+| `js/core/banco-equipos-data.js` | Regenerado: 822 → 842 artículos, con `EQ-PQ-LL 2026-10-29 v1` |
+
+**Verificación:**
+```
+node scripts/extraer-banco.mjs equipos --estricto   → OK, 842 artículos, IDs únicos
+npm test                                            → 46 archivos, 604 tests OK
+13 ensayos con análisis: plan estadístico, paso de data cruda y entregable completo
+```
+
+**Pendiente:** el `.txt` ya no conserva la fuente del OQ; conviene guardar `ENSAYOS-OQ.txt` y `ENSAYOS-PQ.txt` por separado. Liofilizador y túnel siguen sin OQ/PQ de familia.
+
 ### 2026-10-29 (41): Banco de ensayos — IQ de llenadora sin criterios vagos + OQ completo (21 ensayos)
 
 **Qué:** Se cerró la evaluación del banco para la llenadora de líquidos: se corrigieron los criterios P1/P2 del IQ y se montó el **OQ por familia** con los 21 ensayos de `ENSAYOS.txt`, replicando la estructura de los OQ ya cargados (portada, firmas, responsabilidades, alcance, resumen, referencias y anexos).
