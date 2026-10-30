@@ -12,7 +12,7 @@
 
 <p><a href="../equipos.html">← Equipos e Instrumentos</a></p>
 <h2>PQ — Llenadora y Selladora de Tubos (banco por familia)</h2>
-<p>Versión del banco: <span data-banco-version>EQ-PQ-LT 2026-10-29 v1</span></p>
+<p>Versión del banco: <span data-banco-version>EQ-PQ-LT 2026-10-29 v2</span></p>
 <p>Ensayos de Calificación de Desempeño específicos de la llenadora y selladora de tubos (<span class="equipo">equipo</span>) para cremas, ungüentos o geles, con tubo plástico o laminado y sellado térmico. Se filtran por familia (<code>data-familia="llenadora-tubos"</code>) según la entidad elegida en el paso 1. Fuente: ENSAYOS.txt de protocolo (propuesta a revisar por Calidad/Validación).</p>
 
 <!-- ================= PQ ================= -->
@@ -625,13 +625,57 @@
   <p><strong>Referencia:</strong><br>Especificación del producto; USP &lt;61&gt; y &lt;62&gt; (si aplica); BMR.</p>
 </article>
 
+<article data-bloque="3" id="art-EQ-PQ-LT-027" class="ensayo" data-id="EQ-PQ-LT-027" data-fase="PQ" data-cond="ambas" data-familia="llenadora-tubos" data-analisis="si">
+  <h3>EQ-PQ-LT-027 — Desafío de sello en los límites del rango operativo</h3>
+  <p><strong>Objetivo:</strong><br>Demostrar que el sello mantiene su integridad y resistencia en los límites bajo y alto de temperatura, presión y tiempo de sellado, incluida la combinación de peor caso.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Definir los límites bajo y alto de temperatura, presión y tiempo de sellado según la URS y el desarrollo del proceso<br>
+  2) Definir la combinación de peor caso con el análisis de riesgo (por ejemplo, temperatura baja con tiempo corto o presión baja)<br>
+  3) Producir un mínimo de 10 tubos por condición: límite bajo, límite alto y peor caso<br>
+  4) Ejecutar la prueba de resistencia e integridad del sello por el método validado y registrar el resultado por tubo<br>
+  5) Incluir controles positivos (sellos con defecto inducido) y verificar que el método los detecta<br>
+  6) Comparar cada condición contra la especificación del producto y documentar la ventana operativa<br>
+  7) Procesar los datos crudos de resistencia e integridad en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = resistencia del sello (N o unidad del método) y resultado de integridad (pasa/falla) por condición; tamaño de muestra = mínimo 10 tubos por condición (límite bajo, límite alto y peor caso); estadísticos = media, desviación estándar, mínimo y proporción de fallas por condición; comparación entre condiciones con ANOVA de un factor (condición) cuando el protocolo aprobado lo defina, con verificación de supuestos; criterio = el 100 % de las muestras dentro del límite de resistencia e integridad y el método detecta el 100 % de los controles positivos; valores atípicos = prueba de Grubbs con investigación documentada.</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  El 100 % de los tubos evaluados en los límites bajo y alto es íntegro y cumple la resistencia especificada.<br>
+  La combinación de peor caso también cumple.<br>
+  El método detecta el 100 % de los controles positivos y la ventana operativa queda documentada.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Definición de límites y peor caso con análisis de riesgo<br>
+  - Registro de resistencia e integridad por condición con data cruda<br>
+  - Data cruda y reporte estadístico del desafío de sello</p>
+  <p><strong>Referencia:</strong><br>EU GMP Anexo 15 (peor caso); especificación del producto; método de sello validado; URS aprobada.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-PQ-LT-028" class="ensayo" data-id="EQ-PQ-LT-028" data-fase="PQ" data-cond="ambas" data-familia="llenadora-tubos">
+  <h3>EQ-PQ-LT-028 — Despeje de línea</h3>
+  <p><strong>Objetivo:</strong><br>Verificar que el despeje de línea antes y después del lote elimina producto, tubos, tapones, etiquetas y documentación del lote anterior.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Ejecutar el despeje de línea según el procedimiento aprobado antes de iniciar el lote<br>
+  2) Verificar la ausencia de producto, tubos, tapones, etiquetas y documentación del lote anterior en la línea y en los equipos<br>
+  3) Verificar la limpieza de tolva, boquillas, mandíbulas de sellado, banda y zona de rechazo<br>
+  4) Verificar la identificación del lote y la documentación en la línea<br>
+  5) Repetir el despeje al finalizar el lote y registrar el resultado<br>
+  6) Confirmar la revisión por una segunda persona con firma y fecha</p>
+  <p><strong>Plan estadístico:</strong><br>No aplica: verificación funcional por atributo (limpio/no limpio, 100 % de los puntos de la lista de despeje); sin inferencia estadística.</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  El 100 % de los puntos de la lista de despeje está conforme.<br>
+  No queda producto, tubo, tapón, etiqueta ni documento del lote anterior.<br>
+  La revisión por segunda persona está firmada.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Lista de despeje de línea diligenciada y firmada<br>
+  - Registro fotográfico, si aplica</p>
+  <p><strong>Referencia:</strong><br>21 CFR 211.67 y 211.130; EU GMP Anexo 15; procedimiento interno de despeje de línea.</p>
+</article>
+
 <article data-bloque="4" id="art-EQ-PQ-LT-RES" class="ensayo" data-id="EQ-PQ-LT-RES" data-fase="PQ" data-cond="ambas" data-familia="llenadora-tubos">
   <h3>EQ-PQ-LT-RES — Tabla resumen de los ensayos del PQ</h3>
   <p><strong>Objetivo:</strong><br>Consolidar el listado de ensayos del PQ de la llenadora y selladora de tubos para la tabla resumen del protocolo.</p>
   <p><strong>Procedimiento:</strong><br>
-  1) Confirmar que los ensayos EQ-PQ-LT-001 a EQ-PQ-LT-026 están incluidos en el índice del protocolo</p>
+  1) Confirmar que los ensayos EQ-PQ-LT-001 a EQ-PQ-LT-028 están incluidos en el índice del protocolo</p>
   <p><strong>Criterio de aceptación:</strong><br>
-  Los 26 ensayos aparecen en la tabla resumen con su veredicto.</p>
+  Los 28 ensayos aparecen en la tabla resumen con su veredicto.</p>
   <p><strong>Referencia:</strong><br>EU GMP Anexo 15.</p>
 </article>
 
@@ -659,9 +703,11 @@
 <tr><td>8.3</td><td>Anexo C — Análisis de riesgo del número de lotes, definición del peor caso, cartas de control y balances de masa</td></tr>
 </table>
 <p><strong>LÍMITES Y CRITERIOS (RESUMEN):</strong></p>
-<p>- 3 lotes consecutivos; Cpk ≥ 1,33; n mínimo 10; 100 % de integridad del sello en la muestra.</p>
+<p>- 3 lotes consecutivos; Cpk ≥ 1,33; n mínimo 10; 100 % de integridad del sello en la muestra y en los límites bajo/alto.</p>
 <p>- Peso, contenido, resistencia del sello, torque y oxígeno residual: definir en URS y especificación del producto (pendiente del responsable).</p>
 <p>- 100 % de rechazo de tubos vacíos, sin sello, sin código o mal posicionados.</p>
+<p>- Desafío de sello en límites y peor caso: 100 % íntegro y ventana operativa documentada.</p>
+<p>- Despeje de línea: 100 % de los puntos conforme y revisión por segunda persona.</p>
 </div>
 
 </section>

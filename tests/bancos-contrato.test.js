@@ -49,7 +49,7 @@ describe('banco de equipos: contrato', () => {
     ['IQ', 'llenadora', 11], // Nivel 3 + addendum estéril (2026-10-29)
     ['OQ', 'llenadora', 24], // ENSAYOS.txt usuario + addendum estéril (2026-10-29)
     ['OQ', 'llenadora-tubos', 28], // ENSAYOS.txt usuario (2026-10-29)
-    ['PQ', 'llenadora-tubos', 26], // ENSAYOS.txt usuario (2026-10-29)
+    ['PQ', 'llenadora-tubos', 28], // ENSAYOS.txt usuario + P0 sellado/despeje (2026-10-29)
     ['PQ', 'llenadora', 23], // ENSAYOS.txt usuario + addendum estéril (2026-10-29)
     ['IQ', 'lecho-fluido', 8], // Nivel 3 (2026-10-07)
     ['IQ', 'tableteadora', 5], // Nivel 2 (2026-10-08)

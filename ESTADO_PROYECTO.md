@@ -90,6 +90,32 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (SigmaProXVL) con spr
 
 ## CAMBIOS RECIENTES
 
+### 2026-10-29 (47): P0 del PQ de tubos — peor caso de sellado y despeje de línea
+
+**Qué:** Se cerraron las mejoras P0 del PQ de la llenadora y selladora de tubos.
+
+- **LT-027 (nuevo, con análisis):** desafío de sello en los límites bajo y alto de temperatura, presión y tiempo, incluida la combinación de peor caso; n≥10 por condición, resistencia e integridad, controles positivos y ventana operativa documentada.
+- **LT-028 (nuevo, por atributo):** despeje de línea antes y después del lote, con revisión por segunda persona y lista firmada.
+- **Tabla de límites:** se agregaron los criterios de sello en límites/peor caso y de despeje de línea, además de los valores ya definidos (3 lotes, Cpk ≥ 1,33, n≥10, 100 % de integridad/rechazo).
+- **Versión:** `EQ-PQ-LT 2026-10-29 v2`; banco regenerado: **911 → 913 artículos** (26 → 28 ensayos, 17 → 18 con análisis).
+
+**Archivos afectados:**
+| Archivo | Cambio |
+|---------|--------|
+| `docs/banco-ensayos/equipos/pq-llenadora-tubos.html` | v2: LT-027, LT-028 y límites actualizados |
+| `docs/banco-ensayos/equipos/llenadora-tubos.html` | PQ hasta LT-028 |
+| `tests/bancos-contrato.test.js` | Contrato PQ llenadora-tubos = 28 |
+| `tests/plantilla-equipos.test.js` | Regresión: 30 IDs, 29 ensayos con el común, 18 con análisis |
+| `js/core/banco-equipos-data.js` | Regenerado: 913 artículos |
+
+**Verificación:**
+```
+node scripts/extraer-banco.mjs equipos --estricto  → OK, 913 artículos, IDs únicos
+npm test                                           → 47 archivos, 620 tests OK
+```
+
+**Pendiente:** completar los valores de URS/producto en la tabla de límites y revisión por Calidad/Validación.
+
 ### 2026-10-29 (46): PQ de llenadora y selladora de tubos — 26 ensayos
 
 **Qué:** Se montó el PQ de la llenadora y selladora de tubos a partir de la propuesta del `ENSAYOS.txt` (modificado 20:02). Con esto la entidad ya tiene IQ común, OQ y PQ generables.
