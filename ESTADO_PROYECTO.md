@@ -90,6 +90,36 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (SigmaProXVL) con spr
 
 ## CAMBIOS RECIENTES
 
+### 2026-10-29 (48): P1 del PQ de tubos — muestreo, método, dimensional, Cpk, CPV y capacitación
+
+**Qué:** Se cerraron las mejoras P1 del PQ de la llenadora y selladora de tubos.
+
+- **LT-029 (nuevo, con análisis):** validación del método de integridad del sello (repetibilidad, RSD, controles positivos/negativos y sensibilidad).
+- **LT-030 (nuevo, con análisis):** verificación dimensional del tubo (diámetro, largo, espesor y cierre) contra plano y especificación.
+- **LT-031 (nuevo):** verificación continua del proceso (CPV) con atributos, frecuencia, cartas de control y límites de alerta/acción.
+- **LT-032 (nuevo):** capacitación y calificación de operadores del PQ, incluida integridad de datos.
+- **LT-007 ampliado:** Cpk ≥ 1,33 ya no solo para peso, también para **resistencia del sello** y **contenido/valoración**.
+- **Plan de muestreo:** resumen en el anexo con `n` por grupo de ensayos y justificación; referencia a **ISO 2859-1** si se usa muestreo por atributos.
+- **Referencias versionadas:** manual, URS, especificación del tubo y método con campos de revisión/versión; se agregaron ISO 2859-1 y el protocolo de validación de método.
+- **Versión:** `EQ-PQ-LT 2026-10-29 v3`; banco **913 → 917 artículos** (28 → 32 ensayos, 18 → 20 con análisis).
+
+**Archivos afectados:**
+| Archivo | Cambio |
+|---------|--------|
+| `docs/banco-ensayos/equipos/pq-llenadora-tubos.html` | v3: LT-029 a LT-032, Cpk ampliado, plan de muestreo y referencias |
+| `docs/banco-ensayos/equipos/llenadora-tubos.html` | PQ hasta LT-032 |
+| `tests/bancos-contrato.test.js` | Contrato PQ llenadora-tubos = 32 |
+| `tests/plantilla-equipos.test.js` | Regresión: 34 IDs, 33 ensayos con el común, 20 con análisis |
+| `js/core/banco-equipos-data.js` | Regenerado: 917 artículos |
+
+**Verificación:**
+```
+node scripts/extraer-banco.mjs equipos --estricto  → OK, 917 artículos, IDs únicos
+npm test                                           → 47 archivos, 620 tests OK
+```
+
+**Pendiente:** completar los valores de URS/producto en la tabla de límites y revisión por Calidad/Validación.
+
 ### 2026-10-29 (47): P0 del PQ de tubos — peor caso de sellado y despeje de línea
 
 **Qué:** Se cerraron las mejoras P0 del PQ de la llenadora y selladora de tubos.

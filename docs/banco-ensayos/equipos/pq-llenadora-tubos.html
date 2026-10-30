@@ -12,7 +12,7 @@
 
 <p><a href="../equipos.html">← Equipos e Instrumentos</a></p>
 <h2>PQ — Llenadora y Selladora de Tubos (banco por familia)</h2>
-<p>Versión del banco: <span data-banco-version>EQ-PQ-LT 2026-10-29 v2</span></p>
+<p>Versión del banco: <span data-banco-version>EQ-PQ-LT 2026-10-29 v3</span></p>
 <p>Ensayos de Calificación de Desempeño específicos de la llenadora y selladora de tubos (<span class="equipo">equipo</span>) para cremas, ungüentos o geles, con tubo plástico o laminado y sellado térmico. Se filtran por familia (<code>data-familia="llenadora-tubos"</code>) según la entidad elegida en el paso 1. Fuente: ENSAYOS.txt de protocolo (propuesta a revisar por Calidad/Validación).</p>
 
 <!-- ================= PQ ================= -->
@@ -200,23 +200,23 @@
 </article>
 
 <article data-bloque="3" id="art-EQ-PQ-LT-007" class="ensayo" data-id="EQ-PQ-LT-007" data-fase="PQ" data-cond="ambas" data-familia="llenadora-tubos" data-analisis="si">
-  <h3>EQ-PQ-LT-007 — Capacidad del proceso de llenado</h3>
-  <p><strong>Objetivo:</strong><br>Demostrar que el proceso de llenado es capaz de cumplir los límites de especificación de forma sostenida, mediante índices de capacidad o carta de control.</p>
+  <h3>EQ-PQ-LT-007 — Capacidad del proceso de llenado, sello y contenido</h3>
+  <p><strong>Objetivo:</strong><br>Demostrar que el proceso es capaz de cumplir los límites de especificación de forma sostenida en los atributos críticos: peso neto, resistencia del sello y contenido o valoración.</p>
   <p><strong>Procedimiento:</strong><br>
-  1) Definir los límites superior e inferior de especificación (USL y LSL) del peso neto según la URS y la especificación del producto<br>
+  1) Definir los límites superior e inferior de especificación (USL y LSL) del peso neto, la resistencia del sello y el contenido según la URS y la especificación del producto<br>
   2) Reunir un mínimo de 50 datos por condición (nominal y peor caso) de las corridas del PQ, con identificación de lote, momento y estación<br>
-  3) Verificar la normalidad y la estabilidad del proceso (carta de control por lotes o subgrupos)<br>
-  4) Calcular Cp y Cpk con la desviación estándar dentro de subgrupo<br>
-  5) Graficar la carta de control y evaluar causas especiales<br>
+  3) Verificar la normalidad y la estabilidad del proceso (carta de control por lotes o subgrupos) para cada atributo<br>
+  4) Calcular Cp y Cpk con la desviación estándar dentro de subgrupo para peso, sello y contenido<br>
+  5) Graficar las cartas de control y evaluar causas especiales en cada atributo<br>
   6) Procesar los datos crudos de capacidad en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Plan estadístico:</strong><br>Variable = peso neto (g); tamaño de muestra = mínimo 50 datos por condición (nominal y peor caso); estadísticos = media, desviación estándar dentro de subgrupo, Cp y Cpk, y carta de control por lotes o subgrupos; criterio = Cpk mayor o igual a 1,33 calculado con USL y LSL de la URS (si la URS define otro valor, prevalece el de la URS) y proceso sin causas especiales; valores atípicos = prueba de Grubbs con investigación documentada.</p>
+  <p><strong>Plan estadístico:</strong><br>Variables = peso neto (g), resistencia del sello (N o unidad del método) y contenido o valoración (unidad del método); tamaño de muestra = mínimo 50 datos por atributo y condición (nominal y peor caso); estadísticos = media, desviación estándar dentro de subgrupo, Cp y Cpk, y carta de control por lotes o subgrupos para cada variable; criterio = Cpk mayor o igual a 1,33 en peso, sello y contenido calculado con USL y LSL de la URS (si la URS define otro valor, prevalece el de la URS) y proceso sin causas especiales; valores atípicos = prueba de Grubbs con investigación documentada.</p>
   <p><strong>Criterio de aceptación:</strong><br>
-  Cpk mayor o igual a 1,33 en la condición nominal y en el peor caso.<br>
-  La carta de control no muestra causas especiales ni cambios de tendencia.<br>
-  Los límites USL y LSL están documentados y aprobados.</p>
+  Cpk mayor o igual a 1,33 en peso, sello y contenido, en la condición nominal y en el peor caso.<br>
+  Las cartas de control no muestran causas especiales ni cambios de tendencia.<br>
+  Los límites USL y LSL de los tres atributos están documentados y aprobados.</p>
   <p><strong>Documentos entregables:</strong><br>
-  - Cálculo de Cp/Cpk con USL, LSL y desviación estándar utilizada<br>
-  - Carta de control y análisis de causas especiales<br>
+  - Cálculo de Cp/Cpk de peso, sello y contenido con USL, LSL y desviación estándar utilizada<br>
+  - Cartas de control y análisis de causas especiales por atributo<br>
   - Data cruda y reporte estadístico de capacidad</p>
   <p><strong>Referencia:</strong><br>URS del equipo y especificación del producto (USL/LSL); EU GMP Anexo 15; 21 CFR 211.110.</p>
 </article>
@@ -669,13 +669,99 @@
   <p><strong>Referencia:</strong><br>21 CFR 211.67 y 211.130; EU GMP Anexo 15; procedimiento interno de despeje de línea.</p>
 </article>
 
+<article data-bloque="3" id="art-EQ-PQ-LT-029" class="ensayo" data-id="EQ-PQ-LT-029" data-fase="PQ" data-cond="ambas" data-familia="llenadora-tubos" data-analisis="si">
+  <h3>EQ-PQ-LT-029 — Validación del método de integridad del sello</h3>
+  <p><strong>Objetivo:</strong><br>Demostrar que el método de resistencia e integridad del sello es adecuado para su uso: repetible, sensible y capaz de detectar sellos defectuosos.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Definir el método (presión de rotura, fuga o equivalente) y su rango de uso según el protocolo de validación<br>
+  2) Preparar estándares o muestras de referencia en el límite bajo, medio y alto del rango<br>
+  3) Ejecutar un mínimo de 10 réplicas por nivel y calcular la repetibilidad y el RSD<br>
+  4) Incluir controles positivos (sellos con defecto inducido) y negativos (sellos conformes) y verificar la detección<br>
+  5) Evaluar la sensibilidad y el límite de detección del método para el defecto crítico<br>
+  6) Procesar los datos crudos de validación del método en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = resistencia del sello (N o unidad del método); tamaño de muestra = mínimo 10 réplicas por nivel (bajo, medio y alto); estadísticos = media, desviación estándar y RSD por nivel, y proporción de controles positivos detectados; criterio = RSD dentro del límite aprobado, 100 % de controles positivos detectados y 0 % de falsos positivos; sin ANOVA; resultados anómalos con investigación documentada.</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  El RSD del método cumple el límite aprobado en los tres niveles.<br>
+  El método detecta el 100 % de los controles positivos y no genera falsos positivos.<br>
+  El método queda aprobado para su uso en el PQ.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Protocolo y reporte de validación del método de sello<br>
+  - Registro de réplicas y controles con data cruda<br>
+  - Data cruda y reporte estadístico de validación del método</p>
+  <p><strong>Referencia:</strong><br>Protocolo interno de validación de método de sello; especificación del producto; USP &lt;1225&gt; (si aplica).</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-PQ-LT-030" class="ensayo" data-id="EQ-PQ-LT-030" data-fase="PQ" data-cond="ambas" data-familia="llenadora-tubos" data-analisis="si">
+  <h3>EQ-PQ-LT-030 — Verificación dimensional del tubo</h3>
+  <p><strong>Objetivo:</strong><br>Verificar que el diámetro, el largo, el espesor y las dimensiones del cierre corresponden a la especificación del tubo y del formato.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Definir las dimensiones críticas y sus tolerancias según el plano del tubo y la especificación del producto<br>
+  2) Tomar un mínimo de 10 tubos por formato y por lote, distribuidos en la corrida<br>
+  3) Medir cada dimensión con instrumento calibrado y registrar el valor por tubo<br>
+  4) Calcular la media, la desviación estándar y el porcentaje dentro de tolerancia por dimensión<br>
+  5) Comparar contra el plano y la especificación<br>
+  6) Procesar los datos crudos dimensionales en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = diámetro, largo, espesor y dimensiones del cierre (mm); tamaño de muestra = mínimo 10 tubos por formato y lote; estadísticos = media, desviación estándar, mínimo, máximo y porcentaje dentro de tolerancia por dimensión; criterio = el 100 % de los tubos dentro de la tolerancia del plano y la media dentro del valor nominal; sin ANOVA; valores atípicos con investigación documentada.</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  El 100 % de los tubos muestreados cumple las tolerancias dimensionales del plano.<br>
+  La media de cada dimensión está dentro del valor nominal y su tolerancia.<br>
+  Los instrumentos de medición están calibrados.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro dimensional por tubo con data cruda<br>
+  - Data cruda y reporte estadístico de dimensiones</p>
+  <p><strong>Referencia:</strong><br>Plano del tubo y del cierre; especificación del producto; URS aprobada.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-PQ-LT-031" class="ensayo" data-id="EQ-PQ-LT-031" data-fase="PQ" data-cond="ambas" data-familia="llenadora-tubos">
+  <h3>EQ-PQ-LT-031 — Verificación continua del proceso (CPV)</h3>
+  <p><strong>Objetivo:</strong><br>Definir y ejecutar el monitoreo continuo posterior al PQ para demostrar que el proceso mantiene su estado de control.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Definir los atributos a monitorear: peso, sello, torque, oxígeno residual y contenido, según el riesgo<br>
+  2) Definir la frecuencia, el tamaño de muestra, las cartas de control y los límites de alerta y acción<br>
+  3) Ejecutar el monitoreo durante el periodo aprobado y registrar los datos<br>
+  4) Revisar las cartas de control y las tendencias por lote<br>
+  5) Investigar cualquier señal de causa especial y documentar la acción<br>
+  6) Revisar el desempeño en la revisión periódica del producto y del proceso</p>
+  <p><strong>Plan estadístico:</strong><br>No aplica: plan de monitoreo continuo con cartas de control y límites de alerta/acción; el análisis se define en el plan CPV aprobado.</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  El plan CPV está aprobado antes de iniciar el monitoreo.<br>
+  Los datos se mantienen dentro de los límites de alerta y acción.<br>
+  Toda señal de causa especial tiene investigación y acción documentada.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Plan CPV aprobado<br>
+  - Registros y cartas de control del periodo<br>
+  - Revisión de tendencias y acciones</p>
+  <p><strong>Referencia:</strong><br>EU GMP Anexo 15; ICH Q10; 21 CFR 211.110.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-PQ-LT-032" class="ensayo" data-id="EQ-PQ-LT-032" data-fase="PQ" data-cond="ambas" data-familia="llenadora-tubos">
+  <h3>EQ-PQ-LT-032 — Capacitación y calificación de operadores</h3>
+  <p><strong>Objetivo:</strong><br>Verificar que los operadores que ejecutan el PQ están capacitados y calificados en el equipo, el formato, el ajuste de sellado y la integridad de datos.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Identificar a los operadores y supervisores que participan en el PQ<br>
+  2) Verificar el registro de capacitación vigente en el equipo, el formato y el procedimiento de sellado<br>
+  3) Verificar la calificación práctica documentada (operación supervisada y evaluación)<br>
+  4) Verificar la capacitación en integridad de datos y registro de parámetros<br>
+  5) Confirmar que no existen capacitaciones vencidas ni operadores sin calificación<br>
+  6) Anexar los registros de capacitación y calificación</p>
+  <p><strong>Plan estadístico:</strong><br>No aplica: verificación documental por atributo (capacitado/no capacitado, 100 % de los operadores); sin inferencia estadística.</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  El 100 % de los operadores y supervisores está capacitado y calificado.<br>
+  Las capacitaciones están vigentes y registradas.<br>
+  La calificación práctica y la integridad de datos están documentadas.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Matriz de operadores, capacitación y calificación<br>
+  - Registros de capacitación y evaluación práctica</p>
+  <p><strong>Referencia:</strong><br>EU GMP Anexo 15; 21 CFR 211.25; procedimiento interno de capacitación.</p>
+</article>
+
 <article data-bloque="4" id="art-EQ-PQ-LT-RES" class="ensayo" data-id="EQ-PQ-LT-RES" data-fase="PQ" data-cond="ambas" data-familia="llenadora-tubos">
   <h3>EQ-PQ-LT-RES — Tabla resumen de los ensayos del PQ</h3>
   <p><strong>Objetivo:</strong><br>Consolidar el listado de ensayos del PQ de la llenadora y selladora de tubos para la tabla resumen del protocolo.</p>
   <p><strong>Procedimiento:</strong><br>
-  1) Confirmar que los ensayos EQ-PQ-LT-001 a EQ-PQ-LT-028 están incluidos en el índice del protocolo</p>
+  1) Confirmar que los ensayos EQ-PQ-LT-001 a EQ-PQ-LT-032 están incluidos en el índice del protocolo</p>
   <p><strong>Criterio de aceptación:</strong><br>
-  Los 28 ensayos aparecen en la tabla resumen con su veredicto.</p>
+  Los 32 ensayos aparecen en la tabla resumen con su veredicto.</p>
   <p><strong>Referencia:</strong><br>EU GMP Anexo 15.</p>
 </article>
 
@@ -688,9 +774,11 @@
     <tr><td>6.3</td><td>21 CFR 211.130 — Operaciones de empaque y etiquetado: codificación de lote y vencimiento</td><td>VIGENTE</td></tr>
     <tr><td>6.4</td><td>21 CFR Parte 11 y GAMP5 2.ª ed. — Registros electrónicos y trazabilidad del lote</td><td>VIGENTE</td></tr>
     <tr><td>6.5</td><td>USP &lt;61&gt; y &lt;62&gt; — Carga microbiana, si aplica</td><td>VIGENTE</td></tr>
-    <tr><td>6.6</td><td>Manual del fabricante de la llenadora y selladora de tubos — Setpoints, secuencias y límites de diseño</td><td>VIGENTE</td></tr>
-    <tr><td>6.7</td><td>URS aprobada y especificación del producto — Peso, viscosidad, temperatura, sellado y criterios</td><td>VIGENTE</td></tr>
-    <tr><td>6.8</td><td>Especificación del tubo y del cierre — Dimensiones, material y requisitos de integridad</td><td>VIGENTE</td></tr>
+    <tr><td>6.6</td><td>Manual del fabricante de la llenadora y selladora de tubos — Setpoints, secuencias y límites de diseño; revisión/fecha: ______</td><td>VIGENTE</td></tr>
+    <tr><td>6.7</td><td>URS aprobada y especificación del producto — Peso, viscosidad, temperatura, sellado y criterios; código ______ versión ______</td><td>VIGENTE</td></tr>
+    <tr><td>6.8</td><td>Especificación del tubo y del cierre — Dimensiones, material y requisitos de integridad; revisión ______</td><td>VIGENTE</td></tr>
+    <tr><td>6.9</td><td>ISO 2859-1 — Muestreo por atributos para inspección lote a lote, si se opta por muestreo estadístico</td><td>VIGENTE</td></tr>
+    <tr><td>6.10</td><td>Protocolo interno de validación del método de sello y procedimiento de capacitación</td><td>VIGENTE</td></tr>
   </table>
 </article>
 
@@ -703,11 +791,21 @@
 <tr><td>8.3</td><td>Anexo C — Análisis de riesgo del número de lotes, definición del peor caso, cartas de control y balances de masa</td></tr>
 </table>
 <p><strong>LÍMITES Y CRITERIOS (RESUMEN):</strong></p>
-<p>- 3 lotes consecutivos; Cpk ≥ 1,33; n mínimo 10; 100 % de integridad del sello en la muestra y en los límites bajo/alto.</p>
+<p>- 3 lotes consecutivos; Cpk ≥ 1,33 en peso, sello y contenido; n mínimo 10; 100 % de integridad del sello en la muestra y en los límites bajo/alto.</p>
 <p>- Peso, contenido, resistencia del sello, torque y oxígeno residual: definir en URS y especificación del producto (pendiente del responsable).</p>
 <p>- 100 % de rechazo de tubos vacíos, sin sello, sin código o mal posicionados.</p>
 <p>- Desafío de sello en límites y peor caso: 100 % íntegro y ventana operativa documentada.</p>
 <p>- Despeje de línea: 100 % de los puntos conforme y revisión por segunda persona.</p>
+<p><strong>PLAN DE MUESTREO (RESUMEN):</strong></p>
+<p>- 001–004: n≥10 por lote, velocidad o muestreo.</p>
+<p>- 005 y 009: n según especificación del producto.</p>
+<p>- 006 y 013: n≥10 por boquilla o estación.</p>
+<p>- 007: n≥50 por atributo (peso, sello, contenido) y condición.</p>
+<p>- 008, 017, 019, 023 y 027: n≥10.</p>
+<p>- 010 y 024: n≥30.</p>
+<p>- 012: n según protocolo y estaciones.</p>
+<p>- 029: n≥10 por nivel; 030: n≥10 por formato y lote.</p>
+<p>- 011, 014, 015, 016, 018, 021, 022, 025, 026, 028, 031 y 032: 100 unidades o 100 % de los puntos; si se usa muestreo estadístico, justificar con ISO 2859-1.</p>
 </div>
 
 </section>
