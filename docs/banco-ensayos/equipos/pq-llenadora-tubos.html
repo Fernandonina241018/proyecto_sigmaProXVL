@@ -12,7 +12,7 @@
 
 <p><a href="../equipos.html">← Equipos e Instrumentos</a></p>
 <h2>PQ — Llenadora y Selladora de Tubos (banco por familia)</h2>
-<p>Versión del banco: <span data-banco-version>EQ-PQ-LT 2026-10-29 v3</span></p>
+<p>Versión del banco: <span data-banco-version>EQ-PQ-LT 2026-10-29 v4</span></p>
 <p>Ensayos de Calificación de Desempeño específicos de la llenadora y selladora de tubos (<span class="equipo">equipo</span>) para cremas, ungüentos o geles, con tubo plástico o laminado y sellado térmico. Se filtran por familia (<code>data-familia="llenadora-tubos"</code>) según la entidad elegida en el paso 1. Fuente: ENSAYOS.txt de protocolo (propuesta a revisar por Calidad/Validación).</p>
 
 <!-- ================= PQ ================= -->
@@ -755,13 +755,100 @@
   <p><strong>Referencia:</strong><br>EU GMP Anexo 15; 21 CFR 211.25; procedimiento interno de capacitación.</p>
 </article>
 
+<article data-bloque="3" id="art-EQ-PQ-LT-033" class="ensayo" data-id="EQ-PQ-LT-033" data-fase="PQ" data-cond="ambas" data-familia="llenadora-tubos">
+  <h3>EQ-PQ-LT-033 — Control de cambios del equipo, formato y proceso</h3>
+  <p><strong>Objetivo:</strong><br>Verificar que todo cambio del equipo, formato, proceso, software o proveedor ocurrido durante el PQ fue evaluado, aprobado e implementado bajo control de cambios.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Listar los cambios ejecutados o pendientes desde la IQ/OQ hasta el PQ<br>
+  2) Verificar el registro de control de cambios: descripción, justificación, evaluación de riesgo e impacto en la validación<br>
+  3) Verificar la aprobación por las áreas responsables antes de la implementación<br>
+  4) Verificar la actualización de documentos, planos, recetas y capacitación<br>
+  5) Confirmar que no existen cambios implementados sin control<br>
+  6) Anexar la lista de cambios y su cierre</p>
+  <p><strong>Plan estadístico:</strong><br>No aplica: verificación documental por atributo (controlado/no controlado, 100 % de los cambios); sin inferencia estadística.</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  El 100 % de los cambios está bajo control de cambios y aprobado antes de implementarse.<br>
+  La evaluación de impacto y la actualización documental están completas.<br>
+  No existen cambios sin control.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Lista de cambios con su registro y cierre<br>
+  - Evaluaciones de impacto y aprobaciones</p>
+  <p><strong>Referencia:</strong><br>ICH Q10; EU GMP Anexo 15; procedimiento interno de control de cambios.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-PQ-LT-034" class="ensayo" data-id="EQ-PQ-LT-034" data-fase="PQ" data-cond="ambas" data-familia="llenadora-tubos" data-analisis="si">
+  <h3>EQ-PQ-LT-034 — Si aplica: hold time del tubo llenado antes de empaque</h3>
+  <p><strong>Objetivo:</strong><br>Verificar que el tiempo de espera del tubo llenado y sellado antes del empaque no altera el peso, el sello, el contenido ni el código; si el proceso no contempla espera, declarar No Aplica con justificación firmada.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Confirmar si el proceso contempla un tiempo de espera antes del empaque; si no, pasar al paso 7)<br>
+  2) Definir los tiempos de espera a evaluar (cero, máximo aprobado y un punto intermedio) y las condiciones de almacenamiento<br>
+  3) Tomar un mínimo de 10 tubos por tiempo y medir peso, sello, contenido y código<br>
+  4) Comparar cada tiempo contra el tiempo cero y contra la especificación<br>
+  5) Evaluar la tendencia de peso, sello y contenido contra el tiempo<br>
+  6) Procesar los datos crudos de hold time en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo<br>
+  7) Si no aplica: redactar la justificación de No Aplica con firma del ejecutor y del revisor</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = peso neto (g), resultado de sello (pasa/falla), contenido (unidad del método) y código (pasa/falla) por tiempo; tamaño de muestra = mínimo 10 tubos por tiempo y al menos 3 tiempos; estadísticos = media, desviación estándar y RSD por tiempo, y regresión de peso, sello y contenido contra el tiempo; criterio = cada tiempo dentro de la especificación y sin tendencia fuera de tolerancia; sin ANOVA; valores atípicos con investigación documentada.</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Todos los tiempos evaluados cumplen peso, sello, contenido y código.<br>
+  No existe tendencia fuera de tolerancia durante el tiempo máximo aprobado.<br>
+  O bien, No Aplica justificado y firmado.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro de tiempos, condiciones y resultados con data cruda<br>
+  - Data cruda y reporte estadístico del hold time<br>
+  - Justificación de No Aplica, si corresponde</p>
+  <p><strong>Referencia:</strong><br>Especificación del producto; URS aprobada; protocolo de hold time.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-PQ-LT-035" class="ensayo" data-id="EQ-PQ-LT-035" data-fase="PQ" data-cond="ambas" data-familia="llenadora-tubos" data-analisis="si">
+  <h3>EQ-PQ-LT-035 — Integridad del sello tras manejo y transporte</h3>
+  <p><strong>Objetivo:</strong><br>Verificar que el sello conserva su integridad después del manejo interno y de la simulación de transporte.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Tomar tubos conformes de la corrida del PQ y registrar su integridad inicial<br>
+  2) Ejecutar la simulación de manejo y transporte según el protocolo aprobado (caída, vibración o compresión)<br>
+  3) Repetir la prueba de integridad y resistencia del sello después de la simulación<br>
+  4) Comparar antes y después y registrar cualquier falla<br>
+  5) Evaluar la proporción de fallas y su causa<br>
+  6) Procesar los datos crudos de integridad antes y después en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = resistencia del sello (N o unidad del método) y resultado de integridad (pasa/falla) antes y después del manejo; tamaño de muestra = mínimo 10 tubos por condición; estadísticos = media, mínimo y proporción de fallas antes y después; criterio = el 100 % de los tubos íntegros después del manejo y sin diferencia fuera del límite aprobado; sin ANOVA; resultados anómalos con investigación documentada.</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  El 100 % de los tubos conserva la integridad del sello después del manejo y transporte simulado.<br>
+  No existe diferencia fuera del límite aprobado respecto de la condición inicial.<br>
+  Toda falla tiene investigación y disposición documentada.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro de integridad antes y después con data cruda<br>
+  - Data cruda y reporte estadístico del manejo y transporte</p>
+  <p><strong>Referencia:</strong><br>Protocolo de simulación de manejo/transporte (ASTM D4169 o ISTA, si aplica); especificación del producto; método de sello validado.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-PQ-LT-036" class="ensayo" data-id="EQ-PQ-LT-036" data-fase="PQ" data-cond="ambas" data-familia="llenadora-tubos">
+  <h3>EQ-PQ-LT-036 — Si aplica: límites de limpieza (MACO/HBEL)</h3>
+  <p><strong>Objetivo:</strong><br>Verificar que los límites de limpieza para multiproducto se calcularon con enfoque de salud (MACO/HBEL) y que la limpieza validada los cumple; si el equipo es dedicado, declarar No Aplica con justificación firmada.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Confirmar si el equipo es multiproducto; si es dedicado, pasar al paso 6)<br>
+  2) Identificar el producto de peor caso y calcular el MACO/HBEL según la guía aplicable<br>
+  3) Definir los límites de residuo, detergente y carga microbiana para las superficies en contacto<br>
+  4) Verificar que la limpieza validada cumple esos límites<br>
+  5) Revisar la recuperación analítica y el método de muestreo<br>
+  6) Si no aplica: redactar la justificación de No Aplica con firma del ejecutor y del revisor</p>
+  <p><strong>Plan estadístico:</strong><br>No aplica: cálculo documentado de MACO/HBEL y verificación contra los límites de limpieza validados, o No Aplica justificado; sin inferencia estadística.</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  El MACO/HBEL está calculado y aprobado.<br>
+  La limpieza validada cumple los límites de residuo, detergente y micro.<br>
+  O bien, No Aplica justificado y firmado.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Cálculo de MACO/HBEL con la guía aplicable<br>
+  - Resultados de limpieza validada contra los límites<br>
+  - Justificación de No Aplica, si corresponde</p>
+  <p><strong>Referencia:</strong><br>Guía de límites basados en salud (HBEL); procedimiento de limpieza validado; EU GMP Anexo 15.</p>
+</article>
+
 <article data-bloque="4" id="art-EQ-PQ-LT-RES" class="ensayo" data-id="EQ-PQ-LT-RES" data-fase="PQ" data-cond="ambas" data-familia="llenadora-tubos">
   <h3>EQ-PQ-LT-RES — Tabla resumen de los ensayos del PQ</h3>
   <p><strong>Objetivo:</strong><br>Consolidar el listado de ensayos del PQ de la llenadora y selladora de tubos para la tabla resumen del protocolo.</p>
   <p><strong>Procedimiento:</strong><br>
-  1) Confirmar que los ensayos EQ-PQ-LT-001 a EQ-PQ-LT-032 están incluidos en el índice del protocolo</p>
+  1) Confirmar que los ensayos EQ-PQ-LT-001 a EQ-PQ-LT-036 están incluidos en el índice del protocolo</p>
   <p><strong>Criterio de aceptación:</strong><br>
-  Los 32 ensayos aparecen en la tabla resumen con su veredicto.</p>
+  Los 36 ensayos aparecen en la tabla resumen con su veredicto.</p>
   <p><strong>Referencia:</strong><br>EU GMP Anexo 15.</p>
 </article>
 
@@ -779,6 +866,8 @@
     <tr><td>6.8</td><td>Especificación del tubo y del cierre — Dimensiones, material y requisitos de integridad; revisión ______</td><td>VIGENTE</td></tr>
     <tr><td>6.9</td><td>ISO 2859-1 — Muestreo por atributos para inspección lote a lote, si se opta por muestreo estadístico</td><td>VIGENTE</td></tr>
     <tr><td>6.10</td><td>Protocolo interno de validación del método de sello y procedimiento de capacitación</td><td>VIGENTE</td></tr>
+    <tr><td>6.11</td><td>ICH Q10 — Sistema de calidad farmacéutico: control de cambios y verificación continua</td><td>VIGENTE</td></tr>
+    <tr><td>6.12</td><td>Guía HBEL y protocolo de simulación de manejo/transporte (ASTM D4169 o ISTA, si aplica)</td><td>VIGENTE</td></tr>
   </table>
 </article>
 
@@ -806,6 +895,8 @@
 <p>- 012: n según protocolo y estaciones.</p>
 <p>- 029: n≥10 por nivel; 030: n≥10 por formato y lote.</p>
 <p>- 011, 014, 015, 016, 018, 021, 022, 025, 026, 028, 031 y 032: 100 unidades o 100 % de los puntos; si se usa muestreo estadístico, justificar con ISO 2859-1.</p>
+<p>- 033: 100 % de los cambios; 034: n≥10 por tiempo; 035: n≥10 por condición; 036: cálculo documentado de MACO/HBEL.</p>
+<p>- Hold time del tubo: definir el tiempo máximo en URS; integridad tras manejo: 100 %; MACO/HBEL: aprobado y cumplido.</p>
 </div>
 
 </section>

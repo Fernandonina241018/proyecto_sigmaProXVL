@@ -90,6 +90,34 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (SigmaProXVL) con spr
 
 ## CAMBIOS RECIENTES
 
+### 2026-10-29 (49): P2 del PQ de tubos — control de cambios, hold time, transporte y MACO/HBEL
+
+**Qué:** Se cerraron las mejoras P2 del PQ de la llenadora y selladora de tubos.
+
+- **LT-033 (nuevo):** control de cambios del equipo, formato, proceso, software y proveedor; evaluación de impacto, aprobación y actualización documental.
+- **LT-034 (nuevo, con análisis):** hold time del tubo llenado antes de empaque, con tiempos cero/máximo/intermedio, peso, sello, contenido y código; No Aplica justificado si no hay espera.
+- **LT-035 (nuevo, con análisis):** integridad del sello después de la simulación de manejo y transporte, antes/después.
+- **LT-036 (nuevo):** límites de limpieza para multiproducto (MACO/HBEL), con cálculo y verificación contra la limpieza validada; No Aplica si el equipo es dedicado.
+- **Versión:** `EQ-PQ-LT 2026-10-29 v4`; banco **917 → 921 artículos** (32 → 36 ensayos, 20 → 22 con análisis).
+- **Referencias:** se agregaron ICH Q10 y la guía HBEL/protocolo de transporte.
+
+**Archivos afectados:**
+| Archivo | Cambio |
+|---------|--------|
+| `docs/banco-ensayos/equipos/pq-llenadora-tubos.html` | v4: LT-033 a LT-036, plan de muestreo y referencias |
+| `docs/banco-ensayos/equipos/llenadora-tubos.html` | PQ hasta LT-036 |
+| `tests/bancos-contrato.test.js` | Contrato PQ llenadora-tubos = 36 |
+| `tests/plantilla-equipos.test.js` | Regresión: 38 IDs, 37 ensayos con el común, 22 con análisis |
+| `js/core/banco-equipos-data.js` | Regenerado: 921 artículos |
+
+**Verificación:**
+```
+node scripts/extraer-banco.mjs equipos --estricto  → OK, 921 artículos, IDs únicos
+npm test                                           → 47 archivos, 620 tests OK
+```
+
+**Pendiente:** completar los valores de URS/producto en la tabla de límites y revisión por Calidad/Validación.
+
 ### 2026-10-29 (48): P1 del PQ de tubos — muestreo, método, dimensional, Cpk, CPV y capacitación
 
 **Qué:** Se cerraron las mejoras P1 del PQ de la llenadora y selladora de tubos.

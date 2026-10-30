@@ -233,22 +233,22 @@ describe('PQ llenadora y selladora de tubos (banco por familia)', () => {
     return { r, doc: arch['word/document.xml'] };
   };
 
-  it('banco PQ: 34 IDs de la familia (32 ensayos + RES + REF) y 20 con análisis', () => {
+  it('banco PQ: 38 IDs de la familia (36 ensayos + RES + REF) y 22 con análisis', () => {
     const ids = (banco.fases.PQ || [])
       .filter((i) => i.id && i.familia === 'llenadora-tubos').map((i) => i.id);
-    expect(ids).toHaveLength(34);
-    expect(new Set(ids).size).toBe(34);
-    expect(ids.filter((id) => /^EQ-PQ-LT-0(0[1-9]|[12][0-9]|3[0-2])$/.test(id))).toHaveLength(32);
+    expect(ids).toHaveLength(38);
+    expect(new Set(ids).size).toBe(38);
+    expect(ids.filter((id) => /^EQ-PQ-LT-0(0[1-9]|[12][0-9]|3[0-6])$/.test(id))).toHaveLength(36);
     const an = (banco.fases.PQ || []).filter((i) => i.familia === 'llenadora-tubos' && i.analisis);
-    expect(an).toHaveLength(20);
+    expect(an).toHaveLength(22);
   });
 
-  it('genera 32 ensayos de familia + el común, con títulos, códigos y concordancia', async () => {
+  it('genera 36 ensayos de familia + el común, con títulos, códigos y concordancia', async () => {
     const { r, doc } = await genPQ(ENT_PQ_LT);
-    expect(r.ensayos).toHaveLength(33);
+    expect(r.ensayos).toHaveLength(37);
     expect(r.ensayos[0]).toBe('EQ-PQ-COM-001');
     expect(r.ensayos[1]).toBe('EQ-PQ-LT-001');
-    expect(r.ensayos).toContain('EQ-PQ-LT-032');
+    expect(r.ensayos).toContain('EQ-PQ-LT-036');
     for (const id of r.ensayos) expect(doc).toContain(id);
     const txt = doc.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ');
     expect(txt).toContain('CAPACIDAD DEL PROCESO DE LLENADO');
@@ -257,6 +257,10 @@ describe('PQ llenadora y selladora de tubos (banco por familia)', () => {
     expect(txt).toContain('DESPEJE DE LÍNEA');
     expect(txt).toContain('VERIFICACIÓN CONTINUA');
     expect(txt).toContain('CAPACITACIÓN Y CALIFICACIÓN');
+    expect(txt).toContain('CONTROL DE CAMBIOS');
+    expect(txt).toContain('HOLD TIME');
+    expect(txt).toContain('MANEJO Y TRANSPORTE');
+    expect(txt).toContain('MACO');
     expect(txt).toContain('INTEGRIDAD DE DATOS');
     const low = txt.toLowerCase();
     expect(low).toContain('la llenadora y selladora de tubos');

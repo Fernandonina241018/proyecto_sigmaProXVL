@@ -1,7 +1,7 @@
 // Generado por scripts/extraer-banco.mjs equipos — NO EDITAR A MANO.
-// Fuente: docs/banco-ensayos/equipos-comun.html + docs/banco-ensayos/equipos/oq-comun.html + docs/banco-ensayos/equipos/pq-comun.html + docs/banco-ensayos/equipos/iq-autoclave.html + docs/banco-ensayos/equipos/iq-tunel-despirogenizacion.html + docs/banco-ensayos/equipos/iq-liofilizador.html + docs/banco-ensayos/equipos/iq-reactor.html + docs/banco-ensayos/equipos/iq-horno-vacio.html + docs/banco-ensayos/equipos/iq-llenadora.html + docs/banco-ensayos/equipos/oq-llenadora.html + docs/banco-ensayos/equipos/oq-llenadora-tubos.html + docs/banco-ensayos/equipos/pq-llenadora.html + docs/banco-ensayos/equipos/pq-llenadora-tubos.html + docs/banco-ensayos/equipos/iq-lecho-fluido.html + docs/banco-ensayos/equipos/iq-tableteadora.html + docs/banco-ensayos/equipos/iq-encapsuladora.html + docs/banco-ensayos/equipos/iq-granulador.html + docs/banco-ensayos/equipos/iq-recubridora.html + docs/banco-ensayos/equipos/iq-blistera.html + docs/banco-ensayos/equipos/iq-detector-metales.html + docs/banco-ensayos/equipos/iq-etiquetadora.html + docs/banco-ensayos/equipos/iq-mezclador.html + docs/banco-ensayos/equipos/iq-horno-secado.html + docs/banco-ensayos/equipos/iq-sistema-cremas-vacio.html + docs/banco-ensayos/equipos/oq-reactor.html + docs/banco-ensayos/equipos/pq-reactor.html + docs/banco-ensayos/equipos/oq-sistema-cremas-vacio.html + docs/banco-ensayos/equipos/pq-sistema-cremas-vacio.html + docs/banco-ensayos/equipos/oq-tableteadora.html + docs/banco-ensayos/equipos/pq-tableteadora.html + docs/banco-ensayos/equipos/oq-encapsuladora.html + docs/banco-ensayos/equipos/pq-encapsuladora.html + docs/banco-ensayos/equipos/oq-granulador.html + docs/banco-ensayos/equipos/pq-granulador.html + docs/banco-ensayos/equipos/oq-recubridora.html + docs/banco-ensayos/equipos/pq-recubridora.html + docs/banco-ensayos/equipos/oq-blistera.html + docs/banco-ensayos/equipos/pq-blistera.html + docs/banco-ensayos/equipos/oq-detector-metales.html + docs/banco-ensayos/equipos/pq-detector-metales.html + docs/banco-ensayos/equipos/oq-etiquetadora.html + docs/banco-ensayos/equipos/pq-etiquetadora.html + docs/banco-ensayos/equipos/oq-lecho-fluido.html + docs/banco-ensayos/equipos/oq-autoclave.html + docs/banco-ensayos/equipos/oq-mezclador.html + docs/banco-ensayos/equipos/oq-horno.html + docs/banco-ensayos/equipos/pq-lecho-fluido.html + docs/banco-ensayos/equipos/pq-autoclave.html + docs/banco-ensayos/equipos/pq-mezclador.html + docs/banco-ensayos/equipos/pq-horno.html + docs/banco-ensayos/equipos/pq-horno-vacio.html + docs/banco-ensayos/equipos/oq-horno-vacio.html + docs/banco-ensayos/equipos/oq-refrigerador-lab.html + docs/banco-ensayos/equipos/pq-refrigerador-lab.html + docs/banco-ensayos/equipos/oq-congelador-lab.html + docs/banco-ensayos/equipos/pq-congelador-lab.html + docs/banco-ensayos/equipos/oq-balanza.html (versión: EQ-COMUN 2026-10-21 v3 + EQ-OQ-COM 2026-10-21 v2 + EQ-PQ-COM 2026-10-21 v2 + EQ-IQ-AU 2026-10-07 v1 + EQ-IQ-TD 2026-10-07 v1 + EQ-IQ-LI 2026-10-07 v1 + EQ-IQ-RC 2026-10-21 v2 + EQ-IQ-VA 2026-10-21 v2 + EQ-IQ-LL 2026-10-29 v3 + EQ-OQ-LL 2026-10-29 v2 + EQ-OQ-LT 2026-10-29 v2 + EQ-PQ-LL 2026-10-29 v2 + EQ-PQ-LT 2026-10-29 v3 + EQ-IQ-LF 2026-10-07 v1 + EQ-IQ-TB 2026-10-08 v1 + EQ-IQ-EN 2026-10-08 v1 + EQ-IQ-GR 2026-10-08 v1 + EQ-IQ-RB 2026-10-09 v1 + EQ-IQ-BL 2026-10-09 v1 + EQ-IQ-DM 2026-10-11 v1 + EQ-IQ-ET 2026-10-11 v1 + EQ-IQ-MZ 2026-10-11 v1 + EQ-IQ-HO 2026-10-11 v1 + EQ-IQ-UC 2026-10-21 v2 + EQ-OQ-RC 2026-10-07 v1 + EQ-PQ-RC 2026-10-07 v1 + EQ-OQ-UC 2026-10-12 v1 + EQ-PQ-UC 2026-10-12 v1 + EQ-OQ-TB 2026-10-08 v1 + EQ-PQ-TB 2026-10-08 v1 + EQ-OQ-EN 2026-10-08 v1 + EQ-PQ-EN 2026-10-08 v1 + EQ-OQ-GR 2026-10-08 v1 + EQ-PQ-GR 2026-10-08 v1 + EQ-OQ-RB 2026-10-09 v1 + EQ-PQ-RB 2026-10-09 v1 + EQ-OQ-BL 2026-10-09 v1 + EQ-PQ-BL 2026-10-09 v1 + EQ-OQ-DM 2026-10-11 v1 + EQ-PQ-DM 2026-10-11 v1 + EQ-OQ-ET 2026-10-11 v1 + EQ-PQ-ET 2026-10-11 v1 + EQ-OQ-LF 2026-10-21 v3 + EQ-OQ-AU 2026-10-21 v3 + EQ-OQ-MZ 2026-10-21 v3 + EQ-OQ-HO 2026-10-21 v2 + EQ-PQ-LF 2026-10-21 v3 + EQ-PQ-AU 2026-10-21 v3 + EQ-PQ-MZ 2026-10-21 v3 + EQ-PQ-HO 2026-10-21 v2 + EQ-PQ-VA 2026-10-21 v2 + EQ-OQ-VA 2026-10-21 v2 + EQ-OQ-RF 2026-10-14 v1 + EQ-PQ-RF 2026-10-14 v1 + EQ-OQ-CG 2026-10-14 v1 + EQ-PQ-CG 2026-10-14 v1 + EQ-OQ-BA 2026-10-22 v1).
+// Fuente: docs/banco-ensayos/equipos-comun.html + docs/banco-ensayos/equipos/oq-comun.html + docs/banco-ensayos/equipos/pq-comun.html + docs/banco-ensayos/equipos/iq-autoclave.html + docs/banco-ensayos/equipos/iq-tunel-despirogenizacion.html + docs/banco-ensayos/equipos/iq-liofilizador.html + docs/banco-ensayos/equipos/iq-reactor.html + docs/banco-ensayos/equipos/iq-horno-vacio.html + docs/banco-ensayos/equipos/iq-llenadora.html + docs/banco-ensayos/equipos/oq-llenadora.html + docs/banco-ensayos/equipos/oq-llenadora-tubos.html + docs/banco-ensayos/equipos/pq-llenadora.html + docs/banco-ensayos/equipos/pq-llenadora-tubos.html + docs/banco-ensayos/equipos/iq-lecho-fluido.html + docs/banco-ensayos/equipos/iq-tableteadora.html + docs/banco-ensayos/equipos/iq-encapsuladora.html + docs/banco-ensayos/equipos/iq-granulador.html + docs/banco-ensayos/equipos/iq-recubridora.html + docs/banco-ensayos/equipos/iq-blistera.html + docs/banco-ensayos/equipos/iq-detector-metales.html + docs/banco-ensayos/equipos/iq-etiquetadora.html + docs/banco-ensayos/equipos/iq-mezclador.html + docs/banco-ensayos/equipos/iq-horno-secado.html + docs/banco-ensayos/equipos/iq-sistema-cremas-vacio.html + docs/banco-ensayos/equipos/oq-reactor.html + docs/banco-ensayos/equipos/pq-reactor.html + docs/banco-ensayos/equipos/oq-sistema-cremas-vacio.html + docs/banco-ensayos/equipos/pq-sistema-cremas-vacio.html + docs/banco-ensayos/equipos/oq-tableteadora.html + docs/banco-ensayos/equipos/pq-tableteadora.html + docs/banco-ensayos/equipos/oq-encapsuladora.html + docs/banco-ensayos/equipos/pq-encapsuladora.html + docs/banco-ensayos/equipos/oq-granulador.html + docs/banco-ensayos/equipos/pq-granulador.html + docs/banco-ensayos/equipos/oq-recubridora.html + docs/banco-ensayos/equipos/pq-recubridora.html + docs/banco-ensayos/equipos/oq-blistera.html + docs/banco-ensayos/equipos/pq-blistera.html + docs/banco-ensayos/equipos/oq-detector-metales.html + docs/banco-ensayos/equipos/pq-detector-metales.html + docs/banco-ensayos/equipos/oq-etiquetadora.html + docs/banco-ensayos/equipos/pq-etiquetadora.html + docs/banco-ensayos/equipos/oq-lecho-fluido.html + docs/banco-ensayos/equipos/oq-autoclave.html + docs/banco-ensayos/equipos/oq-mezclador.html + docs/banco-ensayos/equipos/oq-horno.html + docs/banco-ensayos/equipos/pq-lecho-fluido.html + docs/banco-ensayos/equipos/pq-autoclave.html + docs/banco-ensayos/equipos/pq-mezclador.html + docs/banco-ensayos/equipos/pq-horno.html + docs/banco-ensayos/equipos/pq-horno-vacio.html + docs/banco-ensayos/equipos/oq-horno-vacio.html + docs/banco-ensayos/equipos/oq-refrigerador-lab.html + docs/banco-ensayos/equipos/pq-refrigerador-lab.html + docs/banco-ensayos/equipos/oq-congelador-lab.html + docs/banco-ensayos/equipos/pq-congelador-lab.html + docs/banco-ensayos/equipos/oq-balanza.html (versión: EQ-COMUN 2026-10-21 v3 + EQ-OQ-COM 2026-10-21 v2 + EQ-PQ-COM 2026-10-21 v2 + EQ-IQ-AU 2026-10-07 v1 + EQ-IQ-TD 2026-10-07 v1 + EQ-IQ-LI 2026-10-07 v1 + EQ-IQ-RC 2026-10-21 v2 + EQ-IQ-VA 2026-10-21 v2 + EQ-IQ-LL 2026-10-29 v3 + EQ-OQ-LL 2026-10-29 v2 + EQ-OQ-LT 2026-10-29 v2 + EQ-PQ-LL 2026-10-29 v2 + EQ-PQ-LT 2026-10-29 v4 + EQ-IQ-LF 2026-10-07 v1 + EQ-IQ-TB 2026-10-08 v1 + EQ-IQ-EN 2026-10-08 v1 + EQ-IQ-GR 2026-10-08 v1 + EQ-IQ-RB 2026-10-09 v1 + EQ-IQ-BL 2026-10-09 v1 + EQ-IQ-DM 2026-10-11 v1 + EQ-IQ-ET 2026-10-11 v1 + EQ-IQ-MZ 2026-10-11 v1 + EQ-IQ-HO 2026-10-11 v1 + EQ-IQ-UC 2026-10-21 v2 + EQ-OQ-RC 2026-10-07 v1 + EQ-PQ-RC 2026-10-07 v1 + EQ-OQ-UC 2026-10-12 v1 + EQ-PQ-UC 2026-10-12 v1 + EQ-OQ-TB 2026-10-08 v1 + EQ-PQ-TB 2026-10-08 v1 + EQ-OQ-EN 2026-10-08 v1 + EQ-PQ-EN 2026-10-08 v1 + EQ-OQ-GR 2026-10-08 v1 + EQ-PQ-GR 2026-10-08 v1 + EQ-OQ-RB 2026-10-09 v1 + EQ-PQ-RB 2026-10-09 v1 + EQ-OQ-BL 2026-10-09 v1 + EQ-PQ-BL 2026-10-09 v1 + EQ-OQ-DM 2026-10-11 v1 + EQ-PQ-DM 2026-10-11 v1 + EQ-OQ-ET 2026-10-11 v1 + EQ-PQ-ET 2026-10-11 v1 + EQ-OQ-LF 2026-10-21 v3 + EQ-OQ-AU 2026-10-21 v3 + EQ-OQ-MZ 2026-10-21 v3 + EQ-OQ-HO 2026-10-21 v2 + EQ-PQ-LF 2026-10-21 v3 + EQ-PQ-AU 2026-10-21 v3 + EQ-PQ-MZ 2026-10-21 v3 + EQ-PQ-HO 2026-10-21 v2 + EQ-PQ-VA 2026-10-21 v2 + EQ-OQ-VA 2026-10-21 v2 + EQ-OQ-RF 2026-10-14 v1 + EQ-PQ-RF 2026-10-14 v1 + EQ-OQ-CG 2026-10-14 v1 + EQ-PQ-CG 2026-10-14 v1 + EQ-OQ-BA 2026-10-22 v1).
 var BancoEquipos = {
- "version": "EQ-COMUN 2026-10-21 v3 + EQ-OQ-COM 2026-10-21 v2 + EQ-PQ-COM 2026-10-21 v2 + EQ-IQ-AU 2026-10-07 v1 + EQ-IQ-TD 2026-10-07 v1 + EQ-IQ-LI 2026-10-07 v1 + EQ-IQ-RC 2026-10-21 v2 + EQ-IQ-VA 2026-10-21 v2 + EQ-IQ-LL 2026-10-29 v3 + EQ-OQ-LL 2026-10-29 v2 + EQ-OQ-LT 2026-10-29 v2 + EQ-PQ-LL 2026-10-29 v2 + EQ-PQ-LT 2026-10-29 v3 + EQ-IQ-LF 2026-10-07 v1 + EQ-IQ-TB 2026-10-08 v1 + EQ-IQ-EN 2026-10-08 v1 + EQ-IQ-GR 2026-10-08 v1 + EQ-IQ-RB 2026-10-09 v1 + EQ-IQ-BL 2026-10-09 v1 + EQ-IQ-DM 2026-10-11 v1 + EQ-IQ-ET 2026-10-11 v1 + EQ-IQ-MZ 2026-10-11 v1 + EQ-IQ-HO 2026-10-11 v1 + EQ-IQ-UC 2026-10-21 v2 + EQ-OQ-RC 2026-10-07 v1 + EQ-PQ-RC 2026-10-07 v1 + EQ-OQ-UC 2026-10-12 v1 + EQ-PQ-UC 2026-10-12 v1 + EQ-OQ-TB 2026-10-08 v1 + EQ-PQ-TB 2026-10-08 v1 + EQ-OQ-EN 2026-10-08 v1 + EQ-PQ-EN 2026-10-08 v1 + EQ-OQ-GR 2026-10-08 v1 + EQ-PQ-GR 2026-10-08 v1 + EQ-OQ-RB 2026-10-09 v1 + EQ-PQ-RB 2026-10-09 v1 + EQ-OQ-BL 2026-10-09 v1 + EQ-PQ-BL 2026-10-09 v1 + EQ-OQ-DM 2026-10-11 v1 + EQ-PQ-DM 2026-10-11 v1 + EQ-OQ-ET 2026-10-11 v1 + EQ-PQ-ET 2026-10-11 v1 + EQ-OQ-LF 2026-10-21 v3 + EQ-OQ-AU 2026-10-21 v3 + EQ-OQ-MZ 2026-10-21 v3 + EQ-OQ-HO 2026-10-21 v2 + EQ-PQ-LF 2026-10-21 v3 + EQ-PQ-AU 2026-10-21 v3 + EQ-PQ-MZ 2026-10-21 v3 + EQ-PQ-HO 2026-10-21 v2 + EQ-PQ-VA 2026-10-21 v2 + EQ-OQ-VA 2026-10-21 v2 + EQ-OQ-RF 2026-10-14 v1 + EQ-PQ-RF 2026-10-14 v1 + EQ-OQ-CG 2026-10-14 v1 + EQ-PQ-CG 2026-10-14 v1 + EQ-OQ-BA 2026-10-22 v1",
+ "version": "EQ-COMUN 2026-10-21 v3 + EQ-OQ-COM 2026-10-21 v2 + EQ-PQ-COM 2026-10-21 v2 + EQ-IQ-AU 2026-10-07 v1 + EQ-IQ-TD 2026-10-07 v1 + EQ-IQ-LI 2026-10-07 v1 + EQ-IQ-RC 2026-10-21 v2 + EQ-IQ-VA 2026-10-21 v2 + EQ-IQ-LL 2026-10-29 v3 + EQ-OQ-LL 2026-10-29 v2 + EQ-OQ-LT 2026-10-29 v2 + EQ-PQ-LL 2026-10-29 v2 + EQ-PQ-LT 2026-10-29 v4 + EQ-IQ-LF 2026-10-07 v1 + EQ-IQ-TB 2026-10-08 v1 + EQ-IQ-EN 2026-10-08 v1 + EQ-IQ-GR 2026-10-08 v1 + EQ-IQ-RB 2026-10-09 v1 + EQ-IQ-BL 2026-10-09 v1 + EQ-IQ-DM 2026-10-11 v1 + EQ-IQ-ET 2026-10-11 v1 + EQ-IQ-MZ 2026-10-11 v1 + EQ-IQ-HO 2026-10-11 v1 + EQ-IQ-UC 2026-10-21 v2 + EQ-OQ-RC 2026-10-07 v1 + EQ-PQ-RC 2026-10-07 v1 + EQ-OQ-UC 2026-10-12 v1 + EQ-PQ-UC 2026-10-12 v1 + EQ-OQ-TB 2026-10-08 v1 + EQ-PQ-TB 2026-10-08 v1 + EQ-OQ-EN 2026-10-08 v1 + EQ-PQ-EN 2026-10-08 v1 + EQ-OQ-GR 2026-10-08 v1 + EQ-PQ-GR 2026-10-08 v1 + EQ-OQ-RB 2026-10-09 v1 + EQ-PQ-RB 2026-10-09 v1 + EQ-OQ-BL 2026-10-09 v1 + EQ-PQ-BL 2026-10-09 v1 + EQ-OQ-DM 2026-10-11 v1 + EQ-PQ-DM 2026-10-11 v1 + EQ-OQ-ET 2026-10-11 v1 + EQ-PQ-ET 2026-10-11 v1 + EQ-OQ-LF 2026-10-21 v3 + EQ-OQ-AU 2026-10-21 v3 + EQ-OQ-MZ 2026-10-21 v3 + EQ-OQ-HO 2026-10-21 v2 + EQ-PQ-LF 2026-10-21 v3 + EQ-PQ-AU 2026-10-21 v3 + EQ-PQ-MZ 2026-10-21 v3 + EQ-PQ-HO 2026-10-21 v2 + EQ-PQ-VA 2026-10-21 v2 + EQ-OQ-VA 2026-10-21 v2 + EQ-OQ-RF 2026-10-14 v1 + EQ-PQ-RF 2026-10-14 v1 + EQ-OQ-CG 2026-10-14 v1 + EQ-PQ-CG 2026-10-14 v1 + EQ-OQ-BA 2026-10-22 v1",
  "fases": {
   "DQ": [],
   "IQ": [
@@ -21884,6 +21884,148 @@ var BancoEquipos = {
     "familia": "llenadora-tubos"
    },
    {
+    "kind": "ensayo",
+    "id": "EQ-PQ-LT-033",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-LT-033 — Control de cambios del equipo, formato y proceso",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que todo cambio del equipo, formato, proceso, software o proveedor ocurrido durante el PQ fue evaluado, aprobado e implementado bajo control de cambios."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Listar los cambios ejecutados o pendientes desde la IQ/OQ hasta el PQ<br>\n  2) Verificar el registro de control de cambios: descripción, justificación, evaluación de riesgo e impacto en la validación<br>\n  3) Verificar la aprobación por las áreas responsables antes de la implementación<br>\n  4) Verificar la actualización de documentos, planos, recetas y capacitación<br>\n  5) Confirmar que no existen cambios implementados sin control<br>\n  6) Anexar la lista de cambios y su cierre"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>No aplica: verificación documental por atributo (controlado/no controlado, 100 % de los cambios); sin inferencia estadística."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  El 100 % de los cambios está bajo control de cambios y aprobado antes de implementarse.<br>\n  La evaluación de impacto y la actualización documental están completas.<br>\n  No existen cambios sin control."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Lista de cambios con su registro y cierre<br>\n  - Evaluaciones de impacto y aprobaciones"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>ICH Q10; EU GMP Anexo 15; procedimiento interno de control de cambios."
+     }
+    ],
+    "tabla": null,
+    "familia": "llenadora-tubos"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-LT-034",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-LT-034 — Si aplica: hold time del tubo llenado antes de empaque",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que el tiempo de espera del tubo llenado y sellado antes del empaque no altera el peso, el sello, el contenido ni el código; si el proceso no contempla espera, declarar No Aplica con justificación firmada."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Confirmar si el proceso contempla un tiempo de espera antes del empaque; si no, pasar al paso 7)<br>\n  2) Definir los tiempos de espera a evaluar (cero, máximo aprobado y un punto intermedio) y las condiciones de almacenamiento<br>\n  3) Tomar un mínimo de 10 tubos por tiempo y medir peso, sello, contenido y código<br>\n  4) Comparar cada tiempo contra el tiempo cero y contra la especificación<br>\n  5) Evaluar la tendencia de peso, sello y contenido contra el tiempo<br>\n  6) Procesar los datos crudos de hold time en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo<br>\n  7) Si no aplica: redactar la justificación de No Aplica con firma del ejecutor y del revisor"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = peso neto (g), resultado de sello (pasa/falla), contenido (unidad del método) y código (pasa/falla) por tiempo; tamaño de muestra = mínimo 10 tubos por tiempo y al menos 3 tiempos; estadísticos = media, desviación estándar y RSD por tiempo, y regresión de peso, sello y contenido contra el tiempo; criterio = cada tiempo dentro de la especificación y sin tendencia fuera de tolerancia; sin ANOVA; valores atípicos con investigación documentada."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Todos los tiempos evaluados cumplen peso, sello, contenido y código.<br>\n  No existe tendencia fuera de tolerancia durante el tiempo máximo aprobado.<br>\n  O bien, No Aplica justificado y firmado."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de tiempos, condiciones y resultados con data cruda<br>\n  - Data cruda y reporte estadístico del hold time<br>\n  - Justificación de No Aplica, si corresponde"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Especificación del producto; URS aprobada; protocolo de hold time."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "llenadora-tubos"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-LT-035",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-LT-035 — Integridad del sello tras manejo y transporte",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que el sello conserva su integridad después del manejo interno y de la simulación de transporte."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Tomar tubos conformes de la corrida del PQ y registrar su integridad inicial<br>\n  2) Ejecutar la simulación de manejo y transporte según el protocolo aprobado (caída, vibración o compresión)<br>\n  3) Repetir la prueba de integridad y resistencia del sello después de la simulación<br>\n  4) Comparar antes y después y registrar cualquier falla<br>\n  5) Evaluar la proporción de fallas y su causa<br>\n  6) Procesar los datos crudos de integridad antes y después en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = resistencia del sello (N o unidad del método) y resultado de integridad (pasa/falla) antes y después del manejo; tamaño de muestra = mínimo 10 tubos por condición; estadísticos = media, mínimo y proporción de fallas antes y después; criterio = el 100 % de los tubos íntegros después del manejo y sin diferencia fuera del límite aprobado; sin ANOVA; resultados anómalos con investigación documentada."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  El 100 % de los tubos conserva la integridad del sello después del manejo y transporte simulado.<br>\n  No existe diferencia fuera del límite aprobado respecto de la condición inicial.<br>\n  Toda falla tiene investigación y disposición documentada."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de integridad antes y después con data cruda<br>\n  - Data cruda y reporte estadístico del manejo y transporte"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Protocolo de simulación de manejo/transporte (ASTM D4169 o ISTA, si aplica); especificación del producto; método de sello validado."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "llenadora-tubos"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-LT-036",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-LT-036 — Si aplica: límites de limpieza (MACO/HBEL)",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que los límites de limpieza para multiproducto se calcularon con enfoque de salud (MACO/HBEL) y que la limpieza validada los cumple; si el equipo es dedicado, declarar No Aplica con justificación firmada."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Confirmar si el equipo es multiproducto; si es dedicado, pasar al paso 6)<br>\n  2) Identificar el producto de peor caso y calcular el MACO/HBEL según la guía aplicable<br>\n  3) Definir los límites de residuo, detergente y carga microbiana para las superficies en contacto<br>\n  4) Verificar que la limpieza validada cumple esos límites<br>\n  5) Revisar la recuperación analítica y el método de muestreo<br>\n  6) Si no aplica: redactar la justificación de No Aplica con firma del ejecutor y del revisor"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>No aplica: cálculo documentado de MACO/HBEL y verificación contra los límites de limpieza validados, o No Aplica justificado; sin inferencia estadística."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  El MACO/HBEL está calculado y aprobado.<br>\n  La limpieza validada cumple los límites de residuo, detergente y micro.<br>\n  O bien, No Aplica justificado y firmado."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Cálculo de MACO/HBEL con la guía aplicable<br>\n  - Resultados de limpieza validada contra los límites<br>\n  - Justificación de No Aplica, si corresponde"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Guía de límites basados en salud (HBEL); procedimiento de limpieza validado; EU GMP Anexo 15."
+     }
+    ],
+    "tabla": null,
+    "familia": "llenadora-tubos"
+   },
+   {
     "kind": "resumen",
     "id": "EQ-PQ-LT-RES",
     "bloque": 4,
@@ -21896,11 +22038,11 @@ var BancoEquipos = {
      },
      {
       "et": "Procedimiento",
-      "html": "<strong>Procedimiento:</strong><br>\n  1) Confirmar que los ensayos EQ-PQ-LT-001 a EQ-PQ-LT-032 están incluidos en el índice del protocolo"
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Confirmar que los ensayos EQ-PQ-LT-001 a EQ-PQ-LT-036 están incluidos en el índice del protocolo"
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Los 32 ensayos aparecen en la tabla resumen con su veredicto."
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Los 36 ensayos aparecen en la tabla resumen con su veredicto."
      },
      {
       "et": "Referencia",
@@ -21973,6 +22115,16 @@ var BancoEquipos = {
        "6.10",
        "Protocolo interno de validación del método de sello y procedimiento de capacitación",
        "VIGENTE"
+      ],
+      [
+       "6.11",
+       "ICH Q10 — Sistema de calidad farmacéutico: control de cambios y verificación continua",
+       "VIGENTE"
+      ],
+      [
+       "6.12",
+       "Guía HBEL y protocolo de simulación de manejo/transporte (ASTM D4169 o ISTA, si aplica)",
+       "VIGENTE"
       ]
      ]
     },
@@ -21982,7 +22134,7 @@ var BancoEquipos = {
     "kind": "div",
     "clase": "anexos",
     "bloque": 8,
-    "html": "<p><strong>ANEXOS:</strong></p>\n<table>\n<tbody><tr><th>SECCIÓN</th><th>TÍTULO</th></tr>\n<tr><td>8.1</td><td>Anexo A — Registros crudos y reportes estadísticos (tres lotes, velocidades, peor caso, deriva, peso, uniformidad, capacidad, atributos, homogeneidad, volumen, sello, permanencia, formatos y conciliación)</td></tr>\n<tr><td>8.2</td><td>Anexo B — Reportes analíticos (contenido, valoración, integridad, bioburden) y certificados de calibración</td></tr>\n<tr><td>8.3</td><td>Anexo C — Análisis de riesgo del número de lotes, definición del peor caso, cartas de control y balances de masa</td></tr>\n</tbody></table>\n<p><strong>LÍMITES Y CRITERIOS (RESUMEN):</strong></p>\n<p>- 3 lotes consecutivos; Cpk ≥ 1,33 en peso, sello y contenido; n mínimo 10; 100 % de integridad del sello en la muestra y en los límites bajo/alto.</p>\n<p>- Peso, contenido, resistencia del sello, torque y oxígeno residual: definir en URS y especificación del producto (pendiente del responsable).</p>\n<p>- 100 % de rechazo de tubos vacíos, sin sello, sin código o mal posicionados.</p>\n<p>- Desafío de sello en límites y peor caso: 100 % íntegro y ventana operativa documentada.</p>\n<p>- Despeje de línea: 100 % de los puntos conforme y revisión por segunda persona.</p>\n<p><strong>PLAN DE MUESTREO (RESUMEN):</strong></p>\n<p>- 001–004: n≥10 por lote, velocidad o muestreo.</p>\n<p>- 005 y 009: n según especificación del producto.</p>\n<p>- 006 y 013: n≥10 por boquilla o estación.</p>\n<p>- 007: n≥50 por atributo (peso, sello, contenido) y condición.</p>\n<p>- 008, 017, 019, 023 y 027: n≥10.</p>\n<p>- 010 y 024: n≥30.</p>\n<p>- 012: n según protocolo y estaciones.</p>\n<p>- 029: n≥10 por nivel; 030: n≥10 por formato y lote.</p>\n<p>- 011, 014, 015, 016, 018, 021, 022, 025, 026, 028, 031 y 032: 100 unidades o 100 % de los puntos; si se usa muestreo estadístico, justificar con ISO 2859-1.</p>",
+    "html": "<p><strong>ANEXOS:</strong></p>\n<table>\n<tbody><tr><th>SECCIÓN</th><th>TÍTULO</th></tr>\n<tr><td>8.1</td><td>Anexo A — Registros crudos y reportes estadísticos (tres lotes, velocidades, peor caso, deriva, peso, uniformidad, capacidad, atributos, homogeneidad, volumen, sello, permanencia, formatos y conciliación)</td></tr>\n<tr><td>8.2</td><td>Anexo B — Reportes analíticos (contenido, valoración, integridad, bioburden) y certificados de calibración</td></tr>\n<tr><td>8.3</td><td>Anexo C — Análisis de riesgo del número de lotes, definición del peor caso, cartas de control y balances de masa</td></tr>\n</tbody></table>\n<p><strong>LÍMITES Y CRITERIOS (RESUMEN):</strong></p>\n<p>- 3 lotes consecutivos; Cpk ≥ 1,33 en peso, sello y contenido; n mínimo 10; 100 % de integridad del sello en la muestra y en los límites bajo/alto.</p>\n<p>- Peso, contenido, resistencia del sello, torque y oxígeno residual: definir en URS y especificación del producto (pendiente del responsable).</p>\n<p>- 100 % de rechazo de tubos vacíos, sin sello, sin código o mal posicionados.</p>\n<p>- Desafío de sello en límites y peor caso: 100 % íntegro y ventana operativa documentada.</p>\n<p>- Despeje de línea: 100 % de los puntos conforme y revisión por segunda persona.</p>\n<p><strong>PLAN DE MUESTREO (RESUMEN):</strong></p>\n<p>- 001–004: n≥10 por lote, velocidad o muestreo.</p>\n<p>- 005 y 009: n según especificación del producto.</p>\n<p>- 006 y 013: n≥10 por boquilla o estación.</p>\n<p>- 007: n≥50 por atributo (peso, sello, contenido) y condición.</p>\n<p>- 008, 017, 019, 023 y 027: n≥10.</p>\n<p>- 010 y 024: n≥30.</p>\n<p>- 012: n según protocolo y estaciones.</p>\n<p>- 029: n≥10 por nivel; 030: n≥10 por formato y lote.</p>\n<p>- 011, 014, 015, 016, 018, 021, 022, 025, 026, 028, 031 y 032: 100 unidades o 100 % de los puntos; si se usa muestreo estadístico, justificar con ISO 2859-1.</p>\n<p>- 033: 100 % de los cambios; 034: n≥10 por tiempo; 035: n≥10 por condición; 036: cálculo documentado de MACO/HBEL.</p>\n<p>- Hold time del tubo: definir el tiempo máximo en URS; integridad tras manejo: 100 %; MACO/HBEL: aprobado y cumplido.</p>",
     "familia": "llenadora-tubos"
    },
    {
