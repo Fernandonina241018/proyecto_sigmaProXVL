@@ -90,6 +90,35 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (SigmaProXVL) con spr
 
 ## CAMBIOS RECIENTES
 
+### 2026-10-29 (46): PQ de llenadora y selladora de tubos — 26 ensayos
+
+**Qué:** Se montó el PQ de la llenadora y selladora de tubos a partir de la propuesta del `ENSAYOS.txt` (modificado 20:02). Con esto la entidad ya tiene IQ común, OQ y PQ generables.
+
+- **Banco PQ (`EQ-PQ-LT 2026-10-29 v1`):** 26 ensayos `EQ-PQ-LT-001…026` + portada, firmas, responsabilidades, alcance, `RES`, `REF` y anexos.
+- **17 con análisis estadístico:** 001–010, 012, 013, 017, 019, 020, 023 y 024 (tres lotes, velocidades, peor caso, deriva, peso, uniformidad, Cpk, atributos, homogeneidad, aire/volumen, sello, permanencia en tolva, formatos, conciliación, torque y nitrógeno).
+- **9 por atributo:** 011 (contaminación del sello), 014 (decoración), 015 (código), 016 (rechazo), 018 (reinicio), 021 (registros), 022 (plegado), 025 (limpieza) y 026 (bioburden), con plan “No aplica” justificado.
+- **5 condicionales “Si aplica”:** 022–026, con regla de No Aplica justificado.
+- **Criterios:** atados a URS y especificación del producto; valores conocidos (3 lotes, Cpk ≥ 1,33, n≥10, 100 % de integridad/rechazo) y pendientes del responsable donde depende del producto.
+
+**Archivos afectados:**
+| Archivo | Cambio |
+|---------|--------|
+| `docs/banco-ensayos/equipos/pq-llenadora-tubos.html` | **Nuevo**: 670 líneas, 26 ensayos + RES + REF + anexos |
+| `docs/banco-ensayos/equipos/llenadora-tubos.html` | PQ real (común + familia) |
+| `scripts/extraer-banco.mjs` | Fuente `pq-llenadora-tubos.html` |
+| `tests/bancos-contrato.test.js` | Contrato `PQ llenadora-tubos = 26` |
+| `tests/plantilla-equipos.test.js` | Regresión de generación (28 IDs, 27 ensayos con el común) |
+| `js/core/banco-equipos-data.js` | Regenerado: 883 → 911 artículos |
+
+**Verificación:**
+```
+node scripts/extraer-banco.mjs equipos --estricto  → OK, 911 artículos, IDs únicos
+npm test                                           → 47 archivos, 620 tests OK
+17 ensayos con análisis: plan, data cruda y entregable completos
+```
+
+**Pendiente:** revisión de Calidad/Validación y completar los valores de URS/producto en la tabla de límites.
+
 ### 2026-10-29 (45): P0 regulatorio — addendum estéril, No Aplica, integridad de datos y límites
 
 **Qué:** Se ejecutó el P0 de mejora sobre los cuatro protocolos nuevos: IQ/OQ/PQ de llenadora de líquidos y OQ de llenadora de tubos.

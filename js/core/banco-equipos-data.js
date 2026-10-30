@@ -1,7 +1,7 @@
 // Generado por scripts/extraer-banco.mjs equipos — NO EDITAR A MANO.
-// Fuente: docs/banco-ensayos/equipos-comun.html + docs/banco-ensayos/equipos/oq-comun.html + docs/banco-ensayos/equipos/pq-comun.html + docs/banco-ensayos/equipos/iq-autoclave.html + docs/banco-ensayos/equipos/iq-tunel-despirogenizacion.html + docs/banco-ensayos/equipos/iq-liofilizador.html + docs/banco-ensayos/equipos/iq-reactor.html + docs/banco-ensayos/equipos/iq-horno-vacio.html + docs/banco-ensayos/equipos/iq-llenadora.html + docs/banco-ensayos/equipos/oq-llenadora.html + docs/banco-ensayos/equipos/oq-llenadora-tubos.html + docs/banco-ensayos/equipos/pq-llenadora.html + docs/banco-ensayos/equipos/iq-lecho-fluido.html + docs/banco-ensayos/equipos/iq-tableteadora.html + docs/banco-ensayos/equipos/iq-encapsuladora.html + docs/banco-ensayos/equipos/iq-granulador.html + docs/banco-ensayos/equipos/iq-recubridora.html + docs/banco-ensayos/equipos/iq-blistera.html + docs/banco-ensayos/equipos/iq-detector-metales.html + docs/banco-ensayos/equipos/iq-etiquetadora.html + docs/banco-ensayos/equipos/iq-mezclador.html + docs/banco-ensayos/equipos/iq-horno-secado.html + docs/banco-ensayos/equipos/iq-sistema-cremas-vacio.html + docs/banco-ensayos/equipos/oq-reactor.html + docs/banco-ensayos/equipos/pq-reactor.html + docs/banco-ensayos/equipos/oq-sistema-cremas-vacio.html + docs/banco-ensayos/equipos/pq-sistema-cremas-vacio.html + docs/banco-ensayos/equipos/oq-tableteadora.html + docs/banco-ensayos/equipos/pq-tableteadora.html + docs/banco-ensayos/equipos/oq-encapsuladora.html + docs/banco-ensayos/equipos/pq-encapsuladora.html + docs/banco-ensayos/equipos/oq-granulador.html + docs/banco-ensayos/equipos/pq-granulador.html + docs/banco-ensayos/equipos/oq-recubridora.html + docs/banco-ensayos/equipos/pq-recubridora.html + docs/banco-ensayos/equipos/oq-blistera.html + docs/banco-ensayos/equipos/pq-blistera.html + docs/banco-ensayos/equipos/oq-detector-metales.html + docs/banco-ensayos/equipos/pq-detector-metales.html + docs/banco-ensayos/equipos/oq-etiquetadora.html + docs/banco-ensayos/equipos/pq-etiquetadora.html + docs/banco-ensayos/equipos/oq-lecho-fluido.html + docs/banco-ensayos/equipos/oq-autoclave.html + docs/banco-ensayos/equipos/oq-mezclador.html + docs/banco-ensayos/equipos/oq-horno.html + docs/banco-ensayos/equipos/pq-lecho-fluido.html + docs/banco-ensayos/equipos/pq-autoclave.html + docs/banco-ensayos/equipos/pq-mezclador.html + docs/banco-ensayos/equipos/pq-horno.html + docs/banco-ensayos/equipos/pq-horno-vacio.html + docs/banco-ensayos/equipos/oq-horno-vacio.html + docs/banco-ensayos/equipos/oq-refrigerador-lab.html + docs/banco-ensayos/equipos/pq-refrigerador-lab.html + docs/banco-ensayos/equipos/oq-congelador-lab.html + docs/banco-ensayos/equipos/pq-congelador-lab.html + docs/banco-ensayos/equipos/oq-balanza.html (versión: EQ-COMUN 2026-10-21 v3 + EQ-OQ-COM 2026-10-21 v2 + EQ-PQ-COM 2026-10-21 v2 + EQ-IQ-AU 2026-10-07 v1 + EQ-IQ-TD 2026-10-07 v1 + EQ-IQ-LI 2026-10-07 v1 + EQ-IQ-RC 2026-10-21 v2 + EQ-IQ-VA 2026-10-21 v2 + EQ-IQ-LL 2026-10-29 v3 + EQ-OQ-LL 2026-10-29 v2 + EQ-OQ-LT 2026-10-29 v2 + EQ-PQ-LL 2026-10-29 v2 + EQ-IQ-LF 2026-10-07 v1 + EQ-IQ-TB 2026-10-08 v1 + EQ-IQ-EN 2026-10-08 v1 + EQ-IQ-GR 2026-10-08 v1 + EQ-IQ-RB 2026-10-09 v1 + EQ-IQ-BL 2026-10-09 v1 + EQ-IQ-DM 2026-10-11 v1 + EQ-IQ-ET 2026-10-11 v1 + EQ-IQ-MZ 2026-10-11 v1 + EQ-IQ-HO 2026-10-11 v1 + EQ-IQ-UC 2026-10-21 v2 + EQ-OQ-RC 2026-10-07 v1 + EQ-PQ-RC 2026-10-07 v1 + EQ-OQ-UC 2026-10-12 v1 + EQ-PQ-UC 2026-10-12 v1 + EQ-OQ-TB 2026-10-08 v1 + EQ-PQ-TB 2026-10-08 v1 + EQ-OQ-EN 2026-10-08 v1 + EQ-PQ-EN 2026-10-08 v1 + EQ-OQ-GR 2026-10-08 v1 + EQ-PQ-GR 2026-10-08 v1 + EQ-OQ-RB 2026-10-09 v1 + EQ-PQ-RB 2026-10-09 v1 + EQ-OQ-BL 2026-10-09 v1 + EQ-PQ-BL 2026-10-09 v1 + EQ-OQ-DM 2026-10-11 v1 + EQ-PQ-DM 2026-10-11 v1 + EQ-OQ-ET 2026-10-11 v1 + EQ-PQ-ET 2026-10-11 v1 + EQ-OQ-LF 2026-10-21 v3 + EQ-OQ-AU 2026-10-21 v3 + EQ-OQ-MZ 2026-10-21 v3 + EQ-OQ-HO 2026-10-21 v2 + EQ-PQ-LF 2026-10-21 v3 + EQ-PQ-AU 2026-10-21 v3 + EQ-PQ-MZ 2026-10-21 v3 + EQ-PQ-HO 2026-10-21 v2 + EQ-PQ-VA 2026-10-21 v2 + EQ-OQ-VA 2026-10-21 v2 + EQ-OQ-RF 2026-10-14 v1 + EQ-PQ-RF 2026-10-14 v1 + EQ-OQ-CG 2026-10-14 v1 + EQ-PQ-CG 2026-10-14 v1 + EQ-OQ-BA 2026-10-22 v1).
+// Fuente: docs/banco-ensayos/equipos-comun.html + docs/banco-ensayos/equipos/oq-comun.html + docs/banco-ensayos/equipos/pq-comun.html + docs/banco-ensayos/equipos/iq-autoclave.html + docs/banco-ensayos/equipos/iq-tunel-despirogenizacion.html + docs/banco-ensayos/equipos/iq-liofilizador.html + docs/banco-ensayos/equipos/iq-reactor.html + docs/banco-ensayos/equipos/iq-horno-vacio.html + docs/banco-ensayos/equipos/iq-llenadora.html + docs/banco-ensayos/equipos/oq-llenadora.html + docs/banco-ensayos/equipos/oq-llenadora-tubos.html + docs/banco-ensayos/equipos/pq-llenadora.html + docs/banco-ensayos/equipos/pq-llenadora-tubos.html + docs/banco-ensayos/equipos/iq-lecho-fluido.html + docs/banco-ensayos/equipos/iq-tableteadora.html + docs/banco-ensayos/equipos/iq-encapsuladora.html + docs/banco-ensayos/equipos/iq-granulador.html + docs/banco-ensayos/equipos/iq-recubridora.html + docs/banco-ensayos/equipos/iq-blistera.html + docs/banco-ensayos/equipos/iq-detector-metales.html + docs/banco-ensayos/equipos/iq-etiquetadora.html + docs/banco-ensayos/equipos/iq-mezclador.html + docs/banco-ensayos/equipos/iq-horno-secado.html + docs/banco-ensayos/equipos/iq-sistema-cremas-vacio.html + docs/banco-ensayos/equipos/oq-reactor.html + docs/banco-ensayos/equipos/pq-reactor.html + docs/banco-ensayos/equipos/oq-sistema-cremas-vacio.html + docs/banco-ensayos/equipos/pq-sistema-cremas-vacio.html + docs/banco-ensayos/equipos/oq-tableteadora.html + docs/banco-ensayos/equipos/pq-tableteadora.html + docs/banco-ensayos/equipos/oq-encapsuladora.html + docs/banco-ensayos/equipos/pq-encapsuladora.html + docs/banco-ensayos/equipos/oq-granulador.html + docs/banco-ensayos/equipos/pq-granulador.html + docs/banco-ensayos/equipos/oq-recubridora.html + docs/banco-ensayos/equipos/pq-recubridora.html + docs/banco-ensayos/equipos/oq-blistera.html + docs/banco-ensayos/equipos/pq-blistera.html + docs/banco-ensayos/equipos/oq-detector-metales.html + docs/banco-ensayos/equipos/pq-detector-metales.html + docs/banco-ensayos/equipos/oq-etiquetadora.html + docs/banco-ensayos/equipos/pq-etiquetadora.html + docs/banco-ensayos/equipos/oq-lecho-fluido.html + docs/banco-ensayos/equipos/oq-autoclave.html + docs/banco-ensayos/equipos/oq-mezclador.html + docs/banco-ensayos/equipos/oq-horno.html + docs/banco-ensayos/equipos/pq-lecho-fluido.html + docs/banco-ensayos/equipos/pq-autoclave.html + docs/banco-ensayos/equipos/pq-mezclador.html + docs/banco-ensayos/equipos/pq-horno.html + docs/banco-ensayos/equipos/pq-horno-vacio.html + docs/banco-ensayos/equipos/oq-horno-vacio.html + docs/banco-ensayos/equipos/oq-refrigerador-lab.html + docs/banco-ensayos/equipos/pq-refrigerador-lab.html + docs/banco-ensayos/equipos/oq-congelador-lab.html + docs/banco-ensayos/equipos/pq-congelador-lab.html + docs/banco-ensayos/equipos/oq-balanza.html (versión: EQ-COMUN 2026-10-21 v3 + EQ-OQ-COM 2026-10-21 v2 + EQ-PQ-COM 2026-10-21 v2 + EQ-IQ-AU 2026-10-07 v1 + EQ-IQ-TD 2026-10-07 v1 + EQ-IQ-LI 2026-10-07 v1 + EQ-IQ-RC 2026-10-21 v2 + EQ-IQ-VA 2026-10-21 v2 + EQ-IQ-LL 2026-10-29 v3 + EQ-OQ-LL 2026-10-29 v2 + EQ-OQ-LT 2026-10-29 v2 + EQ-PQ-LL 2026-10-29 v2 + EQ-PQ-LT 2026-10-29 v1 + EQ-IQ-LF 2026-10-07 v1 + EQ-IQ-TB 2026-10-08 v1 + EQ-IQ-EN 2026-10-08 v1 + EQ-IQ-GR 2026-10-08 v1 + EQ-IQ-RB 2026-10-09 v1 + EQ-IQ-BL 2026-10-09 v1 + EQ-IQ-DM 2026-10-11 v1 + EQ-IQ-ET 2026-10-11 v1 + EQ-IQ-MZ 2026-10-11 v1 + EQ-IQ-HO 2026-10-11 v1 + EQ-IQ-UC 2026-10-21 v2 + EQ-OQ-RC 2026-10-07 v1 + EQ-PQ-RC 2026-10-07 v1 + EQ-OQ-UC 2026-10-12 v1 + EQ-PQ-UC 2026-10-12 v1 + EQ-OQ-TB 2026-10-08 v1 + EQ-PQ-TB 2026-10-08 v1 + EQ-OQ-EN 2026-10-08 v1 + EQ-PQ-EN 2026-10-08 v1 + EQ-OQ-GR 2026-10-08 v1 + EQ-PQ-GR 2026-10-08 v1 + EQ-OQ-RB 2026-10-09 v1 + EQ-PQ-RB 2026-10-09 v1 + EQ-OQ-BL 2026-10-09 v1 + EQ-PQ-BL 2026-10-09 v1 + EQ-OQ-DM 2026-10-11 v1 + EQ-PQ-DM 2026-10-11 v1 + EQ-OQ-ET 2026-10-11 v1 + EQ-PQ-ET 2026-10-11 v1 + EQ-OQ-LF 2026-10-21 v3 + EQ-OQ-AU 2026-10-21 v3 + EQ-OQ-MZ 2026-10-21 v3 + EQ-OQ-HO 2026-10-21 v2 + EQ-PQ-LF 2026-10-21 v3 + EQ-PQ-AU 2026-10-21 v3 + EQ-PQ-MZ 2026-10-21 v3 + EQ-PQ-HO 2026-10-21 v2 + EQ-PQ-VA 2026-10-21 v2 + EQ-OQ-VA 2026-10-21 v2 + EQ-OQ-RF 2026-10-14 v1 + EQ-PQ-RF 2026-10-14 v1 + EQ-OQ-CG 2026-10-14 v1 + EQ-PQ-CG 2026-10-14 v1 + EQ-OQ-BA 2026-10-22 v1).
 var BancoEquipos = {
- "version": "EQ-COMUN 2026-10-21 v3 + EQ-OQ-COM 2026-10-21 v2 + EQ-PQ-COM 2026-10-21 v2 + EQ-IQ-AU 2026-10-07 v1 + EQ-IQ-TD 2026-10-07 v1 + EQ-IQ-LI 2026-10-07 v1 + EQ-IQ-RC 2026-10-21 v2 + EQ-IQ-VA 2026-10-21 v2 + EQ-IQ-LL 2026-10-29 v3 + EQ-OQ-LL 2026-10-29 v2 + EQ-OQ-LT 2026-10-29 v2 + EQ-PQ-LL 2026-10-29 v2 + EQ-IQ-LF 2026-10-07 v1 + EQ-IQ-TB 2026-10-08 v1 + EQ-IQ-EN 2026-10-08 v1 + EQ-IQ-GR 2026-10-08 v1 + EQ-IQ-RB 2026-10-09 v1 + EQ-IQ-BL 2026-10-09 v1 + EQ-IQ-DM 2026-10-11 v1 + EQ-IQ-ET 2026-10-11 v1 + EQ-IQ-MZ 2026-10-11 v1 + EQ-IQ-HO 2026-10-11 v1 + EQ-IQ-UC 2026-10-21 v2 + EQ-OQ-RC 2026-10-07 v1 + EQ-PQ-RC 2026-10-07 v1 + EQ-OQ-UC 2026-10-12 v1 + EQ-PQ-UC 2026-10-12 v1 + EQ-OQ-TB 2026-10-08 v1 + EQ-PQ-TB 2026-10-08 v1 + EQ-OQ-EN 2026-10-08 v1 + EQ-PQ-EN 2026-10-08 v1 + EQ-OQ-GR 2026-10-08 v1 + EQ-PQ-GR 2026-10-08 v1 + EQ-OQ-RB 2026-10-09 v1 + EQ-PQ-RB 2026-10-09 v1 + EQ-OQ-BL 2026-10-09 v1 + EQ-PQ-BL 2026-10-09 v1 + EQ-OQ-DM 2026-10-11 v1 + EQ-PQ-DM 2026-10-11 v1 + EQ-OQ-ET 2026-10-11 v1 + EQ-PQ-ET 2026-10-11 v1 + EQ-OQ-LF 2026-10-21 v3 + EQ-OQ-AU 2026-10-21 v3 + EQ-OQ-MZ 2026-10-21 v3 + EQ-OQ-HO 2026-10-21 v2 + EQ-PQ-LF 2026-10-21 v3 + EQ-PQ-AU 2026-10-21 v3 + EQ-PQ-MZ 2026-10-21 v3 + EQ-PQ-HO 2026-10-21 v2 + EQ-PQ-VA 2026-10-21 v2 + EQ-OQ-VA 2026-10-21 v2 + EQ-OQ-RF 2026-10-14 v1 + EQ-PQ-RF 2026-10-14 v1 + EQ-OQ-CG 2026-10-14 v1 + EQ-PQ-CG 2026-10-14 v1 + EQ-OQ-BA 2026-10-22 v1",
+ "version": "EQ-COMUN 2026-10-21 v3 + EQ-OQ-COM 2026-10-21 v2 + EQ-PQ-COM 2026-10-21 v2 + EQ-IQ-AU 2026-10-07 v1 + EQ-IQ-TD 2026-10-07 v1 + EQ-IQ-LI 2026-10-07 v1 + EQ-IQ-RC 2026-10-21 v2 + EQ-IQ-VA 2026-10-21 v2 + EQ-IQ-LL 2026-10-29 v3 + EQ-OQ-LL 2026-10-29 v2 + EQ-OQ-LT 2026-10-29 v2 + EQ-PQ-LL 2026-10-29 v2 + EQ-PQ-LT 2026-10-29 v1 + EQ-IQ-LF 2026-10-07 v1 + EQ-IQ-TB 2026-10-08 v1 + EQ-IQ-EN 2026-10-08 v1 + EQ-IQ-GR 2026-10-08 v1 + EQ-IQ-RB 2026-10-09 v1 + EQ-IQ-BL 2026-10-09 v1 + EQ-IQ-DM 2026-10-11 v1 + EQ-IQ-ET 2026-10-11 v1 + EQ-IQ-MZ 2026-10-11 v1 + EQ-IQ-HO 2026-10-11 v1 + EQ-IQ-UC 2026-10-21 v2 + EQ-OQ-RC 2026-10-07 v1 + EQ-PQ-RC 2026-10-07 v1 + EQ-OQ-UC 2026-10-12 v1 + EQ-PQ-UC 2026-10-12 v1 + EQ-OQ-TB 2026-10-08 v1 + EQ-PQ-TB 2026-10-08 v1 + EQ-OQ-EN 2026-10-08 v1 + EQ-PQ-EN 2026-10-08 v1 + EQ-OQ-GR 2026-10-08 v1 + EQ-PQ-GR 2026-10-08 v1 + EQ-OQ-RB 2026-10-09 v1 + EQ-PQ-RB 2026-10-09 v1 + EQ-OQ-BL 2026-10-09 v1 + EQ-PQ-BL 2026-10-09 v1 + EQ-OQ-DM 2026-10-11 v1 + EQ-PQ-DM 2026-10-11 v1 + EQ-OQ-ET 2026-10-11 v1 + EQ-PQ-ET 2026-10-11 v1 + EQ-OQ-LF 2026-10-21 v3 + EQ-OQ-AU 2026-10-21 v3 + EQ-OQ-MZ 2026-10-21 v3 + EQ-OQ-HO 2026-10-21 v2 + EQ-PQ-LF 2026-10-21 v3 + EQ-PQ-AU 2026-10-21 v3 + EQ-PQ-MZ 2026-10-21 v3 + EQ-PQ-HO 2026-10-21 v2 + EQ-PQ-VA 2026-10-21 v2 + EQ-OQ-VA 2026-10-21 v2 + EQ-OQ-RF 2026-10-14 v1 + EQ-PQ-RF 2026-10-14 v1 + EQ-OQ-CG 2026-10-14 v1 + EQ-PQ-CG 2026-10-14 v1 + EQ-OQ-BA 2026-10-22 v1",
  "fases": {
   "DQ": [],
   "IQ": [
@@ -20700,6 +20700,1067 @@ var BancoEquipos = {
     "bloque": 8,
     "html": "<p><strong>ANEXOS:</strong></p>\n<table>\n<tbody><tr><th>SECCIÓN</th><th>TÍTULO</th></tr>\n<tr><td>8.1</td><td>Anexo A — Registros crudos y reportes estadísticos (tres lotes, velocidades, peor caso, deriva, volumen, uniformidad, capacidad, atributos, formatos, conciliación, torque, hermeticidad y peso en línea)</td></tr>\n<tr><td>8.2</td><td>Anexo B — Reportes analíticos (volumen entregable, integridad, bioburden) y certificados de calibración</td></tr>\n<tr><td>8.3</td><td>Anexo C — Análisis de riesgo del número de lotes, definición del peor caso, cartas de control y balances de masa</td></tr>\n</tbody></table>\n<p><strong>LÍMITES Y CRITERIOS (RESUMEN):</strong></p>\n<p>- 3 lotes consecutivos; Cpk ≥ 1,33; n mínimo 10; 100 % de rechazo de subllenados y sobrellenados; 100 % de integridad en la muestra.</p>\n<p>- Media fill: 3 corridas consecutivas con cero unidades contaminadas; monitoreo ambiental dentro del Anexo 1.</p>\n<p>- Esterilidad, endotoxinas y partículas: definir en la especificación del producto; hold time máximo: definir en URS.</p>",
     "familia": "llenadora"
+   },
+   {
+    "kind": "div",
+    "clase": "portada",
+    "bloque": 1,
+    "html": "<p><strong>PORTADA DEL PROTOCOLO PQ</strong></p>\n<p><strong>Logo:</strong><br><img class=\"ent-logo\" alt=\"Logo de la entidad\"></p>\n<p><strong>Calificación de Desempeño de <span class=\"equipo\">equipo</span>:</strong> <span class=\"ent-descripcion\">______</span></p>\n<ol>\n  <li><strong>Marca:</strong> <span class=\"ent-marca\">______</span></li>\n  <li><strong>Modelo:</strong> <span class=\"ent-modelo\">______</span></li>\n  <li><strong>Código:</strong> <span class=\"ent-codigo\">______</span></li>\n</ol>",
+    "familia": "llenadora-tubos"
+   },
+   {
+    "kind": "div",
+    "clase": "firmas",
+    "bloque": 1,
+    "html": "<p><strong>FLUJO DE FIRMAS DEL PROTOCOLO:</strong></p>\n<p>Este apartado establece que los responsables revisan y aprueban el presente protocolo, declarando que está apto para su ejecución. Cualquier cambio posterior a la firma obliga a reiniciar el flujo de firmas, con el fin de garantizar que todos los departamentos involucrados estén al tanto de los ensayos a ejecutar.</p>\n<ol>\n  <li><strong>Elaborado Por:</strong> <br> Analista de validaciones — elabora / Nombre: ______ Firma: ______ Fecha: ______</li><br>\n  <li><strong>Revisado Por:</strong> <br> Coordinador de validaciones — revisa / Nombre: ______ Firma: ______ Fecha: ______</li><br>\n  <li><strong>Revisado Por:</strong> <br> Gerente de Área — revisa / Nombre: ______ Firma: ______ Fecha: ______</li><br>\n  <li><strong>Aprobado por:</strong> <br> Gerente de gestión de calidad — aprueba / Nombre: ______ Firma: ______ Fecha: ______</li><br>\n</ol>",
+    "familia": "llenadora-tubos"
+   },
+   {
+    "kind": "div",
+    "clase": "responsabilidades",
+    "bloque": 1,
+    "html": "<p><strong>RESPONSABILIDADES DEL PROTOCOLO:</strong></p>\n<p><strong>Responsabilidad del Analista de validaciones:</strong></p>\n<ol><li>Coordinar la ejecución de la Calificación de Desempeño con producción y control de calidad, asegurando personal, <span class=\"equipo\">equipo</span>, producto o placebo, instrumentos y documentación.</li><li>Verificar que los instrumentos de medición estén identificados y con calibración vigente durante todo el PQ.</li><li>Ejecutar y/o supervisar las corridas del protocolo según los criterios aprobados.</li><li>Registrar los datos de forma completa, legible y trazable (ALCOA+).</li><li>Documentar las desviaciones según los procedimientos internos vigentes.</li><li>Elaborar el informe de calificación con resultados, conclusiones y anexos.</li></ol>\n<p><strong>Responsabilidad del Coordinador de validaciones:</strong></p>\n<ol><li>Revisar técnicamente el protocolo antes de su ejecución.</li><li>Asignar al analista responsable y coordinar recursos con producción.</li><li>Revisar las desviaciones, su tratamiento y las CAPA asociadas.</li><li>Revisar el informe final y dictaminar el desempeño del equipo.</li></ol>\n<p><strong>Responsabilidad del Gerente de Área:</strong></p>\n<ol><li>Garantizar la disponibilidad del <span class=\"equipo\">equipo</span>, del producto o placebo y de los accesos para la ejecución.</li><li>Facilitar la documentación de proceso (BMR, especificaciones) y del fabricante.</li><li>Implementar las acciones operativas derivadas de desviaciones y CAPA.</li></ol>\n<p><strong>Responsabilidad del Gerente de gestión de calidad:</strong></p>\n<ol><li>Aprobar el protocolo y sus criterios de aceptación.</li><li>Aprobar las desviaciones y sus evaluaciones de impacto.</li><li>Emitir el dictamen final del estado de calificación.</li></ol>",
+    "familia": "llenadora-tubos"
+   },
+   {
+    "kind": "div",
+    "clase": "alcance",
+    "bloque": 1,
+    "html": "<p><strong>ALCANCE</strong></p>\n<p>Esta calificación aplica a <span class=\"equipo\">equipo</span>, según protocolo PQ, y cubre los ensayos listados en el índice.</p>",
+    "familia": "llenadora-tubos"
+   },
+   {
+    "kind": "div",
+    "clase": "def-usp",
+    "bloque": 1,
+    "html": "<p><strong>DEFINICIÓN USP</strong></p>\n<p>Calificación de Desempeño: colección documentada de las actividades necesarias para demostrar que un instrumento se desempeña de manera uniforme de acuerdo con las especificaciones definidas por el usuario y es apropiado para el uso previsto, en las condiciones reales de uso (<span class=\"refnorma\"></span>).</p>",
+    "familia": "llenadora-tubos"
+   },
+   {
+    "kind": "div",
+    "clase": "nota-datos",
+    "bloque": 1,
+    "html": "<p><strong>NOTA — DATOS DIGITALES</strong></p>\n<p>Si el equipo entrega datos digitales, se procesan directamente y se anexan la data cruda y el reporte estadístico como parte de la evidencia.</p>",
+    "familia": "llenadora-tubos"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-LT-001",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-LT-001 — Tres lotes consecutivos a velocidad nominal",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Demostrar que el <span class=\"equipo\">equipo</span> llena y sella con desempeño repetible en tres lotes consecutivos a velocidad nominal, con producto real o placebo calificado."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Aprobar el análisis de riesgo que justifica el número de lotes (mínimo tres consecutivos) y anexarlo al protocolo<br>\n  2) Definir el lote, el tamaño, el peso objetivo, el formato, la velocidad nominal y la receta de sellado según el BMR<br>\n  3) Ejecutar el lote 1 a velocidad nominal registrando presión, temperatura, nivel de tolva y viscosidad del producto<br>\n  4) Repetir en forma consecutiva los lotes 2 y 3 sin cambios al proceso ni al formato<br>\n  5) Tomar un mínimo de 10 tubos por lote, distribuidos al inicio, a la mitad y al final de la corrida<br>\n  6) Medir peso, sello y código en cada tubo muestreado<br>\n  7) Comparar los tres lotes entre sí y contra la especificación<br>\n  8) Procesar los datos crudos de peso, sello y código por lote en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = peso neto (g), integridad del sello (pasa/falla) y legibilidad del código (pasa/falla) por lote; tamaño de muestra = mínimo 10 tubos por lote y 3 lotes consecutivos; estadísticos = media, desviación estándar y RSD del peso por lote, y proporción de sellos y códigos conformes; criterio = cada lote dentro de la especificación del producto y sin diferencia entre lotes fuera del límite aprobado; sin ANOVA; valores atípicos = prueba de Grubbs con investigación documentada."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Tres lotes consecutivos conformes en peso, sello y código.<br>\n  No existe diferencia entre lotes fuera del límite aprobado ni tendencia entre ellos.<br>\n  La justificación por riesgo del número de lotes está anexada."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Análisis de riesgo que justifica el número de lotes<br>\n  - Registros de corrida y resultados por lote con data cruda y reporte<br>\n  - Data cruda y reporte estadístico de repetibilidad entre lotes"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>EU GMP Anexo 15 (tres lotes consecutivos salvo justificación); 21 CFR 211.100 y 211.110; BMR y especificación del producto."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "llenadora-tubos"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-LT-002",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-LT-002 — Velocidad mínima y máxima del rango declarado",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Demostrar que el llenado y el sellado se mantienen conformes en los extremos del rango de velocidad declarado."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Definir la velocidad mínima y máxima del rango declarado en la URS y registrarlas en el protocolo<br>\n  2) Ejecutar una corrida completa a velocidad mínima con el formato y peso nominales<br>\n  3) Ejecutar una corrida completa a velocidad máxima con el mismo formato y peso<br>\n  4) Tomar un mínimo de 10 tubos por velocidad, distribuidos al inicio, a la mitad y al final de cada corrida<br>\n  5) Medir peso, sello y calidad visual en cada tubo muestreado<br>\n  6) Comparar cada extremo contra el objetivo y contra la corrida nominal del ensayo EQ-PQ-LT-001<br>\n  7) Procesar los datos crudos de peso y sello por velocidad en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = peso neto (g) y resultado de sello (pasa/falla) por velocidad; tamaño de muestra = mínimo 10 tubos por velocidad y 3 muestreos por corrida; estadísticos = media, desviación estándar, RSD y proporción de sellos conformes por velocidad; criterio = cada velocidad dentro de la especificación del producto; sin ANOVA entre velocidades; valores atípicos = prueba de Grubbs con investigación documentada."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  La velocidad mínima y la máxima cumplen peso, sello y calidad visual dentro de especificación.<br>\n  La repetibilidad de cada extremo cumple el límite aprobado."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registros de ambas corridas con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis por velocidad"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>EU GMP Anexo 15 (rango previsto); URS del equipo; BMR."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "llenadora-tubos"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-LT-003",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-LT-003 — Lote de peor caso",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Demostrar que el <span class=\"equipo\">equipo</span> llena y sella conforme en la combinación más exigente: viscosidad y temperatura límite, tubo más pequeño o más grande, velocidad máxima y tolva con nivel bajo."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Definir el peor caso con el análisis de riesgo y registrar los valores con su fuente: viscosidad, temperatura, tamaño de tubo, velocidad y nivel de tolva<br>\n  2) Preparar el producto o placebo con la condición de peor caso y verificar viscosidad, densidad y temperatura antes de cargar<br>\n  3) Ejecutar la corrida completa en peor caso registrando presión, temperatura, nivel y alarmas<br>\n  4) Tomar un mínimo de 10 tubos distribuidos al inicio, a la mitad y al final de la corrida<br>\n  5) Medir peso, sello y calidad visual en cada tubo muestreado<br>\n  6) Comparar contra la especificación del producto y contra la corrida nominal<br>\n  7) Procesar los datos crudos de peso y sello del peor caso en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = peso neto (g) y resultado de sello (pasa/falla) en peor caso; tamaño de muestra = mínimo 10 tubos en al menos 3 muestreos de la corrida; estadísticos = media, desviación estándar, RSD y proporción de sellos conformes; criterio = la corrida de peor caso cumple la especificación del producto; sin ANOVA (una sola condición extrema justificada por riesgo); valores atípicos = prueba de Grubbs con investigación documentada."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  El peor caso cumple peso, sello y calidad visual dentro de especificación.<br>\n  No existe obstrucción, espuma excesiva ni pérdida de cebado.<br>\n  La definición del peor caso está justificada por análisis de riesgo."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Definición del peor caso con análisis de riesgo<br>\n  - Registro de corrida y resultados con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del peor caso"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>EU GMP Anexo 15 (peor caso justificado); URS del equipo; BMR."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "llenadora-tubos"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-LT-004",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-LT-004 — Muestreo al inicio, mitad y final de la corrida",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Demostrar que el peso, el sello y el código no presentan deriva durante toda la duración del lote."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Definir la duración del lote y los tres momentos de muestreo: inicio, mitad y final<br>\n  2) Registrar en cada muestreo la hora, el nivel de tolva, la presión y la temperatura del producto<br>\n  3) Tomar un mínimo de 10 tubos consecutivos en cada momento de muestreo<br>\n  4) Medir peso, sello y código en cada tubo muestreado<br>\n  5) Graficar el peso contra el tiempo de corrida y calcular la tendencia<br>\n  6) Procesar los datos crudos de peso, sello, código y tiempo en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = peso neto (g), resultado de sello (pasa/falla) y código (pasa/falla) frente al tiempo de corrida; tamaño de muestra = mínimo 10 tubos en cada uno de los 3 muestreos; estadísticos = media y RSD del peso por muestreo, y proporción de sellos y códigos conformes; regresión lineal del peso contra el tiempo (pendiente e intervalo de confianza al 95 %); criterio = no existe deriva estadísticamente significativa y cada muestreo cumple la especificación; sin ANOVA; valores atípicos = prueba de Grubbs con investigación documentada."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  La media de cada muestreo cumple la especificación del producto.<br>\n  La pendiente no evidencia deriva fuera del límite aprobado durante el lote.<br>\n  El sello y el código se mantienen conformes en los tres muestreos."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de los tres muestreos con hora y condiciones<br>\n  - Data cruda y reporte estadístico del análisis de deriva"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>EU GMP Anexo 15; URS del equipo; BMR."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "llenadora-tubos"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-LT-005",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-LT-005 — Peso neto de llenado, individual y promedio",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Demostrar que el peso neto de cada tubo y el promedio del lote cumplen la especificación del producto."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Definir el peso nominal y los límites individual y promedio según la especificación del producto y la URS<br>\n  2) Tomar la muestra del lote según el plan de muestreo aprobado<br>\n  3) Pesar cada tubo lleno y su tubo vacío correspondiente, o medir el contenido neto con el método aprobado<br>\n  4) Calcular el peso individual, el promedio del lote y el porcentaje respecto del nominal<br>\n  5) Comparar cada tubo y el promedio contra los límites aprobados<br>\n  6) Procesar los datos crudos de peso en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = peso neto (g) por tubo; tamaño de muestra = el definido por el plan de muestreo y la especificación del producto; estadísticos = media, desviación estándar, RSD, mínimo, máximo y porcentaje de tubos fuera de límite; criterio = cada tubo dentro del límite individual y el promedio dentro del límite de lote de la especificación; sin ANOVA; valores atípicos = prueba de Grubbs con investigación documentada."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  El 100 % de los tubos muestreados cumple el límite individual aplicable.<br>\n  El promedio del lote cumple el límite de la especificación del producto.<br>\n  No existen valores atípicos sin investigación documentada."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de pesos individuales y promedio con data cruda<br>\n  - Data cruda y reporte estadístico del peso neto"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Especificación del producto; BMR; URS aprobada."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "llenadora-tubos"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-LT-006",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-LT-006 — Uniformidad de llenado entre boquillas o estaciones",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Demostrar que el peso llenado es uniforme entre todas las boquillas o estaciones durante la producción."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Identificar y numerar cada boquilla o estación y confirmar el formato y peso nominal<br>\n  2) Durante la corrida nominal, recolectar un mínimo de 10 tubos por boquilla, identificando la estación de origen<br>\n  3) Pesar cada tubo y calcular el peso neto<br>\n  4) Calcular media, desviación estándar y RSD por boquilla, y la diferencia entre la media máxima y la mínima<br>\n  5) Graficar los resultados por boquilla y verificar que no existe una estación fuera de tendencia<br>\n  6) Procesar los datos crudos de peso por boquilla en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = peso neto (g) por boquilla; tamaño de muestra = mínimo 10 tubos por boquilla y todas las boquillas instaladas; estadísticos = media, desviación estándar y RSD por boquilla, y diferencia entre la media máxima y la mínima; comparación entre boquillas con ANOVA de un factor (boquilla) cuando el protocolo aprobado lo defina, con verificación de supuestos; criterio = RSD y diferencia entre boquillas dentro del límite de la URS; valores atípicos = prueba de Grubbs con investigación documentada."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  El RSD de cada boquilla cumple el límite de repetibilidad aprobado.<br>\n  La diferencia entre la media máxima y la mínima cumple el límite de uniformidad de la URS.<br>\n  Todas las boquillas instaladas quedan evaluadas."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de pesos por boquilla con data cruda y reporte<br>\n  - Data cruda y reporte estadístico de uniformidad entre boquillas"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>URS del equipo (límites de uniformidad); especificación del producto; BMR."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "llenadora-tubos"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-LT-007",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-LT-007 — Capacidad del proceso de llenado",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Demostrar que el proceso de llenado es capaz de cumplir los límites de especificación de forma sostenida, mediante índices de capacidad o carta de control."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Definir los límites superior e inferior de especificación (USL y LSL) del peso neto según la URS y la especificación del producto<br>\n  2) Reunir un mínimo de 50 datos por condición (nominal y peor caso) de las corridas del PQ, con identificación de lote, momento y estación<br>\n  3) Verificar la normalidad y la estabilidad del proceso (carta de control por lotes o subgrupos)<br>\n  4) Calcular Cp y Cpk con la desviación estándar dentro de subgrupo<br>\n  5) Graficar la carta de control y evaluar causas especiales<br>\n  6) Procesar los datos crudos de capacidad en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = peso neto (g); tamaño de muestra = mínimo 50 datos por condición (nominal y peor caso); estadísticos = media, desviación estándar dentro de subgrupo, Cp y Cpk, y carta de control por lotes o subgrupos; criterio = Cpk mayor o igual a 1,33 calculado con USL y LSL de la URS (si la URS define otro valor, prevalece el de la URS) y proceso sin causas especiales; valores atípicos = prueba de Grubbs con investigación documentada."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Cpk mayor o igual a 1,33 en la condición nominal y en el peor caso.<br>\n  La carta de control no muestra causas especiales ni cambios de tendencia.<br>\n  Los límites USL y LSL están documentados y aprobados."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Cálculo de Cp/Cpk con USL, LSL y desviación estándar utilizada<br>\n  - Carta de control y análisis de causas especiales<br>\n  - Data cruda y reporte estadístico de capacidad"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>URS del equipo y especificación del producto (USL/LSL); EU GMP Anexo 15; 21 CFR 211.110."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "llenadora-tubos"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-LT-008",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-LT-008 — Atributos del producto durante la corrida",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Demostrar que la temperatura, la viscosidad y la densidad del producto se mantienen dentro del rango aprobado y que su variación no afecta el peso ni el sellado."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Definir el rango aprobado de temperatura, viscosidad y densidad según la URS y el BMR<br>\n  2) Medir los tres atributos al inicio, a la mitad y al final de cada corrida con instrumentos calibrados<br>\n  3) Registrar en paralelo el peso y el sello de los tubos muestreados en cada momento<br>\n  4) Graficar cada atributo contra el tiempo y el peso contra cada atributo<br>\n  5) Evaluar la correlación o regresión del peso con la viscosidad y la temperatura<br>\n  6) Procesar los datos crudos de atributos, peso y sello en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = temperatura (°C), viscosidad (unidad del método), densidad (g/mL), peso neto (g) y sello (pasa/falla); tamaño de muestra = mínimo 3 mediciones por atributo en cada muestreo y mínimo 10 tubos por muestreo; estadísticos = media, desviación estándar y rango por atributo, y regresión o correlación del peso contra viscosidad y temperatura; criterio = atributos dentro del rango aprobado y ausencia de efecto fuera de tolerancia sobre peso y sello; sin ANOVA; valores atípicos con investigación documentada."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Temperatura, viscosidad y densidad se mantienen dentro del rango aprobado.<br>\n  Su variación no produce un efecto fuera de tolerancia sobre el peso ni el sellado.<br>\n  Los métodos de medición están identificados y calibrados."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de atributos, pesos y sellos por muestreo con data cruda<br>\n  - Data cruda y reporte estadístico de atributos del producto"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>URS del equipo; BMR y especificación del producto."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "llenadora-tubos"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-LT-009",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-LT-009 — Homogeneidad del producto llenado",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Demostrar que el contenido o la valoración del producto es homogéneo en los tubos del inicio, la mitad y el final de la corrida."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Definir el atributo de homogeneidad (contenido o valoración) y su método según la especificación del producto<br>\n  2) Tomar tubos al inicio, a la mitad y al final de la corrida, con identificación de estación y momento<br>\n  3) Analizar cada muestra por el método validado y registrar el resultado<br>\n  4) Calcular la media, la desviación estándar y el RSD entre momentos y estaciones<br>\n  5) Comparar contra la especificación del producto y evaluar la tendencia<br>\n  6) Procesar los datos crudos de homogeneidad en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = contenido o valoración (unidad del método) por tubo y momento; tamaño de muestra = el definido en el plan del producto, con mínimo 3 momentos y tubos de todas las estaciones; estadísticos = media, desviación estándar y RSD por momento y por estación, y comparación contra la especificación; criterio = el 100 % de las muestras dentro de la especificación y RSD dentro del límite aprobado; sin ANOVA; valores atípicos = prueba de Grubbs con investigación documentada."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  El 100 % de las muestras cumple la especificación de contenido o valoración.<br>\n  El RSD entre momentos y estaciones cumple el límite aprobado.<br>\n  No existe tendencia fuera de tolerancia durante la corrida."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de muestras y resultados con data cruda<br>\n  - Data cruda y reporte estadístico de homogeneidad"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Especificación del producto; método analítico validado; BMR."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "llenadora-tubos"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-LT-010",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-LT-010 — Aire atrapado y volumen real de llenado",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Demostrar que el llenado no deja burbujas ni vacíos y que el volumen real corresponde al peso y a la especificación."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Llenar un mínimo de 30 tubos a velocidad y peso nominales con el producto o placebo aprobado<br>\n  2) Inspeccionar cada tubo contra fondo contrastante y con luz adecuada: burbujas, vacíos y espuma<br>\n  3) Medir el peso neto y el volumen real por el método aprobado (peso/densidad o volumétrico)<br>\n  4) Comparar el volumen real con el nominal y con el peso<br>\n  5) Registrar el hallazgo por tubo y por boquilla de origen<br>\n  6) Procesar los datos crudos de peso, volumen y hallazgos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = peso neto (g), volumen real (mL) y presencia de burbujas/vacíos (pasa/falla); tamaño de muestra = mínimo 30 tubos; estadísticos = media, desviación estándar y RSD del peso y del volumen, y proporción de tubos con aire atrapado; criterio = peso y volumen dentro de la especificación y ausencia de burbujas o vacíos fuera del límite; sin ANOVA; valores atípicos con investigación documentada."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  El peso y el volumen real cumplen la especificación del producto.<br>\n  No existen burbujas ni vacíos fuera del límite aprobado.<br>\n  El volumen real corresponde al peso dentro de la tolerancia."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de peso, volumen y hallazgos por tubo con data cruda<br>\n  - Data cruda y reporte estadístico de aire atrapado y volumen"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Especificación del producto; método de volumen validado; BMR."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "llenadora-tubos"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-LT-011",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-LT-011 — Contaminación de la zona de sello",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que no hay producto en el área de sellado y que la apariencia del tubo es conforme durante la producción."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Procesar un mínimo de 100 tubos a velocidad nominal<br>\n  2) Inspeccionar el área de sellado: producto, espuma, hilos o residuo entre las mandíbulas<br>\n  3) Inspeccionar la apariencia del tubo: manchas, deformación o sellado incompleto<br>\n  4) Registrar los tubos con contaminación o apariencia no conforme y la estación de origen<br>\n  5) Verificar que el sistema rechaza o detiene el tubo defectuoso según el diseño<br>\n  6) Ajustar solo si el procedimiento lo autoriza y registrar el cambio"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>No aplica: verificación funcional por atributo (conforme/no conforme, 100 % de los 100 tubos); sin inferencia estadística."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  El 100 % de los tubos revisados está libre de producto en el área de sellado.<br>\n  La apariencia es conforme en el 100 % de la muestra.<br>\n  Los tubos defectuosos se rechazan o detienen según el diseño."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de inspección por tubo y estación"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Especificación del producto; BMR; manual del fabricante."
+     }
+    ],
+    "tabla": null,
+    "familia": "llenadora-tubos"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-LT-012",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-LT-012 — Resistencia e integridad del sello",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Demostrar que el sello resiste la presión de rotura o la prueba de fuga y que su integridad se mantiene durante la corrida."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Definir el método de resistencia o integridad (presión de rotura, fuga o equivalente validado) y el tamaño de muestra según el protocolo<br>\n  2) Tomar tubos al inicio, a la mitad y al final de la corrida, incluyendo todas las estaciones<br>\n  3) Ejecutar la prueba según el método validado y registrar el resultado por tubo<br>\n  4) Incluir controles positivos (sellos con defecto inducido) y verificar que el método los detecta<br>\n  5) Calcular la media, el mínimo y la proporción de fallas; comparar contra el límite aprobado<br>\n  6) Procesar los datos crudos de resistencia e integridad en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = resistencia del sello (N o unidad del método) y resultado de integridad (pasa/falla); tamaño de muestra = el definido en el protocolo, con tubos de todas las estaciones y de los tres momentos; estadísticos = media, desviación estándar, mínimo y proporción de fallas; criterio = el 100 % de las muestras dentro del límite de resistencia y de integridad; sin ANOVA; resultados anómalos con investigación documentada."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  El 100 % de los tubos evaluados cumple el límite de resistencia e integridad.<br>\n  El método detecta el 100 % de los controles positivos.<br>\n  Los tubos evaluados cubren todas las estaciones y los tres momentos."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de resistencia e integridad por tubo con data cruda<br>\n  - Data cruda y reporte estadístico del sello"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Método de integridad validado; especificación del producto; manual del fabricante."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "llenadora-tubos"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-LT-013",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-LT-013 — Uniformidad del sellado entre estaciones",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Demostrar que el sello es equivalente en todas las estaciones y se mantiene a lo largo del lote."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Identificar y numerar cada estación de sellado<br>\n  2) Tomar un mínimo de 10 tubos por estación al inicio, a la mitad y al final de la corrida<br>\n  3) Medir la resistencia o integridad del sello por el método validado<br>\n  4) Calcular media, desviación estándar y RSD por estación, y la diferencia entre la media máxima y la mínima<br>\n  5) Graficar los resultados por estación y verificar que no existe una estación fuera de tendencia<br>\n  6) Procesar los datos crudos de sellado por estación en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = resistencia del sello (N o unidad del método) por estación; tamaño de muestra = mínimo 10 tubos por estación y todas las estaciones instaladas; estadísticos = media, desviación estándar y RSD por estación, y diferencia entre la media máxima y la mínima; comparación entre estaciones con ANOVA de un factor (estación) cuando el protocolo aprobado lo defina, con verificación de supuestos; criterio = RSD y diferencia entre estaciones dentro del límite de la URS; valores atípicos = prueba de Grubbs con investigación documentada."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  El RSD de cada estación cumple el límite de repetibilidad aprobado.<br>\n  La diferencia entre la media máxima y la mínima cumple el límite de uniformidad de la URS.<br>\n  Todas las estaciones quedan evaluadas."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de sellado por estación con data cruda y reporte<br>\n  - Data cruda y reporte estadístico de uniformidad entre estaciones"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>URS del equipo; especificación del producto; método de sellado validado."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "llenadora-tubos"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-LT-014",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-LT-014 — Orientación y registro de la decoración",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que la decoración impresa queda alineada y orientada según la especificación durante la corrida."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Procesar un mínimo de 100 tubos a velocidad nominal<br>\n  2) Verificar la orientación del tubo y la alineación de la marca impresa contra el patrón aprobado<br>\n  3) Registrar los tubos desalineados o mal orientados y la estación de origen<br>\n  4) Verificar que el sistema rechaza o detiene el tubo mal orientado según el diseño<br>\n  5) Repetir la verificación al inicio, a la mitad y al final de la corrida<br>\n  6) Ajustar solo si el procedimiento lo autoriza y registrar el cambio"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>No aplica: verificación funcional por atributo (alineado/no alineado, 100 % de los 100 tubos); sin inferencia estadística."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  El 100 % de los tubos revisados presenta orientación y decoración alineadas.<br>\n  Los tubos mal orientados se rechazan o detienen según el diseño.<br>\n  No existen falsos positivos con tubos bien orientados."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de orientación y alineación por tubo y estación"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Especificación del tubo; manual del fabricante; URS aprobada."
+     }
+    ],
+    "tabla": null,
+    "familia": "llenadora-tubos"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-LT-015",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-LT-015 — Código de lote y vencimiento",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que el lote y el vencimiento se imprimen con el contenido correcto, en la posición aprobada y con legibilidad verificable, incluso después del manejo."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Cargar el lote y el vencimiento aprobados y verificar la receta de codificación<br>\n  2) Procesar un mínimo de 100 tubos y verificar contenido, posición y legibilidad<br>\n  3) Comparar el código impreso contra el aprobado en el registro de lote<br>\n  4) Verificar la legibilidad después del manejo y del transporte interno<br>\n  5) Verificar que el sistema rechaza o detiene el tubo sin código o ilegible<br>\n  6) Registrar cualquier desviación y su disposición"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>No aplica: verificación funcional por atributo (correcto/incorrecto, 100 % de los 100 tubos); sin inferencia estadística."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  El 100 % de los tubos revisados presenta lote y vencimiento correctos, en posición y legibles.<br>\n  El código coincide con el registro de lote y permanece legible tras el manejo.<br>\n  Los tubos sin código o ilegibles se rechazan o detienen."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de codificación por tubo y verificación contra el lote"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>21 CFR 211.130 (operaciones de empaque y etiquetado); BMR; URS aprobada."
+     }
+    ],
+    "tabla": null,
+    "familia": "llenadora-tubos"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-LT-016",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-LT-016 — Rechazo en condiciones de producción",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que el sistema rechaza los tubos vacíos, sin sello o sin código en condiciones reales de producción y que no rechaza los conformes."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Preparar tubos de desafío: vacíos, sin sello, sin código y conformes, identificados y verificados<br>\n  2) Pasar cada tubo por la línea a velocidad nominal y registrar la decisión del equipo<br>\n  3) Verificar la expulsión efectiva del tubo rechazado y su conteo<br>\n  4) Repetir el desafío al inicio, a la mitad y al final de la corrida<br>\n  5) Verificar que el sistema no rechaza tubos conformes por falsos positivos<br>\n  6) Registrar cualquier desviación y su disposición"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>No aplica: verificación funcional por atributo (acepta/rechaza, 100 % de los tubos de desafío); sin inferencia estadística."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  El 100 % de los tubos vacíos, sin sello o sin código se rechaza.<br>\n  El 100 % de los tubos conformes se acepta.<br>\n  El rechazo se expulsa y se cuenta correctamente."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro del desafío con decisión por tubo"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante; URS aprobada; GAMP5 2.ª ed."
+     }
+    ],
+    "tabla": null,
+    "familia": "llenadora-tubos"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-LT-017",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-LT-017 — Permanencia del producto en tolva caliente",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Demostrar que el tiempo máximo de permanencia del producto en la tolva y la línea no altera la viscosidad, el contenido ni el peso de llenado."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Definir los tiempos de permanencia a evaluar (inicio, tiempo máximo aprobado y un punto intermedio) según la URS<br>\n  2) Mantener el producto en la tolva a la temperatura aprobada y tomar muestras en cada tiempo<br>\n  3) Medir viscosidad, contenido o valoración y peso de llenado en cada tiempo<br>\n  4) Comparar contra el tiempo cero y contra la especificación<br>\n  5) Evaluar la tendencia de la viscosidad, el contenido y el peso contra el tiempo<br>\n  6) Procesar los datos crudos de permanencia en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = viscosidad, contenido o valoración y peso neto por tiempo de permanencia; tamaño de muestra = mínimo 10 tubos por tiempo y al menos 3 tiempos; estadísticos = media, desviación estándar y RSD por tiempo, y regresión de cada variable contra el tiempo; criterio = cada tiempo dentro de la especificación y sin tendencia fuera de tolerancia; sin ANOVA; valores atípicos con investigación documentada."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Todos los tiempos evaluados cumplen viscosidad, contenido y peso.<br>\n  No existe tendencia fuera de tolerancia durante el tiempo máximo aprobado.<br>\n  El tiempo máximo se documenta y se aprueba en la URS."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de tiempos, condiciones y resultados con data cruda<br>\n  - Data cruda y reporte estadístico de permanencia en tolva"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>URS aprobada; especificación del producto; BMR."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "llenadora-tubos"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-LT-018",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-LT-018 — Interrupciones y reinicio",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que los paros y arranques durante la producción no producen pérdida de exactitud ni de sellado."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Durante la corrida nominal, ejecutar al menos 3 paros controlados y sus correspondientes reinicios<br>\n  2) En cada paro, registrar la causa, la duración y el estado del producto en las boquillas<br>\n  3) Al reiniciar, descartar o identificar los tubos de la primera vuelta según el procedimiento aprobado<br>\n  4) Tomar un mínimo de 10 tubos después de cada reinicio y medir peso y sello<br>\n  5) Comparar peso y sello antes y después de cada interrupción<br>\n  6) Registrar el comportamiento del cebado, la presión y el nivel tras el reinicio"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>No aplica: verificación funcional por atributo y comparación directa antes/después del reinicio (100 % de los eventos ejecutados); sin inferencia estadística."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Después de cada reinicio el peso y el sello cumplen la especificación.<br>\n  No se liberan tubos incompletos ni con sello defectuoso.<br>\n  El cebado, la presión y el nivel se restablecen sin intervención no documentada."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de paros y reinicios con causa, duración y resultados<br>\n  - Comparativa de peso y sello antes y después de cada interrupción"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>BMR; procedimiento interno de reinicio; URS del equipo."
+     }
+    ],
+    "tabla": null,
+    "familia": "llenadora-tubos"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-LT-019",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-LT-019 — Cambio de formato en producción",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Demostrar que el segundo formato se produce con parámetros registrados y resultados equivalentes al formato nominal."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Definir el segundo formato (diámetro, largo y peso) y sus parámetros aprobados<br>\n  2) Ejecutar el cambio de formato según el procedimiento y registrar las partes instaladas y los parámetros cargados<br>\n  3) Producir un mínimo de 10 tubos del segundo formato al inicio, a la mitad y al final de la corrida<br>\n  4) Medir peso, sello y calidad visual en cada tubo muestreado<br>\n  5) Comparar la media y la variabilidad del segundo formato contra el formato nominal<br>\n  6) Restituir el formato original y verificar la primera pieza<br>\n  7) Procesar los datos crudos de ambos formatos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = peso neto (g) y resultado de sello (pasa/falla) por formato; tamaño de muestra = mínimo 10 tubos por formato y 3 muestreos por corrida; estadísticos = media, desviación estándar y RSD por formato, y diferencia de medias entre formatos con intervalo de confianza al 95 %; criterio = cada formato dentro de su especificación y diferencia entre formatos dentro del límite de equivalencia aprobado; sin ANOVA; valores atípicos con investigación documentada."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  El segundo formato cumple su peso, sello y calidad visual.<br>\n  Los resultados son equivalentes al formato nominal dentro del límite aprobado.<br>\n  Los parámetros del cambio están registrados y la primera pieza es conforme."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de cambio de formato con parámetros<br>\n  - Resultados de ambos formatos con data cruda y reporte<br>\n  - Data cruda y reporte estadístico de equivalencia entre formatos"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Procedimiento interno de cambio de formato; URS aprobada; manual del fabricante."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "llenadora-tubos"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-LT-020",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-LT-020 — Conciliación de producto",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Demostrar que el balance de producto del lote cierra: producto cargado frente a producto llenado más merma, dentro del rendimiento esperado."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Registrar la cantidad de producto cargado a la tolva con su método de medición<br>\n  2) Registrar la cantidad llenada a partir del conteo de tubos conformes por el peso nominal y el producto rechazado<br>\n  3) Registrar la merma por muestreo, purga, derrame, retención en líneas y limpieza<br>\n  4) Calcular el rendimiento del lote y el porcentaje de merma<br>\n  5) Comparar contra el rendimiento esperado definido en el BMR o en la especificación del producto<br>\n  6) Investigar cualquier diferencia fuera del rango y documentar su disposición<br>\n  7) Procesar los datos crudos de conciliación en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = masa o volumen cargado, llenado y merma (g o mL); estadísticos = balance de masa, rendimiento porcentual y porcentaje de merma por lote; criterio = el balance cierra dentro del rendimiento esperado del BMR y la diferencia no supera el límite aprobado; sin ANOVA; las diferencias se investigan individualmente y se documentan."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  El balance de producto cierra dentro del rendimiento esperado.<br>\n  La merma está identificada y dentro del límite aprobado.<br>\n  Toda diferencia fuera de rango tiene investigación y disposición documentada."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Balance de masa por lote con data cruda<br>\n  - Data cruda y reporte estadístico del análisis de conciliación"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>BMR y especificación del producto; EU GMP Anexo 15."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "llenadora-tubos"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-LT-021",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-LT-021 — Registros electrónicos y trazabilidad del lote",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que los parámetros y las alarmas del equipo coinciden con el registro del lote y permiten reconstruir la producción."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Seleccionar una muestra de lotes del PQ y extraer del equipo el histórico de alarmas, parámetros y conteos<br>\n  2) Comparar contra el registro de lote: hora de inicio y fin, formato, peso, conteos y rechazos<br>\n  3) Verificar que cada alarma del equipo aparece en el registro del lote con su causa y acción<br>\n  4) Verificar la trazabilidad entre el registro del equipo, los análisis de laboratorio y el registro de lote<br>\n  5) Verificar la integridad de la exportación o impresión contra el histórico del equipo<br>\n  6) Confirmar la revisión por producción y por calidad con firmas y fechas"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>No aplica: verificación documental y de trazabilidad sobre la muestra de lotes definida; sin inferencia estadística."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Las alarmas, parámetros y datos del equipo coinciden con el registro del lote.<br>\n  La trazabilidad es completa entre equipo, laboratorio y registro de lote.<br>\n  Los registros están completos, firmados y cerrados."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Lista de verificación de registros diligenciada<br>\n  - Muestra del histórico del equipo y del registro de lote"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>21 CFR 211.180 y 211.188; 21 CFR Parte 11; EU GMP Anexo 15."
+     }
+    ],
+    "tabla": null,
+    "familia": "llenadora-tubos"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-LT-022",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-LT-022 — Si aplica: plegado de tubos de aluminio",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar la integridad del plegado y la hermeticidad en tubos de aluminio; si el formato no incluye plegado, declarar No Aplica con justificación firmada."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Confirmar si el formato incluye plegado de tubos de aluminio; si no, pasar al paso 6)<br>\n  2) Procesar un mínimo de 30 tubos de aluminio a velocidad nominal<br>\n  3) Inspeccionar el pliegue: sin fisuras, sin bordes cortantes y con cierre uniforme<br>\n  4) Ejecutar la prueba de hermeticidad o de fuga según el método aprobado<br>\n  5) Registrar el resultado por tubo y cualquier desviación<br>\n  6) Si no aplica: redactar la justificación de No Aplica con firma del ejecutor y del revisor"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>No aplica: verificación funcional por atributo (plegado íntegro/no íntegro, 100 % de la muestra) o No Aplica justificado; sin inferencia estadística."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  El 100 % de los tubos evaluados presenta plegado íntegro y hermético.<br>\n  No hay fisuras ni bordes cortantes.<br>\n  O bien, No Aplica justificado y firmado."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de plegado y hermeticidad por tubo<br>\n  - Justificación de No Aplica, si corresponde"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante; especificación del tubo; método de hermeticidad validado."
+     }
+    ],
+    "tabla": null,
+    "familia": "llenadora-tubos"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-LT-023",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-LT-023 — Si aplica: tapado y torque",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que el torque de cierre se mantiene dentro del rango aprobado durante la producción; si el formato no incluye tapado, declarar No Aplica con justificación firmada."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Confirmar si el formato incluye tapado; si no, pasar al paso 7)<br>\n  2) Tomar un mínimo de 10 tubos por lote y por formato, al inicio, a la mitad y al final de la corrida<br>\n  3) Medir el torque de apertura con torquímetro calibrado y registrar el valor por tubo<br>\n  4) Inspeccionar la integridad del tapón: presencia, posición, rosca completa y ausencia de daño<br>\n  5) Verificar que no hay producto en la rosca ni en el sello<br>\n  6) Procesar los datos crudos de torque en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo<br>\n  7) Si no aplica: redactar la justificación de No Aplica con firma del ejecutor y del revisor"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = torque de cierre (unidad del torquímetro); tamaño de muestra = mínimo 10 tubos por lote y por formato; estadísticos = media, desviación estándar, rango y porcentaje de tubos dentro del límite; criterio = el 100 % de la muestra dentro del rango de torque aprobado; sin ANOVA; valores atípicos = prueba de Grubbs con investigación documentada."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  El 100 % de los tubos muestreados está dentro del rango de torque aprobado.<br>\n  El cierre está íntegro: tapón presente, rosca completa y sin daño.<br>\n  O bien, No Aplica justificado y firmado."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de torque por tubo con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del tapado y torque<br>\n  - Justificación de No Aplica, si corresponde"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>URS del equipo; especificación del cierre; manual del fabricante."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "llenadora-tubos"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-LT-024",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-LT-024 — Si aplica: inertización con nitrógeno",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar el oxígeno residual durante la corrida; si el producto no requiere inertización, declarar No Aplica con justificación firmada."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Confirmar si el producto requiere inertización; si no, pasar al paso 6)<br>\n  2) Ajustar el caudal y la presión de nitrógeno según la receta aprobada<br>\n  3) Procesar un mínimo de 30 tubos y medir el oxígeno residual con instrumento calibrado<br>\n  4) Registrar el oxígeno residual por tubo y las condiciones de purga<br>\n  5) Verificar que la inertización no altera el peso ni el sellado<br>\n  6) Procesar los datos crudos de oxígeno residual en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo<br>\n  7) Si no aplica: redactar la justificación de No Aplica con firma del ejecutor y del revisor"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = oxígeno residual (% o ppm) por tubo; tamaño de muestra = mínimo 30 tubos distribuidos en la corrida; estadísticos = media, máximo y desviación estándar; criterio = el 100 % de las muestras dentro del límite de la especificación del producto; sin ANOVA; valores atípicos con investigación documentada."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  El oxígeno residual está dentro del límite de la especificación del producto.<br>\n  La inertización no altera el peso ni el sellado.<br>\n  O bien, No Aplica justificado y firmado."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de purga y oxígeno residual por tubo con data cruda<br>\n  - Data cruda y reporte estadístico de inertización<br>\n  - Justificación de No Aplica, si corresponde"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Especificación del producto; manual del fabricante; URS aprobada."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "llenadora-tubos"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-LT-025",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-LT-025 — Si aplica: eficacia de limpieza entre lotes",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que la limpieza entre lotes elimina residuos y reduce la carga microbiana; si no aplica, declarar No Aplica con justificación firmada."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Confirmar si aplica limpieza entre lotes; si no, pasar al paso 6)<br>\n  2) Ejecutar el ciclo de limpieza aprobado y verificar sus parámetros<br>\n  3) Inspeccionar visualmente las superficies en contacto y los puntos de difícil acceso<br>\n  4) Tomar muestras de enjuague o de superficie y analizar residuo y carga microbiana<br>\n  5) Comparar contra los límites de limpieza validados<br>\n  6) Si no aplica: redactar la justificación de No Aplica con firma del ejecutor y del revisor"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>No aplica: verificación contra límites de limpieza validados (residuo y micro) o No Aplica justificado; sin inferencia estadística."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Los residuos y la carga microbiana cumplen los límites de limpieza validados.<br>\n  No queda residuo visible ni producto retenido.<br>\n  O bien, No Aplica justificado y firmado."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro del ciclo de limpieza con parámetros<br>\n  - Resultados de residuo y carga microbiana<br>\n  - Justificación de No Aplica, si corresponde"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Procedimiento de limpieza validado; EU GMP Anexo 15; URS del equipo."
+     }
+    ],
+    "tabla": null,
+    "familia": "llenadora-tubos"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-LT-026",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-LT-026 — Si aplica: carga microbiana del producto llenado",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que la carga microbiana del producto llenado se mantiene dentro del límite aprobado; si no aplica, declarar No Aplica con justificación firmada."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Confirmar si el producto requiere límite de bioburden; si no, pasar al paso 6)<br>\n  2) Tomar muestras al inicio, a la mitad y al final de la corrida, y del primer y último tubo llenado<br>\n  3) Analizar las muestras por el método validado y registrar el resultado por muestra<br>\n  4) Comparar cada resultado contra el límite aprobado<br>\n  5) Investigar cualquier resultado fuera de límite y documentar su disposición<br>\n  6) Si no aplica: redactar la justificación de No Aplica con firma del ejecutor y del revisor"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>No aplica: comparación de cada resultado contra el límite microbiológico aprobado, o No Aplica justificado; sin inferencia estadística."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  El 100 % de las muestras cumple el límite de bioburden aprobado.<br>\n  Los resultados son trazables al lote y al método.<br>\n  O bien, No Aplica justificado y firmado."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de muestras y resultados de bioburden<br>\n  - Reportes del laboratorio con el método utilizado<br>\n  - Justificación de No Aplica, si corresponde"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Especificación del producto; USP &lt;61&gt; y &lt;62&gt; (si aplica); BMR."
+     }
+    ],
+    "tabla": null,
+    "familia": "llenadora-tubos"
+   },
+   {
+    "kind": "resumen",
+    "id": "EQ-PQ-LT-RES",
+    "bloque": 4,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-LT-RES — Tabla resumen de los ensayos del PQ",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Consolidar el listado de ensayos del PQ de la llenadora y selladora de tubos para la tabla resumen del protocolo."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Confirmar que los ensayos EQ-PQ-LT-001 a EQ-PQ-LT-026 están incluidos en el índice del protocolo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Los 26 ensayos aparecen en la tabla resumen con su veredicto."
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>EU GMP Anexo 15."
+     }
+    ],
+    "tabla": null,
+    "familia": "llenadora-tubos"
+   },
+   {
+    "kind": "tabla",
+    "id": "EQ-PQ-LT-REF",
+    "bloque": 6,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-LT-REF — Referencias del PQ de llenadora de tubos",
+    "secciones": [],
+    "tabla": {
+     "headers": [
+      "SECCIÓN",
+      "TÍTULO",
+      "ESTADO"
+     ],
+     "rows": [
+      [
+       "6.1",
+       "EU GMP Anexo 15 — Cualificación y validación: tres lotes consecutivos salvo justificación por riesgo",
+       "VIGENTE"
+      ],
+      [
+       "6.2",
+       "21 CFR 211.100 y 211.110 — Validación de procesos y control de materiales en proceso",
+       "VIGENTE"
+      ],
+      [
+       "6.3",
+       "21 CFR 211.130 — Operaciones de empaque y etiquetado: codificación de lote y vencimiento",
+       "VIGENTE"
+      ],
+      [
+       "6.4",
+       "21 CFR Parte 11 y GAMP5 2.ª ed. — Registros electrónicos y trazabilidad del lote",
+       "VIGENTE"
+      ],
+      [
+       "6.5",
+       "USP <61> y <62> — Carga microbiana, si aplica",
+       "VIGENTE"
+      ],
+      [
+       "6.6",
+       "Manual del fabricante de la llenadora y selladora de tubos — Setpoints, secuencias y límites de diseño",
+       "VIGENTE"
+      ],
+      [
+       "6.7",
+       "URS aprobada y especificación del producto — Peso, viscosidad, temperatura, sellado y criterios",
+       "VIGENTE"
+      ],
+      [
+       "6.8",
+       "Especificación del tubo y del cierre — Dimensiones, material y requisitos de integridad",
+       "VIGENTE"
+      ]
+     ]
+    },
+    "familia": "llenadora-tubos"
+   },
+   {
+    "kind": "div",
+    "clase": "anexos",
+    "bloque": 8,
+    "html": "<p><strong>ANEXOS:</strong></p>\n<table>\n<tbody><tr><th>SECCIÓN</th><th>TÍTULO</th></tr>\n<tr><td>8.1</td><td>Anexo A — Registros crudos y reportes estadísticos (tres lotes, velocidades, peor caso, deriva, peso, uniformidad, capacidad, atributos, homogeneidad, volumen, sello, permanencia, formatos y conciliación)</td></tr>\n<tr><td>8.2</td><td>Anexo B — Reportes analíticos (contenido, valoración, integridad, bioburden) y certificados de calibración</td></tr>\n<tr><td>8.3</td><td>Anexo C — Análisis de riesgo del número de lotes, definición del peor caso, cartas de control y balances de masa</td></tr>\n</tbody></table>\n<p><strong>LÍMITES Y CRITERIOS (RESUMEN):</strong></p>\n<p>- 3 lotes consecutivos; Cpk ≥ 1,33; n mínimo 10; 100 % de integridad del sello en la muestra.</p>\n<p>- Peso, contenido, resistencia del sello, torque y oxígeno residual: definir en URS y especificación del producto (pendiente del responsable).</p>\n<p>- 100 % de rechazo de tubos vacíos, sin sello, sin código o mal posicionados.</p>",
+    "familia": "llenadora-tubos"
    },
    {
     "kind": "ensayo",
