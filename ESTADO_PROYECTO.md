@@ -90,6 +90,29 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (SigmaProXVL) con spr
 
 ## CAMBIOS RECIENTES
 
+### 2026-10-30: Botón "Borrar todo" de Visualización armonizado
+
+**Qué:** El botón para borrar toda la galería de gráficos deja de usar estilos inline y pasa al sistema de diseño.
+
+- Nuevo `.viz-clear-btn` (`indexx.css:1660-1676`): icono de papelera SVG + texto, altura 30 px, radio 8, `--item-bg`, tipografía 11 px/700; al pasar el mouse toma el estado de peligro (`--danger`, `--danger-bg`, `--danger-border`) con buen contraste en tema oscuro y claro.
+- Se **deshabilita automáticamente** cuando no hay gráficos guardados (`vizRefreshGallery`), evitando el confirm vacío.
+- En móvil (<600 px) queda solo el icono.
+- Se conserva `vizClearGallery()` y su confirmación con el número de gráficos.
+
+**Archivos afectados:**
+| Archivo | Cambio |
+|---------|--------|
+| `js/core/indexx-ui.js:950-955` | Botón con `class="viz-clear-btn"` e `id="vizGalClear"` (sin estilos inline) |
+| `js/core/indexx-viz.js:1337` | `disabled` según `_V.gallery.length` |
+| `css/core/indexx.css:1660-1676` | Estilos del botón y responsive |
+| `tests/viz-header.test.js` | 3 tests: clase sin inline, disabled y CSS |
+
+**Verificación:**
+- `node --check` en `indexx-ui.js` e `indexx-viz.js`: OK.
+- `npx vitest run`: **629 tests / 49 archivos OK**.
+- `cd backend && npm test`: **99 tests OK**.
+- Navegador: vacío → deshabilitado (transparente); con gráficos → activo; hover rojo suave; tema claro legible; **0 errores**.
+
 ### 2026-10-30: Armonía del módulo estadístico — F0/F1/F2 (alcance B)
 
 **Qué:** Se alinea el módulo de Análisis con el lenguaje visual de Trabajo/Reportes sin tocar reglas globales: tokens nuevos, panel izquierdo con `.side-card` y resultados con un solo marco.

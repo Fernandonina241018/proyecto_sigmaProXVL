@@ -949,7 +949,10 @@ var rightPanels = {
       '<div style="font-size:10px;padding:2px 9px;border-radius:99px;background:var(--accDim);color:var(--acc2);font-weight:700;letter-spacing:.6px">MÓDULO</div>' +
       '<div style="margin-left:auto;display:flex;align-items:center;gap:8px">' +
         '<div style="font-size:11px;color:var(--t3);display:flex;align-items:center;gap:4px">Gráficos guardados: <strong id="vizGalCount" style="color:var(--t2);font-weight:600">0</strong></div>' +
-        '<button onclick="vizClearGallery()" style="font-size:10px;padding:2px 8px;border-radius:4px;border:1px solid var(--border);background:transparent;color:var(--t3);cursor:pointer;font-family:inherit;transition:all .14s" title="Borrar todos los gráficos guardados" onmouseover="this.style.color=\'var(--accent-error)\';this.style.borderColor=\'rgba(239,68,68,.4)\'" onmouseout="this.style.color=\'var(--t3)\';this.style.borderColor=\'var(--border)\'">✕ Todo</button>' +
+        '<button class="viz-clear-btn" id="vizGalClear" type="button" onclick="vizClearGallery()" title="Borrar todos los gráficos guardados" aria-label="Borrar todos los gráficos guardados">' +
+          '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 6h18"/><path d="M8 6V4h8v2"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 11v6M14 11v6"/></svg>' +
+          '<span>Borrar todo</span>' +
+        '</button>' +
       '</div>' +
     '</div>' +
     '<div class="gallery" id="vizGallery"><div class="gal-label">Gráficos Guardados 📈</div></div>' +

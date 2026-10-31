@@ -1333,6 +1333,8 @@ function vizRefreshGallery() {
   var countEl = document.getElementById('vizGalCount');
   if (!strip) return;
   if (countEl) countEl.textContent = _V.gallery.length;
+  var clearBtn = document.getElementById('vizGalClear');
+  if (clearBtn) clearBtn.disabled = _V.gallery.length === 0;
 
   if (!_V.gallery.length) { strip.classList.remove('visible'); _V_updateGalleryNav(); return; }
   strip.classList.add('visible');
