@@ -1782,16 +1782,36 @@ app.put('/api/users/reset-password', requireAuth, requireAdmin, async (req, res)
     }
 });
 
-// GET /api/audit (solo admin) — con paginación
+// GET /api/audit (solo admin) — filtros y paginación en servidor
 app.get('/api/audit', requireAuth, requireAdmin, async (req, res) => {
     try {
         const limit = Math.min(parseInt(req.query.limit) || 100, 500);
-        const offset = parseInt(req.query.offset) || 0;
-        const logs = await db.getAuditLog(limit, offset);
-        res.json({ ok: true, logs, limit, offset });
+        const offset = Math.max(parseInt(req.query.offset) || 0, 0);
+        const filters = {
+            module: req.query.module || undefined,
+            action: req.query.action || undefined,
+            username: req.query.username || undefined,
+            from: req.query.from || undefined,
+            to: req.query.to || undefined,
+            success: (req.query.success === '0' || req.query.success === '1') ? req.query.success : undefined,
+        };
+        const logs = await db.getAuditLog(limit, offset, filters);
+        const total = await db.countAuditLog(filters);
+        res.json({ ok: true, logs, limit, offset, total });
     } catch (err) {
         console.error('Error getting audit log:', err);
         res.status(500).json({ error: 'Error al obtener auditoría' });
+    }
+});
+
+// GET /api/audit/stats (solo admin) — KPIs reales sin descargar la tabla
+app.get('/api/audit/stats', requireAuth, requireAdmin, async (req, res) => {
+    try {
+        const stats = await db.getAuditStats();
+        res.json({ ok: true, ...stats });
+    } catch (err) {
+        console.error('Error getting audit stats:', err);
+        res.status(500).json({ error: 'Error al obtener estadísticas de auditoría' });
     }
 });
 

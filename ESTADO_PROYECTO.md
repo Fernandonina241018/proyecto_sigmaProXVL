@@ -90,6 +90,46 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (SigmaProXVL) con spr
 
 ## CAMBIOS RECIENTES
 
+### 2026-10-30: Auditoría · Fase 4 (filtros, paginación y KPIs en servidor)
+
+**Qué:** La página de Auditoría deja de filtrar en cliente sobre 500 filas y pasa a consultar al servidor con filtros, total real y KPIs.
+
+**Backend**
+- `getAuditLog(limit, offset, filters)` con `module`, `action`, `username`, `from`, `to`, `success` (compatibilidad con `getAuditLog(limit, offset)`).
+- `countAuditLog(filters)` y `getAuditStats()` (total, hoy, últimos 7 días, fallos, por módulo y por día) en **PostgreSQL y store local**.
+- `GET /api/audit` devuelve `total` y acepta los filtros; nuevo `GET /api/audit/stats` (solo admin).
+
+**UI (`AuditoriaManager.js`)**
+- Filtro por **acción** y lista canónica de módulos (LOGIN, DATOS, ANALISIS, GRAFICOS, REPORTES, FIRMAS, USERS, VALIDACIONES, ML, SYSTEM).
+- **Paginación en servidor** (‹ Anterior / Siguiente ›) con rango `Mostrando X–Y de N` y página `N de M`.
+- **KPIs reales** desde `/api/audit/stats` (Total, Hoy, Últimos 7 días, Fallidos, Tasa de éxito, Integridad) y gráfico de 7 días desde `byDay`.
+- Tabla con **Duración** y **Dispositivo** (huella truncada) además de los campos existentes.
+- **Detalle genérico**: cualquier `details` desconocido se pinta como pares clave/valor escapados y truncados.
+- **Export CSV del filtro aplicado** (no de la página): recorre el servidor con el mismo filtro, tope 5.000 filas, incluye módulo, duración, origen y dispositivo.
+- Panel izquierdo: “Exportar auditoría” (aclara que el filtro también aplica a la exportación).
+
+**Archivos afectados:**
+| Archivo | Cambio |
+|---------|--------|
+| `backend/database.js:460-505` | `getAuditLog` con filtros, `countAuditLog`, `getAuditStats` (PG) |
+| `backend/database.js:1441-1485` | Misma lógica en el store local |
+| `backend/database.js:2113-2115` | Fachada con los nuevos métodos |
+| `backend/server.js:1786-1820` | `/api/audit` con filtros/total + `/api/audit/stats` |
+| `js/managers/AuditoriaManager.js:20-185` | Estado, `_fetchPage`, `cargarStats`, export filtrado |
+| `js/managers/AuditoriaManager.js:300-330` | Filtro de acción y módulos canónicos |
+| `js/managers/AuditoriaManager.js:470-590` | KPIs, gráfico, tabla con duración/dispositivo, detalle genérico y paginación |
+| `css/pages/auditoria.css` | Paginación, columna dispositivo y scroll horizontal |
+| `js/core/indexx-ui.js:652` | Botón “Exportar auditoría” |
+| `tests/auditoria-ui.test.js` | 7 tests (KPIs, filtros, paginación, export, detalle) |
+| `backend/tests/audit-query.test.js` | 6 tests (filtros, conteo, paginación, stats) |
+
+**Verificación:**
+- `node --check` en backend y `AuditoriaManager.js`: OK.
+- `npx vitest run`: **653 tests / 51 archivos OK**.
+- `cd backend && npm test`: **107 tests OK**.
+- Endpoint real (store local): filtro `module=DATOS` → 1; `success=0` → 1; rango antiguo → 0; `/api/audit/stats` → total 4, hoy 4, fallos 1, desglose por módulo/día; cadena `valid:true`.
+- Navegador (API mockeada): 50 filas, `Mostrando 1–50 de 120`, `Página 1 de 3`; KPIs 120/5/30/2/98%; filtro `module=GRAFICOS&action=CHART` en la URL; Siguiente → `51–100` y `Página 2 de 3`; **0 errores**.
+
 ### 2026-10-30: Auditoría de frontend activa (Fases 0+1+2)
 
 **Qué:** Se conecta la auditoría del cliente a la cadena del servidor. Antes `Logger.js` no se cargaba y todos los eventos fallaban en silencio; ahora se registran lotes validados y la cadena queda serializada incluso con varias instancias del backend.

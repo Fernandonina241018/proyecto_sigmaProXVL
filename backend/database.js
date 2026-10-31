@@ -438,7 +438,65 @@ function buildPostgres() {
         });
     }
 
-    async function getAuditLog(limit = 100, offset = 0) { return all('SELECT * FROM audit_log ORDER BY id DESC LIMIT $1 OFFSET $2', [limit, offset]); }
+    // ── Consulta de auditoría con filtros (servidor) ──
+    function _auditFrom(v) { return /^\d{4}-\d{2}-\d{2}$/.test(String(v)) ? String(v) + 'T00:00:00.000Z' : String(v); }
+    function _auditTo(v) { return /^\d{4}-\d{2}-\d{2}$/.test(String(v)) ? String(v) + 'T23:59:59.999Z' : String(v); }
+    function _auditWhere(filters, startIdx) {
+        const f = filters || {};
+        const clauses = [];
+        const params = [];
+        let n = startIdx || 1;
+        if (f.module) { clauses.push(`COALESCE(NULLIF(module,''),'SYSTEM') = $${n++}`); params.push(String(f.module)); }
+        if (f.action) { clauses.push(`POSITION(lower($${n++}) IN lower(action)) > 0`); params.push(String(f.action)); }
+        if (f.username) { clauses.push(`POSITION(lower($${n++}) IN lower(username)) > 0`); params.push(String(f.username)); }
+        if (f.from) { clauses.push(`timestamp >= $${n++}`); params.push(_auditFrom(f.from)); }
+        if (f.to) { clauses.push(`timestamp <= $${n++}`); params.push(_auditTo(f.to)); }
+        if (f.success !== undefined && f.success !== null && f.success !== '') {
+            clauses.push(`success = $${n++}`); params.push(Number(f.success) ? 1 : 0);
+        }
+        return { sql: clauses.length ? ' WHERE ' + clauses.join(' AND ') : '', params: params };
+    }
+
+    async function getAuditLog(limit = 100, offset = 0, filters = {}) {
+        const lim = Math.min(Math.max(parseInt(limit) || 100, 1), 500);
+        const off = Math.max(parseInt(offset) || 0, 0);
+        const w = _auditWhere(filters, 1);
+        const base = w.params.length;
+        return all(
+            `SELECT * FROM audit_log${w.sql} ORDER BY id DESC LIMIT $${base + 1} OFFSET $${base + 2}`,
+            w.params.concat([lim, off])
+        );
+    }
+
+    async function countAuditLog(filters = {}) {
+        const w = _auditWhere(filters, 1);
+        const row = await get(`SELECT COUNT(*)::int AS n FROM audit_log${w.sql}`, w.params);
+        return row ? row.n : 0;
+    }
+
+    async function getAuditStats() {
+        const now = new Date();
+        const today = now.toISOString().slice(0, 10) + 'T00:00:00.000Z';
+        const last7 = new Date(now.getTime() - 6 * 86400000).toISOString().slice(0, 10) + 'T00:00:00.000Z';
+        const totals = await get(
+            `SELECT COUNT(*)::int AS total,
+                    COUNT(*) FILTER (WHERE success = 0)::int AS failures,
+                    COUNT(*) FILTER (WHERE timestamp >= $1)::int AS today,
+                    COUNT(*) FILTER (WHERE timestamp >= $2)::int AS week
+             FROM audit_log`,
+            [today, last7]
+        ) || { total: 0, failures: 0, today: 0, week: 0 };
+        const mods = await all(`SELECT COALESCE(NULLIF(module,''),'SYSTEM') AS module, COUNT(*)::int AS n FROM audit_log GROUP BY 1 ORDER BY n DESC`);
+        const days = await all(`SELECT substr(timestamp,1,10) AS date, COUNT(*)::int AS n FROM audit_log WHERE timestamp >= $1 GROUP BY 1 ORDER BY 1`, [last7]);
+        return {
+            total: totals.total || 0,
+            failures: totals.failures || 0,
+            today: totals.today || 0,
+            week: totals.week || 0,
+            byModule: mods,
+            byDay: days,
+        };
+    }
 
     // OPT-6: verificación de cadena con ventana opcional { tail: N }.
     // Sin opciones = cadena completa (comportamiento original). Con tail se
@@ -1135,7 +1193,7 @@ function buildPostgres() {
         return elig;
     }
 
-    return { run, get, all, initDatabase, createInitialAdmin, getUserByUsername, getUserBySignatureCode, isSignatureCodeTaken, getUserById, createUser, updateLastLogin, getAllUsers, getUsersList, countUsers, toggleUserActive, changePassword, setPasswordTemp, updateUserProfile, updateUserProfileById, changeRole, logAccess, logAuditEvent, getAuditLog, verifyAuditChain, blacklistToken, isTokenBlacklisted, cleanExpiredBlacklist, registerDevice, isDeviceTrusted, getUserDevices, getAllDevices, countDevices, countUserDevices, setDeviceTrust, removeDevice, save2FASecret, get2FASecret, enable2FA, disable2FA, has2FAEnabled, createSnapshot, getSnapshots, getSnapshotById, createSignSession, getSignSession, listSignSessions, countSignSessions, signQuotaInfo, signSessionStep, importSignSession, rejectSignSession, reopenSignSession, sendbackSignSession, amendSignSession, deleteSignSession, unsignSessionStep, dismissSignSession, purgeSignSessions };}
+    return { run, get, all, initDatabase, createInitialAdmin, getUserByUsername, getUserBySignatureCode, isSignatureCodeTaken, getUserById, createUser, updateLastLogin, getAllUsers, getUsersList, countUsers, toggleUserActive, changePassword, setPasswordTemp, updateUserProfile, updateUserProfileById, changeRole, logAccess, logAuditEvent, getAuditLog, countAuditLog, getAuditStats, verifyAuditChain, blacklistToken, isTokenBlacklisted, cleanExpiredBlacklist, registerDevice, isDeviceTrusted, getUserDevices, getAllDevices, countDevices, countUserDevices, setDeviceTrust, removeDevice, save2FASecret, get2FASecret, enable2FA, disable2FA, has2FAEnabled, createSnapshot, getSnapshots, getSnapshotById, createSignSession, getSignSession, listSignSessions, countSignSessions, signQuotaInfo, signSessionStep, importSignSession, rejectSignSession, reopenSignSession, sendbackSignSession, amendSignSession, deleteSignSession, unsignSessionStep, dismissSignSession, purgeSignSessions };}
 
 // ───── Local JSON store ─────
 function buildLocalStore() {
@@ -1360,11 +1418,65 @@ function buildLocalStore() {
         });
     }
 
+    // ── Consulta con filtros (paridad con PG) ──
+    function _auditFrom(v) { return /^\d{4}-\d{2}-\d{2}$/.test(String(v)) ? String(v) + 'T00:00:00.000Z' : String(v); }
+    function _auditTo(v) { return /^\d{4}-\d{2}-\d{2}$/.test(String(v)) ? String(v) + 'T23:59:59.999Z' : String(v); }
+    function _auditFiltered(filters) {
+        const f = filters || {};
+        const from = f.from ? _auditFrom(f.from) : null;
+        const to = f.to ? _auditTo(f.to) : null;
+        const success = (f.success !== undefined && f.success !== null && f.success !== '') ? (Number(f.success) ? 1 : 0) : null;
+        return state.audit_log.filter(function (l) {
+            if (f.module && String(l.module || 'SYSTEM') !== String(f.module)) return false;
+            if (f.action && String(l.action || '').toLowerCase().indexOf(String(f.action).toLowerCase()) === -1) return false;
+            if (f.username && String(l.username || '').toLowerCase().indexOf(String(f.username).toLowerCase()) === -1) return false;
+            if (from && String(l.timestamp || '') < from) return false;
+            if (to && String(l.timestamp || '') > to) return false;
+            if (success !== null && Number(l.success) !== success) return false;
+            return true;
+        });
+    }
+
     // OPT-6: offset (el endpoint ya enviaba offset y el store local lo ignoraba)
-    async function getAuditLog(limit = 100, offset = 0) {
+    async function getAuditLog(limit = 100, offset = 0, filters = {}) {
         limit = Math.min(Math.max(parseInt(limit) || 100, 1), 500);
         offset = Math.max(parseInt(offset) || 0, 0);
-        return state.audit_log.slice().reverse().slice(offset, offset + limit);
+        return _auditFiltered(filters).slice().reverse().slice(offset, offset + limit);
+    }
+
+    async function countAuditLog(filters = {}) {
+        return _auditFiltered(filters).length;
+    }
+
+    async function getAuditStats() {
+        const now = new Date();
+        const today = now.toISOString().slice(0, 10);
+        const last7 = new Date(now.getTime() - 6 * 86400000).toISOString().slice(0, 10);
+        const byModule = {};
+        const byDay = {};
+        let total = 0, failures = 0, todayCount = 0, weekCount = 0;
+        state.audit_log.forEach(function (l) {
+            total++;
+            if (Number(l.success) === 0) failures++;
+            const ts = String(l.timestamp || '');
+            const day = ts.slice(0, 10);
+            if (day === today) todayCount++;
+            if (day >= last7) {
+                weekCount++;
+                byDay[day] = (byDay[day] || 0) + 1;
+            }
+            const m = l.module || 'SYSTEM';
+            byModule[m] = (byModule[m] || 0) + 1;
+        });
+        return {
+            total: total,
+            failures: failures,
+            today: todayCount,
+            week: weekCount,
+            byModule: Object.keys(byModule).map(function (m) { return { module: m, n: byModule[m] }; })
+                .sort(function (a, b) { return b.n - a.n; }),
+            byDay: Object.keys(byDay).sort().map(function (d) { return { date: d, n: byDay[d] }; }),
+        };
     }
 
     // OPT-6: mirror de la impl PG — ventana con eslabón ancla
@@ -1976,7 +2088,7 @@ function buildLocalStore() {
         return _localSignView(s);
     }
 
-    return { run, get, all, initDatabase, createInitialAdmin, getUserByUsername, getUserBySignatureCode, isSignatureCodeTaken, getUserById, createUser, updateLastLogin, getAllUsers, getUsersList, countUsers, toggleUserActive, changePassword, setPasswordTemp, updateUserProfile, updateUserProfileById, changeRole, logAccess, logAuditEvent, getAuditLog, verifyAuditChain, blacklistToken, isTokenBlacklisted, cleanExpiredBlacklist, registerDevice, isDeviceTrusted, getUserDevices, getAllDevices, countDevices, countUserDevices, setDeviceTrust, removeDevice, save2FASecret, get2FASecret, enable2FA, disable2FA, has2FAEnabled, createSnapshot, getSnapshots, getSnapshotById, createSignSession, getSignSession, listSignSessions, countSignSessions, signQuotaInfo, signSessionStep, importSignSession, rejectSignSession, reopenSignSession, sendbackSignSession, amendSignSession, deleteSignSession, unsignSessionStep, dismissSignSession, purgeSignSessions };}
+    return { run, get, all, initDatabase, createInitialAdmin, getUserByUsername, getUserBySignatureCode, isSignatureCodeTaken, getUserById, createUser, updateLastLogin, getAllUsers, getUsersList, countUsers, toggleUserActive, changePassword, setPasswordTemp, updateUserProfile, updateUserProfileById, changeRole, logAccess, logAuditEvent, getAuditLog, countAuditLog, getAuditStats, verifyAuditChain, blacklistToken, isTokenBlacklisted, cleanExpiredBlacklist, registerDevice, isDeviceTrusted, getUserDevices, getAllDevices, countDevices, countUserDevices, setDeviceTrust, removeDevice, save2FASecret, get2FASecret, enable2FA, disable2FA, has2FAEnabled, createSnapshot, getSnapshots, getSnapshotById, createSignSession, getSignSession, listSignSessions, countSignSessions, signQuotaInfo, signSessionStep, importSignSession, rejectSignSession, reopenSignSession, sendbackSignSession, amendSignSession, deleteSignSession, unsignSessionStep, dismissSignSession, purgeSignSessions };}
 
 const impl = build();
 module.exports = {
@@ -1999,6 +2111,8 @@ module.exports = {
     logAccess:           (...a) => impl.logAccess(...a),
     logAuditEvent:       (...a) => impl.logAuditEvent(...a),
     getAuditLog:         (...a) => impl.getAuditLog(...a),
+    countAuditLog:       (...a) => impl.countAuditLog(...a),
+    getAuditStats:       (...a) => impl.getAuditStats(...a),
     verifyAuditChain:    (...a) => impl.verifyAuditChain(...a),
     blacklistToken:      (...a) => impl.blacklistToken(...a),
     isTokenBlacklisted:  (...a) => impl.isTokenBlacklisted(...a),
