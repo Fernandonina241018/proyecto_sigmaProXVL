@@ -478,21 +478,25 @@ function buildPostgres() {
         const now = new Date();
         const today = now.toISOString().slice(0, 10) + 'T00:00:00.000Z';
         const last7 = new Date(now.getTime() - 6 * 86400000).toISOString().slice(0, 10) + 'T00:00:00.000Z';
-        const totals = await get(
-            `SELECT COUNT(*)::int AS total,
-                    COUNT(*) FILTER (WHERE success = 0)::int AS failures,
-                    COUNT(*) FILTER (WHERE timestamp >= $1)::int AS today,
-                    COUNT(*) FILTER (WHERE timestamp >= $2)::int AS week
-             FROM audit_log`,
-            [today, last7]
-        ) || { total: 0, failures: 0, today: 0, week: 0 };
-        const mods = await all(`SELECT COALESCE(NULLIF(module,''),'SYSTEM') AS module, COUNT(*)::int AS n FROM audit_log GROUP BY 1 ORDER BY n DESC`);
-        const days = await all(`SELECT substr(timestamp,1,10) AS date, COUNT(*)::int AS n FROM audit_log WHERE timestamp >= $1 GROUP BY 1 ORDER BY 1`, [last7]);
+        // Consultas independientes: en paralelo (no tocan la cadena de hash).
+        const [totals, mods, days] = await Promise.all([
+            get(
+                `SELECT COUNT(*)::int AS total,
+                        COUNT(*) FILTER (WHERE success = 0)::int AS failures,
+                        COUNT(*) FILTER (WHERE timestamp >= $1)::int AS today,
+                        COUNT(*) FILTER (WHERE timestamp >= $2)::int AS week
+                 FROM audit_log`,
+                [today, last7]
+            ),
+            all(`SELECT COALESCE(NULLIF(module,''),'SYSTEM') AS module, COUNT(*)::int AS n FROM audit_log GROUP BY 1 ORDER BY n DESC`),
+            all(`SELECT substr(timestamp,1,10) AS date, COUNT(*)::int AS n FROM audit_log WHERE timestamp >= $1 GROUP BY 1 ORDER BY 1`, [last7])
+        ]);
+        const t = totals || { total: 0, failures: 0, today: 0, week: 0 };
         return {
-            total: totals.total || 0,
-            failures: totals.failures || 0,
-            today: totals.today || 0,
-            week: totals.week || 0,
+            total: t.total || 0,
+            failures: t.failures || 0,
+            today: t.today || 0,
+            week: t.week || 0,
             byModule: mods,
             byDay: days,
         };
