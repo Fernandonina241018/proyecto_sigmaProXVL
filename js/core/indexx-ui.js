@@ -370,9 +370,9 @@ var _SIDE_CHEV = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" st
 function _sideCardIcon(paths) {
   return '<div class="side-card-icon" aria-hidden="true"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">' + paths + '</svg></div>';
 }
-function _sideCard(id, icon, title, sub, content, collapsed) {
+function _sideCard(id, icon, title, sub, content, collapsed, extraClass) {
   var isCollapsed = !!collapsed;
-  return '<section class="side-card' + (isCollapsed ? ' collapsed' : '') + '" id="' + id + '">' +
+  return '<section class="side-card' + (isCollapsed ? ' collapsed' : '') + (extraClass ? ' ' + extraClass : '') + '" id="' + id + '">' +
     '<header class="side-card-head">' +
       '<div class="side-card-title-wrap">' + icon +
         '<div><h3 class="side-card-title">' + title + '</h3><p class="side-card-sub">' + sub + '</p></div>' +
@@ -502,14 +502,14 @@ var leftPanels = {
         };
         selectedTests.forEach(function(t) {
           var icon = testIcons[t] || '📊';
-          var isCurrent = analisisSelectedTest === t ? 'active' : '';
-          selectedTestsHtml += '<div class="info-item ' + isCurrent + '" style="display:flex;align-items:center;gap:4px">' +
-            '<span style="color:var(--accent)">✓</span>' +
-            '<span>' + icon + ' ' + t + '</span>' +
+          var isCurrent = analisisSelectedTest === t ? ' active' : '';
+          selectedTestsHtml += '<div class="info-item anl-test' + isCurrent + '">' +
+            '<span class="anl-test-ok">✓</span>' +
+            '<span class="anl-test-name">' + icon + ' ' + t + '</span>' +
           '</div>';
         });
       } else {
-        selectedTestsHtml = '<div class="info-item" style="color:var(--text-faint);font-size:11px">Ningún test seleccionado</div>';
+        selectedTestsHtml = '<div class="info-item anl-test is-empty">Ningún test seleccionado</div>';
       }
       
       // Get current dataset info
@@ -518,43 +518,47 @@ var leftPanels = {
       var dsRows = analisisSheet ? analisisSheet.rows.length : 0;
       var dsCols = analisisSheet ? analisisSheet.headers.length : 0;
 
-      return '<div class="left-panel datos" id="panelAnalisis" aria-label="Análisis estadísticos" style="gap:12px;padding:8px">' +
-        // ── Dataset activo (estado vivo: updateAnalisisDatasetBadge escribe estos 3 ids) ──
-        '<section class="gl">' +
-          '<div class="estado' + (analisisSheet ? ' on' : '') + '"><span class="pt"></span>' +
+      var datasetContent =
+        '<div class="estado' + (analisisSheet ? ' on' : '') + '"><span class="pt"></span>' +
           '<span class="nom" id="analisisDsName" title="' + escapeHtml(dsName) + '">' + escapeHtml(dsName) + '</span>' +
-          '<span class="cnt"><span id="analisisDsRows">' + dsRows + '</span> filas · <span id="analisisDsCols">' + dsCols + '</span> col</span></div>' +
-          '<div class="sec">Columnas</div>' +
-          '<div style="display:flex;align-items:center;gap:6px">' +
-            '<span id="analisisStatNumeric" style="font-size:11px;font-weight:600;color:var(--accent)">?</span>' +
-            '<span style="font-size:10px;color:var(--text-faint)">numéricas</span>' +
-          '</div>' +
-          '<div style="display:flex;align-items:center;gap:6px;padding:6px 0 2px">' +
-            '<span style="font-size:10px;color:var(--text-faint);min-width:60px">Umbral:</span>' +
-            '<input type="range" id="colThresholdSlider" min="0" max="100" value="50" style="flex:1;height:4px" oninput="columnAnalysisConfig.threshold=this.value/100;document.getElementById(\'colThresholdVal\').textContent=this.value+\'%\'">' +
-            '<span id="colThresholdVal" style="font-size:10px;color:var(--text-primary);min-width:28px;text-align:right">50%</span>' +
-          '</div>' +
-          '<div style="display:flex;gap:8px;align-items:center">' +
-            '<label style="display:flex;align-items:center;gap:3px;font-size:10px;color:var(--text-faint);cursor:pointer"><input type="checkbox" id="colForceInclude" onchange="columnAnalysisConfig.forceInclude=this.checked"> Forzar</label>' +
-            '<label style="display:flex;align-items:center;gap:3px;font-size:10px;color:var(--text-faint);cursor:pointer"><input type="checkbox" id="colImputeMissing" onchange="columnAnalysisConfig.imputeMissing=this.checked"> Imputar</label>' +
-            '<button class="fglass-btn is-round40" style="width:30px;height:30px;font-size:12px;margin-left:auto" onclick="showColumnExclusionModal()" title="Excluir columnas">🚫</button>' +
-          '</div>' +
-          '<div id="analisisExcludedTags" style="display:flex;flex-wrap:wrap;gap:3px;min-height:0;font-size:10px"></div>' +
-        '</section>' +
-        // ── Último resultado (updateAnalisisLastResult escribe estos ids) ──
-        '<section class="gl">' +
-          '<div class="sec" style="margin-top:0">Último resultado</div>' +
-          '<div id="analisisLastResultList" style="display:flex;flex-direction:column;gap:4px">' +
-            '<div style="display:flex;justify-content:space-between;gap:8px;font-size:11px"><span style="color:var(--text-faint)">Test</span><span id="analisisLastTest" style="color:var(--text-primary);font-weight:600">' + lastTest + '</span></div>' +
-            '<div style="display:flex;justify-content:space-between;gap:8px;font-size:11px"><span style="color:var(--text-faint)">p-valor</span><span id="analisisLastPVal" style="color:var(--text-primary);font-variant-numeric:tabular-nums">' + lastPVal + '</span></div>' +
-            '<div style="display:flex;justify-content:space-between;gap:8px;font-size:11px"><span style="color:var(--text-faint)">Decisión</span><span id="analisisLastDecision" style="color:' + decColor + ';font-weight:600">' + lastDec + '</span></div>' +
-          '</div>' +
-        '</section>' +
-        // ── Tests seleccionados (solo este scroll) ──
-        '<section class="gl" style="flex:1;overflow:hidden;display:flex;flex-direction:column;min-height:0">' +
-          '<div class="sec" style="margin-top:0">Test seleccionado</div>' +
-          '<div id="analisisSelectedTestsScroll" style="overflow-y:auto;flex:1;display:flex;flex-direction:column;gap:3px;min-height:40px">' + selectedTestsHtml + '</div>' +
-        '</section>' +
+          '<span class="cnt"><span id="analisisDsRows">' + dsRows + '</span> filas · <span id="analisisDsCols">' + dsCols + '</span> col</span>' +
+        '</div>' +
+        '<div class="sec">Columnas</div>' +
+        '<div class="anl-stat">' +
+          '<span id="analisisStatNumeric" class="anl-stat-num">?</span>' +
+          '<span class="anl-stat-lbl">numéricas</span>' +
+        '</div>' +
+        '<div class="anl-threshold">' +
+          '<span class="anl-threshold-lbl">Umbral</span>' +
+          '<input type="range" id="colThresholdSlider" min="0" max="100" value="50" aria-label="Umbral de columnas numéricas" oninput="columnAnalysisConfig.threshold=this.value/100;document.getElementById(\'colThresholdVal\').textContent=this.value+\'%\'">' +
+          '<span id="colThresholdVal" class="anl-threshold-val">50%</span>' +
+        '</div>' +
+        '<div class="anl-flags">' +
+          '<label class="anl-check"><input type="checkbox" id="colForceInclude" onchange="columnAnalysisConfig.forceInclude=this.checked"> Forzar</label>' +
+          '<label class="anl-check"><input type="checkbox" id="colImputeMissing" onchange="columnAnalysisConfig.imputeMissing=this.checked"> Imputar</label>' +
+          '<button class="anl-icon-btn" type="button" onclick="showColumnExclusionModal()" title="Excluir columnas" aria-label="Excluir columnas">🚫</button>' +
+        '</div>' +
+        '<div id="analisisExcludedTags" class="anl-tags"></div>';
+
+      var lastContent =
+        '<div id="analisisLastResultList" class="anl-last">' +
+          '<div class="anl-last-row"><span class="anl-k">Test</span><span id="analisisLastTest" class="anl-v">' + lastTest + '</span></div>' +
+          '<div class="anl-last-row"><span class="anl-k">p-valor</span><span id="analisisLastPVal" class="anl-v anl-num">' + lastPVal + '</span></div>' +
+          '<div class="anl-last-row"><span class="anl-k">Decisión</span><span id="analisisLastDecision" class="anl-v" style="color:' + decColor + '">' + lastDec + '</span></div>' +
+        '</div>';
+
+      var testsContent = '<div id="analisisSelectedTestsScroll" class="anl-tests">' + selectedTestsHtml + '</div>';
+
+      return '<div class="left-panel datos anl-panel" id="panelAnalisis" aria-label="Análisis estadísticos" style="gap:12px;padding:8px">' +
+        _sideCard('anlCardDataset',
+          _sideCardIcon('<path d="M4 6h16M4 12h16M4 18h16"/>'),
+          'Dataset', 'Hoja activa y columnas', datasetContent, false) +
+        _sideCard('anlCardLast',
+          _sideCardIcon('<circle cx="12" cy="12" r="9"/><path d="m8.5 12 2.5 2.5 4.5-5"/>'),
+          'Último resultado', 'Test, p-valor y decisión', lastContent, false) +
+        _sideCard('anlCardSelected',
+          _sideCardIcon('<path d="M4 6h16M4 12h16M4 18h10"/>'),
+          'Test seleccionado', 'Cola de ejecución', testsContent, false, 'grow') +
       '</div>';
     },
 
@@ -873,15 +877,15 @@ var rightPanels = {
     // 1. Mostrar resultado si existe
     if (analisisSelectedTest && analisisResultContent) {
       var testLabel = analisisLastResult && analisisLastResult.testName ? analisisLastResult.testName : analisisSelectedTest;
-      return '<div class="page-body">' +
-        '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">' +
-          '<span style="font-size:14px;font-weight:600;color:var(--text-primary)">' + escapeHtml(testLabel) + '</span>' +
-          '<div style="display:flex;gap:6px">' +
-            '<button class="btn btn-secondary" style="font-size:11px" onclick="analisisResultContent=null;analisisSelectedTest=null;loadPage(&#39;analisis&#39;)">✕ Cerrar resultado</button>' +
+      return '<div class="page-body anl-results-scope">' +
+        '<div class="anl-result-head">' +
+          '<span class="anl-result-title">' + escapeHtml(testLabel) + '</span>' +
+          '<div class="anl-result-actions">' +
+            '<button class="btn btn-secondary anl-btn" onclick="analisisResultContent=null;analisisSelectedTest=null;loadPage(&#39;analisis&#39;)">✕ Cerrar resultado</button>' +
           '</div>' +
         '</div>' +
-        '<div class="page-card">' +
-          '<div class="page-card-body" style="padding:20px">' + analisisResultContent + '</div>' +
+        '<div class="page-card anl-result-card">' +
+          '<div class="page-card-body anl-result-body">' + analisisResultContent + '</div>' +
         '</div>' +
       '</div>';
     }
@@ -924,7 +928,7 @@ var rightPanels = {
         '</div>' +
         // MAIN 3: Estado de resultados (cuando hay resultado disponible)
         '<div class="analisis-main analisis-main-results" style="position:absolute;top:0;left:0;right:0;bottom:0;padding:20px;overflow-y:auto' + (analisisResultContent ? '' : ';display:none') + '">' +
-          '<div style="background:var(--card-bg);border:1px solid var(--border);border-radius:8px;padding:20px">' +
+          '<div class="anl-result-inline anl-results-scope" style="background:var(--card-bg);border:1px solid var(--border);border-radius:8px;padding:20px">' +
             '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid var(--border)">' +
               '<span style="font-size:14px;font-weight:600;color:var(--text-primary)">' + (analisisLastResult ? analisisLastResult.testName : 'Resultado') + '</span>' +
               '<div style="display:flex;gap:6px">' +

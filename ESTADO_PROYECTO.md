@@ -90,6 +90,37 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (SigmaProXVL) con spr
 
 ## CAMBIOS RECIENTES
 
+### 2026-10-30: Armonía del módulo estadístico — F0/F1/F2 (alcance B)
+
+**Qué:** Se alinea el módulo de Análisis con el lenguaje visual de Trabajo/Reportes sin tocar reglas globales: tokens nuevos, panel izquierdo con `.side-card` y resultados con un solo marco.
+
+- **F0 — Tokens** (`indexx.css:50-82`): escala de radios (`--radius-xs…xl`), espaciado (`--space-1…5`), superficies (`--surface-0…3`), estado (`--ok/--warn/--danger` + fondos/bordes), `--on-accent` y `--icon-stroke`. **Aditivos** (ningún estilo existente cambia).
+- **F1 — Panel de Análisis** (`indexx-ui.js:521-560`): 3 `.side-card` → **Dataset** (estado + columnas + umbral + Forzar/Imputar + excluir), **Último resultado** y **Test seleccionado** (`.side-card.grow` con scroll). Se eliminan ~25 estilos inline y se conservan todos los IDs/handlers.
+- **F2 — Resultados** (`indexx-ui.js:880-940`): wrapper `.anl-results-scope`; `.page-card` transparente (sin doble marco), sin `hover: translateY`, acordeón plano (radio 16, superficie `--surface-2`) y KPIs unificados (radio 12, estado en borde/fondo suave). Todo el CSS nuevo usa prefijo `.anl-` (`indexx.css:1609+`), sin modificar `.page-card` global.
+- **Documentación**: nuevo `docs/MAPA_DISENO.md` con tokens, componentes, reglas "sobrio" y pendientes F3/F4.
+
+**Archivos afectados:**
+| Archivo | Cambio |
+|---------|--------|
+| `css/core/indexx.css:50-82` | Tokens F0 (aditivos) |
+| `css/core/indexx.css:1609-1660` | Estilos `.anl-*` del panel y resultados (scope propio) |
+| `js/core/indexx-ui.js:386` | `_sideCard()` acepta clase extra (`.grow`) sin afectar llamadas previas |
+| `js/core/indexx-ui.js:521-560` | Panel de Análisis con 3 `.side-card` |
+| `js/core/indexx-ui.js:878-940` | Resultados con `.anl-results-scope`, header y marco único |
+| `tests/analisis-panel.test.js` | 6 tests: 3 cards, IDs/handlers, scope F2 y tokens F0 |
+| `docs/MAPA_DISENO.md` | Nuevo mapa de diseño |
+
+**Verificación:**
+- `node --check js/core/indexx-ui.js`: OK.
+- `npx vitest run`: **626 tests / 48 archivos OK**.
+- `cd backend && npm test`: **99 tests OK** (sin cambios de backend).
+- Navegador real (admin, tema oscuro y claro):
+  - Panel: 3 cards, 0 `section.gl`, **todos** los IDs presentes; `updateAnalisisDatasetBadge()` actualiza nombre y `2/3 numéricas`.
+  - Slider: 70% → `columnAnalysisConfig.threshold=0.7` y etiqueta `70%`.
+  - Colapso: `aria-expanded=false` y contenido oculto.
+  - Resultados: `.page-card` transparente, `transform` sin cambio en hover, acordeón radio 16, KPI radio 12, header con título y botón.
+  - **0 errores** de página/consola.
+
 ### 2026-10-29 (49): P2 del PQ de tubos — control de cambios, hold time, transporte y MACO/HBEL
 
 **Qué:** Se cerraron las mejoras P2 del PQ de la llenadora y selladora de tubos.
