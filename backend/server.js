@@ -147,7 +147,11 @@ app.use('/api', require('./no-store').apiNoStore);
 // aceptan cuerpos grandes; el resto mantiene 100kb anti-DoS.
 const _jsonSmall = express.json({ limit: '100kb' });
 const _jsonReport = express.json({ limit: '5mb' });
+const _jsonAudit = express.json({ limit: '256kb' }); // lotes de auditoría (50 × 4KB máx)
 app.use((req, res, next) => {
+    if (req.method === 'POST' && req.path === '/api/audit/events') {
+        return _jsonAudit(req, res, next);
+    }
     if (req.method === 'POST' && (req.path === '/api/sign-sessions' || req.path === '/api/sign-sessions/import' || req.path === '/api/pdf/render')) {
         return _jsonReport(req, res, next);
     }
@@ -253,6 +257,16 @@ const pdfLimiter = rateLimit({
     standardHeaders: true,
     legacyHeaders: false,
     keyGenerator: (req) => ipKeyGenerator(req.ip || req.socket.remoteAddress),
+});
+
+// Auditoría de cliente: lotes pequeños y frecuentes (60 req/min por usuario).
+const auditLimiter = rateLimit({
+    windowMs: 60 * 1000,
+    max: 60,
+    message: { error: 'Demasiados eventos de auditoría. Intente de nuevo en un minuto.' },
+    standardHeaders: true,
+    legacyHeaders: false,
+    keyGenerator: (req) => (req.user && req.user.username) ? 'u:' + req.user.username : ipKeyGenerator(req.ip || req.socket.remoteAddress),
 });
 
 // Track de fallos por usuario (en memoria)
@@ -1818,6 +1832,68 @@ app.post('/api/audit/event', requireAuth, async (req, res) => {
     } catch (err) {
         console.error('Error logging audit event:', err);
         res.status(500).json({ error: 'Error al registrar evento' });
+    }
+});
+
+// POST /api/audit/events — lote de eventos del frontend (máx. 50).
+// Seguridad: el servidor impone username/IP/userAgent desde el token; el
+// cliente solo aporta acción, módulo, detalles y resultado. Los eventos se
+// insertan en serie para no bifurcar la cadena de hash.
+app.post('/api/audit/events', requireAuth, auditLimiter, async (req, res) => {
+    try {
+        const events = req.body && req.body.events;
+        if (!Array.isArray(events) || !events.length) {
+            return res.status(400).json({ error: 'events es requerido' });
+        }
+        if (events.length > 50) {
+            return res.status(400).json({ error: 'Máximo 50 eventos por lote' });
+        }
+        const ALLOWED_MODULES = new Set(['LOGIN', 'DATOS', 'ANALISIS', 'GRAFICOS', 'REPORTES', 'FIRMAS', 'USERS', 'VALIDACIONES', 'ML', 'SYSTEM']);
+        const ACTION_RE = /^[A-Z0-9_:\-]{3,80}$/;
+        let stored = 0;
+        for (const ev of events) {
+            if (!ev || typeof ev !== 'object') continue;
+            const action = String(ev.action || '');
+            if (!ACTION_RE.test(action)) continue;
+            const module = ALLOWED_MODULES.has(String(ev.module)) ? String(ev.module) : 'SYSTEM';
+            let details = ev.details;
+            if (details != null) {
+                if (typeof details !== 'object') details = null;
+                else {
+                    try {
+                        if (JSON.stringify(details).length > 4096) details = { truncated: true };
+                    } catch (_e) { details = null; }
+                }
+            }
+            if (details && typeof details === 'object') {
+                // Defensa en profundidad: aunque el cliente sanitiza, el
+                // servidor no debe almacenar credenciales ni hashes.
+                const clean = {};
+                Object.keys(details).forEach((k) => {
+                    if (/pass(word)?|token|secret|hash|signature/i.test(k)) return;
+                    clean[k] = details[k];
+                });
+                details = clean;
+                details.origin = 'client';
+            }
+            const durationMs = (typeof ev.durationMs === 'number' && isFinite(ev.durationMs) && ev.durationMs >= 0 && ev.durationMs <= 3600000)
+                ? Math.round(ev.durationMs) : null;
+            await db.logAuditEvent({
+                username: req.user.username,
+                action,
+                success: ev.success !== false,
+                ip: getClientIP(req),
+                userAgent: req.headers['user-agent'],
+                module,
+                details,
+                durationMs,
+            });
+            stored++;
+        }
+        res.json({ ok: true, stored, received: events.length });
+    } catch (err) {
+        console.error('Error logging audit batch:', err);
+        res.status(500).json({ error: 'Error al registrar eventos' });
     }
 });
 

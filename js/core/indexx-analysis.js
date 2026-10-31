@@ -729,6 +729,7 @@ function runSingleStat(nombre) {
   analisisResultContent = null;
   rightPaneBody.innerHTML = rightPanels.analisis();
 
+  var _t0 = Date.now();
   try {
     var hc = {};
     var saved = StateManager.getHypothesisConfig(nombre);
@@ -752,7 +753,20 @@ function runSingleStat(nombre) {
       }
     }
     updateAnalisisLastResult(resultInfo);
+    try {
+      if (typeof Logger !== 'undefined') {
+        Logger.log('ANALYSIS:RUN', Logger.MODULES.ANALISIS, {
+          test: nombre, n: values.length, columns: (data.headers || []).length,
+          pValue: resultInfo.pValue, significativo: resultInfo.significativo
+        }, { durationMs: Date.now() - _t0 });
+      }
+    } catch (_e) {}
   } catch(e) {
+    try {
+      if (typeof Logger !== 'undefined') {
+        Logger.log('ANALYSIS:ERROR', Logger.MODULES.ANALISIS, { test: nombre, error: String(e && e.message || e) }, { success: false, durationMs: Date.now() - _t0 });
+      }
+    } catch (_e2) {}
     console.error('Error executing ' + nombre + ':', e);
     analisisResultContent = '<div class="page-card"><div class="page-card-body" style="padding:20px;color:#f87171"><strong>Error:</strong> ' + escapeHtml(e.message) + '</div></div>';
   }

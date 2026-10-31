@@ -90,6 +90,55 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (SigmaProXVL) con spr
 
 ## CAMBIOS RECIENTES
 
+### 2026-10-30: Auditoría de frontend activa (Fases 0+1+2)
+
+**Qué:** Se conecta la auditoría del cliente a la cadena del servidor. Antes `Logger.js` no se cargaba y todos los eventos fallaban en silencio; ahora se registran lotes validados y la cadena queda serializada incluso con varias instancias del backend.
+
+**Fase 0 — activación**
+- `Logger.js` añadido al loader (`indexx.html:391`) antes de `StorageAdapter/StateManager`.
+- Inicialización perezosa de `API_URL`/`CFG` (si la URL aparece después, el primer flush la resuelve).
+- `logAccess()` guarda `module='LOGIN'` (el filtro LOGIN de la página ya devuelve datos).
+
+**Fase 1 — Logger v2 + endpoint**
+- `Logger` reescrito: **cola** (tope 200), **lotes de 50** (auto a los 20), reintento con reencolado, `fetch(keepalive)` al ocultar/cerrar la pestaña, `track()` con duración y captura de error, sanitización de credenciales/hashes y `details` ≤ 4 KB.
+- `POST /api/audit/events` (`server.js:1842`): máx. 50 eventos, `action` con regex, módulos en whitelist (desconocido → `SYSTEM`), `details` ≤ 4 KB (si excede → `{truncated:true}`), `durationMs` acotado, **username/IP/userAgent impuestos por el servidor** y `origin:'client'`. Rate limit 60/min por usuario.
+- **Cadena serializada**:
+  - PostgreSQL: `withTransaction()` + `SELECT pg_advisory_xact_lock(hashtext('audit_log'))` (protege multi-instancia).
+  - Store local: mutex de promesa.
+- **Bug latente corregido:** `logAuditEvent` hasheaba `success=true` pero guardaba `1`; se normaliza antes del hash. Cualquier evento con booleano rompía `verifyAuditChain` en esa fila.
+
+**Fase 2 — instrumentación (sin ruido de redibujados)**
+- `DATOS`: carga (`DATASET:LOAD`), limpiar dataset (`DATASET:CLEAR` con gráficos archivados), export CSV (`DATASET:EXPORT`).
+- `ANALISIS`: `ANALYSIS:RUN` con test, n, columnas, p-valor, significancia y `durationMs`; `ANALYSIS:ERROR`.
+- `GRAFICOS`: `CHART:CREATE` (render explícito), `CHART:GALLERY_ADD` (guardado manual), `CHART:GALLERY_CLEAR`, `CHART:EXPORT_PNG`.
+
+**Archivos afectados:**
+| Archivo | Cambio |
+|---------|--------|
+| `js/core/Logger.js` | Reescritura v2 (cola/lote/keepalive/track/sanitize) |
+| `indexx.html:391` | Carga del Logger en el loader |
+| `backend/database.js:173-190` | `withTransaction()` (PG) |
+| `backend/database.js:399-445` | `logAccess`/`logAuditEvent` con advisory lock; `module='LOGIN'`; normalización de `success` |
+| `backend/database.js:1330-1365` | Mutex de cadena en el store local |
+| `backend/server.js:263` | `auditLimiter` (60/min por usuario) |
+| `backend/server.js:1842-1900` | `POST /api/audit/events` validado y con identidad del servidor |
+| `js/core/indexx-datos.js:320` | Hook `DATASET:LOAD` |
+| `js/core/indexx-trabajo.js:2010,2017` | Hooks `DATASET:CLEAR` y `DATASET:EXPORT` |
+| `js/core/indexx-analysis.js:758` | Hooks `ANALYSIS:RUN` / `ANALYSIS:ERROR` |
+| `js/core/indexx-viz.js:1182,1333,1516,1632` | Hooks `CHART:*` |
+| `tests/logger.test.js` | 9 tests (cola, lote, token, reintento, sanitización, `track`, keepalive) |
+| `backend/tests/audit-chain.test.js` | 2 tests (30 inserts concurrentes, `module='LOGIN'`) |
+
+**Verificación:**
+- `node --check` en Logger, database, server, datos, trabajo, analysis y viz: OK.
+- `npx vitest run`: **646 tests / 50 archivos OK**.
+- `cd backend && npm test`: **101 tests OK**.
+- Endpoint real (store local aislado):
+  - Lote de 4 → `stored:3` (acción inválida descartada), módulo desconocido → `SYSTEM`, `password`/`token` eliminados, `details` gigante → `truncated`.
+  - `GET /api/audit` muestra `username` del token y `module` correcto; `LOGIN` aparece como `LOGIN`.
+  - `/api/audit/verify` → `valid:true`; 51 eventos → `400`.
+- Navegador: `Logger` cargado (10 módulos), 20 eventos → 1 POST con `sessionId`, `origin:'client'`, `deviceFingerprint` y `page`; cola a 0. **0 errores**.
+
 ### 2026-10-30: Acciones masivas en la Bandeja de firmas (Rechazadas → Canceladas)
 
 **Qué:** Se añaden acciones para vaciar páginas completas respetando el ciclo regulado: las rechazadas pasan a **Canceladas** (borrado suave, 90 días) y las canceladas se borran **definitivamente** (solo admin).

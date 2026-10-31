@@ -2007,12 +2007,14 @@ function limpiarDataset(skipConfirm) {
   _invalidarVizActual();
   updateDatosUI();
   _persistAllData();
+  try { if (typeof Logger !== 'undefined') Logger.log('DATASET:CLEAR', Logger.MODULES.DATOS, { chartsArchived: _nCharts }); } catch (e) {}
   loadPage('trabajo');
   showToast('🧹 Dataset limpiado');
 }
 
 function exportTrabajo() {
   var sheet = getCurrentSheet(); if (!sheet) { showToast('⚠️ No hay datos.'); return; }
+  try { if (typeof Logger !== 'undefined') Logger.log('DATASET:EXPORT', Logger.MODULES.DATOS, { filename: sheet.name, rows: sheet.rows.length, cols: sheet.headers.length, format: 'csv' }); } catch (e) {}
   var csv = sheet.headers.join(',') + '\n';
   sheet.rows.forEach(function(r){ csv += r.map(function(c){ var s=String(c||''); return (s.includes(',')||s.includes('"')||s.includes('\n'))?'"'+s.replace(/"/g,'""')+'"':s; }).join(',') + '\n'; });
   var blob = new Blob([csv], {type:'text/csv;charset=utf-8;'});

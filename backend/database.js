@@ -167,6 +167,24 @@ function buildPostgres() {
     async function get(sql, params = []) { const r = await run(sql, params); return r.rows[0] || null; }
     async function all(sql, params = []) { const r = await run(sql, params); return r.rows; }
 
+    // Transacción con client dedicado. Necesaria para el lock de la cadena de
+    // auditoría (pg_advisory_xact_lock): un mutex en JS no protege si Fly
+    // levanta más de una instancia del backend.
+    async function withTransaction(fn) {
+        const client = await pool.connect();
+        try {
+            await client.query('BEGIN');
+            const out = await fn(client);
+            await client.query('COMMIT');
+            return out;
+        } catch (err) {
+            try { await client.query('ROLLBACK'); } catch (_e) {}
+            throw err;
+        } finally {
+            client.release();
+        }
+    }
+
     async function initDatabase() {
         await run(`CREATE TABLE IF NOT EXISTS users (
             id SERIAL PRIMARY KEY, username TEXT UNIQUE NOT NULL, password TEXT NOT NULL,
@@ -373,33 +391,51 @@ function buildPostgres() {
         const row = await get('SELECT row_hash FROM audit_log ORDER BY id DESC LIMIT 1');
         return row ? row.row_hash : null;
     }
+    async function _getLastRowHashTx(client) {
+        const r = await client.query('SELECT row_hash FROM audit_log ORDER BY id DESC LIMIT 1');
+        return r.rows[0] ? r.rows[0].row_hash : null;
+    }
 
     async function logAccess({ username, action, success, ip, userAgent }) {
-        const prevHash = await _getLastRowHash();
-        const timestamp = new Date().toISOString();
         // FASE 4 — normalizar success ANTES de hashear: se hasheaba el
         // booleano ('true') pero se guardaba 1 → verify recomputaba '1'
         // y la cadena se rompía en la primera fila (detectado por smoke E2E).
         const ok = success ? 1 : 0;
-        const data = { username, action, success: ok, ip, userAgent, module: '', details: '', durationMs: '', timestamp };
-        const rowHash = _computeRowHash(prevHash, data);
-        await run(`INSERT INTO audit_log (username,action,success,ip,user_agent,timestamp,prev_hash,row_hash) VALUES ($1,$2,$3,$4,$5,$6,$7,$8)`,
-            [username, action, ok, ip, userAgent, timestamp, prevHash, rowHash]);
+        await withTransaction(async (client) => {
+            await client.query("SELECT pg_advisory_xact_lock(hashtext('audit_log'))");
+            const prevHash = await _getLastRowHashTx(client);
+            const timestamp = new Date().toISOString();
+            const data = { username, action, success: ok, ip, userAgent, module: 'LOGIN', details: '', durationMs: '', timestamp };
+            const rowHash = _computeRowHash(prevHash, data);
+            await client.query(
+                `INSERT INTO audit_log (username,action,success,ip,user_agent,module,timestamp,prev_hash,row_hash) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9)`,
+                [username, action, ok, ip, userAgent, 'LOGIN', timestamp, prevHash, rowHash]
+            );
+        });
     }
 
     async function logAuditEvent({ username, action, success, ip, userAgent, module, details, durationMs }) {
-        const prevHash = await _getLastRowHash();
-        const timestamp = new Date().toISOString();
         // details puede llegar como objeto (recomendado) o como string ya
         // serializado por el caller. Serializar solo objetos evita la doble
         // codificación que dejaba la auditoría como JSON escapado ilegible.
         const detailsJson = details == null || details === ''
             ? null
             : (typeof details === 'string' ? details : JSON.stringify(details));
-        const data = { username, action, success, ip, userAgent, module: module||'', details: detailsJson||'', durationMs: durationMs||'', timestamp };
-        const rowHash = _computeRowHash(prevHash, data);
-        await run(`INSERT INTO audit_log (username,action,success,ip,user_agent,module,details,duration_ms,timestamp,prev_hash,row_hash) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11)`,
-            [username, action, success !== false ? 1 : 0, ip, userAgent, module||null, detailsJson, durationMs||null, timestamp, prevHash, rowHash]);
+        await withTransaction(async (client) => {
+            // Lock de transacción: serializa la cadena incluso con varias
+            // instancias del backend (Fly). Sin esto, dos INSERT concurrentes
+            // leen el mismo prev_hash y bifurcan la cadena.
+            await client.query("SELECT pg_advisory_xact_lock(hashtext('audit_log'))");
+            const prevHash = await _getLastRowHashTx(client);
+            const timestamp = new Date().toISOString();
+            const ok = success !== false ? 1 : 0;
+            const data = { username, action, success: ok, ip, userAgent, module: module || '', details: detailsJson || '', durationMs: durationMs || '', timestamp };
+            const rowHash = _computeRowHash(prevHash, data);
+            await client.query(
+                `INSERT INTO audit_log (username,action,success,ip,user_agent,module,details,duration_ms,timestamp,prev_hash,row_hash) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11)`,
+                [username, action, ok, ip, userAgent, module || null, detailsJson, durationMs || null, timestamp, prevHash, rowHash]
+            );
+        });
     }
 
     async function getAuditLog(limit = 100, offset = 0) { return all('SELECT * FROM audit_log ORDER BY id DESC LIMIT $1 OFFSET $2', [limit, offset]); }
@@ -1283,30 +1319,45 @@ function buildLocalStore() {
         return last ? last.row_hash : null;
     }
 
-    async function logAccess({ username, action, success, ip, userAgent }) {
-        const prevHash = _getLastRowHash();
-        const timestamp = new Date().toISOString();
-        // FASE 4 — mirror PG: normalizar success antes de hashear.
-        const ok = success ? 1 : 0;
-        const data = { username, action, success: ok, ip, userAgent, module: '', details: '', durationMs: '', timestamp };
-        const rowHash = _computeRowHash(prevHash, data);
-        state.audit_log.push({ id: state.nextAuditId++, username, action, success: ok, ip, user_agent: userAgent, module: null, details: null, duration_ms: null, timestamp, prev_hash: prevHash, row_hash: rowHash });
-        save();
+    // Mutex de la cadena para el store local (mono-proceso).
+    let _auditChain = Promise.resolve();
+    function _serializedAudit(fn) {
+        const p = _auditChain.then(fn, fn);
+        _auditChain = p.then(() => {}, () => {});
+        return p;
     }
 
-    async function logAuditEvent({ username, action, success, ip, userAgent, module, details, durationMs }) {
-        const prevHash = _getLastRowHash();
-        const timestamp = new Date().toISOString();
-        // details puede llegar como objeto (recomendado) o como string ya
-        // serializado por el caller. Serializar solo objetos evita la doble
-        // codificación que dejaba la auditoría como JSON escapado ilegible.
-        const detailsJson = details == null || details === ''
-            ? null
-            : (typeof details === 'string' ? details : JSON.stringify(details));
-        const data = { username, action, success, ip, userAgent, module: module||'', details: detailsJson||'', durationMs: durationMs||'', timestamp };
-        const rowHash = _computeRowHash(prevHash, data);
-        state.audit_log.push({ id: state.nextAuditId++, username, action, success: success!==false?1:0, ip, user_agent: userAgent, module: module||null, details: detailsJson, duration_ms: durationMs||null, timestamp, prev_hash: prevHash, row_hash: rowHash });
-        save();
+    async function logAccess(args) {
+        return _serializedAudit(async () => {
+            const { username, action, success, ip, userAgent } = args;
+            const prevHash = _getLastRowHash();
+            const timestamp = new Date().toISOString();
+            // FASE 4 — mirror PG: normalizar success antes de hashear.
+            const ok = success ? 1 : 0;
+            const data = { username, action, success: ok, ip, userAgent, module: 'LOGIN', details: '', durationMs: '', timestamp };
+            const rowHash = _computeRowHash(prevHash, data);
+            state.audit_log.push({ id: state.nextAuditId++, username, action, success: ok, ip, user_agent: userAgent, module: 'LOGIN', details: null, duration_ms: null, timestamp, prev_hash: prevHash, row_hash: rowHash });
+            save();
+        });
+    }
+
+    async function logAuditEvent(args) {
+        return _serializedAudit(async () => {
+            const { username, action, success, ip, userAgent, module, details, durationMs } = args;
+            const prevHash = _getLastRowHash();
+            const timestamp = new Date().toISOString();
+            // details puede llegar como objeto (recomendado) o como string ya
+            // serializado por el caller. Serializar solo objetos evita la doble
+            // codificación que dejaba la auditoría como JSON escapado ilegible.
+            const detailsJson = details == null || details === ''
+                ? null
+                : (typeof details === 'string' ? details : JSON.stringify(details));
+            const ok = success !== false ? 1 : 0;
+            const data = { username, action, success: ok, ip, userAgent, module: module||'', details: detailsJson||'', durationMs: durationMs||'', timestamp };
+            const rowHash = _computeRowHash(prevHash, data);
+            state.audit_log.push({ id: state.nextAuditId++, username, action, success: ok, ip, user_agent: userAgent, module: module||null, details: detailsJson, duration_ms: durationMs||null, timestamp, prev_hash: prevHash, row_hash: rowHash });
+            save();
+        });
     }
 
     // OPT-6: offset (el endpoint ya enviaba offset y el store local lo ignoraba)

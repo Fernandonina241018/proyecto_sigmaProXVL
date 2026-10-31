@@ -315,6 +315,13 @@ function finishLoad(headers, rows, filename, size) {
   addToRecentFiles({ name: filename, type: filename.split('.').pop().toUpperCase(), size: size || 0, rows: rows.length, date: new Date().toISOString() }, datosCurrentData);
   updateDatosUI();
   _persistAllData();
+  try {
+    if (typeof Logger !== 'undefined') {
+      Logger.log('DATASET:LOAD', Logger.MODULES.DATOS, {
+        filename: filename, rows: rows.length, cols: headers.length, source: datosSourceType
+      });
+    }
+  } catch (_e) {}
 }
 
 // ── Column type detection (single-pass per column) ──

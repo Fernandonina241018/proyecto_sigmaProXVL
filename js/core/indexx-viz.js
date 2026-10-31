@@ -1177,6 +1177,16 @@ function vizRenderChart(saveToGallery) {
   var savedId = null;
   if (saveToGallery === true) {
     try { savedId = vizSaveToGallery({ silent: true }); } catch(e) { savedId = null; }
+    try {
+      if (typeof Logger !== 'undefined') {
+        Logger.log('CHART:CREATE', Logger.MODULES.GRAFICOS, {
+          chartType: _V.type || null,
+          palette: _V.palette || null,
+          x: (_V.vals || {}).x || null,
+          y: (_V.vals || {}).y || null
+        });
+      }
+    } catch (_e) {}
   }
   showToast(savedId !== null ? '✓ Gráfico renderizado y guardado en galería' : '✓ Gráfico renderizado');
 }
@@ -1317,7 +1327,14 @@ function vizSaveToGallery(opts) {
   _V._activeGalleryId = id;
   vizRefreshGallery();
   _V_saveGallery();
-  if (!silent) showToast('✓ Guardado en galería');
+  if (!silent) {
+    try {
+      if (typeof Logger !== 'undefined') {
+        Logger.log('CHART:GALLERY_ADD', Logger.MODULES.GRAFICOS, { chartId: id, chartType: _V.type || null });
+      }
+    } catch (_e) {}
+    showToast('✓ Guardado en galería');
+  }
   return id;
 }
 
@@ -1488,11 +1505,17 @@ function vizDelGallery(id) {
 }
 
 function vizClearGallery() {
+  var _nClear = (_V.gallery && _V.gallery.length) || 0;
   if (!_V.gallery.length) { showToast('No hay gráficos guardados'); return; }
   if (!confirm('¿Borrar todos los ' + _V.gallery.length + ' gráficos guardados?')) return;
   _V.gallery = [];
   _V_scopedRemove('sigmaPro_vizGallery');
   _V_scopedRemove('sigmaPro_vizGalleryMeta');
+  try {
+    if (typeof Logger !== 'undefined') {
+      Logger.log('CHART:GALLERY_CLEAR', Logger.MODULES.GRAFICOS, { count: _nClear });
+    }
+  } catch (_e) {}
   vizRefreshGallery();
   _V_clearChartDisplay();
   showToast('🗑 Galería limpiada');
@@ -1604,6 +1627,11 @@ function vizExportPNG() {
     a.download = ttl + '_' + (_V.type || 'chart') + '.png';
     a.href = _V.chart.canvas.toDataURL('image/png', 1.0);
     a.click();
+    try {
+      if (typeof Logger !== 'undefined') {
+        Logger.log('CHART:EXPORT_PNG', Logger.MODULES.GRAFICOS, { chartType: _V.type || null });
+      }
+    } catch (_e) {}
     showToast('✓ Exportado como PNG');
     return;
   }
