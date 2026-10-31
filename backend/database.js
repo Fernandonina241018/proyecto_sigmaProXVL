@@ -446,7 +446,19 @@ function buildPostgres() {
         const clauses = [];
         const params = [];
         let n = startIdx || 1;
-        if (f.module) { clauses.push(`COALESCE(NULLIF(module,''),'SYSTEM') = $${n++}`); params.push(String(f.module)); }
+        if (f.module) {
+            const m = String(f.module);
+            const aliases = m === 'FIRMAS' ? ['FIRMAS', 'FIRMA']
+                : m === 'REPORTES' ? ['REPORTES', 'REPORTE']
+                : [m];
+            if (aliases.length > 1) {
+                clauses.push(`COALESCE(NULLIF(module,''),'SYSTEM') = ANY($${n++})`);
+                params.push(aliases);
+            } else {
+                clauses.push(`COALESCE(NULLIF(module,''),'SYSTEM') = $${n++}`);
+                params.push(m);
+            }
+        }
         if (f.action) { clauses.push(`POSITION(lower($${n++}) IN lower(action)) > 0`); params.push(String(f.action)); }
         if (f.username) { clauses.push(`POSITION(lower($${n++}) IN lower(username)) > 0`); params.push(String(f.username)); }
         if (f.from) { clauses.push(`timestamp >= $${n++}`); params.push(_auditFrom(f.from)); }
@@ -488,7 +500,12 @@ function buildPostgres() {
                  FROM audit_log`,
                 [today, last7]
             ),
-            all(`SELECT COALESCE(NULLIF(module,''),'SYSTEM') AS module, COUNT(*)::int AS n FROM audit_log GROUP BY 1 ORDER BY n DESC`),
+            all(`SELECT CASE
+                    WHEN COALESCE(NULLIF(module,''),'SYSTEM') IN ('FIRMA','FIRMAS') THEN 'FIRMAS'
+                    WHEN COALESCE(NULLIF(module,''),'SYSTEM') IN ('REPORTE','REPORTES') THEN 'REPORTES'
+                    ELSE COALESCE(NULLIF(module,''),'SYSTEM') END AS module,
+                 COUNT(*)::int AS n
+                 FROM audit_log GROUP BY 1 ORDER BY n DESC`),
             all(`SELECT substr(timestamp,1,10) AS date, COUNT(*)::int AS n FROM audit_log WHERE timestamp >= $1 GROUP BY 1 ORDER BY 1`, [last7])
         ]);
         const t = totals || { total: 0, failures: 0, today: 0, week: 0 };
@@ -1430,8 +1447,13 @@ function buildLocalStore() {
         const from = f.from ? _auditFrom(f.from) : null;
         const to = f.to ? _auditTo(f.to) : null;
         const success = (f.success !== undefined && f.success !== null && f.success !== '') ? (Number(f.success) ? 1 : 0) : null;
+        const modAliases = f.module
+            ? (String(f.module) === 'FIRMAS' ? ['FIRMAS', 'FIRMA']
+                : String(f.module) === 'REPORTES' ? ['REPORTES', 'REPORTE']
+                : [String(f.module)])
+            : null;
         return state.audit_log.filter(function (l) {
-            if (f.module && String(l.module || 'SYSTEM') !== String(f.module)) return false;
+            if (modAliases && modAliases.indexOf(String(l.module || 'SYSTEM')) === -1) return false;
             if (f.action && String(l.action || '').toLowerCase().indexOf(String(f.action).toLowerCase()) === -1) return false;
             if (f.username && String(l.username || '').toLowerCase().indexOf(String(f.username).toLowerCase()) === -1) return false;
             if (from && String(l.timestamp || '') < from) return false;
@@ -1469,7 +1491,9 @@ function buildLocalStore() {
                 weekCount++;
                 byDay[day] = (byDay[day] || 0) + 1;
             }
-            const m = l.module || 'SYSTEM';
+            let m = l.module || 'SYSTEM';
+            if (m === 'FIRMA') m = 'FIRMAS';
+            else if (m === 'REPORTE') m = 'REPORTES';
             byModule[m] = (byModule[m] || 0) + 1;
         });
         return {

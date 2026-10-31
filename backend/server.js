@@ -999,7 +999,7 @@ async function _enforceSignQuota(req, signer, acceptReplace) {
             await db.logAuditEvent({
                 username: signer.username, action: 'SIGN_SESSION_DELETE', success: 1,
                 ip: getClientIP(req), userAgent: req.headers['user-agent'],
-                module: 'FIRMA', details: JSON.stringify({ sessionId: r.id, reason: r.deleted_reason, via: 'quota' }),
+                module: 'FIRMAS', details: JSON.stringify({ sessionId: r.id, reason: r.deleted_reason, via: 'quota' }),
             });
         }
     }
@@ -1041,7 +1041,7 @@ app.post('/api/sign-sessions', requireAuth, async (req, res) => {
         await db.logAuditEvent({
             username: signer.username, action: 'SIGN_SESSION_CREATE', success: 1,
             ip: getClientIP(req), userAgent: req.headers['user-agent'],
-            module: 'FIRMA', details: JSON.stringify({ sessionId: session.id, docHash: session.doc_hash }),
+            module: 'FIRMAS', details: JSON.stringify({ sessionId: session.id, docHash: session.doc_hash }),
         });
         res.json({ ok: true, session: _stripSignSession(session), cancelled: quota.cancelled || [] });
     } catch (err) {
@@ -1090,7 +1090,7 @@ app.post('/api/sign-sessions/import', requireAuth, verifyLimiter, async (req, re
         await db.logAuditEvent({
             username: signer.username, action: 'SIGN_SESSION_IMPORT', success: 1,
             ip: getClientIP(req), userAgent: req.headers['user-agent'],
-            module: 'FIRMA', details: JSON.stringify({ sessionId: session.id, docHash: session.doc_hash }),
+            module: 'FIRMAS', details: JSON.stringify({ sessionId: session.id, docHash: session.doc_hash }),
         });
         res.json({ ok: true, session: _stripSignSession(session), cancelled: quota.cancelled || [] });
     } catch (err) {
@@ -1181,7 +1181,7 @@ app.post('/api/sign-sessions/:id/sign', requireAuth, signLimiter, async (req, re
         await db.logAuditEvent({
             username: signer.username, action: 'SIGN_SESSION_SIGN', success: 1,
             ip: getClientIP(req), userAgent: req.headers['user-agent'],
-            module: 'FIRMA', details: JSON.stringify({ sessionId: result.id, role, version: result.version, adminCascade: result.admin_cascade || [] }),
+            module: 'FIRMAS', details: JSON.stringify({ sessionId: result.id, role, version: result.version, adminCascade: result.admin_cascade || [] }),
         });
         res.json({ ok: true, session: result });
     } catch (err) {
@@ -1207,7 +1207,7 @@ app.post('/api/sign-sessions/:id/reject', requireAuth, async (req, res) => {
         await db.logAuditEvent({
             username: req.user.username, action: 'SIGN_SESSION_REJECT', success: 1,
             ip: getClientIP(req), userAgent: req.headers['user-agent'],
-            module: 'FIRMA', details: JSON.stringify({ sessionId: result.id, reason: result.rejected_reason }),
+            module: 'FIRMAS', details: JSON.stringify({ sessionId: result.id, reason: result.rejected_reason }),
         });
         res.json({ ok: true, session: _stripSignSession(result) });
     } catch (err) {
@@ -1244,7 +1244,7 @@ app.post('/api/sign-sessions/:id/unsign', requireAuth, signLimiter, async (req, 
         await db.logAuditEvent({
             username: signer.username, action: 'SIGN_SESSION_UNSIGN', success: 1,
             ip: getClientIP(req), userAgent: req.headers['user-agent'],
-            module: 'FIRMA', details: JSON.stringify({ sessionId: result.id, role, reason: reason.trim().slice(0, 500), version: result.version }),
+            module: 'FIRMAS', details: JSON.stringify({ sessionId: result.id, role, reason: reason.trim().slice(0, 500), version: result.version }),
         });
         res.json({ ok: true, session: result });
     } catch (err) {
@@ -1275,7 +1275,7 @@ app.post('/api/sign-sessions/:id/reopen', requireAuth, signLimiter, async (req, 
         await db.logAuditEvent({
             username: signer.username, action: 'SIGN_SESSION_REOPEN', success: 1,
             ip: getClientIP(req), userAgent: req.headers['user-agent'],
-            module: 'FIRMA', details: JSON.stringify({ sessionId: result.id, version: result.version, reason: result.reopened_reason }),
+            module: 'FIRMAS', details: JSON.stringify({ sessionId: result.id, version: result.version, reason: result.reopened_reason }),
         });
         res.json({ ok: true, session: _stripSignSession(result) });
     } catch (err) {
@@ -1309,7 +1309,7 @@ app.post('/api/sign-sessions/:id/sendback', requireAuth, signLimiter, async (req
         await db.logAuditEvent({
             username: signer.username, action: 'SIGN_SESSION_SENDBACK', success: 1,
             ip: getClientIP(req), userAgent: req.headers['user-agent'],
-            module: 'FIRMA', details: JSON.stringify({ sessionId: result.id, toRole, invalidated: result.invalidated || [], version: result.version, reason: result.sentback_reason }),
+            module: 'FIRMAS', details: JSON.stringify({ sessionId: result.id, toRole, invalidated: result.invalidated || [], version: result.version, reason: result.sentback_reason }),
         });
         res.json({ ok: true, session: _stripSignSession(result) });
     } catch (err) {
@@ -1343,7 +1343,7 @@ app.post('/api/sign-sessions/:id/amend', requireAuth, signLimiter, async (req, r
         await db.logAuditEvent({
             username: signer.username, action: 'SIGN_SESSION_AMEND', success: 1,
             ip: getClientIP(req), userAgent: req.headers['user-agent'],
-            module: 'FIRMA', details: JSON.stringify({ sessionId: result.id, version: result.version, prevHash: result.prev_hash, newHash: result.doc_hash }),
+            module: 'FIRMAS', details: JSON.stringify({ sessionId: result.id, version: result.version, prevHash: result.prev_hash, newHash: result.doc_hash }),
         });
         res.json({ ok: true, session: _stripSignSession(result) });
     } catch (err) {
@@ -1386,7 +1386,7 @@ app.delete('/api/sign-sessions/:id', requireAuth, async (req, res) => {
         await db.logAuditEvent({
             username: req.user.username, action: 'SIGN_SESSION_DELETE', success: 1,
             ip: getClientIP(req), userAgent: req.headers['user-agent'],
-            module: 'FIRMA', details: JSON.stringify({ sessionId: result.id, reason: result.deleted_reason, hard: !!result.hardDeleted }),
+            module: 'FIRMAS', details: JSON.stringify({ sessionId: result.id, reason: result.deleted_reason, hard: !!result.hardDeleted }),
         });
         res.json({ ok: true, id: result.id, session: _stripSignSession(result) });
     } catch (err) {
@@ -1410,7 +1410,7 @@ app.post('/api/admin/purge', requireAuth, requireAdmin, async (req, res) => {
             await db.logAuditEvent({
                 username: req.user.username, action: 'SIGN_SESSION_PURGE', success: 1,
                 ip: getClientIP(req), userAgent: req.headers['user-agent'],
-                module: 'FIRMA', details: JSON.stringify({
+                module: 'FIRMAS', details: JSON.stringify({
                     count: result.count,
                     ids: result.deleted.map(function(d) { return d.id; }),
                     retentionDays, rejectedDays,
@@ -1421,7 +1421,7 @@ app.post('/api/admin/purge', requireAuth, requireAdmin, async (req, res) => {
             await db.logAuditEvent({
                 username: req.user.username, action: 'SIGN_SESSION_EXPIRE', success: 1,
                 ip: getClientIP(req), userAgent: req.headers['user-agent'],
-                module: 'FIRMA', details: JSON.stringify({
+                module: 'FIRMAS', details: JSON.stringify({
                     count: result.expiredCount,
                     ids: result.expired.map(function(d) { return d.id; }),
                     expireOpenDays,
@@ -1483,7 +1483,7 @@ app.post('/api/pdf/render', requireAuth, pdfLimiter, async (req, res) => {
         await db.logAuditEvent({
             username: req.user.username, action: 'PDF_EXPORT', success: 1,
             ip: getClientIP(req), userAgent: req.headers['user-agent'],
-            module: kind === 'firma' ? 'FIRMA' : 'REPORTE',
+            module: kind === 'firma' ? 'FIRMAS' : 'REPORTES',
             details: JSON.stringify({
                 sessionId: session ? session.id : null,
                 docHash: session ? session.doc_hash || null : null,
@@ -1868,7 +1868,7 @@ app.post('/api/audit/events', requireAuth, auditLimiter, async (req, res) => {
         if (events.length > 50) {
             return res.status(400).json({ error: 'Máximo 50 eventos por lote' });
         }
-        const ALLOWED_MODULES = new Set(['LOGIN', 'DATOS', 'ANALISIS', 'GRAFICOS', 'REPORTES', 'FIRMAS', 'USERS', 'VALIDACIONES', 'ML', 'SYSTEM']);
+        const ALLOWED_MODULES = new Set(['LOGIN', 'AUTH', 'DATOS', 'ANALISIS', 'GRAFICOS', 'REPORTES', 'FIRMAS', 'USERS', 'VALIDACIONES', 'ML', 'SYSTEM']);
         const ACTION_RE = /^[A-Z0-9_:\-]{3,80}$/;
         let stored = 0;
         for (const ev of events) {

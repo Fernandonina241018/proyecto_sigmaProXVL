@@ -90,6 +90,39 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (SigmaProXVL) con spr
 
 ## CAMBIOS RECIENTES
 
+### 2026-10-31: Auditoría · unificación de módulos (Propuesta 1)
+
+**Qué:** Se alinean los módulos que escribe el backend con el selector de la página y se normalizan los históricos **sin reescribir filas** (el hash incluye `module`, un `UPDATE` rompería la cadena).
+
+- **Escritura canónica**: los 12 eventos de firma pasan de `FIRMA` a `FIRMAS`; `PDF_EXPORT` de `REPORTE`/`FIRMA` a `REPORTES`/`FIRMAS`.
+- **Alias de lectura** (PG y store local): filtrar por `FIRMAS` devuelve `FIRMA` + `FIRMAS`; `REPORTES` devuelve `REPORTE` + `REPORTES`. `getAuditStats` agrupa con `CASE`/mapa y no muestra grupos duplicados.
+- **UI**: se añade **AUTH** al selector, se ocultan `VALIDACIONES` y `ML` (aún sin eventos) y la tabla muestra la etiqueta canónica (`FIRMA` → `FIRMAS`, `REPORTE` → `REPORTES`).
+- **Fix detectado en pruebas**: el endpoint `POST /api/audit/events` no aceptaba `AUTH` y lo convertía en `SYSTEM`; añadido a la whitelist. También `Logger.MODULES` incluye `AUTH`.
+
+**Archivos afectados:**
+| Archivo | Cambio |
+|---------|--------|
+| `backend/server.js:1002-1424` | 12 eventos de firma con `module:'FIRMAS'` |
+| `backend/server.js:1486` | PDF export → `FIRMAS`/`REPORTES` |
+| `backend/server.js:1871` | Whitelist del lote incluye `AUTH` |
+| `backend/database.js:445-470` | Alias de filtro en PG |
+| `backend/database.js:487-497` | `getAuditStats` agrupa por módulo canónico |
+| `backend/database.js:1448-1470` | Alias de filtro y agrupación en store local |
+| `js/managers/AuditoriaManager.js:298` | Opción `AUTH` en el selector |
+| `js/managers/AuditoriaManager.js:474` | `_moduleLabel()` para etiquetas históricas |
+| `js/core/Logger.js:35` | `AUTH` en `MODULES` |
+| `tests/auditoria-ui.test.js` | +1 test (etiqueta FIRMAS) y selector AUTH |
+| `backend/tests/audit-query.test.js` | +1 test (alias FIRMA/FIRMAS, REPORTE/REPORTES, stats y cadena) |
+
+**Verificación:**
+- `node --check` (server, database, Logger, AuditoriaManager): OK.
+- `npx vitest run`: **654 tests / 51 archivos OK**.
+- `cd backend && npm test`: **108 tests OK**.
+- Backend real (store local):
+  - Lote con `FIRMAS`, `REPORTES`, `AUTH`, `DATOS` → filtros devuelven 1 cada uno (antes `AUTH` caía en `SYSTEM`).
+  - Fila legacy insertada con `module:'FIRMA'` + nueva `FIRMAS` → filtro `FIRMAS` devuelve **2**; stats agrupa `FIRMAS n=2`; cadena `valid:true`.
+- Navegador: selector `LOGIN, AUTH, DATOS, ANALISIS, GRAFICOS, REPORTES, FIRMAS, USERS, SYSTEM` (sin `VALIDACIONES/ML`); badges `FIRMAS`, `REPORTES`, `AUTH`; **0 errores**.
+
 ### 2026-10-30: Auditoría · Fase 4 (filtros, paginación y KPIs en servidor)
 
 **Qué:** La página de Auditoría deja de filtrar en cliente sobre 500 filas y pasa a consultar al servidor con filtros, total real y KPIs.

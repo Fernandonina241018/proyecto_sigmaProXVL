@@ -17,6 +17,11 @@ const LOGS_PAGE_0 = [
   {
     id: 2, username: 'beto', action: 'LOGIN_FAILED', module: 'LOGIN', success: 0,
     duration_ms: null, ip: '', user_agent: '', timestamp: '2026-10-30T09:00:00Z', details: null
+  },
+  {
+    id: 3, username: 'ana', action: 'SIGN_SESSION_SIGN', module: 'FIRMA', success: 1,
+    duration_ms: 80, ip: '1.2.3.4', user_agent: 'ua', timestamp: '2026-10-30T08:30:00Z',
+    details: JSON.stringify({ sessionId: 9 })
   }
 ];
 const LOGS_PAGE_1 = [
@@ -99,7 +104,10 @@ describe('Auditoría · UI con filtros y paginación en servidor', () => {
     await tick();
     const opts = [...h.document.querySelectorAll('#aud-filter-module option')].map((o) => o.value);
     expect(opts).toContain('GRAFICOS');
+    expect(opts).toContain('AUTH');
     expect(opts).toContain('FIRMAS');
+    expect(opts).not.toContain('VALIDACIONES');
+    expect(opts).not.toContain('ML');
     expect(h.document.getElementById('aud-filter-action')).toBeTruthy();
 
     const kpi = h.document.getElementById('aud-kpis').textContent;
@@ -108,7 +116,7 @@ describe('Auditoría · UI con filtros y paginación en servidor', () => {
     expect(kpi).toContain('Últimos 7 días');
 
     const info = h.document.getElementById('aud-results-info').textContent;
-    expect(info).toBe('Mostrando 1–2 de 120 registros');
+    expect(info).toBe('Mostrando 1–3 de 120 registros');
     expect(h.document.getElementById('aud-page-next')).toBeTruthy();
     expect(h.document.querySelector('.aud-page-info').textContent).toBe('Página 1 de 3');
   });
@@ -174,6 +182,14 @@ describe('Auditoría · UI con filtros y paginación en servidor', () => {
     expect(csv).toContain('DATOS');
     expect(csv).toContain('12');
     expect(h.toasts.some((m) => m.includes('exportados'))).toBe(true);
+  });
+
+  it('normaliza en pantalla los módulos históricos (FIRMA → FIRMAS)', async () => {
+    h.mgr.buildView();
+    await tick();
+    const badges = [...h.document.querySelectorAll('.aud-badge-module')].map((b) => b.textContent);
+    expect(badges).toContain('FIRMAS');
+    expect(badges).not.toContain('FIRMA');
   });
 
   it('detalle genérico: pinta claves desconocidas como pares clave/valor', async () => {

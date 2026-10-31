@@ -32,6 +32,7 @@ const Logger = (() => {
 
     const MODULES = {
         LOGIN: 'LOGIN',
+        AUTH: 'AUTH',
         DATOS: 'DATOS',
         ANALISIS: 'ANALISIS',
         GRAFICOS: 'GRAFICOS',

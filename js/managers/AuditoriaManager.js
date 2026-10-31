@@ -295,14 +295,13 @@ const AuditoriaManager = (() => {
                     <select class="aud-filter-input" id="aud-filter-module">
                         <option value="">Todos</option>
                         <option value="LOGIN">Login</option>
+                        <option value="AUTH">Autenticación (2FA)</option>
                         <option value="DATOS">Datos</option>
                         <option value="ANALISIS">Análisis</option>
                         <option value="GRAFICOS">Gráficos</option>
                         <option value="REPORTES">Reportes</option>
                         <option value="FIRMAS">Firmas</option>
                         <option value="USERS">Usuarios</option>
-                        <option value="VALIDACIONES">Validaciones</option>
-                        <option value="ML">ML</option>
                         <option value="SYSTEM">Sistema</option>
                     </select>
                 </div>
@@ -470,6 +469,15 @@ const AuditoriaManager = (() => {
         ).join('');
     }
 
+    // Los registros históricos usan FIRMA/REPORTE (singular) y deben verse
+    // con la etiqueta canónica sin reescribir filas (rompería el hash).
+    function _moduleLabel(m) {
+        const v = String(m || 'SYSTEM').toUpperCase();
+        if (v === 'FIRMA') return 'FIRMAS';
+        if (v === 'REPORTE') return 'REPORTES';
+        return v;
+    }
+
     function _deviceOf(l) {
         try {
             const d = typeof l.details === 'string' ? JSON.parse(l.details) : l.details;
@@ -528,7 +536,7 @@ const AuditoriaManager = (() => {
             const ok      = l.success === 1;
             const badgeCls= ok ? 'aud-badge-ok' : 'aud-badge-fail';
             const badge   = ok ? '✓ Exitoso' : '✕ Fallido';
-            const module  = l.module || 'SYSTEM';
+            const module  = _moduleLabel(l.module);
             const dur     = (l.duration_ms !== null && l.duration_ms !== undefined && l.duration_ms !== '') ? (l.duration_ms + ' ms') : '—';
 
             return `

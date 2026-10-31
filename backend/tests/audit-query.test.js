@@ -69,3 +69,26 @@ test('compatibilidad: getAuditLog(limit, offset) sigue funcionando', async () =>
     const check = await db.verifyAuditChain();
     assert.equal(check.valid, true);
 });
+
+test('alias de módulos: FIRMA/FIRMAS y REPORTE/REPORTES sin reescribir filas', async () => {
+    await db.logAuditEvent({ username: 'u', action: 'SIGN_SESSION_SIGN', success: true, module: 'FIRMA', ...base });
+    await db.logAuditEvent({ username: 'u', action: 'SIGN_SESSION_SIGN', success: true, module: 'FIRMAS', ...base });
+    await db.logAuditEvent({ username: 'u', action: 'PDF_EXPORT', success: true, module: 'REPORTE', ...base });
+
+    const firmas = await db.getAuditLog(50, 0, { module: 'FIRMAS' });
+    assert.equal(firmas.length, 2, 'FIRMAS debe incluir FIRMA + FIRMAS');
+
+    // Ya existía un REPORT:GENERATE con module REPORTES
+    const reportes = await db.getAuditLog(50, 0, { module: 'REPORTES' });
+    assert.equal(reportes.length, 2, 'REPORTES debe incluir REPORTE + REPORTES');
+
+    const stats = await db.getAuditStats();
+    const f = stats.byModule.find((m) => m.module === 'FIRMAS');
+    assert.ok(f, 'debe agrupar FIRMAS');
+    assert.equal(f.n, 2);
+    assert.ok(!stats.byModule.some((m) => m.module === 'FIRMA'), 'no debe quedar un grupo FIRMA');
+    assert.ok(!stats.byModule.some((m) => m.module === 'REPORTE'), 'no debe quedar un grupo REPORTE');
+
+    const check = await db.verifyAuditChain();
+    assert.equal(check.valid, true);
+});
