@@ -1585,6 +1585,7 @@ var _firmaModalScope = 'mine';
 var _firmaModalData = { sessions: [], groups: null, me: null, isAdmin: false };
 var _firmaModalPage = 'pending';
 var _firmaModalQuery = '';
+var _firmaBulkBusy = false;
 
 // Páginas (estados de ciclo de vida) de la bandeja, en orden de presentación.
 var _firmaPages = [
@@ -1624,6 +1625,7 @@ function _firmaModalSessionInfo() {
 }
 
 function _firmaModalClose() {
+  if (_firmaBulkBusy) return; // no cerrar mientras se elimina un lote
   if (_firmaModalEl) { _firmaModalEl.remove(); _firmaModalEl = null; }
   document.removeEventListener('keydown', _firmaModalKeydown);
 }
@@ -1755,7 +1757,19 @@ async function firmaRenderBandejaModal() {
           sec.className = 'fbandeja-section';
           sec.id = 'fbandeja-page-' + p.key;
           sec.dataset.section = p.key;
-          var head = '<div class="fbandeja-sectionhead"><div class="fbandeja-sectitle"><span class="fbandeja-secticon" data-tone="' + p.tone + '">' + p.icon + '</span>' + p.label + '</div><span class="fbandeja-count">' + items.length + ' informe' + (items.length === 1 ? '' : 's') + '</span></div>';
+          var bulkBtn = '';
+          if (items.length > 0) {
+            var _puedeRech = isAdmin || (me && items.some(function(s) { return s.created_by === me.username; }));
+            if (p.key === 'rejected' && _puedeRech) {
+              bulkBtn = '<button type="button" class="fbandeja-bulk" data-bulk="rejected" data-label-base="🗑 Eliminar todas" title="Eliminar las rechazadas visibles">🗑 Eliminar todas (' + items.length + ')</button>';
+            } else if (p.key === 'cancelled' && isAdmin) {
+              bulkBtn = '<button type="button" class="fbandeja-bulk" data-bulk="cancelled" data-label-base="🗑 Vaciar canceladas" title="Eliminar definitivamente las canceladas visibles">🗑 Vaciar canceladas (' + items.length + ')</button>';
+            }
+          }
+          var head = '<div class="fbandeja-sectionhead">' +
+            '<div class="fbandeja-sectitle"><span class="fbandeja-secticon" data-tone="' + p.tone + '">' + p.icon + '</span>' + p.label + '</div>' +
+            '<div class="fbandeja-sectionactions"><span class="fbandeja-count">' + items.length + ' informe' + (items.length === 1 ? '' : 's') + '</span>' + bulkBtn + '</div>' +
+          '</div>';
           var recs = items.length
             ? '<div class="fbandeja-records">' + items.map(function(s) { return _firmaBandejaItemHtml(s, isAdmin, me); }).join('') + '</div>'
             : '<div class="fbandeja-empty"><strong>Sin informes</strong></div>';
@@ -1829,6 +1843,12 @@ function _firmaModalApply() {
       r.hidden = !ok;
       if (ok) count++;
     });
+    var bulk = sec.querySelector('[data-bulk]');
+    if (bulk) {
+      var base = bulk.getAttribute('data-label-base') || '';
+      bulk.textContent = base + ' (' + count + ')';
+      bulk.disabled = count === 0 || _firmaBulkBusy;
+    }
     if (isActive) visible = count;
   });
   var note = _firmaModalEl.querySelector('#fbandejaResultNote');
@@ -1857,6 +1877,12 @@ function _firmaModalWireActions() {
   });
   list.querySelectorAll('[data-del-complete]').forEach(function(btn) {
     btn.onclick = function(e) { e.stopPropagation(); firmaDeleteComplete(parseInt(btn.getAttribute('data-del-complete')), btn.getAttribute('data-name')); };
+  });
+  list.querySelectorAll('[data-bulk]').forEach(function(btn) {
+    btn.onclick = function(e) {
+      e.stopPropagation();
+      _firmaModalConfirmBulk(btn.getAttribute('data-bulk'));
+    };
   });
 }
 
@@ -2139,6 +2165,88 @@ async function firmaDeleteSession(id) {
   await _firmaDoDelete(id, String(reason).trim());
 }
 
+// Petición de borrado de una sesión. La comparten el borrado individual y el
+// masivo. 404 = ya no existe → éxito idempotente.
+async function _firmaDeleteRequest(id, reason) {
+  var res = await fetchWithTimeout(_firmaApiBase() + '/api/sign-sessions/' + id, {
+    method: 'DELETE',
+    headers: Object.assign({ 'Content-Type': 'application/json' }, _firmaAuthHeaders()),
+    credentials: 'include',
+    body: JSON.stringify({ reason: String(reason || '').trim() })
+  });
+  var data = null;
+  try { data = await res.json(); } catch (e) { data = null; }
+  if (res.status === 404 || (data && data.code === 'not-found')) return { ok: true, missing: true };
+  if (!data || !data.ok) return { ok: false, error: (data && data.error) || ('HTTP ' + res.status), status: res.status };
+  return { ok: true };
+}
+
+// Acción masiva: confirmación con conteo exacto de lo visible/filtrado.
+function _firmaModalConfirmBulk(kind) {
+  if (_firmaBulkBusy) return;
+  var sec = document.getElementById('fbandeja-page-' + kind);
+  if (!sec) return;
+  var ids = [];
+  sec.querySelectorAll('.fbandeja-record').forEach(function(r) {
+    if (r.hidden) return;
+    var id = parseInt(r.getAttribute('data-open'), 10);
+    if (id) ids.push(id);
+  });
+  if (!ids.length) { showToast('No hay informes visibles para eliminar'); return; }
+
+  var filtered = !!(_firmaModalQuery && _firmaModalQuery.trim());
+  var n = ids.length;
+  var msg = kind === 'cancelled'
+    ? 'Se eliminarán DEFINITIVAMENTE ' + n + ' informe' + (n === 1 ? '' : 's') + ' cancelado' + (n === 1 ? '' : 's') + '. No se puede recuperar.'
+    : 'Se eliminarán ' + n + ' informe' + (n === 1 ? '' : 's') + ' rechazado' + (n === 1 ? '' : 's') + '. Pasarán a Canceladas y se conservarán ' + _FIRMA_RETENTION_CANCELLED_DAYS + ' días.';
+  if (filtered) msg += ' Solo se aplicará a los ' + n + ' resultados filtrados.';
+
+  _firmaModalConfirm({
+    title: kind === 'cancelled' ? '¿Vaciar canceladas?' : '¿Eliminar todas las rechazadas?',
+    message: msg,
+    needReason: true, reasonRequired: true,
+    confirmLabel: kind === 'cancelled' ? 'Eliminar definitivamente' : 'Eliminar',
+    onConfirm: function(reason) { _firmaDoBulkDelete(ids, reason, kind); },
+  });
+}
+
+async function _firmaDoBulkDelete(ids, reason, kind) {
+  if (_firmaBulkBusy || !ids || !ids.length) return;
+  _firmaBulkBusy = true;
+  var btn = document.querySelector('[data-bulk="' + kind + '"]');
+  if (btn) btn.disabled = true;
+
+  var ok = 0, fail = 0, firstErr = '', networkError = false;
+  try {
+    for (var i = 0; i < ids.length; i++) {
+      if (btn) btn.textContent = 'Eliminando ' + (i + 1) + '/' + ids.length + '…';
+      try {
+        var r = await _firmaDeleteRequest(ids[i], reason);
+        if (r.ok) ok++;
+        else { fail++; if (!firstErr) firstErr = r.error || 'Error'; }
+      } catch (e) {
+        fail += (ids.length - i);
+        firstErr = 'Error de conexión';
+        networkError = true;
+        break;
+      }
+    }
+  } finally {
+    _firmaBulkBusy = false;
+  }
+
+  if (ok > 0 && ids.indexOf(_firmaSessionId) !== -1) {
+    try { firmaClearState(); firmaClearMainView(); } catch (e) {}
+  }
+  try { await firmaRenderBandejaModal(); } catch (e) {}
+  try { firmaUpdatePendingBadge(); } catch (e) {}
+
+  if (ok > 0 && fail === 0) showToast('✅ ' + ok + (ok === 1 ? ' informe eliminado' : ' informes eliminados'));
+  else if (ok > 0 && fail > 0) showToast('⚠️ ' + ok + ' eliminados · ' + fail + ' fallidos' + (firstErr ? ' (' + firstErr + ')' : ''), true);
+  else showToast('❌ No se pudo eliminar' + (firstErr ? ': ' + firstErr : ''), true);
+  if (networkError) showToast('⚠️ Se interrumpió por un error de conexión', true);
+}
+
 // Núcleo del borrado (DELETE + limpieza + refresco). Lo usan el confirm de
 // rechazadas y el modal de completas (con descarga previa recomendada).
 async function _firmaDoDelete(id, reason) {
@@ -2153,13 +2261,9 @@ async function _firmaDoDelete(id, reason) {
         return false;
       }
     }
-    var res = await fetchWithTimeout(_firmaApiBase() + '/api/sign-sessions/' + id, {
-      method: 'DELETE', headers: Object.assign({ 'Content-Type': 'application/json' }, _firmaAuthHeaders()),
-      credentials: 'include', body: JSON.stringify({ reason: String(motivo).trim() })
-    });
-    var data = await res.json();
-    if (!data || !data.ok) {
-      showToast('❌ ' + ((data && data.error) || 'No se pudo eliminar'), true);
+    var r = await _firmaDeleteRequest(id, motivo);
+    if (!r.ok) {
+      showToast('❌ ' + r.error, true);
       return false;
     }
     // Si era la sesión abierta, se limpia vista + snapshot (antes quedaba el

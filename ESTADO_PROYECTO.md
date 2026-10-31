@@ -90,6 +90,39 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (SigmaProXVL) con spr
 
 ## CAMBIOS RECIENTES
 
+### 2026-10-30: Acciones masivas en la Bandeja de firmas (Rechazadas → Canceladas)
+
+**Qué:** Se añaden acciones para vaciar páginas completas respetando el ciclo regulado: las rechazadas pasan a **Canceladas** (borrado suave, 90 días) y las canceladas se borran **definitivamente** (solo admin).
+
+- **Botones en la cabecera de cada sección**: `🗑 Eliminar todas (N)` en Rechazadas y `🗑 Vaciar canceladas (N)` en Canceladas (este último solo admin). Solo aparecen si hay informes y el conteo se actualiza con el buscador.
+- **Alcance seguro**: actúan únicamente sobre las filas **visibles/filtradas**, nunca sobre registros ocultos. El confirm lo indica.
+- **Confirmación propia** (`_firmaModalConfirm`) con el número exacto y **motivo obligatorio**; en Canceladas avisa de que es **DEFINITIVO y no recuperable**.
+- **Bucle secuencial** reutilizando `DELETE /api/sign-sessions/:id` (sin cambios de backend ni de reglas 21 CFR). Cada borrado conserva su `SIGN_SESSION_DELETE` en auditoría.
+- **Progreso y bloqueo**: el botón muestra `Eliminando 3/12…` y se deshabilita; el modal no se puede cerrar (X, Escape, overlay) mientras dura el lote.
+- **Robustez**: `404` = ya no existe → éxito idempotente; 4xx se acumulan como fallo y se informa `X eliminados · Y fallidos`; error de red corta el lote e informa. Refresco del modal y badge al terminar; si se borró la sesión abierta, se limpia el visor.
+
+**Archivos afectados:**
+| Archivo | Cambio |
+|---------|--------|
+| `js/core/indexx-firma.js:1588` | Flag `_firmaBulkBusy` y bloqueo de `_firmaModalClose()` |
+| `js/core/indexx-firma.js:1758-1772` | Botones masivos en la cabecera de sección (rol + conteo) |
+| `js/core/indexx-firma.js:1844-1851` | Conteo del botón según búsqueda |
+| `js/core/indexx-firma.js:1881-1886` | Wiring `[data-bulk]` |
+| `js/core/indexx-firma.js:2170-2275` | `_firmaDeleteRequest()`, `_firmaModalConfirmBulk()`, `_firmaDoBulkDelete()` y refactor de `_firmaDoDelete()` |
+| `css/core/indexx.css:1526-1538` | `.fbandeja-sectionactions` y `.fbandeja-bulk` (+ móvil) |
+| `tests/firma-bandeja-modal.test.js` | +8 tests (visibilidad por rol, confirm, filtro, 404, fallo parcial, cierre bloqueado) |
+
+**Verificación:**
+- `node --check js/core/indexx-firma.js`: OK.
+- `npx vitest run`: **637 tests / 49 archivos OK**.
+- `cd backend && npm test`: **99 tests OK** (sin cambios de backend).
+- Navegador real (admin, backend mockeado):
+  - `Eliminar todas (2)` / `Vaciar canceladas (2)` visibles con su conteo.
+  - Confirm: *“Se eliminarán 2 informes rechazados. Pasarán a Canceladas y se conservarán 90 días.”* + motivo obligatorio.
+  - Ejecución: 2 `DELETE` con el mismo motivo, toast `✅ 2 informes eliminados`, modal abierto y botones restaurados.
+  - Lote lento: `Eliminando 1/2…`, botón deshabilitado y **Escape no cierra** el modal.
+  - **0 errores** de página/consola.
+
 ### 2026-10-30: Botón "Borrar todo" de Visualización armonizado
 
 **Qué:** El botón para borrar toda la galería de gráficos deja de usar estilos inline y pasa al sistema de diseño.
