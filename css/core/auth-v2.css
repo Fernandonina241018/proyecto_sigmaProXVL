@@ -1,0 +1,634 @@
+/* ========================================
+   auth-v2.css — Login rediseñado (StatAnalyzer Pro)
+   Convive con auth.css: TODAS las reglas están
+   encapsuladas en #auth-overlay.auth-v2.
+   ======================================== */
+
+#auth-overlay.auth-v2,
+#auth-overlay.auth-v2 * {
+  box-sizing: border-box;
+}
+
+#auth-overlay.auth-v2 {
+  /* Paleta del rediseño */  --av2-bg: #0B0E14;
+  --av2-surface: #10141C;
+  --av2-surface-2: #171C27;
+  --av2-border: #262C3B;
+  --av2-border-soft: #1D222E;
+  --av2-text-1: #E8EAF0;
+  --av2-text-2: #8B93A7;
+  --av2-text-3: #5A6273;
+  --av2-accent: #9D7BFF;
+  --av2-accent-dim: #6D28D9;
+  --av2-accent-glow: rgba(157, 123, 255, 0.18);
+  --av2-ok: #34D399;
+  --av2-warn: #FBBF24;
+  --av2-danger: #F87171;
+
+  /* Puente para los bloques 2FA, que usan variables globales */
+  --text-primary: #E8EAF0;
+  --text-secondary: #8B93A7;
+  --accent: #9D7BFF;
+  --border-color: #262C3B;
+  --bg-panel: #171C27;
+  --bg-card: #10141C;
+
+  display: block;
+  overflow: auto;
+  background: var(--av2-bg);
+  color: var(--av2-text-1);
+  font-family: 'Inter', -apple-system, 'Segoe UI', system-ui, sans-serif;
+}
+
+/* El fondo animado y las partículas del login clásico no se usan aquí */
+#auth-overlay.auth-v2 .auth-bg,
+#auth-overlay.auth-v2 .auth-particles {
+  display: none;
+}
+
+#auth-overlay.auth-v2 .av2-shell {
+  display: flex;
+  width: 100%;
+  min-height: 100%;
+}
+
+/* ---------- Panel izquierdo: marca / gráfico ---------- */
+#auth-overlay.auth-v2 .av2-brand-panel {
+  flex: 1.15;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 32px;
+  padding: 48px 56px;
+  border-right: 1px solid var(--av2-border-soft);
+  background:
+    radial-gradient(circle at 15% 85%, var(--av2-accent-glow), transparent 55%),
+    linear-gradient(180deg, #0D1119 0%, #0A0D14 100%);
+}
+
+#auth-overlay.auth-v2 .av2-brand-mark {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+#auth-overlay.auth-v2 .av2-dot {
+  width: 9px;
+  height: 9px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  background: var(--av2-ok);
+  box-shadow: 0 0 0 3px rgba(52, 211, 153, 0.15);
+}
+
+#auth-overlay.auth-v2 .av2-brand-mark span:last-child {
+  font-family: 'IBM Plex Mono', ui-monospace, 'Courier New', monospace;
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  color: var(--av2-text-2);
+  text-transform: uppercase;
+}
+
+#auth-overlay.auth-v2 .av2-chart-zone {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 28px;
+  max-width: 520px;
+}
+
+#auth-overlay.auth-v2 .av2-chart-zone h1 {
+  margin: 0;
+  font-family: 'Space Grotesk', 'Outfit', 'Inter', sans-serif;
+  font-weight: 600;
+  font-size: 34px;
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+  max-width: 380px;
+  color: var(--av2-text-1);
+}
+
+#auth-overlay.auth-v2 .av2-chart-zone h1 em {
+  font-style: normal;
+  color: var(--av2-accent);
+}
+
+#auth-overlay.auth-v2 .av2-sub {
+  margin: 0;
+  color: var(--av2-text-2);
+  font-size: 14px;
+  max-width: 360px;
+  line-height: 1.6;
+}
+
+#auth-overlay.auth-v2 .av2-control-chart {
+  width: 100%;
+  max-width: 440px;
+  padding: 20px 20px 14px;
+  background: var(--av2-surface);
+  border: 1px solid var(--av2-border-soft);
+  border-radius: 12px;
+}
+
+#auth-overlay.auth-v2 .av2-cc-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 10px;
+}
+
+#auth-overlay.auth-v2 .av2-cc-title {
+  font-family: 'IBM Plex Mono', ui-monospace, 'Courier New', monospace;
+  font-size: 11px;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--av2-text-2);
+}
+
+#auth-overlay.auth-v2 .av2-cc-status {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-family: 'IBM Plex Mono', ui-monospace, 'Courier New', monospace;
+  font-size: 11px;
+  color: var(--av2-ok);
+}
+
+#auth-overlay.auth-v2 .av2-cc-status::before {
+  content: '';
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--av2-ok);
+}
+
+#auth-overlay.auth-v2 .av2-cc-svg {
+  display: block;
+  width: 100%;
+  height: 150px;
+}
+
+#auth-overlay.auth-v2 .av2-cc-limit {
+  stroke: var(--av2-border);
+  stroke-width: 1;
+  stroke-dasharray: 4 4;
+}
+
+#auth-overlay.auth-v2 .av2-cc-mean {
+  stroke: var(--av2-text-3);
+  stroke-width: 1;
+  stroke-dasharray: 2 3;
+}
+
+#auth-overlay.auth-v2 .av2-cc-trace {
+  fill: none;
+  stroke: var(--av2-accent);
+  stroke-width: 1.6;
+  stroke-dasharray: 1200;
+  stroke-dashoffset: 1200;
+  animation: av2-chart-draw 1.3s ease-out forwards;
+}
+
+@keyframes av2-chart-draw {
+  to { stroke-dashoffset: 0; }
+}
+
+#auth-overlay.auth-v2 .av2-cc-point {
+  fill: var(--av2-bg);
+  stroke: var(--av2-accent);
+  stroke-width: 1.6;
+}
+
+#auth-overlay.auth-v2 .av2-cc-point.flag {
+  fill: var(--av2-warn);
+  stroke: var(--av2-warn);
+}
+
+#auth-overlay.auth-v2 .av2-cc-label {
+  font-family: 'IBM Plex Mono', ui-monospace, 'Courier New', monospace;
+  font-size: 9px;
+  fill: var(--av2-text-3);
+}
+
+#auth-overlay.auth-v2 .av2-brand-foot {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 24px;
+  font-family: 'IBM Plex Mono', ui-monospace, 'Courier New', monospace;
+  font-size: 11px;
+  color: var(--av2-text-3);
+}
+
+#auth-overlay.auth-v2 .av2-brand-foot b {
+  color: var(--av2-text-2);
+  font-weight: 500;
+}
+
+/* ---------- Panel derecho: formulario ---------- */
+#auth-overlay.auth-v2 .av2-form-panel {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px;
+  background: var(--av2-bg);
+}
+
+/* La card conserva la clase .auth-card para reutilizar shake/success-exit */
+#auth-overlay.auth-v2 .av2-form-card {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 360px;
+  padding: 0;
+  background: transparent;
+  border-radius: 0;
+  box-shadow: none;
+  color: var(--av2-text-1);
+  animation: av2-card-in 0.45s ease;
+}
+
+@keyframes av2-card-in {
+  from { opacity: 0; transform: translateY(18px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+#auth-overlay.auth-v2 .av2-title {
+  margin: 0 0 6px;
+  font-family: 'Space Grotesk', 'Outfit', 'Inter', sans-serif;
+  font-size: 22px;
+  font-weight: 600;
+  color: var(--av2-text-1);
+}
+
+#auth-overlay.auth-v2 .av2-hint {
+  margin: 0 0 28px;
+  color: var(--av2-text-2);
+  font-size: 13px;
+}
+
+#auth-overlay.auth-v2 .av2-status {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 24px;
+  padding: 11px 14px;
+  background: var(--av2-surface-2);
+  border: 1px solid var(--av2-border);
+  border-left: 2px solid var(--av2-text-2);
+  border-radius: 8px;
+  font-size: 13px;
+  color: var(--av2-text-2);
+}
+
+#auth-overlay.auth-v2 .av2-status svg {
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
+  stroke: var(--av2-text-2);
+}
+
+/* ---------- Campos (reutilizan .auth-field/.auth-input del login v1) ---------- */
+#auth-overlay.auth-v2 .auth-field {
+  position: relative;
+  margin-bottom: 18px;
+}
+
+/* Etiquetas del formulario V2 (usuario/contraseña): siempre visibles arriba */
+#auth-overlay.auth-v2 .auth-field > .auth-label {
+  position: static;
+  left: auto;
+  top: auto;
+  transform: none;
+  display: block;
+  margin-bottom: 7px;
+  font-family: 'IBM Plex Mono', ui-monospace, 'Courier New', monospace;
+  font-size: 10.5px;
+  font-weight: 400;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--av2-text-2);
+  pointer-events: none;
+}
+
+/* Etiquetas dentro del input-wrap (bloque 2FA): flotantes sobre el campo */
+#auth-overlay.auth-v2 .auth-input-wrap > .auth-label {
+  position: absolute;
+  left: 38px;
+  top: 50%;
+  transform: translateY(-50%);
+  margin: 0;
+  padding: 0 4px;
+  background: transparent;
+  color: var(--av2-text-2);
+  font-family: 'Inter', -apple-system, 'Segoe UI', system-ui, sans-serif;
+  font-size: 0.9rem;
+  font-weight: 500;
+  letter-spacing: normal;
+  text-transform: none;
+  pointer-events: none;
+  z-index: 1;
+}
+
+#auth-overlay.auth-v2 .auth-input:focus ~ .auth-label,
+#auth-overlay.auth-v2 .auth-input:not(:placeholder-shown) ~ .auth-label {
+  top: 0;
+  left: 10px;
+  transform: translateY(-50%);
+  padding: 0 4px;
+  background: var(--av2-surface);
+  color: var(--av2-accent);
+  font-family: 'IBM Plex Mono', ui-monospace, 'Courier New', monospace;
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+}
+
+#auth-overlay.auth-v2 .auth-input-icon {
+  position: absolute;
+  left: 12px;
+  z-index: 1;
+  color: var(--av2-text-3);
+  font-size: 0.9rem;
+  pointer-events: none;
+}
+
+#auth-overlay.auth-v2 .auth-input-wrap.has-icon .auth-input {
+  padding-left: 38px;
+}
+
+#auth-overlay.auth-v2 .auth-input-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+#auth-overlay.auth-v2 .auth-input {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 12px 42px 12px 14px;
+  background: var(--av2-surface);
+  border: 1px solid var(--av2-border);
+  border-radius: 8px;
+  outline: none;
+  color: var(--av2-text-1);
+  font-family: 'Inter', -apple-system, 'Segoe UI', system-ui, sans-serif;
+  font-size: 14px;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+
+#auth-overlay.auth-v2 .auth-input::placeholder {
+  color: var(--av2-text-3);
+}
+
+#auth-overlay.auth-v2 .auth-input:focus {
+  border-color: var(--av2-accent);
+  box-shadow: 0 0 0 3px var(--av2-accent-glow);
+}
+
+#auth-overlay.auth-v2 .auth-eye-btn {
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  display: flex;
+  padding: 6px;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  border-radius: 6px;
+  color: var(--av2-text-3);
+  cursor: pointer;
+  line-height: 1;
+}
+
+#auth-overlay.auth-v2 .auth-eye-btn:hover {
+  color: var(--av2-text-2);
+  background: rgba(255, 255, 255, 0.04);
+}
+
+#auth-overlay.auth-v2 .auth-eye-btn span {
+  font-size: 15px;
+  line-height: 1;
+}
+
+#auth-overlay.auth-v2 .av2-row-between {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 24px;
+  font-size: 13px;
+}
+
+#auth-overlay.auth-v2 .av2-remember {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--av2-text-2);
+  cursor: pointer;
+  user-select: none;
+}
+
+#auth-overlay.auth-v2 .av2-remember input {
+  appearance: none;
+  -webkit-appearance: none;
+  display: inline-grid;
+  place-content: center;
+  width: 15px;
+  height: 15px;
+  margin: 0;
+  background: var(--av2-surface);
+  border: 1px solid var(--av2-border);
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+#auth-overlay.auth-v2 .av2-remember input:checked {
+  background: var(--av2-accent-dim);
+  border-color: var(--av2-accent);
+}
+
+#auth-overlay.auth-v2 .av2-remember input:checked::after {
+  content: '✓';
+  color: #fff;
+  font-size: 11px;
+  line-height: 1;
+}
+
+#auth-overlay.auth-v2 .av2-remember input:focus-visible {
+  outline: 2px solid var(--av2-accent);
+  outline-offset: 2px;
+}
+
+#auth-overlay.auth-v2 .av2-link {
+  color: var(--av2-accent);
+  text-decoration: none;
+}
+
+#auth-overlay.auth-v2 .av2-link:hover {
+  text-decoration: underline;
+}
+
+/* ---------- Mensajes de error / intentos ---------- */
+#auth-overlay.auth-v2 .auth-error {
+  margin-bottom: 16px;
+  padding: 11px 14px;
+  background: rgba(248, 113, 113, 0.08);
+  border: 1px solid rgba(248, 113, 113, 0.28);
+  border-left: 2px solid var(--av2-danger);
+  border-radius: 8px;
+  color: #FCA5A5;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+#auth-overlay.auth-v2 .auth-attempts {
+  margin-bottom: 16px;
+  padding: 9px 14px;
+  background: rgba(251, 191, 36, 0.08);
+  border: 1px solid rgba(251, 191, 36, 0.28);
+  border-left: 2px solid var(--av2-warn);
+  border-radius: 8px;
+  color: #FCD34D;
+  font-size: 12.5px;
+  text-align: center;
+  font-weight: 500;
+}
+
+/* ---------- Botón principal ---------- */
+#auth-overlay.auth-v2 .auth-btn-login {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  margin-bottom: 0;
+  padding: 13px;
+  background: var(--av2-accent-dim);
+  background-image: linear-gradient(180deg, #7C4FE0, #6D28D9);
+  border: none;
+  border-radius: 8px;
+  color: #fff;
+  font-family: 'Inter', -apple-system, 'Segoe UI', system-ui, sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: normal;
+  cursor: pointer;
+  transition: filter 0.15s, transform 0.05s;
+}
+
+#auth-overlay.auth-v2 .auth-btn-login::before {
+  display: none;
+}
+
+#auth-overlay.auth-v2 .auth-btn-login:hover:not(:disabled) {
+  transform: none;
+  box-shadow: none;
+  filter: brightness(1.08);
+}
+
+#auth-overlay.auth-v2 .auth-btn-login:active:not(:disabled) {
+  transform: scale(0.99);
+}
+
+#auth-overlay.auth-v2 .auth-btn-login:focus-visible {
+  outline: 2px solid var(--av2-accent);
+  outline-offset: 2px;
+}
+
+#auth-overlay.auth-v2 .auth-btn-login:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+#auth-overlay.auth-v2 .av2-btn-arrow {
+  flex-shrink: 0;
+}
+
+/* ---------- Bloqueo ---------- */
+#auth-overlay.auth-v2 .auth-lockout {
+  padding: 10px 0;
+  text-align: center;
+}
+
+#auth-overlay.auth-v2 .auth-lockout-icon {
+  display: block;
+  margin-bottom: 16px;
+  font-size: 3rem;
+}
+
+#auth-overlay.auth-v2 .auth-lockout h3 {
+  margin: 0 0 12px;
+  color: #FCA5A5;
+  font-size: 1.2rem;
+}
+
+#auth-overlay.auth-v2 .auth-lockout p {
+  margin: 0 0 10px;
+  color: var(--av2-text-2);
+  font-size: 0.9rem;
+  line-height: 1.6;
+}
+
+#auth-overlay.auth-v2 .auth-support-box {
+  margin-top: 18px;
+  padding: 16px;
+  background: var(--av2-surface-2);
+  border: 1px solid var(--av2-border);
+  border-radius: 8px;
+  color: var(--av2-text-2);
+  font-family: 'IBM Plex Mono', ui-monospace, 'Courier New', monospace;
+  font-size: 0.85rem;
+  line-height: 2;
+}
+
+/* ---------- Pie ---------- */
+#auth-overlay.auth-v2 .av2-foot {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 4px 12px;
+  margin-top: 22px;
+  padding-top: 16px;
+  border-top: 1px solid var(--av2-border-soft);
+  color: var(--av2-text-3);
+  font-family: 'IBM Plex Mono', ui-monospace, 'Courier New', monospace;
+  font-size: 11px;
+  text-align: left;
+}
+
+#auth-overlay.auth-v2 .av2-rev {
+  color: var(--av2-text-2);
+  font-weight: 500;
+}
+
+/* ---------- Animaciones heredadas (shake / éxito) ---------- */
+#auth-overlay.auth-v2 .auth-card.auth-shake {
+  animation: auth-shake 0.45s ease;
+}
+
+#auth-overlay.auth-v2 .auth-card.auth-success-exit {
+  animation: auth-success 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 860px) {
+  #auth-overlay.auth-v2 .av2-brand-panel {
+    display: none;
+  }
+  #auth-overlay.auth-v2 .av2-form-panel {
+    min-height: 100vh;
+    padding: 28px 22px;
+  }
+}
+
+@media (max-width: 420px) {
+  #auth-overlay.auth-v2 .av2-row-between {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+}

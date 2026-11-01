@@ -27,6 +27,33 @@ const Auth = (() => {
     let _sessionTimer=null, _warnTimer=null, _countdownTimer=null;
     let _attempts=0, _locked=false, _onLogin=null, _onLogout=null;
 
+    // ── Variante de login (convivencia temporal) ─────────────────────
+    // v1 = login clásico (por defecto, producción intacta)
+    // v2 = rediseño de login_redesign.html
+    // Activación: indexx.html?login=v2  ó  Auth.setLoginVariant('v2').
+    // El parámetro de URL tiene prioridad sobre el valor persistido.
+    const LOGIN_VARIANT_KEY = '__auth_login_variant';
+    function _resolveLoginVariant() {
+        try {
+            if (typeof window !== 'undefined' && window.location
+                && window.location.search && typeof URLSearchParams !== 'undefined') {
+                var q = new URLSearchParams(window.location.search).get('login');
+                if (q === 'v2' || q === 'v1') return q;
+            }
+        } catch (e) {}
+        try {
+            var saved = localStorage.getItem(LOGIN_VARIANT_KEY);
+            if (saved === 'v2' || saved === 'v1') return saved;
+        } catch (e) {}
+        return 'v1';
+    }
+    function setLoginVariant(variant) {
+        var v = variant === 'v2' ? 'v2' : 'v1';
+        try { localStorage.setItem(LOGIN_VARIANT_KEY, v); } catch (e) {}
+        return v;
+    }
+    function getLoginVariant() { return _resolveLoginVariant(); }
+
     // Puerta de área: antes de entrar a la app se exige área válida
     // (Estadística | Validaciones). Sin AreaSelect, entra directo.
     function _enterWithArea(next, role, retried) {
@@ -188,6 +215,24 @@ const Auth = (() => {
     }
 
     // ── Modal ─────────────────────────────
+    // Recordar usuario: SOLO username (nunca password). Se comparte entre v1/v2.
+    function _restoreRememberedUser() {
+        try {
+            var saved = JSON.parse(localStorage.getItem('__auth_remembered'));
+            // Migración: si hay entrada legacy con password, se purga
+            if (saved && saved.password) {
+                localStorage.removeItem('__auth_remembered');
+                saved = null;
+            }
+            if (saved && saved.username) {
+                var userEl = document.getElementById('auth-user');
+                var rememberEl = document.getElementById('auth-remember');
+                if (userEl) userEl.value = saved.username;
+                if (rememberEl) rememberEl.checked = true;
+            }
+        } catch (_e) {}
+    }
+
     function _renderLoginModal(reason='') {
         document.getElementById('auth-overlay')?.remove();
         const reasonMsg={timeout:'⏱ Tu sesión expiró por inactividad.',logout:'👋 Sesión cerrada correctamente.'}[reason]||'';
@@ -268,18 +313,132 @@ const Auth = (() => {
         document.body.appendChild(overlay);
         _attachLoginListeners();
         _renderParticles();
-        try {
-            var saved = JSON.parse(localStorage.getItem('__auth_remembered'));
-            // Migración: si hay entrada legacy con password, se purga
-            if (saved && saved.password) {
-                localStorage.removeItem('__auth_remembered');
-                saved = null;
-            }
-            if (saved && saved.username) {
-                document.getElementById('auth-user').value = saved.username;
-                document.getElementById('auth-remember').checked = true;
-            }
-        } catch(_e) {}
+        _restoreRememberedUser();
+    }
+
+// ========================================
+// _renderLoginModalV2 — rediseño (login_redesign.html)
+// Convive con _renderLoginModal (v1). Reutiliza los mismos IDs y
+// listeners para no duplicar la lógica de login/2FA/bloqueo.
+// ========================================
+    function _renderLoginModalV2(reason='') {
+        document.getElementById('auth-overlay')?.remove();
+        const reasonMsg={timeout:'⏱ Tu sesión expiró por inactividad.',logout:'👋 Sesión cerrada correctamente.'}[reason]||'';
+        const buildRev=((document.querySelector('meta[name="build-revision"]')||{}).content||'').trim();
+        const safeRev=buildRev.replace(/[^a-zA-Z0-9._-]/g,'');
+        const buildRevHtml=safeRev?' · <strong class="av2-rev" title="Build '+safeRev+'">'+safeRev+'</strong>':'';
+
+        // Traza del gráfico de control (mismos datos que el demo).
+        const ccData=[62,58,70,55,80,60,45,66,72,58,90,63,50,68,74,59,64,20,61,57];
+        const ccStep=(400-30)/(ccData.length-1);
+        const ccX=(i)=>(15+i*ccStep).toFixed(1);
+        const ccY=(v)=>(75-(v-50)*1.1).toFixed(1);
+        const ccPts=ccData.map((v,i)=>ccX(i)+','+ccY(v)).join(' ');
+        const ccDots=ccData.map((v,i)=>
+            `<circle class="av2-cc-point${(v<25||v>88)?' flag':''}" cx="${ccX(i)}" cy="${ccY(v)}" r="3"/>`
+        ).join('');
+
+        const overlay=document.createElement('div');
+        overlay.id='auth-overlay';
+        overlay.className='auth-v2';
+        overlay.innerHTML=`
+        <div class="av2-shell">
+            <section class="av2-brand-panel" aria-hidden="true">
+                <div class="av2-brand-mark">
+                    <span class="av2-dot"></span>
+                    <span>StatAnalyzer Pro · Proceso bajo control</span>
+                </div>
+                <div class="av2-chart-zone">
+                    <h1>El análisis estadístico,<br><em>siempre en control.</em></h1>
+                    <p class="av2-sub">Monitoreo continuo, trazabilidad y cumplimiento normativo en cada análisis. Sistema validado bajo GAMP 5.</p>
+                    <div class="av2-control-chart">
+                        <div class="av2-cc-head">
+                            <span class="av2-cc-title">Gráfico de control · Lote 0714</span>
+                            <span class="av2-cc-status">En control</span>
+                        </div>
+                        <svg class="av2-cc-svg" viewBox="0 0 400 150">
+                            <line class="av2-cc-limit" x1="0" y1="20" x2="400" y2="20"/>
+                            <line class="av2-cc-mean" x1="0" y1="75" x2="400" y2="75"/>
+                            <line class="av2-cc-limit" x1="0" y1="130" x2="400" y2="130"/>
+                            <text class="av2-cc-label" x="4" y="16">UCL</text>
+                            <text class="av2-cc-label" x="4" y="71">X̄</text>
+                            <text class="av2-cc-label" x="4" y="126">LCL</text>
+                            <polyline class="av2-cc-trace" points="${ccPts}"/>
+                            ${ccDots}
+                        </svg>
+                    </div>
+                </div>
+                <div class="av2-brand-foot">
+                    <span><b>21 CFR Part 11</b> · validado</span>
+                    <span><b>ICH Q9(R1)</b> · gestión de riesgo</span>
+                </div>
+            </section>
+
+            <section class="av2-form-panel">
+                <div class="auth-card av2-form-card" role="dialog" aria-modal="true" aria-labelledby="av2-title">
+                    <h2 class="av2-title" id="av2-title">Iniciar sesión</h2>
+                    <p class="av2-hint">Accede a tu panel de análisis estadístico.</p>
+                    ${reasonMsg?`<div class="av2-status" role="status">
+                        <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M9 12l2 2 4-4"/><circle cx="12" cy="12" r="9"/></svg>
+                        <span>${reasonMsg}</span>
+                    </div>`:''}
+
+                    <div id="auth-form-area">
+                        <div class="auth-field">
+                            <label class="auth-label" for="auth-user">Usuario</label>
+                            <div class="auth-input-wrap">
+                                <input class="auth-input" type="text" id="auth-user" autocomplete="username" autofocus>
+                            </div>
+                        </div>
+                        <div class="auth-field">
+                            <label class="auth-label" for="auth-pass">Contraseña</label>
+                            <div class="auth-input-wrap">
+                                <input class="auth-input" type="password" id="auth-pass" autocomplete="current-password">
+                                <button class="auth-eye-btn" id="auth-eye" type="button" aria-label="Mostrar contraseña"><span id="auth-eye-icon">👁</span></button>
+                            </div>
+                        </div>
+                        <!-- Compatibilidad con _attachLoginListeners (toggle de ojo) -->
+                        <input type="checkbox" id="auth-show-pass" hidden aria-hidden="true" tabindex="-1">
+
+                        <div class="av2-row-between">
+                            <label class="av2-remember">
+                                <input type="checkbox" id="auth-remember">
+                                <span>Recordarme</span>
+                            </label>
+                            <a class="av2-link" href="mailto:soporte@statanalyzer.com">¿Olvidaste tu contraseña?</a>
+                        </div>
+
+                        <div class="auth-error" id="auth-error" style="display:none"></div>
+                        <div class="auth-attempts" id="auth-attempts-info" style="display:none"></div>
+                        <button class="auth-btn-login" id="auth-btn-login" type="button">
+                            <span id="auth-btn-text">Iniciar sesión</span>
+                            <svg class="av2-btn-arrow" viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+                        </button>
+                    </div>
+
+                    <div id="auth-lockout-msg" style="display:none" class="auth-lockout">
+                        <div class="auth-lockout-icon">🔒</div>
+                        <h3>Acceso bloqueado</h3>
+                        <p>Has superado el máximo de intentos permitidos (<strong>${CFG.MAX_ATTEMPTS}</strong>).</p>
+                        <p>Por favor, comunícate con <strong>Soporte Técnico</strong> para restablecer tu acceso.</p>
+                        <div class="auth-support-box"><div>📧 soporte@statanalyzer.com</div><div>📞 +1 (800) 000-0000</div></div>
+                    </div>
+
+                    <div class="av2-foot">
+                        <span>Sistema validado · GAMP 5 / Anexo 15 EU GMP</span>
+                        <span>v1.0${buildRevHtml}</span>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <div class="auth-timeout-warn" id="auth-timeout-warn">
+            ⏱ Tu sesión expirará en <strong id="auth-warn-countdown">60</strong> segundos por inactividad.
+            <button onclick="Auth.keepAlive()" class="auth-warn-btn">Mantener sesión</button>
+        </div>`;
+        document.body.appendChild(overlay);
+        _attachLoginListeners();
+        _restoreRememberedUser();
     }
 
 // ========================================
@@ -696,7 +855,7 @@ const Auth = (() => {
                     Ingresa el código de 6 dígitos de tu aplicación autenticadora.
                 </p>
                 <div class="auth-field">
-                    <div class="auth-input-wrap">
+                    <div class="auth-input-wrap has-icon">
                         <span class="auth-input-icon">🔑</span>
                         <input class="auth-input" type="text" id="auth-totp" placeholder=" " autocomplete="one-time-code" inputmode="numeric" maxlength="6" style="font-size:1.5rem;letter-spacing:8px;text-align:center;font-weight:700;">
                         <label class="auth-label" for="auth-totp">Código 2FA</label>
@@ -750,7 +909,8 @@ const Auth = (() => {
         });
 
         document.getElementById('auth-back-to-login').addEventListener('click', function() {
-            _renderLoginModal();
+            // Variante-aware: vuelve al login que el usuario esté usando (v1/v2).
+            showLogin();
         });
     }
 
@@ -1021,7 +1181,8 @@ const Auth = (() => {
     // ── API pública ───────────────────────
     function showLogin(reason=''){
         _unregisterActivityListeners();
-        _renderLoginModal(reason);
+        if(_resolveLoginVariant()==='v2') _renderLoginModalV2(reason);
+        else _renderLoginModal(reason);
     }
 
     async function init({onLogin,onLogout}={}){
@@ -1129,7 +1290,7 @@ const Auth = (() => {
         } catch { return { error: 'Error de conexión' }; }
     }
 
-    return { init, showLogin, logout, keepAlive, getSession, isAuthenticated, getToken, getMlApiKey, get2FAStatus, setup2FA, enable2FA, disable2FA, getArea, selectArea };
+    return { init, showLogin, logout, keepAlive, getSession, isAuthenticated, getToken, getMlApiKey, get2FAStatus, setup2FA, enable2FA, disable2FA, getArea, selectArea, getLoginVariant, setLoginVariant };
 
 })();
 

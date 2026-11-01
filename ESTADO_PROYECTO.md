@@ -90,6 +90,45 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (SigmaProXVL) con spr
 
 ## CAMBIOS RECIENTES
 
+### 2026-10-31 (2): Login V2 — convive con el login clásico (sin cambiar el default)
+
+**Qué:** Se implementa el rediseño de `login_redesign.html` como **login V2** dentro de la app real, conviviendo con el login clásico. El login clásico (v1) sigue siendo el **default**, por lo que producción no cambia hasta que se validen las pruebas del nuevo.
+
+- **Activación de V2 (opt-in, sin desplegar cambio de comportamiento):**
+  - URL: `indexx.html?login=v2` (prioridad sobre la preferencia guardada).
+  - API: `Auth.setLoginVariant('v2')` → persiste en `localStorage['__auth_login_variant']`.
+  - Volver a v1: `?login=v1` o `Auth.setLoginVariant('v1')`.
+- **Reutilización de flujo:** V2 conserva los mismos IDs (`auth-user`, `auth-pass`, `auth-btn-login`, `auth-error`, `auth-attempts-info`, `auth-remember`, `auth-show-pass`, `auth-lockout-msg`, `auth-form-area`) y los mismos listeners, por lo que login, bloqueo por intentos, recordarme, 2FA y cambio forzado de contraseña funcionan igual.
+- **2FA:** el botón "Volver al inicio de sesión" ahora es variante-aware (`showLogin()`), así que regresa al login que el usuario está usando (v1 o v2).
+- **Diseño:** dos paneles (marca + gráfico de control / formulario), responsive (el panel izquierdo se oculta ≤860 px), sin partículas para V2, y footer con versión + commit desplegado.
+
+**Archivos afectados:**
+| Archivo | Cambio |
+|---------|--------|
+| `js/core/auth.js:30-55` | Resolución de variante (`?login=`, `localStorage`), `getLoginVariant`/`setLoginVariant` |
+| `js/core/auth.js:219-236` | `_restoreRememberedUser()` compartido entre v1/v2 |
+| `js/core/auth.js:324-455` | **NUEVO** `_renderLoginModalV2()` (rediseño) |
+| `js/core/auth.js:858` | 2FA: `has-icon` para el campo del código |
+| `js/core/auth.js:911-914` | 2FA: volver usa `showLogin()` (variante-aware) |
+| `js/core/auth.js:1182-1186` | `showLogin()` despacha v1/v2 |
+| `js/core/auth.js:1293` | API pública expone `getLoginVariant`, `setLoginVariant` |
+| `css/core/auth-v2.css` | **NUEVO** — estilos encapsulados en `#auth-overlay.auth-v2` |
+| `indexx.html:23` | Carga `css/core/auth-v2.css` |
+| `tests/auth-login-v2.test.js` | **NUEVO** — 9 tests (variante, render, IDs, error, ojo, 2FA→v2) |
+| `e2e/login-v2.spec.js` | **NUEVO** — 2 E2E (error de credenciales y login real → área → app) |
+
+**Por qué:** El demo ya está maduro, pero el login es un flujo crítico. Mantener ambos permite probar V2 en real (`?login=v2`) y volver a v1 al instante, sin borrar nada.
+
+**Verificación:**
+- `node --check js/core/auth.js`: OK.
+- `npx vitest run`: **662 tests / 52 archivos OK**.
+- `npx playwright test e2e/login-v2.spec.js`: **2/2 OK** (error de credenciales y login real).
+- Revisión visual en navegador (1440×900, 390×844 y 2FA): sin scroll horizontal ni solapes; panel de marca oculto en móvil.
+
+**Riesgo:** Bajo. V1 no se modificó funcionalmente y sigue siendo el default; V2 solo se renderiza si se pide explícitamente. **Pendiente (no incluido):** cuando el usuario apruebe las pruebas de V2, cambiar el default a `v2` y eliminar el login clásico (`_renderLoginModal`, partículas y estilos v1).
+
+---
+
 ### 2026-10-31: Auditoría · unificación de módulos (Propuesta 1)
 
 **Qué:** Se alinean los módulos que escribe el backend con el selector de la página y se normalizan los históricos **sin reescribir filas** (el hash incluye `module`, un `UPDATE` rompería la cadena).
