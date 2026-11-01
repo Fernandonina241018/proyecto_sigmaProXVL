@@ -102,6 +102,7 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (SigmaProXVL) con spr
 - **Actualización:** `version-check.js` emite `sigma:version-available` y deja `window.__sigmaPendingVersion`. Si el login está abierto, la tarjeta muestra el banner “Nueva versión disponible · Actualizar” y se suprime el toast global; si no, el toast global ahora también dice “Actualizar”.
 - **Reutilización del flujo:** mismos IDs/listeners (`auth-user`, `auth-pass`, `auth-btn-login`, 2FA, bloqueo, recordarme, cambio forzado). No se duplica lógica.
 - **Recordarme y 2FA:** la elección se guarda antes del segundo factor; la caché de perfil se escribe solo tras login completo.
+- **Recordar usuario por defecto:** el checkbox aparece marcado en cada inicio. Si el usuario lo desmarca, se persiste `__auth_remember_optout`, se limpian usuario y caché, y se respeta en los siguientes accesos hasta que lo vuelva a marcar.
 
 **Archivos afectados:**
 | Archivo | Cambio |
@@ -114,11 +115,11 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (SigmaProXVL) con spr
 | `backend/database.js` | Columna `last_ip_masked`, actualización en `updateLastLogin` |
 | `backend/server.js` | `maskIP()` en login; `/api/me` devuelve el campo |
 | `js/core/version-check.js` | Evento de nueva versión + toast “Actualizar” + supresión sobre el login |
-| `tests/auth-login-v2.test.js` | 12 tests del híbrido, tarjeta, panel, Cambiar y actualización |
-| `e2e/login-v2.spec.js` | 3 E2E (error, login real, tarjeta tras logout) |
+| `tests/auth-login-v2.test.js` | 13 tests del híbrido, tarjeta, panel, Cambiar, actualización y opt-out |
+| `e2e/login-v2.spec.js` | 4 E2E (error, login real, tarjeta tras logout, opt-out persistente) |
 | `backend/tests/ip-mask.test.js` | **NUEVO** 4 tests de enmascarado |
 
-**Verificación:** `node --check` OK · Vitest **666/666** · Backend **112/112** · E2E **8/8** · preflight **OK**. Revisión visual 1366/1024/390/320; QR decodificado en los cuatro tamaños.
+**Verificación:** `node --check` OK · Vitest **667/667** · Backend **112/112** · E2E **9/9** · preflight **OK**. Revisión visual 1366/1024/390/320; QR decodificado en los cuatro tamaños.
 
 **Por qué:** El usuario validó el híbrido como diseño oficial y pidió tarjeta recordada, sesiones, IP enmascarada, QR y panel de proyecto con datos reales.
 

@@ -33,6 +33,7 @@ const Auth = (() => {
     // El parámetro de URL tiene prioridad sobre el valor persistido.
     const LOGIN_VARIANT_KEY = '__auth_login_variant';
     const PROFILE_CACHE_KEY = '__auth_profile_cache';
+    const REMEMBER_OPTOUT_KEY = '__auth_remember_optout';
     function _resolveLoginVariant() {
         try {
             if (typeof window !== 'undefined' && window.location
@@ -224,9 +225,11 @@ const Auth = (() => {
                 localStorage.removeItem('__auth_remembered');
                 saved = null;
             }
-            if (saved && saved.username) {
-                var userEl = document.getElementById('auth-user');
-                var rememberEl = document.getElementById('auth-remember');
+            var userEl = document.getElementById('auth-user');
+            var rememberEl = document.getElementById('auth-remember');
+            var optedOut = _isRememberOptedOut();
+            if (rememberEl) rememberEl.checked = !optedOut;
+            if (saved && saved.username && !optedOut) {
                 if (userEl) userEl.value = saved.username;
                 if (rememberEl) rememberEl.checked = true;
             }
@@ -286,7 +289,7 @@ const Auth = (() => {
                         <span class="auth-checkbox-text">Mostrar contraseña</span>
                     </label>
                     <label class="auth-checkbox-row" style="margin-top:4px">
-                        <input type="checkbox" id="auth-remember">
+                        <input type="checkbox" id="auth-remember" checked>
                         <span class="auth-checkbox-custom"></span>
                         <span class="auth-checkbox-text">Recordarme</span>
                     </label>
@@ -350,7 +353,17 @@ const Auth = (() => {
     function _clearProfileCache() {
         try { localStorage.removeItem(PROFILE_CACHE_KEY); } catch (_e) {}
     }
+    function _isRememberOptedOut() {
+        try { return localStorage.getItem(REMEMBER_OPTOUT_KEY) === '1'; } catch (_e) { return false; }
+    }
+    function _setRememberOptOut(on) {
+        try {
+            if (on) localStorage.setItem(REMEMBER_OPTOUT_KEY, '1');
+            else localStorage.removeItem(REMEMBER_OPTOUT_KEY);
+        } catch (_e) {}
+    }
     function _profileForRemembered() {
+        if (_isRememberOptedOut()) return null;
         let saved = '';
         try {
             const raw = JSON.parse(localStorage.getItem('__auth_remembered') || 'null');
@@ -1109,6 +1122,16 @@ const Auth = (() => {
         }
         document.getElementById('auth-show-pass')?.addEventListener('change',()=>togglePass(showCb.checked));
         document.getElementById('auth-eye')?.addEventListener('click',()=>togglePass(inputPass.type==='password'));
+        const rememberCb = document.getElementById('auth-remember');
+        rememberCb?.addEventListener('change', () => {
+            if (rememberCb.checked) {
+                _setRememberOptOut(false);
+            } else {
+                _setRememberOptOut(true);
+                try { localStorage.removeItem('__auth_remembered'); } catch (_e) {}
+                _clearProfileCache();
+            }
+        });
         [inputUser,inputPass].forEach(el=>{
             el?.addEventListener('keydown',(e)=>{ if(e.key==='Enter') _doLogin(); });
             el?.addEventListener('input',()=>{ document.getElementById('auth-error').style.display='none'; });
@@ -1147,8 +1170,10 @@ const Auth = (() => {
             var rememberCb = document.getElementById('auth-remember');
             if (rememberCb && rememberCb.checked) {
                 try { localStorage.setItem('__auth_remembered', JSON.stringify({username: user})); } catch(_e) {}
+                _setRememberOptOut(false);
             } else {
                 try { localStorage.removeItem('__auth_remembered'); } catch(_e) {}
+                _setRememberOptOut(true);
                 _clearProfileCache();
             }
             if (result.requires2FA) {

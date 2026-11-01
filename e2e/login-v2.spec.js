@@ -40,6 +40,22 @@ test('login V2: entra a la app y conserva el flujo de área', async ({ page }) =
   await expect(page.locator('#auth-overlay')).toHaveCount(0);
 });
 
+test('login V2: Recordar usuario marcado por defecto y opt-out persistente', async ({ page }) => {
+  await page.goto('/indexx.html?login=v2');
+  await expect(page.locator('#auth-overlay.auth-v2')).toBeVisible();
+  await expect(page.locator('#auth-remember')).toBeChecked();
+
+  await page.uncheck('#auth-remember');
+  await page.reload();
+  await expect(page.locator('#auth-overlay.auth-v2')).toBeVisible();
+  await expect(page.locator('#auth-remember')).not.toBeChecked();
+
+  await page.check('#auth-remember');
+  await page.reload();
+  await expect(page.locator('#auth-overlay.auth-v2')).toBeVisible();
+  await expect(page.locator('#auth-remember')).toBeChecked();
+});
+
 test('login V2: al cerrar sesión reaparece la tarjeta recordada', async ({ page }) => {
   await page.goto('/indexx.html?login=v2');
   await expect(page.locator('#auth-overlay.auth-v2')).toBeVisible();

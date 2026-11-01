@@ -188,6 +188,31 @@ describe('login V2 — tarjeta recordada e información de proyecto', () => {
     expect(document.querySelector('#auth-overlay .card').classList.contains('has-update')).toBe(true);
   });
 
+  test('Recordar usuario viene marcado por defecto y el opt-out persiste', () => {
+    const { window, document, Auth } = loadAuth({ savedVariant: 'v2' });
+    Auth.showLogin();
+    let cb = document.getElementById('auth-remember');
+    expect(cb.checked).toBe(true);
+
+    window.localStorage.setItem('__auth_remembered', JSON.stringify({ username: 'ana' }));
+    window.localStorage.setItem('__auth_profile_cache', JSON.stringify({ username: 'ana' }));
+    cb.checked = false;
+    cb.dispatchEvent(new window.Event('change'));
+    expect(window.localStorage.getItem('__auth_remember_optout')).toBe('1');
+    expect(window.localStorage.getItem('__auth_remembered')).toBeNull();
+    expect(window.localStorage.getItem('__auth_profile_cache')).toBeNull();
+
+    Auth.showLogin();
+    cb = document.getElementById('auth-remember');
+    expect(cb.checked).toBe(false);
+
+    cb.checked = true;
+    cb.dispatchEvent(new window.Event('change'));
+    expect(window.localStorage.getItem('__auth_remember_optout')).toBeNull();
+    Auth.showLogin();
+    expect(document.getElementById('auth-remember').checked).toBe(true);
+  });
+
   test('el panel de proyecto muestra al responsable y se cierra', () => {
     const { document, Auth } = loadAuth({ savedVariant: 'v2' });
     Auth.showLogin();
