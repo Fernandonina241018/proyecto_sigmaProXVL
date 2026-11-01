@@ -39,6 +39,7 @@ const helmet  = require('helmet');
 const compression = require('compression');
 const { authenticator } = require('otplib');
 const QRCode  = require('qrcode');
+const { maskIP } = require('./ip-mask');
 const db      = require('./database');
 const { extractEmbeddedSignatures } = require('./sign-html'); // FASE 3
 const { signStampTZ } = require('./sign-stamp');
@@ -553,7 +554,7 @@ app.post('/api/login', loginLimiter, async (req, res) => {
 
         // Login exitoso: limpiar bloqueos
         clearUserFailure(username.trim());
-        await db.updateLastLogin(username);
+        await db.updateLastLogin(username, maskIP(ip));
 
         // Verificar si debe cambiar contraseña temporal
         const mustChangePassword = user.password_temp === 1;

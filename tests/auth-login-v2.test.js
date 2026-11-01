@@ -1,6 +1,5 @@
-// Login V2 — convive con el login clásico (v1).
-// Verifica resolución de variante, render del rediseño y que los IDs que
-// usa la lógica de auth (login/2FA/bloqueo/recordarme) siguen existiendo.
+// Login V2 — híbrido oficial (tarjeta recordada + QR + proyecto).
+// Verifica selección de variante, render, IDs compartidos y tarjeta.
 import { readFileSync } from 'fs';
 import { join, dirname } from 'path';
 import { fileURLToPath } from 'url';
@@ -19,6 +18,7 @@ function loadAuth({ url = 'http://localhost/indexx.html', savedVariant = null, f
     console,
     window,
     document: window.document,
+    navigator: window.navigator,
     sessionStorage: window.sessionStorage,
     localStorage: window.localStorage,
     URLSearchParams,
@@ -40,40 +40,37 @@ function loadAuth({ url = 'http://localhost/indexx.html', savedVariant = null, f
 const tick = (ms = 0) => new Promise((r) => setTimeout(r, ms));
 
 describe('login V2 — selección de variante', () => {
-  test('por defecto se mantiene el login clásico (v1)', () => {
+  test('por defecto se usa el login híbrido (v2)', () => {
     const { Auth } = loadAuth();
-    expect(Auth.getLoginVariant()).toBe('v1');
-  });
-
-  test('localStorage activa v2 y setLoginVariant lo persiste', () => {
-    const { window, Auth } = loadAuth({ savedVariant: 'v2' });
-    expect(Auth.getLoginVariant()).toBe('v2');
-    expect(Auth.setLoginVariant('v1')).toBe('v1');
-    expect(window.localStorage.getItem('__auth_login_variant')).toBe('v1');
-  });
-
-  test('?login=v2 tiene prioridad sobre localStorage', () => {
-    const { Auth } = loadAuth({ url: 'http://localhost/indexx.html?login=v2', savedVariant: 'v1' });
     expect(Auth.getLoginVariant()).toBe('v2');
   });
 
-  test('?login=v1 permite volver al clásico sin borrar la preferencia', () => {
-    const { window, Auth } = loadAuth({ url: 'http://localhost/indexx.html?login=v1', savedVariant: 'v2' });
+  test('localStorage puede fijar v1 o v2', () => {
+    const { window, Auth } = loadAuth({ savedVariant: 'v1' });
     expect(Auth.getLoginVariant()).toBe('v1');
+    expect(Auth.setLoginVariant('v2')).toBe('v2');
     expect(window.localStorage.getItem('__auth_login_variant')).toBe('v2');
+  });
+
+  test('?login=v1 tiene prioridad y permite volver al clásico', () => {
+    const { Auth } = loadAuth({ url: 'http://localhost/indexx.html?login=v1', savedVariant: 'v2' });
+    expect(Auth.getLoginVariant()).toBe('v1');
   });
 });
 
 describe('login V2 — render y compatibilidad de IDs', () => {
-  test('renderiza el rediseño y conserva los IDs de la lógica de auth', () => {
+  test('renderiza el híbrido y conserva los IDs de la lógica de auth', () => {
     const { document, Auth } = loadAuth({ savedVariant: 'v2' });
     Auth.showLogin();
 
     const overlay = document.getElementById('auth-overlay');
     expect(overlay).not.toBeNull();
     expect(overlay.className).toContain('auth-v2');
-    expect(overlay.querySelector('.av2-brand-panel')).not.toBeNull();
-    expect(overlay.querySelector('.av2-control-chart')).not.toBeNull();
+    expect(overlay.querySelector('.card')).not.toBeNull();
+    expect(overlay.querySelector('.topbar')).not.toBeNull();
+    expect(document.getElementById('av2-card-title').textContent).toBe('StatAnalyzer Pro');
+    expect(document.getElementById('av2-info-toggle')).not.toBeNull();
+    expect(overlay.querySelector('.av2-brand-panel')).toBeNull();
 
     for (const id of [
       'auth-form-area', 'auth-user', 'auth-pass', 'auth-show-pass',
@@ -83,16 +80,15 @@ describe('login V2 — render y compatibilidad de IDs', () => {
     ]) {
       expect(document.getElementById(id), `falta #${id}`).not.toBeNull();
     }
-    // No debe quedar el logo/avatar del login clásico.
     expect(overlay.querySelector('.auth-avatar-container')).toBeNull();
   });
 
-  test('muestra el motivo (logout/timeout) en el panel', () => {
+  test('muestra el motivo (logout/timeout) como banner', () => {
     const { document, Auth } = loadAuth({ savedVariant: 'v2' });
     Auth.showLogin('logout');
-    const status = document.querySelector('#auth-overlay .av2-status');
-    expect(status).not.toBeNull();
-    expect(status.textContent).toMatch('Sesión cerrada');
+    const banner = document.querySelector('#auth-overlay .banner');
+    expect(banner).not.toBeNull();
+    expect(banner.textContent).toMatch('Sesión cerrada');
   });
 
   test('el ojo muestra/oculta la contraseña', () => {
@@ -107,7 +103,7 @@ describe('login V2 — render y compatibilidad de IDs', () => {
     expect(pass.type).toBe('password');
   });
 
-  test('un login fallido muestra el error dentro del rediseño', async () => {
+  test('un login fallido muestra el error dentro del híbrido', async () => {
     const { document, Auth } = loadAuth({
       savedVariant: 'v2',
       fetchImpl: async () => ({ ok: false, json: async () => ({ error: 'Credenciales incorrectas' }) }),
@@ -145,5 +141,60 @@ describe('login V2 — render y compatibilidad de IDs', () => {
     expect(document.getElementById('auth-overlay').className).toContain('auth-v2');
     expect(document.getElementById('auth-user')).not.toBeNull();
     expect(document.getElementById('auth-totp')).toBeNull();
+  });
+});
+
+describe('login V2 — tarjeta recordada e información de proyecto', () => {
+  test('pinta la tarjeta desde la caché real del perfil', () => {
+    const { window, document, Auth } = loadAuth({ savedVariant: 'v2' });
+    window.localStorage.setItem('__auth_remembered', JSON.stringify({ username: 'ana' }));
+    window.localStorage.setItem('__auth_profile_cache', JSON.stringify({
+      username: 'ana', nombre: 'Ana', apellido: 'Nina', email: 'ana@empresa.com',
+      cargo: 'Control de Calidad', role: 'analista', lastLoginAt: new Date().toISOString(),
+      loginCount: 24, has2FA: true, lastIpMasked: '190.12.•.•',
+    }));
+    Auth.showLogin();
+
+    expect(document.getElementById('av2-remembered').hidden).toBe(false);
+    expect(document.getElementById('av2-user-field').hidden).toBe(true);
+    expect(document.getElementById('av2-remembered-name').textContent).toBe('Ana Nina');
+    expect(document.getElementById('av2-remembered-role').textContent).toBe('Analista');
+    expect(document.getElementById('av2-remembered-area').textContent).toBe('Control de Calidad');
+    expect(document.getElementById('av2-remembered-logins').textContent).toBe('24');
+    expect(document.getElementById('av2-remembered-ip').textContent).toBe('190.12.•.•');
+  });
+
+  test('Cambiar oculta la tarjeta y muestra el campo de usuario', () => {
+    const { window, document, Auth } = loadAuth({ savedVariant: 'v2' });
+    window.localStorage.setItem('__auth_remembered', JSON.stringify({ username: 'ana' }));
+    window.localStorage.setItem('__auth_profile_cache', JSON.stringify({
+      username: 'ana', nombre: 'Ana', role: 'analista', loginCount: 1,
+    }));
+    Auth.showLogin();
+    document.getElementById('av2-change-user').click();
+    expect(document.getElementById('av2-remembered').hidden).toBe(true);
+    expect(document.getElementById('av2-user-field').hidden).toBe(false);
+    expect(document.getElementById('auth-user').value).toBe('');
+  });
+
+  test('una nueva versión muestra el aviso Actualizar dentro de la tarjeta', () => {
+    const { window, document, Auth } = loadAuth({ savedVariant: 'v2' });
+    Auth.showLogin();
+    window.dispatchEvent(new window.CustomEvent('sigma:version-available', { detail: { version: 'abc1234' } }));
+    const box = document.getElementById('av2-update');
+    expect(box.hidden).toBe(false);
+    expect(document.getElementById('av2-update-version').textContent).toContain('abc1234');
+    expect(document.getElementById('av2-update-btn').textContent).toBe('Actualizar');
+    expect(document.querySelector('#auth-overlay .card').classList.contains('has-update')).toBe(true);
+  });
+
+  test('el panel de proyecto muestra al responsable y se cierra', () => {
+    const { document, Auth } = loadAuth({ savedVariant: 'v2' });
+    Auth.showLogin();
+    document.getElementById('av2-info-toggle').click();
+    expect(document.getElementById('av2-project-info').hidden).toBe(false);
+    expect(document.getElementById('av2-project-owner').textContent).toContain('Fernando Alberto');
+    document.getElementById('av2-project-close').click();
+    expect(document.getElementById('av2-project-info').hidden).toBe(true);
   });
 });

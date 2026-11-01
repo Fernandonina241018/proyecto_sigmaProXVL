@@ -44,7 +44,7 @@ const VersionCheck = (() => {
       el.innerHTML = '<span>🆕 Nueva versión disponible</span>';
       const btn = document.createElement('button');
       btn.type = 'button';
-      btn.textContent = 'Recargar';
+      btn.textContent = 'Actualizar';
       btn.style.cssText = 'font:inherit;font-weight:700;border:0;border-radius:20px;padding:8px 18px;cursor:pointer;background:#ff5c1a;color:#fff';
       btn.onclick = function () {
         try { window.location.reload(); } catch (e) {}
@@ -52,6 +52,20 @@ const VersionCheck = (() => {
       el.appendChild(btn);
       document.body.appendChild(el);
     } catch (e) {}
+  }
+
+  function notify(v) {
+    try {
+      if (typeof window !== 'undefined') window.__sigmaPendingVersion = v;
+    } catch (e) {}
+    try {
+      if (typeof window !== 'undefined' && window.dispatchEvent && typeof CustomEvent !== 'undefined') {
+        window.dispatchEvent(new CustomEvent('sigma:version-available', { detail: { version: v } }));
+      }
+    } catch (e) {}
+    try {
+      if (!document.getElementById('auth-overlay')) toast();
+    } catch (e) { toast(); }
   }
 
   async function tick() {
@@ -67,7 +81,7 @@ const VersionCheck = (() => {
         const usada = versionUsada();
         if (usada && usada !== v && !avisado) {
           avisado = true;
-          toast();
+          notify(v);
           stop();
         }
         return;
@@ -77,7 +91,7 @@ const VersionCheck = (() => {
         guardarVersion(v);
         if (!avisado) {
           avisado = true;
-          toast();
+          notify(v);
           stop();
         }
       }

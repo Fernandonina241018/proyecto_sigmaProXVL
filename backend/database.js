@@ -201,6 +201,7 @@ function buildPostgres() {
         await run(`ALTER TABLE users ADD COLUMN IF NOT EXISTS totp_secret TEXT`);
         await run(`ALTER TABLE users ADD COLUMN IF NOT EXISTS totp_enabled INTEGER DEFAULT 0`);
         await run(`ALTER TABLE users ADD COLUMN IF NOT EXISTS signature TEXT`);
+        await run(`ALTER TABLE users ADD COLUMN IF NOT EXISTS last_ip_masked TEXT`);
         await run(`CREATE INDEX IF NOT EXISTS idx_users_signature_code ON users (signature_code)`);
         // LOTE E: códigos únicos (sin el índice, dos usuarios con el mismo
         // código hacen que siempre verifique el primero). No-fatal por si hay
@@ -326,12 +327,12 @@ function buildPostgres() {
         }
     }
 
-    async function updateLastLogin(username) {
-        await run(`UPDATE users SET last_login=to_char(now(),'YYYY-MM-DD"T"HH24:MI:SS'), login_count=login_count+1 WHERE username=$1`, [username]);
+    async function updateLastLogin(username, maskedIp) {
+        await run(`UPDATE users SET last_login=to_char(now(),'YYYY-MM-DD"T"HH24:MI:SS'), login_count=login_count+1, last_ip_masked=COALESCE($2, last_ip_masked) WHERE username=$1`, [username, maskedIp || null]);
     }
 
     async function getAllUsers(limit = 50, offset = 0) {
-        return all('SELECT id,username,role,active,created_at,last_login,login_count,nombre,apellido,email,telefono,avatar,updated_at,totp_enabled,password_temp,signature_code,cargo,signature FROM users ORDER BY id ASC LIMIT $1 OFFSET $2', [limit, offset]);
+        return all('SELECT id,username,role,active,created_at,last_login,login_count,last_ip_masked,nombre,apellido,email,telefono,avatar,updated_at,totp_enabled,password_temp,signature_code,cargo,signature FROM users ORDER BY id ASC LIMIT $1 OFFSET $2', [limit, offset]);
     }
 
     // FASE 2 — lista pública para selects de asignación (sin secretos:
@@ -1283,6 +1284,7 @@ function buildLocalStore() {
             last_login: null, login_count: 0, nombre: null, apellido: null,
             email: username, telefono: null, avatar: null, updated_at: null,
             password_temp: 0, signature_code: null, signature: null, cargo: null,
+            last_ip_masked: null,
         });
         save();
         console.log(`✅ Admin local creado: ${username}`);
@@ -1310,16 +1312,18 @@ function buildLocalStore() {
             last_login: null, login_count: 0, nombre: nombre||null, apellido: apellido||null,
             email: email||username, telefono: telefono||null, avatar: null, updated_at: null,
             password_temp: passwordTemp ? 1 : 0, signature_code: signatureCode||null, signature: signature||null, cargo: cargo||null,
+            last_ip_masked: null,
         };
         state.users.push(user); save();
         return { ok: true, id: user.id };
     }
 
-    async function updateLastLogin(username) {
+    async function updateLastLogin(username, maskedIp) {
         const u = findUser(username);
         if (!u) return;
         u.last_login = new Date().toISOString();
         u.login_count = (u.login_count || 0) + 1;
+        if (maskedIp) u.last_ip_masked = maskedIp;
         save();
     }
 

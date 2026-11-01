@@ -45,7 +45,7 @@ function loadHarness(versions, opts) {
 }
 
 describe('version-check', () => {
-  test('sin cambio no hay toast; con cambio aparece y Recargar recarga', async () => {
+  test('sin cambio no hay toast; con cambio aparece y Actualizar recarga', async () => {
     const h = loadHarness(['aaa', 'aaa', 'bbb']);
     expect(h.VC.start()).toBe(true);
     await h.VC._tick();

@@ -90,7 +90,45 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (SigmaProXVL) con spr
 
 ## CAMBIOS RECIENTES
 
+### 2026-10-31 (3): Login V2 híbrido — oficial con tarjeta recordada, QR e IP enmascarada
+
+**Qué:** Se reemplaza el rediseño de dos paneles (`login_redesign.html`) por el login híbrido de `login_sigmaproxvl_hibrido_v3.html`. Ahora **V2 es el login oficial por defecto**; V1 queda como respaldo con `?login=v1`.
+
+- **Activación:** por defecto `v2`; `?login=v1` o `Auth.setLoginVariant('v1')` para volver al clásico. `?login=v2` fuerza el híbrido.
+- **Tarjeta recordada real:** nombre, email, rol, cargo, último acceso, dispositivo, sesiones (`login_count`), IP enmascarada y estado 2FA. Se alimenta de una caché local escrita tras el login con `/api/me`; sin caché se muestra el formulario normal. “Cambiar” oculta la tarjeta y habilita el campo de usuario.
+- **IP enmascarada en servidor:** nueva columna `users.last_ip_masked` y helper `backend/ip-mask.js`; se actualiza en cada login y `/api/me` la devuelve ya enmascarada. Nunca se calcula con la IP completa en el cliente.
+- **QR:** generado offline con `js/vendor/qrcode.min.js` (MIT), solo con datos no sensibles: rol, área, sesiones, 2FA e IP enmascarada. Se decodifica con jsQR en las pruebas.
+- **Información de proyecto:** botón en la esquina superior derecha con versión/commit, responsable **Fernando Alberto Nina Ramirez**, módulos, cumplimiento y política de sesión.
+- **Actualización:** `version-check.js` emite `sigma:version-available` y deja `window.__sigmaPendingVersion`. Si el login está abierto, la tarjeta muestra el banner “Nueva versión disponible · Actualizar” y se suprime el toast global; si no, el toast global ahora también dice “Actualizar”.
+- **Reutilización del flujo:** mismos IDs/listeners (`auth-user`, `auth-pass`, `auth-btn-login`, 2FA, bloqueo, recordarme, cambio forzado). No se duplica lógica.
+- **Recordarme y 2FA:** la elección se guarda antes del segundo factor; la caché de perfil se escribe solo tras login completo.
+
+**Archivos afectados:**
+| Archivo | Cambio |
+|---|---|
+| `js/core/auth.js` | `_renderLoginModalV2()` híbrido, caché de perfil, QR, panel de proyecto, default v2, remember antes de 2FA |
+| `css/core/auth-v2.css` | Reemplazado por los estilos del híbrido (scope `#auth-overlay.auth-v2`) + puente 2FA/bloqueo |
+| `js/vendor/qrcode.min.js` | **NUEVO** generador QR MIT, offline |
+| `indexx.html` | Carga del generador QR antes de `auth.js` |
+| `backend/ip-mask.js` | **NUEVO** enmascarado IPv4/IPv6 |
+| `backend/database.js` | Columna `last_ip_masked`, actualización en `updateLastLogin` |
+| `backend/server.js` | `maskIP()` en login; `/api/me` devuelve el campo |
+| `js/core/version-check.js` | Evento de nueva versión + toast “Actualizar” + supresión sobre el login |
+| `tests/auth-login-v2.test.js` | 12 tests del híbrido, tarjeta, panel, Cambiar y actualización |
+| `e2e/login-v2.spec.js` | 3 E2E (error, login real, tarjeta tras logout) |
+| `backend/tests/ip-mask.test.js` | **NUEVO** 4 tests de enmascarado |
+
+**Verificación:** `node --check` OK · Vitest **666/666** · Backend **112/112** · E2E **8/8** · preflight **OK**. Revisión visual 1366/1024/390/320; QR decodificado en los cuatro tamaños.
+
+**Por qué:** El usuario validó el híbrido como diseño oficial y pidió tarjeta recordada, sesiones, IP enmascarada, QR y panel de proyecto con datos reales.
+
+**Pendiente:** validación manual del usuario en producción; V1 sigue disponible para revertir. La fila de IP muestra `—` hasta el primer login que actualice `last_ip_masked`.
+
+---
+
 ### 2026-10-31 (2): Login V2 — convive con el login clásico (sin cambiar el default)
+
+> **Nota:** este rediseño de dos paneles fue reemplazado por el login híbrido de la entrada 2026-10-31 (3).
 
 **Qué:** Se implementa el rediseño de `login_redesign.html` como **login V2** dentro de la app real, conviviendo con el login clásico. El login clásico (v1) sigue siendo el **default**, por lo que producción no cambia hasta que se validen las pruebas del nuevo.
 

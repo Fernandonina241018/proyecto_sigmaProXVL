@@ -27,12 +27,12 @@ const Auth = (() => {
     let _sessionTimer=null, _warnTimer=null, _countdownTimer=null;
     let _attempts=0, _locked=false, _onLogin=null, _onLogout=null;
 
-    // ── Variante de login (convivencia temporal) ─────────────────────
-    // v1 = login clásico (por defecto, producción intacta)
-    // v2 = rediseño de login_redesign.html
-    // Activación: indexx.html?login=v2  ó  Auth.setLoginVariant('v2').
+    // ── Variante de login ───────────────────────────────────────────
+    // v2 = login híbrido oficial (tarjeta recordada + QR + proyecto).
+    // v1 = login clásico, disponible como respaldo con ?login=v1.
     // El parámetro de URL tiene prioridad sobre el valor persistido.
     const LOGIN_VARIANT_KEY = '__auth_login_variant';
+    const PROFILE_CACHE_KEY = '__auth_profile_cache';
     function _resolveLoginVariant() {
         try {
             if (typeof window !== 'undefined' && window.location
@@ -45,7 +45,7 @@ const Auth = (() => {
             var saved = localStorage.getItem(LOGIN_VARIANT_KEY);
             if (saved === 'v2' || saved === 'v1') return saved;
         } catch (e) {}
-        return 'v1';
+        return 'v2';
     }
     function setLoginVariant(variant) {
         var v = variant === 'v2' ? 'v2' : 'v1';
@@ -317,128 +317,460 @@ const Auth = (() => {
     }
 
 // ========================================
-// _renderLoginModalV2 — rediseño (login_redesign.html)
-// Convive con _renderLoginModal (v1). Reutiliza los mismos IDs y
-// listeners para no duplicar la lógica de login/2FA/bloqueo.
+// Login V2 híbrido — tarjeta recordada + QR + información de proyecto.
+// Portado de login_sigmaproxvl_hibrido_v3.html; reutiliza los IDs y
+// listeners reales de auth.js (login, 2FA, bloqueo, recordarme).
 // ========================================
-    function _renderLoginModalV2(reason='') {
+    const ROLE_LABELS = {
+        admin: 'Administrador', supervisor: 'Supervisor', analista: 'Analista',
+        gerente: 'Gerente', coordinador: 'Coordinador', readonly: 'Solo lectura',
+        user: 'Usuario'
+    };
+    let _v2PendingVersion = '';
+    try {
+        window.addEventListener('sigma:version-available', function (e) {
+            _v2PendingVersion = (e && e.detail && e.detail.version) || 'nueva';
+            const box = document.getElementById('av2-update');
+            const label = document.getElementById('av2-update-version');
+            const card = document.querySelector('#auth-overlay.auth-v2 .card');
+            if (box) box.hidden = false;
+            if (label) label.textContent = 'v' + _v2PendingVersion + ' · lista para instalar';
+            if (card) card.classList.add('has-update');
+            const toast = document.getElementById('app-version-toast');
+            if (toast) toast.remove();
+        });
+    } catch (_e) {}
+
+    function _readProfileCache() {
+        try { return JSON.parse(localStorage.getItem(PROFILE_CACHE_KEY) || 'null'); } catch (_e) { return null; }
+    }
+    function _writeProfileCache(profile) {
+        try { localStorage.setItem(PROFILE_CACHE_KEY, JSON.stringify(profile)); } catch (_e) {}
+    }
+    function _clearProfileCache() {
+        try { localStorage.removeItem(PROFILE_CACHE_KEY); } catch (_e) {}
+    }
+    function _profileForRemembered() {
+        let saved = '';
+        try {
+            const raw = JSON.parse(localStorage.getItem('__auth_remembered') || 'null');
+            if (raw && raw.username) saved = raw.username;
+        } catch (_e) {}
+        if (!saved) return null;
+        const p = _readProfileCache();
+        return p && p.username === saved ? p : null;
+    }
+    async function _cacheProfileFromServer(username) {
+        try {
+            const token = _token || (function () {
+                try { return sessionStorage.getItem('auth_token') || ''; } catch (_e) { return ''; }
+            })();
+            const headers = token ? { Authorization: 'Bearer ' + token } : {};
+            const res = await fetchWithTimeout(CFG.API_URL + '/api/me', { credentials: 'include', headers: headers });
+            const data = await res.json();
+            if (!data || !data.ok) return;
+            const p = data.profile || {};
+            _writeProfileCache({
+                username: data.username || username,
+                nombre: p.nombre || '',
+                apellido: p.apellido || '',
+                email: p.email || '',
+                cargo: p.cargo || '',
+                role: data.role || p.role || '',
+                lastLoginAt: p.last_login || new Date().toISOString(),
+                loginCount: Number(p.login_count || 0),
+                has2FA: !!data.has2FA,
+                lastIpMasked: p.last_ip_masked || ''
+            });
+        } catch (_e) {}
+    }
+
+    function _v2NiceName(user) {
+        const local = String(user || '').split('@')[0];
+        return local.split(/[._-]/).filter(Boolean)
+            .map(function (x) { return x[0].toUpperCase() + x.slice(1); })
+            .join(' ') || 'usuario';
+    }
+    function _v2RoleLabel(role) {
+        return ROLE_LABELS[String(role || '').toLowerCase()] || (role ? String(role) : '—');
+    }
+    function _v2BrowserInfo() {
+        const ua = navigator.userAgent || '';
+        const br = /Edg/.test(ua) ? 'Edge' : /Firefox/.test(ua) ? 'Firefox' : /Chrome/.test(ua) ? 'Chrome' : /Safari/.test(ua) ? 'Safari' : 'Navegador';
+        const os = /Windows/.test(ua) ? 'Windows' : /Mac OS X|Macintosh/.test(ua) ? 'macOS' : /Android/.test(ua) ? 'Android' : /iPhone|iPad/.test(ua) ? 'iOS' : /Linux/.test(ua) ? 'Linux' : '';
+        return br + (os ? ' · ' + os : '');
+    }
+    function _v2FormatLast(value) {
+        if (!value) return '—';
+        const d = new Date(value);
+        if (isNaN(d.getTime())) return '—';
+        const now = new Date();
+        const hm = String(d.getHours()).padStart(2, '0') + ':' + String(d.getMinutes()).padStart(2, '0');
+        if (d.toDateString() === now.toDateString()) return 'hoy, ' + hm;
+        const y = new Date(now); y.setDate(now.getDate() - 1);
+        if (d.toDateString() === y.toDateString()) return 'ayer, ' + hm;
+        return d.toLocaleDateString('es-ES', { day: '2-digit', month: 'short' }) + ', ' + hm;
+    }
+    function _v2SetVersion(label, rev) {
+        const vt = document.getElementById('av2-version-text');
+        if (vt) vt.textContent = label;
+        const chip = document.getElementById('av2-version-chip');
+        if (chip) chip.title = rev ? ('Commit ' + rev) : 'Versión desplegada';
+        const pv = document.getElementById('av2-project-version');
+        if (pv) pv.textContent = label;
+    }
+    function _v2FillCard(p) {
+        const set = function (id, value) {
+            const el = document.getElementById(id);
+            if (el) el.textContent = value;
+        };
+        const name = [p.nombre, p.apellido].filter(Boolean).join(' ') || _v2NiceName(p.username);
+        set('av2-remembered-name', name);
+        set('av2-remembered-user', p.email || p.username || '—');
+        set('av2-remembered-role', _v2RoleLabel(p.role));
+        const areaChip = document.getElementById('av2-remembered-area');
+        if (areaChip) { areaChip.textContent = p.cargo || ''; areaChip.hidden = !p.cargo; }
+        set('av2-remembered-last', _v2FormatLast(p.lastLoginAt));
+        set('av2-remembered-device', _v2BrowserInfo());
+        set('av2-remembered-logins', String(Number(p.loginCount || 0)));
+        set('av2-remembered-ip', p.lastIpMasked || '—');
+        const avatar = document.getElementById('av2-remembered-avatar');
+        if (avatar) avatar.textContent = (name[0] || 'S').toUpperCase();
+        const badge = document.getElementById('av2-remembered-2fa');
+        const badgeText = document.getElementById('av2-remembered-2fa-text');
+        if (badge && badgeText) {
+            badge.classList.toggle('off', !p.has2FA);
+            badgeText.textContent = p.has2FA ? '2FA activo' : '2FA no configurado';
+        }
+        const rem = document.getElementById('av2-remembered');
+        if (rem) rem.hidden = false;
+        const userField = document.getElementById('av2-user-field');
+        if (userField) userField.hidden = true;
+        const userInput = document.getElementById('auth-user');
+        if (userInput && p.username) userInput.value = p.username;
+    }
+    function _v2RenderQr(p) {
+        const block = document.getElementById('av2-session-qr-block');
+        const box = document.getElementById('av2-session-qr');
+        if (!block || !box) return;
+        if (!p || typeof window.qrcode !== 'function') { block.hidden = true; return; }
+        try {
+            const ascii = function (v) {
+                return String(v || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+            };
+            const payload = JSON.stringify({
+                r: ascii(_v2RoleLabel(p.role)),
+                a: ascii(p.cargo || ''),
+                s: Number(p.loginCount || 0),
+                ip: ascii(p.lastIpMasked || '').replace(/•/g, '*'),
+                '2fa': !!p.has2FA
+            });
+            const qr = window.qrcode(0, 'L');
+            qr.addData(payload);
+            qr.make();
+            let svg = qr.createSvgTag({
+                cellSize: 2, margin: 1, scalable: true,
+                alt: 'Datos de sesión: rol, área, sesiones, 2FA e IP enmascarada'
+            });
+            svg = svg.replace('<path ',
+                '<defs><linearGradient id="av2QrInk" x1="0" y1="0" x2="1" y2="1">' +
+                '<stop offset="0" stop-color="#2f1f5a"/>' +
+                '<stop offset=".55" stop-color="#3f2a86"/>' +
+                '<stop offset="1" stop-color="#4c34a6"/>' +
+                '</linearGradient></defs><path fill="url(#av2QrInk)" ');
+            box.innerHTML = svg;
+            block.hidden = false;
+        } catch (_e) {
+            block.hidden = true;
+        }
+    }
+
+    let _v2InfoDocBound = false;
+    function _attachV2InfoPanel() {
+        const toggle = document.getElementById('av2-info-toggle');
+        const panel = document.getElementById('av2-project-info');
+        const close = document.getElementById('av2-project-close');
+        if (!toggle || !panel || !close) return;
+        function setOpen(open, focus) {
+            panel.hidden = !open;
+            toggle.setAttribute('aria-expanded', String(open));
+            if (!focus) return;
+            if (open) close.focus({ preventScroll: true });
+            else toggle.focus({ preventScroll: true });
+        }
+        toggle.addEventListener('click', function (e) {
+            e.stopPropagation();
+            setOpen(panel.hidden);
+        });
+        close.addEventListener('click', function () { setOpen(false); });
+        if (_v2InfoDocBound) return;
+        _v2InfoDocBound = true;
+        document.addEventListener('click', function (e) {
+            const t = document.getElementById('av2-info-toggle');
+            const p = document.getElementById('av2-project-info');
+            if (!t || !p || p.hidden) return;
+            if (p.contains(e.target) || t.contains(e.target)) return;
+            p.hidden = true;
+            t.setAttribute('aria-expanded', 'false');
+        });
+        document.addEventListener('keydown', function (e) {
+            const t = document.getElementById('av2-info-toggle');
+            const p = document.getElementById('av2-project-info');
+            if (e.key !== 'Escape' || !p || p.hidden) return;
+            e.preventDefault();
+            p.hidden = true;
+            t.setAttribute('aria-expanded', 'false');
+            t.focus({ preventScroll: true });
+        });
+    }
+    function _attachV2LoginExtras(hasCard) {
+        const rem = document.getElementById('av2-remembered');
+        const userField = document.getElementById('av2-user-field');
+        const change = document.getElementById('av2-change-user');
+        if (rem && hasCard) {
+            rem.addEventListener('click', function (e) {
+                if (e.target.closest('#av2-change-user')) return;
+                document.getElementById('auth-pass')?.focus();
+            });
+        }
+        if (change) {
+            change.addEventListener('click', function (e) {
+                e.stopPropagation();
+                if (rem) rem.hidden = true;
+                if (userField) userField.hidden = false;
+                const u = document.getElementById('auth-user');
+                if (u) { u.value = ''; u.focus(); }
+            });
+        }
+        const form = document.getElementById('av2-login-form');
+        if (form) form.addEventListener('submit', function (e) { e.preventDefault(); });
+        const updateBtn = document.getElementById('av2-update-btn');
+        if (updateBtn) {
+            updateBtn.addEventListener('click', function () {
+                updateBtn.disabled = true;
+                updateBtn.textContent = 'Actualizando…';
+                try { window.location.reload(); } catch (_e) {}
+            });
+        }
+    }
+
+    function _renderLoginModalV2(reason = '') {
         document.getElementById('auth-overlay')?.remove();
-        const reasonMsg={timeout:'⏱ Tu sesión expiró por inactividad.',logout:'👋 Sesión cerrada correctamente.'}[reason]||'';
-        const buildRev=((document.querySelector('meta[name="build-revision"]')||{}).content||'').trim();
-        const safeRev=buildRev.replace(/[^a-zA-Z0-9._-]/g,'');
-        const buildRevHtml=safeRev?' · <strong class="av2-rev" title="Build '+safeRev+'">'+safeRev+'</strong>':'';
+        if (!_v2PendingVersion) {
+            try { _v2PendingVersion = window.__sigmaPendingVersion || ''; } catch (_e) {}
+        }
+        const buildRev = ((document.querySelector('meta[name="build-revision"]') || {}).content || '').trim();
+        const safeRev = buildRev.replace(/[^a-zA-Z0-9._-]/g, '');
+        const versionLabel = 'v1.0' + (safeRev ? ' · ' + safeRev : '');
+        const reasonMsg = { timeout: '⏱ Tu sesión expiró por inactividad.', logout: '👋 Sesión cerrada correctamente.' }[reason] || '';
+        const profile = _profileForRemembered();
+        const hasCard = !!profile;
 
-        // Traza del gráfico de control (mismos datos que el demo).
-        const ccData=[62,58,70,55,80,60,45,66,72,58,90,63,50,68,74,59,64,20,61,57];
-        const ccStep=(400-30)/(ccData.length-1);
-        const ccX=(i)=>(15+i*ccStep).toFixed(1);
-        const ccY=(v)=>(75-(v-50)*1.1).toFixed(1);
-        const ccPts=ccData.map((v,i)=>ccX(i)+','+ccY(v)).join(' ');
-        const ccDots=ccData.map((v,i)=>
-            `<circle class="av2-cc-point${(v<25||v>88)?' flag':''}" cx="${ccX(i)}" cy="${ccY(v)}" r="3"/>`
-        ).join('');
-
-        const overlay=document.createElement('div');
-        overlay.id='auth-overlay';
-        overlay.className='auth-v2';
-        overlay.innerHTML=`
-        <div class="av2-shell">
-            <section class="av2-brand-panel" aria-hidden="true">
-                <div class="av2-brand-mark">
-                    <span class="av2-dot"></span>
-                    <span>StatAnalyzer Pro · Proceso bajo control</span>
-                </div>
-                <div class="av2-chart-zone">
-                    <h1>El análisis estadístico,<br><em>siempre en control.</em></h1>
-                    <p class="av2-sub">Monitoreo continuo, trazabilidad y cumplimiento normativo en cada análisis. Sistema validado bajo GAMP 5.</p>
-                    <div class="av2-control-chart">
-                        <div class="av2-cc-head">
-                            <span class="av2-cc-title">Gráfico de control · Lote 0714</span>
-                            <span class="av2-cc-status">En control</span>
-                        </div>
-                        <svg class="av2-cc-svg" viewBox="0 0 400 150">
-                            <line class="av2-cc-limit" x1="0" y1="20" x2="400" y2="20"/>
-                            <line class="av2-cc-mean" x1="0" y1="75" x2="400" y2="75"/>
-                            <line class="av2-cc-limit" x1="0" y1="130" x2="400" y2="130"/>
-                            <text class="av2-cc-label" x="4" y="16">UCL</text>
-                            <text class="av2-cc-label" x="4" y="71">X̄</text>
-                            <text class="av2-cc-label" x="4" y="126">LCL</text>
-                            <polyline class="av2-cc-trace" points="${ccPts}"/>
-                            ${ccDots}
-                        </svg>
-                    </div>
-                </div>
-                <div class="av2-brand-foot">
-                    <span><b>21 CFR Part 11</b> · validado</span>
-                    <span><b>ICH Q9(R1)</b> · gestión de riesgo</span>
-                </div>
-            </section>
-
-            <section class="av2-form-panel">
-                <div class="auth-card av2-form-card" role="dialog" aria-modal="true" aria-labelledby="av2-title">
-                    <h2 class="av2-title" id="av2-title">Iniciar sesión</h2>
-                    <p class="av2-hint">Accede a tu panel de análisis estadístico.</p>
-                    ${reasonMsg?`<div class="av2-status" role="status">
-                        <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M9 12l2 2 4-4"/><circle cx="12" cy="12" r="9"/></svg>
-                        <span>${reasonMsg}</span>
-                    </div>`:''}
-
-                    <div id="auth-form-area">
-                        <div class="auth-field">
-                            <label class="auth-label" for="auth-user">Usuario</label>
-                            <div class="auth-input-wrap">
-                                <input class="auth-input" type="text" id="auth-user" autocomplete="username" autofocus>
-                            </div>
-                        </div>
-                        <div class="auth-field">
-                            <label class="auth-label" for="auth-pass">Contraseña</label>
-                            <div class="auth-input-wrap">
-                                <input class="auth-input" type="password" id="auth-pass" autocomplete="current-password">
-                                <button class="auth-eye-btn" id="auth-eye" type="button" aria-label="Mostrar contraseña"><span id="auth-eye-icon">👁</span></button>
-                            </div>
-                        </div>
-                        <!-- Compatibilidad con _attachLoginListeners (toggle de ojo) -->
-                        <input type="checkbox" id="auth-show-pass" hidden aria-hidden="true" tabindex="-1">
-
-                        <div class="av2-row-between">
-                            <label class="av2-remember">
-                                <input type="checkbox" id="auth-remember">
-                                <span>Recordarme</span>
-                            </label>
-                            <a class="av2-link" href="mailto:soporte@statanalyzer.com">¿Olvidaste tu contraseña?</a>
-                        </div>
-
-                        <div class="auth-error" id="auth-error" style="display:none"></div>
-                        <div class="auth-attempts" id="auth-attempts-info" style="display:none"></div>
-                        <button class="auth-btn-login" id="auth-btn-login" type="button">
-                            <span id="auth-btn-text">Iniciar sesión</span>
-                            <svg class="av2-btn-arrow" viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-                        </button>
-                    </div>
-
-                    <div id="auth-lockout-msg" style="display:none" class="auth-lockout">
-                        <div class="auth-lockout-icon">🔒</div>
-                        <h3>Acceso bloqueado</h3>
-                        <p>Has superado el máximo de intentos permitidos (<strong>${CFG.MAX_ATTEMPTS}</strong>).</p>
-                        <p>Por favor, comunícate con <strong>Soporte Técnico</strong> para restablecer tu acceso.</p>
-                        <div class="auth-support-box"><div>📧 soporte@statanalyzer.com</div><div>📞 +1 (800) 000-0000</div></div>
-                    </div>
-
-                    <div class="av2-foot">
-                        <span>Sistema validado · GAMP 5 / Anexo 15 EU GMP</span>
-                        <span>v1.0${buildRevHtml}</span>
-                    </div>
-                </div>
-            </section>
+        const overlay = document.createElement('div');
+        overlay.id = 'auth-overlay';
+        overlay.className = 'auth-v2';
+        overlay.innerHTML = `
+        <div class="bg" aria-hidden="true">
+            <span style="left:5%;top:20%">x̄</span><span style="left:10%;top:74%">σ</span>
+            <span style="left:88%;top:18%">μ</span><span style="left:93%;top:68%">R²</span>
+            <span style="left:78%;top:86%">Σ</span><span style="left:16%;top:44%">χ²</span>
         </div>
+        <div class="shell">
+            <header class="topbar">
+                <div class="brand">
+                    <div class="brand-mark" aria-hidden="true">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5.5 12 2l8 3.5v6.1c0 4.7-3.3 8-8 10.4-4.7-2.4-8-5.7-8-10.4z"/><path d="m8.5 12 2.3 2.3 4.8-5"/></svg>
+                    </div>
+                    <div>
+                        <div class="brand-name">POWERED FOR COMPLIANCE</div>
+                        <div class="brand-sub">21 CFR PART 11</div>
+                    </div>
+                </div>
+                <div class="secure-pill">
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>
+                    Acceso protegido
+                </div>
+            </header>
 
+            <main>
+                <div class="card-shell">
+                    <section class="card auth-card" aria-labelledby="av2-card-title">
+                        <button type="button" class="card-info" id="av2-info-toggle" aria-label="Información del proyecto" aria-expanded="false" aria-controls="av2-project-info" title="Información del proyecto">
+                            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 11v5"/><path d="M12 8h.01"/></svg>
+                        </button>
+                        <div class="card-head">
+                            <div class="card-icon" aria-hidden="true">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/><path d="M12 14v3"/></svg>
+                            </div>
+                            <div>
+                                <h1 id="av2-card-title">StatAnalyzer Pro</h1>
+                                <p>Sistema de análisis estadístico</p>
+                            </div>
+                        </div>
+
+                        <div class="update" id="av2-update" role="status" aria-live="polite" hidden>
+                            <span class="update-dot" aria-hidden="true"></span>
+                            <div class="update-copy">
+                                <b>Nueva versión disponible</b>
+                                <span id="av2-update-version">—</span>
+                            </div>
+                            <button type="button" class="update-btn" id="av2-update-btn" title="Actualizar para cargar la nueva versión">Actualizar</button>
+                        </div>
+
+                        ${reasonMsg ? `<div class="banner" role="status">${reasonMsg}</div>` : ''}
+
+                        <div id="auth-form-area">
+                            <div class="remembered" id="av2-remembered" hidden aria-label="Sesión recordada. Toca para escribir tu contraseña" title="Toca para escribir tu contraseña">
+                                <div class="rem-top">
+                                    <div class="rem-avatar-wrap" aria-hidden="true">
+                                        <span class="rem-ring"></span>
+                                        <span class="avatar" id="av2-remembered-avatar">S</span>
+                                        <span class="rem-status" title="Sesión recordada en este dispositivo"></span>
+                                    </div>
+                                    <div class="rem-identity">
+                                        <span class="rem-eyebrow">Sesión recordada</span>
+                                        <strong class="rem-name" id="av2-remembered-name">—</strong>
+                                        <span class="rem-user" id="av2-remembered-user"></span>
+                                        <span class="rem-tags">
+                                            <span class="rem-tag role" id="av2-remembered-role">—</span>
+                                            <span class="rem-tag" id="av2-remembered-area">—</span>
+                                        </span>
+                                    </div>
+                                    <button type="button" class="rem-change" id="av2-change-user" title="Usar otra cuenta">
+                                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 4 3 8l4 4"/><path d="M3 8h12a4 4 0 0 1 4 4"/><path d="m17 20 4-4-4-4"/><path d="M21 16H9a4 4 0 0 1-4-4"/></svg>
+                                        <span>Cambiar</span>
+                                    </button>
+                                </div>
+
+                                <div class="rem-access">
+                                    <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+                                    <span><b>Último acceso</b> <span id="av2-remembered-last">—</span> <i>·</i> <span id="av2-remembered-device">—</span></span>
+                                </div>
+                                <div class="rem-access rem-stats">
+                                    <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><path d="m10 17 5-5-5-5"/><path d="M15 12H3"/></svg>
+                                    <span><b>Sesiones</b> <strong id="av2-remembered-logins">—</strong> <i>·</i> <b>Última IP</b> <strong id="av2-remembered-ip">—</strong></span>
+                                </div>
+
+                                <div class="rem-foot">
+                                    <span class="rem-badge" id="av2-remembered-2fa">
+                                        <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M12 3 4 6v5c0 5 3.5 8 8 10 4.5-2 8-5 8-10V6z"/><path d="m8.5 12 2.3 2.3 4.8-5"/></svg>
+                                        <span id="av2-remembered-2fa-text">2FA activo</span>
+                                    </span>
+                                    <span class="rem-note">Solo se guarda el perfil en este equipo, nunca la contraseña.</span>
+                                </div>
+
+                                <div class="session-qr" id="av2-session-qr-block" title="Datos de sesión: rol, área, sesiones, 2FA e IP enmascarada">
+                                    <div class="qr-box" id="av2-session-qr"></div>
+                                </div>
+                            </div>
+
+                            <form id="av2-login-form" novalidate>
+                                <div class="field-group" id="av2-user-field">
+                                    <div class="field stacked">
+                                        <span class="f-ic" aria-hidden="true"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.6-6 8-6s8 2 8 6"/></svg></span>
+                                        <label for="auth-user">Usuario</label>
+                                        <input id="auth-user" name="username" type="text" autocomplete="username" autocapitalize="none" spellcheck="false" placeholder="tu.usuario">
+                                    </div>
+                                </div>
+
+                                <div class="field-group">
+                                    <div class="field stacked pw">
+                                        <span class="f-ic" aria-hidden="true"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg></span>
+                                        <label for="auth-pass">Contraseña</label>
+                                        <input id="auth-pass" name="password" type="password" autocomplete="current-password" placeholder="Escribe tu contraseña">
+                                        <button type="button" class="eye" id="auth-eye" aria-label="Mostrar contraseña" aria-pressed="false">
+                                            <span id="auth-eye-icon">👁</span>
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <input type="checkbox" id="auth-show-pass" hidden aria-hidden="true" tabindex="-1">
+
+                                <div class="options">
+                                    <label class="check" title="Se guarda el usuario, nunca la contraseña"><input type="checkbox" id="auth-remember" checked> <span>Recordar usuario</span></label>
+                                    <a class="inline-link" id="av2-forgot-link" href="mailto:soporte@statanalyzer.com?subject=Recuperaci%C3%B3n%20de%20acceso%20StatAnalyzer%20Pro">¿La olvidaste?</a>
+                                </div>
+
+                                <div class="auth-error" id="auth-error" style="display:none"></div>
+                                <div class="auth-attempts" id="auth-attempts-info" style="display:none"></div>
+                                <button class="primary" id="auth-btn-login" type="button"><span id="auth-btn-text">Iniciar sesión</span></button>
+                            </form>
+                        </div>
+
+                        <div id="auth-lockout-msg" style="display:none" class="auth-lockout">
+                            <div class="auth-lockout-icon">🔒</div>
+                            <h3>Acceso bloqueado</h3>
+                            <p>Has superado el máximo de intentos permitidos (<strong>${CFG.MAX_ATTEMPTS}</strong>).</p>
+                            <p>Por favor, comunícate con <strong>Soporte Técnico</strong> para restablecer tu acceso.</p>
+                            <div class="auth-support-box"><div>📧 soporte@statanalyzer.com</div><div>📞 +1 (800) 000-0000</div></div>
+                        </div>
+
+                        <div class="card-foot">
+                            <div class="foot-line">
+                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 3 4 6v5c0 5 3.5 8 8 10 4.5-2 8-5 8-10V6z"/><path d="m8.5 12 2.3 2.3 4.8-5"/></svg>
+                                <span>Diseñado para apoyar 21 CFR Part 11</span>
+                                <span class="foot-sep" aria-hidden="true">·</span>
+                                <span class="version-chip" id="av2-version-chip"><span id="av2-version-text">${versionLabel}</span></span>
+                            </div>
+                            <div class="foot-line">
+                                <a class="help-link" id="av2-help-link" href="mailto:soporte@statanalyzer.com">¿Necesitas ayuda?</a>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section class="project-info" id="av2-project-info" role="dialog" aria-modal="false" aria-labelledby="av2-project-title" hidden>
+                        <button type="button" class="project-close" id="av2-project-close" aria-label="Cerrar información del proyecto">×</button>
+                        <span class="pi-kicker">POWERED FOR COMPLIANCE · 21 CFR PART 11</span>
+                        <h2 id="av2-project-title">StatAnalyzer Pro</h2>
+                        <p class="pi-desc">Sistema de análisis estadístico para laboratorios: carga y limpieza de datos, análisis, visualización y reportes con trazabilidad.</p>
+                        <dl class="pi-meta">
+                            <div><dt>Versión</dt><dd id="av2-project-version">${versionLabel}</dd></div>
+                            <div><dt>Responsable</dt><dd id="av2-project-owner">Fernando Alberto Nina Ramirez</dd></div>
+                            <div><dt>Módulos</dt><dd>Datos · Análisis · Visualización · Reportes · Firma electrónica · Auditoría · Usuarios</dd></div>
+                            <div><dt>Cumplimiento</dt><dd>Diseñado para apoyar 21 CFR Part 11</dd></div>
+                            <div><dt>Sesión</dt><dd>Cierre por inactividad a los 5 min</dd></div>
+                        </dl>
+                        <p class="pi-note">Los datos de la tarjeta provienen de tu último acceso y se guardan solo en este equipo.</p>
+                    </section>
+                </div>
+            </main>
+
+            <footer class="page-foot">
+                <span>© 2026 StatAnalyzer Pro</span>
+                <span>POWERED FOR COMPLIANCE · 21 CFR Part 11</span>
+            </footer>
+        </div>
         <div class="auth-timeout-warn" id="auth-timeout-warn">
             ⏱ Tu sesión expirará en <strong id="auth-warn-countdown">60</strong> segundos por inactividad.
             <button onclick="Auth.keepAlive()" class="auth-warn-btn">Mantener sesión</button>
         </div>`;
         document.body.appendChild(overlay);
+        if (_v2PendingVersion) {
+            const ub = document.getElementById('av2-update');
+            const uv = document.getElementById('av2-update-version');
+            if (ub) ub.hidden = false;
+            if (uv) uv.textContent = 'v' + _v2PendingVersion + ' · lista para instalar';
+            const card = overlay.querySelector('.card');
+            if (card) card.classList.add('has-update');
+            const toast = document.getElementById('app-version-toast');
+            if (toast) toast.remove();
+        }
         _attachLoginListeners();
         _restoreRememberedUser();
+        if (hasCard) {
+            _v2FillCard(profile);
+            _v2RenderQr(profile);
+        } else {
+            const qrBlock = document.getElementById('av2-session-qr-block');
+            if (qrBlock) qrBlock.hidden = true;
+        }
+        _attachV2LoginExtras(hasCard);
+        _attachV2InfoPanel();
+        _v2SetVersion(versionLabel, safeRev);
+        setTimeout(function () {
+            const target = hasCard ? document.getElementById('auth-pass') : document.getElementById('auth-user');
+            if (target) target.focus();
+        }, 30);
     }
 
 // ========================================
@@ -811,19 +1143,21 @@ const Auth = (() => {
         if(spinnerEl) spinnerEl.classList.remove('active');
 
         if(result.ok){
-            if (result.requires2FA) {
-                _show2FAInput(user, pass);
-                if(btnText) btnText.textContent='Iniciar sesión';
-                btn.disabled=false;
-                return;
-            }
             _attempts=0;
             var rememberCb = document.getElementById('auth-remember');
             if (rememberCb && rememberCb.checked) {
                 try { localStorage.setItem('__auth_remembered', JSON.stringify({username: user})); } catch(_e) {}
             } else {
                 try { localStorage.removeItem('__auth_remembered'); } catch(_e) {}
+                _clearProfileCache();
             }
+            if (result.requires2FA) {
+                _show2FAInput(user, pass);
+                if(btnText) btnText.textContent='Iniciar sesión';
+                btn.disabled=false;
+                return;
+            }
+            if (rememberCb && rememberCb.checked) _cacheProfileFromServer(result.username);
             _onLoginSuccess({username:result.username,role:result.role,mustChangePassword:result.mustChangePassword});
         } else {
             const blocked=_registerFailedAttempt();
@@ -924,6 +1258,9 @@ const Auth = (() => {
                 <p style="margin:0;color:var(--text-secondary,#64748b);font-size:0.85rem;">Redirigiendo...</p>
             </div>`;
         setTimeout(function() {
+            try {
+                if (localStorage.getItem('__auth_remembered')) _cacheProfileFromServer(result.username);
+            } catch (_e) {}
             _onLoginSuccess({username: result.username, role: result.role || 'user', mustChangePassword: false});
         }, 800);
     }
