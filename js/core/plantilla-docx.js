@@ -1657,11 +1657,12 @@ const PlantillaDocx = (() => {
     const blob = new Blob([r.bytes], { type: MIME_DOCX });
     const entId = (entidad && entidad.id) ? entidad.id : 'entidad';
     const a = document.createElement('a');
-    a.href = URL.createObjectURL(blob);
+    const url = URL.createObjectURL(blob);
+    a.href = url;
     a.download = 'DQ-' + entId + '.docx';
     document.body.appendChild(a);
     a.click();
-    setTimeout(() => { try { URL.revokeObjectURL(a.href); a.remove(); } catch (e) { /* nada */ } }, 4000);
+    setTimeout(() => { try { URL.revokeObjectURL(url); a.remove(); } catch (e) { /* nada */ } }, 4000);
     return r;
   }
 

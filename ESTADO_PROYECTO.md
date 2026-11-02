@@ -90,6 +90,16 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (SigmaProXVL) con spr
 
 ## CAMBIOS RECIENTES
 
+### 2026-11-02 (52): Revocación explícita de object URL en `descargarDQ`
+
+**Qué:** Se guarda la URL del Blob en una variable local y se revoca esa misma URL, en lugar de leer `a.href` dentro del `setTimeout`. Elimina la advertencia de React Doctor (`no-create-object-url-without-revoke`) que bloqueaba el PR #41 por conversaciones sin resolver.
+
+- **Comportamiento:** sin cambios funcionales; la descarga sigue disparándose y la URL se revoca a los 4 s.
+- **Hilo `async-await-in-loop`:** se resuelve como advertencia intencional; la generación de fases debe ser secuencial para no lanzar descargas simultáneas del navegador.
+- **Verificación:** `node --check` OK; `dq-scaffold` + `validaciones-panel` → **38/38**.
+
+**Archivos:** `js/core/plantilla-docx.js` (`descargarDQ`, líneas 1659-1664).
+
 ### 2026-11-02 (51): DQ para todas las entidades con scaffold desde plantilla
 
 **Qué:** Se habilitó la generación de **DQ** para equipos, estabilidad y sistemas, usando la plantilla `DQ-1-400AAAA` y los datos del schema del formulario.
