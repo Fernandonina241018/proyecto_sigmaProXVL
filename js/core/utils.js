@@ -44,11 +44,36 @@ function showToast(msg, isError = false) {
 // FORMATO DE FECHA
 // ========================================
 
+// Interpreta un timestamp del backend:
+// - PostgreSQL guarda text sin zona (UTC): se le añade Z.
+// - SQLite guarda ISO con Z: se respeta.
+// - Fechas sin hora (YYYY-MM-DD): se tratan como fecha local, sin conversión.
+// - Con offset explícito (+02:00): se respeta.
+function parseServerDate(value) {
+    if (value == null) return null;
+    if (value instanceof Date) return isNaN(value.getTime()) ? null : value;
+    let s = String(value).trim();
+    if (!s) return null;
+    if (/^\d{4}-\d{2}-\d{2}$/.test(s)) {
+        const d0 = new Date(s + 'T00:00:00');
+        return isNaN(d0.getTime()) ? null : d0;
+    }
+    s = s.replace(' ', 'T');
+    if (!/([zZ]|[+-]\d{2}:?\d{2})$/.test(s)) s += 'Z';
+    const d = new Date(s);
+    return isNaN(d.getTime()) ? null : d;
+}
+
+function dateKeyLocal(value) {
+    const d = parseServerDate(value);
+    if (!d) return '';
+    return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
+}
+
 function formatDate(ts, format = 'full') {
     if (!ts) return '—';
-    // Forzar interpretación como UTC y convertir automáticamente a hora local del navegador
-    const d = new Date(ts.includes('Z') ? ts : ts + 'Z');
-    if (isNaN(d.getTime())) return ts;
+    const d = parseServerDate(ts);
+    if (!d) return ts;
     
     const months = ['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
     const day  = String(d.getDate()).padStart(2,'0');

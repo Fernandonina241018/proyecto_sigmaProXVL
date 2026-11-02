@@ -803,7 +803,7 @@ async function firmaDownload() {
     var html = '<!DOCTYPE html>\n' + _firmaCurrentDoc.documentElement.outerHTML;
 
     // Sufijo _firmado + conteo de firmas para rastrear el progreso (e.g. _firmado_2de3).
-    var ts = new Date().toISOString().slice(0,10);
+    var ts = (typeof dateKeyLocal === 'function') ? dateKeyLocal(new Date()) : new Date().toISOString().slice(0,10);
     var baseName = (_firmaOriginalName || 'reporte_firmado').replace(/\.html$/i, '');
     var signedCount = 0;
     var totalCount = _firmaSignatureData ? _firmaSignatureData.length : 0;
@@ -1602,8 +1602,8 @@ var _FIRMA_RETENTION_CANCELLED_DAYS = 90;
 function _firmaPurgeDate(s) {
   var base = s.updated_at || s.deleted_at || s.created_at;
   if (!base) return '';
-  var d = new Date(base);
-  if (isNaN(d.getTime())) return '';
+  var d = (typeof parseServerDate === 'function') ? parseServerDate(base) : new Date(base);
+  if (!d) return '';
   d.setDate(d.getDate() + _FIRMA_RETENTION_CANCELLED_DAYS);
   return ('0' + d.getDate()).slice(-2) + '/' + ('0' + (d.getMonth() + 1)).slice(-2) + '/' + d.getFullYear();
 }
@@ -2079,9 +2079,10 @@ async function firmaLoadBandeja(scope) {
       try {
         if ((s.status === 'complete' || s.status === 'rejected') && s.updated_at) {
           var _days = s.status === 'complete' ? 182 : 90;
-          var _expMs = new Date(s.updated_at).getTime() + _days * 86400000 - Date.now();
+          var _upd = (typeof parseServerDate === 'function') ? parseServerDate(s.updated_at) : new Date(s.updated_at);
+          var _expMs = _upd.getTime() + _days * 86400000 - Date.now();
           if (_expMs > 0 && _expMs < 30 * 86400000) {
-            var _expD = new Date(new Date(s.updated_at).getTime() + _days * 86400000);
+            var _expD = new Date(_upd.getTime() + _days * 86400000);
             var _mm = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'][_expD.getMonth()];
             var _p2 = function(n) { return String(n).padStart(2, '0'); };
             _expTxt = ' · ⏳ expira ' + _p2(_expD.getDate()) + '/' + _mm + '/' + _expD.getFullYear();

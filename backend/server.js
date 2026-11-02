@@ -1822,7 +1822,8 @@ app.get('/api/audit', requireAuth, requireAdmin, async (req, res) => {
 // GET /api/audit/stats (solo admin) — KPIs reales sin descargar la tabla
 app.get('/api/audit/stats', requireAuth, requireAdmin, async (req, res) => {
     try {
-        const stats = await db.getAuditStats();
+        const tzOffset = Math.max(-840, Math.min(840, parseInt(req.query.tzOffset) || 0));
+        const stats = await db.getAuditStats(tzOffset);
         res.json({ ok: true, ...stats });
     } catch (err) {
         console.error('Error getting audit stats:', err);

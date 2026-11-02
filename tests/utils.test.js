@@ -19,7 +19,40 @@ describe('escapeHtml', () => {
   });
 });
 
+describe('parseServerDate', () => {
+  test('timestamp sin zona del servidor se interpreta como UTC', () => {
+    expect(parseServerDate('2026-11-02T03:17:00').getTime())
+      .toBe(Date.parse('2026-11-02T03:17:00Z'));
+  });
+
+  test('respeta Z y offsets explícitos', () => {
+    expect(parseServerDate('2026-11-02T03:17:00Z').getTime())
+      .toBe(Date.parse('2026-11-02T03:17:00Z'));
+    expect(parseServerDate('2026-11-02T05:17:00+02:00').getTime())
+      .toBe(Date.parse('2026-11-02T05:17:00+02:00'));
+  });
+
+  test('fecha sin hora se conserva como fecha local', () => {
+    const d = parseServerDate('2026-11-02');
+    expect(d.getFullYear()).toBe(2026);
+    expect(d.getMonth()).toBe(10);
+    expect(d.getDate()).toBe(2);
+  });
+
+  test('valor inválido devuelve null', () => {
+    expect(parseServerDate('not-a-date')).toBeNull();
+    expect(parseServerDate('')).toBeNull();
+  });
+});
+
 describe('formatDate', () => {
+  test('convierte timestamp UTC sin Z a hora local', () => {
+    const r = formatDate('2026-11-02T03:17:00', 'time24');
+    const d = new Date('2026-11-02T03:17:00Z');
+    const expected = String(d.getHours()).padStart(2, '0') + ':17:00';
+    expect(r).toBe(expected);
+  });
+
   test('returns — for null input', () => {
     expect(formatDate(null)).toBe('—');
   });

@@ -165,7 +165,8 @@ const DispositivosManager = (() => {
     function _formatDate(iso) {
         if (!iso) return '—';
         try {
-            var d = new Date(iso);
+            var d = (typeof parseServerDate === 'function') ? parseServerDate(iso) : new Date(iso);
+            if (!d) return '—';
             var _ms = ['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
             return ('0'+d.getDate()).slice(-2) + '/' + _ms[d.getMonth()] + '/' + d.getFullYear() + ' ' + d.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true });
         } catch (e) { return iso; }
