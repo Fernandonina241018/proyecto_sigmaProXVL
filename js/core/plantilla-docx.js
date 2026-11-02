@@ -17,6 +17,7 @@ const PlantillaDocx = (() => {
     IQ: 'docs/plantillas/IQ-1-400AAAA.docx',
     OQ: 'docs/plantillas/OQ-1-400AAAA.docx',
     PQ: 'docs/plantillas/PQ-1-400AAAA.docx',
+    DQ: 'docs/plantillas/DQ-1-400AAAA.docx',
   };
   const COND_TXT = { est: 'estática', dina: 'dinámica', ambas: 'estática y dinámica' };
   const MESES = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'];
@@ -660,6 +661,57 @@ const PlantillaDocx = (() => {
     const m = /^(\d{4})-(\d{2})-(\d{2})/.exec(String(f || ''));
     if (!m) return '';
     return m[3] + '/' + MESES[+m[2] - 1] + '/' + m[1];
+  }
+
+  // ---------------------------------------------------------------
+  // DQ: scaffold desde la plantilla DQ-1-400AAAA.
+  // Genera el documento con los datos del borrador (schema) y deja las
+  // secciones técnicas 7.1–7.8 para completar después. No usa banco DQ.
+  // ---------------------------------------------------------------
+  async function generarDQScaffold(plantillaU8, draft, entidad) {
+    const d = draft || {};
+    const nombre = String(d.descripcion || '').trim() || (entidad && entidad.nombre) || 'EQUIPO';
+    const marca = String(d.marca || '').trim() || 'N/A';
+    const modelo = String(d.modelo || '').trim() || 'N/A';
+    const area = String(d.area || d.ubicacion || '').trim() || '—';
+    const codigo = String(d.codigo || '').trim() || '—';
+    const version = String(d.versionProtocolo || '').trim() || '01';
+    const fecha = fechaTexto(d.fecha);
+
+    const archivos = await leerZip(plantillaU8);
+    const partes = archivos.filter((a) => a.nombre === 'word/document.xml'
+      || /^word\/header\d+\.xml$/.test(a.nombre)
+      || /^word\/footer\d+\.xml$/.test(a.nombre));
+
+    const reemplazarTodas = (xml, buscar, valor, despuesDe) => {
+      let out = xml;
+      for (let i = 0; i < 50; i++) {
+        const r = reemplazarTexto(out, buscar, valor, despuesDe);
+        if (!r.n || r.xml === out) break;
+        out = r.xml;
+      }
+      return out;
+    };
+    const reemplazarExacto = (xml, buscar, valor) => {
+      const re = new RegExp('(<w:t(?:\\s[^>]*)?>)' + buscar.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '(<\\/w:t>)', 'g');
+      return xml.replace(re, (m, a, b) => a + esc(valor) + b);
+    };
+
+    partes.forEach((p) => {
+      let x = dec(p.datos);
+      x = reemplazarTodas(x, 'NOMBRE DEL EQUIPO', nombre.toUpperCase());
+      x = reemplazarTodas(x, 'MARCA', marca, 'MARCA:');
+      x = reemplazarTodas(x, 'MODELO', modelo, 'MODELO:');
+      x = reemplazarTodas(x, 'CÓDIGO', codigo, 'CÓDIGO:');
+      x = reemplazarTodas(x, 'SELECCIONA EL ÁREA', area);
+      x = reemplazarTodas(x, 'SIN MARCA NI MODELO', '');
+      if (fecha) x = reemplazarTodas(x, '01/Oct/2026', fecha);
+      x = reemplazarExacto(x, 'AA', version);
+      p.datos = enc(x);
+    });
+
+    const bytes = await escribirZip(archivos);
+    return { bytes, avisos: ['DQ generado como documento base; complete las secciones técnicas antes de ejecutar.'] };
   }
 
   // ---------------------------------------------------------------
@@ -1597,6 +1649,22 @@ const PlantillaDocx = (() => {
     return r;
   }
 
+  async function descargarDQ(draft, entidad) {
+    const resp = await fetch(PLANTILLAS.DQ, { cache: 'no-store' });
+    if (!resp.ok) throw new Error('No se encontró la plantilla ' + PLANTILLAS.DQ + ' (' + resp.status + ').');
+    const u8 = new Uint8Array(await resp.arrayBuffer());
+    const r = await generarDQScaffold(u8, draft, entidad);
+    const blob = new Blob([r.bytes], { type: MIME_DOCX });
+    const entId = (entidad && entidad.id) ? entidad.id : 'entidad';
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'DQ-' + entId + '.docx';
+    document.body.appendChild(a);
+    a.click();
+    setTimeout(() => { try { URL.revokeObjectURL(a.href); a.remove(); } catch (e) { /* nada */ } }, 4000);
+    return r;
+  }
+
   // Núcleo compartido: estabilidad IQ hereda los ensayos comunes (bloques 2-3
   // sin familia) del IQ de equipos; los específicos van después. Referencias y
   // anexos salen del archivo propio (no del núcleo). Sin duplicar contenido.
@@ -1616,7 +1684,7 @@ const PlantillaDocx = (() => {
   }
 
   return {
-    FASES, PLANTILLAS, OPC, SALTO_PAGINA, SALTO_H1, SALTO_H2, SALTO_TABLA, REFS_NORMATIVAS, refNormativa, soporta, configurar, generar, descargar, banco, mezclarComun,
+    FASES, PLANTILLAS, OPC, SALTO_PAGINA, SALTO_H1, SALTO_H2, SALTO_TABLA, REFS_NORMATIVAS, refNormativa, soporta, configurar, generar, descargar, banco, mezclarComun, generarDQScaffold, descargarDQ,
     LIMITES, limitesDe, aplicarLimites, limitesPendientes, limitesResumen, paramsFaltantes, parametrosFamilia, bloquesFijos, rtmLineas,
     _interno: { leerZip, escribirZip, hijos, texto, reemplazarEnParrafo, congelar, lineas, estructura, puntosVerificacion, puntosTabla, fechaTexto, crc32, llenarFirmas, fijarTahoma11, debeSaltar, debeSaltarH1, debeSaltarH2, debeSaltarTabla, saltoPrevio, generoDe, ajustarArticulos },
   };
