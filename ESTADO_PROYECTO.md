@@ -90,6 +90,19 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (SigmaProXVL) con spr
 
 ## CAMBIOS RECIENTES
 
+### 2026-11-02 (50): Plantilla DQ incorporada a docs/plantillas
+
+**Qué:** Se movió la plantilla descargada `DQ-1-400AAAA PROTOCOLO CALIFICACIÓN DISEÑO.docx` desde `~/Descargas` a la carpeta de plantillas del proyecto, con el nombre estándar de las demás.
+
+- **Destino:** `docs/plantillas/DQ-1-400AAAA.docx` (281 KB, DOCX válido).
+- Queda junto a `IQ-1-400AAAA.docx`, `OQ-1-400AAAA.docx` y `PQ-1-400AAAA.docx`.
+- **Nota:** el generador DQ actual sigue usando el modelo interno de `GeneradorDocx`; este archivo queda disponible para una futura migración a plantilla DOCX.
+
+**Verificación:**
+```
+file docs/plantillas/DQ-1-400AAAA.docx  → Microsoft Word 2007+
+```
+
 ### 2026-11-01 (2): Fechas del servidor en hora local
 
 **Qué:** PostgreSQL guarda `last_login`, `audit_log.timestamp`, `created_at`, etc. como texto UTC **sin `Z`** (`to_char(now(),...)`). El navegador interpretaba ese texto como hora local, por lo que la tarjeta recordada y otras vistas mostraban la hora del servidor. Se unificó el parseo con `parseServerDate()`/`dateKeyLocal()` y se aplicó a las vistas.
