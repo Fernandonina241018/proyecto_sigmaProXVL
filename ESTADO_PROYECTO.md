@@ -92,7 +92,7 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (SigmaProXVL) con spr
 
 ### 2026-11-01 (1): Hardening P0 — readiness SOC 2 / ISO 27001
 
-**Qué:** Primer sprint de hardening alineado a SOC 2 Trust Services Criteria e ISO/IEC 27001:2022 (readiness, sin certificación). Se prepara el cambio para PR; la protección de `main` se activa después del merge.
+**Qué:** Primer sprint de hardening alineado a SOC 2 Trust Services Criteria e ISO/IEC 27001:2022 (readiness, sin certificación). **Branch protection activa** en `main` (PR obligatorio, 0 aprobaciones por ser equipo de una persona, checks obligatorios, historial lineal, sin force-push, administradores incluidos).
 
 - **Cadena de suministro:** Dependabot (npm, backend, pip, Actions, Docker), CodeQL JS/TS + Python, Dependency Review en PR, permisos mínimos por workflow y actions pinneadas por SHA (incluido `flyctl`, que usaba `@master`).
 - **Cambios:** deploy con concurrencia y entorno `production`; `SECURITY.md`, `.well-known/security.txt`, `.nojekyll` y `CODEOWNERS`.
@@ -100,7 +100,11 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (SigmaProXVL) con spr
 - **ML:** la API key deja de exponerse al navegador (`/api/ml-api-key` solo informa si está configurada); el análisis NLP pasa por el proxy `/api/ml` y la clave se inyecta en servidor.
 - **Backups:** `scripts/backup-db.sh` (pg_dump + gzip + GPG) y runbook privado.
 - **Evidencias:** repo privado `proyecto_sigmaProXVL-security` con alcance, activos, risk register, accesos, proveedores, incidentes, backup, cambios y calendario.
-- **Pendiente de acción del propietario:** MFA en GitHub/Fly/Supabase, rotación de secretos, `API_KEY`/`ML_API_KEY`, backups de Supabase y activación de branch protection.
+- **Sello de versión:** el workflow ya no empuja directo a `main`; abre rama + PR y lo auto-mergea. Requiere `VERSION_STAMP_TOKEN` (PAT fine-grained con contents/pull-requests write); sin token solo avisa y no rompe.
+- **Rate limit global:** 300 req/min por IP sobre `/api` (defensa en profundidad); los límites específicos de login/2FA/firma/PDF se mantienen.
+- **CodeQL:** activo JS/TS + Python. Detectó 108 alertas iniciales (52 rate limiting, 14 XSS DOM, 21 sanitización, 6 path injection ML, 9 almacenamiento de token, etc.). El triage y prioridades están en el repo privado; no se afirma que estén corregidas.
+- **Dependabot:** 22 PRs abiertas (mayores y menores); requieren triage, no se mergearon a ciegas.
+- **Pendiente de acción del propietario:** MFA en GitHub/Fly/Supabase, rotación de secretos, `API_KEY`/`ML_API_KEY`, backups de Supabase, `VERSION_STAMP_TOKEN` y revisión de PRs Dependabot.
 
 **Archivos:** `SECURITY.md`, `.well-known/security.txt`, `.nojekyll`, `.github/CODEOWNERS`, `.github/dependabot.yml`, `.github/workflows/{codeql,dependency-review,ci,deploy,purge,react-doctor,version}.yml`, `backend/body-limits.js`, `backend/tests/body-limits.test.js`, `backend/server.js`, `js/core/auth.js`, `js/pages/ml.js`, `indexx.html`, `scripts/backup-db.sh`, `.gitignore`, `.env.example`s, `docs/auditoria-codigo/must-fix.md`.
 
