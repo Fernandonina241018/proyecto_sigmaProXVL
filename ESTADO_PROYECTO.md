@@ -90,6 +90,43 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (SigmaProXVL) con spr
 
 ## CAMBIOS RECIENTES
 
+### 2026-11-02 (52): Revocación explícita de object URL en `descargarDQ`
+
+**Qué:** Se guarda la URL del Blob en una variable local y se revoca esa misma URL, en lugar de leer `a.href` dentro del `setTimeout`. Elimina la advertencia de React Doctor (`no-create-object-url-without-revoke`) que bloqueaba el PR #41 por conversaciones sin resolver.
+
+- **Comportamiento:** sin cambios funcionales; la descarga sigue disparándose y la URL se revoca a los 4 s.
+- **Hilo `async-await-in-loop`:** se resuelve como advertencia intencional; la generación de fases debe ser secuencial para no lanzar descargas simultáneas del navegador.
+- **Verificación:** `node --check` OK; `dq-scaffold` + `validaciones-panel` → **38/38**.
+
+**Archivos:** `js/core/plantilla-docx.js` (`descargarDQ`, líneas 1659-1664).
+
+### 2026-11-02 (51): DQ para todas las entidades con scaffold desde plantilla
+
+**Qué:** Se habilitó la generación de **DQ** para equipos, estabilidad y sistemas, usando la plantilla `DQ-1-400AAAA` y los datos del schema del formulario.
+
+- **Categorías:** `GEN_FASES` ahora incluye DQ en equipos, estabilidad y sistemas. Almacenes conserva su DQ con contenido; software sigue como “próximamente”.
+- **Scaffold:** `PlantillaDocx.generarDQScaffold()` reemplaza en `document.xml`, headers y footers:
+  - `NOMBRE DEL EQUIPO` por la descripción/entidad;
+  - `MARCA`, `MODELO`, `CÓDIGO` y `SELECCIONA EL ÁREA` por los datos del schema;
+  - fecha y versión del protocolo;
+  - elimina `SIN MARCA NI MODELO`.
+- **Secciones técnicas:** se conservan las secciones 7.1–7.8 de la plantilla para completarlas después. No se inyecta contenido de almacén.
+- **UI:** el DQ aparece como documento base (sin conteo de ensayos) y se descarga como `DQ-<entidad>.docx`.
+- **Pruebas:** nuevo `tests/dq-scaffold.test.js` (datos del schema, placeholders, estructura y DOCX válido) y actualización de `validaciones-panel` para DQ en equipos/estabilidad.
+
+**Archivos afectados:**
+| Archivo | Cambio |
+|---------|--------|
+| `js/core/plantilla-docx.js` | `PLANTILLAS.DQ`, `generarDQScaffold()` y `descargarDQ()` |
+| `js/core/indexx-validaciones.js` | DQ en `GEN_FASES`, `contarGen` y rama de descarga DQ |
+| `tests/dq-scaffold.test.js` | **Nuevo**: validación del scaffold DQ |
+| `tests/validaciones-panel.test.js` | DQ visible en equipos y estabilidad |
+
+**Verificación:**
+```
+npm test  → 53 archivos, 678 tests OK
+```
+
 ### 2026-11-02 (1): Migración a Vitest 5 + Vite 8.3
 
 **Qué:** Se migran las herramientas de test a **Vitest 5.0.5**, `@vitest/coverage-v8` 5.0.5 y Vite 8.3.5 (transitivo). Se cierra el PR agrupado #16 y se ajustan los tests que rompían por los cambios de entorno.

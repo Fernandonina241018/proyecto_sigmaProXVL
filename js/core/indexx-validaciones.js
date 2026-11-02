@@ -556,7 +556,7 @@ const Validaciones = (() => {
   const FASES_GEN = ['DQ', 'IQ', 'OQ', 'PQ'];
   const GEN_CATS = ['almacenes', 'equipos', 'estabilidad', 'sistemas'];
   // Fases con generador por categoría (equipos: IQ común + OQ/PQ por familia).
-  const GEN_FASES = { almacenes: FASES_GEN.slice(), equipos: ['IQ', 'OQ', 'PQ'], estabilidad: ['IQ', 'OQ', 'PQ'], sistemas: ['OQ', 'PQ'] };
+  const GEN_FASES = { almacenes: FASES_GEN.slice(), equipos: ['DQ', 'IQ', 'OQ', 'PQ'], estabilidad: ['DQ', 'IQ', 'OQ', 'PQ'], sistemas: ['DQ', 'OQ', 'PQ'] };
 
   // Gerencias sugeridas para el Revisor Gerente (T2). El campo acepta texto libre.
   const AREAS_GERENCIA = ['Gerente Validaciones', 'Gerente Gestión de Calidad', 'Gerente Sr. Producción',
@@ -650,6 +650,9 @@ const Validaciones = (() => {
 
   function contarGen(fase, cond, catId, entId) {
     try {
+      // DQ es un documento base desde la plantilla (sin banco de ensayos);
+      // almacenes conserva su DQ con contenido.
+      if (fase === 'DQ' && catId !== 'almacenes') return null;
       // Equipos/estabilidad/sistemas: mismo criterio que generar() — bloques 2-3, condición y familia/entidad.
       const BB = catId === 'estabilidad'
         ? (typeof BancoEstabilidad !== 'undefined' ? BancoEstabilidad : null)
@@ -1110,8 +1113,12 @@ const Validaciones = (() => {
         for (let i = 0; i < sel.fases.length; i++) {
           const f = sel.fases[i];
           setGenMsg('Generando ' + f + '… (' + (i + 1) + '/' + sel.fases.length + ')', true);
-          // IQ/OQ/PQ: plantilla real del modelo; DQ: ensamblador propio.
-          if (typeof PlantillaDocx !== 'undefined' && PlantillaDocx.soporta(f)) {
+          // DQ de equipos/estabilidad/sistemas: scaffold desde la plantilla DQ
+          // con los datos del borrador. Almacenes conserva su DQ con contenido.
+          if (f === 'DQ' && catId !== 'almacenes' && typeof PlantillaDocx !== 'undefined' && PlantillaDocx.descargarDQ) {
+            const rDQ = await PlantillaDocx.descargarDQ(draft, ent);
+            if (rDQ && rDQ.avisos && rDQ.avisos.length) setGenMsg('[' + f + '] ' + rDQ.avisos[0], true);
+          } else if (typeof PlantillaDocx !== 'undefined' && PlantillaDocx.soporta(f)) {
             if (typeof window !== 'undefined' && (typeof DecompressionStream === 'undefined' || typeof CompressionStream === 'undefined')) {
               throw new Error('El navegador no soporta compresión ZIP (use Edge/Chrome).');
             }
