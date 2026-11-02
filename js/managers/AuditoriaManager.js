@@ -222,10 +222,11 @@ const AuditoriaManager = (() => {
             const csv  = [headers, ...rows].map(r => r.join(',')).join('\n');
             const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
             const link = document.createElement('a');
-            link.href     = URL.createObjectURL(blob);
+            const url = URL.createObjectURL(blob);
+            link.href = url;
             link.download = `auditoria_${(typeof dateKeyLocal === 'function') ? dateKeyLocal(new Date()) : new Date().toISOString().slice(0,10)}.csv`;
             link.click();
-            URL.revokeObjectURL(link.href);
+            setTimeout(function () { URL.revokeObjectURL(url); }, 1000);
             showToast(`✅ ${all.length} registro(s) exportados`);
         } finally {
             if (btn) btn.textContent = '📥 Exportar CSV';
