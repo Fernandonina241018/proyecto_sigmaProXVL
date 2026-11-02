@@ -1,7 +1,7 @@
 {
   "dependencies": {
     "docx": "^8.5.0",
-    "papaparse": "^5.5.3"
+    "papaparse": "^5.7.0"
   },
   "scripts": {
     "test": "vitest run",
