@@ -12,7 +12,7 @@ import { resolve } from 'path';
 import { cargarBanco } from '../scripts/cargar-banco.mjs';
 
 const require = createRequire(import.meta.url);
-const raiz = resolve(new URL('..', import.meta.url).pathname).replace(/^\/@fs/, '');
+const raiz = process.cwd();
 const P = require('../js/core/plantilla-docx.js');
 const validaciones = require('../js/core/indexx-validaciones.js');
 const bancoEq = readFileSync(resolve(raiz, 'js/core/banco-equipos-data.js'), 'utf-8');
@@ -94,7 +94,7 @@ describe('el banco de ensayos no escribe el estándar en el texto', () => {
 });
 
 describe('el .docx generado lleva la referencia del tipo de la entidad', () => {
-  const raiz2 = resolve(new URL('..', import.meta.url).pathname).replace(/^\/@fs/, '');
+  const raiz2 = process.cwd();
   const banco = cargarBanco(resolve(raiz2, 'js/core/banco-equipos-data.js'));
   const dec = (u8) => new TextDecoder().decode(u8);
 

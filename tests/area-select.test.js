@@ -34,12 +34,16 @@ function resetStubs() {
   memStore.clear();
   dispatched.length = 0;
   overlayEl = null;
-  globalThis.sessionStorage = {
-    getItem: (k) => (memStore.has(String(k)) ? memStore.get(String(k)) : null),
-    setItem: (k, v) => { memStore.set(String(k), String(v)); },
-    removeItem: (k) => { memStore.delete(String(k)); },
-    clear: () => { memStore.clear(); },
-  };
+  Object.defineProperty(globalThis, 'sessionStorage', {
+    value: {
+      getItem: (k) => (memStore.has(String(k)) ? memStore.get(String(k)) : null),
+      setItem: (k, v) => { memStore.set(String(k), String(v)); },
+      removeItem: (k) => { memStore.delete(String(k)); },
+      clear: () => { memStore.clear(); },
+    },
+    configurable: true,
+    writable: true,
+  });
   globalThis.window = globalThis;
   globalThis.CustomEvent = function (type, opts) { this.type = type; this.detail = (opts && opts.detail) || {}; };
   globalThis.dispatchEvent = (e) => { dispatched.push(e); return true; };

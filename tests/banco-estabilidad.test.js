@@ -6,7 +6,7 @@ import { resolve } from 'path';
 import { cargarBanco } from '../scripts/cargar-banco.mjs';
 
 const require = createRequire(import.meta.url);
-const raiz = resolve(new URL('..', import.meta.url).pathname).replace(/^\/@fs/, '');
+const raiz = process.cwd();
 const P = require('../js/core/plantilla-docx.js');
 const banco = cargarBanco(process.env.BANCO || resolve(raiz, 'js/core/banco-estabilidad-data.js'));
 const dec = (u8) => new TextDecoder().decode(u8);
