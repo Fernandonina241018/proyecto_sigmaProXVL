@@ -8,6 +8,17 @@ updates:
     groups:
       dev-dependencies:
         dependency-type: development
+    # Los majors de test/build se revisan en PRs dedicados: rompen stubs y
+    # resolución de rutas (Vitest 5 / Vite 8.3 / happy-dom 21).
+    ignore:
+      - dependency-name: "vitest"
+        update-types: ["version-update:semver-major"]
+      - dependency-name: "@vitest/coverage-v8"
+        update-types: ["version-update:semver-major"]
+      - dependency-name: "happy-dom"
+        update-types: ["version-update:semver-major"]
+      - dependency-name: "typescript"
+        update-types: ["version-update:semver-major"]
 
   - package-ecosystem: npm
     directory: "/backend"
