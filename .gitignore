@@ -74,3 +74,9 @@ npm-debug.log*
 test-results/
 playwright-report/
 playwright/.auth/
+
+# Backups locales (nunca al repo)
+backups/
+*.sql
+*.sql.gz
+*.sql.gz.gpg

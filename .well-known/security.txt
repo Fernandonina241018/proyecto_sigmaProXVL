@@ -1,0 +1,5 @@
+Contact: mailto:soporte@statanalyzer.com
+Expires: 2027-10-31T00:00:00.000Z
+Preferred-Languages: es, en
+Canonical: https://fernandonina241018.github.io/proyecto_sigmaProXVL/.well-known/security.txt
+Policy: https://github.com/Fernandonina241018/proyecto_sigmaProXVL/blob/main/SECURITY.md
