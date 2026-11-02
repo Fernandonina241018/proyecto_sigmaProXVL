@@ -11,14 +11,18 @@ const core = join(__dirname, '..', 'js', 'core');
 
 // La suite corre en entorno node (sin happy-dom): stub de localStorage.
 const _memStore = new Map();
-globalThis.localStorage = {
+Object.defineProperty(globalThis, 'localStorage', {
+  value: {
   getItem: (k) => (_memStore.has(String(k)) ? _memStore.get(String(k)) : null),
   setItem: (k, v) => { _memStore.set(String(k), String(v)); },
   removeItem: (k) => { _memStore.delete(String(k)); },
   clear: () => { _memStore.clear(); },
   get length() { return _memStore.size; },
   key: (i) => [..._memStore.keys()][i] ?? null,
-};
+},
+  configurable: true,
+  writable: true
+});
 
 let _user = null;
 globalThis.Auth = { getSession: () => (_user ? { username: _user } : null) };

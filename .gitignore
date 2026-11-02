@@ -80,3 +80,6 @@ backups/
 *.sql
 *.sql.gz
 *.sql.gz.gpg
+
+# LibreOffice/Word lock files
+.~lock.*#

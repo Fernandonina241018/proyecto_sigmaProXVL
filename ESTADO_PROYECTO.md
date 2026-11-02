@@ -90,6 +90,21 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (SigmaProXVL) con spr
 
 ## CAMBIOS RECIENTES
 
+### 2026-11-02 (1): Migración a Vitest 5 + Vite 8.3
+
+**Qué:** Se migran las herramientas de test a **Vitest 5.0.5**, `@vitest/coverage-v8` 5.0.5 y Vite 8.3.5 (transitivo). Se cierra el PR agrupado #16 y se ajustan los tests que rompían por los cambios de entorno.
+
+- **Storages globales:** `sessionStorage`/`localStorage` son getter-only en el nuevo entorno; los stubs usan `Object.defineProperty(..., configurable: true)`.
+- **Rutas de tests:** los tests de bancos/plantillas usan `process.cwd()` en vez de `new URL('..', import.meta.url)`, que con el `URL` de happy-dom/Vitest 5 resolvía a `/`.
+- **Dependabot:** #16 cerrado; #22 (happy-dom 21), #15 (pg 8.23.1) y #31 (ignorar majors de test/build) mergeados.
+- **Audit:** producción 0 vulnerabilidades; dev 7 (5 moderate, 2 high preexistentes en brace-expansion/zod).
+
+**Archivos:** `package.json`, `package-lock.json`, `tests/{area-select,sidebar-rail,storage-scope,banco-estabilidad,banco-tipo-equipos,plantilla-docx,plantilla-equipos}.test.js`, `.gitignore`.
+
+**Verificación:** Vitest **673/673** · Backend **114/114** · E2E **9/9** · preflight OK. Vite 8.3.5 confirmado como dependencia de Vitest 5.
+
+---
+
 ### 2026-11-02 (50): Plantilla DQ incorporada a docs/plantillas
 
 **Qué:** Se movió la plantilla descargada `DQ-1-400AAAA PROTOCOLO CALIFICACIÓN DISEÑO.docx` desde `~/Descargas` a la carpeta de plantillas del proyecto, con el nombre estándar de las demás.

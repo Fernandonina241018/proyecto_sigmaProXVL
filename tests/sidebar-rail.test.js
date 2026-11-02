@@ -51,12 +51,16 @@ const els = {
 };
 let railTipEl = null;
 const memStore = new Map();
-globalThis.localStorage = {
+Object.defineProperty(globalThis, 'localStorage', {
+  value: {
   getItem: (k) => (memStore.has(String(k)) ? memStore.get(String(k)) : null),
   setItem: (k, v) => { memStore.set(String(k), String(v)); },
   removeItem: (k) => { memStore.delete(String(k)); },
   clear: () => { memStore.clear(); },
-};
+},
+  configurable: true,
+  writable: true
+});
 globalThis.window = { innerWidth: 1024, addEventListener: () => {} };
 globalThis.document = {
   getElementById: (id) => (id === 'railTip' ? railTipEl : els[id] || null),
