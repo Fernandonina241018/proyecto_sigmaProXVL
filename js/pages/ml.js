@@ -246,8 +246,10 @@ const MLManager = (() => {
             trainInfo.push({ k: 'Features totales', v: String(meta.n_features_in) });
         }
         if (model.saved_at && model.created_at) {
-            var t0 = new Date(model.created_at).getTime();
-            var t1 = new Date(model.saved_at).getTime();
+            var _p = function (v) { return (typeof parseServerDate === 'function') ? parseServerDate(v) : new Date(v); };
+            var _d0 = _p(model.created_at), _d1 = _p(model.saved_at);
+            var t0 = _d0 ? _d0.getTime() : 0;
+            var t1 = _d1 ? _d1.getTime() : 0;
             if (!isNaN(t0) && !isNaN(t1) && t1 > t0) {
                 var dt = (t1 - t0) / 1000;
                 trainInfo.push({ k: 'Tiempo entreno', v: dt < 60 ? dt.toFixed(1) + ' s' : (dt / 60).toFixed(1) + ' min' });

@@ -258,10 +258,20 @@ function _generateSecurePassword(length) {
         _renderTabla(_usuarios);
     }
 
+    function _parseDate(value) {
+        if (typeof parseServerDate === 'function') return parseServerDate(value);
+        const s = String(value || '').trim();
+        if (!s) return null;
+        const withZ = /([zZ]|[+-]\d{2}:?\d{2})$/.test(s) ? s : s + 'Z';
+        const d = new Date(withZ);
+        return isNaN(d.getTime()) ? null : d;
+    }
+
     function _calcInactivityRisk(lastLogin) {
         if (!lastLogin) return { label: 'Nunca', days: 999, cls: 'dc', risk: 'riesgo alto' };
         const now = new Date();
-        const then = new Date(lastLogin);
+        const then = _parseDate(lastLogin);
+        if (!then) return { label: 'Nunca', days: 999, cls: 'dc', risk: 'riesgo alto' };
         const diffDays = Math.floor((now - then) / (1000 * 60 * 60 * 24));
         if (diffDays === 0) return { label: 'Hoy', days: 0, cls: 'sc', risk: 'sin riesgo' };
         if (diffDays === 1) return { label: '1 día', days: 1, cls: 'sc', risk: 'sin riesgo' };
@@ -272,27 +282,25 @@ function _generateSecurePassword(length) {
 
     function _formatDate(d) {
         if (!d) return '—';
-        try {
-            const dt = new Date(d);
-            const months = ['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
-            return dt.getDate() + ' ' + months[dt.getMonth()];
-        } catch { return d.slice(0, 10); }
+        const dt = _parseDate(d);
+        if (!dt) return '—';
+        const months = ['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
+        return dt.getDate() + ' ' + months[dt.getMonth()];
     }
 
     function _formatTime(d) {
         if (!d) return '';
-        try {
-            const dt = new Date(d);
-            var h = dt.getHours();
-            return ('0' + (h % 12 || 12)).slice(-2) + ':' + ('0' + dt.getMinutes()).slice(-2) + ' ' + (h >= 12 ? 'PM' : 'AM');
-        } catch { return ''; }
+        const dt = _parseDate(d);
+        if (!dt) return '';
+        var h = dt.getHours();
+        return ('0' + (h % 12 || 12)).slice(-2) + ':' + ('0' + dt.getMinutes()).slice(-2) + ' ' + (h >= 12 ? 'PM' : 'AM');
     }
 
     function _isOnline(lastLogin) {
         if (!lastLogin) return false;
-        try {
-            return (Date.now() - new Date(lastLogin).getTime()) < 5 * 60 * 1000;
-        } catch { return false; }
+        const dt = _parseDate(lastLogin);
+        if (!dt) return false;
+        return (Date.now() - dt.getTime()) < 5 * 60 * 1000;
     }
 
     function _roleToUcClass(role) {

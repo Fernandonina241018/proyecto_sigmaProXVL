@@ -78,7 +78,7 @@ const AuditoriaManager = (() => {
         const token = Auth.getToken();
         if (!token) return { ok: false };
         try {
-            const res = await fetchWithTimeout(`${_apiUrl}/api/audit/stats`, {
+            const res = await fetchWithTimeout(`${_apiUrl}/api/audit/stats?tzOffset=${new Date().getTimezoneOffset()}`, {
                 headers: { Authorization: `Bearer ${token}` },
                 credentials: 'include'
             });
@@ -119,14 +119,15 @@ const AuditoriaManager = (() => {
         // Actividad por día (últimos 7 días)
         const actByDay = {};
         const now = new Date();
+        const keyOf = (v) => (typeof dateKeyLocal === 'function') ? dateKeyLocal(v) : new Date(v).toISOString().slice(0, 10);
         for (let i = 6; i >= 0; i--) {
             const d = new Date(now);
             d.setDate(d.getDate() - i);
-            const key = d.toISOString().slice(0, 10);
+            const key = keyOf(d);
             actByDay[key] = 0;
         }
         _logs.forEach(l => {
-            const key = l.timestamp?.slice(0, 10);
+            const key = keyOf(l.timestamp);
             if (key && actByDay[key] !== undefined) {
                 actByDay[key]++;
             }
@@ -166,13 +167,13 @@ const AuditoriaManager = (() => {
             if (soloFallidos && l.success !== 0) return false;
             if (desde) {
                 const d = new Date(desde + 'T00:00:00');
-                const t = new Date(l.timestamp.includes('T') ? l.timestamp : l.timestamp + 'Z');
-                if (t < d) return false;
+                const t = (typeof parseServerDate === 'function') ? parseServerDate(l.timestamp) : new Date(l.timestamp);
+                if (!t || t < d) return false;
             }
             if (hasta) {
                 const d = new Date(hasta + 'T23:59:59');
-                const t = new Date(l.timestamp.includes('T') ? l.timestamp : l.timestamp + 'Z');
-                if (t > d) return false;
+                const t = (typeof parseServerDate === 'function') ? parseServerDate(l.timestamp) : new Date(l.timestamp);
+                if (!t || t > d) return false;
             }
             return true;
         });
@@ -222,7 +223,7 @@ const AuditoriaManager = (() => {
             const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
             const link = document.createElement('a');
             link.href     = URL.createObjectURL(blob);
-            link.download = `auditoria_${new Date().toISOString().slice(0,10)}.csv`;
+            link.download = `auditoria_${(typeof dateKeyLocal === 'function') ? dateKeyLocal(new Date()) : new Date().toISOString().slice(0,10)}.csv`;
             link.click();
             URL.revokeObjectURL(link.href);
             showToast(`✅ ${all.length} registro(s) exportados`);
@@ -430,7 +431,7 @@ const AuditoriaManager = (() => {
             for (let i = 6; i >= 0; i--) {
                 const d = new Date();
                 d.setDate(d.getDate() - i);
-                const k = d.toISOString().slice(0, 10);
+                const k = (typeof dateKeyLocal === 'function') ? dateKeyLocal(d) : d.toISOString().slice(0, 10);
                 data.push({ fecha: k, cantidad: map[k] || 0 });
             }
         } else {

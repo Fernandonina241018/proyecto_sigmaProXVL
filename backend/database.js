@@ -487,7 +487,8 @@ function buildPostgres() {
         return row ? row.n : 0;
     }
 
-    async function getAuditStats() {
+    async function getAuditStats(tzOffset = 0) {
+        const off = Math.max(-840, Math.min(840, parseInt(tzOffset) || 0));
         const now = new Date();
         const today = now.toISOString().slice(0, 10) + 'T00:00:00.000Z';
         const last7 = new Date(now.getTime() - 6 * 86400000).toISOString().slice(0, 10) + 'T00:00:00.000Z';
@@ -507,7 +508,7 @@ function buildPostgres() {
                     ELSE COALESCE(NULLIF(module,''),'SYSTEM') END AS module,
                  COUNT(*)::int AS n
                  FROM audit_log GROUP BY 1 ORDER BY n DESC`),
-            all(`SELECT substr(timestamp,1,10) AS date, COUNT(*)::int AS n FROM audit_log WHERE timestamp >= $1 GROUP BY 1 ORDER BY 1`, [last7])
+            all(`SELECT to_char((timestamp::timestamp - ($2::int * interval '1 minute')), 'YYYY-MM-DD') AS date, COUNT(*)::int AS n FROM audit_log WHERE timestamp >= $1 GROUP BY 1 ORDER BY 1`, [last7, off])
         ]);
         const t = totals || { total: 0, failures: 0, today: 0, week: 0 };
         return {
@@ -1478,18 +1479,25 @@ function buildLocalStore() {
         return _auditFiltered(filters).length;
     }
 
-    async function getAuditStats() {
+    async function getAuditStats(tzOffset = 0) {
+        const off = Math.max(-840, Math.min(840, parseInt(tzOffset) || 0));
+        const dayOf = function (value) {
+            const raw = String(value || '');
+            if (!off) return raw.slice(0, 10);
+            const d = new Date(raw.endsWith('Z') ? raw : raw + 'Z');
+            if (isNaN(d.getTime())) return '';
+            return new Date(d.getTime() - off * 60000).toISOString().slice(0, 10);
+        };
         const now = new Date();
-        const today = now.toISOString().slice(0, 10);
-        const last7 = new Date(now.getTime() - 6 * 86400000).toISOString().slice(0, 10);
+        const today = dayOf(now.toISOString());
+        const last7 = dayOf(new Date(now.getTime() - 6 * 86400000).toISOString());
         const byModule = {};
         const byDay = {};
         let total = 0, failures = 0, todayCount = 0, weekCount = 0;
         state.audit_log.forEach(function (l) {
             total++;
             if (Number(l.success) === 0) failures++;
-            const ts = String(l.timestamp || '');
-            const day = ts.slice(0, 10);
+            const day = dayOf(l.timestamp);
             if (day === today) todayCount++;
             if (day >= last7) {
                 weekCount++;

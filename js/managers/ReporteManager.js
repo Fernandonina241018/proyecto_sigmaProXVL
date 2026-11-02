@@ -498,10 +498,14 @@ const ReporteManager = (() => {
         const hh  = String(h % 12 || 12).padStart(2,'0');
         const mm  = String(d.getMinutes()).padStart(2,'0');
         const ss  = String(d.getSeconds()).padStart(2,'0');
-        return `${day}/${mon}/${d.getFullYear()} ${hh}:${mm}:${ss} ${ampm} UTC`;
+        return `${day}/${mon}/${d.getFullYear()} ${hh}:${mm}:${ss} ${ampm}`;
+    }
+    function todayISO() {
+        const d = new Date();
+        return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
     }
     function todayFormatted() {
-        return formatDate(new Date().toISOString().slice(0,10));
+        return formatDate(todayISO());
     }
 
     // Huella de integridad determinista (SHA-256 sobre el contenido canónico).
@@ -2062,7 +2066,7 @@ tr:hover td{background:#f7faff}
             return;
         }
         const hash = await generateHash(meta, resultados);
-        const base = `RPT-${hash.slice(0,10)}_${new Date().toISOString().slice(0,10)}`;
+        const base = `RPT-${hash.slice(0,10)}_${todayISO()}`;
         let delay = 0;
         // El .html es SOLO para trabajo interno: no se descarga.
         if(formatos.includes('pdf')){setTimeout(async ()=>{const h=await generarHTML(resultados,meta,hash);await generarPDF(h,`${base}.pdf`,hash);},delay);delay+=350;}
@@ -2253,7 +2257,7 @@ tr:hover td{background:#f7faff}
                 <div class="rep-field"><label>${t('ui_file')}</label><input id="rep-file" value="${fileLabel}" placeholder="datos.csv"></div>
                 <div class="rep-field">
                   <label>${t('ui_collect')}</label>
-                  <input id="rep-collect" type="date" value="${new Date().toISOString().slice(0,10)}">
+                  <input id="rep-collect" type="date" value="${todayISO()}">
                 </div>
                 <div class="rep-field">
                   <label style="opacity:0">—</label>
@@ -2371,7 +2375,7 @@ tr:hover td{background:#f7faff}
                 return;
             }
             const hash = await generateHash(meta, resultados);
-            const base = `RPT-${hash.slice(0,10)}_${new Date().toISOString().slice(0,10)}`;
+            const base = `RPT-${hash.slice(0,10)}_${todayISO()}`;
             const html = await generarHTML(resultados, meta, hash);
             // FASE 2 — publicar a bandeja (firma prepared + asignados).
             // Fallback local idéntico al flujo anterior si no hay servidor.

@@ -414,8 +414,17 @@ const Auth = (() => {
     }
     function _v2FormatLast(value) {
         if (!value) return '—';
-        const d = new Date(value);
-        if (isNaN(d.getTime())) return '—';
+        // El backend (PostgreSQL) entrega UTC sin Z; parseServerDate lo
+        // interpreta correctamente y luego se muestra en hora local.
+        const parse = (typeof parseServerDate === 'function') ? parseServerDate : function (v) {
+            const s = String(v || '').trim();
+            if (!s) return null;
+            const withZ = /([zZ]|[+-]\d{2}:?\d{2})$/.test(s) ? s : s + 'Z';
+            const dd = new Date(withZ);
+            return isNaN(dd.getTime()) ? null : dd;
+        };
+        const d = parse(value);
+        if (!d) return '—';
         const now = new Date();
         const hm = String(d.getHours()).padStart(2, '0') + ':' + String(d.getMinutes()).padStart(2, '0');
         if (d.toDateString() === now.toDateString()) return 'hoy, ' + hm;

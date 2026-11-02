@@ -164,6 +164,21 @@ describe('login V2 — tarjeta recordada e información de proyecto', () => {
     expect(document.getElementById('av2-remembered-ip').textContent).toBe('190.12.•.•');
   });
 
+  test('el último acceso se muestra en hora local desde un timestamp UTC sin Z', () => {
+    const { window, document, Auth } = loadAuth({ savedVariant: 'v2' });
+    const now = new Date();
+    const serverUtc = now.toISOString().slice(0, 19); // como PostgreSQL: sin Z
+    window.localStorage.setItem('__auth_remembered', JSON.stringify({ username: 'ana' }));
+    window.localStorage.setItem('__auth_profile_cache', JSON.stringify({
+      username: 'ana', nombre: 'Ana', role: 'analista', loginCount: 1,
+      lastLoginAt: serverUtc, has2FA: false,
+    }));
+    Auth.showLogin();
+    const local = new Date(serverUtc + 'Z');
+    const hm = String(local.getHours()).padStart(2, '0') + ':' + String(local.getMinutes()).padStart(2, '0');
+    expect(document.getElementById('av2-remembered-last').textContent).toBe('hoy, ' + hm);
+  });
+
   test('Cambiar oculta la tarjeta y muestra el campo de usuario', () => {
     const { window, document, Auth } = loadAuth({ savedVariant: 'v2' });
     window.localStorage.setItem('__auth_remembered', JSON.stringify({ username: 'ana' }));
