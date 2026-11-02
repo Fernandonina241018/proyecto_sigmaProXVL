@@ -8,6 +8,9 @@ name: Purge
 # Retry anti-cold-start: el backend en Fly duerme (min_machines_running=0);
 # el login reintenta 5 veces con pausas para darle tiempo a despertar.
 
+permissions:
+  contents: read
+
 on:
   schedule:
     - cron: '0 3 * * 0' # domingos 03:00 UTC
@@ -20,6 +23,7 @@ on:
 
 jobs:
   purge:
+    environment: production
     runs-on: ubuntu-latest
     steps:
       - name: Login admin

@@ -967,6 +967,10 @@ const MLManager = (() => {
         if (_retries === undefined) _retries = 3;
         const token = typeof Auth !== 'undefined' ? Auth.getToken() : null;
         const apiUrl = _getMlApiUrl();
+        // Las llamadas usan rutas /api/ml/*; el proxy ya está montado en /api/ml.
+        // Normalizamos para no duplicar el prefijo.
+        const relPath = String(path || '');
+        const urlPath = relPath.indexOf('/api/ml') === 0 ? relPath.slice('/api/ml'.length) : relPath;
         const opts = {
             method,
             headers: { 'Content-Type': 'application/json' },
@@ -979,7 +983,7 @@ const MLManager = (() => {
         opts.signal = controller.signal;
         var timeoutId = setTimeout(function() { controller.abort(); }, 30000);
         try {
-            const res = await fetch(apiUrl + path, opts);
+            const res = await fetch(apiUrl + urlPath, opts);
             clearTimeout(timeoutId);
             const isColdStart = COLD_START_PATHS.has(path.split('?')[0]);
             const shouldRetry = (res.status === 503) ||
@@ -2196,12 +2200,9 @@ const MLManager = (() => {
                 var nlpAnalysis = null;
                 if (nlpText) {
                     try {
-                        var apiUrl = window._ML_API_URL || 'https://sigmapro-ml.fly.dev';
-                        var mlKey = (typeof Auth !== 'undefined' && Auth.getMlApiKey) ? Auth.getMlApiKey() : null;
-                        var nlpHeaders = {'Content-Type': 'application/json'};
-                        if (mlKey) nlpHeaders['X-API-Key'] = mlKey;
-                        var nlpRes = await fetch(apiUrl + '/api/ml/analyze-text', { method: 'POST', headers: nlpHeaders, body: JSON.stringify({text: nlpText}) });
-                        if (nlpRes.ok) nlpAnalysis = await nlpRes.json();
+                        // Pasa por el proxy del backend: la API key del ML
+                        // Service nunca llega al navegador.
+                        nlpAnalysis = await _fetch('POST', '/api/ml/analyze-text', { text: nlpText }, 1);
                     } catch (_e) {}
                 }
                 var result = await _fetch('POST', '/api/ml/predict', { model_id: modelId, data: dataRows, columns: columns, texts: textsArr });

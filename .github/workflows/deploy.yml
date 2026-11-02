@@ -4,6 +4,13 @@ on:
   push:
     branches: [ main ]
 
+permissions:
+  contents: read
+
+concurrency:
+  group: deploy-production
+  cancel-in-progress: false
+
 jobs:
   # GATE — nada llega a producción si el frontend está roto.
   # Motivo: deploy.yml solo gateaba backend y ML; el frontend (vitest +
@@ -12,8 +19,8 @@ jobs:
     if: "!contains(github.event.head_commit.message, '[skip-version]')"
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v5
-      - uses: actions/setup-node@v5
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
+      - uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5
         with:
           node-version: 22
           cache: 'npm'
@@ -21,7 +28,7 @@ jobs:
       - run: npm ci
       - name: Frontend unit (vitest)
         run: npm test
-      - uses: actions/setup-python@v6
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6
         with:
           python-version: '3.11'
       # El E2E arranca `node backend/server.js` → necesita las deps del
@@ -31,7 +38,7 @@ jobs:
       - run: npx playwright install --with-deps chromium
       - name: E2E (playwright)
         run: npx playwright test
-      - uses: actions/upload-artifact@v6
+      - uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6
         if: failure()
         with:
           name: playwright-report
@@ -41,15 +48,16 @@ jobs:
           if-no-files-found: ignore
 
   deploy-backend:
+    environment: production
     if: "!contains(github.event.head_commit.message, '[skip-version]')"
     needs: [quality-gate]
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
       # OPT-8: gate — no desplegar backend con tests rotos.
       # OJO: sin defaults working-directory — flyctl debe correr desde
       # la raíz (fly.toml usa 'backend/Dockerfile' relativo a raíz).
-      - uses: actions/setup-node@v5
+      - uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5
         with:
           node-version: 22
           cache: 'npm'
@@ -58,24 +66,25 @@ jobs:
         working-directory: backend
       - run: npm test
         working-directory: backend
-      - uses: superfly/flyctl-actions/setup-flyctl@master
+      - uses: superfly/flyctl-actions/setup-flyctl@98172f70657cb3e15db199af139be99bd3e61200 # master
       - name: Deploy backend
         run: flyctl deploy --app sigmaproxvl-backend --strategy immediate --yes
         env:
           FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
 
   deploy-ml:
+    environment: production
     if: "!contains(github.event.head_commit.message, '[skip-version]')"
     needs: [quality-gate]
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
       # OPT-8: gate mínimo — el servicio no debe ni compilar roto
-      - uses: actions/setup-python@v6
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6
         with:
           python-version: '3.11'
       - run: python -m py_compile ml_service/main.py ml_service/drift_worker.py ml_service/nlp_models.py
-      - uses: superfly/flyctl-actions/setup-flyctl@master
+      - uses: superfly/flyctl-actions/setup-flyctl@98172f70657cb3e15db199af139be99bd3e61200 # master
       - name: Deploy ML Service
         run: flyctl deploy --app sigmapro-ml --config ml_service/fly.toml --strategy rolling --yes
         env:

@@ -153,7 +153,7 @@ app.use((req, res, next) => {
     if (req.method === 'POST' && req.path === '/api/audit/events') {
         return _jsonAudit(req, res, next);
     }
-    if (req.method === 'POST' && (req.path === '/api/sign-sessions' || req.path === '/api/sign-sessions/import' || req.path === '/api/pdf/render')) {
+    if (isLargeBodyRoute(req)) {
         return _jsonReport(req, res, next);
     }
     return _jsonSmall(req, res, next);
@@ -328,6 +328,7 @@ const ML_SERVICE_URL = process.env.ML_SERVICE_URL || 'http://localhost:8000';
 
 // LOTE B: proxy extraído a ml-proxy.js (https + X-API-Key del servidor)
 const { createMlProxy } = require('./ml-proxy');
+const { isLargeBodyRoute } = require('./body-limits');
 app.use('/api/ml', requireAuth, createMlProxy({
     target: ML_SERVICE_URL,
     apiKey: process.env.ML_API_KEY || '',
@@ -635,8 +636,9 @@ app.get('/api/me', requireAuth, async (req, res) => {
 
 // FIX SEGURIDAD #2: Solo admin puede ver la ML API Key
 app.get('/api/ml-api-key', requireAuth, requireAdmin, (req, res) => {
-    const key = process.env.ML_API_KEY || '';
-    res.json({ ok: true, key });
+    // La clave se queda en el servidor: el proxy /api/ml la inyecta.
+    // Se conserva el endpoint solo para diagnóstico de configuración.
+    res.json({ ok: true, configured: !!process.env.ML_API_KEY });
 });
 
 // ── 2FA (TOTP) Endpoints ──────────────────────────

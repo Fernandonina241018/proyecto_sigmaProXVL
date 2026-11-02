@@ -90,6 +90,24 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (SigmaProXVL) con spr
 
 ## CAMBIOS RECIENTES
 
+### 2026-11-01 (1): Hardening P0 — readiness SOC 2 / ISO 27001
+
+**Qué:** Primer sprint de hardening alineado a SOC 2 Trust Services Criteria e ISO/IEC 27001:2022 (readiness, sin certificación). Se prepara el cambio para PR; la protección de `main` se activa después del merge.
+
+- **Cadena de suministro:** Dependabot (npm, backend, pip, Actions, Docker), CodeQL JS/TS + Python, Dependency Review en PR, permisos mínimos por workflow y actions pinneadas por SHA (incluido `flyctl`, que usaba `@master`).
+- **Cambios:** deploy con concurrencia y entorno `production`; `SECURITY.md`, `.well-known/security.txt`, `.nojekyll` y `CODEOWNERS`.
+- **MF-3:** parser grande para `amend`, snapshots y PDF (antes devolvían 413 con reportes >100 KB).
+- **ML:** la API key deja de exponerse al navegador (`/api/ml-api-key` solo informa si está configurada); el análisis NLP pasa por el proxy `/api/ml` y la clave se inyecta en servidor.
+- **Backups:** `scripts/backup-db.sh` (pg_dump + gzip + GPG) y runbook privado.
+- **Evidencias:** repo privado `proyecto_sigmaProXVL-security` con alcance, activos, risk register, accesos, proveedores, incidentes, backup, cambios y calendario.
+- **Pendiente de acción del propietario:** MFA en GitHub/Fly/Supabase, rotación de secretos, `API_KEY`/`ML_API_KEY`, backups de Supabase y activación de branch protection.
+
+**Archivos:** `SECURITY.md`, `.well-known/security.txt`, `.nojekyll`, `.github/CODEOWNERS`, `.github/dependabot.yml`, `.github/workflows/{codeql,dependency-review,ci,deploy,purge,react-doctor,version}.yml`, `backend/body-limits.js`, `backend/tests/body-limits.test.js`, `backend/server.js`, `js/core/auth.js`, `js/pages/ml.js`, `indexx.html`, `scripts/backup-db.sh`, `.gitignore`, `.env.example`s, `docs/auditoria-codigo/must-fix.md`.
+
+**Verificación:** sintaxis OK · backend **114/114** (2 nuevos) · Vitest **667/667** · E2E **9/9** · preflight OK (se re-ejecuta en el PR).
+
+---
+
 ### 2026-10-31 (3): Login V2 híbrido — oficial con tarjeta recordada, QR e IP enmascarada
 
 **Qué:** Se reemplaza el rediseño de dos paneles (`login_redesign.html`) por el login híbrido de `login_sigmaproxvl_hibrido_v3.html`. Ahora **V2 es el login oficial por defecto**; V1 queda como respaldo con `?login=v1`.

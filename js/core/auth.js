@@ -79,7 +79,6 @@ const Auth = (() => {
         if (next) next(null);
     }
     let _token=null;
-    let _mlApiKey=null;
 
     // ── 2FA state ─────────────────────────
     let _tempToken = null;
@@ -1294,7 +1293,6 @@ const Auth = (() => {
         localStorage.setItem('ultimoLogin', new Date().toISOString());
         localStorage.setItem('sessionStart', Date.now().toString());
         if (_token) {
-            await _fetchMlApiKey();
             await _registerDevice();
         }
         _startSession(userData);
@@ -1497,18 +1495,6 @@ const Auth = (() => {
         }
     }
 
-    async function _fetchMlApiKey() {
-        try {
-            const res = await fetchWithTimeout(CFG.API_URL + '/api/ml-api-key', {
-                headers: { 'Authorization': 'Bearer ' + _token }
-            });
-            if (res.ok) {
-                const data = await res.json();
-                _mlApiKey = data.key || null;
-            }
-        } catch (_e) { console.warn('ML API key fetch failed (non-critical):', _e); }
-    }
-
     async function _registerDevice() {
         try {
             if (typeof DeviceFingerprint === 'undefined') return;
@@ -1560,9 +1546,6 @@ const Auth = (() => {
                 }catch(e){ console.warn('Cookie session not available, will re-login on first 401:', e.message); }
             }
         }
-        if (_token) {
-            await _fetchMlApiKey();
-        }
         const session = _getSession();
         _scheduleTimers();
         _registerActivityListeners();
@@ -1607,8 +1590,6 @@ const Auth = (() => {
     function getSession(){ return _isSessionValid()?_getSession():null; }
     function isAuthenticated(){ return _isSessionValid(); }
 
-    function getMlApiKey(){ return _mlApiKey; }
-
     // ── 2FA API pública ──────────────────────
     async function get2FAStatus() {
         try {
@@ -1652,7 +1633,7 @@ const Auth = (() => {
         } catch { return { error: 'Error de conexión' }; }
     }
 
-    return { init, showLogin, logout, keepAlive, getSession, isAuthenticated, getToken, getMlApiKey, get2FAStatus, setup2FA, enable2FA, disable2FA, getArea, selectArea, getLoginVariant, setLoginVariant };
+    return { init, showLogin, logout, keepAlive, getSession, isAuthenticated, getToken, get2FAStatus, setup2FA, enable2FA, disable2FA, getArea, selectArea, getLoginVariant, setLoginVariant };
 
 })();
 
