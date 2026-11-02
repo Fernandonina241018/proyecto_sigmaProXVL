@@ -163,6 +163,18 @@ app.use(cookieParser());
 // FIX SEGURIDAD #7: Configurar trust proxy para IP real detrás de proxy (Fly.io, Railway)
 app.set('trust proxy', 1); // Confiar en el primer hop del proxy
 
+// Límite global de API (defensa en profundidad). Los límites específicos
+// de login/2FA/firma/PDF siguen aplicando por encima de este.
+const apiLimiter = rateLimit({
+    windowMs: 60 * 1000,
+    max: 300,
+    message: { error: 'Demasiadas solicitudes. Intente de nuevo en un minuto.' },
+    standardHeaders: true,
+    legacyHeaders: false,
+    keyGenerator: (req) => ipKeyGenerator(req.ip || req.socket.remoteAddress),
+});
+app.use('/api', apiLimiter);
+
 // ── Password Strength Validation (21 CFR 11.300) ──
 function validatePasswordStrength(password) {
     if (!password || password.length < 8) {
