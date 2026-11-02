@@ -90,6 +90,24 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (SigmaProXVL) con spr
 
 ## CAMBIOS RECIENTES
 
+### 2026-11-01 (2): Fechas del servidor en hora local
+
+**Qué:** PostgreSQL guarda `last_login`, `audit_log.timestamp`, `created_at`, etc. como texto UTC **sin `Z`** (`to_char(now(),...)`). El navegador interpretaba ese texto como hora local, por lo que la tarjeta recordada y otras vistas mostraban la hora del servidor. Se unificó el parseo con `parseServerDate()`/`dateKeyLocal()` y se aplicó a las vistas.
+
+- **Tarjeta recordada:** `_v2FormatLast()` interpreta el timestamp como UTC y muestra la hora local del navegador.
+- **Usuarios:** último acceso, hora, estado online e inactividad usan el parser UTC.
+- **Dispositivos:** `last_seen`/`created_at` en hora local.
+- **Auditoría:** tabla, filtros por fecha y agrupación por día usan hora local; `/api/audit/stats` acepta `tzOffset`.
+- **Firma:** fechas de expiración y nombre del archivo firmado en hora local.
+- **Reportes:** “generated” deja de etiquetarse como UTC (era hora local) y las fechas por defecto usan el día local.
+- **ML:** orden por `created_at`/`saved_at` parsea UTC correctamente.
+
+**Archivos:** `js/core/utils.js`, `js/core/auth.js`, `js/managers/UsuariosManager.js`, `js/managers/DispositivosManager.js`, `js/managers/AuditoriaManager.js`, `js/core/indexx-firma.js`, `js/managers/ReporteManager.js`, `js/pages/ml.js`, `backend/database.js`, `backend/server.js`, tests de utils/auth.
+
+**Verificación:** Vitest **673/673** · Backend **114/114** · E2E **9/9** · preflight OK. Prueba visual: con `2026-11-02T03:38:57` (UTC) la tarjeta muestra `hoy, 23:38` en AST (UTC-4), no `03:38`. PR #27. Deploy backend tuvo un fallo transitorio de Fly y se re-ejecutó con éxito.
+
+---
+
 ### 2026-11-01 (1): Hardening P0 — readiness SOC 2 / ISO 27001
 
 **Qué:** Primer sprint de hardening alineado a SOC 2 Trust Services Criteria e ISO/IEC 27001:2022 (readiness, sin certificación). **Branch protection activa** en `main` (PR obligatorio, 0 aprobaciones por ser equipo de una persona, checks obligatorios, historial lineal, sin force-push, administradores incluidos).
