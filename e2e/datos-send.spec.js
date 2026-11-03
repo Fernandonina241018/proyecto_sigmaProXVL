@@ -18,6 +18,9 @@ async function loginAdmin(page) {
   await overlay.locator('[data-area="estadistica"]').click();
   await expect(overlay).toBeHidden({ timeout: 10000 });
   await expect(page.locator('#panelDatos')).toBeVisible({ timeout: 15000 });
+  // initDatosPage() corre 60 ms después de renderizar el panel; sin esta
+  // espera, setInputFiles puede disparar change antes de que exista listener.
+  await expect(page.locator('#panelDatos')).toHaveAttribute('data-datos-init', '1', { timeout: 10000 });
 }
 
 test('cargar CSV y enviarlo a Hoja de Trabajo con el botón Trabajo', async ({ page }) => {

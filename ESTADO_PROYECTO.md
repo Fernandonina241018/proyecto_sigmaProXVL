@@ -112,9 +112,11 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (SigmaProXVL) con spr
 node --check js/core/indexx-datos.js         → OK
 npx vitest run datos-panel datos-send        → 21/21
 npm test                                     → 54 archivos, 687 tests OK
-npx playwright test e2e/datos-send.spec.js   → 1 passed
+npx playwright test e2e/datos-send.spec.js --repeat-each=3 → 3 passed
 npm run preflight                            → OK (10 E2E)
 ```
+
+El E2E espera `data-datos-init` antes de subir el CSV: `initDatosPage()` corre 60 ms después del render y, sin esa espera, el `change` del input podía llegar antes que el listener (fallo intermitente visto en CI).
 
 ### 2026-11-02 (54): `/prompt` enruta a lote de dependencias
 
