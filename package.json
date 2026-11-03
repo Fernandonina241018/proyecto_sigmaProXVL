@@ -8,6 +8,7 @@
     "test:coverage": "vitest run --coverage",
     "test:watch": "vitest",
     "typecheck": "tsc --project tsconfig.json",
+    "agent:check": "node scripts/agent-check.mjs",
     "doctor": "npx react-doctor@latest",
     "preflight": "node scripts/preflight.mjs",
     "version:stamp": "node scripts/stamp-version.mjs",

@@ -90,6 +90,34 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (SigmaProXVL) con spr
 
 ## CAMBIOS RECIENTES
 
+### 2026-11-03 (225): Integración del setup del agente — `/prompt` v2.2.0, skills versionadas y `agent:check`
+
+**Qué:** Se hace portable y verificable el comando `/prompt` y sus recursos, sin cambiar el runtime de la app.
+
+- **Rutas portables:** Brain2 resuelve `$SIGMA_BRAIN2` → `./Brain/Brain2` → ruta legado `/mnt/g/...` → DEGRADED. Skills resuelven primero `.opencode/skills/{skill}/SKILL.md` y luego `$SIGMA_SKILLS/{user,public,examples}`.
+- **Alias de skills:** la matriz usa nombres intencionales (`api-design`, `nodejs-backend-patterns`, `auth-security`, etc.) que ahora se mapean a las skills instaladas.
+- **Versionado selectivo:** `.gitignore` deja de ignorar `.opencode/commands`, `.opencode/agents` y los 17 `SKILL.md`; `Brain/` sigue local.
+- **Validación:** nuevo `scripts/agent-check.mjs` + `npm run agent:check`; valida versión frontmatter/cuerpo, Brain2, alias/skills y rutas portables.
+- **Duplicado resuelto:** `/home/fernando/.opencode/commands/prompt.md` (v2.2.0-ecc) se renombró a `prompt-ecc.md`; el canónico es el del proyecto.
+- **Brain2 local:** alias para `CONTEXTO_BASE.md`, `GUIA_ESTADISTICO.md`, `PLAN_SEGURIDAD.md` y `PROTOCOLO_SEGURIDAD.md`; total de estadísticos corregido a 61.
+
+**Archivos afectados:**
+| Archivo | Cambio |
+|---------|--------|
+| `.opencode/commands/prompt.md` | v2.2.0: fallback Brain2, skills del repo, alias y rutas portables |
+| `.gitignore` | Versionado selectivo de commands/agents/skills |
+| `scripts/agent-check.mjs` | **Nuevo** validador del contrato del agente |
+| `package.json` | Script `agent:check` |
+| `AGENTS.md` | Comando canónico y validación |
+| `Brain/Brain2/*` | Alias locales y total de estadísticos (no versionado) |
+
+**Verificación:**
+```
+npm run agent:check   → OK (17 skills, Brain2 ./Brain/Brain2, v2.2.0)
+node --check scripts/agent-check.mjs → OK
+git add --dry-run .opencode/skills → 17 SKILL.md
+```
+
 ### 2026-11-03 (224): Demo V2 — progreso visible del login (conexión, BD y 2FA)
 
 **Qué:** Se incorpora al repo el prototipo real **`login_sigmaproxvl_hibrido_v3.html`** (antes solo en `~/Descargas/chatgpt`) y se le añaden fases de progreso visibles durante el login. No toca el flujo real de autenticación.
