@@ -6578,3 +6578,15 @@ Render inyectaba el `PORT` como variable de entorno; Fly.io también (`process.e
   3. **19 HTML del banco** (`docs/banco-ensayos/`): las 63 menciones de USP <1058> sustituidas por la marca; la clasificación A/B/C reescrita como "según su impacto en la calidad" (concepto válido para los tres tipos); la fila de USP <1058> de la tabla de referencias del IQ sustituida por ISPE Baseline Guide Vol. 5 y renumerada. **0 menciones de USP <1058> quedan en el banco.**
   4. `indexx-validaciones.js` ahora exporta en Node (`module.exports`) para poder testearlo.
 - **Verificación:** generado el **.docx real**: mezclador (M) → *"Referencia: EU GMP Anexo 15; ISPE Baseline Guide Vol. 5"* y **sin** USP <1058; balanza (L) → *"USP <1058> — Analytical Instrument Qualification; EU GMP Anexo 15"*; cámara de estabilidad (Q) → EU GMP Anexo 15 + ICH Q1A(R2), sin 1058. Sin marca sin resolver en el documento. Test nuevo `tests/banco-tipo-equipos.test.js` (12 tests: clasificación por tipo, tabla por tipo, banco sin 1058, .docx generado por tipo). Suite **531/531** (37 archivos), backend 81/81, Playwright 1/1, `tsc` OK.
+
+### 2026-11-03 (222): Lote de dependencias — 3 PRs (minor · CI majors · runtime majors) y 14 PRs de Dependabot absorbidos
+- **Qué:** se cierra el backlog de Dependabot agrupando por riesgo según AGENTS.md §5 (un merge = un sello), en vez de mergear 14 PRs sueltos:
+  | PR | Alcance | Paquetes |
+  |----|---------|----------|
+  | #58 | minor (1 merge) | helmet 8.1→8.3 · matplotlib 3.7→3.11 · scikit-learn 1.3→1.9 · fastembed 0.5→0.9 |
+  | #59 | CI majors | checkout v5→v7.0.1 · setup-node v5→v7.1.0 · upload-artifact v6→v7.0.2 · codeql-action v3→v4.39.1 (init **y** analyze) · dependency-review v4→v5.0.0 |
+  | #60 | runtime majors | express 4.22→5.3 · otplib 12→13.5 · bcryptjs 2.4→3.0 · dotenv 16→18 · numpy ≥1.24→≥2.5.4 · Docker node 18-slim→26-slim |
+- **Migración necesaria (solo otplib):** la v13 **eliminó `authenticator`** y `verify()` pasó a devolver una **Promise** (siempre truthy → habría aceptado cualquier código 2FA). `backend/server.js` usa ahora `generateSecret` / `generateURI` / `verifySync(...).valid`, con helper `verifyTOTP()` que trata tokens mal formados como inválidos. En dotenv 18 se silencia el banner con `quiet: true`. Express 5 no requirió cambios (sin wildcards ni `req.param`, rutas `:id` compatibles).
+- **Archivos:** `backend/package.json`, `backend/package-lock.json`, `backend/server.js`, `backend/Dockerfile`, `backend/tests/totp.test.js` (nuevo), `ml_service/requirements.txt`, `.github/workflows/*.yml`.
+- **Verificación:** backend **118/118** (114 + 4 nuevos de TOTP), frontend **697/697**, `node -c server.js`, arranque real con `/api/health` 200 y `/api/login` 400 correcto, `npm audit` 0 vulnerabilidades. CI de los 3 PRs en verde.
+- **Riesgo:** medio-alto concentrado en el PR de runtime; se aisló en su propio PR con smoke y migración explícita. Los PRs de Dependabot sustituidos se cierran tras el merge.

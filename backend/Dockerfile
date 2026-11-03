@@ -1,4 +1,4 @@
-FROM node:18-slim
+FROM node:26-slim
 
 # PDF en servidor: Chromium del sistema + fuentes (incluye emoji, usados en
 # los títulos del reporte). Si esta capa faltara, el backend arranca igual y
