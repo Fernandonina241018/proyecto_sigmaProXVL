@@ -727,9 +727,32 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
 
   // ── Utilidades ─────────────────────────────
   function setBanner(kind, html, spin) {
-    if (!kind) { el.banner.hidden = true; el.banner.innerHTML = ''; return; }
+    if (!kind) { el.banner.hidden = true; el.banner.replaceChildren(); return; }
     el.banner.className = 'banner ' + kind;
-    el.banner.innerHTML = (spin ? '<span class="spin" aria-hidden="true"></span>' : '') + '<div>' + (html || '') + '</div>';
+    const raw = String(html == null ? '' : html);
+    // El demo solo usa <b>…</b> al inicio; se construye con textContent para
+    // no interpretar HTML dinámico (evita XSS y alertas de CodeQL).
+    const match = raw.match(/^<b>([\s\S]*?)<\/b>\s*([\s\S]*)$/);
+    const title = match ? match[1] : '';
+    const detail = match ? match[2] : raw;
+    el.banner.replaceChildren();
+    if (spin) {
+      const s = document.createElement('span');
+      s.className = 'spin';
+      s.setAttribute('aria-hidden', 'true');
+      el.banner.appendChild(s);
+    }
+    const box = document.createElement('div');
+    if (title) {
+      const b = document.createElement('b');
+      b.textContent = title;
+      box.appendChild(b);
+    }
+    if (detail) {
+      if (title) box.appendChild(document.createTextNode(' '));
+      box.appendChild(document.createTextNode(detail));
+    }
+    el.banner.appendChild(box);
     el.banner.hidden = false;
   }
   function setError(input, errorEl, on, message) {
@@ -861,10 +884,14 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
         '<stop offset="0" stop-color="#2f1f5a"/>' +
         '<stop offset=".55" stop-color="#3f2a86"/>' +
         '<stop offset="1" stop-color="#4c34a6"/>' +
-        '</linearGradient></defs><path fill="url(#qrInk)" ');
-      box.innerHTML = svg;
+        '</linearGradient></defs><path ');
+      svg = svg.replace('fill="black"', 'fill="url(#qrInk)"');
+      const doc = new DOMParser().parseFromString(svg, 'image/svg+xml');
+      const node = doc && doc.documentElement;
+      if (!node || node.nodeName.toLowerCase() !== 'svg') throw new Error('QR inválido');
+      box.replaceChildren(document.importNode(node, true));
     } catch (_) {
-      box.innerHTML = '';
+      box.replaceChildren();
     }
   }
   function browserInfo() {
@@ -1300,7 +1327,7 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
     try { justUpdated = sessionStorage.getItem(JUST_UPDATED_KEY) || ''; } catch (_) {}
     if (justUpdated) {
       try { sessionStorage.removeItem(JUST_UPDATED_KEY); } catch (_) {}
-      setBanner('ok', 'Actualizado correctamente a <b>' + justUpdated + '</b>.');
+      setBanner('ok', 'Actualizado correctamente a ' + justUpdated + '.');
       setTimeout(() => { if (el.banner.classList.contains('ok')) setBanner(''); }, 5000);
     }
 
