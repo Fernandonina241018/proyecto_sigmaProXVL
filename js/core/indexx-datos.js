@@ -15,42 +15,61 @@ function initDatosPage() {
   var dropZone = document.getElementById('drop');
   var fileInput = document.getElementById('fileInput');
 
-  if (dropZone) {
-    dropZone.addEventListener('click', function(){ abrirSelectorDatos('.csv,.json,.xlsx,.xls'); });
-    dropZone.addEventListener('dragover', function(e){ e.preventDefault(); dropZone.classList.add('over'); });
-    dropZone.addEventListener('dragleave', function(){ dropZone.classList.remove('over'); });
-    dropZone.addEventListener('drop', function(e){ e.preventDefault(); dropZone.classList.remove('over'); if (e.dataTransfer.files.length > 0) handleFile(e.dataTransfer.files[0]); });
-  }
-  if (fileInput) fileInput.addEventListener('change', function(e){ if (e.target.files.length > 0) handleFile(e.target.files[0]); });
-  if (panel) {
-    // Delegación: clic + teclado (Enter/Espacio) para [role=button]
-    panel.addEventListener('click', function(e){
-      var q = e.target.closest('[data-quitar]');
-      if (q && panel.contains(q)) { quitarReciente(q.getAttribute('data-quitar')); return; }
-      var l = e.target.closest('[data-load]');
-      if (l && panel.contains(l)) {
+  // El panel se re-renderiza en cada loadPage. La marca evita duplicar
+  // listeners si initDatosPage se agenda dos veces sobre el mismo DOM
+  // (dos loadPage('datos') seguidos antes del setTimeout de 60 ms).
+  var firstInit = !panel || !panel.dataset.datosInit;
+  if (firstInit) {
+    if (panel) panel.dataset.datosInit = '1';
+    if (dropZone) {
+      // El clic lo maneja la delegación [data-act="abrir"] del panel; aquí
+      // solo drag & drop (evita abrir el selector dos veces por el mismo clic).
+      dropZone.addEventListener('dragover', function(e){ e.preventDefault(); dropZone.classList.add('over'); });
+      dropZone.addEventListener('dragleave', function(){ dropZone.classList.remove('over'); });
+      dropZone.addEventListener('drop', function(e){ e.preventDefault(); dropZone.classList.remove('over'); if (e.dataTransfer.files.length > 0) handleFile(e.dataTransfer.files[0]); });
+    }
+    if (fileInput) fileInput.addEventListener('change', function(e){ if (e.target.files.length > 0) handleFile(e.target.files[0]); });
+    if (panel) {
+      // Delegación: clic + teclado (Enter/Espacio) para [role=button]
+      panel.addEventListener('click', function(e){
+        var q = e.target.closest('[data-quitar]');
+        if (q && panel.contains(q)) { quitarReciente(q.getAttribute('data-quitar')); return; }
+        var l = e.target.closest('[data-load]');
+        if (l && panel.contains(l)) {
+          var idx = indiceReciente(l.getAttribute('data-load'));
+          if (idx !== -1) { loadRecentFile(idx); renderRecentFiles(); }
+          return;
+        }
+        var el = e.target.closest('[data-act]');
+        if (!el || !panel.contains(el)) return;
+        datosAccion(el.getAttribute('data-act'));
+      });
+      panel.addEventListener('keydown', function(e){
+        if ((e.key === 'Enter' || e.key === ' ') && e.target.matches('[role=button]')) { e.preventDefault(); e.target.click(); }
+      });
+      // Preview flotante al hover (recableado al markup .rr)
+      panel.addEventListener('mouseover', function(e){
+        var l = e.target.closest('[data-load]');
+        if (!l || !panel.contains(l)) return;
         var idx = indiceReciente(l.getAttribute('data-load'));
-        if (idx !== -1) { loadRecentFile(idx); renderRecentFiles(); }
-        return;
-      }
-      var el = e.target.closest('[data-act]');
-      if (!el || !panel.contains(el)) return;
-      datosAccion(el.getAttribute('data-act'));
-    });
-    panel.addEventListener('keydown', function(e){
-      if ((e.key === 'Enter' || e.key === ' ') && e.target.matches('[role=button]')) { e.preventDefault(); e.target.click(); }
-    });
-    // Preview flotante al hover (recableado al markup .rr)
-    panel.addEventListener('mouseover', function(e){
-      var l = e.target.closest('[data-load]');
-      if (!l || !panel.contains(l)) return;
-      var idx = indiceReciente(l.getAttribute('data-load'));
-      if (idx !== -1) showDatasetPreview(e, idx);
-    });
-    panel.addEventListener('mouseout', function(e){
-      if (e.target.closest('[data-load]')) hideDatasetPreview();
-    });
+        if (idx !== -1) showDatasetPreview(e, idx);
+      });
+      panel.addEventListener('mouseout', function(e){
+        if (e.target.closest('[data-load]')) hideDatasetPreview();
+      });
+    }
   }
+
+  // Acciones del panel derecho (Vista Previa). Se recrean en cada loadPage y
+  // hay que recablearlas aquí: al migrar el panel izquierdo a data-act (F1)
+  // se perdieron estos listeners y "Trabajo" quedó sin efecto. Se usa onclick
+  // (propiedad) porque es idempotente si initDatosPage corre dos veces.
+  var btnSend = document.getElementById('btnSendToTrabajo');
+  if (btnSend) btnSend.onclick = sendToTrabajo;
+  var btnFilter = document.getElementById('btnFilterRows');
+  if (btnFilter) btnFilter.onclick = showFilterModal;
+  var btnExport = document.getElementById('btnExport');
+  if (btnExport) btnExport.onclick = showExportModal;
 
   renderRecentFiles();
   datosSyncPanel();
@@ -664,16 +683,82 @@ function loadRecentFile(index) {
   }
 }
 
+// Compara una hoja existente con los datos a enviar (headers + filas, como
+// texto: datosCurrentData puede tener números y la hoja los guarda como string).
+// Se ejecuta solo al pulsar "Trabajo"; mismo orden de coste que la copia.
+function _sheetEqualsDatos(sheet, headers, rows) {
+  if (!sheet || !sheet.headers || !sheet.rows) return false;
+  if (sheet.headers.length !== headers.length || sheet.rows.length !== rows.length) return false;
+  for (var c = 0; c < headers.length; c++) {
+    if (String(sheet.headers[c]) !== String(headers[c])) return false;
+  }
+  for (var r = 0; r < rows.length; r++) {
+    var sr = sheet.rows[r] || [], dr = rows[r] || [];
+    for (var j = 0; j < headers.length; j++) {
+      if (String(sr[j] == null ? '' : sr[j]) !== String(dr[j] == null ? '' : dr[j])) return false;
+    }
+  }
+  return true;
+}
+
+// Nombre libre para no pisar ni reutilizar una hoja con datos de otra carga.
+function _nombreHojaLibre(base) {
+  var used = {};
+  for (var i = 0; i < trabajoSheets.length; i++) used[trabajoSheets[i].name] = true;
+  if (!used[base]) return base;
+  var n = 2;
+  while (used[base + ' (' + n + ')']) n++;
+  return base + ' (' + n + ')';
+}
+
+// ¿La hoja nació de un envío de este dataset? Acepta "base" y "base (2)",
+// "base (3)"… para que un segundo envío idéntico reutilice la hoja y no
+// siga creando sufijos.
+function _hojaNacidaDe(sheet, base) {
+  if (!sheet || !sheet.name) return false;
+  if (sheet.sourceName) return sheet.sourceName === base;
+  var n = String(sheet.name);
+  if (n === base) return true;
+  return n.indexOf(base + ' (') === 0 && /\(\d+\)$/.test(n);
+}
+
 function sendToTrabajo() {
   if (!datosCurrentData) { showToast('⚠️ No hay datos para enviar. Importa un archivo primero.'); return; }
   var name = datosCurrentFileName.replace(/\.[^.]+$/, '');
-  var existIdx = trabajoSheets.findIndex(function(s){ return s.name === name; });
-  if (existIdx !== -1) { trabajoActiveSheetIndex = existIdx; loadPage('trabajo'); return; }
   var rowsToSend = datosFilteredRows.length && datosFilteredRows.length < datosCurrentData.rows.length ? datosFilteredRows : datosCurrentData.rows;
-  trabajoSheets.push({ name:name, headers:datosCurrentData.headers.slice(), rows:rowsToSend.map(function(r){ return r.map(function(v){ return String(v==null?'':v); }); }), locked:true });
+  // Si ya existe una hoja de este dataset y contiene EXACTAMENTE estos datos,
+  // solo se navega (evita duplicados). Si el contenido cambió (p. ej. se
+  // volvió a cargar el mismo archivo con datos nuevos) se crea una hoja con
+  // sufijo: antes se reutilizaba la vieja y parecía que "no enviaba".
+  for (var i = 0; i < trabajoSheets.length; i++) {
+    if (_hojaNacidaDe(trabajoSheets[i], name) && _sheetEqualsDatos(trabajoSheets[i], datosCurrentData.headers, rowsToSend)) {
+      trabajoActiveSheetIndex = i;
+      trabajoActiveCell = {row:0,col:0};
+      trabajoPage = 0;
+      loadPage('trabajo');
+      return;
+    }
+  }
+  var newSheet = {
+    name: _nombreHojaLibre(name),
+    sourceName: name,
+    headers: datosCurrentData.headers.slice(),
+    rows: rowsToSend.map(function(r){ return r.map(function(v){ return String(v==null?'':v); }); }),
+    locked: true
+  };
+  trabajoSheets.push(newSheet);
   trabajoActiveSheetIndex = trabajoSheets.length - 1;
   trabajoActiveCell = {row:0,col:0};
+  trabajoPage = 0;
   _persistAllData();
+  // _persistAllData puede descartar hojas al quedarse sin cuota. Si la recién
+  // enviada fue la descartada, se conserva en memoria para no perder el envío
+  // (solo no se restaurará al recargar; se avisa al usuario).
+  if (trabajoSheets.indexOf(newSheet) === -1) {
+    trabajoSheets.push(newSheet);
+    trabajoActiveSheetIndex = trabajoSheets.length - 1;
+    showToast('⚠️ Dataset grande: se envió a Hoja de Trabajo, pero no cabe en el almacenamiento del navegador (no se restaurará al recargar).', true);
+  }
   loadPage('trabajo');
 }
 
