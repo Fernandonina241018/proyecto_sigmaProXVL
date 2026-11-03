@@ -1,18 +1,14 @@
 // Contrato TOTP con otplib v13 — la v13 eliminó `authenticator` y `verify`
-// pasó a ser async. server.js usa generateSecret/generateURI/verifySync:
-// este test fija esa API y el manejo de tokens inválidos (no debe lanzar
-// hacia el endpoint, donde un catch convertiría un bypass en 500).
+// pasó a ser async. Los helpers viven en backend/totp.js y server.js los
+// importa: este test ejercita el MISMO módulo de producción (no una copia),
+// además de fijar el manejo de tokens inválidos (no debe lanzar hacia el
+// endpoint, donde un catch convertiría un bypass en 500).
 const { test } = require('node:test');
 const assert = require('node:assert/strict');
-const { generateSecret, generateURI, generateSync, verifySync } = require('otplib');
-
-function verifyTOTP(token, secret) {
-    try {
-        return verifySync({ token: String(token), secret }).valid === true;
-    } catch {
-        return false;
-    }
-}
+const fs = require('node:fs');
+const path = require('node:path');
+const { generateSecret, generateURI, generateSync } = require('otplib');
+const { verifyTOTP, totpKeyuri } = require('../totp');
 
 test('generateSecret produce un secreto base32 compatible', () => {
     const secret = generateSecret();
@@ -21,13 +17,21 @@ test('generateSecret produce un secreto base32 compatible', () => {
     assert.match(secret, /^[A-Z2-7]+=*$/);
 });
 
-test('generateURI conserva el formato otpauth de la v12 (issuer + label)', () => {
+test('totpKeyuri conserva el formato otpauth de la v12 (issuer + label)', () => {
     const secret = generateSecret();
-    const uri = generateURI({ issuer: 'StatAnalyzer Pro', label: 'ana', secret });
+    const uri = totpKeyuri('ana', secret);
     assert.match(uri, /^otpauth:\/\/totp\//);
     assert.ok(uri.includes('StatAnalyzer%20Pro:ana'));
     assert.ok(uri.includes(`secret=${secret}`));
     assert.ok(uri.includes('issuer=StatAnalyzer%20Pro'));
+});
+
+test('totpKeyuri coincide con generateURI para el mismo issuer', () => {
+    const secret = generateSecret();
+    assert.equal(
+        totpKeyuri('ana', secret),
+        generateURI({ issuer: 'StatAnalyzer Pro', label: 'ana', secret })
+    );
 });
 
 test('verifyTOTP acepta el código vigente y rechaza uno incorrecto', () => {
@@ -42,4 +46,11 @@ test('verifyTOTP trata tokens mal formados como inválidos (no lanza)', () => {
     assert.equal(verifyTOTP('123', secret), false);
     assert.equal(verifyTOTP('', secret), false);
     assert.equal(verifyTOTP(undefined, secret), false);
+});
+
+test('server.js importa los helpers de ./totp (no los reimplementa)', () => {
+    const server = fs.readFileSync(path.join(__dirname, '..', 'server.js'), 'utf8');
+    assert.match(server, /require\(['"]\.\/totp['"]\)/);
+    assert.doesNotMatch(server, /function\s+verifyTOTP\s*\(/);
+    assert.doesNotMatch(server, /function\s+totpKeyuri\s*\(/);
 });

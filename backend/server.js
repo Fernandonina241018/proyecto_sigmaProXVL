@@ -39,8 +39,10 @@ const { ipKeyGenerator } = rateLimit;
 const helmet  = require('helmet');
 const compression = require('compression');
 // otplib v13 eliminó `authenticator`: API funcional + verificación explícita.
-// verifySync lanza con tokens mal formados → se tratan como código inválido.
-const { generateSecret, generateURI, verifySync } = require('otplib');
+// generateSecret se usa al enrolar; verifyTOTP/totpKeyuri viven en ./totp
+// para que los tests ejerciten el mismo código de producción.
+const { generateSecret } = require('otplib');
+const { verifyTOTP, totpKeyuri } = require('./totp');
 const QRCode  = require('qrcode');
 const { maskIP } = require('./ip-mask');
 const db      = require('./database');
@@ -53,20 +55,6 @@ const { createPdfRenderer, safePdfFilename } = require('./pdf-render');
 const pdfRenderer = createPdfRenderer();
 // tzOffset: minutos de Date.getTimezoneOffset() del firmante (UTC-local).
 function _signFecha(req) { return signStampTZ(new Date(), req.body && req.body.tzOffset); }
-
-// 2FA: verificación TOTP síncrona (otplib v13). Cualquier token mal formado
-// cuenta como inválido, igual que el `authenticator.verify` de v12.
-function verifyTOTP(token, secret) {
-    try {
-        return verifySync({ token: String(token), secret }).valid === true;
-    } catch {
-        return false;
-    }
-}
-
-function totpKeyuri(label, secret) {
-    return generateURI({ issuer: 'StatAnalyzer Pro', label, secret });
-}
 
 const app  = express();
 const PORT = process.env.PORT || 3000;
