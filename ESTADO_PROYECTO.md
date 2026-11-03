@@ -90,6 +90,26 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (SigmaProXVL) con spr
 
 ## CAMBIOS RECIENTES
 
+### 2026-11-02 (54): `/prompt` enruta a lote de dependencias
+
+**Qué:** Se añade una regla de enrutamiento al comando `/prompt` y la política operativa en `AGENTS.md` §5, **sin cambiar la naturaleza del optimizador**.
+
+- **`/prompt` 2.1.0:** nuevo PASO 2.9 que se activa solo con prompts sobre dependencias, Dependabot, PRs, checks o CI. Añade un bloque `<dependency_policy>` con lotes, orden de merge y verificación mínima; no ejecuta merges ni comandos `gh`.
+- **`AGENTS.md` §5:** agrupar patch/minor en un solo PR, majors en PR dedicado, rebase único al inicio del lote, React Doctor como advisory, prohibición de `--admin`/push directo y verificación mínima antes de mergear.
+- **Sin cambios de código ni workflows:** el sello y React Doctor siguen igual; la pausa del sello queda como decisión posterior.
+
+**Archivos afectados:**
+| Archivo | Cambio |
+|---------|--------|
+| `.opencode/commands/prompt.md` | Frontmatter 2.1.0, PASO 2.9, referencias de versión |
+| `AGENTS.md` | Nueva sección §5 “Lote de dependencias” |
+
+**Verificación:**
+```
+git diff --check → OK
+grep 2.1.0       → versión consistente (solo el changelog conserva 2.0.0)
+```
+
 ### 2026-11-02 (53): docx 8.5 → 9.15 (npm + CDN)
 
 **Qué:** Se actualiza la librería `docx` a **9.15.0** tanto en `package.json` como en el script CDN que usa la app, manteniendo la versión alineada entre tests y producción.

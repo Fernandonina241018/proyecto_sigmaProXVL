@@ -1,15 +1,16 @@
 ---
 description: Optimizar un prompt usando mejores prácticas de Anthropic
 agent: general
-version: 2.0.0
-last_updated: 2026-05-24
+version: 2.1.0
+last_updated: 2026-11-02
 changelog:
+  - "2.1.0: Enrutamiento a lote de dependencias (AGENTS.md §5)"
   - "2.0.0: Error handling, token budget, skill autogen, session state, validación aprendizaje, version control"
   - "1.0.0: Versión original"
 ---
 
 # 📋 Contexto del Proyecto StatAnalyzer Pro
-## Versión del comando: 2.0.0
+## Versión del comando: 2.1.0
 ## Estado de sesión: NUEVA
 
 ---
@@ -43,7 +44,7 @@ Antes de cualquier otra cosa, ejecuta este bloque de inicialización:
 
 ```
 SESSION_ID     = timestamp_ms + random_4char
-COMMAND_VERSION = "2.0.0"
+COMMAND_VERSION = "2.1.0"
 COMPLEXITY     = null  (se asigna en PASO 1.1)
 TOKEN_USED     = 0
 TOKEN_LIMIT    = null  (se asigna según COMPLEXITY)
@@ -315,7 +316,7 @@ TOKEN_BUDGET:       {TOKEN_USED} / {TOKEN_LIMIT}
 CONSTRAINTS:        {lista}
 CONFLICTS:          {ninguno | descripción}
 SESSION_ID:         {SESSION_ID}
-COMMAND_VERSION:    2.0.0
+COMMAND_VERSION:    2.1.0
 MODE:               {NORMAL | DEGRADED}
 ERRORS:             {ninguno | lista}
 ```
@@ -410,6 +411,17 @@ Con las skills cargadas, el contexto de Brain2 y el presupuesto asignado:
 
 ---
 
+### 2.9 ENRUTAMIENTO A LOTE DE DEPENDENCIAS
+
+Se activa **solo** si el prompt trata sobre dependencias, Dependabot, PRs, checks o CI.
+
+- Aplicar la sección **"Lote de dependencias"** de `AGENTS.md` (§5).
+- Añadir al prompt optimizado un bloque `<dependency_policy>` con: lotes, orden de merge y verificación mínima.
+- No ejecutar merges ni comandos `gh` desde `/prompt`: solo producir el plan.
+- Si el prompt no trata de dependencias, ignorar esta sección y mantener la optimización general.
+
+---
+
 ## PASO 3 — AUTO-EVALUACIÓN CON VALIDACIÓN (MEJORADO)
 
 ### 3.1 — Auto-evalúa tu respuesta
@@ -443,7 +455,7 @@ APRENDIZAJE = {
   session_id: SESSION_ID,
   fecha: fecha_actual,
   tokens_usados: TOKEN_USED,
-  command_version: "2.0.0"
+  command_version: "2.1.0"
 }
 ```
 
@@ -485,7 +497,7 @@ IF BLOCK_CONFLICTING_WRITES AND conflicto_detectado:
 ```markdown
 ### [{FECHA}] — Aprendizaje Prompt Engineering
 **Session ID:** {SESSION_ID}
-**Command version:** 2.0.0
+**Command version:** 2.1.0
 **Confianza:** {SCORE_CALIDAD}
 **Tokens usados:** {TOKEN_USED} / {TOKEN_LIMIT}
 
@@ -503,7 +515,7 @@ IF BLOCK_CONFLICTING_WRITES AND conflicto_detectado:
 IF brain2_disponible:
   actualizar SESION_BASE.md:
     last_session_id: SESSION_ID
-    last_command_version: "2.0.0"
+    last_command_version: "2.1.0"
     last_run: fecha_actual
     total_sessions: +1
     skills_autogeneradas_pendientes: [lista]
@@ -602,7 +614,7 @@ Al final de cada ejecución, calcular internamente:
 ```yaml
 session_metrics:
   id: {SESSION_ID}
-  command_version: "2.0.0"
+  command_version: "2.1.0"
   duration_estimate: "N tokens / velocidad_estimada"
   tokens:
     used: {TOKEN_USED}
@@ -629,5 +641,5 @@ Mostrar métricas al usuario **solo si** `DEBUG_MODE = true`.
 
 ---
 
-*StatAnalyzer Pro — Agent Command v2.0.0*
+*StatAnalyzer Pro — Agent Command v2.1.0*
 *Mejoras: Error handling · Token budget · Skill autogen · Session state · Validación aprendizaje · Version control*
