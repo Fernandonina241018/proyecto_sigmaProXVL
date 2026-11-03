@@ -90,6 +90,33 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (SigmaProXVL) con spr
 
 ## CAMBIOS RECIENTES
 
+### 2026-11-03 (224): Demo V2 — progreso visible del login (conexión, BD y 2FA)
+
+**Qué:** Se incorpora al repo el prototipo real **`login_sigmaproxvl_hibrido_v3.html`** (antes solo en `~/Descargas/chatgpt`) y se le añaden fases de progreso visibles durante el login. No toca el flujo real de autenticación.
+
+- **Fases:** “Conectando con el servidor…” → “Verificando usuario y contraseña…” (con mención explícita a la base de datos) → “Cargando perfil y sesión…”.
+- **2FA:** “Validando código 2FA…” y “Código válido. Cargando perfil…”.
+- **Servidor frío:** mantiene el escenario existente y muestra “Servidor listo.” al conectar.
+- **Escenarios del prototipo:** Normal, Recordado, Servidor frío, 2FA, Bloqueado, Sesión expirada, Nueva versión, Error, Éxito y Reiniciar demo.
+- Se reutiliza el `banner` existente del prototipo (`role`/estilos), sin añadir una UI paralela.
+
+**Archivos afectados:**
+| Archivo | Cambio |
+|---------|--------|
+| `login_sigmaproxvl_hibrido_v3.html` | **Nuevo en el repo** (prototipo V2) + fases de progreso en login y 2FA |
+
+**Verificación:**
+```
+Playwright (file://):
+- normal: “Conectando…” → “Verificando…” → 2FA OK
+- 2FA: “Validando código 2FA…” → vista de éxito
+- error: banner de credenciales incorrectas
+- servidor frío: fases + “Servidor listo.”
+Errores JS de consola → 0
+```
+
+**Pendiente:** trasladar las fases a `js/core/auth.js` + `css/core/auth-v2.css` (login real).
+
 ### 2026-11-02 (57): UI — botón "Nueva hoja" rediseñado + análisis ligado a la hoja de origen
 
 **Qué:**
