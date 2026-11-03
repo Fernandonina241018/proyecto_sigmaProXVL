@@ -1,16 +1,17 @@
 ---
 description: Optimizar un prompt usando mejores prácticas de Anthropic
 agent: general
-version: 2.1.0
-last_updated: 2026-11-02
+version: 2.2.0
+last_updated: 2026-11-03
 changelog:
+  - "2.2.0: Rutas portables de Brain2/skills, alias de skills y agent:check"
   - "2.1.0: Enrutamiento a lote de dependencias (AGENTS.md §5)"
   - "2.0.0: Error handling, token budget, skill autogen, session state, validación aprendizaje, version control"
   - "1.0.0: Versión original"
 ---
 
 # 📋 Contexto del Proyecto StatAnalyzer Pro
-## Versión del comando: 2.1.0
+## Versión del comando: 2.2.0
 ## Estado de sesión: NUEVA
 
 ---
@@ -44,7 +45,7 @@ Antes de cualquier otra cosa, ejecuta este bloque de inicialización:
 
 ```
 SESSION_ID     = timestamp_ms + random_4char
-COMMAND_VERSION = "2.1.0"
+COMMAND_VERSION = "2.2.0"
 COMPLEXITY     = null  (se asigna en PASO 1.1)
 TOKEN_USED     = 0
 TOKEN_LIMIT    = null  (se asigna según COMPLEXITY)
@@ -56,10 +57,15 @@ ERRORS         = []
 ### 0.1 — Verificar disponibilidad de Brain2
 
 ```
+BRAIN2_CANDIDATES = [
+  $SIGMA_BRAIN2,                                          ← override por entorno
+  ./Brain/Brain2,                                         ← repo (portable)
+  /mnt/g/My Drive/SigmaProWeb/proyecto_sigmaProXVL/Brain/Brain2  ← legado
+]
 TRY:
-  verificar acceso a /mnt/g/My Drive/SigmaProWeb/proyecto_sigmaProXVL/Brain/Brain2/
-  IF acceso OK → continuar con PASO 1
-  IF acceso FAIL → 
+  BRAIN2_ROOT = primera ruta de BRAIN2_CANDIDATES que exista
+  IF BRAIN2_ROOT != null → continuar con PASO 1
+  IF ninguna existe →
     ERRORS.push("Brain2 no disponible")
     MODE = "DEGRADED"  ← funciona sin contexto histórico
     WARN usuario: "Brain2 no está disponible. Continuaré sin contexto de sesiones previas."
@@ -209,13 +215,51 @@ Selecciona skills usando la siguiente matriz. Carga **TODAS** las que apliquen.
 ### 1.1.2 — SKILL LOADING PROTOCOL (CON AUTOGENERACIÓN)
 
 ```
+SIGMA_SKILLS = $SIGMA_SKILLS or .opencode/skills
+
+# Los nombres de la matriz son intenciones; ALIASES los resuelve a las
+# skills realmente instaladas en el repo.
+ALIASES = {
+  "api-design": "api-design-principles",
+  "nodejs-backend-patterns": "backend-architect",
+  "auth-security": "api-security-best-practices",
+  "web-performance": "performance-optimizer",
+  "pipeline-patterns": "data-engineering-data-pipeline",
+  "data-processing": "data-quality-frameworks",
+  "database-patterns": "database-architect",
+  "observability-patterns": "error-diagnostics-error-analysis",
+  "eval-design": "javascript-testing-patterns",
+  "containerization": "appdeploy",
+  "devops-patterns": "appdeploy",
+  "async-patterns": "backend-architect",
+  "realtime-patterns": "backend-architect",
+  "secrets-management": "api-security-best-practices",
+  "vercel-react-best-practices": "code-review-excellence",
+  "statistical-patterns": "analista-senior-validaciones-farmaceutica",
+  "frontend-design": "code-review-excellence",
+  "accessibility-patterns": "code-review-excellence",
+  "agent-patterns": "architecture-patterns",
+  "data-viz": "performance-optimizer",
+  "form-patterns": "code-review-excellence",
+  "motion-design": "code-review-excellence",
+  "prompt-optimization": "analista-senior-validaciones-farmaceutica",
+  "rag-patterns": "data-engineering-data-pipeline",
+  "state-management-patterns": "architecture-patterns"
+}
+
 FOR each skill IN selected_skills:
 
+  skill = ALIASES[skill] or skill
+
   PATH_PRIORITY = [
-    /mnt/skills/user/{skill}/SKILL.md,      ← MÁXIMA PRIORIDAD
-    /mnt/skills/private/{skill}/SKILL.md,   ← Alta prioridad
-    /mnt/skills/public/{skill}/SKILL.md,    ← Base
-    /mnt/skills/examples/{skill}/SKILL.md   ← Solo referencia
+    .opencode/skills/{skill}/SKILL.md,        ← repo (portable, se versiona)
+    $SIGMA_SKILLS/user/{skill}/SKILL.md,      ← override local
+    $SIGMA_SKILLS/public/{skill}/SKILL.md,    ← base local
+    $SIGMA_SKILLS/examples/{skill}/SKILL.md,  ← solo referencia
+    /mnt/skills/user/{skill}/SKILL.md,        ← legado
+    /mnt/skills/private/{skill}/SKILL.md,     ← legado
+    /mnt/skills/public/{skill}/SKILL.md,      ← legado
+    /mnt/skills/examples/{skill}/SKILL.md     ← legado
   ]
 
   skill_loaded = false
@@ -316,7 +360,7 @@ TOKEN_BUDGET:       {TOKEN_USED} / {TOKEN_LIMIT}
 CONSTRAINTS:        {lista}
 CONFLICTS:          {ninguno | descripción}
 SESSION_ID:         {SESSION_ID}
-COMMAND_VERSION:    2.1.0
+COMMAND_VERSION:    2.2.0
 MODE:               {NORMAL | DEGRADED}
 ERRORS:             {ninguno | lista}
 ```
@@ -455,7 +499,7 @@ APRENDIZAJE = {
   session_id: SESSION_ID,
   fecha: fecha_actual,
   tokens_usados: TOKEN_USED,
-  command_version: "2.1.0"
+  command_version: "2.2.0"
 }
 ```
 
@@ -497,7 +541,7 @@ IF BLOCK_CONFLICTING_WRITES AND conflicto_detectado:
 ```markdown
 ### [{FECHA}] — Aprendizaje Prompt Engineering
 **Session ID:** {SESSION_ID}
-**Command version:** 2.1.0
+**Command version:** 2.2.0
 **Confianza:** {SCORE_CALIDAD}
 **Tokens usados:** {TOKEN_USED} / {TOKEN_LIMIT}
 
@@ -515,7 +559,7 @@ IF BLOCK_CONFLICTING_WRITES AND conflicto_detectado:
 IF brain2_disponible:
   actualizar SESION_BASE.md:
     last_session_id: SESSION_ID
-    last_command_version: "2.1.0"
+    last_command_version: "2.2.0"
     last_run: fecha_actual
     total_sessions: +1
     skills_autogeneradas_pendientes: [lista]
@@ -614,7 +658,7 @@ Al final de cada ejecución, calcular internamente:
 ```yaml
 session_metrics:
   id: {SESSION_ID}
-  command_version: "2.1.0"
+  command_version: "2.2.0"
   duration_estimate: "N tokens / velocidad_estimada"
   tokens:
     used: {TOKEN_USED}
@@ -641,5 +685,5 @@ Mostrar métricas al usuario **solo si** `DEBUG_MODE = true`.
 
 ---
 
-*StatAnalyzer Pro — Agent Command v2.1.0*
+*StatAnalyzer Pro — Agent Command v2.2.0*
 *Mejoras: Error handling · Token budget · Skill autogen · Session state · Validación aprendizaje · Version control*

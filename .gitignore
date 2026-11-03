@@ -14,8 +14,15 @@ __pycache__/
 .DS_Store
 Thumbs.db
 
-# IDE
-.opencode/
+# IDE / agente
+# Se versionan el comando, los agentes y las skills; el resto de .opencode
+# (memoria, plugins, planes, node_modules) queda local.
+.opencode/*
+!.opencode/commands/
+!.opencode/agents/
+!.opencode/skills/
+.opencode/skills/*/*
+!.opencode/skills/*/SKILL.md
 Brain/
 **/.obsidian/
 

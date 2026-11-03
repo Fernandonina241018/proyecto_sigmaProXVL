@@ -5,6 +5,8 @@
 ### 1. Optimizar prompts con /prompt
 - **Todos los prompts del usuario deben ser optimizados automáticamente**
 - Usar el comando `/prompt` para optimizar antes de procesar
+- **Comando canónico:** `.opencode/commands/prompt.md` (v2.2.0). El antiguo `/prompt-ecc` es legado y no se usa para este flujo.
+- **Validación:** `npm run agent:check` verifica versión, Brain2 y que cada skill de la matriz resuelva a un `SKILL.md`.
 - Aplicar mejores prácticas de Anthropic:
   - Claridad y directitud
   - Contexto y motivación
