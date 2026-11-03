@@ -12,5 +12,5 @@ seaborn>=0.13.2
 requests>=2.34.2
 python-multipart>=0.0.9
 fastembed>=0.9.1
-shap>=0.45.0
+shap>=0.54.1
 scipy>=1.10.0
