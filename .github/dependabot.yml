@@ -31,11 +31,6 @@ updates:
     schedule:
       interval: weekly
     open-pull-requests-limit: 5
-    # numpy 2.5+ exige Python >=3.12 y la imagen ML usa python:3.11-slim.
-    # Revisar este ignore al mover la imagen a 3.12.
-    ignore:
-      - dependency-name: "numpy"
-        versions: [">=2.5.0"]
 
   - package-ecosystem: github-actions
     directory: "/"
