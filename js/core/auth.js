@@ -123,6 +123,44 @@ const Auth = (() => {
         }
     }
 
+    // ── Progreso visible del login ────────
+    // Fases del prototipo V2 trasladadas al login real: conexión, verificación
+    // en base de datos, carga de perfil/sesión y validación 2FA. El contenido
+    // se construye con textContent (nunca innerHTML) para no reinterpretar
+    // texto como HTML.
+    function _setAuthProgress(kind, title, detail, spinning) {
+        const el = document.getElementById('auth-progress');
+        if (!el) return;
+        if (!kind) {
+            el.hidden = true;
+            el.className = 'banner auth-progress';
+            el.replaceChildren();
+            return;
+        }
+        el.className = 'banner auth-progress ' + kind;
+        const frag = document.createDocumentFragment();
+        if (spinning) {
+            const spin = document.createElement('span');
+            spin.className = 'spin';
+            spin.setAttribute('aria-hidden', 'true');
+            frag.appendChild(spin);
+        }
+        const box = document.createElement('div');
+        if (title) {
+            const b = document.createElement('b');
+            b.textContent = title;
+            box.appendChild(b);
+        }
+        if (detail) {
+            const d = document.createElement('span');
+            d.textContent = (title ? ' ' : '') + detail;
+            box.appendChild(d);
+        }
+        frag.appendChild(box);
+        el.replaceChildren(frag);
+        el.hidden = false;
+    }
+
     function getToken() { return _token; }
 
     // ── Sesión ────────────────────────────
@@ -264,6 +302,7 @@ const Auth = (() => {
                 </svg>
             </div>
             ${reasonMsg?`<div class="auth-reason-msg">${reasonMsg}</div>`:''}
+            <div class="banner auth-progress" id="auth-progress" role="status" aria-live="polite" hidden></div>
             <div class="auth-spinner-container" id="auth-spinner-container">
                 <div class="auth-spinner" id="auth-spinner"></div>
             </div>
@@ -639,6 +678,7 @@ const Auth = (() => {
                         </div>
 
                         ${reasonMsg ? `<div class="banner" role="status">${reasonMsg}</div>` : ''}
+                        <div class="banner auth-progress" id="auth-progress" role="status" aria-live="polite" hidden></div>
 
                         <div id="auth-form-area">
                             <div class="remembered" id="av2-remembered" hidden aria-label="Sesión recordada. Toca para escribir tu contraseña" title="Toca para escribir tu contraseña">
@@ -1168,7 +1208,23 @@ const Auth = (() => {
         if(btnText) btnText.textContent='Iniciando sesión...';
         btn.disabled=true;
 
+        // Fases visibles: conexión → verificación en BD. El aviso de servidor
+        // frío aparece si el backend tarda (primer acceso en Render).
+        _setAuthProgress('info', 'Conectando con el servidor…', 'Estableciendo conexión segura con la API.', true);
+        const slowTimer = setTimeout(() => {
+            if (btn.disabled) {
+                _setAuthProgress('info', 'Servidor despertando…', 'El primer acceso puede tardar unos segundos.', true);
+            }
+        }, 6000);
+        const phase2 = setTimeout(() => {
+            if (btn.disabled) {
+                _setAuthProgress('info', 'Verificando usuario y contraseña…', 'La base de datos está comprobando tus credenciales.', true);
+            }
+        }, 350);
+
         const result=await _verifyCredentials(user,pass);
+        clearTimeout(phase2);
+        clearTimeout(slowTimer);
 
         // Ocultar indicador de carga
         if(spinnerEl) spinnerEl.classList.remove('active');
@@ -1185,14 +1241,17 @@ const Auth = (() => {
                 _clearProfileCache();
             }
             if (result.requires2FA) {
+                _setAuthProgress('info', 'Te enviamos al segundo paso.', 'El código caduca en 30 s.', false);
                 _show2FAInput(user, pass);
                 if(btnText) btnText.textContent='Iniciar sesión';
                 btn.disabled=false;
                 return;
             }
+            _setAuthProgress('ok', 'Acceso concedido.', 'Cargando perfil y sesión…', false);
             if (rememberCb && rememberCb.checked) _cacheProfileFromServer(result.username);
             _onLoginSuccess({username:result.username,role:result.role,mustChangePassword:result.mustChangePassword});
         } else {
+            _setAuthProgress('');
             const blocked=_registerFailedAttempt();
             if(!blocked){
                 errorEl.textContent=`❌ ${result.error||'Credenciales incorrectas.'}`;
@@ -1257,11 +1316,14 @@ const Auth = (() => {
 
             btn2fa.disabled = true;
             btn2faText.textContent = 'Verificando...';
+            _setAuthProgress('info', 'Validando código 2FA…', 'Comprobando el código con el servidor.', true);
 
             const result = await _verify2FA(code);
             if (result.ok) {
+                _setAuthProgress('ok', 'Código válido.', 'Cargando perfil y sesión…', false);
                 _show2FASuccess(result);
             } else {
+                _setAuthProgress('error', 'Código incorrecto.', 'Revisa la hora de tu dispositivo.', false);
                 errorEl.textContent = '❌ ' + (result.error || 'Código inválido. Intenta de nuevo.');
                 errorEl.style.display = 'block';
                 btn2fa.disabled = false;
@@ -1269,6 +1331,10 @@ const Auth = (() => {
                 totpInput.value = '';
                 totpInput.focus();
             }
+        });
+
+        totpInput.addEventListener('input', function() {
+            _setAuthProgress('');
         });
 
         totpInput.addEventListener('keydown', function(e) {
