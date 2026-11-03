@@ -285,6 +285,90 @@
     outline:2px solid var(--accent);
     outline-offset:2px;
   }
+  button.submit:disabled{
+    opacity:.72;
+    cursor:not-allowed;
+    filter:none;
+  }
+
+  /* ---------- Estado de progreso del login (demo) ---------- */
+  .btn-spinner{
+    width:15px; height:15px; flex-shrink:0;
+    border:2px solid rgba(255,255,255,.35);
+    border-top-color:#fff;
+    border-radius:50%;
+    animation:spin .7s linear infinite;
+  }
+  @keyframes spin{ to{ transform:rotate(360deg); } }
+
+  .login-progress{
+    display:flex; gap:11px; align-items:flex-start;
+    margin-top:14px; padding:12px 14px;
+    border:1px solid var(--border); border-radius:10px;
+    background:var(--surface-2); text-align:left;
+  }
+  .login-progress[hidden]{ display:none; }
+  .lp-spinner{
+    width:16px; height:16px; margin-top:1px; flex-shrink:0;
+    border:2px solid rgba(157,123,255,.28);
+    border-top-color:var(--accent);
+    border-radius:50%;
+    animation:spin .75s linear infinite;
+  }
+  .lp-icon{
+    width:18px; height:18px; margin-top:1px; flex-shrink:0;
+    display:flex; align-items:center; justify-content:center;
+    border-radius:50%; font-size:11px; font-weight:700;
+    background:rgba(52,211,153,.16); color:var(--ok);
+  }
+  .lp-icon.error{ background:rgba(248,113,113,.16); color:var(--danger); }
+  .lp-copy{ display:flex; flex-direction:column; min-width:0; }
+  .lp-title{ font-size:12px; font-weight:600; color:var(--text-1); }
+  .lp-detail{ margin-top:3px; font-size:11px; line-height:1.45; color:var(--text-2); }
+  .login-progress.ok{ border-color:rgba(52,211,153,.35); background:rgba(52,211,153,.07); }
+  .login-progress.error{ border-color:rgba(248,113,113,.4); background:rgba(248,113,113,.07); }
+
+  .demo-scenarios{
+    display:flex; align-items:center; justify-content:space-between; gap:10px;
+    margin-bottom:16px; padding:8px 10px;
+    border:1px dashed var(--border); border-radius:8px;
+  }
+  .demo-scenarios label{
+    font-family:'IBM Plex Mono', monospace; font-size:10px;
+    color:var(--text-3); text-transform:uppercase; letter-spacing:.06em;
+  }
+  .demo-scenarios select{
+    background:var(--surface-2); color:var(--text-1);
+    border:1px solid var(--border); border-radius:6px;
+    padding:5px 8px; font-family:'Inter', sans-serif; font-size:11px;
+    cursor:pointer;
+  }
+
+  .twofa-box{
+    margin-top:12px; padding:12px 14px;
+    border:1px solid rgba(157,123,255,.35); border-radius:10px;
+    background:rgba(157,123,255,.06);
+  }
+  .twofa-box[hidden]{ display:none; }
+  .twofa-box label{ display:block; font-size:11px; color:var(--text-2); margin-bottom:7px; }
+  .twofa-row{ display:flex; gap:8px; }
+  .twofa-row input{
+    flex:1; min-width:0; padding:9px 10px;
+    background:var(--surface); color:var(--text-1);
+    border:1px solid var(--border); border-radius:7px;
+    font-family:'IBM Plex Mono', monospace; font-size:14px; letter-spacing:.16em;
+  }
+  .twofa-row button{
+    padding:0 14px; border:none; border-radius:7px;
+    background:var(--accent-dim); color:#fff; font-family:'Inter', sans-serif;
+    font-size:12px; font-weight:600; cursor:pointer;
+  }
+
+  .field input:disabled{ opacity:.55; cursor:not-allowed; }
+
+  @media (prefers-reduced-motion: reduce){
+    .btn-spinner, .lp-spinner{ animation-duration:2.5s; }
+  }
 
   .form-foot{
     margin-top:22px;
@@ -340,9 +424,19 @@
       <h2>Iniciar sesión</h2>
       <p class="hint">Accede a tu panel de análisis estadístico.</p>
 
-      <div class="status-msg">
+      <div class="demo-scenarios">
+        <label for="demoScenario">Escenario de demo</label>
+        <select id="demoScenario">
+          <option value="success">Login correcto</option>
+          <option value="invalid">Credenciales incorrectas</option>
+          <option value="2fa">2FA requerido</option>
+          <option value="slow">Servidor lento / cold start</option>
+        </select>
+      </div>
+
+      <div class="status-msg" id="statusMsg">
         <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><path d="M9 12l2 2 4-4"/><circle cx="12" cy="12" r="9"/></svg>
-        Sesión cerrada correctamente.
+        Demo visual: así se verá el progreso al iniciar sesión.
       </div>
 
       <div class="field">
@@ -373,12 +467,30 @@
         <a href="#">¿Olvidaste tu contraseña?</a>
       </div>
 
-      <button class="submit" type="button">
-        Iniciar sesión
-        <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      <button class="submit" type="button" id="loginBtn">
+        <span class="btn-spinner" id="loginSpinner" hidden aria-hidden="true"></span>
+        <span id="loginBtnText">Iniciar sesión</span>
+        <svg id="loginArrow" viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
       </button>
 
-      <div class="form-foot">Sistema validado · GAMP 5 / Anexo 15 EU GMP</div>
+      <div class="login-progress" id="loginProgress" role="status" aria-live="polite" hidden>
+        <span class="lp-spinner" id="loginProgressSpinner" aria-hidden="true"></span>
+        <span class="lp-icon" id="loginProgressIcon" hidden aria-hidden="true"></span>
+        <span class="lp-copy">
+          <span class="lp-title" id="loginTitle"></span>
+          <span class="lp-detail" id="loginDetail"></span>
+        </span>
+      </div>
+
+      <div class="twofa-box" id="twofaBox" hidden>
+        <label for="demoTotp">Código de verificación (6 dígitos)</label>
+        <div class="twofa-row">
+          <input id="demoTotp" inputmode="numeric" maxlength="6" placeholder="123456" autocomplete="one-time-code">
+          <button type="button" id="demoTotpBtn">Validar</button>
+        </div>
+      </div>
+
+      <div class="form-foot" id="loginFoot">Sistema validado · GAMP 5 / Anexo 15 EU GMP</div>
     </div>
   </div>
 
@@ -387,6 +499,153 @@
     const input = document.getElementById('pass');
     input.type = input.type === 'password' ? 'text' : 'password';
   }
+
+  // ── Demo de progreso de login ─────────────────────────────────
+  // Simula las fases reales: conexión → verificación en BD → perfil.
+  // No hay backend: los tiempos y resultados son guionados.
+  const $ = (id) => document.getElementById(id);
+  const els = {
+    user: $('user'), pass: $('pass'), btn: $('loginBtn'),
+    spinner: $('loginSpinner'), btnText: $('loginBtnText'), arrow: $('loginArrow'),
+    box: $('loginProgress'), boxSpinner: $('loginProgressSpinner'),
+    boxIcon: $('loginProgressIcon'), title: $('loginTitle'), detail: $('loginDetail'),
+    twofa: $('twofaBox'), totp: $('demoTotp'), totpBtn: $('demoTotpBtn'),
+    scenario: $('demoScenario'), status: $('statusMsg'),
+  };
+
+  let demoTimers = [];
+  let demoBusy = false;
+  let demoFinished = false;
+
+  const later = (fn, ms) => demoTimers.push(setTimeout(fn, ms));
+  function clearTimers(){ demoTimers.forEach(clearTimeout); demoTimers = []; }
+
+  function showProgress(kind, title, detail){
+    els.box.hidden = false;
+    els.box.classList.remove('ok', 'error');
+    if (kind === 'ok') els.box.classList.add('ok');
+    if (kind === 'error') els.box.classList.add('error');
+    const loading = kind === 'loading';
+    els.boxSpinner.hidden = !loading;
+    els.boxIcon.hidden = loading;
+    if (!loading) {
+      els.boxIcon.textContent = kind === 'ok' ? '✓' : '!';
+      els.boxIcon.classList.toggle('error', kind === 'error');
+    }
+    els.title.textContent = title;
+    els.detail.textContent = detail;
+  }
+
+  function setBusy(on){
+    demoBusy = on;
+    els.btn.disabled = on;
+    els.user.disabled = on;
+    els.pass.disabled = on;
+    els.scenario.disabled = on;
+    const remember = document.querySelector('.remember input');
+    if (remember) remember.disabled = on;
+    els.spinner.hidden = !on;
+    els.arrow.style.display = on ? 'none' : '';
+    els.btn.setAttribute('aria-busy', on ? 'true' : 'false');
+    if (on) els.btnText.textContent = 'Verificando…';
+  }
+
+  function resetDemo(){
+    clearTimers();
+    setBusy(false);
+    demoFinished = false;
+    els.btnText.textContent = 'Iniciar sesión';
+    els.box.hidden = true;
+    els.box.classList.remove('ok', 'error');
+    els.twofa.hidden = true;
+    els.totp.value = '';
+  }
+
+  function finishError(message, hint){
+    clearTimers();
+    setBusy(false);
+    demoFinished = true;
+    els.btnText.textContent = 'Reintentar';
+    els.twofa.hidden = true;
+    showProgress('error', 'No se pudo iniciar sesión', message + (hint ? ' ' + hint : ''));
+  }
+
+  function finishSuccess(){
+    clearTimers();
+    setBusy(false);
+    demoFinished = true;
+    els.btnText.textContent = 'Probar de nuevo';
+    els.twofa.hidden = true;
+    showProgress('ok', 'Acceso concedido', 'Sesión iniciada correctamente. En la app real se abre el área de trabajo.');
+  }
+
+  function ask2FA(){
+    clearTimers();
+    setBusy(false);
+    els.btnText.textContent = 'Validar código';
+    showProgress('loading', 'Se requiere verificación 2FA', 'Abre tu app autenticadora e ingresa el código de 6 dígitos.');
+    els.twofa.hidden = false;
+    els.totp.focus();
+  }
+
+  function submit2FA(){
+    const code = els.totp.value.replace(/\D/g, '');
+    if (code.length !== 6) {
+      showProgress('error', 'Código incompleto', 'Ingresa los 6 dígitos del autenticador para continuar.');
+      return;
+    }
+    els.twofa.hidden = true;
+    setBusy(true);
+    els.btnText.textContent = 'Validando…';
+    showProgress('loading', 'Validando código 2FA…', 'Comprobando el código con el servidor.');
+    later(finishSuccess, 1100);
+  }
+
+  function startLogin(){
+    if (demoBusy) return;
+    if (!els.twofa.hidden) { submit2FA(); return; }
+
+    if (demoFinished) { resetDemo(); }
+
+    els.status.style.display = 'none';
+    els.box.hidden = true;
+    els.twofa.hidden = true;
+
+    const user = els.user.value.trim();
+    const pass = els.pass.value;
+    if (!user || !pass) {
+      showProgress('error', 'Faltan datos', 'Completa usuario y contraseña para iniciar sesión.');
+      return;
+    }
+
+    const scenario = els.scenario.value;
+    setBusy(true);
+    showProgress('loading', 'Conectando con el servidor…', 'Estableciendo conexión segura con la API.');
+
+    later(() => showProgress('loading', 'Verificando usuario y contraseña…', 'La base de datos está comprobando tus credenciales.'), 700);
+
+    if (scenario === 'invalid') {
+      later(() => finishError('Credenciales incorrectas.', 'Revisa tu usuario y contraseña. Quedan 2 intentos antes del bloqueo.'), 2000);
+    } else if (scenario === 'slow') {
+      later(() => showProgress('loading', 'El servidor está tardando…', 'Puede estar iniciando (cold start). Esperando respuesta, máximo 15 s.'), 4300);
+      later(finishSuccess, 7200);
+    } else if (scenario === '2fa') {
+      later(ask2FA, 2000);
+    } else {
+      later(() => {
+        showProgress('loading', 'Acceso concedido', 'Cargando perfil y sesión…');
+        later(finishSuccess, 800);
+      }, 2200);
+    }
+  }
+
+  els.btn.addEventListener('click', startLogin);
+  els.totpBtn.addEventListener('click', submit2FA);
+  [els.user, els.pass].forEach((input) => {
+    input.addEventListener('keydown', (e) => { if (e.key === 'Enter') startLogin(); });
+  });
+  els.totp.addEventListener('keydown', (e) => { if (e.key === 'Enter') submit2FA(); });
+  els.scenario.addEventListener('change', resetDemo);
 
   // Build an animated control-chart trace
   const data = [62,58,70,55,80,60,45,66,72,58,90,63,50,68,74,59,64,20,61,57];

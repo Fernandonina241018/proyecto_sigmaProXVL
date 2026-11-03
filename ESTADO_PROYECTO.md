@@ -90,6 +90,28 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (SigmaProXVL) con spr
 
 ## CAMBIOS RECIENTES
 
+### 2026-11-03 (224): Demo visual — progreso del login (conexión, verificación y 2FA)
+
+**Qué:** Se convierte `login_redesign.html` en un demo interactivo del nuevo estado de carga del login. No toca el flujo real de autenticación; sirve para validar la UX antes de implementarla en `auth.js`.
+
+- **Fases visibles:** “Conectando con el servidor…” → “Verificando usuario y contraseña…” (con mención a la BD) → “Cargando perfil y sesión…”.
+- **Escenarios de demo:** login correcto, credenciales incorrectas, 2FA requerido y servidor lento/cold start.
+- **Estados:** spinner en el botón, panel `role="status"` con `aria-live`, bloqueo de campos durante la petición, error con reintento y éxito con “Probar de nuevo”.
+- **2FA:** muestra un campo de 6 dígitos y valida el formato antes de simular la verificación.
+
+**Archivos afectados:**
+| Archivo | Cambio |
+|---------|--------|
+| `login_redesign.html` | CSS de spinner/progreso, markup de estados y JS de simulación |
+
+**Verificación:**
+```
+Playwright (file://) → éxito, error, 2FA y servidor lento OK
+Errores JS de consola → 0
+```
+
+**Pendiente:** llevar estas fases a `js/core/auth.js` + `css/core/auth-v2.css` (login real).
+
 ### 2026-11-02 (57): UI — botón "Nueva hoja" rediseñado + análisis ligado a la hoja de origen
 
 **Qué:**
