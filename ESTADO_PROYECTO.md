@@ -90,6 +90,28 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (SigmaProXVL) con spr
 
 ## CAMBIOS RECIENTES
 
+### 2026-11-02 (53): docx 8.5 → 9.15 (npm + CDN)
+
+**Qué:** Se actualiza la librería `docx` a **9.15.0** tanto en `package.json` como en el script CDN que usa la app, manteniendo la versión alineada entre tests y producción.
+
+- **CDN:** `https://unpkg.com/docx@9.15.0/dist/index.iife.js` con SRI `sha384-8A0gw8ft82PcQK9Ommzq9xdVFK2qKg0B0Litlg15crTee3LjNeWRPCySUrh8gCQB` (el path `build/index.umd.js` de v8 ya no existe en v9).
+- **TOC:** docx 9 genera entradas cacheadas del índice (`TOC2`) con el mismo texto que los encabezados. El test de saltos de página ahora filtra `Heading2` para no leer la entrada del índice.
+- **API usada:** solo `Document`, `Packer`, `Paragraph`, `TextRun`, `Table`, `TableRow`, `TableCell`, `HeadingLevel`, `AlignmentType` y `TableOfContents`; todas presentes en v9.
+- **Entorno local:** Playwright 1.64.1 (merge #40) requiere `npx playwright install chromium` para correr E2E.
+
+**Archivos afectados:**
+| Archivo | Cambio |
+|---------|--------|
+| `package.json` / `package-lock.json` | `docx` `^8.5.0` → `^9.15.0` |
+| `indexx.html` | CDN docx 9.15.0 + SRI nuevo |
+| `tests/generador-docx.test.js` | `h2Num` filtra `Heading2` (TOC2 de docx 9) |
+
+**Verificación:**
+```
+npm test        → 53 archivos, 678 tests OK
+npm run preflight → Vitest + backend 114 + E2E 9 OK
+```
+
 ### 2026-11-02 (52): Revocación explícita de object URL en `descargarDQ`
 
 **Qué:** Se guarda la URL del Blob en una variable local y se revoca esa misma URL, en lugar de leer `a.href` dentro del `setTimeout`. Elimina la advertencia de React Doctor (`no-create-object-url-without-revoke`) que bloqueaba el PR #41 por conversaciones sin resolver.

@@ -191,7 +191,10 @@ describe('SALTO_PAGINA en DQ: condición de salto por ensayo', () => {
     return m.secciones.find((s) => s.h1.startsWith('PROCEDIMIENTO')).contenido
       .filter((it) => it.t === 'ensayo');
   };
+  // docx 9 genera entradas cacheadas del índice (estilo TOC2) con el mismo
+  // texto que los encabezados; filtrar por Heading2 evita leer el índice.
   const h2Num = (xml, num) => [...xml.matchAll(/<w:p\b[\s\S]*?<\/w:p>/g)].map((x) => x[0])
+    .filter((p) => p.includes('<w:pStyle w:val="Heading2"/>'))
     .find((p) => p.replace(/<[^>]+>/g, '').trim().startsWith(num));
 
   test('tabla vacía: todos los ensayos abren página', async () => {
