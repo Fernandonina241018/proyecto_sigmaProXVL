@@ -1299,6 +1299,14 @@ function renameColumn(colIdx, newName) {
   _persistAllData();
 }
 
+// Un encabezado puede empezar por número ("1er Lote", "2ª Prueba", "3M",
+// "2024-Q1"). parseFloat() acepta el prefijo numérico y esas celdas se
+// clasificaban como datos; con letras detectamos el texto real sin ambigüedad
+// (y sin romper decimales locales como "1,5", que no contienen letras).
+function _celdaTieneLetras(val) {
+  return /[A-Za-zÀ-ÖØ-öø-ÿªº]/.test(String(val == null ? '' : val));
+}
+
 function handleCellPaste(event, rowIdx, colIdx) {
   event.preventDefault();
   event.stopPropagation();
@@ -1316,14 +1324,7 @@ function handleCellPaste(event, rowIdx, colIdx) {
   });
   if (parsedData.length === 0) return;
   var firstRow = parsedData[0];
-  var hasTextHeaders = false;
-  for (var i = 0; i < firstRow.length; i++) {
-    var val = firstRow[i];
-    if (val !== '' && isNaN(parseFloat(val))) {
-      hasTextHeaders = true;
-      break;
-    }
-  }
+  var hasTextHeaders = firstRow.some(_celdaTieneLetras);
   var dataToInsert = parsedData;
   if (hasTextHeaders && rowIdx === 0) {
     var numCols = firstRow.length;

@@ -59,3 +59,60 @@ describe('Panel trabajo: teclado en filas .mr', () => {
     expect(hits).toEqual(['trabajo']);
   });
 });
+
+describe('Pegar en la rejilla: detección de encabezados', () => {
+  test('_celdaTieneLetras reconoce encabezados con prefijo numérico', () => {
+    const { sandbox } = loadTrabajoHarness();
+    const tieneLetras = (v) => vm.runInContext(
+      `_celdaTieneLetras(${JSON.stringify(v)})`, sandbox
+    );
+    ['1er Lote', '2ª prueba', '3M', '2024-Q1', '5 mg', 'Lote 1', 'A']
+      .forEach((v) => expect(tieneLetras(v), v).toBe(true));
+    ['123', '1,5', '2024-01', '-2.5', '', null]
+      .forEach((v) => expect(tieneLetras(v), String(v)).toBe(false));
+  });
+
+  test('al pegar en A1 los encabezados con número inicial ya no se insertan como datos', () => {
+    const { sandbox } = loadTrabajoHarness();
+    vm.runInContext(`
+      var __sheet = { headers: ['Col1', 'Col2', 'Col3'], rows: [], locked: false };
+      getCurrentSheet = function () { return __sheet; };
+      pushUndo = function () {};
+      loadPage = function () {};
+    `, sandbox);
+    const paste = (text) => {
+      vm.runInContext('__pasteText = ' + JSON.stringify(text), sandbox);
+      vm.runInContext(`
+        handleCellPaste({
+          preventDefault: function () {},
+          stopPropagation: function () {},
+          clipboardData: { getData: function () { return __pasteText; } }
+        }, 0, 0);
+      `, sandbox);
+    };
+
+    paste('1er Lote\t2ª Prueba\t3M\n1\t2\t3');
+    expect(vm.runInContext('__sheet.headers', sandbox)).toEqual(['1er Lote', '2ª Prueba', '3M']);
+    expect(vm.runInContext('JSON.stringify(__sheet.rows[0])', sandbox)).toBe('["1","2","3"]');
+  });
+
+  test('una primera fila numérica sigue siendo dato (sin encabezados falsos)', () => {
+    const { sandbox } = loadTrabajoHarness();
+    vm.runInContext(`
+      var __sheet = { headers: ['A', 'B', 'C'], rows: [], locked: false };
+      getCurrentSheet = function () { return __sheet; };
+      pushUndo = function () {};
+      loadPage = function () {};
+    `, sandbox);
+    vm.runInContext(`
+      __pasteText = '1.5\\t2.3\\t3.4';
+      handleCellPaste({
+        preventDefault: function () {},
+        stopPropagation: function () {},
+        clipboardData: { getData: function () { return __pasteText; } }
+      }, 0, 0);
+    `, sandbox);
+    expect(vm.runInContext('JSON.stringify(__sheet.headers)', sandbox)).toBe('["A","B","C"]');
+    expect(vm.runInContext('JSON.stringify(__sheet.rows[0])', sandbox)).toBe('["1.5","2.3","3.4"]');
+  });
+});
