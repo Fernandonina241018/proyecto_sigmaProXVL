@@ -28,7 +28,7 @@ jobs:
       - run: npm ci
       - name: Frontend unit (vitest)
         run: npm test
-      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6
+      - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0
         with:
           python-version: '3.11'
       # El E2E arranca `node backend/server.js` → necesita las deps del
@@ -80,7 +80,7 @@ jobs:
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       # OPT-8: gate mínimo — el servicio no debe ni compilar roto
-      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6
+      - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0
         with:
           python-version: '3.11'
       - run: python -m py_compile ml_service/main.py ml_service/drift_worker.py ml_service/nlp_models.py
