@@ -1,0 +1,1345 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark">
+<title>POWERED FOR COMPLIANCE · 21 CFR Part 11 — Login (prototipo v3)</title>
+<style>
+:root{
+  color-scheme:dark;
+  --bg:#10111a;--panel:#1d1c2a;--panel2:#171823;--line:#3b3950;
+  --text:#f4f2ff;--muted:#a9a7c0;--soft:#9a98b4;
+  --violet:#9b86ff;--violet2:#765de8;--red:#ff8f99;--redbg:#3a2028;
+  --green:#62d9a5;--greenbg:#14372e;--amber:#ffc16f;--amberbg:#3a2f1c;
+  --radius:20px;--ring:0 0 0 3px rgba(155,134,255,.18);
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html,body{min-height:100%}
+body{
+  margin:0;min-height:100vh;color:var(--text);
+  font:14px/1.5 Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;
+  background:
+    radial-gradient(ellipse at 16% 10%,#32264a 0,transparent 38%),
+    radial-gradient(ellipse at 88% 90%,#1a2a3a 0,transparent 40%),
+    var(--bg);
+  display:flex;flex-direction:column;
+}
+.bg{position:fixed;inset:0;overflow:hidden;pointer-events:none;z-index:0}
+.bg span{position:absolute;color:#fff;opacity:.10;font:700 22px ui-monospace,Consolas,monospace;animation:float 12s ease-in-out infinite alternate}
+@keyframes float{to{transform:translateY(-16px)}}
+.shell{position:relative;z-index:1;display:flex;flex-direction:column;min-height:100vh}
+
+/* ── Topbar ── */
+.topbar{width:min(1060px,100%);margin:0 auto;padding:20px 24px;display:flex;align-items:center;justify-content:space-between;gap:14px}
+.brand{display:flex;align-items:center;gap:11px;min-width:0}
+.brand-mark{width:40px;height:40px;display:grid;place-items:center;border-radius:12px;background:linear-gradient(145deg,#a18aff,#6850d7);color:#fff;box-shadow:0 8px 22px #8065ff33;flex:none}
+.brand-name{font-size:11.5px;font-weight:850;letter-spacing:.055em;text-transform:uppercase;line-height:1.2}
+.brand-sub{font-size:8.5px;color:var(--muted);letter-spacing:.17em;text-transform:uppercase;margin-top:2px}
+.secure-pill{display:inline-flex;align-items:center;gap:7px;padding:6px 10px;border:1px solid #4b4764;border-radius:999px;background:#ffffff05;color:#cbc7e2;font-size:10.5px;white-space:nowrap}
+.secure-pill svg{color:var(--green)}
+
+/* ── Layout ── */
+main{flex:1;display:grid;place-items:center;padding:10px 18px 30px}
+.card-shell{position:relative;width:min(480px,100%)}
+.card{
+  position:relative;width:100%;overflow:hidden;
+  padding:28px 30px 18px;border:1px solid #51476e;border-radius:var(--radius);
+  background:
+    radial-gradient(ellipse at 100% 0%,rgba(133,105,255,.14),transparent 44%),
+    linear-gradient(145deg,#242232,#1b1b27 74%);
+  box-shadow:0 26px 80px #0007,inset 0 1px #ffffff0a;
+}
+.card:before{content:"";position:absolute;inset:0 0 auto;height:1px;background:linear-gradient(90deg,transparent,#c4b5ff66,transparent);pointer-events:none}
+
+/* Nueva versión disponible: el contorno de la tarjeta se resalta */
+.card.has-update{
+  border-color:#c2b3ff;
+  box-shadow:0 0 0 2px #b9a8ff66,0 0 0 9px #9b86ff1f,0 0 34px #9b86ff2e,0 26px 80px #0007,inset 0 1px #ffffff14;
+  animation:updateGlow 2.4s ease-in-out infinite;
+}
+@keyframes updateGlow{
+  50%{box-shadow:0 0 0 1px #c4b5ff99,0 0 0 11px #9b86ff26,0 26px 80px #0007,inset 0 1px #ffffff18}
+}
+.update{
+  display:flex;align-items:center;gap:10px;padding:9px 10px 9px 11px;margin:0 0 13px;
+  border:1px solid #8f7dff;border-radius:11px;
+  background:radial-gradient(ellipse at 0% 0%,#9b86ff24,transparent 70%),#9b86ff0f;
+  box-shadow:0 0 0 3px #9b86ff10;
+}
+.update-dot{width:7px;height:7px;border-radius:50%;background:var(--violet);box-shadow:0 0 0 4px #9b86ff22,0 0 10px #9b86ff;flex:none;animation:pulseDot 1.8s ease-in-out infinite}
+@keyframes pulseDot{50%{box-shadow:0 0 0 7px #9b86ff10,0 0 12px #9b86ff}}
+.update-copy{flex:1;min-width:0;display:flex;flex-direction:column;gap:1px;line-height:1.35}
+.update-copy b{font-size:11px;color:#ded5ff;letter-spacing:.01em}
+.update-copy span{font-size:9.5px;color:#a9a2c9;font-variant-numeric:tabular-nums}
+.update-btn{
+  flex:none;height:30px;padding:0 11px;border:1px solid #b3a1ff77;border-radius:8px;
+  background:linear-gradient(135deg,#9278ff,#755ce6);color:#fff;font:800 10.5px inherit;cursor:pointer;
+  transition:filter .15s,transform .15s;
+}
+.update-btn:hover{filter:brightness(1.1)}
+.update-btn:active{transform:translateY(1px)}
+.update-btn:disabled{opacity:.7;cursor:wait;transform:none}
+
+/* ── Botón y panel de información del proyecto ── */
+.card-info{
+  position:absolute;top:18px;right:18px;z-index:6;
+  width:30px;height:30px;display:grid;place-items:center;
+  border:1px solid #4e4768;border-radius:9px;background:#ffffff06;color:#c9c3e6;
+  cursor:pointer;transition:border-color .16s,background .16s,color .16s,transform .16s;
+}
+.card-info:hover{border-color:#8f7dff;background:#9b86ff1a;color:#fff}
+.card-info:active{transform:translateY(1px)}
+.card-info[aria-expanded="true"]{border-color:#a18aff;background:#9b86ff24;color:#fff;box-shadow:0 0 0 3px #9b86ff14}
+
+.project-info{
+  position:absolute;top:52px;right:0;z-index:30;
+  width:min(340px,100%);padding:16px 18px 15px;
+  border:1px solid #5b4f86;border-radius:15px;
+  background:
+    radial-gradient(ellipse at 100% 0%,#9b86ff26,transparent 55%),
+    linear-gradient(160deg,#28243c,#1c1b28 78%);
+  box-shadow:0 22px 60px #000a,0 0 0 1px #ffffff08,0 0 30px #9b86ff1f;
+  color:var(--text);text-align:left;
+  animation:projectIn .18s ease-out;
+}
+@keyframes projectIn{from{opacity:0;transform:translateY(-6px) scale(.985)}to{opacity:1;transform:none}}
+.project-close{position:absolute;top:10px;right:10px;width:26px;height:26px;display:grid;place-items:center;border:1px solid transparent;border-radius:8px;background:transparent;color:#a9a2c9;font-size:16px;line-height:1;cursor:pointer}
+.project-close:hover{background:#ffffff0b;color:#fff;border-color:#4e4768}
+.pi-kicker{display:block;padding-right:26px;font-size:7.5px;font-weight:850;letter-spacing:.13em;text-transform:uppercase;color:#bfb3ff}
+.project-info h2{margin:4px 0 0;font-size:16.5px;letter-spacing:-.02em;font-weight:820}
+.pi-desc{margin:6px 0 0;font-size:10.5px;line-height:1.5;color:#b8b3cf}
+.pi-meta{display:grid;gap:7px;margin:13px 0 0;padding-top:11px;border-top:1px solid #ffffff10}
+.pi-meta div{display:grid;grid-template-columns:70px 1fr;gap:8px;align-items:baseline}
+.pi-meta dt{font-size:7.5px;font-weight:850;letter-spacing:.1em;text-transform:uppercase;color:#8f8ba8}
+.pi-meta dd{margin:0;font-size:10.5px;color:#dcd8ee;line-height:1.4}
+.pi-note{margin:12px 0 0;padding-top:9px;border-top:1px solid #ffffff0d;font-size:8.5px;color:#8f8ba8;line-height:1.4}
+
+/* ── Cabecera de la tarjeta ── */
+.card-head{display:flex;align-items:center;gap:13px;margin-bottom:20px;padding-right:34px}
+.card-icon{width:42px;height:42px;display:grid;place-items:center;border:1px solid #a18aff45;border-radius:13px;background:#9478ff20;color:#c9bdff;flex:none}
+.card-head h1{margin:0;font-size:18px;letter-spacing:-.03em;font-weight:820}
+.card-head p{margin:2px 0 0;color:var(--muted);font-size:11.5px}
+
+/* ── Banners ── */
+.banner{display:flex;align-items:flex-start;gap:9px;padding:9px 11px;margin:0 0 13px;border:1px solid var(--line);border-radius:10px;background:#ffffff05;color:#cbc7e2;font-size:11px;line-height:1.5}
+.banner svg{flex:none;margin-top:1px}
+.banner.info{border-color:#4f4a75;background:#9b86ff0e;color:#cfc6f2}
+.banner.warn{border-color:#8a6b2f;background:var(--amberbg);color:#ffd79b}
+.banner.error{border-color:#8e4653;background:var(--redbg);color:#ffb3ba}
+.banner.ok{border-color:#398f70;background:var(--greenbg);color:#8fe8c4}
+.banner .spin{width:13px;height:13px;border:2px solid currentColor;border-right-color:transparent;border-radius:50%;animation:spin .7s linear infinite;flex:none;margin-top:1px}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* ── Usuario recordado (tarjeta ampliada) ── */
+.remembered{
+  position:relative;display:block;padding:15px 15px 13px;margin:0 0 14px;overflow:hidden;cursor:pointer;
+  border:1px solid #5b507d;border-radius:15px;
+  background:
+    radial-gradient(ellipse at 0% 0%,#9b86ff24,transparent 58%),
+    linear-gradient(115deg,#9b86ff10,#ffffff03 55%,#62d9a508);
+  box-shadow:inset 0 1px #ffffff10,0 6px 18px #0002;
+  transition:transform .18s,border-color .18s,box-shadow .18s;
+}
+.remembered:hover{
+  transform:translateY(-1px);border-color:#8f7dff;
+  box-shadow:inset 0 1px #ffffff14,0 12px 30px #8065ff1f,0 0 0 3px #9b86ff10;
+}
+.remembered:active{transform:translateY(0) scale(.995)}
+.remembered:after{
+  content:"";position:absolute;top:0;bottom:0;left:-70%;width:45%;pointer-events:none;
+  background:linear-gradient(100deg,transparent,#ffffff14,transparent);
+  transform:skewX(-16deg);transition:left .55s ease;
+}
+.remembered:hover:after{left:125%}
+.remembered.leaving{opacity:0;transform:translateY(-6px) scale(.98);transition:opacity .18s,transform .18s}
+
+.rem-top{display:flex;align-items:center;gap:12px}
+.rem-avatar-wrap{position:relative;width:54px;height:54px;flex:none;display:grid;place-items:center}
+.rem-ring{
+  position:absolute;inset:0;border-radius:16px;
+  background:conic-gradient(from 0deg,#9b86ff,#62d9a5,#7f6cff,#9b86ff);
+  opacity:.6;animation:ringSpin 8s linear infinite;
+}
+@keyframes ringSpin{to{transform:rotate(360deg)}}
+.rem-avatar-wrap:after{content:"";position:absolute;inset:3px;border-radius:13px;background:#1b1b27}
+.rem-avatar-wrap .avatar{
+  position:relative;z-index:2;width:42px;height:42px;border-radius:11px;font-size:14px;
+  background:linear-gradient(145deg,#9b86ff,#6d56d9);color:#fff;
+  box-shadow:0 4px 12px #8065ff33;transition:transform .18s;
+}
+.remembered:hover .avatar{transform:scale(1.05)}
+.rem-status{
+  position:absolute;right:0;bottom:0;z-index:3;width:11px;height:11px;border-radius:50%;
+  background:var(--green);border:2px solid #1b1b27;box-shadow:0 0 0 0 #62d9a566;
+  animation:statusPulse 2.2s ease-out infinite;
+}
+@keyframes statusPulse{0%{box-shadow:0 0 0 0 #62d9a55c}70%{box-shadow:0 0 0 7px #62d9a500}100%{box-shadow:0 0 0 0 #62d9a500}}
+
+.rem-identity{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px}
+.rem-eyebrow{font-size:8px;font-weight:850;letter-spacing:.13em;text-transform:uppercase;color:#bfb3ff}
+.rem-name{font-size:15px;font-weight:820;letter-spacing:-.015em;line-height:1.2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.rem-user{font-size:10.5px;color:#a9a2c9;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.rem-tags{display:flex;gap:4px;flex-wrap:wrap;margin-top:3px}
+.rem-tag{
+  font-size:8px;font-weight:800;letter-spacing:.03em;padding:1px 6px;border-radius:99px;
+  border:1px solid #ffffff14;background:#ffffff06;color:#b8b3cf;white-space:nowrap;
+}
+.rem-tag.role{border-color:#9b86ff44;background:#9b86ff14;color:#cbbfff}
+.rem-change{
+  flex:none;display:inline-flex;align-items:center;gap:5px;height:30px;padding:0 9px;
+  border:1px solid #4e4a6a;border-radius:9px;background:#ffffff05;color:#c9c3e6;
+  font:750 9.5px inherit;cursor:pointer;transition:.16s;
+}
+.rem-change:hover{border-color:#8f7dff;background:#9b86ff1a;color:#fff}
+.rem-change svg{flex:none}
+
+.rem-access{
+  display:flex;align-items:center;gap:6px;flex-wrap:wrap;
+  margin-top:9px;padding-top:8px;border-top:1px solid #ffffff0f;
+  font-size:9.5px;color:#aaa5c4;
+}
+.rem-access svg{flex:none;opacity:.8}
+.rem-access b{font-size:8px;font-weight:850;letter-spacing:.1em;text-transform:uppercase;color:#8f8ba8}
+.rem-access i{font-style:normal;opacity:.5}
+.rem-access span{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.rem-access strong{color:#dcd8ee;font-weight:650;font-variant-numeric:tabular-nums}
+.rem-access.rem-stats{margin-top:4px;padding-top:0;border-top:0;display:block;line-height:1.5}
+.rem-access.rem-stats svg{display:inline-block;vertical-align:-1px;margin-right:4px}
+.rem-access.rem-stats span{display:inline}
+.rem-foot{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-top:11px}
+.rem-badge{
+  display:inline-flex;align-items:center;gap:4px;padding:2px 7px;border-radius:99px;
+  border:1px solid #62d9a533;background:#62d9a512;color:#8fe8c4;
+  font-size:8.5px;font-weight:850;letter-spacing:.03em;
+}
+.rem-badge.off{border-color:#ffffff14;background:#ffffff06;color:#9f9cb8}
+.rem-note{font-size:8.5px;color:#8f8daa}
+
+/* ── Campos ── */
+.field{margin-bottom:14px}
+.field-group{margin-bottom:14px}
+.field-group .field.stacked{margin:0}
+.field-group .error{margin:6px 0 0}
+.field-group .caps{margin:7px 0 0}
+.label-row{display:flex;align-items:center;justify-content:space-between;gap:8px;margin:0 0 6px}
+
+/* Campo con etiqueta interna + icono (variante A) */
+.field.stacked{
+  position:relative;height:56px;overflow:hidden;
+  border:1px solid #414056;border-radius:11px;background:#151722;
+  transition:border-color .16s,box-shadow .16s,background .16s;
+}
+.field.stacked:focus-within{border-color:#a18aff;box-shadow:var(--ring);background:#171a28}
+.field.stacked.is-invalid{border-color:var(--red);box-shadow:0 0 0 3px #ff8f9914}
+.field.stacked.pulse{animation:fieldPulse .9s ease-out}
+@keyframes fieldPulse{0%{box-shadow:0 0 0 0 #9b86ff55}55%{box-shadow:0 0 0 6px #9b86ff18}100%{box-shadow:var(--ring)}}
+.remembered.entering{animation:remIn .34s ease-out}
+@keyframes remIn{from{opacity:0;transform:translateY(6px) scale(.985)}to{opacity:1;transform:none}}
+.field.stacked label{
+  position:absolute;left:40px;top:7px;margin:0;pointer-events:none;
+  font-size:9px;font-weight:800;letter-spacing:.09em;text-transform:uppercase;color:#9c99b6;
+}
+.field.stacked:focus-within label{color:#c3b6ff}
+.field.stacked input{
+  position:absolute;inset:0;width:100%;height:100%;
+  border:0;border-radius:0;background:transparent;padding:18px 14px 0 40px;
+  font-size:13.5px;box-shadow:none;
+}
+.field.stacked input::placeholder{color:#7d7b95}
+.field.stacked input:focus{background:transparent;border:0;box-shadow:none}
+.field.stacked input:focus-visible{outline:none}
+.field.stacked input[aria-invalid=true]{border:0;box-shadow:none}
+.field.stacked .f-ic{position:absolute;left:13px;top:18px;color:#8f8cb0;pointer-events:none}
+.field.stacked:focus-within .f-ic{color:#c3b6ff}
+.field.stacked.pw input{padding-right:46px}
+.field.stacked .eye{top:9px;right:6px;width:36px;height:36px}
+label{font-size:10.5px;color:#cfcbe6;font-weight:750;letter-spacing:.01em}
+.inline-link{border:0;background:none;padding:2px 0;color:#c3b6ff;font:700 10.5px inherit;cursor:pointer;text-decoration:none}
+.inline-link:hover{text-decoration:underline;text-underline-offset:3px}
+.input-wrap{position:relative}
+.field input{
+  width:100%;height:44px;padding:0 13px;border:1px solid #414056;border-radius:10px;
+  background:#12141e;color:var(--text);outline:none;font:inherit;font-size:13.5px;
+  transition:border-color .16s,box-shadow .16s,background .16s;
+}
+.field input::placeholder{color:#7d7b95}
+.field input:hover{border-color:#4f4c66}
+.field input:focus{border-color:#a18aff;box-shadow:var(--ring);background:#141622}
+.field input[aria-invalid=true]{border-color:var(--red);box-shadow:0 0 0 3px #ff8f9914}
+.password-input{padding-right:48px!important}
+.eye{position:absolute;right:4px;top:4px;width:36px;height:36px;display:grid;place-items:center;border:0;border-radius:8px;background:transparent;color:#aaa7c4;cursor:pointer}
+.eye:hover{background:#ffffff0b;color:#fff}
+.eye:active{background:#ffffff13}
+.error{margin:6px 0 0;color:#ffa3ab;font-size:10.5px}
+.caps{display:flex;align-items:center;gap:6px;margin:7px 0 0;color:var(--amber);font-size:10.5px;font-weight:650}
+.caps svg{flex:none}
+
+/* ── Opciones y botón ── */
+.options{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap;margin:2px 0 16px}
+.check{display:inline-flex;align-items:center;gap:8px;color:#b6b3cb;font-size:11px;cursor:pointer}
+.check input{width:15px;height:15px;margin:0;accent-color:var(--violet)}
+.options .hint{font-size:9.5px;color:#8f8daa}
+.primary{
+  width:100%;height:48px;display:flex;align-items:center;justify-content:center;gap:9px;
+  border:1px solid #a895ff65;border-radius:11px;cursor:pointer;
+  background:linear-gradient(115deg,#9278ff,#755ce6);box-shadow:0 8px 22px #7054db2e;
+  color:#fff;font:800 12.5px inherit;transition:transform .16s,filter .16s,opacity .16s;
+}
+.primary:hover:not(:disabled){transform:translateY(-1px);filter:brightness(1.08)}
+.primary:active:not(:disabled){transform:translateY(0)}
+.primary:disabled{opacity:.62;cursor:not-allowed;transform:none}
+.primary .spin{width:14px;height:14px;border:2px solid #ffffff7d;border-right-color:transparent;border-radius:50%;animation:spin .7s linear infinite}
+
+/* ── Pie de tarjeta ── */
+.card-foot{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;margin-top:18px;padding-top:11px;border-top:1px solid #ffffff0d;color:var(--soft);font-size:10px;text-align:center;line-height:1.45}
+.foot-main{display:flex;flex-direction:column;align-items:center;gap:5px;min-width:0}
+.foot-line{display:flex;align-items:center;justify-content:center;gap:6px;flex-wrap:wrap}
+.card-foot svg{color:var(--green);flex:none}
+.foot-sep{opacity:.45}
+.version-chip{
+  border:1px solid #ffffff14;border-radius:6px;background:#ffffff05;color:#9f9cb8;
+  font:700 9.5px ui-monospace,Consolas,monospace;letter-spacing:.02em;
+  padding:2px 6px;cursor:pointer;transition:.15s;
+}
+.version-chip:hover{border-color:#8f7dff;background:#9b86ff12;color:#d8ccff}
+.version-chip:active{transform:translateY(1px)}
+.help-link{border:0;background:none;color:#b8abff;font:700 10px inherit;cursor:pointer;text-decoration:underline;text-underline-offset:2px}
+
+/* ── QR en la esquina de la tarjeta recordada ── */
+.session-qr{position:absolute;right:11px;bottom:9px;z-index:2;display:flex;flex-direction:column;align-items:center}
+.qr-box{
+  width:60px;height:60px;padding:3px;border-radius:8px;
+  background:linear-gradient(145deg,#f6f0ff,#ddceff 72%,#cdbaff);
+  box-shadow:0 0 0 1px #9b86ff59,0 3px 10px #0005,0 0 16px #9b86ff33,inset 0 0 0 1px #ffffffa6;
+}
+.qr-box svg{display:block;width:100%;height:100%}
+.qr-box svg rect{fill:transparent}
+.rem-access.rem-stats,.rem-foot{padding-right:66px}
+@media(max-width:380px){
+  .session-qr{right:9px;bottom:8px}
+}
+
+/* ── Paneles secundarios ── */
+.panel{animation:none}
+.back{display:inline-flex;align-items:center;gap:6px;margin:0 0 14px;padding:0;border:0;background:none;color:#c3b6ff;font:750 10.5px inherit;cursor:pointer}
+.back:hover{color:#fff}
+.panel h2{margin:0 0 5px;font-size:15px;letter-spacing:-.02em}
+.panel .copy{margin:0 0 14px;color:var(--muted);font-size:11.5px;line-height:1.6}
+.code-input{letter-spacing:.42em;text-align:center;font-size:19px!important;font-variant-numeric:tabular-nums;padding-left:.42em}
+.mfa-actions{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-top:12px}
+.support-box{padding:10px 11px;margin:10px 0 0;border:1px dashed #4a4763;border-radius:10px;background:#ffffff04;font-size:10.5px;color:#b9b6cf;line-height:1.6}
+.summary{border:1px solid #ffffff12;border-radius:12px;margin:0 0 14px;background:#ffffff04}
+.summary p{margin:0;padding:9px 11px;font-size:11px;line-height:1.5;color:var(--muted)}
+.summary p+p{border-top:1px solid #ffffff0d}
+.summary b{color:var(--text)}
+.summary .warnline{color:#ffd79b;background:#ffc16f0a}
+
+/* ── Footer de página ── */
+.page-foot{width:min(1060px,100%);margin:0 auto;padding:0 24px 18px;display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;color:#8f8daa;font-size:9.5px}
+.page-foot a{color:#a7a3c2;text-decoration:none}
+.page-foot a:hover{color:#d6ceff}
+
+/* ── Panel de desarrollo ── */
+.dev{position:fixed;right:16px;bottom:16px;z-index:5;width:min(260px,calc(100vw - 32px));border:1px solid #4d4768;border-radius:14px;background:#171623f2;backdrop-filter:blur(10px);box-shadow:0 18px 50px #0008;color:#cfcbe4;font-size:10.5px}
+.dev summary{list-style:none;cursor:pointer;padding:9px 11px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;font-size:9.5px;color:#c9bcff;display:flex;justify-content:space-between;align-items:center}
+.dev summary::-webkit-details-marker{display:none}
+.dev summary:after{content:"⚙";font-size:12px}
+.dev[open] summary:after{content:"×"}
+.dev .body{padding:0 11px 11px;display:grid;gap:5px}
+.dev .row{display:flex;gap:6px;flex-wrap:wrap}
+.dev button{border:1px solid #46435f;background:#ffffff06;color:#d4d0e8;border-radius:8px;padding:5px 7px;font:700 9.5px inherit;cursor:pointer}
+.dev button:hover{border-color:#73689f;background:#ffffff0e;color:#fff}
+.dev button.act{border-color:#8f7dff;background:#9b86ff1f;color:#d8ccff}
+.dev .note{color:#8f8daa;font-size:9px;line-height:1.5;margin-top:3px}
+
+/* ── Accesibilidad / motion ── */
+button:focus-visible,a:focus-visible,input:focus-visible{outline:2px solid #c4b5ff;outline-offset:3px}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+/* Portátiles bajos: la tarjeta se ajusta y hace scroll interno si hace falta */
+@media(max-height:700px){
+  .topbar{padding:10px 24px}
+  main{padding:4px 18px 10px}
+  .card{
+    max-height:calc(100vh - 84px);overflow-y:auto;scrollbar-width:thin;scrollbar-color:#4a4763 transparent;
+    padding:20px 28px 14px;
+  }
+  .card-head{margin-bottom:15px}
+  .remembered{margin-bottom:12px}
+  .options{margin-bottom:13px}
+  .project-info{top:48px}
+}
+@media(max-width:520px){
+  .topbar{padding:14px 16px}
+  .brand-name{font-size:10px;letter-spacing:.03em}
+  .brand-sub{font-size:7.5px;letter-spacing:.13em}
+  main{padding:6px 12px 20px}
+  .card{padding:22px 18px 14px;border-radius:16px}
+  .card-head{gap:11px;margin-bottom:16px;padding-right:34px}
+  .card-head h1{font-size:17px}
+  .card-head p{font-size:11px}
+  .card-info{top:15px;right:15px;width:28px;height:28px}
+  .project-info{top:48px;width:100%;padding:15px 15px 14px}
+  .dev{right:10px;bottom:10px}
+  .page-foot{padding:0 16px 14px}
+}
+@media(max-width:440px){
+  .rem-change{width:30px;padding:0;justify-content:center}
+  .rem-change span{display:none}
+}
+@media(max-width:380px){
+  .secure-pill{font-size:0;padding:7px}
+  .secure-pill svg{width:15px;height:15px}
+  .options .hint{display:none}
+  .rem-name{font-size:13px}
+  .rem-user{font-size:9px;white-space:normal;overflow-wrap:anywhere;line-height:1.3}
+  .rem-access span{white-space:normal}
+}
+@media(prefers-reduced-motion:reduce){
+  *,*:before,*:after{animation:none!important;transition:none!important;scroll-behavior:auto!important}
+  .bg span{display:none}
+}
+</style>
+</head>
+<body>
+<div class="bg" aria-hidden="true">
+  <span style="left:5%;top:20%">x̄</span><span style="left:10%;top:74%">σ</span>
+  <span style="left:88%;top:18%">μ</span><span style="left:93%;top:68%">R²</span>
+  <span style="left:78%;top:86%">Σ</span><span style="left:16%;top:44%">χ²</span>
+</div>
+
+<div class="shell">
+  <header class="topbar">
+    <div class="brand">
+      <div class="brand-mark" aria-hidden="true">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5.5 12 2l8 3.5v6.1c0 4.7-3.3 8-8 10.4-4.7-2.4-8-5.7-8-10.4z"/><path d="m8.5 12 2.3 2.3 4.8-5"/></svg>
+      </div>
+      <div>
+        <div class="brand-name">POWERED FOR COMPLIANCE</div>
+        <div class="brand-sub">21 CFR PART 11</div>
+      </div>
+    </div>
+    <div class="secure-pill">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>
+      Acceso protegido
+    </div>
+  </header>
+
+  <main>
+    <div class="card-shell">
+    <section class="card" aria-labelledby="card-title">
+      <button type="button" class="card-info" id="info-toggle" aria-label="Información del proyecto" aria-expanded="false" aria-controls="project-info" title="Información del proyecto">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 11v5"/><path d="M12 8h.01"/></svg>
+      </button>
+      <div class="card-head">
+        <div class="card-icon" id="card-icon" aria-hidden="true">
+          <svg id="icon-lock" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/><path d="M12 14v3"/></svg>
+          <svg id="icon-check" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" hidden><circle cx="12" cy="12" r="9"/><path d="m8.5 12 2.5 2.5 4.5-5"/></svg>
+        </div>
+        <div>
+          <h1 id="card-title">StatAnalyzer Pro</h1>
+          <p id="card-sub">Sistema de análisis estadístico</p>
+        </div>
+      </div>
+
+      <div class="update" id="update" role="status" aria-live="polite" hidden>
+        <span class="update-dot" aria-hidden="true"></span>
+        <div class="update-copy">
+          <b>Nueva versión disponible</b>
+          <span id="update-version">v1.1.0 · lista para instalar</span>
+        </div>
+        <button type="button" class="update-btn" id="reload-app" title="Actualizar para cargar la nueva versión">Actualizar</button>
+      </div>
+
+      <div id="banner" role="status" aria-live="polite" hidden></div>
+
+      <!-- ── Login ── -->
+      <div id="view-login">
+        <div class="remembered" id="remembered" hidden aria-label="Sesión recordada. Toca para escribir tu contraseña" title="Toca para escribir tu contraseña">
+          <div class="rem-top">
+            <div class="rem-avatar-wrap" aria-hidden="true">
+              <span class="rem-ring"></span>
+              <span class="avatar" id="remembered-avatar">S</span>
+              <span class="rem-status" title="Sesión recordada en este dispositivo"></span>
+            </div>
+            <div class="rem-identity">
+              <span class="rem-eyebrow">Sesión recordada</span>
+              <strong class="rem-name" id="remembered-name">—</strong>
+              <span class="rem-user" id="remembered-user"></span>
+              <span class="rem-tags">
+                <span class="rem-tag role" id="remembered-role">Analista</span>
+                <span class="rem-tag" id="remembered-area">Control de Calidad</span>
+              </span>
+            </div>
+            <button type="button" class="rem-change" id="change-user" title="Usar otra cuenta">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 4 3 8l4 4"/><path d="M3 8h12a4 4 0 0 1 4 4"/><path d="m17 20 4-4-4-4"/><path d="M21 16H9a4 4 0 0 1-4-4"/></svg>
+              <span>Cambiar</span>
+            </button>
+          </div>
+
+          <div class="rem-access">
+            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+            <span><b>Último acceso</b> <span id="remembered-last">—</span> <i>·</i> <span id="remembered-device">—</span></span>
+          </div>
+          <div class="rem-access rem-stats">
+            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><path d="m10 17 5-5-5-5"/><path d="M15 12H3"/></svg>
+            <span><b>Sesiones</b> <strong id="remembered-logins">—</strong> <i>·</i> <b>Última IP</b> <strong id="remembered-ip">—</strong></span>
+          </div>
+
+          <div class="rem-foot">
+            <span class="rem-badge" id="remembered-2fa">
+              <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M12 3 4 6v5c0 5 3.5 8 8 10 4.5-2 8-5 8-10V6z"/><path d="m8.5 12 2.3 2.3 4.8-5"/></svg>
+              <span id="remembered-2fa-text">2FA activo</span>
+            </span>
+            <span class="rem-note">Solo se guarda el usuario, nunca la contraseña.</span>
+          </div>
+
+          <div class="session-qr" id="session-qr-block" title="Datos de sesión: rol, área, sesiones, 2FA e IP enmascarada">
+            <div class="qr-box" id="session-qr"></div>
+          </div>
+        </div>
+
+        <form id="login-form" novalidate>
+          <div class="field-group" id="user-field">
+            <div class="field stacked">
+              <span class="f-ic" aria-hidden="true"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.6-6 8-6s8 2 8 6"/></svg></span>
+              <label for="username">Usuario</label>
+              <input id="username" name="username" type="text" autocomplete="username" autocapitalize="none" spellcheck="false" placeholder="tu.usuario" aria-describedby="user-error" autofocus>
+            </div>
+            <p class="error" id="user-error" role="alert" hidden>Ingresa tu usuario.</p>
+          </div>
+
+          <div class="field-group">
+            <div class="field stacked pw">
+              <span class="f-ic" aria-hidden="true"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg></span>
+              <label for="password">Contraseña</label>
+              <input class="password-input" id="password" name="password" type="password" autocomplete="current-password" placeholder="Escribe tu contraseña" aria-describedby="password-error caps">
+              <button type="button" class="eye" id="toggle-password" aria-label="Mostrar contraseña" aria-pressed="false">
+                <svg id="eye-on" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg>
+                <svg id="eye-off" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" hidden><path d="M17.9 17.9A10.6 10.6 0 0 1 12 19c-6.4 0-10-7-10-7a18 18 0 0 1 4.1-4.9M9.9 5.2A9.7 9.7 0 0 1 12 5c6.4 0 10 7 10 7a18 18 0 0 1-2.2 3.2M1 1l22 22"/></svg>
+              </button>
+            </div>
+            <p class="error" id="password-error" role="alert" hidden>Ingresa tu contraseña.</p>
+            <p class="caps" id="caps" role="status" hidden>
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m7 14 5-5 5 5"/><path d="M12 9v11"/><path d="M5 3h14v18H5z"/></svg>
+              Bloq Mayús está activado.
+            </p>
+          </div>
+
+          <div class="options">
+            <label class="check" title="Se guarda el usuario, nunca la contraseña"><input type="checkbox" id="remember" checked> <span>Recordar usuario</span></label>
+            <button type="button" class="inline-link" id="forgot-link">¿La olvidaste?</button>
+          </div>
+
+          <button class="primary" id="login-button" type="submit">
+            <span class="spin" id="login-spin" hidden aria-hidden="true"></span>
+            <span id="login-text">Iniciar sesión</span>
+          </button>
+        </form>
+      </div>
+
+      <!-- ── Olvidé contraseña ── -->
+      <section class="panel" id="view-forgot" hidden aria-labelledby="forgot-title">
+        <button type="button" class="back" id="back-login">‹ Volver</button>
+        <h2 id="forgot-title">Recupera tu acceso</h2>
+        <p class="copy">Por seguridad, la contraseña no se restablece por correo. Pide a tu administrador una <b>contraseña temporal</b>; al entrar con ella el sistema te pedirá crear una nueva.</p>
+        <div class="support-box">
+          <b>Soporte:</b> soporte@sigmaproxvl.com<br>
+          <b>Administrador:</b> el que gestiona tu cuenta.
+        </div>
+        <div style="margin-top:14px">
+          <button type="button" class="primary" id="close-forgot">Entendido</button>
+        </div>
+      </section>
+
+      <!-- ── 2FA ── -->
+      <section class="panel" id="view-mfa" hidden aria-labelledby="mfa-title">
+        <button type="button" class="back" id="back-mfa">‹ Volver</button>
+        <h2 id="mfa-title">Verificación en dos pasos</h2>
+        <p class="copy">Ingresa el código de 6 dígitos de tu aplicación autenticadora.</p>
+        <form id="mfa-form" novalidate>
+          <div class="field">
+            <label for="mfa-code">Código de verificación</label>
+            <input class="code-input" id="mfa-code" inputmode="numeric" autocomplete="one-time-code" maxlength="6" placeholder="000000" aria-describedby="mfa-error">
+            <p class="error" id="mfa-error" role="alert" hidden>Código incorrecto. Revisa la hora de tu dispositivo.</p>
+          </div>
+          <button class="primary" id="mfa-button" type="submit">
+            <span class="spin" id="mfa-spin" hidden aria-hidden="true"></span>
+            <span id="mfa-text">Verificar</span>
+          </button>
+        </form>
+        <div class="mfa-actions">
+          <button type="button" class="inline-link" id="use-recovery">Usar código de recuperación</button>
+          <span class="hint" style="font-size:9.5px;color:#8f8daa">Se envía al completar 6 dígitos</span>
+        </div>
+      </section>
+
+      <!-- ── Código de recuperación (informativo) ── -->
+      <section class="panel" id="view-recovery" hidden aria-labelledby="rec-title">
+        <button type="button" class="back" id="back-recovery">‹ Volver</button>
+        <h2 id="rec-title">Código de recuperación</h2>
+        <p class="copy">Cada código de recuperación sirve una sola vez y se guarda al activar el 2FA. Si no lo tienes, pide a un administrador que restablezca el segundo factor.</p>
+        <div class="support-box">Este flujo requiere soporte del servidor (aún no implementado).</div>
+      </section>
+
+      <!-- ── Bloqueo ── -->
+      <section class="panel" id="view-locked" hidden aria-labelledby="lock-title">
+        <h2 id="lock-title">Acceso bloqueado temporalmente</h2>
+        <p class="copy">Demasiados intentos fallidos. Podrás volver a intentarlo en <b id="lock-count">00:30</b>.</p>
+        <div class="support-box">Si no fuiste tú, contacta a soporte: <b>soporte@sigmaproxvl.com</b></div>
+      </section>
+
+      <!-- ── Éxito ── -->
+      <section class="panel" id="view-ok" hidden aria-labelledby="card-title">
+        <div style="display:flex;align-items:center;gap:11px;margin-bottom:12px">
+          <span class="avatar" style="background:linear-gradient(145deg,#62d9a5,#2f9e74);box-shadow:none" aria-hidden="true">✓</span>
+          <p class="copy" style="margin:0;font-size:12.5px;color:var(--text)">Hola, <b id="ok-user">usuario</b>.</p>
+        </div>
+        <div class="summary">
+          <p><b>Último acceso correcto</b><br><span id="last-access">30 oct 2026, 08:14 · Chrome en Windows</span></p>
+          <p class="warnline"><b>2 intentos fallidos</b> desde entonces (30 oct, IP 190.12.•.•).</p>
+          <p>La sesión se cierra tras <b>15 min</b> sin actividad; se avisa 60 s antes.</p>
+        </div>
+        <button class="primary" id="continue">Continuar al sistema</button>
+      </section>
+
+      <div class="card-foot">
+        <div class="foot-main">
+          <div class="foot-line">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 3 4 6v5c0 5 3.5 8 8 10 4.5-2 8-5 8-10V6z"/><path d="m8.5 12 2.3 2.3 4.8-5"/></svg>
+            <span>Diseñado para apoyar 21 CFR Part 11</span>
+            <span class="foot-sep" aria-hidden="true">·</span>
+            <button type="button" class="version-chip" id="version-chip" title="Commit b1fc042 · build 31/10/2026 02:56 UTC">
+              <span id="version-text">v1.0.0 · b1fc042</span>
+            </button>
+          </div>
+          <div class="foot-line">
+            <button type="button" class="help-link" id="help-link">¿Necesitas ayuda?</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="project-info" id="project-info" role="dialog" aria-modal="false" aria-labelledby="project-info-title" hidden>
+      <button type="button" class="project-close" id="project-close" aria-label="Cerrar información del proyecto">×</button>
+      <span class="pi-kicker">POWERED FOR COMPLIANCE · 21 CFR PART 11</span>
+      <h2 id="project-info-title">StatAnalyzer Pro</h2>
+      <p class="pi-desc">Sistema de análisis estadístico para laboratorios: carga y limpieza de datos, análisis, visualización y reportes con trazabilidad.</p>
+      <dl class="pi-meta">
+        <div><dt>Versión</dt><dd id="project-version">v1.0.0 · b1fc042</dd></div>
+        <div><dt>Responsable</dt><dd id="project-owner">Fernando · Control de Calidad</dd></div>
+        <div><dt>Módulos</dt><dd>Datos · Análisis · Visualización · Reportes · Firma electrónica · Auditoría · Usuarios</dd></div>
+        <div><dt>Cumplimiento</dt><dd>Diseñado para apoyar 21 CFR Part 11</dd></div>
+        <div><dt>Sesión</dt><dd>Cierre por inactividad a los 5 min</dd></div>
+      </dl>
+      <p class="pi-note">Entorno de demostración. Los datos mostrados son ficticios.</p>
+    </section>
+    </div>
+  </main>
+
+  <footer class="page-foot">
+    <span>© 2026 StatAnalyzer Pro · Prototipo de login v3</span>
+    <span><a href="#" id="privacy-link">Privacidad</a> · <a href="#" id="support-link">Soporte</a></span>
+  </footer>
+</div>
+
+<!-- Panel de escenarios para revisión de diseño -->
+<details class="dev" id="dev">
+  <summary>Escenarios</summary>
+  <div class="body">
+    <div class="row">
+      <button type="button" data-scenario="normal">Normal</button>
+      <button type="button" data-scenario="remembered" class="act">Recordado</button>
+      <button type="button" data-scenario="cold">Servidor frío</button>
+    </div>
+    <div class="row">
+      <button type="button" data-scenario="mfa">2FA</button>
+      <button type="button" data-scenario="locked">Bloqueado</button>
+      <button type="button" data-scenario="expired">Sesión expirada</button>
+      <button type="button" data-scenario="update">Nueva versión</button>
+    </div>
+    <div class="row">
+      <button type="button" data-scenario="error">Error</button>
+      <button type="button" data-scenario="ok">Éxito</button>
+      <button type="button" data-scenario="reset">Reiniciar demo</button>
+    </div>
+    <div class="note" id="dev-note">Prototipo: contraseña <b>Demo2026!</b> · código 2FA <b>123456</b>.</div>
+  </div>
+</details>
+
+<script>
+/*! qrcode-generator v1.4.4 | (c) Kazuhiko Arase | MIT License | https://github.com/kazuhikoarase/qrcode-generator */
+/**
+ * Minified by jsDelivr using Terser v5.37.0.
+ * Original file: /npm/qrcode-generator@1.4.4/qrcode.js
+ *
+ * Do NOT use SRI with dynamically generated files! More information: https://www.jsdelivr.com/using-sri-with-dynamic-files
+ */
+var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],f={},c=function(t,r){o=function(t){for(var r=new Array(t),e=0;e<t;e+=1){r[e]=new Array(t);for(var n=0;n<t;n+=1)r[e][n]=null}return r}(i=4*e+17),l(0,0),l(i-7,0),l(0,i-7),s(),h(),d(t,r),e>=7&&v(t),null==a&&(a=p(e,n,u)),w(a,r)},l=function(t,r){for(var e=-1;e<=7;e+=1)if(!(t+e<=-1||i<=t+e))for(var n=-1;n<=7;n+=1)r+n<=-1||i<=r+n||(o[t+e][r+n]=0<=e&&e<=6&&(0==n||6==n)||0<=n&&n<=6&&(0==e||6==e)||2<=e&&e<=4&&2<=n&&n<=4)},h=function(){for(var t=8;t<i-8;t+=1)null==o[t][6]&&(o[t][6]=t%2==0);for(var r=8;r<i-8;r+=1)null==o[6][r]&&(o[6][r]=r%2==0)},s=function(){for(var t=B.getPatternPosition(e),r=0;r<t.length;r+=1)for(var n=0;n<t.length;n+=1){var i=t[r],a=t[n];if(null==o[i][a])for(var u=-2;u<=2;u+=1)for(var f=-2;f<=2;f+=1)o[i+u][a+f]=-2==u||2==u||-2==f||2==f||0==u&&0==f}},v=function(t){for(var r=B.getBCHTypeNumber(e),n=0;n<18;n+=1){var a=!t&&1==(r>>n&1);o[Math.floor(n/3)][n%3+i-8-3]=a}for(n=0;n<18;n+=1){a=!t&&1==(r>>n&1);o[n%3+i-8-3][Math.floor(n/3)]=a}},d=function(t,r){for(var e=n<<3|r,a=B.getBCHTypeInfo(e),u=0;u<15;u+=1){var f=!t&&1==(a>>u&1);u<6?o[u][8]=f:u<8?o[u+1][8]=f:o[i-15+u][8]=f}for(u=0;u<15;u+=1){f=!t&&1==(a>>u&1);u<8?o[8][i-u-1]=f:u<9?o[8][15-u-1+1]=f:o[8][15-u-1]=f}o[i-8][8]=!t},w=function(t,r){for(var e=-1,n=i-1,a=7,u=0,f=B.getMaskFunction(r),c=i-1;c>0;c-=2)for(6==c&&(c-=1);;){for(var g=0;g<2;g+=1)if(null==o[n][c-g]){var l=!1;u<t.length&&(l=1==(t[u]>>>a&1)),f(n,c-g)&&(l=!l),o[n][c-g]=l,-1==(a-=1)&&(u+=1,a=7)}if((n+=e)<0||i<=n){n-=e,e=-e;break}}},p=function(t,r,e){for(var n=A.getRSBlocks(t,r),o=b(),i=0;i<e.length;i+=1){var a=e[i];o.put(a.getMode(),4),o.put(a.getLength(),B.getLengthInBits(a.getMode(),t)),a.write(o)}var u=0;for(i=0;i<n.length;i+=1)u+=n[i].dataCount;if(o.getLengthInBits()>8*u)throw"code length overflow. ("+o.getLengthInBits()+">"+8*u+")";for(o.getLengthInBits()+4<=8*u&&o.put(0,4);o.getLengthInBits()%8!=0;)o.putBit(!1);for(;!(o.getLengthInBits()>=8*u||(o.put(236,8),o.getLengthInBits()>=8*u));)o.put(17,8);return function(t,r){for(var e=0,n=0,o=0,i=new Array(r.length),a=new Array(r.length),u=0;u<r.length;u+=1){var f=r[u].dataCount,c=r[u].totalCount-f;n=Math.max(n,f),o=Math.max(o,c),i[u]=new Array(f);for(var g=0;g<i[u].length;g+=1)i[u][g]=255&t.getBuffer()[g+e];e+=f;var l=B.getErrorCorrectPolynomial(c),h=k(i[u],l.getLength()-1).mod(l);for(a[u]=new Array(l.getLength()-1),g=0;g<a[u].length;g+=1){var s=g+h.getLength()-a[u].length;a[u][g]=s>=0?h.getAt(s):0}}var v=0;for(g=0;g<r.length;g+=1)v+=r[g].totalCount;var d=new Array(v),w=0;for(g=0;g<n;g+=1)for(u=0;u<r.length;u+=1)g<i[u].length&&(d[w]=i[u][g],w+=1);for(g=0;g<o;g+=1)for(u=0;u<r.length;u+=1)g<a[u].length&&(d[w]=a[u][g],w+=1);return d}(o,n)};f.addData=function(t,r){var e=null;switch(r=r||"Byte"){case"Numeric":e=M(t);break;case"Alphanumeric":e=x(t);break;case"Byte":e=m(t);break;case"Kanji":e=L(t);break;default:throw"mode:"+r}u.push(e),a=null},f.isDark=function(t,r){if(t<0||i<=t||r<0||i<=r)throw t+","+r;return o[t][r]},f.getModuleCount=function(){return i},f.make=function(){if(e<1){for(var t=1;t<40;t++){for(var r=A.getRSBlocks(t,n),o=b(),i=0;i<u.length;i++){var a=u[i];o.put(a.getMode(),4),o.put(a.getLength(),B.getLengthInBits(a.getMode(),t)),a.write(o)}var g=0;for(i=0;i<r.length;i++)g+=r[i].dataCount;if(o.getLengthInBits()<=8*g)break}e=t}c(!1,function(){for(var t=0,r=0,e=0;e<8;e+=1){c(!0,e);var n=B.getLostPoint(f);(0==e||t>n)&&(t=n,r=e)}return r}())},f.createTableTag=function(t,r){t=t||2;var e="";e+='<table style="',e+=" border-width: 0px; border-style: none;",e+=" border-collapse: collapse;",e+=" padding: 0px; margin: "+(r=void 0===r?4*t:r)+"px;",e+='">',e+="<tbody>";for(var n=0;n<f.getModuleCount();n+=1){e+="<tr>";for(var o=0;o<f.getModuleCount();o+=1)e+='<td style="',e+=" border-width: 0px; border-style: none;",e+=" border-collapse: collapse;",e+=" padding: 0px; margin: 0px;",e+=" width: "+t+"px;",e+=" height: "+t+"px;",e+=" background-color: ",e+=f.isDark(n,o)?"#000000":"#ffffff",e+=";",e+='"/>';e+="</tr>"}return e+="</tbody>",e+="</table>"},f.createSvgTag=function(t,r,e,n){var o={};"object"==typeof arguments[0]&&(t=(o=arguments[0]).cellSize,r=o.margin,e=o.alt,n=o.title),t=t||2,r=void 0===r?4*t:r,(e="string"==typeof e?{text:e}:e||{}).text=e.text||null,e.id=e.text?e.id||"qrcode-description":null,(n="string"==typeof n?{text:n}:n||{}).text=n.text||null,n.id=n.text?n.id||"qrcode-title":null;var i,a,u,c,g=f.getModuleCount()*t+2*r,l="";for(c="l"+t+",0 0,"+t+" -"+t+",0 0,-"+t+"z ",l+='<svg version="1.1" xmlns="http://www.w3.org/2000/svg"',l+=o.scalable?"":' width="'+g+'px" height="'+g+'px"',l+=' viewBox="0 0 '+g+" "+g+'" ',l+=' preserveAspectRatio="xMinYMin meet"',l+=n.text||e.text?' role="img" aria-labelledby="'+y([n.id,e.id].join(" ").trim())+'"':"",l+=">",l+=n.text?'<title id="'+y(n.id)+'">'+y(n.text)+"</title>":"",l+=e.text?'<description id="'+y(e.id)+'">'+y(e.text)+"</description>":"",l+='<rect width="100%" height="100%" fill="white" cx="0" cy="0"/>',l+='<path d="',a=0;a<f.getModuleCount();a+=1)for(u=a*t+r,i=0;i<f.getModuleCount();i+=1)f.isDark(a,i)&&(l+="M"+(i*t+r)+","+u+c);return l+='" stroke="transparent" fill="black"/>',l+="</svg>"},f.createDataURL=function(t,r){t=t||2,r=void 0===r?4*t:r;var e=f.getModuleCount()*t+2*r,n=r,o=e-r;return I(e,e,(function(r,e){if(n<=r&&r<o&&n<=e&&e<o){var i=Math.floor((r-n)/t),a=Math.floor((e-n)/t);return f.isDark(a,i)?0:1}return 1}))},f.createImgTag=function(t,r,e){t=t||2,r=void 0===r?4*t:r;var n=f.getModuleCount()*t+2*r,o="";return o+="<img",o+=' src="',o+=f.createDataURL(t,r),o+='"',o+=' width="',o+=n,o+='"',o+=' height="',o+=n,o+='"',e&&(o+=' alt="',o+=y(e),o+='"'),o+="/>"};var y=function(t){for(var r="",e=0;e<t.length;e+=1){var n=t.charAt(e);switch(n){case"<":r+="&lt;";break;case">":r+="&gt;";break;case"&":r+="&amp;";break;case'"':r+="&quot;";break;default:r+=n}}return r};return f.createASCII=function(t,r){if((t=t||1)<2)return function(t){t=void 0===t?2:t;var r,e,n,o,i,a=1*f.getModuleCount()+2*t,u=t,c=a-t,g={"██":"█","█ ":"▀"," █":"▄","  ":" "},l={"██":"▀","█ ":"▀"," █":" ","  ":" "},h="";for(r=0;r<a;r+=2){for(n=Math.floor((r-u)/1),o=Math.floor((r+1-u)/1),e=0;e<a;e+=1)i="█",u<=e&&e<c&&u<=r&&r<c&&f.isDark(n,Math.floor((e-u)/1))&&(i=" "),u<=e&&e<c&&u<=r+1&&r+1<c&&f.isDark(o,Math.floor((e-u)/1))?i+=" ":i+="█",h+=t<1&&r+1>=c?l[i]:g[i];h+="\n"}return a%2&&t>0?h.substring(0,h.length-a-1)+Array(a+1).join("▀"):h.substring(0,h.length-1)}(r);t-=1,r=void 0===r?2*t:r;var e,n,o,i,a=f.getModuleCount()*t+2*r,u=r,c=a-r,g=Array(t+1).join("██"),l=Array(t+1).join("  "),h="",s="";for(e=0;e<a;e+=1){for(o=Math.floor((e-u)/t),s="",n=0;n<a;n+=1)i=1,u<=n&&n<c&&u<=e&&e<c&&f.isDark(o,Math.floor((n-u)/t))&&(i=0),s+=i?g:l;for(o=0;o<t;o+=1)h+=s+"\n"}return h.substring(0,h.length-1)},f.renderTo2dContext=function(t,r){r=r||2;for(var e=f.getModuleCount(),n=0;n<e;n++)for(var o=0;o<e;o++)t.fillStyle=f.isDark(n,o)?"black":"white",t.fillRect(n*r,o*r,r,r)},f};t.stringToBytes=(t.stringToBytesFuncs={default:function(t){for(var r=[],e=0;e<t.length;e+=1){var n=t.charCodeAt(e);r.push(255&n)}return r}}).default,t.createStringToBytes=function(t,r){var e=function(){for(var e=S(t),n=function(){var t=e.read();if(-1==t)throw"eof";return t},o=0,i={};;){var a=e.read();if(-1==a)break;var u=n(),f=n()<<8|n();i[String.fromCharCode(a<<8|u)]=f,o+=1}if(o!=r)throw o+" != "+r;return i}(),n="?".charCodeAt(0);return function(t){for(var r=[],o=0;o<t.length;o+=1){var i=t.charCodeAt(o);if(i<128)r.push(i);else{var a=e[t.charAt(o)];"number"==typeof a?(255&a)==a?r.push(a):(r.push(a>>>8),r.push(255&a)):r.push(n)}}return r}};var r,e,n,o,i,a=1,u=2,f=4,c=8,g={L:1,M:0,Q:3,H:2},l=0,h=1,s=2,v=3,d=4,w=5,p=6,y=7,B=(r=[[],[6,18],[6,22],[6,26],[6,30],[6,34],[6,22,38],[6,24,42],[6,26,46],[6,28,50],[6,30,54],[6,32,58],[6,34,62],[6,26,46,66],[6,26,48,70],[6,26,50,74],[6,30,54,78],[6,30,56,82],[6,30,58,86],[6,34,62,90],[6,28,50,72,94],[6,26,50,74,98],[6,30,54,78,102],[6,28,54,80,106],[6,32,58,84,110],[6,30,58,86,114],[6,34,62,90,118],[6,26,50,74,98,122],[6,30,54,78,102,126],[6,26,52,78,104,130],[6,30,56,82,108,134],[6,34,60,86,112,138],[6,30,58,86,114,142],[6,34,62,90,118,146],[6,30,54,78,102,126,150],[6,24,50,76,102,128,154],[6,28,54,80,106,132,158],[6,32,58,84,110,136,162],[6,26,54,82,110,138,166],[6,30,58,86,114,142,170]],e=1335,n=7973,i=function(t){for(var r=0;0!=t;)r+=1,t>>>=1;return r},(o={}).getBCHTypeInfo=function(t){for(var r=t<<10;i(r)-i(e)>=0;)r^=e<<i(r)-i(e);return 21522^(t<<10|r)},o.getBCHTypeNumber=function(t){for(var r=t<<12;i(r)-i(n)>=0;)r^=n<<i(r)-i(n);return t<<12|r},o.getPatternPosition=function(t){return r[t-1]},o.getMaskFunction=function(t){switch(t){case l:return function(t,r){return(t+r)%2==0};case h:return function(t,r){return t%2==0};case s:return function(t,r){return r%3==0};case v:return function(t,r){return(t+r)%3==0};case d:return function(t,r){return(Math.floor(t/2)+Math.floor(r/3))%2==0};case w:return function(t,r){return t*r%2+t*r%3==0};case p:return function(t,r){return(t*r%2+t*r%3)%2==0};case y:return function(t,r){return(t*r%3+(t+r)%2)%2==0};default:throw"bad maskPattern:"+t}},o.getErrorCorrectPolynomial=function(t){for(var r=k([1],0),e=0;e<t;e+=1)r=r.multiply(k([1,C.gexp(e)],0));return r},o.getLengthInBits=function(t,r){if(1<=r&&r<10)switch(t){case a:return 10;case u:return 9;case f:case c:return 8;default:throw"mode:"+t}else if(r<27)switch(t){case a:return 12;case u:return 11;case f:return 16;case c:return 10;default:throw"mode:"+t}else{if(!(r<41))throw"type:"+r;switch(t){case a:return 14;case u:return 13;case f:return 16;case c:return 12;default:throw"mode:"+t}}},o.getLostPoint=function(t){for(var r=t.getModuleCount(),e=0,n=0;n<r;n+=1)for(var o=0;o<r;o+=1){for(var i=0,a=t.isDark(n,o),u=-1;u<=1;u+=1)if(!(n+u<0||r<=n+u))for(var f=-1;f<=1;f+=1)o+f<0||r<=o+f||0==u&&0==f||a==t.isDark(n+u,o+f)&&(i+=1);i>5&&(e+=3+i-5)}for(n=0;n<r-1;n+=1)for(o=0;o<r-1;o+=1){var c=0;t.isDark(n,o)&&(c+=1),t.isDark(n+1,o)&&(c+=1),t.isDark(n,o+1)&&(c+=1),t.isDark(n+1,o+1)&&(c+=1),0!=c&&4!=c||(e+=3)}for(n=0;n<r;n+=1)for(o=0;o<r-6;o+=1)t.isDark(n,o)&&!t.isDark(n,o+1)&&t.isDark(n,o+2)&&t.isDark(n,o+3)&&t.isDark(n,o+4)&&!t.isDark(n,o+5)&&t.isDark(n,o+6)&&(e+=40);for(o=0;o<r;o+=1)for(n=0;n<r-6;n+=1)t.isDark(n,o)&&!t.isDark(n+1,o)&&t.isDark(n+2,o)&&t.isDark(n+3,o)&&t.isDark(n+4,o)&&!t.isDark(n+5,o)&&t.isDark(n+6,o)&&(e+=40);var g=0;for(o=0;o<r;o+=1)for(n=0;n<r;n+=1)t.isDark(n,o)&&(g+=1);return e+=Math.abs(100*g/r/r-50)/5*10},o),C=function(){for(var t=new Array(256),r=new Array(256),e=0;e<8;e+=1)t[e]=1<<e;for(e=8;e<256;e+=1)t[e]=t[e-4]^t[e-5]^t[e-6]^t[e-8];for(e=0;e<255;e+=1)r[t[e]]=e;var n={glog:function(t){if(t<1)throw"glog("+t+")";return r[t]},gexp:function(r){for(;r<0;)r+=255;for(;r>=256;)r-=255;return t[r]}};return n}();function k(t,r){if(void 0===t.length)throw t.length+"/"+r;var e=function(){for(var e=0;e<t.length&&0==t[e];)e+=1;for(var n=new Array(t.length-e+r),o=0;o<t.length-e;o+=1)n[o]=t[o+e];return n}(),n={getAt:function(t){return e[t]},getLength:function(){return e.length},multiply:function(t){for(var r=new Array(n.getLength()+t.getLength()-1),e=0;e<n.getLength();e+=1)for(var o=0;o<t.getLength();o+=1)r[e+o]^=C.gexp(C.glog(n.getAt(e))+C.glog(t.getAt(o)));return k(r,0)},mod:function(t){if(n.getLength()-t.getLength()<0)return n;for(var r=C.glog(n.getAt(0))-C.glog(t.getAt(0)),e=new Array(n.getLength()),o=0;o<n.getLength();o+=1)e[o]=n.getAt(o);for(o=0;o<t.getLength();o+=1)e[o]^=C.gexp(C.glog(t.getAt(o))+r);return k(e,0).mod(t)}};return n}var A=function(){var t=[[1,26,19],[1,26,16],[1,26,13],[1,26,9],[1,44,34],[1,44,28],[1,44,22],[1,44,16],[1,70,55],[1,70,44],[2,35,17],[2,35,13],[1,100,80],[2,50,32],[2,50,24],[4,25,9],[1,134,108],[2,67,43],[2,33,15,2,34,16],[2,33,11,2,34,12],[2,86,68],[4,43,27],[4,43,19],[4,43,15],[2,98,78],[4,49,31],[2,32,14,4,33,15],[4,39,13,1,40,14],[2,121,97],[2,60,38,2,61,39],[4,40,18,2,41,19],[4,40,14,2,41,15],[2,146,116],[3,58,36,2,59,37],[4,36,16,4,37,17],[4,36,12,4,37,13],[2,86,68,2,87,69],[4,69,43,1,70,44],[6,43,19,2,44,20],[6,43,15,2,44,16],[4,101,81],[1,80,50,4,81,51],[4,50,22,4,51,23],[3,36,12,8,37,13],[2,116,92,2,117,93],[6,58,36,2,59,37],[4,46,20,6,47,21],[7,42,14,4,43,15],[4,133,107],[8,59,37,1,60,38],[8,44,20,4,45,21],[12,33,11,4,34,12],[3,145,115,1,146,116],[4,64,40,5,65,41],[11,36,16,5,37,17],[11,36,12,5,37,13],[5,109,87,1,110,88],[5,65,41,5,66,42],[5,54,24,7,55,25],[11,36,12,7,37,13],[5,122,98,1,123,99],[7,73,45,3,74,46],[15,43,19,2,44,20],[3,45,15,13,46,16],[1,135,107,5,136,108],[10,74,46,1,75,47],[1,50,22,15,51,23],[2,42,14,17,43,15],[5,150,120,1,151,121],[9,69,43,4,70,44],[17,50,22,1,51,23],[2,42,14,19,43,15],[3,141,113,4,142,114],[3,70,44,11,71,45],[17,47,21,4,48,22],[9,39,13,16,40,14],[3,135,107,5,136,108],[3,67,41,13,68,42],[15,54,24,5,55,25],[15,43,15,10,44,16],[4,144,116,4,145,117],[17,68,42],[17,50,22,6,51,23],[19,46,16,6,47,17],[2,139,111,7,140,112],[17,74,46],[7,54,24,16,55,25],[34,37,13],[4,151,121,5,152,122],[4,75,47,14,76,48],[11,54,24,14,55,25],[16,45,15,14,46,16],[6,147,117,4,148,118],[6,73,45,14,74,46],[11,54,24,16,55,25],[30,46,16,2,47,17],[8,132,106,4,133,107],[8,75,47,13,76,48],[7,54,24,22,55,25],[22,45,15,13,46,16],[10,142,114,2,143,115],[19,74,46,4,75,47],[28,50,22,6,51,23],[33,46,16,4,47,17],[8,152,122,4,153,123],[22,73,45,3,74,46],[8,53,23,26,54,24],[12,45,15,28,46,16],[3,147,117,10,148,118],[3,73,45,23,74,46],[4,54,24,31,55,25],[11,45,15,31,46,16],[7,146,116,7,147,117],[21,73,45,7,74,46],[1,53,23,37,54,24],[19,45,15,26,46,16],[5,145,115,10,146,116],[19,75,47,10,76,48],[15,54,24,25,55,25],[23,45,15,25,46,16],[13,145,115,3,146,116],[2,74,46,29,75,47],[42,54,24,1,55,25],[23,45,15,28,46,16],[17,145,115],[10,74,46,23,75,47],[10,54,24,35,55,25],[19,45,15,35,46,16],[17,145,115,1,146,116],[14,74,46,21,75,47],[29,54,24,19,55,25],[11,45,15,46,46,16],[13,145,115,6,146,116],[14,74,46,23,75,47],[44,54,24,7,55,25],[59,46,16,1,47,17],[12,151,121,7,152,122],[12,75,47,26,76,48],[39,54,24,14,55,25],[22,45,15,41,46,16],[6,151,121,14,152,122],[6,75,47,34,76,48],[46,54,24,10,55,25],[2,45,15,64,46,16],[17,152,122,4,153,123],[29,74,46,14,75,47],[49,54,24,10,55,25],[24,45,15,46,46,16],[4,152,122,18,153,123],[13,74,46,32,75,47],[48,54,24,14,55,25],[42,45,15,32,46,16],[20,147,117,4,148,118],[40,75,47,7,76,48],[43,54,24,22,55,25],[10,45,15,67,46,16],[19,148,118,6,149,119],[18,75,47,31,76,48],[34,54,24,34,55,25],[20,45,15,61,46,16]],r=function(t,r){var e={};return e.totalCount=t,e.dataCount=r,e},e={};return e.getRSBlocks=function(e,n){var o=function(r,e){switch(e){case g.L:return t[4*(r-1)+0];case g.M:return t[4*(r-1)+1];case g.Q:return t[4*(r-1)+2];case g.H:return t[4*(r-1)+3];default:return}}(e,n);if(void 0===o)throw"bad rs block @ typeNumber:"+e+"/errorCorrectionLevel:"+n;for(var i=o.length/3,a=[],u=0;u<i;u+=1)for(var f=o[3*u+0],c=o[3*u+1],l=o[3*u+2],h=0;h<f;h+=1)a.push(r(c,l));return a},e}(),b=function(){var t=[],r=0,e={getBuffer:function(){return t},getAt:function(r){var e=Math.floor(r/8);return 1==(t[e]>>>7-r%8&1)},put:function(t,r){for(var n=0;n<r;n+=1)e.putBit(1==(t>>>r-n-1&1))},getLengthInBits:function(){return r},putBit:function(e){var n=Math.floor(r/8);t.length<=n&&t.push(0),e&&(t[n]|=128>>>r%8),r+=1}};return e},M=function(t){var r=a,e=t,n={getMode:function(){return r},getLength:function(t){return e.length},write:function(t){for(var r=e,n=0;n+2<r.length;)t.put(o(r.substring(n,n+3)),10),n+=3;n<r.length&&(r.length-n==1?t.put(o(r.substring(n,n+1)),4):r.length-n==2&&t.put(o(r.substring(n,n+2)),7))}},o=function(t){for(var r=0,e=0;e<t.length;e+=1)r=10*r+i(t.charAt(e));return r},i=function(t){if("0"<=t&&t<="9")return t.charCodeAt(0)-"0".charCodeAt(0);throw"illegal char :"+t};return n},x=function(t){var r=u,e=t,n={getMode:function(){return r},getLength:function(t){return e.length},write:function(t){for(var r=e,n=0;n+1<r.length;)t.put(45*o(r.charAt(n))+o(r.charAt(n+1)),11),n+=2;n<r.length&&t.put(o(r.charAt(n)),6)}},o=function(t){if("0"<=t&&t<="9")return t.charCodeAt(0)-"0".charCodeAt(0);if("A"<=t&&t<="Z")return t.charCodeAt(0)-"A".charCodeAt(0)+10;switch(t){case" ":return 36;case"$":return 37;case"%":return 38;case"*":return 39;case"+":return 40;case"-":return 41;case".":return 42;case"/":return 43;case":":return 44;default:throw"illegal char :"+t}};return n},m=function(r){var e=f,n=t.stringToBytes(r),o={getMode:function(){return e},getLength:function(t){return n.length},write:function(t){for(var r=0;r<n.length;r+=1)t.put(n[r],8)}};return o},L=function(r){var e=c,n=t.stringToBytesFuncs.SJIS;if(!n)throw"sjis not supported.";!function(){var t=n("友");if(2!=t.length||38726!=(t[0]<<8|t[1]))throw"sjis not supported."}();var o=n(r),i={getMode:function(){return e},getLength:function(t){return~~(o.length/2)},write:function(t){for(var r=o,e=0;e+1<r.length;){var n=(255&r[e])<<8|255&r[e+1];if(33088<=n&&n<=40956)n-=33088;else{if(!(57408<=n&&n<=60351))throw"illegal char at "+(e+1)+"/"+n;n-=49472}n=192*(n>>>8&255)+(255&n),t.put(n,13),e+=2}if(e<r.length)throw"illegal char at "+(e+1)}};return i},D=function(){var t=[],r={writeByte:function(r){t.push(255&r)},writeShort:function(t){r.writeByte(t),r.writeByte(t>>>8)},writeBytes:function(t,e,n){e=e||0,n=n||t.length;for(var o=0;o<n;o+=1)r.writeByte(t[o+e])},writeString:function(t){for(var e=0;e<t.length;e+=1)r.writeByte(t.charCodeAt(e))},toByteArray:function(){return t},toString:function(){var r="";r+="[";for(var e=0;e<t.length;e+=1)e>0&&(r+=","),r+=t[e];return r+="]"}};return r},S=function(t){var r=t,e=0,n=0,o=0,i={read:function(){for(;o<8;){if(e>=r.length){if(0==o)return-1;throw"unexpected end of file./"+o}var t=r.charAt(e);if(e+=1,"="==t)return o=0,-1;t.match(/^\s$/)||(n=n<<6|a(t.charCodeAt(0)),o+=6)}var i=n>>>o-8&255;return o-=8,i}},a=function(t){if(65<=t&&t<=90)return t-65;if(97<=t&&t<=122)return t-97+26;if(48<=t&&t<=57)return t-48+52;if(43==t)return 62;if(47==t)return 63;throw"c:"+t};return i},I=function(t,r,e){for(var n=function(t,r){var e=t,n=r,o=new Array(t*r),i={setPixel:function(t,r,n){o[r*e+t]=n},write:function(t){t.writeString("GIF87a"),t.writeShort(e),t.writeShort(n),t.writeByte(128),t.writeByte(0),t.writeByte(0),t.writeByte(0),t.writeByte(0),t.writeByte(0),t.writeByte(255),t.writeByte(255),t.writeByte(255),t.writeString(","),t.writeShort(0),t.writeShort(0),t.writeShort(e),t.writeShort(n),t.writeByte(0);var r=a(2);t.writeByte(2);for(var o=0;r.length-o>255;)t.writeByte(255),t.writeBytes(r,o,255),o+=255;t.writeByte(r.length-o),t.writeBytes(r,o,r.length-o),t.writeByte(0),t.writeString(";")}},a=function(t){for(var r=1<<t,e=1+(1<<t),n=t+1,i=u(),a=0;a<r;a+=1)i.add(String.fromCharCode(a));i.add(String.fromCharCode(r)),i.add(String.fromCharCode(e));var f,c,g,l=D(),h=(f=l,c=0,g=0,{write:function(t,r){if(t>>>r!=0)throw"length over";for(;c+r>=8;)f.writeByte(255&(t<<c|g)),r-=8-c,t>>>=8-c,g=0,c=0;g|=t<<c,c+=r},flush:function(){c>0&&f.writeByte(g)}});h.write(r,n);var s=0,v=String.fromCharCode(o[s]);for(s+=1;s<o.length;){var d=String.fromCharCode(o[s]);s+=1,i.contains(v+d)?v+=d:(h.write(i.indexOf(v),n),i.size()<4095&&(i.size()==1<<n&&(n+=1),i.add(v+d)),v=d)}return h.write(i.indexOf(v),n),h.write(e,n),h.flush(),l.toByteArray()},u=function(){var t={},r=0,e={add:function(n){if(e.contains(n))throw"dup key:"+n;t[n]=r,r+=1},size:function(){return r},indexOf:function(r){return t[r]},contains:function(r){return void 0!==t[r]}};return e};return i}(t,r),o=0;o<r;o+=1)for(var i=0;i<t;i+=1)n.setPixel(i,o,e(i,o));var a=D();n.write(a);for(var u=function(){var t=0,r=0,e=0,n="",o={},i=function(t){n+=String.fromCharCode(a(63&t))},a=function(t){if(t<0);else{if(t<26)return 65+t;if(t<52)return t-26+97;if(t<62)return t-52+48;if(62==t)return 43;if(63==t)return 47}throw"n:"+t};return o.writeByte=function(n){for(t=t<<8|255&n,r+=8,e+=1;r>=6;)i(t>>>r-6),r-=6},o.flush=function(){if(r>0&&(i(t<<6-r),t=0,r=0),e%3!=0)for(var o=3-e%3,a=0;a<o;a+=1)n+="="},o.toString=function(){return n},o}(),f=a.toByteArray(),c=0;c<f.length;c+=1)u.writeByte(f[c]);return u.flush(),"data:image/gif;base64,"+u};return t}();qrcode.stringToBytesFuncs["UTF-8"]=function(t){return function(t){for(var r=[],e=0;e<t.length;e++){var n=t.charCodeAt(e);n<128?r.push(n):n<2048?r.push(192|n>>6,128|63&n):n<55296||n>=57344?r.push(224|n>>12,128|n>>6&63,128|63&n):(e++,n=65536+((1023&n)<<10|1023&t.charCodeAt(e)),r.push(240|n>>18,128|n>>12&63,128|n>>6&63,128|63&n))}return r}(t)},function(t){"function"==typeof define&&define.amd?define([],t):"object"==typeof exports&&(module.exports=t())}((function(){return qrcode}));
+</script>
+
+<script>
+(function () {
+  'use strict';
+
+  const $ = (s) => document.querySelector(s);
+  const REMEMBER_KEY = 'sigmaproxvl.rememberedUsername';
+  const OPT_OUT_KEY = 'sigmaproxvl.rememberOptOut';
+  const LOGIN_COUNT_KEY = 'sigmaproxvl.demoLoginCount';
+  const LAST_IP_KEY = 'sigmaproxvl.demoLastIp';
+  const DEMO_LAST_IP = '190.12.34.56';
+  const VERSION_KEY = 'sigmaproxvl.demoAppliedVersion';
+  const JUST_UPDATED_KEY = 'sigmaproxvl.justUpdated';
+  const BASE_VERSION = 'v1.0.0 · b1fc042';
+  const BASE_BUILD = '31/10/2026 02:56 UTC';
+  const NEW_VERSION = 'v1.1.0 · 9f2c1ab';
+  const DEMO_PASS = 'Demo2026!';
+  const DEMO_CODE = '123456';
+  const MAX_ATTEMPTS = 3;
+  const LOCK_SECONDS = 30;
+
+  const state = {
+    view: 'login',
+    cold: false,
+    requires2fa: true,
+    expired: false,
+    fails: 0,
+    lockedUntil: 0,
+    lockTimer: null,
+    busy: false,
+    pendingUser: ''
+  };
+
+  const el = {
+    banner: $('#banner'), remembered: $('#remembered'), rememberedUser: $('#remembered-user'),
+    rememberedAvatar: $('#remembered-avatar'), userField: $('#user-field'),
+    username: $('#username'), password: $('#password'), remember: $('#remember'),
+    loginForm: $('#login-form'), loginButton: $('#login-button'), loginText: $('#login-text'),
+    loginSpin: $('#login-spin'), caps: $('#caps'), title: $('#card-title'), sub: $('#card-sub'),
+    mfaCode: $('#mfa-code'), mfaError: $('#mfa-error'), mfaButton: $('#mfa-button'),
+    mfaText: $('#mfa-text'), mfaSpin: $('#mfa-spin'), devNote: $('#dev-note'),
+    update: $('#update'), updateVersion: $('#update-version'), reloadApp: $('#reload-app'),
+    versionText: $('#version-text'), versionChip: $('#version-chip'), card: $('.card')
+  };
+
+  const views = ['login', 'forgot', 'mfa', 'recovery', 'locked', 'ok'];
+
+  // ── Utilidades ─────────────────────────────
+  function setBanner(kind, html, spin) {
+    if (!kind) { el.banner.hidden = true; el.banner.replaceChildren(); return; }
+    el.banner.className = 'banner ' + kind;
+    const raw = String(html == null ? '' : html);
+    // El demo solo usa <b>…</b> al inicio; se construye con textContent para
+    // no interpretar HTML dinámico (evita XSS y alertas de CodeQL).
+    const match = raw.match(/^<b>([\s\S]*?)<\/b>\s*([\s\S]*)$/);
+    const title = match ? match[1] : '';
+    const detail = match ? match[2] : raw;
+    el.banner.replaceChildren();
+    if (spin) {
+      const s = document.createElement('span');
+      s.className = 'spin';
+      s.setAttribute('aria-hidden', 'true');
+      el.banner.appendChild(s);
+    }
+    const box = document.createElement('div');
+    if (title) {
+      const b = document.createElement('b');
+      b.textContent = title;
+      box.appendChild(b);
+    }
+    if (detail) {
+      if (title) box.appendChild(document.createTextNode(' '));
+      box.appendChild(document.createTextNode(detail));
+    }
+    el.banner.appendChild(box);
+    el.banner.hidden = false;
+  }
+  function setError(input, errorEl, on, message) {
+    input.setAttribute('aria-invalid', on ? 'true' : 'false');
+    const wrap = input.closest ? input.closest('.field.stacked') : null;
+    if (wrap) wrap.classList.toggle('is-invalid', on);
+    errorEl.hidden = !on;
+    if (message) errorEl.textContent = message;
+  }
+  function setBusy(on, label) {
+    state.busy = on;
+    el.loginButton.disabled = on || isLocked();
+    el.loginButton.setAttribute('aria-busy', on ? 'true' : 'false');
+    el.loginSpin.hidden = !on;
+    el.loginText.textContent = on ? (label || 'Verificando…') : 'Iniciar sesión';
+  }
+  function isLocked() { return Date.now() < state.lockedUntil; }
+  function initials(user) {
+    const base = String(user || '').split('@')[0];
+    return (base[0] || 'S').toUpperCase();
+  }
+  function niceName(user) {
+    const local = String(user || '').split('@')[0];
+    return local.split(/[._-]/).filter(Boolean)
+      .map((x) => x[0].toUpperCase() + x.slice(1)).join(' ') || 'usuario';
+  }
+  function rememberUser(user) {
+    try { localStorage.setItem(REMEMBER_KEY, user); } catch (_) {}
+  }
+  function forgetUser() {
+    try { localStorage.removeItem(REMEMBER_KEY); } catch (_) {}
+  }
+  function savedUser() {
+    try { return localStorage.getItem(REMEMBER_KEY) || ''; } catch (_) { return ''; }
+  }
+  function isOptedOut() {
+    try { return localStorage.getItem(OPT_OUT_KEY) === '1'; } catch (_) { return false; }
+  }
+  function setOptOut(on) {
+    try { on ? localStorage.setItem(OPT_OUT_KEY, '1') : localStorage.removeItem(OPT_OUT_KEY); } catch (_) {}
+  }
+
+  // ── Vistas ─────────────────────────────────
+  function showView(view) {
+    state.view = view;
+    views.forEach((v) => { $('#view-' + v).hidden = v !== view; });
+    const titles = {
+      login: ['StatAnalyzer Pro', 'Sistema de análisis estadístico'],
+      forgot: ['Recuperar acceso', 'Contraseña temporal por administrador'],
+      mfa: ['Verificación en dos pasos', 'Confirma tu identidad para continuar'],
+      recovery: ['Código de recuperación', 'Acceso alternativo de un solo uso'],
+      locked: ['Acceso bloqueado', 'Espera antes de volver a intentarlo'],
+      ok: ['Acceso concedido', 'Sesión iniciada correctamente']
+    };
+    const t = titles[view] || titles.login;
+    el.title.textContent = t[0];
+    el.sub.textContent = t[1];
+    const iconLock = document.getElementById('icon-lock');
+    const iconCheck = document.getElementById('icon-check');
+    if (iconLock && iconCheck) {
+      // En SVG la propiedad .hidden no refleja el atributo: usar setAttribute.
+      if (view === 'ok') { iconLock.setAttribute('hidden', ''); iconCheck.removeAttribute('hidden'); }
+      else { iconLock.removeAttribute('hidden'); iconCheck.setAttribute('hidden', ''); }
+      document.getElementById('card-icon').style.borderColor = view === 'ok' ? '#62d9a544' : '';
+      document.getElementById('card-icon').style.color = view === 'ok' ? '#8fe8c4' : '';
+    }
+    if (view === 'login') {
+      setBanner(state.expired ? 'warn' : '', state.expired
+        ? '<b>Tu sesión expiró por inactividad.</b> Tus borradores se conservaron.' : '');
+    }
+    if (view === 'mfa') { el.mfaCode.value = ''; setError(el.mfaCode, el.mfaError, false); setTimeout(() => el.mfaCode.focus(), 30); }
+  }
+
+  function formatLast(ts) {
+    const d = new Date(ts);
+    const now = new Date();
+    const hm = String(d.getHours()).padStart(2, '0') + ':' + String(d.getMinutes()).padStart(2, '0');
+    if (d.toDateString() === now.toDateString()) return 'hoy, ' + hm;
+    const y = new Date(now);
+    y.setDate(now.getDate() - 1);
+    if (d.toDateString() === y.toDateString()) return 'ayer, ' + hm;
+    return d.toLocaleDateString('es-ES', { day: '2-digit', month: 'short' }) + ', ' + hm;
+  }
+  function maskIp(ip) {
+    const s = String(ip || '').trim();
+    if (!s) return '—';
+    if (s.indexOf(':') !== -1) {
+      const p = s.split(':');
+      return p.slice(0, 4).join(':') + ':•:•:•:•';
+    }
+    const p = s.split('.');
+    if (p.length === 4) return p[0] + '.' + p[1] + '.•.•';
+    return '•';
+  }
+  function loginCount() {
+    let n = 0;
+    try { n = Number(localStorage.getItem(LOGIN_COUNT_KEY) || 0); } catch (_) {}
+    return n > 0 ? n : 24;
+  }
+  function qrPayload() {
+    const roleEl = document.getElementById('remembered-role');
+    const areaEl = document.getElementById('remembered-area');
+    let ip = '';
+    try { ip = localStorage.getItem(LAST_IP_KEY) || ''; } catch (_) {}
+    // Solo datos no sensibles: nunca nombre, email ni IP completa.
+    return {
+      r: (roleEl ? roleEl.textContent.trim() : '') || 'Analista',
+      a: (areaEl ? areaEl.textContent.trim() : '') || 'Control de Calidad',
+      s: loginCount(),
+      ip: maskIp(ip || DEMO_LAST_IP).replace(/•/g, '*'),
+      '2fa': !!state.requires2fa
+    };
+  }
+  function renderSessionQr() {
+    const box = document.getElementById('session-qr');
+    if (!box || typeof qrcode !== 'function') return;
+    try {
+      const qr = qrcode(0, 'L');
+      qr.addData(JSON.stringify(qrPayload()));
+      qr.make();
+      let svg = qr.createSvgTag({
+        cellSize: 2,
+        margin: 1,
+        scalable: true,
+        alt: 'Datos de sesión: rol, área, sesiones, 2FA e IP enmascarada'
+      });
+      svg = svg.replace('<path ',
+        '<defs><linearGradient id="qrInk" x1="0" y1="0" x2="1" y2="1">' +
+        '<stop offset="0" stop-color="#2f1f5a"/>' +
+        '<stop offset=".55" stop-color="#3f2a86"/>' +
+        '<stop offset="1" stop-color="#4c34a6"/>' +
+        '</linearGradient></defs><path ');
+      svg = svg.replace('fill="black"', 'fill="url(#qrInk)"');
+      const doc = new DOMParser().parseFromString(svg, 'image/svg+xml');
+      const node = doc && doc.documentElement;
+      if (!node || node.nodeName.toLowerCase() !== 'svg') throw new Error('QR inválido');
+      box.replaceChildren(document.importNode(node, true));
+    } catch (_) {
+      box.replaceChildren();
+    }
+  }
+  function browserInfo() {
+    const ua = navigator.userAgent || '';
+    const br = /Edg/.test(ua) ? 'Edge' : /Firefox/.test(ua) ? 'Firefox' : /Chrome/.test(ua) ? 'Chrome' : /Safari/.test(ua) ? 'Safari' : 'Navegador';
+    const os = /Windows/.test(ua) ? 'Windows' : /Mac OS X|Macintosh/.test(ua) ? 'macOS' : /Android/.test(ua) ? 'Android' : /iPhone|iPad/.test(ua) ? 'iOS' : /Linux/.test(ua) ? 'Linux' : '';
+    return br + (os ? ' · ' + os : '');
+  }
+  function renderRememberedProfile() {
+    let ts = 0;
+    try { ts = Number(localStorage.getItem('sigmaproxvl.demoLastAccess') || 0); } catch (_) {}
+    if (!ts) ts = Date.now() - 2 * 3600 * 1000;
+    const last = document.getElementById('remembered-last');
+    if (last) last.textContent = formatLast(ts);
+    // En la app real: nombre, cargo y área vienen del perfil devuelto por el login.
+    const role = document.getElementById('remembered-role');
+    const area = document.getElementById('remembered-area');
+    const device = document.getElementById('remembered-device');
+    if (role) role.textContent = 'Analista';
+    if (area) area.textContent = 'Control de Calidad';
+    if (device) device.textContent = browserInfo();
+    const logins = document.getElementById('remembered-logins');
+    if (logins) logins.textContent = String(loginCount());
+    const ipEl = document.getElementById('remembered-ip');
+    if (ipEl) {
+      let ip = '';
+      try { ip = localStorage.getItem(LAST_IP_KEY) || ''; } catch (_) {}
+      ipEl.textContent = maskIp(ip || DEMO_LAST_IP);
+      ipEl.title = 'IP enmascarada por privacidad';
+    }
+    const badge = document.getElementById('remembered-2fa');
+    const badgeText = document.getElementById('remembered-2fa-text');
+    if (badge && badgeText) {
+      badge.classList.toggle('off', !state.requires2fa);
+      badgeText.textContent = state.requires2fa ? '2FA activo' : '2FA no configurado';
+    }
+    renderSessionQr();
+  }
+  function renderRemembered(user) {
+    const has = !!user;
+    el.remembered.hidden = !has;
+    el.userField.hidden = has;
+    if (has) {
+      el.username.value = user;
+      el.rememberedUser.textContent = user;
+      el.rememberedUser.title = user;
+      const nameEl = document.getElementById('remembered-name');
+      if (nameEl) nameEl.textContent = niceName(user);
+      el.rememberedAvatar.textContent = initials(user);
+      el.remember.checked = true;
+      renderRememberedProfile();
+      el.remembered.classList.remove('entering');
+      void el.remembered.offsetWidth;
+      el.remembered.classList.add('entering');
+    } else {
+      el.username.value = '';
+      el.remember.checked = !isOptedOut();
+    }
+  }
+
+  function focusEntry() {
+    if (state.view !== 'login') return;
+    if (savedUser()) el.password.focus({ preventScroll: true });
+    else el.username.focus({ preventScroll: true });
+  }
+
+  function showLocked(seconds) {
+    state.lockedUntil = Date.now() + seconds * 1000;
+    showView('locked');
+    setBanner('');
+    const tick = () => {
+      const left = Math.max(0, Math.ceil((state.lockedUntil - Date.now()) / 1000));
+      $('#lock-count').textContent = '00:' + String(left).padStart(2, '0');
+      if (left <= 0) {
+        clearInterval(state.lockTimer);
+        state.lockTimer = null;
+        state.fails = 0;
+        showView('login');
+        setBanner('info', 'Ya puedes intentarlo de nuevo.');
+        el.loginButton.disabled = false;
+        focusEntry();
+      }
+    };
+    clearInterval(state.lockTimer);
+    tick();
+    state.lockTimer = setInterval(tick, 500);
+  }
+
+  // ── Login ──────────────────────────────────
+  el.loginForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    if (state.busy || isLocked()) return;
+    const user = el.username.value.trim();
+    const pass = el.password.value;
+    const noUser = !user;
+    const noPass = !pass;
+    setError(el.username, $('#user-error'), noUser);
+    setError(el.password, $('#password-error'), noPass);
+    if (noUser) { el.username.focus(); return; }
+    if (noPass) { el.password.focus(); return; }
+
+    setBusy(true, state.cold ? 'Conectando…' : 'Verificando…');
+    setBanner('info', '<b>Conectando con el servidor…</b> Estableciendo conexión segura con la API.', true);
+    const phase2 = setTimeout(() => {
+      if (!state.busy) return;
+      setBanner('info', '<b>Verificando usuario y contraseña…</b> La base de datos está comprobando tus credenciales.', true);
+    }, 350);
+
+    await new Promise((r) => setTimeout(r, state.cold ? 1600 : 650));
+    clearTimeout(phase2);
+    setBusy(false);
+
+    if (state.cold) {
+      state.cold = false;
+      setBanner('ok', '<b>Servidor listo.</b> Conexión establecida.');
+      setTimeout(() => { if (el.banner.classList.contains('ok')) setBanner(''); }, 1800);
+    }
+
+    if (pass !== DEMO_PASS) {
+      state.fails++;
+      el.password.value = '';
+      el.password.focus();
+      if (state.fails >= MAX_ATTEMPTS) { showLocked(LOCK_SECONDS); return; }
+      setBanner('error', '<b>Credenciales incorrectas.</b> Revisa tu usuario y contraseña.');
+      return;
+    }
+
+    state.fails = 0;
+    setBanner('');
+    if (el.remember.checked) { rememberUser(user); setOptOut(false); }
+    else { forgetUser(); setOptOut(true); }
+    state.pendingUser = user;
+
+    if (state.requires2fa) {
+      showView('mfa');
+      setBanner('info', 'Te enviamos al segundo paso. El código caduca en 30 s.');
+      return;
+    }
+    setBanner('ok', '<b>Acceso concedido.</b> Cargando perfil y sesión…');
+    await new Promise((r) => setTimeout(r, 350));
+    finishLogin();
+  });
+
+  // ── 2FA ────────────────────────────────────
+  let mfaTimer = null;
+  function mfaSubmit() {
+    if (state.busy) return;
+    const code = el.mfaCode.value.trim();
+    if (!/^\d{6}$/.test(code)) {
+      setError(el.mfaCode, el.mfaError, true, 'Ingresa los 6 dígitos del código.');
+      el.mfaCode.focus();
+      return;
+    }
+    setError(el.mfaCode, el.mfaError, false);
+    state.busy = true;
+    el.mfaButton.disabled = true;
+    el.mfaSpin.hidden = false;
+    el.mfaText.textContent = 'Verificando…';
+    setBanner('info', '<b>Validando código 2FA…</b> Comprobando el código con el servidor.', true);
+    setTimeout(() => {
+      state.busy = false;
+      el.mfaButton.disabled = false;
+      el.mfaSpin.hidden = true;
+      el.mfaText.textContent = 'Verificar';
+      if (code === DEMO_CODE) {
+        setBanner('ok', '<b>Código válido.</b> Cargando perfil y sesión…');
+        setTimeout(finishLogin, 350);
+        return;
+      }
+      setError(el.mfaCode, el.mfaError, true, 'Código incorrecto. Revisa la hora de tu dispositivo.');
+      setBanner('error', '<b>Código incorrecto.</b> Revisa la hora de tu dispositivo.');
+      el.mfaCode.value = '';
+      el.mfaCode.focus();
+    }, 600);
+  }
+  el.mfaCode.addEventListener('input', () => {
+    el.mfaCode.value = el.mfaCode.value.replace(/\D/g, '').slice(0, 6);
+    setError(el.mfaCode, el.mfaError, false);
+    clearTimeout(mfaTimer);
+    if (el.mfaCode.value.length === 6) mfaTimer = setTimeout(mfaSubmit, 320);
+  });
+  $('#mfa-form').addEventListener('submit', (e) => { e.preventDefault(); clearTimeout(mfaTimer); mfaSubmit(); });
+
+  function finishLogin() {
+    state.expired = false;
+    try {
+      localStorage.setItem('sigmaproxvl.demoLastAccess', String(Date.now()));
+      const n = Number(localStorage.getItem(LOGIN_COUNT_KEY) || 0) || 24;
+      localStorage.setItem(LOGIN_COUNT_KEY, String(n + 1));
+      if (!localStorage.getItem(LAST_IP_KEY)) localStorage.setItem(LAST_IP_KEY, DEMO_LAST_IP);
+    } catch (_) {}
+    renderSessionQr();
+    setBanner('');
+    $('#ok-user').textContent = niceName(state.pendingUser || el.username.value);
+    const now = new Date();
+    const opts = { day: '2-digit', month: 'short', year: 'numeric' };
+    $('#last-access').textContent = now.toLocaleDateString('es-ES', opts) + ', ' +
+      String(now.getHours()).padStart(2, '0') + ':' + String(now.getMinutes()).padStart(2, '0') +
+      ' · Este dispositivo';
+    showView('ok');
+    setTimeout(() => $('#continue').focus(), 30);
+  }
+
+  // ── Información del proyecto ───────────────
+  const infoToggle = $('#info-toggle');
+  const projectInfo = $('#project-info');
+  const projectClose = $('#project-close');
+  function setProjectInfo(open, returnFocus = true) {
+    if (!infoToggle || !projectInfo) return;
+    projectInfo.hidden = !open;
+    infoToggle.setAttribute('aria-expanded', String(open));
+    if (!returnFocus) return;
+    if (open && projectClose) projectClose.focus({ preventScroll: true });
+    else infoToggle.focus({ preventScroll: true });
+  }
+  if (infoToggle && projectInfo && projectClose) {
+    infoToggle.addEventListener('click', (e) => {
+      e.stopPropagation();
+      setProjectInfo(projectInfo.hidden);
+    });
+    projectClose.addEventListener('click', () => setProjectInfo(false));
+    document.addEventListener('click', (e) => {
+      if (projectInfo.hidden) return;
+      if (projectInfo.contains(e.target) || infoToggle.contains(e.target)) return;
+      setProjectInfo(false, false);
+    });
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && !projectInfo.hidden) {
+        e.preventDefault();
+        setProjectInfo(false);
+      }
+    });
+  }
+
+  // ── Controles ──────────────────────────────
+  $('#toggle-password').addEventListener('click', () => {
+    const show = el.password.type === 'password';
+    el.password.type = show ? 'text' : 'password';
+    $('#toggle-password').setAttribute('aria-pressed', String(show));
+    $('#toggle-password').setAttribute('aria-label', show ? 'Ocultar contraseña' : 'Mostrar contraseña');
+    const eyeOn = $('#eye-on'), eyeOff = $('#eye-off');
+    if (show) { eyeOn.setAttribute('hidden', ''); eyeOff.removeAttribute('hidden'); }
+    else { eyeOn.removeAttribute('hidden'); eyeOff.setAttribute('hidden', ''); }
+    el.password.focus();
+  });
+
+  ['keydown', 'keyup'].forEach((ev) => el.password.addEventListener(ev, (e) => {
+    if (!e.getModifierState) return;
+    el.caps.hidden = !e.getModifierState('CapsLock');
+  }));
+  el.password.addEventListener('blur', () => { el.caps.hidden = true; });
+
+  el.remembered.addEventListener('click', (e) => {
+    if (e.target.closest('#change-user')) return;
+    el.password.focus({ preventScroll: true });
+    const field = el.password.closest ? el.password.closest('.field.stacked') : null;
+    if (field) {
+      field.classList.remove('pulse');
+      void field.offsetWidth;
+      field.classList.add('pulse');
+      setTimeout(() => field.classList.remove('pulse'), 950);
+    }
+  });
+
+  $('#change-user').addEventListener('click', (e) => {
+    e.stopPropagation();
+    el.remembered.classList.add('leaving');
+    setTimeout(() => {
+      // No borra la cuenta recordada: solo cambia a escribir otro usuario.
+      renderRemembered('');
+      el.remembered.classList.remove('leaving');
+      el.password.value = '';
+      setBanner('info', 'Escribe tu usuario. La sesión recordada se actualizará al entrar.');
+      el.username.focus();
+    }, 180);
+  });
+
+  el.remember.addEventListener('change', () => {
+    if (el.remember.checked) {
+      setOptOut(false);
+      const user = el.username.value.trim();
+      if (user) rememberUser(user);
+      setBanner('ok', 'Usuario recordado en este equipo. La contraseña no se guarda.');
+    } else {
+      forgetUser();
+      setOptOut(true);
+      renderRemembered('');
+      el.password.value = '';
+      setBanner('info', 'No se recordará el usuario en este equipo.');
+      el.username.focus();
+    }
+  });
+
+  $('#forgot-link').addEventListener('click', () => { showView('forgot'); setBanner(''); });
+  ['back-login', 'close-forgot'].forEach((id) => $('#' + id).addEventListener('click', () => { showView('login'); focusEntry(); }));
+  $('#back-mfa').addEventListener('click', () => { showView('login'); el.password.value = ''; el.password.focus(); });
+  $('#use-recovery').addEventListener('click', () => { showView('recovery'); setBanner(''); });
+  $('#back-recovery').addEventListener('click', () => { showView('mfa'); setBanner(''); });
+  $('#continue').addEventListener('click', () => { state.expired = false; renderRemembered(savedUser()); showView('login'); focusEntry(); });
+
+  $('#help-link').addEventListener('click', () => showView('forgot'));
+  $('#privacy-link').addEventListener('click', (e) => { e.preventDefault(); setBanner('info', 'Aquí irá la política de privacidad oficial.'); });
+  $('#support-link').addEventListener('click', (e) => { e.preventDefault(); setBanner('info', 'Soporte: soporte@sigmaproxvl.com'); });
+
+  // ── Nueva versión disponible ────────────────
+  function showUpdate(version) {
+    el.updateVersion.textContent = version || NEW_VERSION;
+    el.update.hidden = false;
+    el.card.classList.add('has-update');
+  }
+  function hideUpdate() {
+    el.update.hidden = true;
+    el.card.classList.remove('has-update');
+  }
+  function setVersionLabel(v) {
+    const value = v || BASE_VERSION;
+    if (el.versionText) el.versionText.textContent = value;
+    const pv = document.getElementById('project-version');
+    if (pv) pv.textContent = value;
+    if (el.versionChip) {
+      const commit = (value.split('·')[1] || '').trim();
+      const when = value === BASE_VERSION ? BASE_BUILD : new Date().toLocaleString('es-ES');
+      el.versionChip.title = 'Commit ' + (commit || '—') + ' · build ' + when;
+    }
+  }
+
+  // Copiar el commit para soporte (clic en el chip de versión)
+  if (el.versionChip) {
+    el.versionChip.addEventListener('click', async () => {
+      const txt = (el.versionText ? el.versionText.textContent : '').trim();
+      const original = el.versionText.textContent;
+      try {
+        await navigator.clipboard.writeText(txt);
+        el.versionText.textContent = '✓ Copiado';
+      } catch (_) {
+        el.versionText.textContent = 'No disponible';
+      }
+      setTimeout(() => { el.versionText.textContent = original; }, 1300);
+    });
+  }
+  function appliedVersion() {
+    try { return localStorage.getItem(VERSION_KEY) || ''; } catch (_) { return ''; }
+  }
+
+  el.reloadApp.addEventListener('click', async () => {
+    el.reloadApp.disabled = true;
+    el.reloadApp.textContent = 'Actualizando…';
+    try {
+      localStorage.setItem(VERSION_KEY, el.updateVersion.textContent.trim());
+      sessionStorage.setItem(JUST_UPDATED_KEY, el.updateVersion.textContent.trim());
+    } catch (_) {}
+    await new Promise((r) => setTimeout(r, 650));
+    location.reload();
+  });
+
+  // ── Escenarios (dev) ───────────────────────
+  function applyScenario(name) {
+    clearInterval(state.lockTimer);
+    state.lockTimer = null;
+    state.busy = false;
+    state.cold = false;
+    state.expired = false;
+    state.fails = 0;
+    state.lockedUntil = 0;
+    el.password.value = '';
+    el.loginButton.disabled = false;
+    setBusy(false);
+    setBanner('');
+    hideUpdate();
+    // La tarjeta recordada aparece en todos los escenarios menos Normal.
+    // Al pulsar "Cambiar" dentro de la tarjeta se oculta a propósito.
+    const demoUser = 'fernando.demo@sigmaproxvl.com';
+    const cardUser = name === 'normal' ? '' : (name === 'reset' ? demoUser : (savedUser() || demoUser));
+    if (cardUser) { setOptOut(false); rememberUser(cardUser); }
+    renderRemembered(cardUser);
+    showView('login');
+
+    if (name === 'remembered') {
+      setOptOut(false);
+      rememberUser('fernando.demo@sigmaproxvl.com');
+      renderRemembered(savedUser());
+      el.password.focus({ preventScroll: true });
+    } else if (name === 'cold') {
+      state.cold = true;
+      setBanner('info', '<b>Servidor despertando…</b> El primer acceso puede tardar unos segundos.', true);
+    } else if (name === 'mfa') {
+      state.pendingUser = el.username.value.trim() || 'demo.user';
+      showView('mfa');
+      setBanner('info', 'Escribe el código de 6 dígitos (Demo: 123456).');
+    } else if (name === 'locked') {
+      showLocked(LOCK_SECONDS);
+    } else if (name === 'expired') {
+      state.expired = true;
+      // La cuenta sigue recordada: solo hace falta volver a escribir la contraseña.
+      setOptOut(false);
+      rememberUser(savedUser() || 'fernando.demo@sigmaproxvl.com');
+      renderRemembered(savedUser());
+      setBanner('warn', '<b>Tu sesión expiró por inactividad.</b> Vuelve a ingresar tu contraseña. Tus borradores se conservaron.');
+      el.password.focus({ preventScroll: true });
+    } else if (name === 'update') {
+      showUpdate(NEW_VERSION);
+    } else if (name === 'error') {
+      setBanner('error', '<b>Credenciales incorrectas.</b> Revisa tu usuario y contraseña.');
+    } else if (name === 'ok') {
+      state.pendingUser = el.username.value.trim() || 'demo.user';
+      finishLogin();
+    } else if (name === 'reset') {
+      rememberUser(demoUser);
+      setOptOut(false);
+      el.remember.checked = true;
+      try { localStorage.removeItem(VERSION_KEY); } catch (_) {}
+      try { sessionStorage.removeItem(JUST_UPDATED_KEY); } catch (_) {}
+      try { localStorage.removeItem(LOGIN_COUNT_KEY); localStorage.removeItem(LAST_IP_KEY); } catch (_) {}
+      setVersionLabel(BASE_VERSION);
+      hideUpdate();
+      renderSessionQr();
+      setBanner('info', 'Demo reiniciada: usuario recordado y versión restaurados.');
+    }
+    document.querySelectorAll('.dev [data-scenario]').forEach((b) => b.classList.toggle('act', b.dataset.scenario === name));
+    document.querySelector('.dev').open = false;
+    if (name === 'normal') el.username.focus();
+    else focusEntry();
+  }
+  document.querySelectorAll('.dev [data-scenario]').forEach((b) => b.addEventListener('click', () => applyScenario(b.dataset.scenario)));
+
+  // ── Arranque ───────────────────────────────
+  (function boot() {
+    const applied = appliedVersion();
+    if (applied && applied !== BASE_VERSION) setVersionLabel(applied);
+    else setVersionLabel(BASE_VERSION);
+
+    let justUpdated = '';
+    try { justUpdated = sessionStorage.getItem(JUST_UPDATED_KEY) || ''; } catch (_) {}
+    if (justUpdated) {
+      try { sessionStorage.removeItem(JUST_UPDATED_KEY); } catch (_) {}
+      setBanner('ok', 'Actualizado correctamente a ' + justUpdated + '.');
+      setTimeout(() => { if (el.banner.classList.contains('ok')) setBanner(''); }, 5000);
+    }
+
+    const optedOut = isOptedOut();
+    const saved = optedOut ? '' : savedUser();
+    if (saved) renderRemembered(saved);
+    else el.remember.checked = !optedOut;
+    renderSessionQr();
+    el.loginButton.disabled = false;
+    focusEntry();
+  })();
+})();
+</script>
+</body>
+</html>
