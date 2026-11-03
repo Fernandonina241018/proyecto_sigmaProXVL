@@ -413,9 +413,11 @@ var leftPanels = {
     var hojas =
       '<div class="sheetrow">' +
         '<select id="sheetsSelect" class="sheets-select" onchange="switchToSheet(parseInt(this.value))" aria-label="Hoja activa">' + getSheetsOptionsHTML() + '</select>' +
-        (trabajoSheets.length > 1 ? '<button class="rbtn" onclick="deleteSheet(' + trabajoActiveSheetIndex + ',event)" title="Eliminar hoja">✕</button>' : '') +
-        '<button class="rbtn acc" onclick="createNewSheet()" title="Nueva hoja">＋</button>' +
-      '</div>';
+        (trabajoSheets.length > 1 ? '<button class="rbtn sheet-del-btn" onclick="deleteSheet(' + trabajoActiveSheetIndex + ',event)" title="Eliminar hoja" aria-label="Eliminar hoja activa">✕</button>' : '') +
+      '</div>' +
+      '<button type="button" class="sheet-add-full" onclick="createNewSheet()" title="Agregar otra hoja" aria-label="Agregar otra hoja">' +
+        '<span class="sheet-add-ico" aria-hidden="true">＋</span><span>Nueva hoja</span>' +
+      '</button>';
 
     var resumen = '<div id="trabajoResumen">' + getTrabajoResumenHTML() + '</div>';
     var celda = '<div id="trabajoCeldaActiva">' + getTrabajoCeldaActivaHTML() + '</div>';
@@ -538,7 +540,8 @@ var leftPanels = {
           '<label class="anl-check"><input type="checkbox" id="colImputeMissing" onchange="columnAnalysisConfig.imputeMissing=this.checked"> Imputar</label>' +
           '<button class="anl-icon-btn" type="button" onclick="showColumnExclusionModal()" title="Excluir columnas" aria-label="Excluir columnas">🚫</button>' +
         '</div>' +
-        '<div id="analisisExcludedTags" class="anl-tags"></div>';
+        '<div id="analisisExcludedTags" class="anl-tags"></div>' +
+        '<div class="anl-focus-note">El análisis queda ligado a esta hoja: si cambias de dataset, se descarta.</div>';
 
       var lastContent =
         '<div id="analisisLastResultList" class="anl-last">' +
@@ -811,8 +814,12 @@ var rightPanels = {
           '<div style="overflow-x:auto;flex:1;min-width:0;display:flex;gap:0;align-items:stretch">' +
             getTrabajoTabsHTML() +
           '</div>' +
-          '<div style="padding:0 6px;font-size:11px;color:var(--text-faint);cursor:pointer;display:flex;align-items:center;flex-shrink:0" onclick="deleteAllButFirstSheet()" title="Borrar todas las hojas excepto la primera">🗑️</div>' +
-          '<div style="padding:0 8px;font-size:13px;color:var(--accent);cursor:pointer;display:flex;align-items:center;flex-shrink:0" onclick="createNewSheet()" title="Nueva hoja">+</div>' +
+          '<div class="sheet-footer-actions">' +
+            (trabajoSheets.length > 1 ? '<button type="button" class="sheet-tool-btn" onclick="deleteAllButFirstSheet()" title="Borrar todas las hojas excepto la primera" aria-label="Borrar todas las hojas excepto la primera">🗑️</button>' : '') +
+            '<button type="button" class="sheet-add-btn" onclick="createNewSheet()" title="Agregar otra hoja" aria-label="Agregar otra hoja">' +
+              '<span class="sheet-add-ico" aria-hidden="true">＋</span><span>Nueva hoja</span>' +
+            '</button>' +
+          '</div>' +
         '</div>' +
         '<div style="display:flex;align-items:center;gap:8px;flex-shrink:0">' +
           '<span style="font-size:11px">' + totalRows + ' filas · ' + cols.length + ' cols · ' + missingCount + ' faltantes</span>' +
@@ -877,9 +884,11 @@ var rightPanels = {
     // 1. Mostrar resultado si existe
     if (analisisSelectedTest && analisisResultContent) {
       var testLabel = analisisLastResult && analisisLastResult.testName ? analisisLastResult.testName : analisisSelectedTest;
+      var _originName = analisisResultOrigin && analisisResultOrigin.name ? analisisResultOrigin.name : (getCurrentSheet() ? getCurrentSheet().name : '');
       return '<div class="page-body anl-results-scope">' +
         '<div class="anl-result-head">' +
           '<span class="anl-result-title">' + escapeHtml(testLabel) + '</span>' +
+          '<span class="anl-result-origin" title="Hoja que originó este análisis">📋 ' + escapeHtml(_originName || 'Sin hoja') + '</span>' +
           '<div class="anl-result-actions">' +
             '<button class="btn btn-secondary anl-btn" onclick="analisisResultContent=null;analisisSelectedTest=null;loadPage(&#39;analisis&#39;)">✕ Cerrar resultado</button>' +
           '</div>' +
@@ -931,6 +940,7 @@ var rightPanels = {
           '<div class="anl-result-inline anl-results-scope" style="background:var(--card-bg);border:1px solid var(--border);border-radius:8px;padding:20px">' +
             '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid var(--border)">' +
               '<span style="font-size:14px;font-weight:600;color:var(--text-primary)">' + (analisisLastResult ? analisisLastResult.testName : 'Resultado') + '</span>' +
+              '<span class="anl-result-origin" title="Hoja que originó este análisis">📋 ' + escapeHtml((analisisResultOrigin && analisisResultOrigin.name) || (getCurrentSheet() ? getCurrentSheet().name : 'Sin hoja')) + '</span>' +
               '<div style="display:flex;gap:6px">' +
                 '<button class="btn btn-secondary" style="font-size:11px;padding:4px 8px" onclick="analisisResultContent=null;analisisSelectedTest=null;loadPage(&#39;analisis&#39;)">✕ Cerrar</button>' +
               '</div>' +

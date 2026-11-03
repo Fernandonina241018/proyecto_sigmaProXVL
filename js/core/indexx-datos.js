@@ -726,6 +726,8 @@ function sendToTrabajo() {
   if (!datosCurrentData) { showToast('⚠️ No hay datos para enviar. Importa un archivo primero.'); return; }
   var name = datosCurrentFileName.replace(/\.[^.]+$/, '');
   var rowsToSend = datosFilteredRows.length && datosFilteredRows.length < datosCurrentData.rows.length ? datosFilteredRows : datosCurrentData.rows;
+  var _hojaPrevia = (typeof getCurrentSheet === 'function') ? getCurrentSheet() : null;
+  var _focoPrevio = (typeof _analisisFocusSnapshot === 'function') ? _analisisFocusSnapshot(_hojaPrevia) : null;
   // Si ya existe una hoja de este dataset y contiene EXACTAMENTE estos datos,
   // solo se navega (evita duplicados). Si el contenido cambió (p. ej. se
   // volvió a cargar el mismo archivo con datos nuevos) se crea una hoja con
@@ -735,6 +737,11 @@ function sendToTrabajo() {
       trabajoActiveSheetIndex = i;
       trabajoActiveCell = {row:0,col:0};
       trabajoPage = 0;
+      // Misma hoja y mismos datos: el análisis sigue siendo válido. Si el
+      // foco pasa a otra hoja, se descarta para no contaminar el reporte.
+      if (!_focoPrevio || _focoPrevio.name !== trabajoSheets[i].name) {
+        if (typeof invalidarAnalisisPorCambioDeFoco === 'function') invalidarAnalisisPorCambioDeFoco();
+      }
       loadPage('trabajo');
       return;
     }
@@ -750,6 +757,7 @@ function sendToTrabajo() {
   trabajoActiveSheetIndex = trabajoSheets.length - 1;
   trabajoActiveCell = {row:0,col:0};
   trabajoPage = 0;
+  if (typeof invalidarAnalisisPorCambioDeFoco === 'function') invalidarAnalisisPorCambioDeFoco();
   _persistAllData();
   // _persistAllData puede descartar hojas al quedarse sin cuota. Si la recién
   // enviada fue la descartada, se conserva en memoria para no perder el envío

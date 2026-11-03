@@ -90,6 +90,39 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (SigmaProXVL) con spr
 
 ## CAMBIOS RECIENTES
 
+### 2026-11-02 (57): UI — botón "Nueva hoja" rediseñado + análisis ligado a la hoja de origen
+
+**Qué:**
+1. **Botón para agregar hoja rediseñado.** El antiguo `+` de 13 px en la barra inferior (y el `＋` circular del sidebar) se sustituye por dos controles visibles:
+   - Barra inferior de hojas: botón tipo píldora `＋ Nueva hoja` (28 px de alto, borde y fondo de acento, hover/elevación).
+   - Card "Hojas" del sidebar: botón de ancho completo `＋ Nueva hoja` (36 px), junto al selector de hoja activa.
+   - Pestañas `sheet-tab` con estado activo/hover propios y nombre truncado; botón de borrar todas pasa a `sheet-tool-btn`.
+2. **Análisis estadístico ligado al dataset de origen.** Al ejecutar un test (individual, lote o EDA) se guarda `analisisResultOrigin` con la hoja activa. Si el foco cambia —cambiar de hoja, crear/eliminar hoja, limpiar hoja o dataset, enviar otro dataset, deshacer/rehacer— se descarta el resultado (`analisisResultContent`, `analisisLastResult`, `analisisResultOrigin`) y la caché `StateManager.setUltimosResultados(null)`, con aviso al usuario. Así el reporte no puede cargar estadísticos de una hoja distinta.
+3. **Guard adicional en Reportes.** `buildReportesView()` valida `analisisResultadosVigentes()` antes de mostrar/ofrecer el análisis; si el resultado pertenece a otra hoja se ignora.
+4. **Feedback visual:** el encabezado de resultados muestra un chip `📋 <hoja de origen>` y la card Dataset indica que el análisis se descarta al cambiar de hoja.
+5. **Fix colateral:** al borrar una hoja anterior a la activa, el índice se reajusta para conservar la misma hoja enfocada (antes podía saltar a otra sin invalidar el análisis).
+
+**Archivos afectados:**
+| Archivo | Cambio |
+|---------|--------|
+| `js/core/indexx-trabajo.js` | Helpers de foco (`captureAnalisisFocus`, `analisisFocusMatchesCurrentSheet`, `analisisResultadosVigentes`, `invalidarAnalisisPorCambioDeFoco`); invalidación en `switchToSheet`, `createNewSheet`, `deleteSheet`, `deleteAllButFirstSheet`, `clearCurrentSheet`, `limpiarDataset`, undo/redo y generación de datos; reajuste de índice al borrar hoja anterior |
+| `js/core/indexx-globals.js` | Nueva global `analisisResultOrigin`; reset en `resetTrabajoMemoryToDefault()` |
+| `js/core/indexx-analysis.js` | `captureAnalisisFocus()` tras ejecutar test individual, EDA y lote |
+| `js/core/indexx-datos.js` | `sendToTrabajo()` invalida solo si cambia la hoja enfocada |
+| `js/core/indexx-ui.js` | Botones `sheet-add-btn` / `sheet-add-full`, pestañas `sheet-tab`, chip de origen y nota de foco |
+| `css/core/indexx.css` | Estilos de barra de hojas, botones de nueva hoja, chip de origen y nota |
+| `js/managers/ReporteManager.js` | Guard `analisisResultadosVigentes()` en `buildReportesView()` |
+| `tests/analisis-foco.test.js` | **NUEVO** — 7 tests: misma hoja conserva, cambio descarta, borrado anterior conserva, borrado activo invalida, crear/limpiar invalida, guard de reportes y botón visible |
+
+**Verificación:**
+```
+node --check js/core/{indexx-trabajo,indexx-globals,indexx-ui,indexx-datos,indexx-analysis}.js → OK
+node --check js/managers/ReporteManager.js → OK
+npx vitest run tests/analisis-foco.test.js tests/analisis-panel.test.js → 13/13
+npm test → 55 archivos, 697 tests OK
+npm run preflight → OK (10 E2E)
+```
+
 ### 2026-11-02 (56): Fix — al pegar en A1, encabezados como "1er Lote" se insertaban como datos
 
 **Qué:** Al pegar una tabla en la celda A1 de la Hoja de Trabajo, si la fila de encabezados empezaba por número (`1er Lote`, `2ª Prueba`, `3M`, `2024-Q1`, `5 mg`), esa fila se insertaba como **datos** y los encabezados seguían siendo `Col1, Col2…`.
