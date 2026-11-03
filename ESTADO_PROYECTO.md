@@ -90,6 +90,33 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (SigmaProXVL) con spr
 
 ## CAMBIOS RECIENTES
 
+### 2026-11-02 (56): Fix — al pegar en A1, encabezados como "1er Lote" se insertaban como datos
+
+**Qué:** Al pegar una tabla en la celda A1 de la Hoja de Trabajo, si la fila de encabezados empezaba por número (`1er Lote`, `2ª Prueba`, `3M`, `2024-Q1`, `5 mg`), esa fila se insertaba como **datos** y los encabezados seguían siendo `Col1, Col2…`.
+
+**Causa raíz:** `handleCellPaste()` decidía si la primera fila era encabezado con `isNaN(parseFloat(val))`. `parseFloat()` acepta un **prefijo numérico**: `parseFloat('1er Lote') === 1`, no `NaN`, así que la celda se clasificaba como numérica y `hasTextHeaders` quedaba en `false`. Solo fallaba cuando el número iba al inicio de la celda; `Lote 1` funcionaba.
+
+**Fix:**
+- Nueva `_celdaTieneLetras(val)` en `js/core/indexx-trabajo.js`: una celda es encabezado si contiene letras (incluye acentos y `ªº`), sin importar que empiece por número.
+- `handleCellPaste()` usa `firstRow.some(_celdaTieneLetras)` en lugar del bucle con `parseFloat`.
+- Se conserva el comportamiento para filas numéricas puras (`1.5`, `123`, `2024-01`), que siguen entrando como datos.
+
+**Archivos afectados:**
+| Archivo | Cambio |
+|---------|--------|
+| `js/core/indexx-trabajo.js` | Helper `_celdaTieneLetras()` + detección de encabezados en `handleCellPaste()` |
+| `tests/trabajo-panel.test.js` | +3 tests: helper (positivos/negativos), pegado real en A1 con `1er Lote/2ª Prueba/3M`, y fila numérica pura que sigue siendo dato |
+
+**Verificación:**
+```
+node --check js/core/indexx-trabajo.js         → OK
+node --check tests/trabajo-panel.test.js       → OK
+npx vitest run tests/trabajo-panel.test.js     → 4/4
+npm test                                       → 54 archivos, 690 tests OK
+```
+
+Test de regresión **validado en rojo**: restaurando el bucle con `parseFloat`, el test de pegado falla (los encabezados no se aplican); con el fix, pasa.
+
 ### 2026-11-02 (55): Fix — "Gestión de Datos" no enviaba a Hoja de Trabajo
 
 **Qué:** Se corrige el flujo **Datos → Trabajo**. El botón `📋 Trabajo` de la Vista Previa no hacía nada (y tampoco `Filtrar` ni `Exportar`), y en algunos casos el envío podía quedarse con datos viejos o perderse por cuota de almacenamiento.
