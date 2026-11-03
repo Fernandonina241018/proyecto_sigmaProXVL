@@ -115,6 +115,36 @@
     text-align: center;
 }
 
+/* ── Progreso del login (fases conexión/BD/2FA) ── */
+.auth-progress {
+    display: flex;
+    align-items: flex-start;
+    gap: 9px;
+    padding: 10px 14px;
+    border: 1.5px solid #cbd5e0;
+    border-radius: 8px;
+    background: #f7fafc;
+    color: #4a5568;
+    font-size: 0.85rem;
+    line-height: 1.5;
+    margin-bottom: 16px;
+}
+.auth-progress[hidden] { display: none; }
+.auth-progress b { font-weight: 700; }
+.auth-progress.info  { border-color: #90cdf4; background: #ebf8ff; color: #2b6cb0; }
+.auth-progress.ok    { border-color: #9ae6b4; background: #f0fff4; color: #276749; }
+.auth-progress.error { border-color: #feb2b2; background: #fff5f5; color: #c53030; }
+.auth-progress .spin {
+    width: 13px;
+    height: 13px;
+    border: 2px solid currentColor;
+    border-right-color: transparent;
+    border-radius: 50%;
+    animation: auth-spin 0.8s linear infinite;
+    flex: none;
+    margin-top: 2px;
+}
+
 /* ── Campos con Floating Labels ── */
 .auth-field {
     margin-bottom: 28px;

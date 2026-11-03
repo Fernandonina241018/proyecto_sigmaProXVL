@@ -90,6 +90,32 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (SigmaProXVL) con spr
 
 ## CAMBIOS RECIENTES
 
+### 2026-11-03 (226): Login real — fases de progreso (conexión, BD, perfil y 2FA)
+
+**Qué:** Se trasladan al login real las fases visibles del prototipo `login_sigmaproxvl_hibrido_v3.html` (LOTE 224). Se implementan en `js/core/auth.js` para la variante V2 (por defecto) y también para el respaldo V1. No cambia el contrato de autenticación ni ningún endpoint.
+
+- **Fases:** “Conectando con el servidor…” (conexión segura) → a los 350 ms “Verificando usuario y contraseña…” (la base de datos comprueba las credenciales) → “Acceso concedido. Cargando perfil y sesión…”.
+- **Servidor frío:** si el backend no responde en 6 s, el aviso pasa a “Servidor despertando… El primer acceso puede tardar unos segundos.” (primer acceso en Render).
+- **2FA:** “Validando código 2FA…” mientras verifica; “Código válido. Cargando perfil y sesión…” en verde; “Código incorrecto. Revisa la hora de tu dispositivo.” en rojo.
+- **Seguridad:** el aviso se construye con `textContent` + `replaceChildren` (nunca `innerHTML`), así que el texto del servidor no puede reinterpretarse como HTML. Se conservan el bloqueo por intentos y el flujo real de sesión/2FA.
+- **Accesibilidad:** contenedor con `role="status"` y `aria-live="polite"`; spinner con `aria-hidden`.
+
+**Archivos afectados:**
+| Archivo | Cambio |
+|---------|--------|
+| `js/core/auth.js` | +`_setAuthProgress()`; markup `#auth-progress` en V1/V2; fases en `_doLogin` y `_show2FAInput` |
+| `css/core/auth.css` | Estilos `.auth-progress` (info/ok/error) + spinner |
+| `tests/auth-login-fases.test.js` | **Nuevo** — 6 tests de fases y de no-reinterpretación de HTML |
+| `e2e/login-v2.spec.js` | Nuevo test E2E con `/api/login` retrasado 1.2 s para observar las fases |
+
+**Verificación:**
+```
+node --check js/core/auth.js → OK
+Vitest → 702/702 (56 archivos)
+Backend → 120/120
+Playwright → 11/11 (incluye el test E2E de fases)
+```
+
 ### 2026-11-03 (225): Integración del setup del agente — `/prompt` v2.2.0, skills versionadas y `agent:check`
 
 **Qué:** Se hace portable y verificable el comando `/prompt` y sus recursos, sin cambiar el runtime de la app.
@@ -143,7 +169,7 @@ Playwright (file://):
 Errores JS de consola → 0
 ```
 
-**Pendiente:** trasladar las fases a `js/core/auth.js` + `css/core/auth-v2.css` (login real).
+**Pendiente (resuelto en el LOTE 226):** trasladar las fases a `js/core/auth.js` + `css/core/auth-v2.css` (login real).
 
 ### 2026-11-02 (57): UI — botón "Nueva hoja" rediseñado + análisis ligado a la hoja de origen
 

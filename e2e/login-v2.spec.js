@@ -22,6 +22,30 @@ test('login V2: credenciales incorrectas muestran error sin salir del rediseño'
   await expect(overlay).toBeVisible();
 });
 
+test('login V2: muestra las fases de conexión y verificación en la base de datos', async ({ page }) => {
+  await page.goto('/indexx.html?login=v2');
+  await expect(page.locator('#auth-overlay.auth-v2')).toBeVisible();
+
+  // Retrasa la respuesta del backend para que las fases sean observables.
+  await page.route('**/api/login', async (route) => {
+    await new Promise((r) => setTimeout(r, 1200));
+    await route.continue();
+  });
+
+  await page.fill('#auth-user', ADMIN.user);
+  await page.fill('#auth-pass', ADMIN.pass);
+  await page.click('#auth-btn-login');
+
+  const progress = page.locator('#auth-progress');
+  await expect(progress).toBeVisible();
+  await expect(progress).toContainText('Conectando con el servidor');
+  await expect(progress).toContainText('Verificando usuario y contraseña', { timeout: 2500 });
+  await expect(progress).toContainText('base de datos');
+
+  // El login real sigue funcionando después de las fases.
+  await expect(page.locator('#area-select-overlay')).toBeVisible({ timeout: 15000 });
+});
+
 test('login V2: entra a la app y conserva el flujo de área', async ({ page }) => {
   await page.goto('/indexx.html?login=v2');
   await expect(page.locator('#auth-overlay.auth-v2')).toBeVisible();
