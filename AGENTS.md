@@ -29,6 +29,15 @@
 - Hacer push inmediato a GitHub
 - Incluir tanto los archivos modificados como el `.md` actualizado en el mismo commit (o commits relacionados)
 
+### 5. Lote de dependencias
+- **Agrupar patch/minor** en un solo PR o rama: **un merge = un sello** de versión.
+- **Majors en PR dedicado**: CI (CodeQL, checkout) por un lado; runtime (express, docx, numpy) con migración y smoke propio.
+- **Rebasar una vez al inicio del lote**; no encadenar rebases por cada sello. Si `main` avanza, mergear el lote antes de abrir el siguiente.
+- **React Doctor es advisory**: sus avisos no bloquean; resolver los hilos con justificación o dejar solo el resumen, sin tratarlos como fallo de CI.
+- **Nunca** `--admin` ni push directo a `main`; siempre rama + PR.
+- **Verificación mínima antes de mergear**: `node --check`, tests dirigidos y `npm run preflight` si el cambio toca runtime.
+- Si hay PRs separados inevitables, mergear en ráfaga y aceptar un sello por merge; no bloquear el lote esperando el sello.
+
 ## Flujo de trabajo
 
 ```
