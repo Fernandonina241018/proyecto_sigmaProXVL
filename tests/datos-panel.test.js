@@ -30,7 +30,10 @@ function loadDatosHarness() {
     '</div>' +
     '<span class="lk" id="borrarTodo" role="button" tabindex="0" data-act="borrar-todo"><span>Borrar todo</span></span>' +
     '<div id="listaRec"></div>' +
-    '</div>';
+    '</div>' +
+    '<button id="btnSendToTrabajo"></button>' +
+    '<button id="btnFilterRows"></button>' +
+    '<button id="btnExport"></button>';
   const calls = [];
   const sandbox = {
     console,
@@ -47,7 +50,15 @@ function loadDatosHarness() {
     ampliarDatos: () => { calls.push(['ampliar']); },
     limpiarDataset: () => { calls.push(['limpiar']); },
     clearRecentFiles: () => { calls.push(['borrar-todo']); },
-    showExportModal: () => {}, showFilterModal: () => {}, sendToTrabajo: () => {},
+    showExportModal: () => { calls.push(['export']); },
+    showFilterModal: () => { calls.push(['filtrar']); },
+    sendToTrabajo: () => { calls.push(['trabajo']); },
+    loadPage: (name) => { calls.push(['page', name]); },
+    trabajoSheets: [],
+    trabajoActiveSheetIndex: 0,
+    trabajoActiveCell: { row: 0, col: 0 },
+    trabajoPage: 0,
+    datosFilteredRows: [],
     _persistAllData: () => {},
     datosCurrentData: null,
     datosCurrentFileName: '',
@@ -104,6 +115,37 @@ describe('Panel datos F1: delegación data-act', () => {
     expect(drop.classList.contains('over')).toBe(false);
     expect(calls.some((c) => c[0] === 'toast' && c[1].includes('Formato no soportado'))).toBe(true);
   });
+
+  test('recablea las acciones del panel derecho (Trabajo/Filtrar/Exportar)', async () => {
+    const { sandbox, document, calls } = loadDatosHarness();
+    await vm.runInContext(
+      'datosCurrentData = { headers: ["a"], rows: [["1"]], colTypes: ["text"] }; datosCurrentFileName = "x.csv";',
+      sandbox,
+    );
+    await vm.runInContext('initDatosPage()', sandbox);
+
+    document.getElementById('btnSendToTrabajo').click();
+    expect(calls).toContainEqual(['page', 'trabajo']);
+
+    document.getElementById('btnFilterRows').click();
+    expect(document.getElementById('fltApply')).not.toBeNull();
+
+    document.querySelectorAll('.modal-overlay').forEach((m) => m.remove());
+    document.getElementById('btnExport').click();
+    expect(document.getElementById('expGo')).not.toBeNull();
+  });
+
+  test('initDatosPage dos veces no duplica listeners (ni abre el selector dos veces)', async () => {
+    const { sandbox, document } = loadDatosHarness();
+    await vm.runInContext('initDatosPage()', sandbox);
+    await vm.runInContext('initDatosPage()', sandbox);
+    const fi = document.getElementById('fileInput');
+    let clicks = 0;
+    fi.click = () => { clicks++; };
+    document.querySelector('[data-act="csv"]').click();
+    expect(clicks).toBe(1);
+  });
+
 });
 
 describe('Panel datos F3: recientes', () => {

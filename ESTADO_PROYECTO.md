@@ -90,6 +90,32 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (SigmaProXVL) con spr
 
 ## CAMBIOS RECIENTES
 
+### 2026-11-02 (55): Fix — "Gestión de Datos" no enviaba a Hoja de Trabajo
+
+**Qué:** Se corrige el flujo **Datos → Trabajo**. El botón `📋 Trabajo` de la Vista Previa no hacía nada (y tampoco `Filtrar` ni `Exportar`), y en algunos casos el envío podía quedarse con datos viejos o perderse por cuota de almacenamiento.
+
+**Causa raíz:**
+1. **Regresión F1:** al migrar el panel izquierdo de Datos a delegación `data-act`, `initDatosPage()` dejó de recablear los botones del **panel derecho** (`btnSendToTrabajo`, `btnFilterRows`, `btnExport`). El HTML seguía ahí, pero sin `addEventListener`; reproducido en navegador: al pulsar "Trabajo" `currentPage` seguía en `datos`.
+2. **Nombre de hoja reutilizado:** `sendToTrabajo()` solo comparaba el nombre. Si se volvía a cargar el mismo archivo con datos distintos, navegaba a la hoja vieja (parecía que "no enviaba"). Ahora compara headers + filas y, si cambió, crea `nombre (2)`.
+3. **Cuota:** `_persistAllData()` puede descartar la última hoja al quedarse sin `localStorage`. Si la descartada era la recién enviada, el envío se perdía. Ahora se conserva en memoria y se avisa que no se restaurará al recargar.
+
+**Archivos afectados:**
+| Archivo | Cambio |
+|---------|--------|
+| `js/core/indexx-datos.js` | `initDatosPage()` recablea los 3 botones del panel derecho; guarda `data-datos-init` contra doble init; quita el clic duplicado del drop zone; `sendToTrabajo()` con `_sheetEqualsDatos()`, `_nombreHojaLibre()`, `_hojaNacidaDe()` y recuperación ante cuota |
+| `tests/datos-send.test.js` | **NUEVO** — 7 tests de envío: nuevo, reutilización, sufijo, filtro, cuota y sin datos |
+| `tests/datos-panel.test.js` | +2 tests: recableado del panel derecho y no duplicar listeners con doble `initDatosPage()` |
+| `e2e/datos-send.spec.js` | **NUEVO** — E2E real: login → cargar CSV → `📋 Trabajo` → tabla en Hoja de Trabajo |
+
+**Verificación:**
+```
+node --check js/core/indexx-datos.js         → OK
+npx vitest run datos-panel datos-send        → 21/21
+npm test                                     → 54 archivos, 687 tests OK
+npx playwright test e2e/datos-send.spec.js   → 1 passed
+npm run preflight                            → OK (10 E2E)
+```
+
 ### 2026-11-02 (54): `/prompt` enruta a lote de dependencias
 
 **Qué:** Se añade una regla de enrutamiento al comando `/prompt` y la política operativa en `AGENTS.md` §5, **sin cambiar la naturaleza del optimizador**.
