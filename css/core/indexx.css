@@ -436,6 +436,24 @@
   tbody tr { border-bottom:1px solid rgba(255,255,255,.04); }
   tbody tr:hover td { background:rgba(255,255,255,.02); }
   .active-sheet { color:var(--text-primary) !important; border-top:2px solid var(--accent) !important; }
+
+  /* ── Barra inferior de hojas: pestañas + acción "Nueva hoja" ── */
+  .sheet-tab { display:flex; align-items:center; gap:5px; padding:6px 11px; font-size:11px; line-height:1; border-right:1px solid var(--border); cursor:pointer; color:var(--text-faint); white-space:nowrap; border-top:2px solid transparent; transition:background .12s,color .12s,border-color .12s; }
+  .sheet-tab:hover { background:var(--item-hover); color:var(--text-muted); }
+  .sheet-tab.active { color:var(--text-primary); border-top-color:var(--accent); background:rgba(124,106,247,.10); }
+  .sheet-tab-name { max-width:160px; overflow:hidden; text-overflow:ellipsis; }
+  .sheet-footer-actions { display:flex; align-items:center; gap:6px; flex-shrink:0; padding-left:8px; }
+  .sheet-add-btn { display:inline-flex; align-items:center; gap:6px; height:28px; padding:0 13px; border-radius:8px; border:1px solid rgba(124,106,247,.5); background:rgba(124,106,247,.16); color:var(--accent-hover); font-family:inherit; font-size:11px; font-weight:700; letter-spacing:.2px; cursor:pointer; white-space:nowrap; transition:background .15s,border-color .15s,transform .15s; }
+  .sheet-add-btn:hover { background:rgba(124,106,247,.3); border-color:var(--accent); transform:translateY(-1px); }
+  .sheet-add-btn:active { transform:translateY(0); }
+  .sheet-add-btn .sheet-add-ico { font-size:15px; line-height:1; font-weight:400; }
+  .sheet-tool-btn { display:inline-flex; align-items:center; justify-content:center; width:28px; height:28px; border-radius:8px; border:1px solid transparent; background:transparent; color:var(--text-faint); cursor:pointer; font-size:12px; line-height:1; transition:background .15s,color .15s,border-color .15s; }
+  .sheet-tool-btn:hover { background:rgba(248,113,113,.14); border-color:rgba(248,113,113,.35); color:#f87171; }
+  html[data-theme="light"] .sheet-add-btn { color:#5b48d6; background:rgba(109,90,230,.10); border-color:rgba(109,90,230,.35); }
+  html[data-theme="light"] .sheet-add-btn:hover { background:rgba(109,90,230,.18); }
+  .sheet-list-add { display:flex; align-items:center; gap:6px; padding:8px 10px; margin-top:2px; border-radius:7px; border:1px dashed rgba(124,106,247,.4); color:var(--accent-hover); font-size:11px; font-weight:650; cursor:pointer; transition:background .12s,border-color .12s; }
+  .sheet-list-add:hover { background:rgba(124,106,247,.12); border-color:var(--accent); }
+
   .sheet-tab-del { display:inline-flex; align-items:center; justify-content:center; width:14px; height:14px; border-radius:2px; margin-left:4px; color:var(--text-faint); font-size:12px; cursor:pointer; transition:background .1s,color .1s; line-height:1; flex-shrink:0; }
   .sheet-tab-del:hover { background:rgba(248,113,113,.25); color:#f87171; }
   .sheet-list-item { display:flex; align-items:center; justify-content:space-between; padding:6px 8px; border-radius:5px; font-size:12px; color:var(--text-primary); cursor:pointer; transition:background .1s; }
@@ -1431,6 +1449,16 @@ html[data-theme="light"] .datos select{background:#fff;color:#111827;border-colo
   display:inline-flex;align-items:center;justify-content:center;
   border:1px solid rgba(255,255,255,.2);background:rgba(255,255,255,.07);color:var(--txt)}
 .datos .rbtn.acc{color:var(--accent);font-size:19px}
+/* Sidebar Hojas: botón de nueva hoja grande y visible */
+.datos .sheet-add-full{display:flex;align-items:center;justify-content:center;gap:7px;width:100%;height:36px;
+  margin-top:8px;border-radius:12px;border:1px solid rgba(124,106,247,.42);background:rgba(124,106,247,.13);
+  color:var(--accent-hover);font-family:inherit;font-size:12px;font-weight:650;letter-spacing:.01em;
+  cursor:pointer;transition:background .15s,border-color .15s,transform .15s}
+.datos .sheet-add-full:hover{background:rgba(124,106,247,.24);border-color:var(--accent);transform:translateY(-1px)}
+.datos .sheet-add-full:active{transform:translateY(0)}
+html[data-theme="light"] .datos .sheet-add-full{color:#5b48d6;background:rgba(109,90,230,.08);border-color:rgba(109,90,230,.3)}
+.datos .sheet-add-full .sheet-add-ico{font-size:16px;line-height:1;font-weight:400}
+.datos .sheetrow .sheet-del-btn{opacity:1;width:36px;height:36px;border-radius:50%;font-size:14px}
 .datos .kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:4px 6px;margin-top:8px}
 .datos .kpis div{min-width:0;overflow:hidden}
 .datos .kpis small{display:block;font-size:10px;color:var(--txt2)}
@@ -1654,6 +1682,8 @@ details.gl > .gl-body{padding:0 14px 14px}
 .anl-result-body{padding:0}
 .anl-result-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:12px}
 .anl-result-title{font-size:14px;font-weight:750;letter-spacing:-.02em;color:var(--text-primary)}
+.anl-result-origin{display:inline-flex;align-items:center;gap:4px;margin-right:auto;margin-left:8px;padding:2px 9px;border-radius:99px;border:1px solid rgba(124,106,247,.35);background:rgba(124,106,247,.12);color:var(--text-muted);font-size:10px;font-weight:650;white-space:nowrap;max-width:200px;overflow:hidden;text-overflow:ellipsis}
+.anl-focus-note{font-size:10px;line-height:1.4;color:var(--text-faint);margin-top:6px;padding-top:6px;border-top:1px dashed var(--border)}
 .anl-result-actions{display:flex;gap:8px}
 .anl-btn{font-size:11px;padding:5px 10px}
 .anl-result-inline{background:var(--surface-1)!important;border:1px solid var(--border)!important;border-radius:var(--radius-lg)!important;padding:16px 18px!important}

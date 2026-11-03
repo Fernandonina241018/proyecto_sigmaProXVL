@@ -40,6 +40,7 @@ function undoAction() {
   var snap = undoStack.pop();
   sheet.headers = snap.headers;
   sheet.rows = snap.rows;
+  invalidarAnalisisPorCambioDeFoco({ keepSelectedTest: true, notify: false });
   showUndoToast('↩ Acción deshecha');
   loadPage('trabajo');
 }
@@ -53,6 +54,7 @@ function redoAction() {
   var snap = redoStack.pop();
   sheet.headers = snap.headers;
   sheet.rows = snap.rows;
+  invalidarAnalisisPorCambioDeFoco({ keepSelectedTest: true, notify: false });
   showUndoToast('↪ Acción rehecha');
   loadPage('trabajo');
 }
@@ -279,6 +281,62 @@ function getCurrentSheet() {
   if (trabajoSheets && trabajoSheets.length > 0) return trabajoSheets[trabajoActiveSheetIndex];
   return null;
 }
+
+// ════════════════════════════════════════════════════════════════
+// FOCO DE ANÁLISIS
+// Un resultado estadístico solo es válido para el dataset (hoja) que lo
+// originó. Al cambiar de hoja o de dataset se descarta el resultado y la
+// caché que consume Reportes, para que no se cuelen estadísticos de otra
+// hoja en el reporte.
+// ════════════════════════════════════════════════════════════════
+function _analisisFocusSnapshot(sheet) {
+  if (!sheet) return null;
+  return {
+    name: sheet.name,
+    rows: sheet.rows ? sheet.rows.length : 0,
+    cols: sheet.headers ? sheet.headers.length : 0,
+    headers: (sheet.headers || []).join('\u0001')
+  };
+}
+function captureAnalisisFocus() {
+  analisisResultOrigin = _analisisFocusSnapshot(getCurrentSheet());
+  return analisisResultOrigin;
+}
+function analisisFocusMatchesCurrentSheet() {
+  if (!analisisResultOrigin) return false;
+  var current = _analisisFocusSnapshot(getCurrentSheet());
+  if (!current) return false;
+  return current.name === analisisResultOrigin.name &&
+    current.rows === analisisResultOrigin.rows &&
+    current.cols === analisisResultOrigin.cols &&
+    current.headers === analisisResultOrigin.headers;
+}
+// Guard para Reportes: true solo si hay resultados y pertenecen a la hoja
+// activa. Sin origen registrado se mantiene el comportamiento anterior.
+function analisisResultadosVigentes() {
+  if (typeof StateManager === 'undefined' || !StateManager.getUltimosResultados) return false;
+  var res = StateManager.getUltimosResultados();
+  if (!res) return false;
+  if (typeof analisisResultOrigin === 'undefined' || !analisisResultOrigin) return true;
+  return analisisFocusMatchesCurrentSheet();
+}
+function invalidarAnalisisPorCambioDeFoco(opts) {
+  opts = opts || {};
+  var habia = (typeof analisisResultContent !== 'undefined' && !!analisisResultContent) ||
+    (typeof analisisLastResult !== 'undefined' && !!analisisLastResult) ||
+    (typeof StateManager !== 'undefined' && StateManager.getUltimosResultados && !!StateManager.getUltimosResultados());
+  analisisResultContent = null;
+  analisisLastResult = null;
+  analisisResultOrigin = null;
+  if (!opts.keepSelectedTest) analisisSelectedTest = null;
+  if (typeof StateManager !== 'undefined' && StateManager.setUltimosResultados) {
+    StateManager.setUltimosResultados(null);
+  }
+  if (habia && opts.notify !== false) {
+    showToast('ℹ️ Análisis descartado al cambiar de hoja. Ejecútalo de nuevo para incluirlo en el reporte.');
+  }
+  return habia;
+}
 function updateAnalisisDatasetBadge() {
   var nameEl = document.getElementById('analisisDsName');
   var rowsEl = document.getElementById('analisisDsRows');
@@ -304,7 +362,7 @@ function getTrabajoSheetsListHTML() {
       (trabajoSheets.length > 1 ? '<span class="sheet-del-btn" onclick="deleteSheet(' + i + ',event)" title="Eliminar hoja">×</span>' : '') +
     '</div>';
   });
-  html += '<div class="info-item" style="color:var(--accent);font-size:11px" onclick="createNewSheet()">+ Nueva hoja</div>';
+  html += '<div class="sheet-list-add" onclick="createNewSheet()"><span aria-hidden="true">＋</span> Nueva hoja</div>';
   return html;
 }
 function getSheetsOptionsHTML() {
@@ -315,9 +373,8 @@ function getSheetsOptionsHTML() {
 function getTrabajoTabsHTML() {
   return trabajoSheets.map(function(sheet, i) {
     var isActive = i === trabajoActiveSheetIndex;
-    return '<div style="padding:4px 8px 4px 10px;font-size:11px;border-right:1px solid var(--border);cursor:pointer;display:flex;align-items:center;gap:2px;' +
-      (isActive ? 'color:var(--text-muted);border-top:2px solid var(--accent)' : 'color:var(--text-faint)') +
-      '" onclick="switchToSheet(' + i + ')">' + escapeHtml(sheet.name) +
+    return '<div class="sheet-tab' + (isActive ? ' active' : '') + '" role="tab" aria-selected="' + (isActive ? 'true' : 'false') + '" title="' + escapeHtml(sheet.name) + '" onclick="switchToSheet(' + i + ')">' +
+      '<span class="sheet-tab-name">' + escapeHtml(sheet.name) + '</span>' +
       (trabajoSheets.length > 1 ? '<span class="sheet-tab-del" onclick="deleteSheet(' + i + ',event)" title="Eliminar">×</span>' : '') +
     '</div>';
   }).join('');
@@ -1448,12 +1505,15 @@ function createNewSheet() {
   trabajoSheets.push({ name:name, headers:['Columna1','Columna2','Columna3','Columna4'], rows:Array.from({length:20}, function(){ return ['','','','']; }), locked:false });
   trabajoActiveSheetIndex = trabajoSheets.length - 1;
   trabajoActiveCell = {row:0,col:0};
+  invalidarAnalisisPorCambioDeFoco();
   _persistAllData();
   loadPage('trabajo');
 }
 function switchToSheet(index) {
   if (index < 0 || index >= trabajoSheets.length) return;
+  var cambioDeFoco = index !== trabajoActiveSheetIndex;
   trabajoActiveSheetIndex = index; trabajoActiveCell = {row:0,col:0};
+  if (cambioDeFoco) invalidarAnalisisPorCambioDeFoco();
   _persistAllData();
   loadPage('trabajo');
 }
@@ -1472,8 +1532,15 @@ function deleteSheet(index, evt) {
     _msg += '\n\nHay ' + _nCharts + (_nCharts === 1 ? ' gráfico' : ' gráficos') + ' de esta hoja: quedarán archivados y no podrán incluirse en reportes.';
   }
   if (!confirm(_msg)) return;
+  var _borraActiva = index === trabajoActiveSheetIndex;
   trabajoSheets.splice(index, 1);
-  if (trabajoActiveSheetIndex >= trabajoSheets.length) trabajoActiveSheetIndex = trabajoSheets.length - 1;
+  if (_borraActiva) {
+    if (trabajoActiveSheetIndex >= trabajoSheets.length) trabajoActiveSheetIndex = trabajoSheets.length - 1;
+    invalidarAnalisisPorCambioDeFoco();
+  } else if (index < trabajoActiveSheetIndex) {
+    // Al borrar una hoja anterior, la activa se desplaza: conservarla enfocada.
+    trabajoActiveSheetIndex--;
+  }
   _invalidarVizActual();
   _persistAllData();
   loadPage('trabajo');
@@ -1493,8 +1560,10 @@ function deleteAllButFirstSheet() {
     _msg += '\n\nHay ' + _nCharts + (_nCharts === 1 ? ' gráfico' : ' gráficos') + ' de esas hojas: quedarán archivados y no podrán incluirse en reportes.';
   }
   if (!confirm(_msg)) return;
+  var _focoCambia = trabajoActiveSheetIndex !== 0;
   for (var i = trabajoSheets.length - 1; i >= 1; i--) trabajoSheets.splice(i, 1);
   trabajoActiveSheetIndex = 0;
+  if (_focoCambia) invalidarAnalisisPorCambioDeFoco();
   _invalidarVizActual();
   _persistAllData();
   loadPage('trabajo');
@@ -1515,6 +1584,7 @@ function clearCurrentSheet() {
   if (!confirm(_msg)) return;
   pushUndo();
   sheet.rows = sheet.rows.map(function(){ return Array.from({length: sheet.headers.length}, function(){ return ''; }); });
+  invalidarAnalisisPorCambioDeFoco();
   _invalidarVizActual();
   _persistAllData();
   loadPage('trabajo');
@@ -1874,6 +1944,7 @@ function generateSampleData() {
     trabajoSheets.push({ name: prefix + '_' + n + 'x' + k, headers: headers, rows: rows, locked: true });
     trabajoActiveSheetIndex = trabajoSheets.length - 1;
     trabajoActiveCell = {row:0,col:0};
+    invalidarAnalisisPorCambioDeFoco();
     _persistAllData();
     modal.remove();
     loadPage('trabajo');
@@ -1994,6 +2065,7 @@ function limpiarDataset(skipConfirm) {
     _msg += '\n\nHay ' + _nCharts + (_nCharts === 1 ? ' gráfico' : ' gráficos') + ' de este dataset: quedarán archivados y no podrán incluirse en reportes.';
   }
   if (!skipConfirm && !confirm(_msg)) return;
+  invalidarAnalisisPorCambioDeFoco();
   datosCurrentData = null;
   trabajoSheets = [{ name:'Hoja1', headers:['Columna1','Columna2','Columna3','Columna4'], rows:Array.from({length:20}, function(){ return ['','','','']; }) }];
   trabajoActiveSheetIndex = 0;

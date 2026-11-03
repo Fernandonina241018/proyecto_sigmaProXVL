@@ -740,6 +740,7 @@ function runSingleStat(nombre) {
     var html = EstadisticaDescriptiva.generarHTML(resultados);
     analisisResultContent = html;
     StateManager.setUltimosResultados(resultados);
+    captureAnalisisFocus();
 
     var resultInfo = { testName: nombre, pValue: null, significativo: false };
     var resObj = resultados.resultados[nombre];
@@ -807,6 +808,7 @@ function runEDA() {
     var html = EDAManager.renderDashboard(data);
     analisisResultContent = html;
     StateManager.setUltimosResultados(EDAManager.ejecutarEDA(data));
+    captureAnalisisFocus();
   } catch(e) {
     console.error('EDA Error:', e);
     analisisResultContent = '<div class="page-card"><div class="page-card-body" style="padding:20px;color:#f87171"><strong>Error en EDA:</strong> ' + escapeHtml(e.message) + '</div></div>';
@@ -858,6 +860,7 @@ function runBatchAnalysis() {
     analisisResultContent = html;
     analisisSelectedTest = selected.join(', ');
     StateManager.setUltimosResultados(resultados);
+    captureAnalisisFocus();
     updateAnalisisLastResult({ testName: selected.length + ' tests', pValue: null, significativo: false });
   } catch(e) {
     console.error('Error in batch analysis:', e);

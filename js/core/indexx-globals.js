@@ -148,6 +148,14 @@ function resetTrabajoMemoryToDefault() {
   datosCurrentData = null;
   datosCurrentFileName = '';
   datosSourceType = 'none';
+  // El dataset de origen desaparece: el análisis pendiente ya no es válido.
+  analisisSelectedTest = null;
+  analisisLastResult = null;
+  analisisResultContent = null;
+  analisisResultOrigin = null;
+  if (typeof StateManager !== 'undefined' && StateManager.setUltimosResultados) {
+    StateManager.setUltimosResultados(null);
+  }
   datosRecentFiles = [];
 }
 // Analysis page state - dynamic tests
@@ -155,6 +163,7 @@ var analisisSelectedCategory = 'descriptiva';
 var analisisSelectedTest = null;
 var analisisLastResult = null;
 var analisisResultContent = null;
+var analisisResultOrigin = null; // {name, rows, cols, headers} de la hoja que originó el resultado
 
 // Column analysis config (used by getNumericColumns, ejecutarAnalisis)
 var columnAnalysisConfig = {

@@ -2092,7 +2092,11 @@ tr:hover td{background:#f7faff}
         }
 
         const state     =StateManager.getState();
-        const resultados=typeof StateManager!=='undefined'?StateManager.getUltimosResultados():null;
+        let resultados =typeof StateManager!=='undefined'?StateManager.getUltimosResultados():null;
+        // Guard de foco: si el resultado pertenece a otra hoja/dataset, no se
+        // ofrece para el reporte (evita mezclar estadísticos de datos distintos).
+        const _focusOk = typeof analisisResultadosVigentes === 'function' ? analisisResultadosVigentes() : true;
+        if (!_focusOk) resultados = null;
         const tieneRes  =!!(resultados?.columnasAnalizadas?.length);
         const fileName  =state.fileName||(typeof datosCurrentFileName!=='undefined'?datosCurrentFileName:'')||'';
         const sourceType=typeof datosSourceType!=='undefined'?datosSourceType:'none';
