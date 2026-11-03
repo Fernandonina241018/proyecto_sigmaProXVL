@@ -3,7 +3,8 @@
 // Express + SQLite (sqlite3) + JWT
 // ========================================
 
-require('dotenv').config();
+// dotenv v18: banner de carga silenciado (los logs de Fly solo muestran lo útil)
+require('dotenv').config({ quiet: true });
 
 // ── Validación de variables de entorno críticas ──
 if (!process.env.JWT_SECRET) {
@@ -37,7 +38,9 @@ const rateLimit = require('express-rate-limit');
 const { ipKeyGenerator } = rateLimit;
 const helmet  = require('helmet');
 const compression = require('compression');
-const { authenticator } = require('otplib');
+// otplib v13 eliminó `authenticator`: API funcional + verificación explícita.
+// verifySync lanza con tokens mal formados → se tratan como código inválido.
+const { generateSecret, generateURI, verifySync } = require('otplib');
 const QRCode  = require('qrcode');
 const { maskIP } = require('./ip-mask');
 const db      = require('./database');
@@ -50,6 +53,20 @@ const { createPdfRenderer, safePdfFilename } = require('./pdf-render');
 const pdfRenderer = createPdfRenderer();
 // tzOffset: minutos de Date.getTimezoneOffset() del firmante (UTC-local).
 function _signFecha(req) { return signStampTZ(new Date(), req.body && req.body.tzOffset); }
+
+// 2FA: verificación TOTP síncrona (otplib v13). Cualquier token mal formado
+// cuenta como inválido, igual que el `authenticator.verify` de v12.
+function verifyTOTP(token, secret) {
+    try {
+        return verifySync({ token: String(token), secret }).valid === true;
+    } catch {
+        return false;
+    }
+}
+
+function totpKeyuri(label, secret) {
+    return generateURI({ issuer: 'StatAnalyzer Pro', label, secret });
+}
 
 const app  = express();
 const PORT = process.env.PORT || 3000;
@@ -663,9 +680,9 @@ app.post('/api/2fa/setup', requireAuth, async (req, res) => {
         if (already) {
             return res.status(400).json({ error: '2FA ya está habilitado. Desactívalo primero para regenerar.' });
         }
-        const secret = authenticator.generateSecret();
+        const secret = generateSecret();
         await db.save2FASecret(username, secret);
-        const otpauth = authenticator.keyuri(username, 'StatAnalyzer Pro', secret);
+        const otpauth = totpKeyuri(username, secret);
         const qrDataUrl = await QRCode.toDataURL(otpauth);
         await db.logAuditEvent({
             username, action: '2FA_SETUP', success: 1,
@@ -687,7 +704,7 @@ app.post('/api/2fa/enable', requireAuth, async (req, res) => {
         const username = req.user.username;
         const secret = await db.get2FASecret(username);
         if (!secret) return res.status(400).json({ error: 'No hay secreto 2FA pendiente. Ejecuta /api/2fa/setup primero.' });
-        const isValid = authenticator.verify({ token, secret });
+        const isValid = verifyTOTP(token, secret);
         if (!isValid) return res.status(401).json({ error: 'Código TOTP inválido' });
         await db.enable2FA(username);
         await db.logAuditEvent({
@@ -752,9 +769,9 @@ app.post('/api/users/:id/2fa/setup', requireAuth, requireAdmin, async (req, res)
         if (already) {
             return res.status(400).json({ error: '2FA ya está habilitado para este usuario' });
         }
-        const secret = authenticator.generateSecret();
+        const secret = generateSecret();
         await db.save2FASecret(user.username, secret);
-        const otpauth = authenticator.keyuri(user.username, 'StatAnalyzer Pro', secret);
+        const otpauth = totpKeyuri(user.username, secret);
         const qrDataUrl = await QRCode.toDataURL(otpauth);
         await db.logAuditEvent({
             username: req.user.username, action: `2FA_SETUP:${user.username}`, success: 1,
@@ -778,7 +795,7 @@ app.post('/api/users/:id/2fa/enable', requireAuth, requireAdmin, async (req, res
         if (!user) return res.status(404).json({ error: 'Usuario no encontrado' });
         const secret = await db.get2FASecret(user.username);
         if (!secret) return res.status(400).json({ error: 'No hay secreto 2FA pendiente. Ejecuta setup primero.' });
-        const isValid = authenticator.verify({ token, secret });
+        const isValid = verifyTOTP(token, secret);
         if (!isValid) return res.status(401).json({ error: 'Código TOTP inválido' });
         await db.enable2FA(user.username);
         await db.logAuditEvent({
@@ -830,7 +847,7 @@ app.post('/api/2fa/verify-login', tfaLimiter, async (req, res) => {
         }
         const secret = await db.get2FASecret(payload.username);
         if (!secret) return res.status(400).json({ error: '2FA no configurado para este usuario' });
-        const isValid = authenticator.verify({ token, secret });
+        const isValid = verifyTOTP(token, secret);
         if (!isValid) {
             await db.logAuditEvent({
                 username: payload.username, action: '2FA_VERIFY_FAILED', success: 0,
