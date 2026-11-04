@@ -1825,6 +1825,24 @@ tr:hover td{background:#f7faff}
               } else {
                   content = `<tr><td>${escapeHtml(stat)} (${escapeHtml(data.columnaObservada)} vs ${escapeHtml(data.columnaPredicha)})</td><td style="font-family:monospace;text-align:right;font-weight:500;color:#2c5282">MAE=${fmtNum(data.mae)}</td><td style="font-family:monospace;text-align:right;font-weight:500;color:#2c5282">n=${data.n}</td><td style="text-align:center"><span style="padding:2px 8px;border-radius:3px;font-size:8pt;font-weight:600;background:#e2e8f0;color:#4a5568">—</span></td></tr>`;
               }
+          } else if (stat === 'Diagrama de Pareto') {
+              if (data.error) {
+                  content = `<tr><td>${escapeHtml(stat)}</td><td colspan="3" style="color:#c53030;font-style:italic">${escapeHtml(data.error)}</td></tr>`;
+              } else {
+                  const filasPareto = (data.datosCompletos || []).slice(0, 10).map(d => `<tr>
+                      <td style="padding:3px 8px;border-bottom:1px solid #e2e8f0">${escapeHtml(d.categoria)}</td>
+                      <td style="padding:3px 8px;border-bottom:1px solid #e2e8f0;text-align:right">${fmtNum(d.conteo)}</td>
+                      <td style="padding:3px 8px;border-bottom:1px solid #e2e8f0;text-align:right">${fmtNum(d.porcentaje)}%</td>
+                      <td style="padding:3px 8px;border-bottom:1px solid #e2e8f0;text-align:right">${fmtNum(d.acumulado)}%</td>
+                  </tr>`).join('');
+                  content = `<tr><td>${escapeHtml(stat)}</td><td colspan="3">
+                      <div style="font-size:8.5pt;margin-bottom:4px">Vitales: <b>${fmtNum(data.vitales)}</b> · Triviales: <b>${fmtNum(data.triviales)}</b> · Total: <b>${fmtNum(data.total)}</b></div>
+                      <table style="width:100%;border-collapse:collapse;font-size:7.5pt">
+                          <thead><tr><th style="text-align:left;padding:3px 8px;border-bottom:1px solid #cbd5e0">Categoría</th><th style="text-align:right;padding:3px 8px;border-bottom:1px solid #cbd5e0">Conteo</th><th style="text-align:right;padding:3px 8px;border-bottom:1px solid #cbd5e0">%</th><th style="text-align:right;padding:3px 8px;border-bottom:1px solid #cbd5e0">Acum.</th></tr></thead>
+                          <tbody>${filasPareto}</tbody>
+                      </table>
+                  </td></tr>`;
+              }
           } else if (stat === 'Covarianza') {
               if (data.error) {
                   content = `<tr><td>${escapeHtml(stat)}</td><td colspan="3" style="color:#c53030;font-style:italic">${escapeHtml(data.error)}</td></tr>`;

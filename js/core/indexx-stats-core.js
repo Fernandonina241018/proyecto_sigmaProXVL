@@ -1462,7 +1462,7 @@ negativos: negativos,
             return { categoria: c.nombre, conteo: c.conteo, porcentaje: Math.round(porcentaje * 100) / 100, acumulado: Math.round(acumuladoPct * 100) / 100 };
         });
         
-        constidxPareto80 = resultados.findIndex(r => r.acumulado >= 80);
+        const idxPareto80 = resultados.findIndex(r => r.acumulado >= 80);
         const pareto80 = idxPareto80 >= 0 ? resultados[idxPareto80].acumulado : 100;
         
         return {

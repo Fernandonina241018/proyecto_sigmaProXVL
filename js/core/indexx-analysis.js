@@ -229,8 +229,9 @@ function _mostrarModalConfigTest(nombre, callback, existingConfig) {
   var data = getDataForEjecutarAnalisis();
   if (!data) { callback(); return; }
   var tipos = _detectColTypes(data.headers, data.data);
-  if (tipos.numCols.length === 0) { showToast('⚠️ No hay columnas numéricas disponibles'); callback(); return; }
   var t = cfg.inputs && cfg.inputs.tipo;
+  var esPareto = t === 'dos-columnas' && cfg.seccion === 'calidad';
+  if (tipos.numCols.length === 0 && !esPareto) { showToast('⚠️ No hay columnas numéricas disponibles'); callback(); return; }
   var necesitaCat = t === 'tabla-contingencia' || t === 'dos-columnas' || t === 'dos-grupos' || t === 'una-columna-grupo' || t === 'bloques-k-condiciones' || t === 'una-columna-dos-factores';
   var necesitaDosNumericas = false;
   var necesitaDosCat = t === 'tabla-contingencia' || t === 'una-columna-dos-factores';
@@ -239,6 +240,10 @@ function _mostrarModalConfigTest(nombre, callback, existingConfig) {
     necesitaCat = false;
     necesitaDosNumericas = true;
     modalTipo = 'xy';
+  } else if (t === 'dos-columnas' && cfg.seccion === 'calidad') {
+    necesitaCat = true;
+    necesitaDosNumericas = false;
+    modalTipo = 'categoria-conteo';
   } else if (t === 'dos-columnas' && cfg.seccion === 'regresion') {
     necesitaCat = false;
     necesitaDosNumericas = true;
@@ -349,6 +354,12 @@ function _mostrarModalConfigTest(nombre, callback, existingConfig) {
         '<div><label style="font-size:11px;color:var(--text-primary)">Columna X (predictor/variable 1)</label><p style="font-size:0.75rem;color:#666;margin:0 0 4px;line-height:1.3">' + hlp.colX + '</p><select id="cfgColX" class="btn" style="width:100%;text-align:left">' + optsN + '</select></div>' +
         '<div><label style="font-size:11px;color:var(--text-primary)">Columna Y (respuesta/variable 2)</label><p style="font-size:0.75rem;color:#666;margin:0 0 4px;line-height:1.3">' + hlp.colY + '</p><select id="cfgColY" class="btn" style="width:100%;text-align:left">' + optsN + '</select></div>' +
       '</div>';
+  } else if (modalTipo === 'categoria-conteo') {
+    modalContent =
+      '<div style="display:flex;flex-direction:column;gap:6px">' +
+        '<div><label style="font-size:11px;color:var(--text-primary)">Columna de categorías</label><p style="font-size:0.75rem;color:#666;margin:0 0 4px;line-height:1.3">Categorías o defectos a ordenar (ej. tipo de falla).</p><select id="cfgColCategoria" class="btn" style="width:100%;text-align:left">' + optsC + '</select></div>' +
+        '<div><label style="font-size:11px;color:var(--text-primary)">Columna de conteo (opcional)</label><p style="font-size:0.75rem;color:#666;margin:0 0 4px;line-height:1.3">Frecuencia o cantidad por categoría. Si se deja vacío, se cuenta 1 por fila.</p><select id="cfgColConteo" class="btn" style="width:100%;text-align:left"><option value="">— Contar filas (1 por registro) —</option>' + optsN + '</select></div>' +
+      '</div>';
   } else if (modalTipo === 'xy-grado') {
     modalContent =
       '<div style="display:flex;flex-direction:column;gap:6px">' +
@@ -449,6 +460,7 @@ function _mostrarModalConfigTest(nombre, callback, existingConfig) {
     var _idMap = {
       columnaObservada: 'cfgColObs', columnaPredicha: 'cfgColPred',
       columnaX: 'cfgColX', columnaY: 'cfgColY',
+      columnaCategoria: 'cfgColCategoria', columnaConteo: 'cfgColConteo',
       columnaTiempo: 'cfgColTiempo', columnaEvento: 'cfgColEvento', columnaGrupo: 'cfgColGrupo',
       numericCol: 'cfgColNum', grado: 'cfgGrado', periodo: 'cfgPeriodo',
       delta: 'cfgDelta', priorMedia: 'cfgPriorMedia', priorVarianza: 'cfgPriorVar'
@@ -478,6 +490,10 @@ function _mostrarModalConfigTest(nombre, callback, existingConfig) {
       config.columnas = config.columnasX;
     } else if (modalTipo === 'dos-cols-pareadas') {
       config.numericCols = [document.getElementById('cfgCol1').value, document.getElementById('cfgCol2').value];
+    } else if (modalTipo === 'categoria-conteo') {
+      config.columnaCategoria = document.getElementById('cfgColCategoria').value;
+      var colConteo = document.getElementById('cfgColConteo').value;
+      if (colConteo) config.columnaConteo = colConteo;
     } else if (modalTipo === 'xy-umbral') {
       config.columnaX = document.getElementById('cfgCol1').value;
       config.columnaY = document.getElementById('cfgCol2').value;
@@ -528,7 +544,8 @@ function _configColumnsExist(saved, headers) {
     saved.columnaX, saved.columnaY,
     saved.columnaObservada, saved.columnaPredicha,
     saved.numericCol, saved.columnaTiempo,
-    saved.columnaEvento, saved.columnaGrupo
+    saved.columnaEvento, saved.columnaGrupo,
+    saved.columnaCategoria, saved.columnaConteo
   ].filter(Boolean);
   if (Array.isArray(saved.numericCols)) cols = cols.concat(saved.numericCols);
   if (Array.isArray(saved.columnasX)) cols = cols.concat(saved.columnasX);

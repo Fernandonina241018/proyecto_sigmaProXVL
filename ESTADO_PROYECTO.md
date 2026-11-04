@@ -90,6 +90,33 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (SigmaProXVL) con spr
 
 ## CAMBIOS RECIENTES
 
+### 2026-11-03 (227): Auditoría estadística + Lote 1A (Pareto y Covarianza)
+
+**Qué:** Se versiona la auditoría del módulo de estadística y se corrigen los dos estadísticos que hoy no se podían usar.
+
+- **Auditoría:** nuevo `docs/AUDITORIA_MODULO_ESTADISTICA.md` con mapa funcional, inventario 62, hallazgos C1–C7/A1–A8 y plan por lotes.
+- **Pareto:** corregido `constidxPareto80`; añadido a `HYPOTHESIS_TESTS`; modal categoría+conteo (`cfgColCategoria`, `cfgColConteo`); renderer en `generarHTML` y bloque en `ReporteManager`.
+- **Covarianza:** añadida a `HYPOTHESIS_TESTS`; el modal X/Y existente ya alimenta `columnaX/columnaY`; renderer y reporte ya existían y ahora son alcanzables.
+- **Conteos:** un valor `0` en la columna de conteo ya no se convierte en `1`.
+- **Sin columna numérica:** Pareto puede ejecutarse solo con categorías (cuenta 1 por fila).
+
+**Archivos afectados:**
+| Archivo | Cambio |
+|---------|--------|
+| `js/core/utils.js` | `Covarianza` y `Diagrama de Pareto` en `HYPOTHESIS_TESTS` |
+| `js/core/indexx-analysis.js` | Modal `categoria-conteo` y restauración de config |
+| `js/core/indexx-stats-core.js` | Typo `idxPareto80` |
+| `js/core/EstadisticaDescriptiva.js` | Conteo 0, Pareto sin numéricas y renderer |
+| `js/managers/ReporteManager.js` | Bloque de reporte de Pareto |
+| `tests/estadisticos-integracion.test.js` | **Nuevo** — 6 tests de dispatch + render |
+| `docs/AUDITORIA_MODULO_ESTADISTICA.md` | **Nuevo** — auditoría versionada |
+
+**Verificación:**
+```
+node --check (5 archivos) → OK
+Vitest → 57 archivos, 708 tests OK
+```
+
 ### 2026-11-03 (226): Login real — fases de progreso (conexión, BD, perfil y 2FA)
 
 **Qué:** Se trasladan al login real las fases visibles del prototipo `login_sigmaproxvl_hibrido_v3.html` (LOTE 224). Se implementan en `js/core/auth.js` para la variante V2 (por defecto) y también para el respaldo V1. No cambia el contrato de autenticación ni ningún endpoint.
