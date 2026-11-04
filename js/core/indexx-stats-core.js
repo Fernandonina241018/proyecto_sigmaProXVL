@@ -3685,11 +3685,18 @@ interpretacion: interpretacion,
     /**
      * Inferencia Bayesiana (conjugada normal-normal)
      */
-    function calcularBayesiano(values, prior) {
+    function calcularBayesiano(values, prior, semilla = 12345) {
         if (!values || values.length < 5) return { error: 'Se necesitan al menos 5 observaciones' };
         const n = values.length;
         const mediaMuestral = calcularMedia(values);
         const varMuestral = calcularVarianza(values, true);
+        let _seed = (Number.isFinite(semilla) ? semilla : 12345) >>> 0;
+        const rand = () => {
+            _seed |= 0; _seed = (_seed + 0x6D2B79F5) | 0;
+            let t = Math.imul(_seed ^ (_seed >>> 15), 1 | _seed);
+            t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+            return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+        };
         // Prior conjugado Normal (media_0, var_0)
         const mu0 = prior?.media !== undefined ? prior.media : 0;
         const sigma20 = prior?.varianza !== undefined ? prior.varianza : varMuestral;
@@ -3713,7 +3720,7 @@ interpretacion: interpretacion,
         for (let iter = 0; iter < 2000; iter++) {
             const muPrecision = 1 / sigma20 + n / sigma2;
             const muMean = (mu0 / sigma20 + n * mediaMuestral / sigma2) / muPrecision;
-            currentMu = muMean + randomNormal() * Math.sqrt(1 / muPrecision);
+            currentMu = muMean + randomNormal(rand) * Math.sqrt(1 / muPrecision);
             if (iter >= 1000) mcmcSamples.push(currentMu); // burn-in 1000
         }
         const postMean = mcmcSamples.reduce((s, v) => s + v, 0) / mcmcSamples.length;
@@ -3727,6 +3734,7 @@ interpretacion: interpretacion,
             factorBayes: parseFloat(bf10.toFixed(2)),
             mediaMuestral: parseFloat(mediaMuestral.toFixed(4)),
             n: n,
+            semilla: Number.isFinite(semilla) ? semilla : 12345,
             mcmc: { nSamples: mcmcSamples.length, media: parseFloat(postMean.toFixed(4)), sd: parseFloat(postSd.toFixed(4)), rHat: parseFloat(rHat.toFixed(4)) },
             interpretacion: bf10 > 10 ? `Evidencia muy fuerte para H₁ (BF₁₀ = ${bf10.toFixed(1)})`
                 : bf10 > 3 ? `Evidencia sustancial para H₁ (BF₁₀ = ${bf10.toFixed(1)})`
@@ -3737,10 +3745,10 @@ interpretacion: interpretacion,
         };
     }
 
-    function randomNormal() {
+    function randomNormal(rand = Math.random) {
         let u = 0, v = 0;
-        while (u === 0) u = Math.random();
-        while (v === 0) v = Math.random();
+        while (u === 0) u = rand();
+        while (v === 0) v = rand();
         return Math.sqrt(-2.0 * Math.log(u)) * Math.cos(2.0 * Math.PI * v);
     }
 

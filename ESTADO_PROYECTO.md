@@ -90,6 +90,34 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (SigmaProXVL) con spr
 
 ## CAMBIOS RECIENTES
 
+### 2026-11-03 (232): Lote 5 — A7 parcial, MCMC determinista y normalidad sin modal
+
+**Qué:** Se avanza A7 con `nivelAlfa`, se hace reproducible el MCMC bayesiano y se elimina el modal innecesario de normalidad.
+
+- **`nivelAlfa`:** campo α en el modal de los tests que lo declaran; post-proceso de `significativo`/`esNormal` e interpretaciones según el α elegido.
+- **MCMC bayesiano:** PRNG determinista con semilla configurable (default 12345); el resultado incluye `semilla`.
+- **Normalidad/Shapiro:** salen de `HYPOTHESIS_TESTS`; ya no piden columna ni configuración y usan su renderer directo.
+- **Tests:** α 0.05 vs 0.01, MCMC reproducible, normalidad sin modal.
+
+**Archivos afectados:**
+| Archivo | Cambio |
+|---------|--------|
+| `js/core/EstadisticaDescriptiva.js` | `nivelAlfa`, post-proceso α, semilla MCMC, ruteo normalidad |
+| `js/core/indexx-stats-core.js` | MCMC con `mulberry32` |
+| `js/core/indexx-analysis.js` | Campo α en el modal |
+| `js/core/utils.js` | Normalidad/Shapiro fuera de `HYPOTHESIS_TESTS` |
+| `tests/estadisticos-integracion.test.js` | +3 tests del Lote 5 |
+| `docs/AUDITORIA_MODULO_ESTADISTICA.md` | A7 parcial y Lote 5 |
+
+**Verificación:**
+```
+node --check (4 archivos) → OK
+Vitest → 58 archivos, 913 tests OK
+Preflight → OK
+```
+
+**Pendiente A7:** cálculo de tamaño de efecto, advertencias automáticas y `tipoTest` para todos los contrastes.
+
 ### 2026-11-03 (231): Lote 4 — umbrales A2, semilla de Clúster y normalidad no paramétrica
 
 **Qué:** Se cierran los pendientes de bajo riesgo del mapeo: umbrales alineados, clúster reproducible, renderers de normalidad y conteo de observaciones válidas.

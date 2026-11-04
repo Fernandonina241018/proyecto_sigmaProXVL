@@ -209,6 +209,35 @@ describe('Lote 4 — umbrales y determinismo', () => {
   });
 });
 
+describe('Lote 5 — A7 y MCMC', () => {
+  test('nivelAlfa se aplica a los flags de significancia', () => {
+    const rows = Array.from({ length: 10 }, (_, i) => ({ V: i + 1 }));
+    const run = (alfa) => ED.ejecutarAnalisis(
+      dataDe(rows, ['V']),
+      ['T-Test (una muestra)'],
+      { 'T-Test (una muestra)': { numericCol: 'V', mediaHipotesis: 3, alternativa: 'bilateral', nivelAlfa: alfa } }
+    ).resultados['T-Test (una muestra)'].V;
+    expect(run(0.05).significativo).toBe(true);
+    expect(run(0.01).significativo).toBe(false);
+  });
+
+  test('MCMC bayesiano es reproducible con la misma semilla', () => {
+    const rows = Array.from({ length: 20 }, (_, i) => ({ V: 10 + (i % 5) }));
+    const cfg = { 'Análisis Bayesiano': { numericCol: 'V', priorMedia: 10, semilla: 7 } };
+    const a = ED.ejecutarAnalisis(dataDe(rows, ['V']), ['Análisis Bayesiano'], cfg).resultados['Análisis Bayesiano'];
+    const b = ED.ejecutarAnalisis(dataDe(rows, ['V']), ['Análisis Bayesiano'], cfg).resultados['Análisis Bayesiano'];
+    expect(a.error).toBeUndefined();
+    expect(a.semilla).toBe(7);
+    expect(a.mcmc.media).toBe(b.mcmc.media);
+    expect(a.mcmc.sd).toBe(b.mcmc.sd);
+  });
+
+  test('normalidad ya no exige modal de configuración', () => {
+    expect(HYPOTHESIS_SET.has('Test de Normalidad')).toBe(false);
+    expect(HYPOTHESIS_SET.has('Test de Shapiro-Wilk')).toBe(false);
+  });
+});
+
 describe('Registro de pruebas de hipótesis', () => {
   test('Pareto y Covarianza están en HYPOTHESIS_SET', () => {
     expect(HYPOTHESIS_SET.has('Diagrama de Pareto')).toBe(true);

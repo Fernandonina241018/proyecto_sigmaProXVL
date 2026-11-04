@@ -112,6 +112,21 @@ const EstadisticaDescriptiva = (() => {
             const counts = cols.map(c => getNumericValues(data, c).length).filter(n => n > 0);
             return counts.length ? Math.min(...counts) : 0;
         };
+        const aplicarNivelAlfa = (obj, alfa, seen) => {
+            if (!obj || typeof obj !== 'object') return;
+            seen = seen || new WeakSet();
+            if (seen.has(obj)) return;
+            seen.add(obj);
+            const p = obj.valorP !== undefined ? obj.valorP : (obj.pValue !== undefined ? obj.pValue : obj.p);
+            if (typeof p === 'number' && isFinite(p)) {
+                if (typeof obj.significativo === 'boolean') obj.significativo = p < alfa;
+                if (typeof obj.esNormal === 'boolean') obj.esNormal = p >= alfa;
+                if (typeof obj.interpretacion === 'string') {
+                    obj.interpretacion = obj.interpretacion.replace(/0\.05/g, String(alfa));
+                }
+            }
+            Object.keys(obj).forEach(k => aplicarNivelAlfa(obj[k], alfa, seen));
+        };
         
         estadisticos.forEach(stat => {
             try {
@@ -1512,13 +1527,17 @@ resultados['Test de Signos'].columna1 = col1;
                                 resultados['Análisis Bayesiano'] = { error: 'Se necesitan al menos 15 observaciones' };
                             } else {
                                 if (!prior.varianza) prior.varianza = calcularVarianza(values, true);
-                                const res = calcularBayesiano(values, prior);
+                                const semillaBayes = parseInt(cfg?.semilla, 10);
+                                const res = calcularBayesiano(values, prior, isFinite(semillaBayes) ? semillaBayes : 12345);
                                 res.columna = col;
                                 resultados['Análisis Bayesiano'] = res;
                             }
                         }
                         break;
                 }
+                const alfaStat = (hypothesisConfig[stat] && hypothesisConfig[stat].nivelAlfa) ||
+                    (statCfg && statCfg.nivelAlfa) || 0.05;
+                aplicarNivelAlfa(resultados[stat], alfaStat);
             } catch (e) {
                 resultados[stat] = { error: e.message || 'Error desconocido al ejecutar ' + stat };
             }
@@ -1605,7 +1624,8 @@ function generarHTML(analisisResultado) {
         const esMultivariadoDirecto = statKey === 'PCA (Componentes Principales)' ||
             statKey === 'PCA' || statKey === 'Análisis Factorial';
         const esNormalidadDirecta = statKey === 'Test de Kolmogorov-Smirnov' ||
-            statKey === 'Test de Anderson-Darling' || statKey === "Test de D'Agostino-Pearson";
+            statKey === 'Test de Anderson-Darling' || statKey === "Test de D'Agostino-Pearson" ||
+            statKey === 'Test de Normalidad' || statKey === 'Test de Shapiro-Wilk';
         if ((HYPOTHESIS_SET.has(statKey) || esNormalidadDirecta) && !esMultivariadoDirecto) {
             return hypothesisKpiCards(statKey, data);
         }
