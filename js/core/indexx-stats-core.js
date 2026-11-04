@@ -845,12 +845,22 @@ negativos: negativos,
     /**
      * Bootstrap - Remuestreo para estimar distribuciones muestrales
      */
-    function calcularBootstrap(values, statName = 'media', B = 1000, nivelConfianza = 0.95) {
+    function calcularBootstrap(values, statName = 'media', B = 1000, nivelConfianza = 0.95, semilla = 12345) {
         values = values.filter(v => !isNaN(v) && isFinite(v));
         const n = values.length;
         if (n < 10) {
             return { error: 'Se necesitan al menos 10 observaciones válidas para bootstrap' };
         }
+
+        // FIX-AUDIT (C3): PRNG determinista (mulberry32) para reproducibilidad
+        let _seed = (Number.isFinite(semilla) ? semilla : 12345) >>> 0;
+        const random = () => {
+            _seed = (_seed + 0x6D2B79F5) >>> 0;
+            let t = _seed;
+            t = Math.imul(t ^ (t >>> 15), t | 1);
+            t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
+            return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+        };
 
         // Función para calcular el estadístico
         const calcularEstadistico = (data, stat) => {
@@ -876,7 +886,7 @@ negativos: negativos,
         for (let i = 0; i < B; i++) {
             const resample = [];
             for (let j = 0; j < n; j++) {
-                resample.push(values[Math.floor(Math.random() * n)]);
+                resample.push(values[Math.floor(random() * n)]);
             }
             bootstrapEstimates.push(calcularEstadistico(resample, statName));
         }
@@ -924,6 +934,7 @@ negativos: negativos,
             },
             B: B,
             n: n,
+            semilla: Number.isFinite(semilla) ? semilla : 12345,
             interpretacion: `Estimación: ${estimacion.toFixed(4)} (SE=${seBootstrap.toFixed(4)}). IC ${(nivelConfianza * 100)}%: [${ic95Lo.toFixed(4)}, ${ic95Hi.toFixed(4)}] con ${B} remuestreos.`
         };
     }
@@ -3218,13 +3229,31 @@ interpretacion: interpretacion,
             }
             for (let i = 0; i < p; i++) for (let j = 0; j < p; j++) Sb[i][j] += classData[c].length * (classMeans[c][i] - globalMean[i]) * (classMeans[c][j] - globalMean[j]);
         }
-        // Calcular autovalores de Sw⁻¹Sb usando QR iterativo simplificado
-        const SwInv = inverseMatrix(Sw);
-        if (!SwInv) return { error: 'Matriz de dispersión intra-clase no invertible (singular)' };
-        const A = multiplyMatrices(SwInv, Sb);
-        const eigen = powerIterationEigen(A);
+        // Calcular autovalores de Sw⁻¹Sb de forma simétrica y estable:
+        // B = Sw^(-1/2) · Sb · Sw^(-1/2) tiene los mismos autovalores que Sw⁻¹Sb.
+        // FIX-AUDIT (A5): antes se aplicaba Jacobi a una matriz no simétrica (A = Sw⁻¹Sb).
+        const swEig = jacobiEigenvalues(Sw, p);
+        const swVals = swEig.values || [];
+        if (swVals.some(v => !(v > 1e-9))) {
+            return { error: 'Matriz de dispersión intra-clase no invertible (singular)' };
+        }
+        const W = Array.from({ length: p }, () => Array(p).fill(0));
+        for (let i = 0; i < p; i++) {
+            for (let j = 0; j < p; j++) {
+                let acc = 0;
+                for (let k = 0; k < p; k++) {
+                    if (swVals[k] <= 1e-9) continue;
+                    acc += swEig.vectors[i][k] * (1 / Math.sqrt(swVals[k])) * swEig.vectors[j][k];
+                }
+                W[i][j] = acc;
+            }
+        }
+        const B = multiplyMatrices(multiplyMatrices(W, Sb), W);
+        const eigen = jacobiEigenvalues(B, p);
         const eigenvals = (eigen.values || []).filter(v => v > 1e-6).sort((a, b) => b - a);
-        const warningsDisc = eigen.converged === false ? ['El algoritmo de autovalores no convergió en 100 iteraciones. Los resultados pueden ser inexactos.'] : [];
+        const warningsDisc = (eigen.converged === false || swEig.converged === false)
+            ? ['El algoritmo de autovalores no convergió en 100 iteraciones. Los resultados pueden ser inexactos.']
+            : [];
         const nFunciones = Math.min(eigenvals.length, nClasses - 1, p);
         const lambda = eigenvals[0] || 0;
         // Wilks' Lambda aproximado
@@ -3303,15 +3332,15 @@ interpretacion: interpretacion,
         const detE = numericDeterminant(E);
         const detEH = numericDeterminant(EH);
         const wilksLambda = detEH !== 0 ? detE / detEH : 1;
-        // F aproximado (Rao's F approximation)
+        // Aproximación F de Rao para la traza de Pillai (estándar)
+        // FIX-AUDIT (A6): antes F y df2 usaban una aproximación no estándar.
         const s = Math.min(p, nClasses - 1);
         const m = (Math.abs(p - (nClasses - 1)) - 1) / 2;
-        const N = (n - p - 1) / 2;
+        const nAux = (n - p - 1) / 2;
         const df1 = p * (nClasses - 1);
-        const df2 = (n - 1 - (p + nClasses) / 2) * s - (p * (nClasses - 1) - 2) / 2;
-        // F aproximado desde Pillai
-        const F = (nClasses - 1) !== 0 ? ((n - p) / (nClasses - 1)) * (pillai / (s - pillai)) : 0;
-        const grados = df2 || n - p - 1;
+        const df2 = s * (2 * nAux + s + 1);
+        const F = (df2 / df1) * (pillai / (s - pillai));
+        const grados = df2;
         const pValue = calcularValorP_F(Math.abs(F), df1, Math.max(1, Math.round(grados)));
         const etaCuadrado = pillai / s;
         return {
@@ -3906,105 +3935,6 @@ interpretacion: interpretacion,
         return '';
     }
 
-    /**
-     * Genera un reporte en texto formateado
-     */
-    function generarReporte(analisisResultado) {
-        const STAT_META = getStatMeta();
-        
-        let reporte = `
-═══════════════════════════════════════════════════════════
-            REPORTE DE ESTADÍSTICA DESCRIPTIVA
-═══════════════════════════════════════════════════════════
-            REPORTE DE ESTADÍSTICA DESCRIPTIVA
-═══════════════════════════════════════════════════════════
-
-📊 INFORMACIÓN GENERAL
-───────────────────────────────────────────────────────────
-Total de filas:              ${analisisResultado.totalFilas}
-Columnas numéricas:          ${analisisResultado.totalColumnas}
-Total de datos:              ${analisisResultado.totalDatos?.toLocaleString() || (analisisResultado.totalFilas * analisisResultado.totalColumnas)}
-Columnas analizadas:         ${analisisResultado.columnasAnalizadas.join(', ')}
-Estadísticos calculados:     ${analisisResultado.estadisticos.length}
-
-`;
-        
-        // Agregar resultados por estadístico
-        Object.keys(analisisResultado.resultados).forEach(estadistico => {
-            reporte += `\n📈 ${estadistico.toUpperCase()}\n`;
-            reporte += `${'─'.repeat(63)}\n`;
-            
-            const datos = analisisResultado.resultados[estadistico];
-            
-            Object.keys(datos).forEach(columna => {
-                const valor = datos[columna];
-                
-                if (typeof valor === 'object' && !Array.isArray(valor)) {
-                    // Para objetos (como percentiles, IC, outliers)
-                    reporte += `\n   ${columna}:\n`;
-                    Object.keys(valor).forEach(key => {
-                        const val = valor[key];
-                        if (val && typeof val === 'object' && !Array.isArray(val)) {
-                            // Objeto anidado (como IC: {inferior, superior, margen})
-                            reporte += `      ${key}: [${val.inferior?.toFixed(4) ?? 'N/A'}, ${val.superior?.toFixed(4) ?? 'N/A'}]\n`;
-                        } else {
-                            reporte += `      ${key}: ${typeof val === 'number' ? val.toFixed(4) : val}\n`;
-                        }
-                    });
-                } else if (Array.isArray(valor)) {
-                    // Para arrays (como moda)
-                    reporte += `   ${columna}: ${valor.length > 0 ? valor.map(v => v.toFixed(4)).join(', ') : 'No hay moda'}\n`;
-                } else {
-                    // Para valores simples
-                    reporte += `   ${columna}: ${typeof valor === 'number' ? valor.toFixed(4) : valor}\n`;
-                }
-            });
-        });
-        
-        reporte += `\n${'═'.repeat(63)}\n`;
-        
-        // Agregar notas metodológicas
-        reporte += `\n📚 NOTAS METODOLÓGICAS\n`;
-        reporte += `${'─'.repeat(63)}\n`;
-        
-        const statKeys = Object.keys(analisisResultado.resultados);
-        statKeys.forEach(key => {
-            const meta = STAT_META[key] || { formula: '', desc: '', icono: '📊' };
-            if (!meta.desc) return;
-            
-            reporte += `\n${meta.icono} ${key}\n`;
-            reporte += `   Fórmula: ${meta.formula}\n`;
-            reporte += `   ${meta.desc}\n`;
-            
-            // Agregar hipótesis si existe
-            if (meta.hipotesis) {
-                reporte += `   └─ H₀: ${meta.hipotesis.h0}\n`;
-                reporte += `   └─ H₁: ${meta.hipotesis.h1}\n`;
-            }
-            
-            // Agregar supuestos si existen
-            if (meta.supuestos && meta.supuestos.length > 0) {
-                reporte += `   └─ Supuestos: ${meta.supuestos.join(', ')}\n`;
-            }
-            
-            // Agregar tamaño de efecto si existe
-            if (meta.efectoTamano) {
-                reporte += `   └─ Tamaño efecto: ${meta.efectoTamano.metrica} (${meta.efectoTamano.formula})\n`;
-            }
-            
-            // Agregar referencia si existe
-            if (meta.referencia) {
-                reporte += `   └─ Ref: ${formatReferencia(meta.referencia)}\n`;
-            }
-        });
-        
-        reporte += `\n${'═'.repeat(63)}\n`;
-        reporte += `Generado: ${(function(_d){var _m='Ene,Feb,Mar,Abr,May,Jun,Jul,Ago,Sep,Oct,Nov,Dic'.split(',');return ('0'+_d.getDate()).slice(-2)+'/'+_m[_d.getMonth()]+'/'+_d.getFullYear()+' '+_d.toLocaleTimeString('es-ES',{hour:'2-digit',minute:'2-digit',hour12:true});})(new Date())}\n`;
-        reporte += `${'═'.repeat(63)}\n`;
-        
-        return reporte;
-    }
-    
     /**
      * Genera un reporte en texto formateado
      */

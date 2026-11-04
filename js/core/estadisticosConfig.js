@@ -50,7 +50,7 @@ const ESTADISTICOS_CONFIG = {
             grupos:      1,
             descripcion: 'Un vector numérico de cualquier longitud',
         },
-        salidas: ['media', 'n', 'suma'],
+        salidas: ['media'],
         interpretacion: {
             plantilla: 'La media aritmética es {media}. Resume el valor central típico de los {n} datos.',
         },
@@ -83,7 +83,7 @@ const ESTADISTICOS_CONFIG = {
             descripcion: 'Un vector numérico o categórico',
         },
         // FIX BUG 6: eliminado 'esModoMultiple' — pertenece solo a Moda, no a Mediana
-        salidas: ['mediana', 'n'],
+        salidas: ['mediana'],
         interpretacion: {
             plantilla: 'Mediana: {mediana}. Si mediana ≠ media, la distribución es asimétrica.',
         },
@@ -114,7 +114,7 @@ const ESTADISTICOS_CONFIG = {
             grupos:      1,
             descripcion: 'Un vector numérico o categórico',
         },
-        salidas: ['moda', 'esModoMultiple', 'n'],
+        salidas: ['moda'],
         interpretacion: {
             plantilla: 'Moda: {moda}. Si hay múltiples modas, se reportan todas. Indica el valor o categoría más común en los datos.',
         },
@@ -145,7 +145,7 @@ const ESTADISTICOS_CONFIG = {
             grupos:      1,
             descripcion: 'Un vector numérico de al menos 2 observaciones',
         },
-        salidas: ['de', 'varianza', 'n', 'media'],
+        salidas: ['de'],
         interpretacion: {
             plantilla: 'Desviación estándar: {de}. El {pct68}% de los datos cae dentro de x̄ ± s bajo normalidad.',
         },
@@ -175,7 +175,7 @@ const ESTADISTICOS_CONFIG = {
             grupos:      1,
             descripcion: 'Un vector numérico de al menos 2 observaciones',
         },
-        salidas: ['varianza', 'de', 'n', 'media'],
+        salidas: ['varianza'],
         interpretacion: {
             plantilla: 'Varianza muestral: {varianza} (en unidades²). Equivale a DE² = {de}².',
         },
@@ -205,7 +205,7 @@ const ESTADISTICOS_CONFIG = {
             grupos:      1,
             descripcion: 'Un vector numérico; se calculan P5, P10, P25, P50, P75, P90, P95 por defecto',
         },
-        salidas: ['p5', 'p10', 'p25', 'p50', 'p75', 'p90', 'p95', 'iqr'],
+        salidas: ['P10', 'P25', 'P50', 'P75', 'P90'],
         interpretacion: {
             plantilla: 'El {k}% de los datos está por debajo de {valor}. IQR = {iqr} indica la dispersión central.',
         },
@@ -238,7 +238,7 @@ const ESTADISTICOS_CONFIG = {
             grupos:      1,
             descripcion: 'Un vector numérico',
         },
-        salidas: ['rango', 'min', 'max', 'n'],
+        salidas: ['minimo', 'maximo', 'rango', 'amplitud'],
         interpretacion: {
             plantilla: 'Rango total: {rango} (de {min} a {max}). Un rango muy amplio respecto a la DE sugiere outliers.',
         },
@@ -266,7 +266,7 @@ const ESTADISTICOS_CONFIG = {
             grupos:      1,
             descripcion: 'Un vector numérico con media distinta de cero',
         },
-        salidas: ['cv', 'de', 'media', 'n'],
+        salidas: ['cv'],
         interpretacion: {
             plantilla: 'CV = {cv}%. Valores <10% indican baja variabilidad; >30% indican alta variabilidad relativa.',
         },
@@ -298,7 +298,7 @@ const ESTADISTICOS_CONFIG = {
             grupos:      1,
             descripcion: 'Un vector numérico de al menos 3 observaciones',
         },
-        salidas: ['asimetria', 'interpretacion', 'n'],
+        salidas: ['asimetria'],
         interpretacion: {
             plantilla: 'Asimetría: {asimetria}. {interpretacion} (|g₁|<0.5 simétrica, 0.5–1 moderada, >1 pronunciada).',
         },
@@ -331,7 +331,7 @@ const ESTADISTICOS_CONFIG = {
             grupos:      1,
             descripcion: 'Un vector numérico de al menos 4 observaciones',
         },
-        salidas: ['curtosis', 'interpretacion', 'n'],
+        salidas: ['curtosis'],
         interpretacion: {
             plantilla: 'Curtosis exceso: {curtosis}. {interpretacion} (>0 colas pesadas, <0 colas ligeras respecto a normal).',
         },
@@ -363,7 +363,7 @@ const ESTADISTICOS_CONFIG = {
             grupos:      1,
             descripcion: 'Un vector numérico de al menos 2 observaciones',
         },
-        salidas: ['se', 'de', 'n', 'media'],
+        salidas: ['se'],
         interpretacion: {
             plantilla: 'SE = {se}. A mayor n, menor SE: la media se vuelve más precisa con más datos.',
         },
@@ -395,7 +395,7 @@ const ESTADISTICOS_CONFIG = {
             grupos:      1,
             descripcion: 'Un vector numérico; nivel de confianza configurable (defecto 95%)',
         },
-        salidas: ['ic90', 'ic95', 'ic99', 'media', 'se', 'n', 'gl'],
+        salidas: ['ic90', 'ic95', 'ic99', 'media', 'se'],
         interpretacion: {
             plantilla: 'IC {alfa}%: [{limInf}, {limSup}]. Si se repitiera el muestreo, el {alfa}% de los intervalos contendrían el verdadero parámetro.',
         },
@@ -428,7 +428,7 @@ const ESTADISTICOS_CONFIG = {
             grupos:      1,
             descripcion: 'Un vector numérico de al menos 4 observaciones',
         },
-        salidas: ['outliersIQR', 'outliersZScore', 'totalOutliers', 'limInfIQR', 'limSupIQR', 'n'],
+        salidas: ['IQR', 'ZScore'],
         interpretacion: {
             plantilla: '{totalOutliers} outlier(s) detectados de {n} observaciones. Verifique si son errores de medición o datos legítimos.',
         },
@@ -523,7 +523,7 @@ const ESTADISTICOS_CONFIG = {
             grupos:      1,
             descripcion: 'Un vector numérico continuo con 3–5000 observaciones',
         },
-        salidas: ['W', 'p', 'esNormal', 'n'],
+        salidas: ['prueba', 'estadisticoW', 'valorP', 'esNormal', 'n', 'interpretacion'],
         tipoTest: {
             defecto:  'bilateral',
             opciones: ['bilateral'],
@@ -578,7 +578,7 @@ const ESTADISTICOS_CONFIG = {
             grupos:      1,
             descripcion: 'Un vector numérico continuo de al menos 5 observaciones',
         },
-        salidas: ['D', 'p', 'esNormal', 'n', 'correctionLilliefors'],
+        salidas: ['prueba', 'estadisticoD', 'valorP', 'esNormal', 'n', 'interpretacion', 'nota'],
         tipoTest: {
             defecto:  'bilateral',
             opciones: ['bilateral'],
@@ -627,7 +627,7 @@ const ESTADISTICOS_CONFIG = {
             grupos:      1,
             descripcion: 'Un vector numérico continuo de al menos 8 observaciones',
         },
-        salidas: ['A2', 'p', 'esNormal', 'n'],
+        salidas: ['prueba', 'estadisticoA2', 'estadisticoA2_corregido', 'valorP', 'esNormal', 'n', 'interpretacion', 'nota'],
         tipoTest: {
             defecto:  'bilateral',
             opciones: ['bilateral'],
@@ -675,7 +675,7 @@ const ESTADISTICOS_CONFIG = {
             grupos:      1,
             descripcion: 'Un vector numérico continuo de al menos 8 observaciones',
         },
-        salidas: ['K2', 'p', 'esNormal', 'Zskew', 'Zkurt', 'skew', 'kurt', 'n'],
+        salidas: ['prueba', 'asimetria', 'curtosis', 'Z_asimetria', 'Z_curtosis', 'estadisticoK2', 'gradosLibertad', 'valorP', 'esNormal', 'n', 'interpretacion', 'nota'],
         tipoTest: {
             defecto:  'bilateral',
             opciones: ['bilateral'],
@@ -891,7 +891,7 @@ const ESTADISTICOS_CONFIG = {
             grupos:      'k×j',
             descripcion: 'Variable numérica + dos variables categóricas de factor',
         },
-        salidas: ['prueba', 'factor1', 'factor2', 'error', 'total', 'interpretacion'],
+        salidas: ['prueba', 'factor1', 'factor2', 'interaccion', 'residual', 'total', 'n', 'interpretacion'],
         tipoTest: {
             defecto:  'bilateral',
             opciones: ['bilateral'],
@@ -1056,7 +1056,7 @@ const ESTADISTICOS_CONFIG = {
             grupos:      2,
             descripcion: 'Dos vectores numéricos del mismo largo',
         },
-        salidas: ['r', 't', 'gl', 'p', 'ic95', 'significativo', 'n'],
+        salidas: ['prueba', 'alternativa', 'r', 'r2', 't', 'df', 'p', 'pValue', 'ic95Lower', 'ic95Upper', 'significante', 'interpretacion', 'n', 'formula', 'variables'],
         tipoTest: {
             defecto:  'bilateral',
             opciones: ['bilateral', 'unilateral-mayor', 'unilateral-menor'],
@@ -1111,7 +1111,7 @@ const ESTADISTICOS_CONFIG = {
             grupos:      2,
             descripcion: 'Dos vectores numéricos u ordinales del mismo largo',
         },
-        salidas: ['rho', 't', 'gl', 'p', 'significativo', 'n'],
+        salidas: ['prueba', 'alternativa', 'rho', 'rho2', 't', 'df', 'p', 'pValue', 'significante', 'interpretacion', 'n', 'formula', 'variables'],
         tipoTest: {
             defecto:  'bilateral',
             opciones: ['bilateral', 'unilateral-mayor', 'unilateral-menor'],
@@ -1164,7 +1164,7 @@ const ESTADISTICOS_CONFIG = {
             grupos:      2,
             descripcion: 'Dos vectores ordinales o numéricos del mismo largo',
         },
-        salidas: ['tau', 'z', 'p', 'concordantes', 'discordantes', 'significativo', 'n'],
+        salidas: ['prueba', 'alternativa', 'tau', 'concordantes', 'discordantes', 'empatesX', 'empatesY', 'z', 'p', 'pValue', 'significante', 'interpretacion', 'n', 'formula'],
         tipoTest: {
             defecto:  'bilateral',
             opciones: ['bilateral', 'unilateral-mayor', 'unilateral-menor'],
@@ -1218,7 +1218,7 @@ const ESTADISTICOS_CONFIG = {
             grupos:      1,
             descripcion: 'Un vector numérico con al menos 5 observaciones',
         },
-        salidas: ['tipo', 'formula', 'r2', 'coeficientes', 'proyecciones'],
+        salidas: ['tipo', 'formula', 'pendiente', 'intercepto', 'r2', 'n', 'direccion', 'proyecciones', 'interpretacion'],
         referencia: [
             {
                 autores:  'Montgomery, D.C., Jennings, C.L. & Kulahci, M.',
@@ -1244,7 +1244,7 @@ const ESTADISTICOS_CONFIG = {
             grupos:      2,
             descripcion: 'Dos vectores numéricos del mismo largo',
         },
-        salidas: ['covarianza', 'n', 'mediaX', 'mediaY'],
+        salidas: ['covarianza', 'n'],
         interpretacion: {
             plantilla: 'Cov(X,Y) = {covarianza}. El signo indica dirección; la magnitud depende de las unidades (use r para comparaciones).',
         },
@@ -1455,7 +1455,7 @@ const ESTADISTICOS_CONFIG = {
             grupos:      'k+1',
             descripcion: 'Variables predictoras Xᵢ y variable dependiente binaria Y (0/1)',
         },
-        salidas: ['betas', 'oddsRatios', 'ic95OR', 'p', 'devianza', 'auc', 'accuraccy', 'sensibilidad', 'especificidad', 'aic'],
+        salidas: ['prueba', 'modelo', 'formula', 'betas', 'oddsRatios', 'exactitud', 'precision', 'recall', 'f1', 'vp', 'fp', 'vn', 'fn', 'n', 'k', 'interpretacion', 'predicciones'],
         tipoTest: {
             defecto:  'bilateral',
             opciones: ['bilateral'],
@@ -1500,7 +1500,7 @@ const ESTADISTICOS_CONFIG = {
             grupos:      2,
             descripcion: 'Vector de valores observados y vector de predicciones del mismo largo',
         },
-        salidas: ['rmse', 'mse', 'n'],
+        salidas: ['rmse', 'n'],
         interpretacion: {
             plantilla: 'RMSE = {rmse} (en unidades de Y). Penaliza errores grandes más que MAE.',
         },
@@ -1568,7 +1568,7 @@ const ESTADISTICOS_CONFIG = {
             grupos:      2,
             descripcion: 'Vector de valores observados y vector de predicciones',
         },
-        salidas: ['r2', 'r2ajustado', 'SSres', 'SStot', 'n', 'k'],
+        salidas: ['r2', 'n'],
         interpretacion: {
             plantilla: 'R² = {r2}: el modelo explica el {r2pct}% de la varianza. R²adj = {r2ajustado} corrige por el número de predictores.',
         },
@@ -1976,7 +1976,7 @@ const ESTADISTICOS_CONFIG = {
             grupos:      'libre',
             descripcion: 'Matriz de datos n×p; número de clusters configurable',
         },
-        salidas: ['etiquetasCluster', 'centroides', 'inercia', 'silhouette', 'dendrograma', 'k'],
+        salidas: ['k', 'labels', 'clusterSizes', 'centroids', 'inertia', 'silhouette', 'interpretacion'],
         efectoTamano: {
             metrica:  'Coeficiente de Silhouette',
             formula:  's(i) = (b−a)/max(a,b)',
@@ -2131,7 +2131,7 @@ const ESTADISTICOS_CONFIG = {
             grupos:      1,
             descripcion: 'Vector numérico ordenado cronológicamente; frecuencia de la serie configurable',
         },
-        salidas: ['tendencia', 'estacionalidad', 'residuos', 'acf', 'pacf', 'pronostico', 'ic95Pronostico'],
+        salidas: ['tendencia', 'estacionalidad', 'residuos', 'acf', 'pacf', 'pronostico', 'lbQ', 'lbP', 'period', 'n', 'interpretacion'],
         interpretacion: {
             plantilla: 'Tendencia: {tendencia}. Estacionalidad: {estacionalidad}. Pronóstico {h} pasos: {pronostico}.',
         },
@@ -2167,7 +2167,7 @@ const ESTADISTICOS_CONFIG = {
             grupos:      1,
             descripcion: 'Un vector numérico; estadístico de interés y número de iteraciones B configurables',
         },
-        salidas: ['estimacion', 'se_bootstrap', 'ic95', 'ic99', 'distribucionBootstrap', 'B'],
+        salidas: ['prueba', 'estimador', 'estimacion', 'se_bootstrap', 'sesgo', 'ic', 'distribucion', 'B', 'n', 'semilla', 'interpretacion'],
         efectoTamano: {
             metrica:  'Amplitud del IC bootstrap',
             formula:  'IC = [θ*_(α/2), θ*_(1−α/2)]',
@@ -2215,7 +2215,7 @@ const ESTADISTICOS_CONFIG = {
             grupos:      'k≥1',
             descripcion: 'Vector de tiempos, vector de eventos (1/0) y opcional variable de grupo',
         },
-        salidas: ['curvaKM', 'ic95KM', 'medianaTiempo', 'logRankChi2', 'logRankP', 'hrCox', 'ic95HR'],
+        salidas: ['curvas', 'logRank', 'interpretacion'],
         nivelAlfa: 0.05,
         efectoTamano: {
             metrica:  'Hazard Ratio (Cox)',
@@ -2260,7 +2260,7 @@ const ESTADISTICOS_CONFIG = {
             grupos:      'anidados',
             descripcion: 'Variables predictoras + variable respuesta + variable(s) de agrupamiento',
         },
-        salidas: ['betasFijos', 'varianzasAleatorias', 'aic', 'bic', 'logLik', 'icc', 'residuos'],
+        salidas: ['betasFijos', 'varianzasAleatorias', 'aic', 'bic', 'logLik', 'icc', 'n', 'nGrupos', 'groupEffects', 'interpretacion'],
         efectoTamano: {
             metrica:  'ICC (Intraclass Correlation Coefficient)',
             formula:  'ICC = τ²/(τ²+σ²)',
@@ -2303,7 +2303,7 @@ const ESTADISTICOS_CONFIG = {
             grupos:      'configurable',
             descripcion: 'Datos y especificación de priors (distribución y parámetros)',
         },
-        salidas: ['posterior', 'media_posterior', 'ic95_credible', 'factorBayes', 'diagnosticoMCMC'],
+        salidas: ['posterior', 'media_posterior', 'ic95_credible', 'factorBayes', 'mediaMuestral', 'n', 'mcmc', 'interpretacion'],
         efectoTamano: {
             metrica:  'Factor de Bayes (BF₁₀)',
             formula:  'BF₁₀ = P(D|H₁) / P(D|H₀)',
@@ -2350,7 +2350,7 @@ const ESTADISTICOS_CONFIG = {
             grupos:      1,
             descripcion: 'Vector de mediciones de blanco (background) con al menos 10 réplicas',
         },
-        salidas: ['LOD', 'mediaBlancos', 'deBlancos', 'n'],
+        salidas: ['valor', 'sigma', 'mediaBlancos', 'n', 'interpretacion'],
         interpretacion: {
             plantilla: 'LOD = {LOD} (3σ). Valores por debajo de LOD no son detectables.',
         },
@@ -2384,7 +2384,7 @@ const ESTADISTICOS_CONFIG = {
             grupos:      1,
             descripcion: 'Vector de mediciones de blanco (background) con al menos 10 réplicas',
         },
-        salidas: ['LOQ', 'mediaBlancos', 'deBlancos', 'n'],
+        salidas: ['valor', 'sigma', 'mediaBlancos', 'n', 'interpretacion'],
         interpretacion: {
             plantilla: 'LOQ = {LOQ} (10σ). Valores por debajo de LOQ no deben reportarse cuantitativamente.',
         },
@@ -2418,7 +2418,7 @@ const ESTADISTICOS_CONFIG = {
             grupos:      1,
             descripcion: 'Vector de mediciones de blanco (background) con al menos 10 réplicas',
         },
-        salidas: ['LQC', 'mediaBlancos', 'deBlancos', 'n'],
+        salidas: ['valor', 'sigma', 'mediaBlancos', 'n', 'interpretacion'],
         interpretacion: {
             plantilla: 'LQC = {LQC} (10σ). Control de calidad verificado contra el límite de cuantificación.',
         },
@@ -2452,7 +2452,7 @@ const ESTADISTICOS_CONFIG = {
             grupos:      1,
             descripcion: 'Vector de mediciones de blanco (background) con al menos 10 réplicas',
         },
-        salidas: ['MDL', 'mediaBlancos', 'deBlancos', 'n'],
+        salidas: ['valor', 'sigma', 'mediaBlancos', 'n', 'interpretacion'],
         interpretacion: {
             plantilla: 'MDL = {MDL} (3.3σ). Mínima cantidad detectable con confianza especificada.',
         },
@@ -2489,7 +2489,7 @@ const ESTADISTICOS_CONFIG = {
             grupos:      1,
             descripcion: 'X = concentración conocida, Y = señal o respuesta medida',
         },
-        salidas: ['LOD', 'pendiente', 'intercepto', 'sigmaResidual', 'r2', 'n'],
+        salidas: ['valor', 'pendiente', 'intercepto', 'sigmaResidual', 'r2', 'n', 'residuos', 'predicciones', 'resumenResiduos', 'interpretacion'],
         interpretacion: {
             plantilla: 'LOD = {LOD} (3.3 × S_res / m). Detectable por debajo del límite especificado.',
         },
@@ -2526,7 +2526,7 @@ const ESTADISTICOS_CONFIG = {
             grupos:      1,
             descripcion: 'X = concentración conocida, Y = señal o respuesta medida',
         },
-        salidas: ['LOQ', 'pendiente', 'intercepto', 'sigmaResidual', 'r2', 'n'],
+        salidas: ['valor', 'pendiente', 'intercepto', 'sigmaResidual', 'r2', 'n', 'residuos', 'predicciones', 'resumenResiduos', 'interpretacion'],
         interpretacion: {
             plantilla: 'LOQ = {LOQ} (10 × S_res / m). Cuantificable por encima del límite especificado.',
         },
@@ -2563,7 +2563,7 @@ const ESTADISTICOS_CONFIG = {
             grupos:      1,
             descripcion: 'X = concentración conocida, Y = señal o respuesta medida',
         },
-        salidas: ['LQC', 'pendiente', 'intercepto', 'sigmaResidual', 'r2', 'n'],
+        salidas: ['valor', 'pendiente', 'intercepto', 'sigmaResidual', 'r2', 'n', 'residuos', 'predicciones', 'resumenResiduos', 'interpretacion'],
         interpretacion: {
             plantilla: 'LQC = {LQC}. Control de calidad basado en la curva de calibración.',
         },
@@ -2599,7 +2599,7 @@ const ESTADISTICOS_CONFIG = {
             grupos:      1,
             descripcion: 'X = concentración conocida, Y = señal o respuesta medida',
         },
-        salidas: ['MDL', 'pendiente', 'intercepto', 'sigmaResidual', 'r2', 'n'],
+        salidas: ['valor', 'pendiente', 'intercepto', 'sigmaResidual', 'r2', 'n', 'residuos', 'predicciones', 'resumenResiduos', 'interpretacion'],
         interpretacion: {
             plantilla: 'MDL = {MDL} (2.5 × S_res / m). Mínima detectable según la curva de calibración.',
         },

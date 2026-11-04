@@ -103,6 +103,19 @@ const EstadisticaDescriptiva = (() => {
         
         estadisticos.forEach(stat => {
             try {
+            // FIX-AUDIT (A1): respetar minMuestra/maxMuestra del catálogo también en batch.
+            const statCfg = (typeof ESTADISTICOS_CONFIG !== 'undefined') ? ESTADISTICOS_CONFIG[stat] : null;
+            if (statCfg) {
+                const nFilas = Array.isArray(data.data) ? data.data.length : 0;
+                if (statCfg.minMuestra && nFilas < statCfg.minMuestra) {
+                    resultados[stat] = { error: `${stat} requiere al menos ${statCfg.minMuestra} observaciones (hay ${nFilas}).` };
+                    return;
+                }
+                if (statCfg.maxMuestra && nFilas > statCfg.maxMuestra) {
+                    resultados[stat] = { error: `${stat} admite como máximo ${statCfg.maxMuestra} observaciones (hay ${nFilas}).` };
+                    return;
+                }
+            }
             switch (stat) {
                 case 'Media Aritmética':
                     resultados['Media Aritmética'] = {};
@@ -233,11 +246,21 @@ const EstadisticaDescriptiva = (() => {
                     break;
 
                 case 'T-Test (una muestra)':
-                    resultados['T-Test (una muestra)'] = {};
-                    numericCols.forEach(col => {
-                        const values = getNumericValues(data, col);
-                        resultados['T-Test (una muestra)'][col] = calcularTTestUnaMuestra(values, 0);
-                    });
+                    {
+                        // FIX-AUDIT (C4): μ₀ y alternativa configurables (antes μ₀ siempre 0).
+                        const cfg = hypothesisConfig['T-Test (una muestra)'] || {};
+                        const mu = parseFloat(cfg.mediaHipotesis);
+                        const mediaHipotesis = isFinite(mu) ? mu : 0;
+                        const alternativa = cfg.alternativa || 'bilateral';
+                        const cols = cfg.numericCol ? [cfg.numericCol] : numericCols;
+                        resultados['T-Test (una muestra)'] = {};
+                        cols.forEach(col => {
+                            const values = getNumericValues(data, col);
+                            const res = calcularTTestUnaMuestra(values, mediaHipotesis, alternativa);
+                            if (!res.error) res.columna = col;
+                            resultados['T-Test (una muestra)'][col] = res;
+                        });
+                    }
                     break;
 
                 case 'T-Test (dos muestras)':
@@ -306,11 +329,13 @@ const EstadisticaDescriptiva = (() => {
                         resultados['ANOVA One-Way'] = calcularANOVA(grupos);
                         resultados['ANOVA One-Way'].columnaAgrupacion = catCol;
                         resultados['ANOVA One-Way'].columnaValores = numCol;
-                        resultados['ANOVA One-Way'].grupos = gruposUnicos;
+                        // FIX-AUDIT (A4): no sobrescribir `grupos` (nº de grupos); etiquetas aparte
+                        resultados['ANOVA One-Way'].etiquetasGrupos = gruposUnicos;
                     } else if (numericCols.length >= 2) {
                         // Fallback: usar columnas numéricas como grupos (comportamiento anterior)
                         const grupos = numericCols.map(col => getNumericValues(data, col));
                         resultados['ANOVA One-Way'] = calcularANOVA(grupos);
+                        resultados['ANOVA One-Way'].etiquetasGrupos = numericCols;
                     }
                     break;
 
@@ -389,8 +414,8 @@ const EstadisticaDescriptiva = (() => {
                          resultados[calibKey] = { error: 'Configuración de curva de calibración incompleta. Seleccione columnaX (concentración) y columnaY (señal).' };
                          break;
                      }
-                     const xVals = getNumericValues(data, calibCfg.columnaX);
-                     const yVals = getNumericValues(data, calibCfg.columnaY);
+                     // FIX-AUDIT (C6): pares X/Y alineados por fila
+                     const [xVals, yVals] = getPairedValues(data, [calibCfg.columnaX, calibCfg.columnaY]);
                      if (xVals.length < 3 || yVals.length < 3) {
                          resultados[calibKey] = { error: 'Se necesitan al menos 3 pares de valores numéricos (X, Y).' };
                          break;
@@ -751,16 +776,12 @@ resultados['Límites de Cuantificación'] = { error: 'Configuración no encontra
                           } else if (colX === colY) {
                               resultados['Regresión Polinomial'] = { error: 'Las columnas X e Y deben ser diferentes' };
                           } else {
-                              const valuesX = getNumericValues(data, colX);
-                              const valuesY = getNumericValues(data, colY);
-                              
-                              if (valuesX.length === 0 || valuesY.length === 0) {
+                              // FIX-AUDIT (C6): pares alineados por fila
+                              const [xValues, yValues] = getPairedValues(data, [colX, colY]);
+
+                              if (xValues.length === 0 || yValues.length === 0) {
                                   resultados['Regresión Polinomial'] = { error: 'Una o ambas columnas no tienen valores numéricos válidos' };
                               } else {
-                                  const minLength = Math.min(valuesX.length, valuesY.length);
-                                  const xValues = valuesX.slice(0, minLength);
-                                  const yValues = valuesY.slice(0, minLength);
-                                  
                                   resultados['Regresión Polinomial'] = calcularRegresionPolinomial(xValues, yValues, grado);
                                   resultados['Regresión Polinomial'].columnaX = colX;
                                   resultados['Regresión Polinomial'].columnaY = colY;
@@ -779,36 +800,30 @@ resultados['Límites de Cuantificación'] = { error: 'Configuración no encontra
                           if (!colY || !colsX || colsX.length === 0) {
                               resultados['Regresión Logística'] = { error: 'Seleccione variable Y y al menos una X' };
                           } else {
-                              const yValues = getNumericValues(data, colY);
-                              const xValues = colsX.map(col => getNumericValues(data, col));
-                              
-                              if (yValues.length === 0 || xValues.some(arr => arr.length === 0)) {
+                              // FIX-AUDIT (C6): filas completas alineadas en Y + todas las X
+                              const paired = getPairedValues(data, [colY, ...colsX]);
+                              const ySlice = paired[0] || [];
+                              const xCols = paired.slice(1);
+
+                              if (ySlice.length === 0 || xCols.some(arr => arr.length === 0)) {
                                   resultados['Regresión Logística'] = { error: 'Una o más columnas no tienen valores numéricos válidos' };
                               } else {
                                   // Verificar que Y sea binario
-                                  const uniqueY = [...new Set(yValues)];
+                                  const uniqueY = [...new Set(ySlice)];
                                   const isBinary = uniqueY.length === 2 && uniqueY.includes(0) && uniqueY.includes(1);
-                                  
+
                                   if (!isBinary) {
                                       resultados['Regresión Logística'] = { error: 'La variable Y debe ser binaria (solo 0 y 1)' };
                                   } else {
-                                      const minLength = Math.min(yValues.length, ...xValues.map(arr => arr.length));
-                                      const ySlice = yValues.slice(0, minLength);
-                                      
-                                      // CORRECCIÓN: Transponer X para que cada array interno sea una observación
+                                      // Transponer X para que cada array interno sea una observación
                                       const xTransposed = [];
-                                      for (let i = 0; i < minLength; i++) {
-                                          const row = xValues.map(arr => arr[i]);
-                                          xTransposed.push(row);
+                                      for (let i = 0; i < ySlice.length; i++) {
+                                          xTransposed.push(xCols.map(arr => arr[i]));
                                       }
-                                      
-                                      if (xTransposed.length !== ySlice.length) {
-                                          resultados['Regresión Logística'] = { error: 'Las dimensiones de X e Y no coinciden' };
-                                      } else {
-                                          resultados['Regresión Logística'] = calcularRegresionLogistica(xTransposed, ySlice);
-                                          resultados['Regresión Logística'].columnaY = colY;
-                                          resultados['Regresión Logística'].columnasX = colsX;
-                                      }
+
+                                      resultados['Regresión Logística'] = calcularRegresionLogistica(xTransposed, ySlice);
+                                      resultados['Regresión Logística'].columnaY = colY;
+                                      resultados['Regresión Logística'].columnasX = colsX;
                                   }
                               }
                           }
@@ -937,11 +952,11 @@ resultados['Límites de Cuantificación'] = { error: 'Configuración no encontra
                          } else if (colObs === colPred) {
                              resultados['MAE'] = { error: 'Las columnas deben ser diferentes' };
                          } else {
-                             const obs = getNumericValues(data, colObs);
-                             const pred = getNumericValues(data, colPred);
-                             const minLength = Math.min(obs.length, pred.length);
+                             // FIX-AUDIT (C6): pares alineados por fila
+                             const [obs, pred] = getPairedValues(data, [colObs, colPred]);
+                             const minLength = obs.length;
                              resultados['MAE'] = {
-                                 mae: calcularMAE(obs.slice(0, minLength), pred.slice(0, minLength)),
+                                 mae: calcularMAE(obs, pred),
                                  columnaObservada: colObs,
                                  columnaPredicha: colPred,
                                  n: minLength
@@ -965,11 +980,11 @@ resultados['Límites de Cuantificación'] = { error: 'Configuración no encontra
                          } else if (colObs === colPred) {
                              resultados['R² (Coef. Determinación)'] = { error: 'Las columnas deben ser diferentes' };
                          } else {
-                             const obs = getNumericValues(data, colObs);
-                             const pred = getNumericValues(data, colPred);
-                             const minLength = Math.min(obs.length, pred.length);
+                             // FIX-AUDIT (C6): pares alineados por fila
+                             const [obs, pred] = getPairedValues(data, [colObs, colPred]);
+                             const minLength = obs.length;
                              resultados['R² (Coef. Determinación)'] = {
-                                 r2: calcularR2(obs.slice(0, minLength), pred.slice(0, minLength)),
+                                 r2: calcularR2(obs, pred),
                                  columnaObservada: colObs,
                                  columnaPredicha: colPred,
                                  n: minLength
@@ -1037,7 +1052,7 @@ resultados['Límites de Cuantificación'] = { error: 'Configuración no encontra
                                  resultados['Kruskal-Wallis'] = calcularKruskalWallis(grupos);
                                  resultados['Kruskal-Wallis'].columnaAgrupacion = catCol;
                                  resultados['Kruskal-Wallis'].columnaValores = numCol;
-                                 resultados['Kruskal-Wallis'].grupos = groupKeys;
+                                 resultados['Kruskal-Wallis'].etiquetasGrupos = groupKeys;
                              }
                          }
                      } else {
@@ -1142,18 +1157,19 @@ resultados['Test de Signos'].columna1 = col1;
                         if (hypothesisConfig['Bootstrap']) {
                             const cfg = hypothesisConfig['Bootstrap'];
                             const statName = cfg.estadistico || 'media';
-                            const B = cfg.iteraciones || 1000;
-                            const nivelConfianza = cfg.nivelConfianza || 0.95;
-                            
-                            numericCols.forEach(col => {
-                                const values = getNumericValues(data, col);
-                                if (values.length < 10) {
-                                    resultados['Bootstrap'] = { error: 'Se necesitan al menos 10 observaciones' };
-                                    return;
-                                }
-                                resultados['Bootstrap'] = calcularBootstrap(values, statName, B, nivelConfianza);
-                                resultados['Bootstrap'].columna = col;
-                            });
+                            const B = parseInt(cfg.iteraciones, 10) || 1000;
+                            const nivelConfianza = parseFloat(cfg.nivelConfianza) || 0.95;
+                            const semilla = parseInt(cfg.semilla, 10);
+                            // FIX-AUDIT (C3): una columna explícita (antes el bucle dejaba solo la última)
+                            const col = cfg.numericCol || numericCols[0];
+                            const values = getNumericValues(data, col);
+                            if (values.length < 10) {
+                                resultados['Bootstrap'] = { error: `Se necesitan al menos 10 observaciones válidas en "${col}"` };
+                            } else {
+                                const res = calcularBootstrap(values, statName, B, nivelConfianza, isFinite(semilla) ? semilla : 12345);
+                                res.columna = col;
+                                resultados['Bootstrap'] = res;
+                            }
                         } else {
                             resultados['Bootstrap'] = { error: 'Configure el estimador y número de remuestreos en el menú de hipótesis' };
                         }
@@ -1261,8 +1277,8 @@ resultados['Test de Signos'].columna1 = col1;
                     case 'Test TOST (Equivalencia)':
                         if (hypothesisConfig['Test TOST (Equivalencia)'] && hypothesisConfig['Test TOST (Equivalencia)'].columnaX && hypothesisConfig['Test TOST (Equivalencia)'].columnaY) {
                             const cfg = hypothesisConfig['Test TOST (Equivalencia)'];
-                            const values1 = getNumericValues(data, cfg.columnaX);
-                            const values2 = getNumericValues(data, cfg.columnaY);
+                            // FIX-AUDIT (C6): pares X/Y alineados por fila
+                            const [values1, values2] = getPairedValues(data, [cfg.columnaX, cfg.columnaY]);
                             const delta = parseFloat(cfg.delta) || 0.5;
                             if (values1.length < 2 || values2.length < 2) {
                                 resultados['Test TOST (Equivalencia)'] = { error: 'Ambas columnas necesitan al menos 2 valores numéricos' };
@@ -1405,14 +1421,23 @@ resultados['Test de Signos'].columna1 = col1;
                             if (!tiempoCol || !eventoCol) {
                                 resultados['Análisis de Supervivencia'] = { error: 'Seleccione columna de tiempo y evento' };
                             } else {
-                                const tiempos = getNumericValues(data, tiempoCol);
-                                const eventos = data.data.map(row => {
-                                    const v = row[eventoCol];
-                                    if (typeof v === 'number') return v;
-                                    if (typeof v === 'string') return ['1', 'si', 'yes', 'true'].includes(v.toLowerCase()) ? 1 : 0;
+                                // FIX-AUDIT (C6): tiempo/evento/grupo alineados por fila
+                                const tiempos = [];
+                                const eventos = [];
+                                const gruposArr = [];
+                                const parseEvento = (v) => {
+                                    if (typeof v === 'number') return v ? 1 : 0;
+                                    if (typeof v === 'string') return ['1', 'si', 'sí', 'yes', 'true'].includes(v.toLowerCase()) ? 1 : 0;
                                     return 0;
+                                };
+                                data.data.forEach(row => {
+                                    const t = parseFloat(row[tiempoCol]);
+                                    if (isNaN(t) || !isFinite(t)) return;
+                                    tiempos.push(t);
+                                    eventos.push(parseEvento(row[eventoCol]));
+                                    if (grupoCol) gruposArr.push(row[grupoCol]);
                                 });
-                                const grupos = grupoCol ? data.data.map(row => row[grupoCol]) : null;
+                                const grupos = grupoCol ? gruposArr : null;
                                 if (tiempos.length < 5) {
                                     resultados['Análisis de Supervivencia'] = { error: 'Se necesitan al menos 5 observaciones' };
                                 } else {
@@ -1437,8 +1462,15 @@ resultados['Test de Signos'].columna1 = col1;
                             if (!numCol || !catCol) {
                                 resultados['Modelos Mixtos'] = { error: 'Seleccione columna numérica (Y) y columna de grupo' };
                             } else {
-                                const Y = getNumericValues(data, numCol);
-                                const grupos = data.data.map(row => row[catCol]);
+                                // FIX-AUDIT (C6): Y y grupo alineados por fila
+                                const Y = [];
+                                const grupos = [];
+                                data.data.forEach(row => {
+                                    const v = parseFloat(row[numCol]);
+                                    if (isNaN(v) || !isFinite(v)) return;
+                                    Y.push(v);
+                                    grupos.push(row[catCol]);
+                                });
                                 if (Y.length < 10) {
                                     resultados['Modelos Mixtos'] = { error: 'Se necesitan al menos 10 observaciones' };
                                 } else {
@@ -2103,7 +2135,7 @@ function generarHTML(analisisResultado) {
         // ANOVA One-Way
         if (statKey === 'ANOVA One-Way') {
             if (data.error) return `<p class="ar-error">${escapeHtml(data.error)}</p>`;
-            const gruposLabel = Array.isArray(data.grupos) ? data.grupos.join(', ') : (data.grupos != null ? data.grupos : 'Grupos');
+            const gruposLabel = Array.isArray(data.etiquetasGrupos) ? data.etiquetasGrupos.join(', ') : (data.grupos != null ? data.grupos : 'Grupos');
             const etaSq = (data.SSB != null && data.SSW != null && (data.SSB + data.SSW) > 0)
                 ? (data.SSB / (data.SSB + data.SSW)).toFixed(4) : '—';
             const etaSqLabel = etaSq !== '—' ? (parseFloat(etaSq) >= 0.14 ? '✓ Grande' : parseFloat(etaSq) >= 0.06 ? '⚠ Medio' : '○ Pequeño') : '—';
@@ -2143,7 +2175,7 @@ function generarHTML(analisisResultado) {
                         <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Estadístico F</span><span class="ar-kpi-sub-v">${data.estadisticoF?.toFixed(4) ?? '—'}</span></div>
                         <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Valor p</span><span class="ar-kpi-sub-v">${data.valorP?.toFixed(4) ?? '—'}</span></div>
                         <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">η² (Eta-cuadrado)</span><span class="ar-kpi-sub-v">${etaSq} (${etaSqLabel})</span></div>
-                        <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Grupos</span><span class="ar-kpi-sub-v">${data.grupos ?? '—'}</span></div>
+                        <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Grupos</span><span class="ar-kpi-sub-v">${(data.etiquetasGrupos || []).length || data.grupos || '—'}</span></div>
                         <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Total obs.</span><span class="ar-kpi-sub-v">${data.totalObservaciones ?? '—'}</span></div>
                         <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">df entre</span><span class="ar-kpi-sub-v">${data.dfEntre ?? '—'}</span></div>
                         <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">df dentro</span><span class="ar-kpi-sub-v">${data.dfDentro ?? '—'}</span></div>
@@ -2488,7 +2520,7 @@ function generarHTML(analisisResultado) {
                         <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">H</span><span class="ar-kpi-sub-v">${data.H ?? '—'}</span></div>
                         <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Valor p</span><span class="ar-kpi-sub-v">${data.valorP?.toFixed(4) ?? '—'}</span></div>
                         <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">df</span><span class="ar-kpi-sub-v">${data.df ?? '—'}</span></div>
-                        <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Grupos</span><span class="ar-kpi-sub-v">${data.grupos?.length ?? '—'}</span></div>
+                        <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Grupos</span><span class="ar-kpi-sub-v">${(data.etiquetasGrupos || []).length || data.grupos?.length || '—'}</span></div>
                         <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Total obs.</span><span class="ar-kpi-sub-v">${data.totalObservaciones ?? '—'}</span></div>
                     </div>
                     <div class="ar-kpi-badge ${data.significativo ? 'ar-badge-danger' : 'ar-badge-ok'}">${data.significativo ? '✗ Significativo (p < 0.05)' : '✓ No significativo (p ≥ 0.05)'}</div>
