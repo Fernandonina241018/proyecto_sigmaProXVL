@@ -3118,13 +3118,21 @@ interpretacion: interpretacion,
     /**
      * K-Medias (Clustering)
      */
-    function calcularCluster(dataMatrix, k) {
+    function calcularCluster(dataMatrix, k, semilla = 12345) {
         if (!dataMatrix || dataMatrix.length < k) return { error: `Se necesitan al menos ${k} observaciones para ${k} clusters` };
         const n = dataMatrix.length, p = dataMatrix[0].length;
         k = Math.max(2, Math.min(k || 3, n - 1));
-        // Inicializar centroides (k-means++) — for loops, no .map anidado
+        // PRNG determinista (mulberry32): misma semilla → mismos centroides.
+        let _seed = (Number.isFinite(semilla) ? semilla : 12345) >>> 0;
+        const rand = () => {
+            _seed |= 0; _seed = (_seed + 0x6D2B79F5) | 0;
+            let t = Math.imul(_seed ^ (_seed >>> 15), 1 | _seed);
+            t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+            return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+        };
+        // Inicializar centroides (k-means++)
         let centroids = [];
-        centroids.push(dataMatrix[Math.floor(Math.random() * n)]);
+        centroids.push(dataMatrix[Math.floor(rand() * n)]);
         const dist = new Float64Array(n);
         for (let c = 1; c < k; c++) {
             let totalDist = 0;
@@ -3138,7 +3146,7 @@ interpretacion: interpretacion,
                 dist[i] = minD;
                 totalDist += minD;
             }
-            let r = Math.random() * totalDist;
+            let r = rand() * totalDist;
             for (let i = 0; i < n; i++) { r -= dist[i]; if (r <= 0) { centroids.push(dataMatrix[i]); break; } }
         }
         // Iterar hasta convergencia
@@ -3200,6 +3208,7 @@ interpretacion: interpretacion,
             centroids: centroids.map(c => c.map(v => parseFloat(v.toFixed(4)))),
             inertia: parseFloat(inertia.toFixed(4)),
             silhouette: parseFloat(silhouette.toFixed(4)),
+            semilla: Number.isFinite(semilla) ? semilla : 12345,
             interpretacion: silhouette > 0.5 ? `${k} clusters con buena separación (silhouette=${silhouette.toFixed(3)})`
                 : silhouette > 0.25 ? `${k} clusters con separación moderada (silhouette=${silhouette.toFixed(3)})`
                 : `${k} clusters con baja separación (silhouette=${silhouette.toFixed(3)})`

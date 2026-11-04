@@ -90,6 +90,34 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (SigmaProXVL) con spr
 
 ## CAMBIOS RECIENTES
 
+### 2026-11-03 (231): Lote 4 — umbrales A2, semilla de Clúster y normalidad no paramétrica
+
+**Qué:** Se cierran los pendientes de bajo riesgo del mapeo: umbrales alineados, clúster reproducible, renderers de normalidad y conteo de observaciones válidas.
+
+- **A2:** Series Temporales 20, Modelos Mixtos 20, Bayesiano 15, Supervivencia 20 y curvas LOD/LOQ/LQC/MDL 6, igual que el catálogo.
+- **Clúster:** PRNG determinista `mulberry32` con semilla configurable (por defecto 12345); el resultado incluye `semilla`. Misma semilla → mismos centroides e inercia.
+- **K-S / Anderson-Darling / D’Agostino:** se enrutan a su renderer específico aunque no estén en `HYPOTHESIS_TESTS`.
+- **`minMuestra`/`maxMuestra`:** cuentan observaciones válidas de las columnas configuradas, no filas totales.
+- **`totalFilas`:** fallback a `data.data.length` si falta `rowCount`.
+- **Tests:** +3 de integración (Series con 10 filas, clúster reproducible, normalidad sin genérico) y ajuste del contrato para entidades HTML.
+
+**Archivos afectados:**
+| Archivo | Cambio |
+|---------|--------|
+| `js/core/EstadisticaDescriptiva.js` | Umbrales A2, `minMuestra` válido, `totalFilas`, ruteo K-S/AD/DA, semilla de Clúster |
+| `js/core/indexx-stats-core.js` | `calcularCluster` determinista y campo `semilla` |
+| `tests/estadisticos-integracion.test.js` | +3 tests del Lote 4 |
+| `tests/estadisticos-contrato.test.js` | Normalización de `&#039;` |
+| `docs/AUDITORIA_MODULO_ESTADISTICA.md` | A2/Lote 4 documentados |
+
+**Verificación:**
+```
+node --check (2 archivos) → OK
+Vitest → 58 archivos, 910 tests OK
+```
+
+**Pendiente:** A7 (`nivelAlfa`, `tipoTest`, `efectoTamano`, `advertencias`) y semilla del MCMC bayesiano.
+
 ### 2026-11-03 (230): Endurecer contrato de estadísticos + typecheck
 
 **Qué:** El test de contrato de los 62 estadísticos ahora falla si alguno vuelve a devolver `error` o pinta una tarjeta de error; además se recupera `npm run typecheck`.
