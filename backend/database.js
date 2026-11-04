@@ -778,6 +778,17 @@ function buildPostgres() {
         return _parseSignRow(row);
     }
 
+    // Metadatos para el polling de la vista de firma. Mismo contrato de
+    // autorización que el detalle (created_by / assigned_*), pero SIN `html`:
+    // el polling solo compara `version` y así no transfiere el documento
+    // completo (~300 KB) cada 30 s desde Supabase.
+    async function getSignSessionMeta(id) {
+        const row = await get(`SELECT ${SIGN_LIST_COLUMNS} FROM report_signatures WHERE id = $1`, [id]);
+        const meta = _parseSignRow(row);
+        if (meta) delete meta.html;
+        return meta;
+    }
+
     // Reinicio de firma: solo el ÚLTIMO rol firmado, solo quien lo firmó.
     // Override admin ("apertura"): puede reiniciar CUALQUIER rol; si no es
     // el último, invalida en cascada los posteriores (si no, quedaría la
@@ -1216,7 +1227,7 @@ function buildPostgres() {
         return elig;
     }
 
-    return { run, get, all, initDatabase, createInitialAdmin, getUserByUsername, getUserBySignatureCode, isSignatureCodeTaken, getUserById, createUser, updateLastLogin, getAllUsers, getUsersList, countUsers, toggleUserActive, changePassword, setPasswordTemp, updateUserProfile, updateUserProfileById, changeRole, logAccess, logAuditEvent, getAuditLog, countAuditLog, getAuditStats, verifyAuditChain, blacklistToken, isTokenBlacklisted, cleanExpiredBlacklist, registerDevice, isDeviceTrusted, getUserDevices, getAllDevices, countDevices, countUserDevices, setDeviceTrust, removeDevice, save2FASecret, get2FASecret, enable2FA, disable2FA, has2FAEnabled, createSnapshot, getSnapshots, getSnapshotById, createSignSession, getSignSession, listSignSessions, countSignSessions, signQuotaInfo, signSessionStep, importSignSession, rejectSignSession, reopenSignSession, sendbackSignSession, amendSignSession, deleteSignSession, unsignSessionStep, dismissSignSession, purgeSignSessions };}
+    return { run, get, all, initDatabase, createInitialAdmin, getUserByUsername, getUserBySignatureCode, isSignatureCodeTaken, getUserById, createUser, updateLastLogin, getAllUsers, getUsersList, countUsers, toggleUserActive, changePassword, setPasswordTemp, updateUserProfile, updateUserProfileById, changeRole, logAccess, logAuditEvent, getAuditLog, countAuditLog, getAuditStats, verifyAuditChain, blacklistToken, isTokenBlacklisted, cleanExpiredBlacklist, registerDevice, isDeviceTrusted, getUserDevices, getAllDevices, countDevices, countUserDevices, setDeviceTrust, removeDevice, save2FASecret, get2FASecret, enable2FA, disable2FA, has2FAEnabled, createSnapshot, getSnapshots, getSnapshotById, createSignSession, getSignSession, getSignSessionMeta, listSignSessions, countSignSessions, signQuotaInfo, signSessionStep, importSignSession, rejectSignSession, reopenSignSession, sendbackSignSession, amendSignSession, deleteSignSession, unsignSessionStep, dismissSignSession, purgeSignSessions };}
 
 // ───── Local JSON store ─────
 function buildLocalStore() {
@@ -2063,6 +2074,15 @@ function buildLocalStore() {
         return s ? _localSignView(s) : null;
     }
 
+    // Mirror local del polling ligero: metadatos sin `html`.
+    async function getSignSessionMeta(id) {
+        var s = state.report_signatures.find(function(x) { return x.id === id; }) || null;
+        if (!s) return null;
+        var v = _localSignView(s);
+        delete v.html;
+        return v;
+    }
+
     async function listSignSessions({ scope, username, limit = 50, offset = 0 }) {
         limit = Math.min(Math.max(parseInt(limit) || 50, 1), 200);
         offset = Math.max(parseInt(offset) || 0, 0);
@@ -2128,7 +2148,7 @@ function buildLocalStore() {
         return _localSignView(s);
     }
 
-    return { run, get, all, initDatabase, createInitialAdmin, getUserByUsername, getUserBySignatureCode, isSignatureCodeTaken, getUserById, createUser, updateLastLogin, getAllUsers, getUsersList, countUsers, toggleUserActive, changePassword, setPasswordTemp, updateUserProfile, updateUserProfileById, changeRole, logAccess, logAuditEvent, getAuditLog, countAuditLog, getAuditStats, verifyAuditChain, blacklistToken, isTokenBlacklisted, cleanExpiredBlacklist, registerDevice, isDeviceTrusted, getUserDevices, getAllDevices, countDevices, countUserDevices, setDeviceTrust, removeDevice, save2FASecret, get2FASecret, enable2FA, disable2FA, has2FAEnabled, createSnapshot, getSnapshots, getSnapshotById, createSignSession, getSignSession, listSignSessions, countSignSessions, signQuotaInfo, signSessionStep, importSignSession, rejectSignSession, reopenSignSession, sendbackSignSession, amendSignSession, deleteSignSession, unsignSessionStep, dismissSignSession, purgeSignSessions };}
+    return { run, get, all, initDatabase, createInitialAdmin, getUserByUsername, getUserBySignatureCode, isSignatureCodeTaken, getUserById, createUser, updateLastLogin, getAllUsers, getUsersList, countUsers, toggleUserActive, changePassword, setPasswordTemp, updateUserProfile, updateUserProfileById, changeRole, logAccess, logAuditEvent, getAuditLog, countAuditLog, getAuditStats, verifyAuditChain, blacklistToken, isTokenBlacklisted, cleanExpiredBlacklist, registerDevice, isDeviceTrusted, getUserDevices, getAllDevices, countDevices, countUserDevices, setDeviceTrust, removeDevice, save2FASecret, get2FASecret, enable2FA, disable2FA, has2FAEnabled, createSnapshot, getSnapshots, getSnapshotById, createSignSession, getSignSession, getSignSessionMeta, listSignSessions, countSignSessions, signQuotaInfo, signSessionStep, importSignSession, rejectSignSession, reopenSignSession, sendbackSignSession, amendSignSession, deleteSignSession, unsignSessionStep, dismissSignSession, purgeSignSessions };}
 
 const impl = build();
 module.exports = {
@@ -2175,6 +2195,7 @@ module.exports = {
     getSnapshots:         (...a) => impl.getSnapshots(...a),
     createSignSession:    (...a) => impl.createSignSession(...a),
     getSignSession:       (...a) => impl.getSignSession(...a),
+    getSignSessionMeta:   (...a) => impl.getSignSessionMeta(...a),
     listSignSessions:     (...a) => impl.listSignSessions(...a),
     countSignSessions:    (...a) => impl.countSignSessions(...a),
     signQuotaInfo:        (...a) => impl.signQuotaInfo(...a),

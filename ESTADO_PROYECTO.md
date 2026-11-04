@@ -90,6 +90,39 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (SigmaProXVL) con spr
 
 ## CAMBIOS RECIENTES
 
+### 2026-11-03 (234): Polling de firmas en modo lite — el HTML deja de viajar cada 30 s
+
+**Problema:** la vista de firma hace polling cada 30 s (`_firmaPollSession`) contra `GET /api/sign-sessions/:id`, que devuelve el **reporte completo** (~300 KB con JPEGs). Con 6 sesiones abiertas son ~7.600 descargas/día; el 01/10/2026 Supabase registró **2,28 GB** de egress, casi todo por este polling. El HTML solo se necesita al abrir la sesión, no para detectar cambios.
+
+**Fix (transporte, sin tocar negocio):**
+1. `backend/database.js`: nueva `getSignSessionMeta(id)` en **ambos stores** (PG y JSON local) con la proyección del listado (`SIGN_LIST_COLUMNS`, sin `html`). Conserva `created_by` / `assigned_reviewer` / `assigned_approver` (autorización), `signatures` (firmas y `next_role`) y `version`.
+2. `backend/server.js`: `GET /api/sign-sessions/:id?lite=1` usa los metadatos; sin `?lite=1` el detalle devuelve exactamente lo mismo que antes (compatibilidad total).
+3. `js/core/indexx-firma.js`: el polling pide `?lite=1` y solo llama a `_firmaOpenSession` (detalle completo) cuando cambia `version`. Se mantiene el intervalo de 30 s.
+4. Sin migración ni cambio de esquema.
+
+**Archivos afectados:**
+| Archivo | Cambio |
+|---------|--------|
+| `backend/database.js` | `getSignSessionMeta` (PG + local) y export en el wrapper |
+| `backend/server.js` | Modo `?lite=1` en el detalle, misma autorización |
+| `js/core/indexx-firma.js` | Polling con `?lite=1`; recarga completa solo si cambia `version` |
+| `backend/tests/sign-sessions.test.js` | +3 tests de metadatos lite |
+| `tests/firma-poll-lite.test.js` | **NUEVO** — 5 tests (polling, reapertura, wiring) |
+| `e2e/sign-flow.spec.js` | +1 E2E HTTP: lite sin html, full con html, 403 a ajeno |
+
+**Verificación:**
+```
+node --check (3) → OK
+Vitest → 59 archivos, 921/921
+Backend → 123/123
+Playwright → 12/12
+tsc → OK
+Preflight → OK
+```
+**Validado en rojo:** quitando `?lite=1` fallan 2 tests del polling; quitando el `delete html` del store local fallan 2 tests de metadatos. Restaurado → verde.
+
+**Impacto:** payload de polling ~300 KB → ~200 B (~99% menos egress de firma); sin cambio visible para el usuario (polling 30 s). Rol de prueba: sin cambios en firmas, hashes, auditoría ni permisos.
+
 ### 2026-11-03 (233): Lote 6 — A7: tamaño de efecto, advertencias y contraste
 
 **Qué:** Se completa la mayor parte de A7: efecto visible, advertencias del catálogo y contraste unilateral/bilateral.

@@ -1151,9 +1151,14 @@ app.get('/api/sign-sessions', requireAuth, async (req, res) => {
 });
 
 // GET /api/sign-sessions/:id — detalle con HTML (creador, asignados o admin)
+// ?lite=1 → solo metadatos (sin html): lo usa el polling de 30 s de la vista
+// de firma, que únicamente necesita comparar `version`. Misma autorización.
 app.get('/api/sign-sessions/:id', requireAuth, async (req, res) => {
     try {
-        const session = await db.getSignSession(parseInt(req.params.id));
+        const lite = req.query.lite === '1';
+        const session = lite
+            ? await db.getSignSessionMeta(parseInt(req.params.id))
+            : await db.getSignSession(parseInt(req.params.id));
         if (!session) return res.status(404).json({ error: 'Sesión no encontrada' });
         const me = req.user.username;
         const allowed = req.user.role === 'admin' || session.created_by === me ||
