@@ -121,7 +121,7 @@ Preflight → OK
 ```
 **Validado en rojo:** quitando `?lite=1` fallan 2 tests del polling; quitando el `delete html` del store local fallan 2 tests de metadatos. Restaurado → verde.
 
-**Impacto:** payload de polling ~300 KB → ~200 B (~99% menos egress de firma); sin cambio visible para el usuario (polling 30 s). Rol de prueba: sin cambios en firmas, hashes, auditoría ni permisos.
+**Impacto:** payload de polling ~300 KB → ~200 B (~99% menos egress de firma); sin cambio visible para el usuario (polling 30 s). Riesgo de regresión: sin cambios en firmas, hashes, auditoría ni permisos.
 
 ### 2026-11-03 (233): Lote 6 — A7: tamaño de efecto, advertencias y contraste
 
