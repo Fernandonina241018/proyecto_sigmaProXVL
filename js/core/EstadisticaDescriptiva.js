@@ -435,26 +435,25 @@ const EstadisticaDescriptiva = (() => {
                         const factor1Labels = [...new Set(data.data.map(row => row[catCol1]).filter(v => v !== null && v !== ''))];
                         const factor2Labels = [...new Set(data.data.map(row => row[catCol2]).filter(v => v !== null && v !== ''))];
                         
-                        // Crear estructura de datos para ANOVA two-way
-                        // Necesitamos una matriz donde cada fila corresponde a una combinación de factores
-                        const datos = factor1Labels.map(f1 => 
+                        // Crear estructura 3D: por celda, todas las réplicas.
+                        const datos = factor1Labels.map(f1 =>
                             factor2Labels.map(f2 => {
-                                const values = data.data
+                                return data.data
                                     .filter(row => row[catCol1] === f1 && row[catCol2] === f2)
                                     .map(row => parseFloat(row[numCol]))
                                     .filter(v => !isNaN(v) && isFinite(v));
-                                return values.length > 0 ? values[0] : 0;
                             })
                         );
                         
-                        resultados['ANOVA Two-Way'] = calcularANOVA2Factores(datos, factor1Labels, factor2Labels);
-                        resultados['ANOVA Two-Way'].factor1 = catCol1;
-                        resultados['ANOVA Two-Way'].factor2 = catCol2;
-                        resultados['ANOVA Two-Way'].columnaValores = numCol;
-                    } else if (numericCols.length >= 3) {
-                        // Fallback: usar columnas numéricas (comportamiento anterior)
-                        const grupos = numericCols.map(col => getNumericValues(data, col));
-                        resultados['ANOVA Two-Way'] = calcularANOVA2Factores(grupos, numericCols.slice(0, 2), numericCols.slice(2));
+                        const resultadoANOVA2 = calcularANOVA2Factores(datos, factor1Labels, factor2Labels);
+                        if (!resultadoANOVA2.error) {
+                            resultadoANOVA2.factor1Nombre = catCol1;
+                            resultadoANOVA2.factor2Nombre = catCol2;
+                            resultadoANOVA2.columnaValores = numCol;
+                        }
+                        resultados['ANOVA Two-Way'] = resultadoANOVA2;
+                    } else {
+                        resultados['ANOVA Two-Way'] = { error: 'Configure dos factores categóricos y una columna numérica.' };
                     }
                     break;
 
@@ -1185,17 +1184,17 @@ resultados['Test de Signos'].columna1 = col1;
                             if (validLengths.length < 2) {
                                 resultados['PCA (Componentes Principales)'] = { error: 'No hay suficientes datos válidos en las columnas seleccionadas' };
                             } else {
-                                // Usar todas las filas del dataset original para mantener consistencia
+                                // Usar solo filas completas: un NaN no debe convertirse en 0.
                                 const allData = data.data || [];
-                                const minRows = allData.length;
-                                
-                                for (let i = 0; i < minRows; i++) {
+                                for (let i = 0; i < allData.length; i++) {
                                     const row = [];
+                                    let completa = true;
                                     for (let j = 0; j < pcaColumns.length; j++) {
                                         const val = parseFloat(allData[i][pcaColumns[j]]);
-                                        row.push(isNaN(val) ? 0 : val);
+                                        if (!isFinite(val)) { completa = false; break; }
+                                        row.push(val);
                                     }
-                                    dataMatrix.push(row);
+                                    if (completa) dataMatrix.push(row);
                                 }
                                 
                                 debugLog('[PCA] dataMatrix.length:', dataMatrix.length, 'dataMatrix[0]:', dataMatrix[0]);
@@ -1232,24 +1231,22 @@ resultados['Test de Signos'].columna1 = col1;
                             if (afValidLengths.length < 3) {
                                 resultados['Análisis Factorial'] = { error: 'No hay suficientes datos válidos en las columnas seleccionadas' };
                             } else {
-                                // Usar todas las filas pero solo las columnas seleccionadas
+                                // Construir la matriz solo con filas completas.
                                 const allData = data.data || [];
-                                const minAfRows = allData.length;
-                                
-                                // Verificar que hay suficientes observaciones
-                                if (minAfRows < afColumns.length * 2) {
-                                    resultados['Análisis Factorial'] = { error: `Se necesitan al menos ${afColumns.length * 2} observaciones. Actualmente hay ${minAfRows}.` };
-                                } else {
-                                    // Construir matriz usando TODAS las filas de los datos originales
-                                    for (let i = 0; i < minAfRows; i++) {
-                                        const row = [];
-                                        for (let j = 0; j < afColumns.length; j++) {
-                                            const val = parseFloat(allData[i][afColumns[j]]);
-                                            row.push(isNaN(val) ? 0 : val);
-                                        }
-                                        afDataMatrix.push(row);
+                                for (let i = 0; i < allData.length; i++) {
+                                    const row = [];
+                                    let completa = true;
+                                    for (let j = 0; j < afColumns.length; j++) {
+                                        const val = parseFloat(allData[i][afColumns[j]]);
+                                        if (!isFinite(val)) { completa = false; break; }
+                                        row.push(val);
                                     }
-                                    
+                                    if (completa) afDataMatrix.push(row);
+                                }
+
+                                if (afDataMatrix.length < afColumns.length * 2) {
+                                    resultados['Análisis Factorial'] = { error: `Se necesitan al menos ${afColumns.length * 2} observaciones completas. Actualmente hay ${afDataMatrix.length}.` };
+                                } else {
                                     const afResult = calcularAnalisisFactorial(afDataMatrix);
                                     resultados['Análisis Factorial'] = afResult;
                                     resultados['Análisis Factorial'].columnas = afColumns;
@@ -1558,8 +1555,11 @@ function generarHTML(analisisResultado) {
         const data = analisisResultado.resultados[statKey];
         if (!data) return '';
 
-        // Si es prueba de hipótesis, usar vista especial
-        if (HYPOTHESIS_SET.has(statKey)) {
+        // Si es prueba de hipótesis, usar vista especial.
+        // PCA y Análisis Factorial tienen renderer propio más abajo.
+        const esMultivariadoDirecto = statKey === 'PCA (Componentes Principales)' ||
+            statKey === 'PCA' || statKey === 'Análisis Factorial';
+        if (HYPOTHESIS_SET.has(statKey) && !esMultivariadoDirecto) {
             return hypothesisKpiCards(statKey, data);
         }
 
@@ -2170,16 +2170,24 @@ function generarHTML(analisisResultado) {
         // ANOVA Two-Way
         if (statKey === 'ANOVA Two-Way') {
             if (data.error) return `<p class="ar-error">${escapeHtml(data.error)}</p>`;
-            const f1Val = typeof data.factor1 === 'object' ? data.factor1.F : '—';
-            const p1Val = typeof data.factor1 === 'object' ? data.factor1.p : '—';
-            const f2Val = typeof data.factor2 === 'object' ? data.factor2.F : '—';
-            const p2Val = typeof data.factor2 === 'object' ? data.factor2.p : '—';
-            return `<div class="ar-kpi-card ar-kpi-multi"><div class="ar-kpi-col-label">${data.factor1 || 'Factor 1'} + ${data.factor2 || 'Factor 2'}</div>
+            const f1Val = data.factor1 && typeof data.factor1 === 'object' ? data.factor1.F : '—';
+            const p1Val = data.factor1 && typeof data.factor1 === 'object' ? data.factor1.p : '—';
+            const f2Val = data.factor2 && typeof data.factor2 === 'object' ? data.factor2.F : '—';
+            const p2Val = data.factor2 && typeof data.factor2 === 'object' ? data.factor2.p : '—';
+            const fABVal = data.interaccion && typeof data.interaccion === 'object' ? data.interaccion.F : '—';
+            const pABVal = data.interaccion && typeof data.interaccion === 'object' ? data.interaccion.p : '—';
+            const nomF1 = data.factor1Nombre || 'Factor 1';
+            const nomF2 = data.factor2Nombre || 'Factor 2';
+            return `<div class="ar-kpi-card ar-kpi-multi"><div class="ar-kpi-col-label">${escapeHtml(nomF1)} + ${escapeHtml(nomF2)}</div>
                     <div class="ar-kpi-sub-grid">
-                        <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">F Factor 1</span><span class="ar-kpi-sub-v">${typeof f1Val === 'number' ? f1Val.toFixed(4) : f1Val}</span></div>
-                        <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">p Factor 1</span><span class="ar-kpi-sub-v">${typeof p1Val === 'number' ? p1Val.toFixed(4) : p1Val}</span></div>
-                        <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">F Factor 2</span><span class="ar-kpi-sub-v">${typeof f2Val === 'number' ? f2Val.toFixed(4) : f2Val}</span></div>
-                        <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">p Factor 2</span><span class="ar-kpi-sub-v">${typeof p2Val === 'number' ? p2Val.toFixed(4) : p2Val}</span></div>
+                        <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">F ${escapeHtml(nomF1)}</span><span class="ar-kpi-sub-v">${typeof f1Val === 'number' ? f1Val.toFixed(4) : f1Val}</span></div>
+                        <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">p ${escapeHtml(nomF1)}</span><span class="ar-kpi-sub-v">${typeof p1Val === 'number' ? p1Val.toFixed(4) : p1Val}</span></div>
+                        <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">F ${escapeHtml(nomF2)}</span><span class="ar-kpi-sub-v">${typeof f2Val === 'number' ? f2Val.toFixed(4) : f2Val}</span></div>
+                        <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">p ${escapeHtml(nomF2)}</span><span class="ar-kpi-sub-v">${typeof p2Val === 'number' ? p2Val.toFixed(4) : p2Val}</span></div>
+                        <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">F Interacción</span><span class="ar-kpi-sub-v">${typeof fABVal === 'number' ? fABVal.toFixed(4) : fABVal}</span></div>
+                        <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">p Interacción</span><span class="ar-kpi-sub-v">${typeof pABVal === 'number' ? pABVal.toFixed(4) : pABVal}</span></div>
+                        <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Residual SS</span><span class="ar-kpi-sub-v">${data.residual?.SS?.toFixed(4) ?? '—'}</span></div>
+                        <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">n</span><span class="ar-kpi-sub-v">${data.n ?? '—'}</span></div>
                     </div>
                     </div>
                     <div class="ar-formula" style="margin-top:12px;"><span class="ar-formula-icon">💬</span><div><div class="ar-formula-desc">${escapeHtml(data.interpretacion || '')}</div></div></div>`;

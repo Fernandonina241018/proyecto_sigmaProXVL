@@ -100,6 +100,81 @@ describe('Integración — Covarianza', () => {
   });
 });
 
+describe('Integración — ANOVA Two-Way', () => {
+  const rows = [
+    { A: 'a1', B: 'b1', Y: 1 }, { A: 'a1', B: 'b1', Y: 2 }, { A: 'a1', B: 'b1', Y: 3 },
+    { A: 'a1', B: 'b2', Y: 3 }, { A: 'a1', B: 'b2', Y: 4 }, { A: 'a1', B: 'b2', Y: 5 },
+    { A: 'a2', B: 'b1', Y: 5 }, { A: 'a2', B: 'b1', Y: 6 }, { A: 'a2', B: 'b1', Y: 7 },
+    { A: 'a2', B: 'b2', Y: 7 }, { A: 'a2', B: 'b2', Y: 8 }, { A: 'a2', B: 'b2', Y: 9 },
+  ];
+
+  test('usa todas las réplicas y conserva factor1/factor2 como objetos', () => {
+    const res = ED.ejecutarAnalisis(
+      dataDe(rows, ['A', 'B', 'Y']),
+      ['ANOVA Two-Way'],
+      { 'ANOVA Two-Way': { categoricalCols: ['A', 'B'], numericCol: 'Y' } }
+    );
+    const a = res.resultados['ANOVA Two-Way'];
+    expect(a.error).toBeUndefined();
+    expect(a.factor1.F).toBeCloseTo(48, 6);
+    expect(a.factor2.F).toBeCloseTo(12, 6);
+    expect(a.interaccion.F).toBeCloseTo(0, 6);
+    expect(a.residual.SS).toBeCloseTo(8, 6);
+    expect(a.n).toBe(12);
+    expect(a.factor1Nombre).toBe('A');
+    expect(a.factor2Nombre).toBe('B');
+  });
+
+  test('el HTML muestra F/p y no imprime [object Object]', () => {
+    const res = ED.ejecutarAnalisis(
+      dataDe(rows, ['A', 'B', 'Y']),
+      ['ANOVA Two-Way'],
+      { 'ANOVA Two-Way': { categoricalCols: ['A', 'B'], numericCol: 'Y' } }
+    );
+    const html = ED.generarHTML(res);
+    expect(html).toContain('ANOVA Two-Way');
+    expect(html).toContain('F Interacción');
+    expect(html).toContain('48.0000');
+    expect(html).not.toContain('[object Object]');
+    expect(html).not.toContain('Tipo de prueba no reconocido');
+  });
+});
+
+describe('Integración — PCA y Análisis Factorial', () => {
+  const rows = Array.from({ length: 13 }, (_, i) => ({
+    P1: i + 1,
+    P2: i === 6 ? '' : i * 2 + (i % 2),
+    P3: i * 3 - (i % 3),
+  }));
+
+  test('PCA descarta filas incompletas y no cae en el render genérico', () => {
+    const res = ED.ejecutarAnalisis(
+      dataDe(rows, ['P1', 'P2', 'P3']),
+      ['PCA (Componentes Principales)'],
+      { 'PCA (Componentes Principales)': { columnas: ['P1', 'P2', 'P3'] } }
+    );
+    const pca = res.resultados['PCA (Componentes Principales)'];
+    expect(pca.error).toBeUndefined();
+    expect(pca.nObservaciones).toBe(12);
+    const html = ED.generarHTML(res);
+    expect(html).toContain('PCA');
+    expect(html).not.toContain('Tipo de prueba no reconocido');
+  });
+
+  test('Análisis Factorial se renderiza con su tarjeta propia', () => {
+    const res = ED.ejecutarAnalisis(
+      dataDe(rows, ['P1', 'P2', 'P3']),
+      ['Análisis Factorial'],
+      { 'Análisis Factorial': { columnas: ['P1', 'P2', 'P3'] } }
+    );
+    const af = res.resultados['Análisis Factorial'];
+    expect(af.error).toBeUndefined();
+    const html = ED.generarHTML(res);
+    expect(html).toContain('Análisis Factorial');
+    expect(html).not.toContain('Tipo de prueba no reconocido');
+  });
+});
+
 describe('Registro de pruebas de hipótesis', () => {
   test('Pareto y Covarianza están en HYPOTHESIS_SET', () => {
     expect(HYPOTHESIS_SET.has('Diagrama de Pareto')).toBe(true);

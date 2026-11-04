@@ -90,6 +90,29 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (SigmaProXVL) con spr
 
 ## CAMBIOS RECIENTES
 
+### 2026-11-03 (228): Lote 1B — ANOVA Two-Way con réplicas + render de PCA/AF
+
+**Qué:** Se corrige el resultado de ANOVA Two-Way y se hacen alcanzables los renderers de PCA y Análisis Factorial.
+
+- **ANOVA Two-Way:** el núcleo usa todas las réplicas por celda, calcula interacción y residual, y devuelve `residual` (ya no `error`). El dispatch conserva `factor1/factor2` como objetos y añade `factor1Nombre/factor2Nombre`. El renderer muestra F/p de ambos factores, interacción y residual.
+- **Fallback:** si falta configuración, devuelve un error explícito en lugar de reinterpretar columnas numéricas.
+- **PCA/AF:** `kpiCards` ya no los desvía a `hypothesisKpiCards`; usan sus renderers propios. Se descartan filas incompletas en vez de rellenar NaN con 0, y `nObservaciones` refleja las filas válidas.
+- **Tests:** 4 nuevos de integración (ANOVA 2×2 con réplicas, render sin `[object Object]`; PCA con fila incompleta; AF con render propio).
+
+**Archivos afectados:**
+| Archivo | Cambio |
+|---------|--------|
+| `js/core/indexx-stats-core.js` | `calcularANOVA2Factores` con réplicas, interacción y residual |
+| `js/core/EstadisticaDescriptiva.js` | Dispatch/render ANOVA2; PCA/AF solo filas completas y ruteo de render |
+| `tests/estadisticos-integracion.test.js` | +4 tests de ANOVA2, PCA y AF |
+| `docs/AUDITORIA_MODULO_ESTADISTICA.md` | C2/C7 marcados como corregidos |
+
+**Verificación:**
+```
+node --check (3 archivos) → OK
+Vitest dirigido → 10/10
+```
+
 ### 2026-11-03 (227): Auditoría estadística + Lote 1A (Pareto y Covarianza)
 
 **Qué:** Se versiona la auditoría del módulo de estadística y se corrigen los dos estadísticos que hoy no se podían usar.
