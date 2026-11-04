@@ -93,8 +93,9 @@ const EstadisticaDescriptiva = (() => {
         }
         
         const numericCols = getNumericColumns(data);
-        
-        if (numericCols.length === 0) {
+        const soloPareto = estadisticos.length > 0 && estadisticos.every(s => s === 'Diagrama de Pareto');
+
+        if (numericCols.length === 0 && !soloPareto) {
             throw new Error('No se encontraron columnas numéricas para analizar');
         }
         
@@ -563,7 +564,10 @@ resultados['Límites de Cuantificación'] = { error: 'Configuración no encontra
                               data.data.forEach(row => {
                                   const cat = String(row[colCategorias] || '').trim();
                                   if (cat) {
-                                      const conteo = colConteo && row[colConteo] ? parseFloat(row[colConteo]) || 1 : 1;
+                                      const rawConteo = colConteo ? row[colConteo] : null;
+                                      const conteo = colConteo
+                                          ? (rawConteo === '' || rawConteo == null ? 0 : (parseFloat(rawConteo) || 0))
+                                          : 1;
                                       conteos[cat] = (conteos[cat] || 0) + conteo;
                                   }
                               });
@@ -2359,6 +2363,35 @@ function generarHTML(analisisResultado) {
                     </div>
                     <div class="ar-kpi-badge ${result.esNormal ? 'ar-badge-ok' : 'ar-badge-danger'}">${result.esNormal ? '✓ Distribución normal' : '✗ No normal'}</div>
                     </div>`).join('');
+        }
+        // Diagrama de Pareto
+        if (statKey === 'Diagrama de Pareto') {
+            if (data.error) return `<p class="ar-error">${escapeHtml(data.error)}</p>`;
+            const filasPareto = (data.datosCompletos || []).map(d => `<tr>
+                <td style="padding:4px 8px;border-bottom:1px solid var(--border)">${escapeHtml(d.categoria)}</td>
+                <td style="padding:4px 8px;border-bottom:1px solid var(--border);text-align:right">${d.conteo}</td>
+                <td style="padding:4px 8px;border-bottom:1px solid var(--border);text-align:right">${d.porcentaje}%</td>
+                <td style="padding:4px 8px;border-bottom:1px solid var(--border);text-align:right">${d.acumulado}%</td>
+            </tr>`).join('');
+            return `<div class="ar-kpi-card ar-kpi-multi">
+                <div class="ar-kpi-col-label">📊 Diagrama de Pareto — 80/20</div>
+                <div class="ar-kpi-sub-grid">
+                    <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Vitales</span><span class="ar-kpi-sub-v">${data.vitales ?? '—'}</span></div>
+                    <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Triviales</span><span class="ar-kpi-sub-v">${data.triviales ?? '—'}</span></div>
+                    <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Acumulado 80%</span><span class="ar-kpi-sub-v">${data.pareto80 ?? '—'}%</span></div>
+                    <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Total</span><span class="ar-kpi-sub-v">${data.total ?? '—'}</span></div>
+                </div>
+                <table style="width:100%;border-collapse:collapse;font-size:11px;margin-top:10px">
+                    <thead><tr>
+                        <th style="text-align:left;padding:4px 8px">Categoría</th>
+                        <th style="text-align:right;padding:4px 8px">Conteo</th>
+                        <th style="text-align:right;padding:4px 8px">%</th>
+                        <th style="text-align:right;padding:4px 8px">Acum.</th>
+                    </tr></thead>
+                    <tbody>${filasPareto}</tbody>
+                </table>
+                <div class="ar-formula" style="margin-top:10px"><span class="ar-formula-icon">💬</span><div><div class="ar-formula-desc">${escapeHtml(data.vitales + ' categorías concentran el ' + data.pareto80 + '% de los efectos.')}</div></div></div>
+            </div>`;
         }
         // Covarianza
         if (statKey === 'Covarianza') {
