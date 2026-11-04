@@ -90,6 +90,33 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (SigmaProXVL) con spr
 
 ## CAMBIOS RECIENTES
 
+### 2026-11-04 (235): Dependencias de tooling sin vulnerabilidades
+
+**Qué:** Se cierran las 6 alertas de Dependabot de `.opencode` y el `zod` high de desarrollo de la raíz.
+
+- **`.opencode`:** `zod` 4.1.8 → **4.6.7** y `toml` 4.1.1 → **5.0.1** mediante overrides; `@opencode-ai/plugin` se mantiene en 1.15.13 para no desalinearlo con el CLI.
+- **Raíz:** `npm audit fix` actualizó `zod` a 4.6.7 y las cadenas de `eslint`/`minimatch`; auditoría completa en **0**.
+- **Verificación de tooling:** `toml.parse`, `effect` y `@opencode-ai/plugin` cargan correctamente.
+- **`npm audit`:** raíz 0 · `.opencode` 0 · producción 0.
+- **`.opencode/package.json`:** ahora versionado (incluye los overrides).
+
+**Archivos afectados:**
+| Archivo | Cambio |
+|---------|--------|
+| `.opencode/package.json` | Overrides `zod@4.6.7` y `toml@5.0.1` |
+| `.opencode/package-lock.json` | Lock actualizado |
+| `package-lock.json` | `npm audit fix` (dev) |
+| `.gitignore` | Permite versionar `.opencode/package.json` |
+
+**Verificación:**
+```
+npm audit → 0
+npm audit --prefix .opencode → 0
+npm test → 921/921
+preflight → OK (12 E2E)
+agent:check → OK
+```
+
 ### 2026-11-03 (234): Polling de firmas en modo lite — el HTML deja de viajar cada 30 s
 
 **Problema:** la vista de firma hace polling cada 30 s (`_firmaPollSession`) contra `GET /api/sign-sessions/:id`, que devuelve el **reporte completo** (~300 KB con JPEGs). Con 6 sesiones abiertas son ~7.600 descargas/día; el 01/10/2026 Supabase registró **2,28 GB** de egress, casi todo por este polling. El HTML solo se necesita al abrir la sesión, no para detectar cambios.

@@ -20,6 +20,8 @@ Thumbs.db
 .opencode/*
 !.opencode/commands/
 !.opencode/agents/
+!.opencode/package.json
+!.opencode/package-lock.json
 !.opencode/skills/
 .opencode/skills/*/*
 !.opencode/skills/*/SKILL.md
