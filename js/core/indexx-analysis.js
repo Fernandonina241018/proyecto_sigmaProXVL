@@ -468,6 +468,20 @@ function _mostrarModalConfigTest(nombre, callback, existingConfig) {
       '<p style="font-size:0.75rem;color:#666;margin:0 0 4px;line-height:1.3">Umbral para decidir significancia (por defecto ' + cfg.nivelAlfa + ').</p>' +
       '<input id="cfgNivelAlfa" type="number" value="' + cfg.nivelAlfa + '" min="0.001" max="0.2" step="0.005" style="width:100%;padding:6px 8px;border:1.5px solid var(--border);border-radius:6px;background:var(--bg-primary);color:var(--text-primary);font-size:0.85rem"></div>';
   }
+  if (cfg.tipoTest && Array.isArray(cfg.tipoTest.opciones) && cfg.tipoTest.opciones.length > 1 && nombre !== 'T-Test (una muestra)') {
+    var etiquetasTipo = {
+      'bilateral': 'Bilateral (≠)',
+      'unilateral-mayor': 'Unilateral (mayor)',
+      'unilateral-menor': 'Unilateral (menor)'
+    };
+    var opcionesTipo = cfg.tipoTest.opciones.map(function(o) {
+      return '<option value="' + o + '"' + (o === cfg.tipoTest.defecto ? ' selected' : '') + '>' + (etiquetasTipo[o] || o) + '</option>';
+    }).join('');
+    modalContent +=
+      '<div style="margin-top:8px"><label style="font-size:11px;color:var(--text-primary)">Tipo de contraste</label>' +
+      '<p style="font-size:0.75rem;color:#666;margin:0 0 4px;line-height:1.3">Bilateral o unilateral según la hipótesis alternativa.</p>' +
+      '<select id="cfgTipoTest" style="width:100%;padding:6px 8px;border:1.5px solid var(--border);border-radius:6px;background:var(--bg-primary);color:var(--text-primary);font-size:0.85rem">' + opcionesTipo + '</select></div>';
+  }
   var modal = document.createElement('div'); modal.className = 'modal-overlay';
   modal.innerHTML =
     '<div class="modal-box" style="max-width:480px">' +
@@ -491,7 +505,7 @@ function _mostrarModalConfigTest(nombre, callback, existingConfig) {
       numericCol: 'cfgColNum', grado: 'cfgGrado', periodo: 'cfgPeriodo',
       delta: 'cfgDelta', priorMedia: 'cfgPriorMedia', priorVarianza: 'cfgPriorVar',
       mediaHipotesis: 'cfgMediaHipotesis', alternativa: 'cfgAlternativa',
-      nivelAlfa: 'cfgNivelAlfa',
+      nivelAlfa: 'cfgNivelAlfa', tipoTest: 'cfgTipoTest',
       estadistico: 'cfgEstadistico', iteraciones: 'cfgIteraciones',
       nivelConfianza: 'cfgNivelConfianza', semilla: 'cfgSemilla'
     };
@@ -580,6 +594,8 @@ function _mostrarModalConfigTest(nombre, callback, existingConfig) {
       var alfaVal = parseFloat(alfaEl.value);
       if (isFinite(alfaVal) && alfaVal > 0 && alfaVal < 1) config.nivelAlfa = alfaVal;
     }
+    var tipoEl = document.getElementById('cfgTipoTest');
+    if (tipoEl) config.tipoTest = tipoEl.value;
     StateManager.setHypothesisConfig(nombre, config);
     modal.remove();
     callback();

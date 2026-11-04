@@ -112,6 +112,86 @@ const EstadisticaDescriptiva = (() => {
             const counts = cols.map(c => getNumericValues(data, c).length).filter(n => n > 0);
             return counts.length ? Math.min(...counts) : 0;
         };
+        const alternativaDe = (cfg) => {
+            const t = cfg && (cfg.tipoTest || cfg.alternativa);
+            if (t === 'unilateral-mayor' || t === 'mayor') return 'mayor';
+            if (t === 'unilateral-menor' || t === 'menor') return 'menor';
+            return 'bilateral';
+        };
+        const agregarEfectoTamano = (stat, res) => {
+            if (!res || res.error || typeof res !== 'object') return;
+            const set = (obj, metrica, valor, formula) => {
+                if (obj && typeof obj === 'object' && typeof valor === 'number' && isFinite(valor)) {
+                    obj.efectoTamano = { metrica, valor: parseFloat(valor.toFixed(4)), formula };
+                }
+            };
+            if (stat === 'T-Test (una muestra)') {
+                Object.values(res).forEach(r => {
+                    if (r && !r.error && r.desviacionEstandar) {
+                        set(r, 'd de Cohen', (r.mediaMuestral - r.mediaHipotesis) / r.desviacionEstandar, 'd = (x̄ − μ₀) / s');
+                    }
+                });
+            }
+            if (stat === 'T-Test (dos muestras)') {
+                Object.values(res).forEach(r => {
+                    if (!r || r.error || !r.grupo1 || !r.grupo2) return;
+                    const n1 = r.grupo1.n, n2 = r.grupo2.n;
+                    const sp = Math.sqrt(((n1 - 1) * r.grupo1.varianza + (n2 - 1) * r.grupo2.varianza) / (n1 + n2 - 2));
+                    if (sp > 0) set(r, 'd de Cohen', (r.grupo1.media - r.grupo2.media) / sp, 'd = (x̄₁ − x̄₂) / s_pooled');
+                });
+            }
+            if (stat === 'ANOVA One-Way' && typeof res.SSB === 'number') {
+                set(res, 'η²', res.SSB / (res.SSB + res.SSW), 'η² = SSB / SST');
+            }
+            if (stat === 'Chi-Cuadrado' && res.tablaObservada) {
+                const r = res.tablaObservada.length, c = res.tablaObservada[0]?.length || 0;
+                if (r > 1 && c > 1 && res.N > 0) {
+                    set(res, 'V de Cramér', Math.sqrt(res.estadisticoChi2 / (res.N * Math.min(r - 1, c - 1))), 'V = √(χ² / (n·min(r−1,c−1)))');
+                }
+            }
+            if (stat === 'Correlación Pearson') set(res, 'r de Pearson', res.r, 'r ∈ [−1, 1]');
+            if (stat === 'Correlación Spearman') set(res, 'ρ de Spearman', res.rho, 'ρ ∈ [−1, 1]');
+            if (stat === 'Correlación Kendall Tau') set(res, 'τ de Kendall', res.tau, 'τ ∈ [−1, 1]');
+            if (stat === 'Regresión Lineal Simple') set(res, 'R²', res.r2, 'R² = 1 − SSres/SStot');
+            if (stat === 'Análisis de Cluster') set(res, 'Coeficiente de Silhouette', res.silhouette, 's(i) = (b−a)/max(a,b)');
+            if (stat === 'Análisis Bayesiano') set(res, 'Factor de Bayes (BF₁₀)', res.factorBayes, 'BF₁₀ = P(D|H₁)/P(D|H₀)');
+        };
+        const evaluarAdvertencias = (stat, cfg, res) => {
+            if (!res || res.error || !cfg || !Array.isArray(cfg.advertencias) || !cfg.advertencias.length) return;
+            const encontradas = [];
+            const agregar = (cond) => {
+                const item = cfg.advertencias.find(a => a.condicion === cond);
+                if (item && !encontradas.some(x => x.condicion === cond)) encontradas.push({ condicion: cond, mensaje: item.mensaje });
+            };
+            const evaluarObjeto = (obj) => {
+                if (!obj || typeof obj !== 'object') return;
+                const n = obj.n ?? obj.totalObservaciones ?? obj.N;
+                const umbrales = {
+                    n_menor_5: 5, n_menor_6: 6, n_menor_8: 8, n_menor_10: 10,
+                    n_menor_20: 20, n_menor_30: 30, n_menor_50: 50,
+                    n_mayor_50: 50, n_mayor_2000: 2000, n_mayor_5000: 5000,
+                };
+                Object.keys(umbrales).forEach(c => {
+                    if (typeof n !== 'number') return;
+                    if (c.startsWith('n_menor') && n < umbrales[c]) agregar(c);
+                    if (c.startsWith('n_mayor') && n > umbrales[c]) agregar(c);
+                });
+                if (typeof obj.r2 === 'number' && obj.r2 < 0.99) agregar('r2_menor_099');
+                const b = obj.B ?? obj.iteraciones;
+                if (typeof b === 'number' && b < 1000) agregar('b_menor_1000');
+                if (typeof obj.k === 'number' && obj.k < 3) agregar('k_menor_3');
+                if (obj.converged === false || (Array.isArray(obj.warnings) && obj.warnings.some(w => /converg/i.test(String(w))))) agregar('no_convergencia');
+            };
+            evaluarObjeto(res);
+            Object.values(res).forEach(v => { if (v && typeof v === 'object' && !Array.isArray(v)) evaluarObjeto(v); });
+            if (stat === 'Diagrama de Pareto' && Array.isArray(res.datosCompletos) && res.datosCompletos.length > 1) {
+                const vals = res.datosCompletos.map(d => d.conteo);
+                const media = vals.reduce((s, v) => s + v, 0) / vals.length;
+                const sd = Math.sqrt(vals.reduce((s, v) => s + (v - media) ** 2, 0) / vals.length);
+                if (media > 0 && sd / media < 0.1) agregar('distribucion_uniforme');
+            }
+            if (encontradas.length) res.advertencias = encontradas;
+        };
         const aplicarNivelAlfa = (obj, alfa, seen) => {
             if (!obj || typeof obj !== 'object') return;
             seen = seen || new WeakSet();
@@ -120,6 +200,7 @@ const EstadisticaDescriptiva = (() => {
             const p = obj.valorP !== undefined ? obj.valorP : (obj.pValue !== undefined ? obj.pValue : obj.p);
             if (typeof p === 'number' && isFinite(p)) {
                 if (typeof obj.significativo === 'boolean') obj.significativo = p < alfa;
+                if (typeof obj.significante === 'boolean') obj.significante = p < alfa;
                 if (typeof obj.esNormal === 'boolean') obj.esNormal = p >= alfa;
                 if (typeof obj.interpretacion === 'string') {
                     obj.interpretacion = obj.interpretacion.replace(/0\.05/g, String(alfa));
@@ -278,7 +359,7 @@ const EstadisticaDescriptiva = (() => {
                         const cfg = hypothesisConfig['T-Test (una muestra)'] || {};
                         const mu = parseFloat(cfg.mediaHipotesis);
                         const mediaHipotesis = isFinite(mu) ? mu : 0;
-                        const alternativa = cfg.alternativa || 'bilateral';
+                        const alternativa = alternativaDe(cfg);
                         const cols = cfg.numericCol ? [cfg.numericCol] : numericCols;
                         resultados['T-Test (una muestra)'] = {};
                         cols.forEach(col => {
@@ -317,7 +398,7 @@ const EstadisticaDescriptiva = (() => {
                                 .filter(v => !isNaN(v) && isFinite(v));
                             
                             resultados['T-Test (dos muestras)'] = {
-                                [`${grupo1} vs ${grupo2}`]: calcularTTestDosMuestras([values1, values2])
+                                [`${grupo1} vs ${grupo2}`]: calcularTTestDosMuestras([values1, values2], alternativaDe(hypothesisConfig['T-Test (dos muestras)']))
                             };
                             resultados['T-Test (dos muestras)'].columnaAgrupacion = catCol;
                             resultados['T-Test (dos muestras)'].columnaValores = numCol;
@@ -329,7 +410,7 @@ const EstadisticaDescriptiva = (() => {
                         const values1 = getNumericValues(data, numericCols[0]);
                         const values2 = getNumericValues(data, numericCols[1]);
                         resultados['T-Test (dos muestras)'] = {
-                            [`${numericCols[0]} vs ${numericCols[1]}`]: calcularTTestDosMuestras([values1, values2])
+                            [`${numericCols[0]} vs ${numericCols[1]}`]: calcularTTestDosMuestras([values1, values2], alternativaDe(hypothesisConfig['T-Test (dos muestras)']))
                         };
                     }
                     break;
@@ -693,7 +774,7 @@ resultados['Límites de Cuantificación'] = { error: 'Configuración no encontra
                               if (xValues.length === 0 || yValues.length === 0) {
                                   resultados['Correlación Pearson'] = { error: 'Una o ambas columnas no tienen valores numéricos válidos' };
                               } else {
-                                  resultados['Correlación Pearson'] = calcularCorrelacionPearson(xValues, yValues);
+                                  resultados['Correlación Pearson'] = calcularCorrelacionPearson(xValues, yValues, alternativaDe(cfg));
                                   resultados['Correlación Pearson'].columnaX = colX;
                                   resultados['Correlación Pearson'].columnaY = colY;
                               }
@@ -719,7 +800,7 @@ resultados['Límites de Cuantificación'] = { error: 'Configuración no encontra
                               if (xValues.length === 0 || yValues.length === 0) {
                                   resultados['Correlación Spearman'] = { error: 'Una o ambas columnas no tienen valores numéricos válidos' };
                               } else {
-                                  resultados['Correlación Spearman'] = calcularCorrelacionSpearman(xValues, yValues);
+                                  resultados['Correlación Spearman'] = calcularCorrelacionSpearman(xValues, yValues, alternativaDe(cfg));
                                   resultados['Correlación Spearman'].columnaX = colX;
                                   resultados['Correlación Spearman'].columnaY = colY;
                               }
@@ -929,7 +1010,7 @@ resultados['Límites de Cuantificación'] = { error: 'Configuración no encontra
                           } else {
                               // FIX-AUDIT: pares alineados por fila
                               const [xValues, yValues] = getPairedValues(data, [colX, colY]);
-                              resultados['Correlación Kendall Tau'] = calcularKendallTau(xValues, yValues);
+                              resultados['Correlación Kendall Tau'] = calcularKendallTau(xValues, yValues, alternativaDe(cfg));
                              resultados['Correlación Kendall Tau'].columnaX = colX;
                              resultados['Correlación Kendall Tau'].columnaY = colY;
                          }
@@ -1043,7 +1124,7 @@ resultados['Límites de Cuantificación'] = { error: 'Configuración no encontra
                              if (groupKeys.length !== 2) {
                                  resultados['Mann-Whitney U'] = { error: `Se necesitan exactamente 2 grupos (encontrados: ${groupKeys.length})` };
                              } else {
-                                 resultados['Mann-Whitney U'] = calcularMannWhitneyU(groups[groupKeys[0]], groups[groupKeys[1]]);
+                                 resultados['Mann-Whitney U'] = calcularMannWhitneyU(groups[groupKeys[0]], groups[groupKeys[1]], alternativaDe(hypothesisConfig['Mann-Whitney U']));
                                  resultados['Mann-Whitney U'].columnaAgrupacion = catCol;
                                  resultados['Mann-Whitney U'].columnaValores = numCol;
                                  resultados['Mann-Whitney U'].grupos = groupKeys;
@@ -1104,7 +1185,7 @@ resultados['Límites de Cuantificación'] = { error: 'Configuración no encontra
                                if (values1.length < 5 || values2.length < 5) {
                                    resultados['Wilcoxon'] = { error: 'Se necesitan al menos 5 pares completos' };
                                } else {
-                                   resultados['Wilcoxon'] = calcularWilcoxon(values1, values2);
+                                   resultados['Wilcoxon'] = calcularWilcoxon(values1, values2, alternativaDe(hypothesisConfig['Wilcoxon']));
                                    resultados['Wilcoxon'].columna1 = col1;
                                    resultados['Wilcoxon'].columna2 = col2;
                                }
@@ -1167,7 +1248,7 @@ resultados['Límites de Cuantificación'] = { error: 'Configuración no encontra
                                if (values1.length < 5) {
                                    resultados['Test de Signos'] = { error: 'Se necesitan al menos 5 pares completos' };
                                } else {
-                                   resultados['Test de Signos'] = calcularTestSignos(values1, values2);
+                                   resultados['Test de Signos'] = calcularTestSignos(values1, values2, alternativaDe(hypothesisConfig['Test de Signos']));
 resultados['Test de Signos'].columna1 = col1;
                                     resultados['Test de Signos'].columna2 = col2;
                                 }
@@ -1538,6 +1619,8 @@ resultados['Test de Signos'].columna1 = col1;
                 const alfaStat = (hypothesisConfig[stat] && hypothesisConfig[stat].nivelAlfa) ||
                     (statCfg && statCfg.nivelAlfa) || 0.05;
                 aplicarNivelAlfa(resultados[stat], alfaStat);
+                agregarEfectoTamano(stat, resultados[stat]);
+                evaluarAdvertencias(stat, statCfg, resultados[stat]);
             } catch (e) {
                 resultados[stat] = { error: e.message || 'Error desconocido al ejecutar ' + stat };
             }
@@ -2753,6 +2836,45 @@ function generarHTML(analisisResultado) {
     // ────────────────────────────────────────────────────────────────────────────
     // 1. KPIs GLOBALES (resumen rápido)
     // ────────────────────────────────────────────────────────────────────────────
+    function buscarEfectoTamano(obj, depth) {
+        if (!obj || typeof obj !== 'object' || depth > 2) return null;
+        if (obj.efectoTamano) return obj.efectoTamano;
+        for (const k of Object.keys(obj)) {
+            const found = buscarEfectoTamano(obj[k], (depth || 0) + 1);
+            if (found) return found;
+        }
+        return null;
+    }
+    function effectSizeHTML(statKey) {
+        const ef = buscarEfectoTamano(analisisResultado.resultados[statKey], 0);
+        if (!ef) return '';
+        return `<div style="margin-top:8px;padding:8px 10px;border-left:3px solid var(--accent);background:var(--item-bg);font-size:11px;line-height:1.45">
+            📏 <strong>Tamaño de efecto:</strong> ${escapeHtml(ef.metrica)} = <strong>${ef.valor}</strong>
+            ${ef.formula ? `<div style="color:var(--text-faint);margin-top:2px">${escapeHtml(ef.formula)}</div>` : ''}
+        </div>`;
+    }
+
+    function buscarAdvertencias(obj, depth) {
+        if (!obj || typeof obj !== 'object' || depth > 2) return [];
+        let out = Array.isArray(obj.advertencias) ? obj.advertencias.slice() : [];
+        for (const k of Object.keys(obj)) {
+            if (k === 'advertencias') continue;
+            const found = buscarAdvertencias(obj[k], (depth || 0) + 1);
+            if (found.length) out = out.concat(found);
+        }
+        return out;
+    }
+    function warningsHTML(statKey) {
+        const list = buscarAdvertencias(analisisResultado.resultados[statKey], 0);
+        const unique = [];
+        list.forEach(a => { if (a && a.mensaje && !unique.some(x => x.mensaje === a.mensaje)) unique.push(a); });
+        if (!unique.length) return '';
+        return `<div style="margin-top:8px;padding:8px 10px;border-left:3px solid var(--warn);background:rgba(251,191,36,.08);font-size:11px;line-height:1.45">
+            ⚠️ <strong>Advertencias:</strong>
+            <ul style="margin:4px 0 0 16px;padding:0">${unique.map(a => `<li>${escapeHtml(a.mensaje)}</li>`).join('')}</ul>
+        </div>`;
+    }
+
     let html = `
     <div class="resultados-globales" style="background:transparent; border-radius:10px; padding:12px; margin-bottom:20px;">
         <div style="display:flex; gap:24px; flex-wrap:wrap; align-items:center;">
@@ -2820,6 +2942,8 @@ function generarHTML(analisisResultado) {
                 <div class="ar-kpis-grid">
                     ${kpiCards(key)}
                 </div>
+                ${effectSizeHTML(key)}
+                ${warningsHTML(key)}
                 <!-- Nota metodológica específica de este estadístico -->
                 <div class="acordeon-nota-metodologica">
                     ${meta.formula ? `<div class="ar-formula-eq">🧮 ${meta.formula}</div>` : ''}
