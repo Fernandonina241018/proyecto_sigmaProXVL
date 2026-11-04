@@ -42,7 +42,7 @@
 | A4 | ANOVA One-Way/Kruskal sobrescriben `grupos` con etiquetas | **Corregido (Lote 2)** |
 | A5 | LDA aplica Jacobi a una matriz no simétrica | **Corregido (Lote 2)** |
 | A6 | MANOVA usa una aproximación F de Pillai no estándar | **Corregido (Lote 2)** |
-| A7 | `nivelAlfa`, `tipoTest`, `efectoTamano`, `advertencias` no se leen | **Parcial (Lote 5): nivelAlfa aplicado; faltan tamaño de efecto, advertencias y tipoTest general** |
+| A7 | `nivelAlfa`, `tipoTest`, `efectoTamano`, `advertencias` no se leen | **Implementado en su mayoría (Lotes 5–6): α, contraste, efecto y advertencias comunes** |
 | A8 | Badge de p-valor lee la primera clave (puede ser `prueba`) | **Corregido (Lote 2)** |
 
 ## 4. Medios/bajos
@@ -99,7 +99,13 @@ Los defectos C1–C7 viven exactamente en esa capa.
 - MCMC bayesiano con PRNG determinista y semilla; devuelve `semilla`.
 - Normalidad y Shapiro-Wilk ya no abren modal ni piden columna.
 - Tests: α 0.05 vs 0.01, MCMC reproducible, Normalidad fuera de `HYPOTHESIS_SET`.
-- Pendiente A7: cálculo de tamaño de efecto, advertencias automáticas y `tipoTest` para todos los contrastes.
+
+### Lote 6 — A7: efecto, advertencias y contraste (este PR)
+- `tipoTest`: selector en el modal y paso de alternativa a T-Test 2, Mann-Whitney, Wilcoxon, Test de Signos y correlaciones.
+- `efectoTamano`: d de Cohen (T-Test 1/2), η² (ANOVA), V de Cramér (Chi²), r/ρ/τ, R², silhouette y BF₁₀; se muestra en la tarjeta.
+- `advertencias`: evaluador para umbrales n_menor/n_mayor, r2_menor_099, b_menor_1000, k_menor_3, no_convergencia y distribución uniforme de Pareto; se muestran en el HTML.
+- Tests: η² + render, Pareto uniforme con advertencia, contraste unilateral vs bilateral.
+- Pendiente menor: métricas de efecto específicas para todos los 27 estadísticos y el resto de condiciones de advertencia.
 
 ## 7. Criterios de aceptación
 

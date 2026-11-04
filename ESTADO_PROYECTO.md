@@ -90,6 +90,31 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (SigmaProXVL) con spr
 
 ## CAMBIOS RECIENTES
 
+### 2026-11-03 (233): Lote 6 — A7: tamaño de efecto, advertencias y contraste
+
+**Qué:** Se completa la mayor parte de A7: efecto visible, advertencias del catálogo y contraste unilateral/bilateral.
+
+- **`tipoTest`:** selector en el modal y paso de alternativa a T-Test 2, Mann-Whitney, Wilcoxon, Test de Signos y correlaciones.
+- **`efectoTamano`:** d de Cohen (T-Test 1/2), η² (ANOVA), V de Cramér (Chi²), r/ρ/τ, R², silhouette y BF₁₀; se muestra bajo la tarjeta.
+- **`advertencias`:** evaluador para n_menor/n_mayor, r2_menor_099, b_menor_1000, k_menor_3, no_convergencia y distribución uniforme de Pareto; render en HTML.
+- **Tests:** η² y render, Pareto uniforme con advertencia, unilateral vs bilateral.
+
+**Archivos afectados:**
+| Archivo | Cambio |
+|---------|--------|
+| `js/core/EstadisticaDescriptiva.js` | Effect size, warnings, alternativa y render |
+| `js/core/indexx-analysis.js` | Selector `tipoTest` en modal |
+| `tests/estadisticos-integracion.test.js` | +3 tests del Lote 6 |
+| `docs/AUDITORIA_MODULO_ESTADISTICA.md` | A7 y Lote 6 |
+
+**Verificación:**
+```
+node --check (2 archivos) → OK
+Vitest → 58 archivos, 916 tests OK
+```
+
+**Pendiente menor:** métricas de efecto específicas para los 27 estadísticos y condiciones de advertencia restantes.
+
 ### 2026-11-03 (232): Lote 5 — A7 parcial, MCMC determinista y normalidad sin modal
 
 **Qué:** Se avanza A7 con `nivelAlfa`, se hace reproducible el MCMC bayesiano y se elimina el modal innecesario de normalidad.

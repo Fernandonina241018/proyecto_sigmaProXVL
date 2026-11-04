@@ -238,6 +238,54 @@ describe('Lote 5 — A7 y MCMC', () => {
   });
 });
 
+describe('Lote 6 — A7 completo: efecto, advertencias y contraste', () => {
+  test('ANOVA calcula η² y lo muestra en el HTML', () => {
+    const rows = [
+      { G: 'A', Y: 1 }, { G: 'A', Y: 2 }, { G: 'A', Y: 3 },
+      { G: 'B', Y: 5 }, { G: 'B', Y: 6 }, { G: 'B', Y: 7 },
+      { G: 'C', Y: 9 }, { G: 'C', Y: 10 }, { G: 'C', Y: 11 },
+    ];
+    const res = ED.ejecutarAnalisis(dataDe(rows, ['G', 'Y']), ['ANOVA One-Way'], {
+      'ANOVA One-Way': { categoricalCols: ['G'], numericCol: 'Y' },
+    });
+    const a = res.resultados['ANOVA One-Way'];
+    expect(a.efectoTamano.metrica).toBe('η²');
+    expect(a.efectoTamano.valor).toBeGreaterThan(0);
+    const html = ED.generarHTML(res);
+    expect(html).toContain('Tamaño de efecto');
+    expect(html).toContain('η²');
+  });
+
+  test('Pareto uniforme genera la advertencia del catálogo', () => {
+    const rows = [
+      { C: 'A', N: 10 }, { C: 'B', N: 10 }, { C: 'C', N: 10 }, { C: 'D', N: 10 },
+    ];
+    const res = ED.ejecutarAnalisis(dataDe(rows, ['C', 'N']), ['Diagrama de Pareto'], {
+      'Diagrama de Pareto': { columnaCategoria: 'C', columnaConteo: 'N' },
+    });
+    const p = res.resultados['Diagrama de Pareto'];
+    expect(p.advertencias.some(a => a.condicion === 'distribucion_uniforme')).toBe(true);
+    expect(ED.generarHTML(res)).toContain('Advertencias');
+  });
+
+  test('tipoTest unilateral reduce el p-valor de un contraste direccional', () => {
+    const rows = [
+      { G: 'A', Y: 1 }, { G: 'A', Y: 2 }, { G: 'A', Y: 3 }, { G: 'A', Y: 4 }, { G: 'A', Y: 5 },
+      { G: 'B', Y: 3 }, { G: 'B', Y: 4 }, { G: 'B', Y: 5 }, { G: 'B', Y: 6 }, { G: 'B', Y: 7 },
+    ];
+    const run = (tipoTest) => {
+      const out = ED.ejecutarAnalisis(dataDe(rows, ['G', 'Y']), ['T-Test (dos muestras)'], {
+        'T-Test (dos muestras)': { categoricalCols: ['G'], numericCol: 'Y', tipoTest },
+      }).resultados['T-Test (dos muestras)'];
+      return Object.values(out).find(v => v && typeof v === 'object' && v.valorP !== undefined);
+    };
+    const bi = run('bilateral');
+    const uni = run('unilateral-menor');
+    expect(bi.valorP).toBeGreaterThan(uni.valorP);
+    expect(uni.alternativa).toBe('menor');
+  });
+});
+
 describe('Registro de pruebas de hipótesis', () => {
   test('Pareto y Covarianza están en HYPOTHESIS_SET', () => {
     expect(HYPOTHESIS_SET.has('Diagrama de Pareto')).toBe(true);
