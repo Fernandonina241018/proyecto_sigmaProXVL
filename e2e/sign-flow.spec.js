@@ -6,6 +6,7 @@ const API = 'http://localhost:3000';
 const PASS = 'Pass123!';
 let E2E_USERS = { pub: 'e2e_pub', rev: 'e2e_rev', sup: 'e2e_sup' };
 let sessionName;
+let SESSION_ID;
 
 async function api(request, method, path, token, body) {
   const res = await request.fetch(API + path, {
@@ -30,12 +31,14 @@ test.beforeAll(async ({ request }) => {
   const SFX = Date.now().toString(36);
   E2E_USERS = {
     pub: 'e2e_pub_' + SFX, rev: 'e2e_rev_' + SFX, sup: 'e2e_sup_' + SFX,
+    other: 'e2e_otr_' + SFX,
   };
   const U = E2E_USERS;
   const mk = async (u) => api(request, 'POST', '/api/users', adminTok, u);
   await mk({ username: U.pub, password: PASS, role: 'analista', signatureCode: 'PUB-' + SFX });
   await mk({ username: U.rev, password: PASS, role: 'analista', signatureCode: 'REV-' + SFX });
   await mk({ username: U.sup, password: PASS, role: 'supervisor', signatureCode: 'SUP-' + SFX });
+  await mk({ username: U.other, password: PASS, role: 'analista', signatureCode: 'OTR-' + SFX });
 
   sessionName = 'RPT-E2E-' + Date.now();
   const blk = (role, label) =>
@@ -50,6 +53,41 @@ test.beforeAll(async ({ request }) => {
     signatureCode: 'PUB-' + SFX, password: PASS,
   });
   if (!pub.json.ok) throw new Error('publish E2E falló: ' + JSON.stringify(pub.json));
+  SESSION_ID = pub.json.session.id;
+});
+
+// Polling lite: el detalle con ?lite=1 no debe transportar el HTML, pero sí
+// los campos que usa la autorización (created_by / assigned_*).
+test('detalle lite: metadatos sin HTML y misma autorización', async ({ request }) => {
+  const admin = await api(request, 'POST', '/api/login', null, {
+    username: 'e2e_admin', password: 'E2ePass123!',
+  });
+  expect(admin.status).toBe(200);
+  const tok = admin.json.token;
+
+  const lite = await api(request, 'GET', `/api/sign-sessions/${SESSION_ID}?lite=1`, tok);
+  expect(lite.status).toBe(200);
+  expect(lite.json.ok).toBe(true);
+  expect(lite.json.session.html).toBeUndefined();
+  expect(typeof lite.json.session.version).toBe('number');
+  expect(lite.json.session.created_by).toBeTruthy();
+  expect(lite.json.session.assigned_reviewer).toBe(E2E_USERS.rev);
+  expect(lite.json.session.assigned_approver).toBe(E2E_USERS.sup);
+
+  // El detalle normal sigue trayendo el documento completo.
+  const full = await api(request, 'GET', `/api/sign-sessions/${SESSION_ID}`, tok);
+  expect(full.status).toBe(200);
+  expect(typeof full.json.session.html).toBe('string');
+
+  // Un analista no involucrado no puede ver ni los metadatos.
+  const other = await api(request, 'POST', '/api/login', null, {
+    username: E2E_USERS.other, password: PASS,
+  });
+  expect(other.status).toBe(200);
+  const deniedLite = await api(request, 'GET', `/api/sign-sessions/${SESSION_ID}?lite=1`, other.json.token);
+  expect(deniedLite.status).toBe(403);
+  const deniedFull = await api(request, 'GET', `/api/sign-sessions/${SESSION_ID}`, other.json.token);
+  expect(deniedFull.status).toBe(403);
 });
 
 async function loginAs(page, username, password) {

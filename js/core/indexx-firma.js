@@ -1522,7 +1522,9 @@ function firmaStopPolling() {
 async function _firmaPollSession() {
   if (!_firmaSessionId) return;
   try {
-    var data = await _firmaApiGet('/api/sign-sessions/' + _firmaSessionId);
+    // Lite: solo metadatos (sin html). El documento completo (~300 KB) solo
+    // se descarga si `version` cambió, para reabrir la sesión actualizada.
+    var data = await _firmaApiGet('/api/sign-sessions/' + _firmaSessionId + '?lite=1');
     if (data && data.ok && data.session && data.session.version !== _firmaSessionVersion) {
       await _firmaOpenSession(_firmaSessionId, true);
       showToast('🔄 La sesión se actualizó (otro usuario firmó)');

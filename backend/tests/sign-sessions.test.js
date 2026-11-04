@@ -777,3 +777,40 @@ test('cancelada: admin la borra físicamente con motivo; el resto no puede', asy
   assert.equal(hard.deleted_reason, 'limpieza manual');
   assert.equal(await db.getSignSession(s.id), null);
 });
+
+// ── Polling ligero: metadatos sin `html` (egress Supabase) ──
+test('lite: getSignSessionMeta no incluye html y conserva autorización/version', async () => {
+  const s = await db.createSignSession({
+    name: 'RPT-LITE', html: '<html><body>' + 'x'.repeat(4096) + '</body></html>',
+    createdBy: 'ana_prep', assignedReviewer: 'beto_rev', assignedApprover: 'carla_sup',
+    preparedSignature: { nombre: 'Ana' },
+  });
+  const meta = await db.getSignSessionMeta(s.id);
+  assert.equal(meta.html, undefined, 'el polling no debe recibir el documento');
+  assert.equal(meta.id, s.id);
+  assert.equal(meta.version, 1);
+  assert.equal(meta.status, 'partial');
+  assert.equal(meta.next_role, 'reviewed');
+  // La autorización del endpoint se apoya en estos tres campos.
+  assert.equal(meta.created_by, 'ana_prep');
+  assert.equal(meta.assigned_reviewer, 'beto_rev');
+  assert.equal(meta.assigned_approver, 'carla_sup');
+  assert.equal(typeof meta.signatures, 'object');
+  assert.equal(meta.signatures.prepared.signed, true);
+});
+
+test('lite: sesión inexistente → null (mismo contrato que el detalle)', async () => {
+  assert.equal(await db.getSignSessionMeta(999999), null);
+});
+
+test('lite: el detalle completo sigue trayendo el html', async () => {
+  const s = await db.createSignSession({
+    name: 'RPT-FULL', html: HTML, createdBy: 'ana_prep',
+    assignedReviewer: 'beto_rev', preparedSignature: { nombre: 'Ana' },
+  });
+  const meta = await db.getSignSessionMeta(s.id);
+  const full = await db.getSignSession(s.id);
+  assert.equal(meta.html, undefined);
+  assert.equal(full.html, HTML);
+  assert.equal(meta.version, full.version);
+});
