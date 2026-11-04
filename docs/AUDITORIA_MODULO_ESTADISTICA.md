@@ -25,12 +25,12 @@
 | ID | Hallazgo | Estado |
 |---|---|---|
 | C1 | Pareto: `constidxPareto80` roto; sin modal ni renderer; no estaba en `HYPOTHESIS_TESTS` | **Corregido (Lote 1A)** |
-| C2 | ANOVA Two-Way: `factor1/factor2` sobrescritos; clave `error` usada para residual; réplicas ignoradas | Pendiente (Lote 1B) |
+| C2 | ANOVA Two-Way: `factor1/factor2` sobrescritos; clave `error` usada para residual; réplicas ignoradas | **Corregido (Lote 1B)** |
 | C3 | Bootstrap: solo conserva la última columna; sin semilla; contrato `salidas` distinto | Pendiente (Lote 2) |
 | C4 | T-Test 1 muestra: μ₀ fijo en 0; sin campo en el modal | Pendiente (Lote 2) |
 | C5 | Covarianza: sin modal, sin renderer alcanzable | **Corregido (Lote 1A)** |
 | C6 | Pares desalineados con huecos en MAE, R², Polinomial, Logística, calibración, TOST, Supervivencia, Mixtos | Pendiente (Lote 2) |
-| C7 | PCA/AF: `HYPOTHESIS_SET` los desvía a un render sin rama; NaN rellenados con 0 | Pendiente (Lote 1B) |
+| C7 | PCA/AF: `HYPOTHESIS_SET` los desvía a un render sin rama; NaN rellenados con 0 | **Corregido (Lote 1B)** |
 
 ## 3. Hallazgos altos
 
@@ -67,8 +67,8 @@ Los defectos C1–C7 viven exactamente en esa capa.
 - Covarianza: `HYPOTHESIS_TESTS`, modal X/Y, renderer y reporte.
 - Tests de integración: `tests/estadisticos-integracion.test.js`.
 
-### Lote 1B — resultado correcto
-- ANOVA Two-Way: `residual`, conservar `factor1/factor2`, medias de celda con réplicas.
+### Lote 1B — resultado correcto (este PR)
+- ANOVA Two-Way: `residual`, conservar `factor1/factor2`, medias de celda con réplicas, interacción y renderer.
 - PCA/AF: rama de render propia y descarte de filas incompletas.
 
 ### Lote 2 — corrección estadística

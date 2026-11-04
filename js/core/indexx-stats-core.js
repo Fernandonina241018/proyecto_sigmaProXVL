@@ -1003,48 +1003,66 @@ negativos: negativos,
         if (!Array.isArray(datos) || datos.length === 0) {
             return { error: 'Datos no válidos' };
         }
-
         const filas = factor1Labels.length;
         const cols = factor2Labels.length;
-        const N = datos.flat().length;
-        const mediaTotal = calcularMedia(datos.flat());
-
-        // SS Total
-        let ssTotal = 0;
-        datos.flat().forEach(v => { ssTotal += Math.pow(v - mediaTotal, 2); });
-
-        // SS Factor 1 (filas)
-        let ssF1 = 0;
-        for (let i = 0; i < filas; i++) {
-            const mediaFila = calcularMedia(datos[i]);
-            ssF1 += cols * Math.pow(mediaFila - mediaTotal, 2);
+        if (datos.length !== filas || datos.some(r => !Array.isArray(r) || r.length !== cols)) {
+            return { error: 'La matriz no coincide con los niveles de los factores' };
         }
 
-        // SS Factor 2 (columnas)
-        let ssF2 = 0;
-        for (let j = 0; j < cols; j++) {
-            const colVals = datos.map(row => row[j]);
-            const mediaCol = calcularMedia(colVals);
-            ssF2 += filas * Math.pow(mediaCol - mediaTotal, 2);
-        }
+        const aNumero = (v) => {
+            if (typeof v === 'number' && isFinite(v)) return v;
+            if (typeof v === 'string' && v.trim() !== '' && isFinite(Number(v))) return Number(v);
+            return null;
+        };
+        // Cada celda puede ser un valor (compatibilidad 2D) o un array de réplicas (3D).
+        const celdas = datos.map(row => row.map(cell => {
+            const vals = Array.isArray(cell) ? cell.map(aNumero).filter(v => v !== null) : [aNumero(cell)].filter(v => v !== null);
+            return vals;
+        }));
+        const todos = celdas.flat(2);
+        const N = todos.length;
+        if (N === 0) return { error: 'Sin datos numéricos' };
 
-        const ssError = ssTotal - ssF1 - ssF2;
-        const dfF1 = filas - 1, dfF2 = cols - 1;
-        const dfError = (filas - 1) * (cols - 1);
+        const mediaTotal = calcularMedia(todos);
+        const rowVals = celdas.map(row => row.flat());
+        const colVals = Array.from({ length: cols }, (_, j) => celdas.map(row => row[j]).flat());
+        const rowMeans = rowVals.map(v => v.length ? calcularMedia(v) : NaN);
+        const colMeans = colVals.map(v => v.length ? calcularMedia(v) : NaN);
 
-        if (dfF1 === 0 || dfF2 === 0) return { error: 'Cada factor necesita al menos 2 niveles' };
-        if (dfError === 0) return { error: 'No hay réplicas para estimar el error (necesita más de 1 observación por celda)' };
+        const ssTotal = todos.reduce((s, v) => s + Math.pow(v - mediaTotal, 2), 0);
+        const ssF1 = rowVals.reduce((s, vals, i) => s + (vals.length ? vals.length * Math.pow(rowMeans[i] - mediaTotal, 2) : 0), 0);
+        const ssF2 = colVals.reduce((s, vals, j) => s + (vals.length ? vals.length * Math.pow(colMeans[j] - mediaTotal, 2) : 0), 0);
 
-        const msF1 = ssF1 / dfF1, msF2 = ssF2 / dfF2, msError = ssError / dfError;
-        const f1 = msF1 / msError, f2 = msF2 / msError;
+        let ssCeldas = 0;
+        let ssError = 0;
+        celdas.forEach(row => row.forEach(vals => {
+            if (!vals.length) return;
+            const m = calcularMedia(vals);
+            ssCeldas += vals.length * Math.pow(m - mediaTotal, 2);
+            vals.forEach(v => { ssError += Math.pow(v - m, 2); });
+        }));
+        const ssAB = Math.max(0, ssCeldas - ssF1 - ssF2);
+
+        const dfF1 = filas - 1, dfF2 = cols - 1, dfAB = dfF1 * dfF2;
+        const dfError = N - filas * cols;
+        if (dfF1 <= 0 || dfF2 <= 0) return { error: 'Cada factor necesita al menos 2 niveles' };
+        if (dfError <= 0) return { error: 'No hay réplicas para estimar el error (necesita más de 1 observación por celda)' };
+
+        const msF1 = ssF1 / dfF1, msF2 = ssF2 / dfF2, msAB = ssAB / dfAB, msError = ssError / dfError;
+        const f1 = msF1 / msError, f2 = msF2 / msError, fAB = msAB / msError;
+        const p1 = calcularValorP_F(f1, dfF1, dfError);
+        const p2 = calcularValorP_F(f2, dfF2, dfError);
+        const pAB = calcularValorP_F(fAB, dfAB, dfError);
 
         return {
             prueba: 'ANOVA Two-Way',
-            factor1: { SS: ssF1, MS: msF1, F: f1, df: dfF1, p: calcularValorP_F(f1, dfF1, dfError) },
-            factor2: { SS: ssF2, MS: msF2, F: f2, df: dfF2, p: calcularValorP_F(f2, dfF2, dfError) },
-            error: { SS: ssError, MS: msError, df: dfError },
+            factor1: { SS: ssF1, MS: msF1, F: f1, df: dfF1, p: p1 },
+            factor2: { SS: ssF2, MS: msF2, F: f2, df: dfF2, p: p2 },
+            interaccion: { SS: ssAB, MS: msAB, F: fAB, df: dfAB, p: pAB },
+            residual: { SS: ssError, MS: msError, df: dfError },
             total: { SS: ssTotal, df: N - 1 },
-            interpretacion: `Factor 1: ${calcularValorP_F(f1, dfF1, dfError) < 0.05 ? 'Significativo' : 'No significativo'}. Factor 2: ${calcularValorP_F(f2, dfF2, dfError) < 0.05 ? 'Significativo' : 'No significativo'}.`
+            n: N,
+            interpretacion: `Factor 1: ${p1 < 0.05 ? 'Significativo' : 'No significativo'}. Factor 2: ${p2 < 0.05 ? 'Significativo' : 'No significativo'}. Interacción: ${pAB < 0.05 ? 'Significativa' : 'No significativa'}.`
         };
     }
 
