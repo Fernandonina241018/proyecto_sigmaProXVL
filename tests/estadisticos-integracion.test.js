@@ -181,3 +181,150 @@ describe('Registro de pruebas de hipótesis', () => {
     expect(HYPOTHESIS_SET.has('Covarianza')).toBe(true);
   });
 });
+
+describe('Lote 2 — corrección estadística', () => {
+  test('T-Test de una muestra usa μ₀ y la alternativa configuradas', () => {
+    const rows = [{ V: 10.2 }, { V: 9.8 }, { V: 10.1 }, { V: 9.9 }, { V: 10.0 }];
+    const base = { headers: ['V'], data: rows, rowCount: rows.length };
+    const conCero = ED.ejecutarAnalisis(base, ['T-Test (una muestra)'], {
+      'T-Test (una muestra)': { numericCol: 'V', mediaHipotesis: 0, alternativa: 'bilateral' },
+    }).resultados['T-Test (una muestra)'].V;
+    const conDiez = ED.ejecutarAnalisis(base, ['T-Test (una muestra)'], {
+      'T-Test (una muestra)': { numericCol: 'V', mediaHipotesis: 10, alternativa: 'bilateral' },
+    }).resultados['T-Test (una muestra)'].V;
+    expect(conCero.mediaHipotesis).toBe(0);
+    expect(conDiez.mediaHipotesis).toBe(10);
+    expect(Math.abs(conCero.estadisticoT)).toBeGreaterThan(Math.abs(conDiez.estadisticoT));
+    expect(conDiez.alternativa).toBe('bilateral');
+  });
+
+  test('Bootstrap es determinista con la misma semilla y usa la columna configurada', () => {
+    const rows = Array.from({ length: 20 }, (_, i) => ({ A: i + 1, B: 100 + i }));
+    const base = { headers: ['A', 'B'], data: rows, rowCount: rows.length };
+    const cfg = { numericCol: 'B', estadistico: 'media', iteraciones: 300, nivelConfianza: 0.95, semilla: 7 };
+    const r1 = ED.ejecutarAnalisis(base, ['Bootstrap'], { Bootstrap: cfg }).resultados.Bootstrap;
+    const r2 = ED.ejecutarAnalisis(base, ['Bootstrap'], { Bootstrap: cfg }).resultados.Bootstrap;
+    const r3 = ED.ejecutarAnalisis(base, ['Bootstrap'], { Bootstrap: { ...cfg, semilla: 8 } }).resultados.Bootstrap;
+    expect(r1.columna).toBe('B');
+    expect(r1.ic).toEqual(r2.ic);
+    expect(r1.se_bootstrap).toBe(r2.se_bootstrap);
+    expect(r1.semilla).toBe(7);
+    expect(r1.ic.inferior).not.toBe(r3.ic.inferior);
+  });
+
+  test('MAE y R² alinean los pares por fila (huecos en filas distintas)', () => {
+    const rows = [
+      { Obs: 1, Pred: 1 },
+      { Obs: '', Pred: 2 },
+      { Obs: 3, Pred: '' },
+      { Obs: 4, Pred: 4 },
+    ];
+    const base = { headers: ['Obs', 'Pred'], data: rows, rowCount: rows.length };
+    const mae = ED.ejecutarAnalisis(base, ['MAE'], {
+      MAE: { columnaObservada: 'Obs', columnaPredicha: 'Pred' },
+    }).resultados.MAE;
+    const r2 = ED.ejecutarAnalisis(base, ['R² (Coef. Determinación)'], {
+      'R² (Coef. Determinación)': { columnaObservada: 'Obs', columnaPredicha: 'Pred' },
+    }).resultados['R² (Coef. Determinación)'];
+    expect(mae.n).toBe(2);
+    expect(mae.mae).toBe(0);
+    expect(r2.n).toBe(2);
+    expect(r2.r2).toBeCloseTo(1, 10);
+  });
+
+  test('Regresión Polinomial, Logística, TOST y calibración alinean por fila', () => {
+    const rows = Array.from({ length: 14 }, (_, i) => ({
+      X: i + 1,
+      Y: i === 3 ? '' : (i + 1) * (i + 1),
+      Bin: i === 5 ? '' : (i % 2),
+      X2: i === 8 ? '' : (i + 2),
+      Conc: i === 2 ? '' : i + 1,
+      Senal: i === 2 ? '' : 3 * (i + 1) + 1,
+    }));
+    const base = { headers: Object.keys(rows[0]), data: rows, rowCount: rows.length };
+
+    const poli = ED.ejecutarAnalisis(base, ['Regresión Polinomial'], {
+      'Regresión Polinomial': { columnaX: 'X', columnaY: 'Y', grado: 2 },
+    }).resultados['Regresión Polinomial'];
+    expect(poli.error).toBeUndefined();
+    expect(poli.n).toBe(13);
+
+    const logit = ED.ejecutarAnalisis(base, ['Regresión Logística'], {
+      'Regresión Logística': { columnaY: 'Bin', columnasX: ['X2'], columnas: ['X2'] },
+    }).resultados['Regresión Logística'];
+    expect(logit.error).toBeUndefined();
+    expect(logit.n).toBe(12);
+
+    const tost = ED.ejecutarAnalisis(base, ['Test TOST (Equivalencia)'], {
+      'Test TOST (Equivalencia)': { columnaX: 'X', columnaY: 'Conc', delta: 0.5 },
+    }).resultados['Test TOST (Equivalencia)'];
+    expect(tost.n1).toBe(13);
+    expect(tost.n2).toBe(13);
+
+    const calib = ED.ejecutarAnalisis(base, ['LOD (Curva de Calibración)'], {
+      'LOD (Curva de Calibración)': { columnaX: 'Conc', columnaY: 'Senal' },
+    }).resultados['LOD (Curva de Calibración)'];
+    expect(calib.error).toBeUndefined();
+    expect(calib.n).toBe(13);
+  });
+
+  test('aplica minMuestra del catálogo en ejecutarAnalisis', () => {
+    const rows = [{ V: 1 }, { V: 2 }, { V: 3 }];
+    const res = ED.ejecutarAnalisis(
+      { headers: ['V'], data: rows, rowCount: rows.length },
+      ['Test de Kolmogorov-Smirnov'],
+      { 'Test de Kolmogorov-Smirnov': { numericCol: 'V' } }
+    );
+    expect(res.resultados['Test de Kolmogorov-Smirnov'].error).toContain('al menos 5');
+  });
+
+  test('ANOVA no sobrescribe `grupos` y expone etiquetas aparte', () => {
+    const rows = [];
+    ['A', 'B', 'C'].forEach((g, gi) => {
+      for (let i = 0; i < 6; i++) rows.push({ G: g, V: 10 + gi * 5 + i * 0.1 });
+    });
+    const anova = ED.ejecutarAnalisis(
+      { headers: ['G', 'V'], data: rows, rowCount: rows.length },
+      ['ANOVA One-Way'],
+      { 'ANOVA One-Way': { categoricalCols: ['G'], numericCol: 'V' } }
+    ).resultados['ANOVA One-Way'];
+    expect(anova.grupos).toBe(3);
+    expect(anova.etiquetasGrupos).toEqual(['A', 'B', 'C']);
+    const html = ED.generarHTML({ resultados: { 'ANOVA One-Way': anova }, totalFilas: 18, totalColumnas: 2, columnasAnalizadas: ['V'], estadisticos: ['ANOVA One-Way'] });
+    expect(html).toContain('A, B, C');
+  });
+
+  test('LDA usa autovalores simétricos y clasifica clases separadas', () => {
+    const rows = [];
+    for (let i = 0; i < 10; i++) {
+      rows.push({ G: 'A', X1: i, X2: i * 0.5 + (i % 3) });
+      rows.push({ G: 'B', X1: 100 + i, X2: 100 + i * 0.5 + (i % 3) });
+    }
+    const res = ED.ejecutarAnalisis(
+      { headers: ['G', 'X1', 'X2'], data: rows, rowCount: rows.length },
+      ['Análisis Discriminante'],
+      { 'Análisis Discriminante': { categoricalCols: ['G'], columnas: ['X1', 'X2'] } }
+    ).resultados['Análisis Discriminante'];
+    expect(res.error).toBeUndefined();
+    expect(res.accuracy).toBeCloseTo(1, 10);
+    expect(res.lambda).toBeGreaterThan(0);
+    expect(res.funcionesDiscriminantes).toBe(1);
+  });
+
+  test('MANOVA usa la F de Rao estándar sobre la traza de Pillai', () => {
+    const rows = [];
+    ['A', 'B', 'C'].forEach((g, gi) => {
+      for (let i = 0; i < 12; i++) rows.push({ G: g, X1: gi * 10 + i, X2: gi * 10 + i * 2 });
+    });
+    const res = ED.ejecutarAnalisis(
+      { headers: ['G', 'X1', 'X2'], data: rows, rowCount: rows.length },
+      ['M-ANOVA'],
+      { 'M-ANOVA': { categoricalCols: ['G'], columnas: ['X1', 'X2'] } }
+    ).resultados['M-ANOVA'];
+    expect(res.error).toBeUndefined();
+    const s = Math.min(2, 3 - 1);
+    expect(res.gl1).toBe(4);
+    expect(res.gl2).toBe(s * (36 - 2 + s));
+    expect(res.F).toBeCloseTo((res.gl2 / res.gl1) * (res.pillai / (s - res.pillai)), 3);
+  });
+});

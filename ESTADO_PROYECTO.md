@@ -90,6 +90,47 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (SigmaProXVL) con spr
 
 ## CAMBIOS RECIENTES
 
+### 2026-11-03 (229): Lotes 2 y 3 — corrección estadística, contrato y limpieza
+
+**Qué:** Se cierran los lotes 2 y 3 de la auditoría del módulo de estadística.
+
+- **Lote 2 (resultado correcto):**
+  - **Pares alineados por fila (`getPairedValues`)** en MAE, R², Regresión Polinomial, Regresión Logística, TOST, curvas de calibración, Supervivencia (tiempo/evento/grupo) y Modelos Mixtos (Y/grupo). Antes se filtraba cada columna por separado y se recortaba por longitud mínima, comparando filas distintas cuando había huecos.
+  - **T-Test de una muestra:** modal propio con columna, μ₀ y alternativa (bilateral/mayor/menor); el dispatch lee `mediaHipotesis` y `alternativa` (antes μ₀ fijo en 0).
+  - **Bootstrap:** modal con columna, estimador, B, nivel de confianza y semilla. El cálculo usa un PRNG determinista (mulberry32) y una sola columna explícita; antes el bucle silenciosamente conservaba la última columna y no era reproducible.
+  - **`minMuestra`/`maxMuestra`:** se aplican en `ejecutarAnalisis`, por lo que también cubren el análisis en lote, devolviendo un error explícito.
+  - **LDA:** los autovalores se calculan sobre `Sw^(-1/2)·Sb·Sw^(-1/2)` (simétrica) en lugar de aplicar Jacobi a `Sw⁻¹Sb`.
+  - **MANOVA:** F de Rao estándar sobre la traza de Pillai (`F = (df2/df1)·V/(s−V)`, `df2 = s(2n+s+1)`).
+  - **ANOVA One-Way y Kruskal-Wallis:** dejan de sobrescribir `grupos` (nº de grupos); las etiquetas pasan a `etiquetasGrupos` y los renderers las usan.
+  - **Badge de p-valor:** busca `valorP`/`p` en cualquier nivel del resultado en vez de leer la primera clave (que podía ser `prueba`).
+
+- **Lote 3 (contrato y limpieza):**
+  - **`salidas` alineado en 40 entradas** del catálogo con la devolución real (percentiles, normalidad, correlaciones, regresiones, multivariado, bootstrap, supervivencia, mixtos, bayesiano, LOD/LOQ/LQC/MDL). Los estadísticos escalares declaran un único valor semántico.
+  - **Nuevo `tests/estadisticos-contrato.test.js`:** 187 aserciones que ejecutan y renderizan los 62 estadísticos, comprueban que no aparece `[object Object]`, “Tipo de prueba no reconocido” ni “Configuración no encontrada”, y validan el contrato `salidas`.
+  - **`generarReporte`:** eliminada la segunda implementación duplicada.
+  - **`tests/test-estadistica.js`:** eliminado el test legacy de navegador (su cobertura ya estaba migrada a Vitest).
+
+**Archivos afectados:**
+| Archivo | Cambio |
+|---------|--------|
+| `js/core/EstadisticaDescriptiva.js` | Pares por fila, T-Test μ₀/alternativa, Bootstrap por columna, min/max muestra, `etiquetasGrupos`, supervivencia/mixtos alineados |
+| `js/core/indexx-stats-core.js` | Bootstrap con semilla, LDA simétrico, MANOVA F de Rao, `generarReporte` único |
+| `js/core/indexx-analysis.js` | Modales de T-Test 1 muestra y Bootstrap; extracción robusta del p-valor |
+| `js/core/estadisticosConfig.js` | `salidas` alineado en 40 entradas |
+| `tests/setup.js` | Expone `ESTADISTICOS_CONFIG` al entorno de pruebas |
+| `tests/estadisticos-integracion.test.js` | +12 tests del Lote 2 |
+| `tests/estadisticos-contrato.test.js` | **Nuevo** — ejecución, render y contrato de los 62 |
+| `tests/test-estadistica.js` | **Eliminado** — legacy de navegador |
+| `docs/AUDITORIA_MODULO_ESTADISTICA.md` | Hallazgos y lotes 2/3 marcados como corregidos |
+
+**Verificación:**
+```
+node --check (4 archivos) → OK
+Vitest → 58 archivos, 907 tests OK
+Backend (node --test) → 120/120
+Playwright → 11/11
+```
+
 ### 2026-11-03 (228): Lote 1B — ANOVA Two-Way con réplicas + render de PCA/AF
 
 **Qué:** Se corrige el resultado de ANOVA Two-Way y se hacen alcanzables los renderers de PCA y Análisis Factorial.

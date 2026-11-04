@@ -12,6 +12,9 @@ const mgr  = join(__dirname, '..', 'js', 'managers');
 vm.runInThisContext(readFileSync(join(core, 'utils.js'), 'utf-8'));
 vm.runInThisContext(readFileSync(join(core, 'StatsUtils.js'), 'utf-8'));
 
+// Catálogo: en el navegador es un `const` global; en vm hay que exponerlo.
+vm.runInThisContext(readFileSync(join(core, 'estadisticosConfig.js'), 'utf-8') + '\n;globalThis.ESTADISTICOS_CONFIG = ESTADISTICOS_CONFIG;');
+
 // StatsCore uses window.__StatsCore — polyfill for Node test environment
 globalThis.window = globalThis;
 vm.runInThisContext(readFileSync(join(core, 'indexx-stats-core.js'), 'utf-8'));

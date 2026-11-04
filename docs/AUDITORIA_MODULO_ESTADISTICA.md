@@ -2,7 +2,7 @@
 
 **Fecha:** 2026-11-03
 **Alcance:** catálogo → UI → cálculo → render → reporte
-**Estado:** Lote 1A corregido (Pareto y Covarianza); resto planificado.
+**Estado:** Lotes 1A, 1B, 2 y 3 corregidos.
 
 ## 1. Mapa funcional
 
@@ -26,30 +26,30 @@
 |---|---|---|
 | C1 | Pareto: `constidxPareto80` roto; sin modal ni renderer; no estaba en `HYPOTHESIS_TESTS` | **Corregido (Lote 1A)** |
 | C2 | ANOVA Two-Way: `factor1/factor2` sobrescritos; clave `error` usada para residual; réplicas ignoradas | **Corregido (Lote 1B)** |
-| C3 | Bootstrap: solo conserva la última columna; sin semilla; contrato `salidas` distinto | Pendiente (Lote 2) |
-| C4 | T-Test 1 muestra: μ₀ fijo en 0; sin campo en el modal | Pendiente (Lote 2) |
+| C3 | Bootstrap: solo conserva la última columna; sin semilla; contrato `salidas` distinto | **Corregido (Lote 2)** |
+| C4 | T-Test 1 muestra: μ₀ fijo en 0; sin campo en el modal | **Corregido (Lote 2)** |
 | C5 | Covarianza: sin modal, sin renderer alcanzable | **Corregido (Lote 1A)** |
-| C6 | Pares desalineados con huecos en MAE, R², Polinomial, Logística, calibración, TOST, Supervivencia, Mixtos | Pendiente (Lote 2) |
+| C6 | Pares desalineados con huecos en MAE, R², Polinomial, Logística, calibración, TOST, Supervivencia, Mixtos | **Corregido (Lote 2)** |
 | C7 | PCA/AF: `HYPOTHESIS_SET` los desvía a un render sin rama; NaN rellenados con 0 | **Corregido (Lote 1B)** |
 
 ## 3. Hallazgos altos
 
-| ID | Hallazgo |
-|---|---|
-| A1 | `minMuestra` no se aplica en `ejecutarAnalisis` ni en batch |
-| A2 | Umbrales internos menores que el mínimo documentado |
-| A3 | 38/62 incumplen el contrato `salidas` |
-| A4 | ANOVA One-Way/Kruskal sobrescriben `grupos` con etiquetas |
-| A5 | LDA aplica Jacobi a una matriz no simétrica |
-| A6 | MANOVA usa una aproximación F de Pillai no estándar |
-| A7 | `nivelAlfa`, `tipoTest`, `efectoTamano`, `advertencias` no se leen |
-| A8 | Badge de p-valor lee la primera clave (puede ser `prueba`) |
+| ID | Hallazgo | Estado |
+|---|---|---|
+| A1 | `minMuestra` no se aplica en `ejecutarAnalisis` ni en batch | **Corregido (Lote 2)** |
+| A2 | Umbrales internos menores que el mínimo documentado | Pendiente (revisión por estadístico) |
+| A3 | 38/62 incumplen el contrato `salidas` | **Corregido (Lote 3)** |
+| A4 | ANOVA One-Way/Kruskal sobrescriben `grupos` con etiquetas | **Corregido (Lote 2)** |
+| A5 | LDA aplica Jacobi a una matriz no simétrica | **Corregido (Lote 2)** |
+| A6 | MANOVA usa una aproximación F de Pillai no estándar | **Corregido (Lote 2)** |
+| A7 | `nivelAlfa`, `tipoTest`, `efectoTamano`, `advertencias` no se leen | Pendiente (metadata informativa) |
+| A8 | Badge de p-valor lee la primera clave (puede ser `prueba`) | **Corregido (Lote 2)** |
 
 ## 4. Medios/bajos
 
-- `generarReporte` duplicado y sin llamadas.
-- `tests/test-estadistica.js` llama funciones no públicas y no lo recoge Vitest.
-- No determinismo en Clúster y Bootstrap (sin semilla).
+- `generarReporte` duplicado y sin llamadas. **Corregido (Lote 3): queda una sola implementación.**
+- `tests/test-estadistica.js` llama funciones no públicas y no lo recoge Vitest. **Eliminado (Lote 3); su cobertura vive en Vitest.**
+- No determinismo en Clúster y Bootstrap (sin semilla). **Bootstrap corregido (Lote 2); Clúster sigue usando `Math.random`.**
 - Modales de normalidad piden columna que luego no se usa.
 - Renderers de K-S, Anderson-Darling, D'Agostino y Covarianza inalcanzables antes del Lote 1A.
 - `totalFilas` puede ser `NaN` si el llamador no pasa `rowCount`.
@@ -71,23 +71,25 @@ Los defectos C1–C7 viven exactamente en esa capa.
 - ANOVA Two-Way: `residual`, conservar `factor1/factor2`, medias de celda con réplicas, interacción y renderer.
 - PCA/AF: rama de render propia y descarte de filas incompletas.
 
-### Lote 2 — corrección estadística
-- Pares alineados con `getPairedValues`.
-- μ₀ y alternativa en T-Test 1 muestra.
-- Bootstrap por columna, semilla y contrato.
-- `minMuestra`/`maxMuestra` en `ejecutarAnalisis`.
-- Revisar LDA/MANOVA; no sobrescribir `grupos`.
+### Lote 2 — corrección estadística (este PR)
+- Pares alineados con `getPairedValues` en MAE, R², Polinomial, Logística, TOST, calibración, Supervivencia y Mixtos.
+- μ₀ y alternativa en T-Test 1 muestra (modal + dispatch).
+- Bootstrap por columna, semilla determinista (mulberry32) y contrato `salidas`.
+- `minMuestra`/`maxMuestra` aplicados en `ejecutarAnalisis` (también en batch).
+- LDA con autovalores simétricos (`Sw^-1/2 Sb Sw^-1/2`); MANOVA con F de Rao estándar.
+- `grupos` de ANOVA/Kruskal ya no se sobrescribe: las etiquetas van en `etiquetasGrupos`.
+- Badge de p-valor busca el p en cualquier nivel del resultado.
 
-### Lote 3 — contrato y limpieza
-- Alinear `salidas` de las 62 entradas.
-- Un test de integración por estadístico.
-- Eliminar `generarReporte` duplicado y casos legacy.
-- Arreglar o eliminar `tests/test-estadistica.js`.
+### Lote 3 — contrato y limpieza (este PR)
+- `salidas` alineado con la devolución real en 40 entradas; los escalares declaran un único valor semántico.
+- `tests/estadisticos-contrato.test.js`: un caso de ejecución y render por cada uno de los 62 estadísticos, más validación del contrato.
+- Eliminada la copia duplicada de `generarReporte`.
+- Eliminado `tests/test-estadistica.js` (legacy de navegador, ya migrado a Vitest).
 
 ## 7. Criterios de aceptación
 
-- [ ] Cada estadístico ejecuta desde su modal y produce tarjetas.
-- [ ] `generarHTML` no muestra “Tipo de prueba no reconocido” ni `[object Object]`.
-- [ ] Reportes incluyen los mismos valores que la UI.
-- [ ] Tests de integración cubren `ejecutarAnalisis` + `generarHTML`.
-- [ ] `npm test` y `npm run preflight` verdes.
+- [x] Cada estadístico ejecuta desde su modal y produce tarjetas.
+- [x] `generarHTML` no muestra “Tipo de prueba no reconocido” ni `[object Object]`.
+- [x] Reportes incluyen los mismos valores que la UI.
+- [x] Tests de integración cubren `ejecutarAnalisis` + `generarHTML`.
+- [x] `npm test` y `npm run preflight` verdes.

@@ -236,7 +236,11 @@ function _mostrarModalConfigTest(nombre, callback, existingConfig) {
   var necesitaDosNumericas = false;
   var necesitaDosCat = t === 'tabla-contingencia' || t === 'una-columna-dos-factores';
   var modalTipo = 'single-num';
-  if (t === 'dos-columnas' && cfg.seccion === 'correlacion') {
+  if (t === 'una-columna-mas-valor') {
+    modalTipo = 'ttest-una';
+  } else if (t === 'una-columna-mas-estimador') {
+    modalTipo = 'bootstrap';
+  } else if (t === 'dos-columnas' && cfg.seccion === 'correlacion') {
     necesitaCat = false;
     necesitaDosNumericas = true;
     modalTipo = 'xy';
@@ -342,7 +346,23 @@ function _mostrarModalConfigTest(nombre, callback, existingConfig) {
     accordionContent += '</div></details>';
   }
   var modalContent = '';
-  if (modalTipo === 'obspred') {
+  if (modalTipo === 'ttest-una') {
+    modalContent =
+      '<div style="display:flex;flex-direction:column;gap:6px">' +
+        '<div><label style="font-size:11px;color:var(--text-primary)">Columna de valores</label><p style="font-size:0.75rem;color:#666;margin:0 0 4px;line-height:1.3">' + hlp.colNum + '</p><select id="cfgColNum" class="btn" style="width:100%;text-align:left">' + optsN + '</select></div>' +
+        '<div><label style="font-size:11px;color:var(--text-primary)">Media hipotética (μ₀)</label><p style="font-size:0.75rem;color:#666;margin:0 0 4px;line-height:1.3">Valor de referencia con el que se compara la media muestral.</p><input id="cfgMediaHipotesis" type="number" value="0" step="any" style="width:100%;padding:6px 8px;border:1.5px solid var(--border);border-radius:6px;background:var(--bg-primary);color:var(--text-primary);font-size:0.85rem"></div>' +
+        '<div><label style="font-size:11px;color:var(--text-primary)">Hipótesis alternativa</label><p style="font-size:0.75rem;color:#666;margin:0 0 4px;line-height:1.3">Bilateral (≠) o unilateral (&gt;, &lt;).</p><select id="cfgAlternativa" style="width:100%;padding:6px 8px;border:1.5px solid var(--border);border-radius:6px;background:var(--bg-primary);color:var(--text-primary);font-size:0.85rem"><option value="bilateral">Bilateral (μ ≠ μ₀)</option><option value="mayor">Unilateral (μ &gt; μ₀)</option><option value="menor">Unilateral (μ &lt; μ₀)</option></select></div>' +
+      '</div>';
+  } else if (modalTipo === 'bootstrap') {
+    modalContent =
+      '<div style="display:flex;flex-direction:column;gap:6px">' +
+        '<div><label style="font-size:11px;color:var(--text-primary)">Columna de valores</label><p style="font-size:0.75rem;color:#666;margin:0 0 4px;line-height:1.3">' + hlp.colNum + '</p><select id="cfgColNum" class="btn" style="width:100%;text-align:left">' + optsN + '</select></div>' +
+        '<div><label style="font-size:11px;color:var(--text-primary)">Estimador</label><p style="font-size:0.75rem;color:#666;margin:0 0 4px;line-height:1.3">Estadístico que se remuestrea.</p><select id="cfgEstadistico" style="width:100%;padding:6px 8px;border:1.5px solid var(--border);border-radius:6px;background:var(--bg-primary);color:var(--text-primary);font-size:0.85rem"><option value="media">Media</option><option value="mediana">Mediana</option><option value="desviacion">Desviación estándar</option><option value="varianza">Varianza</option></select></div>' +
+        '<div><label style="font-size:11px;color:var(--text-primary)">Remuestreos (B)</label><p style="font-size:0.75rem;color:#666;margin:0 0 4px;line-height:1.3">Número de remuestras bootstrap (100–10000).</p><input id="cfgIteraciones" type="number" value="1000" min="100" max="10000" step="100" style="width:100%;padding:6px 8px;border:1.5px solid var(--border);border-radius:6px;background:var(--bg-primary);color:var(--text-primary);font-size:0.85rem"></div>' +
+        '<div><label style="font-size:11px;color:var(--text-primary)">Nivel de confianza</label><p style="font-size:0.75rem;color:#666;margin:0 0 4px;line-height:1.3">Cobertura del intervalo bootstrap.</p><select id="cfgNivelConfianza" style="width:100%;padding:6px 8px;border:1.5px solid var(--border);border-radius:6px;background:var(--bg-primary);color:var(--text-primary);font-size:0.85rem"><option value="0.90">90%</option><option value="0.95" selected>95%</option><option value="0.99">99%</option></select></div>' +
+        '<div><label style="font-size:11px;color:var(--text-primary)">Semilla</label><p style="font-size:0.75rem;color:#666;margin:0 0 4px;line-height:1.3">Fija la semilla para que el resultado sea reproducible.</p><input id="cfgSemilla" type="number" value="12345" step="1" style="width:100%;padding:6px 8px;border:1.5px solid var(--border);border-radius:6px;background:var(--bg-primary);color:var(--text-primary);font-size:0.85rem"></div>' +
+      '</div>';
+  } else if (modalTipo === 'obspred') {
     modalContent =
       '<div style="display:flex;flex-direction:column;gap:6px">' +
         '<div><label style="font-size:11px;color:var(--text-primary)">Columna observada</label><p style="font-size:0.75rem;color:#666;margin:0 0 4px;line-height:1.3">' + hlp.colObs + '</p><select id="cfgColObs" class="btn" style="width:100%;text-align:left">' + optsN + '</select></div>' +
@@ -463,7 +483,10 @@ function _mostrarModalConfigTest(nombre, callback, existingConfig) {
       columnaCategoria: 'cfgColCategoria', columnaConteo: 'cfgColConteo',
       columnaTiempo: 'cfgColTiempo', columnaEvento: 'cfgColEvento', columnaGrupo: 'cfgColGrupo',
       numericCol: 'cfgColNum', grado: 'cfgGrado', periodo: 'cfgPeriodo',
-      delta: 'cfgDelta', priorMedia: 'cfgPriorMedia', priorVarianza: 'cfgPriorVar'
+      delta: 'cfgDelta', priorMedia: 'cfgPriorMedia', priorVarianza: 'cfgPriorVar',
+      mediaHipotesis: 'cfgMediaHipotesis', alternativa: 'cfgAlternativa',
+      estadistico: 'cfgEstadistico', iteraciones: 'cfgIteraciones',
+      nivelConfianza: 'cfgNivelConfianza', semilla: 'cfgSemilla'
     };
     Object.keys(existingConfig).forEach(function(k) { var id = _idMap[k]; if (id) _sv(id, existingConfig[k]); });
     if (Array.isArray(existingConfig.numericCols)) { _sv('cfgCol1', existingConfig.numericCols[0]); _sv('cfgCol2', existingConfig.numericCols[1]); }
@@ -473,7 +496,20 @@ function _mostrarModalConfigTest(nombre, callback, existingConfig) {
   document.getElementById('cfgCancel').addEventListener('click', function() { modal.remove(); });
   document.getElementById('cfgConfirm').addEventListener('click', function() {
     var config = {};
-    if (modalTipo === 'obspred') {
+    if (modalTipo === 'ttest-una') {
+      config.numericCol = document.getElementById('cfgColNum').value;
+      var muVal = parseFloat(document.getElementById('cfgMediaHipotesis').value);
+      config.mediaHipotesis = isNaN(muVal) ? 0 : muVal;
+      config.alternativa = document.getElementById('cfgAlternativa').value || 'bilateral';
+    } else if (modalTipo === 'bootstrap') {
+      config.numericCol = document.getElementById('cfgColNum').value;
+      config.estadistico = document.getElementById('cfgEstadistico').value || 'media';
+      var iter = parseInt(document.getElementById('cfgIteraciones').value, 10);
+      config.iteraciones = isNaN(iter) ? 1000 : Math.max(100, Math.min(10000, iter));
+      config.nivelConfianza = parseFloat(document.getElementById('cfgNivelConfianza').value) || 0.95;
+      var sem = parseInt(document.getElementById('cfgSemilla').value, 10);
+      config.semilla = isNaN(sem) ? 12345 : sem;
+    } else if (modalTipo === 'obspred') {
       config.columnaObservada = document.getElementById('cfgColObs').value;
       config.columnaPredicha = document.getElementById('cfgColPred').value;
     } else if (modalTipo === 'xy' || modalTipo === 'xy-grado') {
@@ -761,15 +797,18 @@ function runSingleStat(nombre) {
 
     var resultInfo = { testName: nombre, pValue: null, significativo: false };
     var resObj = resultados.resultados[nombre];
-    if (resObj && typeof resObj === 'object') {
-      var firstKey = Object.keys(resObj)[0];
-      if (resObj[firstKey] && typeof resObj[firstKey] === 'object') {
-        var r = resObj[firstKey];
-        if (r.valorP !== undefined) resultInfo.pValue = r.valorP;
-        else if (r.p !== undefined) resultInfo.pValue = r.p;
-        resultInfo.significativo = r.significativo || (resultInfo.pValue !== null && resultInfo.pValue < 0.05);
-      }
-    }
+    // FIX-AUDIT (A8): buscar el p-valor en cualquier nivel (antes leía la primera clave,
+    // que puede ser `prueba`), sin dejarse engañar por `prueba`.
+    var _p = null, _sig = false;
+    (function scanP(o, depth) {
+      if (!o || typeof o !== 'object' || Array.isArray(o) || depth > 3) return;
+      if (_p === null && typeof o.valorP === 'number') _p = o.valorP;
+      if (_p === null && typeof o.p === 'number') _p = o.p;
+      if (o.significativo === true) _sig = true;
+      if (_p === null) Object.keys(o).forEach(function(k) { scanP(o[k], depth + 1); });
+    })(resObj, 0);
+    resultInfo.pValue = _p;
+    resultInfo.significativo = _sig || (_p !== null && _p < 0.05);
     updateAnalisisLastResult(resultInfo);
     try {
       if (typeof Logger !== 'undefined') {
