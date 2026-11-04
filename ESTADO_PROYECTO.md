@@ -90,6 +90,26 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (SigmaProXVL) con spr
 
 ## CAMBIOS RECIENTES
 
+### 2026-11-03 (230): Endurecer contrato de estadísticos + typecheck
+
+**Qué:** El test de contrato de los 62 estadísticos ahora falla si alguno vuelve a devolver `error` o pinta una tarjeta de error; además se recupera `npm run typecheck`.
+
+- **Contrato:** se eliminó el `return` silencioso cuando `out.error` existía. Ahora exige `out.error` indefinido y `html` sin `ar-error` para los 62.
+- **Typecheck:** `skipLibCheck: true` en `tsconfig.json`; el error venía de `node_modules/docx/dist/index.d.ts` (`ImportGlobFunction`), no del código del proyecto.
+- **Cobertura:** 187 aserciones del contrato siguen verdes; los 62 estadísticos ejecutan sin error con el dataset sintético.
+
+**Archivos afectados:**
+| Archivo | Cambio |
+|---------|--------|
+| `tests/estadisticos-contrato.test.js` | Falla ante `error` o `ar-error` |
+| `tsconfig.json` | `skipLibCheck: true` |
+
+**Verificación:**
+```
+npm run typecheck → OK
+npx vitest run tests/estadisticos-contrato.test.js → 187/187
+```
+
 ### 2026-11-03 (229): Lotes 2 y 3 — corrección estadística, contrato y limpieza
 
 **Qué:** Se cierran los lotes 2 y 3 de la auditoría del módulo de estadística.
