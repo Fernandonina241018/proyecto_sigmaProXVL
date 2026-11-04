@@ -122,7 +122,8 @@ describe('Catálogo de estadísticos — ejecución', () => {
       totalFilas: N, totalColumnas: 5,
       columnasAnalizadas: data.headers, estadisticos: [nombre],
     });
-    expect(html).toContain(nombre);
+    const htmlNorm = html.replace(/&#0?39;/g, "'").replace(/&amp;/g, '&');
+    expect(htmlNorm).toContain(nombre);
     expect(html).not.toContain('[object Object]');
     expect(html).not.toContain('Tipo de prueba no reconocido');
     expect(html).not.toContain('Configuración no encontrada');

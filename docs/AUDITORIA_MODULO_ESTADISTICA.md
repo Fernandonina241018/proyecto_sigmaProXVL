@@ -37,7 +37,7 @@
 | ID | Hallazgo | Estado |
 |---|---|---|
 | A1 | `minMuestra` no se aplica en `ejecutarAnalisis` ni en batch | **Corregido (Lote 2)** |
-| A2 | Umbrales internos menores que el mínimo documentado | Pendiente (revisión por estadístico) |
+| A2 | Umbrales internos menores que el mínimo documentado | **Corregido (Lote 4)** |
 | A3 | 38/62 incumplen el contrato `salidas` | **Corregido (Lote 3)** |
 | A4 | ANOVA One-Way/Kruskal sobrescriben `grupos` con etiquetas | **Corregido (Lote 2)** |
 | A5 | LDA aplica Jacobi a una matriz no simétrica | **Corregido (Lote 2)** |
@@ -49,7 +49,7 @@
 
 - `generarReporte` duplicado y sin llamadas. **Corregido (Lote 3): queda una sola implementación.**
 - `tests/test-estadistica.js` llama funciones no públicas y no lo recoge Vitest. **Eliminado (Lote 3); su cobertura vive en Vitest.**
-- No determinismo en Clúster y Bootstrap (sin semilla). **Bootstrap corregido (Lote 2); Clúster sigue usando `Math.random`.**
+- No determinismo en Clúster y Bootstrap (sin semilla). **Bootstrap y Clúster corregidos (Lotes 2 y 4); MCMC bayesiano sigue usando `Math.random`.**
 - Modales de normalidad piden columna que luego no se usa.
 - Renderers de K-S, Anderson-Darling, D'Agostino y Covarianza inalcanzables antes del Lote 1A.
 - `totalFilas` puede ser `NaN` si el llamador no pasa `rowCount`.
@@ -85,6 +85,14 @@ Los defectos C1–C7 viven exactamente en esa capa.
 - `tests/estadisticos-contrato.test.js`: un caso de ejecución y render por cada uno de los 62 estadísticos, más validación del contrato.
 - Eliminada la copia duplicada de `generarReporte`.
 - Eliminado `tests/test-estadistica.js` (legacy de navegador, ya migrado a Vitest).
+
+### Lote 4 — umbrales y determinismo (este PR)
+- A2: Series 20, Mixtos 20, Bayesiano 15, Supervivencia 20 y curvas de calibración 6, alineados con el catálogo.
+- Clúster con PRNG determinista (`mulberry32`) y semilla configurable; devuelve `semilla`.
+- K-S, Anderson-Darling y D'Agostino usan su renderer específico.
+- `minMuestra`/`maxMuestra` cuentan observaciones válidas de las columnas configuradas.
+- `totalFilas` usa `rowCount` o, si falta, el número de filas.
+- Tests: Series con 10 filas falla, Clúster reproducible, normalidad no paramétrica sin genérico.
 
 ## 7. Criterios de aceptación
 

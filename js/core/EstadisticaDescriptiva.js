@@ -100,19 +100,31 @@ const EstadisticaDescriptiva = (() => {
         }
         
         const resultados = {};
+        const contarObservacionesValidas = (cfg) => {
+            const cols = [];
+            const add = (v) => { if (v && typeof v === 'string') cols.push(v); };
+            ['numericCol', 'columnaX', 'columnaY', 'columnaObservada', 'columnaPredicha', 'columnaTiempo']
+                .forEach(k => add(cfg && cfg[k]));
+            ['columnas', 'columnasX', 'numericCols'].forEach(k => {
+                if (cfg && Array.isArray(cfg[k])) cfg[k].forEach(add);
+            });
+            if (!cols.length) return Array.isArray(data.data) ? data.data.length : 0;
+            const counts = cols.map(c => getNumericValues(data, c).length).filter(n => n > 0);
+            return counts.length ? Math.min(...counts) : 0;
+        };
         
         estadisticos.forEach(stat => {
             try {
             // FIX-AUDIT (A1): respetar minMuestra/maxMuestra del catálogo también en batch.
             const statCfg = (typeof ESTADISTICOS_CONFIG !== 'undefined') ? ESTADISTICOS_CONFIG[stat] : null;
             if (statCfg) {
-                const nFilas = Array.isArray(data.data) ? data.data.length : 0;
-                if (statCfg.minMuestra && nFilas < statCfg.minMuestra) {
-                    resultados[stat] = { error: `${stat} requiere al menos ${statCfg.minMuestra} observaciones (hay ${nFilas}).` };
+                const nValidos = contarObservacionesValidas(hypothesisConfig[stat]);
+                if (statCfg.minMuestra && nValidos < statCfg.minMuestra) {
+                    resultados[stat] = { error: `${stat} requiere al menos ${statCfg.minMuestra} observaciones válidas (hay ${nValidos}).` };
                     return;
                 }
-                if (statCfg.maxMuestra && nFilas > statCfg.maxMuestra) {
-                    resultados[stat] = { error: `${stat} admite como máximo ${statCfg.maxMuestra} observaciones (hay ${nFilas}).` };
+                if (statCfg.maxMuestra && nValidos > statCfg.maxMuestra) {
+                    resultados[stat] = { error: `${stat} admite como máximo ${statCfg.maxMuestra} observaciones válidas (hay ${nValidos}).` };
                     return;
                 }
             }
@@ -416,8 +428,8 @@ const EstadisticaDescriptiva = (() => {
                      }
                      // FIX-AUDIT (C6): pares X/Y alineados por fila
                      const [xVals, yVals] = getPairedValues(data, [calibCfg.columnaX, calibCfg.columnaY]);
-                     if (xVals.length < 3 || yVals.length < 3) {
-                         resultados[calibKey] = { error: 'Se necesitan al menos 3 pares de valores numéricos (X, Y).' };
+                     if (xVals.length < 6 || yVals.length < 6) {
+                         resultados[calibKey] = { error: 'Se necesitan al menos 6 pares de valores numéricos (X, Y).' };
                          break;
                      }
                      const calib = calcularLimitesCalibracion(xVals, yVals);
@@ -1316,7 +1328,8 @@ resultados['Test de Signos'].columna1 = col1;
                                 if (dataMatrix.length < 5) {
                                     resultados['Análisis de Cluster'] = { error: 'Se necesitan al menos 5 observaciones completas' };
                                 } else {
-                                    const res = calcularCluster(dataMatrix, k);
+                                    const semilla = parseInt(hypothesisConfig['Análisis de Cluster']?.semilla, 10);
+                                    const res = calcularCluster(dataMatrix, k, isFinite(semilla) ? semilla : 12345);
                                     res.columnas = clusterColumns;
                                     resultados['Análisis de Cluster'] = res;
                                 }
@@ -1399,8 +1412,8 @@ resultados['Test de Signos'].columna1 = col1;
                             const col = cfg?.numericCol || numericCols[0];
                             const period = cfg?.periodo || Math.max(2, Math.floor(Math.sqrt(data.data.length)));
                             const values = getNumericValues(data, col);
-                            if (values.length < 10) {
-                                resultados['Series Temporales'] = { error: 'Se necesitan al menos 10 observaciones' };
+                            if (values.length < 20) {
+                                resultados['Series Temporales'] = { error: 'Se necesitan al menos 20 observaciones' };
                             } else {
                                 const res = calcularSeriesTemporales(values, period);
                                 res.columna = col;
@@ -1438,8 +1451,8 @@ resultados['Test de Signos'].columna1 = col1;
                                     if (grupoCol) gruposArr.push(row[grupoCol]);
                                 });
                                 const grupos = grupoCol ? gruposArr : null;
-                                if (tiempos.length < 5) {
-                                    resultados['Análisis de Supervivencia'] = { error: 'Se necesitan al menos 5 observaciones' };
+                                if (tiempos.length < 20) {
+                                    resultados['Análisis de Supervivencia'] = { error: 'Se necesitan al menos 20 observaciones' };
                                 } else {
                                     const res = calcularSupervivencia(tiempos, eventos, grupos);
                                     res.columnaTiempo = tiempoCol;
@@ -1471,8 +1484,8 @@ resultados['Test de Signos'].columna1 = col1;
                                     Y.push(v);
                                     grupos.push(row[catCol]);
                                 });
-                                if (Y.length < 10) {
-                                    resultados['Modelos Mixtos'] = { error: 'Se necesitan al menos 10 observaciones' };
+                                if (Y.length < 20) {
+                                    resultados['Modelos Mixtos'] = { error: 'Se necesitan al menos 20 observaciones' };
                                 } else {
                                     const res = calcularModelosMixtos(Y, null, grupos);
                                     res.columnaY = numCol;
@@ -1495,8 +1508,8 @@ resultados['Test de Signos'].columna1 = col1;
                                 varianza: parseFloat(cfg?.priorVarianza) || null
                             };
                             const values = getNumericValues(data, col);
-                            if (values.length < 5) {
-                                resultados['Análisis Bayesiano'] = { error: 'Se necesitan al menos 5 observaciones' };
+                            if (values.length < 15) {
+                                resultados['Análisis Bayesiano'] = { error: 'Se necesitan al menos 15 observaciones' };
                             } else {
                                 if (!prior.varianza) prior.varianza = calcularVarianza(values, true);
                                 const res = calcularBayesiano(values, prior);
@@ -1530,8 +1543,8 @@ resultados['Test de Signos'].columna1 = col1;
         return {
             columnasAnalizadas: numericCols,
             totalColumnas: numericCols.length,
-            totalFilas: data.rowCount,
-            totalDatos: data.rowCount * numericCols.length,
+            totalFilas: data.rowCount || (Array.isArray(data.data) ? data.data.length : 0),
+            totalDatos: (data.rowCount || (Array.isArray(data.data) ? data.data.length : 0)) * numericCols.length,
             registrosPorColumna: registrosPorColumna,
             estadisticos: estadisticos,
             resultados: resultados
@@ -1591,7 +1604,9 @@ function generarHTML(analisisResultado) {
         // PCA y Análisis Factorial tienen renderer propio más abajo.
         const esMultivariadoDirecto = statKey === 'PCA (Componentes Principales)' ||
             statKey === 'PCA' || statKey === 'Análisis Factorial';
-        if (HYPOTHESIS_SET.has(statKey) && !esMultivariadoDirecto) {
+        const esNormalidadDirecta = statKey === 'Test de Kolmogorov-Smirnov' ||
+            statKey === 'Test de Anderson-Darling' || statKey === "Test de D'Agostino-Pearson";
+        if ((HYPOTHESIS_SET.has(statKey) || esNormalidadDirecta) && !esMultivariadoDirecto) {
             return hypothesisKpiCards(statKey, data);
         }
 

@@ -175,6 +175,40 @@ describe('Integración — PCA y Análisis Factorial', () => {
   });
 });
 
+describe('Lote 4 — umbrales y determinismo', () => {
+  test('Series Temporales exige el mínimo del catálogo (20)', () => {
+    const rows = Array.from({ length: 10 }, (_, i) => ({ T: i + 1 }));
+    const res = ED.ejecutarAnalisis(
+      dataDe(rows, ['T']),
+      ['Series Temporales'],
+      { 'Series Temporales': { numericCol: 'T', periodo: 2 } }
+    );
+    expect(res.resultados['Series Temporales'].error).toContain('20');
+  });
+
+  test('Clúster con la misma semilla es reproducible', () => {
+    const rows = Array.from({ length: 12 }, (_, i) => ({ C1: i, C2: i * 2 + (i % 3) }));
+    const cfg = { 'Análisis de Cluster': { columnas: ['C1', 'C2'], k: 2, semilla: 42 } };
+    const a = ED.ejecutarAnalisis(dataDe(rows, ['C1', 'C2']), ['Análisis de Cluster'], cfg).resultados['Análisis de Cluster'];
+    const b = ED.ejecutarAnalisis(dataDe(rows, ['C1', 'C2']), ['Análisis de Cluster'], cfg).resultados['Análisis de Cluster'];
+    expect(a.error).toBeUndefined();
+    expect(a.semilla).toBe(42);
+    expect(a.inertia).toBe(b.inertia);
+    expect(Array.from(a.labels)).toEqual(Array.from(b.labels));
+  });
+
+  test('normalidad no paramétrica usa su renderer específico', () => {
+    const rows = Array.from({ length: 40 }, (_, i) => ({ V: 10 + (i % 7) }));
+    for (const stat of ['Test de Kolmogorov-Smirnov', 'Test de Anderson-Darling', "Test de D'Agostino-Pearson"]) {
+      const res = ED.ejecutarAnalisis(dataDe(rows, ['V']), [stat], {});
+      expect(res.resultados[stat].error).toBeUndefined();
+      const html = ED.generarHTML(res);
+      expect(html).not.toContain('Tipo de prueba no reconocido');
+      expect(html).not.toContain('ar-error');
+    }
+  });
+});
+
 describe('Registro de pruebas de hipótesis', () => {
   test('Pareto y Covarianza están en HYPOTHESIS_SET', () => {
     expect(HYPOTHESIS_SET.has('Diagrama de Pareto')).toBe(true);
