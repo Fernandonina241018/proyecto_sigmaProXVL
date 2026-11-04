@@ -108,9 +108,11 @@ describe('Catálogo de estadísticos — ejecución', () => {
     expect(nombres).toHaveLength(62);
   });
 
-  test.each(nombres)('%s se ejecuta sin lanzar', (nombre) => {
+  test.each(nombres)('%s se ejecuta sin lanzar y sin error', (nombre) => {
     expect(() => ejecutar(nombre)).not.toThrow();
-    expect(ejecutar(nombre)).toBeDefined();
+    const out = ejecutar(nombre);
+    expect(out).toBeDefined();
+    expect(out.error).toBeUndefined();
   });
 
   test.each(nombres)('%s se renderiza sin caer al genérico', (nombre) => {
@@ -124,14 +126,16 @@ describe('Catálogo de estadísticos — ejecución', () => {
     expect(html).not.toContain('[object Object]');
     expect(html).not.toContain('Tipo de prueba no reconocido');
     expect(html).not.toContain('Configuración no encontrada');
+    expect(html).not.toContain('ar-error');
   });
 });
 
 describe('Contrato `salidas`', () => {
   test.each(nombres)('%s declara las claves que devuelve', (nombre) => {
     const out = ejecutar(nombre);
+    expect(out).toBeDefined();
+    expect(out.error).toBeUndefined();
     const declaradas = CONFIG[nombre].salidas || [];
-    if (!out || out.error) return; // los errores explícitos se prueban aparte
     const inner = desanidar(nombre, out);
     if (inner == null) return;
     if (typeof inner !== 'object' || Array.isArray(inner)) {
