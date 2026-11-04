@@ -42,17 +42,17 @@
 | A4 | ANOVA One-Way/Kruskal sobrescriben `grupos` con etiquetas | **Corregido (Lote 2)** |
 | A5 | LDA aplica Jacobi a una matriz no simétrica | **Corregido (Lote 2)** |
 | A6 | MANOVA usa una aproximación F de Pillai no estándar | **Corregido (Lote 2)** |
-| A7 | `nivelAlfa`, `tipoTest`, `efectoTamano`, `advertencias` no se leen | Pendiente (metadata informativa) |
+| A7 | `nivelAlfa`, `tipoTest`, `efectoTamano`, `advertencias` no se leen | **Parcial (Lote 5): nivelAlfa aplicado; faltan tamaño de efecto, advertencias y tipoTest general** |
 | A8 | Badge de p-valor lee la primera clave (puede ser `prueba`) | **Corregido (Lote 2)** |
 
 ## 4. Medios/bajos
 
 - `generarReporte` duplicado y sin llamadas. **Corregido (Lote 3): queda una sola implementación.**
 - `tests/test-estadistica.js` llama funciones no públicas y no lo recoge Vitest. **Eliminado (Lote 3); su cobertura vive en Vitest.**
-- No determinismo en Clúster y Bootstrap (sin semilla). **Bootstrap y Clúster corregidos (Lotes 2 y 4); MCMC bayesiano sigue usando `Math.random`.**
-- Modales de normalidad piden columna que luego no se usa.
-- Renderers de K-S, Anderson-Darling, D'Agostino y Covarianza inalcanzables antes del Lote 1A.
-- `totalFilas` puede ser `NaN` si el llamador no pasa `rowCount`.
+- No determinismo en Clúster y Bootstrap (sin semilla). **Bootstrap, Clúster y MCMC corregidos (Lotes 2, 4 y 5).**
+- Modales de normalidad piden columna que luego no se usa. **Corregido (Lote 5): Normalidad y Shapiro ya no piden configuración.**
+- Renderers de K-S, Anderson-Darling, D'Agostino y Covarianza inalcanzables antes del Lote 1A. **Corregido en Lotes 1A y 4.**
+- `totalFilas` puede ser `NaN` si el llamador no pasa `rowCount`. **Corregido (Lote 4) con fallback.**
 
 ## 5. Causa raíz de la deuda
 
@@ -93,6 +93,13 @@ Los defectos C1–C7 viven exactamente en esa capa.
 - `minMuestra`/`maxMuestra` cuentan observaciones válidas de las columnas configuradas.
 - `totalFilas` usa `rowCount` o, si falta, el número de filas.
 - Tests: Series con 10 filas falla, Clúster reproducible, normalidad no paramétrica sin genérico.
+
+### Lote 5 — A7 parcial y determinismo MCMC (este PR)
+- `nivelAlfa`: campo en el modal de configuración y post-proceso de `significativo`/`esNormal` e interpretaciones.
+- MCMC bayesiano con PRNG determinista y semilla; devuelve `semilla`.
+- Normalidad y Shapiro-Wilk ya no abren modal ni piden columna.
+- Tests: α 0.05 vs 0.01, MCMC reproducible, Normalidad fuera de `HYPOTHESIS_SET`.
+- Pendiente A7: cálculo de tamaño de efecto, advertencias automáticas y `tipoTest` para todos los contrastes.
 
 ## 7. Criterios de aceptación
 

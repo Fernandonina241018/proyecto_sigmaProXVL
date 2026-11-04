@@ -462,6 +462,12 @@ function _mostrarModalConfigTest(nombre, callback, existingConfig) {
     modalContent =
       '<div style="display:flex;flex-direction:column;gap:4px"><label style="font-size:11px;color:var(--text-primary)">Columna de valores (numérica)</label><p style="font-size:0.75rem;color:#666;margin:0 0 4px;line-height:1.3">' + hlp.colNum + '</p><select id="cfgColNum" class="btn" style="width:100%;text-align:left">' + optsN + '</select></div>';
   }
+  if (cfg.nivelAlfa) {
+    modalContent +=
+      '<div style="margin-top:8px"><label style="font-size:11px;color:var(--text-primary)">Nivel de significancia (α)</label>' +
+      '<p style="font-size:0.75rem;color:#666;margin:0 0 4px;line-height:1.3">Umbral para decidir significancia (por defecto ' + cfg.nivelAlfa + ').</p>' +
+      '<input id="cfgNivelAlfa" type="number" value="' + cfg.nivelAlfa + '" min="0.001" max="0.2" step="0.005" style="width:100%;padding:6px 8px;border:1.5px solid var(--border);border-radius:6px;background:var(--bg-primary);color:var(--text-primary);font-size:0.85rem"></div>';
+  }
   var modal = document.createElement('div'); modal.className = 'modal-overlay';
   modal.innerHTML =
     '<div class="modal-box" style="max-width:480px">' +
@@ -485,6 +491,7 @@ function _mostrarModalConfigTest(nombre, callback, existingConfig) {
       numericCol: 'cfgColNum', grado: 'cfgGrado', periodo: 'cfgPeriodo',
       delta: 'cfgDelta', priorMedia: 'cfgPriorMedia', priorVarianza: 'cfgPriorVar',
       mediaHipotesis: 'cfgMediaHipotesis', alternativa: 'cfgAlternativa',
+      nivelAlfa: 'cfgNivelAlfa',
       estadistico: 'cfgEstadistico', iteraciones: 'cfgIteraciones',
       nivelConfianza: 'cfgNivelConfianza', semilla: 'cfgSemilla'
     };
@@ -567,6 +574,11 @@ function _mostrarModalConfigTest(nombre, callback, existingConfig) {
       }
     } else {
       config.numericCol = document.getElementById('cfgColNum').value;
+    }
+    var alfaEl = document.getElementById('cfgNivelAlfa');
+    if (alfaEl) {
+      var alfaVal = parseFloat(alfaEl.value);
+      if (isFinite(alfaVal) && alfaVal > 0 && alfaVal < 1) config.nivelAlfa = alfaVal;
     }
     StateManager.setHypothesisConfig(nombre, config);
     modal.remove();
