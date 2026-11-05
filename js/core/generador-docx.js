@@ -24,7 +24,12 @@ const GeneradorDocx = (() => {
 
   // Salto previo por tabla de ensayo: 'ENSAYO_ID:TIPO' o '*:TIPO' (conclusion,
   // verificacion, registro, modelo). Empieza con conclusiones.
-  const SALTO_TABLA = {};
+  const SALTO_TABLA = {
+    '*:conclusion': false,
+    '*:verificacion': true,
+    '*:registro': true,
+    '*:modelo': true
+  };
   const debeSaltarTabla = (id, tipo) => {
     const v = SALTO_TABLA[String(id) + ':' + tipo];
     if (v !== undefined) return !!v;
@@ -431,6 +436,8 @@ const GeneradorDocx = (() => {
     });
     const TABLA = (headers, rows) => {
       const rs = [headers].concat(rows).map((r, ri) => new D.TableRow({
+        tableHeader: ri === 0,
+        cantSplit: true,
         children: r.map((c) => cellTxt(c, ri === 0, ri === 0)),
       }));
       kids.push(new D.Table({ rows: rs }));
@@ -446,6 +453,7 @@ const GeneradorDocx = (() => {
     };
     const TABLA_CONC = () => {
       const R = (cells) => new D.TableRow({
+        cantSplit: true,
         children: cells.map(([t, span]) => new D.TableCell({
           children: [new D.Paragraph({ children: [new D.TextRun({ text: t, font: 'Tahoma', size: 22 })] })],
           columnSpan: span > 1 ? span : undefined,
@@ -463,6 +471,12 @@ const GeneradorDocx = (() => {
     };
     const ensayoADoc = (it, ctx) => {
       H2(it.num + ' — ' + tituloLimpioDQ(it.articulo || it), debeSaltar(it.articulo));
+      let saltoTablaHecho = false;
+      const abrirPaginaTabla = (tipo) => {
+        if (saltoTablaHecho || !debeSaltarTabla(it.articulo.id, tipo)) return;
+        kids.push(new D.Paragraph({ pageBreakBefore: true, children: [new D.TextRun({ text: '', font: 'Tahoma', size: 22 })] }));
+        saltoTablaHecho = true;
+      };
       (it.articulo.secciones || []).forEach((s) => {
         // Etiqueta 'Objetivo:' sola en su línea (igual que en vía plantilla) + texto debajo
         if (/^objetivo/i.test(s.et || '')) P([{ t: 'Objetivo:', b: true }]);
@@ -474,6 +488,7 @@ const GeneradorDocx = (() => {
           });
       });
       if (it.articulo.tabla && !it.sinConclusion) {
+        abrirPaginaTabla('modelo');
         const tb = it.articulo.tabla;
         TABLA(tb.headers, tb.rows);
       }
@@ -481,12 +496,14 @@ const GeneradorDocx = (() => {
         const pts = puntosEvidencia(it.articulo);
         const titulo = 'Tabla — ' + it.num;
         const filas = pts.length ? pts.map((p) => [p, p, 'C   NC   NA']) : [['Ver criterios del ensayo', 'Ver criterios del ensayo', 'C   NC   NA']];
+        abrirPaginaTabla('verificacion');
         TABLA([titulo, it.titulo, 'Cumple (C) / No Cumple (NC)'], filas);
         if (debeSaltarTabla(it.articulo.id, 'conclusion')) {
           kids.push(new D.Paragraph({ pageBreakBefore: true, children: [new D.TextRun({ text: '', font: 'Tahoma', size: 22 })] }));
         }
         TABLA_CONC();
       } else if (it.articulo.tabla) {
+        abrirPaginaTabla('modelo');
         const tb = it.articulo.tabla;
         TABLA(tb.headers, tb.rows);
       }

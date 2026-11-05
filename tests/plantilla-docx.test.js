@@ -438,6 +438,23 @@ describe('SALTO_TABLA: salto previo en conclusiones (prueba inicial)', () => {
     });
   });
 
+  test('defaults: verificación/registro/modelo abren página; conclusión no', () => {
+    expect(P._interno.debeSaltarTabla('X', 'verificacion')).toBe(true);
+    expect(P._interno.debeSaltarTabla('X', 'registro')).toBe(true);
+    expect(P._interno.debeSaltarTabla('X', 'modelo')).toBe(true);
+    expect(P._interno.debeSaltarTabla('X', 'conclusion')).toBe(false);
+  });
+
+  test('la tabla de verificación abre página y repite cabecera sin partir filas', async () => {
+    const xml = await genPQ();
+    const tablas = [...xml.matchAll(/<w:tbl\b[\s\S]*?<\/w:tbl>/g)]
+      .filter((m) => m[0].includes('Tabla ') && !m[0].includes('CONCLUSI'));
+    expect(tablas.length).toBeGreaterThan(0);
+    expect(previaConSalto(xml, tablas[0])).toBe(true);
+    expect(xml).toContain('<w:tblHeader');
+    expect(xml).toContain('<w:cantSplit');
+  });
+
   test('default: ninguna conclusión con salto previo', async () => {
     await conTabla({}, async () => {
       const xml = await genPQ();

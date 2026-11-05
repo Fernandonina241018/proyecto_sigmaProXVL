@@ -311,6 +311,24 @@ describe('SALTO_TABLA en DQ: salto previo en conclusiones (prueba inicial)', () 
       }
     });
   }, 30000);
+
+  test('defaults: verificación/registro/modelo abren página; conclusión no', () => {
+    expect(GeneradorDocx.SALTO_TABLA['*:verificacion']).toBe(true);
+    expect(GeneradorDocx.SALTO_TABLA['*:registro']).toBe(true);
+    expect(GeneradorDocx.SALTO_TABLA['*:modelo']).toBe(true);
+    expect(GeneradorDocx.SALTO_TABLA['*:conclusion']).toBe(false);
+  });
+
+  test('la tabla de evidencia abre página y repite cabecera sin partir filas', async () => {
+    const bs = await bloquesDe('OQ');
+    const ver = bs.filter((b) => b.startsWith('<w:tbl') && b.includes('C   NC   NA'));
+    expect(ver.length).toBeGreaterThan(0);
+    const previo = bs[bs.indexOf(ver[0]) - 1];
+    expect(previo.startsWith('<w:p') && previo.includes('pageBreakBefore')).toBe(true);
+    const xml = bs.join('');
+    expect(xml).toContain('<w:tblHeader');
+    expect(xml).toContain('<w:cantSplit');
+  }, 30000);
 });
 
 describe('data-analisis en almacenes: paso + entregable estadístico', () => {

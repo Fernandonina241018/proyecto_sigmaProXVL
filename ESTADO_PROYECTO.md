@@ -90,6 +90,34 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (SigmaProXVL) con spr
 
 ## CAMBIOS RECIENTES
 
+### 2026-11-04 (237): Tablas de ensayo en página propia (opción B)
+
+**Qué:** Cada tabla de ensayo (verificación, registro o clonada del modelo) abre página nueva; la conclusión sigue debajo si cabe. Se aplica a la vía plantilla IQ/OQ/PQ y al DQ de almacenes.
+
+- **`SALTO_TABLA`:** `verificacion`, `registro` y `modelo` activados; `conclusion` desactivado.
+- **Plantilla:** salto antes de la tabla del modelo y antes de verificación/registro.
+- **DQ:** salto antes de la primera tabla del ensayo (modelo/evidencia).
+- **Tablas largas:** fila de cabecera repetida (`tblHeader`) y filas sin partir (`cantSplit`).
+- **Overrides por entidad:** `'ENSAYO_ID:verificacion'` sigue ganando al comodín.
+
+**Archivos afectados:**
+| Archivo | Cambio |
+|---------|--------|
+| `js/core/plantilla-docx.js` | Defaults de `SALTO_TABLA`, saltos y `marcarTablaLarga` |
+| `js/core/generador-docx.js` | Salto en DQ y cabecera/filas de tabla |
+| `tests/plantilla-docx.test.js` | Defaults, salto y cabecera |
+| `tests/generador-docx.test.js` | Defaults y salto en DQ |
+
+**Verificación:**
+```
+node --check → OK
+Vitest dirigido → 76/76
+Vitest completo → 59 archivos, 924/924
+typecheck → OK
+```
+
+**Efecto:** ~2 páginas por ensayo (texto + tabla/conclusión), sin el casi-duplicado de la opción A.
+
 ### 2026-11-04 (236): Eliminado el botón "Imprimir" viejo de la vista de firma
 
 **Qué:** Se borra definitivamente el botón `🖨️ Imprimir` de la cabecera de "Vista previa del reporte" (estaba oculto con `display:none` desde el 2026-10-27) y su función `firmaPrint()`, que quedaba huérfana.
