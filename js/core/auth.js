@@ -1300,13 +1300,14 @@ const Auth = (() => {
             </div>`;
 
         const totpInput = document.getElementById('auth-totp');
+        const btn2fa = document.getElementById('auth-btn-2fa');
+        const btn2faText = document.getElementById('auth-btn-2fa-text');
+        let autoTimer = null;
         totpInput.focus();
 
         document.getElementById('auth-btn-2fa').addEventListener('click', async function() {
             const code = totpInput.value.trim();
             const errorEl = document.getElementById('auth-2fa-error');
-            const btn2faText = document.getElementById('auth-btn-2fa-text');
-            const btn2fa = document.getElementById('auth-btn-2fa');
 
             if (!code || code.length !== 6 || !/^\d{6}$/.test(code)) {
                 errorEl.textContent = '❌ Ingresa un código válido de 6 dígitos.';
@@ -1334,7 +1335,16 @@ const Auth = (() => {
         });
 
         totpInput.addEventListener('input', function() {
+            var limpio = String(this.value || '').replace(/\D/g, '').slice(0, 6);
+            if (this.value !== limpio) this.value = limpio;
             _setAuthProgress('');
+            clearTimeout(autoTimer);
+            // Envío automático al completar los 6 dígitos (también al pegar).
+            if (limpio.length === 6) {
+                autoTimer = setTimeout(function() {
+                    if (!btn2fa.disabled) btn2fa.click();
+                }, 250);
+            }
         });
 
         totpInput.addEventListener('keydown', function(e) {

@@ -132,6 +132,31 @@ describe('login real — fases de progreso', () => {
     expect(progress.textContent).toContain('Cargando perfil y sesión');
   });
 
+  test('2FA: el sexto dígito envía el código automáticamente', async () => {
+    let calls = 0;
+    const { window, document, Auth } = loadAuth({
+      variant: 'v2',
+      fetchImpl: async () => {
+        calls++;
+        if (calls === 1) {
+          return { ok: true, json: async () => ({ requires2FA: true, tempToken: 'tmp', username: 'ana', role: 'analista' }) };
+        }
+        return { ok: true, json: async () => ({ username: 'ana', role: 'analista', token: 'tok' }) };
+      },
+    });
+    Auth.showLogin();
+    fillAndSubmit(document);
+    await tick(10);
+
+    const input = document.getElementById('auth-totp');
+    input.value = '123456';
+    input.dispatchEvent(new window.Event('input', { bubbles: true }));
+    await tick(320);
+
+    expect(calls).toBe(2);
+    expect(document.getElementById('auth-progress').textContent).toContain('Código válido');
+  });
+
   test('2FA incorrecto: fase en rojo y el texto del servidor no se interpreta como HTML', async () => {
     let calls = 0;
     const { document, Auth } = loadAuth({
