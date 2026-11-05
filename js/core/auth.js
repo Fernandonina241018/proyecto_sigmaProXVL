@@ -96,7 +96,7 @@ const Auth = (() => {
             if (!res.ok) return { ok: false, error: data.error || 'Credenciales incorrectas' };
             if (data.requires2FA) {
                 _tempToken = data.tempToken;
-                return { ok: true, requires2FA: true, username: data.username, role: data.role, tempToken: data.tempToken };
+                return { ok: true, requires2FA: true, username: data.username, role: data.role, tempToken: data.tempToken, hasWebAuthn: !!data.hasWebAuthn };
             }
             _token = data.token;
             // FIX SEGURIDAD #1: defaultPassword ya no se retorna del backend (generada aleatoriamente)
@@ -1242,7 +1242,7 @@ const Auth = (() => {
             }
             if (result.requires2FA) {
                 _setAuthProgress('info', 'Te enviamos al segundo paso.', 'El código caduca en 30 s.', false);
-                _show2FAInput(user, pass);
+                _show2FAInput(user, pass, { hasWebAuthn: result.hasWebAuthn });
                 if(btnText) btnText.textContent='Iniciar sesión';
                 btn.disabled=false;
                 return;
@@ -1270,16 +1270,24 @@ const Auth = (() => {
         }
     }
 
-    function _show2FAInput(username, password) {
+    function _show2FAInput(username, password, opts) {
         const formArea = document.getElementById('auth-form-area');
         if (!formArea) return;
+        const opciones = opts || {};
         formArea.innerHTML = `
             <div style="text-align:center;padding:10px 0;">
                 <div style="font-size:2rem;margin-bottom:8px;">🔐</div>
                 <h3 style="margin:0 0 4px 0;color:var(--text-primary,#1e293b);font-size:1rem;">Autenticación de dos factores</h3>
                 <p style="margin:0 0 16px 0;color:var(--text-secondary,#64748b);font-size:0.85rem;">
-                    Ingresa el código de 6 dígitos de tu aplicación autenticadora.
+                    Confirma con tu passkey o ingresa el código de 6 dígitos de tu aplicación autenticadora.
                 </p>
+                <div id="auth-passkey-area" style="display:none;margin-bottom:14px;">
+                    <button class="auth-btn-login" id="auth-btn-passkey" type="button">
+                        <span id="auth-btn-passkey-text">Usar huella o rostro</span>
+                        <span class="auth-btn-arrow">→</span>
+                    </button>
+                    <div style="margin-top:10px;font-size:0.75rem;color:var(--text-secondary,#64748b);">o ingresa el código de tu app</div>
+                </div>
                 <div class="auth-field">
                     <div class="auth-input-wrap has-icon">
                         <span class="auth-input-icon">🔑</span>
@@ -1304,6 +1312,42 @@ const Auth = (() => {
         const btn2faText = document.getElementById('auth-btn-2fa-text');
         let autoTimer = null;
         totpInput.focus();
+
+        // ── Passkey (si el usuario tiene una registrada y el navegador la soporta) ──
+        const passkeyArea = document.getElementById('auth-passkey-area');
+        const btnPasskey = document.getElementById('auth-btn-passkey');
+        const btnPasskeyText = document.getElementById('auth-btn-passkey-text');
+        const passkeyDisponible = !!opciones.hasWebAuthn
+            && typeof WebAuthn !== 'undefined'
+            && WebAuthn.soportado();
+        if (passkeyArea && passkeyDisponible) passkeyArea.style.display = 'block';
+
+        if (btnPasskey) {
+            btnPasskey.addEventListener('click', async function() {
+                const errorEl = document.getElementById('auth-2fa-error');
+                if (errorEl) errorEl.style.display = 'none';
+                btnPasskey.disabled = true;
+                btnPasskeyText.textContent = 'Esperando al dispositivo…';
+                _setAuthProgress('info', 'Verificando passkey…', 'Confirma con tu huella, rostro o llave de seguridad.', true);
+
+                const result = await WebAuthn.autenticar({ tempToken: _tempToken });
+                if (result.ok) {
+                    _tempToken = null;
+                    _token = result.token;
+                    _setAuthProgress('ok', 'Passkey verificada.', 'Cargando perfil y sesión…', false);
+                    _show2FASuccess(result);
+                    return;
+                }
+                _setAuthProgress('error', 'Passkey no verificada.', '', false);
+                if (errorEl) {
+                    errorEl.textContent = '❌ ' + (result.error || 'No se pudo usar la passkey.') + ' Usa el código de tu app.';
+                    errorEl.style.display = 'block';
+                }
+                btnPasskey.disabled = false;
+                btnPasskeyText.textContent = 'Usar huella o rostro';
+                totpInput.focus();
+            });
+        }
 
         document.getElementById('auth-btn-2fa').addEventListener('click', async function() {
             const code = totpInput.value.trim();
@@ -1718,7 +1762,35 @@ const Auth = (() => {
         } catch { return { error: 'Error de conexión' }; }
     }
 
-    return { init, showLogin, logout, keepAlive, getSession, isAuthenticated, getToken, get2FAStatus, setup2FA, enable2FA, disable2FA, getArea, selectArea, getLoginVariant, setLoginVariant };
+    // ── Passkeys API pública ─────────────────
+    function passkeysDisponibles() {
+        try {
+            return typeof WebAuthn !== 'undefined' && WebAuthn.soportado();
+        } catch (e) { return false; }
+    }
+
+    function registrarPasskey(password, deviceName) {
+        if (typeof WebAuthn === 'undefined') {
+            return Promise.resolve({ ok: false, error: 'Passkeys no disponibles en este navegador.' });
+        }
+        return WebAuthn.registrar({ password: password, deviceName: deviceName });
+    }
+
+    function listarPasskeys() {
+        if (typeof WebAuthn === 'undefined') {
+            return Promise.resolve({ ok: false, credentials: [], error: 'Passkeys no disponibles en este navegador.' });
+        }
+        return WebAuthn.listar();
+    }
+
+    function eliminarPasskey(credentialId) {
+        if (typeof WebAuthn === 'undefined') {
+            return Promise.resolve({ ok: false, error: 'Passkeys no disponibles en este navegador.' });
+        }
+        return WebAuthn.eliminar(credentialId);
+    }
+
+    return { init, showLogin, logout, keepAlive, getSession, isAuthenticated, getToken, get2FAStatus, setup2FA, enable2FA, disable2FA, passkeysDisponibles, registrarPasskey, listarPasskeys, eliminarPasskey, getArea, selectArea, getLoginVariant, setLoginVariant };
 
 })();
 

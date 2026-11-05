@@ -90,6 +90,47 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (SigmaProXVL) con spr
 
 ## CAMBIOS RECIENTES
 
+### 2026-11-05 (241): Passkeys/WebAuthn como segundo factor rápido (TOTP de respaldo)
+
+**Qué:** Se añadió soporte de passkeys (huella, rostro o llave de seguridad) como alternativa rápida al código TOTP. El TOTP sigue siendo obligatorio como respaldo antes de registrar una passkey.
+
+- **Backend:** `@simplewebauthn/server@14.0.3`; tablas `webauthn_credentials` y `webauthn_challenges` (PostgreSQL y store JSON local). Endpoints `register/options|verify`, `login/options|verify`, `GET/DELETE credentials`.
+- **Seguridad:** registro exige sesión + contraseña actual + TOTP activo; challenge de un solo uso con TTL de 5 min; `requireUserVerification: true`; RP ID/origen configurables por entorno; el contador se actualiza tras cada login.
+- **Login:** la respuesta de `/api/login` expone `hasWebAuthn`; el segundo paso ofrece “Usar huella o rostro” y mantiene el campo TOTP.
+- **Perfil:** sección Passkeys en “Mi Perfil” para registrar, listar y eliminar credenciales.
+- **Frontend:** `js/core/webauthn.js` convierte base64url ↔ ArrayBuffer y usa `navigator.credentials`.
+
+**Archivos afectados:**
+| Archivo | Cambio |
+|---------|--------|
+| `backend/database.js` | Tablas/índices WebAuthn + CRUD y challenges en ambos stores |
+| `backend/server.js` | Config RP/origen, `hasWebAuthn`, 6 endpoints WebAuthn |
+| `backend/package.json` / `package-lock.json` | `@simplewebauthn/server@14.0.3` |
+| `js/core/webauthn.js` | Nuevo módulo de passkeys del navegador |
+| `js/core/auth.js` | Botón de passkey en 2FA + API pública de gestión |
+| `js/core/indexx-ui.js` | Sección Passkeys en el modal de perfil |
+| `indexx.html` | Carga de `js/core/webauthn.js` |
+| `tests/webauthn.test.js` | 11 tests de conversión y flujos |
+| `tests/auth-login-fases.test.js` | 3 tests de UI (visible/oculto/fallo con fallback) |
+| `backend/tests/webauthn.test.js` | 12 tests de store y contrato de endpoints |
+| `e2e/passkeys.spec.js` | E2E con autenticador virtual CDP |
+| `playwright.config.js` | `WEBAUTHN_RP_ID=localhost`, `WEBAUTHN_ORIGIN=http://localhost:5510` |
+
+**Verificación:**
+```
+node --check → OK
+Vitest → 61 archivos, 1000 tests OK
+Backend → 135 tests OK
+Playwright → 13 tests OK (incluye passkey + respaldo TOTP)
+```
+
+**Despliegue (Fly):**
+```bash
+fly secrets set WEBAUTHN_RP_ID=fernandonina241018.github.io
+fly secrets set WEBAUTHN_ORIGIN=https://fernandonina241018.github.io
+```
+Sin esos secretos el backend usa `localhost` y las passkeys de producción no validan.
+
 ### 2026-11-05 (240): 2FA — envío automático del código TOTP
 
 **Qué:** Al completar o pegar los 6 dígitos del TOTP, el login envía el código automáticamente tras 250 ms. Se mantiene Enter y el fallback manual.

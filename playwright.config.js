@@ -38,6 +38,9 @@ module.exports = defineConfig({
         DB_FILE: E2E_DB_FILE,
         // El E2E corre en 5510 → su origen debe estar permitido.
         CORS_ORIGINS: 'http://localhost:5510,http://127.0.0.1:5510',
+        // Passkeys en localhost: RP ID sin puerto y origen exacto del frontend.
+        WEBAUTHN_RP_ID: 'localhost',
+        WEBAUTHN_ORIGIN: 'http://localhost:5510',
       },
     },
     {
