@@ -90,6 +90,38 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (SigmaProXVL) con spr
 
 ## CAMBIOS RECIENTES
 
+### 2026-11-04 (238): Protocolo maestro F0+F1 — bloques 6/8 y requisitos previos
+
+**Qué:** Se implementa la base del protocolo maestro IQ/OQ/PQ para las 9 familias prioritarias.
+
+- **F0:** `docs/banco-ensayos/PROTOCOLO_MAESTRO.md` con los 8 bloques, ficha homogénea, reglas de referencias/anexos y criterios de aceptación.
+- **F1:** bloques 6 (referencias) y 8 (anexos) en 18 documentos OQ/PQ (9 familias × 2 fases), con base GMP/GAMP/Part 11/manual del fabricante y la fila específica marcada como **PENDIENTE DEL RESPONSABLE**.
+- **Requisitos previos:** nuevos `EQ-OQ-REQ` y `EQ-PQ-REQ` comunes.
+- **Anexos:** A–D mínimos (calibraciones, planos, data cruda/desviaciones, RTM).
+- **Validador:** `npm run protocolo:check` comprueba bloques 6/8, ausencia de USP <1058> y referencias pendientes.
+- **Limpieza:** eliminadas 40 fichas legacy duplicadas de `docs/banco-ensayos/equipos/` tras verificar que no tenían enlaces externos.
+- **Banco regenerado:** 941 artículos, 941 IDs únicos.
+
+**Archivos afectados:**
+| Archivo | Cambio |
+|---------|--------|
+| `docs/banco-ensayos/PROTOCOLO_MAESTRO.md` | **Nuevo** |
+| `scripts/validar-protocolo.mjs` | **Nuevo** validador |
+| `docs/banco-ensayos/equipos/oq-*.html`, `pq-*.html` | Bloques 6/8 en 18 documentos |
+| `docs/banco-ensayos/equipos/oq-comun.html`, `pq-comun.html` | `EQ-OQ-REQ` / `EQ-PQ-REQ` |
+| `docs/banco-ensayos/equipos/*.html` legacy | 40 archivos eliminados |
+| `js/core/banco-equipos-data.js` | Regenerado (941 artículos) |
+| `package.json` | Script `protocolo:check` |
+
+**Verificación:**
+```
+protocolo:check → OK (18 warnings de normas específicas pendientes)
+Vitest → 59 archivos, 926 tests OK
+preflight → OK (12 E2E)
+```
+
+**Pendiente:** que el responsable complete las normas específicas de cada familia (fila 6.6) y las 9 familias restantes.
+
 ### 2026-11-04 (237): Tablas de ensayo en página propia (opción B)
 
 **Qué:** Cada tabla de ensayo (verificación, registro o clonada del modelo) abre página nueva; la conclusión sigue debajo si cabe. Se aplica a la vía plantilla IQ/OQ/PQ y al DQ de almacenes.

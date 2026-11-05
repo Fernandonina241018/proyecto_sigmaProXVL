@@ -699,6 +699,24 @@ describe('Objetivo en su propia línea (requisitos del modelo)', () => {
   });
 });
 
+describe('OQ/PQ tableteadora: referencias y anexos completos', () => {
+  const DRAFT_TB = { ...DRAFT, descripcion: 'Tableteadora rotativa', tipo: 'Equipo de producción' };
+  const ENT_TB = { id: 'tableteadora', nombre: 'Tableteadora rotativa' };
+
+  for (const fase of ['OQ', 'PQ']) {
+    test(`${fase} incluye bloque 6/8 y no cita USP <1058>`, async () => {
+      const u8 = new Uint8Array(readFileSync(resolve(raiz, P.PLANTILLAS[fase])));
+      const r = await P.generar(fase, u8, banco, DRAFT_TB, ENT_TB, 'ambas');
+      const arch = Object.fromEntries((await P._interno.leerZip(r.bytes)).map((a) => [a.nombre, dec(a.datos)]));
+      const doc = arch['word/document.xml'].replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ');
+      expect(doc).toContain('EU GMP ANEXO 15');
+      expect(doc).toContain('PENDIENTE DEL RESPONSABLE');
+      expect(doc).toContain('ANEXOS');
+      expect(doc).toContain('Anexo A');
+    });
+  }
+});
+
 describe('títulos sin código de banco (código solo en Resumen)', () => {
   test('OQ balanza: EQ-OQ-COM-001 fuera del título 7.x', async () => {
     const u8 = new Uint8Array(readFileSync(resolve(raiz, P.PLANTILLAS.OQ)));
