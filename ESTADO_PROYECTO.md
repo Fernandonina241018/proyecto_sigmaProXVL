@@ -129,7 +129,7 @@ Playwright → 13 tests OK (incluye passkey + respaldo TOTP)
 fly secrets set WEBAUTHN_RP_ID=fernandonina241018.github.io
 fly secrets set WEBAUTHN_ORIGIN=https://fernandonina241018.github.io
 ```
-Sin esos secretos el backend usa `localhost` y las passkeys de producción no validan.
+Sin esos secretos el backend usa `localhost` y las passkeys de producción no validan. Las variables también están documentadas en `backend/.env.example`.
 
 ### 2026-11-05 (240): 2FA — envío automático del código TOTP
 
