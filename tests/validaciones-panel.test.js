@@ -146,9 +146,17 @@ describe('Validaciones V7', () => {
       expect(Validaciones.contarGen('PQ', 'ambas', 'sistemas', 'vapor-limpio')).toBe(25);
       expect(Validaciones.contarGen('OQ', 'ambas', 'sistemas', 'aire-comprimido')).toBe(38);
       expect(Validaciones.contarGen('PQ', 'ambas', 'sistemas', 'aire-comprimido')).toBe(28);
+      expect(Validaciones.contarGen('IQ', 'ambas', 'sistemas', 'agua-purificada')).toBeGreaterThan(0);
+      expect(Validaciones.contarGen('IQ', 'ambas', 'sistemas', 'hvac')).toBeGreaterThan(0);
       expect(Validaciones.tieneBancoFam('OQ', 'sistemas', 'agua-purificada')).toBe(true);
       expect(Validaciones.tieneBancoFam('PQ', 'sistemas', 'hvac')).toBe(true);
     } finally { delete globalThis.BancoSistemas; }
+  });
+
+  test('sistemas: fase IQ cableada (DQ+IQ+OQ+PQ)', () => {
+    expect(Validaciones.GEN_FASES.sistemas).toEqual(['DQ', 'IQ', 'OQ', 'PQ']);
+    const html = Validaciones.viewEntidad('sistemas');
+    expect(html).toContain('value="IQ"');
   });
 
   test('sistemas: esquema trae código y ubicación (blindaje de generar)', () => {

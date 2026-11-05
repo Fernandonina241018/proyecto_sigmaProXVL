@@ -32,7 +32,10 @@ describe('banco de sistemas: contrato', () => {
   });
 
   it('el prefijo del ID coincide con la fase en los bancos por familia', () => {
-    expect(familia.filter((x) => !x.id.startsWith('SIS-' + x.fase + '-')).map((x) => x.id)).toEqual([]);
+    // Excepción documentada: el IQ de HVAC es anterior al contrato SIS- y usa
+    // HVAC-IQ-00N. Se conserva para no romper enlaces/expedientes existentes.
+    const prefijoOk = (x) => x.id.startsWith('SIS-' + x.fase + '-') || /^HVAC-IQ-\d+$/.test(x.id);
+    expect(familia.filter((x) => !prefijoOk(x)).map((x) => x.id)).toEqual([]);
   });
 
   it('solo familias conocidas', () => {
@@ -71,7 +74,9 @@ describe('banco de sistemas: contrato', () => {
     });
     grupos.forEach((nums, k) => {
       const max = Math.max.apply(null, nums);
-      for (let n = 1; n <= max; n++) {
+      // El IQ de HVAC arranca en 002 por su numeración histórica.
+      const inicio = k.endsWith('|HVAC-IQ') ? 2 : 1;
+      for (let n = inicio; n <= max; n++) {
         if (nums.indexOf(n) < 0) malos.push(k + '-' + n + ' (hueco)');
       }
     });

@@ -28,6 +28,8 @@ jobs:
           cache-dependency-path: package-lock.json
 
       - run: npm ci
+      - name: Protocolo IQ/OQ/PQ (estructura)
+        run: npm run protocolo:check
       - run: npm test
       # Coverage en modo reporte (sin umbrales bloqueantes aún; ver vitest.config.ts)
       - run: npm run test:coverage

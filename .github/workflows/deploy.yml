@@ -26,6 +26,8 @@ jobs:
           cache: 'npm'
           cache-dependency-path: package-lock.json
       - run: npm ci
+      - name: Protocolo IQ/OQ/PQ (estructura)
+        run: npm run protocolo:check
       - name: Frontend unit (vitest)
         run: npm test
       - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0

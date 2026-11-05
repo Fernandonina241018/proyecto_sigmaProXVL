@@ -653,8 +653,34 @@ describe('puntosTabla: analisis → tabla de recolección vacía', () => {
     expect(P._interno.puntosTabla({ id: 'X' }, e)).toEqual(['a', 'b']);
   });
 
-  test('en docx: tabla de ensayo con analisis sale vacía; sin analisis repite procedimiento', async () => {
+  test('F2: los criterios mandan sobre los pasos del procedimiento', () => {
+    const e = {
+      procedimiento: [{ nivel: 0, t: 'paso 1' }, { nivel: 0, t: 'paso 2' }, { nivel: 0, t: 'paso 3' }],
+      criterios: ['criterio A', 'criterio B'],
+    };
+    expect(P._interno.puntosVerificacion(e)).toEqual(['criterio A', 'criterio B']);
+    expect(P._interno.puntosTabla({ id: 'X', analisis: 'si' }, e)).toEqual(['', '']);
+  });
+
+  test('F2: cabecera declara criticidad, prerrequisitos e instrumentos sin inventar', () => {
+    const conDatos = P._interno.cabeceraResultado({
+      criticidad: 'Crítica', prerrequisitos: 'IQ aprobada', instrumentos: 'Termopar calibrado',
+    });
+    expect(conDatos).toContain('Criticidad: Crítica');
+    expect(conDatos).toContain('Prerrequisitos: IQ aprobada');
+    expect(conDatos).toContain('Instrumentos: Termopar calibrado');
+    const sinDatos = P._interno.cabeceraResultado({});
+    expect(sinDatos).toContain('Por definir por el responsable');
+    expect(sinDatos).toContain('Bloque 2');
+  });
+
+  test('en docx: tabla de ensayo con analisis sale vacía; sin analisis usa criterios', async () => {
     const xml = await genPQ();
+    const plano = xml.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ');
+    expect(plano).toContain('Cabecera del resultado:');
+    expect(plano).toContain('Criticidad:');
+    expect(plano).toContain('Prerrequisitos:');
+    expect(plano).toContain('Instrumentos:');
     const tbls = [...xml.matchAll(/<w:tbl\b[\s\S]*?<\/w:tbl>/g)].map((m) => m[0]);
     // solo tablas de verificación (caption Tabla 7.N-1): el TOC también lista títulos
     const porTitulo = (t) => tbls.find((x) => {
@@ -672,10 +698,14 @@ describe('puntosTabla: analisis → tabla de recolección vacía', () => {
       expect(c.length).toBeGreaterThanOrEqual(2);
       expect(c[1]).toBe('');
     }
-    // EQ-PQ-LF-001 tres lotes (sin analisis): repite el procedimiento
+    // EQ-PQ-LF-001 tres lotes (sin analisis): la tabla replica los criterios,
+    // no los pasos del procedimiento (F2).
     const tn = porTitulo('Tres lotes consecutivos');
     expect(tn).toBeTruthy();
-    expect(tn.replace(/<[^>]+>/g, ' ')).toContain('lotes consecutivos');
+    const tnTexto = tn.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ');
+    expect(tnTexto).toContain('Tres lotes consecutivos conformes');
+    expect(tnTexto).toContain('Justificación por riesgo');
+    expect(tnTexto).not.toContain('Aprobar el análisis de riesgo que justifica');
   });
 });
 

@@ -637,15 +637,37 @@ const PlantillaDocx = (() => {
   }
 
   function puntosVerificacion(e) {
-    // Hojas del procedimiento (los pasos con sub-ítems se representan por sus sub-ítems).
+    // F2 (protocolo maestro): la tabla de resultados replica los CRITERIOS de
+    // aceptación (una fila por criterio), no los pasos del procedimiento. Los
+    // pasos son instrucciones de ejecución; el criterio es lo que se dictamina.
+    // Fallback: si el ensayo no declara criterios, se conserva el procedimiento
+    // para no dejar la tabla vacía (compatibilidad con bancos antiguos).
+    const crit = (e.criterios || [])
+      .map((c) => String(c).replace(/:$/, '').trim())
+      .filter(Boolean);
+    if (crit.length) return crit;
     const pts = [];
     e.procedimiento.forEach((it, i) => {
       const sig = e.procedimiento[i + 1];
       if (it.nivel === 0 && sig && sig.nivel === 1) return;
       pts.push(it.t);
     });
-    if (!pts.length) e.criterios.forEach((c) => pts.push(c));
-    return pts.map((t) => t.replace(/:$/, ''));
+    return pts.map((t) => String(t).replace(/:$/, ''));
+  }
+
+  // F2: cabecera del resultado. Criticidad, prerrequisitos e instrumentos son
+  // datos del ensayo; si el banco no los declara, se deja una referencia
+  // explícita al bloque correspondiente. NUNCA se inventa su contenido.
+  function cabeceraResultado(art) {
+    const a = art || {};
+    const criticidad = String(a.criticidad || '').trim()
+      || 'Por definir por el responsable (análisis de riesgo)';
+    const prerrequisitos = String(a.prerrequisitos || '').trim()
+      || 'Bloque 2 — requisitos previos del protocolo';
+    const instrumentos = String(a.instrumentos || '').trim()
+      || 'Tabla de instrumentos del protocolo (bloque 2)';
+    return 'Criticidad: ' + criticidad + ' · Prerrequisitos: ' + prerrequisitos
+      + ' · Instrumentos: ' + instrumentos;
   }
 
   // Filas de la tabla de verificación: si el ensayo lleva análisis estadístico
@@ -1281,6 +1303,12 @@ const PlantillaDocx = (() => {
       }
       const usaRegistro = art.tablaTipo ? art.tablaTipo === 'registro'
         : (fase !== 'IQ' && !!T.registro && OPC.reRegistro.test(tit + ' ' + e.objetivo));
+      // F2: cabecera del resultado antes del salto de página, para que la tabla
+      // siga abriendo página (el salto queda inmediatamente antes de la tabla).
+      P(parrafo(T.nota, [
+        { t: 'Cabecera del resultado: ', b: true },
+        { t: cabeceraResultado(art) },
+      ], { sinNum: true, runNormal: 1 }));
       if (debeSaltarTabla(art.id, usaRegistro ? 'registro' : 'verificacion')) P(saltoPrevio());
       if (usaRegistro && T.registro) TBL(tablaRegistro(T.registro, caption, tit, d, ctx));
       else TBL(tablaVerificacion(T.verificacion, caption, tit, puntosTabla(art, e)));
@@ -1708,7 +1736,7 @@ const PlantillaDocx = (() => {
   return {
     FASES, PLANTILLAS, OPC, SALTO_PAGINA, SALTO_H1, SALTO_H2, SALTO_TABLA, REFS_NORMATIVAS, refNormativa, soporta, configurar, generar, descargar, banco, mezclarComun, generarDQScaffold, descargarDQ,
     LIMITES, limitesDe, aplicarLimites, limitesPendientes, limitesResumen, paramsFaltantes, parametrosFamilia, bloquesFijos, rtmLineas,
-    _interno: { leerZip, escribirZip, hijos, texto, reemplazarEnParrafo, congelar, lineas, estructura, puntosVerificacion, puntosTabla, fechaTexto, crc32, llenarFirmas, fijarTahoma11, debeSaltar, debeSaltarH1, debeSaltarH2, debeSaltarTabla, saltoPrevio, generoDe, ajustarArticulos },
+    _interno: { leerZip, escribirZip, hijos, texto, reemplazarEnParrafo, congelar, lineas, estructura, puntosVerificacion, puntosTabla, cabeceraResultado, fechaTexto, crc32, llenarFirmas, fijarTahoma11, debeSaltar, debeSaltarH1, debeSaltarH2, debeSaltarTabla, saltoPrevio, generoDe, ajustarArticulos },
   };
 })();
 

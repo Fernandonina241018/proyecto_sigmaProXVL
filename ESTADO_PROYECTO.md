@@ -90,6 +90,45 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (SigmaProXVL) con spr
 
 ## CAMBIOS RECIENTES
 
+### 2026-11-04 (239): Protocolo maestro — cierre de los 5 pendientes (F1.1, F2, IQ de sistemas y alcance USP)
+
+**Qué:** se cierran los 5 pendientes identificados al cerrar F0+F1, sin inventar normas técnicas.
+
+1. **Normas específicas (punto 1):** nuevo `docs/banco-ensayos/NORMAS_POR_FAMILIA.md` con el estado de las 18 familias. Las 9 prioritarias quedan **PENDIENTE DEL RESPONSABLE** en la fila 6.6 (no se infirió ninguna norma); las 9 del backfill conservan las normas ya declaradas. El documento exige fuente, versión, justificación y aprobación para cerrar cada familia.
+2. **Backfill de las 9 familias restantes (punto 2):** verificado el shell de autoclave, congelador, horno de secado, horno de vacío, lecho fluido, llenadora, llenadora de tubos, mezclador y refrigerador. Se añadió el **Anexo D (RTM)** que faltaba en sus 18 documentos y el validador pasó de 9 a **18 familias × 2 fases**.
+3. **F2 — tabla de resultados (punto 3):** `plantilla-docx.js` ahora arma la tabla con los **criterios de aceptación** (una fila por criterio), no con los pasos del procedimiento; si no hay criterios, conserva el procedimiento como respaldo. Se añade cabecera **Criticidad / Prerrequisitos / Instrumentos**; si el banco no los declara, remite al bloque 2 y no inventa el dato. El extractor admite `data-criticidad`, `data-prerrequisitos` y `data-instrumentos`.
+4. **IQ de sistemas (punto 4):** los 4 IQ de `docs/banco-ensayos/sistemas/` (HVAC, agua purificada/WFI, vapor limpio y aire comprimido) se cablearon a `BancoSistemas` y la fase IQ se habilitó en `GEN_FASES.sistemas`.
+5. **Ensayo común de instrumentos (punto 5):** nota de alcance en IQ/OQ/PQ comunes: la referencia USP de calificación de instrumentos analíticos aplica solo a tipo L; en maquinaria de producción (tipo M) rige EU GMP Anexo 15 / ISPE. No se añadió el número de la norma al texto para no reintroducir la cita en el banco M.
+
+**Archivos afectados:**
+| Archivo | Cambio |
+|---------|--------|
+| `docs/banco-ensayos/NORMAS_POR_FAMILIA.md` | **Nuevo** — control de completitud por familia |
+| `docs/banco-ensayos/PROTOCOLO_MAESTRO.md` | Backfill, F2 y sistemas IQ documentados |
+| `docs/banco-ensayos/equipos/oq-*.html`, `pq-*.html` (18 del backfill) | Anexo D añadido |
+| `docs/banco-ensayos/equipos/oq-comun.html`, `pq-comun.html`, `equipos-comun.html` | Nota de alcance USP + versión |
+| `js/core/plantilla-docx.js` | Criterios en tabla + cabecera del resultado |
+| `js/core/indexx-validaciones.js` | `GEN_FASES.sistemas` incluye IQ |
+| `scripts/extraer-banco.mjs` | Atributos F2 + IQ de sistemas |
+| `scripts/validar-protocolo.mjs` | 18 familias, Anexo D y excepción de instrumentos |
+| `scripts/preflight.mjs`, `.github/workflows/ci.yml`, `deploy.yml` | `protocolo:check` en la batería |
+| `js/core/banco-equipos-data.js`, `banco-sistemas-data.js` | Regenerados |
+| `tests/plantilla-equipos.test.js`, `tests/validaciones-panel.test.js`, `tests/bancos-sistemas.test.js`, `tests/protocolo-estructura.test.js` | Cobertura de los 5 puntos |
+
+**Verificación:**
+```
+protocolo:check → OK (18 warnings de normas específicas pendientes)
+Vitest → 60 archivos, 985/985
+Backend → 123/123
+Playwright → 12/12
+typecheck → OK
+preflight → OK
+```
+
+**Pendiente real:** solo la decisión técnica del responsable para las 9 normas específicas de las familias prioritarias (fila 6.6). No se completaron por inferencia.
+
+**Riesgo:** medio en la tabla DOCX (cambia de pasos a criterios, intencional y cubierto por tests); bajo en el resto.
+
 ### 2026-11-04 (238): Protocolo maestro F0+F1 — bloques 6/8 y requisitos previos
 
 **Qué:** Se implementa la base del protocolo maestro IQ/OQ/PQ para las 9 familias prioritarias.

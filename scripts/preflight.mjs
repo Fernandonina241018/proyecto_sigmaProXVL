@@ -15,6 +15,11 @@ const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 
 const STEPS = [
   {
+    name: 'Protocolo IQ/OQ/PQ (estructura)',
+    cmd: 'npm',
+    args: ['run', 'protocolo:check'],
+  },
+  {
     name: 'Frontend unit (vitest)',
     cmd: 'npm',
     args: ['test'],
