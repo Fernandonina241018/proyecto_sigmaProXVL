@@ -90,6 +90,35 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (SigmaProXVL) con spr
 
 ## CAMBIOS RECIENTES
 
+### 2026-11-04 (236): Eliminado el botón "Imprimir" viejo de la vista de firma
+
+**Qué:** Se borra definitivamente el botón `🖨️ Imprimir` de la cabecera de "Vista previa del reporte" (estaba oculto con `display:none` desde el 2026-10-27) y su función `firmaPrint()`, que quedaba huérfana.
+
+**Por qué:** La descarga en PDF auditada (servidor/Chromium) ya cubre la impresión. Mantener el botón oculto dejaba código muerto y un `onclick` apuntando a una función sin uso; la impresión directa desde el HTML crudo era además un camino de exportación no auditado.
+
+- **`js/core/indexx-ui.js`:** eliminado el `<button onclick="firmaPrint()">` de la cabecera. El botón de pantalla completa pasa a `margin-left:auto` para conservar la alineación a la derecha que aportaba el botón eliminado.
+- **`js/core/indexx-firma.js`:** eliminados el comentario de "oculto temporalmente" y la función `firmaPrint()` (iframe sandbox de impresión). No queda ninguna referencia.
+- **Tests:** `tests/firma-imprimir.test.js` ahora exige la **ausencia** del botón y de `firmaPrint()` (antes los exigía); `tests/firma-toc-preview.test.js` deja de inspeccionar `firmaPrint` y valida solo la descarga; comentario de `tests/reporte-firmas.test.js` actualizado.
+
+**Archivos afectados:**
+| Archivo | Cambio |
+|---------|--------|
+| `js/core/indexx-ui.js:1011` | Botón `firmaPrint()` eliminado; fullscreen con `margin-left:auto` |
+| `js/core/indexx-firma.js:1268-1299` | `firmaPrint()` y su comentario eliminados |
+| `tests/firma-imprimir.test.js` | Test del botón invertido a ausencia + sin iframe de impresión |
+| `tests/firma-toc-preview.test.js` | Test de descarga sin la parte de `firmaPrint` |
+| `tests/reporte-firmas.test.js:124` | Nombre/comentario del test actualizados |
+
+**Verificación:**
+```
+node --check js/core/indexx-ui.js → OK
+node --check js/core/indexx-firma.js → OK
+vitest run tests/firma-imprimir.test.js tests/firma-toc-preview.test.js tests/reporte-firmas.test.js → 17/17
+vitest run (suite completa) → 59 archivos, 920/920
+tsc --project tsconfig.json → OK
+```
+**Riesgo:** bajo. Solo se elimina UI oculta y código sin llamadas; la descarga en PDF y la vista previa no se tocan.
+
 ### 2026-11-04 (235): Dependencias de tooling sin vulnerabilidades
 
 **Qué:** Se cierran las 6 alertas de Dependabot de `.opencode` y el `zod` high de desarrollo de la raíz.
