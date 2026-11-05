@@ -36,11 +36,9 @@ describe('vista previa de firma: índice del reporte', () => {
     expect((firma.match(/escapeHtml\(_firmaPreviewSrcdoc\(html\)\)/g) || []).length).toBe(2);
     expect(firma).toContain('iframe.srcdoc = _firmaPreviewSrcdoc(html)');
   });
-  test('la descarga y la impresión usan el HTML original (sin la base)', () => {
+  test('la descarga usa el HTML original (sin la base)', () => {
     const d = firma.slice(firma.indexOf('async function firmaDownload'), firma.indexOf('async function firmaDownload') + 400);
     expect(d).toContain('_firmaCurrentDoc.documentElement.outerHTML');
     expect(d).not.toContain('_firmaPreviewSrcdoc');
-    const p = firma.slice(firma.indexOf('function firmaPrint'), firma.indexOf('function firmaPrint') + 1200);
-    expect(p).toContain('frame.srcdoc = _firmaCurrentHtml');
   });
 });

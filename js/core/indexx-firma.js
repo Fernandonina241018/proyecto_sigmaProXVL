@@ -1265,37 +1265,6 @@ async function firmaUnsignSession(role, code, password, reason) {
 }
 
 
-// NOTA: el botón "Imprimir" está OCULTO temporalmente en indexx-ui.js
-// (style="display:none"). La descarga en PDF ya cubre la impresión; esta
-// función se conserva intacta para reactivar el botón más adelante.
-// Imprime el reporte cargado con un iframe auxiliar fuera de pantalla.
-// sandbox SIN allow-scripts: ningún script del reporte puede ejecutarse.
-// allow-same-origin solo permite que esta página invoque print() sobre él;
-// allow-modals es el permiso que el navegador exige para print().
-function firmaPrint() {
-  if (!_firmaCurrentHtml) { showToast('Carga un reporte para imprimir'); return; }
-  var old = document.getElementById('firmaPrintFrame');
-  if (old && old.parentNode) old.parentNode.removeChild(old);
-  var frame = document.createElement('iframe');
-  frame.id = 'firmaPrintFrame';
-  frame.setAttribute('sandbox', 'allow-same-origin allow-modals');
-  frame.setAttribute('aria-hidden', 'true');
-  frame.style.cssText = 'visibility:hidden;position:fixed;right:0;bottom:0;width:0;height:0;border:0';
-  frame.onload = function () {
-    try {
-      var w = frame.contentWindow;
-      w.onafterprint = function () { if (frame.parentNode) frame.parentNode.removeChild(frame); };
-      w.focus();
-      w.print();
-    } catch (e) {
-      showToast('No se pudo imprimir: ' + e.message);
-      if (frame.parentNode) frame.parentNode.removeChild(frame);
-    }
-  };
-  frame.srcdoc = _firmaCurrentHtml;
-  document.body.appendChild(frame);
-}
-
 function firmaToggleFS() {
   var el = document.getElementById('firmaPreview');
   if (!el) return;
