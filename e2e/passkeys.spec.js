@@ -13,6 +13,14 @@ const API = 'http://localhost:3000';
 const PASS = 'PkPass123!';
 let PK = { user: null, pass: PASS };
 
+// Evita generar el TOTP justo antes del límite de 30 s y verificarlo después:
+// el código cambiaría y el servidor (sin ventana) lo rechazaría.
+async function codigoTOTP(secret) {
+  const restante = 30000 - (Date.now() % 30000);
+  if (restante < 3000) await new Promise((r) => setTimeout(r, restante + 100));
+  return generateSync({ secret });
+}
+
 async function api(request, method, pathName, token, body) {
   const res = await request.fetch(API + pathName, {
     method,
@@ -90,7 +98,7 @@ test('passkey: registro con autenticador virtual, login sin TOTP y respaldo TOTP
 
   const enableRes = await request.post(API + '/api/2fa/enable', {
     headers: auth,
-    data: { token: generateSync({ secret }) },
+    data: { token: await codigoTOTP(secret) },
   });
   expect(enableRes.ok()).toBeTruthy();
 
@@ -134,7 +142,7 @@ test('passkey: registro con autenticador virtual, login sin TOTP y respaldo TOTP
   await rellenarCredenciales(page);
 
   await expect(page.locator('#auth-totp')).toBeVisible({ timeout: 15000 });
-  await page.fill('#auth-totp', generateSync({ secret }));
+  await page.fill('#auth-totp', await codigoTOTP(secret));
   // El auto-submit del sexto dígito hace el resto.
   await entrarAlArea(page);
 });

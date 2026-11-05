@@ -966,6 +966,12 @@ app.post('/api/webauthn/register/verify', requireAuth, webauthnLimiter, async (r
             return res.status(400).json({ error: 'No se pudo verificar la passkey' });
         }
         const cred = verification.registrationInfo.credential;
+        // Una credencial pertenece a una sola cuenta. Si el ID ya existe en
+        // otra, se rechaza en lugar de sobrescribir su clave pública.
+        const existente = await db.getWebAuthnCredential(cred.id);
+        if (existente && existente.username !== account.username) {
+            return res.status(409).json({ error: 'Esta passkey ya está registrada en otra cuenta' });
+        }
         await db.addWebAuthnCredential({
             username: account.username,
             credentialId: cred.id,
