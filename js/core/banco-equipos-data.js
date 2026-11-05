@@ -4428,6 +4428,36 @@ var BancoEquipos = {
   "OQ": [
    {
     "kind": "ensayo",
+    "id": "EQ-OQ-REQ",
+    "bloque": 2,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-REQ — Requisitos previos a la Calificación de Operación",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que la documentación, las condiciones y los recursos necesarios para ejecutar la Calificación de Operación del <span class=\"equipo\">equipo</span> están disponibles y aprobados."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) IQ aprobada y cerrada, o justificación documentada cuando no aplique<br>\n  2) URS y análisis de riesgo vigentes<br>\n  3) Manual de operación, mantenimiento y límites del fabricante disponible<br>\n  4) Instrumentos de medición identificados y con calibración vigente<br>\n  5) Utilidades y servicios requeridos disponibles y calificados<br>\n  6) Personal ejecutor capacitado en el protocolo<br>\n  7) Sin desviaciones ni controles de cambio abiertos que impidan iniciar la OQ"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Todos los requisitos previos cumplen o tienen justificación documentada de No Aplica.<br>\n  La OQ no se inicia con requisitos en estado No Cumple."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Tabla de requisitos previos completada<br>\n  - Referencia de IQ, URS y análisis de riesgo aprobados"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>EU GMP Anexo 15 — Calificación y validación."
+     }
+    ],
+    "tabla": null
+   },
+   {
+    "kind": "ensayo",
     "id": "EQ-OQ-COM-001",
     "bloque": 3,
     "cond": "ambas",
@@ -7409,6 +7439,61 @@ var BancoEquipos = {
     "familia": "reactor"
    },
    {
+    "kind": "tabla",
+    "id": "EQ-OQ-RC-REF",
+    "bloque": 6,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-RC-REF — Referencias del OQ de Reactor",
+    "secciones": [],
+    "tabla": {
+     "headers": [
+      "SECCIÓN",
+      "TÍTULO",
+      "ESTADO"
+     ],
+     "rows": [
+      [
+       "6.1",
+       "EU GMP Anexo 15 — Cualificación y validación: la OQ demuestra operación según especificaciones aprobadas",
+       "VIGENTE"
+      ],
+      [
+       "6.2",
+       "GAMP 5 2.ª ed. — Enfoque basado en riesgo para sistemas automatizados y verificación de funciones",
+       "VIGENTE"
+      ],
+      [
+       "6.3",
+       "21 CFR Part 11 / EU GMP Anexo 11 — Registros electrónicos, firmas electrónicas e integridad de datos",
+       "VIGENTE"
+      ],
+      [
+       "6.4",
+       "Manual del fabricante de Reactor — Setpoints, secuencias, límites de diseño y mantenimiento",
+       "VIGENTE"
+      ],
+      [
+       "6.5",
+       "Procedimientos internos — Validación, control de cambios, desviaciones, CAPA y gestión de documentos",
+       "VIGENTE"
+      ],
+      [
+       "6.6",
+       "Normas específicas de la familia Reactor — PENDIENTE DEL RESPONSABLE",
+       "PENDIENTE"
+      ]
+     ]
+    },
+    "familia": "reactor"
+   },
+   {
+    "kind": "div",
+    "clase": "anexos",
+    "bloque": 8,
+    "html": "<p><strong>ANEXOS:</strong></p>\n<table>\n  <tbody><tr><th>SECCIÓN</th><th>TÍTULO</th></tr>\n  <tr><td>Anexo A</td><td> — Certificados de calibración de instrumentos y patrones utilizados</td></tr>\n  <tr><td>Anexo B</td><td> — Planos, listas de partes, especificaciones y documentación del fabricante</td></tr>\n  <tr><td>Anexo C</td><td> — Data cruda, cálculos, registros de ejecución, desviaciones y CAPA</td></tr>\n  <tr><td>Anexo D</td><td> — Matriz de trazabilidad requisito-prueba (RTM) y evidencia de revisión</td></tr>\n</tbody></table>",
+    "familia": "reactor"
+   },
+   {
     "kind": "ensayo",
     "id": "EQ-OQ-UC-001",
     "bloque": 3,
@@ -8650,6 +8735,61 @@ var BancoEquipos = {
     "familia": "sistema-cremas-vacio"
    },
    {
+    "kind": "tabla",
+    "id": "EQ-OQ-UC-REF",
+    "bloque": 6,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-UC-REF — Referencias del OQ de Sistema de Cremas al Vacío",
+    "secciones": [],
+    "tabla": {
+     "headers": [
+      "SECCIÓN",
+      "TÍTULO",
+      "ESTADO"
+     ],
+     "rows": [
+      [
+       "6.1",
+       "EU GMP Anexo 15 — Cualificación y validación: la OQ demuestra operación según especificaciones aprobadas",
+       "VIGENTE"
+      ],
+      [
+       "6.2",
+       "GAMP 5 2.ª ed. — Enfoque basado en riesgo para sistemas automatizados y verificación de funciones",
+       "VIGENTE"
+      ],
+      [
+       "6.3",
+       "21 CFR Part 11 / EU GMP Anexo 11 — Registros electrónicos, firmas electrónicas e integridad de datos",
+       "VIGENTE"
+      ],
+      [
+       "6.4",
+       "Manual del fabricante de Sistema de Cremas al Vacío — Setpoints, secuencias, límites de diseño y mantenimiento",
+       "VIGENTE"
+      ],
+      [
+       "6.5",
+       "Procedimientos internos — Validación, control de cambios, desviaciones, CAPA y gestión de documentos",
+       "VIGENTE"
+      ],
+      [
+       "6.6",
+       "Normas específicas de la familia Sistema de Cremas al Vacío — PENDIENTE DEL RESPONSABLE",
+       "PENDIENTE"
+      ]
+     ]
+    },
+    "familia": "sistema-cremas-vacio"
+   },
+   {
+    "kind": "div",
+    "clase": "anexos",
+    "bloque": 8,
+    "html": "<p><strong>ANEXOS:</strong></p>\n<table>\n  <tbody><tr><th>SECCIÓN</th><th>TÍTULO</th></tr>\n  <tr><td>Anexo A</td><td> — Certificados de calibración de instrumentos y patrones utilizados</td></tr>\n  <tr><td>Anexo B</td><td> — Planos, listas de partes, especificaciones y documentación del fabricante</td></tr>\n  <tr><td>Anexo C</td><td> — Data cruda, cálculos, registros de ejecución, desviaciones y CAPA</td></tr>\n  <tr><td>Anexo D</td><td> — Matriz de trazabilidad requisito-prueba (RTM) y evidencia de revisión</td></tr>\n</tbody></table>",
+    "familia": "sistema-cremas-vacio"
+   },
+   {
     "kind": "ensayo",
     "id": "EQ-OQ-TB-001",
     "bloque": 3,
@@ -9557,6 +9697,61 @@ var BancoEquipos = {
     "familia": "tableteadora"
    },
    {
+    "kind": "tabla",
+    "id": "EQ-OQ-TB-REF",
+    "bloque": 6,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-TB-REF — Referencias del OQ de Tableteadora",
+    "secciones": [],
+    "tabla": {
+     "headers": [
+      "SECCIÓN",
+      "TÍTULO",
+      "ESTADO"
+     ],
+     "rows": [
+      [
+       "6.1",
+       "EU GMP Anexo 15 — Cualificación y validación: la OQ demuestra operación según especificaciones aprobadas",
+       "VIGENTE"
+      ],
+      [
+       "6.2",
+       "GAMP 5 2.ª ed. — Enfoque basado en riesgo para sistemas automatizados y verificación de funciones",
+       "VIGENTE"
+      ],
+      [
+       "6.3",
+       "21 CFR Part 11 / EU GMP Anexo 11 — Registros electrónicos, firmas electrónicas e integridad de datos",
+       "VIGENTE"
+      ],
+      [
+       "6.4",
+       "Manual del fabricante de Tableteadora — Setpoints, secuencias, límites de diseño y mantenimiento",
+       "VIGENTE"
+      ],
+      [
+       "6.5",
+       "Procedimientos internos — Validación, control de cambios, desviaciones, CAPA y gestión de documentos",
+       "VIGENTE"
+      ],
+      [
+       "6.6",
+       "Normas específicas de la familia Tableteadora — PENDIENTE DEL RESPONSABLE",
+       "PENDIENTE"
+      ]
+     ]
+    },
+    "familia": "tableteadora"
+   },
+   {
+    "kind": "div",
+    "clase": "anexos",
+    "bloque": 8,
+    "html": "<p><strong>ANEXOS:</strong></p>\n<table>\n  <tbody><tr><th>SECCIÓN</th><th>TÍTULO</th></tr>\n  <tr><td>Anexo A</td><td> — Certificados de calibración de instrumentos y patrones utilizados</td></tr>\n  <tr><td>Anexo B</td><td> — Planos, listas de partes, especificaciones y documentación del fabricante</td></tr>\n  <tr><td>Anexo C</td><td> — Data cruda, cálculos, registros de ejecución, desviaciones y CAPA</td></tr>\n  <tr><td>Anexo D</td><td> — Matriz de trazabilidad requisito-prueba (RTM) y evidencia de revisión</td></tr>\n</tbody></table>",
+    "familia": "tableteadora"
+   },
+   {
     "kind": "ensayo",
     "id": "EQ-OQ-EN-001",
     "bloque": 3,
@@ -10453,6 +10648,61 @@ var BancoEquipos = {
     "familia": "encapsuladora"
    },
    {
+    "kind": "tabla",
+    "id": "EQ-OQ-EN-REF",
+    "bloque": 6,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-EN-REF — Referencias del OQ de Encapsuladora",
+    "secciones": [],
+    "tabla": {
+     "headers": [
+      "SECCIÓN",
+      "TÍTULO",
+      "ESTADO"
+     ],
+     "rows": [
+      [
+       "6.1",
+       "EU GMP Anexo 15 — Cualificación y validación: la OQ demuestra operación según especificaciones aprobadas",
+       "VIGENTE"
+      ],
+      [
+       "6.2",
+       "GAMP 5 2.ª ed. — Enfoque basado en riesgo para sistemas automatizados y verificación de funciones",
+       "VIGENTE"
+      ],
+      [
+       "6.3",
+       "21 CFR Part 11 / EU GMP Anexo 11 — Registros electrónicos, firmas electrónicas e integridad de datos",
+       "VIGENTE"
+      ],
+      [
+       "6.4",
+       "Manual del fabricante de Encapsuladora — Setpoints, secuencias, límites de diseño y mantenimiento",
+       "VIGENTE"
+      ],
+      [
+       "6.5",
+       "Procedimientos internos — Validación, control de cambios, desviaciones, CAPA y gestión de documentos",
+       "VIGENTE"
+      ],
+      [
+       "6.6",
+       "Normas específicas de la familia Encapsuladora — PENDIENTE DEL RESPONSABLE",
+       "PENDIENTE"
+      ]
+     ]
+    },
+    "familia": "encapsuladora"
+   },
+   {
+    "kind": "div",
+    "clase": "anexos",
+    "bloque": 8,
+    "html": "<p><strong>ANEXOS:</strong></p>\n<table>\n  <tbody><tr><th>SECCIÓN</th><th>TÍTULO</th></tr>\n  <tr><td>Anexo A</td><td> — Certificados de calibración de instrumentos y patrones utilizados</td></tr>\n  <tr><td>Anexo B</td><td> — Planos, listas de partes, especificaciones y documentación del fabricante</td></tr>\n  <tr><td>Anexo C</td><td> — Data cruda, cálculos, registros de ejecución, desviaciones y CAPA</td></tr>\n  <tr><td>Anexo D</td><td> — Matriz de trazabilidad requisito-prueba (RTM) y evidencia de revisión</td></tr>\n</tbody></table>",
+    "familia": "encapsuladora"
+   },
+   {
     "kind": "ensayo",
     "id": "EQ-OQ-GR-001",
     "bloque": 3,
@@ -11294,6 +11544,61 @@ var BancoEquipos = {
     ],
     "tabla": null,
     "analisis": "si",
+    "familia": "granulador"
+   },
+   {
+    "kind": "tabla",
+    "id": "EQ-OQ-GR-REF",
+    "bloque": 6,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-GR-REF — Referencias del OQ de Granulador",
+    "secciones": [],
+    "tabla": {
+     "headers": [
+      "SECCIÓN",
+      "TÍTULO",
+      "ESTADO"
+     ],
+     "rows": [
+      [
+       "6.1",
+       "EU GMP Anexo 15 — Cualificación y validación: la OQ demuestra operación según especificaciones aprobadas",
+       "VIGENTE"
+      ],
+      [
+       "6.2",
+       "GAMP 5 2.ª ed. — Enfoque basado en riesgo para sistemas automatizados y verificación de funciones",
+       "VIGENTE"
+      ],
+      [
+       "6.3",
+       "21 CFR Part 11 / EU GMP Anexo 11 — Registros electrónicos, firmas electrónicas e integridad de datos",
+       "VIGENTE"
+      ],
+      [
+       "6.4",
+       "Manual del fabricante de Granulador — Setpoints, secuencias, límites de diseño y mantenimiento",
+       "VIGENTE"
+      ],
+      [
+       "6.5",
+       "Procedimientos internos — Validación, control de cambios, desviaciones, CAPA y gestión de documentos",
+       "VIGENTE"
+      ],
+      [
+       "6.6",
+       "Normas específicas de la familia Granulador — PENDIENTE DEL RESPONSABLE",
+       "PENDIENTE"
+      ]
+     ]
+    },
+    "familia": "granulador"
+   },
+   {
+    "kind": "div",
+    "clase": "anexos",
+    "bloque": 8,
+    "html": "<p><strong>ANEXOS:</strong></p>\n<table>\n  <tbody><tr><th>SECCIÓN</th><th>TÍTULO</th></tr>\n  <tr><td>Anexo A</td><td> — Certificados de calibración de instrumentos y patrones utilizados</td></tr>\n  <tr><td>Anexo B</td><td> — Planos, listas de partes, especificaciones y documentación del fabricante</td></tr>\n  <tr><td>Anexo C</td><td> — Data cruda, cálculos, registros de ejecución, desviaciones y CAPA</td></tr>\n  <tr><td>Anexo D</td><td> — Matriz de trazabilidad requisito-prueba (RTM) y evidencia de revisión</td></tr>\n</tbody></table>",
     "familia": "granulador"
    },
    {
@@ -12149,6 +12454,61 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "familia": "recubridora"
+   },
+   {
+    "kind": "tabla",
+    "id": "EQ-OQ-RB-REF",
+    "bloque": 6,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-RB-REF — Referencias del OQ de Recubridora",
+    "secciones": [],
+    "tabla": {
+     "headers": [
+      "SECCIÓN",
+      "TÍTULO",
+      "ESTADO"
+     ],
+     "rows": [
+      [
+       "6.1",
+       "EU GMP Anexo 15 — Cualificación y validación: la OQ demuestra operación según especificaciones aprobadas",
+       "VIGENTE"
+      ],
+      [
+       "6.2",
+       "GAMP 5 2.ª ed. — Enfoque basado en riesgo para sistemas automatizados y verificación de funciones",
+       "VIGENTE"
+      ],
+      [
+       "6.3",
+       "21 CFR Part 11 / EU GMP Anexo 11 — Registros electrónicos, firmas electrónicas e integridad de datos",
+       "VIGENTE"
+      ],
+      [
+       "6.4",
+       "Manual del fabricante de Recubridora — Setpoints, secuencias, límites de diseño y mantenimiento",
+       "VIGENTE"
+      ],
+      [
+       "6.5",
+       "Procedimientos internos — Validación, control de cambios, desviaciones, CAPA y gestión de documentos",
+       "VIGENTE"
+      ],
+      [
+       "6.6",
+       "Normas específicas de la familia Recubridora — PENDIENTE DEL RESPONSABLE",
+       "PENDIENTE"
+      ]
+     ]
+    },
+    "familia": "recubridora"
+   },
+   {
+    "kind": "div",
+    "clase": "anexos",
+    "bloque": 8,
+    "html": "<p><strong>ANEXOS:</strong></p>\n<table>\n  <tbody><tr><th>SECCIÓN</th><th>TÍTULO</th></tr>\n  <tr><td>Anexo A</td><td> — Certificados de calibración de instrumentos y patrones utilizados</td></tr>\n  <tr><td>Anexo B</td><td> — Planos, listas de partes, especificaciones y documentación del fabricante</td></tr>\n  <tr><td>Anexo C</td><td> — Data cruda, cálculos, registros de ejecución, desviaciones y CAPA</td></tr>\n  <tr><td>Anexo D</td><td> — Matriz de trazabilidad requisito-prueba (RTM) y evidencia de revisión</td></tr>\n</tbody></table>",
     "familia": "recubridora"
    },
    {
@@ -13032,6 +13392,61 @@ var BancoEquipos = {
     "familia": "blistera"
    },
    {
+    "kind": "tabla",
+    "id": "EQ-OQ-BL-REF",
+    "bloque": 6,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-BL-REF — Referencias del OQ de Blistera",
+    "secciones": [],
+    "tabla": {
+     "headers": [
+      "SECCIÓN",
+      "TÍTULO",
+      "ESTADO"
+     ],
+     "rows": [
+      [
+       "6.1",
+       "EU GMP Anexo 15 — Cualificación y validación: la OQ demuestra operación según especificaciones aprobadas",
+       "VIGENTE"
+      ],
+      [
+       "6.2",
+       "GAMP 5 2.ª ed. — Enfoque basado en riesgo para sistemas automatizados y verificación de funciones",
+       "VIGENTE"
+      ],
+      [
+       "6.3",
+       "21 CFR Part 11 / EU GMP Anexo 11 — Registros electrónicos, firmas electrónicas e integridad de datos",
+       "VIGENTE"
+      ],
+      [
+       "6.4",
+       "Manual del fabricante de Blistera — Setpoints, secuencias, límites de diseño y mantenimiento",
+       "VIGENTE"
+      ],
+      [
+       "6.5",
+       "Procedimientos internos — Validación, control de cambios, desviaciones, CAPA y gestión de documentos",
+       "VIGENTE"
+      ],
+      [
+       "6.6",
+       "Normas específicas de la familia Blistera — PENDIENTE DEL RESPONSABLE",
+       "PENDIENTE"
+      ]
+     ]
+    },
+    "familia": "blistera"
+   },
+   {
+    "kind": "div",
+    "clase": "anexos",
+    "bloque": 8,
+    "html": "<p><strong>ANEXOS:</strong></p>\n<table>\n  <tbody><tr><th>SECCIÓN</th><th>TÍTULO</th></tr>\n  <tr><td>Anexo A</td><td> — Certificados de calibración de instrumentos y patrones utilizados</td></tr>\n  <tr><td>Anexo B</td><td> — Planos, listas de partes, especificaciones y documentación del fabricante</td></tr>\n  <tr><td>Anexo C</td><td> — Data cruda, cálculos, registros de ejecución, desviaciones y CAPA</td></tr>\n  <tr><td>Anexo D</td><td> — Matriz de trazabilidad requisito-prueba (RTM) y evidencia de revisión</td></tr>\n</tbody></table>",
+    "familia": "blistera"
+   },
+   {
     "kind": "ensayo",
     "id": "EQ-OQ-DM-001",
     "bloque": 3,
@@ -13655,6 +14070,61 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "familia": "detector-metales"
+   },
+   {
+    "kind": "tabla",
+    "id": "EQ-OQ-DM-REF",
+    "bloque": 6,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-DM-REF — Referencias del OQ de Detector de Metales",
+    "secciones": [],
+    "tabla": {
+     "headers": [
+      "SECCIÓN",
+      "TÍTULO",
+      "ESTADO"
+     ],
+     "rows": [
+      [
+       "6.1",
+       "EU GMP Anexo 15 — Cualificación y validación: la OQ demuestra operación según especificaciones aprobadas",
+       "VIGENTE"
+      ],
+      [
+       "6.2",
+       "GAMP 5 2.ª ed. — Enfoque basado en riesgo para sistemas automatizados y verificación de funciones",
+       "VIGENTE"
+      ],
+      [
+       "6.3",
+       "21 CFR Part 11 / EU GMP Anexo 11 — Registros electrónicos, firmas electrónicas e integridad de datos",
+       "VIGENTE"
+      ],
+      [
+       "6.4",
+       "Manual del fabricante de Detector de Metales — Setpoints, secuencias, límites de diseño y mantenimiento",
+       "VIGENTE"
+      ],
+      [
+       "6.5",
+       "Procedimientos internos — Validación, control de cambios, desviaciones, CAPA y gestión de documentos",
+       "VIGENTE"
+      ],
+      [
+       "6.6",
+       "Normas específicas de la familia Detector de Metales — PENDIENTE DEL RESPONSABLE",
+       "PENDIENTE"
+      ]
+     ]
+    },
+    "familia": "detector-metales"
+   },
+   {
+    "kind": "div",
+    "clase": "anexos",
+    "bloque": 8,
+    "html": "<p><strong>ANEXOS:</strong></p>\n<table>\n  <tbody><tr><th>SECCIÓN</th><th>TÍTULO</th></tr>\n  <tr><td>Anexo A</td><td> — Certificados de calibración de instrumentos y patrones utilizados</td></tr>\n  <tr><td>Anexo B</td><td> — Planos, listas de partes, especificaciones y documentación del fabricante</td></tr>\n  <tr><td>Anexo C</td><td> — Data cruda, cálculos, registros de ejecución, desviaciones y CAPA</td></tr>\n  <tr><td>Anexo D</td><td> — Matriz de trazabilidad requisito-prueba (RTM) y evidencia de revisión</td></tr>\n</tbody></table>",
     "familia": "detector-metales"
    },
    {
@@ -14589,6 +15059,61 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "familia": "etiquetadora"
+   },
+   {
+    "kind": "tabla",
+    "id": "EQ-OQ-ET-REF",
+    "bloque": 6,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-ET-REF — Referencias del OQ de Etiquetadora",
+    "secciones": [],
+    "tabla": {
+     "headers": [
+      "SECCIÓN",
+      "TÍTULO",
+      "ESTADO"
+     ],
+     "rows": [
+      [
+       "6.1",
+       "EU GMP Anexo 15 — Cualificación y validación: la OQ demuestra operación según especificaciones aprobadas",
+       "VIGENTE"
+      ],
+      [
+       "6.2",
+       "GAMP 5 2.ª ed. — Enfoque basado en riesgo para sistemas automatizados y verificación de funciones",
+       "VIGENTE"
+      ],
+      [
+       "6.3",
+       "21 CFR Part 11 / EU GMP Anexo 11 — Registros electrónicos, firmas electrónicas e integridad de datos",
+       "VIGENTE"
+      ],
+      [
+       "6.4",
+       "Manual del fabricante de Etiquetadora — Setpoints, secuencias, límites de diseño y mantenimiento",
+       "VIGENTE"
+      ],
+      [
+       "6.5",
+       "Procedimientos internos — Validación, control de cambios, desviaciones, CAPA y gestión de documentos",
+       "VIGENTE"
+      ],
+      [
+       "6.6",
+       "Normas específicas de la familia Etiquetadora — PENDIENTE DEL RESPONSABLE",
+       "PENDIENTE"
+      ]
+     ]
+    },
+    "familia": "etiquetadora"
+   },
+   {
+    "kind": "div",
+    "clase": "anexos",
+    "bloque": 8,
+    "html": "<p><strong>ANEXOS:</strong></p>\n<table>\n  <tbody><tr><th>SECCIÓN</th><th>TÍTULO</th></tr>\n  <tr><td>Anexo A</td><td> — Certificados de calibración de instrumentos y patrones utilizados</td></tr>\n  <tr><td>Anexo B</td><td> — Planos, listas de partes, especificaciones y documentación del fabricante</td></tr>\n  <tr><td>Anexo C</td><td> — Data cruda, cálculos, registros de ejecución, desviaciones y CAPA</td></tr>\n  <tr><td>Anexo D</td><td> — Matriz de trazabilidad requisito-prueba (RTM) y evidencia de revisión</td></tr>\n</tbody></table>",
     "familia": "etiquetadora"
    },
    {
@@ -19717,6 +20242,36 @@ var BancoEquipos = {
   "PQ": [
    {
     "kind": "ensayo",
+    "id": "EQ-PQ-REQ",
+    "bloque": 2,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-REQ — Requisitos previos a la Calificación de Desempeño",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que la documentación, los lotes y las condiciones necesarias para ejecutar la Calificación de Desempeño del <span class=\"equipo\">equipo</span> están disponibles y aprobados."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) OQ aprobada y cerrada<br>\n  2) URS, especificación del producto y análisis de riesgo vigentes<br>\n  3) Métodos analíticos validados y disponibles<br>\n  4) Procedimientos de fabricación, operación y limpieza aprobados<br>\n  5) Materiales, granulado o placebo y lotes definidos para la PQ<br>\n  6) Personal ejecutor capacitado en el protocolo<br>\n  7) Sin desviaciones ni controles de cambio abiertos que impidan iniciar la PQ"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Todos los requisitos previos cumplen o tienen justificación documentada de No Aplica.<br>\n  La PQ no se inicia con requisitos en estado No Cumple."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Tabla de requisitos previos completada<br>\n  - Referencia de OQ, URS, especificación y análisis de riesgo aprobados"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>EU GMP Anexo 15 — Calificación y validación."
+     }
+    ],
+    "tabla": null
+   },
+   {
+    "kind": "ensayo",
     "id": "EQ-PQ-COM-001",
     "bloque": 3,
     "cond": "ambas",
@@ -22585,6 +23140,61 @@ var BancoEquipos = {
     "familia": "reactor"
    },
    {
+    "kind": "tabla",
+    "id": "EQ-PQ-RC-REF",
+    "bloque": 6,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-RC-REF — Referencias del PQ de Reactor",
+    "secciones": [],
+    "tabla": {
+     "headers": [
+      "SECCIÓN",
+      "TÍTULO",
+      "ESTADO"
+     ],
+     "rows": [
+      [
+       "6.1",
+       "EU GMP Anexo 15 — Cualificación y validación: la PQ demuestra operación según especificaciones aprobadas",
+       "VIGENTE"
+      ],
+      [
+       "6.2",
+       "GAMP 5 2.ª ed. — Enfoque basado en riesgo para sistemas automatizados y verificación de funciones",
+       "VIGENTE"
+      ],
+      [
+       "6.3",
+       "21 CFR Part 11 / EU GMP Anexo 11 — Registros electrónicos, firmas electrónicas e integridad de datos",
+       "VIGENTE"
+      ],
+      [
+       "6.4",
+       "Manual del fabricante de Reactor — Setpoints, secuencias, límites de diseño y mantenimiento",
+       "VIGENTE"
+      ],
+      [
+       "6.5",
+       "Procedimientos internos — Validación, control de cambios, desviaciones, CAPA y gestión de documentos",
+       "VIGENTE"
+      ],
+      [
+       "6.6",
+       "Normas específicas de la familia Reactor — PENDIENTE DEL RESPONSABLE",
+       "PENDIENTE"
+      ]
+     ]
+    },
+    "familia": "reactor"
+   },
+   {
+    "kind": "div",
+    "clase": "anexos",
+    "bloque": 8,
+    "html": "<p><strong>ANEXOS:</strong></p>\n<table>\n  <tbody><tr><th>SECCIÓN</th><th>TÍTULO</th></tr>\n  <tr><td>Anexo A</td><td> — Certificados de calibración de instrumentos y patrones utilizados</td></tr>\n  <tr><td>Anexo B</td><td> — Planos, listas de partes, especificaciones y documentación del fabricante</td></tr>\n  <tr><td>Anexo C</td><td> — Data cruda, cálculos, registros de ejecución, desviaciones y CAPA</td></tr>\n  <tr><td>Anexo D</td><td> — Matriz de trazabilidad requisito-prueba (RTM) y evidencia de revisión</td></tr>\n</tbody></table>",
+    "familia": "reactor"
+   },
+   {
     "kind": "ensayo",
     "id": "EQ-PQ-UC-001",
     "bloque": 3,
@@ -23285,6 +23895,61 @@ var BancoEquipos = {
     "familia": "sistema-cremas-vacio"
    },
    {
+    "kind": "tabla",
+    "id": "EQ-PQ-UC-REF",
+    "bloque": 6,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-UC-REF — Referencias del PQ de Sistema de Cremas al Vacío",
+    "secciones": [],
+    "tabla": {
+     "headers": [
+      "SECCIÓN",
+      "TÍTULO",
+      "ESTADO"
+     ],
+     "rows": [
+      [
+       "6.1",
+       "EU GMP Anexo 15 — Cualificación y validación: la PQ demuestra operación según especificaciones aprobadas",
+       "VIGENTE"
+      ],
+      [
+       "6.2",
+       "GAMP 5 2.ª ed. — Enfoque basado en riesgo para sistemas automatizados y verificación de funciones",
+       "VIGENTE"
+      ],
+      [
+       "6.3",
+       "21 CFR Part 11 / EU GMP Anexo 11 — Registros electrónicos, firmas electrónicas e integridad de datos",
+       "VIGENTE"
+      ],
+      [
+       "6.4",
+       "Manual del fabricante de Sistema de Cremas al Vacío — Setpoints, secuencias, límites de diseño y mantenimiento",
+       "VIGENTE"
+      ],
+      [
+       "6.5",
+       "Procedimientos internos — Validación, control de cambios, desviaciones, CAPA y gestión de documentos",
+       "VIGENTE"
+      ],
+      [
+       "6.6",
+       "Normas específicas de la familia Sistema de Cremas al Vacío — PENDIENTE DEL RESPONSABLE",
+       "PENDIENTE"
+      ]
+     ]
+    },
+    "familia": "sistema-cremas-vacio"
+   },
+   {
+    "kind": "div",
+    "clase": "anexos",
+    "bloque": 8,
+    "html": "<p><strong>ANEXOS:</strong></p>\n<table>\n  <tbody><tr><th>SECCIÓN</th><th>TÍTULO</th></tr>\n  <tr><td>Anexo A</td><td> — Certificados de calibración de instrumentos y patrones utilizados</td></tr>\n  <tr><td>Anexo B</td><td> — Planos, listas de partes, especificaciones y documentación del fabricante</td></tr>\n  <tr><td>Anexo C</td><td> — Data cruda, cálculos, registros de ejecución, desviaciones y CAPA</td></tr>\n  <tr><td>Anexo D</td><td> — Matriz de trazabilidad requisito-prueba (RTM) y evidencia de revisión</td></tr>\n</tbody></table>",
+    "familia": "sistema-cremas-vacio"
+   },
+   {
     "kind": "ensayo",
     "id": "EQ-PQ-TB-001",
     "bloque": 3,
@@ -23969,6 +24634,61 @@ var BancoEquipos = {
     "familia": "tableteadora"
    },
    {
+    "kind": "tabla",
+    "id": "EQ-PQ-TB-REF",
+    "bloque": 6,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-TB-REF — Referencias del PQ de Tableteadora",
+    "secciones": [],
+    "tabla": {
+     "headers": [
+      "SECCIÓN",
+      "TÍTULO",
+      "ESTADO"
+     ],
+     "rows": [
+      [
+       "6.1",
+       "EU GMP Anexo 15 — Cualificación y validación: la PQ demuestra operación según especificaciones aprobadas",
+       "VIGENTE"
+      ],
+      [
+       "6.2",
+       "GAMP 5 2.ª ed. — Enfoque basado en riesgo para sistemas automatizados y verificación de funciones",
+       "VIGENTE"
+      ],
+      [
+       "6.3",
+       "21 CFR Part 11 / EU GMP Anexo 11 — Registros electrónicos, firmas electrónicas e integridad de datos",
+       "VIGENTE"
+      ],
+      [
+       "6.4",
+       "Manual del fabricante de Tableteadora — Setpoints, secuencias, límites de diseño y mantenimiento",
+       "VIGENTE"
+      ],
+      [
+       "6.5",
+       "Procedimientos internos — Validación, control de cambios, desviaciones, CAPA y gestión de documentos",
+       "VIGENTE"
+      ],
+      [
+       "6.6",
+       "Normas específicas de la familia Tableteadora — PENDIENTE DEL RESPONSABLE",
+       "PENDIENTE"
+      ]
+     ]
+    },
+    "familia": "tableteadora"
+   },
+   {
+    "kind": "div",
+    "clase": "anexos",
+    "bloque": 8,
+    "html": "<p><strong>ANEXOS:</strong></p>\n<table>\n  <tbody><tr><th>SECCIÓN</th><th>TÍTULO</th></tr>\n  <tr><td>Anexo A</td><td> — Certificados de calibración de instrumentos y patrones utilizados</td></tr>\n  <tr><td>Anexo B</td><td> — Planos, listas de partes, especificaciones y documentación del fabricante</td></tr>\n  <tr><td>Anexo C</td><td> — Data cruda, cálculos, registros de ejecución, desviaciones y CAPA</td></tr>\n  <tr><td>Anexo D</td><td> — Matriz de trazabilidad requisito-prueba (RTM) y evidencia de revisión</td></tr>\n</tbody></table>",
+    "familia": "tableteadora"
+   },
+   {
     "kind": "ensayo",
     "id": "EQ-PQ-EN-001",
     "bloque": 3,
@@ -24617,6 +25337,61 @@ var BancoEquipos = {
     "familia": "encapsuladora"
    },
    {
+    "kind": "tabla",
+    "id": "EQ-PQ-EN-REF",
+    "bloque": 6,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-EN-REF — Referencias del PQ de Encapsuladora",
+    "secciones": [],
+    "tabla": {
+     "headers": [
+      "SECCIÓN",
+      "TÍTULO",
+      "ESTADO"
+     ],
+     "rows": [
+      [
+       "6.1",
+       "EU GMP Anexo 15 — Cualificación y validación: la PQ demuestra operación según especificaciones aprobadas",
+       "VIGENTE"
+      ],
+      [
+       "6.2",
+       "GAMP 5 2.ª ed. — Enfoque basado en riesgo para sistemas automatizados y verificación de funciones",
+       "VIGENTE"
+      ],
+      [
+       "6.3",
+       "21 CFR Part 11 / EU GMP Anexo 11 — Registros electrónicos, firmas electrónicas e integridad de datos",
+       "VIGENTE"
+      ],
+      [
+       "6.4",
+       "Manual del fabricante de Encapsuladora — Setpoints, secuencias, límites de diseño y mantenimiento",
+       "VIGENTE"
+      ],
+      [
+       "6.5",
+       "Procedimientos internos — Validación, control de cambios, desviaciones, CAPA y gestión de documentos",
+       "VIGENTE"
+      ],
+      [
+       "6.6",
+       "Normas específicas de la familia Encapsuladora — PENDIENTE DEL RESPONSABLE",
+       "PENDIENTE"
+      ]
+     ]
+    },
+    "familia": "encapsuladora"
+   },
+   {
+    "kind": "div",
+    "clase": "anexos",
+    "bloque": 8,
+    "html": "<p><strong>ANEXOS:</strong></p>\n<table>\n  <tbody><tr><th>SECCIÓN</th><th>TÍTULO</th></tr>\n  <tr><td>Anexo A</td><td> — Certificados de calibración de instrumentos y patrones utilizados</td></tr>\n  <tr><td>Anexo B</td><td> — Planos, listas de partes, especificaciones y documentación del fabricante</td></tr>\n  <tr><td>Anexo C</td><td> — Data cruda, cálculos, registros de ejecución, desviaciones y CAPA</td></tr>\n  <tr><td>Anexo D</td><td> — Matriz de trazabilidad requisito-prueba (RTM) y evidencia de revisión</td></tr>\n</tbody></table>",
+    "familia": "encapsuladora"
+   },
+   {
     "kind": "ensayo",
     "id": "EQ-PQ-GR-001",
     "bloque": 3,
@@ -25190,6 +25965,61 @@ var BancoEquipos = {
     ],
     "tabla": null,
     "analisis": "si",
+    "familia": "granulador"
+   },
+   {
+    "kind": "tabla",
+    "id": "EQ-PQ-GR-REF",
+    "bloque": 6,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-GR-REF — Referencias del PQ de Granulador",
+    "secciones": [],
+    "tabla": {
+     "headers": [
+      "SECCIÓN",
+      "TÍTULO",
+      "ESTADO"
+     ],
+     "rows": [
+      [
+       "6.1",
+       "EU GMP Anexo 15 — Cualificación y validación: la PQ demuestra operación según especificaciones aprobadas",
+       "VIGENTE"
+      ],
+      [
+       "6.2",
+       "GAMP 5 2.ª ed. — Enfoque basado en riesgo para sistemas automatizados y verificación de funciones",
+       "VIGENTE"
+      ],
+      [
+       "6.3",
+       "21 CFR Part 11 / EU GMP Anexo 11 — Registros electrónicos, firmas electrónicas e integridad de datos",
+       "VIGENTE"
+      ],
+      [
+       "6.4",
+       "Manual del fabricante de Granulador — Setpoints, secuencias, límites de diseño y mantenimiento",
+       "VIGENTE"
+      ],
+      [
+       "6.5",
+       "Procedimientos internos — Validación, control de cambios, desviaciones, CAPA y gestión de documentos",
+       "VIGENTE"
+      ],
+      [
+       "6.6",
+       "Normas específicas de la familia Granulador — PENDIENTE DEL RESPONSABLE",
+       "PENDIENTE"
+      ]
+     ]
+    },
+    "familia": "granulador"
+   },
+   {
+    "kind": "div",
+    "clase": "anexos",
+    "bloque": 8,
+    "html": "<p><strong>ANEXOS:</strong></p>\n<table>\n  <tbody><tr><th>SECCIÓN</th><th>TÍTULO</th></tr>\n  <tr><td>Anexo A</td><td> — Certificados de calibración de instrumentos y patrones utilizados</td></tr>\n  <tr><td>Anexo B</td><td> — Planos, listas de partes, especificaciones y documentación del fabricante</td></tr>\n  <tr><td>Anexo C</td><td> — Data cruda, cálculos, registros de ejecución, desviaciones y CAPA</td></tr>\n  <tr><td>Anexo D</td><td> — Matriz de trazabilidad requisito-prueba (RTM) y evidencia de revisión</td></tr>\n</tbody></table>",
     "familia": "granulador"
    },
    {
@@ -25836,6 +26666,61 @@ var BancoEquipos = {
     "familia": "recubridora"
    },
    {
+    "kind": "tabla",
+    "id": "EQ-PQ-RB-REF",
+    "bloque": 6,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-RB-REF — Referencias del PQ de Recubridora",
+    "secciones": [],
+    "tabla": {
+     "headers": [
+      "SECCIÓN",
+      "TÍTULO",
+      "ESTADO"
+     ],
+     "rows": [
+      [
+       "6.1",
+       "EU GMP Anexo 15 — Cualificación y validación: la PQ demuestra operación según especificaciones aprobadas",
+       "VIGENTE"
+      ],
+      [
+       "6.2",
+       "GAMP 5 2.ª ed. — Enfoque basado en riesgo para sistemas automatizados y verificación de funciones",
+       "VIGENTE"
+      ],
+      [
+       "6.3",
+       "21 CFR Part 11 / EU GMP Anexo 11 — Registros electrónicos, firmas electrónicas e integridad de datos",
+       "VIGENTE"
+      ],
+      [
+       "6.4",
+       "Manual del fabricante de Recubridora — Setpoints, secuencias, límites de diseño y mantenimiento",
+       "VIGENTE"
+      ],
+      [
+       "6.5",
+       "Procedimientos internos — Validación, control de cambios, desviaciones, CAPA y gestión de documentos",
+       "VIGENTE"
+      ],
+      [
+       "6.6",
+       "Normas específicas de la familia Recubridora — PENDIENTE DEL RESPONSABLE",
+       "PENDIENTE"
+      ]
+     ]
+    },
+    "familia": "recubridora"
+   },
+   {
+    "kind": "div",
+    "clase": "anexos",
+    "bloque": 8,
+    "html": "<p><strong>ANEXOS:</strong></p>\n<table>\n  <tbody><tr><th>SECCIÓN</th><th>TÍTULO</th></tr>\n  <tr><td>Anexo A</td><td> — Certificados de calibración de instrumentos y patrones utilizados</td></tr>\n  <tr><td>Anexo B</td><td> — Planos, listas de partes, especificaciones y documentación del fabricante</td></tr>\n  <tr><td>Anexo C</td><td> — Data cruda, cálculos, registros de ejecución, desviaciones y CAPA</td></tr>\n  <tr><td>Anexo D</td><td> — Matriz de trazabilidad requisito-prueba (RTM) y evidencia de revisión</td></tr>\n</tbody></table>",
+    "familia": "recubridora"
+   },
+   {
     "kind": "ensayo",
     "id": "EQ-PQ-BL-001",
     "bloque": 3,
@@ -26439,6 +27324,61 @@ var BancoEquipos = {
     "familia": "blistera"
    },
    {
+    "kind": "tabla",
+    "id": "EQ-PQ-BL-REF",
+    "bloque": 6,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-BL-REF — Referencias del PQ de Blistera",
+    "secciones": [],
+    "tabla": {
+     "headers": [
+      "SECCIÓN",
+      "TÍTULO",
+      "ESTADO"
+     ],
+     "rows": [
+      [
+       "6.1",
+       "EU GMP Anexo 15 — Cualificación y validación: la PQ demuestra operación según especificaciones aprobadas",
+       "VIGENTE"
+      ],
+      [
+       "6.2",
+       "GAMP 5 2.ª ed. — Enfoque basado en riesgo para sistemas automatizados y verificación de funciones",
+       "VIGENTE"
+      ],
+      [
+       "6.3",
+       "21 CFR Part 11 / EU GMP Anexo 11 — Registros electrónicos, firmas electrónicas e integridad de datos",
+       "VIGENTE"
+      ],
+      [
+       "6.4",
+       "Manual del fabricante de Blistera — Setpoints, secuencias, límites de diseño y mantenimiento",
+       "VIGENTE"
+      ],
+      [
+       "6.5",
+       "Procedimientos internos — Validación, control de cambios, desviaciones, CAPA y gestión de documentos",
+       "VIGENTE"
+      ],
+      [
+       "6.6",
+       "Normas específicas de la familia Blistera — PENDIENTE DEL RESPONSABLE",
+       "PENDIENTE"
+      ]
+     ]
+    },
+    "familia": "blistera"
+   },
+   {
+    "kind": "div",
+    "clase": "anexos",
+    "bloque": 8,
+    "html": "<p><strong>ANEXOS:</strong></p>\n<table>\n  <tbody><tr><th>SECCIÓN</th><th>TÍTULO</th></tr>\n  <tr><td>Anexo A</td><td> — Certificados de calibración de instrumentos y patrones utilizados</td></tr>\n  <tr><td>Anexo B</td><td> — Planos, listas de partes, especificaciones y documentación del fabricante</td></tr>\n  <tr><td>Anexo C</td><td> — Data cruda, cálculos, registros de ejecución, desviaciones y CAPA</td></tr>\n  <tr><td>Anexo D</td><td> — Matriz de trazabilidad requisito-prueba (RTM) y evidencia de revisión</td></tr>\n</tbody></table>",
+    "familia": "blistera"
+   },
+   {
     "kind": "ensayo",
     "id": "EQ-PQ-DM-001",
     "bloque": 3,
@@ -26903,6 +27843,61 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "familia": "detector-metales"
+   },
+   {
+    "kind": "tabla",
+    "id": "EQ-PQ-DM-REF",
+    "bloque": 6,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-DM-REF — Referencias del PQ de Detector de Metales",
+    "secciones": [],
+    "tabla": {
+     "headers": [
+      "SECCIÓN",
+      "TÍTULO",
+      "ESTADO"
+     ],
+     "rows": [
+      [
+       "6.1",
+       "EU GMP Anexo 15 — Cualificación y validación: la PQ demuestra operación según especificaciones aprobadas",
+       "VIGENTE"
+      ],
+      [
+       "6.2",
+       "GAMP 5 2.ª ed. — Enfoque basado en riesgo para sistemas automatizados y verificación de funciones",
+       "VIGENTE"
+      ],
+      [
+       "6.3",
+       "21 CFR Part 11 / EU GMP Anexo 11 — Registros electrónicos, firmas electrónicas e integridad de datos",
+       "VIGENTE"
+      ],
+      [
+       "6.4",
+       "Manual del fabricante de Detector de Metales — Setpoints, secuencias, límites de diseño y mantenimiento",
+       "VIGENTE"
+      ],
+      [
+       "6.5",
+       "Procedimientos internos — Validación, control de cambios, desviaciones, CAPA y gestión de documentos",
+       "VIGENTE"
+      ],
+      [
+       "6.6",
+       "Normas específicas de la familia Detector de Metales — PENDIENTE DEL RESPONSABLE",
+       "PENDIENTE"
+      ]
+     ]
+    },
+    "familia": "detector-metales"
+   },
+   {
+    "kind": "div",
+    "clase": "anexos",
+    "bloque": 8,
+    "html": "<p><strong>ANEXOS:</strong></p>\n<table>\n  <tbody><tr><th>SECCIÓN</th><th>TÍTULO</th></tr>\n  <tr><td>Anexo A</td><td> — Certificados de calibración de instrumentos y patrones utilizados</td></tr>\n  <tr><td>Anexo B</td><td> — Planos, listas de partes, especificaciones y documentación del fabricante</td></tr>\n  <tr><td>Anexo C</td><td> — Data cruda, cálculos, registros de ejecución, desviaciones y CAPA</td></tr>\n  <tr><td>Anexo D</td><td> — Matriz de trazabilidad requisito-prueba (RTM) y evidencia de revisión</td></tr>\n</tbody></table>",
     "familia": "detector-metales"
    },
    {
@@ -27529,6 +28524,61 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "familia": "etiquetadora"
+   },
+   {
+    "kind": "tabla",
+    "id": "EQ-PQ-ET-REF",
+    "bloque": 6,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-ET-REF — Referencias del PQ de Etiquetadora",
+    "secciones": [],
+    "tabla": {
+     "headers": [
+      "SECCIÓN",
+      "TÍTULO",
+      "ESTADO"
+     ],
+     "rows": [
+      [
+       "6.1",
+       "EU GMP Anexo 15 — Cualificación y validación: la PQ demuestra operación según especificaciones aprobadas",
+       "VIGENTE"
+      ],
+      [
+       "6.2",
+       "GAMP 5 2.ª ed. — Enfoque basado en riesgo para sistemas automatizados y verificación de funciones",
+       "VIGENTE"
+      ],
+      [
+       "6.3",
+       "21 CFR Part 11 / EU GMP Anexo 11 — Registros electrónicos, firmas electrónicas e integridad de datos",
+       "VIGENTE"
+      ],
+      [
+       "6.4",
+       "Manual del fabricante de Etiquetadora — Setpoints, secuencias, límites de diseño y mantenimiento",
+       "VIGENTE"
+      ],
+      [
+       "6.5",
+       "Procedimientos internos — Validación, control de cambios, desviaciones, CAPA y gestión de documentos",
+       "VIGENTE"
+      ],
+      [
+       "6.6",
+       "Normas específicas de la familia Etiquetadora — PENDIENTE DEL RESPONSABLE",
+       "PENDIENTE"
+      ]
+     ]
+    },
+    "familia": "etiquetadora"
+   },
+   {
+    "kind": "div",
+    "clase": "anexos",
+    "bloque": 8,
+    "html": "<p><strong>ANEXOS:</strong></p>\n<table>\n  <tbody><tr><th>SECCIÓN</th><th>TÍTULO</th></tr>\n  <tr><td>Anexo A</td><td> — Certificados de calibración de instrumentos y patrones utilizados</td></tr>\n  <tr><td>Anexo B</td><td> — Planos, listas de partes, especificaciones y documentación del fabricante</td></tr>\n  <tr><td>Anexo C</td><td> — Data cruda, cálculos, registros de ejecución, desviaciones y CAPA</td></tr>\n  <tr><td>Anexo D</td><td> — Matriz de trazabilidad requisito-prueba (RTM) y evidencia de revisión</td></tr>\n</tbody></table>",
     "familia": "etiquetadora"
    },
    {

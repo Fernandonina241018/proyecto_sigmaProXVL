@@ -235,10 +235,10 @@ describe('Validaciones V7', () => {
     const require = createRequire(import.meta.url);
     globalThis.BancoEquipos = require('../js/core/banco-equipos-data.js');
     try {
-      // lecho fluido OQ: común (1) + familia (11)
-      expect(Validaciones.contarGen('OQ', 'ambas', 'equipos', 'lecho-fluido')).toBe(12);
-      // autoclave OQ: común (1) + familia (18)
-      expect(Validaciones.contarGen('OQ', 'ambas', 'equipos', 'autoclave')).toBe(19);
+      // lecho fluido OQ: común (2) + familia (11)
+      expect(Validaciones.contarGen('OQ', 'ambas', 'equipos', 'lecho-fluido')).toBe(13);
+      // autoclave OQ: común (2) + familia (18)
+      expect(Validaciones.contarGen('OQ', 'ambas', 'equipos', 'autoclave')).toBe(20);
       // sin entidad: todo el banco OQ (antes inflaba el paso 3)
       expect(Validaciones.contarGen('OQ', 'ambas', 'equipos')).toBeGreaterThan(19);
     } finally {
