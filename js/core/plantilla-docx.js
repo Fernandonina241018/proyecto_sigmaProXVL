@@ -58,7 +58,12 @@ const PlantillaDocx = (() => {
   // (TIPO: conclusion, verificacion, registro, modelo). true = la tabla abre
   // página nueva (párrafo con salto antes de ella); ausente = en flujo.
   // Empieza con conclusiones; el resto de tipos se activan igual cuando se pida.
-  const SALTO_TABLA = {'*:conclusion': true};
+  const SALTO_TABLA = {
+    '*:conclusion': false,   // la conclusión sigue debajo de la tabla si cabe
+    '*:verificacion': true,  // la tabla de verificación abre página
+    '*:registro': true,      // la tabla de registro abre página
+    '*:modelo': true         // las tablas clonadas del modelo abren página
+  };
   const debeSaltarTabla = (id, tipo) => {
     const v = SALTO_TABLA[String(id) + ':' + tipo];
     if (v !== undefined) return !!v;
@@ -975,6 +980,20 @@ const PlantillaDocx = (() => {
     return T;
   }
 
+  function marcarTablaLarga(tbl) {
+    let primera = true;
+    return tbl.replace(/<w:tr\b[\s\S]*?<\/w:tr>/g, (tr) => {
+      let out = tr;
+      if (!/<w:trPr>/.test(out)) out = out.replace(/^<w:tr\b[^>]*>/, (m) => m + '<w:trPr></w:trPr>');
+      const extras =
+        (primera && !out.includes('<w:tblHeader') ? '<w:tblHeader/>' : '') +
+        (!out.includes('<w:cantSplit') ? '<w:cantSplit/>' : '');
+      out = out.replace('<w:trPr>', '<w:trPr>' + extras);
+      primera = false;
+      return out;
+    });
+  }
+
   function tablaVerificacion(tpl, caption, titulo, puntos) {
     const fs = filas(tpl);
     const cab = celdas(fs[0]);
@@ -987,7 +1006,7 @@ const PlantillaDocx = (() => {
       if (c.length > 2) c[1] = textoCelda(c[1], pt);
       return conCeldas(clonar(base), c);
     });
-    return conFilas(clonar(tpl), [conCeldas(fs[0], cab), fs[1]].concat(datos));
+    return marcarTablaLarga(conFilas(clonar(tpl), [conCeldas(fs[0], cab), fs[1]].concat(datos)));
   }
 
   function tablaRegistro(tpl, caption, titulo, draft, ctx) {
@@ -1018,7 +1037,7 @@ const PlantillaDocx = (() => {
       c[0] = textoCelda(c[0], String(i + 1));
       items.push(conCeldas(clonar(base), c));
     }
-    return conFilas(clonar(tpl), [conCeldas(fs[0], cab)].concat(params, [fs[5]], items));
+    return marcarTablaLarga(conFilas(clonar(tpl), [conCeldas(fs[0], cab)].concat(params, [fs[5]], items)));
   }
 
   // Firmantes T0 (Realizado, automático) y T2 (Revisor Gerente, combobox).
@@ -1246,6 +1265,7 @@ const PlantillaDocx = (() => {
       const tModelo = art.tablaModelo ? tablasDelModelo(art.tablaModelo) : [];
       if (art.tablaModelo && !tModelo.length) avisos.push(art.id + ': no se encontró en el modelo la sección "' + art.tablaModelo + '"; se usa lista de verificación.');
       if (tModelo.length) {
+        if (debeSaltarTabla(art.id, 'modelo')) P(saltoPrevio());
         tModelo.forEach((tx, k) => {
           if (k) P(clonar(T.vacio));
           const fs = filas(tx);
@@ -1261,6 +1281,7 @@ const PlantillaDocx = (() => {
       }
       const usaRegistro = art.tablaTipo ? art.tablaTipo === 'registro'
         : (fase !== 'IQ' && !!T.registro && OPC.reRegistro.test(tit + ' ' + e.objetivo));
+      if (debeSaltarTabla(art.id, usaRegistro ? 'registro' : 'verificacion')) P(saltoPrevio());
       if (usaRegistro && T.registro) TBL(tablaRegistro(T.registro, caption, tit, d, ctx));
       else TBL(tablaVerificacion(T.verificacion, caption, tit, puntosTabla(art, e)));
       P(clonar(T.vacio));
