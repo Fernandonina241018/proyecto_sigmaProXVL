@@ -90,6 +90,30 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (SigmaProXVL) con spr
 
 ## CAMBIOS RECIENTES
 
+### 2026-11-05 (240): 2FA — envío automático del código TOTP
+
+**Qué:** Al completar o pegar los 6 dígitos del TOTP, el login envía el código automáticamente tras 250 ms. Se mantiene Enter y el fallback manual.
+
+- **Entrada:** solo dígitos, máximo 6; limpia separadores al pegar.
+- **Auto-submit:** espera 250 ms para evitar envíos parciales; respeta `btn.disabled` para no duplicar.
+- **Fallback:** el botón “Verificar” y Enter siguen funcionando.
+- **Test:** sexto dígito dispara la verificación y llega a “Código válido”.
+
+**Archivos afectados:**
+| Archivo | Cambio |
+|---------|--------|
+| `js/core/auth.js` | Normalización y auto-submit en `_show2FAInput` |
+| `tests/auth-login-fases.test.js` | Nuevo test de auto-submit |
+
+**Verificación:**
+```
+node --check js/core/auth.js → OK
+Vitest → 60 archivos, 986 tests OK
+preflight → OK (12 E2E)
+```
+
+**Pendiente:** passkeys/WebAuthn (requiere RP ID/origin, tablas y endpoints dedicados).
+
 ### 2026-11-04 (239): Protocolo maestro — cierre de los 5 pendientes (F1.1, F2, IQ de sistemas y alcance USP)
 
 **Qué:** se cierran los 5 pendientes identificados al cerrar F0+F1, sin inventar normas técnicas.
