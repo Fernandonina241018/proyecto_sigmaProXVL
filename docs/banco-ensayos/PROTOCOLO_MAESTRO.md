@@ -40,7 +40,7 @@ Cada ensayo debe incluir, en este orden:
   - 21 CFR Part 11 / EU GMP Anexo 11.
   - Manual del fabricante.
   - Procedimientos internos de validación, desviaciones y CAPA.
-- **Normas específicas de familia:** las define el responsable técnico. Hasta entonces, la fila 6.6 queda como `PENDIENTE DEL RESPONSABLE`.
+- **Normas específicas de familia:** las define el responsable técnico. Hasta entonces, la fila 6.6 queda como `PENDIENTE DEL RESPONSABLE`. El control de completitud por familia vive en [`NORMAS_POR_FAMILIA.md`](NORMAS_POR_FAMILIA.md); no se completan por inferencia.
 - **No usar USP <1058>** en maquinaria de producción: es una norma de calificación de instrumentos analíticos (tipo M ≠ analítico).
 - **Anexos mínimos:** calibraciones, planos/especificaciones, data cruda/cálculos, desviaciones/CAPA y RTM.
 
@@ -56,7 +56,7 @@ Cada ensayo debe incluir, en este orden:
 8. Reactor
 9. Sistema cremas/vacío
 
-Las 9 restantes se backfillean después con el mismo shell.
+**Backfill completado (F1.1):** autoclave, congelador de laboratorio, horno de secado, horno de vacío, lecho fluido, llenadora de líquidos, llenadora y selladora de tubos, mezclador y refrigerador de laboratorio. Los 9 ya tienen bloques 6 y 8 y normas específicas declaradas; el validador los cubre desde esta versión.
 
 ## 5. Validación
 
@@ -64,18 +64,30 @@ Las 9 restantes se backfillean después con el mismo shell.
 npm run protocolo:check
 ```
 
-El validador comprueba:
+El validador comprueba, para las 18 familias con protocolo (9 prioritarias + 9 backfill):
 
-- que cada familia prioritaria tenga bloques 6 y 8;
-- que el bloque 6 no cite USP <1058>;
-- que las referencias específicas pendientes estén marcadas;
-- que el bloque 8 tenga los cuatro anexos mínimos.
+- que cada familia tenga bloques 6 y 8;
+- que el bloque 6 no cite USP <1058> en maquinaria de producción (tipo M);
+- que las referencias específicas pendientes estén marcadas (fila 6.6);
+- que el bloque 8 tenga los cuatro anexos mínimos (A–D).
+
+### 5.1 F2 — tabla de resultados
+
+- La tabla de resultados replica los **criterios de aceptación** (una fila por criterio), no los pasos del procedimiento. Si un ensayo no declara criterios, se conserva el procedimiento como respaldo para no dejar la tabla vacía.
+- La cabecera del resultado declara **criticidad, prerrequisitos e instrumentos**. Si el banco no los declara, el generador escribe una referencia explícita al bloque 2 (requisitos previos / tabla de instrumentos) y no inventa el dato.
+- Los campos opcionales del banco son `data-criticidad`, `data-prerrequisitos` y `data-instrumentos`.
+
+### 5.2 Sistemas IQ
+
+- Los IQ de sistemas (`docs/banco-ensayos/sistemas/iq-*.html`) están cableados al banco `BancoSistemas` y la fase IQ está habilitada para la categoría `sistemas`: HVAC, agua purificada/WFI, vapor limpio y aire comprimido.
+- La generación de IQ de sistemas usa el mismo núcleo de plantilla que equipos y no hereda los ensayos comunes de equipos.
 
 ## 6. Criterios de aceptación
 
-- [ ] Las 9 familias prioritarias tienen bloques 6 y 8.
-- [ ] Ningún equipo de producción cita USP <1058>.
+- [x] Las 18 familias con protocolo tienen bloques 6 y 8 (9 prioritarias + 9 backfill).
+- [x] Ningún equipo de producción cita USP <1058>.
 - [ ] Cada ensayo tiene criterios y registro C/NC/NA.
-- [ ] La tabla de resultados replica criterios, no pasos.
+- [x] La tabla de resultados replica criterios, no pasos.
+- [x] Los IQ de sistemas están cableados (HVAC, agua, vapor y aire).
 - [ ] `npm run protocolo:check` sin errores.
 - [ ] `npm test` y `npm run preflight` verdes.

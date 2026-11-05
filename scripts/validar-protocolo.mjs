@@ -5,10 +5,19 @@ import { join } from 'node:path';
 
 const root = process.cwd();
 const dir = join(root, 'docs', 'banco-ensayos', 'equipos');
-const familias = [
+// F1: 9 familias prioritarias. F1.1: backfill de las 9 restantes con protocolo.
+const familiasPrioritarias = [
   'tableteadora', 'encapsuladora', 'granulador', 'recubridora', 'blistera',
   'detector-metales', 'etiquetadora', 'reactor', 'sistema-cremas-vacio',
 ];
+const familiasBackfill = [
+  'autoclave', 'congelador-lab', 'horno', 'horno-vacio', 'lecho-fluido',
+  'llenadora', 'llenadora-tubos', 'mezclador', 'refrigerador-lab',
+];
+const familias = familiasPrioritarias.concat(familiasBackfill);
+// La balanza es un instrumento analítico (tipo L): USP <1058> sí le aplica.
+// No forma parte de las familias M y no debe fallar por citarla.
+const instrumentosAnaliticos = new Set(['balanza']);
 const fases = ['oq', 'pq'];
 const errors = [];
 const warnings = [];
@@ -26,8 +35,12 @@ for (const fase of fases) {
     const usp1058 = /USP\s*(?:&lt;|<)\s*1058/i.test(html);
     if (!tiene6) errors.push(`${fase}-${fam}: falta bloque 6 (referencias)`);
     if (!tiene8) errors.push(`${fase}-${fam}: falta bloque 8 (anexos)`);
-    if (usp1058) errors.push(`${fase}-${fam}: cita USP <1058> en maquinaria de producción`);
-    if (html.includes('PENDIENTE DEL RESPONSABLE')) warnings.push(`${fase}-${fam}: referencia específica pendiente del responsable`);
+    if (usp1058 && !instrumentosAnaliticos.has(fam)) {
+      errors.push(`${fase}-${fam}: cita USP <1058> en maquinaria de producción`);
+    }
+    if (html.includes('PENDIENTE DEL RESPONSABLE')) {
+      warnings.push(`${fase}-${fam}: referencia específica pendiente del responsable`);
+    }
     if (tiene8) {
       for (const letra of ['Anexo A', 'Anexo B', 'Anexo C', 'Anexo D']) {
         if (!html.includes(letra)) warnings.push(`${fase}-${fam}: falta ${letra}`);

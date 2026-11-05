@@ -1,8 +1,1242 @@
 // Generado por scripts/extraer-banco.mjs sistemas — NO EDITAR A MANO.
-// Fuente: docs/banco-ensayos/sistemas/oq-agua-purificada.html + docs/banco-ensayos/sistemas/pq-agua-purificada.html + docs/banco-ensayos/sistemas/oq-hvac.html + docs/banco-ensayos/sistemas/pq-hvac.html + docs/banco-ensayos/sistemas/oq-vapor-limpio.html + docs/banco-ensayos/sistemas/pq-vapor-limpio.html + docs/banco-ensayos/sistemas/oq-aire-comprimido.html + docs/banco-ensayos/sistemas/pq-aire-comprimido.html (versión: SIS-OQ-AP 2026-10-14 v1 + SIS-PQ-AP 2026-10-14 v1 + SIS-OQ-HV 2026-10-14 v1 + SIS-PQ-HV 2026-10-14 v1 + SIS-OQ-VL 2026-10-14 v1 + SIS-PQ-VL 2026-10-14 v1 + SIS-OQ-AC 2026-10-15 v1 + SIS-PQ-AC 2026-10-15 v1).
+// Fuente: docs/banco-ensayos/sistemas/iq-agua-purificada.html + docs/banco-ensayos/sistemas/iq-hvac.html + docs/banco-ensayos/sistemas/iq-vapor-limpio.html + docs/banco-ensayos/sistemas/iq-aire-comprimido.html + docs/banco-ensayos/sistemas/oq-agua-purificada.html + docs/banco-ensayos/sistemas/pq-agua-purificada.html + docs/banco-ensayos/sistemas/oq-hvac.html + docs/banco-ensayos/sistemas/pq-hvac.html + docs/banco-ensayos/sistemas/oq-vapor-limpio.html + docs/banco-ensayos/sistemas/pq-vapor-limpio.html + docs/banco-ensayos/sistemas/oq-aire-comprimido.html + docs/banco-ensayos/sistemas/pq-aire-comprimido.html (versión: SIS-IQ-AP 2026-10-24 v1 + SIS-IQ-HV 2026-10-24 v1 + SIS-IQ-VL 2026-10-24 v1 + SIS-IQ-AC 2026-10-24 v1 + SIS-OQ-AP 2026-10-14 v1 + SIS-PQ-AP 2026-10-14 v1 + SIS-OQ-HV 2026-10-14 v1 + SIS-PQ-HV 2026-10-14 v1 + SIS-OQ-VL 2026-10-14 v1 + SIS-PQ-VL 2026-10-14 v1 + SIS-OQ-AC 2026-10-15 v1 + SIS-PQ-AC 2026-10-15 v1).
 var BancoSistemas = {
- "version": "SIS-OQ-AP 2026-10-14 v1 + SIS-PQ-AP 2026-10-14 v1 + SIS-OQ-HV 2026-10-14 v1 + SIS-PQ-HV 2026-10-14 v1 + SIS-OQ-VL 2026-10-14 v1 + SIS-PQ-VL 2026-10-14 v1 + SIS-OQ-AC 2026-10-15 v1 + SIS-PQ-AC 2026-10-15 v1",
+ "version": "SIS-IQ-AP 2026-10-24 v1 + SIS-IQ-HV 2026-10-24 v1 + SIS-IQ-VL 2026-10-24 v1 + SIS-IQ-AC 2026-10-24 v1 + SIS-OQ-AP 2026-10-14 v1 + SIS-PQ-AP 2026-10-14 v1 + SIS-OQ-HV 2026-10-14 v1 + SIS-PQ-HV 2026-10-14 v1 + SIS-OQ-VL 2026-10-14 v1 + SIS-PQ-VL 2026-10-14 v1 + SIS-OQ-AC 2026-10-15 v1 + SIS-PQ-AC 2026-10-15 v1",
  "fases": {
+  "IQ": [
+   {
+    "kind": "ensayo",
+    "id": "SIS-IQ-AP-001",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "SIS-IQ-AP-001 — Verificación de red de distribución y materiales",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que la red de distribución de agua purificada está construida con materiales compatibles, sin puntos muertos y con pendiente adecuada para drenaje."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Verificar materiales de tuberías, válvulas y accesorios (acero inoxidable 316L o equivalente aprobado)<br>\n  2) Verificar ausencia de puntos muertos (legs ciegos) en la red de distribución<br>\n  3) Verificar pendiente de tuberías hacia puntos de drenaje (mínimo 1-3% según diseño)<br>\n  4) Verificar soldaduras y uniones: terminación sanitaria, sin grietas ni porosidad<br>\n  5) Verificar identificaciones de tuberías: contenido, dirección de flujo, número de línea<br>\n  6) Registrar toda desviación como hallazgo con su disposición"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Materiales conforme a especificación de diseño.<br>\n  Sin puntos muertos en la red de distribución.<br>\n  Pendiente y drenaje adecuados."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Matriz material-diseño-vs-instalado<br>\n  - Registro fotográfico de tuberías y uniones (anexo del informe)"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br><span class=\"refnorma\">USP &lt;1231&gt; — Agua para usos farmacéuticos</span>; EU GMP Parte II."
+     }
+    ],
+    "tabla": null,
+    "familia": "agua-purificada"
+   },
+   {
+    "kind": "ensayo",
+    "id": "SIS-IQ-AP-002",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "SIS-IQ-AP-002 — Verificación de puntos de uso y tomas de muestra",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que los puntos de uso y tomas de muestra están instalados en ubicaciones correctas, con válvulas de purga y drenaje adecuadas."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Identificar cada punto de uso y toma de muestra contra el plano de distribución<br>\n  2) Verificar ubicación, altura y accesibilidad para operación y muestreo<br>\n  3) Verificar válvulas de purga y drenaje en cada punto de uso<br>\n  4) Verificar dispositivos de retorno (si aplican) para mantener circulación en circuito cerrado<br>\n  5) Verificar identificaciones y etiquetas en cada punto de uso<br>\n  6) Registrar cada punto de uso en la tabla correspondiente"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Puntos de uso instalados en ubicación correcta según plano.<br>\n  Válvulas de purga y drenaje en cada punto de uso.<br>\n  Identificaciones y etiquetas presentes."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Listado de puntos de uso (ubicación, tipo, válvula de purga)<br>\n  - Plano de distribución con puntos de uso marcados"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br><span class=\"refnorma\">USP &lt;1231&gt; — Agua para usos farmacéuticos</span>; PDA TR-64."
+     }
+    ],
+    "tabla": null,
+    "familia": "agua-purificada"
+   },
+   {
+    "kind": "ensayo",
+    "id": "SIS-IQ-AP-003",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "SIS-IQ-AP-003 — Verificación de sistema de sanitización",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que el sistema de sanitización (ozono, agua caliente, productos químicos) está instalado y configurado para mantener la calidad microbiológica del agua."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Identificar método de sanitización: agua caliente (≥80°C), ozono o desinfectante químico aprobado<br>\n  2) Verificar equipo de sanitización instalado: generador de ozono, intercambiador de calor, dosificadora<br>\n  3) Verificar puntos de inyección y contacto con el agua<br>\n  4) Verificar registros de parámetros de sanitización: temperatura, concentración, tiempo de contacto<br>\n  5) Verificar procedimiento de sanitización escrito y aprobado<br>\n  6) Registrar configuración del sistema de sanitización"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Sistema de sanitización instalado y operativo.<br>\n  Parámetros de sanitización definidos y documentados.<br>\n  Procedimiento escrito y aprobado disponible."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Descripción del sistema de sanitización instalado<br>\n  - Procedimiento de sanitización aprobado<br>\n  - Registro de parámetros de sanitización"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br><span class=\"refnorma\">USP &lt;1231&gt; — Agua para usos farmacéuticos</span>; EU GMP Parte II."
+     }
+    ],
+    "tabla": null,
+    "familia": "agua-purificada"
+   },
+   {
+    "kind": "ensayo",
+    "id": "SIS-IQ-AP-004",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "SIS-IQ-AP-004 — Verificación de estanqueidad de la red",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que la red de distribución de agua purificada no presenta fugas y mantiene la presión de operación."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Realizar prueba de presión de la red con agua o aire según procedimiento de ingeniería<br>\n  2) Verificar manómetros: calibración vigente, rango adecuado<br>\n  3) Monitorear caída de presión durante el período de prueba definido<br>\n  4) Inspeccionar uniones, válvulas y accesorios en busca de fugas visibles<br>\n  5) Registrar presión inicial, final y duración de la prueba<br>\n  6) Registrar cualquier fuga detectada con ubicación y medida correctiva"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Caída de presión dentro del criterio definido en el procedimiento de prueba.<br>\n  Sin fugas visibles en uniones, válvulas ni accesorios.<br>\n  Prueba documentada con resultados registrados."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de prueba de estanqueidad (presión inicial/final, duración)<br>\n  - Reporte de fugas detectadas y medidas correctivas (si aplica)"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br><span class=\"refnorma\">EU GMP Parte II — Requisitos para agua purificada</span>; manual del fabricante del sistema."
+     }
+    ],
+    "tabla": null,
+    "familia": "agua-purificada"
+   },
+   {
+    "kind": "ensayo",
+    "id": "SIS-IQ-AP-005",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "SIS-IQ-AP-005 — Verificación de instrumentos de medición (conductividad, TOC)",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que los instrumentos de medición en línea (conductividad, TOC, temperatura) están instalados, identificados y con calibración vigente."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Listar instrumentos en línea: conductividad, TOC, temperatura, pH (si aplica)<br>\n  2) Verificar ubicación: puntos representativos de la red (distal, proximal, puntos críticos)<br>\n  3) Verificar etiqueta de calibración vigente por instrumento<br>\n  4) Verificar conexión al sistema de control/registro de datos<br>\n  5) Verificar alarmas configuradas: límites de alerta y acción para cada parámetro<br>\n  6) Registrar cada instrumento en la tabla de instrumentos de medición"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  100% de instrumentos instalados en ubicación representativa.<br>\n  Etiqueta de calibración vigente por instrumento.<br>\n  Alarmas configuradas para límites de alerta y acción."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Tabla de instrumentos en línea (modelo/serie/ubicación/certificado)<br>\n  - Copias de certificados de calibración<br>\n  - Captura de pantalla de alarmas configuradas"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br><span class=\"refnorma\">ISO/IEC 17025 — Competencia de laboratorios de ensayo y calibración</span>; USP &lt;1231&gt;."
+     }
+    ],
+    "tabla": null,
+    "familia": "agua-purificada"
+   },
+   {
+    "kind": "ensayo",
+    "id": "SIS-IQ-AP-006",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "SIS-IQ-AP-006 — Verificación de válvulas y puntos muertos",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que las válvulas están instaladas correctamente, sin puntos muertos que comprometan la calidad del agua, y con función de drenaje adecuada."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Identificar cada válvula: tipo, ubicación, función (corte, control, purga, drenaje)<br>\n  2) Verificar operación: apertura/cierre suave, sin fugas en asiento ni empaque<br>\n  3) Verificar ausencia de puntos muertos en configuración de válvulas<br>\n  4) Verificar válvulas de drenaje en puntos bajos de la red<br>\n  5) Verificar válvulas de alivio de presión (si aplica)<br>\n  6) Registrar cada válvula en la tabla correspondiente con su estatus"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Válvulas operan correctamente sin fugas.<br>\n  Sin puntos muertos en la configuración de válvulas.<br>\n  Válvulas de drenaje en puntos bajos instaladas."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Tabla de válvulas (tipo/ubicación/función/estatus)<br>\n  - Registro fotográfico de válvulas críticas (anexo del informe)"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br><span class=\"refnorma\">USP &lt;1231&gt; — Agua para usos farmacéuticos</span>; manual del fabricante del sistema."
+     }
+    ],
+    "tabla": null,
+    "familia": "agua-purificada"
+   },
+   {
+    "kind": "ensayo",
+    "id": "SIS-IQ-AP-007",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "SIS-IQ-AP-007 — Verificación de registros y trazabilidad del sistema de agua",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que el sistema genera registros de calidad del agua (conductividad, TOC, temperatura, flujo) con trazabilidad y que los datos están protegidos según 21 CFR Parte 11."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Verificar sistema de registro de datos: servidor, base de datos, software de adquisición<br>\n  2) Verificar parámetros registrados: conductividad, TOC, temperatura, caudal, presión<br>\n  3) Verificar frecuencia de registro y periodo de retención de datos<br>\n  4) Verificar integridad de datos: audit trail, acceso restringido, firma electrónica (si aplica)<br>\n  5) Verificar copias de seguridad y recuperación de datos<br>\n  6) Registrar configuración del sistema de registro"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Sistema de registro operativo con parámetros críticos capturados.<br>\n  Audit trail activo y acceso restringido.<br>\n  Copias de seguridad definidas y probadas."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Configuración del sistema de registro de datos<br>\n  - Evidencia de audit trail activo<br>\n  - Procedimiento de copias de seguridad"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br><span class=\"refnorma\">21 CFR Parte 11 — Registros electrónicos y firmas electrónicas</span>; EU GMP Anexo 11."
+     }
+    ],
+    "tabla": null,
+    "familia": "agua-purificada"
+   },
+   {
+    "kind": "resumen",
+    "id": "SIS-IQ-AP-RES",
+    "bloque": 4,
+    "cond": "ambas",
+    "titulo": "SIS-IQ-AP-RES — Tabla resumen de los ensayos del IQ de agua purificada",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Consolidar en una matriz el resultado de todos los ensayos IQ de agua purificada como acta de cierre de la fase."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Listar los ensayos del protocolo (<span class=\"lista-resumen\" data-fase-lista=\"IQ\"></span>) con su veredicto (C/NC/NA) y fecha de ejecución<br>\n  2) Justificar cada ensayo declarado No Aplica<br>\n  3) Listar desviaciones abiertas con su estado y plan de cierre<br>\n  4) Firmar el acta de cierre IQ de agua purificada"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  100% de ensayos IQ de agua purificada ejecutados o justificados como No Aplica; cero desviaciones críticas abiertas; acta firmada."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Matriz resumen IQ de agua purificada firmada<br>\n  - Acta de cierre de fase IQ de agua purificada"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br><span class=\"refnorma\">EU GMP Anexo 15 — Calificación y validación</span>."
+     }
+    ],
+    "tabla": null,
+    "familia": "agua-purificada"
+   },
+   {
+    "kind": "tabla",
+    "id": "SIS-IQ-AP-REF",
+    "bloque": 6,
+    "cond": "ambas",
+    "titulo": "SIS-IQ-AP-REF — Referencias del IQ de agua purificada",
+    "secciones": [],
+    "tabla": {
+     "headers": [
+      "N°",
+      "Documento",
+      "Código / Versión"
+     ],
+     "rows": [
+      [
+       "1",
+       "USP <1231> — Agua para usos farmacéuticos",
+       "Edición vigente"
+      ],
+      [
+       "2",
+       "EU GMP Parte II — Requisitos para agua purificada y WFI",
+       "Vigente"
+      ],
+      [
+       "3",
+       "PDA TR-64 — Qualification Guidance",
+       "Edición vigente"
+      ],
+      [
+       "4",
+       "21 CFR Parte 11 — Registros electrónicos y firmas electrónicas",
+       "Vigente"
+      ],
+      [
+       "5",
+       "EU GMP Anexo 11 — Sistemas informatizados",
+       "Vigente"
+      ],
+      [
+       "6",
+       "EU GMP Anexo 15 — Calificación y validación",
+       "Vigente"
+      ],
+      [
+       "7",
+       "______",
+       "______"
+      ]
+     ]
+    },
+    "familia": "agua-purificada"
+   },
+   {
+    "kind": "div",
+    "clase": "anexos",
+    "bloque": 8,
+    "html": "<p><strong>ANEXOS:</strong></p>\n<ul>\n  <li>Anexo A — Matriz material-diseño-vs-instalado de la red</li>\n  <li>Anexo B — Certificados de calibración de instrumentos en línea</li>\n  <li>Anexo C — Plano de distribución con puntos de uso y tomas de muestra</li>\n  <li>Anexo D — Registro de prueba de estanqueidad</li>\n</ul>",
+    "familia": "agua-purificada"
+   },
+   {
+    "kind": "ensayo",
+    "id": "HVAC-IQ-002",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "HVAC-IQ-002 — Verificación de UMA y componentes mecánicos",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que las Unidades de Tratamiento de Aire (UMA), ventiladores, serpentines y componentes mecánicos están instalados conforme al diseño y las especificaciones del fabricante."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Registrar modelo, número de serie y capacidad de cada UMA<br>\n  2) Verificar instalación física contra plano as-built: ubicación, anclaje, accesibilidad para mantenimiento<br>\n  3) Inspeccionar serpentines de calefacción, refrigeración y humidificación: sin fugas, sin daños, fijados correctamente<br>\n  4) Verificar ventiladores: dirección de giro, correas, poleas, cojinetes lubricados<br>\n  5) Verificar drenajes de bandeja de condensados con pendiente adecuada y sifón funcionando<br>\n  6) Registrar toda desviación como hallazgo con su disposición"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Los componentes mecánicos corresponden al diseño aprobado.<br>\n  Sin fugas, daños ni componentes sueltos.<br>\n  Accesibilidad para mantenimiento garantizada."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro fotográfico de UMA y componentes (anexo del informe)<br>\n  - Checklist de verificación mecánica firmado"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br><span class=\"refnorma\">EU GMP Anexo 1 — Fabricación de productos estériles</span>; ISO 14644-1."
+     }
+    ],
+    "tabla": null,
+    "familia": "hvac"
+   },
+   {
+    "kind": "ensayo",
+    "id": "HVAC-IQ-003",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "HVAC-IQ-003 — Verificación de filtros HEPA y clasificación de aire",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que los filtros HEPA instalados corresponden a la clase de filtración especificada y que la clasificación de área (grado A/B/C/D) se mantiene según el diseño."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Identificar cada filtro HEPA: ubicación, posición en el plenum o terminal de difusor<br>\n  2) Verificar certificado de fábrica de cada filtro: clase EN 1822 (H13/H14), número de serie, prueba de fuga integridad<br>\n  3) Verificar marcos y juntas: sin daños, asentamiento correcto, sin vías de derivación (bypass)<br>\n  4) Verificar etiquetado de filtros con fecha de instalación y fecha de reemplazo prevista<br>\n  5) Confirmar que la clasificación de aire del área coincide con el grado especificado en la URS"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Cada filtro HEPA cuenta con certificado de fábrica trazable a su número de serie.<br>\n  Marcos y juntas sin daños, sin vías de derivación.<br>\n  Clasificación de aire conforme al grado especificado."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Certificados de fábrica de filtros HEPA<br>\n  - Registro de filtros instalados (ubicación, serie, fecha de instalación)"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br><span class=\"refnorma\">EN 1822 — Filtros de partículas de alta eficiencia (EPA, HEPA, ULPA)</span>; ISO 14644-3."
+     }
+    ],
+    "tabla": null,
+    "familia": "hvac"
+   },
+   {
+    "kind": "ensayo",
+    "id": "HVAC-IQ-004",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "HVAC-IQ-004 — Verificación de sensores de temperatura, humedad y presión diferencial",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que los sensores T/H y de presión diferencial están instalados en las ubicaciones correctas, identificados y con calibración vigente."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Inventariar sensores: modelo, número de serie, ubicación, rango de medida<br>\n  2) Verificar ubicación contra plano de puntos de monitoreo: retornos, suministro, áreas críticas<br>\n  3) Verificar etiqueta de calibración vigente por sensor<br>\n  4) Confirmar setpoints configurados en el sistema de control (BMS/SCADA): temperatura, humedad relativa, presión diferencial<br>\n  5) Verificar conectividad y transmisión de señal al sistema de control central<br>\n  6) Registrar cada sensor en la tabla de instrumentos de medición"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  100% de sensores instalados en ubicación correcta según plano.<br>\n  Etiqueta de calibración vigente por sensor.<br>\n  Setpoints configurados coinciden con la URS."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Tabla de instrumentos de medición (modelo/serie/ubicación/certificado)<br>\n  - Copias de certificados de calibración<br>\n  - Captura de pantalla de setpoints en BMS/SCADA"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br><span class=\"refnorma\">ISO/IEC 17025 — Competencia de laboratorios de ensayo y calibración</span>; EU GMP Anexo 15."
+     }
+    ],
+    "tabla": null,
+    "familia": "hvac"
+   },
+   {
+    "kind": "ensayo",
+    "id": "HVAC-IQ-005",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "HVAC-IQ-005 — Verificación de ductos y distribución de aire",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que los ductos, difusores, retornos y registro de aire están instalados conforme al plano as-built, sin fugas ni obstrucciones."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Recorrido con plano as-built identificando ductos de suministro, retorno y extracción<br>\n  2) Verificar diámetro, material y aislamiento de ductos contra especificaciones<br>\n  3) Inspeccionar difusores, rejillas y retornos: ubicación, orientación, sin obstrucciones<br>\n  4) Verificar registros de volumen y cortafuegos: funcionamiento, identificación<br>\n  5) Verificar estanqueidad de uniones y conexiones (sin fugas visibles)<br>\n  6) Registrar diferencias plano-vs-instalado con justificación"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Ductos y componentes corresponden al plano as-built.<br>\n  Sin fugas, obstrucciones ni componentes sin identificar.<br>\n  Diferencias documentadas y justificadas."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Plano as-built con ductos verificados y firmado<br>\n  - Matriz ducto-vs-instalado<br>\n  - Registro fotográfico de difusores y retornos"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br><span class=\"refnorma\">EU GMP Anexo 1 — Fabricación de productos estériles</span>; ASHRAE Handbook HVAC Applications."
+     }
+    ],
+    "tabla": null,
+    "familia": "hvac"
+   },
+   {
+    "kind": "ensayo",
+    "id": "HVAC-IQ-006",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "HVAC-IQ-006 — Verificación de sistemas de control y alarmas",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que el sistema de control (BMS/SCADA/PLC) del HVAC opera correctamente, con alarmas configuradas y funciones de seguridad activas."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Verificar lógica de control: secuenciamiento de arranque/parada, modos de operación<br>\n  2) Verificar alarmas configuradas: alta/baja temperatura, alta/baja HR, alta/baja presión diferencial, falla de filtro<br>\n  3) Verificar simulación de alarma: activación, visualización en BMS, notificación al responsable<br>\n  4) Verificar interconexión con sistema de gestión de edificios (BMS) o SCADA<br>\n  5) Verificar respaldo de energía (UPS/generador) para equipos críticos de control<br>\n  6) Registrar configuración de alarmas y resultados de pruebas"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Lógica de control opera según especificación.<br>\n  Alarmas configuradas y funcionales para todos los parámetros críticos.<br>\n  Respaldo de energía verificado para equipos de control."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de configuración de alarmas (BMS/SCADA)<br>\n  - Pruebas de activación de alarma (captura de pantalla/log)<br>\n  - Verificación de respaldo de energía"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br><span class=\"refnorma\">EU GMP Anexo 11 — Sistemas informatizados</span>; 21 CFR Parte 11."
+     }
+    ],
+    "tabla": null,
+    "familia": "hvac"
+   },
+   {
+    "kind": "ensayo",
+    "id": "HVAC-IQ-007",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "HVAC-IQ-007 — Verificación de renovaciones de aire y flujo unidireccional",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que las renovaciones de aire por hora (ACH) y el patrón de flujo (unidireccional o turbulento) corresponden al grado de clasificación del área."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Verificar número de renovaciones de aire calculado contra diseño (ACH = caudal/volumen)<br>\n  2) Verificar velocidad de aire en difusores de suministro (m/s)<br>\n  3) Verificar patrón de flujo visual (cintas de humo o similar) en áreas de grado A/B<br>\n  4) Verificar dirección del flujo de aire entre zonas de diferente clasificación (de más limpio a menos limpio)<br>\n  5) Registrar mediciones y observaciones de flujo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Renovaciones de aire dentro del rango especificado para el grado del área.<br>\n  Patrón de flujo conforme al diseño (unidireccional en grado A/B).<br>\n  Dirección de flujo de aire entre zonas correcta."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de mediciones de caudal y velocidad de aire<br>\n  - Prueba visual de patrón de flujo (fotos/video)<br>\n  - Cálculo de ACH por área"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br><span class=\"refnorma\">ISO 14644-1 — Clasificación de limpieza del aire en salas limpias</span>; EU GMP Anexo 1."
+     }
+    ],
+    "tabla": null,
+    "familia": "hvac"
+   },
+   {
+    "kind": "ensayo",
+    "id": "HVAC-IQ-008",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "HVAC-IQ-008 — Verificación de registros de calibración de instrumentos HVAC",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que todos los instrumentos de medición asociados al HVAC (manómetros, termómetros, higrómetros, transmisores de presión) cuentan con calibración vigente y trazable."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Listar todos los instrumentos de medición del sistema HVAC<br>\n  2) Verificar certificado de calibración vigente por instrumento (no vencido)<br>\n  3) Verificar trazabilidad a patrones nacionales o internacionales<br>\n  4) Verificar incertidumbre declarada en el certificado<br>\n  5) Anexar certificados al legajo de calificación"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  100% de instrumentos con certificado de calibración vigente.<br>\n  Trazabilidad a patrones reconocidos.<br>\n  Incertidumbre declarada compatible con el uso previsto."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Listado de instrumentos HVAC con certificado de calibración<br>\n  - Copias de certificados de calibración (anexo del informe)"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br><span class=\"refnorma\">ISO/IEC 17025 — Calibración trazable a patrones nacionales o internacionales</span>."
+     }
+    ],
+    "tabla": null,
+    "familia": "hvac"
+   },
+   {
+    "kind": "resumen",
+    "id": "HVAC-IQ-RES",
+    "bloque": 4,
+    "cond": "ambas",
+    "titulo": "HVAC-IQ-RES — Tabla resumen de los ensayos del IQ de HVAC",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Consolidar en una matriz el resultado de todos los ensayos IQ de HVAC como acta de cierre de la fase."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Listar los ensayos del protocolo (<span class=\"lista-resumen\" data-fase-lista=\"IQ\"></span>) con su veredicto (C/NC/NA) y fecha de ejecución<br>\n  2) Justificar cada ensayo declarado No Aplica<br>\n  3) Listar desviaciones abiertas con su estado y plan de cierre<br>\n  4) Firmar el acta de cierre IQ de HVAC"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  100% de ensayos IQ de HVAC ejecutados o justificados como No Aplica; cero desviaciones críticas abiertas; acta firmada."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Matriz resumen IQ de HVAC firmada<br>\n  - Acta de cierre de fase IQ de HVAC"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br><span class=\"refnorma\">EU GMP Anexo 15 — Calificación y validación</span>."
+     }
+    ],
+    "tabla": null,
+    "familia": "hvac"
+   },
+   {
+    "kind": "tabla",
+    "id": "HVAC-IQ-REF",
+    "bloque": 6,
+    "cond": "ambas",
+    "titulo": "HVAC-IQ-REF — Referencias del IQ de HVAC",
+    "secciones": [],
+    "tabla": {
+     "headers": [
+      "N°",
+      "Documento",
+      "Código / Versión"
+     ],
+     "rows": [
+      [
+       "1",
+       "EU GMP Anexo 1 — Fabricación de productos estériles",
+       "Vigente"
+      ],
+      [
+       "2",
+       "ISO 14644-1 — Clasificación de limpieza del aire en salas limpias",
+       "Edición vigente"
+      ],
+      [
+       "3",
+       "ISO 14644-3 — Métodos de ensayo para salas limpias",
+       "Edición vigente"
+      ],
+      [
+       "4",
+       "EN 1822 — Filtros de partículas de alta eficiencia",
+       "Edición vigente"
+      ],
+      [
+       "5",
+       "ASHRAE Handbook — HVAC Applications",
+       "Edición vigente"
+      ],
+      [
+       "6",
+       "EU GMP Anexo 15 — Calificación y validación",
+       "Vigente"
+      ],
+      [
+       "7",
+       "______",
+       "______"
+      ]
+     ]
+    },
+    "familia": "hvac"
+   },
+   {
+    "kind": "div",
+    "clase": "anexos",
+    "bloque": 8,
+    "html": "<p><strong>ANEXOS:</strong></p>\n<ul>\n  <li>Anexo A — Certificados de fábrica de filtros HEPA</li>\n  <li>Anexo B — Certificados de calibración de sensores e instrumentos</li>\n  <li>Anexo C — Plano as-built de ductos y distribución de aire</li>\n  <li>Anexo D — Registro de configuración de alarmas (BMS/SCADA)</li>\n</ul>",
+    "familia": "hvac"
+   },
+   {
+    "kind": "ensayo",
+    "id": "SIS-IQ-VL-001",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "SIS-IQ-VL-001 — Verificación de generador de vapor limpio",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que el generador de vapor limpio está instalado conforme al diseño, con materiales adecuados y capacidad suficiente para la demanda del sistema."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Registrar modelo, número de serie y capacidad del generador de vapor limpio<br>\n  2) Verificar materiales de construcción (acero inoxidable 316L o equivalente aprobado para contacto con vapor)<br>\n  3) Verificar instalación física: ubicación, anclaje, accesibilidad para mantenimiento<br>\n  4) Verificar conexión de agua de alimentación: calidad, presión, caudal<br>\n  5) Verificar conexión de energía: eléctrica o según tipo de generador<br>\n  6) Verificar salidas de vapor: diámetro, material, aislamiento<br>\n  7) Registrar toda desviación como hallazgo con su disposición"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Generador de vapor limpio instalado conforme a especificaciones.<br>\n  Materiales compatibles con vapor limpio (contacto con producto).<br>\n  Capacidad suficiente para la demanda del sistema."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro fotográfico del generador de vapor limpio (anexo del informe)<br>\n  - Ficha técnica y certificado del fabricante"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br><span class=\"refnorma\">EN 285 — Esterilizadores a vapor de gran capacidad</span>; EU GMP Anexo 1."
+     }
+    ],
+    "tabla": null,
+    "familia": "vapor-limpio"
+   },
+   {
+    "kind": "ensayo",
+    "id": "SIS-IQ-VL-002",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "SIS-IQ-VL-002 — Verificación de red de distribución de vapor",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que la red de distribución de vapor limpio está instalada con materiales compatibles, pendiente adecuada y puntos de drenaje para evitar acumulados de condensado."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Verificar materiales de tuberías y válvulas (acero inoxidable 316L o equivalente)<br>\n  2) Verificar pendiente de tuberías hacia puntos de drenaje (mínimo 1-3% según diseño)<br>\n  3) Verificar trampas de vapor (steam traps) en puntos bajos y finales de ramal<br>\n  4) Verificar válvulas de alivio y seguridad en la red<br>\n  5) Verificar identificaciones de tuberías: contenido, dirección de flujo, número de línea<br>\n  6) Verificar ausencia de puntos muertos en la red de distribución<br>\n  7) Registrar toda desviación como hallazgo con su disposición"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Materiales conforme a especificación de diseño.<br>\n  Pendiente y drenaje adecuados hacia puntos de drenaje.<br>\n  Trampas de vapor instaladas en puntos bajos y finales de ramal.<br>\n  Sin puntos muertos."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Matriz material-diseño-vs-instalado de la red de vapor<br>\n  - Registro fotográfico de trampas de vapor y válvulas (anexo del informe)"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br><span class=\"refnorma\">EN 285 — Esterilizadores a vapor de gran capacidad</span>; EU GMP Parte II."
+     }
+    ],
+    "tabla": null,
+    "familia": "vapor-limpio"
+   },
+   {
+    "kind": "ensayo",
+    "id": "SIS-IQ-VL-003",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "SIS-IQ-VL-003 — Verificación de puntos de uso y trampas de vapor",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que los puntos de uso de vapor limpio están instalados con válvulas de corte, drenaje y trampas adecuadas para entregar vapor de calidad al proceso."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Identificar cada punto de uso contra el plano de distribución<br>\n  2) Verificar válvula de corte en cada punto de uso<br>\n  3) Verificar trampa de vapor o drenaje en cada punto de uso para eliminar condensado<br>\n  4) Verificar filtros de vapor (si aplican) en puntos críticos<br>\n  5) Verificar identificaciones y etiquetas en cada punto de uso<br>\n  6) Registrar cada punto de uso en la tabla correspondiente"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Puntos de uso con válvula de corte y drenaje/trampa.<br>\n  Identificaciones y etiquetas presentes.<br>\n  Puntos de uso accesibles para operación y mantenimiento."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Listado de puntos de uso de vapor (ubicación, tipo, válvula de corte, trampa)<br>\n  - Plano de distribución con puntos de uso marcados"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br><span class=\"refnorma\">EN 285 — Esterilizadores a vapor de gran capacidad</span>; EU GMP Anexo 1."
+     }
+    ],
+    "tabla": null,
+    "familia": "vapor-limpio"
+   },
+   {
+    "kind": "ensayo",
+    "id": "SIS-IQ-VL-004",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "SIS-IQ-VL-004 — Verificación de calidad de agua de alimentación del generador",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que el agua de alimentación del generador de vapor limpio cumple con las especificaciones de calidad para evitar contaminación del vapor."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Verificar fuente de agua de alimentación: agua purificada, agua de red o agua desionizada<br>\n  2) Verificar sistema de pretratamiento (filtros, suavizante, desionizador si aplica)<br>\n  3) Verificar instrumentos de medición de calidad de entrada: conductividad, temperatura<br>\n  4) Verificar especificaciones de calidad de agua de alimentación según diseño del generador<br>\n  5) Verificar registros de calidad de agua de alimentación<br>\n  6) Registrar resultados y desviaciones"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Calidad de agua de alimentación conforme a especificaciones del generador.<br>\n  Instrumentos de medición de calidad instalados y operativos.<br>\n  Registros de calidad disponibles."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Especificaciones de calidad de agua de alimentación<br>\n  - Registros de calidad de agua de entrada (primeros resultados)"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br><span class=\"refnorma\">USP &lt;1231&gt; — Agua para usos farmacéuticos</span>; manual del fabricante del generador."
+     }
+    ],
+    "tabla": null,
+    "familia": "vapor-limpio"
+   },
+   {
+    "kind": "ensayo",
+    "id": "SIS-IQ-VL-005",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "SIS-IQ-VL-005 — Verificación de instrumentos de medición (temperatura, presión)",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que los instrumentos de medición del sistema de vapor limpio (temperatura, presión, caudal) están instalados, identificados y con calibración vigente."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Listar instrumentos: manómetros, termómetros, transmisores de presión, medidores de caudal<br>\n  2) Verificar ubicación: puntos representativos (salida del generador, puntos de uso distal)<br>\n  3) Verificar etiqueta de calibración vigente por instrumento<br>\n  4) Verificar conexión al sistema de control/registro de datos<br>\n  5) Verificar alarmas configuradas: límites de alta/baja presión y temperatura<br>\n  6) Registrar cada instrumento en la tabla de instrumentos de medición"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  100% de instrumentos instalados en ubicación representativa.<br>\n  Etiqueta de calibración vigente por instrumento.<br>\n  Alarmas configuradas para límites de alta/baja."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Tabla de instrumentos de medición (modelo/serie/ubicación/certificado)<br>\n  - Copias de certificados de calibración<br>\n  - Captura de pantalla de alarmas configuradas"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br><span class=\"refnorma\">ISO/IEC 17025 — Competencia de laboratorios de ensayo y calibración</span>; EU GMP Anexo 15."
+     }
+    ],
+    "tabla": null,
+    "familia": "vapor-limpio"
+   },
+   {
+    "kind": "ensayo",
+    "id": "SIS-IQ-VL-006",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "SIS-IQ-VL-006 — Verificación de válvulas de alivio y seguridad",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que las válvulas de alivio y seguridad del sistema de vapor limpio están instaladas, identificadas y con certificado de calibración vigente."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Identificar válvulas de alivio y seguridad: ubicación, presión de ajuste, capacidad<br>\n  2) Verificar certificado de calibración de válvula de seguridad vigente<br>\n  3) Verificar presión de ajuste contra especificación de diseño del generador y red<br>\n  4) Verificar descarga de válvulas de alivio conducida a zona segura<br>\n  5) Verificar identificación y etiquetado de cada válvula<br>\n  6) Registrar cada válvula en la tabla correspondiente"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Válvulas de alivio y seguridad con certificado de calibración vigente.<br>\n  Presión de ajuste conforme al diseño del sistema.<br>\n  Descarga conducida a zona segura."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Tabla de válvulas de alivio (ubicación/presión de ajuste/certificado)<br>\n  - Copias de certificados de calibración de válvulas de seguridad"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br><span class=\"refnorma\">ASME BPVC Sección VIII — Recipientes a presión</span>; EN 285."
+     }
+    ],
+    "tabla": null,
+    "familia": "vapor-limpio"
+   },
+   {
+    "kind": "ensayo",
+    "id": "SIS-IQ-VL-007",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "SIS-IQ-VL-007 — Verificación de registros de calibración de instrumentos de vapor",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que todos los instrumentos de medición asociados al sistema de vapor limpio cuentan con calibración vigente y trazable a patrones reconocidos."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Listar todos los instrumentos de medición del sistema de vapor limpio<br>\n  2) Verificar certificado de calibración vigente por instrumento (no vencido)<br>\n  3) Verificar trazabilidad a patrones nacionales o internacionales<br>\n  4) Verificar incertidumbre declarada en el certificado<br>\n  5) Anexar certificados al legajo de calificación"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  100% de instrumentos con certificado de calibración vigente.<br>\n  Trazabilidad a patrones reconocidos.<br>\n  Incertidumbre declarada compatible con el uso previsto."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Listado de instrumentos de vapor con certificado de calibración<br>\n  - Copias de certificados de calibración (anexo del informe)"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br><span class=\"refnorma\">ISO/IEC 17025 — Calibración trazable a patrones nacionales o internacionales</span>."
+     }
+    ],
+    "tabla": null,
+    "familia": "vapor-limpio"
+   },
+   {
+    "kind": "resumen",
+    "id": "SIS-IQ-VL-RES",
+    "bloque": 4,
+    "cond": "ambas",
+    "titulo": "SIS-IQ-VL-RES — Tabla resumen de los ensayos del IQ de vapor limpio",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Consolidar en una matriz el resultado de todos los ensayos IQ de vapor limpio como acta de cierre de la fase."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Listar los ensayos del protocolo (<span class=\"lista-resumen\" data-fase-lista=\"IQ\"></span>) con su veredicto (C/NC/NA) y fecha de ejecución<br>\n  2) Justificar cada ensayo declarado No Aplica<br>\n  3) Listar desviaciones abiertas con su estado y plan de cierre<br>\n  4) Firmar el acta de cierre IQ de vapor limpio"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  100% de ensayos IQ de vapor limpio ejecutados o justificados como No Aplica; cero desviaciones críticas abiertas; acta firmada."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Matriz resumen IQ de vapor limpio firmada<br>\n  - Acta de cierre de fase IQ de vapor limpio"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br><span class=\"refnorma\">EU GMP Anexo 15 — Calificación y validación</span>."
+     }
+    ],
+    "tabla": null,
+    "familia": "vapor-limpio"
+   },
+   {
+    "kind": "tabla",
+    "id": "SIS-IQ-VL-REF",
+    "bloque": 6,
+    "cond": "ambas",
+    "titulo": "SIS-IQ-VL-REF — Referencias del IQ de vapor limpio",
+    "secciones": [],
+    "tabla": {
+     "headers": [
+      "N°",
+      "Documento",
+      "Código / Versión"
+     ],
+     "rows": [
+      [
+       "1",
+       "EN 285 — Esterilizadores a vapor de gran capacidad",
+       "Edición vigente"
+      ],
+      [
+       "2",
+       "EU GMP Anexo 1 — Fabricación de productos estériles",
+       "Vigente"
+      ],
+      [
+       "3",
+       "USP <1231> — Agua para usos farmacéuticos",
+       "Edición vigente"
+      ],
+      [
+       "4",
+       "ASME BPVC Sección VIII — Recipientes a presión",
+       "Edición vigente"
+      ],
+      [
+       "5",
+       "EU GMP Anexo 15 — Calificación y validación",
+       "Vigente"
+      ],
+      [
+       "6",
+       "ISO/IEC 17025 — Competencia de laboratorios de ensayo y calibración",
+       "Edición vigente"
+      ],
+      [
+       "7",
+       "______",
+       "______"
+      ]
+     ]
+    },
+    "familia": "vapor-limpio"
+   },
+   {
+    "kind": "div",
+    "clase": "anexos",
+    "bloque": 8,
+    "html": "<p><strong>ANEXOS:</strong></p>\n<ul>\n  <li>Anexo A — Ficha técnica y certificado del generador de vapor limpio</li>\n  <li>Anexo B — Certificados de calibración de válvulas de seguridad</li>\n  <li>Anexo C — Plano de distribución de vapor con trampas y puntos de uso</li>\n  <li>Anexo D — Certificados de calibración de instrumentos de vapor</li>\n</ul>",
+    "familia": "vapor-limpio"
+   },
+   {
+    "kind": "ensayo",
+    "id": "SIS-IQ-AC-001",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "SIS-IQ-AC-001 — Verificación de compresor y equipo de generación",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que el compresor de aire y el equipo de generación están instalados conforme al diseño, con capacidad suficiente y ubicación adecuada."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Registrar modelo, número de serie y capacidad del compresor (caudal, presión)<br>\n  2) Verificar tipo de compresor: sin aceite (oil-free) o con aceite y sistema de eliminación de residuos<br>\n  3) Verificar instalación física: ubicación, anclaje, accesibilidad para mantenimiento, ventilación<br>\n  4) Verificar conexión de entrada de aire: filtro de admisión, ubicación libre de contaminantes<br>\n  5) Verificar conexión de salida de aire: diámetro, material, válvula de corte<br>\n  6) Verificar drenaje de condensado del compresor<br>\n  7) Registrar toda desviación como hallazgo con su disposición"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Compresor instalado conforme a especificaciones de diseño.<br>\n  Capacidad suficiente para la demanda del sistema de aire comprimido.<br>\n  Ubicación con ventilación adecuada y acceso para mantenimiento."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro fotográfico del compresor y equipo de generación (anexo del informe)<br>\n  - Ficha técnica y certificado del fabricante"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br><span class=\"refnorma\">ISO 8573-1 — Calidad del aire comprimido</span>; EU GMP Parte II."
+     }
+    ],
+    "tabla": null,
+    "familia": "aire-comprimido"
+   },
+   {
+    "kind": "ensayo",
+    "id": "SIS-IQ-AC-002",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "SIS-IQ-AC-002 — Verificación de sistema de filtración",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que el sistema de filtración del aire comprimido (filtros de partículas, coalescentes, carbón activado) está instalado según el diseño y las clases de calidad requeridas."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Identificar cada filtro: tipo (partículas, coalescente, carbón activado), ubicación, grado de filtración<br>\n  2) Verificar certificado de fábrica de cada filtro: grado, clase de filtración, número de serie<br>\n  3) Verificar marcos y juntas: sin daños, asentamiento correcto, sin vías de derivación<br>\n  4) Verificar indicadores de diferencial de presión (si aplican)<br>\n  5) Verificar válvulas de drenaje automático o manual en filtros<br>\n  6) Registrar cada filtro en la tabla correspondiente"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Filtros instalados conforme al grado de filtración especificado.<br>\n  Certificados de fábrica trazables a número de serie.<br>\n  Sin vías de derivación ni daños en marcos y juntas."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Certificados de fábrica de filtros<br>\n  - Registro de filtros instalados (tipo/ubicación/serie/fecha de instalación)"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br><span class=\"refnorma\">ISO 8573-1 — Calidad del aire comprimido — Parte 1: Contaminantes y clases de pureza</span>; EU GMP Parte II."
+     }
+    ],
+    "tabla": null,
+    "familia": "aire-comprimido"
+   },
+   {
+    "kind": "ensayo",
+    "id": "SIS-IQ-AC-003",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "SIS-IQ-AC-003 — Verificación de secado y punto de rocío",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que el sistema de secado de aire comprimido (secador por adsorción, refrigerado o de membrana) está instalado y configurado para alcanzar el punto de rocío requerido."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Identificar tipo de secador: adsorción, refrigeración o membrana<br>\n  2) Verificar instalación física: ubicación, anclaje, conexiones de entrada y salida<br>\n  3) Verificar sistema de purgas y drenaje de condensado del secador<br>\n  4) Verificar instrumento de medición de punto de rocío (higrómetro, sensor de humedad)<br>\n  5) Verificar punto de rocío configurado contra especificación de diseño (ej. -40°C pdb)<br>\n  6) Registrar configuración del secador y resultados iniciales"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Secador instalado y operativo.<br>\n  Punto de rocío configurado conforme a especificación de diseño.<br>\n  Instrumento de medición de punto de rocío instalado y con calibración vigente."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Descripción del sistema de secado instalado<br>\n  - Registro de punto de rocío configurado y medido<br>\n  - Certificado de calibración del sensor de humedad/punto de rocío"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br><span class=\"refnorma\">ISO 8573-1 — Calidad del aire comprimido</span>; manual del fabricante del secador."
+     }
+    ],
+    "tabla": null,
+    "familia": "aire-comprimido"
+   },
+   {
+    "kind": "ensayo",
+    "id": "SIS-IQ-AC-004",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "SIS-IQ-AC-004 — Verificación de red de distribución de aire comprimido",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que la red de distribución de aire comprimido está instalada con materiales compatibles, pendiente adecuada y puntos de drenaje para eliminar condensado."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Verificar materiales de tuberías y válvulas (acero inoxidable, cobre, aluminio o plástico aprobado)<br>\n  2) Verificar pendiente de tuberías hacia puntos de drenaje<br>\n  3) Verificar válvulas de purga y drenaje en puntos bajos y finales de ramal<br>\n  4) Verificar identificaciones de tuberías: contenido, dirección de flujo, número de línea<br>\n  5) Verificar ausencia de puntos muertos en la red de distribución<br>\n  6) Registrar toda desviación como hallazgo con su disposición"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Materiales conforme a especificación de diseño.<br>\n  Pendiente y drenaje adecuados hacia puntos de drenaje.<br>\n  Válvulas de purga en puntos bajos y finales de ramal.<br>\n  Sin puntos muertos."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Matriz material-diseño-vs-instalado de la red de aire comprimido<br>\n  - Registro fotográfico de válvulas de purga y drenaje (anexo del informe)"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br><span class=\"refnorma\">ISO 8573-1 — Calidad del aire comprimido</span>; EU GMP Parte II."
+     }
+    ],
+    "tabla": null,
+    "familia": "aire-comprimido"
+   },
+   {
+    "kind": "ensayo",
+    "id": "SIS-IQ-AC-005",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "SIS-IQ-AC-005 — Verificación de puntos de uso y válvulas de purga",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que los puntos de uso de aire comprimido están instalados con válvulas de corte, reguladores y purga adecuados para entregar aire de calidad al proceso."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Identificar cada punto de uso contra el plano de distribución<br>\n  2) Verificar válvula de corte en cada punto de uso<br>\n  3) Verificar regulador de presión y lubricador (si aplica) en cada punto de uso<br>\n  4) Verificar válvula de purga o drenaje en cada punto de uso<br>\n  5) Verificar filtros de punto de uso (si aplican)<br>\n  6) Verificar identificaciones y etiquetas en cada punto de uso<br>\n  7) Registrar cada punto de uso en la tabla correspondiente"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Puntos de uso con válvula de corte, regulador y purga.<br>\n  Identificaciones y etiquetas presentes.<br>\n  Puntos de uso accesibles para operación y mantenimiento."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Listado de puntos de uso de aire comprimido (ubicación, tipo, válvula de corte, regulador, purga)<br>\n  - Plano de distribución con puntos de uso marcados"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br><span class=\"refnorma\">ISO 8573-1 — Calidad del aire comprimido</span>; EU GMP Parte II."
+     }
+    ],
+    "tabla": null,
+    "familia": "aire-comprimido"
+   },
+   {
+    "kind": "ensayo",
+    "id": "SIS-IQ-AC-006",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "SIS-IQ-AC-006 — Verificación de instrumentos de medición (presión, caudal, punto de rocío)",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que los instrumentos de medición del sistema de aire comprimido (manómetros, medidores de caudal, sensores de punto de rocío) están instalados, identificados y con calibración vigente."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Listar instrumentos: manómetros, medidores de caudal, sensores de punto de rocío/humedad<br>\n  2) Verificar ubicación: puntos representativos (salida del compresor, después de secador, puntos de uso distal)<br>\n  3) Verificar etiqueta de calibración vigente por instrumento<br>\n  4) Verificar conexión al sistema de control/registro de datos<br>\n  5) Verificar alarmas configuradas: límites de alta/baja presión, punto de rocío alto<br>\n  6) Registrar cada instrumento en la tabla de instrumentos de medición"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  100% de instrumentos instalados en ubicación representativa.<br>\n  Etiqueta de calibración vigente por instrumento.<br>\n  Alarmas configuradas para límites de alta/baja y punto de rocío."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Tabla de instrumentos de medición (modelo/serie/ubicación/certificado)<br>\n  - Copias de certificados de calibración<br>\n  - Captura de pantalla de alarmas configuradas"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br><span class=\"refnorma\">ISO/IEC 17025 — Competencia de laboratorios de ensayo y calibración</span>; EU GMP Anexo 15."
+     }
+    ],
+    "tabla": null,
+    "familia": "aire-comprimido"
+   },
+   {
+    "kind": "ensayo",
+    "id": "SIS-IQ-AC-007",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "SIS-IQ-AC-007 — Verificación de registros de calidad del aire comprimido",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que el sistema genera registros de calidad del aire (partículas, aceite, humedad, punto de rocío) con trazabilidad y que los datos están protegidos según 21 CFR Parte 11 cuando el aire está en contacto con producto."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Verificar sistema de registro de datos de calidad del aire<br>\n  2) Verificar parámetros registrados: partículas, contenido de aceite, punto de rocío, presión, caudal<br>\n  3) Verificar frecuencia de registro y periodo de retención de datos<br>\n  4) Verificar integridad de datos: audit trail, acceso restringido (si aplica)<br>\n  5) Verificar copias de seguridad y recuperación de datos<br>\n  6) Registrar configuración del sistema de registro"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Sistema de registro operativo con parámetros críticos capturados (cuando el aire contacta producto).<br>\n  Audit trail activo y acceso restringido (cuando aplique 21 CFR Parte 11).<br>\n  Copias de seguridad definidas."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Configuración del sistema de registro de calidad del aire<br>\n  - Evidencia de audit trail activo (si aplica)<br>\n  - Procedimiento de copias de seguridad"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br><span class=\"refnorma\">21 CFR Parte 11 — Registros electrónicos y firmas electrónicas</span>; ISO 8573-1."
+     }
+    ],
+    "tabla": null,
+    "familia": "aire-comprimido"
+   },
+   {
+    "kind": "resumen",
+    "id": "SIS-IQ-AC-RES",
+    "bloque": 4,
+    "cond": "ambas",
+    "titulo": "SIS-IQ-AC-RES — Tabla resumen de los ensayos del IQ de aire comprimido",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Consolidar en una matriz el resultado de todos los ensayos IQ de aire comprimido como acta de cierre de la fase."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Listar los ensayos del protocolo (<span class=\"lista-resumen\" data-fase-lista=\"IQ\"></span>) con su veredicto (C/NC/NA) y fecha de ejecución<br>\n  2) Justificar cada ensayo declarado No Aplica<br>\n  3) Listar desviaciones abiertas con su estado y plan de cierre<br>\n  4) Firmar el acta de cierre IQ de aire comprimido"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  100% de ensayos IQ de aire comprimido ejecutados o justificados como No Aplica; cero desviaciones críticas abiertas; acta firmada."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Matriz resumen IQ de aire comprimido firmada<br>\n  - Acta de cierre de fase IQ de aire comprimido"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br><span class=\"refnorma\">EU GMP Anexo 15 — Calificación y validación</span>."
+     }
+    ],
+    "tabla": null,
+    "familia": "aire-comprimido"
+   },
+   {
+    "kind": "tabla",
+    "id": "SIS-IQ-AC-REF",
+    "bloque": 6,
+    "cond": "ambas",
+    "titulo": "SIS-IQ-AC-REF — Referencias del IQ de aire comprimido",
+    "secciones": [],
+    "tabla": {
+     "headers": [
+      "N°",
+      "Documento",
+      "Código / Versión"
+     ],
+     "rows": [
+      [
+       "1",
+       "ISO 8573-1 — Calidad del aire comprimido — Parte 1: Contaminantes y clases de pureza",
+       "Edición vigente"
+      ],
+      [
+       "2",
+       "EU GMP Parte II — Requisitos para aire comprimido en contacto con producto",
+       "Vigente"
+      ],
+      [
+       "3",
+       "21 CFR Parte 11 — Registros electrónicos y firmas electrónicas",
+       "Vigente"
+      ],
+      [
+       "4",
+       "EU GMP Anexo 11 — Sistemas informatizados",
+       "Vigente"
+      ],
+      [
+       "5",
+       "EU GMP Anexo 15 — Calificación y validación",
+       "Vigente"
+      ],
+      [
+       "6",
+       "ISO/IEC 17025 — Competencia de laboratorios de ensayo y calibración",
+       "Edición vigente"
+      ],
+      [
+       "7",
+       "______",
+       "______"
+      ]
+     ]
+    },
+    "familia": "aire-comprimido"
+   },
+   {
+    "kind": "div",
+    "clase": "anexos",
+    "bloque": 8,
+    "html": "<p><strong>ANEXOS:</strong></p>\n<ul>\n  <li>Anexo A — Ficha técnica y certificado del compresor</li>\n  <li>Anexo B — Certificados de fábrica de filtros de aire comprimido</li>\n  <li>Anexo C — Plano de distribución de aire con válvulas de purga y puntos de uso</li>\n  <li>Anexo D — Certificados de calibración de instrumentos de aire comprimido</li>\n</ul>",
+    "familia": "aire-comprimido"
+   }
+  ],
   "OQ": [
    {
     "kind": "div",
