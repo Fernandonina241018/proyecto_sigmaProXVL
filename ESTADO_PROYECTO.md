@@ -95,7 +95,7 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (SigmaProXVL) con spr
 **Qué:** Se añadió soporte de passkeys (huella, rostro o llave de seguridad) como alternativa rápida al código TOTP. El TOTP sigue siendo obligatorio como respaldo antes de registrar una passkey.
 
 - **Backend:** `@simplewebauthn/server@14.0.3`; tablas `webauthn_credentials` y `webauthn_challenges` (PostgreSQL y store JSON local). Endpoints `register/options|verify`, `login/options|verify`, `GET/DELETE credentials`.
-- **Seguridad:** registro exige sesión + contraseña actual + TOTP activo; challenge de un solo uso con TTL de 5 min; `requireUserVerification: true`; RP ID/origen configurables por entorno; el contador se actualiza tras cada login.
+- **Seguridad:** registro exige sesión + contraseña actual + TOTP activo; challenge de un solo uso con TTL de 5 min y consumo atómico (`FOR UPDATE SKIP LOCKED`); una credencial no puede pertenecer a dos cuentas; `requireUserVerification: true`; RP ID/origen configurables por entorno; el contador se actualiza tras cada login.
 - **Login:** la respuesta de `/api/login` expone `hasWebAuthn`; el segundo paso ofrece “Usar huella o rostro” y mantiene el campo TOTP.
 - **Perfil:** sección Passkeys en “Mi Perfil” para registrar, listar y eliminar credenciales.
 - **Frontend:** `js/core/webauthn.js` convierte base64url ↔ ArrayBuffer y usa `navigator.credentials`.
@@ -112,7 +112,7 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (SigmaProXVL) con spr
 | `indexx.html` | Carga de `js/core/webauthn.js` |
 | `tests/webauthn.test.js` | 11 tests de conversión y flujos |
 | `tests/auth-login-fases.test.js` | 3 tests de UI (visible/oculto/fallo con fallback) |
-| `backend/tests/webauthn.test.js` | 12 tests de store y contrato de endpoints |
+| `backend/tests/webauthn.test.js` | 14 tests de store, contrato y hardening |
 | `e2e/passkeys.spec.js` | E2E con autenticador virtual CDP |
 | `playwright.config.js` | `WEBAUTHN_RP_ID=localhost`, `WEBAUTHN_ORIGIN=http://localhost:5510` |
 
@@ -120,7 +120,7 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (SigmaProXVL) con spr
 ```
 node --check → OK
 Vitest → 61 archivos, 1000 tests OK
-Backend → 135 tests OK
+Backend → 137 tests OK
 Playwright → 13 tests OK (incluye passkey + respaldo TOTP)
 ```
 

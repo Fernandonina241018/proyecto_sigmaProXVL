@@ -111,6 +111,17 @@ test('server: no permite registrar passkey sin TOTP activo (respaldo)', () => {
     assert.match(block, /método de respaldo/);
 });
 
+test('server: rechaza una passkey ya registrada en otra cuenta', () => {
+    assert.match(SERVER, /existente\.username !== account\.username/);
+    assert.match(SERVER, /status\(409\)\.json\(\{ error: 'Esta passkey ya está registrada en otra cuenta' \}\)/);
+});
+
+test('database: el challenge se consume con UPDATE atómico (sin carrera)', () => {
+    const dbSrc = fs.readFileSync(path.join(__dirname, '..', 'database.js'), 'utf8');
+    assert.match(dbSrc, /UPDATE webauthn_challenges SET used_at=\$1/);
+    assert.match(dbSrc, /FOR UPDATE SKIP LOCKED/);
+});
+
 test('server: la verificación usa challenge de un solo uso y RP/origin configurados', () => {
     assert.match(SERVER, /consumeWebAuthnChallenge\(account\.username, 'registration'\)/);
     assert.match(SERVER, /consumeWebAuthnChallenge\(payload\.username, 'authentication'\)/);

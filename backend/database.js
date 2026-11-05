@@ -1249,13 +1249,18 @@ function buildPostgres() {
     }
     async function consumeWebAuthnChallenge(username, type) {
         const now = new Date().toISOString();
+        // UPDATE atómico: dos peticiones concurrentes no pueden consumir el
+        // mismo challenge (la segunda no encuentra fila y devuelve null).
         const row = await get(
-            `SELECT challenge FROM webauthn_challenges
-             WHERE username=$1 AND type=$2 AND used_at IS NULL AND expires_at > $3
-             ORDER BY id DESC LIMIT 1`, [username, type, now]);
-        if (!row) return null;
-        await run('UPDATE webauthn_challenges SET used_at=$1 WHERE challenge=$2 AND used_at IS NULL', [now, row.challenge]);
-        return row.challenge;
+            `UPDATE webauthn_challenges SET used_at=$1
+             WHERE id = (
+                 SELECT id FROM webauthn_challenges
+                 WHERE username=$2 AND type=$3 AND used_at IS NULL AND expires_at > $1
+                 ORDER BY id DESC LIMIT 1
+                 FOR UPDATE SKIP LOCKED
+             )
+             RETURNING challenge`, [now, username, type]);
+        return row ? row.challenge : null;
     }
     async function getWebAuthnCredentials(username) {
         return all('SELECT id, username, credential_id, public_key, counter, transports, device_name, created_at, last_used_at FROM webauthn_credentials WHERE username=$1 ORDER BY id DESC', [username]);
