@@ -200,6 +200,20 @@ function buildPostgres() {
         await run(`ALTER TABLE users ADD COLUMN IF NOT EXISTS cargo TEXT`);
         await run(`ALTER TABLE users ADD COLUMN IF NOT EXISTS totp_secret TEXT`);
         await run(`ALTER TABLE users ADD COLUMN IF NOT EXISTS totp_enabled INTEGER DEFAULT 0`);
+        await run(`CREATE TABLE IF NOT EXISTS webauthn_credentials (
+            id SERIAL PRIMARY KEY, username TEXT NOT NULL,
+            credential_id TEXT UNIQUE NOT NULL, public_key TEXT NOT NULL,
+            counter BIGINT NOT NULL DEFAULT 0, transports TEXT, device_name TEXT,
+            created_at TEXT DEFAULT to_char(now(),'YYYY-MM-DD"T"HH24:MI:SS'),
+            last_used_at TEXT
+        )`);
+        await run(`CREATE INDEX IF NOT EXISTS idx_webauthn_credentials_username ON webauthn_credentials (username)`);
+        await run(`CREATE TABLE IF NOT EXISTS webauthn_challenges (
+            id SERIAL PRIMARY KEY, username TEXT NOT NULL, challenge TEXT NOT NULL,
+            type TEXT NOT NULL, expires_at TEXT NOT NULL, used_at TEXT,
+            created_at TEXT DEFAULT to_char(now(),'YYYY-MM-DD"T"HH24:MI:SS')
+        )`);
+        await run(`CREATE INDEX IF NOT EXISTS idx_webauthn_challenges_lookup ON webauthn_challenges (username, type, expires_at DESC)`);
         await run(`ALTER TABLE users ADD COLUMN IF NOT EXISTS signature TEXT`);
         await run(`ALTER TABLE users ADD COLUMN IF NOT EXISTS last_ip_masked TEXT`);
         await run(`CREATE INDEX IF NOT EXISTS idx_users_signature_code ON users (signature_code)`);
@@ -1227,7 +1241,45 @@ function buildPostgres() {
         return elig;
     }
 
-    return { run, get, all, initDatabase, createInitialAdmin, getUserByUsername, getUserBySignatureCode, isSignatureCodeTaken, getUserById, createUser, updateLastLogin, getAllUsers, getUsersList, countUsers, toggleUserActive, changePassword, setPasswordTemp, updateUserProfile, updateUserProfileById, changeRole, logAccess, logAuditEvent, getAuditLog, countAuditLog, getAuditStats, verifyAuditChain, blacklistToken, isTokenBlacklisted, cleanExpiredBlacklist, registerDevice, isDeviceTrusted, getUserDevices, getAllDevices, countDevices, countUserDevices, setDeviceTrust, removeDevice, save2FASecret, get2FASecret, enable2FA, disable2FA, has2FAEnabled, createSnapshot, getSnapshots, getSnapshotById, createSignSession, getSignSession, getSignSessionMeta, listSignSessions, countSignSessions, signQuotaInfo, signSessionStep, importSignSession, rejectSignSession, reopenSignSession, sendbackSignSession, amendSignSession, deleteSignSession, unsignSessionStep, dismissSignSession, purgeSignSessions };}
+    // ── WebAuthn / passkeys ────────────────────
+    async function saveWebAuthnChallenge(username, challenge, type, ttlSeconds = 300) {
+        const expires = new Date(Date.now() + ttlSeconds * 1000).toISOString();
+        await run('INSERT INTO webauthn_challenges (username, challenge, type, expires_at) VALUES ($1,$2,$3,$4)',
+            [username, challenge, type, expires]);
+    }
+    async function consumeWebAuthnChallenge(username, type) {
+        const now = new Date().toISOString();
+        const row = await get(
+            `SELECT challenge FROM webauthn_challenges
+             WHERE username=$1 AND type=$2 AND used_at IS NULL AND expires_at > $3
+             ORDER BY id DESC LIMIT 1`, [username, type, now]);
+        if (!row) return null;
+        await run('UPDATE webauthn_challenges SET used_at=$1 WHERE challenge=$2 AND used_at IS NULL', [now, row.challenge]);
+        return row.challenge;
+    }
+    async function getWebAuthnCredentials(username) {
+        return all('SELECT id, username, credential_id, public_key, counter, transports, device_name, created_at, last_used_at FROM webauthn_credentials WHERE username=$1 ORDER BY id DESC', [username]);
+    }
+    async function getWebAuthnCredential(credentialId) {
+        return get('SELECT * FROM webauthn_credentials WHERE credential_id=$1', [credentialId]);
+    }
+    async function addWebAuthnCredential({ username, credentialId, publicKey, counter = 0, transports = null, deviceName = null }) {
+        const row = await get(
+            `INSERT INTO webauthn_credentials (username, credential_id, public_key, counter, transports, device_name)
+             VALUES ($1,$2,$3,$4,$5,$6)
+             ON CONFLICT (credential_id) DO UPDATE SET public_key=EXCLUDED.public_key, counter=EXCLUDED.counter, device_name=EXCLUDED.device_name
+             RETURNING id`, [username, credentialId, publicKey, counter, transports, deviceName]);
+        return row ? row.id : null;
+    }
+    async function updateWebAuthnCounter(credentialId, counter) {
+        await run('UPDATE webauthn_credentials SET counter=$1, last_used_at=$2 WHERE credential_id=$3',
+            [counter, new Date().toISOString(), credentialId]);
+    }
+    async function removeWebAuthnCredential(username, credentialId) {
+        await run('DELETE FROM webauthn_credentials WHERE username=$1 AND credential_id=$2', [username, credentialId]);
+    }
+
+    return { run, get, all, initDatabase, createInitialAdmin, getUserByUsername, getUserBySignatureCode, isSignatureCodeTaken, getUserById, createUser, updateLastLogin, getAllUsers, getUsersList, countUsers, toggleUserActive, changePassword, setPasswordTemp, updateUserProfile, updateUserProfileById, changeRole, logAccess, logAuditEvent, getAuditLog, countAuditLog, getAuditStats, verifyAuditChain, blacklistToken, isTokenBlacklisted, cleanExpiredBlacklist, registerDevice, isDeviceTrusted, getUserDevices, getAllDevices, countDevices, countUserDevices, setDeviceTrust, removeDevice, save2FASecret, get2FASecret, enable2FA, disable2FA, has2FAEnabled, saveWebAuthnChallenge, consumeWebAuthnChallenge, getWebAuthnCredentials, getWebAuthnCredential, addWebAuthnCredential, updateWebAuthnCounter, removeWebAuthnCredential, createSnapshot, getSnapshots, getSnapshotById, createSignSession, getSignSession, getSignSessionMeta, listSignSessions, countSignSessions, signQuotaInfo, signSessionStep, importSignSession, rejectSignSession, reopenSignSession, sendbackSignSession, amendSignSession, deleteSignSession, unsignSessionStep, dismissSignSession, purgeSignSessions };}
 
 // ───── Local JSON store ─────
 function buildLocalStore() {
@@ -1245,6 +1297,8 @@ function buildLocalStore() {
     }
     function save() { fs.writeFileSync(DATA_FILE, JSON.stringify(state, null, 2), 'utf-8'); }
     load();
+    if (!state.webauthn_credentials) state.webauthn_credentials = [];
+    if (!state.webauthn_challenges) state.webauthn_challenges = [];
 
     const run = async () => { throw new Error('raw SQL no soportado en modo local'); };
     const get = async () => { throw new Error('raw SQL no soportado en modo local'); };
@@ -1695,6 +1749,61 @@ function buildLocalStore() {
     async function has2FAEnabled(username) {
         var u = findUser(username);
         return u ? u.totp_enabled === 1 : false;
+    }
+
+    // ── WebAuthn / passkeys (mirror local) ─────
+    async function saveWebAuthnChallenge(username, challenge, type, ttlSeconds) {
+        var now = Date.now();
+        state.webauthn_challenges.push({
+            id: Date.now() + Math.floor(Math.random() * 1000),
+            username: username, challenge: challenge, type: type,
+            expires_at: new Date(now + (ttlSeconds || 300) * 1000).toISOString(),
+            used_at: null, created_at: new Date(now).toISOString(),
+        });
+        save();
+    }
+    async function consumeWebAuthnChallenge(username, type) {
+        var now = new Date().toISOString();
+        var row = state.webauthn_challenges
+            .filter(function(c) { return c.username === username && c.type === type && !c.used_at && c.expires_at > now; })
+            .sort(function(a, b) { return b.id - a.id; })[0];
+        if (!row) return null;
+        row.used_at = now;
+        save();
+        return row.challenge;
+    }
+    async function getWebAuthnCredentials(username) {
+        return state.webauthn_credentials.filter(function(c) { return c.username === username; });
+    }
+    async function getWebAuthnCredential(credentialId) {
+        return state.webauthn_credentials.find(function(c) { return c.credential_id === credentialId; }) || null;
+    }
+    async function addWebAuthnCredential(cred) {
+        var existing = state.webauthn_credentials.find(function(c) { return c.credential_id === cred.credentialId; });
+        if (existing) {
+            existing.public_key = cred.publicKey;
+            existing.counter = cred.counter || 0;
+            existing.device_name = cred.deviceName || existing.device_name;
+        } else {
+            state.webauthn_credentials.push({
+                id: Date.now() + Math.floor(Math.random() * 1000),
+                username: cred.username, credential_id: cred.credentialId,
+                public_key: cred.publicKey, counter: cred.counter || 0,
+                transports: cred.transports || null, device_name: cred.deviceName || null,
+                created_at: new Date().toISOString(), last_used_at: null,
+            });
+        }
+        save();
+    }
+    async function updateWebAuthnCounter(credentialId, counter) {
+        var c = state.webauthn_credentials.find(function(x) { return x.credential_id === credentialId; });
+        if (c) { c.counter = counter; c.last_used_at = new Date().toISOString(); save(); }
+    }
+    async function removeWebAuthnCredential(username, credentialId) {
+        state.webauthn_credentials = state.webauthn_credentials.filter(function(c) {
+            return !(c.username === username && c.credential_id === credentialId);
+        });
+        save();
     }
 
     // ── WORM - Data Snapshots ──────────────────
@@ -2148,7 +2257,7 @@ function buildLocalStore() {
         return _localSignView(s);
     }
 
-    return { run, get, all, initDatabase, createInitialAdmin, getUserByUsername, getUserBySignatureCode, isSignatureCodeTaken, getUserById, createUser, updateLastLogin, getAllUsers, getUsersList, countUsers, toggleUserActive, changePassword, setPasswordTemp, updateUserProfile, updateUserProfileById, changeRole, logAccess, logAuditEvent, getAuditLog, countAuditLog, getAuditStats, verifyAuditChain, blacklistToken, isTokenBlacklisted, cleanExpiredBlacklist, registerDevice, isDeviceTrusted, getUserDevices, getAllDevices, countDevices, countUserDevices, setDeviceTrust, removeDevice, save2FASecret, get2FASecret, enable2FA, disable2FA, has2FAEnabled, createSnapshot, getSnapshots, getSnapshotById, createSignSession, getSignSession, getSignSessionMeta, listSignSessions, countSignSessions, signQuotaInfo, signSessionStep, importSignSession, rejectSignSession, reopenSignSession, sendbackSignSession, amendSignSession, deleteSignSession, unsignSessionStep, dismissSignSession, purgeSignSessions };}
+    return { run, get, all, initDatabase, createInitialAdmin, getUserByUsername, getUserBySignatureCode, isSignatureCodeTaken, getUserById, createUser, updateLastLogin, getAllUsers, getUsersList, countUsers, toggleUserActive, changePassword, setPasswordTemp, updateUserProfile, updateUserProfileById, changeRole, logAccess, logAuditEvent, getAuditLog, countAuditLog, getAuditStats, verifyAuditChain, blacklistToken, isTokenBlacklisted, cleanExpiredBlacklist, registerDevice, isDeviceTrusted, getUserDevices, getAllDevices, countDevices, countUserDevices, setDeviceTrust, removeDevice, save2FASecret, get2FASecret, enable2FA, disable2FA, has2FAEnabled, saveWebAuthnChallenge, consumeWebAuthnChallenge, getWebAuthnCredentials, getWebAuthnCredential, addWebAuthnCredential, updateWebAuthnCounter, removeWebAuthnCredential, createSnapshot, getSnapshots, getSnapshotById, createSignSession, getSignSession, getSignSessionMeta, listSignSessions, countSignSessions, signQuotaInfo, signSessionStep, importSignSession, rejectSignSession, reopenSignSession, sendbackSignSession, amendSignSession, deleteSignSession, unsignSessionStep, dismissSignSession, purgeSignSessions };}
 
 const impl = build();
 module.exports = {
@@ -2191,6 +2300,13 @@ module.exports = {
     enable2FA:            (...a) => impl.enable2FA(...a),
     disable2FA:           (...a) => impl.disable2FA(...a),
     has2FAEnabled:        (...a) => impl.has2FAEnabled(...a),
+    saveWebAuthnChallenge: (...a) => impl.saveWebAuthnChallenge(...a),
+    consumeWebAuthnChallenge: (...a) => impl.consumeWebAuthnChallenge(...a),
+    getWebAuthnCredentials: (...a) => impl.getWebAuthnCredentials(...a),
+    getWebAuthnCredential: (...a) => impl.getWebAuthnCredential(...a),
+    addWebAuthnCredential: (...a) => impl.addWebAuthnCredential(...a),
+    updateWebAuthnCounter: (...a) => impl.updateWebAuthnCounter(...a),
+    removeWebAuthnCredential: (...a) => impl.removeWebAuthnCredential(...a),
     createSnapshot:       (...a) => impl.createSnapshot(...a),
     getSnapshots:         (...a) => impl.getSnapshots(...a),
     createSignSession:    (...a) => impl.createSignSession(...a),

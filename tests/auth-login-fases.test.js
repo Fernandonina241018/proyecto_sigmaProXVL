@@ -11,7 +11,7 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 const core = join(__dirname, '..', 'js', 'core');
 const SRC = readFileSync(join(core, 'auth.js'), 'utf-8');
 
-function loadAuth({ variant = 'v2', fetchImpl = null, url = 'http://localhost/indexx.html' } = {}) {
+function loadAuth({ variant = 'v2', fetchImpl = null, url = 'http://localhost/indexx.html', WebAuthn = null } = {}) {
   const window = new Window({ url });
   window.localStorage.setItem('__auth_login_variant', variant);
   const sandbox = {
@@ -30,11 +30,12 @@ function loadAuth({ variant = 'v2', fetchImpl = null, url = 'http://localhost/in
     fetchWithTimeout: fetchImpl || (async () => ({ ok: true, json: async () => ({}) })),
     fetch: async () => ({ ok: true, json: async () => ({}) }),
   };
+  if (WebAuthn) sandbox.WebAuthn = WebAuthn;
   sandbox.globalThis = sandbox;
   sandbox.self = sandbox;
   vm.createContext(sandbox);
   vm.runInContext(SRC, sandbox);
-  return { window, document: window.document, Auth: vm.runInContext('Auth', sandbox) };
+  return { window, document: window.document, Auth: vm.runInContext('Auth', sandbox), sandbox };
 }
 
 const tick = (ms = 0) => new Promise((r) => setTimeout(r, ms));
@@ -182,5 +183,80 @@ describe('login real — fases de progreso', () => {
     expect(progress.textContent).toContain('Código incorrecto');
     expect(progress.querySelector('img')).toBeNull();
     expect(document.getElementById('auth-2fa-error').querySelector('img')).toBeNull();
+  });
+
+  test('passkey: se ofrece solo si el usuario tiene una y el navegador la soporta', async () => {
+    const seen = [];
+    const WebAuthn = {
+      soportado: () => true,
+      autenticar: async (args) => { seen.push(args); return { ok: true, username: 'ana', role: 'analista', token: 'tok' }; },
+    };
+    const { document, Auth } = loadAuth({
+      variant: 'v2',
+      WebAuthn,
+      fetchImpl: async () => ({
+        ok: true,
+        json: async () => ({ requires2FA: true, hasWebAuthn: true, tempToken: 'tmp', username: 'ana', role: 'analista' }),
+      }),
+    });
+    Auth.showLogin();
+    fillAndSubmit(document);
+    await tick(10);
+
+    const area = document.getElementById('auth-passkey-area');
+    expect(area).not.toBeNull();
+    expect(area.style.display).toBe('block');
+
+    document.getElementById('auth-btn-passkey').click();
+    await tick(10);
+
+    expect(seen.length).toBe(1);
+    expect(seen[0].tempToken).toBe('tmp');
+    expect(document.getElementById('auth-progress').textContent).toContain('Passkey verificada');
+  });
+
+  test('passkey: sin hasWebAuthn el botón queda oculto y el TOTP sigue disponible', async () => {
+    const { document, Auth } = loadAuth({
+      variant: 'v2',
+      WebAuthn: { soportado: () => true, autenticar: async () => ({ ok: true }) },
+      fetchImpl: async () => ({
+        ok: true,
+        json: async () => ({ requires2FA: true, hasWebAuthn: false, tempToken: 'tmp', username: 'ana', role: 'analista' }),
+      }),
+    });
+    Auth.showLogin();
+    fillAndSubmit(document);
+    await tick(10);
+
+    expect(document.getElementById('auth-passkey-area').style.display).toBe('none');
+    expect(document.getElementById('auth-totp')).not.toBeNull();
+    expect(document.getElementById('auth-btn-2fa')).not.toBeNull();
+  });
+
+  test('passkey: si falla, muestra el error y mantiene el TOTP como respaldo', async () => {
+    const { document, Auth } = loadAuth({
+      variant: 'v2',
+      WebAuthn: {
+        soportado: () => true,
+        autenticar: async () => ({ ok: false, error: 'Credencial no reconocida.' }),
+      },
+      fetchImpl: async () => ({
+        ok: true,
+        json: async () => ({ requires2FA: true, hasWebAuthn: true, tempToken: 'tmp', username: 'ana', role: 'analista' }),
+      }),
+    });
+    Auth.showLogin();
+    fillAndSubmit(document);
+    await tick(10);
+
+    document.getElementById('auth-btn-passkey').click();
+    await tick(10);
+
+    const error = document.getElementById('auth-2fa-error');
+    expect(error.style.display).toBe('block');
+    expect(error.textContent).toContain('Credencial no reconocida.');
+    expect(error.textContent).toContain('Usa el código de tu app');
+    expect(document.getElementById('auth-btn-passkey').disabled).toBe(false);
+    expect(document.getElementById('auth-totp')).not.toBeNull();
   });
 });

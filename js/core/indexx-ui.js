@@ -289,8 +289,120 @@ function renderPerfil(box, u) {
     + '<span>🕐 ' + escapeHtml(lastLogin) + '</span>'
     + '<span>🔑 ' + (u.login_count || 0) + ' logins</span>'
     + '</div>'
+    + '<div id="perfil-passkeys" style="border-top:1px solid var(--border);padding-top:12px"></div>'
     + '<button class="btn btn-secondary" style="width:100%;justify-content:center" onclick="this.closest(\'.modal-overlay\').remove()">Cerrar</button>'
     + '</div>';
+  renderPasskeysSection(box);
+}
+
+// ── Passkeys en el perfil ──
+function renderPasskeysSection(box) {
+  var cont = box.querySelector('#perfil-passkeys');
+  if (!cont) return;
+  var soportado = typeof Auth !== 'undefined' && Auth.passkeysDisponibles && Auth.passkeysDisponibles();
+  if (!soportado) {
+    cont.innerHTML = '<div style="font-size:12px;color:var(--text-muted);text-align:center">🔐 Passkeys no disponibles en este navegador. El código 2FA sigue activo.</div>';
+    return;
+  }
+  cont.innerHTML = '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">'
+    + '<span style="font-size:12px;font-weight:700;color:var(--text-primary)">🔐 Passkeys</span>'
+    + '<span style="font-size:10px;color:var(--text-faint)">huella / rostro / llave</span>'
+    + '</div>'
+    + '<div id="perfil-passkey-list" style="font-size:12px;color:var(--text-muted)">Cargando…</div>'
+    + '<div id="perfil-passkey-form" style="display:none;margin-top:10px;padding:10px;background:var(--item-bg);border-radius:8px">'
+    + '<input id="perfil-passkey-name" type="text" maxlength="100" placeholder="Nombre del dispositivo (ej. Laptop)" style="width:100%;padding:8px 10px;border:1px solid var(--border);border-radius:8px;font-size:12px;margin-bottom:8px;box-sizing:border-box">'
+    + '<input id="perfil-passkey-pwd" type="password" autocomplete="current-password" placeholder="Contraseña actual" style="width:100%;padding:8px 10px;border:1px solid var(--border);border-radius:8px;font-size:12px;margin-bottom:8px;box-sizing:border-box">'
+    + '<button class="btn btn-primary" id="perfil-passkey-save" style="width:100%;justify-content:center">Registrar passkey</button>'
+    + '</div>'
+    + '<button class="btn btn-secondary" id="perfil-passkey-add" style="width:100%;justify-content:center;margin-top:8px">➕ Agregar passkey</button>'
+    + '<div id="perfil-passkey-msg" style="display:none;font-size:11px;margin-top:8px;text-align:center"></div>';
+
+  var listEl = cont.querySelector('#perfil-passkey-list');
+  var formEl = cont.querySelector('#perfil-passkey-form');
+  var addBtn = cont.querySelector('#perfil-passkey-add');
+  var saveBtn = cont.querySelector('#perfil-passkey-save');
+  var msgEl = cont.querySelector('#perfil-passkey-msg');
+
+  function msg(text, ok) {
+    if (!msgEl) return;
+    msgEl.textContent = text;
+    msgEl.style.display = text ? 'block' : 'none';
+    msgEl.style.color = ok ? '#4ade80' : '#f87171';
+  }
+
+  function cargarLista() {
+    Auth.listarPasskeys().then(function(res) {
+      if (!res || !res.ok) {
+        listEl.textContent = 'No se pudieron cargar las passkeys.';
+        return;
+      }
+      var creds = res.credentials || [];
+      if (!creds.length) {
+        listEl.textContent = 'No hay passkeys registradas.';
+        return;
+      }
+      listEl.innerHTML = '';
+      creds.forEach(function(c) {
+        var row = document.createElement('div');
+        row.style.cssText = 'display:flex;align-items:center;gap:8px;padding:6px 0';
+        var info = document.createElement('div');
+        info.style.cssText = 'flex:1;min-width:0';
+        var name = document.createElement('div');
+        name.style.cssText = 'font-size:12px;font-weight:600;color:var(--text-primary);overflow:hidden;text-overflow:ellipsis;white-space:nowrap';
+        name.textContent = c.deviceName || 'Passkey';
+        var meta = document.createElement('div');
+        meta.style.cssText = 'font-size:10px;color:var(--text-faint)';
+        meta.textContent = c.lastUsedAt ? ('Usada: ' + String(c.lastUsedAt).slice(0, 16).replace('T', ' ')) : 'Sin usar todavía';
+        info.appendChild(name);
+        info.appendChild(meta);
+        var del = document.createElement('button');
+        del.className = 'btn btn-secondary';
+        del.type = 'button';
+        del.textContent = 'Eliminar';
+        del.style.cssText = 'font-size:10px;padding:4px 8px';
+        del.addEventListener('click', function() {
+          if (!window.confirm('¿Eliminar la passkey "' + (c.deviceName || 'Passkey') + '"?')) return;
+          del.disabled = true;
+          Auth.eliminarPasskey(c.id).then(function(r) {
+            if (r && r.ok) { msg('Passkey eliminada.', true); cargarLista(); }
+            else { del.disabled = false; msg((r && r.error) || 'No se pudo eliminar.', false); }
+          });
+        });
+        row.appendChild(info);
+        row.appendChild(del);
+        listEl.appendChild(row);
+      });
+    });
+  }
+
+  addBtn.addEventListener('click', function() {
+    formEl.style.display = formEl.style.display === 'none' ? 'block' : 'none';
+    if (formEl.style.display === 'block') cont.querySelector('#perfil-passkey-pwd').focus();
+  });
+
+  saveBtn.addEventListener('click', function() {
+    var pwd = cont.querySelector('#perfil-passkey-pwd').value;
+    var name = cont.querySelector('#perfil-passkey-name').value.trim() || 'Passkey';
+    if (!pwd) { msg('Ingresa tu contraseña actual.', false); return; }
+    saveBtn.disabled = true;
+    saveBtn.textContent = 'Esperando al dispositivo…';
+    msg('Confirma con tu huella, rostro o llave de seguridad.', true);
+    Auth.registrarPasskey(pwd, name).then(function(r) {
+      saveBtn.disabled = false;
+      saveBtn.textContent = 'Registrar passkey';
+      if (r && r.ok) {
+        msg(r.message || 'Passkey registrada.', true);
+        cont.querySelector('#perfil-passkey-pwd').value = '';
+        cont.querySelector('#perfil-passkey-name').value = '';
+        formEl.style.display = 'none';
+        cargarLista();
+      } else {
+        msg((r && r.error) || 'No se pudo registrar la passkey.', false);
+      }
+    });
+  });
+
+  cargarLista();
 }
 
 function renderPerfilSimple(box, session) {

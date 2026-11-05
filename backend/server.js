@@ -43,6 +43,12 @@ const compression = require('compression');
 // para que los tests ejerciten el mismo código de producción.
 const { generateSecret } = require('otplib');
 const { verifyTOTP, totpKeyuri } = require('./totp');
+const {
+    generateRegistrationOptions,
+    verifyRegistrationResponse,
+    generateAuthenticationOptions,
+    verifyAuthenticationResponse,
+} = require('@simplewebauthn/server');
 const QRCode  = require('qrcode');
 const { maskIP } = require('./ip-mask');
 const db      = require('./database');
@@ -53,6 +59,21 @@ const { collectSignTray } = require('./sign-tray');
 // el endpoint responde 503 y el frontend usa el generador anterior.
 const { createPdfRenderer, safePdfFilename } = require('./pdf-render');
 const pdfRenderer = createPdfRenderer();
+
+// ── WebAuthn / passkeys ──────────────────────────
+// En producción el frontend está en GitHub Pages y el backend en Fly:
+// el RP ID pertenece al dominio del frontend, no al backend.
+const WEBAUTHN_RP_ID = process.env.WEBAUTHN_RP_ID || 'localhost';
+const WEBAUTHN_RP_NAME = process.env.WEBAUTHN_RP_NAME || 'StatAnalyzer Pro';
+const WEBAUTHN_ORIGINS = (process.env.WEBAUTHN_ORIGIN || 'http://localhost:8000')
+    .split(',').map((o) => o.trim()).filter(Boolean);
+const b64url = {
+    encode: (buf) => Buffer.from(buf).toString('base64url'),
+    decode: (s) => new Uint8Array(Buffer.from(String(s || ''), 'base64url')),
+};
+const _transports = (v) => {
+    try { const t = JSON.parse(v || '[]'); return Array.isArray(t) ? t : []; } catch { return []; }
+};
 // tzOffset: minutos de Date.getTimezoneOffset() del firmante (UTC-local).
 function _signFecha(req) { return signStampTZ(new Date(), req.body && req.body.tzOffset); }
 
@@ -262,6 +283,16 @@ const tfaLimiter = rateLimit({
     windowMs: 15 * 60 * 1000,
     max: 5,
     message: { error: 'Demasiados intentos de verificación 2FA. Intente de nuevo en 15 minutos.' },
+    standardHeaders: true,
+    legacyHeaders: false,
+    keyGenerator: (req) => ipKeyGenerator(req.ip || req.socket.remoteAddress),
+});
+
+// Passkeys: contador propio para no consumir el cupo del login/2FA clásico.
+const webauthnLimiter = rateLimit({
+    windowMs: 15 * 60 * 1000,
+    max: 20,
+    message: { error: 'Demasiados intentos con passkey. Intente de nuevo en 15 minutos.' },
     standardHeaders: true,
     legacyHeaders: false,
     keyGenerator: (req) => ipKeyGenerator(req.ip || req.socket.remoteAddress),
@@ -580,6 +611,7 @@ app.post('/api/login', loginLimiter, async (req, res) => {
         // Verificar 2FA
         const tfaEnabled = await db.has2FAEnabled(user.username);
         if (tfaEnabled) {
+            const webauthnCreds = await db.getWebAuthnCredentials(user.username);
             // Generar token temporal (5 min, solo para verificar 2FA)
             const tempToken = jwt.sign(
                 { id: user.id, username: user.username, role: user.role, tfaPending: true },
@@ -587,7 +619,10 @@ app.post('/api/login', loginLimiter, async (req, res) => {
                 { expiresIn: '5m', issuer: 'sigmaproxvl', audience: 'sigmaproxvl-api' }
             );
             await db.logAccess({ username, action: 'LOGIN_2FA_REQUIRED', success: true, ip, userAgent });
-            return res.json({ ok: true, requires2FA: true, tempToken, username: user.username, role: user.role });
+            return res.json({
+                ok: true, requires2FA: true, hasWebAuthn: webauthnCreds.length > 0,
+                tempToken, username: user.username, role: user.role,
+            });
         }
 
         await db.logAccess({ username, action: 'LOGIN', success: true, ip, userAgent });
@@ -870,6 +905,202 @@ app.get('/api/2fa/status', requireAuth, async (req, res) => {
     } catch (err) {
         console.error('Error checking 2FA status:', err);
         res.status(500).json({ error: 'Error al consultar estado 2FA' });
+    }
+});
+
+// ── WebAuthn / passkeys ───────────────────────────
+// Registro: requiere sesión y contraseña actual (no basta una sesión robada).
+app.post('/api/webauthn/register/options', requireAuth, webauthnLimiter, async (req, res) => {
+    try {
+        const { password } = req.body || {};
+        const account = await db.getUserByUsername(req.user.username);
+        if (!account || !await bcrypt.compare(String(password || ''), account.password)) {
+            return res.status(401).json({ error: 'Contraseña actual incorrecta' });
+        }
+        // La passkey es el segundo factor rápido, pero el TOTP debe seguir
+        // activo como respaldo: sin él, perder el dispositivo = perder la cuenta.
+        if (!await db.has2FAEnabled(account.username)) {
+            return res.status(400).json({ error: 'Activa el código 2FA (TOTP) antes de registrar una passkey, para conservar un método de respaldo.' });
+        }
+        const creds = await db.getWebAuthnCredentials(account.username);
+        const options = await generateRegistrationOptions({
+            rpName: WEBAUTHN_RP_NAME,
+            rpID: WEBAUTHN_RP_ID,
+            userName: account.username,
+            userID: new TextEncoder().encode(String(account.id)),
+            timeout: 60000,
+            attestationType: 'none',
+            excludeCredentials: creds.map((c) => ({ id: c.credential_id, transports: _transports(c.transports) })),
+            authenticatorSelection: { residentKey: 'preferred', userVerification: 'required' },
+        });
+        // Uint8Array no viaja como base64url en JSON sin convertir.
+        options.user.id = b64url.encode(options.user.id);
+        await db.saveWebAuthnChallenge(account.username, options.challenge, 'registration');
+        res.json({ ok: true, options });
+    } catch (err) {
+        console.error('Error WebAuthn register options:', err);
+        res.status(500).json({ error: 'Error al preparar el registro de la passkey' });
+    }
+});
+
+app.post('/api/webauthn/register/verify', requireAuth, webauthnLimiter, async (req, res) => {
+    try {
+        const { response, password, deviceName } = req.body || {};
+        const account = await db.getUserByUsername(req.user.username);
+        if (!account || !await bcrypt.compare(String(password || ''), account.password)) {
+            return res.status(401).json({ error: 'Contraseña actual incorrecta' });
+        }
+        if (!await db.has2FAEnabled(account.username)) {
+            return res.status(400).json({ error: 'Activa el código 2FA (TOTP) antes de registrar una passkey.' });
+        }
+        const challenge = await db.consumeWebAuthnChallenge(account.username, 'registration');
+        if (!challenge) return res.status(400).json({ error: 'Challenge expirado o ya usado. Reintenta.' });
+        const verification = await verifyRegistrationResponse({
+            response,
+            expectedChallenge: challenge,
+            expectedOrigin: WEBAUTHN_ORIGINS,
+            expectedRPID: WEBAUTHN_RP_ID,
+            requireUserVerification: true,
+        });
+        if (!verification.verified || !verification.registrationInfo) {
+            return res.status(400).json({ error: 'No se pudo verificar la passkey' });
+        }
+        const cred = verification.registrationInfo.credential;
+        await db.addWebAuthnCredential({
+            username: account.username,
+            credentialId: cred.id,
+            publicKey: b64url.encode(cred.publicKey),
+            counter: cred.counter || 0,
+            transports: JSON.stringify(cred.transports || []),
+            deviceName: String(deviceName || 'Passkey').slice(0, 100),
+        });
+        await db.logAuditEvent({
+            username: account.username, action: 'WEBAUTHN_REGISTER', success: 1,
+            ip: getClientIP(req), userAgent: req.headers['user-agent'],
+            module: 'AUTH', details: JSON.stringify({ credentialId: cred.id, deviceName: deviceName || 'Passkey' }),
+        });
+        res.json({ ok: true, message: 'Passkey registrada correctamente' });
+    } catch (err) {
+        console.error('Error WebAuthn register verify:', err);
+        res.status(400).json({ error: 'No se pudo registrar la passkey' });
+    }
+});
+
+app.get('/api/webauthn/credentials', requireAuth, async (req, res) => {
+    try {
+        const creds = await db.getWebAuthnCredentials(req.user.username);
+        res.json({
+            ok: true,
+            credentials: creds.map((c) => ({
+                id: c.credential_id, deviceName: c.device_name,
+                createdAt: c.created_at, lastUsedAt: c.last_used_at,
+            })),
+        });
+    } catch (err) {
+        console.error('Error WebAuthn list:', err);
+        res.status(500).json({ error: 'Error al listar passkeys' });
+    }
+});
+
+app.delete('/api/webauthn/credentials/:id', requireAuth, async (req, res) => {
+    try {
+        await db.removeWebAuthnCredential(req.user.username, req.params.id);
+        await db.logAuditEvent({
+            username: req.user.username, action: 'WEBAUTHN_REMOVE', success: 1,
+            ip: getClientIP(req), userAgent: req.headers['user-agent'],
+            module: 'AUTH', details: JSON.stringify({ credentialId: req.params.id }),
+        });
+        res.json({ ok: true });
+    } catch (err) {
+        console.error('Error WebAuthn remove:', err);
+        res.status(500).json({ error: 'Error al eliminar la passkey' });
+    }
+});
+
+// Login con passkey: usa el tempToken del primer paso (password ya validada).
+app.post('/api/webauthn/login/options', webauthnLimiter, async (req, res) => {
+    try {
+        const { tempToken } = req.body || {};
+        let payload;
+        try {
+            payload = jwt.verify(tempToken, process.env.JWT_SECRET, { issuer: 'sigmaproxvl', audience: 'sigmaproxvl-api' });
+        } catch {
+            return res.status(401).json({ error: 'Token temporal inválido o expirado' });
+        }
+        if (!payload.tfaPending) return res.status(401).json({ error: 'Token no es de verificación 2FA' });
+        const creds = await db.getWebAuthnCredentials(payload.username);
+        if (!creds.length) return res.status(400).json({ error: 'No hay passkeys registradas' });
+        const options = await generateAuthenticationOptions({
+            rpID: WEBAUTHN_RP_ID,
+            timeout: 60000,
+            userVerification: 'required',
+            allowCredentials: creds.map((c) => ({ id: c.credential_id, transports: _transports(c.transports) })),
+        });
+        await db.saveWebAuthnChallenge(payload.username, options.challenge, 'authentication');
+        res.json({ ok: true, options });
+    } catch (err) {
+        console.error('Error WebAuthn login options:', err);
+        res.status(500).json({ error: 'Error al preparar el login con passkey' });
+    }
+});
+
+app.post('/api/webauthn/login/verify', tfaLimiter, async (req, res) => {
+    try {
+        const { tempToken, response } = req.body || {};
+        let payload;
+        try {
+            payload = jwt.verify(tempToken, process.env.JWT_SECRET, { issuer: 'sigmaproxvl', audience: 'sigmaproxvl-api' });
+        } catch {
+            return res.status(401).json({ error: 'Token temporal inválido o expirado' });
+        }
+        if (!payload.tfaPending) return res.status(401).json({ error: 'Token no es de verificación 2FA' });
+        const challenge = await db.consumeWebAuthnChallenge(payload.username, 'authentication');
+        if (!challenge) return res.status(400).json({ error: 'Challenge expirado o ya usado' });
+        const credentialId = String(response && response.id || '');
+        const row = await db.getWebAuthnCredential(credentialId);
+        if (!row || row.username !== payload.username) {
+            return res.status(401).json({ error: 'Passkey no reconocida' });
+        }
+        const verification = await verifyAuthenticationResponse({
+            response,
+            expectedChallenge: challenge,
+            expectedOrigin: WEBAUTHN_ORIGINS,
+            expectedRPID: WEBAUTHN_RP_ID,
+            credential: {
+                id: row.credential_id,
+                publicKey: b64url.decode(row.public_key),
+                counter: Number(row.counter) || 0,
+                transports: _transports(row.transports),
+            },
+            requireUserVerification: true,
+        });
+        if (!verification.verified) return res.status(401).json({ error: 'Passkey inválida' });
+        await db.updateWebAuthnCounter(row.credential_id, verification.authenticationInfo.newCounter);
+        const realToken = jwt.sign(
+            { id: payload.id, username: payload.username, role: payload.role },
+            process.env.JWT_SECRET,
+            { expiresIn: process.env.JWT_EXPIRES_IN || '8h', issuer: 'sigmaproxvl', audience: 'sigmaproxvl-api' }
+        );
+        res.cookie('token', realToken, {
+            httpOnly: true, secure: true, sameSite: 'none', maxAge: 8 * 60 * 60 * 1000,
+        });
+        await db.logAccess({ username: payload.username, action: 'LOGIN_WEBAUTHN', success: true, ip: getClientIP(req), userAgent: req.headers['user-agent'] });
+        await db.logAuditEvent({
+            username: payload.username, action: 'WEBAUTHN_LOGIN_OK', success: 1,
+            ip: getClientIP(req), userAgent: req.headers['user-agent'],
+            module: 'AUTH', details: JSON.stringify({ credentialId: row.credential_id }),
+        });
+        res.json({ ok: true, token: realToken, username: payload.username, role: payload.role });
+    } catch (err) {
+        console.error('Error WebAuthn login verify:', err);
+        try {
+            await db.logAuditEvent({
+                username: 'unknown', action: 'WEBAUTHN_LOGIN_FAILED', success: 0,
+                ip: getClientIP(req), userAgent: req.headers['user-agent'],
+                module: 'AUTH', details: null,
+            });
+        } catch { /* best effort */ }
+        res.status(401).json({ error: 'No se pudo verificar la passkey' });
     }
 });
 
