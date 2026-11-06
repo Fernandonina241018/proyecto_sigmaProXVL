@@ -105,10 +105,11 @@
         var mergedExcludes = baseExcludes.concat(userExcludes);
         if (typeof columnAnalysisConfig !== 'undefined' && columnAnalysisConfig.forceInclude) {
             var info = Stats.analyzeColumns(data);
+            var excludeSet = new Set(mergedExcludes);
             return info
                 .filter(function(c) { return c.numericRatio > 0; })
                 .map(function(c) { return c.header; })
-                .filter(function(h) { return mergedExcludes.indexOf(h) === -1; });
+                .filter(function(h) { return !excludeSet.has(h); });
         }
         return Stats.getNumericColumns(data, {
             threshold: th,
