@@ -23,6 +23,8 @@ WEBAUTHN_RP_ID=localhost
 WEBAUTHN_ORIGIN=http://localhost:5510
 ```
 
+Guía completa, gestores de terceros y diagnóstico: [`docs/PASSKEYS.md`](docs/PASSKEYS.md).
+
 ## Stack
 - **Frontend:** Vanilla JS + HTML5/CSS3 + Chart.js
 - **Backend:** Node.js + Express + PostgreSQL (Supabase)

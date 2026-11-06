@@ -90,6 +90,35 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (SigmaProXVL) con spr
 
 ## CAMBIOS RECIENTES
 
+### 2026-11-06 (242): Passkeys — claridad de UI, guía y bloqueo de TOTP con passkeys
+
+**Qué:** Se ajustó la experiencia de passkeys tras la prueba en producción y se cerró un bypass de respaldo.
+
+- **UI:** el botón 2FA pasa de “Usar huella o rostro” a **“Usar passkey”**, con ayuda “Huella, rostro, teléfono por QR o llave de seguridad”. El perfil usa “huella, teléfono o llave”.
+- **Documentación:** nueva guía `docs/PASSKEYS.md` con registro, login, dónde se guarda cada tipo de passkey, gestores de terceros (Proton Pass/Bitwarden/1Password), diagnóstico y limitaciones. Enlazada desde README.
+- **Seguridad:** no se puede desactivar el TOTP de un usuario mientras tenga passkeys. Primero hay que eliminarlas desde “Mi Perfil”. Aplica tanto al endpoint self-service como al de administración. Evita dejar passkeys huérfanas y al usuario sin respaldo.
+
+**Archivos afectados:**
+| Archivo | Cambio |
+|---------|--------|
+| `js/core/auth.js` | Texto del botón y ayuda; reset tras fallo |
+| `js/core/indexx-ui.js` | Etiqueta de la sección Passkeys |
+| `js/core/webauthn.js` | Comentario de cabecera |
+| `backend/server.js` | Bloqueo de `2fa/disable` y `users/:id/2fa/disable` con passkeys |
+| `backend/tests/webauthn.test.js` | Test del bloqueo en ambos endpoints |
+| `tests/auth-login-fases.test.js` | Test del texto “Usar passkey” y ayuda QR |
+| `docs/PASSKEYS.md` | Guía nueva |
+| `README.md` | Enlace a la guía |
+
+**Verificación:**
+```
+node --check → OK
+Vitest → 61 archivos, 1000 tests OK
+Backend → 138 tests OK
+Playwright → 13 tests OK
+Preflight → OK
+```
+
 ### 2026-11-05 (241): Passkeys/WebAuthn como segundo factor rápido (TOTP de respaldo)
 
 **Qué:** Se añadió soporte de passkeys (huella, rostro o llave de seguridad) como alternativa rápida al código TOTP. El TOTP sigue siendo obligatorio como respaldo antes de registrar una passkey.

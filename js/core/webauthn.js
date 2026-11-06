@@ -2,7 +2,8 @@
 // webauthn.js — Passkeys (WebAuthn) en el navegador
 // StatAnalyzer Pro
 // ========================================
-// Registro y login con passkeys (huella/rostro/llave de seguridad).
+// Registro y login con passkeys (huella, rostro, teléfono por QR o llave de
+// seguridad).
 // El backend (@simplewebauthn/server) emite las opciones y verifica la
 // respuesta; aquí solo se convierten base64url <-> ArrayBuffer y se llama
 // a navigator.credentials.

@@ -137,6 +137,22 @@ test('server: el login con passkey rechaza credenciales de otro usuario', () => 
     assert.match(block, /updateWebAuthnCounter\(row\.credential_id,\s*verification\.authenticationInfo\.newCounter\)/);
 });
 
+test('server: no permite desactivar el TOTP mientras existan passkeys', () => {
+    const selfStart = SERVER.indexOf("app.post('/api/2fa/disable'");
+    const selfEnd = SERVER.indexOf('// ── Admin 2FA management for any user');
+    const adminStart = SERVER.indexOf("app.post('/api/users/:id/2fa/disable'");
+    const adminEnd = SERVER.indexOf("app.post('/api/2fa/verify-login'");
+
+    assert.ok(selfStart > 0 && selfEnd > selfStart, 'bloque self-service localizado');
+    assert.ok(adminStart > 0 && adminEnd > adminStart, 'bloque admin localizado');
+
+    for (const block of [SERVER.slice(selfStart, selfEnd), SERVER.slice(adminStart, adminEnd)]) {
+        assert.match(block, /getWebAuthnCredentials/);
+        assert.match(block, /status\(400\)/);
+        assert.match(block, /método de respaldo/);
+    }
+});
+
 test('server: el login expone hasWebAuthn sin filtrar passkeys', () => {
     assert.match(SERVER, /hasWebAuthn:\s*webauthnCreds\.length > 0/);
     // El listado del perfil nunca devuelve la clave pública.
