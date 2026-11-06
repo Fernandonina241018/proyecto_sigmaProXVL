@@ -90,6 +90,35 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (SigmaProXVL) con spr
 
 ## CAMBIOS RECIENTES
 
+### 2026-11-06 (243): A7 completo — tamaño de efecto en 27 estadísticos y advertencias
+
+**Qué:** Se cierra A7 de la auditoría estadística: todos los estadísticos que declaran `efectoTamano` lo calculan, y el evaluador de advertencias cubre las señales verificables de cada resultado.
+
+- **Efecto (27 estadísticos):** W de Shapiro-Wilk; d de Cohen (T-Test 1/2 y TOST); η² y η² parcial (ANOVA 1/2 vías); V de Cramér; r/ρ/τ; R² y R² ajustado; AUC-ROC; r rank-biserial (Mann-Whitney/Wilcoxon); η² de Kruskal-Wallis; W de Kendall (Friedman); r binomial (Signos); varianza CP1 (PCA); silhouette (Cluster); Λ de Wilks (LDA); η²p de Pillai (MANOVA); amplitud del IC bootstrap; HR Mantel-Haenszel; ICC (mixtos); BF₁₀ (Bayesiano).
+- **Advertencias:** umbrales de n, desbalance de grupos, frecuencias esperadas <5, tablas 2×2, empates, normalidad (Shapiro), homocedasticidad (Levene/Brown-Forsythe), heterocedasticidad aproximada, VIF, residuos |z|>3, clases desbalanceadas, separación perfecta, escalas dispares, condición de Sw, pocos eventos, no estacionariedad, ICC bajo, pocos grupos, prior influyente, F0 bajo mínimo y MKT fuera de límites.
+- **Nuevas advertencias** para Rango y Amplitud, Tendencia, F0 y MKT (eran los 4 sin advertencias).
+- **Bayesiano:** BF₁₀ se satura a 1e6 (`factorBayesSaturado`) para evitar `Infinity` en JSON/HTML.
+- **No auto-evaluadas** (requieren diagnósticos específicos): Box's M, KMO, Schoenfeld y extrapolación polinomial; quedan como notas metodológicas.
+
+**Archivos afectados:**
+| Archivo | Cambio |
+|---------|--------|
+| `js/core/EstadisticaDescriptiva.js` | Efecto en 27 estadísticos + evaluador de advertencias ampliado |
+| `js/core/indexx-stats-core.js` | AUC/probabilidades/convergencia (logística), HR, d de TOST, VIF, Levene inputs, empates, varianzas, balance 2 vías, chi² esperado, stds de cluster, condición de Sw, prior Bayes, desviación de series |
+| `js/core/estadisticosConfig.js` | Métricas PCA/MANOVA/supervivencia alineadas + advertencias de Rango/Tendencia/F0/MKT |
+| `tests/estadisticos-contrato.test.js` | 27 tests de efecto (uno por estadístico) |
+| `tests/estadisticos-integracion.test.js` | 9 tests de advertencias |
+| `docs/AUDITORIA_MODULO_ESTADISTICA.md` | A7 cerrado + Lote 7 |
+
+**Verificación:**
+```
+node --check → OK
+Vitest → 61 archivos, 1037 tests OK
+Backend → 138 tests OK
+Playwright → 13 tests OK
+Preflight → OK
+```
+
 ### 2026-11-06 (242): Passkeys — claridad de UI, guía y bloqueo de TOTP con passkeys
 
 **Qué:** Se ajustó la experiencia de passkeys tras la prueba en producción y se cerró un bypass de respaldo.

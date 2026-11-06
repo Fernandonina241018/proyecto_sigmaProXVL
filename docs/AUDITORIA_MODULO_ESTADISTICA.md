@@ -42,7 +42,7 @@
 | A4 | ANOVA One-Way/Kruskal sobrescriben `grupos` con etiquetas | **Corregido (Lote 2)** |
 | A5 | LDA aplica Jacobi a una matriz no simétrica | **Corregido (Lote 2)** |
 | A6 | MANOVA usa una aproximación F de Pillai no estándar | **Corregido (Lote 2)** |
-| A7 | `nivelAlfa`, `tipoTest`, `efectoTamano`, `advertencias` no se leen | **Implementado en su mayoría (Lotes 5–6): α, contraste, efecto y advertencias comunes** |
+| A7 | `nivelAlfa`, `tipoTest`, `efectoTamano`, `advertencias` no se leen | **Corregido (Lotes 5–7): α, contraste, efecto en los 27 estadísticos y advertencias evaluables** |
 | A8 | Badge de p-valor lee la primera clave (puede ser `prueba`) | **Corregido (Lote 2)** |
 
 ## 4. Medios/bajos
@@ -105,7 +105,27 @@ Los defectos C1–C7 viven exactamente en esa capa.
 - `efectoTamano`: d de Cohen (T-Test 1/2), η² (ANOVA), V de Cramér (Chi²), r/ρ/τ, R², silhouette y BF₁₀; se muestra en la tarjeta.
 - `advertencias`: evaluador para umbrales n_menor/n_mayor, r2_menor_099, b_menor_1000, k_menor_3, no_convergencia y distribución uniforme de Pareto; se muestran en el HTML.
 - Tests: η² + render, Pareto uniforme con advertencia, contraste unilateral vs bilateral.
-- Pendiente menor: métricas de efecto específicas para todos los 27 estadísticos y el resto de condiciones de advertencia.
+
+### Lote 7 — A7 completo: efecto en los 27 estadísticos y advertencias (este PR)
+- **Tamaño de efecto** calculado en los 27 estadísticos que lo declaran:
+  - Normalidad: W de Shapiro-Wilk.
+  - Medias: d de Cohen (T-Test 1/2 y TOST).
+  - Varianza: η² (ANOVA One-Way), η² parcial por factor e interacción (ANOVA Two-Way).
+  - Asociación: V de Cramér, r/ρ/τ, R² y R² ajustado, AUC-ROC.
+  - No paramétricos: r rank-biserial (Mann-Whitney, Wilcoxon), η² (Kruskal-Wallis), W de Kendall (Friedman), r binomial (Signos).
+  - Multivariado: varianza explicada por CP1 (PCA), silhouette (Cluster), Λ de Wilks (Discriminante), η² parcial de Pillai (MANOVA).
+  - Extras: amplitud del IC bootstrap, hazard ratio de Mantel-Haenszel, ICC (modelos mixtos) y BF₁₀ (Bayesiano).
+- **Advertencias** ampliadas con señales verificables del resultado y de los datos:
+  - n insuficiente y desbalance de grupos; frecuencias esperadas <5 y tablas 2×2; empates en tests de rangos.
+  - Normalidad de datos/residuos (Shapiro), homocedasticidad (Levene/Brown-Forsythe) y heterocedasticidad aproximada por |residuo| vs ajustado.
+  - Multicolinealidad (VIF), puntos influyentes (|z|>3), R² alto, grado polinomial alto.
+  - Desbalance de clases y separación perfecta en regresión logística.
+  - Escalas dispares en PCA/Cluster, variables no correlacionadas, condición de Sw en LDA.
+  - Pocos eventos en supervivencia, tendencia marcada en series, ICC bajo y pocos grupos en mixtos, prior influyente en Bayesiano.
+  - Calidad: n insuficiente, F0 bajo el mínimo y MKT fuera de límites (nuevas advertencias para Rango, Tendencia, F0 y MKT).
+- **Bayesiano:** BF₁₀ se satura a 1e6 (`factorBayesSaturado`) para evitar `Infinity` en JSON/HTML.
+- **Tests:** 27 casos de efecto (uno por estadístico), 9 casos de advertencias y contrato de los 62 estadísticos.
+- **No auto-evaluadas** (requieren diagnósticos específicos no implementados y quedan como notas metodológicas): Box's M, KMO, riesgos no proporcionales (Schoenfeld) y extrapolación polinomial.
 
 ## 7. Criterios de aceptación
 

@@ -105,10 +105,11 @@
         var mergedExcludes = baseExcludes.concat(userExcludes);
         if (typeof columnAnalysisConfig !== 'undefined' && columnAnalysisConfig.forceInclude) {
             var info = Stats.analyzeColumns(data);
+            var excludeSet = new Set(mergedExcludes);
             return info
                 .filter(function(c) { return c.numericRatio > 0; })
                 .map(function(c) { return c.header; })
-                .filter(function(h) { return mergedExcludes.indexOf(h) === -1; });
+                .filter(function(h) { return !excludeSet.has(h); });
         }
         return Stats.getNumericColumns(data, {
             threshold: th,
@@ -450,12 +451,14 @@
         // Asignar rangos (manejar empates con promedio)
         const rangos = new Array(combined.length);
         let i = 0;
+        let empates = 0;
         while (i < combined.length) {
             const currentVal = combined[i].valor;
             let j = i;
             while (j < combined.length && combined[j].valor === currentVal) {
                 j++;
             }
+            if (j - i > 1) empates += (j - i);
             const rangoPromedio = (i + 1 + j) / 2;
             for (let k = i; k < j; k++) {
                 rangos[k] = rangoPromedio;
@@ -507,6 +510,7 @@
             U1: parseFloat(U1.toFixed(4)),
             U2: parseFloat(U2.toFixed(4)),
             U: parseFloat(U.toFixed(4)),
+            proporcionEmpates: parseFloat((empates / combined.length).toFixed(4)),
             z: parseFloat((alt === 'bilateral' ? z : zSigned).toFixed(4)),
             valorP: parseFloat(p.toFixed(6)),
             significativo: p < 0.05,
@@ -543,6 +547,7 @@
         const rangos = new Array(combined.length);
         let i = 0;
         let sumaCorreccionEmpates = 0;
+        let empates = 0;
         while (i < combined.length) {
             const currentVal = combined[i].valor;
             let j = i;
@@ -553,6 +558,7 @@
             const t = j - i; // número de empates
             if (t > 1) {
                 sumaCorreccionEmpates += (t * t * t - t);
+                empates += t;
             }
             for (let idx = i; idx < j; idx++) {
                 rangos[idx] = rangoPromedio;
@@ -597,6 +603,9 @@
             sumasRangos: sumasRangos.map((s, i) => ({ grupo: i + 1, suma: parseFloat(s.toFixed(4)) })),
             H: parseFloat(H.toFixed(4)),
             df: df,
+            tamanosGrupos: tamanos,
+            minGrupo: Math.min(...tamanos),
+            proporcionEmpates: parseFloat((empates / N).toFixed(4)),
             valorP: parseFloat(p.toFixed(6)),
             significativo: p < 0.05,
             interpretacion: p < 0.05
@@ -636,6 +645,7 @@
         // Asignar rangos (manejar empates)
         const rangos = new Array(diferencias.length);
         let correccionEmpates = 0;
+        let empates = 0;
         let i = 0;
         while (i < diferencias.length) {
             const currentVal = diferencias[i].diff;
@@ -647,6 +657,7 @@
             const t = j - i;
             if (t > 1) {
                 correccionEmpates += (t * t * t - t);
+                empates += t;
             }
             for (let idx = i; idx < j; idx++) {
                 rangos[idx] = rangoPromedio;
@@ -688,6 +699,7 @@
             W: parseFloat(W.toFixed(4)),
             Wpositivo: parseFloat(Wpos.toFixed(4)),
             Wnegativo: parseFloat(Wneg.toFixed(4)),
+            proporcionEmpates: parseFloat((empates / N).toFixed(4)),
             z: parseFloat((alt === 'bilateral' ? z : zSigned).toFixed(4)),
             valorP: parseFloat(p.toFixed(6)),
             significativo: p < 0.05,
@@ -976,6 +988,12 @@ negativos: negativos,
 
         // Valor p para F (aproximación)
         const valorP = calcularValorP_F(f, dfEntre, dfDentro);
+        const varianzasGrupos = grupos.map(g => calcularVarianza(g, true));
+        const residuos = grupos.reduce((acc, g) => {
+            const mg = calcularMedia(g);
+            g.forEach(v => acc.push(v - mg));
+            return acc;
+        }, []);
 
         return {
             prueba: 'ANOVA One-Way',
@@ -988,6 +1006,8 @@ negativos: negativos,
             estadisticoF: f,
             dfEntre: dfEntre,
             dfDentro: dfDentro,
+            varianzas: varianzasGrupos,
+            residuos: residuos,
             valorP: valorP,
             significativo: valorP < 0.05,
             interpretacion: valorP < 0.05
@@ -1064,6 +1084,9 @@ negativos: negativos,
         const p1 = calcularValorP_F(f1, dfF1, dfError);
         const p2 = calcularValorP_F(f2, dfF2, dfError);
         const pAB = calcularValorP_F(fAB, dfAB, dfError);
+        const tamanosCeldas = celdas.map(row => row.map(v => v.length)).flat();
+        const minCelda = Math.min(...tamanosCeldas);
+        const maxCelda = Math.max(...tamanosCeldas);
 
         return {
             prueba: 'ANOVA Two-Way',
@@ -1073,6 +1096,10 @@ negativos: negativos,
             residual: { SS: ssError, MS: msError, df: dfError },
             total: { SS: ssTotal, df: N - 1 },
             n: N,
+            celdasN: tamanosCeldas,
+            disenoBalanceado: minCelda === maxCelda,
+            minCelda: minCelda,
+            maxCelda: maxCelda,
             interpretacion: `Factor 1: ${p1 < 0.05 ? 'Significativo' : 'No significativo'}. Factor 2: ${p2 < 0.05 ? 'Significativo' : 'No significativo'}. Interacción: ${pAB < 0.05 ? 'Significativa' : 'No significativa'}.`
         };
     }
@@ -1112,9 +1139,13 @@ negativos: negativos,
 
         // Valores esperados y chi-cuadrado
         let chi2 = 0;
+        let minEsperado = Infinity;
+        let celdasMenor5 = 0;
         for (let i = 0; i < filas; i++) {
             for (let j = 0; j < cols; j++) {
                 const esperado = (totalFilas[i] * totalCols[j]) / N;
+                if (esperado < minEsperado) minEsperado = esperado;
+                if (esperado < 5) celdasMenor5 += 1;
                 if (esperado > 0) {
                     chi2 += Math.pow(tabla[i][j] - esperado, 2) / esperado;
                 }
@@ -1132,6 +1163,9 @@ negativos: negativos,
             N: N,
             estadisticoChi2: chi2,
             gradosLibertad: df,
+            minEsperado: isFinite(minEsperado) ? parseFloat(minEsperado.toFixed(4)) : null,
+            celdasMenor5: celdasMenor5,
+            tabla2x2: filas === 2 && cols === 2,
             valorP: valorP,
             significativo: valorP < 0.05,
             interpretacion: valorP < 0.05
@@ -1738,6 +1772,12 @@ negativos: negativos,
         // Valor p usando distribución t (unilateral soportado vía alternativa)
         const altSp = normalizarAlternativa(alternativa);
         const p = altSp === 'bilateral' ? 2 * (1 - calcularCDF_T(Math.abs(t), df)) : valorPTAlternativa(t, df, altSp);
+        const propEmpates = (arr) => {
+          const counts = {};
+          arr.forEach(v => { counts[v] = (counts[v] || 0) + 1; });
+          const tied = Object.values(counts).filter(c => c > 1).reduce((s, c) => s + c, 0);
+          return arr.length ? tied / arr.length : 0;
+        };
        
        // Interpretación
        let interpretacion = '';
@@ -1766,6 +1806,7 @@ negativos: negativos,
          significante: p < 0.05,
          interpretacion: interpretacion,
          n: nVal,
+         proporcionEmpates: parseFloat(Math.max(propEmpates(paresValidos.map(p => p[0])), propEmpates(paresValidos.map(p => p[1]))).toFixed(4)),
          formula: 'ρ = correlación de Pearson sobre rangos',
          variables: ['X', 'Y']
        };
@@ -1885,6 +1926,7 @@ negativos: negativos,
               discordantes: discordantes,
               empatesX: empatesX,
               empatesY: empatesY,
+              proporcionEmpates: n0 > 0 ? parseFloat((((n1 + n2) / (2 * n0))).toFixed(4)) : 0,
               z: parseFloat(z.toFixed(4)),
               p: parseFloat(p.toFixed(6)),
               pValue: parseFloat(p.toFixed(6)),
@@ -2288,6 +2330,30 @@ negativos: negativos,
          ? 'Al menos un predictor es significativo (p < 0.05)'
          : 'Ningún predictor es significativo (p ≥ 0.05)';
        
+       // VIF a partir de la diagonal de la inversa de la matriz de correlación.
+       // VIF_j = 1/(1-R²_j) para el predictor j.
+       let vif = null;
+       if (k > 1) {
+         try {
+           const medias = [], sds = [];
+           for (let j = 0; j < k; j++) {
+             const vals = X.map(row => row[j]);
+             const m = vals.reduce((a, b) => a + b, 0) / n;
+             medias.push(m);
+             sds.push(Math.sqrt(vals.reduce((a, v) => a + (v - m) ** 2, 0) / (n - 1)));
+           }
+           if (sds.every(s => s > 1e-12)) {
+             const corr = Array.from({ length: k }, (_, i) => Array.from({ length: k }, (__, j) => {
+               let acc = 0;
+               for (let r = 0; r < n; r++) acc += (X[r][i] - medias[i]) * (X[r][j] - medias[j]);
+               return acc / ((n - 1) * sds[i] * sds[j]);
+             }));
+             const inv = inverseMatrix(corr);
+             if (inv) vif = inv.map((row, i) => parseFloat(row[i].toFixed(4)));
+           }
+         } catch (e) { vif = null; }
+       }
+       
        return {
          prueba: 'Regresión Lineal Múltiple',
          modelo: `Y = β₀ + β₁X₁ + ... + βₖXₖ`,
@@ -2301,6 +2367,7 @@ negativos: negativos,
          interpretacion: interpretacion,
          n: n,
          k: k,
+         vif: vif,
          predicciones: predicciones.map(p => parseFloat(p.toFixed(4))),
          residuos: residuos.map(r => parseFloat(r.toFixed(4)))
        };
@@ -2406,6 +2473,27 @@ negativos: negativos,
      }
      
      /**
+      * AUC-ROC por pares concordantes (equivalente a U de Mann-Whitney).
+      * Devuelve 0.5 cuando falta alguna clase (AUC no informativa).
+      */
+     function calcularAUC(y, probs) {
+       const pos = [], neg = [];
+       for (let i = 0; i < y.length; i++) {
+         if (y[i] === 1) pos.push(probs[i]);
+         else neg.push(probs[i]);
+       }
+       if (!pos.length || !neg.length) return 0.5;
+       let wins = 0;
+       for (const p of pos) {
+         for (const n of neg) {
+           if (p > n) wins += 1;
+           else if (p === n) wins += 0.5;
+         }
+       }
+       return wins / (pos.length * neg.length);
+     }
+
+     /**
       * Calcula la regresión logística (clasificación binaria)
       * @param {Array<Array<number>>} X - Matriz de variables independientes
       * @param {Array<number>} y - Variable dependiente binaria (0/1)
@@ -2439,8 +2527,11 @@ negativos: negativos,
        const learningRate = 0.01;
        const maxIter = 1000;
        const tolerance = 1e-6;
+       let converged = false;
+       let iteraciones = 0;
        
        for (let iter = 0; iter < maxIter; iter++) {
+         iteraciones = iter + 1;
          const gradient = new Array(numParams).fill(0);
          
          // Calcular gradiente
@@ -2463,14 +2554,15 @@ negativos: negativos,
            maxChange = Math.max(maxChange, Math.abs(change));
          }
          
-         if (maxChange < tolerance) break;
+         if (maxChange < tolerance) { converged = true; break; }
        }
        
-       // Predicciones
-       const predicciones = XWithIntercept.map(xi => {
+       // Probabilidades y predicciones
+       const probabilidades = XWithIntercept.map(xi => {
          const z = xi.reduce((sum, xj, j) => sum + xj * betas[j], 0);
-         return z >= 0 ? 1 : 0;
+         return 1 / (1 + Math.exp(-z));
        });
+       const predicciones = probabilidades.map(p => p >= 0.5 ? 1 : 0);
        
        // Calcular métricas
        const vp = y.reduce((sum, yi, i) => sum + (yi === 1 && predicciones[i] === 1 ? 1 : 0), 0);
@@ -2482,6 +2574,9 @@ negativos: negativos,
        const precision = vp / (vp + fp) || 0;
        const recall = vp / (vp + fn) || 0;
        const f1 = 2 * precision * recall / (precision + recall) || 0;
+       const auc = calcularAUC(y, probabilidades);
+       const nPositivos = y.filter(v => v === 1).length;
+       const nNegativos = n - nPositivos;
        
        // Odds ratios
        const oddsRatios = betas.slice(1).map(b => Math.exp(b));
@@ -2502,6 +2597,12 @@ negativos: negativos,
          precision: parseFloat(precision.toFixed(4)),
          recall: parseFloat(recall.toFixed(4)),
          f1: parseFloat(f1.toFixed(4)),
+         auc: parseFloat(auc.toFixed(4)),
+         probabilidades: probabilidades.map(p => parseFloat(p.toFixed(6))),
+         nPositivos: nPositivos,
+         nNegativos: nNegativos,
+         converged: converged,
+         iteraciones: iteraciones,
          vp: vp,
          fp: fp,
          vn: vn,
@@ -3101,11 +3202,18 @@ interpretacion: interpretacion,
         const pUpper = calcularCDF_T(tUpper, df);
         const pTOST = Math.max(pLower, pUpper);
         const tCrit = calcularValorP_TInverso(0.95, df);
+        // Tamaño de efecto: d de Cohen con desviación pooled (misma métrica
+        // que el T-Test de dos muestras, para que sea comparable).
+        const sp = Math.sqrt(((n1 - 1) * var1 + (n2 - 1) * var2) / (n1 + n2 - 2));
+        const d = sp > 0 ? (mean1 - mean2) / sp : null;
         return {
             tInferior: tLower, tSuperior: tUpper,
             pInferior: pLower, pSuperior: pUpper,
             pTOST: pTOST,
             ic90: { inferior: (mean1 - mean2) - tCrit * se, superior: (mean1 - mean2) + tCrit * se },
+            d: d !== null && isFinite(d) ? parseFloat(d.toFixed(4)) : null,
+            media1: parseFloat(mean1.toFixed(4)),
+            media2: parseFloat(mean2.toFixed(4)),
             esEquivalente: pTOST < 0.05,
             delta: delta, diferencia: mean1 - mean2,
             n1: n1, n2: n2,
@@ -3203,8 +3311,14 @@ interpretacion: interpretacion,
         }
         silhouette /= Math.min(n, 200);
         const clusterSizes = Array.from({ length: k }, (_, c) => labels.filter(l => l === c).length);
+        const stds = Array.from({ length: p }, (_, j) => {
+            const vals = dataMatrix.map(row => row[j]);
+            const m = vals.reduce((a, b) => a + b, 0) / n;
+            return Math.sqrt(vals.reduce((a, v) => a + (v - m) ** 2, 0) / Math.max(1, n - 1));
+        });
         return {
             k: k, labels: labels, clusterSizes: clusterSizes,
+            stds: stds.map(v => parseFloat(v.toFixed(4))),
             centroids: centroids.map(c => c.map(v => parseFloat(v.toFixed(4)))),
             inertia: parseFloat(inertia.toFixed(4)),
             silhouette: parseFloat(silhouette.toFixed(4)),
@@ -3291,6 +3405,8 @@ interpretacion: interpretacion,
         // Matriz de confusión
         const confusion = Array.from({ length: nClasses }, () => Array(nClasses).fill(0));
         for (let i = 0; i < n; i++) { if (labIdx[i] >= 0) confusion[labIdx[i]][classified[i]]++; }
+        const swOrden = [...swVals].sort((a, b) => a - b);
+        const condicionSw = swOrden.length && swOrden[0] > 0 ? swOrden[swOrden.length - 1] / swOrden[0] : null;
         return {
             funcionesDiscriminantes: nFunciones,
             cargas: eigenvals.slice(0, nFunciones).map(v => parseFloat(v.toFixed(4))),
@@ -3300,6 +3416,7 @@ interpretacion: interpretacion,
             p: parseFloat(pValue.toFixed(4)),
             clasificacion: classified.map(c => classes[c]),
             accuracy: parseFloat(accuracy.toFixed(4)),
+            condicionSw: condicionSw !== null ? parseFloat(condicionSw.toFixed(2)) : null,
             matrizConfusion: confusion,
             warnings: warningsDisc.length > 0 ? warningsDisc : undefined,
             interpretacion: pValue < 0.05
@@ -3413,7 +3530,14 @@ interpretacion: interpretacion,
             }
             const chi2 = (O1 - E1) ** 2 / Math.max(E1, 0.001) + (O2 - E2) ** 2 / Math.max(E2, 0.001);
             const pLogRank = 1 - calcularValorP_ChiCuadrado(chi2, 1);
-            logRank = { chi2: parseFloat(chi2.toFixed(4)), p: parseFloat((1 - pLogRank).toFixed(4)), significativo: (1 - pLogRank) < 0.05 };
+            // Hazard ratio aproximado (Mantel-Haenszel): (O1/E1)/(O2/E2).
+            const hr = (O1 > 0 && E1 > 0 && O2 > 0 && E2 > 0) ? (O1 / E1) / (O2 / E2) : null;
+            logRank = {
+                chi2: parseFloat(chi2.toFixed(4)),
+                p: parseFloat((1 - pLogRank).toFixed(4)),
+                hr: hr !== null && isFinite(hr) ? parseFloat(hr.toFixed(4)) : null,
+                significativo: (1 - pLogRank) < 0.05
+            };
         }
         return {
             curvas: curvas,
@@ -3502,6 +3626,7 @@ interpretacion: interpretacion,
             lbP: parseFloat((1 - lbP).toFixed(4)),
             period: period,
             n: n,
+            desviacion: parseFloat(calcularDesviacionEstandar(values, true).toFixed(4)),
             interpretacion: (1 - lbP) < 0.05
                 ? `Serie con autocorrelación significativa (Ljung-Box p=${(1 - lbP).toFixed(4)})`
                 : `Serie sin autocorrelación residual (Ljung-Box p=${(1 - lbP).toFixed(4)} ≥ 0.05)`
@@ -3713,7 +3838,11 @@ interpretacion: interpretacion,
         // Factor de Bayes (aproximación BIC)
         // BF10 = evidencia a favor de H1 vs H0 (mu=mu0)
         const t = (mediaMuestral - mu0) / Math.sqrt(sigma2 / n);
-        const bf10 = Math.exp(-0.5 * Math.log(1 + n * sigma20 / sigma2) + (n * t * t) / (2 * (1 + sigma2 / (n * sigma20))));
+        const logBF10 = -0.5 * Math.log(1 + n * sigma20 / sigma2) + (n * t * t) / (2 * (1 + sigma2 / (n * sigma20)));
+        // Evita Infinity en JSON/HTML: se informa como "> 1e6" cuando satura.
+        const BF_MAX = 1e6;
+        const bf10 = !Number.isFinite(logBF10) ? BF_MAX : Math.min(BF_MAX, Math.exp(logBF10));
+        const bfSaturado = Number.isFinite(logBF10) && logBF10 > Math.log(BF_MAX);
         // MCMC simulado (Gibbs sampling normal-normal)
         const mcmcSamples = [];
         let currentMu = mediaMuestral;
@@ -3729,14 +3858,17 @@ interpretacion: interpretacion,
         const rHat = postSd > 0 && sdPost > 0 ? postSd / sdPost : 1;
         return {
             posterior: { media: parseFloat(mediaPost.toFixed(4)), sd: parseFloat(sdPost.toFixed(4)) },
+            prior: { media: parseFloat((prior.media || 0).toFixed(4)), varianza: prior.varianza ? parseFloat(prior.varianza.toFixed(4)) : null },
             media_posterior: parseFloat(mediaPost.toFixed(4)),
             ic95_credible: { inferior: parseFloat(ic95.inferior.toFixed(4)), superior: parseFloat(ic95.superior.toFixed(4)) },
             factorBayes: parseFloat(bf10.toFixed(2)),
+            factorBayesSaturado: bfSaturado,
             mediaMuestral: parseFloat(mediaMuestral.toFixed(4)),
             n: n,
             semilla: Number.isFinite(semilla) ? semilla : 12345,
             mcmc: { nSamples: mcmcSamples.length, media: parseFloat(postMean.toFixed(4)), sd: parseFloat(postSd.toFixed(4)), rHat: parseFloat(rHat.toFixed(4)) },
-            interpretacion: bf10 > 10 ? `Evidencia muy fuerte para H₁ (BF₁₀ = ${bf10.toFixed(1)})`
+            interpretacion: bfSaturado ? 'Evidencia muy fuerte para H₁ (BF₁₀ > 1e6)'
+                : bf10 > 10 ? `Evidencia muy fuerte para H₁ (BF₁₀ = ${bf10.toFixed(1)})`
                 : bf10 > 3 ? `Evidencia sustancial para H₁ (BF₁₀ = ${bf10.toFixed(1)})`
                 : bf10 > 1 ? `Evidencia anecdótica para H₁ (BF₁₀ = ${bf10.toFixed(1)})`
                 : bf10 < 0.1 ? `Evidencia muy fuerte para H₀ (BF₁₀ = ${bf10.toFixed(2)})`

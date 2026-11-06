@@ -242,6 +242,9 @@ const ESTADISTICOS_CONFIG = {
         interpretacion: {
             plantilla: 'Rango total: {rango} (de {min} a {max}). Un rango muy amplio respecto a la DE sugiere outliers.',
         },
+        advertencias: [
+            { condicion: 'n_menor_10', mensaje: 'Con menos de 10 observaciones el rango depende mucho de un solo valor extremo.' },
+        ],
         referencia: [
             {
                 autores:  'Freedman, D., Pisani, R. & Purves, R.',
@@ -1219,6 +1222,10 @@ const ESTADISTICOS_CONFIG = {
             descripcion: 'Un vector numérico con al menos 5 observaciones',
         },
         salidas: ['tipo', 'formula', 'pendiente', 'intercepto', 'r2', 'n', 'direccion', 'proyecciones', 'interpretacion'],
+        advertencias: [
+            { condicion: 'n_menor_10', mensaje: 'Con pocas observaciones la tendencia y la proyección son poco fiables.' },
+            { condicion: 'r2_menor_099', mensaje: 'El ajuste lineal es bajo (R² < 0.99): la proyección puede no representar la serie.' },
+        ],
         referencia: [
             {
                 autores:  'Montgomery, D.C., Jennings, C.L. & Kulahci, M.',
@@ -1309,7 +1316,7 @@ const ESTADISTICOS_CONFIG = {
         advertencias: [
             { condicion: 'no_normalidad_residuos', mensaje: 'Los residuos no son normales. Las inferencias sobre β pueden ser inexactas.' },
             { condicion: 'heterocedasticidad',      mensaje: 'Varianza no constante en residuos (heterocedasticidad). Use errores estándar robustos.' },
-            { condicion: 'outliers_influyentes',     mensaje: 'Hay puntos con alta influencia (Cook\'s D). Verifique su validez.' },
+            { condicion: 'outliers_influyentes',     mensaje: 'Residuos con |z|>3: posibles puntos influyentes. Verifique su validez.' },
         ],
         referencia: [
             {
@@ -1895,9 +1902,9 @@ const ESTADISTICOS_CONFIG = {
         },
         salidas: ['prueba', 'nObservaciones', 'nVariables', 'nComponentes', 'eigenvalues', 'loadings', 'varianceExplained', 'cumulativeVariance', 'scores', 'means', 'stds', 'interpretacion', 'warning', 'warnings'],
         efectoTamano: {
-            metrica:  'Varianza explicada acumulada',
-            formula:  'VE% = Σλᵢ / Σλ × 100',
-            umbrales: { aceptable: 70, bueno: 80, excelente: 90 },
+            metrica:  'Varianza explicada (CP1)',
+            formula:  'VE₁ = λ₁ / Σλ × 100',
+            umbrales: { aceptable: 50, bueno: 70, excelente: 85 },
         },
         interpretacion: {
             plantilla: '{nComp} componentes explican el {varAcum}% de la varianza total. PC1: {var1}%, PC2: {var2}%.',
@@ -1987,7 +1994,7 @@ const ESTADISTICOS_CONFIG = {
         },
         advertencias: [
             { condicion: 'k_no_especificado', mensaje: 'Use el método del codo (inercia vs k) o Silhouette para seleccionar k óptimo.' },
-            { condicion: 'escala_diferente',  mensaje: 'Variables en distintas escalas pueden dominar la métrica de distancia. Se aplicó estandarización.' },
+            { condicion: 'escala_diferente',  mensaje: 'Variables en distintas escalas: la distancia puede estar dominada por la de mayor escala. Estandarice antes de agrupar.' },
         ],
         referencia: [
             {
@@ -2084,7 +2091,7 @@ const ESTADISTICOS_CONFIG = {
         nivelAlfa: 0.05,
         efectoTamano: {
             metrica:  'η² parcial multivariado (Pillai)',
-            formula:  "Pillai's trace = Σ(λᵢ/(1+λᵢ))",
+            formula:  'η²p = Pillai / s',
             umbrales: { pequeno: 0.01, mediano: 0.06, grande: 0.14 },
         },
         interpretacion: {
@@ -2136,7 +2143,7 @@ const ESTADISTICOS_CONFIG = {
             plantilla: 'Tendencia: {tendencia}. Estacionalidad: {estacionalidad}. Pronóstico {h} pasos: {pronostico}.',
         },
         advertencias: [
-            { condicion: 'no_estacionaria', mensaje: 'La serie no es estacionaria (ADF significativo). Aplique diferenciación antes de modelos ARIMA.' },
+            { condicion: 'no_estacionaria', mensaje: 'La serie muestra una tendencia marcada (posible no estacionariedad). Considere diferenciación antes de modelos ARIMA.' },
             { condicion: 'n_menor_50',      mensaje: 'Con menos de 50 observaciones la estimación de componentes estacionales es poco fiable.' },
         ],
         referencia: [
@@ -2218,8 +2225,8 @@ const ESTADISTICOS_CONFIG = {
         salidas: ['curvas', 'logRank', 'interpretacion'],
         nivelAlfa: 0.05,
         efectoTamano: {
-            metrica:  'Hazard Ratio (Cox)',
-            formula:  'HR = exp(β)',
+            metrica:  'Hazard Ratio (Mantel-Haenszel)',
+            formula:  'HR = (O₁/E₁) / (O₂/E₂)',
             umbrales: { noEfecto: 1.0, efectoModerado: 2.0, efectoGrande: 3.0 },
         },
         interpretacion: {
@@ -2227,7 +2234,7 @@ const ESTADISTICOS_CONFIG = {
         },
         advertencias: [
             { condicion: 'no_proporcionalidad', mensaje: 'Riesgos no proporcionales (Schoenfeld residuals): el modelo de Cox puede ser inapropiado.' },
-            { condicion: 'pocos_eventos',       mensaje: 'Regla general: al menos 10 eventos por covariable en el modelo de Cox.' },
+            { condicion: 'pocos_eventos',       mensaje: 'Menos de 10 eventos por grupo: el log-rank tiene poca potencia para detectar diferencias.' },
         ],
         referencia: [
             {
@@ -2682,6 +2689,10 @@ const ESTADISTICOS_CONFIG = {
         interpretacion: {
             plantilla: 'F0 = {F0} min (equivalente a {F0} min a {T_ref}°C con z={z}°C). Temperatura máxima: {T_max}°C. Tiempo sobre umbral: {tiempo_sobre_umbral} min. {interpretacion}',
         },
+        advertencias: [
+            { condicion: 'n_menor_10', mensaje: 'Con menos de 10 lecturas el F0 acumulado puede no cubrir todo el ciclo.' },
+            { condicion: 'f0_bajo_minimo', mensaje: 'El F0 calculado está por debajo del mínimo configurado; revise el ciclo de esterilización.' },
+        ],
         referencia: [
             {
                 autores:  'Pflug, I.J.',
@@ -2715,6 +2726,10 @@ const ESTADISTICOS_CONFIG = {
         interpretacion: {
             plantilla: 'MKT = {MKT_C}°C ({MKT_K}K) basado en {n} lecturas con ΔH/R={delta_HR}K. Rango: {T_min}°C a {T_max}°C. Límites configurados: [{limite_min}°C, {limite_max}°C]. {interpretacion}',
         },
+        advertencias: [
+            { condicion: 'n_menor_10', mensaje: 'Con menos de 10 lecturas la MKT es poco representativa del periodo de almacenamiento.' },
+            { condicion: 'mkt_fuera_limites', mensaje: 'La MKT está fuera de los límites de temperatura configurados; revise las condiciones de almacenamiento.' },
+        ],
         referencia: [
             {
                 autores:  'USP <659>',

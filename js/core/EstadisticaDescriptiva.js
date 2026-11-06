@@ -125,71 +125,360 @@ const EstadisticaDescriptiva = (() => {
                     obj.efectoTamano = { metrica, valor: parseFloat(valor.toFixed(4)), formula };
                 }
             };
-            if (stat === 'T-Test (una muestra)') {
-                Object.values(res).forEach(r => {
-                    if (r && !r.error && r.desviacionEstandar) {
-                        set(r, 'd de Cohen', (r.mediaMuestral - r.mediaHipotesis) / r.desviacionEstandar, 'd = (x̄ − μ₀) / s');
+            const enHijos = (fn) => {
+                Object.values(res).forEach(v => { if (v && typeof v === 'object' && !Array.isArray(v)) fn(v); });
+            };
+            switch (stat) {
+                case 'Test de Shapiro-Wilk':
+                    enHijos(r => set(r, 'W de Shapiro-Wilk', r.estadisticoW, 'W ∈ [0, 1]; cercano a 1 = normalidad'));
+                    break;
+                case 'T-Test (una muestra)':
+                    enHijos(r => {
+                        if (r.desviacionEstandar) {
+                            set(r, 'd de Cohen', (r.mediaMuestral - r.mediaHipotesis) / r.desviacionEstandar, 'd = (x̄ − μ₀) / s');
+                        }
+                    });
+                    break;
+                case 'T-Test (dos muestras)':
+                    enHijos(r => {
+                        if (!r.grupo1 || !r.grupo2) return;
+                        const n1 = r.grupo1.n, n2 = r.grupo2.n;
+                        const sp = Math.sqrt(((n1 - 1) * r.grupo1.varianza + (n2 - 1) * r.grupo2.varianza) / (n1 + n2 - 2));
+                        if (sp > 0) set(r, 'd de Cohen', (r.grupo1.media - r.grupo2.media) / sp, 'd = (x̄₁ − x̄₂) / s_pooled');
+                    });
+                    break;
+                case 'Test TOST (Equivalencia)':
+                    set(res, 'd de Cohen', res.d, 'd = (x̄₁ − x̄₂) / s_pooled');
+                    break;
+                case 'ANOVA One-Way':
+                    if (typeof res.SSB === 'number') {
+                        set(res, 'η²', res.SSB / (res.SSB + res.SSW), 'η² = SSB / SST');
                     }
-                });
-            }
-            if (stat === 'T-Test (dos muestras)') {
-                Object.values(res).forEach(r => {
-                    if (!r || r.error || !r.grupo1 || !r.grupo2) return;
-                    const n1 = r.grupo1.n, n2 = r.grupo2.n;
-                    const sp = Math.sqrt(((n1 - 1) * r.grupo1.varianza + (n2 - 1) * r.grupo2.varianza) / (n1 + n2 - 2));
-                    if (sp > 0) set(r, 'd de Cohen', (r.grupo1.media - r.grupo2.media) / sp, 'd = (x̄₁ − x̄₂) / s_pooled');
-                });
-            }
-            if (stat === 'ANOVA One-Way' && typeof res.SSB === 'number') {
-                set(res, 'η²', res.SSB / (res.SSB + res.SSW), 'η² = SSB / SST');
-            }
-            if (stat === 'Chi-Cuadrado' && res.tablaObservada) {
-                const r = res.tablaObservada.length, c = res.tablaObservada[0]?.length || 0;
-                if (r > 1 && c > 1 && res.N > 0) {
-                    set(res, 'V de Cramér', Math.sqrt(res.estadisticoChi2 / (res.N * Math.min(r - 1, c - 1))), 'V = √(χ² / (n·min(r−1,c−1)))');
+                    break;
+                case 'ANOVA Two-Way': {
+                    const sse = res.residual && res.residual.SS;
+                    if (typeof sse === 'number' && sse > 0) {
+                        if (res.factor1) set(res.factor1, 'η² parcial (Factor 1)', res.factor1.SS / (res.factor1.SS + sse), 'η²p = SSfactor / (SSfactor + SSerror)');
+                        if (res.factor2) set(res.factor2, 'η² parcial (Factor 2)', res.factor2.SS / (res.factor2.SS + sse), 'η²p = SSfactor / (SSfactor + SSerror)');
+                        if (res.interaccion) set(res.interaccion, 'η² parcial (Interacción)', res.interaccion.SS / (res.interaccion.SS + sse), 'η²p = SSAB / (SSAB + SSerror)');
+                    }
+                    break;
                 }
+                case 'Chi-Cuadrado':
+                    if (res.tablaObservada) {
+                        const r = res.tablaObservada.length, c = res.tablaObservada[0]?.length || 0;
+                        if (r > 1 && c > 1 && res.N > 0) {
+                            set(res, 'V de Cramér', Math.sqrt(res.estadisticoChi2 / (res.N * Math.min(r - 1, c - 1))), 'V = √(χ² / (n·min(r−1,c−1)))');
+                        }
+                    }
+                    break;
+                case 'Correlación Pearson': set(res, 'r de Pearson', res.r, 'r ∈ [−1, 1]'); break;
+                case 'Correlación Spearman': set(res, 'ρ de Spearman', res.rho, 'ρ ∈ [−1, 1]'); break;
+                case 'Correlación Kendall Tau': set(res, 'τ de Kendall', res.tau, 'τ ∈ [−1, 1]'); break;
+                case 'Regresión Lineal Simple': set(res, 'R²', res.r2, 'R² = 1 − SSres/SStot'); break;
+                case 'Regresión Lineal Múltiple':
+                case 'Regresión Polinomial':
+                    set(res, 'R² ajustado', res.r2Adj, 'R²adj = 1 − (1−R²)(n−1)/(n−k−1)');
+                    break;
+                case 'Regresión Logística': set(res, 'AUC-ROC', res.auc, 'AUC ∈ [0.5, 1]; 0.5 = azar'); break;
+                case 'Mann-Whitney U': set(res, 'r (rank-biserial)', res.tamanoEfecto, 'r = |Z| / √N'); break;
+                case 'Kruskal-Wallis':
+                    if (typeof res.H === 'number' && res.totalObservaciones > res.grupos) {
+                        set(res, 'η² (Kruskal-Wallis)', Math.max(0, (res.H - res.grupos + 1) / (res.totalObservaciones - res.grupos)), 'η² = (H − k + 1) / (n − k)');
+                    }
+                    break;
+                case 'Wilcoxon':
+                    if (typeof res.z === 'number' && res.n > 0) set(res, 'r (rank-biserial)', res.z / Math.sqrt(res.n), 'r = Z / √n');
+                    break;
+                case 'Friedman':
+                    if (typeof res.ChiSq === 'number' && res.bloques > 0 && res.tratamientos > 1) {
+                        set(res, 'W de Kendall', res.ChiSq / (res.bloques * (res.tratamientos - 1)), 'W = χ²_r / (n(k−1))');
+                    }
+                    break;
+                case 'Test de Signos': {
+                    const N = (res.positivos || 0) + (res.negativos || 0);
+                    if (N > 0) set(res, 'r (binomial)', (res.positivos - res.negativos) / N, 'r = (n₊ − n₋) / N');
+                    break;
+                }
+                case 'PCA (Componentes Principales)':
+                    if (Array.isArray(res.varianceExplained) && res.varianceExplained.length) {
+                        set(res, 'Varianza explicada (CP1)', res.varianceExplained[0], 'VE₁ = λ₁/Σλ × 100');
+                    }
+                    break;
+                case 'Análisis de Cluster': set(res, 'Coeficiente de Silhouette', res.silhouette, 's(i) = (b−a)/max(a,b)'); break;
+                case 'Análisis Discriminante': set(res, 'Lambda de Wilks (Λ)', res.lambda, 'Λ = |W|/|T| ∈ [0,1]'); break;
+                case 'M-ANOVA': set(res, 'η² parcial multivariado (Pillai)', res.etaCuadradoP, 'η²p = Pillai / s'); break;
+                case 'Bootstrap':
+                    if (res.ic && typeof res.ic.inferior === 'number' && typeof res.ic.superior === 'number') {
+                        set(res, 'Amplitud del IC bootstrap', res.ic.superior - res.ic.inferior, 'Amplitud = θ*_(sup) − θ*_(inf)');
+                    }
+                    break;
+                case 'Análisis de Supervivencia':
+                    if (res.logRank && typeof res.logRank.hr === 'number') {
+                        set(res, 'Hazard Ratio (Mantel-Haenszel)', res.logRank.hr, 'HR = (O₁/E₁)/(O₂/E₂)');
+                    }
+                    break;
+                case 'Modelos Mixtos': set(res, 'ICC', res.icc, 'ICC = τ²/(τ²+σ²)'); break;
+                case 'Análisis Bayesiano': set(res, 'Factor de Bayes (BF₁₀)', res.factorBayes, 'BF₁₀ = P(D|H₁)/P(D|H₀)'); break;
+                default: break;
             }
-            if (stat === 'Correlación Pearson') set(res, 'r de Pearson', res.r, 'r ∈ [−1, 1]');
-            if (stat === 'Correlación Spearman') set(res, 'ρ de Spearman', res.rho, 'ρ ∈ [−1, 1]');
-            if (stat === 'Correlación Kendall Tau') set(res, 'τ de Kendall', res.tau, 'τ ∈ [−1, 1]');
-            if (stat === 'Regresión Lineal Simple') set(res, 'R²', res.r2, 'R² = 1 − SSres/SStot');
-            if (stat === 'Análisis de Cluster') set(res, 'Coeficiente de Silhouette', res.silhouette, 's(i) = (b−a)/max(a,b)');
-            if (stat === 'Análisis Bayesiano') set(res, 'Factor de Bayes (BF₁₀)', res.factorBayes, 'BF₁₀ = P(D|H₁)/P(D|H₀)');
         };
-        const evaluarAdvertencias = (stat, cfg, res) => {
+        const evaluarAdvertencias = (stat, cfg, res, hypothesis, data) => {
             if (!res || res.error || !cfg || !Array.isArray(cfg.advertencias) || !cfg.advertencias.length) return;
+            const hyp = hypothesis || {};
             const encontradas = [];
             const agregar = (cond) => {
                 const item = cfg.advertencias.find(a => a.condicion === cond);
                 if (item && !encontradas.some(x => x.condicion === cond)) encontradas.push({ condicion: cond, mensaje: item.mensaje });
             };
-            const evaluarObjeto = (obj) => {
-                if (!obj || typeof obj !== 'object') return;
-                const n = obj.n ?? obj.totalObservaciones ?? obj.N;
-                const umbrales = {
-                    n_menor_5: 5, n_menor_6: 6, n_menor_8: 8, n_menor_10: 10,
-                    n_menor_20: 20, n_menor_30: 30, n_menor_50: 50,
-                    n_mayor_50: 50, n_mayor_2000: 2000, n_mayor_5000: 5000,
-                };
-                Object.keys(umbrales).forEach(c => {
-                    if (typeof n !== 'number') return;
-                    if (c.startsWith('n_menor') && n < umbrales[c]) agregar(c);
-                    if (c.startsWith('n_mayor') && n > umbrales[c]) agregar(c);
-                });
-                if (typeof obj.r2 === 'number' && obj.r2 < 0.99) agregar('r2_menor_099');
-                const b = obj.B ?? obj.iteraciones;
-                if (typeof b === 'number' && b < 1000) agregar('b_menor_1000');
-                if (typeof obj.k === 'number' && obj.k < 3) agregar('k_menor_3');
-                if (obj.converged === false || (Array.isArray(obj.warnings) && obj.warnings.some(w => /converg/i.test(String(w))))) agregar('no_convergencia');
+            const tiene = (cond) => cfg.advertencias.some(a => a.condicion === cond);
+            const cond = (name, test) => { if (test && tiene(name)) agregar(name); };
+
+            // Objetos anidados (resultado principal y un nivel de columnas/factores).
+            const objetos = [];
+            const recorrer = (obj, depth) => {
+                if (!obj || typeof obj !== 'object' || Array.isArray(obj) || depth > 2) return;
+                if (objetos.includes(obj)) return;
+                objetos.push(obj);
+                Object.values(obj).forEach(v => recorrer(v, depth + 1));
             };
-            evaluarObjeto(res);
-            Object.values(res).forEach(v => { if (v && typeof v === 'object' && !Array.isArray(v)) evaluarObjeto(v); });
+            recorrer(res, 0);
+
+            // Columnas configuradas y sus valores reales.
+            const cols = [];
+            const addCol = (v) => { if (v && typeof v === 'string') cols.push(v); };
+            ['numericCol', 'columnaX', 'columnaY', 'columnaObservada', 'columnaPredicha', 'columnaTiempo']
+                .forEach(k => addCol(hyp[k]));
+            ['columnas', 'columnasX', 'numericCols'].forEach(k => { if (Array.isArray(hyp[k])) hyp[k].forEach(addCol); });
+            const series = cols.map(c => getNumericValues(data, c)).filter(v => v && v.length);
+            const todos = series.flat();
+
+            // ── Umbrales de n genéricos ──
+            const ns = objetos
+                .map(o => o.n ?? o.totalObservaciones ?? o.N ?? o.nObservaciones)
+                .filter(v => typeof v === 'number');
+            const nsEval = ns.length ? ns : series.map(v => v.length);
+            const umbrales = {
+                n_menor_5: 5, n_menor_6: 6, n_menor_8: 8, n_menor_10: 10,
+                n_menor_20: 20, n_menor_30: 30, n_menor_50: 50,
+                n_mayor_50: 50, n_mayor_2000: 2000, n_mayor_5000: 5000,
+            };
+            Object.keys(umbrales).forEach(c => {
+                if (!tiene(c) || !nsEval.length) return;
+                if (c.startsWith('n_menor') && nsEval.some(n => n < umbrales[c])) agregar(c);
+                if (c.startsWith('n_mayor') && nsEval.some(n => n > umbrales[c])) agregar(c);
+            });
+
+            // ── Condiciones genéricas por objeto ──
+            objetos.forEach(o => {
+                if (typeof o.r2 === 'number' && o.r2 < 0.99) agregar('r2_menor_099');
+                if (typeof o.B === 'number' && o.B < 1000) agregar('b_menor_1000');
+                if (typeof o.k === 'number' && o.k < 3 && tiene('k_menor_3')) agregar('k_menor_3');
+                if (o.converged === false || (Array.isArray(o.warnings) && o.warnings.some(w => /converg/i.test(String(w))))) agregar('no_convergencia');
+                if (typeof o.rHat === 'number' && o.rHat > 1.01) agregar('no_convergencia');
+            });
+
+            // ── Helpers estadísticos ──
+            const sd = (arr) => {
+                if (!Array.isArray(arr) || arr.length < 2) return 0;
+                const m = arr.reduce((a, b) => a + b, 0) / arr.length;
+                return Math.sqrt(arr.reduce((a, v) => a + (v - m) ** 2, 0) / (arr.length - 1));
+            };
+            const esNoNormal = (vals) => {
+                if (!Array.isArray(vals) || vals.length < 3 || vals.length > 5000) return false;
+                try {
+                    const r = calcularShapiroWilk(vals);
+                    return !!(r && !r.error && r.valorP < 0.05);
+                } catch (e) { return false; }
+            };
+            const ratioVarianzas = (arr) => {
+                const v = (arr || []).filter(x => typeof x === 'number' && isFinite(x) && x >= 0);
+                if (v.length < 2) return 1;
+                const max = Math.max(...v), min = Math.min(...v);
+                if (min === 0) return max > 0 ? Infinity : 1;
+                return max / min;
+            };
+            const ratioStds = (arr) => {
+                const v = (arr || []).filter(x => typeof x === 'number' && isFinite(x) && x > 0);
+                return v.length > 1 ? Math.max(...v) / Math.min(...v) : 1;
+            };
+            const gruposCategoria = () => {
+                const cat = Array.isArray(hyp.categoricalCols) ? hyp.categoricalCols[0] : null;
+                const num = hyp.numericCol;
+                if (!cat || !num || !data || !Array.isArray(data.data)) return [];
+                const idxCat = Array.isArray(data.headers) ? data.headers.indexOf(cat) : -1;
+                const idxNum = Array.isArray(data.headers) ? data.headers.indexOf(num) : -1;
+                const map = new Map();
+                data.data.forEach(row => {
+                    const g = Array.isArray(row) ? row[idxCat] : row[cat];
+                    const raw = Array.isArray(row) ? row[idxNum] : row[num];
+                    const v = parseFloat(raw);
+                    if (g === undefined || g === null || !isFinite(v)) return;
+                    if (!map.has(g)) map.set(g, []);
+                    map.get(g).push(v);
+                });
+                return [...map.values()].filter(g => g.length);
+            };
+            // Levene (centrado en la mediana, Brown-Forsythe) sobre los grupos.
+            const leveneP = (grupos) => {
+                if (!Array.isArray(grupos) || grupos.length < 2) return null;
+                const z = grupos.map(g => {
+                    const med = calcularMediana(g);
+                    return g.map(v => Math.abs(v - med));
+                });
+                const a = calcularANOVA(z);
+                return a && !a.error ? a.valorP : null;
+            };
+
+            // ── Descriptiva ──
+            cond('asimetria_alta', series.some(v => Math.abs(calcularAsimetria(v, true)) > 1));
+            cond('distribucion_asimetrica', series.some(v => Math.abs(calcularAsimetria(v, true)) > 1));
+            cond('outliers_detectados', series.some(v => detectarOutliersIQR(v).length > 0));
+            cond('media_cercana_cero', series.some(v => {
+                const m = calcularMedia(v), s = calcularDesviacionEstandar(v, true);
+                return s > 0 && Math.abs(m) < 0.1 * s;
+            }));
+            cond('valores_negativos', series.some(v => v.some(x => x < 0)));
+            cond('unidades_cuadradas', stat === 'Varianza');
+            cond('unidades_diferentes', stat === 'Covarianza');
+            cond('moda_multiple', stat === 'Moda' && Object.values(res).some(v => Array.isArray(v) && v.length > 1));
+
+            // ── Normalidad y homocedasticidad ──
+            cond('no_normalidad', (
+                (stat === 'T-Test (una muestra)' || stat === 'Intervalos de Confianza') && series.some(esNoNormal)
+            ) || (stat === 'ANOVA One-Way' && esNoNormal(res.residuos)));
+            cond('no_normalidad_alguno', stat === 'T-Test (dos muestras)' && (() => {
+                const gs = gruposCategoria();
+                return gs.length >= 2 ? gs.some(esNoNormal) : series.some(esNoNormal);
+            })());
+            cond('no_normalidad_residuos', [
+                'Regresión Lineal Simple', 'Regresión Lineal Múltiple', 'Regresión Polinomial',
+            ].includes(stat) && esNoNormal(res.residuos));
+            cond('no_homocedasticidad', stat === 'ANOVA One-Way' && (() => {
+                const p = leveneP(gruposCategoria());
+                return p !== null ? p < 0.05 : ratioVarianzas(res.varianzas) > 4;
+            })());
+            cond('heterocedasticidad', [
+                'Regresión Lineal Simple', 'Regresión Lineal Múltiple',
+            ].includes(stat) && (() => {
+                if (!Array.isArray(res.predicciones) || !Array.isArray(res.residuos)) return false;
+                const abs = res.residuos.map(Math.abs);
+                const c = calcularCorrelacionPearson(res.predicciones, abs);
+                return !!(c && !c.error && Math.abs(c.r) > 0.3);
+            })());
+            cond('outliers_influyentes', [
+                'Regresión Lineal Simple', 'Regresión Lineal Múltiple',
+            ].includes(stat) && (() => {
+                if (!Array.isArray(res.residuos)) return false;
+                const s = sd(res.residuos);
+                return s > 0 && res.residuos.some(r => Math.abs(r) > 3 * s);
+            })());
+
+            // ── Regresión múltiple / polinomial ──
+            cond('n_a_predictores', stat === 'Regresión Lineal Múltiple'
+                && typeof res.n === 'number' && typeof res.k === 'number' && res.n < 10 * res.k);
+            cond('vif_alto', stat === 'Regresión Lineal Múltiple'
+                && Array.isArray(res.vif) && res.vif.length && Math.max(...res.vif) > 10);
+            cond('r2_alto_sin_sentido', stat === 'R² (Coef. Determinación)'
+                && typeof res.r2 === 'number' && res.r2 > 0.9);
+            cond('grado_alto', stat === 'Regresión Polinomial' && res.grado > 4);
+
+            // ── Regresión logística ──
+            cond('clase_desbalanceada', stat === 'Regresión Logística'
+                && typeof res.nPositivos === 'number' && res.n > 0
+                && (Math.min(res.nPositivos, res.nNegativos) / res.n) < 0.2);
+            cond('separacion_perfecta', stat === 'Regresión Logística' && res.exactitud === 1);
+
+            // ── Tests no paramétricos y correlaciones ──
+            cond('muchos_empates', [
+                'Mann-Whitney U', 'Kruskal-Wallis', 'Wilcoxon', 'Correlación Spearman', 'Correlación Kendall Tau',
+            ].includes(stat) && typeof res.proporcionEmpates === 'number' && res.proporcionEmpates > 0.2);
+            cond('n_muy_desigual', stat === 'T-Test (dos muestras)' && res.grupo1 && res.grupo2
+                && Math.max(res.grupo1.n, res.grupo2.n) / Math.min(res.grupo1.n, res.grupo2.n) > 2);
+            cond('n_por_grupo_menor_5', stat === 'Kruskal-Wallis'
+                && typeof res.minGrupo === 'number' && res.minGrupo < 5);
+            cond('k_menor_3', stat === 'Friedman' && typeof res.tratamientos === 'number' && res.tratamientos < 3);
+            cond('n_menor_5', stat === 'Friedman' && typeof res.bloques === 'number' && res.bloques < 5);
+            cond('potencia_baja', stat === 'Test de Signos' && typeof res.n === 'number' && res.n < 20);
+            cond('no_linealidad', stat === 'Correlación Pearson' && series.length >= 2 && (() => {
+                const sp = calcularCorrelacionSpearman(series[0], series[1]);
+                return !!(sp && !sp.error && Math.abs(Math.abs(res.r) - Math.abs(sp.rho)) > 0.2);
+            })());
+
+            // ── Chi-cuadrado, K-S, Pareto y TOST ──
+            cond('frec_esperada_menor_5', stat === 'Chi-Cuadrado'
+                && typeof res.minEsperado === 'number' && res.minEsperado < 5);
+            cond('tabla_2x2', stat === 'Chi-Cuadrado' && res.tabla2x2 && res.N < 20);
+            cond('datos_discretos', stat === 'Test de Kolmogorov-Smirnov' && series.some(v => {
+                const unicos = new Set(v);
+                return v.length > 0 && (unicos.size / v.length) < 0.5;
+            }));
+            cond('pocos_datos', stat === 'Diagrama de Pareto'
+                && Array.isArray(res.datosCompletos) && res.datosCompletos.length < 5);
+            cond('delta_no_justificado', stat === 'Test TOST (Equivalencia)'
+                && (hyp.delta === undefined || hyp.delta === null || hyp.delta === ''));
+            cond('n_insuficiente', stat === 'Test TOST (Equivalencia)'
+                && (res.n1 < 10 || res.n2 < 10));
+
+            // ── ANOVA Two-Way ──
+            cond('interaccion_significativa', stat === 'ANOVA Two-Way'
+                && res.interaccion && res.interaccion.p < (hyp.nivelAlfa || 0.05));
+            cond('diseno_desbalanceado', stat === 'ANOVA Two-Way' && res.disenoBalanceado === false);
+
+            // ── Multivariado ──
+            cond('escala_diferente', ['PCA (Componentes Principales)', 'Análisis de Cluster'].includes(stat)
+                && ratioStds(res.stds) > 10);
+            cond('variables_no_correlacionadas', stat === 'PCA (Componentes Principales)'
+                && Array.isArray(res.varianceExplained) && res.varianceExplained[0] < 20);
+            cond('k_no_especificado', stat === 'Análisis de Cluster' && !hyp.k);
+            cond('multicolinealidad', stat === 'Análisis Discriminante'
+                && typeof res.condicionSw === 'number' && res.condicionSw > 30);
+
+            // ── Supervivencia, series, mixtos y Bayes ──
+            cond('pocos_eventos', stat === 'Análisis de Supervivencia' && (() => {
+                if (!Array.isArray(res.curvas)) return false;
+                const eventos = res.curvas.reduce((s, c) => s + (c.km || []).reduce((a, p) => a + (p.events || 0), 0), 0);
+                return eventos < 10 * Math.max(1, res.curvas.length);
+            })());
+            cond('no_estacionaria', stat === 'Series Temporales' && Array.isArray(res.tendencia)
+                && res.tendencia.length > 1 && typeof res.desviacion === 'number' && res.desviacion > 0
+                && Math.abs(res.tendencia[res.tendencia.length - 1] - res.tendencia[0]) > 0.5 * res.desviacion);
+            cond('icc_muy_bajo', stat === 'Modelos Mixtos' && typeof res.icc === 'number' && res.icc < 0.05);
+            cond('n_grupos_insuficiente', stat === 'Modelos Mixtos'
+                && typeof res.nGrupos === 'number' && res.nGrupos < 10);
+            cond('prior_influyente', stat === 'Análisis Bayesiano' && typeof res.n === 'number' && res.n < 30);
+
+            // ── Métricas de error ──
+            if (stat === 'RMSE' && hyp.columnaObservada && hyp.columnaPredicha) {
+                const [obs, pred] = getPairedValues(data, [hyp.columnaObservada, hyp.columnaPredicha]);
+                const resid = obs.map((v, i) => v - pred[i]);
+                const s = sd(resid);
+                cond('outliers_residuos', s > 0 && resid.some(r => Math.abs(r) > 3 * s));
+            }
+            if (stat === 'MAE' && hyp.columnaObservada && hyp.columnaPredicha) {
+                const [obs, pred] = getPairedValues(data, [hyp.columnaObservada, hyp.columnaPredicha]);
+                const mae = calcularMAE(obs, pred);
+                const rmse = calcularRMSE(obs, pred);
+                cond('comparar_con_rmse', rmse > 0 && mae < 0.5 * rmse);
+            }
+
+            // ── Calidad: F0 y MKT ──
+            cond('f0_bajo_minimo', stat === 'Factor de Letalidad (F0)'
+                && hyp.umbral_F0_min !== undefined
+                && objetos.some(o => typeof o.F0 === 'number' && o.F0 < parseFloat(hyp.umbral_F0_min)));
+            cond('mkt_fuera_limites', stat === 'MKT (Mean Kinetic Temperature)'
+                && objetos.some(o => typeof o.MKT_C === 'number'
+                    && ((hyp.limite_max !== undefined && o.MKT_C > parseFloat(hyp.limite_max))
+                        || (hyp.limite_min !== undefined && o.MKT_C < parseFloat(hyp.limite_min)))));
+
+            // ── Pareto: distribución uniforme (sin causas vitales) ──
             if (stat === 'Diagrama de Pareto' && Array.isArray(res.datosCompletos) && res.datosCompletos.length > 1) {
                 const vals = res.datosCompletos.map(d => d.conteo);
                 const media = vals.reduce((s, v) => s + v, 0) / vals.length;
-                const sd = Math.sqrt(vals.reduce((s, v) => s + (v - media) ** 2, 0) / vals.length);
-                if (media > 0 && sd / media < 0.1) agregar('distribucion_uniforme');
+                const desv = Math.sqrt(vals.reduce((s, v) => s + (v - media) ** 2, 0) / vals.length);
+                cond('distribucion_uniforme', media > 0 && desv / media < 0.1);
             }
+
             if (encontradas.length) res.advertencias = encontradas;
         };
         const aplicarNivelAlfa = (obj, alfa, seen) => {
@@ -1620,7 +1909,7 @@ resultados['Test de Signos'].columna1 = col1;
                     (statCfg && statCfg.nivelAlfa) || 0.05;
                 aplicarNivelAlfa(resultados[stat], alfaStat);
                 agregarEfectoTamano(stat, resultados[stat]);
-                evaluarAdvertencias(stat, statCfg, resultados[stat]);
+                evaluarAdvertencias(stat, statCfg, resultados[stat], hypothesisConfig[stat], data);
             } catch (e) {
                 resultados[stat] = { error: e.message || 'Error desconocido al ejecutar ' + stat };
             }
