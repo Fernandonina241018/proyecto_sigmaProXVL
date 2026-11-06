@@ -206,6 +206,8 @@ describe('login real — fases de progreso', () => {
     const area = document.getElementById('auth-passkey-area');
     expect(area).not.toBeNull();
     expect(area.style.display).toBe('block');
+    expect(document.getElementById('auth-btn-passkey-text').textContent).toBe('Usar passkey');
+    expect(area.textContent).toContain('teléfono por QR');
 
     document.getElementById('auth-btn-passkey').click();
     await tick(10);

@@ -306,7 +306,7 @@ function renderPasskeysSection(box) {
   }
   cont.innerHTML = '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">'
     + '<span style="font-size:12px;font-weight:700;color:var(--text-primary)">🔐 Passkeys</span>'
-    + '<span style="font-size:10px;color:var(--text-faint)">huella / rostro / llave</span>'
+    + '<span style="font-size:10px;color:var(--text-faint)">huella, teléfono o llave</span>'
     + '</div>'
     + '<div id="perfil-passkey-list" style="font-size:12px;color:var(--text-muted)">Cargando…</div>'
     + '<div id="perfil-passkey-form" style="display:none;margin-top:10px;padding:10px;background:var(--item-bg);border-radius:8px">'

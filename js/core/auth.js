@@ -1283,10 +1283,12 @@ const Auth = (() => {
                 </p>
                 <div id="auth-passkey-area" style="display:none;margin-bottom:14px;">
                     <button class="auth-btn-login" id="auth-btn-passkey" type="button">
-                        <span id="auth-btn-passkey-text">Usar huella o rostro</span>
+                        <span id="auth-btn-passkey-text">Usar passkey</span>
                         <span class="auth-btn-arrow">→</span>
                     </button>
-                    <div style="margin-top:10px;font-size:0.75rem;color:var(--text-secondary,#64748b);">o ingresa el código de tu app</div>
+                    <div style="margin-top:8px;font-size:0.72rem;line-height:1.4;color:var(--text-secondary,#64748b);">
+                        Huella, rostro, teléfono por QR o llave de seguridad.<br>o ingresa el código de tu app
+                    </div>
                 </div>
                 <div class="auth-field">
                     <div class="auth-input-wrap has-icon">
@@ -1344,7 +1346,7 @@ const Auth = (() => {
                     errorEl.style.display = 'block';
                 }
                 btnPasskey.disabled = false;
-                btnPasskeyText.textContent = 'Usar huella o rostro';
+                btnPasskeyText.textContent = 'Usar passkey';
                 totpInput.focus();
             });
         }

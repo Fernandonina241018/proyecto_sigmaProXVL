@@ -754,6 +754,13 @@ app.post('/api/2fa/disable', requireAuth, requireAdmin, async (req, res) => {
         if (!adminUser || !await bcrypt.compare(password, adminUser.password)) {
             return res.status(401).json({ error: 'Contraseña de administrador incorrecta' });
         }
+        // Una passkey sin TOTP deja al usuario sin método de respaldo.
+        const passkeys = await db.getWebAuthnCredentials(username.trim());
+        if (passkeys.length) {
+            return res.status(400).json({
+                error: `Elimina las ${passkeys.length} passkey(s) de ${username.trim()} antes de desactivar el 2FA. El TOTP es el método de respaldo.`,
+            });
+        }
         await db.disable2FA(username.trim());
         await db.logAuditEvent({
             username: req.user.username, action: `2FA_DISABLED:${username.trim()}`, success: 1,
@@ -839,6 +846,12 @@ app.post('/api/users/:id/2fa/disable', requireAuth, requireAdmin, async (req, re
         const { id } = req.params;
         const user = await db.getUserById(id);
         if (!user) return res.status(404).json({ error: 'Usuario no encontrado' });
+        const passkeys = await db.getWebAuthnCredentials(user.username);
+        if (passkeys.length) {
+            return res.status(400).json({
+                error: `Elimina las ${passkeys.length} passkey(s) de ${user.username} antes de desactivar el 2FA. El TOTP es el método de respaldo.`,
+            });
+        }
         await db.disable2FA(user.username);
         await db.logAuditEvent({
             username: req.user.username, action: `2FA_DISABLED:${user.username}`, success: 1,
