@@ -148,3 +148,32 @@ describe('Contrato `salidas`', () => {
     declaradas.forEach(k => expect(claves).toContain(k));
   });
 });
+
+function buscarEfecto(obj, depth = 0) {
+  if (!obj || typeof obj !== 'object' || depth > 3) return null;
+  if (obj.efectoTamano) return obj.efectoTamano;
+  for (const k of Object.keys(obj)) {
+    const found = buscarEfecto(obj[k], depth + 1);
+    if (found) return found;
+  }
+  return null;
+}
+
+describe('A7 — tamaño de efecto en los 27 estadísticos declarados', () => {
+  const conEfecto = Object.keys(CONFIG).filter(n => CONFIG[n].efectoTamano);
+
+  test('el catálogo declara 27 métricas de efecto', () => {
+    expect(conEfecto).toHaveLength(27);
+  });
+
+  test.each(conEfecto)('%s calcula un efectoTamano finito', (nombre) => {
+    const out = ejecutar(nombre);
+    expect(out.error).toBeUndefined();
+    const ef = buscarEfecto(out);
+    expect(ef, `${nombre} no calculó tamaño de efecto`).not.toBeNull();
+    expect(typeof ef.metrica).toBe('string');
+    expect(ef.metrica.length).toBeGreaterThan(0);
+    expect(Number.isFinite(ef.valor)).toBe(true);
+    expect(typeof ef.formula).toBe('string');
+  });
+});

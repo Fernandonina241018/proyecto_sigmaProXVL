@@ -286,6 +286,107 @@ describe('Lote 6 — A7 completo: efecto, advertencias y contraste', () => {
   });
 });
 
+describe('A7 — advertencias restantes', () => {
+  test('Chi-Cuadrado avisa cuando hay frecuencias esperadas <5', () => {
+    const rows = [
+      { A: 'x', B: 'p', N: 1 }, { A: 'x', B: 'p', N: 2 }, { A: 'x', B: 'q', N: 3 },
+      { A: 'y', B: 'p', N: 4 }, { A: 'y', B: 'q', N: 5 }, { A: 'y', B: 'q', N: 6 },
+      { A: 'z', B: 'p', N: 7 }, { A: 'z', B: 'q', N: 8 }, { A: 'z', B: 'q', N: 9 },
+    ];
+    const res = ED.ejecutarAnalisis(dataDe(rows, ['A', 'B', 'N']), ['Chi-Cuadrado'], {
+      'Chi-Cuadrado': { categoricalCols: ['A', 'B'] },
+    }).resultados['Chi-Cuadrado'];
+    expect(res.advertencias.some(a => a.condicion === 'frec_esperada_menor_5')).toBe(true);
+  });
+
+  test('ANOVA avisa de varianzas no homogéneas', () => {
+    const rows = [
+      ...Array.from({ length: 5 }, () => ({ G: 'A', Y: 10 })),
+      { G: 'B', Y: 10 }, { G: 'B', Y: 20 }, { G: 'B', Y: 30 }, { G: 'B', Y: 40 }, { G: 'B', Y: 50 },
+    ];
+    const res = ED.ejecutarAnalisis(dataDe(rows, ['G', 'Y']), ['ANOVA One-Way'], {
+      'ANOVA One-Way': { categoricalCols: ['G'], numericCol: 'Y' },
+    }).resultados['ANOVA One-Way'];
+    expect(res.advertencias.some(a => a.condicion === 'no_homocedasticidad')).toBe(true);
+  });
+
+  test('Regresión múltiple calcula VIF y avisa de colinealidad', () => {
+    const rows = Array.from({ length: 30 }, (_, i) => ({
+      Y: i, X1: i, X2: i + (i % 2 ? 0.001 : 0),
+    }));
+    const res = ED.ejecutarAnalisis(dataDe(rows, ['Y', 'X1', 'X2']), ['Regresión Lineal Múltiple'], {
+      'Regresión Lineal Múltiple': { columnaY: 'Y', columnasX: ['X1', 'X2'] },
+    }).resultados['Regresión Lineal Múltiple'];
+    expect(Array.isArray(res.vif)).toBe(true);
+    expect(Math.max(...res.vif)).toBeGreaterThan(10);
+    expect(res.advertencias.some(a => a.condicion === 'vif_alto')).toBe(true);
+  });
+
+  test('Regresión logística avisa de clases desbalanceadas', () => {
+    const rows = Array.from({ length: 30 }, (_, i) => ({
+      X: i, Bin: i < 3 ? 1 : 0,
+    }));
+    const res = ED.ejecutarAnalisis(dataDe(rows, ['X', 'Bin']), ['Regresión Logística'], {
+      'Regresión Logística': { columnaY: 'Bin', columnasX: ['X'] },
+    }).resultados['Regresión Logística'];
+    expect(res.auc).toBeGreaterThanOrEqual(0);
+    expect(res.advertencias.some(a => a.condicion === 'clase_desbalanceada')).toBe(true);
+  });
+
+  test('F0 y MKT disparan sus advertencias de calidad', () => {
+    const rows = Array.from({ length: 12 }, () => ({ T: 100 }));
+    const f0 = ED.ejecutarAnalisis(dataDe(rows, ['T']), ['Factor de Letalidad (F0)'], {
+      'Factor de Letalidad (F0)': { columnas: ['T'], delta_t: 1, z: 10, T_ref: 121, umbral_F0_min: 8 },
+    }).resultados['Factor de Letalidad (F0)'];
+    expect(f0.advertencias.some(a => a.condicion === 'f0_bajo_minimo')).toBe(true);
+
+    const rowsMkt = Array.from({ length: 12 }, () => ({ T: 40 }));
+    const mkt = ED.ejecutarAnalisis(dataDe(rowsMkt, ['T']), ['MKT (Mean Kinetic Temperature)'], {
+      'MKT (Mean Kinetic Temperature)': { columnas: ['T'], delta_HR: 10000, limite_max: 30, limite_min: 2 },
+    }).resultados['MKT (Mean Kinetic Temperature)'];
+    expect(mkt.advertencias.some(a => a.condicion === 'mkt_fuera_limites')).toBe(true);
+  });
+
+  test('Rango y Tendencia avisan con pocas observaciones', () => {
+    const rows = [{ V: 1 }, { V: 2 }, { V: 3 }, { V: 4 }, { V: 5 }, { V: 6 }];
+    const rango = ED.ejecutarAnalisis(dataDe(rows, ['V']), ['Rango y Amplitud'], {
+      'Rango y Amplitud': { numericCol: 'V' },
+    }).resultados['Rango y Amplitud'];
+    expect(rango.advertencias.some(a => a.condicion === 'n_menor_10')).toBe(true);
+
+    const tend = ED.ejecutarAnalisis(dataDe(rows, ['V']), ['Tendencia'], {
+      Tendencia: { tipo: 'lineal', pasos: 2 },
+    }).resultados.Tendencia;
+    expect(tend.advertencias.some(a => a.condicion === 'n_menor_10')).toBe(true);
+  });
+
+  test('PCA avisa de escalas muy diferentes', () => {
+    const rows = Array.from({ length: 20 }, (_, i) => ({ A: i % 5, B: (i % 5) * 1000 }));
+    const res = ED.ejecutarAnalisis(dataDe(rows, ['A', 'B']), ['PCA (Componentes Principales)'], {
+      'PCA (Componentes Principales)': { columnas: ['A', 'B'] },
+    }).resultados['PCA (Componentes Principales)'];
+    expect(res.advertencias.some(a => a.condicion === 'escala_diferente')).toBe(true);
+  });
+
+  test('Supervivencia avisa cuando hay pocos eventos', () => {
+    const rows = Array.from({ length: 20 }, (_, i) => ({
+      T: i + 1, E: i < 9 ? 1 : 0,
+    }));
+    const res = ED.ejecutarAnalisis(dataDe(rows, ['T', 'E']), ['Análisis de Supervivencia'], {
+      'Análisis de Supervivencia': { columnaTiempo: 'T', columnaEvento: 'E' },
+    }).resultados['Análisis de Supervivencia'];
+    expect(res.advertencias.some(a => a.condicion === 'pocos_eventos')).toBe(true);
+  });
+
+  test('TOST avisa si no se justificó el delta', () => {
+    const rows = Array.from({ length: 12 }, (_, i) => ({ X: i, Y: i + 0.1 }));
+    const res = ED.ejecutarAnalisis(dataDe(rows, ['X', 'Y']), ['Test TOST (Equivalencia)'], {
+      'Test TOST (Equivalencia)': { columnaX: 'X', columnaY: 'Y' },
+    }).resultados['Test TOST (Equivalencia)'];
+    expect(res.advertencias.some(a => a.condicion === 'delta_no_justificado')).toBe(true);
+  });
+});
+
 describe('Registro de pruebas de hipótesis', () => {
   test('Pareto y Covarianza están en HYPOTHESIS_SET', () => {
     expect(HYPOTHESIS_SET.has('Diagrama de Pareto')).toBe(true);
