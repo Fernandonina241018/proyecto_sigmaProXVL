@@ -1,7 +1,7 @@
 # Protocolo maestro IQ/OQ/PQ — equipos
 
-**Versión:** 1.0 · 2026-11-04
-**Alcance:** protocolos IQ/OQ/PQ de equipos de producción y laboratorio.
+**Versión:** 1.1 · 2026-11-06
+**Alcance:** protocolos IQ/OQ/PQ de equipos de producción y laboratorio, e instrumentos analíticos tipo L con protocolo OQ.
 **Objetivo:** una estructura única para todos los documentos, sin depender de la familia.
 
 ## 1. Estructura del documento (8 bloques → 11 secciones Word)
@@ -58,6 +58,12 @@ Cada ensayo debe incluir, en este orden:
 
 **Backfill completado (F1.1):** autoclave, congelador de laboratorio, horno de secado, horno de vacío, lecho fluido, llenadora de líquidos, llenadora y selladora de tubos, mezclador y refrigerador de laboratorio. Los 9 ya tienen bloques 6 y 8 y normas específicas declaradas; el validador los cubre desde esta versión.
 
+### 4.1 Instrumentos analíticos tipo L (excepción declarada)
+
+La balanza analítica/precisión y el viscosímetro rotacional son instrumentos analíticos **tipo L**. Se califican con **OQ** y no llevan PQ salvo que el responsable técnico lo determine. Les aplica `USP <1058>`; el validador de familias M no los cuenta como familias de producción.
+
+- **Viscosímetro rotacional (Brookfield):** banco `oq-viscosimetro.html` con 17 ensayos (`EQ-OQ-VS-001` a `EQ-OQ-VS-017`), **sin PQ**. La reproducibilidad se evalúa en OQ (`EQ-OQ-VS-009`). Referencias aprobadas el 2026-11-06: `USP <1058>`, `USP <912>`, `ISO 2555`, `ISO 3219-1/-2`, `ASTM D2196`, `IEC 61010-1`, `EU GMP Anexo 15` y `21 CFR Part 11 / EU GMP Anexo 11`. Los ensayos de usuarios y respaldo se declaran no aplica para la configuración actual sin software de gestión.
+
 ## 5. Validación
 
 ```bash
@@ -89,5 +95,7 @@ El validador comprueba, para las 18 familias con protocolo (9 prioritarias + 9 b
 - [ ] Cada ensayo tiene criterios y registro C/NC/NA.
 - [x] La tabla de resultados replica criterios, no pasos.
 - [x] Los IQ de sistemas están cableados (HVAC, agua, vapor y aire).
+- [x] El viscosímetro rotacional tiene banco OQ propio de 17 ensayos, sin PQ y con referencias aprobadas.
+- [x] Los ensayos sin software (usuarios y respaldo) declaran no aplica con justificación.
 - [ ] `npm run protocolo:check` sin errores.
 - [ ] `npm test` y `npm run preflight` verdes.

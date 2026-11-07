@@ -90,6 +90,49 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (SigmaProXVL) con spr
 
 ## CAMBIOS RECIENTES
 
+### 2026-11-06 (244): Banco OQ del viscosímetro rotacional (tipo L, sin PQ)
+
+**Qué:** Se monta el banco OQ del viscosímetro rotacional aplicando las 6 respuestas del responsable técnico:
+
+1. **Ensayos 21 y 22:** se eliminaron del alcance porque no aplicaban; no se inventaron títulos ni contenido.
+2. **Consolidación:** 2+3, 5+6, 16+17 y 20+23; el ensayo 1 (inspección previa) queda cubierto por el requisito común `EQ-OQ-REQ`. Total: **17 ensayos**.
+3. **Tipo de equipo:** rotacional tipo Brookfield (husillos, torque y RPM); no se usa la vía capilar `USP <911>`.
+4. **Software:** la configuración actual no gestiona usuarios, audit trail ni respaldo electrónico; `EQ-OQ-VS-014` y `EQ-OQ-VS-015` quedan como **NO APLICA** con justificación documentada.
+5. **PQ:** el viscosímetro **no lleva PQ**; la reproducibilidad se evalúa en OQ (`EQ-OQ-VS-009`).
+6. **Referencias:** aprobadas (`USP <1058>`, `USP <912>`, `ISO 2555`, `ISO 3219-1/-2`, `ASTM D2196`, `IEC 61010-1`, `EU GMP Anexo 15`, `21 CFR Part 11 / EU GMP Anexo 11`); la fila 6.6 deja de estar pendiente.
+
+- **Banco:** `EQ-OQ-VS-001` a `EQ-OQ-VS-017`, con bloques 1, 3, 4 (resumen), 6 (referencias) y 8 (anexos A–D).
+- **Análisis estadístico:** 8 ensayos con `data-analisis="si"` (RPM, torque, exactitud, linealidad, repetibilidad, reproducibilidad, temperatura y estabilidad), cada uno con plan estadístico, data cruda y reporte.
+- **Integración:** el banco se agrega a `scripts/extraer-banco.mjs`; el selector de la app ya no muestra “sin banco” para OQ y el PQ queda bloqueado por H-01 (no hay banco PQ).
+- **Documentación:** `NORMAS_POR_FAMILIA.md` y `PROTOCOLO_MAESTRO.md` distinguen instrumentos tipo L (OQ, sin PQ) de las 18 familias M.
+- **Enlace:** acceso directo “Banco OQ viscosímetro” en `docs/banco-ensayos/equipos.html`.
+
+**Archivos afectados:**
+| Archivo | Cambio |
+|---------|--------|
+| `docs/banco-ensayos/equipos/oq-viscosimetro.html` | **Nuevo** — banco OQ de 17 ensayos, referencias y anexos |
+| `scripts/extraer-banco.mjs` | Fuente `oq-viscosimetro.html` agregada |
+| `js/core/banco-equipos-data.js` | Regenerado (960 artículos, 960 IDs) |
+| `tests/banco-viscosimetro.test.js` | **Nuevo** — 9 tests del contrato y las decisiones |
+| `tests/bancos-contrato.test.js` | Familia `viscosimetro` y conteo OQ (17) |
+| `tests/validaciones-panel.test.js` | OQ `ok`, PQ `sin-banco`, `contarGen` = 19 |
+| `tests/plantilla-equipos.test.js` | OQ real: 18 ensayos, `USP <1058>`, sin `USP <911>` |
+| `scripts/validar-protocolo.mjs` | Tipo L incluye `viscosimetro` |
+| `docs/banco-ensayos/NORMAS_POR_FAMILIA.md` | Fila declarada y alcance tipo L |
+| `docs/banco-ensayos/PROTOCOLO_MAESTRO.md` | Sección 4.1 y criterios del viscosímetro |
+| `docs/banco-ensayos/equipos.html` | Enlace al banco OQ del viscosímetro |
+
+**Verificación:**
+```
+node --check scripts/extraer-banco.mjs tests/*.js → OK
+node scripts/extraer-banco.mjs equipos → OK (960 artículos, 960 IDs únicos)
+Vitest → 62 archivos, 1049 tests OK
+protocolo:check → OK (18 warnings de las 9 familias M pendientes)
+typecheck → OK
+```
+
+**Pendiente real:** las normas específicas de las 9 familias prioritarias M (fila 6.6) siguen requiriendo fuente, versión, justificación y aprobación del responsable. No se completaron por inferencia.
+
 ### 2026-11-06 (243): A7 completo — tamaño de efecto en 27 estadísticos y advertencias
 
 **Qué:** Se cierra A7 de la auditoría estadística: todos los estadísticos que declaran `efectoTamano` lo calculan, y el evaluador de advertencias cubre las señales verificables de cada resultado.

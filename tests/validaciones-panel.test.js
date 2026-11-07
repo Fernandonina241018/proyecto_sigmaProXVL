@@ -254,6 +254,19 @@ describe('Validaciones V7', () => {
     }
   });
 
+  test('viscosímetro: OQ con banco propio y PQ bloqueado (no lleva PQ)', () => {
+    const require = createRequire(import.meta.url);
+    globalThis.BancoEquipos = require('../js/core/banco-equipos-data.js');
+    try {
+      expect(Validaciones.estadoBancoFam('OQ', 'equipos', 'viscosimetro')).toBe('ok');
+      expect(Validaciones.estadoBancoFam('PQ', 'equipos', 'viscosimetro')).toBe('sin-banco');
+      // OQ: común (2) + familia (17)
+      expect(Validaciones.contarGen('OQ', 'ambas', 'equipos', 'viscosimetro')).toBe(19);
+    } finally {
+      delete globalThis.BancoEquipos;
+    }
+  });
+
   test('contarGen estabilidad IQ suma núcleo común + específicos', () => {
     const require = createRequire(import.meta.url);
     globalThis.BancoEquipos = require('../js/core/banco-equipos-data.js');

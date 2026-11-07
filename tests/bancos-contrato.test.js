@@ -37,7 +37,7 @@ describe('banco de equipos: contrato', () => {
 
   it('solo familias conocidas', () => {
     const fams = [...new Set(todos.filter((x) => x.familia).map((x) => x.familia))].sort();
-    expect(fams).toEqual(['autoclave', 'balanza', 'blistera', 'congelador-lab', 'detector-metales', 'encapsuladora', 'etiquetadora', 'granulador', 'horno-secado', 'horno-vacio', 'lecho-fluido', 'liofilizador', 'llenadora', 'llenadora-tubos', 'mezclador', 'reactor', 'recubridora', 'refrigerador-lab', 'sistema-cremas-vacio', 'tableteadora', 'tunel-despirogenizacion']);
+    expect(fams).toEqual(['autoclave', 'balanza', 'blistera', 'congelador-lab', 'detector-metales', 'encapsuladora', 'etiquetadora', 'granulador', 'horno-secado', 'horno-vacio', 'lecho-fluido', 'liofilizador', 'llenadora', 'llenadora-tubos', 'mezclador', 'reactor', 'recubridora', 'refrigerador-lab', 'sistema-cremas-vacio', 'tableteadora', 'tunel-despirogenizacion', 'viscosimetro']);
   });
 
   it.each([
@@ -91,6 +91,7 @@ describe('banco de equipos: contrato', () => {
     ['PQ', 'lecho-fluido', 16],
     ['PQ', 'autoclave', 17],
     ['PQ', 'mezclador', 14],
+    ['OQ', 'viscosimetro', 17], // banco OQ tipo L, sin PQ (2026-11-06)
   ])('%s %s tiene %i ensayos propios', (fase, fam, n) => {
     expect(familia.filter((x) => x.fase === fase && x.familia === fam).length).toBe(n);
   });
