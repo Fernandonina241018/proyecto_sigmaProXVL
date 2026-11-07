@@ -97,7 +97,7 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (SigmaProXVL) con spr
 - **Borradores persistentes:** nueva tabla `validation_drafts` y endpoints `GET/PUT /api/val/v1/drafts/:category/:entity`. El frontend lee del backend y deja `localStorage` como copia de respaldo; cerrar el navegador ya no borra el trabajo.
 - **Aislamiento por usuario:** la clave local incluye usuario, categoría y entidad; dos usuarios en el mismo navegador ya no comparten borradores.
 - **Guardado parcial:** “Guardar borrador” guarda aunque falten campos obligatorios; solo informa cuántos quedan pendientes para generar.
-- **Validación de datos:** numéricos, fechas, opciones de select, rangos de temperatura/humedad y coherencia mínima < máxima antes de generar.
+- **Validación de datos:** numéricos, fechas (parseo UTC, válido en zonas UTC+), opciones de select, rangos de temperatura/humedad y coherencia mínima < máxima antes de generar.
 - **Revisores:** `firmMe` se toma de la sesión de inmediato; `/api/me` y `/api/users/list` se consultan una vez por vista y se cachean; si no hay gerente, se ofrecen admin/supervisor; el listener del selector se enlaza una sola vez y hay caché local de revisores para caídas del API.
 - **Sin cambios de contrato:** los endpoints actuales, la descarga de `.docx` y el paso 3 siguen igual.
 
@@ -117,7 +117,7 @@ node --check backend/server.js, backend/database.js, indexx-validaciones.js → 
 Vitest → 63 archivos, 1066 tests OK
 Backend node --test → 142 tests OK
 API manual (store local) → PUT 200, GET devuelve el borrador, sin token 401, categoría inválida 400
-typecheck → sin errores nuevos (los 5 de show() ya existían en HEAD)
+typecheck → 0 errores
 ```
 
 **Pendiente:** autosave (opcional en el plan, no incluido); la primera carga sin conexión sigue necesitando el API para listar revisores; la Fase 2 (registro/auditoría de protocolos) no se toca aquí.
