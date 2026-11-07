@@ -117,3 +117,11 @@ footer{margin-top:20px;color:#8494a8;font-size:12px;text-align:right}
   #validaciones-app .status{margin-top:8px}
   #validaciones-app footer{margin-top:8px}
 }
+#validaciones-app .val-table-wrap{overflow-x:auto;margin-top:8px}
+#validaciones-app .val-table{width:100%;border-collapse:collapse;font-size:12px}
+#validaciones-app .val-table th{text-align:left;color:var(--muted);font-weight:700;padding:8px;border-bottom:1px solid var(--line);white-space:nowrap}
+#validaciones-app .val-table td{padding:8px;border-bottom:1px solid var(--line);color:var(--text);vertical-align:middle}
+#validaciones-app .val-hash{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:11px;color:var(--muted)}
+#validaciones-app .val-btn{border:1px solid var(--line);background:var(--panel2);color:var(--text);border-radius:8px;padding:6px 10px;font:inherit;font-size:11px;cursor:pointer}
+#validaciones-app .val-btn:hover{border-color:var(--orange);color:var(--orange2)}
+#validaciones-app .val-btn:disabled{opacity:.5;cursor:wait}

@@ -358,6 +358,14 @@ describe('Validaciones V7', () => {
     expect(Validaciones.validarDatos(schema, null).length).toBeGreaterThan(0);
   });
 
+  test('vista Protocolos: tabla de registro y estado vacío', () => {
+    const html = Validaciones.viewProtocolos();
+    expect(html).toContain('Protocolos');
+    expect(html).toContain('SHA-256');
+    expect(html).toContain('val-protocolos-body');
+    expect(html).toContain('Cargando');
+  });
+
   test('rutas del shell de Validaciones', () => {
     expect(Validaciones.ROUTES.map((r) => r.id)).toEqual([
       'banco', 'protocolos', 'generador', 'firmas', 'documentacion',

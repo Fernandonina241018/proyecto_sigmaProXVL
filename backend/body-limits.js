@@ -10,7 +10,8 @@ function isLargeBodyRoute(req) {
         || path === '/api/sign-sessions/import'
         || /^\/api\/sign-sessions\/[^/]+\/amend$/.test(path)
         || path === '/api/snapshots'
-        || path === '/api/pdf/render';
+        || path === '/api/pdf/render'
+        || path === '/api/val/v1/protocols';
 }
 
 module.exports = { isLargeBodyRoute };

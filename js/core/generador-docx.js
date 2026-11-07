@@ -547,16 +547,21 @@ const GeneradorDocx = (() => {
     return doc;
   }
 
-  async function descargar(fase, draft, entidad, filtroCond) {
+  async function descargar(fase, draft, entidad, filtroCond, onBeforeDownload) {
     const D = lib();
     if (!D) throw new Error('Librería docx no cargada');
     const modelo = buildModelo(fase, draft, entidad, filtroCond);
     const doc = modeloADocx(modelo);
     const blob = await D.Packer.toBlob(doc);
     const entId = (entidad && entidad.id) ? entidad.id : 'entidad';
+    const filename = fase + '-' + entId + '.docx';
+    if (typeof onBeforeDownload === 'function') {
+      const bytes = new Uint8Array(await blob.arrayBuffer());
+      await onBeforeDownload({ bytes: bytes, filename: filename, fase: fase });
+    }
     const a = document.createElement('a');
     a.href = URL.createObjectURL(blob);
-    a.download = fase + '-' + entId + '.docx';
+    a.download = filename;
     document.body.appendChild(a);
     a.click();
     setTimeout(() => { try { URL.revokeObjectURL(a.href); a.remove(); } catch (e) {} }, 4000);

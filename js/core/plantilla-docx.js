@@ -1682,33 +1682,37 @@ const PlantillaDocx = (() => {
     return { version: '', fases: {} };
   }
 
-  async function descargar(fase, draft, entidad, filtroCond, cat) {
+  async function descargar(fase, draft, entidad, filtroCond, cat, onBeforeDownload) {
     const resp = await fetch(PLANTILLAS[fase], { cache: 'no-store' });
     if (!resp.ok) throw new Error('No se encontró la plantilla ' + PLANTILLAS[fase] + ' (' + resp.status + ').');
     const u8 = new Uint8Array(await resp.arrayBuffer());
     const r = await generar(fase, u8, mezclarComun(banco(cat), fase, cat), draft, entidad, filtroCond);
-    const blob = new Blob([r.bytes], { type: MIME_DOCX });
     const entId = (entidad && entidad.id) ? entidad.id : 'entidad';
+    const filename = fase + '-' + entId + '.docx';
+    if (typeof onBeforeDownload === 'function') await onBeforeDownload({ bytes: r.bytes, filename: filename, fase: fase });
+    const blob = new Blob([r.bytes], { type: MIME_DOCX });
     const a = document.createElement('a');
     a.href = URL.createObjectURL(blob);
-    a.download = fase + '-' + entId + '.docx';
+    a.download = filename;
     document.body.appendChild(a);
     a.click();
     setTimeout(() => { try { URL.revokeObjectURL(a.href); a.remove(); } catch (e) { /* nada */ } }, 4000);
     return r;
   }
 
-  async function descargarDQ(draft, entidad) {
+  async function descargarDQ(draft, entidad, onBeforeDownload) {
     const resp = await fetch(PLANTILLAS.DQ, { cache: 'no-store' });
     if (!resp.ok) throw new Error('No se encontró la plantilla ' + PLANTILLAS.DQ + ' (' + resp.status + ').');
     const u8 = new Uint8Array(await resp.arrayBuffer());
     const r = await generarDQScaffold(u8, draft, entidad);
-    const blob = new Blob([r.bytes], { type: MIME_DOCX });
     const entId = (entidad && entidad.id) ? entidad.id : 'entidad';
+    const filename = 'DQ-' + entId + '.docx';
+    if (typeof onBeforeDownload === 'function') await onBeforeDownload({ bytes: r.bytes, filename: filename, fase: 'DQ' });
+    const blob = new Blob([r.bytes], { type: MIME_DOCX });
     const a = document.createElement('a');
     const url = URL.createObjectURL(blob);
     a.href = url;
-    a.download = 'DQ-' + entId + '.docx';
+    a.download = filename;
     document.body.appendChild(a);
     a.click();
     setTimeout(() => { try { URL.revokeObjectURL(url); a.remove(); } catch (e) { /* nada */ } }, 4000);

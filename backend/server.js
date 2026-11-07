@@ -706,6 +706,109 @@ app.put('/api/val/v1/drafts/:category/:entity', requireAuth, async (req, res) =>
     }
 });
 
+// ── FASE 2 — Registro inmutable de protocolos ────────────────────
+const _VAL_PROTOCOL_PHASES = ['DQ', 'IQ', 'OQ', 'PQ'];
+function _protocolText(v, max) {
+    const s = String(v || '').trim();
+    if (!s || s.length > (max || 120)) return null;
+    return s;
+}
+
+app.post('/api/val/v1/protocols', requireAuth, requireAdmin, async (req, res) => {
+    try {
+        const body = req.body || {};
+        const category = _draftParam(body.category);
+        const entity = _draftParam(body.entity);
+        const phase = String(body.phase || '').trim().toUpperCase();
+        const code = _protocolText(body.code, 120);
+        const version = _protocolText(body.version, 40);
+        const filename = _protocolText(body.filename, 160);
+        if (!category || !entity) return res.status(400).json({ error: 'Categoría o entidad no válida' });
+        if (_VAL_PROTOCOL_PHASES.indexOf(phase) < 0) return res.status(400).json({ error: 'Fase no válida' });
+        if (!code || !version) return res.status(400).json({ error: 'Código y versión son obligatorios' });
+        if (!filename || !/^[A-Za-z0-9._ -]+\.docx$/.test(filename)) {
+            return res.status(400).json({ error: 'Nombre de archivo no válido' });
+        }
+        const raw = String(body.fileBase64 || '').replace(/^data:[^;]+;base64,/, '');
+        if (!raw || raw.length > 6 * 1024 * 1024) return res.status(400).json({ error: 'Archivo ausente o demasiado grande' });
+        let fileData;
+        try { fileData = Buffer.from(raw, 'base64'); } catch (e) { return res.status(400).json({ error: 'Archivo no válido' }); }
+        if (!fileData.length || fileData.length > 4 * 1024 * 1024) {
+            return res.status(400).json({ error: 'El archivo debe pesar entre 1 byte y 4 MB' });
+        }
+        const sha256 = crypto.createHash('sha256').update(fileData).digest('hex');
+        const row = await db.saveValidationProtocol({
+            category, entity, phase, code, version, filename, sha256,
+            username: req.user.username,
+            details: { code, version, filename },
+            fileData,
+        });
+        if (!row) return res.status(500).json({ error: 'No se pudo registrar el protocolo' });
+        if (row.created !== false) {
+            await db.logAuditEvent({
+                username: req.user.username, action: 'PROTOCOL_REGISTERED', success: 1,
+                ip: getClientIP(req), userAgent: req.headers['user-agent'], module: 'VALIDACIONES',
+                details: JSON.stringify({ protocolId: row.id, category, entity, phase, code, version, filename }),
+            });
+        }
+        res.status(row.created === false ? 200 : 201).json({
+            ok: true, duplicate: row.created === false,
+            protocol: {
+                id: row.id, category: row.category, entity: row.entity, phase: row.phase,
+                code: row.code, version: row.version, filename: row.filename,
+                sha256: row.sha256, username: row.username, created_at: row.created_at,
+            },
+        });
+    } catch (err) {
+        console.error('Error registering validation protocol:', err);
+        res.status(500).json({ error: 'Error al registrar el protocolo' });
+    }
+});
+
+app.get('/api/val/v1/protocols', requireAuth, requireAdmin, async (req, res) => {
+    try {
+        const category = req.query.category ? _draftParam(req.query.category) : null;
+        const entity = req.query.entity ? _draftParam(req.query.entity) : null;
+        const phase = req.query.phase ? String(req.query.phase).toUpperCase() : null;
+        if ((req.query.category && !category) || (req.query.entity && !entity) || (phase && _VAL_PROTOCOL_PHASES.indexOf(phase) < 0)) {
+            return res.status(400).json({ error: 'Filtro no válido' });
+        }
+        const limit = Math.max(1, Math.min(100, parseInt(req.query.limit, 10) || 50));
+        const offset = Math.max(0, parseInt(req.query.offset, 10) || 0);
+        const filtros = { category, entity, phase };
+        const protocols = await db.listValidationProtocols(Object.assign({}, filtros, { limit, offset }));
+        const total = await db.countValidationProtocols(filtros);
+        res.json({ ok: true, protocols, total });
+    } catch (err) {
+        console.error('Error listing validation protocols:', err);
+        res.status(500).json({ error: 'Error al listar los protocolos' });
+    }
+});
+
+app.get('/api/val/v1/protocols/:id/download', requireAuth, requireAdmin, async (req, res) => {
+    try {
+        const id = parseInt(req.params.id, 10);
+        if (!Number.isInteger(id) || id < 1) return res.status(400).json({ error: 'ID no válido' });
+        const row = await db.getValidationProtocol(id);
+        if (!row) return res.status(404).json({ error: 'Protocolo no encontrado' });
+        const buf = Buffer.isBuffer(row.file_data) ? row.file_data : Buffer.from(String(row.file_data || ''), 'base64');
+        if (!buf.length) return res.status(404).json({ error: 'Archivo no disponible' });
+        const safeName = String(row.filename || ('protocolo-' + id + '.docx')).replace(/["\\\r\n]/g, '_');
+        await db.logAuditEvent({
+            username: req.user.username, action: 'PROTOCOL_DOWNLOADED', success: 1,
+            ip: getClientIP(req), userAgent: req.headers['user-agent'], module: 'VALIDACIONES',
+            details: JSON.stringify({ protocolId: row.id, filename: row.filename }),
+        });
+        res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document');
+        res.setHeader('Content-Disposition', 'attachment; filename="' + safeName + '"');
+        res.setHeader('Content-Length', String(buf.length));
+        res.send(buf);
+    } catch (err) {
+        console.error('Error downloading validation protocol:', err);
+        res.status(500).json({ error: 'Error al descargar el protocolo' });
+    }
+});
+
 // GET /api/me — restaura sesión desde cookie httpOnly
 app.get('/api/me', requireAuth, async (req, res) => {
     const token = jwt.sign(

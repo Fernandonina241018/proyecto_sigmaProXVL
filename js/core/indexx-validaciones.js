@@ -777,6 +777,88 @@ const Validaciones = (() => {
     return res.json();
   }
 
+  function bytesToBase64(bytes) {
+    const u8 = bytes instanceof Uint8Array ? bytes : new Uint8Array(bytes);
+    let bin = '';
+    const chunk = 0x8000;
+    for (let i = 0; i < u8.length; i += chunk) {
+      bin += String.fromCharCode.apply(null, u8.subarray(i, i + chunk));
+    }
+    return btoa(bin);
+  }
+
+  async function apiDownload(path) {
+    const base = apiBase();
+    const f = (typeof fetchWithTimeout !== 'undefined') ? fetchWithTimeout : fetch;
+    const res = await f(base + path, { headers: apiHeaders(), credentials: 'include' });
+    if (!res.ok) throw new Error('No se pudo descargar el protocolo');
+    const blob = await res.blob();
+    const cd = res.headers.get('Content-Disposition') || '';
+    const m = /filename=\"([^\"]+)\"/.exec(cd);
+    const name = m ? m[1] : 'protocolo.docx';
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = name;
+    document.body.appendChild(a);
+    a.click();
+    setTimeout(function () { try { URL.revokeObjectURL(url); a.remove(); } catch (e) {} }, 4000);
+  }
+
+  function viewProtocolos() {
+    return '<div class="v7-view"><h1>Protocolos</h1>'
+      + '<p class="sub">Registro inmutable de protocolos emitidos, con huella SHA-256 y usuario.</p>'
+      + '<div class="val-table-wrap"><table class="val-table"><thead><tr>'
+      + '<th>Fecha</th><th>Categoría</th><th>Entidad</th><th>Fase</th><th>Código</th><th>Versión</th><th>Usuario</th><th>SHA-256</th><th></th>'
+      + '</tr></thead><tbody id="val-protocolos-body"><tr><td colspan="9">Cargando…</td></tr></tbody></table></div>'
+      + '<div id="val-protocolos-msg" class="v7-form-msg" role="status"></div></div>';
+  }
+
+  async function cargarProtocolos(container) {
+    const body = container && container.querySelector ? container.querySelector('#val-protocolos-body') : null;
+    const msg = container && container.querySelector ? container.querySelector('#val-protocolos-msg') : null;
+    if (!body) return;
+    function setMsg(text, ok) {
+      if (!msg) return;
+      msg.textContent = text || '';
+      msg.className = 'v7-form-msg' + (text ? (ok ? ' ok' : ' err') : '');
+    }
+    try {
+      const r = await apiGet('/api/val/v1/protocols?limit=100');
+      if (!document.body.contains(container)) return;
+      if (!r || !r.ok) throw new Error((r && r.error) || 'No se pudo cargar el registro');
+      const rows = r.protocols || [];
+      if (!rows.length) {
+        body.innerHTML = '<tr><td colspan="9">No hay protocolos registrados.</td></tr>';
+        return;
+      }
+      body.innerHTML = rows.map(function (p) {
+        const fecha = String(p.created_at || '').slice(0, 16).replace('T', ' ');
+        return '<tr><td>' + esc(fecha) + '</td><td>' + esc(p.category) + '</td><td>' + esc(p.entity) + '</td>'
+          + '<td>' + esc(p.phase) + '</td><td>' + esc(p.code || '—') + '</td><td>' + esc(p.version || '—') + '</td>'
+          + '<td>' + esc(p.username) + '</td><td class="val-hash" title="' + esc(p.sha256) + '">' + esc(String(p.sha256 || '').slice(0, 12)) + '…</td>'
+          + '<td><button type="button" class="val-btn" data-download="' + esc(p.id) + '">Descargar</button></td></tr>';
+      }).join('');
+      body.querySelectorAll('[data-download]').forEach(function (btn) {
+        btn.addEventListener('click', async function () {
+          const id = btn.getAttribute('data-download');
+          btn.disabled = true;
+          setMsg('Descargando…', true);
+          try {
+            await apiDownload('/api/val/v1/protocols/' + encodeURIComponent(id) + '/download');
+            setMsg('Descarga iniciada.', true);
+          } catch (e) {
+            setMsg(e.message || 'No se pudo descargar.', false);
+          }
+          btn.disabled = false;
+        });
+      });
+    } catch (e) {
+      if (document.body.contains(container)) body.innerHTML = '<tr><td colspan="9">' + esc(e.message || 'Error al cargar.') + '</td></tr>';
+      setMsg(e.message || 'Error al cargar.', false);
+    }
+  }
+
   function genKey(entId) {
     return 'val-gen-' + entId;
   }
@@ -1352,6 +1434,17 @@ const Validaciones = (() => {
         } catch (e) {}
       }
       const ent = entidadObj();
+      const registrar = async function (r) {
+        const bytes = r && r.bytes;
+        if (!bytes || !bytes.length) throw new Error('Documento vacío: no se registró.');
+        const resp = await apiSend('/api/val/v1/protocols', 'POST', {
+          category: catId, entity: entActual, phase: r.fase,
+          code: draft.codigo, version: draft.versionProtocolo || '01',
+          filename: r.filename, fileBase64: bytesToBase64(bytes),
+        });
+        if (!resp || !resp.ok) throw new Error((resp && resp.error) || 'No se pudo registrar el protocolo. No se descargó.');
+        return resp;
+      };
       const btn = step3.querySelector('.v7-btn-download');
       if (btn) btn.disabled = true;
       try {
@@ -1361,19 +1454,19 @@ const Validaciones = (() => {
           // DQ de equipos/estabilidad/sistemas: scaffold desde la plantilla DQ
           // con los datos del borrador. Almacenes conserva su DQ con contenido.
           if (f === 'DQ' && catId !== 'almacenes' && typeof PlantillaDocx !== 'undefined' && PlantillaDocx.descargarDQ) {
-            const rDQ = await PlantillaDocx.descargarDQ(draft, ent);
+            const rDQ = await PlantillaDocx.descargarDQ(draft, ent, registrar);
             if (rDQ && rDQ.avisos && rDQ.avisos.length) setGenMsg('[' + f + '] ' + rDQ.avisos[0], true);
           } else if (typeof PlantillaDocx !== 'undefined' && PlantillaDocx.soporta(f)) {
             if (typeof window !== 'undefined' && (typeof DecompressionStream === 'undefined' || typeof CompressionStream === 'undefined')) {
               throw new Error('El navegador no soporta compresión ZIP (use Edge/Chrome).');
             }
-            const r = await PlantillaDocx.descargar(f, draft, ent, sel.cond, catId);
+            const r = await PlantillaDocx.descargar(f, draft, ent, sel.cond, catId, registrar);
             if (r && r.avisos && r.avisos.length) setGenMsg('[' + f + '] ' + r.avisos[0], true);
           } else {
             if (typeof window !== 'undefined' && !window.docx) {
               throw new Error('Cargando librería docx… reintente en unos segundos.');
             }
-            await GeneradorDocx.descargar(f, draft, ent, sel.cond);
+            await GeneradorDocx.descargar(f, draft, ent, sel.cond, registrar);
           }
         }
         setGenMsg('Descargados ' + sel.fases.length + ' documento(s).', true);
@@ -1539,7 +1632,8 @@ const Validaciones = (() => {
     } else if (route === 'calendario') {
       content.innerHTML = viewCalendario();
     } else if (route === 'protocolos') {
-      content.innerHTML = viewSoon('Protocolos', 'Documentos generados y su estado');
+      content.innerHTML = viewProtocolos();
+      cargarProtocolos(content);
     } else if (route === 'firmas') {
       content.innerHTML = viewSoon('Firmas', 'Flujo de firmas de protocolos');
     } else if (route === 'documentacion') {
@@ -1745,7 +1839,7 @@ const Validaciones = (() => {
   return {
     CATS, ROUTES, ENTIDADES, SCHEMAS, FASES_GEN, GEN_FASES, AREAS_GERENCIA, parseRoute, catById, getSchema, getEntidades,
     entidadPorNombre,
-    puestoGerente, firmantesHtml, saveDraft, loadDraft, cargarBorrador, guardarBorrador, validarDatos, saveGen, loadGen, viewEntidad, show, hide, apply, currentArea, render, contarGen, tieneBancoFam, estadoBancoFam, resolverDescripcion, mejorarFecha, manifest,
+    puestoGerente, firmantesHtml, saveDraft, loadDraft, cargarBorrador, guardarBorrador, validarDatos, saveGen, loadGen, viewEntidad, show, hide, apply, currentArea, render, contarGen, tieneBancoFam, estadoBancoFam, resolverDescripcion, mejorarFecha, manifest, viewProtocolos,
   };
 })();
 
