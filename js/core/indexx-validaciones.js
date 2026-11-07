@@ -1099,8 +1099,8 @@ const Validaciones = (() => {
       ['reviewRoles', 'approveRoles'].forEach((k) => {
         const el = form.querySelector('[data-cfg="' + k + '"]');
         if (!el || !el.options) return;
-        const sel = Array.isArray(s[k]) ? s[k] : [];
-        for (let i = 0; i < el.options.length; i++) el.options[i].selected = sel.indexOf(el.options[i].value) >= 0;
+        const sel = new Set(Array.isArray(s[k]) ? s[k] : []);
+        for (let i = 0; i < el.options.length; i++) el.options[i].selected = sel.has(el.options[i].value);
       });
     }
     const defaults = { orgName: 'SigmaProXVL', logoUrl: '', numberingPrefix: 'VAL', reviewRoles: ['gerente'], approveRoles: ['admin', 'supervisor'] };
