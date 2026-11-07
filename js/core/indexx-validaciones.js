@@ -447,11 +447,11 @@ const Validaciones = (() => {
       return '<rect x="' + (i * bw + 1).toFixed(1) + '" y="' + (h - bh) + '" width="' + (bw - 2).toFixed(1)
         + '" height="' + bh + '" rx="1.5" fill="' + color + '"/>';
     }).join('');
-    return '<svg viewBox="0 0 ' + w + ' ' + h + '" aria-hidden="true">' + rects + '</svg>';
+    return '<svg class="kpi-spark" viewBox="0 0 ' + w + ' ' + h + '" aria-hidden="true">' + rects + '</svg>';
   }
 
   function sparkPulse(color) {
-    return '<svg viewBox="0 0 100 30" aria-hidden="true">'
+    return '<svg class="kpi-spark" viewBox="0 0 100 30" aria-hidden="true">'
       + '<polyline points="0,18 18,18 26,8 34,24 42,14 55,18 63,18 70,5 78,25 86,16 100,16"'
       + ' fill="none" stroke="' + color + '" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
   }
@@ -459,7 +459,7 @@ const Validaciones = (() => {
   function sparkRing(pct, color) {
     const c = 2 * Math.PI * 11;
     const off = (c * (100 - pct)) / 100;
-    return '<svg viewBox="0 0 30 30" aria-hidden="true">'
+    return '<svg class="kpi-ring" viewBox="0 0 30 30" aria-hidden="true">'
       + '<circle cx="15" cy="15" r="11" fill="none" stroke="#e3e6eb" stroke-width="4"/>'
       + '<circle cx="15" cy="15" r="11" fill="none" stroke="' + color + '" stroke-width="4"'
       + ' stroke-dasharray="' + c.toFixed(1) + '" stroke-dashoffset="' + off.toFixed(1) + '"'
