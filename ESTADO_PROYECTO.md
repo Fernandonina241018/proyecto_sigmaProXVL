@@ -90,6 +90,32 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (SigmaProXVL) con spr
 
 ## CAMBIOS RECIENTES
 
+### 2026-11-07 (246): Dashboard V1 — Fase 0 y Fase 1 (responsive y navegación móvil)
+
+**Qué:** Se incorporó el prototipo `SigmaProXVL_dashboard_V1_adaptable.html` a `docs/prototipos/` y se corrigieron los bloqueos de experiencia detectados en la auditoría con Chromium headless. El archivo original en `~/Descargas/protocolos/` queda intacto.
+
+- **Fase 0 (bugs):** `.topbar` con `flex-wrap` y búsqueda flexible (`min-width:0`), `select{font:inherit}`, y gráfico con `aspect-ratio:600/190` en lugar de altura fija. Etiquetas del gráfico a 12 px base y 20 px en ≤480 px.
+- **Fase 1 (móvil):** menú hamburguesa visible ≤760 px, sidebar como drawer con overlay, `aria-expanded`/`aria-controls`, cierre por overlay, enlace y `Escape`, bloqueo de scroll y `inert` cuando está cerrado.
+- **Touch targets:** `icon-btn`, `primary-btn`, botón de ayuda y enlaces del menú a ≥44 px.
+
+**Archivos afectados:**
+| Archivo | Cambio |
+|---------|--------|
+| `docs/prototipos/SigmaProXVL_dashboard_V1_adaptable.html` | Prototipo versionado + correcciones Fase 0/1 |
+| `ESTADO_PROYECTO.md` | Entrada 246 |
+
+**Verificación (Playwright/Chromium):**
+```
+Desbordamiento horizontal: 0 px en 360, 420, 768, 1024, 1150, 1280, 1440 y 1920
+Touch targets < 40 px: 0
+Menú móvil: abre/cierra con aria-expanded, overlay, Escape e inert
+Etiqueta del gráfico: 13 px reales a 360, 10 px a 768
+select font-family == body font-family
+Errores de consola: 0
+```
+
+**Pendiente (Fases 2–3, no incluidas):** `aria-hidden` en iconos, nombres de `<nav>`, `aria-current`, skip link, contraste AA, `color-scheme:dark`, `prefers-reduced-motion`, calendario semántico, tipografía mínima 11–12 px, métricas inconsistentes (103 vs banco real, “PQ - Diseño” vs DQ) y carga real de Inter.
+
 ### 2026-11-06 (245): PQ consolidado de refrigerador y congelador (20 → 16 ensayos)
 
 **Qué:** Se aplican las tres respuestas del responsable técnico a la verificación del PQ del refrigerador contra `ENSAYOS.txt`:
