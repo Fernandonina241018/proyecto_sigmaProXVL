@@ -90,6 +90,41 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (SigmaProXVL) con spr
 
 ## CAMBIOS RECIENTES
 
+### 2026-11-07 (248): Dashboard V1 — Fase 3 (calendario, tipografía y datos coherentes)
+
+**Qué:** Se cierra la Fase 3 del prototipo `docs/prototipos/SigmaProXVL_dashboard_V1_adaptable.html`.
+
+- **Calendario semántico:** reemplazado el grid de `<b>` por `<table aria-label="Calendario de noviembre de 2026">` con `<th scope="col">`, celdas `<td>` y `aria-current="date"` en el día real (7 nov 2026). El evento del 5 se conserva.
+- **Tipografía mínima:** todos los textos quedan en **≥12 px** (antes había 9–10 px); botón principal a 12 px.
+- **Datos coherentes (corte 07 Nov 2026):**
+  - KPIs: **1.230** ensayos en el banco · DQ 1 · IQ 174 · OQ 604 · PQ 451 (suma exacta).
+  - Se corrige “PQ - Diseño” → **DQ - Diseño**.
+  - Categorías: almacenes 27 · equipos 902 · sistemas 261 · estabilidad 40 · software “Sin banco”.
+  - Generador: **1.230 ensayos disponibles**, cobertura **100%** (antes 103/74%).
+  - Gráfico renombrado a **“Ensayos ejecutados”** para separar ejecución semanal (486) del inventario del banco.
+  - Footer con corte de datos.
+- **Fuente:** se elimina la referencia a `Inter` (nunca se cargaba) y se usa la pila del sistema, manteniendo el prototipo autocontenido.
+
+**Archivos afectados:**
+| Archivo | Cambio |
+|---------|--------|
+| `docs/prototipos/SigmaProXVL_dashboard_V1_adaptable.html` | Fase 3 completa |
+| `ESTADO_PROYECTO.md` | Entrada 248 |
+
+**Verificación (Playwright/Chromium a 360, 768 y 1920 px):**
+```
+overflow horizontal: 0 px
+textos < 12 px: 0
+calendario: TABLE con aria-label, th scope=col y today=7/aria-current=date
+KPIs: 1.230 / 1 / 174 / 604 / 451 (suma 1.230)
+categorías: 27 + 902 + 261 + 40 = 1.230
+generador: 1.230 ensayos · 100% cobertura
+fuente: system-ui (sin promesa de Inter)
+errores de consola: 0
+```
+
+**Nota:** los conteos son una foto del banco al 07 Nov 2026. Si el banco cambia, hay que actualizar el bloque de KPIs o conectarlo al manifiesto dinámico.
+
 ### 2026-11-07 (247): Dashboard V1 — Fase 2 (accesibilidad)
 
 **Qué:** Se aplica la Fase 2 de accesibilidad al prototipo `docs/prototipos/SigmaProXVL_dashboard_V1_adaptable.html`.
