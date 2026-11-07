@@ -161,25 +161,33 @@ const Validaciones = (() => {
         k: 'temperaturaMin',
         label: 'Temperatura mínima (°C)',
         tipo: 'number',
-        req: true
+        req: true,
+        min: -200,
+        max: 300
       },
       {
         k: 'temperaturaMax',
         label: 'Temperatura máxima (°C)',
         tipo: 'number',
-        req: true
+        req: true,
+        min: -200,
+        max: 300
       },
       {
         k: 'humedadMin',
         label: 'Humedad relativa mínima (%HR)',
         tipo: 'number',
-        req: false
+        req: false,
+        min: 0,
+        max: 100
       },
       {
         k: 'humedadMax',
         label: 'Humedad relativa máxima (%HR)',
         tipo: 'number',
-        req: false
+        req: false,
+        min: 0,
+        max: 100
       },
       {
         k: 'controlCambios',
@@ -247,7 +255,10 @@ const Validaciones = (() => {
         k: 'cantidadDataLoggers',
         label: 'Cantidad de data loggers',
         tipo: 'number',
-        req: false
+        req: false,
+        min: 1,
+        max: 1000,
+        integer: true
       }
     ],
     
@@ -302,27 +313,60 @@ const Validaciones = (() => {
     return ENTIDADES[cat] || [];
   }
 
-  function draftKey(entId) {
-    return 'val-borrador-' + entId;
+  function draftKey(entId, catId) {
+    // Por usuario + categoría: dos usuarios en el mismo navegador no comparten
+    // borradores (el sessionStorage anterior filtraba el último borrador).
+    return 'val-borrador-' + (currentUser() || 'anon') + '-' + (catId || '') + '-' + entId;
   }
 
-  function saveDraft(entId, data) {
+  function _draftStore() {
+    try { if (typeof localStorage !== 'undefined') return localStorage; } catch (e) {}
+    try { if (typeof sessionStorage !== 'undefined') return sessionStorage; } catch (e) {}
+    return null;
+  }
+
+  function saveDraft(entId, data, catId) {
+    const store = _draftStore();
     try {
-      if (typeof sessionStorage !== 'undefined') {
-        sessionStorage.setItem(draftKey(entId), JSON.stringify(data || {}));
+      if (store && entId) {
+        store.setItem(draftKey(entId, catId), JSON.stringify(data || {}));
         return true;
       }
     } catch (e) {}
     return false;
   }
 
-  function loadDraft(entId) {
+  function loadDraft(entId, catId) {
+    const store = _draftStore();
     try {
-      if (typeof sessionStorage !== 'undefined') {
-        return JSON.parse(sessionStorage.getItem(draftKey(entId)) || '{}');
-      }
+      if (store && entId) return JSON.parse(store.getItem(draftKey(entId, catId)) || '{}');
     } catch (e) {}
     return {};
+  }
+
+  // Fase 1: el borrador vive en el backend (por usuario); localStorage queda
+  // como copia para seguir trabajando si el API no responde.
+  async function cargarBorrador(entId, catId) {
+    const local = loadDraft(entId, catId);
+    if (!entId) return local;
+    try {
+      const r = await apiGet('/api/val/v1/drafts/' + encodeURIComponent(catId || '') + '/' + encodeURIComponent(entId));
+      if (r && r.ok && r.draft && r.draft.data && typeof r.draft.data === 'object') {
+        saveDraft(entId, r.draft.data, catId);
+        return r.draft.data;
+      }
+    } catch (e) {}
+    return local;
+  }
+
+  async function guardarBorrador(entId, catId, data) {
+    const local = saveDraft(entId, data, catId);
+    let remoto = false;
+    try {
+      const r = await apiSend('/api/val/v1/drafts/' + encodeURIComponent(catId || '') + '/' + encodeURIComponent(entId), 'PUT', { data: data || {} });
+      remoto = !!(r && r.ok);
+    } catch (e) {}
+    return { ok: local || remoto, local: local, remoto: remoto };
   }
 
   const ROUTES = [
@@ -644,7 +688,10 @@ const Validaciones = (() => {
     if (f.tipo === 'date') {
       return lab + '<input type="date" class="v7-fecha" data-k="' + f.k + '"' + req + auto + ' value="' + esc(v) + '"></label>';
     }    if (f.tipo === 'number') {
-      return lab + '<input type="number" step="any" data-k="' + f.k + '"' + req + auto + ' value="' + esc(v) + '"></label>';
+      const lim = (f.min != null ? ' min="' + f.min + '"' : '')
+        + (f.max != null ? ' max="' + f.max + '"' : '')
+        + (f.integer ? ' step="1"' : ' step="any"');
+      return lab + '<input type="number"' + lim + ' data-k="' + f.k + '"' + req + auto + ' value="' + esc(v) + '"></label>';
     }
     if (f.tipo === 'file') {
       return lab + '<input type="file" accept="image/*" data-k="' + f.k + '"' + req + auto + '></label>';
@@ -713,6 +760,20 @@ const Validaciones = (() => {
     const base = apiBase();
     const f = (typeof fetchWithTimeout !== 'undefined') ? fetchWithTimeout : fetch;
     const res = await f(base + path, { headers: apiHeaders(), credentials: 'include' });
+    return res.json();
+  }
+
+  async function apiSend(path, method, body) {
+    const base = apiBase();
+    const f = (typeof fetchWithTimeout !== 'undefined') ? fetchWithTimeout : fetch;
+    const headers = apiHeaders();
+    headers['Content-Type'] = 'application/json';
+    const res = await f(base + path, {
+      method: method,
+      headers: headers,
+      credentials: 'include',
+      body: JSON.stringify(body || {}),
+    });
     return res.json();
   }
 
@@ -875,6 +936,46 @@ const Validaciones = (() => {
       + '</div></div>';
   }
 
+  // Validación compartida por guardar (solo informa pendientes) y generar
+  // (bloquea). Mantiene los valores tal como los da el formulario.
+  function validarDatos(schema, data) {
+    const errores = [];
+    const d = data || {};
+    (schema || []).forEach(function (f) {
+      const raw = d[f.k];
+      const s = String(raw == null ? '' : raw).trim();
+      if (f.req && !s) { errores.push(f.label + ' es obligatorio'); return; }
+      if (!s) return;
+      if (f.tipo === 'number') {
+        const n = Number(s);
+        if (!Number.isFinite(n)) { errores.push(f.label + ' debe ser numérico'); return; }
+        if (f.integer && !Number.isInteger(n)) errores.push(f.label + ' debe ser entero');
+        if (f.min != null && n < f.min) errores.push(f.label + ' no puede ser menor que ' + f.min);
+        if (f.max != null && n > f.max) errores.push(f.label + ' no puede ser mayor que ' + f.max);
+      }
+      if (f.tipo === 'date') {
+        // Parseo en UTC: `new Date('YYYY-MM-DDT00:00:00')` usa la zona local
+        // y rechaza fechas válidas en zonas UTC+ (Madrid, etc.).
+        const d = new Date(s + 'T00:00:00Z');
+        if (!/^\d{4}-\d{2}-\d{2}$/.test(s) || isNaN(d.getTime()) || d.toISOString().slice(0, 10) !== s) {
+          errores.push(f.label + ' no es una fecha válida');
+        }
+      }
+      if (f.tipo === 'select' && f.opciones && f.opciones.indexOf(s) < 0) errores.push(f.label + ' tiene una opción no válida');
+    });
+    const num = function (k) {
+      const v = Number(d[k]);
+      return String(d[k] == null ? '' : d[k]).trim() !== '' && Number.isFinite(v) ? v : null;
+    };
+    const tmin = num('temperaturaMin');
+    const tmax = num('temperaturaMax');
+    if (tmin != null && tmax != null && tmin >= tmax) errores.push('La temperatura mínima debe ser menor que la máxima');
+    const hmin = num('humedadMin');
+    const hmax = num('humedadMax');
+    if (hmin != null && hmax != null && hmin > hmax) errores.push('La humedad mínima no puede ser mayor que la máxima');
+    return errores;
+  }
+
   // Lógica pura del autofill de descripción (testeable sin DOM):
   // devuelve { valor, manual } dado el valor actual, el nombre de la entidad
   // elegida, el nombre de la entidad anterior y si ya era manual.
@@ -908,14 +1009,8 @@ const Validaciones = (() => {
       }
     }
 
-    function validar() {
-      let falta = 0;
-      schemaTotal().forEach((f) => {
-        if (!f.req) return;
-        const el = form.querySelector('[data-k="' + f.k + '"]');
-        if (!el || (el.type !== 'file' && !String(el.value || '').trim())) falta++;
-      });
-      return falta;
+    function validarErrores() {
+      return validarDatos(schemaTotal(), recoger());
     }
 
     function recoger() {
@@ -987,6 +1082,9 @@ const Validaciones = (() => {
     // ---- Firmantes (T0 automático + T2 con 2 combobox) ----
     let firmMe = null;
     let firmGerentes = [];
+    let firmCache = null;
+    let firmListenerBound = false;
+    let firmLoaded = false;
 
     function firmNombres(u) {
       return ([u.nombre, u.apellido].filter(Boolean).join(' ') || u.username || '').trim();
@@ -1008,8 +1106,10 @@ const Validaciones = (() => {
         resp.value = (me.nombre || me.username) + (me.cargo ? ' / (' + me.cargo + ')' : '');
       }
       if (sel) {
+        const actual = sel.value || '';
+        const elegido = (f.revisor && f.revisor.username) ? f.revisor.username : actual;
         sel.innerHTML = '<option value="">— Seleccione —</option>' + firmGerentes.map((u) =>
-          '<option value="' + esc(u.username) + '"' + (f.revisor && f.revisor.username === u.username ? ' selected' : '') + '>'
+          '<option value="' + esc(u.username) + '"' + (elegido === u.username ? ' selected' : '') + '>'
           + esc(firmNombres(u)) + '</option>').join('');
       }
       if (area && f.revisor && f.revisor.area != null) area.value = f.revisor.area;
@@ -1043,42 +1143,65 @@ const Validaciones = (() => {
       return falta;
     }
 
-    async function cargarFirmantes() {
+    async function cargarFirmantes(draft) {
       if (!conGen) return;
       const sel = form.querySelector('[data-k="revisorGerente"]');
       const rea = form.querySelector('[data-k="realizadoPor"]');
-      try {
-        const me = await apiGet('/api/me');
-        const prof = (me && (me.profile || me)) || {};
-        const s = (typeof Auth !== 'undefined' && Auth.getSession) ? Auth.getSession() : null;
-        firmMe = {
-          username: (s && s.username) || me.username || '',
-          nombre: firmNombres(prof) || ((s && s.username) || ''),
-          cargo: String(prof.cargo || '').trim(),
-        };
-        const ul = await apiGet('/api/users/list');
-        firmGerentes = ((ul && ul.users) || []).filter((u) => u.role === 'gerente');
-        pintarFirmantes(entActual ? { realizado: firmMe, revisor: (loadDraft(entActual).firmantes || {}).revisor } : { realizado: firmMe });
-        // Sugerir gerencia desde el cargo del gerente elegido
-        if (sel && sel.addEventListener) {
-          sel.addEventListener('change', function () {
-            const g = firmGerentes.filter((u) => u.username === sel.value)[0];
-            const area = form.querySelector('[data-k="gerenciaArea"]');
-            if (g && area && !String(area.value || '').trim() && g.cargo) {
-              const m = String(g.cargo).match(/gerente\s+de\s+(.+)/i);
-              if (m) area.value = m[1].trim();
-            }
-          });
-        }
-      } catch (e) {
-        if (rea) rea.placeholder = '(sin conexión)';
-        const resp0 = form.querySelector('[data-k="responsable"]');
-        if (resp0 && !String(resp0.value || '').trim()) resp0.placeholder = '(sin conexión)';
-        if (sel) sel.innerHTML = '<option value="">(sin conexión)</option>';
+      const mine = entActual;
+      const s = session() || {};
+      const fallback = { username: s.username || '', nombre: s.username || '', cargo: '' };
+      firmMe = firmMe || fallback;
+      // Mientras responde el API ya hay un nombre (no se bloquea el flujo).
+      if (rea && !String(rea.value || '').trim()) rea.value = firmMe.nombre || firmMe.username || '';
+      const resp0 = form.querySelector('[data-k="responsable"]');
+      if (resp0 && !String(resp0.value || '').trim()) resp0.value = rea ? String(rea.value || '') : (firmMe.nombre || '');
+      // Cache local de revisores: si el API falla, el select sigue usable.
+      if (!firmCache) {
         try {
-          const df = entActual ? loadDraft(entActual) : {};
-          if (df && df.firmantes) pintarFirmantes(df.firmantes);
-        } catch (e2) {}
+          const raw = (typeof localStorage !== 'undefined') ? localStorage.getItem('val-firmantes-cache') : null;
+          firmCache = raw ? JSON.parse(raw) : null;
+        } catch (e) { firmCache = null; }
+      }
+      if (Array.isArray(firmCache) && firmCache.length) {
+        firmGerentes = firmCache;
+        pintarFirmantes({ realizado: firmMe, revisor: (draft && draft.firmantes && draft.firmantes.revisor) || {} });
+      }
+      try {
+        if (!firmLoaded) {
+          const me = await apiGet('/api/me');
+          if (entActual !== mine) return;
+          const prof = (me && (me.profile || me)) || {};
+          firmMe = {
+            username: s.username || me.username || '',
+            nombre: firmNombres(prof) || s.username || '',
+            cargo: String(prof.cargo || '').trim(),
+          };
+          const ul = await apiGet('/api/users/list');
+          if (entActual !== mine) return;
+          const todos = (ul && ul.users) || [];
+          const gerentes = todos.filter((u) => u.role === 'gerente');
+          // Fallback: sin gerente configurado, admin/supervisor pueden revisar.
+          firmGerentes = gerentes.length ? gerentes : todos.filter((u) => u.role === 'admin' || u.role === 'supervisor');
+          firmCache = firmGerentes;
+          firmLoaded = true;
+          try { if (typeof localStorage !== 'undefined') localStorage.setItem('val-firmantes-cache', JSON.stringify(firmGerentes)); } catch (e) {}
+        }
+        pintarFirmantes({ realizado: firmMe, revisor: (draft && draft.firmantes && draft.firmantes.revisor) || {} });
+      } catch (e) {
+        if (sel && !firmGerentes.length) sel.innerHTML = '<option value="">(sin conexión)</option>';
+        else pintarFirmantes({ realizado: firmMe, revisor: (draft && draft.firmantes && draft.firmantes.revisor) || {} });
+      }
+      // Sugerir gerencia desde el cargo del gerente elegido (listener único).
+      if (sel && !firmListenerBound) {
+        firmListenerBound = true;
+        sel.addEventListener('change', function () {
+          const g = firmGerentes.filter((u) => u.username === sel.value)[0];
+          const area = form.querySelector('[data-k="gerenciaArea"]');
+          if (g && area && !String(area.value || '').trim() && g.cargo) {
+            const m = String(g.cargo).match(/gerente\s+de\s+(.+)/i);
+            if (m) area.value = m[1].trim();
+          }
+        });
       }
     }
 
@@ -1168,8 +1291,14 @@ const Validaciones = (() => {
         setGenMsg('Generador no disponible.', false);
         return;
       }
-      const falta = validar() + validarFirmantes();
-      if (falta) { setGenMsg('Complete el borrador del paso 2 (' + falta + ' campo(s)).', false); return; }
+      const errores = validarErrores();
+      const faltaFirm = validarFirmantes();
+      if (errores.length || faltaFirm) {
+        const prim = errores.slice(0, 2).join(' · ');
+        setGenMsg((prim || 'Complete los firmantes (revisor y gerencia).')
+          + (errores.length > 2 ? ' (+' + (errores.length - 2) + ' más)' : ''), false);
+        return;
+      }
       const sel = leerSel3();
       if (!sel.fases.length) { setGenMsg('Seleccione al menos un protocolo.', false); return; }
       // H-01: nunca emitir OQ/PQ sin banco de familia (defensa en profundidad).
@@ -1286,17 +1415,25 @@ const Validaciones = (() => {
     }
     let ultEntNombre = '';
 
-    function elegirEntidad(entId) {
+    let cargaToken = 0;
+
+    async function elegirEntidad(entId) {
       if (!entId) return false;
-      entActual = entId;
+      const token = ++cargaToken;
       main.querySelectorAll('.v7-ent').forEach((b) => b.classList.toggle('sel', b.getAttribute('data-ent') === entId));
       step2.hidden = false;
-      const draft = loadDraft(entActual);
+      setMsg('Cargando borrador…', true);
+      const draft = await cargarBorrador(entId, catId);
+      if (token !== cargaToken) return false;
+      entActual = entId;
       pintarParametros(draft);
       cargar(draft);
       pintarDescripcion();
       setMsg(Object.keys(draft).length ? 'Borrador cargado' : '', true);
-      if (conGen) cargarFirmantes();
+      if (conGen) {
+        await cargarFirmantes(draft);
+        if (token !== cargaToken) return false;
+      }
       if (step3 && conGen) {
         step3.hidden = false;
         restaurarSel3();
@@ -1313,12 +1450,15 @@ const Validaciones = (() => {
       }
       if (e.target && e.target.classList && e.target.classList.contains('v7-btn-save')) {
         e.preventDefault();
-        const falta = validar() + validarFirmantes();
-        if (falta) { setMsg('Complete ' + falta + ' campo(s) obligatorio(s).', false); return; }
+        if (!entActual) { setMsg('Seleccione una entidad antes de guardar.', false); return; }
         const data = recoger();
         data.firmantes = leerFirmantes();
-        const ok = saveDraft(entActual, data);
-        setMsg(ok ? 'Borrador guardado' : 'No se pudo guardar', ok);
+        const pendientes = validarErrores().length + validarFirmantes();
+        guardarBorrador(entActual, catId, data).then((res) => {
+          if (!res.ok) { setMsg('No se pudo guardar el borrador.', false); return; }
+          setMsg('Borrador guardado' + (res.remoto ? '' : ' en este equipo')
+            + (pendientes ? ' · ' + pendientes + ' campo(s) pendiente(s) para generar' : ''), true);
+        });
         return;
       }
       if (e.target && e.target.classList && e.target.classList.contains('v7-btn-gen')) {
@@ -1420,6 +1560,8 @@ const Validaciones = (() => {
     });
   }
 
+  let _valEscHandler = null;
+
   function show() {
     try {
       if (typeof document === 'undefined' || !document.createElement) return false;
@@ -1487,7 +1629,7 @@ const Validaciones = (() => {
       }
       const escHandler = function (event) { if (event.key === 'Escape') setOpen(false); };
       document.addEventListener('keydown', escHandler);
-      ov._escHandler = escHandler;
+      _valEscHandler = escHandler;
       if (media.addEventListener) media.addEventListener('change', syncInert);
       syncInert();
 
@@ -1514,13 +1656,14 @@ const Validaciones = (() => {
         }
       });
 
-      const search = ov.querySelector('#v7-search');
+      const search = /** @type {HTMLInputElement|null} */ (ov.querySelector('#v7-search'));
       if (search && search.addEventListener) {
         search.addEventListener('input', function () {
           const q = String(search.value || '').toLowerCase();
           ov.querySelectorAll('.category, .v7-cat, .v7-ent').forEach(function (el) {
-            const n = (el.getAttribute('data-name') || el.textContent || '').toLowerCase();
-            el.style.display = !q || n.indexOf(q) >= 0 ? '' : 'none';
+            const node = /** @type {HTMLElement} */ (el);
+            const n = (node.getAttribute('data-name') || node.textContent || '').toLowerCase();
+            node.style.display = !q || n.indexOf(q) >= 0 ? '' : 'none';
           });
         });
       }
@@ -1533,9 +1676,9 @@ const Validaciones = (() => {
 
   function hide() {
     try {
-      const app = document.getElementById('validaciones-app');
-      if (app && app._escHandler && document && document.removeEventListener) {
-        document.removeEventListener('keydown', app._escHandler);
+      if (_valEscHandler && document && document.removeEventListener) {
+        document.removeEventListener('keydown', _valEscHandler);
+        _valEscHandler = null;
       }
       document.getElementById('validaciones-view')?.remove();
       document.getElementById('validaciones-app')?.remove();
@@ -1602,7 +1745,7 @@ const Validaciones = (() => {
   return {
     CATS, ROUTES, ENTIDADES, SCHEMAS, FASES_GEN, GEN_FASES, AREAS_GERENCIA, parseRoute, catById, getSchema, getEntidades,
     entidadPorNombre,
-    puestoGerente, firmantesHtml, saveDraft, loadDraft, saveGen, loadGen, viewEntidad, show, hide, apply, currentArea, render, contarGen, tieneBancoFam, estadoBancoFam, resolverDescripcion, mejorarFecha, manifest,
+    puestoGerente, firmantesHtml, saveDraft, loadDraft, cargarBorrador, guardarBorrador, validarDatos, saveGen, loadGen, viewEntidad, show, hide, apply, currentArea, render, contarGen, tieneBancoFam, estadoBancoFam, resolverDescripcion, mejorarFecha, manifest,
   };
 })();
 

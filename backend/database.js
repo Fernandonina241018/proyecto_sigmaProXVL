@@ -261,6 +261,15 @@ function buildPostgres() {
         )`);
         await run(`CREATE INDEX IF NOT EXISTS idx_data_snapshots_username ON data_snapshots (username)`);
         await run(`CREATE INDEX IF NOT EXISTS idx_data_snapshots_created ON data_snapshots (created_at DESC)`);
+        // FASE 1 — Borradores del módulo de validaciones (por usuario y entidad).
+        // Aditivo: no toca tablas existentes. data = JSONB con el formulario.
+        await run(`CREATE TABLE IF NOT EXISTS validation_drafts (
+            id SERIAL PRIMARY KEY, username TEXT NOT NULL, category TEXT NOT NULL,
+            entity TEXT NOT NULL, data JSONB NOT NULL DEFAULT '{}'::jsonb,
+            updated_at TEXT DEFAULT to_char(now(),'YYYY-MM-DD"T"HH24:MI:SS'),
+            UNIQUE(username, category, entity)
+        )`);
+        await run(`CREATE INDEX IF NOT EXISTS idx_validation_drafts_user ON validation_drafts (username, category)`);
         // FASE 1 — Bandeja de firmas secuenciales: el reporte en proceso vive
         // en servidor (no viaja como archivo). signatures = JSONB con los 3
         // roles {prepared,reviewed,approved}; version = concurrencia optimista.
@@ -737,6 +746,25 @@ function buildPostgres() {
 
     async function getSnapshotById(id) {
         return get('SELECT * FROM data_snapshots WHERE id = $1', [id]);
+    }
+
+    // ── FASE 1 — Borradores de validaciones (PG) ─────────────────
+    async function saveValidationDraft({ username, category, entity, data }) {
+        return get(
+            `INSERT INTO validation_drafts (username, category, entity, data, updated_at)
+             VALUES ($1,$2,$3,$4::jsonb,to_char(now(),'YYYY-MM-DD"T"HH24:MI:SS'))
+             ON CONFLICT (username, category, entity)
+             DO UPDATE SET data = EXCLUDED.data, updated_at = EXCLUDED.updated_at
+             RETURNING id, username, category, entity, data, updated_at`,
+            [username, category, entity, JSON.stringify(data || {})]
+        );
+    }
+
+    async function getValidationDraft({ username, category, entity }) {
+        return get(
+            'SELECT id, username, category, entity, data, updated_at FROM validation_drafts WHERE username = $1 AND category = $2 AND entity = $3',
+            [username, category, entity]
+        );
     }
 
     // ── FASE 1 — Bandeja de firmas (PG) ──────────────────────────
@@ -1284,7 +1312,7 @@ function buildPostgres() {
         await run('DELETE FROM webauthn_credentials WHERE username=$1 AND credential_id=$2', [username, credentialId]);
     }
 
-    return { run, get, all, initDatabase, createInitialAdmin, getUserByUsername, getUserBySignatureCode, isSignatureCodeTaken, getUserById, createUser, updateLastLogin, getAllUsers, getUsersList, countUsers, toggleUserActive, changePassword, setPasswordTemp, updateUserProfile, updateUserProfileById, changeRole, logAccess, logAuditEvent, getAuditLog, countAuditLog, getAuditStats, verifyAuditChain, blacklistToken, isTokenBlacklisted, cleanExpiredBlacklist, registerDevice, isDeviceTrusted, getUserDevices, getAllDevices, countDevices, countUserDevices, setDeviceTrust, removeDevice, save2FASecret, get2FASecret, enable2FA, disable2FA, has2FAEnabled, saveWebAuthnChallenge, consumeWebAuthnChallenge, getWebAuthnCredentials, getWebAuthnCredential, addWebAuthnCredential, updateWebAuthnCounter, removeWebAuthnCredential, createSnapshot, getSnapshots, getSnapshotById, createSignSession, getSignSession, getSignSessionMeta, listSignSessions, countSignSessions, signQuotaInfo, signSessionStep, importSignSession, rejectSignSession, reopenSignSession, sendbackSignSession, amendSignSession, deleteSignSession, unsignSessionStep, dismissSignSession, purgeSignSessions };}
+    return { run, get, all, initDatabase, createInitialAdmin, getUserByUsername, getUserBySignatureCode, isSignatureCodeTaken, getUserById, createUser, updateLastLogin, getAllUsers, getUsersList, countUsers, toggleUserActive, changePassword, setPasswordTemp, updateUserProfile, updateUserProfileById, changeRole, logAccess, logAuditEvent, getAuditLog, countAuditLog, getAuditStats, verifyAuditChain, blacklistToken, isTokenBlacklisted, cleanExpiredBlacklist, registerDevice, isDeviceTrusted, getUserDevices, getAllDevices, countDevices, countUserDevices, setDeviceTrust, removeDevice, save2FASecret, get2FASecret, enable2FA, disable2FA, has2FAEnabled, saveWebAuthnChallenge, consumeWebAuthnChallenge, getWebAuthnCredentials, getWebAuthnCredential, addWebAuthnCredential, updateWebAuthnCounter, removeWebAuthnCredential, createSnapshot, getSnapshots, getSnapshotById, saveValidationDraft, getValidationDraft, createSignSession, getSignSession, getSignSessionMeta, listSignSessions, countSignSessions, signQuotaInfo, signSessionStep, importSignSession, rejectSignSession, reopenSignSession, sendbackSignSession, amendSignSession, deleteSignSession, unsignSessionStep, dismissSignSession, purgeSignSessions };}
 
 // ───── Local JSON store ─────
 function buildLocalStore() {
@@ -1844,6 +1872,33 @@ function buildLocalStore() {
         return state.data_snapshots.find(function(s) { return s.id === id; }) || null;
     }
 
+    // ── FASE 1 — Borradores de validaciones (local) ──────────────
+    if (!state.validation_drafts) state.validation_drafts = [];
+    var _draftIdCounter = state.validation_drafts.length > 0
+        ? Math.max.apply(null, state.validation_drafts.map(function (d) { return d.id; })) + 1 : 1;
+
+    async function saveValidationDraft({ username, category, entity, data }) {
+        var now = new Date().toISOString();
+        var row = state.validation_drafts.find(function (d) {
+            return d.username === username && d.category === category && d.entity === entity;
+        });
+        if (row) {
+            row.data = data || {};
+            row.updated_at = now;
+        } else {
+            row = { id: _draftIdCounter++, username: username, category: category, entity: entity, data: data || {}, updated_at: now };
+            state.validation_drafts.push(row);
+        }
+        save();
+        return { id: row.id, username: row.username, category: row.category, entity: row.entity, data: row.data, updated_at: row.updated_at };
+    }
+
+    async function getValidationDraft({ username, category, entity }) {
+        return state.validation_drafts.find(function (d) {
+            return d.username === username && d.category === category && d.entity === entity;
+        }) || null;
+    }
+
     // Mirror local de unsignSessionStep (con cascada admin)
     async function unsignSessionStep({ id, role, username, userRole, expectedVersion }) {
         var s = state.report_signatures.find(function(x) { return x.id === id; });
@@ -2262,7 +2317,7 @@ function buildLocalStore() {
         return _localSignView(s);
     }
 
-    return { run, get, all, initDatabase, createInitialAdmin, getUserByUsername, getUserBySignatureCode, isSignatureCodeTaken, getUserById, createUser, updateLastLogin, getAllUsers, getUsersList, countUsers, toggleUserActive, changePassword, setPasswordTemp, updateUserProfile, updateUserProfileById, changeRole, logAccess, logAuditEvent, getAuditLog, countAuditLog, getAuditStats, verifyAuditChain, blacklistToken, isTokenBlacklisted, cleanExpiredBlacklist, registerDevice, isDeviceTrusted, getUserDevices, getAllDevices, countDevices, countUserDevices, setDeviceTrust, removeDevice, save2FASecret, get2FASecret, enable2FA, disable2FA, has2FAEnabled, saveWebAuthnChallenge, consumeWebAuthnChallenge, getWebAuthnCredentials, getWebAuthnCredential, addWebAuthnCredential, updateWebAuthnCounter, removeWebAuthnCredential, createSnapshot, getSnapshots, getSnapshotById, createSignSession, getSignSession, getSignSessionMeta, listSignSessions, countSignSessions, signQuotaInfo, signSessionStep, importSignSession, rejectSignSession, reopenSignSession, sendbackSignSession, amendSignSession, deleteSignSession, unsignSessionStep, dismissSignSession, purgeSignSessions };}
+    return { run, get, all, initDatabase, createInitialAdmin, getUserByUsername, getUserBySignatureCode, isSignatureCodeTaken, getUserById, createUser, updateLastLogin, getAllUsers, getUsersList, countUsers, toggleUserActive, changePassword, setPasswordTemp, updateUserProfile, updateUserProfileById, changeRole, logAccess, logAuditEvent, getAuditLog, countAuditLog, getAuditStats, verifyAuditChain, blacklistToken, isTokenBlacklisted, cleanExpiredBlacklist, registerDevice, isDeviceTrusted, getUserDevices, getAllDevices, countDevices, countUserDevices, setDeviceTrust, removeDevice, save2FASecret, get2FASecret, enable2FA, disable2FA, has2FAEnabled, saveWebAuthnChallenge, consumeWebAuthnChallenge, getWebAuthnCredentials, getWebAuthnCredential, addWebAuthnCredential, updateWebAuthnCounter, removeWebAuthnCredential, createSnapshot, getSnapshots, getSnapshotById, saveValidationDraft, getValidationDraft, createSignSession, getSignSession, getSignSessionMeta, listSignSessions, countSignSessions, signQuotaInfo, signSessionStep, importSignSession, rejectSignSession, reopenSignSession, sendbackSignSession, amendSignSession, deleteSignSession, unsignSessionStep, dismissSignSession, purgeSignSessions };}
 
 const impl = build();
 module.exports = {
@@ -2331,6 +2386,8 @@ module.exports = {
     dismissSignSession:     (...a) => impl.dismissSignSession(...a),
     purgeSignSessions:      (...a) => impl.purgeSignSessions(...a),
     getSnapshotById:      (...a) => impl.getSnapshotById(...a),
+    saveValidationDraft:  (...a) => impl.saveValidationDraft(...a),
+    getValidationDraft:   (...a) => impl.getValidationDraft(...a),
     run:                  (...a) => impl.run(...a),
     all:                 (...a) => impl.all(...a),
     get:                 (...a) => impl.get(...a),

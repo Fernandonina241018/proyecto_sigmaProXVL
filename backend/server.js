@@ -667,6 +667,45 @@ app.post('/api/logout', requireAuth, async (req, res) => {
     res.json({ ok: true });
 });
 
+// ── FASE 1 — Borradores de Validaciones ─────────────────────────
+// Aditivo y por usuario: el borrador no es un registro GMP todavía, pero
+// sobrevive al cierre del navegador. Los endpoints existentes no cambian.
+function _draftParam(v, max) {
+    const s = String(v || '').trim();
+    if (!s || s.length > (max || 80)) return null;
+    return /^[a-z0-9-]+$/.test(s) ? s : null;
+}
+
+app.get('/api/val/v1/drafts/:category/:entity', requireAuth, async (req, res) => {
+    const category = _draftParam(req.params.category);
+    const entity = _draftParam(req.params.entity);
+    if (!category || !entity) return res.status(400).json({ error: 'Categoría o entidad no válida' });
+    try {
+        const row = await db.getValidationDraft({ username: req.user.username, category, entity });
+        res.json({ ok: true, draft: row ? { data: row.data, updated_at: row.updated_at } : null });
+    } catch (err) {
+        console.error('Error reading validation draft:', err);
+        res.status(500).json({ error: 'Error al leer el borrador' });
+    }
+});
+
+app.put('/api/val/v1/drafts/:category/:entity', requireAuth, async (req, res) => {
+    const category = _draftParam(req.params.category);
+    const entity = _draftParam(req.params.entity);
+    if (!category || !entity) return res.status(400).json({ error: 'Categoría o entidad no válida' });
+    const data = req.body && req.body.data;
+    if (!data || typeof data !== 'object' || Array.isArray(data)) {
+        return res.status(400).json({ error: 'Los datos del borrador deben ser un objeto' });
+    }
+    try {
+        const row = await db.saveValidationDraft({ username: req.user.username, category, entity, data });
+        res.json({ ok: true, updated_at: row && row.updated_at });
+    } catch (err) {
+        console.error('Error saving validation draft:', err);
+        res.status(500).json({ error: 'Error al guardar el borrador' });
+    }
+});
+
 // GET /api/me — restaura sesión desde cookie httpOnly
 app.get('/api/me', requireAuth, async (req, res) => {
     const token = jwt.sign(
