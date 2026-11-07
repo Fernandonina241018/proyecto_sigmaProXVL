@@ -85,9 +85,9 @@ describe('banco de equipos: contrato', () => {
     ['OQ', 'etiquetadora', 30], // ENSAYOS.txt usuario (2026-10-11)
     ['PQ', 'etiquetadora', 20], // ENSAYOS.txt usuario (2026-10-11)
     ['OQ', 'refrigerador-lab', 19], // ENSAYOS.txt neveras (2026-10-14)
-    ['PQ', 'refrigerador-lab', 14], // ENSAYOS.txt neveras (2026-10-14)
+    ['PQ', 'refrigerador-lab', 16], // ENSAYOS.txt neveras + repetibilidad y revisión de registros (2026-11-06)
     ['OQ', 'congelador-lab', 19], // ENSAYOS.txt neveras (2026-10-14)
-    ['PQ', 'congelador-lab', 14], // ENSAYOS.txt neveras (2026-10-14)
+    ['PQ', 'congelador-lab', 16], // ENSAYOS.txt neveras + repetibilidad y revisión de registros (2026-11-06)
     ['PQ', 'lecho-fluido', 16],
     ['PQ', 'autoclave', 17],
     ['PQ', 'mezclador', 14],

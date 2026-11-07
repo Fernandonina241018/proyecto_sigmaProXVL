@@ -1,7 +1,7 @@
 // Generado por scripts/extraer-banco.mjs equipos — NO EDITAR A MANO.
-// Fuente: docs/banco-ensayos/equipos-comun.html + docs/banco-ensayos/equipos/oq-comun.html + docs/banco-ensayos/equipos/pq-comun.html + docs/banco-ensayos/equipos/iq-autoclave.html + docs/banco-ensayos/equipos/iq-tunel-despirogenizacion.html + docs/banco-ensayos/equipos/iq-liofilizador.html + docs/banco-ensayos/equipos/iq-reactor.html + docs/banco-ensayos/equipos/iq-horno-vacio.html + docs/banco-ensayos/equipos/iq-llenadora.html + docs/banco-ensayos/equipos/oq-llenadora.html + docs/banco-ensayos/equipos/oq-llenadora-tubos.html + docs/banco-ensayos/equipos/pq-llenadora.html + docs/banco-ensayos/equipos/pq-llenadora-tubos.html + docs/banco-ensayos/equipos/iq-lecho-fluido.html + docs/banco-ensayos/equipos/iq-tableteadora.html + docs/banco-ensayos/equipos/iq-encapsuladora.html + docs/banco-ensayos/equipos/iq-granulador.html + docs/banco-ensayos/equipos/iq-recubridora.html + docs/banco-ensayos/equipos/iq-blistera.html + docs/banco-ensayos/equipos/iq-detector-metales.html + docs/banco-ensayos/equipos/iq-etiquetadora.html + docs/banco-ensayos/equipos/iq-mezclador.html + docs/banco-ensayos/equipos/iq-horno-secado.html + docs/banco-ensayos/equipos/iq-sistema-cremas-vacio.html + docs/banco-ensayos/equipos/oq-reactor.html + docs/banco-ensayos/equipos/pq-reactor.html + docs/banco-ensayos/equipos/oq-sistema-cremas-vacio.html + docs/banco-ensayos/equipos/pq-sistema-cremas-vacio.html + docs/banco-ensayos/equipos/oq-tableteadora.html + docs/banco-ensayos/equipos/pq-tableteadora.html + docs/banco-ensayos/equipos/oq-encapsuladora.html + docs/banco-ensayos/equipos/pq-encapsuladora.html + docs/banco-ensayos/equipos/oq-granulador.html + docs/banco-ensayos/equipos/pq-granulador.html + docs/banco-ensayos/equipos/oq-recubridora.html + docs/banco-ensayos/equipos/pq-recubridora.html + docs/banco-ensayos/equipos/oq-blistera.html + docs/banco-ensayos/equipos/pq-blistera.html + docs/banco-ensayos/equipos/oq-detector-metales.html + docs/banco-ensayos/equipos/pq-detector-metales.html + docs/banco-ensayos/equipos/oq-etiquetadora.html + docs/banco-ensayos/equipos/pq-etiquetadora.html + docs/banco-ensayos/equipos/oq-lecho-fluido.html + docs/banco-ensayos/equipos/oq-autoclave.html + docs/banco-ensayos/equipos/oq-mezclador.html + docs/banco-ensayos/equipos/oq-horno.html + docs/banco-ensayos/equipos/pq-lecho-fluido.html + docs/banco-ensayos/equipos/pq-autoclave.html + docs/banco-ensayos/equipos/pq-mezclador.html + docs/banco-ensayos/equipos/pq-horno.html + docs/banco-ensayos/equipos/pq-horno-vacio.html + docs/banco-ensayos/equipos/oq-horno-vacio.html + docs/banco-ensayos/equipos/oq-refrigerador-lab.html + docs/banco-ensayos/equipos/pq-refrigerador-lab.html + docs/banco-ensayos/equipos/oq-congelador-lab.html + docs/banco-ensayos/equipos/pq-congelador-lab.html + docs/banco-ensayos/equipos/oq-balanza.html + docs/banco-ensayos/equipos/oq-viscosimetro.html (versión: EQ-COMUN 2026-11-04 v4 + EQ-OQ-COM 2026-11-04 v3 + EQ-PQ-COM 2026-11-04 v3 + EQ-IQ-AU 2026-10-07 v1 + EQ-IQ-TD 2026-10-07 v1 + EQ-IQ-LI 2026-10-07 v1 + EQ-IQ-RC 2026-10-21 v2 + EQ-IQ-VA 2026-10-21 v2 + EQ-IQ-LL 2026-10-29 v3 + EQ-OQ-LL 2026-10-29 v2 + EQ-OQ-LT 2026-10-29 v2 + EQ-PQ-LL 2026-10-29 v2 + EQ-PQ-LT 2026-10-29 v4 + EQ-IQ-LF 2026-10-07 v1 + EQ-IQ-TB 2026-10-08 v1 + EQ-IQ-EN 2026-10-08 v1 + EQ-IQ-GR 2026-10-08 v1 + EQ-IQ-RB 2026-10-09 v1 + EQ-IQ-BL 2026-10-09 v1 + EQ-IQ-DM 2026-10-11 v1 + EQ-IQ-ET 2026-10-11 v1 + EQ-IQ-MZ 2026-10-11 v1 + EQ-IQ-HO 2026-10-11 v1 + EQ-IQ-UC 2026-10-21 v2 + EQ-OQ-RC 2026-10-07 v1 + EQ-PQ-RC 2026-10-07 v1 + EQ-OQ-UC 2026-10-12 v1 + EQ-PQ-UC 2026-10-12 v1 + EQ-OQ-TB 2026-10-08 v1 + EQ-PQ-TB 2026-10-08 v1 + EQ-OQ-EN 2026-10-08 v1 + EQ-PQ-EN 2026-10-08 v1 + EQ-OQ-GR 2026-10-08 v1 + EQ-PQ-GR 2026-10-08 v1 + EQ-OQ-RB 2026-10-09 v1 + EQ-PQ-RB 2026-10-09 v1 + EQ-OQ-BL 2026-10-09 v1 + EQ-PQ-BL 2026-10-09 v1 + EQ-OQ-DM 2026-10-11 v1 + EQ-PQ-DM 2026-10-11 v1 + EQ-OQ-ET 2026-10-11 v1 + EQ-PQ-ET 2026-10-11 v1 + EQ-OQ-LF 2026-10-21 v3 + EQ-OQ-AU 2026-10-21 v3 + EQ-OQ-MZ 2026-10-21 v3 + EQ-OQ-HO 2026-10-21 v2 + EQ-PQ-LF 2026-10-21 v3 + EQ-PQ-AU 2026-10-21 v3 + EQ-PQ-MZ 2026-10-21 v3 + EQ-PQ-HO 2026-10-21 v2 + EQ-PQ-VA 2026-10-21 v2 + EQ-OQ-VA 2026-10-21 v2 + EQ-OQ-RF 2026-10-14 v1 + EQ-PQ-RF 2026-10-14 v1 + EQ-OQ-CG 2026-10-14 v1 + EQ-PQ-CG 2026-10-14 v1 + EQ-OQ-BA 2026-10-22 v1 + EQ-OQ-VS 2026-11-06 v1).
+// Fuente: docs/banco-ensayos/equipos-comun.html + docs/banco-ensayos/equipos/oq-comun.html + docs/banco-ensayos/equipos/pq-comun.html + docs/banco-ensayos/equipos/iq-autoclave.html + docs/banco-ensayos/equipos/iq-tunel-despirogenizacion.html + docs/banco-ensayos/equipos/iq-liofilizador.html + docs/banco-ensayos/equipos/iq-reactor.html + docs/banco-ensayos/equipos/iq-horno-vacio.html + docs/banco-ensayos/equipos/iq-llenadora.html + docs/banco-ensayos/equipos/oq-llenadora.html + docs/banco-ensayos/equipos/oq-llenadora-tubos.html + docs/banco-ensayos/equipos/pq-llenadora.html + docs/banco-ensayos/equipos/pq-llenadora-tubos.html + docs/banco-ensayos/equipos/iq-lecho-fluido.html + docs/banco-ensayos/equipos/iq-tableteadora.html + docs/banco-ensayos/equipos/iq-encapsuladora.html + docs/banco-ensayos/equipos/iq-granulador.html + docs/banco-ensayos/equipos/iq-recubridora.html + docs/banco-ensayos/equipos/iq-blistera.html + docs/banco-ensayos/equipos/iq-detector-metales.html + docs/banco-ensayos/equipos/iq-etiquetadora.html + docs/banco-ensayos/equipos/iq-mezclador.html + docs/banco-ensayos/equipos/iq-horno-secado.html + docs/banco-ensayos/equipos/iq-sistema-cremas-vacio.html + docs/banco-ensayos/equipos/oq-reactor.html + docs/banco-ensayos/equipos/pq-reactor.html + docs/banco-ensayos/equipos/oq-sistema-cremas-vacio.html + docs/banco-ensayos/equipos/pq-sistema-cremas-vacio.html + docs/banco-ensayos/equipos/oq-tableteadora.html + docs/banco-ensayos/equipos/pq-tableteadora.html + docs/banco-ensayos/equipos/oq-encapsuladora.html + docs/banco-ensayos/equipos/pq-encapsuladora.html + docs/banco-ensayos/equipos/oq-granulador.html + docs/banco-ensayos/equipos/pq-granulador.html + docs/banco-ensayos/equipos/oq-recubridora.html + docs/banco-ensayos/equipos/pq-recubridora.html + docs/banco-ensayos/equipos/oq-blistera.html + docs/banco-ensayos/equipos/pq-blistera.html + docs/banco-ensayos/equipos/oq-detector-metales.html + docs/banco-ensayos/equipos/pq-detector-metales.html + docs/banco-ensayos/equipos/oq-etiquetadora.html + docs/banco-ensayos/equipos/pq-etiquetadora.html + docs/banco-ensayos/equipos/oq-lecho-fluido.html + docs/banco-ensayos/equipos/oq-autoclave.html + docs/banco-ensayos/equipos/oq-mezclador.html + docs/banco-ensayos/equipos/oq-horno.html + docs/banco-ensayos/equipos/pq-lecho-fluido.html + docs/banco-ensayos/equipos/pq-autoclave.html + docs/banco-ensayos/equipos/pq-mezclador.html + docs/banco-ensayos/equipos/pq-horno.html + docs/banco-ensayos/equipos/pq-horno-vacio.html + docs/banco-ensayos/equipos/oq-horno-vacio.html + docs/banco-ensayos/equipos/oq-refrigerador-lab.html + docs/banco-ensayos/equipos/pq-refrigerador-lab.html + docs/banco-ensayos/equipos/oq-congelador-lab.html + docs/banco-ensayos/equipos/pq-congelador-lab.html + docs/banco-ensayos/equipos/oq-balanza.html + docs/banco-ensayos/equipos/oq-viscosimetro.html (versión: EQ-COMUN 2026-11-04 v4 + EQ-OQ-COM 2026-11-04 v3 + EQ-PQ-COM 2026-11-04 v3 + EQ-IQ-AU 2026-10-07 v1 + EQ-IQ-TD 2026-10-07 v1 + EQ-IQ-LI 2026-10-07 v1 + EQ-IQ-RC 2026-10-21 v2 + EQ-IQ-VA 2026-10-21 v2 + EQ-IQ-LL 2026-10-29 v3 + EQ-OQ-LL 2026-10-29 v2 + EQ-OQ-LT 2026-10-29 v2 + EQ-PQ-LL 2026-10-29 v2 + EQ-PQ-LT 2026-10-29 v4 + EQ-IQ-LF 2026-10-07 v1 + EQ-IQ-TB 2026-10-08 v1 + EQ-IQ-EN 2026-10-08 v1 + EQ-IQ-GR 2026-10-08 v1 + EQ-IQ-RB 2026-10-09 v1 + EQ-IQ-BL 2026-10-09 v1 + EQ-IQ-DM 2026-10-11 v1 + EQ-IQ-ET 2026-10-11 v1 + EQ-IQ-MZ 2026-10-11 v1 + EQ-IQ-HO 2026-10-11 v1 + EQ-IQ-UC 2026-10-21 v2 + EQ-OQ-RC 2026-10-07 v1 + EQ-PQ-RC 2026-10-07 v1 + EQ-OQ-UC 2026-10-12 v1 + EQ-PQ-UC 2026-10-12 v1 + EQ-OQ-TB 2026-10-08 v1 + EQ-PQ-TB 2026-10-08 v1 + EQ-OQ-EN 2026-10-08 v1 + EQ-PQ-EN 2026-10-08 v1 + EQ-OQ-GR 2026-10-08 v1 + EQ-PQ-GR 2026-10-08 v1 + EQ-OQ-RB 2026-10-09 v1 + EQ-PQ-RB 2026-10-09 v1 + EQ-OQ-BL 2026-10-09 v1 + EQ-PQ-BL 2026-10-09 v1 + EQ-OQ-DM 2026-10-11 v1 + EQ-PQ-DM 2026-10-11 v1 + EQ-OQ-ET 2026-10-11 v1 + EQ-PQ-ET 2026-10-11 v1 + EQ-OQ-LF 2026-10-21 v3 + EQ-OQ-AU 2026-10-21 v3 + EQ-OQ-MZ 2026-10-21 v3 + EQ-OQ-HO 2026-10-21 v2 + EQ-PQ-LF 2026-10-21 v3 + EQ-PQ-AU 2026-10-21 v3 + EQ-PQ-MZ 2026-10-21 v3 + EQ-PQ-HO 2026-10-21 v2 + EQ-PQ-VA 2026-10-21 v2 + EQ-OQ-VA 2026-10-21 v2 + EQ-OQ-RF 2026-10-14 v1 + EQ-PQ-RF 2026-11-06 v2 + EQ-OQ-CG 2026-10-14 v1 + EQ-PQ-CG 2026-11-06 v2 + EQ-OQ-BA 2026-10-22 v1 + EQ-OQ-VS 2026-11-06 v1).
 var BancoEquipos = {
- "version": "EQ-COMUN 2026-11-04 v4 + EQ-OQ-COM 2026-11-04 v3 + EQ-PQ-COM 2026-11-04 v3 + EQ-IQ-AU 2026-10-07 v1 + EQ-IQ-TD 2026-10-07 v1 + EQ-IQ-LI 2026-10-07 v1 + EQ-IQ-RC 2026-10-21 v2 + EQ-IQ-VA 2026-10-21 v2 + EQ-IQ-LL 2026-10-29 v3 + EQ-OQ-LL 2026-10-29 v2 + EQ-OQ-LT 2026-10-29 v2 + EQ-PQ-LL 2026-10-29 v2 + EQ-PQ-LT 2026-10-29 v4 + EQ-IQ-LF 2026-10-07 v1 + EQ-IQ-TB 2026-10-08 v1 + EQ-IQ-EN 2026-10-08 v1 + EQ-IQ-GR 2026-10-08 v1 + EQ-IQ-RB 2026-10-09 v1 + EQ-IQ-BL 2026-10-09 v1 + EQ-IQ-DM 2026-10-11 v1 + EQ-IQ-ET 2026-10-11 v1 + EQ-IQ-MZ 2026-10-11 v1 + EQ-IQ-HO 2026-10-11 v1 + EQ-IQ-UC 2026-10-21 v2 + EQ-OQ-RC 2026-10-07 v1 + EQ-PQ-RC 2026-10-07 v1 + EQ-OQ-UC 2026-10-12 v1 + EQ-PQ-UC 2026-10-12 v1 + EQ-OQ-TB 2026-10-08 v1 + EQ-PQ-TB 2026-10-08 v1 + EQ-OQ-EN 2026-10-08 v1 + EQ-PQ-EN 2026-10-08 v1 + EQ-OQ-GR 2026-10-08 v1 + EQ-PQ-GR 2026-10-08 v1 + EQ-OQ-RB 2026-10-09 v1 + EQ-PQ-RB 2026-10-09 v1 + EQ-OQ-BL 2026-10-09 v1 + EQ-PQ-BL 2026-10-09 v1 + EQ-OQ-DM 2026-10-11 v1 + EQ-PQ-DM 2026-10-11 v1 + EQ-OQ-ET 2026-10-11 v1 + EQ-PQ-ET 2026-10-11 v1 + EQ-OQ-LF 2026-10-21 v3 + EQ-OQ-AU 2026-10-21 v3 + EQ-OQ-MZ 2026-10-21 v3 + EQ-OQ-HO 2026-10-21 v2 + EQ-PQ-LF 2026-10-21 v3 + EQ-PQ-AU 2026-10-21 v3 + EQ-PQ-MZ 2026-10-21 v3 + EQ-PQ-HO 2026-10-21 v2 + EQ-PQ-VA 2026-10-21 v2 + EQ-OQ-VA 2026-10-21 v2 + EQ-OQ-RF 2026-10-14 v1 + EQ-PQ-RF 2026-10-14 v1 + EQ-OQ-CG 2026-10-14 v1 + EQ-PQ-CG 2026-10-14 v1 + EQ-OQ-BA 2026-10-22 v1 + EQ-OQ-VS 2026-11-06 v1",
+ "version": "EQ-COMUN 2026-11-04 v4 + EQ-OQ-COM 2026-11-04 v3 + EQ-PQ-COM 2026-11-04 v3 + EQ-IQ-AU 2026-10-07 v1 + EQ-IQ-TD 2026-10-07 v1 + EQ-IQ-LI 2026-10-07 v1 + EQ-IQ-RC 2026-10-21 v2 + EQ-IQ-VA 2026-10-21 v2 + EQ-IQ-LL 2026-10-29 v3 + EQ-OQ-LL 2026-10-29 v2 + EQ-OQ-LT 2026-10-29 v2 + EQ-PQ-LL 2026-10-29 v2 + EQ-PQ-LT 2026-10-29 v4 + EQ-IQ-LF 2026-10-07 v1 + EQ-IQ-TB 2026-10-08 v1 + EQ-IQ-EN 2026-10-08 v1 + EQ-IQ-GR 2026-10-08 v1 + EQ-IQ-RB 2026-10-09 v1 + EQ-IQ-BL 2026-10-09 v1 + EQ-IQ-DM 2026-10-11 v1 + EQ-IQ-ET 2026-10-11 v1 + EQ-IQ-MZ 2026-10-11 v1 + EQ-IQ-HO 2026-10-11 v1 + EQ-IQ-UC 2026-10-21 v2 + EQ-OQ-RC 2026-10-07 v1 + EQ-PQ-RC 2026-10-07 v1 + EQ-OQ-UC 2026-10-12 v1 + EQ-PQ-UC 2026-10-12 v1 + EQ-OQ-TB 2026-10-08 v1 + EQ-PQ-TB 2026-10-08 v1 + EQ-OQ-EN 2026-10-08 v1 + EQ-PQ-EN 2026-10-08 v1 + EQ-OQ-GR 2026-10-08 v1 + EQ-PQ-GR 2026-10-08 v1 + EQ-OQ-RB 2026-10-09 v1 + EQ-PQ-RB 2026-10-09 v1 + EQ-OQ-BL 2026-10-09 v1 + EQ-PQ-BL 2026-10-09 v1 + EQ-OQ-DM 2026-10-11 v1 + EQ-PQ-DM 2026-10-11 v1 + EQ-OQ-ET 2026-10-11 v1 + EQ-PQ-ET 2026-10-11 v1 + EQ-OQ-LF 2026-10-21 v3 + EQ-OQ-AU 2026-10-21 v3 + EQ-OQ-MZ 2026-10-21 v3 + EQ-OQ-HO 2026-10-21 v2 + EQ-PQ-LF 2026-10-21 v3 + EQ-PQ-AU 2026-10-21 v3 + EQ-PQ-MZ 2026-10-21 v3 + EQ-PQ-HO 2026-10-21 v2 + EQ-PQ-VA 2026-10-21 v2 + EQ-OQ-VA 2026-10-21 v2 + EQ-OQ-RF 2026-10-14 v1 + EQ-PQ-RF 2026-11-06 v2 + EQ-OQ-CG 2026-10-14 v1 + EQ-PQ-CG 2026-11-06 v2 + EQ-OQ-BA 2026-10-22 v1 + EQ-OQ-VS 2026-11-06 v1",
  "fases": {
   "DQ": [],
   "IQ": [
@@ -32425,7 +32425,7 @@ var BancoEquipos = {
     "kind": "div",
     "clase": "alcance",
     "bloque": 1,
-    "html": "<p><strong>ALCANCE</strong></p>\n<p>Esta calificación aplica a <span class=\"equipo\">equipo</span>, según protocolo PQ, y cubre los ensayos listados en el índice.</p>",
+    "html": "<p><strong>ALCANCE</strong></p>\n<p>Esta calificación aplica a <span class=\"equipo\">equipo</span>, según protocolo PQ, y cubre los ensayos listados en el índice.</p>\n<p><strong>Consolidación aprobada el 2026-11-06:</strong> la lista fuente de 20 ensayos se mantiene consolidada en 16 ensayos de banco. El ensayo 19 (repetibilidad del desempeño) se incorpora como <strong>EQ-PQ-RF-015</strong> y el ensayo 20 (revisión de registros y datos) como <strong>EQ-PQ-RF-016</strong>; los ensayos 1 y 2 quedan cubiertos por los requisitos comunes (<code>EQ-PQ-REQ</code> y <code>EQ-PQ-COM-001</code>) y las fusiones de mapeo, apertura+recuperación, falla+recuperación y alarmas se conservan. El congelador de laboratorio usa este mismo protocolo: solo cambia el rango de temperatura (2–8 °C frente a −20 °C); los setpoints y criterios se toman de la URS de cada equipo.</p>",
     "familia": "refrigerador-lab"
    },
    {
@@ -32918,6 +32918,73 @@ var BancoEquipos = {
     "familia": "refrigerador-lab"
    },
    {
+    "kind": "ensayo",
+    "id": "EQ-PQ-RF-015",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-RF-015 — Repetibilidad del desempeño",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que el desempeño térmico del refrigerador es repetible entre ciclos de mapeo independientes, en las mismas condiciones de carga y setpoint."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Repetir el mapeo con carga representativa de EQ-PQ-RF-001 o EQ-PQ-RF-002 al menos tres veces, en días distintos o con reubicación de sensores, manteniendo el setpoint y la carga<br>\n  2) Registrar por sensor y por ciclo la temperatura media, mínima y máxima<br>\n  3) Calcular la diferencia entre ciclos por sensor (máxima diferencia de medias y de extremos)<br>\n  4) Procesar los datos crudos de repetibilidad en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = temperatura media, mínima y máxima por sensor y ciclo; tamaño de muestra = mínimo 3 ciclos × todos los sensores del mapeo; estadísticos = media, desviación estándar, RSD y rango entre ciclos por sensor, y coeficiente de correlación intraclase cuando el diseño lo permita; tendencia = diferencia entre ciclos contra el orden de ejecución; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en la URS aprobada y en los criterios del mapeo (EQ-PQ-RF-001/002/004)."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  La diferencia entre ciclos por sensor está dentro del criterio definido en la URS aprobada.<br>\n  Todos los sensores permanecen dentro del rango en los tres ciclos.<br>\n  La repetibilidad (RSD o diferencia máxima entre ciclos) está dentro del criterio aprobado."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de los ciclos de repetibilidad con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de repetibilidad<br>\n  - Certificados vigentes de los sensores utilizados"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>URS aprobada (rangos y criterios); EU GMP Anexo 15."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "refrigerador-lab"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-RF-016",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-RF-016 — Revisión de registros y datos",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que los registros del PQ están completos, legibles, trazables y revisados conforme a ALCOA+, y que la data cruda y los reportes coinciden con el informe."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Revisar que cada ensayo del PQ tenga registro con fecha, hora, identificación del equipo, sensor, setpoint y responsable<br>\n  2) Verificar que cada excursión o desviación tenga evaluación de impacto y disposición documentada<br>\n  3) Verificar que la data cruda y los reportes estadísticos estén anexados y coincidan con el informe<br>\n  4) Verificar que las correcciones estén firmadas, fechadas y justificadas, sin borrado ni sobreescritura"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  El 100 % de los ensayos tiene registro completo y trazable.<br>\n  Toda excursión o desviación tiene evaluación de impacto y disposición documentada.<br>\n  La data cruda y los reportes están anexados y son consistentes con el informe.<br>\n  Las correcciones son trazables (ALCOA+)."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Lista de verificación de registros por ensayo (anexo del informe)<br>\n  - Registro de revisión de data cruda, reportes y desviaciones"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>EU GMP Anexo 15; 21 CFR Part 11 / EU GMP Anexo 11; ALCOA+."
+     }
+    ],
+    "tabla": null,
+    "familia": "refrigerador-lab"
+   },
+   {
     "kind": "resumen",
     "id": "EQ-PQ-RF-RES",
     "bloque": 4,
@@ -32930,11 +32997,11 @@ var BancoEquipos = {
      },
      {
       "et": "Procedimiento",
-      "html": "<strong>Procedimiento:</strong><br>\n  1) Confirmar que los ensayos EQ-PQ-RF-001 a EQ-PQ-RF-014 están incluidos en el índice del protocolo"
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Confirmar que los ensayos EQ-PQ-RF-001 a EQ-PQ-RF-016 están incluidos en el índice del protocolo"
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Los 14 ensayos aparecen en la tabla resumen con su veredicto."
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Los 16 ensayos aparecen en la tabla resumen con su veredicto."
      },
      {
       "et": "Referencia",
@@ -32981,7 +33048,7 @@ var BancoEquipos = {
     "kind": "div",
     "clase": "anexos",
     "bloque": 8,
-    "html": "<p><strong>ANEXOS:</strong></p>\n<table>\n<tbody><tr><th>SECCIÓN</th><th>TÍTULO</th></tr>\n<tr><td>8.1</td><td>Anexo A — Registros de mapeo con carga, hold-up y operación continua</td></tr>\n<tr><td>8.2</td><td>Anexo B — Certificados de calibración de patrones e instrumentos</td></tr>\n<tr><td>8.3</td><td>Anexo C — Registros de retos, excursiones y alarmas verificadas</td></tr>\n<tr><td>8.4</td><td>Anexo D — Matriz de trazabilidad requisito-prueba (RTM) y evidencia de revisión</td></tr>\n</tbody></table>",
+    "html": "<p><strong>ANEXOS:</strong></p>\n<table>\n<tbody><tr><th>SECCIÓN</th><th>TÍTULO</th></tr>\n<tr><td>8.1</td><td>Anexo A — Registros de mapeo con carga, hold-up, operación continua y repetibilidad del desempeño</td></tr>\n<tr><td>8.2</td><td>Anexo B — Certificados de calibración de patrones e instrumentos</td></tr>\n<tr><td>8.3</td><td>Anexo C — Registros de retos, excursiones y alarmas verificadas; revisión de registros y datos</td></tr>\n<tr><td>8.4</td><td>Anexo D — Matriz de trazabilidad requisito-prueba (RTM) y evidencia de revisión</td></tr>\n</tbody></table>",
     "familia": "refrigerador-lab"
    },
    {
@@ -33009,7 +33076,7 @@ var BancoEquipos = {
     "kind": "div",
     "clase": "alcance",
     "bloque": 1,
-    "html": "<p><strong>ALCANCE</strong></p>\n<p>Esta calificación aplica a <span class=\"equipo\">equipo</span>, según protocolo PQ, y cubre los ensayos listados en el índice.</p>",
+    "html": "<p><strong>ALCANCE</strong></p>\n<p>Esta calificación aplica a <span class=\"equipo\">equipo</span>, según protocolo PQ, y cubre los ensayos listados en el índice.</p>\n<p><strong>Consolidación aprobada el 2026-11-06:</strong> la lista fuente de 20 ensayos se mantiene consolidada en 16 ensayos de banco. El ensayo 19 (repetibilidad del desempeño) se incorpora como <strong>EQ-PQ-CG-015</strong> y el ensayo 20 (revisión de registros y datos) como <strong>EQ-PQ-CG-016</strong>; los ensayos 1 y 2 quedan cubiertos por los requisitos comunes (<code>EQ-PQ-REQ</code> y <code>EQ-PQ-COM-001</code>) y las fusiones de mapeo, apertura+recuperación, falla+recuperación y alarmas se conservan. El refrigerador de laboratorio usa este mismo protocolo: solo cambia el rango de temperatura (−20 °C frente a 2–8 °C); los setpoints y criterios se toman de la URS de cada equipo.</p>",
     "familia": "congelador-lab"
    },
    {
@@ -33502,6 +33569,73 @@ var BancoEquipos = {
     "familia": "congelador-lab"
    },
    {
+    "kind": "ensayo",
+    "id": "EQ-PQ-CG-015",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-CG-015 — Repetibilidad del desempeño",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que el desempeño térmico del congelador es repetible entre ciclos de mapeo independientes, en las mismas condiciones de carga y setpoint."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Repetir el mapeo con carga representativa de EQ-PQ-CG-001 o EQ-PQ-CG-002 al menos tres veces, en días distintos o con reubicación de sensores, manteniendo el setpoint y la carga<br>\n  2) Registrar por sensor y por ciclo la temperatura media, mínima y máxima<br>\n  3) Calcular la diferencia entre ciclos por sensor (máxima diferencia de medias y de extremos)<br>\n  4) Procesar los datos crudos de repetibilidad en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = temperatura media, mínima y máxima por sensor y ciclo; tamaño de muestra = mínimo 3 ciclos × todos los sensores del mapeo; estadísticos = media, desviación estándar, RSD y rango entre ciclos por sensor, y coeficiente de correlación intraclase cuando el diseño lo permita; tendencia = diferencia entre ciclos contra el orden de ejecución; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en la URS aprobada y en los criterios del mapeo (EQ-PQ-CG-001/002/004)."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  La diferencia entre ciclos por sensor está dentro del criterio definido en la URS aprobada.<br>\n  Todos los sensores permanecen dentro del rango en los tres ciclos.<br>\n  La repetibilidad (RSD o diferencia máxima entre ciclos) está dentro del criterio aprobado."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de los ciclos de repetibilidad con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de repetibilidad<br>\n  - Certificados vigentes de los sensores utilizados"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>URS aprobada (rangos y criterios); EU GMP Anexo 15."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "congelador-lab"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-CG-016",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-CG-016 — Revisión de registros y datos",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que los registros del PQ están completos, legibles, trazables y revisados conforme a ALCOA+, y que la data cruda y los reportes coinciden con el informe."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Revisar que cada ensayo del PQ tenga registro con fecha, hora, identificación del equipo, sensor, setpoint y responsable<br>\n  2) Verificar que cada excursión o desviación tenga evaluación de impacto y disposición documentada<br>\n  3) Verificar que la data cruda y los reportes estadísticos estén anexados y coincidan con el informe<br>\n  4) Verificar que las correcciones estén firmadas, fechadas y justificadas, sin borrado ni sobreescritura"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  El 100 % de los ensayos tiene registro completo y trazable.<br>\n  Toda excursión o desviación tiene evaluación de impacto y disposición documentada.<br>\n  La data cruda y los reportes están anexados y son consistentes con el informe.<br>\n  Las correcciones son trazables (ALCOA+)."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Lista de verificación de registros por ensayo (anexo del informe)<br>\n  - Registro de revisión de data cruda, reportes y desviaciones"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>EU GMP Anexo 15; 21 CFR Part 11 / EU GMP Anexo 11; ALCOA+."
+     }
+    ],
+    "tabla": null,
+    "familia": "congelador-lab"
+   },
+   {
     "kind": "resumen",
     "id": "EQ-PQ-CG-RES",
     "bloque": 4,
@@ -33514,11 +33648,11 @@ var BancoEquipos = {
      },
      {
       "et": "Procedimiento",
-      "html": "<strong>Procedimiento:</strong><br>\n  1) Confirmar que los ensayos EQ-PQ-CG-001 a EQ-PQ-CG-014 están incluidos en el índice del protocolo"
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Confirmar que los ensayos EQ-PQ-CG-001 a EQ-PQ-CG-016 están incluidos en el índice del protocolo"
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Los 14 ensayos aparecen en la tabla resumen con su veredicto."
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Los 16 ensayos aparecen en la tabla resumen con su veredicto."
      },
      {
       "et": "Referencia",
@@ -33565,7 +33699,7 @@ var BancoEquipos = {
     "kind": "div",
     "clase": "anexos",
     "bloque": 8,
-    "html": "<p><strong>ANEXOS:</strong></p>\n<table>\n<tbody><tr><th>SECCIÓN</th><th>TÍTULO</th></tr>\n<tr><td>8.1</td><td>Anexo A — Registros de mapeo con carga, hold-up y operación continua</td></tr>\n<tr><td>8.2</td><td>Anexo B — Certificados de calibración de patrones e instrumentos</td></tr>\n<tr><td>8.3</td><td>Anexo C — Registros de retos, excursiones y alarmas verificadas</td></tr>\n<tr><td>8.4</td><td>Anexo D — Matriz de trazabilidad requisito-prueba (RTM) y evidencia de revisión</td></tr>\n</tbody></table>",
+    "html": "<p><strong>ANEXOS:</strong></p>\n<table>\n<tbody><tr><th>SECCIÓN</th><th>TÍTULO</th></tr>\n<tr><td>8.1</td><td>Anexo A — Registros de mapeo con carga, hold-up, operación continua y repetibilidad del desempeño</td></tr>\n<tr><td>8.2</td><td>Anexo B — Certificados de calibración de patrones e instrumentos</td></tr>\n<tr><td>8.3</td><td>Anexo C — Registros de retos, excursiones y alarmas verificadas; revisión de registros y datos</td></tr>\n<tr><td>8.4</td><td>Anexo D — Matriz de trazabilidad requisito-prueba (RTM) y evidencia de revisión</td></tr>\n</tbody></table>",
     "familia": "congelador-lab"
    }
   ]
