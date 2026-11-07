@@ -1,15 +1,19 @@
-// Manifiesto del banco (conteos build-time). Regenerar si cambia docs/.
+// Manifiesto de respaldo (fallback). La vista de Validaciones calcula los
+// conteos en runtime desde banco-almacenes/equipos/estabilidad/sistemas.
+// Este archivo solo se usa si los bancos no están cargados (tests o caché vieja).
 const ValidacionesManifest = {
-  "total": 103,
+  "total": 1230,
   "fases": {
-    "DQ": 13,
-    "IQ": 36,
-    "OQ": 29,
-    "PQ": 25
+    "DQ": 1,
+    "IQ": 174,
+    "OQ": 604,
+    "PQ": 451
   },
   "categorias": {
-    "almacenes": 43,
-    "estabilidad": 60
+    "almacenes": 27,
+    "equipos": 902,
+    "estabilidad": 40,
+    "sistemas": 261
   },
-  "_nota": "Conteos build-time del banco docs/. Regenerar si cambia el banco."
+  "_nota": "Fallback al 2026-11-07; manifest() calcula en runtime desde los bancos."
 };

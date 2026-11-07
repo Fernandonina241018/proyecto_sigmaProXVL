@@ -90,6 +90,35 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (SigmaProXVL) con spr
 
 ## CAMBIOS RECIENTES
 
+### 2026-11-07 (249): Validaciones — dashboard con manifiesto dinámico desde los bancos
+
+**Qué:** Las cards del dashboard de Validaciones dejan de leer el manifiesto estático y calculan sus conteos en runtime desde los cuatro bancos cargados.
+
+- **`manifest()`:** recorre `BancoAlmacenes`, `BancoEquipos`, `BancoEstabilidad` y `BancoSistemas`; cuenta los ensayos con `id` y `bloque 2/3` por fase (`DQ/IQ/OQ/PQ`) y por categoría.
+- **Cards:** muestran el banco real (**1.230** ensayos; DQ 1 · IQ 174 · OQ 604 · PQ 451) y formatean miles con `es-ES` (`1.230`).
+- **Panel lateral y generador:** usan el mismo total dinámico.
+- **Fallback:** `validaciones-manifest.js` queda solo como respaldo si los bancos no están cargados; se actualizó a los conteos del 2026-11-07.
+- **Pruebas:** 3 tests nuevos del manifiesto (suma por fase/categoría, prioridad sobre el estático y fallback).
+
+**Archivos afectados:**
+| Archivo | Cambio |
+|---------|--------|
+| `js/core/indexx-validaciones.js` | `manifest()` dinámico, formato de miles y export de `manifest` |
+| `js/core/validaciones-manifest.js` | Fallback actualizado y documentado |
+| `tests/validaciones-panel.test.js` | 3 tests del manifiesto dinámico |
+| `ESTADO_PROYECTO.md` | Entrada 249 |
+
+**Verificación:**
+```
+Validaciones panel → 38 tests OK
+Manifest real (Chromium) → total 1.230 / DQ 1 / IQ 174 / OQ 604 / PQ 451
+Categorías → almacenes 27 · equipos 902 · estabilidad 40 · sistemas 261
+Cards → 1.230 / 1 / 174 / 604 / 451
+Panel lateral → 1.230
+```
+
+**Nota:** si se agrega o retira un ensayo del banco, las cards se actualizan al recargar la página con el nuevo JS; ya no hay que editar `validaciones-manifest.js`.
+
 ### 2026-11-07 (248): Dashboard V1 — Fase 3 (calendario, tipografía y datos coherentes)
 
 **Qué:** Se cierra la Fase 3 del prototipo `docs/prototipos/SigmaProXVL_dashboard_V1_adaptable.html`.

@@ -346,7 +346,43 @@ const Validaciones = (() => {
     return CATS.filter((c) => c.id === id)[0] || null;
   }
 
+  function _contarBanco(banco) {
+    const out = { total: 0, fases: { DQ: 0, IQ: 0, OQ: 0, PQ: 0 } };
+    if (!banco || !banco.fases) return out;
+    ['DQ', 'IQ', 'OQ', 'PQ'].forEach(function (fase) {
+      const items = Array.isArray(banco.fases[fase]) ? banco.fases[fase] : [];
+      const n = items.filter(function (i) {
+        return i && i.id && (i.bloque === 2 || i.bloque === 3);
+      }).length;
+      out.fases[fase] = n;
+      out.total += n;
+    });
+    return out;
+  }
+
   function manifest() {
+    // Cómputo en runtime desde los bancos cargados. Evita que las cards
+    // queden congeladas en validaciones-manifest.js (fallback de arranque).
+    const fuentes = [
+      ['almacenes', typeof BancoAlmacenes !== 'undefined' ? BancoAlmacenes : null],
+      ['equipos', typeof BancoEquipos !== 'undefined' ? BancoEquipos : null],
+      ['estabilidad', typeof BancoEstabilidad !== 'undefined' ? BancoEstabilidad : null],
+      ['sistemas', typeof BancoSistemas !== 'undefined' ? BancoSistemas : null],
+    ];
+    const total = { total: 0, fases: { DQ: 0, IQ: 0, OQ: 0, PQ: 0 }, categorias: {} };
+    let cargados = 0;
+    fuentes.forEach(function (par) {
+      const id = par[0];
+      const banco = par[1];
+      if (!banco || !banco.fases) return;
+      cargados += 1;
+      const c = _contarBanco(banco);
+      total.categorias[id] = c.total;
+      total.total += c.total;
+      ['DQ', 'IQ', 'OQ', 'PQ'].forEach(function (fase) { total.fases[fase] += c.fases[fase]; });
+    });
+    if (cargados > 0) return total;
+    // Sin bancos cargados (tests o HTML viejo en caché): fallback estático.
     try {
       if (typeof ValidacionesManifest !== 'undefined') return ValidacionesManifest;
     } catch (e) {}
@@ -426,6 +462,9 @@ const Validaciones = (() => {
   }
 
   // ── Vista banco (réplica V7) ──
+  function fmtNum(n) {
+    return Number(n || 0).toLocaleString('es-ES', { useGrouping: true });
+  }
   function viewBanco() {
     const m = manifest();
     const f = m.fases || {};
@@ -444,7 +483,7 @@ const Validaciones = (() => {
       + '</div>'
       + '<div class="v7-stats">'
       + cards.map((c) => '<div class="v7-stat"><div class="t">' + c.t + '</div>'
-        + '<div class="v">' + c.v + ' <small>' + c.u + '</small></div>' + c.g + '</div>').join('')
+        + '<div class="v">' + fmtNum(c.v) + ' <small>' + c.u + '</small></div>' + c.g + '</div>').join('')
       + '</div>'
       + '<div class="v7-mid">'
       + '<div class="v7-panel"><div class="ph">Actividad de calificación'
@@ -454,7 +493,7 @@ const Validaciones = (() => {
       + '<path d="M0,120 C30,110 45,70 70,78 C95,86 105,50 130,58 C155,66 165,95 190,88 C215,81 225,45 250,52 C275,59 285,40 300,44" fill="none" stroke="#ff5c1a" stroke-width="2.5" stroke-linecap="round"/>'
       + '<circle cx="130" cy="58" r="4" fill="#ff5c1a"/></svg></div>'
       + '<div class="v7-panel v7-gen"><div class="gt">Generador de protocolos</div>'
-      + '<div class="big">' + (f.DQ + f.IQ + f.OQ + f.PQ || '—') + '</div>'
+      + '<div class="big">' + (f.DQ + f.IQ + f.OQ + f.PQ ? fmtNum(f.DQ + f.IQ + f.OQ + f.PQ) : '—') + '</div>'
       + '<div class="sub">ensayos listos · 1 .docx por protocolo</div>'
       + '<button type="button" disabled>Próximamente</button></div>'
       + '</div>'
@@ -487,7 +526,7 @@ const Validaciones = (() => {
       + '<div class="nm">' + esc(user || 'usuario') + '</div>'
       + '<div class="rl">' + esc(role) + '</div></div>'
       + '<div class="v7-pstats">'
-      + '<div><div class="pv">' + (m.total || 0) + '</div><div class="pl">Ensayos</div></div>'
+      + '<div><div class="pv">' + fmtNum(m.total) + '</div><div class="pl">Ensayos</div></div>'
       + '<div><div class="pv">4</div><div class="pl">Fases</div></div>'
       + '<div><div class="pv">5</div><div class="pl">Categorías</div></div>'
       + '</div>'
@@ -1412,7 +1451,7 @@ const Validaciones = (() => {
   return {
     CATS, ROUTES, ENTIDADES, SCHEMAS, FASES_GEN, GEN_FASES, AREAS_GERENCIA, parseRoute, catById, getSchema, getEntidades,
     entidadPorNombre,
-    puestoGerente, firmantesHtml, saveDraft, loadDraft, saveGen, loadGen, viewEntidad, show, hide, apply, currentArea, render, contarGen, tieneBancoFam, estadoBancoFam, resolverDescripcion, mejorarFecha,
+    puestoGerente, firmantesHtml, saveDraft, loadDraft, saveGen, loadGen, viewEntidad, show, hide, apply, currentArea, render, contarGen, tieneBancoFam, estadoBancoFam, resolverDescripcion, mejorarFecha, manifest,
   };
 })();
 
