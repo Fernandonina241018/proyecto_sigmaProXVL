@@ -90,6 +90,40 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (SigmaProXVL) con spr
 
 ## CAMBIOS RECIENTES
 
+### 2026-11-07 (247): Dashboard V1 — Fase 2 (accesibilidad)
+
+**Qué:** Se aplica la Fase 2 de accesibilidad al prototipo `docs/prototipos/SigmaProXVL_dashboard_V1_adaptable.html`.
+
+- **Estructura:** skip link “Saltar al contenido” como primer foco; `<main id="main-content" tabindex="-1">`; nombres accesibles en los dos `<nav>` (`Menú principal`, `Configuración`) y `aria-current="page"` en Dashboard.
+- **Decorativos:** `aria-hidden="true"` en los 23 iconos/glyphs decorativos (marca, menú, KPIs, categorías, tareas, estado, flechas, chevron y campana).
+- **Estado:** `role="status"` + `aria-atomic="true"` en “Todos los sistemas operativos”.
+- **Contraste:** `nav-label` y footer pasan de `#68788d`/`#66768a` a `#8494a8` (≥4,5:1); placeholder explícito `#9aa9ba`.
+- **Preferencias:** `color-scheme: dark` en `:root`; bloque `prefers-reduced-motion` que anula transiciones/animaciones y el `translateY` de categorías.
+- **Foco:** `:focus-visible` con outline naranja de 2 px.
+
+**Archivos afectados:**
+| Archivo | Cambio |
+|---------|--------|
+| `docs/prototipos/SigmaProXVL_dashboard_V1_adaptable.html` | Fase 2 de accesibilidad |
+| `ESTADO_PROYECTO.md` | Entrada 247 |
+
+**Verificación (Playwright/Chromium a 360 px):**
+```
+nav labels: Menú principal / Configuración
+aria-current: page
+iconos decorativos ocultos: 23/23
+nav-label y footer: rgb(132,148,168) → ≥4,5:1
+placeholder: rgb(154,169,186) → ≥4,5:1
+color-scheme: dark
+skip link: primer foco, destino #main-content
+role=status: presente
+prefers-reduced-motion: transition 1e-05s, transform none
+overflow horizontal: 0 px
+errores de consola: 0
+```
+
+**Pendiente (Fase 3):** calendario semántico, tipografía mínima 11–12 px, coherencia de métricas (103 vs banco real, “PQ - Diseño” vs DQ) y carga real de Inter.
+
 ### 2026-11-07 (246): Dashboard V1 — Fase 0 y Fase 1 (responsive y navegación móvil)
 
 **Qué:** Se incorporó el prototipo `SigmaProXVL_dashboard_V1_adaptable.html` a `docs/prototipos/` y se corrigieron los bloqueos de experiencia detectados en la auditoría con Chromium headless. El archivo original en `~/Descargas/protocolos/` queda intacto.
