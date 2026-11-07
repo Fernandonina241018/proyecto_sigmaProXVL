@@ -87,7 +87,7 @@ describe('Validaciones V7', () => {
     }
     // <base target="_blank"> en indexx.html: los enlaces in-app deben forzar _self
     const src = readFileSync(join(core, 'indexx-validaciones.js'), 'utf-8');
-    const catLine = src.split('\n').find((l) => l.indexOf('class="v7-cat') >= 0) || '';
+    const catLine = src.split('\n').find((l) => l.indexOf('class="category') >= 0) || '';
     expect(catLine).toContain('target="_self"');
     expect(src).not.toContain('docs/banco-ensayos');
   });
@@ -329,8 +329,11 @@ describe('Validaciones V7', () => {
     expect(Validaciones.getSchema('cuarto-frio')).toBeDefined();
   });
 
-  test('4 rutas en el riel', () => {
-    expect(Validaciones.ROUTES.map((r) => r.id)).toEqual(['banco', 'generador', 'protocolos', 'firmas']);
+  test('rutas del shell de Validaciones', () => {
+    expect(Validaciones.ROUTES.map((r) => r.id)).toEqual([
+      'banco', 'protocolos', 'generador', 'firmas', 'documentacion',
+      'calendario', 'reportes', 'configuracion', 'ayuda',
+    ]);
   });
 
   test('apply validaciones muestra shell, estadistica la oculta', () => {

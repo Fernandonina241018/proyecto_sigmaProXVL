@@ -326,10 +326,15 @@ const Validaciones = (() => {
   }
 
   const ROUTES = [
-    { id: 'banco', icono: '▦' },
-    { id: 'generador', icono: '📄' },
-    { id: 'protocolos', icono: '📋' },
-    { id: 'firmas', icono: '✍️' },
+    { id: 'banco', icono: '▦', label: 'Dashboard', grupo: 'main' },
+    { id: 'protocolos', icono: '▤', label: 'Protocolos', grupo: 'main' },
+    { id: 'generador', icono: '◈', label: 'Generador de protocolos', grupo: 'main' },
+    { id: 'firmas', icono: '✍️', label: 'Firmas', grupo: 'main' },
+    { id: 'documentacion', icono: '▣', label: 'Documentación', grupo: 'main' },
+    { id: 'calendario', icono: '◷', label: 'Calendario', grupo: 'main' },
+    { id: 'reportes', icono: '▥', label: 'Reportes', grupo: 'main' },
+    { id: 'configuracion', icono: '⚙', label: 'Configuración', grupo: 'config' },
+    { id: 'ayuda', icono: 'ⓘ', label: 'Ayuda y soporte', grupo: 'config' },
   ];
 
   const VALID_ROUTES = ROUTES.map((r) => r.id);
@@ -461,49 +466,121 @@ const Validaciones = (() => {
       + ' transform="rotate(-90 15 15)" stroke-linecap="round"/></svg>';
   }
 
-  // ── Vista banco (réplica V7) ──
+  // ── Dashboard (shell del prototipo V1) ──
   function fmtNum(n) {
     return Number(n || 0).toLocaleString('es-ES', { useGrouping: true });
   }
+
+  function fechaCorte() {
+    try {
+      return new Date().toLocaleDateString('es-ES', { day: '2-digit', month: 'short', year: 'numeric' });
+    } catch (e) { return 'hoy'; }
+  }
+
+  function calendarHtml() {
+    const now = new Date();
+    const y = now.getFullYear();
+    const mo = now.getMonth();
+    const meses = ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio',
+      'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'];
+    const primerDia = (new Date(y, mo, 1).getDay() + 6) % 7; // lunes = 0
+    const dias = new Date(y, mo + 1, 0).getDate();
+    const rows = [];
+    let row = [];
+    for (let i = 0; i < primerDia; i++) row.push('<td></td>');
+    for (let d = 1; d <= dias; d++) {
+      const hoy = d === now.getDate();
+      row.push('<td' + (hoy ? ' class="today" aria-current="date"' : '') + '>' + d + '</td>');
+      if (row.length === 7) { rows.push('<tr>' + row.join('') + '</tr>'); row = []; }
+    }
+    if (row.length) {
+      while (row.length < 7) row.push('<td></td>');
+      rows.push('<tr>' + row.join('') + '</tr>');
+    }
+    return '<table class="calendar" aria-label="Calendario de ' + meses[mo] + ' de ' + y + '">'
+      + '<thead><tr><th scope="col">L</th><th scope="col">M</th><th scope="col">M</th>'
+      + '<th scope="col">J</th><th scope="col">V</th><th scope="col">S</th><th scope="col">D</th></tr></thead>'
+      + '<tbody>' + rows.join('') + '</tbody></table>';
+  }
+
+  function tasksHtml() {
+    return '<div class="task-list">'
+      + '<div class="task"><i class="task-mark" aria-hidden="true"></i><div><strong>Revisión de protocolo IQ</strong><small>06 Nov · 10:00 AM</small></div></div>'
+      + '<div class="task"><i class="task-mark" aria-hidden="true" style="background:var(--blue)"></i><div><strong>Validación de equipo</strong><small>09 Nov · 02:30 PM</small></div></div>'
+      + '<div class="task"><i class="task-mark" aria-hidden="true" style="background:var(--purple)"></i><div><strong>Informe de estabilidad</strong><small>12 Nov · 09:00 AM</small></div></div>'
+      + '</div>';
+  }
+
   function viewBanco() {
     const m = manifest();
     const f = m.fases || {};
+    const cats = m.categorias || {};
     const cards = [
-      { t: 'Ensayos totales', v: m.total || 0, u: 'banco', g: sparkBars([4, 7, 5, 9, 6, 11, 8], '#ff5c1a') },
-      { t: 'DQ · Diseño', v: f.DQ || 0, u: 'fase', g: sparkPulse('#e13d8f') },
-      { t: 'IQ · Instalación', v: f.IQ || 0, u: 'fase', g: sparkRing(72, '#34c98e') },
-      { t: 'OQ · Operación', v: f.OQ || 0, u: 'fase', g: sparkBars([6, 3, 8, 5, 9, 4, 7], '#4f9cf7') },
-      { t: 'PQ · Desempeño', v: f.PQ || 0, u: 'fase', g: sparkPulse('#7c5cf0') },
+      { t: 'Ensayos en el banco', v: m.total || 0, u: 'Total del banco', i: '▤', s: '--accent:#ffad5d;--glow:#f28a32;--glowbg:#f28a3220', g: sparkBars([4, 7, 5, 9, 6, 11, 8], '#ff5c1a') },
+      { t: 'DQ · Diseño', v: f.DQ || 0, u: 'Ensayos catalogados', i: '◇', s: '--accent:#58a9ed;--glow:#58a9ed;--glowbg:#58a9ed20', g: sparkPulse('#e13d8f') },
+      { t: 'IQ · Instalación', v: f.IQ || 0, u: 'Ensayos catalogados', i: '⌂', s: '--accent:#42c69a;--glow:#42c69a;--glowbg:#42c69a20', g: sparkRing(72, '#34c98e') },
+      { t: 'OQ · Operación', v: f.OQ || 0, u: 'Ensayos catalogados', i: '⚙', s: '--accent:#a78bfa;--glow:#a78bfa;--glowbg:#a78bfa20', g: sparkBars([6, 3, 8, 5, 9, 4, 7], '#4f9cf7') },
+      { t: 'PQ · Desempeño', v: f.PQ || 0, u: 'Ensayos catalogados', i: '▥', s: '--accent:#e9a3c6;--glow:#e9a3c6;--glowbg:#e9a3c620', g: sparkPulse('#7c5cf0') },
     ];
-    const user = currentUser();
-    return '<div class="v7-top">'
-      + '<div class="v7-hello">' + dayPart() + ', ' + esc(user || 'usuario') + ' 👋<small>¿Qué vas a calificar hoy?</small></div>'
-      + '<label class="v7-search">🔍<input id="v7-search" placeholder="Buscar categoría o entidad…" aria-label="Buscar"></label>'
-      + '<button type="button" class="v7-bell" aria-label="Notificaciones">🔔<span class="dot"></span></button>'
-      + '</div>'
-      + '<div class="v7-stats">'
-      + cards.map((c) => '<div class="v7-stat"><div class="t">' + c.t + '</div>'
-        + '<div class="v">' + fmtNum(c.v) + ' <small>' + c.u + '</small></div>' + c.g + '</div>').join('')
-      + '</div>'
-      + '<div class="v7-mid">'
-      + '<div class="v7-panel"><div class="ph">Actividad de calificación'
-      + '<select aria-label="Rango"><option>7 días</option><option>30 días</option></select></div>'
-      + '<svg class="chart" viewBox="0 0 300 150" aria-hidden="true">'
-      + '<path d="M0,120 C30,110 45,70 70,78 C95,86 105,50 130,58 C155,66 165,95 190,88 C215,81 225,45 250,52 C275,59 285,40 300,44 L300,150 L0,150 Z" fill="rgba(255,92,26,.18)"/>'
-      + '<path d="M0,120 C30,110 45,70 70,78 C95,86 105,50 130,58 C155,66 165,95 190,88 C215,81 225,45 250,52 C275,59 285,40 300,44" fill="none" stroke="#ff5c1a" stroke-width="2.5" stroke-linecap="round"/>'
-      + '<circle cx="130" cy="58" r="4" fill="#ff5c1a"/></svg></div>'
-      + '<div class="v7-panel v7-gen"><div class="gt">Generador de protocolos</div>'
-      + '<div class="big">' + (f.DQ + f.IQ + f.OQ + f.PQ ? fmtNum(f.DQ + f.IQ + f.OQ + f.PQ) : '—') + '</div>'
-      + '<div class="sub">ensayos listos · 1 .docx por protocolo</div>'
-      + '<button type="button" disabled>Próximamente</button></div>'
-      + '</div>'
-      + '<div class="v7-cats-head">Categorías <a href="#/banco" target="_self">ver todo</a></div>'
-      + '<div class="v7-cats" id="v7-cats">'
-      + CATS.map((c) => '<a class="v7-cat' + (c.hot ? ' hot' : '') + '" href="#/entidad/' + c.id + '" target="_self" data-name="' + esc(c.nombre) + '">'
-        + '<div class="ico">' + c.icono + '</div>'
-        + '<div class="t">' + esc(c.nombre) + '</div>'
-        + '<div class="d">' + esc(c.desc) + '</div></a>').join('')
-      + '</div>';
+    const catColor = { almacenes: '#58a9ed', equipos: '#42c69a', sistemas: '#a78bfa', estabilidad: '#e9a3c6', software: '#ffad5d' };
+    const catCards = CATS.map(function (c) {
+      const n = Number(cats[c.id] || 0);
+      const detalle = c.id === 'software'
+        ? (n ? fmtNum(n) + ' registros' : 'Sin banco')
+        : (c.id === 'estabilidad' ? fmtNum(n) + ' estudios' : fmtNum(n) + ' registros');
+      const color = catColor[c.id] || '#58a9ed';
+      return '<a class="category" href="#/entidad/' + c.id + '" target="_self" data-name="' + esc(c.nombre) + '">'
+        + '<div class="cat-icon" aria-hidden="true" style="background:' + color + '20;color:' + color + '">' + c.icono + '</div>'
+        + '<strong>' + esc(c.nombre) + '</strong><small>' + esc(detalle) + '</small></a>';
+    }).join('');
+    return '<div class="v7-view"><div class="section-head"><h2>Resumen general</h2><span>¿Qué vas a calificar hoy? · Banco de ensayos · corte ' + esc(fechaCorte()) + '</span></div>'
+      + '<section class="kpis">'
+      + cards.map(function (c) {
+        return '<article class="kpi" style="' + c.s + '"><div class="kpi-top">' + c.t + ' <span class="kpi-icon" aria-hidden="true">' + c.i + '</span></div>'
+          + '<div class="kpi-value">' + fmtNum(c.v) + '</div>'
+          + '<div class="kpi-foot">' + c.u + '</div>' + c.g + '</article>';
+      }).join('')
+      + '</section>'
+      + '<section class="middle">'
+      + '<article class="panel"><div class="panel-head"><div><h3>Ensayos ejecutados</h3><p>Seguimiento de ejecución durante la semana</p></div>'
+      + '<select class="select" aria-label="Periodo"><option>Esta semana</option><option>Este mes</option><option>Este año</option></select></div>'
+      + '<div class="chart-wrap"><svg class="chart" viewBox="0 0 600 190" role="img" aria-label="Gráfico de actividad semanal">'
+      + '<defs><linearGradient id="area" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#f28a32" stop-opacity=".28"/><stop offset="1" stop-color="#f28a32" stop-opacity="0"/></linearGradient></defs>'
+      + '<line class="chart-grid" x1="38" y1="25" x2="590" y2="25"/><line class="chart-grid" x1="38" y1="70" x2="590" y2="70"/><line class="chart-grid" x1="38" y1="115" x2="590" y2="115"/><line class="chart-grid" x1="38" y1="160" x2="590" y2="160"/>'
+      + '<text class="chart-label" x="4" y="28">100</text><text class="chart-label" x="10" y="73">75</text><text class="chart-label" x="10" y="118">50</text><text class="chart-label" x="10" y="163">25</text>'
+      + '<path class="chart-area" d="M45 125 L130 96 L215 108 L300 61 L385 80 L470 42 L555 55 L555 160 L45 160 Z"/>'
+      + '<path class="chart-line" d="M45 125 L130 96 L215 108 L300 61 L385 80 L470 42 L555 55"/>'
+      + '<circle class="chart-dot" cx="45" cy="125" r="5"/><circle class="chart-dot" cx="130" cy="96" r="5"/><circle class="chart-dot" cx="215" cy="108" r="5"/><circle class="chart-dot" cx="300" cy="61" r="5"/><circle class="chart-dot" cx="385" cy="80" r="5"/><circle class="chart-dot" cx="470" cy="42" r="5"/><circle class="chart-dot" cx="555" cy="55" r="5"/>'
+      + '<text class="chart-label" x="39" y="181">Lun</text><text class="chart-label" x="124" y="181">Mar</text><text class="chart-label" x="209" y="181">Mié</text><text class="chart-label" x="294" y="181">Jue</text><text class="chart-label" x="379" y="181">Vie</text><text class="chart-label" x="464" y="181">Sáb</text><text class="chart-label" x="549" y="181">Dom</text>'
+      + '</svg><div class="week-stat"><div><small>Total de la semana</small><strong>486</strong><span class="trend">↗ 14% vs. semana anterior</span></div><span class="muted">Promedio diario<br><b style="color:#dce5ee;font-size:16px">69</b></span></div></div></article>'
+      + '<article class="panel protocol"><div class="panel-head"><div><h3>Generador de protocolos</h3><p>Ensayos disponibles para generar</p></div><span style="color:var(--green);font-size:12px">● Activo</span></div>'
+      + '<div class="protocol-count"><div class="ring"><strong>100%</strong></div><div><strong>' + fmtNum(m.total || 0) + '</strong><span>Ensayos disponibles</span></div></div>'
+      + '<div class="progress-label"><span>Cobertura del banco</span><b>100%</b></div><div class="progress"><i style="width:100%"></i></div>'
+      + '<a class="primary-btn" href="#/generador" target="_self">Abrir generador de protocolos →</a></article>'
+      + '</section>'
+      + '<section class="bottom"><article class="panel"><div class="panel-head"><div><h3>Áreas de trabajo</h3><p>Acceso rápido a los módulos principales</p></div><a href="#/generador" target="_self" style="color:var(--orange);font-size:12px;text-decoration:none">Ver todos →</a></div>'
+      + '<div class="categories">' + catCards + '</div></article>'
+      + '<article class="panel"><div class="right-lower"><div><div class="calendar-title"><strong>' + new Date().toLocaleDateString('es-ES', { month: 'long', year: 'numeric' }) + '</strong><span aria-hidden="true">‹ &nbsp; ›</span></div>' + calendarHtml() + '</div>'
+      + '<div><div class="calendar-title"><strong>Próximas tareas</strong><span>Ver todas</span></div>' + tasksHtml() + '</div></div>'
+      + '<div class="status" role="status" aria-atomic="true"><i aria-hidden="true"></i> Todos los sistemas operativos</div></article></section>'
+      + '<footer>SigmaProXVL · Banco: ' + fmtNum(m.total || 0) + ' ensayos · Corte ' + esc(fechaCorte()) + '</footer></div>';
+  }
+
+  function viewGenerador() {
+    const cards = CATS.filter(function (c) { return GEN_CATS.indexOf(c.id) >= 0; }).map(function (c) {
+      return '<a class="category" href="#/entidad/' + c.id + '" target="_self" data-name="' + esc(c.nombre) + '">'
+        + '<div class="cat-icon" aria-hidden="true" style="background:#58a9ed20;color:#58a9ed">' + c.icono + '</div>'
+        + '<strong>' + esc(c.nombre) + '</strong><small>' + esc(c.desc) + '</small></a>';
+    }).join('');
+    return '<div class="v7-view"><h1>Generador de protocolos</h1><p class="sub">Elija una categoría, cargue los datos de la entidad y genere el .docx.</p>'
+      + '<div class="categories" style="grid-template-columns:repeat(auto-fit,minmax(180px,1fr))">' + cards + '</div></div>';
+  }
+
+  function viewCalendario() {
+    return '<div class="v7-view"><h1>Calendario</h1><p class="sub">Actividades y tareas del área de Validaciones.</p>'
+      + '<div class="panel"><div class="calendar-title"><strong>' + new Date().toLocaleDateString('es-ES', { month: 'long', year: 'numeric' }) + '</strong><span aria-hidden="true">‹ &nbsp; ›</span></div>'
+      + calendarHtml() + '<div class="calendar-title" style="margin-top:18px"><strong>Próximas tareas</strong><span>Ver todas</span></div>' + tasksHtml()
+      + '<div class="status" role="status" aria-atomic="true"><i aria-hidden="true"></i> Todos los sistemas operativos</div></div></div>';
   }
 
   function sidePanel() {
@@ -1304,40 +1381,42 @@ const Validaciones = (() => {
   function render() {
     const root = document.getElementById('validaciones-app');
     if (!root) return;
+    const content = root.querySelector('.vd-content') || root.querySelector('.v7-main');
+    if (!content) return;
     if (!isAdmin()) {
-      const main = root.querySelector('.val-main, .v7-main');
-      if (main) main.innerHTML = viewDev();
+      content.innerHTML = viewDev();
       return;
     }
     const route = parseRoute(window.location.hash);
-    const mains = root.querySelectorAll('.v7-main');
-    const main = mains && mains.length ? mains[mains.length - 1] : root.querySelector('.val-main');
-    if (main) {
-      const isEnt = route.indexOf('entidad/') === 0;
-      if (isEnt) {
-        const catId = route.slice('entidad/'.length);
-        main.innerHTML = viewEntidad(catId);
-        bindEntidad(main, catId);
-      } else {
-        main.innerHTML = route === 'banco' ? viewBanco()
-          : route === 'generador' ? '<div class="v7-view"><h1>Generador de protocolos</h1><p class="sub">Un .docx independiente por protocolo</p><div class="v7-panel v7-gen"><div class="gt">📄 Generador (.docx)</div><button type="button" disabled>Próximamente</button></div></div>'
-          : route === 'protocolos' ? viewSoon('Protocolos', 'Documentos generados y su estado')
-          : viewSoon('Firmas', 'Flujo de firmas de protocolos');
-      }
-      const si = document.getElementById('v7-search');
-      if (si && si.addEventListener) {
-        si.addEventListener('input', function () {
-          const q = /** @type {HTMLInputElement} */ (si).value.toLowerCase();
-          root.querySelectorAll('.v7-cat').forEach((/** @type {HTMLElement} */ c) => {
-            const n = (c.getAttribute('data-name') || '').toLowerCase();
-            c.style.display = !q || n.indexOf(q) >= 0 ? '' : 'none';
-          });
-        });
-      }
+    if (route.indexOf('entidad/') === 0) {
+      const catId = route.slice('entidad/'.length);
+      content.innerHTML = viewEntidad(catId);
+      bindEntidad(content, catId);
+    } else if (route === 'banco') {
+      content.innerHTML = viewBanco();
+    } else if (route === 'generador') {
+      content.innerHTML = viewGenerador();
+    } else if (route === 'calendario') {
+      content.innerHTML = viewCalendario();
+    } else if (route === 'protocolos') {
+      content.innerHTML = viewSoon('Protocolos', 'Documentos generados y su estado');
+    } else if (route === 'firmas') {
+      content.innerHTML = viewSoon('Firmas', 'Flujo de firmas de protocolos');
+    } else if (route === 'documentacion') {
+      content.innerHTML = viewSoon('Documentación', 'Guías y referencias del banco de ensayos');
+    } else if (route === 'reportes') {
+      content.innerHTML = viewSoon('Reportes', 'Indicadores y reportes del área');
+    } else if (route === 'configuracion') {
+      content.innerHTML = viewSoon('Configuración', 'Preferencias del área de Validaciones');
+    } else if (route === 'ayuda') {
+      content.innerHTML = viewSoon('Ayuda y soporte', 'Guía de uso y contacto de soporte');
+    } else {
+      content.innerHTML = viewBanco();
     }
-    root.querySelectorAll('.v7-rail button, .val-rail button').forEach((b) => {
-      if (b.getAttribute('data-route') === route) b.setAttribute('aria-current', 'page');
-      else b.removeAttribute('aria-current');
+    const activo = route.indexOf('entidad/') === 0 ? 'banco' : route;
+    root.querySelectorAll('[data-route]').forEach(function (el) {
+      if (el.getAttribute('data-route') === activo) el.setAttribute('aria-current', 'page');
+      else el.removeAttribute('aria-current');
     });
   }
 
@@ -1349,36 +1428,104 @@ const Validaciones = (() => {
       try {
         if (typeof window !== 'undefined' && window.location && parseRoute(window.location.hash) !== 'banco') window.location.hash = '#/banco';
       } catch (err) {}
+      const user = currentUser() || 'usuario';
+      const role = (session() || {}).role || '';
+      const roleLabel = ({
+        admin: 'Administrador', supervisor: 'Supervisor', analista: 'Analista',
+        gerente: 'Gerente', coordinador: 'Coordinador', readonly: 'Solo lectura', user: 'Usuario',
+      })[role] || role || 'Usuario';
+      const navItem = function (r) {
+        return '<a href="#/' + r.id + '" data-route="' + r.id + '" target="_self">'
+          + '<span class="ico" aria-hidden="true">' + r.icono + '</span>' + esc(r.label) + '</a>';
+      };
+      const mainNav = ROUTES.filter(function (r) { return r.grupo === 'main'; }).map(navItem).join('');
+      const confNav = ROUTES.filter(function (r) { return r.grupo === 'config'; }).map(navItem).join('');
       const ov = document.createElement('div');
       ov.id = 'validaciones-app';
-      ov.innerHTML = '<nav class="v7-rail" aria-label="Navegación de validaciones">'
-        + '<div class="v7-dots">•••</div>'
-        + ROUTES.map((r) => '<button type="button" data-route="' + r.id + '" aria-label="' + r.id + '">' + r.icono + '</button>').join('')
-        + '<div class="v7-spacer"></div>'
-        + '<button type="button" data-act="area" aria-label="Cambiar de área" title="Cambiar de área">⇄</button>'
-        + '<div class="v7-avatar">' + esc(firstLetter(currentUser())) + '</div>'
-        + '</nav>'
-        + '<main class="v7-main"></main>'
-        + '<aside class="v7-side"></aside>';
+      ov.innerHTML = '<a class="skip-link" href="#vd-content">Saltar al contenido</a>'
+        + '<div class="app"><aside class="sidebar" id="vd-sidebar">'
+        + '<div class="brand"><div class="brand-mark" aria-hidden="true">Σ</div><div class="brand-name">Sigma<span>Pro</span>XVL</div></div>'
+        + '<div><p class="nav-label">MENÚ PRINCIPAL</p><nav class="nav" aria-label="Menú principal">' + mainNav + '</nav></div>'
+        + '<div><p class="nav-label">CONFIGURACIÓN</p><nav class="nav" aria-label="Configuración">' + confNav + '</nav></div>'
+        + '<div class="side-bottom"><div class="help-card"><strong>¿Necesitas ayuda?</strong><p>Consulta la guía de usuario de SigmaProXVL.</p>'
+        + '<button type="button" data-route="ayuda">Ver documentación <span aria-hidden="true">↗</span></button></div></div>'
+        + '</aside><div class="nav-overlay" id="vd-overlay"></div>'
+        + '<main><header class="topbar">'
+        + '<button class="icon-btn menu-toggle" type="button" aria-label="Abrir menú" aria-expanded="false" aria-controls="vd-sidebar"><span aria-hidden="true">☰</span></button>'
+        + '<div class="welcome"><h1>¡Bienvenido de nuevo!</h1><p>Este es el resumen de actividad de tu entorno SigmaProXVL.</p></div>'
+        + '<div class="top-actions"><input class="search" id="v7-search" placeholder="Buscar categoría o entidad…" aria-label="Buscar"></div>'
+        + '<div class="top-tools"><button class="icon-btn" type="button" data-act="notifications" aria-label="Notificaciones"><span aria-hidden="true">♧</span><i class="dot" aria-hidden="true"></i></button>'
+        + '<button class="profile" type="button" data-act="area" aria-label="Cambiar de área"><span class="avatar" aria-hidden="true">' + esc(firstLetter(user)) + '</span>'
+        + '<span><strong>' + esc(user) + '</strong><small>' + esc(roleLabel) + '</small></span><span aria-hidden="true" style="color:#8291a3">⌄</span></button></div>'
+        + '</header><div class="vd-content" id="vd-content" tabindex="-1"></div></main></div>';
+
+      const sidebar = ov.querySelector('.sidebar');
+      const overlay = ov.querySelector('.nav-overlay');
+      const toggle = ov.querySelector('.menu-toggle');
+      const media = (typeof window !== 'undefined' && window.matchMedia) ? window.matchMedia('(max-width:760px)') : { matches: false, addEventListener: null };
+      function syncInert() {
+        if (!sidebar || !sidebar.classList) return;
+        const hidden = media.matches && !sidebar.classList.contains('open');
+        if (hidden) sidebar.setAttribute('inert', '');
+        else sidebar.removeAttribute('inert');
+      }
+      function setOpen(open) {
+        if (!sidebar || !sidebar.classList || !overlay || !overlay.classList) return;
+        sidebar.classList.toggle('open', open);
+        overlay.classList.toggle('open', open);
+        ov.classList.toggle('nav-open', open);
+        toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+        toggle.setAttribute('aria-label', open ? 'Cerrar menú' : 'Abrir menú');
+        syncInert();
+      }
+      if (toggle && toggle.addEventListener) {
+        toggle.addEventListener('click', function () { setOpen(toggle.getAttribute('aria-expanded') !== 'true'); });
+      }
+      if (overlay && overlay.addEventListener) overlay.addEventListener('click', function () { setOpen(false); });
+      if (sidebar && sidebar.querySelectorAll) {
+        sidebar.querySelectorAll('a').forEach(function (link) { link.addEventListener('click', function () { setOpen(false); }); });
+      }
+      const escHandler = function (event) { if (event.key === 'Escape') setOpen(false); };
+      document.addEventListener('keydown', escHandler);
+      ov._escHandler = escHandler;
+      if (media.addEventListener) media.addEventListener('change', syncInert);
+      syncInert();
+
       ov.addEventListener('click', function (/** @type {MouseEvent} */ e) {
         const tgt = /** @type {HTMLElement|null} */ (e.target);
-        const rb = tgt && tgt.closest ? tgt.closest('[data-route]') : null;
-        if (rb) {
-          try { window.location.hash = '#/' + rb.getAttribute('data-route'); } catch (err) {}
+        const item = tgt && tgt.closest ? tgt.closest('[data-route], [data-act]') : null;
+        if (!item) return;
+        const route = item.getAttribute('data-route');
+        if (route) {
+          e.preventDefault();
+          try { window.location.hash = '#/' + route; } catch (err) {}
+          setOpen(false);
           return;
         }
-        const sw = tgt && tgt.closest
-          ? (tgt.closest('[data-act="area"]') || tgt.closest('.v7-avatar')) : null;
-        if (sw) {
+        if (item.getAttribute('data-act') === 'area') {
           try {
             if (typeof Auth !== 'undefined' && Auth.selectArea) { Auth.selectArea(); return; }
             if (typeof AreaSelect !== 'undefined' && AreaSelect.showModal) AreaSelect.showModal();
           } catch (err) {}
+          return;
+        }
+        if (item.getAttribute('data-act') === 'notifications') {
+          try { if (typeof showToast === 'function') showToast('Sin notificaciones nuevas'); } catch (err) {}
         }
       });
+
+      const search = ov.querySelector('#v7-search');
+      if (search && search.addEventListener) {
+        search.addEventListener('input', function () {
+          const q = String(search.value || '').toLowerCase();
+          ov.querySelectorAll('.category, .v7-cat, .v7-ent').forEach(function (el) {
+            const n = (el.getAttribute('data-name') || el.textContent || '').toLowerCase();
+            el.style.display = !q || n.indexOf(q) >= 0 ? '' : 'none';
+          });
+        });
+      }
+
       document.body.appendChild(ov);
-      const side = ov.querySelector('.v7-side');
-      if (side && isAdmin()) side.innerHTML = sidePanel();
       render();
       return true;
     } catch (e) { return false; }
@@ -1386,6 +1533,10 @@ const Validaciones = (() => {
 
   function hide() {
     try {
+      const app = document.getElementById('validaciones-app');
+      if (app && app._escHandler && document && document.removeEventListener) {
+        document.removeEventListener('keydown', app._escHandler);
+      }
       document.getElementById('validaciones-view')?.remove();
       document.getElementById('validaciones-app')?.remove();
       return true;

@@ -90,6 +90,39 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (SigmaProXVL) con spr
 
 ## CAMBIOS RECIENTES
 
+### 2026-11-07 (250): Validaciones — UI del dashboard V1 integrada en el módulo real
+
+**Qué:** El módulo real de Validaciones adopta el shell y el dashboard del prototipo `SigmaProXVL_dashboard_V1_adaptable.html`, manteniendo los flujos de entidad y generador.
+
+- **Shell:** sidebar con marca, menú principal, configuración y ayuda; topbar con saludo, búsqueda, notificaciones y perfil.
+- **Dashboard:** KPIs dinámicos (1.230 / 1 / 174 / 604 / 451), gráfico, generador, categorías, calendario y tareas.
+- **Rutas:** `banco`, `protocolos`, `generador`, `firmas`, `documentacion`, `calendario`, `reportes`, `configuracion`, `ayuda`. El generador muestra las categorías y el calendario es una vista real.
+- **Móvil:** menú hamburguesa con drawer, overlay, `aria-expanded`, `inert`, cierre por enlace/overlay/Escape y búsqueda a ancho completo.
+- **Interacciones:** búsqueda filtra categorías/entidades; campana muestra aviso; perfil abre el selector de área; enlaces internos con `target="_self"`.
+- **Contenido existente:** los formularios de entidad y el flujo de generación siguen usando `validaciones-v7.css` dentro del nuevo shell.
+
+**Archivos afectados:**
+| Archivo | Cambio |
+|---------|--------|
+| `js/core/indexx-validaciones.js` | Shell sidebar/topbar, dashboard, rutas y vistas |
+| `css/validaciones-dashboard.css` | Estilos del prototipo, anidados bajo `#validaciones-app` |
+| `indexx.html` | Carga del nuevo CSS |
+| `tests/validaciones-panel.test.js` | Rutas del shell y selector de categorías |
+| `ESTADO_PROYECTO.md` | Entrada 250 |
+
+**Verificación (Playwright/Chromium):**
+```
+Dashboard → cards 1.230 / 1 / 174 / 604 / 451
+Rutas → banco, entidad/equipos, generador, calendario, protocolos sin overflow
+Móvil 360 → drawer abre/cierra, búsqueda a ancho completo, 0 overflow
+Entidad → paso 2 con 25 campos, sin errores de consola
+Vitest → 63 archivos, 1065 tests OK
+E2E → 13 tests OK
+Preflight → OK
+```
+
+**Pendiente:** las vistas `protocolos`, `firmas`, `documentacion`, `reportes`, `configuracion` y `ayuda` siguen siendo “En construcción” (antes también lo eran); el gráfico y las tareas del dashboard son estáticos. Lo que quedó 100% funcional es el shell, la navegación, el dashboard, las categorías y el flujo de entidad/generación.
+
 ### 2026-11-07 (249): Validaciones — dashboard con manifiesto dinámico desde los bancos
 
 **Qué:** Las cards del dashboard de Validaciones dejan de leer el manifiesto estático y calculan sus conteos en runtime desde los cuatro bancos cargados.
