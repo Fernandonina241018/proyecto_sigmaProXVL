@@ -322,11 +322,40 @@ describe('Validaciones V7', () => {
     expect(Validaciones.loadGen('cuarto-frio')).toEqual({ fases: ['DQ', 'OQ'], cond: 'dina' });
     expect(Validaciones.loadGen('otra')).toEqual({ fases: ['DQ', 'IQ', 'OQ', 'PQ'], cond: 'ambas' });
   });
-  test('borrador por entidad persiste en sessionStorage', () => {
+  test('borrador por entidad persiste y queda aislado por usuario/categoría', () => {
     expect(Validaciones.saveDraft('cuarto-frio', { descripcion: 'CF-01' })).toBe(true);
     expect(Validaciones.loadDraft('cuarto-frio').descripcion).toBe('CF-01');
     expect(Validaciones.loadDraft('otra-entidad')).toEqual({});
     expect(Validaciones.getSchema('cuarto-frio')).toBeDefined();
+    // mismo entId en otra categoría no comparte borrador
+    expect(Validaciones.loadDraft('cuarto-frio', 'almacenes')).toEqual({});
+  });
+
+  test('validarDatos: obligatorios, números, fechas y rangos coherentes', () => {
+    const schema = [
+      { k: 'codigo', label: 'Código', tipo: 'text', req: true },
+      { k: 'fecha', label: 'Fecha', tipo: 'date', req: true },
+      { k: 'temperaturaMin', label: 'Temperatura mínima', tipo: 'number', req: true, min: -200, max: 300 },
+      { k: 'temperaturaMax', label: 'Temperatura máxima', tipo: 'number', req: true, min: -200, max: 300 },
+      { k: 'humedadMin', label: 'Humedad mínima', tipo: 'number', req: false, min: 0, max: 100 },
+      { k: 'humedadMax', label: 'Humedad máxima', tipo: 'number', req: false, min: 0, max: 100 },
+      { k: 'loggers', label: 'Loggers', tipo: 'number', req: false, min: 1, max: 1000, integer: true },
+    ];
+    expect(Validaciones.validarDatos(schema, {
+      codigo: 'ALM-01', fecha: '2026-11-07', temperaturaMin: '2', temperaturaMax: '8',
+      humedadMin: '40', humedadMax: '60', loggers: '4',
+    })).toEqual([]);
+    const malo = Validaciones.validarDatos(schema, {
+      codigo: '', fecha: '07/11/2026', temperaturaMin: '10', temperaturaMax: '2',
+      humedadMin: '70', humedadMax: '60', loggers: '1.5',
+    });
+    expect(malo.length).toBeGreaterThanOrEqual(5);
+    expect(malo.join(' | ')).toMatch('Código es obligatorio');
+    expect(malo.join(' | ')).toMatch('fecha válida');
+    expect(malo.join(' | ')).toMatch('temperatura mínima debe ser menor');
+    expect(malo.join(' | ')).toMatch('humedad mínima no puede ser mayor');
+    expect(malo.join(' | ')).toMatch('entero');
+    expect(Validaciones.validarDatos(schema, null).length).toBeGreaterThan(0);
   });
 
   test('rutas del shell de Validaciones', () => {
