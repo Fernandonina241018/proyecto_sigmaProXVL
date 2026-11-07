@@ -489,3 +489,81 @@ describe('Validaciones V7', () => {
     expect(src).toContain('parámetro(s) del banco en el paso 2');
   });
 });
+
+describe('Validaciones — manifiesto dinámico', () => {
+  const ens = (id, bloque = 3) => ({ id, kind: 'ensayo', bloque });
+
+  function cargarBancos() {
+    globalThis.BancoAlmacenes = {
+      fases: {
+        DQ: [ens('AL-DQ-1', 2), ens('AL-DQ-2', 2)],
+        IQ: [ens('AL-IQ-1')],
+        OQ: [],
+        PQ: [{ kind: 'div', bloque: 1, clase: 'portada' }],
+      },
+    };
+    globalThis.BancoEquipos = {
+      fases: {
+        DQ: [],
+        IQ: [ens('EQ-IQ-1'), ens('EQ-IQ-2')],
+        OQ: [ens('EQ-OQ-1'), ens('EQ-OQ-2'), ens('EQ-OQ-3')],
+        PQ: [ens('EQ-PQ-1')],
+      },
+    };
+    globalThis.BancoEstabilidad = {
+      fases: {
+        DQ: [],
+        IQ: [],
+        OQ: [ens('ES-OQ-1'), ens('ES-OQ-2')],
+        PQ: [ens('ES-PQ-1'), ens('ES-PQ-2')],
+      },
+    };
+    globalThis.BancoSistemas = {
+      fases: {
+        DQ: [],
+        IQ: [ens('SI-IQ-1')],
+        OQ: [ens('SI-OQ-1')],
+        PQ: [ens('SI-PQ-1')],
+      },
+    };
+  }
+
+  beforeEach(() => {
+    resetStubs();
+    cargarBancos();
+  });
+
+  test('suma fases y categorías desde los bancos cargados', () => {
+    const m = Validaciones.manifest();
+    expect(m.total).toBe(16);
+    expect(m.fases).toEqual({ DQ: 2, IQ: 4, OQ: 6, PQ: 4 });
+    expect(m.categorias).toEqual({ almacenes: 3, equipos: 6, estabilidad: 4, sistemas: 3 });
+  });
+
+  test('el manifiesto dinámico gana al estático obsoleto', () => {
+    globalThis.ValidacionesManifest = { total: 999, fases: { DQ: 99 }, categorias: {} };
+    expect(Validaciones.manifest().total).toBe(16);
+  });
+
+  test('sin bancos cae al manifiesto estático y, sin él, a cero', () => {
+    resetStubs();
+    delete globalThis.BancoAlmacenes;
+    delete globalThis.BancoEquipos;
+    delete globalThis.BancoEstabilidad;
+    delete globalThis.BancoSistemas;
+    globalThis.ValidacionesManifest = { total: 7, fases: { DQ: 7 }, categorias: {} };
+    expect(Validaciones.manifest().total).toBe(7);
+    delete globalThis.ValidacionesManifest;
+    const vacio = Validaciones.manifest();
+    expect(vacio.total).toBe(0);
+    expect(vacio.fases).toEqual({});
+  });
+
+  afterEach(() => {
+    delete globalThis.BancoAlmacenes;
+    delete globalThis.BancoEquipos;
+    delete globalThis.BancoEstabilidad;
+    delete globalThis.BancoSistemas;
+    delete globalThis.ValidacionesManifest;
+  });
+});
