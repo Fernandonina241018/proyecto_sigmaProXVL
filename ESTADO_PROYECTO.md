@@ -90,6 +90,33 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (SigmaProXVL) con spr
 
 ## CAMBIOS RECIENTES
 
+### 2026-11-07 (251): Validaciones — dashboard compacto sin scroll
+
+**Qué:** Se redujo la altura de las cards y se añadió un modo compacto por altura de ventana para que el dashboard complete entre sin scroll en escritorio.
+
+- **KPI cards:** el SVG del anillo (IQ) medía 152 px y estiraba toda la fila a 289 px. Se clasificaron los sparklines (`kpi-spark` / `kpi-ring`) y se limitaron a 22/24 px. Cards a **≈136 px** en escritorio normal y **≈96 px** en modo compacto.
+- **Modo compacto (`max-height:820px`, escritorio):** oculta sparklines, reduce paddings, chart a 115 px, ring del generador a 56 px y compacta calendario/tareas.
+- **Márgenes:** topbar, sección, paneles y footer reducidos.
+- **Resultado:** el dashboard cabe sin scroll vertical en 1280×800, 1366×768, 1280×900, 1440×900 y 1920×1080. Sin overflow horizontal.
+
+**Archivos afectados:**
+| Archivo | Cambio |
+|---------|--------|
+| `css/validaciones-dashboard.css` | Cards compactas, modo por altura y márgenes |
+| `js/core/indexx-validaciones.js` | Clases `kpi-spark` / `kpi-ring` en los SVG |
+| `ESTADO_PROYECTO.md` | Entrada 251 |
+
+**Verificación (Playwright/Chromium):**
+```
+1280×800  → scroll 800 / client 800
+1366×768  → scroll 768 / client 768
+1280×900  → scroll 900 / client 900
+1440×900  → scroll 900 / client 900
+1920×1080 → scroll 1080 / client 1080
+overflow horizontal: 0
+KPI card: 135,7 px normal · 95,8 px compacto
+```
+
 ### 2026-11-07 (250): Validaciones — UI del dashboard V1 integrada en el módulo real
 
 **Qué:** El módulo real de Validaciones adopta el shell y el dashboard del prototipo `SigmaProXVL_dashboard_V1_adaptable.html`, manteniendo los flujos de entidad y generador.
