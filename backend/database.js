@@ -14,6 +14,51 @@ function hashToken(token) {
 
 const USE_PG = !!process.env.DATABASE_URL;
 
+// ───── FASE 4 — Configuración y reportes de Validaciones ─────
+// Aditivo: una sola fila "global" con ajustes del área. Los roles se usan
+// en la Fase 3 (firma); aquí solo se guardan y se muestran.
+const VALIDATION_SETTINGS_DEFAULT = {
+    orgName: 'SigmaProXVL',
+    logoUrl: '',
+    numberingPrefix: 'VAL',
+    reviewRoles: ['gerente'],
+    approveRoles: ['admin', 'supervisor'],
+};
+// Agrega el registro de protocolos en memoria. Se usa en ambos stores para
+// que el contrato del reporte sea idéntico (PG y JSON local).
+function _valReport(rows) {
+    const list = Array.isArray(rows) ? rows : [];
+    const bucket = (keyFn) => {
+        const map = new Map();
+        list.forEach((r) => {
+            const k = keyFn(r);
+            if (k == null || k === '') return;
+            map.set(k, (map.get(k) || 0) + 1);
+        });
+        return Array.from(map, ([key, total]) => ({ key, total }))
+            .sort((a, b) => b.total - a.total || String(a.key).localeCompare(String(b.key)));
+    };
+    const entityMap = new Map();
+    list.forEach((r) => {
+        if (!r.entity) return;
+        const k = String(r.category || '') + '\u0000' + String(r.entity);
+        entityMap.set(k, (entityMap.get(k) || 0) + 1);
+    });
+    const byDay = bucket((r) => String(r.created_at || '').slice(0, 10))
+        .sort((a, b) => a.key.localeCompare(b.key));
+    return {
+        total: list.length,
+        byPhase: bucket((r) => r.phase).map((x) => ({ phase: x.key, total: x.total })),
+        byCategory: bucket((r) => r.category).map((x) => ({ category: x.key, total: x.total })),
+        byEntity: Array.from(entityMap, ([k, total]) => {
+            const parts = k.split('\u0000');
+            return { category: parts[0], entity: parts[1], total };
+        }).sort((a, b) => b.total - a.total || a.entity.localeCompare(b.entity)),
+        byUser: bucket((r) => r.username).map((x) => ({ username: x.key, total: x.total })),
+        byDay: byDay.map((x) => ({ day: x.key, total: x.total })),
+    };
+}
+
 // ───── FASE 1 — Bandeja de firmas: lógica compartida PG/local ─────
 // Secuencia fija: prepared (elabora, cualquiera) → reviewed (revisa,
 // distinto al preparador) → approved (coordinador/supervisor/gerente).
@@ -279,6 +324,12 @@ function buildPostgres() {
             created_at TEXT DEFAULT to_char(now(),'YYYY-MM-DD\"T\"HH24:MI:SS')
         )`);
         await run(`CREATE INDEX IF NOT EXISTS idx_validation_protocols_lookup ON validation_protocols (category, entity, phase, created_at DESC)`);
+        // FASE 4 — Ajustes del área de Validaciones (una fila "global").
+        // Aditivo: no toca tablas existentes. data = JSONB con los ajustes.
+        await run(`CREATE TABLE IF NOT EXISTS validation_settings (
+            id TEXT PRIMARY KEY, data JSONB NOT NULL DEFAULT '{}'::jsonb,
+            updated_at TEXT DEFAULT to_char(now(),'YYYY-MM-DD"T"HH24:MI:SS')
+        )`);
         // FASE 1 — Bandeja de firmas secuenciales: el reporte en proceso vive
         // en servidor (no viaja como archivo). signatures = JSONB con los 3
         // roles {prepared,reviewed,approved}; version = concurrencia optimista.
@@ -822,6 +873,26 @@ function buildPostgres() {
     }
     async function getValidationProtocol(id) {
         return get('SELECT * FROM validation_protocols WHERE id = $1', [id]);
+    }
+
+    // ── FASE 4 — Ajustes y reportes (PG) ─────────────────────────
+    async function getValidationSettings() {
+        const row = await get('SELECT data FROM validation_settings WHERE id = $1', ['global']);
+        return Object.assign({}, VALIDATION_SETTINGS_DEFAULT, row && row.data ? row.data : {});
+    }
+    async function saveValidationSettings(data) {
+        const row = await get(
+            `INSERT INTO validation_settings (id, data, updated_at)
+             VALUES ('global', $1::jsonb, to_char(now(),'YYYY-MM-DD"T"HH24:MI:SS'))
+             ON CONFLICT (id) DO UPDATE SET data = EXCLUDED.data, updated_at = EXCLUDED.updated_at
+             RETURNING data`,
+            [JSON.stringify(data || {})]
+        );
+        return Object.assign({}, VALIDATION_SETTINGS_DEFAULT, row && row.data ? row.data : {});
+    }
+    async function getValidationReport() {
+        const rows = await all('SELECT category, entity, phase, username, created_at FROM validation_protocols');
+        return _valReport(rows);
     }
 
     // ── FASE 1 — Bandeja de firmas (PG) ──────────────────────────
@@ -1369,7 +1440,7 @@ function buildPostgres() {
         await run('DELETE FROM webauthn_credentials WHERE username=$1 AND credential_id=$2', [username, credentialId]);
     }
 
-    return { run, get, all, initDatabase, createInitialAdmin, getUserByUsername, getUserBySignatureCode, isSignatureCodeTaken, getUserById, createUser, updateLastLogin, getAllUsers, getUsersList, countUsers, toggleUserActive, changePassword, setPasswordTemp, updateUserProfile, updateUserProfileById, changeRole, logAccess, logAuditEvent, getAuditLog, countAuditLog, getAuditStats, verifyAuditChain, blacklistToken, isTokenBlacklisted, cleanExpiredBlacklist, registerDevice, isDeviceTrusted, getUserDevices, getAllDevices, countDevices, countUserDevices, setDeviceTrust, removeDevice, save2FASecret, get2FASecret, enable2FA, disable2FA, has2FAEnabled, saveWebAuthnChallenge, consumeWebAuthnChallenge, getWebAuthnCredentials, getWebAuthnCredential, addWebAuthnCredential, updateWebAuthnCounter, removeWebAuthnCredential, createSnapshot, getSnapshots, getSnapshotById, saveValidationDraft, getValidationDraft, saveValidationProtocol, listValidationProtocols, countValidationProtocols, getValidationProtocol, createSignSession, getSignSession, getSignSessionMeta, listSignSessions, countSignSessions, signQuotaInfo, signSessionStep, importSignSession, rejectSignSession, reopenSignSession, sendbackSignSession, amendSignSession, deleteSignSession, unsignSessionStep, dismissSignSession, purgeSignSessions };}
+    return { run, get, all, initDatabase, createInitialAdmin, getUserByUsername, getUserBySignatureCode, isSignatureCodeTaken, getUserById, createUser, updateLastLogin, getAllUsers, getUsersList, countUsers, toggleUserActive, changePassword, setPasswordTemp, updateUserProfile, updateUserProfileById, changeRole, logAccess, logAuditEvent, getAuditLog, countAuditLog, getAuditStats, verifyAuditChain, blacklistToken, isTokenBlacklisted, cleanExpiredBlacklist, registerDevice, isDeviceTrusted, getUserDevices, getAllDevices, countDevices, countUserDevices, setDeviceTrust, removeDevice, save2FASecret, get2FASecret, enable2FA, disable2FA, has2FAEnabled, saveWebAuthnChallenge, consumeWebAuthnChallenge, getWebAuthnCredentials, getWebAuthnCredential, addWebAuthnCredential, updateWebAuthnCounter, removeWebAuthnCredential, createSnapshot, getSnapshots, getSnapshotById, saveValidationDraft, getValidationDraft, saveValidationProtocol, listValidationProtocols, countValidationProtocols, getValidationProtocol, getValidationSettings, saveValidationSettings, getValidationReport, createSignSession, getSignSession, getSignSessionMeta, listSignSessions, countSignSessions, signQuotaInfo, signSessionStep, importSignSession, rejectSignSession, reopenSignSession, sendbackSignSession, amendSignSession, deleteSignSession, unsignSessionStep, dismissSignSession, purgeSignSessions };}
 
 // ───── Local JSON store ─────
 function buildLocalStore() {
@@ -1998,6 +2069,20 @@ function buildLocalStore() {
         return state.validation_protocols.find(function (p) { return p.id === Number(id); }) || null;
     }
 
+    // ── FASE 4 — Ajustes y reportes (local, mirror PG) ───────────
+    if (!state.validation_settings) state.validation_settings = {};
+    async function getValidationSettings() {
+        return Object.assign({}, VALIDATION_SETTINGS_DEFAULT, state.validation_settings.global || {});
+    }
+    async function saveValidationSettings(data) {
+        state.validation_settings.global = data || {};
+        save();
+        return Object.assign({}, VALIDATION_SETTINGS_DEFAULT, state.validation_settings.global);
+    }
+    async function getValidationReport() {
+        return _valReport(state.validation_protocols);
+    }
+
     // Mirror local de unsignSessionStep (con cascada admin)
     async function unsignSessionStep({ id, role, username, userRole, expectedVersion }) {
         var s = state.report_signatures.find(function(x) { return x.id === id; });
@@ -2416,7 +2501,7 @@ function buildLocalStore() {
         return _localSignView(s);
     }
 
-    return { run, get, all, initDatabase, createInitialAdmin, getUserByUsername, getUserBySignatureCode, isSignatureCodeTaken, getUserById, createUser, updateLastLogin, getAllUsers, getUsersList, countUsers, toggleUserActive, changePassword, setPasswordTemp, updateUserProfile, updateUserProfileById, changeRole, logAccess, logAuditEvent, getAuditLog, countAuditLog, getAuditStats, verifyAuditChain, blacklistToken, isTokenBlacklisted, cleanExpiredBlacklist, registerDevice, isDeviceTrusted, getUserDevices, getAllDevices, countDevices, countUserDevices, setDeviceTrust, removeDevice, save2FASecret, get2FASecret, enable2FA, disable2FA, has2FAEnabled, saveWebAuthnChallenge, consumeWebAuthnChallenge, getWebAuthnCredentials, getWebAuthnCredential, addWebAuthnCredential, updateWebAuthnCounter, removeWebAuthnCredential, createSnapshot, getSnapshots, getSnapshotById, saveValidationDraft, getValidationDraft, saveValidationProtocol, listValidationProtocols, countValidationProtocols, getValidationProtocol, createSignSession, getSignSession, getSignSessionMeta, listSignSessions, countSignSessions, signQuotaInfo, signSessionStep, importSignSession, rejectSignSession, reopenSignSession, sendbackSignSession, amendSignSession, deleteSignSession, unsignSessionStep, dismissSignSession, purgeSignSessions };}
+    return { run, get, all, initDatabase, createInitialAdmin, getUserByUsername, getUserBySignatureCode, isSignatureCodeTaken, getUserById, createUser, updateLastLogin, getAllUsers, getUsersList, countUsers, toggleUserActive, changePassword, setPasswordTemp, updateUserProfile, updateUserProfileById, changeRole, logAccess, logAuditEvent, getAuditLog, countAuditLog, getAuditStats, verifyAuditChain, blacklistToken, isTokenBlacklisted, cleanExpiredBlacklist, registerDevice, isDeviceTrusted, getUserDevices, getAllDevices, countDevices, countUserDevices, setDeviceTrust, removeDevice, save2FASecret, get2FASecret, enable2FA, disable2FA, has2FAEnabled, saveWebAuthnChallenge, consumeWebAuthnChallenge, getWebAuthnCredentials, getWebAuthnCredential, addWebAuthnCredential, updateWebAuthnCounter, removeWebAuthnCredential, createSnapshot, getSnapshots, getSnapshotById, saveValidationDraft, getValidationDraft, saveValidationProtocol, listValidationProtocols, countValidationProtocols, getValidationProtocol, getValidationSettings, saveValidationSettings, getValidationReport, createSignSession, getSignSession, getSignSessionMeta, listSignSessions, countSignSessions, signQuotaInfo, signSessionStep, importSignSession, rejectSignSession, reopenSignSession, sendbackSignSession, amendSignSession, deleteSignSession, unsignSessionStep, dismissSignSession, purgeSignSessions };}
 
 const impl = build();
 module.exports = {
@@ -2491,6 +2576,9 @@ module.exports = {
     listValidationProtocols: (...a) => impl.listValidationProtocols(...a),
     countValidationProtocols: (...a) => impl.countValidationProtocols(...a),
     getValidationProtocol: (...a) => impl.getValidationProtocol(...a),
+    getValidationSettings: (...a) => impl.getValidationSettings(...a),
+    saveValidationSettings: (...a) => impl.saveValidationSettings(...a),
+    getValidationReport:  (...a) => impl.getValidationReport(...a),
     run:                  (...a) => impl.run(...a),
     all:                 (...a) => impl.all(...a),
     get:                 (...a) => impl.get(...a),

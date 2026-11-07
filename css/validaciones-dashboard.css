@@ -125,3 +125,19 @@ footer{margin-top:20px;color:#8494a8;font-size:12px;text-align:right}
 #validaciones-app .val-btn{border:1px solid var(--line);background:var(--panel2);color:var(--text);border-radius:8px;padding:6px 10px;font:inherit;font-size:11px;cursor:pointer}
 #validaciones-app .val-btn:hover{border-color:var(--orange);color:var(--orange2)}
 #validaciones-app .val-btn:disabled{opacity:.5;cursor:wait}
+#validaciones-app #val-chart{min-width:0}
+#validaciones-app .val-report-actions{display:flex;justify-content:flex-end;margin-bottom:10px}
+#validaciones-app .val-report-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:18px}
+#validaciones-app .val-report-block{min-width:0}
+#validaciones-app .val-report-title{font-size:13px;margin:16px 0 2px;color:var(--text)}
+#validaciones-app .val-link{color:var(--orange2);text-decoration:none}
+#validaciones-app .val-link:hover{text-decoration:underline}
+#validaciones-app .val-help-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px}
+#validaciones-app .val-help-grid .panel h3{margin:0 0 10px;font-size:14px}
+#validaciones-app .val-help-grid ol{margin:0;padding-left:18px;color:var(--muted);font-size:13px;line-height:1.7}
+#validaciones-app .val-help-grid details{border-top:1px solid var(--line);padding:8px 0}
+#validaciones-app .val-help-grid summary{cursor:pointer;font-size:13px;color:var(--text)}
+#validaciones-app .val-help-grid details p{margin:6px 0 0;color:var(--muted);font-size:12px;line-height:1.55}
+#validaciones-app .val-help-grid a{color:var(--orange2);text-decoration:none}
+#validaciones-app .v7-field select[multiple]{min-height:96px}
+#validaciones-app .v7-field input[type="url"]{font:inherit}

@@ -809,6 +809,75 @@ app.get('/api/val/v1/protocols/:id/download', requireAuth, requireAdmin, async (
     }
 });
 
+// ── FASE 4 — Ajustes y reportes de Validaciones ──────────────────
+const _VAL_ROLES = ['admin', 'supervisor', 'analista', 'gerente', 'coordinador', 'user', 'readonly'];
+
+function _cleanValSettings(body) {
+    const src = body || {};
+    const out = {};
+    if (src.orgName !== undefined) {
+        const s = String(src.orgName || '').trim();
+        if (!s || s.length > 120) return { error: 'El nombre de la organización es obligatorio (máx. 120)' };
+        out.orgName = s;
+    }
+    if (src.logoUrl !== undefined) {
+        const s = String(src.logoUrl || '').trim();
+        if (s && (!/^https?:\/\//i.test(s) || s.length > 500)) return { error: 'El logo debe ser una URL http(s) de hasta 500 caracteres' };
+        out.logoUrl = s;
+    }
+    if (src.numberingPrefix !== undefined) {
+        const s = String(src.numberingPrefix || '').trim().toUpperCase();
+        if (!/^[A-Z0-9-]{1,20}$/.test(s)) return { error: 'El prefijo de numeración admite A-Z, 0-9 y guion (1-20)' };
+        out.numberingPrefix = s;
+    }
+    for (const key of ['reviewRoles', 'approveRoles']) {
+        if (src[key] === undefined) continue;
+        if (!Array.isArray(src[key])) return { error: 'Los roles deben ser una lista' };
+        const roles = Array.from(new Set(src[key].map((r) => String(r || '').trim().toLowerCase()).filter((r) => _VAL_ROLES.indexOf(r) >= 0)));
+        if (!roles.length) return { error: 'Debe indicar al menos un rol' };
+        out[key] = roles.slice(0, 10);
+    }
+    return { value: out };
+}
+
+app.get('/api/val/v1/settings', requireAuth, async (req, res) => {
+    try {
+        res.json({ ok: true, settings: await db.getValidationSettings() });
+    } catch (err) {
+        console.error('Error reading validation settings:', err);
+        res.status(500).json({ error: 'Error al leer la configuración' });
+    }
+});
+
+app.put('/api/val/v1/settings', requireAuth, requireAdmin, async (req, res) => {
+    const clean = _cleanValSettings(req.body);
+    if (clean.error) return res.status(400).json({ error: clean.error });
+    try {
+        const current = await db.getValidationSettings();
+        const next = await db.saveValidationSettings(Object.assign({}, current, clean.value));
+        await db.logAuditEvent({
+            username: req.user.username, action: 'VALIDATION_SETTINGS_UPDATED', success: 1,
+            ip: getClientIP(req), userAgent: req.headers['user-agent'], module: 'VALIDACIONES',
+            details: JSON.stringify({ keys: Object.keys(clean.value) }),
+        });
+        res.json({ ok: true, settings: next });
+    } catch (err) {
+        console.error('Error saving validation settings:', err);
+        res.status(500).json({ error: 'Error al guardar la configuración' });
+    }
+});
+
+app.get('/api/val/v1/reports', requireAuth, requireAdmin, async (req, res) => {
+    try {
+        const report = await db.getValidationReport();
+        const recent = await db.listValidationProtocols({ limit: 5 });
+        res.json({ ok: true, report, recent });
+    } catch (err) {
+        console.error('Error building validation report:', err);
+        res.status(500).json({ error: 'Error al generar el reporte' });
+    }
+});
+
 // GET /api/me — restaura sesión desde cookie httpOnly
 app.get('/api/me', requireAuth, async (req, res) => {
     const token = jwt.sign(
