@@ -90,6 +90,47 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (SigmaProXVL) con spr
 
 ## CAMBIOS RECIENTES
 
+### 2026-11-07 (253): Validaciones — Fase 2 (registro inmutable de protocolos)
+
+**Qué:** Se implementa el registro de cada protocolo emitido con archivo original, SHA-256 calculado en servidor, metadatos y evento en la cadena de auditoría.
+
+- **Backend:** tabla `validation_protocols` (PostgreSQL y store local): categoría, entidad, fase, código, versión, archivo, `sha256 UNIQUE`, usuario, `details`, `file_data` y fecha. Solo INSERT/SELECT: sin endpoints de edición ni borrado.
+- **Endpoints admin:** `POST /api/val/v1/protocols` (sube el `.docx` en base64, calcula SHA-256, guarda el binario), `GET /api/val/v1/protocols` (filtros/paginación) y `GET /api/val/v1/protocols/:id/download`.
+- **Fail-closed:** el navegador registra el documento antes de descargarlo. Si el registro falla, **no se descarga**.
+- **Auditoría:** `PROTOCOL_REGISTERED` y `PROTOCOL_DOWNLOADED` en la cadena existente.
+- **UI:** `#/protocolos` muestra fecha, categoría, entidad, fase, código, versión, usuario, hash corto y botón de descarga.
+- **Generación:** `PlantillaDocx.descargar`/`descargarDQ` y `GeneradorDocx.descargar` aceptan un callback opcional antes de crear el enlace; los llamadores existentes no cambian.
+- **Límite de body:** `/api/val/v1/protocols` usa el parser de 5 MB; el archivo máximo aceptado es 4 MB.
+- `shortcut: guardar el .docx en PostgreSQL bytea; mover a object storage cuando el volumen lo exija.`
+
+**Archivos afectados:**
+| Archivo | Cambio |
+|---------|--------|
+| `backend/database.js` | Tabla `validation_protocols` + guardar/listar/contar/obtener |
+| `backend/server.js` | 3 endpoints admin + auditoría + hash SHA-256 |
+| `backend/body-limits.js` | Ruta de protocolos con parser de 5 MB |
+| `js/core/plantilla-docx.js` | Callback `onBeforeDownload` en `descargar`/`descargarDQ` |
+| `js/core/generador-docx.js` | Callback `onBeforeDownload` en el generador alternativo |
+| `js/core/indexx-validaciones.js` | Registro previo a la descarga, vista Protocolos y descarga autenticada |
+| `css/validaciones-dashboard.css` | Tabla del registro |
+| `backend/tests/validation-protocols.test.js` | 4 tests del store y contrato |
+| `tests/validaciones-panel.test.js` | Test de la vista Protocolos |
+| `backend/tests/body-limits.test.js` | Ruta de protocolos en parser grande |
+| `ESTADO_PROYECTO.md` | Entrada 253 |
+
+**Verificación:**
+```
+node --check → OK
+typecheck → 0 errores
+Vitest → 63 archivos, 1067 tests OK
+Backend node:test → 146 tests OK
+protocolo:check → OK (18 warnings esperados)
+E2E → 13 tests OK
+Preflight → OK
+```
+
+**Pendiente:** firma electrónica y estados de documento (Fase 3); almacenamiento en object storage si el volumen crece; no hay edición ni borrado del registro por diseño.
+
 ### 2026-11-07 (252): Validaciones — Fase 1 (borradores persistentes, validación y revisores)
 
 **Qué:** Se completa la Fase 1 del plan de trabajo de Validaciones sin tocar los flujos existentes de generación:

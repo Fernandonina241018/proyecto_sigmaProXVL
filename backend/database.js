@@ -270,6 +270,15 @@ function buildPostgres() {
             UNIQUE(username, category, entity)
         )`);
         await run(`CREATE INDEX IF NOT EXISTS idx_validation_drafts_user ON validation_drafts (username, category)`);
+        // FASE 2 — Registro inmutable de protocolos emitidos. Solo INSERT/SELECT.
+        await run(`CREATE TABLE IF NOT EXISTS validation_protocols (
+            id SERIAL PRIMARY KEY, category TEXT NOT NULL, entity TEXT NOT NULL,
+            phase TEXT NOT NULL, code TEXT, version TEXT, filename TEXT NOT NULL,
+            sha256 TEXT UNIQUE NOT NULL, username TEXT NOT NULL, details JSONB,
+            file_data BYTEA NOT NULL,
+            created_at TEXT DEFAULT to_char(now(),'YYYY-MM-DD\"T\"HH24:MI:SS')
+        )`);
+        await run(`CREATE INDEX IF NOT EXISTS idx_validation_protocols_lookup ON validation_protocols (category, entity, phase, created_at DESC)`);
         // FASE 1 — Bandeja de firmas secuenciales: el reporte en proceso vive
         // en servidor (no viaja como archivo). signatures = JSONB con los 3
         // roles {prepared,reviewed,approved}; version = concurrencia optimista.
@@ -765,6 +774,54 @@ function buildPostgres() {
             'SELECT id, username, category, entity, data, updated_at FROM validation_drafts WHERE username = $1 AND category = $2 AND entity = $3',
             [username, category, entity]
         );
+    }
+
+    // ── FASE 2 — Registro inmutable de protocolos (PG) ───────────
+    async function saveValidationProtocol({ category, entity, phase, code, version, filename, sha256, username, details, fileData }) {
+        const row = await get(
+            `INSERT INTO validation_protocols
+                (category, entity, phase, code, version, filename, sha256, username, details, file_data)
+             VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9::jsonb,$10)
+             ON CONFLICT (sha256) DO NOTHING
+             RETURNING id, category, entity, phase, code, version, filename, sha256, username, details, created_at`,
+            [category, entity, phase, code || null, version || null, filename, sha256, username, JSON.stringify(details || {}), fileData]
+        );
+        if (row) return Object.assign({}, row, { created: true });
+        const existing = await get(
+            `SELECT id, category, entity, phase, code, version, filename, sha256, username, details, created_at
+             FROM validation_protocols WHERE sha256 = $1`, [sha256]
+        );
+        return existing ? Object.assign({}, existing, { created: false }) : null;
+    }
+    async function listValidationProtocols({ category, entity, phase, limit, offset } = {}) {
+        const where = [];
+        const params = [];
+        const add = (sql, value) => { params.push(value); where.push(sql.replace('?', '$' + params.length)); };
+        if (category) add('category=?', category);
+        if (entity) add('entity=?', entity);
+        if (phase) add('phase=?', phase);
+        const lim = Math.max(1, Math.min(100, Number(limit) || 50));
+        const off = Math.max(0, Number(offset) || 0);
+        params.push(lim); const limPos = '$' + params.length;
+        params.push(off); const offPos = '$' + params.length;
+        return all(
+            `SELECT id, category, entity, phase, code, version, filename, sha256, username, details, created_at
+             FROM validation_protocols ${where.length ? 'WHERE ' + where.join(' AND ') : ''}
+             ORDER BY id DESC LIMIT ${limPos} OFFSET ${offPos}`, params
+        );
+    }
+    async function countValidationProtocols({ category, entity, phase } = {}) {
+        const where = [];
+        const params = [];
+        const add = (sql, value) => { params.push(value); where.push(sql.replace('?', '$' + params.length)); };
+        if (category) add('category=?', category);
+        if (entity) add('entity=?', entity);
+        if (phase) add('phase=?', phase);
+        const row = await get(`SELECT COUNT(*)::int AS total FROM validation_protocols ${where.length ? 'WHERE ' + where.join(' AND ') : ''}`, params);
+        return row ? row.total : 0;
+    }
+    async function getValidationProtocol(id) {
+        return get('SELECT * FROM validation_protocols WHERE id = $1', [id]);
     }
 
     // ── FASE 1 — Bandeja de firmas (PG) ──────────────────────────
@@ -1312,7 +1369,7 @@ function buildPostgres() {
         await run('DELETE FROM webauthn_credentials WHERE username=$1 AND credential_id=$2', [username, credentialId]);
     }
 
-    return { run, get, all, initDatabase, createInitialAdmin, getUserByUsername, getUserBySignatureCode, isSignatureCodeTaken, getUserById, createUser, updateLastLogin, getAllUsers, getUsersList, countUsers, toggleUserActive, changePassword, setPasswordTemp, updateUserProfile, updateUserProfileById, changeRole, logAccess, logAuditEvent, getAuditLog, countAuditLog, getAuditStats, verifyAuditChain, blacklistToken, isTokenBlacklisted, cleanExpiredBlacklist, registerDevice, isDeviceTrusted, getUserDevices, getAllDevices, countDevices, countUserDevices, setDeviceTrust, removeDevice, save2FASecret, get2FASecret, enable2FA, disable2FA, has2FAEnabled, saveWebAuthnChallenge, consumeWebAuthnChallenge, getWebAuthnCredentials, getWebAuthnCredential, addWebAuthnCredential, updateWebAuthnCounter, removeWebAuthnCredential, createSnapshot, getSnapshots, getSnapshotById, saveValidationDraft, getValidationDraft, createSignSession, getSignSession, getSignSessionMeta, listSignSessions, countSignSessions, signQuotaInfo, signSessionStep, importSignSession, rejectSignSession, reopenSignSession, sendbackSignSession, amendSignSession, deleteSignSession, unsignSessionStep, dismissSignSession, purgeSignSessions };}
+    return { run, get, all, initDatabase, createInitialAdmin, getUserByUsername, getUserBySignatureCode, isSignatureCodeTaken, getUserById, createUser, updateLastLogin, getAllUsers, getUsersList, countUsers, toggleUserActive, changePassword, setPasswordTemp, updateUserProfile, updateUserProfileById, changeRole, logAccess, logAuditEvent, getAuditLog, countAuditLog, getAuditStats, verifyAuditChain, blacklistToken, isTokenBlacklisted, cleanExpiredBlacklist, registerDevice, isDeviceTrusted, getUserDevices, getAllDevices, countDevices, countUserDevices, setDeviceTrust, removeDevice, save2FASecret, get2FASecret, enable2FA, disable2FA, has2FAEnabled, saveWebAuthnChallenge, consumeWebAuthnChallenge, getWebAuthnCredentials, getWebAuthnCredential, addWebAuthnCredential, updateWebAuthnCounter, removeWebAuthnCredential, createSnapshot, getSnapshots, getSnapshotById, saveValidationDraft, getValidationDraft, saveValidationProtocol, listValidationProtocols, countValidationProtocols, getValidationProtocol, createSignSession, getSignSession, getSignSessionMeta, listSignSessions, countSignSessions, signQuotaInfo, signSessionStep, importSignSession, rejectSignSession, reopenSignSession, sendbackSignSession, amendSignSession, deleteSignSession, unsignSessionStep, dismissSignSession, purgeSignSessions };}
 
 // ───── Local JSON store ─────
 function buildLocalStore() {
@@ -1876,6 +1933,9 @@ function buildLocalStore() {
     if (!state.validation_drafts) state.validation_drafts = [];
     var _draftIdCounter = state.validation_drafts.length > 0
         ? Math.max.apply(null, state.validation_drafts.map(function (d) { return d.id; })) + 1 : 1;
+    if (!state.validation_protocols) state.validation_protocols = [];
+    var _protocolIdCounter = state.validation_protocols.length > 0
+        ? Math.max.apply(null, state.validation_protocols.map(function (p) { return p.id; })) + 1 : 1;
 
     async function saveValidationDraft({ username, category, entity, data }) {
         var now = new Date().toISOString();
@@ -1897,6 +1957,45 @@ function buildLocalStore() {
         return state.validation_drafts.find(function (d) {
             return d.username === username && d.category === category && d.entity === entity;
         }) || null;
+    }
+
+    // ── FASE 2 — Registro inmutable de protocolos (local) ────────
+    async function saveValidationProtocol({ category, entity, phase, code, version, filename, sha256, username, details, fileData }) {
+        var found = state.validation_protocols.find(function (p) { return p.sha256 === sha256; });
+        if (found) return { id: found.id, category: found.category, entity: found.entity, phase: found.phase, code: found.code, version: found.version, filename: found.filename, sha256: found.sha256, username: found.username, details: found.details, created_at: found.created_at, created: false };
+        var row = {
+            id: _protocolIdCounter++, category: category, entity: entity, phase: phase,
+            code: code || null, version: version || null, filename: filename, sha256: sha256,
+            username: username, details: details || {},
+            file_data: Buffer.from(fileData).toString('base64'),
+            created_at: new Date().toISOString()
+        };
+        state.validation_protocols.push(row);
+        save();
+        return { id: row.id, category: row.category, entity: row.entity, phase: row.phase, code: row.code, version: row.version, filename: row.filename, sha256: row.sha256, username: row.username, details: row.details, created_at: row.created_at, created: true };
+    }
+    async function listValidationProtocols({ category, entity, phase, limit, offset } = {}) {
+        var rows = state.validation_protocols.filter(function (p) {
+            return (!category || p.category === category)
+                && (!entity || p.entity === entity)
+                && (!phase || p.phase === phase);
+        });
+        rows = rows.slice().sort(function (a, b) { return b.id - a.id; });
+        var lim = Math.max(1, Math.min(100, Number(limit) || 50));
+        var off = Math.max(0, Number(offset) || 0);
+        return rows.slice(off, off + lim).map(function (p) {
+            return { id: p.id, category: p.category, entity: p.entity, phase: p.phase, code: p.code, version: p.version, filename: p.filename, sha256: p.sha256, username: p.username, details: p.details, created_at: p.created_at };
+        });
+    }
+    async function countValidationProtocols({ category, entity, phase } = {}) {
+        return state.validation_protocols.filter(function (p) {
+            return (!category || p.category === category)
+                && (!entity || p.entity === entity)
+                && (!phase || p.phase === phase);
+        }).length;
+    }
+    async function getValidationProtocol(id) {
+        return state.validation_protocols.find(function (p) { return p.id === Number(id); }) || null;
     }
 
     // Mirror local de unsignSessionStep (con cascada admin)
@@ -2317,7 +2416,7 @@ function buildLocalStore() {
         return _localSignView(s);
     }
 
-    return { run, get, all, initDatabase, createInitialAdmin, getUserByUsername, getUserBySignatureCode, isSignatureCodeTaken, getUserById, createUser, updateLastLogin, getAllUsers, getUsersList, countUsers, toggleUserActive, changePassword, setPasswordTemp, updateUserProfile, updateUserProfileById, changeRole, logAccess, logAuditEvent, getAuditLog, countAuditLog, getAuditStats, verifyAuditChain, blacklistToken, isTokenBlacklisted, cleanExpiredBlacklist, registerDevice, isDeviceTrusted, getUserDevices, getAllDevices, countDevices, countUserDevices, setDeviceTrust, removeDevice, save2FASecret, get2FASecret, enable2FA, disable2FA, has2FAEnabled, saveWebAuthnChallenge, consumeWebAuthnChallenge, getWebAuthnCredentials, getWebAuthnCredential, addWebAuthnCredential, updateWebAuthnCounter, removeWebAuthnCredential, createSnapshot, getSnapshots, getSnapshotById, saveValidationDraft, getValidationDraft, createSignSession, getSignSession, getSignSessionMeta, listSignSessions, countSignSessions, signQuotaInfo, signSessionStep, importSignSession, rejectSignSession, reopenSignSession, sendbackSignSession, amendSignSession, deleteSignSession, unsignSessionStep, dismissSignSession, purgeSignSessions };}
+    return { run, get, all, initDatabase, createInitialAdmin, getUserByUsername, getUserBySignatureCode, isSignatureCodeTaken, getUserById, createUser, updateLastLogin, getAllUsers, getUsersList, countUsers, toggleUserActive, changePassword, setPasswordTemp, updateUserProfile, updateUserProfileById, changeRole, logAccess, logAuditEvent, getAuditLog, countAuditLog, getAuditStats, verifyAuditChain, blacklistToken, isTokenBlacklisted, cleanExpiredBlacklist, registerDevice, isDeviceTrusted, getUserDevices, getAllDevices, countDevices, countUserDevices, setDeviceTrust, removeDevice, save2FASecret, get2FASecret, enable2FA, disable2FA, has2FAEnabled, saveWebAuthnChallenge, consumeWebAuthnChallenge, getWebAuthnCredentials, getWebAuthnCredential, addWebAuthnCredential, updateWebAuthnCounter, removeWebAuthnCredential, createSnapshot, getSnapshots, getSnapshotById, saveValidationDraft, getValidationDraft, saveValidationProtocol, listValidationProtocols, countValidationProtocols, getValidationProtocol, createSignSession, getSignSession, getSignSessionMeta, listSignSessions, countSignSessions, signQuotaInfo, signSessionStep, importSignSession, rejectSignSession, reopenSignSession, sendbackSignSession, amendSignSession, deleteSignSession, unsignSessionStep, dismissSignSession, purgeSignSessions };}
 
 const impl = build();
 module.exports = {
@@ -2388,6 +2487,10 @@ module.exports = {
     getSnapshotById:      (...a) => impl.getSnapshotById(...a),
     saveValidationDraft:  (...a) => impl.saveValidationDraft(...a),
     getValidationDraft:   (...a) => impl.getValidationDraft(...a),
+    saveValidationProtocol: (...a) => impl.saveValidationProtocol(...a),
+    listValidationProtocols: (...a) => impl.listValidationProtocols(...a),
+    countValidationProtocols: (...a) => impl.countValidationProtocols(...a),
+    getValidationProtocol: (...a) => impl.getValidationProtocol(...a),
     run:                  (...a) => impl.run(...a),
     all:                 (...a) => impl.all(...a),
     get:                 (...a) => impl.get(...a),

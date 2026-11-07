@@ -11,6 +11,7 @@ test('rutas de reportes/snapshots usan el parser grande', () => {
         '/api/sign-sessions/abc-123/amend',
         '/api/snapshots',
         '/api/pdf/render',
+        '/api/val/v1/protocols',
     ]) {
         assert.equal(isLargeBodyRoute(post(path)), true, path);
     }
