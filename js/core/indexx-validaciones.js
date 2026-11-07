@@ -2,7 +2,7 @@
 // indexx-validaciones.js — SigmaProXVL
 // Área de Validaciones V7 (réplica "Admin Dashboard V7").
 // Shell independiente: riel + saludo + stats + actividad + panel derecho.
-// Mini-router por hash: #/banco · #/generador · #/protocolos · #/firmas.
+// Mini-router por hash: #/banco · #/generador · #/protocolos · #/reportes.
 // Se activa con el evento 'sigma-area' (Auth/AreaSelect).
 // ========================================
 
@@ -373,12 +373,27 @@ const Validaciones = (() => {
     { id: 'banco', icono: '▦', label: 'Dashboard', grupo: 'main' },
     { id: 'protocolos', icono: '▤', label: 'Protocolos', grupo: 'main' },
     { id: 'generador', icono: '◈', label: 'Generador de protocolos', grupo: 'main' },
-    { id: 'firmas', icono: '✍️', label: 'Firmas', grupo: 'main' },
+    // shortcut: Firmas vuelve al menú cuando exista la Fase 3 (firma
+    // electrónica de protocolos); hoy se retira para no mostrar "En construcción".
     { id: 'documentacion', icono: '▣', label: 'Documentación', grupo: 'main' },
     { id: 'calendario', icono: '◷', label: 'Calendario', grupo: 'main' },
     { id: 'reportes', icono: '▥', label: 'Reportes', grupo: 'main' },
     { id: 'configuracion', icono: '⚙', label: 'Configuración', grupo: 'config' },
     { id: 'ayuda', icono: 'ⓘ', label: 'Ayuda y soporte', grupo: 'config' },
+  ];
+
+  // Fase 4: documentos publicados en el repositorio. La vigencia formal la
+  // determina Calidad; aquí solo se enlaza lo que ya existe (sin inventar DMS).
+  const DOCS = [
+    { titulo: 'Protocolo maestro del banco de ensayos', tipo: 'Guía', version: '1.1', fecha: '2026-11-06', href: 'docs/banco-ensayos/PROTOCOLO_MAESTRO.md' },
+    { titulo: 'Normas por familia de equipos', tipo: 'Guía', version: '1.1', fecha: '2026-11-06', href: 'docs/banco-ensayos/NORMAS_POR_FAMILIA.md' },
+    { titulo: 'Mapa de diseño de la interfaz', tipo: 'Guía', version: '—', fecha: '2026-10-30', href: 'docs/MAPA_DISENO.md' },
+    { titulo: 'Auditoría del módulo de estadística', tipo: 'Informe', version: '—', fecha: '2026-11-03', href: 'docs/AUDITORIA_MODULO_ESTADISTICA.md' },
+    { titulo: 'Reporte de validación estadística', tipo: 'Informe', version: '—', fecha: '2026-05-22', href: 'VALIDATION_REPORT.md' },
+    { titulo: 'Plantilla DQ', tipo: 'Plantilla', version: '—', fecha: '—', href: 'docs/plantillas/DQ-1-400AAAA.docx' },
+    { titulo: 'Plantilla IQ', tipo: 'Plantilla', version: '—', fecha: '—', href: 'docs/plantillas/IQ-1-400AAAA.docx' },
+    { titulo: 'Plantilla OQ', tipo: 'Plantilla', version: '—', fecha: '—', href: 'docs/plantillas/OQ-1-400AAAA.docx' },
+    { titulo: 'Plantilla PQ', tipo: 'Plantilla', version: '—', fecha: '—', href: 'docs/plantillas/PQ-1-400AAAA.docx' },
   ];
 
   const VALID_ROUTES = ROUTES.map((r) => r.id);
@@ -467,6 +482,10 @@ const Validaciones = (() => {
     return String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/</g, '&lt;');
   }
 
+  function escAttr(s) {
+    return esc(s).replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+  }
+
   function firstLetter(name) {
     const c = String(name || '?').trim().charAt(0).toUpperCase();
     return c || '?';
@@ -521,10 +540,11 @@ const Validaciones = (() => {
     } catch (e) { return 'hoy'; }
   }
 
-  function calendarHtml() {
-    const now = new Date();
-    const y = now.getFullYear();
-    const mo = now.getMonth();
+  function calendarHtml(events) {
+    const ahora = new Date();
+    const y = ahora.getFullYear();
+    const mo = ahora.getMonth();
+    const marks = events instanceof Set ? events : new Set();
     const meses = ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio',
       'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'];
     const primerDia = (new Date(y, mo, 1).getDay() + 6) % 7; // lunes = 0
@@ -533,8 +553,11 @@ const Validaciones = (() => {
     let row = [];
     for (let i = 0; i < primerDia; i++) row.push('<td></td>');
     for (let d = 1; d <= dias; d++) {
-      const hoy = d === now.getDate();
-      row.push('<td' + (hoy ? ' class="today" aria-current="date"' : '') + '>' + d + '</td>');
+      const hoy = d === ahora.getDate();
+      const ev = marks.has(d);
+      const cls = (hoy ? 'today' : '') + (ev ? ' event' : '');
+      row.push('<td' + (cls.trim() ? ' class="' + cls.trim() + '"' : '')
+        + (hoy ? ' aria-current="date"' : '') + (ev ? ' aria-label="Día con registros"' : '') + '>' + d + '</td>');
       if (row.length === 7) { rows.push('<tr>' + row.join('') + '</tr>'); row = []; }
     }
     if (row.length) {
@@ -547,12 +570,91 @@ const Validaciones = (() => {
       + '<tbody>' + rows.join('') + '</tbody></table>';
   }
 
-  function tasksHtml() {
-    return '<div class="task-list">'
-      + '<div class="task"><i class="task-mark" aria-hidden="true"></i><div><strong>Revisión de protocolo IQ</strong><small>06 Nov · 10:00 AM</small></div></div>'
-      + '<div class="task"><i class="task-mark" aria-hidden="true" style="background:var(--blue)"></i><div><strong>Validación de equipo</strong><small>09 Nov · 02:30 PM</small></div></div>'
-      + '<div class="task"><i class="task-mark" aria-hidden="true" style="background:var(--purple)"></i><div><strong>Informe de estabilidad</strong><small>12 Nov · 09:00 AM</small></div></div>'
-      + '</div>';
+  function fechaCorta(iso) {
+    const s = String(iso || '');
+    const m = s.match(/^(\d{4})-(\d{2})-(\d{2})/);
+    return m ? m[3] + '/' + m[2] + '/' + m[1] : (s.slice(0, 16).replace('T', ' ') || '—');
+  }
+
+  function _dayKey(d) {
+    return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
+  }
+
+  function _lastDays(n) {
+    const out = [];
+    const now = new Date();
+    for (let i = n - 1; i >= 0; i--) {
+      const d = new Date(now.getFullYear(), now.getMonth(), now.getDate() - i);
+      out.push({ key: _dayKey(d), label: ['Dom', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb'][d.getDay()] });
+    }
+    return out;
+  }
+
+  // Gráfico real de los últimos 7 días. Sin datos dibuja una línea plana en 0.
+  function chartHtml(byDay) {
+    const days = _lastDays(7);
+    const map = new Map((byDay || []).map((x) => [String(x.day), Number(x.total) || 0]));
+    const vals = days.map((d) => map.get(d.key) || 0);
+    const max = Math.max(1, Math.max.apply(null, vals));
+    const xs = [45, 130, 215, 300, 385, 470, 555];
+    const ys = vals.map((v) => 160 - Math.round((v / max) * 120));
+    let line = '';
+    for (let i = 0; i < xs.length; i++) line += (i ? ' L' : 'M') + xs[i] + ' ' + ys[i];
+    const dots = xs.map((x, i) => '<circle class="chart-dot" cx="' + x + '" cy="' + ys[i] + '" r="5"><title>'
+      + days[i].label + ': ' + vals[i] + ' protocolo(s)</title></circle>').join('');
+    const labels = xs.map((x, i) => '<text class="chart-label" text-anchor="middle" x="' + x + '" y="181">' + days[i].label + '</text>').join('');
+    return '<svg class="chart" viewBox="0 0 600 190" role="img" aria-label="Protocolos registrados en los últimos 7 días">'
+      + '<line class="chart-grid" x1="38" y1="25" x2="590" y2="25"/><line class="chart-grid" x1="38" y1="70" x2="590" y2="70"/>'
+      + '<line class="chart-grid" x1="38" y1="115" x2="590" y2="115"/><line class="chart-grid" x1="38" y1="160" x2="590" y2="160"/>'
+      + '<defs><linearGradient id="area" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#f28a32" stop-opacity=".28"/><stop offset="1" stop-color="#f28a32" stop-opacity="0"/></linearGradient></defs>'
+      + '<path class="chart-area" d="' + line + ' L555 160 L45 160 Z"/>'
+      + '<path class="chart-line" d="' + line + '"/>' + dots + labels + '</svg>';
+  }
+
+  function weekStatsHtml(byDay) {
+    const days = _lastDays(7);
+    const map = new Map((byDay || []).map((x) => [String(x.day), Number(x.total) || 0]));
+    const vals = days.map((d) => map.get(d.key) || 0);
+    const total = vals.reduce((a, b) => a + b, 0);
+    const avg = (total / 7).toFixed(1).replace('.', ',');
+    return '<small>Protocolos registrados</small><strong>' + fmtNum(total) + '</strong>'
+      + '<span class="trend">Últimos 7 días</span>'
+      + '<span class="muted">Promedio diario<br><b style="color:#dce5ee;font-size:16px">' + avg + '</b></span>';
+  }
+
+  function recentHtml(list) {
+    const rows = Array.isArray(list) ? list : [];
+    if (!rows.length) return '<p class="sub" style="margin:0">Sin protocolos registrados.</p>';
+    return '<div class="task-list">' + rows.map((p) => {
+      const titulo = (p.code || (p.phase + ' · ' + p.entity));
+      return '<div class="task"><i class="task-mark" aria-hidden="true"></i><div><strong>' + esc(titulo) + '</strong>'
+        + '<small>' + esc(fechaCorta(p.created_at)) + ' · ' + esc(p.username || '—') + '</small></div></div>';
+    }).join('') + '</div>';
+  }
+
+  function reportTable(title, head, rows) {
+    return '<section class="val-report-block"><h3 class="val-report-title">' + esc(title) + '</h3>'
+      + '<div class="val-table-wrap"><table class="val-table"><thead><tr>'
+      + head.map((h) => '<th>' + esc(h) + '</th>').join('')
+      + '</tr></thead><tbody>' + rows.map((r) => '<tr>' + r.map((c) => '<td>' + esc(c) + '</td>').join('') + '</tr>').join('')
+      + '</tbody></table></div></section>';
+  }
+
+  function reportHtml(report) {
+    const r = report || {};
+    if (!r.total) return '<p class="sub" style="margin:0">Aún no hay protocolos registrados. Genere uno desde el generador para ver los conteos.</p>';
+    const byPhase = (r.byPhase || []).map((x) => [x.phase, fmtNum(x.total)]);
+    const byCat = (r.byCategory || []).map((x) => [x.category, fmtNum(x.total)]);
+    const byEnt = (r.byEntity || []).slice(0, 15).map((x) => [x.category, x.entity, fmtNum(x.total)]);
+    const byUser = (r.byUser || []).map((x) => [x.username, fmtNum(x.total)]);
+    return '<p class="sub">Total registrado: <b>' + fmtNum(r.total) + '</b> · '
+      + (r.byCategory || []).length + ' categoría(s) · ' + (r.byUser || []).length + ' usuario(s)</p>'
+      + '<div class="val-report-grid">'
+      + reportTable('Por fase', ['Fase', 'Protocolos'], byPhase)
+      + reportTable('Por categoría', ['Categoría', 'Protocolos'], byCat)
+      + reportTable('Por usuario', ['Usuario', 'Protocolos'], byUser)
+      + '</div>'
+      + reportTable('Por entidad (top 15)', ['Categoría', 'Entidad', 'Protocolos'], byEnt);
   }
 
   function viewBanco() {
@@ -586,17 +688,8 @@ const Validaciones = (() => {
       }).join('')
       + '</section>'
       + '<section class="middle">'
-      + '<article class="panel"><div class="panel-head"><div><h3>Ensayos ejecutados</h3><p>Seguimiento de ejecución durante la semana</p></div>'
-      + '<select class="select" aria-label="Periodo"><option>Esta semana</option><option>Este mes</option><option>Este año</option></select></div>'
-      + '<div class="chart-wrap"><svg class="chart" viewBox="0 0 600 190" role="img" aria-label="Gráfico de actividad semanal">'
-      + '<defs><linearGradient id="area" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#f28a32" stop-opacity=".28"/><stop offset="1" stop-color="#f28a32" stop-opacity="0"/></linearGradient></defs>'
-      + '<line class="chart-grid" x1="38" y1="25" x2="590" y2="25"/><line class="chart-grid" x1="38" y1="70" x2="590" y2="70"/><line class="chart-grid" x1="38" y1="115" x2="590" y2="115"/><line class="chart-grid" x1="38" y1="160" x2="590" y2="160"/>'
-      + '<text class="chart-label" x="4" y="28">100</text><text class="chart-label" x="10" y="73">75</text><text class="chart-label" x="10" y="118">50</text><text class="chart-label" x="10" y="163">25</text>'
-      + '<path class="chart-area" d="M45 125 L130 96 L215 108 L300 61 L385 80 L470 42 L555 55 L555 160 L45 160 Z"/>'
-      + '<path class="chart-line" d="M45 125 L130 96 L215 108 L300 61 L385 80 L470 42 L555 55"/>'
-      + '<circle class="chart-dot" cx="45" cy="125" r="5"/><circle class="chart-dot" cx="130" cy="96" r="5"/><circle class="chart-dot" cx="215" cy="108" r="5"/><circle class="chart-dot" cx="300" cy="61" r="5"/><circle class="chart-dot" cx="385" cy="80" r="5"/><circle class="chart-dot" cx="470" cy="42" r="5"/><circle class="chart-dot" cx="555" cy="55" r="5"/>'
-      + '<text class="chart-label" x="39" y="181">Lun</text><text class="chart-label" x="124" y="181">Mar</text><text class="chart-label" x="209" y="181">Mié</text><text class="chart-label" x="294" y="181">Jue</text><text class="chart-label" x="379" y="181">Vie</text><text class="chart-label" x="464" y="181">Sáb</text><text class="chart-label" x="549" y="181">Dom</text>'
-      + '</svg><div class="week-stat"><div><small>Total de la semana</small><strong>486</strong><span class="trend">↗ 14% vs. semana anterior</span></div><span class="muted">Promedio diario<br><b style="color:#dce5ee;font-size:16px">69</b></span></div></div></article>'
+      + '<article class="panel"><div class="panel-head"><div><h3>Protocolos registrados</h3><p>Últimos 7 días, desde el registro real</p></div></div>'
+      + '<div class="chart-wrap"><div id="val-chart">' + chartHtml([]) + '</div><div class="week-stat" id="val-week-stat">' + weekStatsHtml([]) + '</div></div></article>'
       + '<article class="panel protocol"><div class="panel-head"><div><h3>Generador de protocolos</h3><p>Ensayos disponibles para generar</p></div><span style="color:var(--green);font-size:12px">● Activo</span></div>'
       + '<div class="protocol-count"><div class="ring"><strong>100%</strong></div><div><strong>' + fmtNum(m.total || 0) + '</strong><span>Ensayos disponibles</span></div></div>'
       + '<div class="progress-label"><span>Cobertura del banco</span><b>100%</b></div><div class="progress"><i style="width:100%"></i></div>'
@@ -604,8 +697,8 @@ const Validaciones = (() => {
       + '</section>'
       + '<section class="bottom"><article class="panel"><div class="panel-head"><div><h3>Áreas de trabajo</h3><p>Acceso rápido a los módulos principales</p></div><a href="#/generador" target="_self" style="color:var(--orange);font-size:12px;text-decoration:none">Ver todos →</a></div>'
       + '<div class="categories">' + catCards + '</div></article>'
-      + '<article class="panel"><div class="right-lower"><div><div class="calendar-title"><strong>' + new Date().toLocaleDateString('es-ES', { month: 'long', year: 'numeric' }) + '</strong><span aria-hidden="true">‹ &nbsp; ›</span></div>' + calendarHtml() + '</div>'
-      + '<div><div class="calendar-title"><strong>Próximas tareas</strong><span>Ver todas</span></div>' + tasksHtml() + '</div></div>'
+      + '<article class="panel"><div class="right-lower"><div><div class="calendar-title"><strong>' + new Date().toLocaleDateString('es-ES', { month: 'long', year: 'numeric' }) + '</strong><span aria-hidden="true">‹ &nbsp; ›</span></div><div id="val-cal-dash">' + calendarHtml() + '</div></div>'
+      + '<div><div class="calendar-title"><strong>Últimos protocolos</strong><span>Registro</span></div><div id="val-recent">' + recentHtml([]) + '</div></div></div>'
       + '<div class="status" role="status" aria-atomic="true"><i aria-hidden="true"></i> Todos los sistemas operativos</div></article></section>'
       + '<footer>SigmaProXVL · Banco: ' + fmtNum(m.total || 0) + ' ensayos · Corte ' + esc(fechaCorte()) + '</footer></div>';
   }
@@ -621,10 +714,74 @@ const Validaciones = (() => {
   }
 
   function viewCalendario() {
-    return '<div class="v7-view"><h1>Calendario</h1><p class="sub">Actividades y tareas del área de Validaciones.</p>'
+    return '<div class="v7-view"><h1>Calendario</h1><p class="sub">Protocolos registrados por día. Los vencimientos de firma se incorporan en la Fase 3.</p>'
       + '<div class="panel"><div class="calendar-title"><strong>' + new Date().toLocaleDateString('es-ES', { month: 'long', year: 'numeric' }) + '</strong><span aria-hidden="true">‹ &nbsp; ›</span></div>'
-      + calendarHtml() + '<div class="calendar-title" style="margin-top:18px"><strong>Próximas tareas</strong><span>Ver todas</span></div>' + tasksHtml()
-      + '<div class="status" role="status" aria-atomic="true"><i aria-hidden="true"></i> Todos los sistemas operativos</div></div></div>';
+      + '<div id="val-calendar">' + calendarHtml() + '</div>'
+      + '<div class="calendar-title" style="margin-top:18px"><strong>Registros del mes</strong><span id="val-cal-count">—</span></div>'
+      + '<div id="val-cal-recent">Cargando…</div>'
+      + '<div class="status" role="status" aria-atomic="true"><i aria-hidden="true"></i> Calendario actualizado desde el registro</div></div></div>';
+  }
+
+  function viewDocumentacion() {
+    const rows = DOCS.map((d) => '<tr><td>' + esc(d.titulo) + '</td>'
+      + '<td>' + esc(d.tipo) + '</td><td>' + esc(d.version) + '</td><td>' + esc(d.fecha) + '</td>'
+      + '<td>Publicado</td><td><a class="val-link" href="' + escAttr(d.href) + '" target="_self" rel="noopener">Abrir</a></td></tr>').join('');
+    return '<div class="v7-view"><h1>Documentación</h1>'
+      + '<p class="sub">Documentos de referencia publicados en el repositorio. La vigencia formal la determina Calidad; esta vista no sustituye al gestor documental.</p>'
+      + '<div class="val-table-wrap"><table class="val-table"><thead><tr><th>Documento</th><th>Tipo</th><th>Versión</th><th>Fecha</th><th>Estado</th><th></th></tr></thead>'
+      + '<tbody>' + rows + '</tbody></table></div></div>';
+  }
+
+  function viewReportes() {
+    return '<div class="v7-view"><h1>Reportes</h1>'
+      + '<p class="sub">Conteos del registro de protocolos por fase, categoría, entidad y usuario.</p>'
+      + '<div class="val-report-actions"><button type="button" class="val-btn" id="val-report-refresh">Actualizar</button></div>'
+      + '<div id="val-report">Cargando…</div>'
+      + '<div id="val-report-msg" class="v7-form-msg" role="status"></div></div>';
+  }
+
+  function viewConfiguracion() {
+    const roles = [['admin', 'Administrador'], ['supervisor', 'Supervisor'], ['analista', 'Analista'],
+      ['gerente', 'Gerente'], ['coordinador', 'Coordinador'], ['user', 'Usuario'], ['readonly', 'Solo lectura']];
+    const opts = (sel) => roles.map((r) => '<option value="' + r[0] + '"' + (sel.indexOf(r[0]) >= 0 ? ' selected' : '') + '>' + r[1] + '</option>').join('');
+    return '<div class="v7-view"><h1>Configuración</h1>'
+      + '<p class="sub">Ajustes mínimos del área de Validaciones. Se guardan en el servidor y los usa el flujo de firma de la Fase 3.</p>'
+      + '<form class="v7-dataform" id="val-config-form">'
+      + '<fieldset class="v7-fs"><legend>Organización</legend><div class="v7-grid">'
+      + '<label class="v7-field"><span>Nombre de la organización <b>*</b></span><input type="text" data-cfg="orgName" maxlength="120" required></label>'
+      + '<label class="v7-field"><span>URL del logo</span><input type="url" data-cfg="logoUrl" maxlength="500" placeholder="https://…"></label>'
+      + '<label class="v7-field"><span>Prefijo de numeración</span><input type="text" data-cfg="numberingPrefix" maxlength="20" pattern="[A-Za-z0-9-]+"></label>'
+      + '</div></fieldset>'
+      + '<fieldset class="v7-fs"><legend>Firmas (Fase 3)</legend><div class="v7-grid">'
+      + '<label class="v7-field"><span>Roles que revisan</span><select multiple size="4" data-cfg="reviewRoles">' + opts(['gerente']) + '</select></label>'
+      + '<label class="v7-field"><span>Roles que aprueban</span><select multiple size="4" data-cfg="approveRoles">' + opts(['admin', 'supervisor']) + '</select></label>'
+      + '</div></fieldset>'
+      + '<div class="v7-form-actions"><span class="v7-form-msg" id="val-config-msg" role="status"></span>'
+      + '<button type="submit" class="v7-btn-download">Guardar configuración</button></div></form>'
+      + '<p class="sub" style="margin-top:14px">La firma húmeda no usa estos roles. La firma electrónica de protocolos llega en la Fase 3.</p></div>';
+  }
+
+  function viewAyuda() {
+    return '<div class="v7-view"><h1>Ayuda y soporte</h1>'
+      + '<p class="sub">Guía rápida del módulo de Validaciones.</p>'
+      + '<div class="val-help-grid">'
+      + '<article class="panel"><h3>Flujo en 5 pasos</h3><ol>'
+      + '<li>Elija el área de trabajo (almacenes, equipos, estabilidad o sistemas).</li>'
+      + '<li>Seleccione la entidad y complete la planilla de datos.</li>'
+      + '<li>Guarde el borrador: queda en el servidor y no se pierde al cerrar.</li>'
+      + '<li>Elija las fases y genere el protocolo .docx.</li>'
+      + '<li>Consulte el protocolo en <a href="#/protocolos" target="_self">Protocolos</a> y descárguelo.</li>'
+      + '</ol></article>'
+      + '<article class="panel"><h3>Preguntas frecuentes</h3>'
+      + '<details><summary>¿Dónde queda mi borrador?</summary><p>En el servidor, asociado a su usuario y a la entidad. También hay una copia local por si el API no responde.</p></details>'
+      + '<details><summary>¿Por qué no puedo generar un protocolo?</summary><p>Revise los campos obligatorios, los rangos numéricos y que la URS y el análisis de riesgo estén completos. El generador indica qué falta.</p></details>'
+      + '<details><summary>¿Qué pasa al descargar un protocolo?</summary><p>Queda registrado con su SHA-256 y el usuario que lo emitió. La firma electrónica se incorpora en la Fase 3.</p></details>'
+      + '<details><summary>¿Quién puede entrar a Validaciones?</summary><p>El módulo está restringido a administradores. Los demás roles ven un aviso de acceso.</p></details>'
+      + '</article>'
+      + '<article class="panel"><h3>Contacto</h3>'
+      + '<p>Para altas de usuario, cambios de rol o incidencias del registro, contacte al administrador del sistema o al área de Calidad.</p>'
+      + '<p><a href="#/documentacion" target="_self">Ver documentación de referencia →</a></p></article>'
+      + '</div></div>';
   }
 
   function sidePanel() {
@@ -666,12 +823,6 @@ const Validaciones = (() => {
       + '<div class="v7-empty"><div style="font-size:44px">🚧</div>'
       + '<div style="font-size:18px;font-weight:700;margin:10px 0;color:var(--v7-ink)">En desarrollo</div>'
       + '<div>Esta área estará en funcionamiento próximamente.</div></div></div>';
-  }
-
-  function viewSoon(title, desc) {
-    return '<div class="v7-view"><h1>' + esc(title) + '</h1>'
-      + '<p class="sub">' + esc(desc) + '</p>'
-      + '<div class="v7-empty">Vista en construcción — llegará con el módulo.</div></div>';
   }
 
   function fieldHtml(f, val) {
@@ -857,6 +1008,136 @@ const Validaciones = (() => {
       if (document.body.contains(container)) body.innerHTML = '<tr><td colspan="9">' + esc(e.message || 'Error al cargar.') + '</td></tr>';
       setMsg(e.message || 'Error al cargar.', false);
     }
+  }
+
+  function _eventDays(byDay) {
+    const now = new Date();
+    const prefix = _dayKey(now).slice(0, 8); // YYYY-MM-
+    const set = new Set();
+    (byDay || []).forEach((x) => {
+      const d = String(x && x.day || '');
+      if (d.slice(0, 8) === prefix) set.add(Number(d.slice(8, 10)));
+    });
+    return set;
+  }
+
+  async function _reportsData() {
+    const r = await apiGet('/api/val/v1/reports');
+    if (!r || !r.ok) throw new Error((r && r.error) || 'No se pudo leer el registro');
+    return { report: r.report || {}, recent: r.recent || [] };
+  }
+
+  // Dashboard: gráfico, calendario y últimos protocolos desde el registro real.
+  async function cargarResumen(container) {
+    const chart = container.querySelector('#val-chart');
+    const stats = container.querySelector('#val-week-stat');
+    const recent = container.querySelector('#val-recent');
+    const cal = container.querySelector('#val-cal-dash');
+    if (!chart && !stats && !recent && !cal) return;
+    try {
+      const data = await _reportsData();
+      if (chart && document.body.contains(chart)) chart.innerHTML = chartHtml(data.report.byDay || []);
+      if (stats && document.body.contains(stats)) stats.innerHTML = weekStatsHtml(data.report.byDay || []);
+      if (recent && document.body.contains(recent)) recent.innerHTML = recentHtml(data.recent);
+      if (cal && document.body.contains(cal)) cal.innerHTML = calendarHtml(_eventDays(data.report.byDay));
+    } catch (e) {
+      if (recent && document.body.contains(recent)) recent.innerHTML = '<p class="sub" style="margin:0">Sin conexión con el registro.</p>';
+    }
+  }
+
+  async function cargarCalendario(container) {
+    const cal = container.querySelector('#val-calendar');
+    const recent = container.querySelector('#val-cal-recent');
+    const count = container.querySelector('#val-cal-count');
+    if (!cal && !recent) return;
+    try {
+      const data = await _reportsData();
+      const days = _eventDays(data.report.byDay);
+      if (cal && document.body.contains(cal)) cal.innerHTML = calendarHtml(days);
+      if (count && document.body.contains(count)) count.textContent = days.size + ' día(s) con registros';
+      if (recent && document.body.contains(recent)) recent.innerHTML = recentHtml(data.recent);
+    } catch (e) {
+      if (recent && document.body.contains(recent)) recent.innerHTML = '<p class="sub" style="margin:0">No se pudo cargar el registro.</p>';
+    }
+  }
+
+  async function cargarReportes(container) {
+    const box = container.querySelector('#val-report');
+    const msg = container.querySelector('#val-report-msg');
+    if (!box) return;
+    function setMsg(text, ok) {
+      if (!msg) return;
+      msg.textContent = text || '';
+      msg.className = 'v7-form-msg' + (text ? (ok ? ' ok' : ' err') : '');
+    }
+    setMsg('Actualizando…', true);
+    try {
+      const data = await _reportsData();
+      if (box && document.body.contains(box)) box.innerHTML = reportHtml(data.report);
+      setMsg('Actualizado ' + new Date().toLocaleTimeString('es-ES'), true);
+    } catch (e) {
+      if (box && document.body.contains(box)) box.innerHTML = '<p class="sub" style="margin:0">No se pudo cargar el reporte.</p>';
+      setMsg(e.message || 'Error al cargar.', false);
+    }
+  }
+
+  async function bindConfiguracion(container) {
+    const form = container.querySelector('#val-config-form');
+    const msg = container.querySelector('#val-config-msg');
+    if (!form) return;
+    function setMsg(text, ok) {
+      if (!msg) return;
+      msg.textContent = text || '';
+      msg.className = 'v7-form-msg' + (text ? (ok ? ' ok' : ' err') : '');
+    }
+    function fill(settings) {
+      const s = settings || {};
+      ['orgName', 'logoUrl', 'numberingPrefix'].forEach((k) => {
+        const el = form.querySelector('[data-cfg="' + k + '"]');
+        if (el) el.value = s[k] == null ? '' : String(s[k]);
+      });
+      ['reviewRoles', 'approveRoles'].forEach((k) => {
+        const el = form.querySelector('[data-cfg="' + k + '"]');
+        if (!el || !el.options) return;
+        const sel = new Set(Array.isArray(s[k]) ? s[k] : []);
+        for (let i = 0; i < el.options.length; i++) el.options[i].selected = sel.has(el.options[i].value);
+      });
+    }
+    const defaults = { orgName: 'SigmaProXVL', logoUrl: '', numberingPrefix: 'VAL', reviewRoles: ['gerente'], approveRoles: ['admin', 'supervisor'] };
+    fill(defaults);
+    try {
+      const r = await apiGet('/api/val/v1/settings');
+      if (!r || !r.ok) throw new Error((r && r.error) || 'No se pudo leer la configuración');
+      if (document.body.contains(form)) fill(r.settings || {});
+    } catch (e) {
+      setMsg('No se pudo leer la configuración; se muestran los valores por defecto.', false);
+    }
+    form.addEventListener('submit', async function (ev) {
+      ev.preventDefault();
+      const values = {};
+      ['orgName', 'logoUrl', 'numberingPrefix'].forEach((k) => {
+        const el = form.querySelector('[data-cfg="' + k + '"]');
+        values[k] = el ? String(el.value || '').trim() : '';
+      });
+      ['reviewRoles', 'approveRoles'].forEach((k) => {
+        const el = form.querySelector('[data-cfg="' + k + '"]');
+        values[k] = el && el.selectedOptions ? Array.prototype.map.call(el.selectedOptions, (o) => o.value) : [];
+      });
+      if (!values.orgName) return setMsg('El nombre de la organización es obligatorio.', false);
+      if (!values.reviewRoles.length || !values.approveRoles.length) return setMsg('Seleccione al menos un rol para revisar y uno para aprobar.', false);
+      const btn = form.querySelector('button[type="submit"]');
+      if (btn) btn.disabled = true;
+      setMsg('Guardando…', true);
+      try {
+        const r = await apiSend('/api/val/v1/settings', 'PUT', values);
+        if (!r || !r.ok) throw new Error((r && r.error) || 'No se pudo guardar');
+        if (document.body.contains(form)) fill(r.settings || values);
+        setMsg('Configuración guardada.', true);
+      } catch (e) {
+        setMsg(e.message || 'Error al guardar.', false);
+      }
+      if (btn) btn.disabled = false;
+    });
   }
 
   function genKey(entId) {
@@ -1627,25 +1908,30 @@ const Validaciones = (() => {
       bindEntidad(content, catId);
     } else if (route === 'banco') {
       content.innerHTML = viewBanco();
+      cargarResumen(content);
     } else if (route === 'generador') {
       content.innerHTML = viewGenerador();
     } else if (route === 'calendario') {
       content.innerHTML = viewCalendario();
+      cargarCalendario(content);
     } else if (route === 'protocolos') {
       content.innerHTML = viewProtocolos();
       cargarProtocolos(content);
-    } else if (route === 'firmas') {
-      content.innerHTML = viewSoon('Firmas', 'Flujo de firmas de protocolos');
     } else if (route === 'documentacion') {
-      content.innerHTML = viewSoon('Documentación', 'Guías y referencias del banco de ensayos');
+      content.innerHTML = viewDocumentacion();
     } else if (route === 'reportes') {
-      content.innerHTML = viewSoon('Reportes', 'Indicadores y reportes del área');
+      content.innerHTML = viewReportes();
+      cargarReportes(content);
+      const refresh = content.querySelector('#val-report-refresh');
+      if (refresh) refresh.addEventListener('click', function () { cargarReportes(content); });
     } else if (route === 'configuracion') {
-      content.innerHTML = viewSoon('Configuración', 'Preferencias del área de Validaciones');
+      content.innerHTML = viewConfiguracion();
+      bindConfiguracion(content);
     } else if (route === 'ayuda') {
-      content.innerHTML = viewSoon('Ayuda y soporte', 'Guía de uso y contacto de soporte');
+      content.innerHTML = viewAyuda();
     } else {
       content.innerHTML = viewBanco();
+      cargarResumen(content);
     }
     const activo = route.indexOf('entidad/') === 0 ? 'banco' : route;
     root.querySelectorAll('[data-route]').forEach(function (el) {
@@ -1662,7 +1948,7 @@ const Validaciones = (() => {
       hide();
       // Entrada al módulo: siempre al dashboard (banco), nunca a la última vista.
       try {
-        if (typeof window !== 'undefined' && window.location && parseRoute(window.location.hash) !== 'banco') window.location.hash = '#/banco';
+        if (typeof window !== 'undefined' && window.location && window.location.hash !== '#/banco') window.location.hash = '#/banco';
       } catch (err) {}
       const user = currentUser() || 'usuario';
       const role = (session() || {}).role || '';
@@ -1837,9 +2123,10 @@ const Validaciones = (() => {
   try { init(); } catch (e) {}
 
   return {
-    CATS, ROUTES, ENTIDADES, SCHEMAS, FASES_GEN, GEN_FASES, AREAS_GERENCIA, parseRoute, catById, getSchema, getEntidades,
+    CATS, ROUTES, DOCS, ENTIDADES, SCHEMAS, FASES_GEN, GEN_FASES, AREAS_GERENCIA, parseRoute, catById, getSchema, getEntidades,
     entidadPorNombre,
     puestoGerente, firmantesHtml, saveDraft, loadDraft, cargarBorrador, guardarBorrador, validarDatos, saveGen, loadGen, viewEntidad, show, hide, apply, currentArea, render, contarGen, tieneBancoFam, estadoBancoFam, resolverDescripcion, mejorarFecha, manifest, viewProtocolos,
+    viewDocumentacion, viewReportes, viewConfiguracion, viewAyuda, viewCalendario, chartHtml, reportHtml, calendarHtml, cargarResumen, cargarCalendario, cargarReportes, bindConfiguracion,
   };
 })();
 

@@ -73,7 +73,9 @@ describe('Validaciones V7', () => {
   test('parseRoute valida rutas y cae a banco', () => {
     expect(Validaciones.parseRoute('#/banco')).toBe('banco');
     expect(Validaciones.parseRoute('#/generador')).toBe('generador');
-    expect(Validaciones.parseRoute('#/firmas')).toBe('firmas');
+    expect(Validaciones.parseRoute('#/documentacion')).toBe('documentacion');
+    // Fase 4: Firmas se retira del menú hasta que exista la Fase 3.
+    expect(Validaciones.parseRoute('#/firmas')).toBe('banco');
     expect(Validaciones.parseRoute('#/otro')).toBe('banco');
     expect(Validaciones.parseRoute('')).toBe('banco');
   });
@@ -89,7 +91,9 @@ describe('Validaciones V7', () => {
     const src = readFileSync(join(core, 'indexx-validaciones.js'), 'utf-8');
     const catLine = src.split('\n').find((l) => l.indexOf('class="category') >= 0) || '';
     expect(catLine).toContain('target="_self"');
-    expect(src).not.toContain('docs/banco-ensayos');
+    // Las categorías siguen sin enlazar a docs; el enlace a docs vive solo
+    // en la vista Documentación (Fase 4).
+    expect(catLine).not.toContain('docs/');
   });
 
   test('ruta de entidad válida y desconocida cae a banco', () => {
@@ -368,7 +372,7 @@ describe('Validaciones V7', () => {
 
   test('rutas del shell de Validaciones', () => {
     expect(Validaciones.ROUTES.map((r) => r.id)).toEqual([
-      'banco', 'protocolos', 'generador', 'firmas', 'documentacion',
+      'banco', 'protocolos', 'generador', 'documentacion',
       'calendario', 'reportes', 'configuracion', 'ayuda',
     ]);
   });
@@ -527,6 +531,56 @@ describe('Validaciones V7', () => {
     expect(src).toContain('paramsFaltantes');
     expect(src).toContain('Faltan ');
     expect(src).toContain('parámetro(s) del banco en el paso 2');
+  });
+});
+
+describe('Validaciones — Fase 4 rutas completas', () => {
+  beforeEach(() => { resetStubs(); });
+
+  test('documentación lista documentos publicados y advierte sobre la vigencia formal', () => {
+    const html = Validaciones.viewDocumentacion();
+    expect(Validaciones.DOCS.length).toBeGreaterThan(0);
+    expect(html).toContain('Protocolo maestro del banco de ensayos');
+    expect(html).toContain('docs/banco-ensayos/PROTOCOLO_MAESTRO.md');
+    expect(html).toMatch(/vigencia formal/i);
+  });
+
+  test('reportes, configuración y ayuda tienen contenido real, no "En construcción"', () => {
+    const rutas = ['viewReportes', 'viewConfiguracion', 'viewAyuda'].map((k) => Validaciones[k]());
+    rutas.forEach((html) => {
+      expect(html).not.toContain('En construcción');
+    });
+    expect(Validaciones.viewReportes()).toContain('id="val-report"');
+    expect(Validaciones.viewConfiguracion()).toContain('id="val-config-form"');
+    expect(Validaciones.viewConfiguracion()).toContain('data-cfg="reviewRoles"');
+    expect(Validaciones.viewAyuda()).toContain('Preguntas frecuentes');
+  });
+
+  test('calendario marca los días con registros', () => {
+    const html = Validaciones.calendarHtml(new Set([7]));
+    expect(html).toMatch(/class="[^"]*event/);
+  });
+
+  test('gráfico: 7 puntos y estadísticas sin cifras inventadas', () => {
+    const hoy = new Date();
+    const key = hoy.getFullYear() + '-' + String(hoy.getMonth() + 1).padStart(2, '0') + '-' + String(hoy.getDate()).padStart(2, '0');
+    const svg = Validaciones.chartHtml([{ day: key, total: 3 }]);
+    expect((svg.match(/chart-dot/g) || []).length).toBe(7);
+    expect(svg).not.toContain('486');
+  });
+
+  test('reporte vacío no inventa conteos; con datos arma tablas', () => {
+    expect(Validaciones.reportHtml(null)).toContain('Aún no hay protocolos');
+    const html = Validaciones.reportHtml({
+      total: 3,
+      byPhase: [{ phase: 'OQ', total: 2 }, { phase: 'PQ', total: 1 }],
+      byCategory: [{ category: 'equipos', total: 3 }],
+      byEntity: [{ category: 'equipos', entity: 'reactor', total: 3 }],
+      byUser: [{ username: 'ana', total: 3 }],
+    });
+    expect(html).toContain('Por fase');
+    expect(html).toContain('OQ');
+    expect(html).toContain('reactor');
   });
 });
 

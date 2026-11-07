@@ -90,6 +90,44 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (SigmaProXVL) con spr
 
 ## CAMBIOS RECIENTES
 
+### 2026-11-07 (254): Validaciones — Fase 4 (rutas completas)
+
+**Qué:** Se completan las rutas que seguían en “En construcción” y se reemplazan los datos de demostración del dashboard por datos del registro real.
+
+- **Documentación:** manifiesto de 9 documentos publicados (protocolo maestro, normas por familia, mapa de diseño, auditoría, reporte de validación y plantillas DQ/IQ/OQ/PQ). La vista advierte que la **vigencia formal la determina Calidad**; no se inventan códigos de aprobación ni un DMS.
+- **Reportes:** nuevo `GET /api/val/v1/reports` (admin) con conteos por fase, categoría, entidad, usuario y día. La vista muestra tablas simples, sin librería de gráficos.
+- **Configuración:** tabla aditiva `validation_settings` (una fila `global`) y endpoints `GET/PUT /api/val/v1/settings` (PUT solo admin). Ajustes: nombre de organización, URL de logo, prefijo de numeración y roles de revisión/aprobación. Cada cambio deja `VALIDATION_SETTINGS_UPDATED` en la cadena de auditoría.
+- **Ayuda:** guía de 5 pasos, preguntas frecuentes y contacto con el administrador/Calidad. Sin correos inventados.
+- **Calendario:** marca los días con protocolos registrados y lista los últimos protocolos. Se eliminan las “próximas tareas” inventadas.
+- **Dashboard:** el gráfico de los últimos 7 días y la lista de últimos protocolos salen del registro real; se eliminan las cifras fijas 486 / 69 / 14 % y el selector de periodo que no hacía nada.
+- **Firmas:** se retira del menú hasta que exista la Fase 3 (firma electrónica); ya no queda ninguna ruta en “En construcción”. `shortcut: Firmas vuelve al menú cuando exista la Fase 3.`
+- **Sin cambios destructivos:** no se tocan tablas existentes ni los flujos de generación/descarga. Rollback = revertir el PR; la tabla nueva queda sin uso.
+
+**Nota de cumplimiento:** la vista Documentación solo enlaza documentos ya publicados en el repositorio. La codificación/versión oficial y la aprobación formal siguen siendo responsabilidad de Calidad; el módulo no sustituye al gestor documental.
+
+**Archivos afectados:**
+| Archivo | Cambio |
+|---------|--------|
+| `backend/database.js` | Tabla `validation_settings`, settings y reporte agregado en PG y store local |
+| `backend/server.js` | `GET/PUT /api/val/v1/settings` + `GET /api/val/v1/reports` + auditoría |
+| `js/core/indexx-validaciones.js` | Vistas Documentación/Reportes/Configuración/Ayuda/Calendario, gráfico y últimos protocolos reales; Firmas fuera del menú |
+| `css/validaciones-dashboard.css` | Tablas de reportes, bloques de documentación y guía |
+| `tests/validaciones-panel.test.js` | Rutas y vistas de Fase 4 (5 tests nuevos, 45 en el archivo) |
+| `backend/tests/validation-reports.test.js` | **Nuevo** — 3 tests de settings y reporte |
+| `ESTADO_PROYECTO.md` | Entrada 254 |
+
+**Verificación:**
+```
+node --check database.js, server.js, indexx-validaciones.js → OK
+typecheck → 0 errores
+Vitest → 63 archivos, 1072 tests OK
+Backend node:test → 149 tests OK
+Chromium (mock de reportes): 6 rutas, 0 overflow horizontal, 0 errores de consola
+Preflight + E2E → 13 tests OK
+```
+
+**Pendiente:** Fase 3 (firma electrónica de protocolos) para devolver Firmas al menú y llenar el estado de los protocolos; la configuración de roles queda guardada pero se aplicará en esa fase; si Calidad exige un DMS, integrarlo en Fase 6.
+
 ### 2026-11-07 (253): Validaciones — Fase 2 (registro inmutable de protocolos)
 
 **Qué:** Se implementa el registro de cada protocolo emitido con archivo original, SHA-256 calculado en servidor, metadatos y evento en la cadena de auditoría.
