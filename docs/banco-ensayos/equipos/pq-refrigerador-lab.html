@@ -12,9 +12,8 @@
 
 <p><a href="../equipos.html">← Equipos e Instrumentos</a></p>
 <h2>PQ — Refrigerador de laboratorio (2–8 °C) (banco por familia)</h2>
-<p>Versión del banco: <span data-banco-version>EQ-PQ-RF 2026-10-14 v1</span></p>
+<p>Versión del banco: <span data-banco-version>EQ-PQ-RF 2026-11-06 v2</span></p>
 <p>Ensayos de Calificación de Desempeño específicos del refrigerador (<span class="equipo">equipo</span>). Se filtran por familia (<code>data-familia="refrigerador-lab"</code>) según la entidad elegida en el paso 1. Fuente: ENSAYOS.txt del usuario (neveras).</p>
-
 <!-- ================= PQ ================= -->
 <section id="fase-pq" data-familia="refrigerador-lab">
 <h2>PQ — Ensayos</h2>
@@ -56,6 +55,7 @@
 <div class="alcance" data-bloque="1">
 <p><strong>ALCANCE</strong></p>
 <p>Esta calificación aplica a <span class="equipo">equipo</span>, según protocolo PQ, y cubre los ensayos listados en el índice.</p>
+<p><strong>Consolidación aprobada el 2026-11-06:</strong> la lista fuente de 20 ensayos se mantiene consolidada en 16 ensayos de banco. El ensayo 19 (repetibilidad del desempeño) se incorpora como <strong>EQ-PQ-RF-015</strong> y el ensayo 20 (revisión de registros y datos) como <strong>EQ-PQ-RF-016</strong>; los ensayos 1 y 2 quedan cubiertos por los requisitos comunes (<code>EQ-PQ-REQ</code> y <code>EQ-PQ-COM-001</code>) y las fusiones de mapeo, apertura+recuperación, falla+recuperación y alarmas se conservan. El congelador de laboratorio usa este mismo protocolo: solo cambia el rango de temperatura (2–8 °C frente a −20 °C); los setpoints y criterios se toman de la URS de cada equipo.</p>
 </div>
 
 
@@ -275,13 +275,52 @@
   <p><strong>Referencia:</strong><br>URS aprobada (rangos y criterios).</p>
 </article>
 
+<article data-bloque="3" id="art-EQ-PQ-RF-015" class="ensayo" data-id="EQ-PQ-RF-015" data-fase="PQ" data-cond="ambas" data-familia="refrigerador-lab" data-analisis="si">
+  <h3>EQ-PQ-RF-015 — Repetibilidad del desempeño</h3>
+  <p><strong>Objetivo:</strong><br>Verificar que el desempeño térmico del refrigerador es repetible entre ciclos de mapeo independientes, en las mismas condiciones de carga y setpoint.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Repetir el mapeo con carga representativa de EQ-PQ-RF-001 o EQ-PQ-RF-002 al menos tres veces, en días distintos o con reubicación de sensores, manteniendo el setpoint y la carga<br>
+  2) Registrar por sensor y por ciclo la temperatura media, mínima y máxima<br>
+  3) Calcular la diferencia entre ciclos por sensor (máxima diferencia de medias y de extremos)<br>
+  4) Procesar los datos crudos de repetibilidad en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = temperatura media, mínima y máxima por sensor y ciclo; tamaño de muestra = mínimo 3 ciclos × todos los sensores del mapeo; estadísticos = media, desviación estándar, RSD y rango entre ciclos por sensor, y coeficiente de correlación intraclase cuando el diseño lo permita; tendencia = diferencia entre ciclos contra el orden de ejecución; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en la URS aprobada y en los criterios del mapeo (EQ-PQ-RF-001/002/004).</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  La diferencia entre ciclos por sensor está dentro del criterio definido en la URS aprobada.<br>
+  Todos los sensores permanecen dentro del rango en los tres ciclos.<br>
+  La repetibilidad (RSD o diferencia máxima entre ciclos) está dentro del criterio aprobado.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro de los ciclos de repetibilidad con data cruda y reporte<br>
+  - Data cruda y reporte estadístico del análisis de repetibilidad<br>
+  - Certificados vigentes de los sensores utilizados</p>
+  <p><strong>Referencia:</strong><br>URS aprobada (rangos y criterios); EU GMP Anexo 15.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-PQ-RF-016" class="ensayo" data-id="EQ-PQ-RF-016" data-fase="PQ" data-cond="ambas" data-familia="refrigerador-lab">
+  <h3>EQ-PQ-RF-016 — Revisión de registros y datos</h3>
+  <p><strong>Objetivo:</strong><br>Verificar que los registros del PQ están completos, legibles, trazables y revisados conforme a ALCOA+, y que la data cruda y los reportes coinciden con el informe.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Revisar que cada ensayo del PQ tenga registro con fecha, hora, identificación del equipo, sensor, setpoint y responsable<br>
+  2) Verificar que cada excursión o desviación tenga evaluación de impacto y disposición documentada<br>
+  3) Verificar que la data cruda y los reportes estadísticos estén anexados y coincidan con el informe<br>
+  4) Verificar que las correcciones estén firmadas, fechadas y justificadas, sin borrado ni sobreescritura</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  El 100 % de los ensayos tiene registro completo y trazable.<br>
+  Toda excursión o desviación tiene evaluación de impacto y disposición documentada.<br>
+  La data cruda y los reportes están anexados y son consistentes con el informe.<br>
+  Las correcciones son trazables (ALCOA+).</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Lista de verificación de registros por ensayo (anexo del informe)<br>
+  - Registro de revisión de data cruda, reportes y desviaciones</p>
+  <p><strong>Referencia:</strong><br>EU GMP Anexo 15; 21 CFR Part 11 / EU GMP Anexo 11; ALCOA+.</p>
+</article>
+
 <article data-bloque="4" id="art-EQ-PQ-RF-RES" class="ensayo" data-id="EQ-PQ-RF-RES" data-fase="PQ" data-cond="ambas" data-familia="refrigerador-lab">
   <h3>EQ-PQ-RF-RES — Tabla resumen de los ensayos del PQ</h3>
   <p><strong>Objetivo:</strong><br>Consolidar el listado de ensayos del PQ del refrigerador para la tabla resumen del protocolo.</p>
   <p><strong>Procedimiento:</strong><br>
-  1) Confirmar que los ensayos EQ-PQ-RF-001 a EQ-PQ-RF-014 están incluidos en el índice del protocolo</p>
+  1) Confirmar que los ensayos EQ-PQ-RF-001 a EQ-PQ-RF-016 están incluidos en el índice del protocolo</p>
   <p><strong>Criterio de aceptación:</strong><br>
-  Los 14 ensayos aparecen en la tabla resumen con su veredicto.</p>
+  Los 16 ensayos aparecen en la tabla resumen con su veredicto.</p>
   <p><strong>Referencia:</strong><br>EU GMP Anexo 15.</p>
 </article>
 
@@ -299,9 +338,9 @@
 <p><strong>ANEXOS:</strong></p>
 <table>
 <tr><th>SECCIÓN</th><th>TÍTULO</th></tr>
-<tr><td>8.1</td><td>Anexo A — Registros de mapeo con carga, hold-up y operación continua</td></tr>
+<tr><td>8.1</td><td>Anexo A — Registros de mapeo con carga, hold-up, operación continua y repetibilidad del desempeño</td></tr>
 <tr><td>8.2</td><td>Anexo B — Certificados de calibración de patrones e instrumentos</td></tr>
-<tr><td>8.3</td><td>Anexo C — Registros de retos, excursiones y alarmas verificadas</td></tr>
+<tr><td>8.3</td><td>Anexo C — Registros de retos, excursiones y alarmas verificadas; revisión de registros y datos</td></tr>
 <tr><td>8.4</td><td>Anexo D — Matriz de trazabilidad requisito-prueba (RTM) y evidencia de revisión</td></tr>
 </table>
 </div>

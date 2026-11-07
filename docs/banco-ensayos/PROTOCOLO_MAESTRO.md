@@ -58,6 +58,8 @@ Cada ensayo debe incluir, en este orden:
 
 **Backfill completado (F1.1):** autoclave, congelador de laboratorio, horno de secado, horno de vacío, lecho fluido, llenadora de líquidos, llenadora y selladora de tubos, mezclador y refrigerador de laboratorio. Los 9 ya tienen bloques 6 y 8 y normas específicas declaradas; el validador los cubre desde esta versión.
 
+**Refrigerador y congelador de laboratorio (2026-11-06):** el PQ de ambas familias queda consolidado en **16 ensayos** (`EQ-PQ-RF-001…016` y `EQ-PQ-CG-001…016`), con la repetibilidad del desempeño (`015`) y la revisión de registros y datos (`016`) incorporadas desde la lista fuente de 20 ensayos. Se mantiene un solo protocolo por familia porque los equipos **solo difieren en el rango de temperatura** (2–8 °C frente a −20 °C); setpoints y criterios provienen de la URS de cada equipo.
+
 ### 4.1 Instrumentos analíticos tipo L (excepción declarada)
 
 La balanza analítica/precisión y el viscosímetro rotacional son instrumentos analíticos **tipo L**. Se califican con **OQ** y no llevan PQ salvo que el responsable técnico lo determine. Les aplica `USP <1058>`; el validador de familias M no los cuenta como familias de producción.
@@ -96,6 +98,7 @@ El validador comprueba, para las 18 familias con protocolo (9 prioritarias + 9 b
 - [x] La tabla de resultados replica criterios, no pasos.
 - [x] Los IQ de sistemas están cableados (HVAC, agua, vapor y aire).
 - [x] El viscosímetro rotacional tiene banco OQ propio de 17 ensayos, sin PQ y con referencias aprobadas.
+- [x] El PQ de refrigerador y congelador de laboratorio queda consolidado en 16 ensayos por familia, con repetibilidad y revisión de registros.
 - [x] Los ensayos sin software (usuarios y respaldo) declaran no aplica con justificación.
 - [ ] `npm run protocolo:check` sin errores.
 - [ ] `npm test` y `npm run preflight` verdes.

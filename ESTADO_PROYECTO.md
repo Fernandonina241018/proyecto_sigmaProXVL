@@ -90,6 +90,38 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (SigmaProXVL) con spr
 
 ## CAMBIOS RECIENTES
 
+### 2026-11-06 (245): PQ consolidado de refrigerador y congelador (20 → 16 ensayos)
+
+**Qué:** Se aplican las tres respuestas del responsable técnico a la verificación del PQ del refrigerador contra `ENSAYOS.txt`:
+
+1. **Viscosímetro:** sigue **sin PQ** (instrumento tipo L). No se crea `pq-viscosimetro.html`; la reproducibilidad permanece en el OQ (`EQ-OQ-VS-009`).
+2. **Refrigerador:** se acepta la consolidación actual y no se fuerza la cobertura 1:1 de los 20 ensayos del archivo. Se agregan los dos ensayos que faltaban: **repetibilidad del desempeño** (`EQ-PQ-RF-015`) y **revisión de registros y datos** (`EQ-PQ-RF-016`). El banco pasa de 14 a **16 ensayos**.
+3. **Congelador:** usa la misma lista y el mismo protocolo que el refrigerador porque **solo cambia el rango de temperatura** (2–8 °C frente a −20 °C). Se agregan `EQ-PQ-CG-015` y `EQ-PQ-CG-016`; el banco pasa de 14 a **16 ensayos**.
+
+**Criterio de consolidación:** los ensayos 1 y 2 de la lista fuente siguen cubiertos por `EQ-PQ-REQ` y `EQ-PQ-COM-001`; se conservan las fusiones de mapeo, apertura+recuperación, falla+recuperación y alarmas. Los setpoints y límites numéricos se toman de la URS de cada equipo; no se inventaron valores.
+
+**Archivos afectados:**
+| Archivo | Cambio |
+|---------|--------|
+| `docs/banco-ensayos/equipos/pq-refrigerador-lab.html` | **v2** — nota de consolidación, RF-015 y RF-016, resumen y anexos a 16 |
+| `docs/banco-ensayos/equipos/pq-congelador-lab.html` | **v2** — misma consolidación con IDs CG-015 y CG-016 |
+| `js/core/banco-equipos-data.js` | Regenerado (964 artículos, 964 IDs únicos) |
+| `tests/banco-refrigerador-pq.test.js` | **Nuevo** — 13 tests de consolidación, IDs, análisis y decisión del viscosímetro |
+| `tests/bancos-contrato.test.js` | Conteo PQ de refrigerador y congelador 14 → 16 |
+| `docs/banco-ensayos/NORMAS_POR_FAMILIA.md` | Nota de consolidación de ambas familias |
+| `docs/banco-ensayos/PROTOCOLO_MAESTRO.md` | Nota de consolidación y criterio de aceptación |
+
+**Verificación:**
+```
+node --check tests/banco-refrigerador-pq.test.js → OK
+node scripts/extraer-banco.mjs equipos → OK (964 artículos, 964 IDs únicos)
+Vitest → 63 archivos, 1062 tests OK
+protocolo:check → OK (18 warnings de las 9 familias M pendientes)
+typecheck → OK
+```
+
+**Decisión pendiente que sigue abierta:** la verificación 1:1 de los 20 ensayos del archivo no se persigue; cualquier ensayo nuevo de la lista fuente debe evaluarse contra este banco consolidado antes de agregarse.
+
 ### 2026-11-06 (244): Banco OQ del viscosímetro rotacional (tipo L, sin PQ)
 
 **Qué:** Se monta el banco OQ del viscosímetro rotacional aplicando las 6 respuestas del responsable técnico:

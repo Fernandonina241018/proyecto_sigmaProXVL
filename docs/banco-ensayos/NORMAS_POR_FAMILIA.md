@@ -39,6 +39,8 @@ Las **9 familias prioritarias** (tableteadora, encapsuladora, granulador, recubr
 
 **Viscosímetro rotacional (cerrado el 2026-11-06):** el responsable técnico aprobó las referencias específicas y confirmó que el equipo es rotacional tipo Brookfield. Se implementó un banco OQ de **17 ensayos** (`EQ-OQ-VS-001` a `EQ-OQ-VS-017`) y **no lleva PQ**: la reproducibilidad se evalúa en el OQ (`EQ-OQ-VS-009`). Los ensayos de gestión de usuarios (`EQ-OQ-VS-014`) y respaldo (`EQ-OQ-VS-015`) se declaran **NO APLICA** para la configuración actual sin software de gestión, con justificación documentada.
 
+**Refrigerador y congelador de laboratorio (consolidado el 2026-11-06):** la lista fuente de 20 ensayos se mantiene consolidada en **16 ensayos de banco** por familia (`EQ-PQ-RF-001` a `EQ-PQ-RF-016` y `EQ-PQ-CG-001` a `EQ-PQ-CG-016`). Se incorporaron el ensayo 19 como **repetibilidad del desempeño** (`015`) y el ensayo 20 como **revisión de registros y datos** (`016`); el resto de la lista se conserva con las fusiones aprobadas. Ambos equipos comparten el mismo protocolo porque **solo cambia el rango de temperatura** (2–8 °C frente a −20 °C); los setpoints y criterios se toman de la URS de cada equipo.
+
 Para cerrarlas, el responsable técnico debe entregar por familia:
 
 1. Norma o guía específica (código, título y año/versión).
