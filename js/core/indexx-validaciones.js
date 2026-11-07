@@ -953,7 +953,12 @@ const Validaciones = (() => {
         if (f.min != null && n < f.min) errores.push(f.label + ' no puede ser menor que ' + f.min);
         if (f.max != null && n > f.max) errores.push(f.label + ' no puede ser mayor que ' + f.max);
       }
-      if (f.tipo === 'date' && !/^\d{4}-\d{2}-\d{2}$/.test(s)) errores.push(f.label + ' no es una fecha válida');
+      if (f.tipo === 'date') {
+        const d = new Date(s + 'T00:00:00');
+        if (!/^\d{4}-\d{2}-\d{2}$/.test(s) || isNaN(d.getTime()) || d.toISOString().slice(0, 10) !== s) {
+          errores.push(f.label + ' no es una fecha válida');
+        }
+      }
       if (f.tipo === 'select' && f.opciones && f.opciones.indexOf(s) < 0) errores.push(f.label + ' tiene una opción no válida');
     });
     const num = function (k) {
