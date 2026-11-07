@@ -15,9 +15,9 @@ const familiasBackfill = [
   'llenadora', 'llenadora-tubos', 'mezclador', 'refrigerador-lab',
 ];
 const familias = familiasPrioritarias.concat(familiasBackfill);
-// La balanza es un instrumento analítico (tipo L): USP <1058> sí le aplica.
-// No forma parte de las familias M y no debe fallar por citarla.
-const instrumentosAnaliticos = new Set(['balanza']);
+// La balanza y el viscosímetro son instrumentos analíticos (tipo L): USP <1058> sí les aplica.
+// No forman parte de las familias M y no deben fallar por citarla.
+const instrumentosAnaliticos = new Set(['balanza', 'viscosimetro']);
 const fases = ['oq', 'pq'];
 const errors = [];
 const warnings = [];

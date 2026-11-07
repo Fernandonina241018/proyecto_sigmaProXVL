@@ -729,6 +729,28 @@ describe('Objetivo en su propia línea (requisitos del modelo)', () => {
   });
 });
 
+describe('OQ viscosímetro (tipo L, sin PQ)', () => {
+  const DRAFT_VS = { ...DRAFT, descripcion: 'Viscosímetro rotacional Brookfield DV2T', tipo: 'Instrumento' };
+  const ENT_VS = { id: 'viscosimetro', nombre: 'Viscosímetro' };
+
+  it('genera 18 ensayos (1 común + 17 de familia) y resuelve USP <1058>', async () => {
+    const u8 = new Uint8Array(readFileSync(resolve(raiz, P.PLANTILLAS.OQ)));
+    const r = await P.generar('OQ', u8, banco, DRAFT_VS, ENT_VS, 'ambas');
+    expect(r.ensayos).toHaveLength(18);
+    expect(r.ensayos).toContain('EQ-OQ-VS-001');
+    expect(r.ensayos).toContain('EQ-OQ-VS-017');
+    expect(r.ensayos).not.toContain('EQ-OQ-VS-018');
+    const arch = Object.fromEntries((await P._interno.leerZip(r.bytes)).map((a) => [a.nombre, dec(a.datos)]));
+    const plano = arch['word/document.xml'].replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ')
+      .replace(/&lt;/g, '<').replace(/&gt;/g, '>');
+    const low = plano.toLowerCase();
+    expect(plano).toContain('USP <1058>');
+    expect(plano).not.toContain('USP <911>');
+    expect(low).toContain('del viscosímetro');
+    expect(low).not.toContain('de la viscosímetro');
+  });
+});
+
 describe('OQ/PQ tableteadora: referencias y anexos completos', () => {
   const DRAFT_TB = { ...DRAFT, descripcion: 'Tableteadora rotativa', tipo: 'Equipo de producción' };
   const ENT_TB = { id: 'tableteadora', nombre: 'Tableteadora rotativa' };

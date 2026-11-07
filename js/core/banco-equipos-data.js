@@ -1,7 +1,7 @@
 // Generado por scripts/extraer-banco.mjs equipos — NO EDITAR A MANO.
-// Fuente: docs/banco-ensayos/equipos-comun.html + docs/banco-ensayos/equipos/oq-comun.html + docs/banco-ensayos/equipos/pq-comun.html + docs/banco-ensayos/equipos/iq-autoclave.html + docs/banco-ensayos/equipos/iq-tunel-despirogenizacion.html + docs/banco-ensayos/equipos/iq-liofilizador.html + docs/banco-ensayos/equipos/iq-reactor.html + docs/banco-ensayos/equipos/iq-horno-vacio.html + docs/banco-ensayos/equipos/iq-llenadora.html + docs/banco-ensayos/equipos/oq-llenadora.html + docs/banco-ensayos/equipos/oq-llenadora-tubos.html + docs/banco-ensayos/equipos/pq-llenadora.html + docs/banco-ensayos/equipos/pq-llenadora-tubos.html + docs/banco-ensayos/equipos/iq-lecho-fluido.html + docs/banco-ensayos/equipos/iq-tableteadora.html + docs/banco-ensayos/equipos/iq-encapsuladora.html + docs/banco-ensayos/equipos/iq-granulador.html + docs/banco-ensayos/equipos/iq-recubridora.html + docs/banco-ensayos/equipos/iq-blistera.html + docs/banco-ensayos/equipos/iq-detector-metales.html + docs/banco-ensayos/equipos/iq-etiquetadora.html + docs/banco-ensayos/equipos/iq-mezclador.html + docs/banco-ensayos/equipos/iq-horno-secado.html + docs/banco-ensayos/equipos/iq-sistema-cremas-vacio.html + docs/banco-ensayos/equipos/oq-reactor.html + docs/banco-ensayos/equipos/pq-reactor.html + docs/banco-ensayos/equipos/oq-sistema-cremas-vacio.html + docs/banco-ensayos/equipos/pq-sistema-cremas-vacio.html + docs/banco-ensayos/equipos/oq-tableteadora.html + docs/banco-ensayos/equipos/pq-tableteadora.html + docs/banco-ensayos/equipos/oq-encapsuladora.html + docs/banco-ensayos/equipos/pq-encapsuladora.html + docs/banco-ensayos/equipos/oq-granulador.html + docs/banco-ensayos/equipos/pq-granulador.html + docs/banco-ensayos/equipos/oq-recubridora.html + docs/banco-ensayos/equipos/pq-recubridora.html + docs/banco-ensayos/equipos/oq-blistera.html + docs/banco-ensayos/equipos/pq-blistera.html + docs/banco-ensayos/equipos/oq-detector-metales.html + docs/banco-ensayos/equipos/pq-detector-metales.html + docs/banco-ensayos/equipos/oq-etiquetadora.html + docs/banco-ensayos/equipos/pq-etiquetadora.html + docs/banco-ensayos/equipos/oq-lecho-fluido.html + docs/banco-ensayos/equipos/oq-autoclave.html + docs/banco-ensayos/equipos/oq-mezclador.html + docs/banco-ensayos/equipos/oq-horno.html + docs/banco-ensayos/equipos/pq-lecho-fluido.html + docs/banco-ensayos/equipos/pq-autoclave.html + docs/banco-ensayos/equipos/pq-mezclador.html + docs/banco-ensayos/equipos/pq-horno.html + docs/banco-ensayos/equipos/pq-horno-vacio.html + docs/banco-ensayos/equipos/oq-horno-vacio.html + docs/banco-ensayos/equipos/oq-refrigerador-lab.html + docs/banco-ensayos/equipos/pq-refrigerador-lab.html + docs/banco-ensayos/equipos/oq-congelador-lab.html + docs/banco-ensayos/equipos/pq-congelador-lab.html + docs/banco-ensayos/equipos/oq-balanza.html (versión: EQ-COMUN 2026-11-04 v4 + EQ-OQ-COM 2026-11-04 v3 + EQ-PQ-COM 2026-11-04 v3 + EQ-IQ-AU 2026-10-07 v1 + EQ-IQ-TD 2026-10-07 v1 + EQ-IQ-LI 2026-10-07 v1 + EQ-IQ-RC 2026-10-21 v2 + EQ-IQ-VA 2026-10-21 v2 + EQ-IQ-LL 2026-10-29 v3 + EQ-OQ-LL 2026-10-29 v2 + EQ-OQ-LT 2026-10-29 v2 + EQ-PQ-LL 2026-10-29 v2 + EQ-PQ-LT 2026-10-29 v4 + EQ-IQ-LF 2026-10-07 v1 + EQ-IQ-TB 2026-10-08 v1 + EQ-IQ-EN 2026-10-08 v1 + EQ-IQ-GR 2026-10-08 v1 + EQ-IQ-RB 2026-10-09 v1 + EQ-IQ-BL 2026-10-09 v1 + EQ-IQ-DM 2026-10-11 v1 + EQ-IQ-ET 2026-10-11 v1 + EQ-IQ-MZ 2026-10-11 v1 + EQ-IQ-HO 2026-10-11 v1 + EQ-IQ-UC 2026-10-21 v2 + EQ-OQ-RC 2026-10-07 v1 + EQ-PQ-RC 2026-10-07 v1 + EQ-OQ-UC 2026-10-12 v1 + EQ-PQ-UC 2026-10-12 v1 + EQ-OQ-TB 2026-10-08 v1 + EQ-PQ-TB 2026-10-08 v1 + EQ-OQ-EN 2026-10-08 v1 + EQ-PQ-EN 2026-10-08 v1 + EQ-OQ-GR 2026-10-08 v1 + EQ-PQ-GR 2026-10-08 v1 + EQ-OQ-RB 2026-10-09 v1 + EQ-PQ-RB 2026-10-09 v1 + EQ-OQ-BL 2026-10-09 v1 + EQ-PQ-BL 2026-10-09 v1 + EQ-OQ-DM 2026-10-11 v1 + EQ-PQ-DM 2026-10-11 v1 + EQ-OQ-ET 2026-10-11 v1 + EQ-PQ-ET 2026-10-11 v1 + EQ-OQ-LF 2026-10-21 v3 + EQ-OQ-AU 2026-10-21 v3 + EQ-OQ-MZ 2026-10-21 v3 + EQ-OQ-HO 2026-10-21 v2 + EQ-PQ-LF 2026-10-21 v3 + EQ-PQ-AU 2026-10-21 v3 + EQ-PQ-MZ 2026-10-21 v3 + EQ-PQ-HO 2026-10-21 v2 + EQ-PQ-VA 2026-10-21 v2 + EQ-OQ-VA 2026-10-21 v2 + EQ-OQ-RF 2026-10-14 v1 + EQ-PQ-RF 2026-10-14 v1 + EQ-OQ-CG 2026-10-14 v1 + EQ-PQ-CG 2026-10-14 v1 + EQ-OQ-BA 2026-10-22 v1).
+// Fuente: docs/banco-ensayos/equipos-comun.html + docs/banco-ensayos/equipos/oq-comun.html + docs/banco-ensayos/equipos/pq-comun.html + docs/banco-ensayos/equipos/iq-autoclave.html + docs/banco-ensayos/equipos/iq-tunel-despirogenizacion.html + docs/banco-ensayos/equipos/iq-liofilizador.html + docs/banco-ensayos/equipos/iq-reactor.html + docs/banco-ensayos/equipos/iq-horno-vacio.html + docs/banco-ensayos/equipos/iq-llenadora.html + docs/banco-ensayos/equipos/oq-llenadora.html + docs/banco-ensayos/equipos/oq-llenadora-tubos.html + docs/banco-ensayos/equipos/pq-llenadora.html + docs/banco-ensayos/equipos/pq-llenadora-tubos.html + docs/banco-ensayos/equipos/iq-lecho-fluido.html + docs/banco-ensayos/equipos/iq-tableteadora.html + docs/banco-ensayos/equipos/iq-encapsuladora.html + docs/banco-ensayos/equipos/iq-granulador.html + docs/banco-ensayos/equipos/iq-recubridora.html + docs/banco-ensayos/equipos/iq-blistera.html + docs/banco-ensayos/equipos/iq-detector-metales.html + docs/banco-ensayos/equipos/iq-etiquetadora.html + docs/banco-ensayos/equipos/iq-mezclador.html + docs/banco-ensayos/equipos/iq-horno-secado.html + docs/banco-ensayos/equipos/iq-sistema-cremas-vacio.html + docs/banco-ensayos/equipos/oq-reactor.html + docs/banco-ensayos/equipos/pq-reactor.html + docs/banco-ensayos/equipos/oq-sistema-cremas-vacio.html + docs/banco-ensayos/equipos/pq-sistema-cremas-vacio.html + docs/banco-ensayos/equipos/oq-tableteadora.html + docs/banco-ensayos/equipos/pq-tableteadora.html + docs/banco-ensayos/equipos/oq-encapsuladora.html + docs/banco-ensayos/equipos/pq-encapsuladora.html + docs/banco-ensayos/equipos/oq-granulador.html + docs/banco-ensayos/equipos/pq-granulador.html + docs/banco-ensayos/equipos/oq-recubridora.html + docs/banco-ensayos/equipos/pq-recubridora.html + docs/banco-ensayos/equipos/oq-blistera.html + docs/banco-ensayos/equipos/pq-blistera.html + docs/banco-ensayos/equipos/oq-detector-metales.html + docs/banco-ensayos/equipos/pq-detector-metales.html + docs/banco-ensayos/equipos/oq-etiquetadora.html + docs/banco-ensayos/equipos/pq-etiquetadora.html + docs/banco-ensayos/equipos/oq-lecho-fluido.html + docs/banco-ensayos/equipos/oq-autoclave.html + docs/banco-ensayos/equipos/oq-mezclador.html + docs/banco-ensayos/equipos/oq-horno.html + docs/banco-ensayos/equipos/pq-lecho-fluido.html + docs/banco-ensayos/equipos/pq-autoclave.html + docs/banco-ensayos/equipos/pq-mezclador.html + docs/banco-ensayos/equipos/pq-horno.html + docs/banco-ensayos/equipos/pq-horno-vacio.html + docs/banco-ensayos/equipos/oq-horno-vacio.html + docs/banco-ensayos/equipos/oq-refrigerador-lab.html + docs/banco-ensayos/equipos/pq-refrigerador-lab.html + docs/banco-ensayos/equipos/oq-congelador-lab.html + docs/banco-ensayos/equipos/pq-congelador-lab.html + docs/banco-ensayos/equipos/oq-balanza.html + docs/banco-ensayos/equipos/oq-viscosimetro.html (versión: EQ-COMUN 2026-11-04 v4 + EQ-OQ-COM 2026-11-04 v3 + EQ-PQ-COM 2026-11-04 v3 + EQ-IQ-AU 2026-10-07 v1 + EQ-IQ-TD 2026-10-07 v1 + EQ-IQ-LI 2026-10-07 v1 + EQ-IQ-RC 2026-10-21 v2 + EQ-IQ-VA 2026-10-21 v2 + EQ-IQ-LL 2026-10-29 v3 + EQ-OQ-LL 2026-10-29 v2 + EQ-OQ-LT 2026-10-29 v2 + EQ-PQ-LL 2026-10-29 v2 + EQ-PQ-LT 2026-10-29 v4 + EQ-IQ-LF 2026-10-07 v1 + EQ-IQ-TB 2026-10-08 v1 + EQ-IQ-EN 2026-10-08 v1 + EQ-IQ-GR 2026-10-08 v1 + EQ-IQ-RB 2026-10-09 v1 + EQ-IQ-BL 2026-10-09 v1 + EQ-IQ-DM 2026-10-11 v1 + EQ-IQ-ET 2026-10-11 v1 + EQ-IQ-MZ 2026-10-11 v1 + EQ-IQ-HO 2026-10-11 v1 + EQ-IQ-UC 2026-10-21 v2 + EQ-OQ-RC 2026-10-07 v1 + EQ-PQ-RC 2026-10-07 v1 + EQ-OQ-UC 2026-10-12 v1 + EQ-PQ-UC 2026-10-12 v1 + EQ-OQ-TB 2026-10-08 v1 + EQ-PQ-TB 2026-10-08 v1 + EQ-OQ-EN 2026-10-08 v1 + EQ-PQ-EN 2026-10-08 v1 + EQ-OQ-GR 2026-10-08 v1 + EQ-PQ-GR 2026-10-08 v1 + EQ-OQ-RB 2026-10-09 v1 + EQ-PQ-RB 2026-10-09 v1 + EQ-OQ-BL 2026-10-09 v1 + EQ-PQ-BL 2026-10-09 v1 + EQ-OQ-DM 2026-10-11 v1 + EQ-PQ-DM 2026-10-11 v1 + EQ-OQ-ET 2026-10-11 v1 + EQ-PQ-ET 2026-10-11 v1 + EQ-OQ-LF 2026-10-21 v3 + EQ-OQ-AU 2026-10-21 v3 + EQ-OQ-MZ 2026-10-21 v3 + EQ-OQ-HO 2026-10-21 v2 + EQ-PQ-LF 2026-10-21 v3 + EQ-PQ-AU 2026-10-21 v3 + EQ-PQ-MZ 2026-10-21 v3 + EQ-PQ-HO 2026-10-21 v2 + EQ-PQ-VA 2026-10-21 v2 + EQ-OQ-VA 2026-10-21 v2 + EQ-OQ-RF 2026-10-14 v1 + EQ-PQ-RF 2026-10-14 v1 + EQ-OQ-CG 2026-10-14 v1 + EQ-PQ-CG 2026-10-14 v1 + EQ-OQ-BA 2026-10-22 v1 + EQ-OQ-VS 2026-11-06 v1).
 var BancoEquipos = {
- "version": "EQ-COMUN 2026-11-04 v4 + EQ-OQ-COM 2026-11-04 v3 + EQ-PQ-COM 2026-11-04 v3 + EQ-IQ-AU 2026-10-07 v1 + EQ-IQ-TD 2026-10-07 v1 + EQ-IQ-LI 2026-10-07 v1 + EQ-IQ-RC 2026-10-21 v2 + EQ-IQ-VA 2026-10-21 v2 + EQ-IQ-LL 2026-10-29 v3 + EQ-OQ-LL 2026-10-29 v2 + EQ-OQ-LT 2026-10-29 v2 + EQ-PQ-LL 2026-10-29 v2 + EQ-PQ-LT 2026-10-29 v4 + EQ-IQ-LF 2026-10-07 v1 + EQ-IQ-TB 2026-10-08 v1 + EQ-IQ-EN 2026-10-08 v1 + EQ-IQ-GR 2026-10-08 v1 + EQ-IQ-RB 2026-10-09 v1 + EQ-IQ-BL 2026-10-09 v1 + EQ-IQ-DM 2026-10-11 v1 + EQ-IQ-ET 2026-10-11 v1 + EQ-IQ-MZ 2026-10-11 v1 + EQ-IQ-HO 2026-10-11 v1 + EQ-IQ-UC 2026-10-21 v2 + EQ-OQ-RC 2026-10-07 v1 + EQ-PQ-RC 2026-10-07 v1 + EQ-OQ-UC 2026-10-12 v1 + EQ-PQ-UC 2026-10-12 v1 + EQ-OQ-TB 2026-10-08 v1 + EQ-PQ-TB 2026-10-08 v1 + EQ-OQ-EN 2026-10-08 v1 + EQ-PQ-EN 2026-10-08 v1 + EQ-OQ-GR 2026-10-08 v1 + EQ-PQ-GR 2026-10-08 v1 + EQ-OQ-RB 2026-10-09 v1 + EQ-PQ-RB 2026-10-09 v1 + EQ-OQ-BL 2026-10-09 v1 + EQ-PQ-BL 2026-10-09 v1 + EQ-OQ-DM 2026-10-11 v1 + EQ-PQ-DM 2026-10-11 v1 + EQ-OQ-ET 2026-10-11 v1 + EQ-PQ-ET 2026-10-11 v1 + EQ-OQ-LF 2026-10-21 v3 + EQ-OQ-AU 2026-10-21 v3 + EQ-OQ-MZ 2026-10-21 v3 + EQ-OQ-HO 2026-10-21 v2 + EQ-PQ-LF 2026-10-21 v3 + EQ-PQ-AU 2026-10-21 v3 + EQ-PQ-MZ 2026-10-21 v3 + EQ-PQ-HO 2026-10-21 v2 + EQ-PQ-VA 2026-10-21 v2 + EQ-OQ-VA 2026-10-21 v2 + EQ-OQ-RF 2026-10-14 v1 + EQ-PQ-RF 2026-10-14 v1 + EQ-OQ-CG 2026-10-14 v1 + EQ-PQ-CG 2026-10-14 v1 + EQ-OQ-BA 2026-10-22 v1",
+ "version": "EQ-COMUN 2026-11-04 v4 + EQ-OQ-COM 2026-11-04 v3 + EQ-PQ-COM 2026-11-04 v3 + EQ-IQ-AU 2026-10-07 v1 + EQ-IQ-TD 2026-10-07 v1 + EQ-IQ-LI 2026-10-07 v1 + EQ-IQ-RC 2026-10-21 v2 + EQ-IQ-VA 2026-10-21 v2 + EQ-IQ-LL 2026-10-29 v3 + EQ-OQ-LL 2026-10-29 v2 + EQ-OQ-LT 2026-10-29 v2 + EQ-PQ-LL 2026-10-29 v2 + EQ-PQ-LT 2026-10-29 v4 + EQ-IQ-LF 2026-10-07 v1 + EQ-IQ-TB 2026-10-08 v1 + EQ-IQ-EN 2026-10-08 v1 + EQ-IQ-GR 2026-10-08 v1 + EQ-IQ-RB 2026-10-09 v1 + EQ-IQ-BL 2026-10-09 v1 + EQ-IQ-DM 2026-10-11 v1 + EQ-IQ-ET 2026-10-11 v1 + EQ-IQ-MZ 2026-10-11 v1 + EQ-IQ-HO 2026-10-11 v1 + EQ-IQ-UC 2026-10-21 v2 + EQ-OQ-RC 2026-10-07 v1 + EQ-PQ-RC 2026-10-07 v1 + EQ-OQ-UC 2026-10-12 v1 + EQ-PQ-UC 2026-10-12 v1 + EQ-OQ-TB 2026-10-08 v1 + EQ-PQ-TB 2026-10-08 v1 + EQ-OQ-EN 2026-10-08 v1 + EQ-PQ-EN 2026-10-08 v1 + EQ-OQ-GR 2026-10-08 v1 + EQ-PQ-GR 2026-10-08 v1 + EQ-OQ-RB 2026-10-09 v1 + EQ-PQ-RB 2026-10-09 v1 + EQ-OQ-BL 2026-10-09 v1 + EQ-PQ-BL 2026-10-09 v1 + EQ-OQ-DM 2026-10-11 v1 + EQ-PQ-DM 2026-10-11 v1 + EQ-OQ-ET 2026-10-11 v1 + EQ-PQ-ET 2026-10-11 v1 + EQ-OQ-LF 2026-10-21 v3 + EQ-OQ-AU 2026-10-21 v3 + EQ-OQ-MZ 2026-10-21 v3 + EQ-OQ-HO 2026-10-21 v2 + EQ-PQ-LF 2026-10-21 v3 + EQ-PQ-AU 2026-10-21 v3 + EQ-PQ-MZ 2026-10-21 v3 + EQ-PQ-HO 2026-10-21 v2 + EQ-PQ-VA 2026-10-21 v2 + EQ-OQ-VA 2026-10-21 v2 + EQ-OQ-RF 2026-10-14 v1 + EQ-PQ-RF 2026-10-14 v1 + EQ-OQ-CG 2026-10-14 v1 + EQ-PQ-CG 2026-10-14 v1 + EQ-OQ-BA 2026-10-22 v1 + EQ-OQ-VS 2026-11-06 v1",
  "fases": {
   "DQ": [],
   "IQ": [
@@ -20245,6 +20245,717 @@ var BancoEquipos = {
     "bloque": 8,
     "html": "<p><strong>ANEXOS:</strong></p>\n<table>\n<tbody><tr><th>SECCIÓN</th><th>TÍTULO</th></tr>\n<tr><td>8.1</td><td>Anexo A — Registros de pesadas (cero, repetibilidad, exactitud, linealidad, excentricidad, histéresis)</td></tr>\n<tr><td>8.2</td><td>Anexo B — Certificados de calibración de las pesas patrón y de los instrumentos auxiliares</td></tr>\n<tr><td>8.3</td><td>Anexo C — Registros de ajuste, de actividad del equipo y de transferencia de datos</td></tr>\n</tbody></table>",
     "familia": "balanza"
+   },
+   {
+    "kind": "div",
+    "clase": "portada",
+    "bloque": 1,
+    "html": "<p><strong>PORTADA DEL PROTOCOLO OQ</strong></p>\n<p><strong>Logo:</strong><br><img class=\"ent-logo\" alt=\"Logo de la entidad\"></p>\n<p><strong>Calificación de Operación de <span class=\"equipo\">equipo</span>:</strong> <span class=\"ent-descripcion\">______</span></p>\n<ol>\n  <li><strong>Marca:</strong> <span class=\"ent-marca\">______</span></li>\n  <li><strong>Modelo:</strong> <span class=\"ent-modelo\">______</span></li>\n  <li><strong>Código:</strong> <span class=\"ent-codigo\">______</span></li>\n</ol>",
+    "familia": "viscosimetro"
+   },
+   {
+    "kind": "div",
+    "clase": "firmas",
+    "bloque": 1,
+    "html": "<p><strong>FLUJO DE FIRMAS DEL PROTOCOLO:</strong></p>\n<p>Este apartado establece que los responsables revisan y aprueban el presente protocolo, declarando que está apto para su ejecución. Cualquier cambio posterior a la firma obliga a reiniciar el flujo de firmas, con el fin de garantizar que todos los departamentos involucrados estén al tanto de los ensayos a ejecutar.</p>\n<ol>\n  <li><strong>Elaborado Por:</strong> <br> Analista de validaciones — elabora / Nombre: ______ Firma: ______ Fecha: ______</li><br>\n  <li><strong>Revisado Por:</strong> <br> Coordinador de validaciones — revisa / Nombre: ______ Firma: ______ Fecha: ______</li><br>\n  <li><strong>Revisado Por:</strong> <br> Gerente de Área — revisa / Nombre: ______ Firma: ______ Fecha: ______</li><br>\n  <li><strong>Aprobado por:</strong> <br> Gerente de gestión de calidad — aprueba / Nombre: ______ Firma: ______ Fecha: ______</li><br>\n</ol>",
+    "familia": "viscosimetro"
+   },
+   {
+    "kind": "div",
+    "clase": "responsabilidades",
+    "bloque": 1,
+    "html": "<p><strong>RESPONSABILIDADES DEL PROTOCOLO:</strong></p>\n<p><strong>Responsabilidad del Analista de validaciones:</strong></p>\n<ol><li>Coordinar la ejecución de la Calificación de Operación con las áreas involucradas, asegurando personal, <span class=\"equipo\">equipo</span>, estándares de viscosidad, husillos e instrumentos auxiliares.</li><li>Verificar que los instrumentos de medición estén identificados y con calibración vigente.</li><li>Ejecutar y/o supervisar los ensayos del protocolo según los criterios aprobados.</li><li>Registrar los datos de forma completa, legible y trazable (ALCOA+).</li><li>Documentar las desviaciones según los procedimientos internos vigentes.</li><li>Elaborar el informe de calificación con resultados, conclusiones y anexos.</li></ol>\n<p><strong>Responsabilidad del Coordinador de validaciones:</strong></p>\n<ol><li>Revisar técnicamente el protocolo antes de su ejecución.</li><li>Asignar al analista responsable y coordinar recursos.</li><li>Revisar las desviaciones, su tratamiento y las CAPA asociadas.</li><li>Revisar el informe final y autorizar el uso del instrumento calificado.</li></ol>\n<p><strong>Responsabilidad del Gerente de Área:</strong></p>\n<ol><li>Garantizar la disponibilidad del <span class=\"equipo\">equipo</span> y los accesos para la ejecución.</li><li>Facilitar la documentación técnica del fabricante y del proveedor.</li><li>Implementar las acciones operativas derivadas de desviaciones y CAPA.</li></ol>\n<p><strong>Responsabilidad del Gerente de gestión de calidad:</strong></p>\n<ol><li>Aprobar el protocolo y sus criterios de aceptación.</li><li>Aprobar las desviaciones y sus evaluaciones de impacto.</li><li>Emitir el dictamen final del estado de calificación.</li></ol>",
+    "familia": "viscosimetro"
+   },
+   {
+    "kind": "div",
+    "clase": "alcance",
+    "bloque": 1,
+    "html": "<p><strong>ALCANCE</strong></p>\n<p>Esta calificación aplica a <span class=\"equipo\">equipo</span>, viscosímetro rotacional con husillos, control de velocidad y medición de torque, y cubre los 17 ensayos listados en el índice. Incluye la verificación de instalación operativa, exactitud, linealidad, repetibilidad, reproducibilidad y control de temperatura. No incluye PQ: por decisión del responsable técnico, el desempeño del viscosímetro se demuestra en OQ y se mantiene mediante verificación periódica; la reproducibilidad se evalúa dentro de este protocolo (EQ-OQ-VS-009).</p>",
+    "familia": "viscosimetro"
+   },
+   {
+    "kind": "div",
+    "clase": "def-usp",
+    "bloque": 1,
+    "html": "<p><strong>DEFINICIÓN USP</strong></p>\n<p>Calificación de Operación: colección documentada de las actividades necesarias para demostrar que un instrumento se desempeña de manera uniforme de acuerdo con las especificaciones definidas por el usuario y es apropiado para el uso previsto, en el entorno seleccionado (<span class=\"refnorma\"></span>).</p>",
+    "familia": "viscosimetro"
+   },
+   {
+    "kind": "div",
+    "clase": "nota-datos",
+    "bloque": 1,
+    "html": "<p><strong>NOTA — DATOS DIGITALES</strong></p>\n<p>Si el equipo entrega datos digitales, se procesan directamente y se anexan la data cruda y el reporte estadístico como parte de la evidencia. Si el equipo no dispone de impresión, transferencia, gestión de usuarios o respaldo electrónico, los ensayos correspondientes se declaran no aplica con su justificación, sin sustituir la evidencia por una suposición.</p>",
+    "familia": "viscosimetro"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-VS-001",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-VS-001 — Nivelación, encendido e inicialización",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que el viscosímetro se nivela, enciende, completa su autoprueba y queda operativo con la configuración declarada en la URS."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Verificar la nivelación con el indicador de burbuja o el nivel del equipo y registrar la posición de las patas de apoyo<br>\n  2) Conectar el equipo a la alimentación y encenderlo; observar la secuencia de autoprueba e inicialización<br>\n  3) Registrar la versión de firmware o software y la configuración inicial (husillo, velocidad y unidades)<br>\n  4) Confirmar que la pantalla queda estable y sin alarmas al finalizar la inicialización"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  El indicador de nivel refleja la condición real de nivelación.<br>\n  El encendido y la autoprueba terminan sin error.<br>\n  La versión de firmware o software y la configuración inicial coinciden con lo declarado en la URS aprobada.<br>\n  No se presentan alarmas al finalizar la inicialización."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de nivelación, encendido, autoprueba y versión de firmware (anexo del informe)"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante del equipo; IEC 61010-1."
+     }
+    ],
+    "tabla": null,
+    "familia": "viscosimetro"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-VS-002",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-VS-002 — Autozero y cero de torque",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que el cero de torque se establece y se mantiene dentro del criterio del fabricante antes de cada medición."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Encender el equipo y respetar el tiempo de calentamiento definido por el fabricante<br>\n  2) Ejecutar la función de autozero o cero de torque según el manual, sin husillo o con el husillo en el aire según corresponda<br>\n  3) Registrar el valor de cero mostrado y repetir la operación al menos tres veces<br>\n  4) Verificar que el cero no deriva durante el período de estabilización definido en el protocolo aprobado"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  El cero de torque queda dentro del límite definido por el fabricante o por la URS aprobada.<br>\n  Las tres ejecuciones del cero son consistentes entre sí.<br>\n  El cero no deriva fuera del criterio durante el período de estabilización."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de las ejecuciones de autozero y del cero de torque (anexo del informe)"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante del equipo; USP &lt;912&gt;."
+     }
+    ],
+    "tabla": null,
+    "familia": "viscosimetro"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-VS-003",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-VS-003 — Identificación, estado e instalación de husillos",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que los husillos están identificados, íntegros y correctamente instalados, y que el husillo seleccionado en el equipo coincide con el físico."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Inventariar los husillos disponibles y verificar su código, número de serie y estado físico (sin golpes, corrosión ni deformación)<br>\n  2) Instalar cada husillo según el manual del fabricante y verificar el acople y el protector<br>\n  3) Seleccionar el husillo en el equipo y comparar la selección con el husillo instalado<br>\n  4) Retirar el husillo y verificar que el acople no presenta daño ni desgaste anormal"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Cada husillo está identificado y su estado físico es aceptable.<br>\n  El acople y el protector quedan correctamente instalados.<br>\n  La selección del husillo en el equipo coincide con el husillo físico instalado.<br>\n  No se observa daño ni desgaste anormal en el acople."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Inventario y registro de instalación de husillos (anexo del informe)"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante del equipo; USP &lt;912&gt;; ISO 2555."
+     }
+    ],
+    "tabla": null,
+    "familia": "viscosimetro"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-VS-004",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-VS-004 — Verificación de velocidad (RPM)",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que la velocidad real de rotación coincide con la velocidad seleccionada en el equipo en puntos representativos del rango de uso."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Seleccionar al menos tres velocidades: mínima, nominal y máxima del rango de uso definido en la URS<br>\n  2) Medir la velocidad real con un tacómetro calibrado o con el método definido por el fabricante, registrando tres lecturas por punto<br>\n  3) Calcular el error de cada punto respecto de la velocidad seleccionada y la dispersión de las lecturas<br>\n  4) Procesar los datos crudos de velocidad en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = velocidad real medida (rpm) frente a la velocidad seleccionada; tamaño de muestra = mínimo 3 puntos × 3 lecturas; estadísticos = media, desviación estándar, RSD y error porcentual por punto, con intervalo de confianza al 95 %; tendencia = regresión de la velocidad real contra la seleccionada cuando se usen más de tres puntos; criterio = el especificado en la URS aprobada o en el manual del fabricante, el que sea más estricto. Sin ANOVA: cada punto se evalúa contra su tolerancia."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  El error de velocidad en cada punto está dentro del criterio definido en la URS aprobada o en el manual del fabricante.<br>\n  La dispersión de las lecturas en cada punto está dentro del criterio definido en la URS aprobada.<br>\n  La velocidad real es estable durante el tiempo de medición."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de velocidades seleccionadas y medidas con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de velocidad<br>\n  - Certificado vigente del tacómetro o del instrumento de referencia"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante del equipo; USP &lt;912&gt;; ISO 3219-2."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "viscosimetro"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-VS-005",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-VS-005 — Verificación de torque",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que la indicación de torque del equipo es correcta en puntos representativos del rango de medición."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Verificar el torque con el kit de calibración del fabricante o con un estándar de torque trazable, en al menos tres puntos del rango<br>\n  2) Registrar tres lecturas por punto y la temperatura de medición<br>\n  3) Calcular el error de cada punto respecto del valor de referencia y la dispersión de las lecturas<br>\n  4) Procesar los datos crudos de torque en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = torque indicado frente al torque de referencia; tamaño de muestra = mínimo 3 puntos × 3 lecturas; estadísticos = media, desviación estándar, RSD y error porcentual por punto, con intervalo de confianza al 95 %; criterio = el especificado en la URS aprobada o en el manual del fabricante, el que sea más estricto. Sin ANOVA: cada punto se evalúa contra su tolerancia."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  El error de torque en cada punto está dentro del criterio definido en la URS aprobada o en el manual del fabricante.<br>\n  La dispersión de las lecturas en cada punto está dentro del criterio definido en la URS aprobada.<br>\n  No se observa deriva del torque durante la secuencia de medición."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de torques de referencia e indicados con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de torque<br>\n  - Certificado vigente del estándar de torque o del kit de calibración"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante del equipo; ISO 3219-2; USP &lt;912&gt;."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "viscosimetro"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-VS-006",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-VS-006 — Exactitud con estándares de viscosidad certificados",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que la viscosidad medida coincide con el valor certificado de estándares trazables en puntos representativos del rango de uso."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Seleccionar al menos tres estándares de viscosidad certificados y trazables que cubran el rango de uso definido en la URS (nivel bajo, medio y alto)<br>\n  2) Medir cada estándar con el husillo y la velocidad definidos en el protocolo aprobado, controlando la temperatura según el ensayo EQ-OQ-VS-010<br>\n  3) Registrar tres réplicas por nivel y calcular el error respecto del valor certificado<br>\n  4) Procesar los datos crudos de exactitud en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = viscosidad medida frente al valor certificado del estándar; tamaño de muestra = mínimo 3 niveles × 3 réplicas; estadísticos = media, desviación estándar, RSD y error porcentual por nivel, con intervalo de confianza al 95 %; criterio = el especificado en la URS aprobada. Sin ANOVA: cada nivel se evalúa contra su valor certificado."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  El error de viscosidad en cada nivel está dentro del criterio definido en la URS aprobada.<br>\n  La dispersión de las réplicas en cada nivel está dentro del criterio definido en la URS aprobada.<br>\n  Los estándares utilizados están vigentes y son trazables."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de mediciones de exactitud con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de exactitud<br>\n  - Certificados vigentes de los estándares de viscosidad (anexo del informe)"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>USP &lt;912&gt;; ISO 2555; ISO 3219-1; <span class=\"refnorma\"></span>."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "viscosimetro"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-VS-007",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-VS-007 — Linealidad y rango de medición",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que la respuesta del viscosímetro es lineal en el rango de uso definido y que los residuos no superan la tolerancia de exactitud."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Seleccionar al menos cinco estándares de viscosidad que cubran el rango de uso, desde el nivel mínimo hasta el máximo definido en la URS<br>\n  2) Medir cada estándar al menos tres veces con el mismo husillo, velocidad y temperatura controlada<br>\n  3) Calcular la regresión de la viscosidad medida frente al valor certificado y los residuos de cada nivel<br>\n  4) Procesar los datos crudos de linealidad en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = viscosidad medida frente al valor certificado de cada estándar; tamaño de muestra = mínimo 5 niveles × 3 réplicas; estadísticos = regresión lineal (pendiente, intercepto, coeficiente de determinación) y residuos por nivel, con intervalo de confianza al 95 % de la pendiente y el intercepto; criterio = el especificado en la URS aprobada. Sin ANOVA."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  La pendiente, el intercepto y el coeficiente de determinación están dentro del criterio definido en la URS aprobada.<br>\n  Ningún residuo excede la tolerancia de exactitud definida para el ensayo EQ-OQ-VS-006.<br>\n  El rango verificado cubre el rango de uso declarado en la URS."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de mediciones de linealidad con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de linealidad"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>USP &lt;912&gt;; ISO 3219-1; <span class=\"refnorma\"></span>."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "viscosimetro"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-VS-008",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-VS-008 — Repetibilidad",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Determinar la repetibilidad del viscosímetro con un estándar de viscosidad, manteniendo fijos el husillo, la velocidad y la temperatura."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Seleccionar un estándar de viscosidad representativo del centro del rango de uso, o el definido en la URS<br>\n  2) Mantener el mismo husillo, velocidad y temperatura controlada durante toda la serie<br>\n  3) Realizar al menos diez lecturas consecutivas, retirando y volviendo a colocar la muestra o el husillo según el procedimiento aprobado<br>\n  4) Calcular la media, la desviación estándar y el RSD de las lecturas<br>\n  5) Procesar los datos crudos de repetibilidad en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = viscosidad medida en cada lectura (mPa·s o unidad declarada); tamaño de muestra = mínimo 10 lecturas consecutivas; estadísticos = media, desviación estándar, RSD y coeficiente de variación; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en la URS aprobada. Sin ANOVA: una sola condición de medición."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  El RSD de las lecturas está dentro del criterio definido en la URS aprobada.<br>\n  Las lecturas no presentan tendencia ni valores atípicos sin justificación.<br>\n  La temperatura se mantiene dentro del criterio del ensayo EQ-OQ-VS-010 durante toda la serie."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de las lecturas de repetibilidad con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de repetibilidad"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>USP &lt;912&gt;; ISO 2555; <span class=\"refnorma\"></span>."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "viscosimetro"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-VS-009",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-VS-009 — Reproducibilidad (operadores, días o husillos)",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que el resultado de viscosidad es reproducible entre operadores, días o husillos equivalentes, dentro del mismo laboratorio."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Seleccionar un estándar de viscosidad y definir al menos tres condiciones: tres operadores, tres días o tres husillos equivalentes, según el protocolo aprobado<br>\n  2) En cada condición, realizar al menos diez lecturas con el mismo procedimiento, husillo, velocidad y temperatura controlada<br>\n  3) Comparar la media y la dispersión entre condiciones<br>\n  4) Procesar los datos crudos de reproducibilidad en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = viscosidad medida por condición; tamaño de muestra = mínimo 3 condiciones × 10 lecturas; estadísticos = media, desviación estándar y RSD por condición; comparación entre condiciones con ANOVA de un factor y cálculo del coeficiente de correlación intraclase (ICC) cuando el diseño lo permita; criterio = el especificado en la URS aprobada. La reproducibilidad se evalúa en OQ porque el viscosímetro no lleva PQ."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Las medias de las condiciones están dentro del criterio definido en la URS aprobada.<br>\n  La diferencia entre condiciones no es estadísticamente significativa o está dentro del criterio aprobado.<br>\n  El ICC o la dispersión entre condiciones está dentro del criterio definido en la URS aprobada."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de lecturas por condición con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de reproducibilidad"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>USP &lt;912&gt;; ISO 3219-2; <span class=\"refnorma\"></span>."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "viscosimetro"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-VS-010",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-VS-010 — Verificación del control de temperatura",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que el control de temperatura del viscosímetro mantiene la muestra dentro del criterio requerido para la medición de viscosidad."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Seleccionar al menos tres temperaturas de trabajo: mínima, nominal y máxima del rango de uso definido en la URS<br>\n  2) Medir la temperatura de la muestra con un termómetro calibrado y trazable, en paralelo con la indicación del equipo<br>\n  3) Registrar tres lecturas por punto, dejando estabilizar el sistema antes de cada lectura<br>\n  4) Calcular el error entre la temperatura indicada y la de referencia, y la estabilidad durante el período de medición<br>\n  5) Procesar los datos crudos de temperatura en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = temperatura indicada por el equipo frente a la temperatura de referencia; tamaño de muestra = mínimo 3 puntos × 3 lecturas; estadísticos = media, desviación estándar, error y estabilidad (máximo menos mínimo) por punto, con intervalo de confianza al 95 %; criterio = el especificado en este ensayo y en la URS aprobada. Sin ANOVA: cada punto se evalúa contra su tolerancia."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  La temperatura de la muestra se controla dentro de ±0,1 °C del valor seleccionado, conforme a USP &lt;912&gt;, salvo que la URS defina un criterio más estricto.<br>\n  El error entre la indicación del equipo y el termómetro de referencia está dentro del criterio definido en la URS aprobada.<br>\n  La temperatura se mantiene estable durante el período de medición."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de temperaturas indicadas y de referencia con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de temperatura<br>\n  - Certificado vigente del termómetro de referencia"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>USP &lt;912&gt;; ISO 3219-2; <span class=\"refnorma\"></span>."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "viscosimetro"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-VS-011",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-VS-011 — Estabilidad de lectura y deriva",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que la lectura de viscosidad se mantiene estable y que la deriva en el tiempo está dentro del criterio aprobado."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Seleccionar un estándar de viscosidad representativo y mantener fijos el husillo, la velocidad y la temperatura<br>\n  2) Registrar la lectura de viscosidad a intervalos regulares durante el período definido en el protocolo aprobado (mínimo 10 minutos)<br>\n  3) Calcular la tendencia de la lectura en el tiempo y la diferencia entre la primera y la última lectura<br>\n  4) Procesar los datos crudos de estabilidad en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = viscosidad medida frente al tiempo; tamaño de muestra = las lecturas del período definido, con un mínimo de 10 puntos; estadísticos = media, desviación estándar, rango y pendiente de la regresión de la viscosidad contra el tiempo; criterio = el especificado en la URS aprobada o en el manual del fabricante. Sin ANOVA: una sola condición de medición."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  La deriva de la lectura durante el período definido está dentro del criterio de la URS aprobada o del manual del fabricante.<br>\n  La lectura no presenta saltos ni discontinuidades.<br>\n  La temperatura se mantiene dentro del criterio del ensayo EQ-OQ-VS-010 durante la prueba."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de lecturas en el tiempo con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de estabilidad y deriva"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>USP &lt;912&gt;; Manual del fabricante del equipo."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "viscosimetro"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-VS-012",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-VS-012 — Funcionamiento de controles y alarmas",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que los controles, indicadores y alarmas del equipo funcionan y que los estados de error no entregan lecturas engañosas."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Verificar la pantalla, las teclas y los controles de selección de husillo, velocidad y temperatura<br>\n  2) Provocar, sin forzar ni puentear protecciones, los estados de error permitidos por el fabricante (sobremomento, sobrevelocidad, husillo ausente o temperatura fuera de rango)<br>\n  3) Registrar el mensaje o alarma mostrado y verificar la recuperación al corregir la causa<br>\n  4) Confirmar que el equipo no muestra una lectura numérica válida cuando el estado es de error"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Cada control ejecuta la función declarada.<br>\n  Cada estado de error provocado muestra su mensaje o alarma.<br>\n  El equipo se recupera al corregir la causa.<br>\n  No se muestra una lectura numérica engañosa durante el estado de error."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de verificación de controles, alarmas y recuperación (anexo del informe)"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante del equipo; IEC 61010-1."
+     }
+    ],
+    "tabla": null,
+    "familia": "viscosimetro"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-VS-013",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-VS-013 — Impresión, transferencia y comunicación de datos",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar, cuando el equipo imprime o transfiere resultados, que el dato coincide con la pantalla y lleva la identificación definida en el protocolo aprobado."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Realizar mediciones de valor conocido e imprimir o transferir cada resultado<br>\n  2) Comparar el valor impreso o transferido con el mostrado en pantalla<br>\n  3) Verificar que el registro incluye fecha, hora, identificación del equipo, husillo, velocidad y temperatura, según lo definido en el protocolo aprobado<br>\n  4) Verificar que el equipo no transfiere una lectura si el estado no es válido, según su configuración"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  El valor impreso o transferido coincide con el de pantalla.<br>\n  El registro incluye la identificación definida en el protocolo aprobado.<br>\n  Si el equipo no imprime ni transfiere datos, el ensayo se declara no aplica con su justificación."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Muestras de impresión o archivos transferidos con su comparación (anexo del informe)"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante del equipo; 21 CFR Part 11; EU GMP Anexo 11; ALCOA+."
+     }
+    ],
+    "tabla": null,
+    "familia": "viscosimetro"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-VS-014",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-VS-014 — Gestión de usuarios, permisos y registro de actividad",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar, cuando el equipo gestiona usuarios o genera registros electrónicos, que el acceso está controlado y que las acciones críticas quedan registradas con fecha y hora."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Verificar que el acceso requiere identificación individual y que existen roles con privilegios diferenciados<br>\n  2) Intentar una acción restringida con un rol sin privilegio y verificar que se bloquea<br>\n  3) Ejecutar un cambio de parámetro, una medición y una modificación de configuración, y verificar el registro de actividad con usuario, fecha y hora<br>\n  4) Verificar que la fecha y la hora del equipo coinciden con la referencia horaria definida en el protocolo aprobado<br>\n  5) Confirmar que los registros no pueden modificarse ni borrarse por el usuario operativo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  El acceso es individual y los roles restringen las acciones según lo definido.<br>\n  Cada acción crítica queda registrada con usuario, fecha y hora.<br>\n  Los registros no son modificables por el usuario operativo.<br>\n  Si el equipo no gestiona usuarios ni registros electrónicos, el ensayo se declara no aplica con su justificación."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de roles, intentos restringidos y extracto del registro de actividad (anexo del informe)<br>\n  - Justificación de no aplica, si corresponde"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>21 CFR Part 11; EU GMP Anexo 11; GAMP 5, 2.ª ed."
+     }
+    ],
+    "tabla": null,
+    "familia": "viscosimetro"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-VS-015",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-VS-015 — Respaldo y recuperación de datos",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar, cuando el equipo almacena registros electrónicos, que el respaldo y la recuperación conservan la integridad y trazabilidad de los datos."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Registrar la configuración y los datos existentes antes del respaldo<br>\n  2) Ejecutar el respaldo según el procedimiento del fabricante o el procedimiento interno aprobado<br>\n  3) Provocar una pérdida controlada de datos en un entorno de prueba y ejecutar la recuperación<br>\n  4) Comparar los datos recuperados con los originales y verificar la integridad, fecha y hora, y ausencia de alteraciones"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  El respaldo se completa sin error y queda registrado.<br>\n  Los datos recuperados coinciden con los originales y conservan su integridad y trazabilidad.<br>\n  Si el equipo no almacena registros electrónicos, el ensayo se declara no aplica con su justificación."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de respaldo y recuperación con la comparación de datos (anexo del informe)<br>\n  - Justificación de no aplica, si corresponde"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>21 CFR Part 11; EU GMP Anexo 11; GAMP 5, 2.ª ed."
+     }
+    ],
+    "tabla": null,
+    "familia": "viscosimetro"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-VS-016",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-VS-016 — Seguridad eléctrica, paro y manejo de fallas",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que las protecciones eléctricas y el paro del equipo funcionan, y que ante una falla o corte de energía el equipo no genera un riesgo ni pierde su configuración."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Verificar la conexión a tierra, el estado de fusibles o protecciones y la integridad del cable de alimentación<br>\n  2) Verificar el funcionamiento del paro de emergencia, si el equipo lo tiene, sin forzar ni puentear ninguna protección<br>\n  3) Interrumpir la energía durante el tiempo definido en el protocolo aprobado y restablecerla<br>\n  4) Verificar que el equipo arranca, conserva la configuración y se recupera de la falla; registrar las alarmas presentadas"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Las protecciones eléctricas y la puesta a tierra son funcionales.<br>\n  El paro de emergencia detiene el equipo, si está presente; si no está presente, se declara no aplica con justificación.<br>\n  Tras el corte, el equipo arranca, conserva la configuración y no pierde datos.<br>\n  Las alarmas de falla se presentan y el equipo se recupera al corregir la causa."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de verificación eléctrica, paro, corte y recuperación (anexo del informe)"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>IEC 61010-1; Manual del fabricante del equipo; GAMP 5, 2.ª ed."
+     }
+    ],
+    "tabla": null,
+    "familia": "viscosimetro"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-VS-017",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-VS-017 — Limpieza y desmontaje",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que el equipo y sus accesorios se limpian y desmontan según el procedimiento aprobado, sin residuos ni daño, y que queda operativo tras el reensamblaje."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Desmontar el husillo, el protector y el recipiente de muestra según el manual del fabricante<br>\n  2) Limpiar cada componente con el agente y el método definidos en el procedimiento interno aprobado<br>\n  3) Verificar visualmente la ausencia de residuos, corrosión o daño<br>\n  4) Reensamblar el equipo y verificar el cero y una lectura de control antes de devolverlo al uso"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Los componentes quedan visualmente limpios y sin residuos.<br>\n  No se observa corrosión ni daño en el husillo, el protector ni el recipiente.<br>\n  Tras el reensamblaje, el cero y la lectura de control están dentro del criterio aprobado."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de limpieza, desmontaje y verificación posterior (anexo del informe)"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante del equipo; procedimiento interno de limpieza aprobado."
+     }
+    ],
+    "tabla": null,
+    "familia": "viscosimetro"
+   },
+   {
+    "kind": "resumen",
+    "id": "EQ-OQ-VS-RES",
+    "bloque": 4,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-VS-RES — Tabla resumen de los ensayos del OQ",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Consolidar el listado de ensayos del OQ del viscosímetro para la tabla resumen del protocolo."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Confirmar que los ensayos EQ-OQ-VS-001 a EQ-OQ-VS-017 están incluidos en el índice del protocolo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Los 17 ensayos aparecen en la tabla resumen con su veredicto."
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>EU GMP Anexo 15."
+     }
+    ],
+    "tabla": null,
+    "familia": "viscosimetro"
+   },
+   {
+    "kind": "tabla",
+    "id": "EQ-OQ-VS-REF",
+    "bloque": 6,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-VS-REF — Referencias del OQ del viscosímetro",
+    "secciones": [],
+    "tabla": {
+     "headers": [
+      "SECCIÓN",
+      "TÍTULO",
+      "ESTADO"
+     ],
+     "rows": [
+      [
+       "6.1",
+       "Manual del fabricante del equipo — geometría, husillos, velocidad, torque, temperatura y límites de operación",
+       "VIGENTE"
+      ],
+      [
+       "6.2",
+       "URS aprobada — rango de viscosidad, temperatura, husillo, velocidad y criterios de aceptación",
+       "VIGENTE"
+      ],
+      [
+       "6.3",
+       "USP <1058> — Analytical Instrument Qualification (instrumento tipo L)",
+       "VIGENTE"
+      ],
+      [
+       "6.4",
+       "USP <912> — Viscosity—Rotational Methods",
+       "VIGENTE"
+      ],
+      [
+       "6.5",
+       "ISO 2555 — Plastics—Resins in the liquid state—Determination of apparent viscosity by the Brookfield method",
+       "VIGENTE"
+      ],
+      [
+       "6.6",
+       "ISO 3219-1 / ISO 3219-2 — Rheology—Rotational viscometers and rheometers",
+       "VIGENTE"
+      ],
+      [
+       "6.7",
+       "ASTM D2196 — Standard Test Methods for Rheological Properties of Non-Newtonian Materials by Rotational Viscometer",
+       "VIGENTE"
+      ],
+      [
+       "6.8",
+       "EU GMP Anexo 15 — Calificación y validación",
+       "VIGENTE"
+      ],
+      [
+       "6.9",
+       "21 CFR Part 11 / EU GMP Anexo 11 — Registros y firmas electrónicas",
+       "VIGENTE"
+      ],
+      [
+       "6.10",
+       "IEC 61010-1 — Safety requirements for electrical measuring, control and laboratory equipment",
+       "VIGENTE"
+      ]
+     ]
+    },
+    "familia": "viscosimetro"
+   },
+   {
+    "kind": "div",
+    "clase": "anexos",
+    "bloque": 8,
+    "html": "<p><strong>ANEXOS:</strong></p>\n<table>\n<tbody><tr><th>SECCIÓN</th><th>TÍTULO</th></tr>\n<tr><td>8.1</td><td>Anexo A — Registros crudos de nivelación, cero, velocidad, torque, exactitud, linealidad, repetibilidad, reproducibilidad, temperatura y estabilidad</td></tr>\n<tr><td>8.2</td><td>Anexo B — Certificados de calibración de estándares de viscosidad, termómetro de referencia, tacómetro, estándar de torque y husillos</td></tr>\n<tr><td>8.3</td><td>Anexo C — Registros de control de acceso, impresión o transferencia, respaldo y recuperación, desviaciones y CAPA</td></tr>\n<tr><td>8.4</td><td>Anexo D — Matriz de trazabilidad (RTM) de los requisitos de la URS contra los ensayos EQ-OQ-VS-001 a EQ-OQ-VS-017</td></tr>\n</tbody></table>",
+    "familia": "viscosimetro"
    }
   ],
   "PQ": [
