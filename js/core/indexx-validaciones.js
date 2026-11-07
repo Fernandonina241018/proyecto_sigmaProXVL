@@ -954,7 +954,9 @@ const Validaciones = (() => {
         if (f.max != null && n > f.max) errores.push(f.label + ' no puede ser mayor que ' + f.max);
       }
       if (f.tipo === 'date') {
-        const d = new Date(s + 'T00:00:00');
+        // Parseo en UTC: `new Date('YYYY-MM-DDT00:00:00')` usa la zona local
+        // y rechaza fechas válidas en zonas UTC+ (Madrid, etc.).
+        const d = new Date(s + 'T00:00:00Z');
         if (!/^\d{4}-\d{2}-\d{2}$/.test(s) || isNaN(d.getTime()) || d.toISOString().slice(0, 10) !== s) {
           errores.push(f.label + ' no es una fecha válida');
         }
@@ -1558,6 +1560,8 @@ const Validaciones = (() => {
     });
   }
 
+  let _valEscHandler = null;
+
   function show() {
     try {
       if (typeof document === 'undefined' || !document.createElement) return false;
@@ -1625,7 +1629,7 @@ const Validaciones = (() => {
       }
       const escHandler = function (event) { if (event.key === 'Escape') setOpen(false); };
       document.addEventListener('keydown', escHandler);
-      ov._escHandler = escHandler;
+      _valEscHandler = escHandler;
       if (media.addEventListener) media.addEventListener('change', syncInert);
       syncInert();
 
@@ -1652,13 +1656,14 @@ const Validaciones = (() => {
         }
       });
 
-      const search = ov.querySelector('#v7-search');
+      const search = /** @type {HTMLInputElement|null} */ (ov.querySelector('#v7-search'));
       if (search && search.addEventListener) {
         search.addEventListener('input', function () {
           const q = String(search.value || '').toLowerCase();
           ov.querySelectorAll('.category, .v7-cat, .v7-ent').forEach(function (el) {
-            const n = (el.getAttribute('data-name') || el.textContent || '').toLowerCase();
-            el.style.display = !q || n.indexOf(q) >= 0 ? '' : 'none';
+            const node = /** @type {HTMLElement} */ (el);
+            const n = (node.getAttribute('data-name') || node.textContent || '').toLowerCase();
+            node.style.display = !q || n.indexOf(q) >= 0 ? '' : 'none';
           });
         });
       }
@@ -1671,9 +1676,9 @@ const Validaciones = (() => {
 
   function hide() {
     try {
-      const app = document.getElementById('validaciones-app');
-      if (app && app._escHandler && document && document.removeEventListener) {
-        document.removeEventListener('keydown', app._escHandler);
+      if (_valEscHandler && document && document.removeEventListener) {
+        document.removeEventListener('keydown', _valEscHandler);
+        _valEscHandler = null;
       }
       document.getElementById('validaciones-view')?.remove();
       document.getElementById('validaciones-app')?.remove();
