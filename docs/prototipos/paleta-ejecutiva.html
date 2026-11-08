@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>StatAnalyzer Pro — Preview paleta ejecutiva</title>
+<style>
+  :root {
+    --bg: #0d1117;
+    --surface-1: #161b22;
+    --surface-2: #21262d;
+    --surface-3: #30363d;
+    --border: #30363d;
+    --border-soft: #21262d;
+    --text: #e6edf3;
+    --text-muted: #9aa4b2;
+    --text-faint: #848d97;
+    --accent: #2f81f7;
+    --accent-hover: #58a6ff;
+    --accent-soft: rgba(47, 129, 247, .14);
+    --ok: #3fb950;
+    --ok-bg: rgba(63, 185, 80, .12);
+    --ok-border: rgba(63, 185, 80, .35);
+    --warn: #d29922;
+    --warn-bg: rgba(210, 153, 34, .12);
+    --warn-border: rgba(210, 153, 34, .35);
+    --danger: #f85149;
+    --danger-bg: rgba(248, 81, 73, .12);
+    --danger-border: rgba(248, 81, 73, .35);
+    --radius-sm: 6px;
+    --radius: 10px;
+    --radius-lg: 14px;
+    --shadow: 0 1px 0 rgba(0, 0, 0, .35);
+    --font: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    --mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    --data-1: #2f81f7;
+    --data-2: #39c5cf;
+    --data-3: #3fb950;
+    --data-4: #d29922;
+    --data-5: #a371f7;
+  }
+
+  [data-theme="light"] {
+    --bg: #ffffff;
+    --surface-1: #f6f8fa;
+    --surface-2: #eaeef2;
+    --surface-3: #dfe3e8;
+    --border: #d0d7de;
+    --border-soft: #eaeef2;
+    --text: #1f2328;
+    --text-muted: #59636e;
+    --text-faint: #6e7781;
+    --accent: #0969da;
+    --accent-hover: #0550ae;
+    --accent-soft: rgba(9, 105, 218, .10);
+    --ok: #1a7f37;
+    --ok-bg: rgba(26, 127, 55, .08);
+    --ok-border: rgba(26, 127, 55, .30);
+    --warn: #9a6700;
+    --warn-bg: rgba(154, 103, 0, .09);
+    --warn-border: rgba(154, 103, 0, .30);
+    --danger: #d1242f;
+    --danger-bg: rgba(209, 36, 47, .08);
+    --danger-border: rgba(209, 36, 47, .30);
+    --shadow: 0 1px 0 rgba(31, 35, 40, .06);
+    --data-1: #0969da;
+    --data-2: #1b7c83;
+    --data-3: #1a7f37;
+    --data-4: #9a6700;
+    --data-5: #8250df;
+  }
+
+  * { box-sizing: border-box; }
+  html, body { margin: 0; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font: 14px/1.5 var(--font);
+    -webkit-font-smoothing: antialiased;
+  }
+  a { color: var(--accent); text-decoration: none; }
+  .wrap { max-width: 1280px; margin: 0 auto; padding: 28px 22px 70px; }
+
+  .preview-head {
+    display: flex; align-items: flex-end; justify-content: space-between;
+    gap: 18px; flex-wrap: wrap; margin-bottom: 20px;
+  }
+  .preview-head h1 { margin: 0 0 4px; font-size: 20px; letter-spacing: -.2px; }
+  .preview-head p { margin: 0; color: var(--text-muted); font-size: 13px; }
+  .toggle {
+    font: inherit; font-size: 12px; font-weight: 600; color: var(--text);
+    background: var(--surface-1); border: 1px solid var(--border);
+    border-radius: 999px; padding: 8px 14px; cursor: pointer;
+  }
+  .toggle:hover { border-color: var(--accent); color: var(--accent); }
+
+  .shell {
+    display: grid; grid-template-columns: 238px minmax(0, 1fr);
+    background: var(--surface-1); border: 1px solid var(--border);
+    border-radius: var(--radius-lg); overflow: hidden; box-shadow: var(--shadow);
+  }
+
+  .sidebar {
+    background: var(--surface-1); border-right: 1px solid var(--border);
+    padding: 20px 14px; display: flex; flex-direction: column; gap: 22px;
+  }
+  .brand { display: flex; align-items: center; gap: 10px; padding: 0 6px; }
+  .brand-mark {
+    width: 34px; height: 34px; border-radius: 9px; display: grid; place-items: center;
+    background: var(--accent); color: #fff; font-weight: 800; font-size: 17px;
+  }
+  .brand-name { font-weight: 750; font-size: 14px; letter-spacing: -.1px; }
+  .brand-name span { color: var(--accent); }
+  .nav-label {
+    font-size: 10px; font-weight: 750; letter-spacing: 1.3px;
+    text-transform: uppercase; color: var(--text-faint); padding: 0 8px; margin: 0 0 6px;
+  }
+  .nav { display: grid; gap: 2px; }
+  .nav a {
+    display: flex; align-items: center; gap: 10px; min-height: 38px;
+    padding: 8px 10px; border-radius: 8px; color: var(--text-muted);
+    font-size: 13px; font-weight: 550;
+  }
+  .nav a:hover { background: var(--surface-2); color: var(--text); }
+  .nav a.active { background: var(--accent-soft); color: var(--accent); font-weight: 650; }
+  .nav .i { color: currentColor; }
+  .side-note {
+    margin-top: auto; border: 1px solid var(--border); border-radius: var(--radius);
+    padding: 12px; font-size: 12px; color: var(--text-muted); background: var(--bg);
+  }
+  .side-note strong { display: block; color: var(--text); margin-bottom: 3px; }
+
+  .main { min-width: 0; background: var(--bg); }
+  .topbar {
+    display: flex; align-items: center; gap: 14px;
+    padding: 13px 20px; border-bottom: 1px solid var(--border);
+    background: var(--surface-1);
+  }
+  .crumb { font-size: 12px; color: var(--text-faint); white-space: nowrap; }
+  .crumb b { color: var(--text); font-weight: 650; }
+  .search {
+    margin-left: auto; display: flex; align-items: center; gap: 8px;
+    min-width: 210px; padding: 7px 11px; border: 1px solid var(--border);
+    border-radius: 8px; background: var(--bg); color: var(--text-faint); font-size: 12px;
+  }
+  .icon-btn {
+    width: 34px; height: 34px; display: grid; place-items: center;
+    border: 1px solid var(--border); border-radius: 8px;
+    background: var(--bg); color: var(--text-muted); cursor: pointer;
+  }
+  .icon-btn:hover { color: var(--accent); border-color: var(--accent); }
+  .avatar {
+    width: 32px; height: 32px; border-radius: 50%; display: grid; place-items: center;
+    background: var(--surface-3); color: var(--text); font-size: 11px; font-weight: 750;
+  }
+
+  .content { padding: 22px 24px 30px; }
+  .page-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 14px; flex-wrap: wrap; margin-bottom: 18px; }
+  .page-head h2 { margin: 0 0 3px; font-size: 19px; letter-spacing: -.2px; }
+  .page-head p { margin: 0; color: var(--text-muted); font-size: 12.5px; }
+  .actions { display: flex; gap: 8px; flex-wrap: wrap; }
+
+  .btn {
+    font: inherit; font-size: 12px; font-weight: 650; cursor: pointer;
+    border: 1px solid var(--border); border-radius: 8px;
+    background: var(--surface-1); color: var(--text); padding: 8px 13px;
+    display: inline-flex; align-items: center; gap: 7px; min-height: 36px;
+  }
+  .btn:hover { border-color: var(--accent); color: var(--accent); }
+  .btn.primary { background: var(--accent); border-color: var(--accent); color: #fff; }
+  .btn.primary:hover { background: var(--accent-hover); border-color: var(--accent-hover); color: #fff; }
+  .btn.danger { color: var(--danger); border-color: var(--danger-border); background: var(--danger-bg); }
+  .btn.danger:hover { border-color: var(--danger); color: var(--danger); }
+
+  .kpis { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 10px; margin-bottom: 18px; }
+  .kpi {
+    border: 1px solid var(--border); border-radius: var(--radius);
+    background: var(--surface-1); padding: 13px 14px;
+  }
+  .kpi small { display: block; color: var(--text-muted); font-size: 11px; margin-bottom: 6px; }
+  .kpi strong { display: block; font-size: 23px; line-height: 1.1; letter-spacing: -.5px; }
+  .kpi span { font-size: 11px; color: var(--text-faint); }
+
+  .panel {
+    border: 1px solid var(--border); border-radius: var(--radius);
+    background: var(--surface-1); overflow: hidden;
+  }
+  .panel-head {
+    display: flex; align-items: center; justify-content: space-between; gap: 10px;
+    padding: 12px 15px; border-bottom: 1px solid var(--border);
+  }
+  .panel-head h3 { margin: 0; font-size: 13px; }
+  .panel-head span { color: var(--text-faint); font-size: 11px; }
+  .panel-body { padding: 14px 15px; }
+
+  .table { width: 100%; border-collapse: collapse; font-size: 12px; }
+  .table th {
+    text-align: left; font-size: 10.5px; letter-spacing: .7px; text-transform: uppercase;
+    color: var(--text-faint); font-weight: 750; padding: 9px 12px;
+    border-bottom: 1px solid var(--border); background: var(--surface-1); white-space: nowrap;
+  }
+  .table td { padding: 9px 12px; border-bottom: 1px solid var(--border-soft); color: var(--text); }
+  .table tr:last-child td { border-bottom: 0; }
+  .table tbody tr:hover { background: var(--surface-2); }
+  .hash { font-family: var(--mono); font-size: 10.5px; color: var(--text-faint); }
+  .muted { color: var(--text-muted); }
+
+  .badge {
+    display: inline-flex; align-items: center; gap: 5px;
+    padding: 2px 7px; border-radius: 999px; font-size: 10.5px; font-weight: 700;
+    border: 1px solid transparent; white-space: nowrap;
+  }
+  .badge.dq { color: var(--accent); background: var(--accent-soft); border-color: rgba(47,129,247,.30); }
+  .badge.iq { color: var(--text); background: var(--surface-2); border-color: var(--border); }
+  .badge.ok { color: var(--ok); background: var(--ok-bg); border-color: var(--ok-border); }
+  .badge.warn { color: var(--warn); background: var(--warn-bg); border-color: var(--warn-border); }
+  .badge.danger { color: var(--danger); background: var(--danger-bg); border-color: var(--danger-border); }
+
+  .alert {
+    display: flex; gap: 10px; align-items: flex-start;
+    border: 1px solid var(--warn-border); background: var(--warn-bg);
+    color: var(--text); border-radius: var(--radius); padding: 11px 13px;
+    font-size: 12px; margin: 14px 0 18px;
+  }
+  .alert .i { color: var(--warn); flex-shrink: 0; margin-top: 1px; }
+  .alert b { color: var(--warn); }
+
+  .grid2 { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(280px, .85fr); gap: 14px; margin-top: 14px; }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 10px; }
+  label.f { display: block; font-size: 11px; color: var(--text-muted); font-weight: 600; }
+  label.f input, label.f select {
+    width: 100%; margin-top: 4px; padding: 8px 10px; min-height: 34px;
+    border: 1px solid var(--border); border-radius: var(--radius-sm);
+    background: var(--bg); color: var(--text); font: inherit; font-size: 12px;
+  }
+  label.f input:focus, label.f select:focus { outline: 2px solid var(--accent-soft); border-color: var(--accent); }
+
+  .chart { width: 100%; height: 170px; display: block; }
+  .legend { display: flex; gap: 14px; flex-wrap: wrap; font-size: 10.5px; color: var(--text-muted); margin-top: 8px; }
+  .legend i { display: inline-block; width: 8px; height: 8px; border-radius: 2px; margin-right: 5px; }
+
+  .section-title { margin: 34px 0 10px; font-size: 14px; letter-spacing: .2px; }
+  .section-sub { margin: 0 0 14px; color: var(--text-muted); font-size: 12px; }
+
+  .swatches { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 8px; }
+  .swatch {
+    border: 1px solid var(--border); border-radius: 8px; overflow: hidden; background: var(--surface-1);
+  }
+  .swatch .chip { height: 38px; }
+  .swatch .meta { padding: 7px 9px; font-size: 10.5px; }
+  .swatch .meta b { display: block; font-size: 11px; color: var(--text); }
+  .swatch .meta span { color: var(--text-faint); font-family: var(--mono); font-size: 10px; }
+
+  .contrast { width: 100%; border-collapse: collapse; font-size: 12px; margin-top: 6px; }
+  .contrast th, .contrast td { padding: 7px 10px; border-bottom: 1px solid var(--border-soft); text-align: left; }
+  .contrast th { color: var(--text-faint); font-size: 10.5px; text-transform: uppercase; letter-spacing: .6px; }
+  .contrast td.ok { color: var(--ok); font-weight: 700; }
+
+  .compare { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .compare .panel-body { display: flex; gap: 8px; flex-wrap: wrap; }
+  .pill { display: inline-flex; align-items: center; gap: 7px; border: 1px solid var(--border); border-radius: 999px; padding: 5px 10px 5px 6px; font-size: 11px; color: var(--text-muted); background: var(--bg); }
+  .pill i { width: 14px; height: 14px; border-radius: 50%; display: inline-block; }
+
+  .foot { margin-top: 26px; color: var(--text-faint); font-size: 11px; }
+
+  .i { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; flex-shrink: 0; }
+  .i.lg { width: 18px; height: 18px; }
+
+  @media (max-width: 900px) {
+    .shell { grid-template-columns: 1fr; }
+    .sidebar { display: none; }
+    .kpis { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .grid2 { grid-template-columns: 1fr; }
+    .compare { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-grid" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></symbol>
+  <symbol id="i-db" viewBox="0 0 24 24"><ellipse cx="12" cy="5" rx="8" ry="3"/><path d="M4 5v14c0 1.7 3.6 3 8 3s8-1.3 8-3V5"/><path d="M4 12c0 1.7 3.6 3 8 3s8-1.3 8-3"/></symbol>
+  <symbol id="i-chart" viewBox="0 0 24 24"><path d="M4 19V5"/><path d="M4 19h16"/><path d="m7 15 4-5 3 3 5-7"/></symbol>
+  <symbol id="i-file" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></symbol>
+  <symbol id="i-users" viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></symbol>
+  <symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></symbol>
+  <symbol id="i-settings" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></symbol>
+  <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></symbol>
+  <symbol id="i-bell" viewBox="0 0 24 24"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></symbol>
+  <symbol id="i-download" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5"/><path d="M12 15V3"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><path d="m5 12 5 5 9-9"/></symbol>
+  <symbol id="i-alert" viewBox="0 0 24 24"><path d="M10.3 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.7 3.86a2 2 0 0 0-3.4 0z"/><path d="M12 9v4"/><path d="M12 17h.01"/></symbol>
+  <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14"/><path d="M5 12h14"/></symbol>
+</svg>
+
+<div class="wrap">
+  <header class="preview-head">
+    <div>
+      <h1>StatAnalyzer Pro · Paleta ejecutiva</h1>
+      <p>Preview estático de la propuesta: grafito neutro + un solo azul. Los datos son de ejemplo.</p>
+    </div>
+    <button class="toggle" id="themeBtn" type="button">Cambiar a claro</button>
+  </header>
+
+  <div class="shell">
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="brand-mark">Σ</div>
+        <div class="brand-name">Stat<span>Analyzer</span> Pro</div>
+      </div>
+
+      <div>
+        <p class="nav-label">Principal</p>
+        <nav class="nav">
+          <a href="#"><svg class="i"><use href="#i-grid"/></svg>Dashboard</a>
+          <a href="#"><svg class="i"><use href="#i-db"/></svg>Datos</a>
+          <a href="#"><svg class="i"><use href="#i-chart"/></svg>Análisis</a>
+          <a href="#"><svg class="i"><use href="#i-chart"/></svg>Visualización</a>
+          <a href="#"><svg class="i"><use href="#i-file"/></svg>Reportes</a>
+          <a href="#"><svg class="i"><use href="#i-shield"/></svg>ML Analysis</a>
+          <a href="#"><svg class="i"><use href="#i-users"/></svg>Auditoría</a>
+          <a href="#"><svg class="i"><use href="#i-users"/></svg>Usuarios</a>
+          <a class="active" href="#"><svg class="i"><use href="#i-file"/></svg>Validaciones</a>
+        </nav>
+      </div>
+
+      <div>
+        <p class="nav-label">Configuración</p>
+        <nav class="nav">
+          <a href="#"><svg class="i"><use href="#i-settings"/></svg>Ajustes</a>
+          <a href="#"><svg class="i"><use href="#i-shield"/></svg>Permisos</a>
+        </nav>
+      </div>
+
+      <div class="side-note">
+        <strong>21 CFR Part 11</strong>
+        Acceso protegido. Los colores de estado son los mismos en toda la aplicación.
+      </div>
+    </aside>
+
+    <div class="main">
+      <div class="topbar">
+        <div class="crumb">Validaciones / <b>Protocolos</b></div>
+        <div class="search"><svg class="i"><use href="#i-search"/></svg>Buscar protocolo…</div>
+        <button class="icon-btn" type="button" aria-label="Notificaciones"><svg class="i"><use href="#i-bell"/></svg></button>
+        <div class="avatar">FA</div>
+      </div>
+
+      <div class="content">
+        <div class="page-head">
+          <div>
+            <h2>Protocolos emitidos</h2>
+            <p>Registro inmutable con SHA-256 y trazabilidad por usuario.</p>
+          </div>
+          <div class="actions">
+            <button class="btn" type="button"><svg class="i"><use href="#i-download"/></svg>Exportar</button>
+            <button class="btn primary" type="button"><svg class="i"><use href="#i-plus"/></svg>Generar protocolo</button>
+          </div>
+        </div>
+
+        <div class="kpis">
+          <div class="kpi"><small>Total</small><strong>128</strong><span>protocolos</span></div>
+          <div class="kpi"><small>DQ</small><strong>32</strong><span>diseño</span></div>
+          <div class="kpi"><small>OQ</small><strong>54</strong><span>operación</span></div>
+          <div class="kpi"><small>PQ</small><strong>42</strong><span>desempeño</span></div>
+          <div class="kpi"><small>Este mes</small><strong>12</strong><span>+8 % vs. anterior</span></div>
+        </div>
+
+        <div class="alert">
+          <svg class="i"><use href="#i-alert"/></svg>
+          <div><b>Referencia específica pendiente.</b> La norma de la familia debe aprobarla el responsable técnico antes de firmar el protocolo.</div>
+        </div>
+
+        <div class="panel">
+          <div class="panel-head">
+            <h3>Últimos protocolos</h3>
+            <span>Actualizado hace 2 min</span>
+          </div>
+          <table class="table">
+            <thead>
+              <tr><th>Fase</th><th>Entidad</th><th>Código</th><th>Fecha</th><th>Usuario</th><th>SHA-256</th><th>Estado</th><th></th></tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><span class="badge dq">DQ</span></td>
+                <td>Autoclave</td>
+                <td>4002058</td>
+                <td class="muted">08/11/2026</td>
+                <td class="muted">f.arias</td>
+                <td class="hash">4f9c2a1b…</td>
+                <td><span class="badge ok"><svg class="i" style="width:11px;height:11px"><use href="#i-check"/></svg>Registrado</span></td>
+                <td><button class="icon-btn" type="button" aria-label="Descargar"><svg class="i"><use href="#i-download"/></svg></button></td>
+              </tr>
+              <tr>
+                <td><span class="badge iq">IQ</span></td>
+                <td>Reactor</td>
+                <td>4000258</td>
+                <td class="muted">07/11/2026</td>
+                <td class="muted">m.lopez</td>
+                <td class="hash">8a31de77…</td>
+                <td><span class="badge ok"><svg class="i" style="width:11px;height:11px"><use href="#i-check"/></svg>Registrado</span></td>
+                <td><button class="icon-btn" type="button" aria-label="Descargar"><svg class="i"><use href="#i-download"/></svg></button></td>
+              </tr>
+              <tr>
+                <td><span class="badge dq">DQ</span></td>
+                <td>Secador de bandejas</td>
+                <td>4000301</td>
+                <td class="muted">06/11/2026</td>
+                <td class="muted">c.ruiz</td>
+                <td class="hash">b7e0c412…</td>
+                <td><span class="badge warn">Revisión</span></td>
+                <td><button class="icon-btn" type="button" aria-label="Descargar"><svg class="i"><use href="#i-download"/></svg></button></td>
+              </tr>
+              <tr>
+                <td><span class="badge iq">OQ</span></td>
+                <td>HPLC</td>
+                <td>4000310</td>
+                <td class="muted">05/11/2026</td>
+                <td class="muted">a.soto</td>
+                <td class="hash">c1d9f0a8…</td>
+                <td><span class="badge danger">Observado</span></td>
+                <td><button class="icon-btn" type="button" aria-label="Descargar"><svg class="i"><use href="#i-download"/></svg></button></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="grid2">
+          <div class="panel">
+            <div class="panel-head"><h3>Protocolos por mes</h3><span>Últimos 6 meses</span></div>
+            <div class="panel-body">
+              <svg class="chart" viewBox="0 0 560 170" preserveAspectRatio="none" role="img" aria-label="Protocolos por mes">
+                <g stroke="var(--border)" stroke-width="1" stroke-dasharray="3 5">
+                  <line x1="0" y1="30" x2="560" y2="30"/>
+                  <line x1="0" y1="80" x2="560" y2="80"/>
+                  <line x1="0" y1="130" x2="560" y2="130"/>
+                </g>
+                <path d="M0 130 L93 112 L186 118 L279 84 L372 92 L465 58 L560 44 L560 170 L0 170 Z" fill="var(--accent-soft)"/>
+                <path d="M0 130 L93 112 L186 118 L279 84 L372 92 L465 58 L560 44" fill="none" stroke="var(--accent)" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+                <g fill="var(--accent)">
+                  <circle cx="0" cy="130" r="3"/><circle cx="93" cy="112" r="3"/><circle cx="186" cy="118" r="3"/>
+                  <circle cx="279" cy="84" r="3"/><circle cx="372" cy="92" r="3"/><circle cx="465" cy="58" r="3"/><circle cx="560" cy="44" r="3"/>
+                </g>
+              </svg>
+              <div class="legend">
+                <span><i style="background:var(--data-1)"></i>DQ</span>
+                <span><i style="background:var(--data-2)"></i>IQ</span>
+                <span><i style="background:var(--data-3)"></i>OQ</span>
+                <span><i style="background:var(--data-4)"></i>PQ</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="panel">
+            <div class="panel-head"><h3>Registrar protocolo</h3><span>Fail-closed</span></div>
+            <div class="panel-body">
+              <div class="form-row">
+                <label class="f">Fase
+                  <select><option>DQ</option><option>IQ</option><option>OQ</option><option>PQ</option></select>
+                </label>
+                <label class="f">Código
+                  <input value="4002058">
+                </label>
+              </div>
+              <div class="form-row">
+                <label class="f">Entidad
+                  <input value="Autoclave">
+                </label>
+                <label class="f">Versión
+                  <input value="01">
+                </label>
+              </div>
+              <label class="f">Documento
+                <input value="DQ-4002058 AUTOCLAVE.docx" readonly>
+              </label>
+              <div style="display:flex;gap:8px;margin-top:12px">
+                <button class="btn primary" type="button"><svg class="i"><use href="#i-check"/></svg>Registrar y descargar</button>
+                <button class="btn danger" type="button">Cancelar</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <h2 class="section-title">Tokens de color</h2>
+  <p class="section-sub">La misma pareja en oscuro y claro. Los nombres son funcionales, no de color.</p>
+  <div class="swatches" id="swatches"></div>
+
+  <h2 class="section-title">Contraste texto / fondo</h2>
+  <p class="section-sub">WCAG 2.1 AA para texto normal exige 4.5:1. Todos los pares propuestos pasan.</p>
+  <div class="panel">
+    <table class="contrast">
+      <thead><tr><th>Token</th><th>Oscuro</th><th>Claro</th></tr></thead>
+      <tbody>
+        <tr><td>Texto principal</td><td class="ok">16.0:1</td><td class="ok">15.8:1</td></tr>
+        <tr><td>Texto secundario</td><td class="ok">7.5:1</td><td class="ok">6.1:1</td></tr>
+        <tr><td>Texto de ayuda</td><td class="ok">5.6:1</td><td class="ok">4.55:1</td></tr>
+        <tr><td>Acento</td><td class="ok">5.05:1</td><td class="ok">5.19:1</td></tr>
+        <tr><td>Éxito</td><td class="ok">6.8:1</td><td class="ok">5.1:1</td></tr>
+        <tr><td>Advertencia</td><td class="ok">6.9:1</td><td class="ok">4.9:1</td></tr>
+        <tr><td>Error</td><td class="ok">5.2:1</td><td class="ok">5.2:1</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2 class="section-title">Antes / después</h2>
+  <p class="section-sub">El acento deja de competir con los estados. El naranja y el verde neón desaparecen de la UI.</p>
+  <div class="compare">
+    <div class="panel">
+      <div class="panel-head"><h3>Actual</h3><span>4 acentos</span></div>
+      <div class="panel-body">
+        <span class="pill"><i style="background:#7c6af7"></i>Violeta app</span>
+        <span class="pill"><i style="background:#ff5c1a"></i>Naranja validaciones</span>
+        <span class="pill"><i style="background:#00e5a0"></i>Verde neón ML</span>
+        <span class="pill"><i style="background:#0b1018"></i>Azul marino shell</span>
+      </div>
+    </div>
+    <div class="panel">
+      <div class="panel-head"><h3>Propuesta</h3><span>1 acento + estados</span></div>
+      <div class="panel-body">
+        <span class="pill"><i style="background:#2f81f7"></i>Azul acción</span>
+        <span class="pill"><i style="background:#3fb950"></i>Éxito</span>
+        <span class="pill"><i style="background:#d29922"></i>Advertencia</span>
+        <span class="pill"><i style="background:#f85149"></i>Error</span>
+        <span class="pill"><i style="background:#161b22;border:1px solid #30363d"></i>Grafito</span>
+      </div>
+    </div>
+  </div>
+
+  <p class="foot">Preview estático. No carga fuentes externas, iconos ni librerías. Los tokens son los que se aplicarían en <code>css/core/tokens.css</code>.</p>
+</div>
+
+<script>
+  (function () {
+    var root = document.documentElement;
+    var btn = document.getElementById('themeBtn');
+    function setTheme(mode) {
+      if (mode === 'light') root.setAttribute('data-theme', 'light');
+      else root.removeAttribute('data-theme');
+      btn.textContent = mode === 'light' ? 'Cambiar a oscuro' : 'Cambiar a claro';
+    }
+    btn.addEventListener('click', function () {
+      setTheme(root.getAttribute('data-theme') === 'light' ? 'dark' : 'light');
+    });
+    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches) setTheme('light');
+
+    var tokens = [
+      ['bg', '--bg'], ['surface-1', '--surface-1'], ['surface-2', '--surface-2'],
+      ['surface-3', '--surface-3'], ['border', '--border'], ['text', '--text'],
+      ['text-muted', '--text-muted'], ['text-faint', '--text-faint'],
+      ['accent', '--accent'], ['accent-hover', '--accent-hover'],
+      ['ok', '--ok'], ['warn', '--warn'], ['danger', '--danger'],
+      ['data-2', '--data-2'], ['data-5', '--data-5']
+    ];
+    var box = document.getElementById('swatches');
+    tokens.forEach(function (t) {
+      var el = document.createElement('div');
+      el.className = 'swatch';
+      el.innerHTML = '<div class="chip" style="background:var(' + t[1] + ')"></div>'
+        + '<div class="meta"><b>' + t[0] + '</b><span>' + t[1] + '</span></div>';
+      box.appendChild(el);
+    });
+  })();
+</script>
+</body>
+</html>

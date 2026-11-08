@@ -1,5 +1,5 @@
 // ========================================
-// generador-docx.js — SigmaProXVL · Área de Validaciones
+// generador-docx.js — StatAnalyzer Pro · Área de Validaciones
 // Ensambla protocolos .docx (Almacenes v1) con el esqueleto del modelo
 // DQ-1-400AAAA: firmas 2x2, TOC con páginas, objetivo, alcance,
 // responsabilidades, descripción, procedimiento (1 ensayo = 1 página),

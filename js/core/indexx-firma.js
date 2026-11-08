@@ -1624,7 +1624,7 @@ function firmaOpenBandejaModal() {
     '<div class="fbandeja-modal" onclick="event.stopPropagation()">' +
       '<header class="fbandeja-head">' +
         '<div>' +
-          '<div class="fbandeja-eyebrow"><span class="fbandeja-dot"></span> SigmaProXVL · Gestión documental</div>' +
+          '<div class="fbandeja-eyebrow"><span class="fbandeja-dot"></span> StatAnalyzer Pro · Gestión documental</div>' +
           '<h1 class="fbandeja-title">Bandeja de firmas</h1>' +
           '<p class="fbandeja-subtitle">Consulta cada informe en tarjetas y supervisa su estado de firma.</p>' +
         '</div>' +

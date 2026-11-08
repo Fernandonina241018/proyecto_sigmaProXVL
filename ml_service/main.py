@@ -66,7 +66,7 @@ except ImportError as e:
     HAS_DRIFT = False
     print(f"[WARN] Drift detector not available: {e}")
 
-app = FastAPI(title="SigmaPro ML Service", version="1.0.0")
+app = FastAPI(title="StatAnalyzer Pro ML Service", version="1.0.0")
 
 ALLOWED_ORIGINS = [
     "https://fernandonina241018.github.io",
@@ -275,7 +275,7 @@ def _metrics_serializable(metrics: dict) -> dict:
 
 @app.get("/api/ml/health")
 def health():
-    return {"ok": True, "service": "SigmaPro ML Service",
+    return {"ok": True, "service": "StatAnalyzer Pro ML Service",
             "anomaly": HAS_ANOMALY, "interpret": HAS_INTERPRET, "nlp": HAS_NLP}
 
 

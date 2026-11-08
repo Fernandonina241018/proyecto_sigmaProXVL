@@ -1,7 +1,7 @@
-# Estado del Proyecto — SigmaProXVL
+# Estado del Proyecto — StatAnalyzer Pro
 
 ## Goal
-Mantener y mejorar la SPA vanilla-JS de análisis de datos (SigmaProXVL) con spreadsheet, motor estadístico, ML y cumplimiento normativo; ML Service y backend Node.js desplegados en Fly.io.
+Mantener y mejorar la SPA vanilla-JS de análisis de datos (StatAnalyzer Pro) con spreadsheet, motor estadístico, ML y cumplimiento normativo; ML Service y backend Node.js desplegados en Fly.io.
 
 ## Constraints & Preferences
 - Vanilla HTML/CSS/JS (sin frameworks); tema oscuro base con toggle a modo claro
@@ -89,6 +89,47 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (SigmaProXVL) con spr
 | `js/core/indexx-viz.js:996-1013` | `_V_showGalleryChart()` usa hoja original si existe |
 
 ## CAMBIOS RECIENTES
+
+### 2026-11-08 (261): Marca — StatAnalyzer Pro en toda la aplicación
+
+**Qué:** se unifica el nombre visible del producto como **StatAnalyzer Pro**. Desaparecen de la UI y los documentos las variantes `SigmaProXVL` y `Stats Analizer Pro (SAP2.0)`.
+
+- **UI:** título de la pestaña, nombre en la barra, marca del shell de Validaciones, firma documental, metadatos de PDF y textos de ayuda.
+- **Backend/ML:** `orgName` por defecto y título/servicio de FastAPI.
+- **Documentación y prototipos:** README, mapa de diseño, guía de estructura, preview de paleta y dashboard V1.
+- **Nombre exacto:** `StatAnalyzer Pro` (grafía que ya usaban login v2, reportes y WebAuthn).
+
+**Identificadores internos que NO se tocaron** (a propósito):
+- JWT `issuer`/`audience` `sigmaproxvl` y cookies: cambiarlos invalidaría sesiones activas.
+- `SigmaProDB` (IndexedDB) y claves `sigmaPro_*` de localStorage: cambiarlos perdería datos locales.
+- Nombre del repositorio, paquete npm y app de Fly: no son visibles para el cliente.
+
+**Archivos afectados:**
+| Archivo | Cambio |
+|---------|--------|
+| `indexx.html` | Título y nombre de la barra |
+| `manifest.webmanifest` | `name` y `short_name` |
+| `js/core/indexx-validaciones.js` | Marca del shell, footer, ayuda, bienvenida y `orgName` por defecto |
+| `js/core/indexx-firma.js` | Eyebrow de gestión documental |
+| `js/core/utils.js` | Asunto/creador del PDF y logs |
+| `backend/database.js` | `orgName` por defecto |
+| `backend/tests/validation-reports.test.js` | Expectativa del `orgName` |
+| `ml_service/main.py` | Título y servicio FastAPI |
+| `docs/prototipos/paleta-ejecutiva.html` | Marca del preview (misma paleta aprobada) |
+| `docs/prototipos/SigmaProXVL_dashboard_V1_adaptable.html` | Marca visible; el archivo conserva su nombre histórico |
+| `README.md`, `docs/MAPA_DISENO.md`, `GUIA_ESTRUCTURA_FUERTE.md` | Títulos y referencias |
+| `ESTADO_PROYECTO.md` | Este registro |
+
+**Verificación:**
+```
+node --check → OK
+Backend node:test → OK
+Vitest → OK
+typecheck → 0 errores
+Preflight + E2E → OK
+```
+
+**Límite conocido:** el prototipo conserva el nombre de archivo `SigmaProXVL_dashboard_V1_adaptable.html` y las entradas históricas de `ESTADO_PROYECTO.md` lo citan; renombrarlo obligaría a actualizar enlaces y no aporta a la marca visible.
 
 ### 2026-11-08 (260): Validaciones — banco de ensayos para 6 familias M y 15 instrumentos L
 
@@ -2372,7 +2413,7 @@ Cada test verifica además que el módulo **NO** estaba en el núcleo antes de e
 
 **Cambio:** Se agrega icono de app (favicon + PWA instalable). Antes `indexx.html` tenía `<link rel="icon" href="data:,">` (favicon vacío, icono genérico del navegador).
 
-- **Icono por defecto:** cuadrado redondeado con degradado violeta (`#8b7bff → #5a47d5`) y **Σ (sigma)** blanca al centro (marca "SigmaProXVL / Stats Analizer Pro"). Fácil de reemplazar por un logo propio.
+- **Icono por defecto:** cuadrado redondeado con degradado violeta (`#8b7bff → #5a47d5`) y **Σ (sigma)** blanca al centro (marca "StatAnalyzer Pro"). Fácil de reemplazar por un logo propio.
 - **Formatos:** `favicon.svg`, `favicon-16.png`, `favicon-32.png`, `favicon-48.png`, `favicon.ico`, `apple-touch-icon.png` (180), `icon-192.png`, `icon-512.png`.
 - **`manifest.webmanifest` (PWA):** `name`, `short_name`, `start_url=./indexx.html`, `display=standalone`, `theme_color=#7c6af7`, `background_color=#0f0f12`, iconos 192/512/svg/180.
 - **Links + `theme-color`** en `indexx.html`, `index.html` (redirect) y `login_redesign.html`.

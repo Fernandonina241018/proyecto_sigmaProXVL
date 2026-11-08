@@ -265,7 +265,7 @@ window.__generarPDFServidor = async function (html, filename, opts) {
             body: payload
         }, opts.timeoutMs || 60000);
         if (!res || !res.ok) {
-            debugLog('[SigmaProXVL] PDF servidor no disponible (HTTP ' + (res && res.status) + '), uso generador local');
+            debugLog('[StatAnalyzer Pro] PDF servidor no disponible (HTTP ' + (res && res.status) + '), uso generador local');
             return false;
         }
         var ct = (res.headers && res.headers.get && res.headers.get('Content-Type')) || '';
@@ -282,7 +282,7 @@ window.__generarPDFServidor = async function (html, filename, opts) {
         setTimeout(function () { try { URL.revokeObjectURL(url); } catch (e) {} }, 1500);
         return true;
     } catch (e) {
-        console.warn('[SigmaProXVL] PDF servidor falló, uso generador local:', e && e.message);
+        console.warn('[StatAnalyzer Pro] PDF servidor falló, uso generador local:', e && e.message);
         return false;
     }
 };
@@ -395,8 +395,8 @@ window.__generarPDF = async function (html, filename, hash) {
         var pdf = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
         pdf.setProperties({
             title: (filename || 'reporte').replace(/\.pdf$/, ''),
-            subject: 'Reporte SigmaProXVL',
-            creator: 'SigmaProXVL',
+            subject: 'Reporte StatAnalyzer Pro',
+            creator: 'StatAnalyzer Pro',
             keywords: 'integridad=' + (hash || '')
         });
 
@@ -412,7 +412,7 @@ window.__generarPDF = async function (html, filename, hash) {
         pdf.save(filename);
         return true;
     } catch (e) {
-        console.warn('[SigmaProXVL] generación PDF falló:', e);
+        console.warn('[StatAnalyzer Pro] generación PDF falló:', e);
         return false;
     }
 };

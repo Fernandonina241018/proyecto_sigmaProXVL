@@ -1,5 +1,5 @@
 // ========================================
-// version-check.js — SigmaProXVL
+// version-check.js — StatAnalyzer Pro
 // Avisa cuando hay una versión nueva en Pages sin Ctrl+Shift+R:
 // compara version.json (siempre fresco) cada 2 min y muestra un toast
 // no bloqueante con botón Recargar. Auto-arranque al cargar.

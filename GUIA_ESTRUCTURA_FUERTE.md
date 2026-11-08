@@ -1,6 +1,6 @@
 # Guía de Estructura Fuerte — StatAnalyzer Pro
 
-**Proyecto:** StatAnalyzer Pro — SigmaProXVL  
+**Proyecto:** StatAnalyzer Pro  
 **Propósito:** SPA de análisis estadístico con cumplimiento FDA 21 CFR Part 11  
 **Stack:** Vanilla JS + HTML5/CSS3 + Chart.js (frontend) · Node.js + Express + PostgreSQL/Supabase (backend) · Python + FastAPI + scikit-learn + XGBoost + SHAP (ML)  
 **Estado:** Estructura propuesta para evitar regresiones y rupturas al modificar código  

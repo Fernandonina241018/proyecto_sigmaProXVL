@@ -10,7 +10,7 @@ const SERVER = fs.readFileSync(path.join(__dirname, '..', 'server.js'), 'utf8');
 
 test('settings: defaults y actualización parcial', async () => {
   const base = await db.getValidationSettings();
-  assert.equal(base.orgName, 'SigmaProXVL');
+  assert.equal(base.orgName, 'StatAnalyzer Pro');
   assert.deepEqual(base.reviewRoles, ['gerente']);
   const saved = await db.saveValidationSettings(Object.assign({}, base, {
     orgName: 'ACME Pharma', numberingPrefix: 'AC', reviewRoles: ['gerente', 'supervisor'],
