@@ -880,8 +880,16 @@ const Validaciones = (() => {
   function puestoGerente(area, cargoFb) {
     const a = String(area || '').trim();
     if (/^gerente\b/i.test(a)) return a;
+    if (/^sr\.?\b/i.test(a)) return 'Gerente ' + a;
     if (a) return 'Gerente de ' + a.charAt(0).toUpperCase() + a.slice(1);
     return String(cargoFb || '').trim();
+  }
+
+  // Área derivada del cargo del gerente elegido: "Gerente de Calidad" → "Calidad".
+  function areaDesdeCargo(cargo) {
+    const c = String(cargo || '').trim();
+    const m = c.match(/^gerente\s+(?:de\s+|del\s+)?(.+)$/i);
+    return (m ? m[1] : c).trim();
   }
 
   function firmantesHtml() {
@@ -1473,9 +1481,15 @@ const Validaciones = (() => {
         const elegido = (f.revisor && f.revisor.username) ? f.revisor.username : actual;
         sel.innerHTML = '<option value="">— Seleccione —</option>' + firmGerentes.map((u) =>
           '<option value="' + esc(u.username) + '"' + (elegido === u.username ? ' selected' : '') + '>'
-          + esc(firmNombres(u)) + '</option>').join('');
+          + esc(firmNombres(u)) + (u.cargo ? ' · ' + esc(u.cargo) : '') + '</option>').join('');
       }
       if (area && f.revisor && f.revisor.area != null) area.value = f.revisor.area;
+      // Sin área guardada: se deriva del cargo del gerente ya seleccionado.
+      if (area && !String(area.value || '').trim()) {
+        const g = firmGerentes.filter((u) => u.username === (sel ? sel.value : ''))[0];
+        const a = areaDesdeCargo(g && g.cargo);
+        if (a) area.value = a;
+      }
     }
 
     function leerFirmantes() {
@@ -1554,16 +1568,14 @@ const Validaciones = (() => {
         if (sel && !firmGerentes.length) sel.innerHTML = '<option value="">(sin conexión)</option>';
         else pintarFirmantes({ realizado: firmMe, revisor: (draft && draft.firmantes && draft.firmantes.revisor) || {} });
       }
-      // Sugerir gerencia desde el cargo del gerente elegido (listener único).
+      // El cargo del gerente elegido llena siempre el área (incluye cambio de gerente).
       if (sel && !firmListenerBound) {
         firmListenerBound = true;
         sel.addEventListener('change', function () {
           const g = firmGerentes.filter((u) => u.username === sel.value)[0];
           const area = form.querySelector('[data-k="gerenciaArea"]');
-          if (g && area && !String(area.value || '').trim() && g.cargo) {
-            const m = String(g.cargo).match(/gerente\s+de\s+(.+)/i);
-            if (m) area.value = m[1].trim();
-          }
+          const a = areaDesdeCargo(g && g.cargo);
+          if (area) area.value = a;
         });
       }
     }
@@ -2128,7 +2140,7 @@ const Validaciones = (() => {
   return {
     CATS, ROUTES, DOCS, ENTIDADES, SCHEMAS, FASES_GEN, GEN_FASES, AREAS_GERENCIA, parseRoute, catById, getSchema, getEntidades,
     entidadPorNombre,
-    puestoGerente, firmantesHtml, saveDraft, loadDraft, cargarBorrador, guardarBorrador, validarDatos, saveGen, loadGen, viewEntidad, show, hide, apply, currentArea, render, contarGen, tieneBancoFam, estadoBancoFam, resolverDescripcion, mejorarFecha, manifest, viewProtocolos,
+    puestoGerente, areaDesdeCargo, firmantesHtml, saveDraft, loadDraft, cargarBorrador, guardarBorrador, validarDatos, saveGen, loadGen, viewEntidad, show, hide, apply, currentArea, render, contarGen, tieneBancoFam, estadoBancoFam, resolverDescripcion, mejorarFecha, manifest, viewProtocolos,
     viewDocumentacion, viewReportes, viewConfiguracion, viewAyuda, viewCalendario, chartHtml, reportHtml, calendarHtml, cargarResumen, cargarCalendario, cargarReportes, bindConfiguracion,
   };
 })();

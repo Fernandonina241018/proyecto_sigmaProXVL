@@ -90,6 +90,30 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (SigmaProXVL) con spr
 
 ## CAMBIOS RECIENTES
 
+### 2026-11-07 (259): Validaciones — el gerente elegido llena cargo y área
+
+**Qué:** Al elegir el Revisor Gerente, su cargo se muestra en la lista y el campo "gerencia que revisa" se llena solo, siempre (antes solo la primera vez y solo si el cargo era `Gerente de X`).
+
+- **Cargo visible:** las opciones del select muestran `Nombre · cargo` (el cargo ya venía de `/api/users/list`; no hubo cambio de backend).
+- **Área automática:** nuevo helper `areaDesdeCargo()` deriva el área del cargo (`Gerente de Calidad` → `Calidad`, `Gerente del Área Producción` → `Área Producción`, `Gerente Sr. Producción` → `Sr. Producción`; un cargo sin "Gerente" se usa tal cual).
+- **Siempre, no solo si está vacía:** cambiar de gerente reemplaza el área; elegir "— Seleccione —" la limpia.
+- **Borrador:** al abrir un protocolo con revisor guardado y sin área, se deriva del cargo de ese gerente.
+- **Título correcto:** `puestoGerente('Sr. Producción')` devuelve `Gerente Sr. Producción` (antes habría dicho `Gerente de Sr. Producción`).
+
+**Archivos afectados:**
+| Archivo | Cambio |
+|---------|--------|
+| `js/core/indexx-validaciones.js` | Helper `areaDesdeCargo()`; opciones con cargo; listener de cambio que siempre llena el área; respaldo en `pintarFirmantes()` |
+| `tests/validaciones-panel.test.js` | 5 asserts de `areaDesdeCargo()` |
+
+**Verificación:**
+```
+node --check indexx-validaciones.js → OK
+Vitest → 63 archivos, 1078 tests OK
+typecheck → 0 errores
+Preflight + E2E → 13 tests OK
+```
+
 ### 2026-11-07 (258): Validaciones — el registro adopta el nombre del generador
 
 **Qué:** Al regenerar un protocolo ya registrado, el registro guardado pasa a usar el nombre nuevo (`DQ-4002058 AUTOCLAVE.docx`) en lugar de quedarse con el antiguo (`DQ-autoclave.docx`).
