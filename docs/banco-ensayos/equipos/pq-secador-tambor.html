@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<style>
+  body { font-family: Tahoma, sans-serif; font-size: 11pt; }
+  strong { text-transform: uppercase; }
+</style>
+<title>Banco de Ensayos PQ — Secador de tambor rotativo</title>
+</head>
+<body>
+
+<p><a href="../equipos.html">← Equipos e Instrumentos</a></p>
+<h2>PQ — Secador de tambor rotativo (banco por familia)</h2>
+<p>Versión del banco: <span data-banco-version>EQ-PQ-ST 2026-11-08 v1</span></p>
+<p>Ensayos de Calificación de Operación y Desempeño específicos del secador de tambor rotativo (rotación, temperatura de superficie y cuchilla). Se filtran por familia (<code>data-familia="secador-tambor"</code>) según la entidad elegida en el paso 1. Banco creado el 2026-11-08: los límites y setpoints se toman de la URS aprobada y del manual del fabricante.</p>
+
+<!-- ================= PQ ================= -->
+<section id="fase-pq" data-familia="secador-tambor">
+<h2>PQ — Ensayos</h2>
+
+  <div class="portada" data-bloque="1">
+  <p><strong>PORTADA DEL PROTOCOLO PQ</strong></p>
+  <p><strong>Logo:</strong><br><img class="ent-logo" alt="Logo de la entidad"></p>
+  <p><strong>Calificación de Desempeño de <span class="equipo">equipo</span>:</strong> <span class="ent-descripcion">______</span></p>
+  <ol>
+    <li><strong>Marca:</strong> <span class="ent-marca">______</span></li>
+    <li><strong>Modelo:</strong> <span class="ent-modelo">______</span></li>
+    <li><strong>Código:</strong> <span class="ent-codigo">______</span></li>
+  </ol>
+  </div>
+
+  <div class="firmas" data-bloque="1">
+  <p><strong>FLUJO DE FIRMAS DEL PROTOCOLO:</strong></p>
+  <p>Este apartado establece que los responsables revisan y aprueban el presente protocolo, declarando que está apto para su ejecución. Cualquier cambio posterior a la firma obliga a reiniciar el flujo de firmas, con el fin de garantizar que todos los departamentos involucrados estén al tanto de los ensayos a ejecutar.</p>
+  <ol>
+    <li><strong>Elaborado Por:</strong> <br> Analista de validaciones — elabora / Nombre: ______ Firma: ______ Fecha: ______</li><br>
+    <li><strong>Revisado Por:</strong> <br> Coordinador de validaciones — revisa / Nombre: ______ Firma: ______ Fecha: ______</li><br>
+    <li><strong>Revisado Por:</strong> <br> Gerente de Área — revisa / Nombre: ______ Firma: ______ Fecha: ______</li><br>
+    <li><strong>Aprobado por:</strong> <br> Gerente de gestión de calidad — aprueba / Nombre: ______ Firma: ______ Fecha: ______</li><br>
+  </ol>
+  </div>
+
+  <div class="responsabilidades" data-bloque="1">
+  <p><strong>RESPONSABILIDADES DEL PROTOCOLO:</strong></p>
+  <p><strong>Responsabilidad del Analista de validaciones:</strong></p>
+  <ol><li>Coordinar la ejecución de la Calificación de Desempeño con las áreas involucradas, asegurando personal, <span class="equipo">equipo</span>, patrones, materiales e instrumentos y documentación.</li><li>Verificar que los instrumentos de medición estén identificados y con calibración vigente.</li><li>Ejecutar y/o supervisar los ensayos del protocolo según los criterios aprobados.</li><li>Registrar los datos de forma completa, legible y trazable (ALCOA+).</li><li>Documentar las desviaciones según los procedimientos internos vigentes.</li><li>Elaborar el informe de calificación con resultados, conclusiones y anexos.</li></ol>
+  <p><strong>Responsabilidad del Coordinador de validaciones:</strong></p>
+  <ol><li>Revisar técnicamente el protocolo antes de su ejecución.</li><li>Asignar al analista responsable y coordinar recursos.</li><li>Revisar las desviaciones, su tratamiento y las CAPA asociadas.</li><li>Revisar el informe final y autorizar la fase siguiente.</li></ol>
+  <p><strong>Responsabilidad del Gerente de Área:</strong></p>
+  <ol><li>Garantizar la disponibilidad del <span class="equipo">equipo</span> y los accesos para la ejecución.</li><li>Facilitar la documentación técnica del fabricante y del proveedor.</li><li>Implementar las acciones operativas derivadas de desviaciones y CAPA.</li></ol>
+  <p><strong>Responsabilidad del Gerente de gestión de calidad:</strong></p>
+  <ol><li>Aprobar el protocolo y sus criterios de aceptación.</li><li>Aprobar las desviaciones y sus evaluaciones de impacto.</li><li>Emitir el dictamen final del estado de calificación.</li></ol>
+  </div>
+
+  <div class="alcance" data-bloque="1">
+  <p><strong>ALCANCE</strong></p>
+  <p>Esta calificación aplica a <span class="equipo">equipo</span>, del secador de tambor rotativo, según protocolo PQ, y cubre los 6 ensayos listados en el índice. Los setpoints, tolerancias y criterios de aceptación se toman de la URS aprobada y del manual del fabricante; la norma específica de la familia permanece como PENDIENTE DEL RESPONSABLE.</p>
+  </div>
+
+  <article data-bloque="3" id="art-EQ-PQ-ST-001" class="ensayo" data-id="EQ-PQ-ST-001" data-fase="PQ" data-cond="ambas" data-familia="secador-tambor" data-analisis="si">
+  <h3>EQ-PQ-ST-001 — Curva de secado y humedad final con carga</h3>
+  <p><strong>Objetivo:</strong><br>Verificar que el ciclo con carga alcanza la humedad final aprobada y sigue la curva definida.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Cargar el tambor con la cantidad definida en la URS<br>
+  2) Registrar la humedad o pérdida de peso en los intervalos definidos<br>
+  3) Comparar la curva medida con la definida y registrar el tiempo de ciclo<br>
+  4) Procesar los datos crudos de este ensayo en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o condiciones con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  La curva y el tiempo de ciclo están dentro de lo definido en la URS aprobada.<br>
+  La humedad final alcanza la especificación aprobada.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro de la curva de secado con puntos y tiempo de ciclo<br>
+  - Data cruda y reporte estadístico del análisis correspondiente</p>
+  <p><strong>Referencia:</strong><br>URS aprobada; especificación del producto.</p>
+  </article>
+
+  <article data-bloque="3" id="art-EQ-PQ-ST-002" class="ensayo" data-id="EQ-PQ-ST-002" data-fase="PQ" data-cond="ambas" data-familia="secador-tambor" data-analisis="si">
+  <h3>EQ-PQ-ST-002 — Uniformidad de humedad en el producto</h3>
+  <p><strong>Objetivo:</strong><br>Verificar que la humedad final es uniforme en el producto descargado del tambor.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Muestrear los puntos definidos en el plan de muestreo<br>
+  2) Determinar la humedad por el método validado<br>
+  3) Calcular la diferencia y el RSD entre muestras<br>
+  4) Procesar los datos crudos de este ensayo en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o condiciones con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  La diferencia de humedad entre muestras está dentro del criterio de la URS aprobada.<br>
+  Todas las muestras cumplen la especificación aprobada.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro de humedad final por muestra<br>
+  - Data cruda y reporte estadístico del análisis correspondiente</p>
+  <p><strong>Referencia:</strong><br>URS aprobada; método validado.</p>
+  </article>
+
+  <article data-bloque="3" id="art-EQ-PQ-ST-003" class="ensayo" data-id="EQ-PQ-ST-003" data-fase="PQ" data-cond="ambas" data-familia="secador-tambor" data-analisis="si">
+  <h3>EQ-PQ-ST-003 — Rendimiento y capacidad por lote</h3>
+  <p><strong>Objetivo:</strong><br>Verificar que el rendimiento y la capacidad del secador cumplen lo definido para el producto.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Procesar la carga definida en la URS<br>
+  2) Registrar la masa de entrada, la masa de salida y el tiempo de ciclo<br>
+  3) Calcular el rendimiento y compararlo con el criterio aprobado<br>
+  4) Procesar los datos crudos de este ensayo en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o condiciones con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  El rendimiento y la capacidad están dentro de lo definido en la URS aprobada.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro de masa, rendimiento y tiempo de ciclo por lote<br>
+  - Data cruda y reporte estadístico del análisis correspondiente</p>
+  <p><strong>Referencia:</strong><br>URS aprobada; especificación del producto.</p>
+  </article>
+
+  <article data-bloque="3" id="art-EQ-PQ-ST-004" class="ensayo" data-id="EQ-PQ-ST-004" data-fase="PQ" data-cond="ambas" data-familia="secador-tambor" data-analisis="si">
+  <h3>EQ-PQ-ST-004 — Repetibilidad entre lotes</h3>
+  <p><strong>Objetivo:</strong><br>Verificar que la humedad final y el tiempo de ciclo son repetibles entre lotes independientes.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Ejecutar al menos tres lotes con la misma carga y setpoint<br>
+  2) Registrar humedad final, rendimiento y tiempo de ciclo por lote<br>
+  3) Calcular la diferencia entre lotes y el RSD<br>
+  4) Procesar los datos crudos de este ensayo en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o condiciones con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  La diferencia entre lotes está dentro del criterio de la URS aprobada.<br>
+  Todos los lotes alcanzan la especificación aprobada.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro de los lotes de repetibilidad<br>
+  - Data cruda y reporte estadístico del análisis correspondiente</p>
+  <p><strong>Referencia:</strong><br>URS aprobada.</p>
+  </article>
+
+  <article data-bloque="3" id="art-EQ-PQ-ST-005" class="ensayo" data-id="EQ-PQ-ST-005" data-fase="PQ" data-cond="ambas" data-familia="secador-tambor">
+  <h3>EQ-PQ-ST-005 — Alarmas y desviaciones con carga</h3>
+  <p><strong>Objetivo:</strong><br>Verificar la respuesta de alarmas y la gestión de desviaciones con la carga real.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Provocar las alarmas definidas con el tambor cargado<br>
+  2) Verificar la condición segura del producto y la aplicación de la contingencia<br>
+  3) Registrar la disposición del lote afectado</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Las alarmas actúan según el manual del fabricante.<br>
+  El lote afectado se evalúa y dispone según el procedimiento aprobado.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro de alarmas y desviaciones con carga</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante; procedimiento de contingencia aprobado.</p>
+  </article>
+
+  <article data-bloque="3" id="art-EQ-PQ-ST-006" class="ensayo" data-id="EQ-PQ-ST-006" data-fase="PQ" data-cond="ambas" data-familia="secador-tambor">
+  <h3>EQ-PQ-ST-006 — Revisión de registros y datos del PQ</h3>
+  <p><strong>Objetivo:</strong><br>Verificar que los registros del PQ están completos, trazables y revisados conforme a ALCOA+, y que la data cruda coincide con el informe.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Revisar que cada ensayo tenga registro con fecha, hora, equipo, lote, setpoint y responsable<br>
+  2) Verificar la evaluación de impacto de cada desviación<br>
+  3) Verificar que la data cruda y los reportes estén anexados y sean consistentes</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  El 100 % de los ensayos tiene registro completo y trazable.<br>
+  Toda desviación tiene evaluación de impacto y disposición.<br>
+  La data cruda y los reportes coinciden con el informe.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Lista de verificación de registros por ensayo<br>
+  - Registro de revisión de data cruda y desviaciones</p>
+  <p><strong>Referencia:</strong><br>EU GMP Anexo 15; 21 CFR Part 11 / EU GMP Anexo 11; ALCOA+.</p>
+  </article>
+
+  <article data-bloque="4" id="art-EQ-PQ-ST-RES" class="ensayo" data-id="EQ-PQ-ST-RES" data-fase="PQ" data-cond="ambas" data-familia="secador-tambor">
+  <h3>EQ-PQ-ST-RES — Tabla resumen de los ensayos del PQ</h3>
+  <p><strong>Objetivo:</strong><br>Consolidar el listado de ensayos del PQ para la tabla resumen del protocolo.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Confirmar que los ensayos EQ-PQ-ST-001 a EQ-PQ-ST-006 están incluidos en el índice del protocolo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Los 6 ensayos aparecen en la tabla resumen con su veredicto.</p>
+  <p><strong>Referencia:</strong><br>EU GMP Anexo 15.</p>
+  </article>
+
+  <article data-bloque="6" id="art-EQ-PQ-ST-REF" class="ensayo tabla-info" data-id="EQ-PQ-ST-REF" data-fase="PQ" data-cond="ambas" data-familia="secador-tambor">
+  <h3>EQ-PQ-ST-REF — Referencias del PQ de Secador de tambor rotativo</h3>
+  <table>
+    <tr><th>SECCIÓN</th><th>TÍTULO</th><th>ESTADO</th></tr>
+    <tr><td>6.1</td><td>Manual del fabricante del equipo — Velocidad, setpoints, cuchilla y límites de diseño</td><td>VIGENTE</td></tr>
+    <tr><td>6.2</td><td>URS aprobada — Rango de operación, carga, humedad final y criterios de aceptación</td><td>VIGENTE</td></tr>
+    <tr><td>6.3</td><td>EU GMP Anexo 15 — Calificación y validación: el OQ y el PQ demuestran operación según especificaciones aprobadas</td><td>VIGENTE</td></tr>
+    <tr><td>6.4</td><td>GAMP 5, 2.ª ed. y 21 CFR Part 11 / EU GMP Anexo 11 — Ciclo de vida y registros electrónicos</td><td>VIGENTE</td></tr>
+    <tr><td>6.5</td><td>ISPE Baseline Guide Vol. 5 — Commissioning and Qualification de equipos de producción</td><td>VIGENTE</td></tr>
+    <tr><td>6.6</td><td>Norma específica de secado por tambor — PENDIENTE DEL RESPONSABLE</td><td>PENDIENTE</td></tr>
+  </table>
+  </article>
+
+  <div class="anexos" data-bloque="8">
+  <p><strong>ANEXOS:</strong></p>
+  <table>
+  <tr><th>SECCIÓN</th><th>TÍTULO</th></tr>
+<tr><td>8.1</td><td>Anexo A — Registros de rotación, temperatura de superficie, vacío, curvas de secado y humedad final</td></tr>
+<tr><td>8.2</td><td>Anexo B — Certificados de calibración de tacómetro, patrones de temperatura y vacío</td></tr>
+<tr><td>8.3</td><td>Anexo C — Registros de alarmas, desviaciones, CAPA y disposición de lote</td></tr>
+<tr><td>8.4</td><td>Anexo D — Matriz de trazabilidad requisito-prueba (RTM) y evidencia de revisión</td></tr>
+  </table>
+  </div>
+
+</section>
+
+</body>
+</html>

@@ -90,6 +90,47 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (SigmaProXVL) con spr
 
 ## CAMBIOS RECIENTES
 
+### 2026-11-08 (260): Validaciones — banco de ensayos para 6 familias M y 15 instrumentos L
+
+**Qué:** se crearon **27 archivos HTML** de banco de ensayos por familia y se cablearon al banco de equipos:
+
+- **6 familias M con OQ + PQ** (6 ensayos por fase): liofilizador (`LI`), túnel de despirogenización (`TD`), secador de bandejas (`SB`), secador de tambor (`ST`), cabina de flujo laminar (`CF`) y cabina de bioseguridad (`CB`). Cada documento trae bloque 4 (resumen), bloque 6 (referencias) y bloque 8 (Anexos A–D); la fila 6.6 queda como `PENDIENTE DEL RESPONSABLE`.
+- **15 instrumentos L con OQ** (6 ensayos cada uno): pH-metro (`PH`), espectrofotómetro UV-Vis (`UV`), espectrofotómetro IR (`IR`), espectrómetro (`ES`), HPLC (`HL`), GC (`GC`), disolutor (`DS`), desintegrador (`DI`), friabilómetro (`FR`), durómetro (`DU`), Karl Fischer (`KF`), TOC (`TO`), incubadora (`IN`), centrífuga (`CE`) y termómetros/data loggers (`TE`). Declaran `USP <1058>` y dejan la norma específica pendiente; no llevan PQ.
+
+**Por qué:** el generador bloqueaba la descarga con "Sin banco de familia" para estas entidades. `tieneBancoFam('OQ','equipos','secador-bandejas')` devolvía `false` y no había banco de fase para 21 familias del catálogo.
+
+- **Generador determinista:** `scripts/generar-bancos-equipos.mjs` contiene la spec compacta por familia/fase y la plantilla HTML; regenerar produce los mismos 27 archivos.
+- **Sin normas ni límites inventados:** todos los criterios remiten a la URS aprobada o al manual del fabricante. Los 12 documentos M y los 15 bancos L conservan la referencia específica como `PENDIENTE DEL RESPONSABLE`.
+
+**Archivos afectados:**
+| Archivo | Cambio |
+|---------|--------|
+| `scripts/generar-bancos-equipos.mjs` | Nuevo: spec + plantilla de los 27 bancos |
+| `docs/banco-ensayos/equipos/oq-{liofilizador,tunel-despirogenizacion,secador-bandejas,secador-tambor,cabina-flujo,cabina-bioseguridad}.html` | Nuevos: OQ de las 6 familias M |
+| `docs/banco-ensayos/equipos/pq-{...}.html` | Nuevos: PQ de las 6 familias M |
+| `docs/banco-ensayos/equipos/oq-{phmetro,espectrofotometro,espectrofotometro-ir,espectrometro,hplc,gc,disolutor,desintegrador,friabilometro,durometro,karl-fischer,toc,incubadora,centrifuga,termometro}.html` | Nuevos: OQ de los 15 instrumentos L |
+| `scripts/extraer-banco.mjs` | Los 27 archivos agregados a `BANCOS.equipos.src` |
+| `js/core/banco-equipos-data.js` | Regenerado (no editado a mano) |
+| `tests/bancos-contrato.test.js` | 19 familias nuevas en la lista ordenada + 27 entradas de conteo |
+| `tests/protocolo-estructura.test.js` | 6 familias M en `backfill` + verificación de fila 6.6 |
+| `tests/plantilla-equipos.test.js` | Cabina de flujo laminar ahora recibe su banco; entidad inexistente sigue recibiendo solo el común |
+| `tests/validaciones-panel.test.js` | `secador-bandejas` OQ/PQ pasa de `false`/`sin-banco` a `true`/`ok` |
+| `scripts/validar-protocolo.mjs` | 6 familias M agregadas a `familiasBackfill` |
+| `docs/banco-ensayos/NORMAS_POR_FAMILIA.md` | Tabla y secciones de cobertura actualizadas; estado `PARCIAL` para L |
+| `docs/banco-ensayos/PROTOCOLO_MAESTRO.md` | Versión 1.2: 24 familias M y 17 instrumentos L |
+| `ESTADO_PROYECTO.md` | Este registro |
+
+**Verificación:**
+```
+node scripts/extraer-banco.mjs equipos --estricto → OK · 1180 artículos · 1180 IDs únicos
+npm run protocolo:check → OK · 24 familias × 2 documentos · 30 warnings (PENDIENTE esperados)
+npx vitest run → 63 archivos, 1130 tests OK
+npm run typecheck → 0 errores
+npm run preflight → OK (vitest + backend + 13 E2E)
+```
+
+**Límite conocido:** la norma específica de las 6 familias M y de los 15 instrumentos L sigue `PENDIENTE DEL RESPONSABLE`; completarla requiere fuente, versión y aprobación del área técnica. Los criterios de aceptación son condicionales a la URS aprobada y al manual del fabricante, no valores fijados por este cambio.
+
 ### 2026-11-07 (259): Validaciones — el gerente elegido llena cargo y área
 
 **Qué:** Al elegir el Revisor Gerente, su cargo se muestra en la lista y el campo "gerencia que revisa" se llena solo, siempre (antes solo la primera vez y solo si el cargo era `Gerente de X`).

@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<style>
+  body { font-family: Tahoma, sans-serif; font-size: 11pt; }
+  strong { text-transform: uppercase; }
+</style>
+<title>Banco de Ensayos OQ — Túnel de despirogenización</title>
+</head>
+<body>
+
+<p><a href="../equipos.html">← Equipos e Instrumentos</a></p>
+<h2>OQ — Túnel de despirogenización (banco por familia)</h2>
+<p>Versión del banco: <span data-banco-version>EQ-OQ-TD 2026-11-08 v1</span></p>
+<p>Ensayos de Calificación de Operación y Desempeño específicos del túnel de despirogenización (banda, zonas térmicas y reto de endotoxina). Se filtran por familia (<code>data-familia="tunel-despirogenizacion"</code>) según la entidad elegida en el paso 1. Banco creado el 2026-11-08: los límites y setpoints se toman de la URS aprobada y del manual del fabricante.</p>
+
+<!-- ================= OQ ================= -->
+<section id="fase-oq" data-familia="tunel-despirogenizacion">
+<h2>OQ — Ensayos</h2>
+
+  <div class="portada" data-bloque="1">
+  <p><strong>PORTADA DEL PROTOCOLO OQ</strong></p>
+  <p><strong>Logo:</strong><br><img class="ent-logo" alt="Logo de la entidad"></p>
+  <p><strong>Calificación de Operación de <span class="equipo">equipo</span>:</strong> <span class="ent-descripcion">______</span></p>
+  <ol>
+    <li><strong>Marca:</strong> <span class="ent-marca">______</span></li>
+    <li><strong>Modelo:</strong> <span class="ent-modelo">______</span></li>
+    <li><strong>Código:</strong> <span class="ent-codigo">______</span></li>
+  </ol>
+  </div>
+
+  <div class="firmas" data-bloque="1">
+  <p><strong>FLUJO DE FIRMAS DEL PROTOCOLO:</strong></p>
+  <p>Este apartado establece que los responsables revisan y aprueban el presente protocolo, declarando que está apto para su ejecución. Cualquier cambio posterior a la firma obliga a reiniciar el flujo de firmas, con el fin de garantizar que todos los departamentos involucrados estén al tanto de los ensayos a ejecutar.</p>
+  <ol>
+    <li><strong>Elaborado Por:</strong> <br> Analista de validaciones — elabora / Nombre: ______ Firma: ______ Fecha: ______</li><br>
+    <li><strong>Revisado Por:</strong> <br> Coordinador de validaciones — revisa / Nombre: ______ Firma: ______ Fecha: ______</li><br>
+    <li><strong>Revisado Por:</strong> <br> Gerente de Área — revisa / Nombre: ______ Firma: ______ Fecha: ______</li><br>
+    <li><strong>Aprobado por:</strong> <br> Gerente de gestión de calidad — aprueba / Nombre: ______ Firma: ______ Fecha: ______</li><br>
+  </ol>
+  </div>
+
+  <div class="responsabilidades" data-bloque="1">
+  <p><strong>RESPONSABILIDADES DEL PROTOCOLO:</strong></p>
+  <p><strong>Responsabilidad del Analista de validaciones:</strong></p>
+  <ol><li>Coordinar la ejecución de la Calificación de Operación con las áreas involucradas, asegurando personal, <span class="equipo">equipo</span>, patrones, materiales e instrumentos y documentación.</li><li>Verificar que los instrumentos de medición estén identificados y con calibración vigente.</li><li>Ejecutar y/o supervisar los ensayos del protocolo según los criterios aprobados.</li><li>Registrar los datos de forma completa, legible y trazable (ALCOA+).</li><li>Documentar las desviaciones según los procedimientos internos vigentes.</li><li>Elaborar el informe de calificación con resultados, conclusiones y anexos.</li></ol>
+  <p><strong>Responsabilidad del Coordinador de validaciones:</strong></p>
+  <ol><li>Revisar técnicamente el protocolo antes de su ejecución.</li><li>Asignar al analista responsable y coordinar recursos.</li><li>Revisar las desviaciones, su tratamiento y las CAPA asociadas.</li><li>Revisar el informe final y autorizar la fase siguiente.</li></ol>
+  <p><strong>Responsabilidad del Gerente de Área:</strong></p>
+  <ol><li>Garantizar la disponibilidad del <span class="equipo">equipo</span> y los accesos para la ejecución.</li><li>Facilitar la documentación técnica del fabricante y del proveedor.</li><li>Implementar las acciones operativas derivadas de desviaciones y CAPA.</li></ol>
+  <p><strong>Responsabilidad del Gerente de gestión de calidad:</strong></p>
+  <ol><li>Aprobar el protocolo y sus criterios de aceptación.</li><li>Aprobar las desviaciones y sus evaluaciones de impacto.</li><li>Emitir el dictamen final del estado de calificación.</li></ol>
+  </div>
+
+  <div class="alcance" data-bloque="1">
+  <p><strong>ALCANCE</strong></p>
+  <p>Esta calificación aplica a <span class="equipo">equipo</span>, del túnel de despirogenización, según protocolo OQ, y cubre los 6 ensayos listados en el índice. Los setpoints, tolerancias y criterios de aceptación se toman de la URS aprobada y del manual del fabricante; la norma específica de la familia permanece como PENDIENTE DEL RESPONSABLE.</p>
+  </div>
+
+  <article data-bloque="3" id="art-EQ-OQ-TD-001" class="ensayo" data-id="EQ-OQ-TD-001" data-fase="OQ" data-cond="ambas" data-familia="tunel-despirogenizacion" data-analisis="si">
+  <h3>EQ-OQ-TD-001 — Velocidad de banda y tiempo de permanencia</h3>
+  <p><strong>Objetivo:</strong><br>Verificar que la velocidad de banda y el tiempo de permanencia en cada zona coinciden con los valores definidos.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Programar la velocidad de operación definida en la URS<br>
+  2) Medir el tiempo de permanencia de un testigo en cada zona con cronómetro patrón<br>
+  3) Repetir la medición al menos tres veces y calcular la variación<br>
+  4) Procesar los datos crudos de este ensayo en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o condiciones con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  La velocidad de banda está dentro de la tolerancia de la URS aprobada.<br>
+  El tiempo de permanencia en cada zona cumple el valor aprobado.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro de velocidad y tiempos de permanencia por zona<br>
+  - Data cruda y reporte estadístico del análisis correspondiente</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante; URS aprobada.</p>
+  </article>
+
+  <article data-bloque="3" id="art-EQ-OQ-TD-002" class="ensayo" data-id="EQ-OQ-TD-002" data-fase="OQ" data-cond="ambas" data-familia="tunel-despirogenizacion" data-analisis="si">
+  <h3>EQ-OQ-TD-002 — Perfil de temperatura por zona</h3>
+  <p><strong>Objetivo:</strong><br>Verificar que cada zona alcanza y mantiene su setpoint durante la operación continua.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Operar el túnel en vacío hasta la estabilización<br>
+  2) Registrar la temperatura en los puntos definidos de cada zona<br>
+  3) Calcular la diferencia respecto del setpoint y la estabilidad en el tiempo<br>
+  4) Procesar los datos crudos de este ensayo en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o condiciones con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Cada zona alcanza su setpoint y se mantiene dentro de la tolerancia aprobada.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro del perfil térmico por zona con curvas<br>
+  - Data cruda y reporte estadístico del análisis correspondiente</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante; URS aprobada.</p>
+  </article>
+
+  <article data-bloque="3" id="art-EQ-OQ-TD-003" class="ensayo" data-id="EQ-OQ-TD-003" data-fase="OQ" data-cond="ambas" data-familia="tunel-despirogenizacion" data-analisis="si">
+  <h3>EQ-OQ-TD-003 — Uniformidad en la zona de despirogenización</h3>
+  <p><strong>Objetivo:</strong><br>Verificar que la temperatura es uniforme en el volumen de la zona de despirogenización.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Ubicar sensores en los puntos definidos del volumen de la zona crítica<br>
+  2) Registrar durante el período de estabilización definido en el protocolo<br>
+  3) Calcular la diferencia máxima entre puntos y el RSD<br>
+  4) Procesar los datos crudos de este ensayo en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o condiciones con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  La diferencia entre puntos está dentro del criterio de la URS aprobada.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro de uniformidad por punto y setpoint<br>
+  - Data cruda y reporte estadístico del análisis correspondiente</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante; URS aprobada.</p>
+  </article>
+
+  <article data-bloque="3" id="art-EQ-OQ-TD-004" class="ensayo" data-id="EQ-OQ-TD-004" data-fase="OQ" data-cond="ambas" data-familia="tunel-despirogenizacion" data-analisis="si">
+  <h3>EQ-OQ-TD-004 — Presión diferencial y flujo de aire</h3>
+  <p><strong>Objetivo:</strong><br>Verificar que las presiones diferenciales y el flujo de aire entre zonas se mantienen en los valores definidos.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Medir la presión diferencial entre zonas con el instrumento patrón<br>
+  2) Medir el flujo o velocidad de aire en los puntos definidos<br>
+  3) Registrar los valores y compararlos con la URS<br>
+  4) Procesar los datos crudos de este ensayo en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o condiciones con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Las presiones diferenciales y el flujo están dentro de los rangos aprobados.<br>
+  La dirección del flujo es la definida para la protección del producto.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro de presiones diferenciales y flujo por zona<br>
+  - Data cruda y reporte estadístico del análisis correspondiente</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante; URS aprobada.</p>
+  </article>
+
+  <article data-bloque="3" id="art-EQ-OQ-TD-005" class="ensayo" data-id="EQ-OQ-TD-005" data-fase="OQ" data-cond="ambas" data-familia="tunel-despirogenizacion">
+  <h3>EQ-OQ-TD-005 — Alarmas y enclavamientos del túnel</h3>
+  <p><strong>Objetivo:</strong><br>Verificar que las alarmas y enclavamientos actúan ante las condiciones anormales definidas.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Provocar cada alarma: sobretemperatura, falla de resistencia, paro de banda y puerta abierta<br>
+  2) Verificar el enclavamiento que impide el ingreso con la zona caliente<br>
+  3) Registrar el disparo y la recuperación de cada condición</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Cada alarma y enclavamiento actúa según el manual del fabricante.<br>
+  El equipo no permite operar fuera de la condición segura definida.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro de alarmas y enclavamientos probados</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante.</p>
+  </article>
+
+  <article data-bloque="3" id="art-EQ-OQ-TD-006" class="ensayo" data-id="EQ-OQ-TD-006" data-fase="OQ" data-cond="ambas" data-familia="tunel-despirogenizacion">
+  <h3>EQ-OQ-TD-006 — Arranque, parada y corte de energía</h3>
+  <p><strong>Objetivo:</strong><br>Verificar la secuencia de arranque, la parada normal y el comportamiento ante un corte de energía.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Registrar la secuencia de arranque y el tiempo hasta la estabilización<br>
+  2) Ejecutar la parada normal y verificar el enfriamiento controlado<br>
+  3) Cortar la energía y verificar el estado seguro, la alarma y la recuperación</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  El arranque y la parada siguen la secuencia del manual del fabricante.<br>
+  Ante el corte, el equipo queda en estado seguro y se recupera sin pérdida de registros.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro de arranque, parada y corte de energía</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante; 21 CFR Part 11 / EU GMP Anexo 11 (si aplica).</p>
+  </article>
+
+  <article data-bloque="4" id="art-EQ-OQ-TD-RES" class="ensayo" data-id="EQ-OQ-TD-RES" data-fase="OQ" data-cond="ambas" data-familia="tunel-despirogenizacion">
+  <h3>EQ-OQ-TD-RES — Tabla resumen de los ensayos del OQ</h3>
+  <p><strong>Objetivo:</strong><br>Consolidar el listado de ensayos del OQ para la tabla resumen del protocolo.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Confirmar que los ensayos EQ-OQ-TD-001 a EQ-OQ-TD-006 están incluidos en el índice del protocolo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Los 6 ensayos aparecen en la tabla resumen con su veredicto.</p>
+  <p><strong>Referencia:</strong><br>EU GMP Anexo 15.</p>
+  </article>
+
+  <article data-bloque="6" id="art-EQ-OQ-TD-REF" class="ensayo tabla-info" data-id="EQ-OQ-TD-REF" data-fase="OQ" data-cond="ambas" data-familia="tunel-despirogenizacion">
+  <h3>EQ-OQ-TD-REF — Referencias del OQ de Túnel de despirogenización</h3>
+  <table>
+    <tr><th>SECCIÓN</th><th>TÍTULO</th><th>ESTADO</th></tr>
+    <tr><td>6.1</td><td>Manual del fabricante del equipo — Zonas, setpoints, velocidad de banda y límites de diseño</td><td>VIGENTE</td></tr>
+    <tr><td>6.2</td><td>URS aprobada — Rango de operación, carga, criterios de aceptación y puntos de monitoreo</td><td>VIGENTE</td></tr>
+    <tr><td>6.3</td><td>EU GMP Anexo 15 — Calificación y validación: el OQ y el PQ demuestran operación según especificaciones aprobadas</td><td>VIGENTE</td></tr>
+    <tr><td>6.4</td><td>GAMP 5, 2.ª ed. y 21 CFR Part 11 / EU GMP Anexo 11 — Ciclo de vida y registros electrónicos</td><td>VIGENTE</td></tr>
+    <tr><td>6.5</td><td>ISPE Baseline Guide Vol. 5 — Commissioning and Qualification de equipos de producción</td><td>VIGENTE</td></tr>
+    <tr><td>6.6</td><td>Norma específica de despirogenización — PENDIENTE DEL RESPONSABLE</td><td>PENDIENTE</td></tr>
+  </table>
+  </article>
+
+  <div class="anexos" data-bloque="8">
+  <p><strong>ANEXOS:</strong></p>
+  <table>
+  <tr><th>SECCIÓN</th><th>TÍTULO</th></tr>
+<tr><td>8.1</td><td>Anexo A — Registros de velocidad, tiempos de permanencia, perfiles térmicos y uniformidad por zona</td></tr>
+<tr><td>8.2</td><td>Anexo B — Certificados de calibración de patrones de temperatura, cronómetros e instrumentos de flujo</td></tr>
+<tr><td>8.3</td><td>Anexo C — Registros del reto de endotoxina, alarmas, paradas, desviaciones y CAPA</td></tr>
+<tr><td>8.4</td><td>Anexo D — Matriz de trazabilidad requisito-prueba (RTM) y evidencia de revisión</td></tr>
+  </table>
+  </div>
+
+</section>
+
+</body>
+</html>

@@ -1,7 +1,7 @@
 // Generado por scripts/extraer-banco.mjs equipos — NO EDITAR A MANO.
-// Fuente: docs/banco-ensayos/equipos-comun.html + docs/banco-ensayos/equipos/oq-comun.html + docs/banco-ensayos/equipos/pq-comun.html + docs/banco-ensayos/equipos/iq-autoclave.html + docs/banco-ensayos/equipos/iq-tunel-despirogenizacion.html + docs/banco-ensayos/equipos/iq-liofilizador.html + docs/banco-ensayos/equipos/iq-reactor.html + docs/banco-ensayos/equipos/iq-horno-vacio.html + docs/banco-ensayos/equipos/iq-llenadora.html + docs/banco-ensayos/equipos/oq-llenadora.html + docs/banco-ensayos/equipos/oq-llenadora-tubos.html + docs/banco-ensayos/equipos/pq-llenadora.html + docs/banco-ensayos/equipos/pq-llenadora-tubos.html + docs/banco-ensayos/equipos/iq-lecho-fluido.html + docs/banco-ensayos/equipos/iq-tableteadora.html + docs/banco-ensayos/equipos/iq-encapsuladora.html + docs/banco-ensayos/equipos/iq-granulador.html + docs/banco-ensayos/equipos/iq-recubridora.html + docs/banco-ensayos/equipos/iq-blistera.html + docs/banco-ensayos/equipos/iq-detector-metales.html + docs/banco-ensayos/equipos/iq-etiquetadora.html + docs/banco-ensayos/equipos/iq-mezclador.html + docs/banco-ensayos/equipos/iq-horno-secado.html + docs/banco-ensayos/equipos/iq-sistema-cremas-vacio.html + docs/banco-ensayos/equipos/oq-reactor.html + docs/banco-ensayos/equipos/pq-reactor.html + docs/banco-ensayos/equipos/oq-sistema-cremas-vacio.html + docs/banco-ensayos/equipos/pq-sistema-cremas-vacio.html + docs/banco-ensayos/equipos/oq-tableteadora.html + docs/banco-ensayos/equipos/pq-tableteadora.html + docs/banco-ensayos/equipos/oq-encapsuladora.html + docs/banco-ensayos/equipos/pq-encapsuladora.html + docs/banco-ensayos/equipos/oq-granulador.html + docs/banco-ensayos/equipos/pq-granulador.html + docs/banco-ensayos/equipos/oq-recubridora.html + docs/banco-ensayos/equipos/pq-recubridora.html + docs/banco-ensayos/equipos/oq-blistera.html + docs/banco-ensayos/equipos/pq-blistera.html + docs/banco-ensayos/equipos/oq-detector-metales.html + docs/banco-ensayos/equipos/pq-detector-metales.html + docs/banco-ensayos/equipos/oq-etiquetadora.html + docs/banco-ensayos/equipos/pq-etiquetadora.html + docs/banco-ensayos/equipos/oq-lecho-fluido.html + docs/banco-ensayos/equipos/oq-autoclave.html + docs/banco-ensayos/equipos/oq-mezclador.html + docs/banco-ensayos/equipos/oq-horno.html + docs/banco-ensayos/equipos/pq-lecho-fluido.html + docs/banco-ensayos/equipos/pq-autoclave.html + docs/banco-ensayos/equipos/pq-mezclador.html + docs/banco-ensayos/equipos/pq-horno.html + docs/banco-ensayos/equipos/pq-horno-vacio.html + docs/banco-ensayos/equipos/oq-horno-vacio.html + docs/banco-ensayos/equipos/oq-refrigerador-lab.html + docs/banco-ensayos/equipos/pq-refrigerador-lab.html + docs/banco-ensayos/equipos/oq-congelador-lab.html + docs/banco-ensayos/equipos/pq-congelador-lab.html + docs/banco-ensayos/equipos/oq-balanza.html + docs/banco-ensayos/equipos/oq-viscosimetro.html (versión: EQ-COMUN 2026-11-04 v4 + EQ-OQ-COM 2026-11-04 v3 + EQ-PQ-COM 2026-11-04 v3 + EQ-IQ-AU 2026-10-07 v1 + EQ-IQ-TD 2026-10-07 v1 + EQ-IQ-LI 2026-10-07 v1 + EQ-IQ-RC 2026-10-21 v2 + EQ-IQ-VA 2026-10-21 v2 + EQ-IQ-LL 2026-10-29 v3 + EQ-OQ-LL 2026-10-29 v2 + EQ-OQ-LT 2026-10-29 v2 + EQ-PQ-LL 2026-10-29 v2 + EQ-PQ-LT 2026-10-29 v4 + EQ-IQ-LF 2026-10-07 v1 + EQ-IQ-TB 2026-10-08 v1 + EQ-IQ-EN 2026-10-08 v1 + EQ-IQ-GR 2026-10-08 v1 + EQ-IQ-RB 2026-10-09 v1 + EQ-IQ-BL 2026-10-09 v1 + EQ-IQ-DM 2026-10-11 v1 + EQ-IQ-ET 2026-10-11 v1 + EQ-IQ-MZ 2026-10-11 v1 + EQ-IQ-HO 2026-10-11 v1 + EQ-IQ-UC 2026-10-21 v2 + EQ-OQ-RC 2026-10-07 v1 + EQ-PQ-RC 2026-10-07 v1 + EQ-OQ-UC 2026-10-12 v1 + EQ-PQ-UC 2026-10-12 v1 + EQ-OQ-TB 2026-10-08 v1 + EQ-PQ-TB 2026-10-08 v1 + EQ-OQ-EN 2026-10-08 v1 + EQ-PQ-EN 2026-10-08 v1 + EQ-OQ-GR 2026-10-08 v1 + EQ-PQ-GR 2026-10-08 v1 + EQ-OQ-RB 2026-10-09 v1 + EQ-PQ-RB 2026-10-09 v1 + EQ-OQ-BL 2026-10-09 v1 + EQ-PQ-BL 2026-10-09 v1 + EQ-OQ-DM 2026-10-11 v1 + EQ-PQ-DM 2026-10-11 v1 + EQ-OQ-ET 2026-10-11 v1 + EQ-PQ-ET 2026-10-11 v1 + EQ-OQ-LF 2026-10-21 v3 + EQ-OQ-AU 2026-10-21 v3 + EQ-OQ-MZ 2026-10-21 v3 + EQ-OQ-HO 2026-10-21 v2 + EQ-PQ-LF 2026-10-21 v3 + EQ-PQ-AU 2026-10-21 v3 + EQ-PQ-MZ 2026-10-21 v3 + EQ-PQ-HO 2026-10-21 v2 + EQ-PQ-VA 2026-10-21 v2 + EQ-OQ-VA 2026-10-21 v2 + EQ-OQ-RF 2026-10-14 v1 + EQ-PQ-RF 2026-11-06 v2 + EQ-OQ-CG 2026-10-14 v1 + EQ-PQ-CG 2026-11-06 v2 + EQ-OQ-BA 2026-10-22 v1 + EQ-OQ-VS 2026-11-06 v1).
+// Fuente: docs/banco-ensayos/equipos-comun.html + docs/banco-ensayos/equipos/oq-comun.html + docs/banco-ensayos/equipos/pq-comun.html + docs/banco-ensayos/equipos/iq-autoclave.html + docs/banco-ensayos/equipos/iq-tunel-despirogenizacion.html + docs/banco-ensayos/equipos/iq-liofilizador.html + docs/banco-ensayos/equipos/iq-reactor.html + docs/banco-ensayos/equipos/iq-horno-vacio.html + docs/banco-ensayos/equipos/iq-llenadora.html + docs/banco-ensayos/equipos/oq-llenadora.html + docs/banco-ensayos/equipos/oq-llenadora-tubos.html + docs/banco-ensayos/equipos/pq-llenadora.html + docs/banco-ensayos/equipos/pq-llenadora-tubos.html + docs/banco-ensayos/equipos/iq-lecho-fluido.html + docs/banco-ensayos/equipos/iq-tableteadora.html + docs/banco-ensayos/equipos/iq-encapsuladora.html + docs/banco-ensayos/equipos/iq-granulador.html + docs/banco-ensayos/equipos/iq-recubridora.html + docs/banco-ensayos/equipos/iq-blistera.html + docs/banco-ensayos/equipos/iq-detector-metales.html + docs/banco-ensayos/equipos/iq-etiquetadora.html + docs/banco-ensayos/equipos/iq-mezclador.html + docs/banco-ensayos/equipos/iq-horno-secado.html + docs/banco-ensayos/equipos/iq-sistema-cremas-vacio.html + docs/banco-ensayos/equipos/oq-reactor.html + docs/banco-ensayos/equipos/pq-reactor.html + docs/banco-ensayos/equipos/oq-sistema-cremas-vacio.html + docs/banco-ensayos/equipos/pq-sistema-cremas-vacio.html + docs/banco-ensayos/equipos/oq-tableteadora.html + docs/banco-ensayos/equipos/pq-tableteadora.html + docs/banco-ensayos/equipos/oq-encapsuladora.html + docs/banco-ensayos/equipos/pq-encapsuladora.html + docs/banco-ensayos/equipos/oq-granulador.html + docs/banco-ensayos/equipos/pq-granulador.html + docs/banco-ensayos/equipos/oq-recubridora.html + docs/banco-ensayos/equipos/pq-recubridora.html + docs/banco-ensayos/equipos/oq-blistera.html + docs/banco-ensayos/equipos/pq-blistera.html + docs/banco-ensayos/equipos/oq-detector-metales.html + docs/banco-ensayos/equipos/pq-detector-metales.html + docs/banco-ensayos/equipos/oq-etiquetadora.html + docs/banco-ensayos/equipos/pq-etiquetadora.html + docs/banco-ensayos/equipos/oq-lecho-fluido.html + docs/banco-ensayos/equipos/oq-autoclave.html + docs/banco-ensayos/equipos/oq-mezclador.html + docs/banco-ensayos/equipos/oq-horno.html + docs/banco-ensayos/equipos/pq-lecho-fluido.html + docs/banco-ensayos/equipos/pq-autoclave.html + docs/banco-ensayos/equipos/pq-mezclador.html + docs/banco-ensayos/equipos/pq-horno.html + docs/banco-ensayos/equipos/pq-horno-vacio.html + docs/banco-ensayos/equipos/oq-horno-vacio.html + docs/banco-ensayos/equipos/oq-refrigerador-lab.html + docs/banco-ensayos/equipos/pq-refrigerador-lab.html + docs/banco-ensayos/equipos/oq-congelador-lab.html + docs/banco-ensayos/equipos/pq-congelador-lab.html + docs/banco-ensayos/equipos/oq-balanza.html + docs/banco-ensayos/equipos/oq-viscosimetro.html + docs/banco-ensayos/equipos/oq-liofilizador.html + docs/banco-ensayos/equipos/pq-liofilizador.html + docs/banco-ensayos/equipos/oq-tunel-despirogenizacion.html + docs/banco-ensayos/equipos/pq-tunel-despirogenizacion.html + docs/banco-ensayos/equipos/oq-secador-bandejas.html + docs/banco-ensayos/equipos/pq-secador-bandejas.html + docs/banco-ensayos/equipos/oq-secador-tambor.html + docs/banco-ensayos/equipos/pq-secador-tambor.html + docs/banco-ensayos/equipos/oq-cabina-flujo.html + docs/banco-ensayos/equipos/pq-cabina-flujo.html + docs/banco-ensayos/equipos/oq-cabina-bioseguridad.html + docs/banco-ensayos/equipos/pq-cabina-bioseguridad.html + docs/banco-ensayos/equipos/oq-phmetro.html + docs/banco-ensayos/equipos/oq-espectrofotometro.html + docs/banco-ensayos/equipos/oq-espectrofotometro-ir.html + docs/banco-ensayos/equipos/oq-espectrometro.html + docs/banco-ensayos/equipos/oq-hplc.html + docs/banco-ensayos/equipos/oq-gc.html + docs/banco-ensayos/equipos/oq-disolutor.html + docs/banco-ensayos/equipos/oq-desintegrador.html + docs/banco-ensayos/equipos/oq-friabilometro.html + docs/banco-ensayos/equipos/oq-durometro.html + docs/banco-ensayos/equipos/oq-karl-fischer.html + docs/banco-ensayos/equipos/oq-toc.html + docs/banco-ensayos/equipos/oq-incubadora.html + docs/banco-ensayos/equipos/oq-centrifuga.html + docs/banco-ensayos/equipos/oq-termometro.html (versión: EQ-COMUN 2026-11-04 v4 + EQ-OQ-COM 2026-11-04 v3 + EQ-PQ-COM 2026-11-04 v3 + EQ-IQ-AU 2026-10-07 v1 + EQ-IQ-TD 2026-10-07 v1 + EQ-IQ-LI 2026-10-07 v1 + EQ-IQ-RC 2026-10-21 v2 + EQ-IQ-VA 2026-10-21 v2 + EQ-IQ-LL 2026-10-29 v3 + EQ-OQ-LL 2026-10-29 v2 + EQ-OQ-LT 2026-10-29 v2 + EQ-PQ-LL 2026-10-29 v2 + EQ-PQ-LT 2026-10-29 v4 + EQ-IQ-LF 2026-10-07 v1 + EQ-IQ-TB 2026-10-08 v1 + EQ-IQ-EN 2026-10-08 v1 + EQ-IQ-GR 2026-10-08 v1 + EQ-IQ-RB 2026-10-09 v1 + EQ-IQ-BL 2026-10-09 v1 + EQ-IQ-DM 2026-10-11 v1 + EQ-IQ-ET 2026-10-11 v1 + EQ-IQ-MZ 2026-10-11 v1 + EQ-IQ-HO 2026-10-11 v1 + EQ-IQ-UC 2026-10-21 v2 + EQ-OQ-RC 2026-10-07 v1 + EQ-PQ-RC 2026-10-07 v1 + EQ-OQ-UC 2026-10-12 v1 + EQ-PQ-UC 2026-10-12 v1 + EQ-OQ-TB 2026-10-08 v1 + EQ-PQ-TB 2026-10-08 v1 + EQ-OQ-EN 2026-10-08 v1 + EQ-PQ-EN 2026-10-08 v1 + EQ-OQ-GR 2026-10-08 v1 + EQ-PQ-GR 2026-10-08 v1 + EQ-OQ-RB 2026-10-09 v1 + EQ-PQ-RB 2026-10-09 v1 + EQ-OQ-BL 2026-10-09 v1 + EQ-PQ-BL 2026-10-09 v1 + EQ-OQ-DM 2026-10-11 v1 + EQ-PQ-DM 2026-10-11 v1 + EQ-OQ-ET 2026-10-11 v1 + EQ-PQ-ET 2026-10-11 v1 + EQ-OQ-LF 2026-10-21 v3 + EQ-OQ-AU 2026-10-21 v3 + EQ-OQ-MZ 2026-10-21 v3 + EQ-OQ-HO 2026-10-21 v2 + EQ-PQ-LF 2026-10-21 v3 + EQ-PQ-AU 2026-10-21 v3 + EQ-PQ-MZ 2026-10-21 v3 + EQ-PQ-HO 2026-10-21 v2 + EQ-PQ-VA 2026-10-21 v2 + EQ-OQ-VA 2026-10-21 v2 + EQ-OQ-RF 2026-10-14 v1 + EQ-PQ-RF 2026-11-06 v2 + EQ-OQ-CG 2026-10-14 v1 + EQ-PQ-CG 2026-11-06 v2 + EQ-OQ-BA 2026-10-22 v1 + EQ-OQ-VS 2026-11-06 v1 + EQ-OQ-LI 2026-11-08 v1 + EQ-PQ-LI 2026-11-08 v1 + EQ-OQ-TD 2026-11-08 v1 + EQ-PQ-TD 2026-11-08 v1 + EQ-OQ-SB 2026-11-08 v1 + EQ-PQ-SB 2026-11-08 v1 + EQ-OQ-ST 2026-11-08 v1 + EQ-PQ-ST 2026-11-08 v1 + EQ-OQ-CF 2026-11-08 v1 + EQ-PQ-CF 2026-11-08 v1 + EQ-OQ-CB 2026-11-08 v1 + EQ-PQ-CB 2026-11-08 v1 + EQ-OQ-PH 2026-11-08 v1 + EQ-OQ-UV 2026-11-08 v1 + EQ-OQ-IR 2026-11-08 v1 + EQ-OQ-ES 2026-11-08 v1 + EQ-OQ-HL 2026-11-08 v1 + EQ-OQ-GC 2026-11-08 v1 + EQ-OQ-DS 2026-11-08 v1 + EQ-OQ-DI 2026-11-08 v1 + EQ-OQ-FR 2026-11-08 v1 + EQ-OQ-DU 2026-11-08 v1 + EQ-OQ-KF 2026-11-08 v1 + EQ-OQ-TO 2026-11-08 v1 + EQ-OQ-IN 2026-11-08 v1 + EQ-OQ-CE 2026-11-08 v1 + EQ-OQ-TE 2026-11-08 v1).
 var BancoEquipos = {
- "version": "EQ-COMUN 2026-11-04 v4 + EQ-OQ-COM 2026-11-04 v3 + EQ-PQ-COM 2026-11-04 v3 + EQ-IQ-AU 2026-10-07 v1 + EQ-IQ-TD 2026-10-07 v1 + EQ-IQ-LI 2026-10-07 v1 + EQ-IQ-RC 2026-10-21 v2 + EQ-IQ-VA 2026-10-21 v2 + EQ-IQ-LL 2026-10-29 v3 + EQ-OQ-LL 2026-10-29 v2 + EQ-OQ-LT 2026-10-29 v2 + EQ-PQ-LL 2026-10-29 v2 + EQ-PQ-LT 2026-10-29 v4 + EQ-IQ-LF 2026-10-07 v1 + EQ-IQ-TB 2026-10-08 v1 + EQ-IQ-EN 2026-10-08 v1 + EQ-IQ-GR 2026-10-08 v1 + EQ-IQ-RB 2026-10-09 v1 + EQ-IQ-BL 2026-10-09 v1 + EQ-IQ-DM 2026-10-11 v1 + EQ-IQ-ET 2026-10-11 v1 + EQ-IQ-MZ 2026-10-11 v1 + EQ-IQ-HO 2026-10-11 v1 + EQ-IQ-UC 2026-10-21 v2 + EQ-OQ-RC 2026-10-07 v1 + EQ-PQ-RC 2026-10-07 v1 + EQ-OQ-UC 2026-10-12 v1 + EQ-PQ-UC 2026-10-12 v1 + EQ-OQ-TB 2026-10-08 v1 + EQ-PQ-TB 2026-10-08 v1 + EQ-OQ-EN 2026-10-08 v1 + EQ-PQ-EN 2026-10-08 v1 + EQ-OQ-GR 2026-10-08 v1 + EQ-PQ-GR 2026-10-08 v1 + EQ-OQ-RB 2026-10-09 v1 + EQ-PQ-RB 2026-10-09 v1 + EQ-OQ-BL 2026-10-09 v1 + EQ-PQ-BL 2026-10-09 v1 + EQ-OQ-DM 2026-10-11 v1 + EQ-PQ-DM 2026-10-11 v1 + EQ-OQ-ET 2026-10-11 v1 + EQ-PQ-ET 2026-10-11 v1 + EQ-OQ-LF 2026-10-21 v3 + EQ-OQ-AU 2026-10-21 v3 + EQ-OQ-MZ 2026-10-21 v3 + EQ-OQ-HO 2026-10-21 v2 + EQ-PQ-LF 2026-10-21 v3 + EQ-PQ-AU 2026-10-21 v3 + EQ-PQ-MZ 2026-10-21 v3 + EQ-PQ-HO 2026-10-21 v2 + EQ-PQ-VA 2026-10-21 v2 + EQ-OQ-VA 2026-10-21 v2 + EQ-OQ-RF 2026-10-14 v1 + EQ-PQ-RF 2026-11-06 v2 + EQ-OQ-CG 2026-10-14 v1 + EQ-PQ-CG 2026-11-06 v2 + EQ-OQ-BA 2026-10-22 v1 + EQ-OQ-VS 2026-11-06 v1",
+ "version": "EQ-COMUN 2026-11-04 v4 + EQ-OQ-COM 2026-11-04 v3 + EQ-PQ-COM 2026-11-04 v3 + EQ-IQ-AU 2026-10-07 v1 + EQ-IQ-TD 2026-10-07 v1 + EQ-IQ-LI 2026-10-07 v1 + EQ-IQ-RC 2026-10-21 v2 + EQ-IQ-VA 2026-10-21 v2 + EQ-IQ-LL 2026-10-29 v3 + EQ-OQ-LL 2026-10-29 v2 + EQ-OQ-LT 2026-10-29 v2 + EQ-PQ-LL 2026-10-29 v2 + EQ-PQ-LT 2026-10-29 v4 + EQ-IQ-LF 2026-10-07 v1 + EQ-IQ-TB 2026-10-08 v1 + EQ-IQ-EN 2026-10-08 v1 + EQ-IQ-GR 2026-10-08 v1 + EQ-IQ-RB 2026-10-09 v1 + EQ-IQ-BL 2026-10-09 v1 + EQ-IQ-DM 2026-10-11 v1 + EQ-IQ-ET 2026-10-11 v1 + EQ-IQ-MZ 2026-10-11 v1 + EQ-IQ-HO 2026-10-11 v1 + EQ-IQ-UC 2026-10-21 v2 + EQ-OQ-RC 2026-10-07 v1 + EQ-PQ-RC 2026-10-07 v1 + EQ-OQ-UC 2026-10-12 v1 + EQ-PQ-UC 2026-10-12 v1 + EQ-OQ-TB 2026-10-08 v1 + EQ-PQ-TB 2026-10-08 v1 + EQ-OQ-EN 2026-10-08 v1 + EQ-PQ-EN 2026-10-08 v1 + EQ-OQ-GR 2026-10-08 v1 + EQ-PQ-GR 2026-10-08 v1 + EQ-OQ-RB 2026-10-09 v1 + EQ-PQ-RB 2026-10-09 v1 + EQ-OQ-BL 2026-10-09 v1 + EQ-PQ-BL 2026-10-09 v1 + EQ-OQ-DM 2026-10-11 v1 + EQ-PQ-DM 2026-10-11 v1 + EQ-OQ-ET 2026-10-11 v1 + EQ-PQ-ET 2026-10-11 v1 + EQ-OQ-LF 2026-10-21 v3 + EQ-OQ-AU 2026-10-21 v3 + EQ-OQ-MZ 2026-10-21 v3 + EQ-OQ-HO 2026-10-21 v2 + EQ-PQ-LF 2026-10-21 v3 + EQ-PQ-AU 2026-10-21 v3 + EQ-PQ-MZ 2026-10-21 v3 + EQ-PQ-HO 2026-10-21 v2 + EQ-PQ-VA 2026-10-21 v2 + EQ-OQ-VA 2026-10-21 v2 + EQ-OQ-RF 2026-10-14 v1 + EQ-PQ-RF 2026-11-06 v2 + EQ-OQ-CG 2026-10-14 v1 + EQ-PQ-CG 2026-11-06 v2 + EQ-OQ-BA 2026-10-22 v1 + EQ-OQ-VS 2026-11-06 v1 + EQ-OQ-LI 2026-11-08 v1 + EQ-PQ-LI 2026-11-08 v1 + EQ-OQ-TD 2026-11-08 v1 + EQ-PQ-TD 2026-11-08 v1 + EQ-OQ-SB 2026-11-08 v1 + EQ-PQ-SB 2026-11-08 v1 + EQ-OQ-ST 2026-11-08 v1 + EQ-PQ-ST 2026-11-08 v1 + EQ-OQ-CF 2026-11-08 v1 + EQ-PQ-CF 2026-11-08 v1 + EQ-OQ-CB 2026-11-08 v1 + EQ-PQ-CB 2026-11-08 v1 + EQ-OQ-PH 2026-11-08 v1 + EQ-OQ-UV 2026-11-08 v1 + EQ-OQ-IR 2026-11-08 v1 + EQ-OQ-ES 2026-11-08 v1 + EQ-OQ-HL 2026-11-08 v1 + EQ-OQ-GC 2026-11-08 v1 + EQ-OQ-DS 2026-11-08 v1 + EQ-OQ-DI 2026-11-08 v1 + EQ-OQ-FR 2026-11-08 v1 + EQ-OQ-DU 2026-11-08 v1 + EQ-OQ-KF 2026-11-08 v1 + EQ-OQ-TO 2026-11-08 v1 + EQ-OQ-IN 2026-11-08 v1 + EQ-OQ-CE 2026-11-08 v1 + EQ-OQ-TE 2026-11-08 v1",
  "fases": {
   "DQ": [],
   "IQ": [
@@ -20956,6 +20956,6812 @@ var BancoEquipos = {
     "bloque": 8,
     "html": "<p><strong>ANEXOS:</strong></p>\n<table>\n<tbody><tr><th>SECCIÓN</th><th>TÍTULO</th></tr>\n<tr><td>8.1</td><td>Anexo A — Registros crudos de nivelación, cero, velocidad, torque, exactitud, linealidad, repetibilidad, reproducibilidad, temperatura y estabilidad</td></tr>\n<tr><td>8.2</td><td>Anexo B — Certificados de calibración de estándares de viscosidad, termómetro de referencia, tacómetro, estándar de torque y husillos</td></tr>\n<tr><td>8.3</td><td>Anexo C — Registros de control de acceso, impresión o transferencia, respaldo y recuperación, desviaciones y CAPA</td></tr>\n<tr><td>8.4</td><td>Anexo D — Matriz de trazabilidad (RTM) de los requisitos de la URS contra los ensayos EQ-OQ-VS-001 a EQ-OQ-VS-017</td></tr>\n</tbody></table>",
     "familia": "viscosimetro"
+   },
+   {
+    "kind": "div",
+    "clase": "portada",
+    "bloque": 1,
+    "html": "<p><strong>PORTADA DEL PROTOCOLO OQ</strong></p>\n  <p><strong>Logo:</strong><br><img class=\"ent-logo\" alt=\"Logo de la entidad\"></p>\n  <p><strong>Calificación de Operación de <span class=\"equipo\">equipo</span>:</strong> <span class=\"ent-descripcion\">______</span></p>\n  <ol>\n    <li><strong>Marca:</strong> <span class=\"ent-marca\">______</span></li>\n    <li><strong>Modelo:</strong> <span class=\"ent-modelo\">______</span></li>\n    <li><strong>Código:</strong> <span class=\"ent-codigo\">______</span></li>\n  </ol>",
+    "familia": "liofilizador"
+   },
+   {
+    "kind": "div",
+    "clase": "firmas",
+    "bloque": 1,
+    "html": "<p><strong>FLUJO DE FIRMAS DEL PROTOCOLO:</strong></p>\n  <p>Este apartado establece que los responsables revisan y aprueban el presente protocolo, declarando que está apto para su ejecución. Cualquier cambio posterior a la firma obliga a reiniciar el flujo de firmas, con el fin de garantizar que todos los departamentos involucrados estén al tanto de los ensayos a ejecutar.</p>\n  <ol>\n    <li><strong>Elaborado Por:</strong> <br> Analista de validaciones — elabora / Nombre: ______ Firma: ______ Fecha: ______</li><br>\n    <li><strong>Revisado Por:</strong> <br> Coordinador de validaciones — revisa / Nombre: ______ Firma: ______ Fecha: ______</li><br>\n    <li><strong>Revisado Por:</strong> <br> Gerente de Área — revisa / Nombre: ______ Firma: ______ Fecha: ______</li><br>\n    <li><strong>Aprobado por:</strong> <br> Gerente de gestión de calidad — aprueba / Nombre: ______ Firma: ______ Fecha: ______</li><br>\n  </ol>",
+    "familia": "liofilizador"
+   },
+   {
+    "kind": "div",
+    "clase": "responsabilidades",
+    "bloque": 1,
+    "html": "<p><strong>RESPONSABILIDADES DEL PROTOCOLO:</strong></p>\n  <p><strong>Responsabilidad del Analista de validaciones:</strong></p>\n  <ol><li>Coordinar la ejecución de la Calificación de Operación con las áreas involucradas, asegurando personal, <span class=\"equipo\">equipo</span>, patrones, materiales e instrumentos y documentación.</li><li>Verificar que los instrumentos de medición estén identificados y con calibración vigente.</li><li>Ejecutar y/o supervisar los ensayos del protocolo según los criterios aprobados.</li><li>Registrar los datos de forma completa, legible y trazable (ALCOA+).</li><li>Documentar las desviaciones según los procedimientos internos vigentes.</li><li>Elaborar el informe de calificación con resultados, conclusiones y anexos.</li></ol>\n  <p><strong>Responsabilidad del Coordinador de validaciones:</strong></p>\n  <ol><li>Revisar técnicamente el protocolo antes de su ejecución.</li><li>Asignar al analista responsable y coordinar recursos.</li><li>Revisar las desviaciones, su tratamiento y las CAPA asociadas.</li><li>Revisar el informe final y autorizar la fase siguiente.</li></ol>\n  <p><strong>Responsabilidad del Gerente de Área:</strong></p>\n  <ol><li>Garantizar la disponibilidad del <span class=\"equipo\">equipo</span> y los accesos para la ejecución.</li><li>Facilitar la documentación técnica del fabricante y del proveedor.</li><li>Implementar las acciones operativas derivadas de desviaciones y CAPA.</li></ol>\n  <p><strong>Responsabilidad del Gerente de gestión de calidad:</strong></p>\n  <ol><li>Aprobar el protocolo y sus criterios de aceptación.</li><li>Aprobar las desviaciones y sus evaluaciones de impacto.</li><li>Emitir el dictamen final del estado de calificación.</li></ol>",
+    "familia": "liofilizador"
+   },
+   {
+    "kind": "div",
+    "clase": "alcance",
+    "bloque": 1,
+    "html": "<p><strong>ALCANCE</strong></p>\n  <p>Esta calificación aplica a <span class=\"equipo\">equipo</span>, del liofilizador, según protocolo OQ, y cubre los 6 ensayos listados en el índice. Los setpoints, tolerancias y criterios de aceptación se toman de la URS aprobada y del manual del fabricante; la norma específica de la familia permanece como PENDIENTE DEL RESPONSABLE.</p>",
+    "familia": "liofilizador"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-LI-001",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-LI-001 — Estanqueidad de la cámara y del condensador",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que la cámara y el condensador mantienen el vacío sin fugas dentro del criterio definido."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Cerrar la cámara con las válvulas en la posición de operación y llevar al vacío de prueba definido en la URS<br>\n  2) Aislar la bomba y registrar la presión inicial, la final y el tiempo transcurrido<br>\n  3) Repetir la prueba en el condensador con el mismo criterio<br>\n  4) Comparar la tasa de fuga con el límite declarado por el fabricante o la URS<br>\n  5) Procesar los datos crudos de este ensayo en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o condiciones con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  La tasa de fuga está dentro del criterio definido en la URS aprobada o en el manual del fabricante.<br>\n  No se observan fugas en juntas, puerta ni penetraciones durante la prueba."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de estanqueidad con presión inicial, final, tiempo y tasa de fuga calculada<br>\n  - Data cruda y reporte estadístico del análisis correspondiente"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante; URS aprobada."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "liofilizador"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-LI-002",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-LI-002 — Enfriamiento y uniformidad de los estantes",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que cada estante alcanza el setpoint de enfriamiento y que la diferencia entre estantes está dentro del criterio aprobado."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Llevar los estantes al setpoint de congelación definido en la URS y esperar la estabilización<br>\n  2) Registrar la temperatura de cada estante en los puntos definidos por el fabricante<br>\n  3) Calcular la diferencia máxima entre estantes y el tiempo hasta el setpoint<br>\n  4) Procesar los datos crudos de este ensayo en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o condiciones con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Todos los estantes alcanzan el setpoint en el tiempo definido.<br>\n  La diferencia entre estantes está dentro del criterio de la URS aprobada."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de enfriamiento por estante con curvas y diferencias<br>\n  - Data cruda y reporte estadístico del análisis correspondiente"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante; URS aprobada."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "liofilizador"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-LI-003",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-LI-003 — Exactitud del sensor de estante frente a patrón",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar la exactitud del sensor de control de estante contra un patrón trazable en los setpoints de uso."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Colocar el patrón en contacto térmico con el estante y estabilizar en cada setpoint de la tabla<br>\n  2) Registrar en simultáneo la lectura del sensor de control y la del patrón<br>\n  3) Calcular la diferencia por setpoint y compararla con el criterio aprobado<br>\n  4) Procesar los datos crudos de este ensayo en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o condiciones con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  La diferencia en cada setpoint está dentro del criterio definido en la URS aprobada."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de exactitud por setpoint con lecturas de control y patrón<br>\n  - Data cruda y reporte estadístico del análisis correspondiente"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante; URS aprobada."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "liofilizador"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-LI-004",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-LI-004 — Vacío de cámara y condensador frente a patrón",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que la indicación de vacío de cámara y condensador coincide con el patrón en el rango de operación."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Conectar el patrón de vacío en el puerto definido por el fabricante<br>\n  2) Registrar la lectura del equipo y del patrón en al menos tres niveles de vacío del rango de uso<br>\n  3) Calcular la diferencia en cada nivel<br>\n  4) Procesar los datos crudos de este ensayo en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o condiciones con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  La diferencia entre la indicación y el patrón está dentro del criterio de la URS aprobada."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro comparativo de vacío por nivel<br>\n  - Data cruda y reporte estadístico del análisis correspondiente"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante; URS aprobada."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "liofilizador"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-LI-005",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-LI-005 — Rampas de congelación y mantenimiento",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que las rampas de enfriamiento y los períodos de mantenimiento siguen el perfil programado sin desviaciones."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Programar el ciclo de rampa y mantenimiento definido en la URS<br>\n  2) Registrar la temperatura de estante y de producto a intervalos definidos<br>\n  3) Comparar la rampa medida con la programada y registrar el sobreimpulso<br>\n  4) Procesar los datos crudos de este ensayo en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o condiciones con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  La rampa y el mantenimiento permanecen dentro de la tolerancia definida en la URS aprobada.<br>\n  El sobreimpulso está dentro del criterio aprobado."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de rampas y mantenimiento con curvas y desviaciones<br>\n  - Data cruda y reporte estadístico del análisis correspondiente"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante; URS aprobada."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "liofilizador"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-LI-006",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-LI-006 — Alarmas, enclavamientos y corte de energía",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que las alarmas y enclavamientos del liofilizador actúan ante las condiciones anormales definidas y que el equipo se recupera tras un corte de energía."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Provocar cada alarma disponible: vacío fuera de rango, temperatura fuera de rango, falla de bomba y puerta abierta<br>\n  2) Verificar el enclavamiento que impide abrir la cámara con vacío<br>\n  3) Cortar la energía y registrar el estado seguro, la alarma y la recuperación al restablecer<br>\n  4) Confirmar que no se pierden registros ni configuración"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Cada alarma y enclavamiento actúa según el manual del fabricante.<br>\n  Tras el corte, el equipo arranca en estado seguro y conserva la configuración y los registros."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de alarmas, enclavamientos y corte de energía"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante; 21 CFR Part 11 / EU GMP Anexo 11 (si aplica)."
+     }
+    ],
+    "tabla": null,
+    "familia": "liofilizador"
+   },
+   {
+    "kind": "resumen",
+    "id": "EQ-OQ-LI-RES",
+    "bloque": 4,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-LI-RES — Tabla resumen de los ensayos del OQ",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Consolidar el listado de ensayos del OQ para la tabla resumen del protocolo."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Confirmar que los ensayos EQ-OQ-LI-001 a EQ-OQ-LI-006 están incluidos en el índice del protocolo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Los 6 ensayos aparecen en la tabla resumen con su veredicto."
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>EU GMP Anexo 15."
+     }
+    ],
+    "tabla": null,
+    "familia": "liofilizador"
+   },
+   {
+    "kind": "tabla",
+    "id": "EQ-OQ-LI-REF",
+    "bloque": 6,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-LI-REF — Referencias del OQ de Liofilizador",
+    "secciones": [],
+    "tabla": {
+     "headers": [
+      "SECCIÓN",
+      "TÍTULO",
+      "ESTADO"
+     ],
+     "rows": [
+      [
+       "6.1",
+       "Manual del fabricante del equipo — Setpoints, límites de vacío, alarmas y curvas de diseño",
+       "VIGENTE"
+      ],
+      [
+       "6.2",
+       "URS aprobada — Rango de operación, carga, criterios de aceptación y puntos de monitoreo",
+       "VIGENTE"
+      ],
+      [
+       "6.3",
+       "EU GMP Anexo 15 — Calificación y validación: el OQ y el PQ demuestran operación según especificaciones aprobadas",
+       "VIGENTE"
+      ],
+      [
+       "6.4",
+       "GAMP 5, 2.ª ed. y 21 CFR Part 11 / EU GMP Anexo 11 — Ciclo de vida y registros electrónicos",
+       "VIGENTE"
+      ],
+      [
+       "6.5",
+       "ISPE Baseline Guide Vol. 5 — Commissioning and Qualification de equipos de producción",
+       "VIGENTE"
+      ],
+      [
+       "6.6",
+       "Norma específica de liofilización — PENDIENTE DEL RESPONSABLE",
+       "PENDIENTE"
+      ]
+     ]
+    },
+    "familia": "liofilizador"
+   },
+   {
+    "kind": "div",
+    "clase": "anexos",
+    "bloque": 8,
+    "html": "<p><strong>ANEXOS:</strong></p>\n  <table>\n  <tbody><tr><th>SECCIÓN</th><th>TÍTULO</th></tr>\n<tr><td>8.1</td><td>Anexo A — Registros de estanqueidad, enfriamiento, vacío, rampas y curvas de producto por ciclo y posición</td></tr>\n<tr><td>8.2</td><td>Anexo B — Certificados de calibración de patrones de temperatura, vacío y sensores utilizados</td></tr>\n<tr><td>8.3</td><td>Anexo C — Registros de alarmas, enclavamientos, cortes de energía, desviaciones y CAPA</td></tr>\n<tr><td>8.4</td><td>Anexo D — Matriz de trazabilidad requisito-prueba (RTM) y evidencia de revisión</td></tr>\n  </tbody></table>",
+    "familia": "liofilizador"
+   },
+   {
+    "kind": "div",
+    "clase": "portada",
+    "bloque": 1,
+    "html": "<p><strong>PORTADA DEL PROTOCOLO OQ</strong></p>\n  <p><strong>Logo:</strong><br><img class=\"ent-logo\" alt=\"Logo de la entidad\"></p>\n  <p><strong>Calificación de Operación de <span class=\"equipo\">equipo</span>:</strong> <span class=\"ent-descripcion\">______</span></p>\n  <ol>\n    <li><strong>Marca:</strong> <span class=\"ent-marca\">______</span></li>\n    <li><strong>Modelo:</strong> <span class=\"ent-modelo\">______</span></li>\n    <li><strong>Código:</strong> <span class=\"ent-codigo\">______</span></li>\n  </ol>",
+    "familia": "tunel-despirogenizacion"
+   },
+   {
+    "kind": "div",
+    "clase": "firmas",
+    "bloque": 1,
+    "html": "<p><strong>FLUJO DE FIRMAS DEL PROTOCOLO:</strong></p>\n  <p>Este apartado establece que los responsables revisan y aprueban el presente protocolo, declarando que está apto para su ejecución. Cualquier cambio posterior a la firma obliga a reiniciar el flujo de firmas, con el fin de garantizar que todos los departamentos involucrados estén al tanto de los ensayos a ejecutar.</p>\n  <ol>\n    <li><strong>Elaborado Por:</strong> <br> Analista de validaciones — elabora / Nombre: ______ Firma: ______ Fecha: ______</li><br>\n    <li><strong>Revisado Por:</strong> <br> Coordinador de validaciones — revisa / Nombre: ______ Firma: ______ Fecha: ______</li><br>\n    <li><strong>Revisado Por:</strong> <br> Gerente de Área — revisa / Nombre: ______ Firma: ______ Fecha: ______</li><br>\n    <li><strong>Aprobado por:</strong> <br> Gerente de gestión de calidad — aprueba / Nombre: ______ Firma: ______ Fecha: ______</li><br>\n  </ol>",
+    "familia": "tunel-despirogenizacion"
+   },
+   {
+    "kind": "div",
+    "clase": "responsabilidades",
+    "bloque": 1,
+    "html": "<p><strong>RESPONSABILIDADES DEL PROTOCOLO:</strong></p>\n  <p><strong>Responsabilidad del Analista de validaciones:</strong></p>\n  <ol><li>Coordinar la ejecución de la Calificación de Operación con las áreas involucradas, asegurando personal, <span class=\"equipo\">equipo</span>, patrones, materiales e instrumentos y documentación.</li><li>Verificar que los instrumentos de medición estén identificados y con calibración vigente.</li><li>Ejecutar y/o supervisar los ensayos del protocolo según los criterios aprobados.</li><li>Registrar los datos de forma completa, legible y trazable (ALCOA+).</li><li>Documentar las desviaciones según los procedimientos internos vigentes.</li><li>Elaborar el informe de calificación con resultados, conclusiones y anexos.</li></ol>\n  <p><strong>Responsabilidad del Coordinador de validaciones:</strong></p>\n  <ol><li>Revisar técnicamente el protocolo antes de su ejecución.</li><li>Asignar al analista responsable y coordinar recursos.</li><li>Revisar las desviaciones, su tratamiento y las CAPA asociadas.</li><li>Revisar el informe final y autorizar la fase siguiente.</li></ol>\n  <p><strong>Responsabilidad del Gerente de Área:</strong></p>\n  <ol><li>Garantizar la disponibilidad del <span class=\"equipo\">equipo</span> y los accesos para la ejecución.</li><li>Facilitar la documentación técnica del fabricante y del proveedor.</li><li>Implementar las acciones operativas derivadas de desviaciones y CAPA.</li></ol>\n  <p><strong>Responsabilidad del Gerente de gestión de calidad:</strong></p>\n  <ol><li>Aprobar el protocolo y sus criterios de aceptación.</li><li>Aprobar las desviaciones y sus evaluaciones de impacto.</li><li>Emitir el dictamen final del estado de calificación.</li></ol>",
+    "familia": "tunel-despirogenizacion"
+   },
+   {
+    "kind": "div",
+    "clase": "alcance",
+    "bloque": 1,
+    "html": "<p><strong>ALCANCE</strong></p>\n  <p>Esta calificación aplica a <span class=\"equipo\">equipo</span>, del túnel de despirogenización, según protocolo OQ, y cubre los 6 ensayos listados en el índice. Los setpoints, tolerancias y criterios de aceptación se toman de la URS aprobada y del manual del fabricante; la norma específica de la familia permanece como PENDIENTE DEL RESPONSABLE.</p>",
+    "familia": "tunel-despirogenizacion"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-TD-001",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-TD-001 — Velocidad de banda y tiempo de permanencia",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que la velocidad de banda y el tiempo de permanencia en cada zona coinciden con los valores definidos."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Programar la velocidad de operación definida en la URS<br>\n  2) Medir el tiempo de permanencia de un testigo en cada zona con cronómetro patrón<br>\n  3) Repetir la medición al menos tres veces y calcular la variación<br>\n  4) Procesar los datos crudos de este ensayo en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o condiciones con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  La velocidad de banda está dentro de la tolerancia de la URS aprobada.<br>\n  El tiempo de permanencia en cada zona cumple el valor aprobado."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de velocidad y tiempos de permanencia por zona<br>\n  - Data cruda y reporte estadístico del análisis correspondiente"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante; URS aprobada."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "tunel-despirogenizacion"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-TD-002",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-TD-002 — Perfil de temperatura por zona",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que cada zona alcanza y mantiene su setpoint durante la operación continua."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Operar el túnel en vacío hasta la estabilización<br>\n  2) Registrar la temperatura en los puntos definidos de cada zona<br>\n  3) Calcular la diferencia respecto del setpoint y la estabilidad en el tiempo<br>\n  4) Procesar los datos crudos de este ensayo en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o condiciones con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Cada zona alcanza su setpoint y se mantiene dentro de la tolerancia aprobada."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro del perfil térmico por zona con curvas<br>\n  - Data cruda y reporte estadístico del análisis correspondiente"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante; URS aprobada."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "tunel-despirogenizacion"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-TD-003",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-TD-003 — Uniformidad en la zona de despirogenización",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que la temperatura es uniforme en el volumen de la zona de despirogenización."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Ubicar sensores en los puntos definidos del volumen de la zona crítica<br>\n  2) Registrar durante el período de estabilización definido en el protocolo<br>\n  3) Calcular la diferencia máxima entre puntos y el RSD<br>\n  4) Procesar los datos crudos de este ensayo en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o condiciones con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  La diferencia entre puntos está dentro del criterio de la URS aprobada."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de uniformidad por punto y setpoint<br>\n  - Data cruda y reporte estadístico del análisis correspondiente"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante; URS aprobada."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "tunel-despirogenizacion"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-TD-004",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-TD-004 — Presión diferencial y flujo de aire",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que las presiones diferenciales y el flujo de aire entre zonas se mantienen en los valores definidos."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Medir la presión diferencial entre zonas con el instrumento patrón<br>\n  2) Medir el flujo o velocidad de aire en los puntos definidos<br>\n  3) Registrar los valores y compararlos con la URS<br>\n  4) Procesar los datos crudos de este ensayo en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o condiciones con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Las presiones diferenciales y el flujo están dentro de los rangos aprobados.<br>\n  La dirección del flujo es la definida para la protección del producto."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de presiones diferenciales y flujo por zona<br>\n  - Data cruda y reporte estadístico del análisis correspondiente"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante; URS aprobada."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "tunel-despirogenizacion"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-TD-005",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-TD-005 — Alarmas y enclavamientos del túnel",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que las alarmas y enclavamientos actúan ante las condiciones anormales definidas."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Provocar cada alarma: sobretemperatura, falla de resistencia, paro de banda y puerta abierta<br>\n  2) Verificar el enclavamiento que impide el ingreso con la zona caliente<br>\n  3) Registrar el disparo y la recuperación de cada condición"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Cada alarma y enclavamiento actúa según el manual del fabricante.<br>\n  El equipo no permite operar fuera de la condición segura definida."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de alarmas y enclavamientos probados"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante."
+     }
+    ],
+    "tabla": null,
+    "familia": "tunel-despirogenizacion"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-TD-006",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-TD-006 — Arranque, parada y corte de energía",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar la secuencia de arranque, la parada normal y el comportamiento ante un corte de energía."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Registrar la secuencia de arranque y el tiempo hasta la estabilización<br>\n  2) Ejecutar la parada normal y verificar el enfriamiento controlado<br>\n  3) Cortar la energía y verificar el estado seguro, la alarma y la recuperación"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  El arranque y la parada siguen la secuencia del manual del fabricante.<br>\n  Ante el corte, el equipo queda en estado seguro y se recupera sin pérdida de registros."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de arranque, parada y corte de energía"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante; 21 CFR Part 11 / EU GMP Anexo 11 (si aplica)."
+     }
+    ],
+    "tabla": null,
+    "familia": "tunel-despirogenizacion"
+   },
+   {
+    "kind": "resumen",
+    "id": "EQ-OQ-TD-RES",
+    "bloque": 4,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-TD-RES — Tabla resumen de los ensayos del OQ",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Consolidar el listado de ensayos del OQ para la tabla resumen del protocolo."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Confirmar que los ensayos EQ-OQ-TD-001 a EQ-OQ-TD-006 están incluidos en el índice del protocolo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Los 6 ensayos aparecen en la tabla resumen con su veredicto."
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>EU GMP Anexo 15."
+     }
+    ],
+    "tabla": null,
+    "familia": "tunel-despirogenizacion"
+   },
+   {
+    "kind": "tabla",
+    "id": "EQ-OQ-TD-REF",
+    "bloque": 6,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-TD-REF — Referencias del OQ de Túnel de despirogenización",
+    "secciones": [],
+    "tabla": {
+     "headers": [
+      "SECCIÓN",
+      "TÍTULO",
+      "ESTADO"
+     ],
+     "rows": [
+      [
+       "6.1",
+       "Manual del fabricante del equipo — Zonas, setpoints, velocidad de banda y límites de diseño",
+       "VIGENTE"
+      ],
+      [
+       "6.2",
+       "URS aprobada — Rango de operación, carga, criterios de aceptación y puntos de monitoreo",
+       "VIGENTE"
+      ],
+      [
+       "6.3",
+       "EU GMP Anexo 15 — Calificación y validación: el OQ y el PQ demuestran operación según especificaciones aprobadas",
+       "VIGENTE"
+      ],
+      [
+       "6.4",
+       "GAMP 5, 2.ª ed. y 21 CFR Part 11 / EU GMP Anexo 11 — Ciclo de vida y registros electrónicos",
+       "VIGENTE"
+      ],
+      [
+       "6.5",
+       "ISPE Baseline Guide Vol. 5 — Commissioning and Qualification de equipos de producción",
+       "VIGENTE"
+      ],
+      [
+       "6.6",
+       "Norma específica de despirogenización — PENDIENTE DEL RESPONSABLE",
+       "PENDIENTE"
+      ]
+     ]
+    },
+    "familia": "tunel-despirogenizacion"
+   },
+   {
+    "kind": "div",
+    "clase": "anexos",
+    "bloque": 8,
+    "html": "<p><strong>ANEXOS:</strong></p>\n  <table>\n  <tbody><tr><th>SECCIÓN</th><th>TÍTULO</th></tr>\n<tr><td>8.1</td><td>Anexo A — Registros de velocidad, tiempos de permanencia, perfiles térmicos y uniformidad por zona</td></tr>\n<tr><td>8.2</td><td>Anexo B — Certificados de calibración de patrones de temperatura, cronómetros e instrumentos de flujo</td></tr>\n<tr><td>8.3</td><td>Anexo C — Registros del reto de endotoxina, alarmas, paradas, desviaciones y CAPA</td></tr>\n<tr><td>8.4</td><td>Anexo D — Matriz de trazabilidad requisito-prueba (RTM) y evidencia de revisión</td></tr>\n  </tbody></table>",
+    "familia": "tunel-despirogenizacion"
+   },
+   {
+    "kind": "div",
+    "clase": "portada",
+    "bloque": 1,
+    "html": "<p><strong>PORTADA DEL PROTOCOLO OQ</strong></p>\n  <p><strong>Logo:</strong><br><img class=\"ent-logo\" alt=\"Logo de la entidad\"></p>\n  <p><strong>Calificación de Operación de <span class=\"equipo\">equipo</span>:</strong> <span class=\"ent-descripcion\">______</span></p>\n  <ol>\n    <li><strong>Marca:</strong> <span class=\"ent-marca\">______</span></li>\n    <li><strong>Modelo:</strong> <span class=\"ent-modelo\">______</span></li>\n    <li><strong>Código:</strong> <span class=\"ent-codigo\">______</span></li>\n  </ol>",
+    "familia": "secador-bandejas"
+   },
+   {
+    "kind": "div",
+    "clase": "firmas",
+    "bloque": 1,
+    "html": "<p><strong>FLUJO DE FIRMAS DEL PROTOCOLO:</strong></p>\n  <p>Este apartado establece que los responsables revisan y aprueban el presente protocolo, declarando que está apto para su ejecución. Cualquier cambio posterior a la firma obliga a reiniciar el flujo de firmas, con el fin de garantizar que todos los departamentos involucrados estén al tanto de los ensayos a ejecutar.</p>\n  <ol>\n    <li><strong>Elaborado Por:</strong> <br> Analista de validaciones — elabora / Nombre: ______ Firma: ______ Fecha: ______</li><br>\n    <li><strong>Revisado Por:</strong> <br> Coordinador de validaciones — revisa / Nombre: ______ Firma: ______ Fecha: ______</li><br>\n    <li><strong>Revisado Por:</strong> <br> Gerente de Área — revisa / Nombre: ______ Firma: ______ Fecha: ______</li><br>\n    <li><strong>Aprobado por:</strong> <br> Gerente de gestión de calidad — aprueba / Nombre: ______ Firma: ______ Fecha: ______</li><br>\n  </ol>",
+    "familia": "secador-bandejas"
+   },
+   {
+    "kind": "div",
+    "clase": "responsabilidades",
+    "bloque": 1,
+    "html": "<p><strong>RESPONSABILIDADES DEL PROTOCOLO:</strong></p>\n  <p><strong>Responsabilidad del Analista de validaciones:</strong></p>\n  <ol><li>Coordinar la ejecución de la Calificación de Operación con las áreas involucradas, asegurando personal, <span class=\"equipo\">equipo</span>, patrones, materiales e instrumentos y documentación.</li><li>Verificar que los instrumentos de medición estén identificados y con calibración vigente.</li><li>Ejecutar y/o supervisar los ensayos del protocolo según los criterios aprobados.</li><li>Registrar los datos de forma completa, legible y trazable (ALCOA+).</li><li>Documentar las desviaciones según los procedimientos internos vigentes.</li><li>Elaborar el informe de calificación con resultados, conclusiones y anexos.</li></ol>\n  <p><strong>Responsabilidad del Coordinador de validaciones:</strong></p>\n  <ol><li>Revisar técnicamente el protocolo antes de su ejecución.</li><li>Asignar al analista responsable y coordinar recursos.</li><li>Revisar las desviaciones, su tratamiento y las CAPA asociadas.</li><li>Revisar el informe final y autorizar la fase siguiente.</li></ol>\n  <p><strong>Responsabilidad del Gerente de Área:</strong></p>\n  <ol><li>Garantizar la disponibilidad del <span class=\"equipo\">equipo</span> y los accesos para la ejecución.</li><li>Facilitar la documentación técnica del fabricante y del proveedor.</li><li>Implementar las acciones operativas derivadas de desviaciones y CAPA.</li></ol>\n  <p><strong>Responsabilidad del Gerente de gestión de calidad:</strong></p>\n  <ol><li>Aprobar el protocolo y sus criterios de aceptación.</li><li>Aprobar las desviaciones y sus evaluaciones de impacto.</li><li>Emitir el dictamen final del estado de calificación.</li></ol>",
+    "familia": "secador-bandejas"
+   },
+   {
+    "kind": "div",
+    "clase": "alcance",
+    "bloque": 1,
+    "html": "<p><strong>ALCANCE</strong></p>\n  <p>Esta calificación aplica a <span class=\"equipo\">equipo</span>, del secador de bandejas, según protocolo OQ, y cubre los 6 ensayos listados en el índice. Los setpoints, tolerancias y criterios de aceptación se toman de la URS aprobada y del manual del fabricante; la norma específica de la familia permanece como PENDIENTE DEL RESPONSABLE.</p>",
+    "familia": "secador-bandejas"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-SB-001",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-SB-001 — Distribución y velocidad de aire por bandeja",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que el aire circula por todas las bandejas y que la velocidad en cada posición está dentro del criterio aprobado."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Ubicar el anemómetro en los puntos definidos para cada bandeja y posición del carro<br>\n  2) Registrar la velocidad en cada punto con el ventilador en la consigna de operación<br>\n  3) Calcular la diferencia entre puntos y detectar zonas sin flujo<br>\n  4) Procesar los datos crudos de este ensayo en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o condiciones con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Todas las posiciones evaluadas tienen flujo dentro del rango de la URS aprobada.<br>\n  No se detectan zonas sin flujo en la configuración de carga definida."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de distribución y velocidad de aire por bandeja<br>\n  - Data cruda y reporte estadístico del análisis correspondiente"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante; URS aprobada."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "secador-bandejas"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-SB-002",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-SB-002 — Perfil y uniformidad de temperatura por bandeja",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que cada bandeja alcanza el setpoint y que la diferencia entre bandejas está dentro del criterio."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Llevar el secador al setpoint definido y estabilizar<br>\n  2) Registrar la temperatura en cada bandeja y en los puntos definidos<br>\n  3) Calcular la diferencia máxima entre bandejas y la estabilidad en el tiempo<br>\n  4) Procesar los datos crudos de este ensayo en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o condiciones con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Todas las bandejas alcanzan el setpoint.<br>\n  La diferencia entre bandejas está dentro del criterio de la URS aprobada."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de temperatura por bandeja con curvas y diferencias<br>\n  - Data cruda y reporte estadístico del análisis correspondiente"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante; URS aprobada."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "secador-bandejas"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-SB-003",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-SB-003 — Renovación de aire y control de humedad",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que la renovación de aire y el control de humedad funcionan según la consigna aprobada."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Ajustar la renovación de aire al valor definido en la URS<br>\n  2) Registrar la humedad del aire de entrada y de la cámara durante el período definido<br>\n  3) Verificar la respuesta del control y el tiempo de recuperación tras una perturbación<br>\n  4) Procesar los datos crudos de este ensayo en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o condiciones con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  La renovación de aire y la humedad se mantienen dentro de los rangos aprobados.<br>\n  El control recupera la consigna en el tiempo definido."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de renovación de aire y humedad<br>\n  - Data cruda y reporte estadístico del análisis correspondiente"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante; URS aprobada."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "secador-bandejas"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-SB-004",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-SB-004 — Sensor de producto frente al sensor de control",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que el sensor de producto o de la cámara representa la temperatura real del material."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Colocar el patrón en el interior del material o en la posición representativa definida<br>\n  2) Registrar en simultáneo el patrón y el sensor de control durante el calentamiento y el mantenimiento<br>\n  3) Calcular la diferencia en cada fase<br>\n  4) Procesar los datos crudos de este ensayo en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o condiciones con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  La diferencia entre el sensor de control y el patrón está dentro del criterio de la URS aprobada."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro comparativo de sensor de producto y control<br>\n  - Data cruda y reporte estadístico del análisis correspondiente"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante; URS aprobada."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "secador-bandejas"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-SB-005",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-SB-005 — Alarmas y enclavamientos del secador",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que las alarmas y enclavamientos actúan ante las condiciones anormales definidas."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Provocar cada alarma: sobretemperatura, falla de ventilador, filtro obstruido y puerta abierta<br>\n  2) Verificar el corte de calefacción y la respuesta del ventilador<br>\n  3) Registrar el disparo y la recuperación de cada condición"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Cada alarma y enclavamiento actúa según el manual del fabricante.<br>\n  El equipo no mantiene la calefacción ante una condición que comprometa el producto."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de alarmas y enclavamientos probados"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante."
+     }
+    ],
+    "tabla": null,
+    "familia": "secador-bandejas"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-SB-006",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-SB-006 — Arranque, parada y corte de energía",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar la secuencia de arranque, la parada normal y el comportamiento ante un corte de energía."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Registrar la secuencia de arranque y el tiempo hasta el setpoint<br>\n  2) Ejecutar la parada normal y verificar la respuesta de ventiladores y calefacción<br>\n  3) Cortar la energía y verificar el estado seguro y la recuperación"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  El arranque y la parada siguen la secuencia del manual del fabricante.<br>\n  Ante el corte, el equipo queda en estado seguro y se recupera sin pérdida de registros."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de arranque, parada y corte de energía"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante; 21 CFR Part 11 / EU GMP Anexo 11 (si aplica)."
+     }
+    ],
+    "tabla": null,
+    "familia": "secador-bandejas"
+   },
+   {
+    "kind": "resumen",
+    "id": "EQ-OQ-SB-RES",
+    "bloque": 4,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-SB-RES — Tabla resumen de los ensayos del OQ",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Consolidar el listado de ensayos del OQ para la tabla resumen del protocolo."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Confirmar que los ensayos EQ-OQ-SB-001 a EQ-OQ-SB-006 están incluidos en el índice del protocolo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Los 6 ensayos aparecen en la tabla resumen con su veredicto."
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>EU GMP Anexo 15."
+     }
+    ],
+    "tabla": null,
+    "familia": "secador-bandejas"
+   },
+   {
+    "kind": "tabla",
+    "id": "EQ-OQ-SB-REF",
+    "bloque": 6,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-SB-REF — Referencias del OQ de Secador de bandejas",
+    "secciones": [],
+    "tabla": {
+     "headers": [
+      "SECCIÓN",
+      "TÍTULO",
+      "ESTADO"
+     ],
+     "rows": [
+      [
+       "6.1",
+       "Manual del fabricante del equipo — Setpoints, velocidad de aire, alarmas y límites de diseño",
+       "VIGENTE"
+      ],
+      [
+       "6.2",
+       "URS aprobada — Rango de operación, carga, humedad final y criterios de aceptación",
+       "VIGENTE"
+      ],
+      [
+       "6.3",
+       "EU GMP Anexo 15 — Calificación y validación: el OQ y el PQ demuestran operación según especificaciones aprobadas",
+       "VIGENTE"
+      ],
+      [
+       "6.4",
+       "GAMP 5, 2.ª ed. y 21 CFR Part 11 / EU GMP Anexo 11 — Ciclo de vida y registros electrónicos",
+       "VIGENTE"
+      ],
+      [
+       "6.5",
+       "ISPE Baseline Guide Vol. 5 — Commissioning and Qualification de equipos de producción",
+       "VIGENTE"
+      ],
+      [
+       "6.6",
+       "Norma específica de secado por bandejas — PENDIENTE DEL RESPONSABLE",
+       "PENDIENTE"
+      ]
+     ]
+    },
+    "familia": "secador-bandejas"
+   },
+   {
+    "kind": "div",
+    "clase": "anexos",
+    "bloque": 8,
+    "html": "<p><strong>ANEXOS:</strong></p>\n  <table>\n  <tbody><tr><th>SECCIÓN</th><th>TÍTULO</th></tr>\n<tr><td>8.1</td><td>Anexo A — Registros de distribución de aire, perfiles térmicos, humedad y curvas de secado</td></tr>\n<tr><td>8.2</td><td>Anexo B — Certificados de calibración de patrones de temperatura, humedad y anemómetros</td></tr>\n<tr><td>8.3</td><td>Anexo C — Registros de alarmas, desviaciones, CAPA y disposición de material</td></tr>\n<tr><td>8.4</td><td>Anexo D — Matriz de trazabilidad requisito-prueba (RTM) y evidencia de revisión</td></tr>\n  </tbody></table>",
+    "familia": "secador-bandejas"
+   },
+   {
+    "kind": "div",
+    "clase": "portada",
+    "bloque": 1,
+    "html": "<p><strong>PORTADA DEL PROTOCOLO OQ</strong></p>\n  <p><strong>Logo:</strong><br><img class=\"ent-logo\" alt=\"Logo de la entidad\"></p>\n  <p><strong>Calificación de Operación de <span class=\"equipo\">equipo</span>:</strong> <span class=\"ent-descripcion\">______</span></p>\n  <ol>\n    <li><strong>Marca:</strong> <span class=\"ent-marca\">______</span></li>\n    <li><strong>Modelo:</strong> <span class=\"ent-modelo\">______</span></li>\n    <li><strong>Código:</strong> <span class=\"ent-codigo\">______</span></li>\n  </ol>",
+    "familia": "secador-tambor"
+   },
+   {
+    "kind": "div",
+    "clase": "firmas",
+    "bloque": 1,
+    "html": "<p><strong>FLUJO DE FIRMAS DEL PROTOCOLO:</strong></p>\n  <p>Este apartado establece que los responsables revisan y aprueban el presente protocolo, declarando que está apto para su ejecución. Cualquier cambio posterior a la firma obliga a reiniciar el flujo de firmas, con el fin de garantizar que todos los departamentos involucrados estén al tanto de los ensayos a ejecutar.</p>\n  <ol>\n    <li><strong>Elaborado Por:</strong> <br> Analista de validaciones — elabora / Nombre: ______ Firma: ______ Fecha: ______</li><br>\n    <li><strong>Revisado Por:</strong> <br> Coordinador de validaciones — revisa / Nombre: ______ Firma: ______ Fecha: ______</li><br>\n    <li><strong>Revisado Por:</strong> <br> Gerente de Área — revisa / Nombre: ______ Firma: ______ Fecha: ______</li><br>\n    <li><strong>Aprobado por:</strong> <br> Gerente de gestión de calidad — aprueba / Nombre: ______ Firma: ______ Fecha: ______</li><br>\n  </ol>",
+    "familia": "secador-tambor"
+   },
+   {
+    "kind": "div",
+    "clase": "responsabilidades",
+    "bloque": 1,
+    "html": "<p><strong>RESPONSABILIDADES DEL PROTOCOLO:</strong></p>\n  <p><strong>Responsabilidad del Analista de validaciones:</strong></p>\n  <ol><li>Coordinar la ejecución de la Calificación de Operación con las áreas involucradas, asegurando personal, <span class=\"equipo\">equipo</span>, patrones, materiales e instrumentos y documentación.</li><li>Verificar que los instrumentos de medición estén identificados y con calibración vigente.</li><li>Ejecutar y/o supervisar los ensayos del protocolo según los criterios aprobados.</li><li>Registrar los datos de forma completa, legible y trazable (ALCOA+).</li><li>Documentar las desviaciones según los procedimientos internos vigentes.</li><li>Elaborar el informe de calificación con resultados, conclusiones y anexos.</li></ol>\n  <p><strong>Responsabilidad del Coordinador de validaciones:</strong></p>\n  <ol><li>Revisar técnicamente el protocolo antes de su ejecución.</li><li>Asignar al analista responsable y coordinar recursos.</li><li>Revisar las desviaciones, su tratamiento y las CAPA asociadas.</li><li>Revisar el informe final y autorizar la fase siguiente.</li></ol>\n  <p><strong>Responsabilidad del Gerente de Área:</strong></p>\n  <ol><li>Garantizar la disponibilidad del <span class=\"equipo\">equipo</span> y los accesos para la ejecución.</li><li>Facilitar la documentación técnica del fabricante y del proveedor.</li><li>Implementar las acciones operativas derivadas de desviaciones y CAPA.</li></ol>\n  <p><strong>Responsabilidad del Gerente de gestión de calidad:</strong></p>\n  <ol><li>Aprobar el protocolo y sus criterios de aceptación.</li><li>Aprobar las desviaciones y sus evaluaciones de impacto.</li><li>Emitir el dictamen final del estado de calificación.</li></ol>",
+    "familia": "secador-tambor"
+   },
+   {
+    "kind": "div",
+    "clase": "alcance",
+    "bloque": 1,
+    "html": "<p><strong>ALCANCE</strong></p>\n  <p>Esta calificación aplica a <span class=\"equipo\">equipo</span>, del secador de tambor rotativo, según protocolo OQ, y cubre los 6 ensayos listados en el índice. Los setpoints, tolerancias y criterios de aceptación se toman de la URS aprobada y del manual del fabricante; la norma específica de la familia permanece como PENDIENTE DEL RESPONSABLE.</p>",
+    "familia": "secador-tambor"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-ST-001",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-ST-001 — Velocidad de rotación del tambor",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que la velocidad de rotación del tambor coincide con la consigna y se mantiene estable."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Ajustar la velocidad de operación definida en la URS<br>\n  2) Medir la velocidad con tacómetro patrón en al menos tres repeticiones<br>\n  3) Calcular la diferencia respecto de la consigna y la variación<br>\n  4) Procesar los datos crudos de este ensayo en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o condiciones con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  La velocidad medida está dentro de la tolerancia de la URS aprobada.<br>\n  La variación durante el período de observación está dentro del criterio aprobado."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de velocidad de rotación por consigna<br>\n  - Data cruda y reporte estadístico del análisis correspondiente"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante; URS aprobada."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "secador-tambor"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-ST-002",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-ST-002 — Temperatura de superficie y uniformidad del tambor",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que la superficie del tambor alcanza el setpoint y que la temperatura es uniforme en la zona de contacto."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Llevar el tambor al setpoint definido y estabilizar<br>\n  2) Registrar la temperatura en los puntos definidos de la superficie<br>\n  3) Calcular la diferencia entre puntos y la estabilidad en el tiempo<br>\n  4) Procesar los datos crudos de este ensayo en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o condiciones con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  La superficie alcanza el setpoint y se mantiene dentro de la tolerancia aprobada.<br>\n  La diferencia entre puntos está dentro del criterio de la URS aprobada."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de temperatura de superficie por punto<br>\n  - Data cruda y reporte estadístico del análisis correspondiente"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante; URS aprobada."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "secador-tambor"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-ST-003",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-ST-003 — Vacío o presión interna y estanqueidad",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar, cuando el equipo opera con vacío o presión, que el valor se mantiene y que el sistema no presenta fugas."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Llevar el sistema al vacío o presión de operación definido<br>\n  2) Aislar y registrar la caída o variación durante el tiempo definido<br>\n  3) Verificar juntas, sellos y conexiones<br>\n  4) Procesar los datos crudos de este ensayo en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o condiciones con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  El valor de operación se mantiene dentro del rango de la URS aprobada.<br>\n  La tasa de fuga está dentro del criterio del fabricante o de la URS."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de vacío o presión y estanqueidad<br>\n  - Data cruda y reporte estadístico del análisis correspondiente"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante; URS aprobada."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "secador-tambor"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-ST-004",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-ST-004 — Cuchilla, separación y ángulo de contacto",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que la cuchilla de descarga está alineada, con la separación y el ángulo definidos por el fabricante."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Medir la separación entre la cuchilla y el tambor en los puntos definidos<br>\n  2) Verificar el ángulo y el paralelismo según el manual<br>\n  3) Registrar la uniformidad del contacto a lo largo del tambor"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  La separación y el ángulo están dentro de las tolerancias del manual del fabricante.<br>\n  La cuchilla no interfiere con la rotación ni deja producto retenido fuera de lo previsto."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de alineación y separación de la cuchilla"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante."
+     }
+    ],
+    "tabla": null,
+    "familia": "secador-tambor"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-ST-005",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-ST-005 — Alarmas, enclavamientos y paro de emergencia",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que las alarmas, los enclavamientos y el paro de emergencia actúan según el manual del fabricante."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Provocar cada alarma: sobretemperatura, falla de rotación, puerta o cubierta abierta<br>\n  2) Accionar el paro de emergencia y verificar la detención segura<br>\n  3) Registrar el disparo y la recuperación de cada condición"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Cada alarma y enclavamiento actúa según el manual del fabricante.<br>\n  El paro de emergencia detiene el equipo en condición segura."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de alarmas, enclavamientos y paro de emergencia"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante."
+     }
+    ],
+    "tabla": null,
+    "familia": "secador-tambor"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-ST-006",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-ST-006 — Arranque, parada y corte de energía",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar la secuencia de arranque, la parada normal y el comportamiento ante un corte de energía."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Registrar la secuencia de arranque y el tiempo hasta el setpoint<br>\n  2) Ejecutar la parada normal y verificar la respuesta del tambor y la calefacción<br>\n  3) Cortar la energía y verificar el estado seguro y la recuperación"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  El arranque y la parada siguen la secuencia del manual del fabricante.<br>\n  Ante el corte, el equipo queda en estado seguro y se recupera sin pérdida de registros."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de arranque, parada y corte de energía"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante; 21 CFR Part 11 / EU GMP Anexo 11 (si aplica)."
+     }
+    ],
+    "tabla": null,
+    "familia": "secador-tambor"
+   },
+   {
+    "kind": "resumen",
+    "id": "EQ-OQ-ST-RES",
+    "bloque": 4,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-ST-RES — Tabla resumen de los ensayos del OQ",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Consolidar el listado de ensayos del OQ para la tabla resumen del protocolo."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Confirmar que los ensayos EQ-OQ-ST-001 a EQ-OQ-ST-006 están incluidos en el índice del protocolo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Los 6 ensayos aparecen en la tabla resumen con su veredicto."
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>EU GMP Anexo 15."
+     }
+    ],
+    "tabla": null,
+    "familia": "secador-tambor"
+   },
+   {
+    "kind": "tabla",
+    "id": "EQ-OQ-ST-REF",
+    "bloque": 6,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-ST-REF — Referencias del OQ de Secador de tambor rotativo",
+    "secciones": [],
+    "tabla": {
+     "headers": [
+      "SECCIÓN",
+      "TÍTULO",
+      "ESTADO"
+     ],
+     "rows": [
+      [
+       "6.1",
+       "Manual del fabricante del equipo — Velocidad, setpoints, cuchilla y límites de diseño",
+       "VIGENTE"
+      ],
+      [
+       "6.2",
+       "URS aprobada — Rango de operación, carga, humedad final y criterios de aceptación",
+       "VIGENTE"
+      ],
+      [
+       "6.3",
+       "EU GMP Anexo 15 — Calificación y validación: el OQ y el PQ demuestran operación según especificaciones aprobadas",
+       "VIGENTE"
+      ],
+      [
+       "6.4",
+       "GAMP 5, 2.ª ed. y 21 CFR Part 11 / EU GMP Anexo 11 — Ciclo de vida y registros electrónicos",
+       "VIGENTE"
+      ],
+      [
+       "6.5",
+       "ISPE Baseline Guide Vol. 5 — Commissioning and Qualification de equipos de producción",
+       "VIGENTE"
+      ],
+      [
+       "6.6",
+       "Norma específica de secado por tambor — PENDIENTE DEL RESPONSABLE",
+       "PENDIENTE"
+      ]
+     ]
+    },
+    "familia": "secador-tambor"
+   },
+   {
+    "kind": "div",
+    "clase": "anexos",
+    "bloque": 8,
+    "html": "<p><strong>ANEXOS:</strong></p>\n  <table>\n  <tbody><tr><th>SECCIÓN</th><th>TÍTULO</th></tr>\n<tr><td>8.1</td><td>Anexo A — Registros de rotación, temperatura de superficie, vacío, curvas de secado y humedad final</td></tr>\n<tr><td>8.2</td><td>Anexo B — Certificados de calibración de tacómetro, patrones de temperatura y vacío</td></tr>\n<tr><td>8.3</td><td>Anexo C — Registros de alarmas, desviaciones, CAPA y disposición de lote</td></tr>\n<tr><td>8.4</td><td>Anexo D — Matriz de trazabilidad requisito-prueba (RTM) y evidencia de revisión</td></tr>\n  </tbody></table>",
+    "familia": "secador-tambor"
+   },
+   {
+    "kind": "div",
+    "clase": "portada",
+    "bloque": 1,
+    "html": "<p><strong>PORTADA DEL PROTOCOLO OQ</strong></p>\n  <p><strong>Logo:</strong><br><img class=\"ent-logo\" alt=\"Logo de la entidad\"></p>\n  <p><strong>Calificación de Operación de <span class=\"equipo\">equipo</span>:</strong> <span class=\"ent-descripcion\">______</span></p>\n  <ol>\n    <li><strong>Marca:</strong> <span class=\"ent-marca\">______</span></li>\n    <li><strong>Modelo:</strong> <span class=\"ent-modelo\">______</span></li>\n    <li><strong>Código:</strong> <span class=\"ent-codigo\">______</span></li>\n  </ol>",
+    "familia": "cabina-flujo"
+   },
+   {
+    "kind": "div",
+    "clase": "firmas",
+    "bloque": 1,
+    "html": "<p><strong>FLUJO DE FIRMAS DEL PROTOCOLO:</strong></p>\n  <p>Este apartado establece que los responsables revisan y aprueban el presente protocolo, declarando que está apto para su ejecución. Cualquier cambio posterior a la firma obliga a reiniciar el flujo de firmas, con el fin de garantizar que todos los departamentos involucrados estén al tanto de los ensayos a ejecutar.</p>\n  <ol>\n    <li><strong>Elaborado Por:</strong> <br> Analista de validaciones — elabora / Nombre: ______ Firma: ______ Fecha: ______</li><br>\n    <li><strong>Revisado Por:</strong> <br> Coordinador de validaciones — revisa / Nombre: ______ Firma: ______ Fecha: ______</li><br>\n    <li><strong>Revisado Por:</strong> <br> Gerente de Área — revisa / Nombre: ______ Firma: ______ Fecha: ______</li><br>\n    <li><strong>Aprobado por:</strong> <br> Gerente de gestión de calidad — aprueba / Nombre: ______ Firma: ______ Fecha: ______</li><br>\n  </ol>",
+    "familia": "cabina-flujo"
+   },
+   {
+    "kind": "div",
+    "clase": "responsabilidades",
+    "bloque": 1,
+    "html": "<p><strong>RESPONSABILIDADES DEL PROTOCOLO:</strong></p>\n  <p><strong>Responsabilidad del Analista de validaciones:</strong></p>\n  <ol><li>Coordinar la ejecución de la Calificación de Operación con las áreas involucradas, asegurando personal, <span class=\"equipo\">equipo</span>, patrones, materiales e instrumentos y documentación.</li><li>Verificar que los instrumentos de medición estén identificados y con calibración vigente.</li><li>Ejecutar y/o supervisar los ensayos del protocolo según los criterios aprobados.</li><li>Registrar los datos de forma completa, legible y trazable (ALCOA+).</li><li>Documentar las desviaciones según los procedimientos internos vigentes.</li><li>Elaborar el informe de calificación con resultados, conclusiones y anexos.</li></ol>\n  <p><strong>Responsabilidad del Coordinador de validaciones:</strong></p>\n  <ol><li>Revisar técnicamente el protocolo antes de su ejecución.</li><li>Asignar al analista responsable y coordinar recursos.</li><li>Revisar las desviaciones, su tratamiento y las CAPA asociadas.</li><li>Revisar el informe final y autorizar la fase siguiente.</li></ol>\n  <p><strong>Responsabilidad del Gerente de Área:</strong></p>\n  <ol><li>Garantizar la disponibilidad del <span class=\"equipo\">equipo</span> y los accesos para la ejecución.</li><li>Facilitar la documentación técnica del fabricante y del proveedor.</li><li>Implementar las acciones operativas derivadas de desviaciones y CAPA.</li></ol>\n  <p><strong>Responsabilidad del Gerente de gestión de calidad:</strong></p>\n  <ol><li>Aprobar el protocolo y sus criterios de aceptación.</li><li>Aprobar las desviaciones y sus evaluaciones de impacto.</li><li>Emitir el dictamen final del estado de calificación.</li></ol>",
+    "familia": "cabina-flujo"
+   },
+   {
+    "kind": "div",
+    "clase": "alcance",
+    "bloque": 1,
+    "html": "<p><strong>ALCANCE</strong></p>\n  <p>Esta calificación aplica a <span class=\"equipo\">equipo</span>, de la cabina de flujo laminar, según protocolo OQ, y cubre los 6 ensayos listados en el índice. Los setpoints, tolerancias y criterios de aceptación se toman de la URS aprobada y del manual del fabricante; la norma específica de la familia permanece como PENDIENTE DEL RESPONSABLE.</p>",
+    "familia": "cabina-flujo"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-CF-001",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-CF-001 — Integridad de los filtros HEPA",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que los filtros HEPA no presentan fugas en el marco, el medio ni la junta."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Realizar el escaneo de integridad con el aerosol y el detector definidos por el fabricante<br>\n  2) Escanear el perímetro del marco, la junta y la superficie del medio<br>\n  3) Registrar cada punto con fuga y la reparación o reemplazo aplicado<br>\n  4) Procesar los datos crudos de este ensayo en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o condiciones con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  No se detectan fugas por encima del criterio definido en la URS aprobada o en el manual del fabricante.<br>\n  Todo punto con fuga tiene reparación documentada y nueva verificación."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro del escaneo de integridad por filtro y punto<br>\n  - Data cruda y reporte estadístico del análisis correspondiente"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante; URS aprobada."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "cabina-flujo"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-CF-002",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-CF-002 — Velocidad y uniformidad del flujo descendente",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que la velocidad del aire en el plano de trabajo es uniforme y está dentro del rango aprobado."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Medir la velocidad en la grilla de puntos definida para el plano de trabajo<br>\n  2) Registrar la lectura en cada punto con el anemómetro patrón<br>\n  3) Calcular la media, la desviación y los puntos fuera de rango<br>\n  4) Procesar los datos crudos de este ensayo en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o condiciones con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  La velocidad media está dentro del rango de la URS aprobada.<br>\n  La uniformidad cumple el criterio definido para la cabina."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de velocidad por punto con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis correspondiente"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante; URS aprobada."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "cabina-flujo"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-CF-003",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-CF-003 — Presión diferencial y alarmas de flujo",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar la indicación de presión diferencial y la respuesta de las alarmas de flujo."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Registrar la presión diferencial con el instrumento patrón<br>\n  2) Provocar la alarma de flujo bajo y verificar su disparo<br>\n  3) Verificar la recuperación al restablecer la condición normal"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  La indicación de presión coincide con el patrón dentro del criterio aprobado.<br>\n  La alarma de flujo actúa y se recupera según el manual del fabricante."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de presión diferencial y alarmas de flujo"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante; URS aprobada."
+     }
+    ],
+    "tabla": null,
+    "familia": "cabina-flujo"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-CF-004",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-CF-004 — Partículas en reposo en el plano de trabajo",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que la concentración de partículas en reposo cumple la clase definida para la cabina."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Realizar el conteo en los puntos y con el equipo definidos en el protocolo aprobado<br>\n  2) Registrar el conteo por punto y tamaño de partícula<br>\n  3) Comparar con la clase definida en la URS<br>\n  4) Procesar los datos crudos de este ensayo en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o condiciones con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  La concentración en todos los puntos cumple la clase definida en la URS aprobada.<br>\n  El equipo de conteo tiene calibración vigente."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de conteo de partículas por punto<br>\n  - Data cruda y reporte estadístico del análisis correspondiente"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>URS aprobada; manual del fabricante."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "cabina-flujo"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-CF-005",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-CF-005 — Luz UV y temporizador",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar, cuando la cabina dispone de luz UV, que funciona y que el temporizador cumple la consigna."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Encender la luz UV y verificar su funcionamiento y el enclavamiento de seguridad<br>\n  2) Programar el temporizador en el valor definido y medir el tiempo real<br>\n  3) Registrar la intensidad o el estado según el manual, si el equipo lo permite"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  La luz UV funciona y respeta el enclavamiento de seguridad.<br>\n  El temporizador cumple el tiempo programado dentro de la tolerancia aprobada."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de luz UV y temporizador"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante."
+     }
+    ],
+    "tabla": null,
+    "familia": "cabina-flujo"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-CF-006",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-CF-006 — Alarmas generales y corte de energía",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar las alarmas del equipo y el comportamiento ante un corte de energía."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Provocar cada alarma disponible y registrar el disparo<br>\n  2) Cortar la energía y verificar el estado seguro y la respuesta de la cabina<br>\n  3) Restablecer y verificar la recuperación del flujo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Cada alarma actúa según el manual del fabricante.<br>\n  Tras el corte, la cabina se recupera sin pérdida de configuración ni registros."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de alarmas y corte de energía"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante; 21 CFR Part 11 / EU GMP Anexo 11 (si aplica)."
+     }
+    ],
+    "tabla": null,
+    "familia": "cabina-flujo"
+   },
+   {
+    "kind": "resumen",
+    "id": "EQ-OQ-CF-RES",
+    "bloque": 4,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-CF-RES — Tabla resumen de los ensayos del OQ",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Consolidar el listado de ensayos del OQ para la tabla resumen del protocolo."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Confirmar que los ensayos EQ-OQ-CF-001 a EQ-OQ-CF-006 están incluidos en el índice del protocolo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Los 6 ensayos aparecen en la tabla resumen con su veredicto."
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>EU GMP Anexo 15."
+     }
+    ],
+    "tabla": null,
+    "familia": "cabina-flujo"
+   },
+   {
+    "kind": "tabla",
+    "id": "EQ-OQ-CF-REF",
+    "bloque": 6,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-CF-REF — Referencias del OQ de Cabina de flujo laminar",
+    "secciones": [],
+    "tabla": {
+     "headers": [
+      "SECCIÓN",
+      "TÍTULO",
+      "ESTADO"
+     ],
+     "rows": [
+      [
+       "6.1",
+       "Manual del fabricante del equipo — Filtros, velocidad, alarmas y límites de diseño",
+       "VIGENTE"
+      ],
+      [
+       "6.2",
+       "URS aprobada — Clase de partículas, velocidad, recuperación y criterios de aceptación",
+       "VIGENTE"
+      ],
+      [
+       "6.3",
+       "EU GMP Anexo 15 — Calificación y validación: el OQ y el PQ demuestran operación según especificaciones aprobadas",
+       "VIGENTE"
+      ],
+      [
+       "6.4",
+       "GAMP 5, 2.ª ed. y 21 CFR Part 11 / EU GMP Anexo 11 — Ciclo de vida y registros electrónicos",
+       "VIGENTE"
+      ],
+      [
+       "6.5",
+       "ISPE Baseline Guide Vol. 5 — Commissioning and Qualification de equipos de producción",
+       "VIGENTE"
+      ],
+      [
+       "6.6",
+       "Norma específica de cabinas de flujo laminar — PENDIENTE DEL RESPONSABLE",
+       "PENDIENTE"
+      ]
+     ]
+    },
+    "familia": "cabina-flujo"
+   },
+   {
+    "kind": "div",
+    "clase": "anexos",
+    "bloque": 8,
+    "html": "<p><strong>ANEXOS:</strong></p>\n  <table>\n  <tbody><tr><th>SECCIÓN</th><th>TÍTULO</th></tr>\n<tr><td>8.1</td><td>Anexo A — Registros de integridad de filtros, velocidad, presión y conteo de partículas</td></tr>\n<tr><td>8.2</td><td>Anexo B — Certificados de calibración de anemómetros, manómetros y contadores de partículas</td></tr>\n<tr><td>8.3</td><td>Anexo C — Registros de alarmas, perturbaciones, desviaciones y CAPA</td></tr>\n<tr><td>8.4</td><td>Anexo D — Matriz de trazabilidad requisito-prueba (RTM) y evidencia de revisión</td></tr>\n  </tbody></table>",
+    "familia": "cabina-flujo"
+   },
+   {
+    "kind": "div",
+    "clase": "portada",
+    "bloque": 1,
+    "html": "<p><strong>PORTADA DEL PROTOCOLO OQ</strong></p>\n  <p><strong>Logo:</strong><br><img class=\"ent-logo\" alt=\"Logo de la entidad\"></p>\n  <p><strong>Calificación de Operación de <span class=\"equipo\">equipo</span>:</strong> <span class=\"ent-descripcion\">______</span></p>\n  <ol>\n    <li><strong>Marca:</strong> <span class=\"ent-marca\">______</span></li>\n    <li><strong>Modelo:</strong> <span class=\"ent-modelo\">______</span></li>\n    <li><strong>Código:</strong> <span class=\"ent-codigo\">______</span></li>\n  </ol>",
+    "familia": "cabina-bioseguridad"
+   },
+   {
+    "kind": "div",
+    "clase": "firmas",
+    "bloque": 1,
+    "html": "<p><strong>FLUJO DE FIRMAS DEL PROTOCOLO:</strong></p>\n  <p>Este apartado establece que los responsables revisan y aprueban el presente protocolo, declarando que está apto para su ejecución. Cualquier cambio posterior a la firma obliga a reiniciar el flujo de firmas, con el fin de garantizar que todos los departamentos involucrados estén al tanto de los ensayos a ejecutar.</p>\n  <ol>\n    <li><strong>Elaborado Por:</strong> <br> Analista de validaciones — elabora / Nombre: ______ Firma: ______ Fecha: ______</li><br>\n    <li><strong>Revisado Por:</strong> <br> Coordinador de validaciones — revisa / Nombre: ______ Firma: ______ Fecha: ______</li><br>\n    <li><strong>Revisado Por:</strong> <br> Gerente de Área — revisa / Nombre: ______ Firma: ______ Fecha: ______</li><br>\n    <li><strong>Aprobado por:</strong> <br> Gerente de gestión de calidad — aprueba / Nombre: ______ Firma: ______ Fecha: ______</li><br>\n  </ol>",
+    "familia": "cabina-bioseguridad"
+   },
+   {
+    "kind": "div",
+    "clase": "responsabilidades",
+    "bloque": 1,
+    "html": "<p><strong>RESPONSABILIDADES DEL PROTOCOLO:</strong></p>\n  <p><strong>Responsabilidad del Analista de validaciones:</strong></p>\n  <ol><li>Coordinar la ejecución de la Calificación de Operación con las áreas involucradas, asegurando personal, <span class=\"equipo\">equipo</span>, patrones, materiales e instrumentos y documentación.</li><li>Verificar que los instrumentos de medición estén identificados y con calibración vigente.</li><li>Ejecutar y/o supervisar los ensayos del protocolo según los criterios aprobados.</li><li>Registrar los datos de forma completa, legible y trazable (ALCOA+).</li><li>Documentar las desviaciones según los procedimientos internos vigentes.</li><li>Elaborar el informe de calificación con resultados, conclusiones y anexos.</li></ol>\n  <p><strong>Responsabilidad del Coordinador de validaciones:</strong></p>\n  <ol><li>Revisar técnicamente el protocolo antes de su ejecución.</li><li>Asignar al analista responsable y coordinar recursos.</li><li>Revisar las desviaciones, su tratamiento y las CAPA asociadas.</li><li>Revisar el informe final y autorizar la fase siguiente.</li></ol>\n  <p><strong>Responsabilidad del Gerente de Área:</strong></p>\n  <ol><li>Garantizar la disponibilidad del <span class=\"equipo\">equipo</span> y los accesos para la ejecución.</li><li>Facilitar la documentación técnica del fabricante y del proveedor.</li><li>Implementar las acciones operativas derivadas de desviaciones y CAPA.</li></ol>\n  <p><strong>Responsabilidad del Gerente de gestión de calidad:</strong></p>\n  <ol><li>Aprobar el protocolo y sus criterios de aceptación.</li><li>Aprobar las desviaciones y sus evaluaciones de impacto.</li><li>Emitir el dictamen final del estado de calificación.</li></ol>",
+    "familia": "cabina-bioseguridad"
+   },
+   {
+    "kind": "div",
+    "clase": "alcance",
+    "bloque": 1,
+    "html": "<p><strong>ALCANCE</strong></p>\n  <p>Esta calificación aplica a <span class=\"equipo\">equipo</span>, de la cabina de bioseguridad, según protocolo OQ, y cubre los 6 ensayos listados en el índice. Los setpoints, tolerancias y criterios de aceptación se toman de la URS aprobada y del manual del fabricante; la norma específica de la familia permanece como PENDIENTE DEL RESPONSABLE.</p>",
+    "familia": "cabina-bioseguridad"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-CB-001",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-CB-001 — Integridad de los filtros HEPA de suministro y escape",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que los filtros HEPA de suministro y escape no presentan fugas."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Realizar el escaneo de integridad en el filtro de suministro<br>\n  2) Repetir el escaneo en el filtro de escape<br>\n  3) Registrar cada punto con fuga y la reparación o reemplazo aplicado<br>\n  4) Procesar los datos crudos de este ensayo en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o condiciones con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  No se detectan fugas por encima del criterio definido en la URS aprobada o en el manual del fabricante.<br>\n  Todo punto con fuga tiene reparación documentada y nueva verificación."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro del escaneo de integridad por filtro<br>\n  - Data cruda y reporte estadístico del análisis correspondiente"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante; URS aprobada."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "cabina-bioseguridad"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-CB-002",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-CB-002 — Velocidad de entrada de aire y flujo descendente",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que la velocidad de entrada y el flujo descendente están dentro de los rangos aprobados."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Medir la velocidad de entrada en la abertura frontal en los puntos definidos<br>\n  2) Medir el flujo descendente en la grilla del plano de trabajo<br>\n  3) Registrar la media y la uniformidad de cada medición<br>\n  4) Procesar los datos crudos de este ensayo en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o condiciones con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  La velocidad de entrada y el flujo descendente están dentro de los rangos de la URS aprobada.<br>\n  La uniformidad cumple el criterio definido para la cabina."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de velocidades de entrada y flujo descendente<br>\n  - Data cruda y reporte estadístico del análisis correspondiente"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante; URS aprobada."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "cabina-bioseguridad"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-CB-003",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-CB-003 — Presión diferencial y balance del sistema",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que la presión diferencial entre zonas se mantiene y que el balance corresponde al diseño."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Registrar la presión diferencial en los puntos definidos<br>\n  2) Verificar la relación entre suministro y escape<br>\n  3) Comparar con los valores de diseño del fabricante<br>\n  4) Procesar los datos crudos de este ensayo en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o condiciones con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  La presión diferencial se mantiene dentro del rango aprobado.<br>\n  El balance corresponde al diseño y no compromete la contención."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de presión diferencial y balance<br>\n  - Data cruda y reporte estadístico del análisis correspondiente"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante; URS aprobada."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "cabina-bioseguridad"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-CB-004",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-CB-004 — Alarmas de flujo y enclavamiento del vidrio",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que las alarmas de flujo y el enclavamiento del vidrio actúan según el manual."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Provocar la alarma de flujo bajo y verificar su disparo<br>\n  2) Verificar el enclavamiento que impide operar con el vidrio fuera de la posición segura<br>\n  3) Registrar la recuperación de cada condición"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Cada alarma y enclavamiento actúa según el manual del fabricante.<br>\n  La cabina no permite operar en una condición que comprometa la contención."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de alarmas y enclavamientos probados"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante."
+     }
+    ],
+    "tabla": null,
+    "familia": "cabina-bioseguridad"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-CB-005",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-CB-005 — Luz UV, tomacorrientes y temporizador",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar los accesorios eléctricos y la luz UV de la cabina."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Encender la luz UV y verificar su funcionamiento y el enclavamiento<br>\n  2) Verificar los tomacorrientes y su identificación<br>\n  3) Programar el temporizador y medir el tiempo real"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  La luz UV, los tomacorrientes y el temporizador funcionan según el manual.<br>\n  Los enclavamientos de seguridad están operativos."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de accesorios y temporizador"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante."
+     }
+    ],
+    "tabla": null,
+    "familia": "cabina-bioseguridad"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-CB-006",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-CB-006 — Corte de energía y recuperación",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar el comportamiento de la cabina ante un corte de energía y su recuperación."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Cortar la energía y registrar el estado seguro de la cabina<br>\n  2) Verificar la respuesta de las alarmas y el estado del vidrio<br>\n  3) Restablecer y verificar la recuperación de flujo y presión"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Ante el corte, la cabina queda en estado seguro y las alarmas actúan.<br>\n  Tras el restablecimiento, la cabina recupera la condición de operación sin pérdida de registros."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de corte de energía y recuperación"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante; 21 CFR Part 11 / EU GMP Anexo 11 (si aplica)."
+     }
+    ],
+    "tabla": null,
+    "familia": "cabina-bioseguridad"
+   },
+   {
+    "kind": "resumen",
+    "id": "EQ-OQ-CB-RES",
+    "bloque": 4,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-CB-RES — Tabla resumen de los ensayos del OQ",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Consolidar el listado de ensayos del OQ para la tabla resumen del protocolo."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Confirmar que los ensayos EQ-OQ-CB-001 a EQ-OQ-CB-006 están incluidos en el índice del protocolo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Los 6 ensayos aparecen en la tabla resumen con su veredicto."
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>EU GMP Anexo 15."
+     }
+    ],
+    "tabla": null,
+    "familia": "cabina-bioseguridad"
+   },
+   {
+    "kind": "tabla",
+    "id": "EQ-OQ-CB-REF",
+    "bloque": 6,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-CB-REF — Referencias del OQ de Cabina de bioseguridad",
+    "secciones": [],
+    "tabla": {
+     "headers": [
+      "SECCIÓN",
+      "TÍTULO",
+      "ESTADO"
+     ],
+     "rows": [
+      [
+       "6.1",
+       "Manual del fabricante del equipo — Filtros, velocidades, alarmas y límites de diseño",
+       "VIGENTE"
+      ],
+      [
+       "6.2",
+       "URS aprobada — Clase de partículas, velocidades, contención y criterios de aceptación",
+       "VIGENTE"
+      ],
+      [
+       "6.3",
+       "EU GMP Anexo 15 — Calificación y validación: el OQ y el PQ demuestran operación según especificaciones aprobadas",
+       "VIGENTE"
+      ],
+      [
+       "6.4",
+       "GAMP 5, 2.ª ed. y 21 CFR Part 11 / EU GMP Anexo 11 — Ciclo de vida y registros electrónicos",
+       "VIGENTE"
+      ],
+      [
+       "6.5",
+       "ISPE Baseline Guide Vol. 5 — Commissioning and Qualification de equipos de producción",
+       "VIGENTE"
+      ],
+      [
+       "6.6",
+       "Norma específica de cabinas de bioseguridad — PENDIENTE DEL RESPONSABLE",
+       "PENDIENTE"
+      ]
+     ]
+    },
+    "familia": "cabina-bioseguridad"
+   },
+   {
+    "kind": "div",
+    "clase": "anexos",
+    "bloque": 8,
+    "html": "<p><strong>ANEXOS:</strong></p>\n  <table>\n  <tbody><tr><th>SECCIÓN</th><th>TÍTULO</th></tr>\n<tr><td>8.1</td><td>Anexo A — Registros de integridad de filtros, velocidades, presión, contención y partículas</td></tr>\n<tr><td>8.2</td><td>Anexo B — Certificados de calibración de anemómetros, manómetros y contadores de partículas</td></tr>\n<tr><td>8.3</td><td>Anexo C — Registros de alarmas, perturbaciones, desviaciones y CAPA</td></tr>\n<tr><td>8.4</td><td>Anexo D — Matriz de trazabilidad requisito-prueba (RTM) y evidencia de revisión</td></tr>\n  </tbody></table>",
+    "familia": "cabina-bioseguridad"
+   },
+   {
+    "kind": "div",
+    "clase": "portada",
+    "bloque": 1,
+    "html": "<p><strong>PORTADA DEL PROTOCOLO OQ</strong></p>\n  <p><strong>Logo:</strong><br><img class=\"ent-logo\" alt=\"Logo de la entidad\"></p>\n  <p><strong>Calificación de Operación de <span class=\"equipo\">equipo</span>:</strong> <span class=\"ent-descripcion\">______</span></p>\n  <ol>\n    <li><strong>Marca:</strong> <span class=\"ent-marca\">______</span></li>\n    <li><strong>Modelo:</strong> <span class=\"ent-modelo\">______</span></li>\n    <li><strong>Código:</strong> <span class=\"ent-codigo\">______</span></li>\n  </ol>",
+    "familia": "phmetro"
+   },
+   {
+    "kind": "div",
+    "clase": "firmas",
+    "bloque": 1,
+    "html": "<p><strong>FLUJO DE FIRMAS DEL PROTOCOLO:</strong></p>\n  <p>Este apartado establece que los responsables revisan y aprueban el presente protocolo, declarando que está apto para su ejecución. Cualquier cambio posterior a la firma obliga a reiniciar el flujo de firmas, con el fin de garantizar que todos los departamentos involucrados estén al tanto de los ensayos a ejecutar.</p>\n  <ol>\n    <li><strong>Elaborado Por:</strong> <br> Analista de validaciones — elabora / Nombre: ______ Firma: ______ Fecha: ______</li><br>\n    <li><strong>Revisado Por:</strong> <br> Coordinador de validaciones — revisa / Nombre: ______ Firma: ______ Fecha: ______</li><br>\n    <li><strong>Revisado Por:</strong> <br> Gerente de Área — revisa / Nombre: ______ Firma: ______ Fecha: ______</li><br>\n    <li><strong>Aprobado por:</strong> <br> Gerente de gestión de calidad — aprueba / Nombre: ______ Firma: ______ Fecha: ______</li><br>\n  </ol>",
+    "familia": "phmetro"
+   },
+   {
+    "kind": "div",
+    "clase": "responsabilidades",
+    "bloque": 1,
+    "html": "<p><strong>RESPONSABILIDADES DEL PROTOCOLO:</strong></p>\n  <p><strong>Responsabilidad del Analista de validaciones:</strong></p>\n  <ol><li>Coordinar la ejecución de la Calificación de Operación con las áreas involucradas, asegurando personal, <span class=\"equipo\">equipo</span>, patrones, materiales e instrumentos y documentación.</li><li>Verificar que los instrumentos de medición estén identificados y con calibración vigente.</li><li>Ejecutar y/o supervisar los ensayos del protocolo según los criterios aprobados.</li><li>Registrar los datos de forma completa, legible y trazable (ALCOA+).</li><li>Documentar las desviaciones según los procedimientos internos vigentes.</li><li>Elaborar el informe de calificación con resultados, conclusiones y anexos.</li></ol>\n  <p><strong>Responsabilidad del Coordinador de validaciones:</strong></p>\n  <ol><li>Revisar técnicamente el protocolo antes de su ejecución.</li><li>Asignar al analista responsable y coordinar recursos.</li><li>Revisar las desviaciones, su tratamiento y las CAPA asociadas.</li><li>Revisar el informe final y autorizar la fase siguiente.</li></ol>\n  <p><strong>Responsabilidad del Gerente de Área:</strong></p>\n  <ol><li>Garantizar la disponibilidad del <span class=\"equipo\">equipo</span> y los accesos para la ejecución.</li><li>Facilitar la documentación técnica del fabricante y del proveedor.</li><li>Implementar las acciones operativas derivadas de desviaciones y CAPA.</li></ol>\n  <p><strong>Responsabilidad del Gerente de gestión de calidad:</strong></p>\n  <ol><li>Aprobar el protocolo y sus criterios de aceptación.</li><li>Aprobar las desviaciones y sus evaluaciones de impacto.</li><li>Emitir el dictamen final del estado de calificación.</li></ol>",
+    "familia": "phmetro"
+   },
+   {
+    "kind": "div",
+    "clase": "alcance",
+    "bloque": 1,
+    "html": "<p><strong>ALCANCE</strong></p>\n  <p>Esta calificación aplica a <span class=\"equipo\">equipo</span>, del ph-metro, instrumento analítico tipo L, y cubre los 6 ensayos listados en el índice. No incluye PQ: el desempeño se demuestra en este OQ y se mantiene con la verificación periódica definida en el procedimiento de uso. Los límites se toman de la URS aprobada y del manual del fabricante.</p>",
+    "familia": "phmetro"
+   },
+   {
+    "kind": "div",
+    "clase": "def-usp",
+    "bloque": 1,
+    "html": "<p><strong>DEFINICIÓN USP</strong></p>\n  <p>Calificación de Operación: colección documentada de las actividades necesarias para demostrar que un instrumento se desempeña de manera uniforme de acuerdo con las especificaciones definidas por el usuario y es apropiado para el uso previsto, en el entorno seleccionado (<span class=\"refnorma\"></span>).</p>",
+    "familia": "phmetro"
+   },
+   {
+    "kind": "div",
+    "clase": "nota-datos",
+    "bloque": 1,
+    "html": "<p><strong>NOTA — DATOS DIGITALES</strong></p>\n  <p>Si el equipo entrega datos digitales, se procesan directamente y se anexan la data cruda y el reporte estadístico como parte de la evidencia. Si el equipo no dispone de impresión, transferencia, gestión de usuarios o respaldo electrónico, los ensayos correspondientes se declaran no aplica con su justificación, sin sustituir la evidencia por una suposición.</p>",
+    "familia": "phmetro"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-PH-001",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-PH-001 — Encendido, electrodo y autoprueba",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que el instrumento enciende, completa su autoprueba y detecta el electrodo conectado."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Encender el instrumento y registrar la versión de firmware<br>\n  2) Verificar que la autoprueba informa el estado del electrodo y de la temperatura<br>\n  3) Conectar y desconectar el electrodo dentro del procedimiento permitido y verificar la detección"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  La autoprueba finaliza sin error.<br>\n  El instrumento detecta la presencia y ausencia del electrodo según el manual."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de encendido, autoprueba y detección de electrodo"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante; URS aprobada."
+     }
+    ],
+    "tabla": null,
+    "familia": "phmetro"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-PH-002",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-PH-002 — Calibración multipunto con buffers certificados",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que la calibración con buffers cubre el rango de uso y que el instrumento acepta o rechaza según el criterio."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Seleccionar al menos dos buffers certificados que cubran el rango de uso definido en la URS<br>\n  2) Ejecutar la calibración según el manual del fabricante<br>\n  3) Registrar la pendiente, el punto isopotencial y el estado de aceptación<br>\n  4) Repetir la calibración al menos dos veces<br>\n  5) Procesar los datos crudos de este ensayo en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o condiciones con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  La calibración finaliza y el instrumento informa pendiente y punto isopotencial dentro del criterio aprobado.<br>\n  El instrumento rechaza la calibración cuando el buffer está fuera de especificación (si la función está disponible)."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de calibración con buffers, pendiente y punto isopotencial<br>\n  - Data cruda y reporte estadístico del análisis correspondiente"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante; URS aprobada."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "phmetro"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-PH-003",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-PH-003 — Exactitud de pH en buffers de verificación",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que la lectura de pH coincide con el valor certificado de los buffers en el rango de uso."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Medir cada buffer de verificación definido en el protocolo con el electrodo estabilizado<br>\n  2) Registrar la lectura y la temperatura<br>\n  3) Calcular la diferencia respecto del valor certificado<br>\n  4) Procesar los datos crudos de este ensayo en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o condiciones con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  La diferencia en cada buffer está dentro del criterio definido en la URS aprobada."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de exactitud por buffer con lectura y valor certificado<br>\n  - Data cruda y reporte estadístico del análisis correspondiente"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante; URS aprobada; certificados de los buffers."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "phmetro"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-PH-004",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-PH-004 — Repetibilidad de la lectura de pH",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que las lecturas repetidas de una misma solución son reproducibles."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Sumergir el electrodo en la solución de prueba definida<br>\n  2) Registrar al menos diez lecturas con estabilización entre cada una<br>\n  3) Calcular la desviación estándar y el RSD<br>\n  4) Procesar los datos crudos de este ensayo en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o condiciones con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  La desviación estándar o el RSD están dentro del criterio de la URS aprobada."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de lecturas repetidas con cálculo estadístico<br>\n  - Data cruda y reporte estadístico del análisis correspondiente"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante; URS aprobada."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "phmetro"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-PH-005",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-PH-005 — Compensación de temperatura",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que la compensación de temperatura corrige la lectura según el sensor o la temperatura ingresada."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Medir una solución de prueba a dos temperaturas distintas dentro del rango de uso<br>\n  2) Comparar la lectura con compensación activa y con la temperatura de referencia<br>\n  3) Verificar la coincidencia entre el sensor de temperatura y el patrón<br>\n  4) Procesar los datos crudos de este ensayo en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o condiciones con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  La lectura compensada está dentro del criterio de la URS aprobada en ambas temperaturas.<br>\n  El sensor de temperatura coincide con el patrón dentro del criterio aprobado."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de compensación de temperatura por punto<br>\n  - Data cruda y reporte estadístico del análisis correspondiente"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante; URS aprobada."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "phmetro"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-PH-006",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-PH-006 — Alarmas, estabilidad y control de datos",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar las alarmas del instrumento, el criterio de estabilidad y el registro de datos."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Configurar el criterio de estabilidad y verificar que la lectura solo se acepta cuando estabiliza<br>\n  2) Provocar las alarmas disponibles: calibración vencida, electrodo defectuoso y fuera de rango<br>\n  3) Verificar el registro de fecha, hora y usuario, y la transferencia o impresión si aplica"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  El instrumento aplica el criterio de estabilidad configurado.<br>\n  Las alarmas actúan según el manual del fabricante.<br>\n  Los registros son trazables y no modificables por el usuario operativo (si aplica)."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de alarmas, estabilidad y control de datos"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante; 21 CFR Part 11 / EU GMP Anexo 11 (si aplica)."
+     }
+    ],
+    "tabla": null,
+    "familia": "phmetro"
+   },
+   {
+    "kind": "resumen",
+    "id": "EQ-OQ-PH-RES",
+    "bloque": 4,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-PH-RES — Tabla resumen de los ensayos del OQ",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Consolidar el listado de ensayos del OQ para la tabla resumen del protocolo."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Confirmar que los ensayos EQ-OQ-PH-001 a EQ-OQ-PH-006 están incluidos en el índice del protocolo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Los 6 ensayos aparecen en la tabla resumen con su veredicto."
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>EU GMP Anexo 15."
+     }
+    ],
+    "tabla": null,
+    "familia": "phmetro"
+   },
+   {
+    "kind": "tabla",
+    "id": "EQ-OQ-PH-REF",
+    "bloque": 6,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-PH-REF — Referencias del OQ de pH-metro",
+    "secciones": [],
+    "tabla": {
+     "headers": [
+      "SECCIÓN",
+      "TÍTULO",
+      "ESTADO"
+     ],
+     "rows": [
+      [
+       "6.1",
+       "Manual del fabricante del equipo — Electrodo, buffers, compensación y límites de operación",
+       "VIGENTE"
+      ],
+      [
+       "6.2",
+       "URS aprobada — Rango de pH, criterios de exactitud, repetibilidad y estabilidad",
+       "VIGENTE"
+      ],
+      [
+       "6.3",
+       "USP <1058> — Analytical Instrument Qualification",
+       "VIGENTE"
+      ],
+      [
+       "6.4",
+       "EU GMP Anexo 15 — Calificación y validación",
+       "VIGENTE"
+      ],
+      [
+       "6.5",
+       "21 CFR Part 11 / EU GMP Anexo 11 — Registros electrónicos y firmas electrónicas (si aplica)",
+       "VIGENTE"
+      ],
+      [
+       "6.6",
+       "Norma específica del pH-metro — PENDIENTE DEL RESPONSABLE",
+       "PENDIENTE"
+      ]
+     ]
+    },
+    "familia": "phmetro"
+   },
+   {
+    "kind": "div",
+    "clase": "anexos",
+    "bloque": 8,
+    "html": "<p><strong>ANEXOS:</strong></p>\n  <table>\n  <tbody><tr><th>SECCIÓN</th><th>TÍTULO</th></tr>\n<tr><td>8.1</td><td>Anexo A — Registros de calibración, exactitud, repetibilidad y compensación de temperatura</td></tr>\n<tr><td>8.2</td><td>Anexo B — Certificados de buffers y del termómetro o sensor de referencia</td></tr>\n<tr><td>8.3</td><td>Anexo C — Registros de alarmas, estabilidad y control de datos</td></tr>\n<tr><td>8.4</td><td>Anexo D — Matriz de trazabilidad requisito-prueba (RTM) y evidencia de revisión</td></tr>\n  </tbody></table>",
+    "familia": "phmetro"
+   },
+   {
+    "kind": "div",
+    "clase": "portada",
+    "bloque": 1,
+    "html": "<p><strong>PORTADA DEL PROTOCOLO OQ</strong></p>\n  <p><strong>Logo:</strong><br><img class=\"ent-logo\" alt=\"Logo de la entidad\"></p>\n  <p><strong>Calificación de Operación de <span class=\"equipo\">equipo</span>:</strong> <span class=\"ent-descripcion\">______</span></p>\n  <ol>\n    <li><strong>Marca:</strong> <span class=\"ent-marca\">______</span></li>\n    <li><strong>Modelo:</strong> <span class=\"ent-modelo\">______</span></li>\n    <li><strong>Código:</strong> <span class=\"ent-codigo\">______</span></li>\n  </ol>",
+    "familia": "espectrofotometro"
+   },
+   {
+    "kind": "div",
+    "clase": "firmas",
+    "bloque": 1,
+    "html": "<p><strong>FLUJO DE FIRMAS DEL PROTOCOLO:</strong></p>\n  <p>Este apartado establece que los responsables revisan y aprueban el presente protocolo, declarando que está apto para su ejecución. Cualquier cambio posterior a la firma obliga a reiniciar el flujo de firmas, con el fin de garantizar que todos los departamentos involucrados estén al tanto de los ensayos a ejecutar.</p>\n  <ol>\n    <li><strong>Elaborado Por:</strong> <br> Analista de validaciones — elabora / Nombre: ______ Firma: ______ Fecha: ______</li><br>\n    <li><strong>Revisado Por:</strong> <br> Coordinador de validaciones — revisa / Nombre: ______ Firma: ______ Fecha: ______</li><br>\n    <li><strong>Revisado Por:</strong> <br> Gerente de Área — revisa / Nombre: ______ Firma: ______ Fecha: ______</li><br>\n    <li><strong>Aprobado por:</strong> <br> Gerente de gestión de calidad — aprueba / Nombre: ______ Firma: ______ Fecha: ______</li><br>\n  </ol>",
+    "familia": "espectrofotometro"
+   },
+   {
+    "kind": "div",
+    "clase": "responsabilidades",
+    "bloque": 1,
+    "html": "<p><strong>RESPONSABILIDADES DEL PROTOCOLO:</strong></p>\n  <p><strong>Responsabilidad del Analista de validaciones:</strong></p>\n  <ol><li>Coordinar la ejecución de la Calificación de Operación con las áreas involucradas, asegurando personal, <span class=\"equipo\">equipo</span>, patrones, materiales e instrumentos y documentación.</li><li>Verificar que los instrumentos de medición estén identificados y con calibración vigente.</li><li>Ejecutar y/o supervisar los ensayos del protocolo según los criterios aprobados.</li><li>Registrar los datos de forma completa, legible y trazable (ALCOA+).</li><li>Documentar las desviaciones según los procedimientos internos vigentes.</li><li>Elaborar el informe de calificación con resultados, conclusiones y anexos.</li></ol>\n  <p><strong>Responsabilidad del Coordinador de validaciones:</strong></p>\n  <ol><li>Revisar técnicamente el protocolo antes de su ejecución.</li><li>Asignar al analista responsable y coordinar recursos.</li><li>Revisar las desviaciones, su tratamiento y las CAPA asociadas.</li><li>Revisar el informe final y autorizar la fase siguiente.</li></ol>\n  <p><strong>Responsabilidad del Gerente de Área:</strong></p>\n  <ol><li>Garantizar la disponibilidad del <span class=\"equipo\">equipo</span> y los accesos para la ejecución.</li><li>Facilitar la documentación técnica del fabricante y del proveedor.</li><li>Implementar las acciones operativas derivadas de desviaciones y CAPA.</li></ol>\n  <p><strong>Responsabilidad del Gerente de gestión de calidad:</strong></p>\n  <ol><li>Aprobar el protocolo y sus criterios de aceptación.</li><li>Aprobar las desviaciones y sus evaluaciones de impacto.</li><li>Emitir el dictamen final del estado de calificación.</li></ol>",
+    "familia": "espectrofotometro"
+   },
+   {
+    "kind": "div",
+    "clase": "alcance",
+    "bloque": 1,
+    "html": "<p><strong>ALCANCE</strong></p>\n  <p>Esta calificación aplica a <span class=\"equipo\">equipo</span>, del espectrofotómetro uv-vis, instrumento analítico tipo L, y cubre los 6 ensayos listados en el índice. No incluye PQ: el desempeño se demuestra en este OQ y se mantiene con la verificación periódica definida en el procedimiento de uso. Los límites se toman de la URS aprobada y del manual del fabricante.</p>",
+    "familia": "espectrofotometro"
+   },
+   {
+    "kind": "div",
+    "clase": "def-usp",
+    "bloque": 1,
+    "html": "<p><strong>DEFINICIÓN USP</strong></p>\n  <p>Calificación de Operación: colección documentada de las actividades necesarias para demostrar que un instrumento se desempeña de manera uniforme de acuerdo con las especificaciones definidas por el usuario y es apropiado para el uso previsto, en el entorno seleccionado (<span class=\"refnorma\"></span>).</p>",
+    "familia": "espectrofotometro"
+   },
+   {
+    "kind": "div",
+    "clase": "nota-datos",
+    "bloque": 1,
+    "html": "<p><strong>NOTA — DATOS DIGITALES</strong></p>\n  <p>Si el equipo entrega datos digitales, se procesan directamente y se anexan la data cruda y el reporte estadístico como parte de la evidencia. Si el equipo no dispone de impresión, transferencia, gestión de usuarios o respaldo electrónico, los ensayos correspondientes se declaran no aplica con su justificación, sin sustituir la evidencia por una suposición.</p>",
+    "familia": "espectrofotometro"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-UV-001",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-UV-001 — Encendido, lámparas y autoprueba",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que el instrumento enciende, estabiliza sus lámparas y completa la autoprueba."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Encender el instrumento y registrar la versión de software<br>\n  2) Esperar el tiempo de calentamiento definido por el fabricante<br>\n  3) Verificar el estado de las lámparas y el resultado de la autoprueba"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  La autoprueba finaliza sin error.<br>\n  Las lámparas alcanzan el estado operativo en el tiempo definido."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de encendido, lámparas y autoprueba"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante; URS aprobada."
+     }
+    ],
+    "tabla": null,
+    "familia": "espectrofotometro"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-UV-002",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-UV-002 — Exactitud de longitud de onda",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que la longitud de onda seleccionada coincide con la del patrón certificado."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Medir el patrón de longitud de onda en las bandas definidas en el protocolo<br>\n  2) Registrar la longitud de onda del máximo o mínimo por banda<br>\n  3) Calcular la diferencia respecto del valor certificado<br>\n  4) Procesar los datos crudos de este ensayo en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o condiciones con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  La diferencia en cada banda está dentro del criterio de la URS aprobada."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de exactitud de longitud de onda por banda<br>\n  - Data cruda y reporte estadístico del análisis correspondiente"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante; URS aprobada; certificado del patrón."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "espectrofotometro"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-UV-003",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-UV-003 — Exactitud fotométrica",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que la absorbancia medida coincide con la del patrón certificado."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Medir los patrones de absorbancia definidos en el protocolo<br>\n  2) Registrar la absorbancia en cada longitud de onda<br>\n  3) Calcular la diferencia respecto del valor certificado<br>\n  4) Procesar los datos crudos de este ensayo en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o condiciones con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  La diferencia en cada patrón está dentro del criterio de la URS aprobada."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de exactitud fotométrica por patrón<br>\n  - Data cruda y reporte estadístico del análisis correspondiente"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante; URS aprobada; certificado del patrón."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "espectrofotometro"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-UV-004",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-UV-004 — Linealidad de la respuesta",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que la absorbancia es lineal en el rango de uso definido."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Preparar al menos cinco concentraciones o niveles de absorbancia del rango de uso<br>\n  2) Medir cada nivel al menos por triplicado<br>\n  3) Calcular la regresión y los residuos<br>\n  4) Procesar los datos crudos de este ensayo en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o condiciones con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  El coeficiente de determinación y los residuos están dentro del criterio de la URS aprobada.<br>\n  Ningún nivel se aparta de la recta fuera de la tolerancia aprobada."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de linealidad con regresión y residuos<br>\n  - Data cruda y reporte estadístico del análisis correspondiente"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante; URS aprobada."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "espectrofotometro"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-UV-005",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-UV-005 — Ruido, deriva y luz parásita",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar el ruido, la deriva de la línea base y la luz parásita del instrumento."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Registrar la señal en la longitud de onda definida durante el período de estabilización<br>\n  2) Calcular el ruido y la deriva de la línea base<br>\n  3) Medir la luz parásita con el filtro o patrón definido por el fabricante<br>\n  4) Procesar los datos crudos de este ensayo en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o condiciones con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  El ruido, la deriva y la luz parásita están dentro de los límites de la URS aprobada."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de ruido, deriva y luz parásita<br>\n  - Data cruda y reporte estadístico del análisis correspondiente"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante; URS aprobada."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "espectrofotometro"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-UV-006",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-UV-006 — Portacubetas, cubetas y control de datos",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar el portacubetas, el estado de las cubetas y el control de datos del software."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Verificar el cambio y la reproducibilidad de posición del portacubetas<br>\n  2) Verificar la limpieza y el estado de las cubetas y el blanco<br>\n  3) Verificar el registro de fecha, hora y usuario y la transferencia o impresión si aplica"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  El portacubetas devuelve la misma lectura en la misma posición dentro del criterio aprobado.<br>\n  Los registros son trazables y no modificables por el usuario operativo (si aplica)."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de portacubetas, cubetas y control de datos"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante; 21 CFR Part 11 / EU GMP Anexo 11 (si aplica)."
+     }
+    ],
+    "tabla": null,
+    "familia": "espectrofotometro"
+   },
+   {
+    "kind": "resumen",
+    "id": "EQ-OQ-UV-RES",
+    "bloque": 4,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-UV-RES — Tabla resumen de los ensayos del OQ",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Consolidar el listado de ensayos del OQ para la tabla resumen del protocolo."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Confirmar que los ensayos EQ-OQ-UV-001 a EQ-OQ-UV-006 están incluidos en el índice del protocolo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Los 6 ensayos aparecen en la tabla resumen con su veredicto."
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>EU GMP Anexo 15."
+     }
+    ],
+    "tabla": null,
+    "familia": "espectrofotometro"
+   },
+   {
+    "kind": "tabla",
+    "id": "EQ-OQ-UV-REF",
+    "bloque": 6,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-UV-REF — Referencias del OQ de Espectrofotómetro UV-Vis",
+    "secciones": [],
+    "tabla": {
+     "headers": [
+      "SECCIÓN",
+      "TÍTULO",
+      "ESTADO"
+     ],
+     "rows": [
+      [
+       "6.1",
+       "Manual del fabricante del equipo — Lámparas, portacubetas, límites y calibración",
+       "VIGENTE"
+      ],
+      [
+       "6.2",
+       "URS aprobada — Rango de longitud de onda, absorbancia y criterios de aceptación",
+       "VIGENTE"
+      ],
+      [
+       "6.3",
+       "USP <1058> — Analytical Instrument Qualification",
+       "VIGENTE"
+      ],
+      [
+       "6.4",
+       "EU GMP Anexo 15 — Calificación y validación",
+       "VIGENTE"
+      ],
+      [
+       "6.5",
+       "21 CFR Part 11 / EU GMP Anexo 11 — Registros electrónicos y firmas electrónicas (si aplica)",
+       "VIGENTE"
+      ],
+      [
+       "6.6",
+       "Norma específica del espectrofotómetro UV-Vis — PENDIENTE DEL RESPONSABLE",
+       "PENDIENTE"
+      ]
+     ]
+    },
+    "familia": "espectrofotometro"
+   },
+   {
+    "kind": "div",
+    "clase": "anexos",
+    "bloque": 8,
+    "html": "<p><strong>ANEXOS:</strong></p>\n  <table>\n  <tbody><tr><th>SECCIÓN</th><th>TÍTULO</th></tr>\n<tr><td>8.1</td><td>Anexo A — Registros de exactitud de longitud de onda, fotometría, linealidad y ruido</td></tr>\n<tr><td>8.2</td><td>Anexo B — Certificados de patrones de longitud de onda y de absorbancia</td></tr>\n<tr><td>8.3</td><td>Anexo C — Registros de portacubetas, control de datos y alarmas</td></tr>\n<tr><td>8.4</td><td>Anexo D — Matriz de trazabilidad requisito-prueba (RTM) y evidencia de revisión</td></tr>\n  </tbody></table>",
+    "familia": "espectrofotometro"
+   },
+   {
+    "kind": "div",
+    "clase": "portada",
+    "bloque": 1,
+    "html": "<p><strong>PORTADA DEL PROTOCOLO OQ</strong></p>\n  <p><strong>Logo:</strong><br><img class=\"ent-logo\" alt=\"Logo de la entidad\"></p>\n  <p><strong>Calificación de Operación de <span class=\"equipo\">equipo</span>:</strong> <span class=\"ent-descripcion\">______</span></p>\n  <ol>\n    <li><strong>Marca:</strong> <span class=\"ent-marca\">______</span></li>\n    <li><strong>Modelo:</strong> <span class=\"ent-modelo\">______</span></li>\n    <li><strong>Código:</strong> <span class=\"ent-codigo\">______</span></li>\n  </ol>",
+    "familia": "espectrofotometro-ir"
+   },
+   {
+    "kind": "div",
+    "clase": "firmas",
+    "bloque": 1,
+    "html": "<p><strong>FLUJO DE FIRMAS DEL PROTOCOLO:</strong></p>\n  <p>Este apartado establece que los responsables revisan y aprueban el presente protocolo, declarando que está apto para su ejecución. Cualquier cambio posterior a la firma obliga a reiniciar el flujo de firmas, con el fin de garantizar que todos los departamentos involucrados estén al tanto de los ensayos a ejecutar.</p>\n  <ol>\n    <li><strong>Elaborado Por:</strong> <br> Analista de validaciones — elabora / Nombre: ______ Firma: ______ Fecha: ______</li><br>\n    <li><strong>Revisado Por:</strong> <br> Coordinador de validaciones — revisa / Nombre: ______ Firma: ______ Fecha: ______</li><br>\n    <li><strong>Revisado Por:</strong> <br> Gerente de Área — revisa / Nombre: ______ Firma: ______ Fecha: ______</li><br>\n    <li><strong>Aprobado por:</strong> <br> Gerente de gestión de calidad — aprueba / Nombre: ______ Firma: ______ Fecha: ______</li><br>\n  </ol>",
+    "familia": "espectrofotometro-ir"
+   },
+   {
+    "kind": "div",
+    "clase": "responsabilidades",
+    "bloque": 1,
+    "html": "<p><strong>RESPONSABILIDADES DEL PROTOCOLO:</strong></p>\n  <p><strong>Responsabilidad del Analista de validaciones:</strong></p>\n  <ol><li>Coordinar la ejecución de la Calificación de Operación con las áreas involucradas, asegurando personal, <span class=\"equipo\">equipo</span>, patrones, materiales e instrumentos y documentación.</li><li>Verificar que los instrumentos de medición estén identificados y con calibración vigente.</li><li>Ejecutar y/o supervisar los ensayos del protocolo según los criterios aprobados.</li><li>Registrar los datos de forma completa, legible y trazable (ALCOA+).</li><li>Documentar las desviaciones según los procedimientos internos vigentes.</li><li>Elaborar el informe de calificación con resultados, conclusiones y anexos.</li></ol>\n  <p><strong>Responsabilidad del Coordinador de validaciones:</strong></p>\n  <ol><li>Revisar técnicamente el protocolo antes de su ejecución.</li><li>Asignar al analista responsable y coordinar recursos.</li><li>Revisar las desviaciones, su tratamiento y las CAPA asociadas.</li><li>Revisar el informe final y autorizar la fase siguiente.</li></ol>\n  <p><strong>Responsabilidad del Gerente de Área:</strong></p>\n  <ol><li>Garantizar la disponibilidad del <span class=\"equipo\">equipo</span> y los accesos para la ejecución.</li><li>Facilitar la documentación técnica del fabricante y del proveedor.</li><li>Implementar las acciones operativas derivadas de desviaciones y CAPA.</li></ol>\n  <p><strong>Responsabilidad del Gerente de gestión de calidad:</strong></p>\n  <ol><li>Aprobar el protocolo y sus criterios de aceptación.</li><li>Aprobar las desviaciones y sus evaluaciones de impacto.</li><li>Emitir el dictamen final del estado de calificación.</li></ol>",
+    "familia": "espectrofotometro-ir"
+   },
+   {
+    "kind": "div",
+    "clase": "alcance",
+    "bloque": 1,
+    "html": "<p><strong>ALCANCE</strong></p>\n  <p>Esta calificación aplica a <span class=\"equipo\">equipo</span>, del espectrofotómetro ir, instrumento analítico tipo L, y cubre los 6 ensayos listados en el índice. No incluye PQ: el desempeño se demuestra en este OQ y se mantiene con la verificación periódica definida en el procedimiento de uso. Los límites se toman de la URS aprobada y del manual del fabricante.</p>",
+    "familia": "espectrofotometro-ir"
+   },
+   {
+    "kind": "div",
+    "clase": "def-usp",
+    "bloque": 1,
+    "html": "<p><strong>DEFINICIÓN USP</strong></p>\n  <p>Calificación de Operación: colección documentada de las actividades necesarias para demostrar que un instrumento se desempeña de manera uniforme de acuerdo con las especificaciones definidas por el usuario y es apropiado para el uso previsto, en el entorno seleccionado (<span class=\"refnorma\"></span>).</p>",
+    "familia": "espectrofotometro-ir"
+   },
+   {
+    "kind": "div",
+    "clase": "nota-datos",
+    "bloque": 1,
+    "html": "<p><strong>NOTA — DATOS DIGITALES</strong></p>\n  <p>Si el equipo entrega datos digitales, se procesan directamente y se anexan la data cruda y el reporte estadístico como parte de la evidencia. Si el equipo no dispone de impresión, transferencia, gestión de usuarios o respaldo electrónico, los ensayos correspondientes se declaran no aplica con su justificación, sin sustituir la evidencia por una suposición.</p>",
+    "familia": "espectrofotometro-ir"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-IR-001",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-IR-001 — Encendido, fuente y autoprueba",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que el instrumento enciende, estabiliza la fuente y completa la autoprueba."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Encender el instrumento y registrar la versión de software<br>\n  2) Esperar el tiempo de calentamiento y verificar la estabilidad de la fuente<br>\n  3) Verificar el resultado de la autoprueba"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  La autoprueba finaliza sin error.<br>\n  La fuente alcanza la estabilidad en el tiempo definido por el fabricante."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de encendido, fuente y autoprueba"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante; URS aprobada."
+     }
+    ],
+    "tabla": null,
+    "familia": "espectrofotometro-ir"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-IR-002",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-IR-002 — Exactitud de número de onda",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que el número de onda de las bandas de referencia coincide con el valor certificado."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Medir el patrón de referencia en las bandas definidas en el protocolo<br>\n  2) Registrar el número de onda del máximo de cada banda<br>\n  3) Calcular la diferencia respecto del valor certificado<br>\n  4) Procesar los datos crudos de este ensayo en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o condiciones con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  La diferencia en cada banda está dentro del criterio de la URS aprobada."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de exactitud de número de onda por banda<br>\n  - Data cruda y reporte estadístico del análisis correspondiente"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante; URS aprobada; certificado del patrón."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "espectrofotometro-ir"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-IR-003",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-IR-003 — Repetibilidad de número de onda",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que la posición de las bandas es repetible entre espectros consecutivos."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Medir el patrón al menos cinco veces con reposicionamiento<br>\n  2) Registrar el número de onda de la banda de referencia en cada medición<br>\n  3) Calcular la desviación estándar y el rango<br>\n  4) Procesar los datos crudos de este ensayo en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o condiciones con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  La repetibilidad está dentro del criterio de la URS aprobada."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de repetibilidad por medición<br>\n  - Data cruda y reporte estadístico del análisis correspondiente"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante; URS aprobada."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "espectrofotometro-ir"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-IR-004",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-IR-004 — Resolución y relación señal-ruido",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar la resolución espectral y la relación señal-ruido del instrumento."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Medir el patrón de resolución definido por el fabricante<br>\n  2) Calcular la separación de las bandas de resolución<br>\n  3) Registrar la relación señal-ruido en la zona definida<br>\n  4) Procesar los datos crudos de este ensayo en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o condiciones con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  La resolución y la relación señal-ruido están dentro de los límites de la URS aprobada."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de resolución y señal-ruido<br>\n  - Data cruda y reporte estadístico del análisis correspondiente"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante; URS aprobada."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "espectrofotometro-ir"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-IR-005",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-IR-005 — Línea base, deriva y purga",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar la estabilidad de la línea base y el efecto de la purga en el espectro."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Registrar la línea base durante el período definido<br>\n  2) Calcular la deriva y el ruido<br>\n  3) Verificar la purga y el tiempo de estabilización según el manual<br>\n  4) Procesar los datos crudos de este ensayo en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o condiciones con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  La deriva y el ruido están dentro del criterio de la URS aprobada.<br>\n  La purga alcanza la condición de operación en el tiempo definido."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de línea base, deriva y purga<br>\n  - Data cruda y reporte estadístico del análisis correspondiente"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante; URS aprobada."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "espectrofotometro-ir"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-IR-006",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-IR-006 — Accesorio ATR o de transmisión y control de datos",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar el accesorio instalado, su limpieza y el registro de los espectros."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Verificar el montaje y la limpieza del accesorio según el manual<br>\n  2) Registrar un espectro de referencia y verificar la reproducibilidad de la huella<br>\n  3) Verificar el registro de fecha, hora y usuario y la transferencia o impresión si aplica"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  El accesorio devuelve espectros reproducibles dentro del criterio aprobado.<br>\n  Los registros son trazables y no modificables por el usuario operativo (si aplica)."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro del accesorio y control de datos"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante; 21 CFR Part 11 / EU GMP Anexo 11 (si aplica)."
+     }
+    ],
+    "tabla": null,
+    "familia": "espectrofotometro-ir"
+   },
+   {
+    "kind": "resumen",
+    "id": "EQ-OQ-IR-RES",
+    "bloque": 4,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-IR-RES — Tabla resumen de los ensayos del OQ",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Consolidar el listado de ensayos del OQ para la tabla resumen del protocolo."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Confirmar que los ensayos EQ-OQ-IR-001 a EQ-OQ-IR-006 están incluidos en el índice del protocolo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Los 6 ensayos aparecen en la tabla resumen con su veredicto."
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>EU GMP Anexo 15."
+     }
+    ],
+    "tabla": null,
+    "familia": "espectrofotometro-ir"
+   },
+   {
+    "kind": "tabla",
+    "id": "EQ-OQ-IR-REF",
+    "bloque": 6,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-IR-REF — Referencias del OQ de Espectrofotómetro IR",
+    "secciones": [],
+    "tabla": {
+     "headers": [
+      "SECCIÓN",
+      "TÍTULO",
+      "ESTADO"
+     ],
+     "rows": [
+      [
+       "6.1",
+       "Manual del fabricante del equipo — Fuente, accesorios, resolución y límites de operación",
+       "VIGENTE"
+      ],
+      [
+       "6.2",
+       "URS aprobada — Rango de número de onda, resolución y criterios de aceptación",
+       "VIGENTE"
+      ],
+      [
+       "6.3",
+       "USP <1058> — Analytical Instrument Qualification",
+       "VIGENTE"
+      ],
+      [
+       "6.4",
+       "EU GMP Anexo 15 — Calificación y validación",
+       "VIGENTE"
+      ],
+      [
+       "6.5",
+       "21 CFR Part 11 / EU GMP Anexo 11 — Registros electrónicos y firmas electrónicas (si aplica)",
+       "VIGENTE"
+      ],
+      [
+       "6.6",
+       "Norma específica del espectrofotómetro IR — PENDIENTE DEL RESPONSABLE",
+       "PENDIENTE"
+      ]
+     ]
+    },
+    "familia": "espectrofotometro-ir"
+   },
+   {
+    "kind": "div",
+    "clase": "anexos",
+    "bloque": 8,
+    "html": "<p><strong>ANEXOS:</strong></p>\n  <table>\n  <tbody><tr><th>SECCIÓN</th><th>TÍTULO</th></tr>\n<tr><td>8.1</td><td>Anexo A — Registros de exactitud, repetibilidad, resolución y línea base</td></tr>\n<tr><td>8.2</td><td>Anexo B — Certificados de patrones de número de onda y resolución</td></tr>\n<tr><td>8.3</td><td>Anexo C — Registros del accesorio, purga y control de datos</td></tr>\n<tr><td>8.4</td><td>Anexo D — Matriz de trazabilidad requisito-prueba (RTM) y evidencia de revisión</td></tr>\n  </tbody></table>",
+    "familia": "espectrofotometro-ir"
+   },
+   {
+    "kind": "div",
+    "clase": "portada",
+    "bloque": 1,
+    "html": "<p><strong>PORTADA DEL PROTOCOLO OQ</strong></p>\n  <p><strong>Logo:</strong><br><img class=\"ent-logo\" alt=\"Logo de la entidad\"></p>\n  <p><strong>Calificación de Operación de <span class=\"equipo\">equipo</span>:</strong> <span class=\"ent-descripcion\">______</span></p>\n  <ol>\n    <li><strong>Marca:</strong> <span class=\"ent-marca\">______</span></li>\n    <li><strong>Modelo:</strong> <span class=\"ent-modelo\">______</span></li>\n    <li><strong>Código:</strong> <span class=\"ent-codigo\">______</span></li>\n  </ol>",
+    "familia": "espectrometro"
+   },
+   {
+    "kind": "div",
+    "clase": "firmas",
+    "bloque": 1,
+    "html": "<p><strong>FLUJO DE FIRMAS DEL PROTOCOLO:</strong></p>\n  <p>Este apartado establece que los responsables revisan y aprueban el presente protocolo, declarando que está apto para su ejecución. Cualquier cambio posterior a la firma obliga a reiniciar el flujo de firmas, con el fin de garantizar que todos los departamentos involucrados estén al tanto de los ensayos a ejecutar.</p>\n  <ol>\n    <li><strong>Elaborado Por:</strong> <br> Analista de validaciones — elabora / Nombre: ______ Firma: ______ Fecha: ______</li><br>\n    <li><strong>Revisado Por:</strong> <br> Coordinador de validaciones — revisa / Nombre: ______ Firma: ______ Fecha: ______</li><br>\n    <li><strong>Revisado Por:</strong> <br> Gerente de Área — revisa / Nombre: ______ Firma: ______ Fecha: ______</li><br>\n    <li><strong>Aprobado por:</strong> <br> Gerente de gestión de calidad — aprueba / Nombre: ______ Firma: ______ Fecha: ______</li><br>\n  </ol>",
+    "familia": "espectrometro"
+   },
+   {
+    "kind": "div",
+    "clase": "responsabilidades",
+    "bloque": 1,
+    "html": "<p><strong>RESPONSABILIDADES DEL PROTOCOLO:</strong></p>\n  <p><strong>Responsabilidad del Analista de validaciones:</strong></p>\n  <ol><li>Coordinar la ejecución de la Calificación de Operación con las áreas involucradas, asegurando personal, <span class=\"equipo\">equipo</span>, patrones, materiales e instrumentos y documentación.</li><li>Verificar que los instrumentos de medición estén identificados y con calibración vigente.</li><li>Ejecutar y/o supervisar los ensayos del protocolo según los criterios aprobados.</li><li>Registrar los datos de forma completa, legible y trazable (ALCOA+).</li><li>Documentar las desviaciones según los procedimientos internos vigentes.</li><li>Elaborar el informe de calificación con resultados, conclusiones y anexos.</li></ol>\n  <p><strong>Responsabilidad del Coordinador de validaciones:</strong></p>\n  <ol><li>Revisar técnicamente el protocolo antes de su ejecución.</li><li>Asignar al analista responsable y coordinar recursos.</li><li>Revisar las desviaciones, su tratamiento y las CAPA asociadas.</li><li>Revisar el informe final y autorizar la fase siguiente.</li></ol>\n  <p><strong>Responsabilidad del Gerente de Área:</strong></p>\n  <ol><li>Garantizar la disponibilidad del <span class=\"equipo\">equipo</span> y los accesos para la ejecución.</li><li>Facilitar la documentación técnica del fabricante y del proveedor.</li><li>Implementar las acciones operativas derivadas de desviaciones y CAPA.</li></ol>\n  <p><strong>Responsabilidad del Gerente de gestión de calidad:</strong></p>\n  <ol><li>Aprobar el protocolo y sus criterios de aceptación.</li><li>Aprobar las desviaciones y sus evaluaciones de impacto.</li><li>Emitir el dictamen final del estado de calificación.</li></ol>",
+    "familia": "espectrometro"
+   },
+   {
+    "kind": "div",
+    "clase": "alcance",
+    "bloque": 1,
+    "html": "<p><strong>ALCANCE</strong></p>\n  <p>Esta calificación aplica a <span class=\"equipo\">equipo</span>, del espectrómetro, instrumento analítico tipo L, y cubre los 6 ensayos listados en el índice. No incluye PQ: el desempeño se demuestra en este OQ y se mantiene con la verificación periódica definida en el procedimiento de uso. Los límites se toman de la URS aprobada y del manual del fabricante.</p>",
+    "familia": "espectrometro"
+   },
+   {
+    "kind": "div",
+    "clase": "def-usp",
+    "bloque": 1,
+    "html": "<p><strong>DEFINICIÓN USP</strong></p>\n  <p>Calificación de Operación: colección documentada de las actividades necesarias para demostrar que un instrumento se desempeña de manera uniforme de acuerdo con las especificaciones definidas por el usuario y es apropiado para el uso previsto, en el entorno seleccionado (<span class=\"refnorma\"></span>).</p>",
+    "familia": "espectrometro"
+   },
+   {
+    "kind": "div",
+    "clase": "nota-datos",
+    "bloque": 1,
+    "html": "<p><strong>NOTA — DATOS DIGITALES</strong></p>\n  <p>Si el equipo entrega datos digitales, se procesan directamente y se anexan la data cruda y el reporte estadístico como parte de la evidencia. Si el equipo no dispone de impresión, transferencia, gestión de usuarios o respaldo electrónico, los ensayos correspondientes se declaran no aplica con su justificación, sin sustituir la evidencia por una suposición.</p>",
+    "familia": "espectrometro"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-ES-001",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-ES-001 — Encendido, inicialización y autoprueba",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que el espectrómetro enciende, inicializa sus módulos y completa la autoprueba."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Encender el equipo y registrar la versión de software y la configuración<br>\n  2) Esperar la estabilización de la fuente y de los módulos según el manual<br>\n  3) Verificar el resultado de la autoprueba y la ausencia de alarmas"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  La autoprueba finaliza sin error.<br>\n  El equipo queda operativo sin alarmas al finalizar la inicialización."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de encendido, inicialización y autoprueba"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante; URS aprobada."
+     }
+    ],
+    "tabla": null,
+    "familia": "espectrometro"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-ES-002",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-ES-002 — Exactitud de la magnitud declarada",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que la lectura del espectrómetro coincide con el patrón certificado en los puntos definidos."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Medir el patrón certificado en los puntos definidos en el protocolo<br>\n  2) Registrar la lectura del equipo y el valor certificado<br>\n  3) Calcular la diferencia en cada punto<br>\n  4) Procesar los datos crudos de este ensayo en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o condiciones con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  La diferencia en cada punto está dentro del criterio de la URS aprobada."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de exactitud por punto<br>\n  - Data cruda y reporte estadístico del análisis correspondiente"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante; URS aprobada; certificado del patrón."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "espectrometro"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-ES-003",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-ES-003 — Repetibilidad de la señal",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que las mediciones repetidas de la misma muestra son reproducibles."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Medir la muestra de referencia al menos diez veces<br>\n  2) Registrar la señal en cada medición<br>\n  3) Calcular la desviación estándar y el RSD<br>\n  4) Procesar los datos crudos de este ensayo en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o condiciones con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  La desviación estándar o el RSD están dentro del criterio de la URS aprobada."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de repetibilidad con cálculo estadístico<br>\n  - Data cruda y reporte estadístico del análisis correspondiente"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante; URS aprobada."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "espectrometro"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-ES-004",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-ES-004 — Linealidad y rango dinámico",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que la respuesta es lineal en el rango de uso definido."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Preparar al menos cinco niveles de concentración o intensidad del rango de uso<br>\n  2) Medir cada nivel al menos por triplicado<br>\n  3) Calcular la regresión y los residuos<br>\n  4) Procesar los datos crudos de este ensayo en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o condiciones con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  El coeficiente de determinación y los residuos están dentro del criterio de la URS aprobada.<br>\n  El rango evaluado cubre el rango de uso declarado."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de linealidad con regresión y residuos<br>\n  - Data cruda y reporte estadístico del análisis correspondiente"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante; URS aprobada."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "espectrometro"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-ES-005",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-ES-005 — Deriva y estabilidad de la señal",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar la deriva de la señal y su estabilidad durante el período de operación."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Registrar la señal de referencia durante el período definido<br>\n  2) Calcular la deriva y el ruido<br>\n  3) Comparar con los límites de la URS aprobada<br>\n  4) Procesar los datos crudos de este ensayo en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o condiciones con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  La deriva y el ruido están dentro de los límites de la URS aprobada."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de deriva y estabilidad<br>\n  - Data cruda y reporte estadístico del análisis correspondiente"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante; URS aprobada."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "espectrometro"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-ES-006",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-ES-006 — Gases, consumibles, alarmas y control de datos",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar los gases y consumibles, las alarmas del equipo y el registro de datos."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Verificar la presión y pureza de los gases según el manual<br>\n  2) Provocar las alarmas disponibles y registrar el disparo<br>\n  3) Verificar el registro de fecha, hora y usuario y la transferencia o impresión si aplica"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Los gases y consumibles cumplen la especificación del fabricante.<br>\n  Las alarmas actúan según el manual y los registros son trazables (si aplica)."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de gases, consumibles, alarmas y datos"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante; 21 CFR Part 11 / EU GMP Anexo 11 (si aplica)."
+     }
+    ],
+    "tabla": null,
+    "familia": "espectrometro"
+   },
+   {
+    "kind": "resumen",
+    "id": "EQ-OQ-ES-RES",
+    "bloque": 4,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-ES-RES — Tabla resumen de los ensayos del OQ",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Consolidar el listado de ensayos del OQ para la tabla resumen del protocolo."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Confirmar que los ensayos EQ-OQ-ES-001 a EQ-OQ-ES-006 están incluidos en el índice del protocolo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Los 6 ensayos aparecen en la tabla resumen con su veredicto."
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>EU GMP Anexo 15."
+     }
+    ],
+    "tabla": null,
+    "familia": "espectrometro"
+   },
+   {
+    "kind": "tabla",
+    "id": "EQ-OQ-ES-REF",
+    "bloque": 6,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-ES-REF — Referencias del OQ de Espectrómetro",
+    "secciones": [],
+    "tabla": {
+     "headers": [
+      "SECCIÓN",
+      "TÍTULO",
+      "ESTADO"
+     ],
+     "rows": [
+      [
+       "6.1",
+       "Manual del fabricante del equipo — Módulos, gases, consumibles y límites de operación",
+       "VIGENTE"
+      ],
+      [
+       "6.2",
+       "URS aprobada — Rango de uso, exactitud, repetibilidad y criterios de aceptación",
+       "VIGENTE"
+      ],
+      [
+       "6.3",
+       "USP <1058> — Analytical Instrument Qualification",
+       "VIGENTE"
+      ],
+      [
+       "6.4",
+       "EU GMP Anexo 15 — Calificación y validación",
+       "VIGENTE"
+      ],
+      [
+       "6.5",
+       "21 CFR Part 11 / EU GMP Anexo 11 — Registros electrónicos y firmas electrónicas (si aplica)",
+       "VIGENTE"
+      ],
+      [
+       "6.6",
+       "Norma específica del espectrómetro — PENDIENTE DEL RESPONSABLE",
+       "PENDIENTE"
+      ]
+     ]
+    },
+    "familia": "espectrometro"
+   },
+   {
+    "kind": "div",
+    "clase": "anexos",
+    "bloque": 8,
+    "html": "<p><strong>ANEXOS:</strong></p>\n  <table>\n  <tbody><tr><th>SECCIÓN</th><th>TÍTULO</th></tr>\n<tr><td>8.1</td><td>Anexo A — Registros de exactitud, repetibilidad, linealidad, deriva y estabilidad</td></tr>\n<tr><td>8.2</td><td>Anexo B — Certificados de patrones y de los gases o consumibles críticos</td></tr>\n<tr><td>8.3</td><td>Anexo C — Registros de alarmas, gases y control de datos</td></tr>\n<tr><td>8.4</td><td>Anexo D — Matriz de trazabilidad requisito-prueba (RTM) y evidencia de revisión</td></tr>\n  </tbody></table>",
+    "familia": "espectrometro"
+   },
+   {
+    "kind": "div",
+    "clase": "portada",
+    "bloque": 1,
+    "html": "<p><strong>PORTADA DEL PROTOCOLO OQ</strong></p>\n  <p><strong>Logo:</strong><br><img class=\"ent-logo\" alt=\"Logo de la entidad\"></p>\n  <p><strong>Calificación de Operación de <span class=\"equipo\">equipo</span>:</strong> <span class=\"ent-descripcion\">______</span></p>\n  <ol>\n    <li><strong>Marca:</strong> <span class=\"ent-marca\">______</span></li>\n    <li><strong>Modelo:</strong> <span class=\"ent-modelo\">______</span></li>\n    <li><strong>Código:</strong> <span class=\"ent-codigo\">______</span></li>\n  </ol>",
+    "familia": "hplc"
+   },
+   {
+    "kind": "div",
+    "clase": "firmas",
+    "bloque": 1,
+    "html": "<p><strong>FLUJO DE FIRMAS DEL PROTOCOLO:</strong></p>\n  <p>Este apartado establece que los responsables revisan y aprueban el presente protocolo, declarando que está apto para su ejecución. Cualquier cambio posterior a la firma obliga a reiniciar el flujo de firmas, con el fin de garantizar que todos los departamentos involucrados estén al tanto de los ensayos a ejecutar.</p>\n  <ol>\n    <li><strong>Elaborado Por:</strong> <br> Analista de validaciones — elabora / Nombre: ______ Firma: ______ Fecha: ______</li><br>\n    <li><strong>Revisado Por:</strong> <br> Coordinador de validaciones — revisa / Nombre: ______ Firma: ______ Fecha: ______</li><br>\n    <li><strong>Revisado Por:</strong> <br> Gerente de Área — revisa / Nombre: ______ Firma: ______ Fecha: ______</li><br>\n    <li><strong>Aprobado por:</strong> <br> Gerente de gestión de calidad — aprueba / Nombre: ______ Firma: ______ Fecha: ______</li><br>\n  </ol>",
+    "familia": "hplc"
+   },
+   {
+    "kind": "div",
+    "clase": "responsabilidades",
+    "bloque": 1,
+    "html": "<p><strong>RESPONSABILIDADES DEL PROTOCOLO:</strong></p>\n  <p><strong>Responsabilidad del Analista de validaciones:</strong></p>\n  <ol><li>Coordinar la ejecución de la Calificación de Operación con las áreas involucradas, asegurando personal, <span class=\"equipo\">equipo</span>, patrones, materiales e instrumentos y documentación.</li><li>Verificar que los instrumentos de medición estén identificados y con calibración vigente.</li><li>Ejecutar y/o supervisar los ensayos del protocolo según los criterios aprobados.</li><li>Registrar los datos de forma completa, legible y trazable (ALCOA+).</li><li>Documentar las desviaciones según los procedimientos internos vigentes.</li><li>Elaborar el informe de calificación con resultados, conclusiones y anexos.</li></ol>\n  <p><strong>Responsabilidad del Coordinador de validaciones:</strong></p>\n  <ol><li>Revisar técnicamente el protocolo antes de su ejecución.</li><li>Asignar al analista responsable y coordinar recursos.</li><li>Revisar las desviaciones, su tratamiento y las CAPA asociadas.</li><li>Revisar el informe final y autorizar la fase siguiente.</li></ol>\n  <p><strong>Responsabilidad del Gerente de Área:</strong></p>\n  <ol><li>Garantizar la disponibilidad del <span class=\"equipo\">equipo</span> y los accesos para la ejecución.</li><li>Facilitar la documentación técnica del fabricante y del proveedor.</li><li>Implementar las acciones operativas derivadas de desviaciones y CAPA.</li></ol>\n  <p><strong>Responsabilidad del Gerente de gestión de calidad:</strong></p>\n  <ol><li>Aprobar el protocolo y sus criterios de aceptación.</li><li>Aprobar las desviaciones y sus evaluaciones de impacto.</li><li>Emitir el dictamen final del estado de calificación.</li></ol>",
+    "familia": "hplc"
+   },
+   {
+    "kind": "div",
+    "clase": "alcance",
+    "bloque": 1,
+    "html": "<p><strong>ALCANCE</strong></p>\n  <p>Esta calificación aplica a <span class=\"equipo\">equipo</span>, del hplc, instrumento analítico tipo L, y cubre los 6 ensayos listados en el índice. No incluye PQ: el desempeño se demuestra en este OQ y se mantiene con la verificación periódica definida en el procedimiento de uso. Los límites se toman de la URS aprobada y del manual del fabricante.</p>",
+    "familia": "hplc"
+   },
+   {
+    "kind": "div",
+    "clase": "def-usp",
+    "bloque": 1,
+    "html": "<p><strong>DEFINICIÓN USP</strong></p>\n  <p>Calificación de Operación: colección documentada de las actividades necesarias para demostrar que un instrumento se desempeña de manera uniforme de acuerdo con las especificaciones definidas por el usuario y es apropiado para el uso previsto, en el entorno seleccionado (<span class=\"refnorma\"></span>).</p>",
+    "familia": "hplc"
+   },
+   {
+    "kind": "div",
+    "clase": "nota-datos",
+    "bloque": 1,
+    "html": "<p><strong>NOTA — DATOS DIGITALES</strong></p>\n  <p>Si el equipo entrega datos digitales, se procesan directamente y se anexan la data cruda y el reporte estadístico como parte de la evidencia. Si el equipo no dispone de impresión, transferencia, gestión de usuarios o respaldo electrónico, los ensayos correspondientes se declaran no aplica con su justificación, sin sustituir la evidencia por una suposición.</p>",
+    "familia": "hplc"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-HL-001",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-HL-001 — Encendido, bombas y autoprueba",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que el HPLC enciende, las bombas se purgan y el sistema completa la autoprueba."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Encender el sistema y registrar la versión de software y la configuración<br>\n  2) Purgar las bombas y verificar la ausencia de fugas y de burbujas<br>\n  3) Verificar el resultado de la autoprueba de cada módulo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  La autoprueba finaliza sin error en todos los módulos.<br>\n  Las bombas se purgan y no presentan fugas según el manual del fabricante."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de encendido, purga y autoprueba"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante; URS aprobada."
+     }
+    ],
+    "tabla": null,
+    "familia": "hplc"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-HL-002",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-HL-002 — Caudal y gradiente",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que el caudal y la composición del gradiente coinciden con la consigna."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Medir el caudal con el instrumento patrón en al menos tres consignas<br>\n  2) Ejecutar el gradiente definido y registrar la composición o la presión en cada paso<br>\n  3) Calcular la diferencia respecto de la consigna y el tiempo de retardo<br>\n  4) Procesar los datos crudos de este ensayo en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o condiciones con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  El caudal y el gradiente están dentro de las tolerancias de la URS aprobada.<br>\n  El tiempo de retardo del gradiente es el declarado por el fabricante."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de caudal y gradiente por consigna<br>\n  - Data cruda y reporte estadístico del análisis correspondiente"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante; URS aprobada."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "hplc"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-HL-003",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-HL-003 — Temperatura de columna",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar la exactitud y la estabilidad del compartimento de columna."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Llevar el compartimento a cada setpoint definido y estabilizar<br>\n  2) Registrar la temperatura con el patrón en el interior del compartimento<br>\n  3) Calcular la diferencia y la estabilidad en el tiempo<br>\n  4) Procesar los datos crudos de este ensayo en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o condiciones con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  La diferencia y la estabilidad están dentro del criterio de la URS aprobada."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de temperatura de columna por setpoint<br>\n  - Data cruda y reporte estadístico del análisis correspondiente"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante; URS aprobada."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "hplc"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-HL-004",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-HL-004 — Detector: exactitud, linealidad y ruido",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar la respuesta del detector en el rango de uso."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Medir los niveles de referencia definidos en el protocolo<br>\n  2) Calcular la regresión y los residuos<br>\n  3) Registrar el ruido y la deriva de la línea base<br>\n  4) Procesar los datos crudos de este ensayo en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o condiciones con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  La linealidad y el ruido están dentro del criterio de la URS aprobada.<br>\n  La exactitud en los niveles evaluados cumple la tolerancia aprobada."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro del detector con regresión, residuos, ruido y deriva<br>\n  - Data cruda y reporte estadístico del análisis correspondiente"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante; URS aprobada."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "hplc"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-HL-005",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-HL-005 — Inyector: precisión y arrastre",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar la precisión de inyección y el arrastre entre muestras."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Inyectar la muestra de referencia al menos seis veces y registrar el área<br>\n  2) Calcular la desviación estándar y el RSD<br>\n  3) Inyectar un blanco después de la muestra de mayor concentración y medir el arrastre<br>\n  4) Procesar los datos crudos de este ensayo en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o condiciones con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  El RSD de las inyecciones está dentro del criterio de la URS aprobada.<br>\n  El arrastre está por debajo del límite aprobado."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de precisión y arrastre del inyector<br>\n  - Data cruda y reporte estadístico del análisis correspondiente"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante; URS aprobada."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "hplc"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-HL-006",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-HL-006 — Software, usuarios y control de datos",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar el control de acceso, la secuencia de análisis y la integridad de los datos."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Verificar que el acceso requiere identificación individual y que existen roles<br>\n  2) Verificar que la secuencia de análisis registra inyección, procesamiento y revisión<br>\n  3) Verificar que los datos no pueden modificarse ni borrarse por el usuario operativo<br>\n  4) Verificar el respaldo y la restauración según el procedimiento aprobado"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  El acceso es individual y los roles restringen las acciones.<br>\n  La secuencia y el procesamiento quedan registrados con usuario, fecha y hora.<br>\n  Los datos son íntegros y recuperables; si no hay software de gestión, el ensayo se declara no aplica con justificación."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de usuarios, roles, secuencia e integridad de datos"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>21 CFR Part 11; EU GMP Anexo 11; GAMP 5, 2.ª ed.; ALCOA+."
+     }
+    ],
+    "tabla": null,
+    "familia": "hplc"
+   },
+   {
+    "kind": "resumen",
+    "id": "EQ-OQ-HL-RES",
+    "bloque": 4,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-HL-RES — Tabla resumen de los ensayos del OQ",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Consolidar el listado de ensayos del OQ para la tabla resumen del protocolo."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Confirmar que los ensayos EQ-OQ-HL-001 a EQ-OQ-HL-006 están incluidos en el índice del protocolo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Los 6 ensayos aparecen en la tabla resumen con su veredicto."
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>EU GMP Anexo 15."
+     }
+    ],
+    "tabla": null,
+    "familia": "hplc"
+   },
+   {
+    "kind": "tabla",
+    "id": "EQ-OQ-HL-REF",
+    "bloque": 6,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-HL-REF — Referencias del OQ de HPLC",
+    "secciones": [],
+    "tabla": {
+     "headers": [
+      "SECCIÓN",
+      "TÍTULO",
+      "ESTADO"
+     ],
+     "rows": [
+      [
+       "6.1",
+       "Manual del fabricante del equipo — Módulos, caudales, límites y mantenimiento",
+       "VIGENTE"
+      ],
+      [
+       "6.2",
+       "URS aprobada — Rango de uso, gradiente, detector y criterios de aceptación",
+       "VIGENTE"
+      ],
+      [
+       "6.3",
+       "USP <1058> — Analytical Instrument Qualification",
+       "VIGENTE"
+      ],
+      [
+       "6.4",
+       "EU GMP Anexo 15 — Calificación y validación",
+       "VIGENTE"
+      ],
+      [
+       "6.5",
+       "21 CFR Part 11 / EU GMP Anexo 11 — Registros electrónicos y firmas electrónicas",
+       "VIGENTE"
+      ],
+      [
+       "6.6",
+       "Norma específica del HPLC — PENDIENTE DEL RESPONSABLE",
+       "PENDIENTE"
+      ]
+     ]
+    },
+    "familia": "hplc"
+   },
+   {
+    "kind": "div",
+    "clase": "anexos",
+    "bloque": 8,
+    "html": "<p><strong>ANEXOS:</strong></p>\n  <table>\n  <tbody><tr><th>SECCIÓN</th><th>TÍTULO</th></tr>\n<tr><td>8.1</td><td>Anexo A — Registros de caudal, gradiente, temperatura, detector, precisión y arrastre</td></tr>\n<tr><td>8.2</td><td>Anexo B — Certificados de patrones, columnas y soluciones de referencia</td></tr>\n<tr><td>8.3</td><td>Anexo C — Registros de usuarios, roles, secuencia, respaldo y restauración</td></tr>\n<tr><td>8.4</td><td>Anexo D — Matriz de trazabilidad requisito-prueba (RTM) y evidencia de revisión</td></tr>\n  </tbody></table>",
+    "familia": "hplc"
+   },
+   {
+    "kind": "div",
+    "clase": "portada",
+    "bloque": 1,
+    "html": "<p><strong>PORTADA DEL PROTOCOLO OQ</strong></p>\n  <p><strong>Logo:</strong><br><img class=\"ent-logo\" alt=\"Logo de la entidad\"></p>\n  <p><strong>Calificación de Operación de <span class=\"equipo\">equipo</span>:</strong> <span class=\"ent-descripcion\">______</span></p>\n  <ol>\n    <li><strong>Marca:</strong> <span class=\"ent-marca\">______</span></li>\n    <li><strong>Modelo:</strong> <span class=\"ent-modelo\">______</span></li>\n    <li><strong>Código:</strong> <span class=\"ent-codigo\">______</span></li>\n  </ol>",
+    "familia": "gc"
+   },
+   {
+    "kind": "div",
+    "clase": "firmas",
+    "bloque": 1,
+    "html": "<p><strong>FLUJO DE FIRMAS DEL PROTOCOLO:</strong></p>\n  <p>Este apartado establece que los responsables revisan y aprueban el presente protocolo, declarando que está apto para su ejecución. Cualquier cambio posterior a la firma obliga a reiniciar el flujo de firmas, con el fin de garantizar que todos los departamentos involucrados estén al tanto de los ensayos a ejecutar.</p>\n  <ol>\n    <li><strong>Elaborado Por:</strong> <br> Analista de validaciones — elabora / Nombre: ______ Firma: ______ Fecha: ______</li><br>\n    <li><strong>Revisado Por:</strong> <br> Coordinador de validaciones — revisa / Nombre: ______ Firma: ______ Fecha: ______</li><br>\n    <li><strong>Revisado Por:</strong> <br> Gerente de Área — revisa / Nombre: ______ Firma: ______ Fecha: ______</li><br>\n    <li><strong>Aprobado por:</strong> <br> Gerente de gestión de calidad — aprueba / Nombre: ______ Firma: ______ Fecha: ______</li><br>\n  </ol>",
+    "familia": "gc"
+   },
+   {
+    "kind": "div",
+    "clase": "responsabilidades",
+    "bloque": 1,
+    "html": "<p><strong>RESPONSABILIDADES DEL PROTOCOLO:</strong></p>\n  <p><strong>Responsabilidad del Analista de validaciones:</strong></p>\n  <ol><li>Coordinar la ejecución de la Calificación de Operación con las áreas involucradas, asegurando personal, <span class=\"equipo\">equipo</span>, patrones, materiales e instrumentos y documentación.</li><li>Verificar que los instrumentos de medición estén identificados y con calibración vigente.</li><li>Ejecutar y/o supervisar los ensayos del protocolo según los criterios aprobados.</li><li>Registrar los datos de forma completa, legible y trazable (ALCOA+).</li><li>Documentar las desviaciones según los procedimientos internos vigentes.</li><li>Elaborar el informe de calificación con resultados, conclusiones y anexos.</li></ol>\n  <p><strong>Responsabilidad del Coordinador de validaciones:</strong></p>\n  <ol><li>Revisar técnicamente el protocolo antes de su ejecución.</li><li>Asignar al analista responsable y coordinar recursos.</li><li>Revisar las desviaciones, su tratamiento y las CAPA asociadas.</li><li>Revisar el informe final y autorizar la fase siguiente.</li></ol>\n  <p><strong>Responsabilidad del Gerente de Área:</strong></p>\n  <ol><li>Garantizar la disponibilidad del <span class=\"equipo\">equipo</span> y los accesos para la ejecución.</li><li>Facilitar la documentación técnica del fabricante y del proveedor.</li><li>Implementar las acciones operativas derivadas de desviaciones y CAPA.</li></ol>\n  <p><strong>Responsabilidad del Gerente de gestión de calidad:</strong></p>\n  <ol><li>Aprobar el protocolo y sus criterios de aceptación.</li><li>Aprobar las desviaciones y sus evaluaciones de impacto.</li><li>Emitir el dictamen final del estado de calificación.</li></ol>",
+    "familia": "gc"
+   },
+   {
+    "kind": "div",
+    "clase": "alcance",
+    "bloque": 1,
+    "html": "<p><strong>ALCANCE</strong></p>\n  <p>Esta calificación aplica a <span class=\"equipo\">equipo</span>, del cromatógrafo de gases, instrumento analítico tipo L, y cubre los 6 ensayos listados en el índice. No incluye PQ: el desempeño se demuestra en este OQ y se mantiene con la verificación periódica definida en el procedimiento de uso. Los límites se toman de la URS aprobada y del manual del fabricante.</p>",
+    "familia": "gc"
+   },
+   {
+    "kind": "div",
+    "clase": "def-usp",
+    "bloque": 1,
+    "html": "<p><strong>DEFINICIÓN USP</strong></p>\n  <p>Calificación de Operación: colección documentada de las actividades necesarias para demostrar que un instrumento se desempeña de manera uniforme de acuerdo con las especificaciones definidas por el usuario y es apropiado para el uso previsto, en el entorno seleccionado (<span class=\"refnorma\"></span>).</p>",
+    "familia": "gc"
+   },
+   {
+    "kind": "div",
+    "clase": "nota-datos",
+    "bloque": 1,
+    "html": "<p><strong>NOTA — DATOS DIGITALES</strong></p>\n  <p>Si el equipo entrega datos digitales, se procesan directamente y se anexan la data cruda y el reporte estadístico como parte de la evidencia. Si el equipo no dispone de impresión, transferencia, gestión de usuarios o respaldo electrónico, los ensayos correspondientes se declaran no aplica con su justificación, sin sustituir la evidencia por una suposición.</p>",
+    "familia": "gc"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-GC-001",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-GC-001 — Encendido, gases y autoprueba",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que el GC enciende, alcanza las condiciones de gases y completa la autoprueba."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Encender el equipo y registrar la versión de software y la configuración<br>\n  2) Verificar presión y pureza de los gases según el manual<br>\n  3) Verificar el resultado de la autoprueba y el encendido del detector"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  La autoprueba finaliza sin error.<br>\n  Los gases cumplen la especificación y el detector enciende según el manual."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de encendido, gases y autoprueba"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante; URS aprobada."
+     }
+    ],
+    "tabla": null,
+    "familia": "gc"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-GC-002",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-GC-002 — Caudal, presión y rampa de temperatura",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar el control de caudal o presión y la rampa del horno."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Ajustar el caudal o presión de operación y medirlo con el patrón<br>\n  2) Ejecutar la rampa definida y registrar la temperatura en cada tramo<br>\n  3) Calcular la diferencia respecto de la consigna y la velocidad de rampa<br>\n  4) Procesar los datos crudos de este ensayo en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o condiciones con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  El caudal o presión y la rampa están dentro de las tolerancias de la URS aprobada."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de caudal, presión y rampa<br>\n  - Data cruda y reporte estadístico del análisis correspondiente"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante; URS aprobada."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "gc"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-GC-003",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-GC-003 — Temperatura del horno e inyector",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar la exactitud y la estabilidad de la temperatura del horno y del inyector."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Llevar el horno y el inyector a cada setpoint definido y estabilizar<br>\n  2) Registrar la temperatura con el patrón en los puntos definidos<br>\n  3) Calcular la diferencia y la estabilidad<br>\n  4) Procesar los datos crudos de este ensayo en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o condiciones con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  La diferencia y la estabilidad están dentro del criterio de la URS aprobada."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de temperatura de horno e inyector por setpoint<br>\n  - Data cruda y reporte estadístico del análisis correspondiente"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante; URS aprobada."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "gc"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-GC-004",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-GC-004 — Detector: ruido, deriva y linealidad",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar la respuesta del detector en el rango de uso."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Registrar el ruido y la deriva de la línea base<br>\n  2) Medir los niveles de referencia definidos en el protocolo<br>\n  3) Calcular la regresión y los residuos<br>\n  4) Procesar los datos crudos de este ensayo en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o condiciones con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  El ruido, la deriva y la linealidad están dentro del criterio de la URS aprobada."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro del detector con ruido, deriva, regresión y residuos<br>\n  - Data cruda y reporte estadístico del análisis correspondiente"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante; URS aprobada."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "gc"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-GC-005",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-GC-005 — Inyector: repetibilidad y arrastre",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar la repetibilidad de inyección y el arrastre entre muestras."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Inyectar la muestra de referencia al menos seis veces y registrar el área<br>\n  2) Calcular la desviación estándar y el RSD<br>\n  3) Inyectar un blanco después de la muestra de mayor concentración y medir el arrastre<br>\n  4) Procesar los datos crudos de este ensayo en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o condiciones con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  El RSD de las inyecciones está dentro del criterio de la URS aprobada.<br>\n  El arrastre está por debajo del límite aprobado."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de repetibilidad y arrastre del inyector<br>\n  - Data cruda y reporte estadístico del análisis correspondiente"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante; URS aprobada."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "gc"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-GC-006",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-GC-006 — Alarmas, gases de seguridad y control de datos",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar las alarmas del equipo, las condiciones de seguridad de gases y el registro de datos."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Provocar las alarmas disponibles y registrar el disparo<br>\n  2) Verificar la detección de fuga o de presión baja según el manual<br>\n  3) Verificar el registro de fecha, hora y usuario y la transferencia o impresión si aplica"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Las alarmas y las condiciones de seguridad actúan según el manual del fabricante.<br>\n  Los registros son trazables y no modificables por el usuario operativo (si aplica)."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de alarmas, gases y control de datos"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante; 21 CFR Part 11 / EU GMP Anexo 11 (si aplica)."
+     }
+    ],
+    "tabla": null,
+    "familia": "gc"
+   },
+   {
+    "kind": "resumen",
+    "id": "EQ-OQ-GC-RES",
+    "bloque": 4,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-GC-RES — Tabla resumen de los ensayos del OQ",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Consolidar el listado de ensayos del OQ para la tabla resumen del protocolo."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Confirmar que los ensayos EQ-OQ-GC-001 a EQ-OQ-GC-006 están incluidos en el índice del protocolo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Los 6 ensayos aparecen en la tabla resumen con su veredicto."
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>EU GMP Anexo 15."
+     }
+    ],
+    "tabla": null,
+    "familia": "gc"
+   },
+   {
+    "kind": "tabla",
+    "id": "EQ-OQ-GC-REF",
+    "bloque": 6,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-GC-REF — Referencias del OQ de Cromatógrafo de gases",
+    "secciones": [],
+    "tabla": {
+     "headers": [
+      "SECCIÓN",
+      "TÍTULO",
+      "ESTADO"
+     ],
+     "rows": [
+      [
+       "6.1",
+       "Manual del fabricante del equipo — Gases, horno, inyector, detector y límites",
+       "VIGENTE"
+      ],
+      [
+       "6.2",
+       "URS aprobada — Rango de uso, rampa, detector y criterios de aceptación",
+       "VIGENTE"
+      ],
+      [
+       "6.3",
+       "USP <1058> — Analytical Instrument Qualification",
+       "VIGENTE"
+      ],
+      [
+       "6.4",
+       "EU GMP Anexo 15 — Calificación y validación",
+       "VIGENTE"
+      ],
+      [
+       "6.5",
+       "21 CFR Part 11 / EU GMP Anexo 11 — Registros electrónicos y firmas electrónicas (si aplica)",
+       "VIGENTE"
+      ],
+      [
+       "6.6",
+       "Norma específica del cromatógrafo de gases — PENDIENTE DEL RESPONSABLE",
+       "PENDIENTE"
+      ]
+     ]
+    },
+    "familia": "gc"
+   },
+   {
+    "kind": "div",
+    "clase": "anexos",
+    "bloque": 8,
+    "html": "<p><strong>ANEXOS:</strong></p>\n  <table>\n  <tbody><tr><th>SECCIÓN</th><th>TÍTULO</th></tr>\n<tr><td>8.1</td><td>Anexo A — Registros de caudal, presión, rampa, temperatura, detector e inyector</td></tr>\n<tr><td>8.2</td><td>Anexo B — Certificados de gases, patrones y columnas</td></tr>\n<tr><td>8.3</td><td>Anexo C — Registros de alarmas, seguridad de gases y control de datos</td></tr>\n<tr><td>8.4</td><td>Anexo D — Matriz de trazabilidad requisito-prueba (RTM) y evidencia de revisión</td></tr>\n  </tbody></table>",
+    "familia": "gc"
+   },
+   {
+    "kind": "div",
+    "clase": "portada",
+    "bloque": 1,
+    "html": "<p><strong>PORTADA DEL PROTOCOLO OQ</strong></p>\n  <p><strong>Logo:</strong><br><img class=\"ent-logo\" alt=\"Logo de la entidad\"></p>\n  <p><strong>Calificación de Operación de <span class=\"equipo\">equipo</span>:</strong> <span class=\"ent-descripcion\">______</span></p>\n  <ol>\n    <li><strong>Marca:</strong> <span class=\"ent-marca\">______</span></li>\n    <li><strong>Modelo:</strong> <span class=\"ent-modelo\">______</span></li>\n    <li><strong>Código:</strong> <span class=\"ent-codigo\">______</span></li>\n  </ol>",
+    "familia": "disolutor"
+   },
+   {
+    "kind": "div",
+    "clase": "firmas",
+    "bloque": 1,
+    "html": "<p><strong>FLUJO DE FIRMAS DEL PROTOCOLO:</strong></p>\n  <p>Este apartado establece que los responsables revisan y aprueban el presente protocolo, declarando que está apto para su ejecución. Cualquier cambio posterior a la firma obliga a reiniciar el flujo de firmas, con el fin de garantizar que todos los departamentos involucrados estén al tanto de los ensayos a ejecutar.</p>\n  <ol>\n    <li><strong>Elaborado Por:</strong> <br> Analista de validaciones — elabora / Nombre: ______ Firma: ______ Fecha: ______</li><br>\n    <li><strong>Revisado Por:</strong> <br> Coordinador de validaciones — revisa / Nombre: ______ Firma: ______ Fecha: ______</li><br>\n    <li><strong>Revisado Por:</strong> <br> Gerente de Área — revisa / Nombre: ______ Firma: ______ Fecha: ______</li><br>\n    <li><strong>Aprobado por:</strong> <br> Gerente de gestión de calidad — aprueba / Nombre: ______ Firma: ______ Fecha: ______</li><br>\n  </ol>",
+    "familia": "disolutor"
+   },
+   {
+    "kind": "div",
+    "clase": "responsabilidades",
+    "bloque": 1,
+    "html": "<p><strong>RESPONSABILIDADES DEL PROTOCOLO:</strong></p>\n  <p><strong>Responsabilidad del Analista de validaciones:</strong></p>\n  <ol><li>Coordinar la ejecución de la Calificación de Operación con las áreas involucradas, asegurando personal, <span class=\"equipo\">equipo</span>, patrones, materiales e instrumentos y documentación.</li><li>Verificar que los instrumentos de medición estén identificados y con calibración vigente.</li><li>Ejecutar y/o supervisar los ensayos del protocolo según los criterios aprobados.</li><li>Registrar los datos de forma completa, legible y trazable (ALCOA+).</li><li>Documentar las desviaciones según los procedimientos internos vigentes.</li><li>Elaborar el informe de calificación con resultados, conclusiones y anexos.</li></ol>\n  <p><strong>Responsabilidad del Coordinador de validaciones:</strong></p>\n  <ol><li>Revisar técnicamente el protocolo antes de su ejecución.</li><li>Asignar al analista responsable y coordinar recursos.</li><li>Revisar las desviaciones, su tratamiento y las CAPA asociadas.</li><li>Revisar el informe final y autorizar la fase siguiente.</li></ol>\n  <p><strong>Responsabilidad del Gerente de Área:</strong></p>\n  <ol><li>Garantizar la disponibilidad del <span class=\"equipo\">equipo</span> y los accesos para la ejecución.</li><li>Facilitar la documentación técnica del fabricante y del proveedor.</li><li>Implementar las acciones operativas derivadas de desviaciones y CAPA.</li></ol>\n  <p><strong>Responsabilidad del Gerente de gestión de calidad:</strong></p>\n  <ol><li>Aprobar el protocolo y sus criterios de aceptación.</li><li>Aprobar las desviaciones y sus evaluaciones de impacto.</li><li>Emitir el dictamen final del estado de calificación.</li></ol>",
+    "familia": "disolutor"
+   },
+   {
+    "kind": "div",
+    "clase": "alcance",
+    "bloque": 1,
+    "html": "<p><strong>ALCANCE</strong></p>\n  <p>Esta calificación aplica a <span class=\"equipo\">equipo</span>, del disolutor, instrumento analítico tipo L, y cubre los 6 ensayos listados en el índice. No incluye PQ: el desempeño se demuestra en este OQ y se mantiene con la verificación periódica definida en el procedimiento de uso. Los límites se toman de la URS aprobada y del manual del fabricante.</p>",
+    "familia": "disolutor"
+   },
+   {
+    "kind": "div",
+    "clase": "def-usp",
+    "bloque": 1,
+    "html": "<p><strong>DEFINICIÓN USP</strong></p>\n  <p>Calificación de Operación: colección documentada de las actividades necesarias para demostrar que un instrumento se desempeña de manera uniforme de acuerdo con las especificaciones definidas por el usuario y es apropiado para el uso previsto, en el entorno seleccionado (<span class=\"refnorma\"></span>).</p>",
+    "familia": "disolutor"
+   },
+   {
+    "kind": "div",
+    "clase": "nota-datos",
+    "bloque": 1,
+    "html": "<p><strong>NOTA — DATOS DIGITALES</strong></p>\n  <p>Si el equipo entrega datos digitales, se procesan directamente y se anexan la data cruda y el reporte estadístico como parte de la evidencia. Si el equipo no dispone de impresión, transferencia, gestión de usuarios o respaldo electrónico, los ensayos correspondientes se declaran no aplica con su justificación, sin sustituir la evidencia por una suposición.</p>",
+    "familia": "disolutor"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-DS-001",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-DS-001 — Encendido, baño y autoprueba",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que el disolutor enciende, el baño alcanza la consigna y completa la autoprueba."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Encender el equipo y registrar la versión de software<br>\n  2) Llenar el baño al nivel definido y esperar la estabilización<br>\n  3) Verificar el resultado de la autoprueba y la ausencia de alarmas"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  La autoprueba finaliza sin error.<br>\n  El baño alcanza la consigna en el tiempo definido."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de encendido, baño y autoprueba"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante; URS aprobada."
+     }
+    ],
+    "tabla": null,
+    "familia": "disolutor"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-DS-002",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-DS-002 — Temperatura del baño y uniformidad",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que la temperatura del baño es exacta y uniforme en las posiciones de los vasos."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Llevar el baño al setpoint definido y estabilizar<br>\n  2) Registrar la temperatura en cada posición de vaso con el patrón<br>\n  3) Calcular la diferencia respecto del setpoint y entre posiciones<br>\n  4) Procesar los datos crudos de este ensayo en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o condiciones con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  La temperatura y la uniformidad están dentro del criterio de la URS aprobada."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de temperatura por posición de vaso<br>\n  - Data cruda y reporte estadístico del análisis correspondiente"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante; URS aprobada."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "disolutor"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-DS-003",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-DS-003 — Velocidad de agitación",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que la velocidad de agitación coincide con la consigna y se mantiene estable."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Ajustar la velocidad definida en la URS<br>\n  2) Medir la velocidad con tacómetro patrón en al menos tres repeticiones<br>\n  3) Calcular la diferencia y la variación<br>\n  4) Procesar los datos crudos de este ensayo en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o condiciones con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  La velocidad está dentro de la tolerancia de la URS aprobada.<br>\n  La variación durante la prueba está dentro del criterio aprobado."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de velocidad de agitación por consigna<br>\n  - Data cruda y reporte estadístico del análisis correspondiente"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante; URS aprobada."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "disolutor"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-DS-004",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-DS-004 — Centrado, verticalidad y profundidad de muestreo",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar el centrado y la verticalidad de los ejes y la profundidad de la toma de muestra."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Verificar el centrado de cada eje respecto del vaso según el manual<br>\n  2) Verificar la verticalidad con el instrumento definido por el fabricante<br>\n  3) Medir la profundidad de muestreo y compararla con la especificada"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  El centrado y la verticalidad están dentro de las tolerancias del manual.<br>\n  La profundidad de muestreo cumple la especificación aprobada."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de centrado, verticalidad y profundidad"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante; URS aprobada."
+     }
+    ],
+    "tabla": null,
+    "familia": "disolutor"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-DS-005",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-DS-005 — Tiempo de muestreo y repetibilidad de posición",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar el temporizador y la repetibilidad de la posición de muestreo."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Programar los tiempos de muestreo definidos y medirlos con cronómetro patrón<br>\n  2) Repetir la maniobra de muestreo al menos tres veces<br>\n  3) Registrar la posición y el tiempo en cada repetición<br>\n  4) Procesar los datos crudos de este ensayo en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o condiciones con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Los tiempos y las posiciones son repetibles dentro del criterio de la URS aprobada."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de tiempos y posiciones de muestreo<br>\n  - Data cruda y reporte estadístico del análisis correspondiente"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante; URS aprobada."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "disolutor"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-DS-006",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-DS-006 — Alarmas y control de datos",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar las alarmas del disolutor y el registro de las condiciones de ensayo."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Provocar las alarmas disponibles: temperatura fuera de rango, nivel bajo y falla de agitación<br>\n  2) Verificar el registro de fecha, hora, usuario y condiciones del ensayo<br>\n  3) Verificar la transferencia o impresión si aplica"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Las alarmas actúan según el manual del fabricante.<br>\n  Los registros son trazables y no modificables por el usuario operativo (si aplica)."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de alarmas y control de datos"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante; 21 CFR Part 11 / EU GMP Anexo 11 (si aplica)."
+     }
+    ],
+    "tabla": null,
+    "familia": "disolutor"
+   },
+   {
+    "kind": "resumen",
+    "id": "EQ-OQ-DS-RES",
+    "bloque": 4,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-DS-RES — Tabla resumen de los ensayos del OQ",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Consolidar el listado de ensayos del OQ para la tabla resumen del protocolo."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Confirmar que los ensayos EQ-OQ-DS-001 a EQ-OQ-DS-006 están incluidos en el índice del protocolo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Los 6 ensayos aparecen en la tabla resumen con su veredicto."
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>EU GMP Anexo 15."
+     }
+    ],
+    "tabla": null,
+    "familia": "disolutor"
+   },
+   {
+    "kind": "tabla",
+    "id": "EQ-OQ-DS-REF",
+    "bloque": 6,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-DS-REF — Referencias del OQ de Disolutor",
+    "secciones": [],
+    "tabla": {
+     "headers": [
+      "SECCIÓN",
+      "TÍTULO",
+      "ESTADO"
+     ],
+     "rows": [
+      [
+       "6.1",
+       "Manual del fabricante del equipo — Baño, agitación, muestreo y límites",
+       "VIGENTE"
+      ],
+      [
+       "6.2",
+       "URS aprobada — Temperatura, velocidad, profundidad y criterios de aceptación",
+       "VIGENTE"
+      ],
+      [
+       "6.3",
+       "USP <1058> — Analytical Instrument Qualification",
+       "VIGENTE"
+      ],
+      [
+       "6.4",
+       "EU GMP Anexo 15 — Calificación y validación",
+       "VIGENTE"
+      ],
+      [
+       "6.5",
+       "21 CFR Part 11 / EU GMP Anexo 11 — Registros electrónicos y firmas electrónicas (si aplica)",
+       "VIGENTE"
+      ],
+      [
+       "6.6",
+       "Norma específica del disolutor — PENDIENTE DEL RESPONSABLE",
+       "PENDIENTE"
+      ]
+     ]
+    },
+    "familia": "disolutor"
+   },
+   {
+    "kind": "div",
+    "clase": "anexos",
+    "bloque": 8,
+    "html": "<p><strong>ANEXOS:</strong></p>\n  <table>\n  <tbody><tr><th>SECCIÓN</th><th>TÍTULO</th></tr>\n<tr><td>8.1</td><td>Anexo A — Registros de temperatura, velocidad, centrado, profundidad y muestreo</td></tr>\n<tr><td>8.2</td><td>Anexo B — Certificados del termómetro y del tacómetro patrón</td></tr>\n<tr><td>8.3</td><td>Anexo C — Registros de alarmas y control de datos</td></tr>\n<tr><td>8.4</td><td>Anexo D — Matriz de trazabilidad requisito-prueba (RTM) y evidencia de revisión</td></tr>\n  </tbody></table>",
+    "familia": "disolutor"
+   },
+   {
+    "kind": "div",
+    "clase": "portada",
+    "bloque": 1,
+    "html": "<p><strong>PORTADA DEL PROTOCOLO OQ</strong></p>\n  <p><strong>Logo:</strong><br><img class=\"ent-logo\" alt=\"Logo de la entidad\"></p>\n  <p><strong>Calificación de Operación de <span class=\"equipo\">equipo</span>:</strong> <span class=\"ent-descripcion\">______</span></p>\n  <ol>\n    <li><strong>Marca:</strong> <span class=\"ent-marca\">______</span></li>\n    <li><strong>Modelo:</strong> <span class=\"ent-modelo\">______</span></li>\n    <li><strong>Código:</strong> <span class=\"ent-codigo\">______</span></li>\n  </ol>",
+    "familia": "desintegrador"
+   },
+   {
+    "kind": "div",
+    "clase": "firmas",
+    "bloque": 1,
+    "html": "<p><strong>FLUJO DE FIRMAS DEL PROTOCOLO:</strong></p>\n  <p>Este apartado establece que los responsables revisan y aprueban el presente protocolo, declarando que está apto para su ejecución. Cualquier cambio posterior a la firma obliga a reiniciar el flujo de firmas, con el fin de garantizar que todos los departamentos involucrados estén al tanto de los ensayos a ejecutar.</p>\n  <ol>\n    <li><strong>Elaborado Por:</strong> <br> Analista de validaciones — elabora / Nombre: ______ Firma: ______ Fecha: ______</li><br>\n    <li><strong>Revisado Por:</strong> <br> Coordinador de validaciones — revisa / Nombre: ______ Firma: ______ Fecha: ______</li><br>\n    <li><strong>Revisado Por:</strong> <br> Gerente de Área — revisa / Nombre: ______ Firma: ______ Fecha: ______</li><br>\n    <li><strong>Aprobado por:</strong> <br> Gerente de gestión de calidad — aprueba / Nombre: ______ Firma: ______ Fecha: ______</li><br>\n  </ol>",
+    "familia": "desintegrador"
+   },
+   {
+    "kind": "div",
+    "clase": "responsabilidades",
+    "bloque": 1,
+    "html": "<p><strong>RESPONSABILIDADES DEL PROTOCOLO:</strong></p>\n  <p><strong>Responsabilidad del Analista de validaciones:</strong></p>\n  <ol><li>Coordinar la ejecución de la Calificación de Operación con las áreas involucradas, asegurando personal, <span class=\"equipo\">equipo</span>, patrones, materiales e instrumentos y documentación.</li><li>Verificar que los instrumentos de medición estén identificados y con calibración vigente.</li><li>Ejecutar y/o supervisar los ensayos del protocolo según los criterios aprobados.</li><li>Registrar los datos de forma completa, legible y trazable (ALCOA+).</li><li>Documentar las desviaciones según los procedimientos internos vigentes.</li><li>Elaborar el informe de calificación con resultados, conclusiones y anexos.</li></ol>\n  <p><strong>Responsabilidad del Coordinador de validaciones:</strong></p>\n  <ol><li>Revisar técnicamente el protocolo antes de su ejecución.</li><li>Asignar al analista responsable y coordinar recursos.</li><li>Revisar las desviaciones, su tratamiento y las CAPA asociadas.</li><li>Revisar el informe final y autorizar la fase siguiente.</li></ol>\n  <p><strong>Responsabilidad del Gerente de Área:</strong></p>\n  <ol><li>Garantizar la disponibilidad del <span class=\"equipo\">equipo</span> y los accesos para la ejecución.</li><li>Facilitar la documentación técnica del fabricante y del proveedor.</li><li>Implementar las acciones operativas derivadas de desviaciones y CAPA.</li></ol>\n  <p><strong>Responsabilidad del Gerente de gestión de calidad:</strong></p>\n  <ol><li>Aprobar el protocolo y sus criterios de aceptación.</li><li>Aprobar las desviaciones y sus evaluaciones de impacto.</li><li>Emitir el dictamen final del estado de calificación.</li></ol>",
+    "familia": "desintegrador"
+   },
+   {
+    "kind": "div",
+    "clase": "alcance",
+    "bloque": 1,
+    "html": "<p><strong>ALCANCE</strong></p>\n  <p>Esta calificación aplica a <span class=\"equipo\">equipo</span>, del desintegrador, instrumento analítico tipo L, y cubre los 6 ensayos listados en el índice. No incluye PQ: el desempeño se demuestra en este OQ y se mantiene con la verificación periódica definida en el procedimiento de uso. Los límites se toman de la URS aprobada y del manual del fabricante.</p>",
+    "familia": "desintegrador"
+   },
+   {
+    "kind": "div",
+    "clase": "def-usp",
+    "bloque": 1,
+    "html": "<p><strong>DEFINICIÓN USP</strong></p>\n  <p>Calificación de Operación: colección documentada de las actividades necesarias para demostrar que un instrumento se desempeña de manera uniforme de acuerdo con las especificaciones definidas por el usuario y es apropiado para el uso previsto, en el entorno seleccionado (<span class=\"refnorma\"></span>).</p>",
+    "familia": "desintegrador"
+   },
+   {
+    "kind": "div",
+    "clase": "nota-datos",
+    "bloque": 1,
+    "html": "<p><strong>NOTA — DATOS DIGITALES</strong></p>\n  <p>Si el equipo entrega datos digitales, se procesan directamente y se anexan la data cruda y el reporte estadístico como parte de la evidencia. Si el equipo no dispone de impresión, transferencia, gestión de usuarios o respaldo electrónico, los ensayos correspondientes se declaran no aplica con su justificación, sin sustituir la evidencia por una suposición.</p>",
+    "familia": "desintegrador"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-DI-001",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-DI-001 — Encendido, canastillas y autoprueba",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que el desintegrador enciende, las canastillas están completas y el equipo completa la autoprueba."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Encender el equipo y registrar la versión de software<br>\n  2) Verificar el número, estado y montaje de las canastillas y tubos<br>\n  3) Verificar el resultado de la autoprueba"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  La autoprueba finaliza sin error.<br>\n  Las canastillas y tubos están completos y correctamente montados."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de encendido, canastillas y autoprueba"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante; URS aprobada."
+     }
+    ],
+    "tabla": null,
+    "familia": "desintegrador"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-DI-002",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-DI-002 — Temperatura del baño",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar la exactitud y la estabilidad de la temperatura del baño."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Llevar el baño al setpoint definido y estabilizar<br>\n  2) Registrar la temperatura con el patrón en los puntos definidos<br>\n  3) Calcular la diferencia y la estabilidad en el tiempo<br>\n  4) Procesar los datos crudos de este ensayo en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o condiciones con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  La temperatura y la estabilidad están dentro del criterio de la URS aprobada."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de temperatura del baño<br>\n  - Data cruda y reporte estadístico del análisis correspondiente"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante; URS aprobada."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "desintegrador"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-DI-003",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-DI-003 — Carrera y frecuencia de agitación",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar la carrera y la frecuencia del movimiento de las canastillas."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Ajustar la frecuencia definida en la URS<br>\n  2) Medir la carrera y la frecuencia con el instrumento definido por el fabricante<br>\n  3) Calcular la diferencia respecto de la consigna<br>\n  4) Procesar los datos crudos de este ensayo en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o condiciones con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  La carrera y la frecuencia están dentro de las tolerancias de la URS aprobada."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de carrera y frecuencia<br>\n  - Data cruda y reporte estadístico del análisis correspondiente"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante; URS aprobada."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "desintegrador"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-DI-004",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-DI-004 — Tiempo de desintegración con unidades de referencia",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que el equipo reproduce el tiempo de desintegración de las unidades de referencia."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Colocar las unidades de referencia en las canastillas definidas<br>\n  2) Ejecutar la prueba con las condiciones aprobadas<br>\n  3) Registrar el tiempo de desintegración por unidad y compararlo con el valor de referencia<br>\n  4) Procesar los datos crudos de este ensayo en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o condiciones con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  El tiempo de desintegración está dentro del criterio de la URS aprobada para las unidades de referencia."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de tiempo de desintegración por unidad<br>\n  - Data cruda y reporte estadístico del análisis correspondiente"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante; URS aprobada."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "desintegrador"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-DI-005",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-DI-005 — Número y posición de tubos y canastillas",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que la configuración de tubos y canastillas corresponde a la definida para el uso."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Verificar el número de tubos y canastillas instalados<br>\n  2) Verificar la posición y el ajuste de cada canastilla<br>\n  3) Registrar la configuración y compararla con la URS"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  La configuración instalada coincide con la definida en la URS aprobada.<br>\n  Cada canastilla queda correctamente ajustada y sin interferencias."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de configuración de tubos y canastillas"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante; URS aprobada."
+     }
+    ],
+    "tabla": null,
+    "familia": "desintegrador"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-DI-006",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-DI-006 — Alarmas, paro y control de datos",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar las alarmas del desintegrador, el paro y el registro de datos."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Provocar las alarmas disponibles: temperatura fuera de rango y falla de agitación<br>\n  2) Accionar el paro y verificar la detención segura<br>\n  3) Verificar el registro de fecha, hora y usuario y la transferencia o impresión si aplica"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Las alarmas y el paro actúan según el manual del fabricante.<br>\n  Los registros son trazables y no modificables por el usuario operativo (si aplica)."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de alarmas, paro y control de datos"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante; 21 CFR Part 11 / EU GMP Anexo 11 (si aplica)."
+     }
+    ],
+    "tabla": null,
+    "familia": "desintegrador"
+   },
+   {
+    "kind": "resumen",
+    "id": "EQ-OQ-DI-RES",
+    "bloque": 4,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-DI-RES — Tabla resumen de los ensayos del OQ",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Consolidar el listado de ensayos del OQ para la tabla resumen del protocolo."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Confirmar que los ensayos EQ-OQ-DI-001 a EQ-OQ-DI-006 están incluidos en el índice del protocolo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Los 6 ensayos aparecen en la tabla resumen con su veredicto."
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>EU GMP Anexo 15."
+     }
+    ],
+    "tabla": null,
+    "familia": "desintegrador"
+   },
+   {
+    "kind": "tabla",
+    "id": "EQ-OQ-DI-REF",
+    "bloque": 6,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-DI-REF — Referencias del OQ de Desintegrador",
+    "secciones": [],
+    "tabla": {
+     "headers": [
+      "SECCIÓN",
+      "TÍTULO",
+      "ESTADO"
+     ],
+     "rows": [
+      [
+       "6.1",
+       "Manual del fabricante del equipo — Baño, canastillas, agitación y límites",
+       "VIGENTE"
+      ],
+      [
+       "6.2",
+       "URS aprobada — Temperatura, carrera, frecuencia y criterios de aceptación",
+       "VIGENTE"
+      ],
+      [
+       "6.3",
+       "USP <1058> — Analytical Instrument Qualification",
+       "VIGENTE"
+      ],
+      [
+       "6.4",
+       "EU GMP Anexo 15 — Calificación y validación",
+       "VIGENTE"
+      ],
+      [
+       "6.5",
+       "21 CFR Part 11 / EU GMP Anexo 11 — Registros electrónicos y firmas electrónicas (si aplica)",
+       "VIGENTE"
+      ],
+      [
+       "6.6",
+       "Norma específica del desintegrador — PENDIENTE DEL RESPONSABLE",
+       "PENDIENTE"
+      ]
+     ]
+    },
+    "familia": "desintegrador"
+   },
+   {
+    "kind": "div",
+    "clase": "anexos",
+    "bloque": 8,
+    "html": "<p><strong>ANEXOS:</strong></p>\n  <table>\n  <tbody><tr><th>SECCIÓN</th><th>TÍTULO</th></tr>\n<tr><td>8.1</td><td>Anexo A — Registros de temperatura, carrera, frecuencia y tiempo de desintegración</td></tr>\n<tr><td>8.2</td><td>Anexo B — Certificados del termómetro y de las unidades de referencia</td></tr>\n<tr><td>8.3</td><td>Anexo C — Registros de configuración, alarmas y control de datos</td></tr>\n<tr><td>8.4</td><td>Anexo D — Matriz de trazabilidad requisito-prueba (RTM) y evidencia de revisión</td></tr>\n  </tbody></table>",
+    "familia": "desintegrador"
+   },
+   {
+    "kind": "div",
+    "clase": "portada",
+    "bloque": 1,
+    "html": "<p><strong>PORTADA DEL PROTOCOLO OQ</strong></p>\n  <p><strong>Logo:</strong><br><img class=\"ent-logo\" alt=\"Logo de la entidad\"></p>\n  <p><strong>Calificación de Operación de <span class=\"equipo\">equipo</span>:</strong> <span class=\"ent-descripcion\">______</span></p>\n  <ol>\n    <li><strong>Marca:</strong> <span class=\"ent-marca\">______</span></li>\n    <li><strong>Modelo:</strong> <span class=\"ent-modelo\">______</span></li>\n    <li><strong>Código:</strong> <span class=\"ent-codigo\">______</span></li>\n  </ol>",
+    "familia": "friabilometro"
+   },
+   {
+    "kind": "div",
+    "clase": "firmas",
+    "bloque": 1,
+    "html": "<p><strong>FLUJO DE FIRMAS DEL PROTOCOLO:</strong></p>\n  <p>Este apartado establece que los responsables revisan y aprueban el presente protocolo, declarando que está apto para su ejecución. Cualquier cambio posterior a la firma obliga a reiniciar el flujo de firmas, con el fin de garantizar que todos los departamentos involucrados estén al tanto de los ensayos a ejecutar.</p>\n  <ol>\n    <li><strong>Elaborado Por:</strong> <br> Analista de validaciones — elabora / Nombre: ______ Firma: ______ Fecha: ______</li><br>\n    <li><strong>Revisado Por:</strong> <br> Coordinador de validaciones — revisa / Nombre: ______ Firma: ______ Fecha: ______</li><br>\n    <li><strong>Revisado Por:</strong> <br> Gerente de Área — revisa / Nombre: ______ Firma: ______ Fecha: ______</li><br>\n    <li><strong>Aprobado por:</strong> <br> Gerente de gestión de calidad — aprueba / Nombre: ______ Firma: ______ Fecha: ______</li><br>\n  </ol>",
+    "familia": "friabilometro"
+   },
+   {
+    "kind": "div",
+    "clase": "responsabilidades",
+    "bloque": 1,
+    "html": "<p><strong>RESPONSABILIDADES DEL PROTOCOLO:</strong></p>\n  <p><strong>Responsabilidad del Analista de validaciones:</strong></p>\n  <ol><li>Coordinar la ejecución de la Calificación de Operación con las áreas involucradas, asegurando personal, <span class=\"equipo\">equipo</span>, patrones, materiales e instrumentos y documentación.</li><li>Verificar que los instrumentos de medición estén identificados y con calibración vigente.</li><li>Ejecutar y/o supervisar los ensayos del protocolo según los criterios aprobados.</li><li>Registrar los datos de forma completa, legible y trazable (ALCOA+).</li><li>Documentar las desviaciones según los procedimientos internos vigentes.</li><li>Elaborar el informe de calificación con resultados, conclusiones y anexos.</li></ol>\n  <p><strong>Responsabilidad del Coordinador de validaciones:</strong></p>\n  <ol><li>Revisar técnicamente el protocolo antes de su ejecución.</li><li>Asignar al analista responsable y coordinar recursos.</li><li>Revisar las desviaciones, su tratamiento y las CAPA asociadas.</li><li>Revisar el informe final y autorizar la fase siguiente.</li></ol>\n  <p><strong>Responsabilidad del Gerente de Área:</strong></p>\n  <ol><li>Garantizar la disponibilidad del <span class=\"equipo\">equipo</span> y los accesos para la ejecución.</li><li>Facilitar la documentación técnica del fabricante y del proveedor.</li><li>Implementar las acciones operativas derivadas de desviaciones y CAPA.</li></ol>\n  <p><strong>Responsabilidad del Gerente de gestión de calidad:</strong></p>\n  <ol><li>Aprobar el protocolo y sus criterios de aceptación.</li><li>Aprobar las desviaciones y sus evaluaciones de impacto.</li><li>Emitir el dictamen final del estado de calificación.</li></ol>",
+    "familia": "friabilometro"
+   },
+   {
+    "kind": "div",
+    "clase": "alcance",
+    "bloque": 1,
+    "html": "<p><strong>ALCANCE</strong></p>\n  <p>Esta calificación aplica a <span class=\"equipo\">equipo</span>, del friabilómetro, instrumento analítico tipo L, y cubre los 6 ensayos listados en el índice. No incluye PQ: el desempeño se demuestra en este OQ y se mantiene con la verificación periódica definida en el procedimiento de uso. Los límites se toman de la URS aprobada y del manual del fabricante.</p>",
+    "familia": "friabilometro"
+   },
+   {
+    "kind": "div",
+    "clase": "def-usp",
+    "bloque": 1,
+    "html": "<p><strong>DEFINICIÓN USP</strong></p>\n  <p>Calificación de Operación: colección documentada de las actividades necesarias para demostrar que un instrumento se desempeña de manera uniforme de acuerdo con las especificaciones definidas por el usuario y es apropiado para el uso previsto, en el entorno seleccionado (<span class=\"refnorma\"></span>).</p>",
+    "familia": "friabilometro"
+   },
+   {
+    "kind": "div",
+    "clase": "nota-datos",
+    "bloque": 1,
+    "html": "<p><strong>NOTA — DATOS DIGITALES</strong></p>\n  <p>Si el equipo entrega datos digitales, se procesan directamente y se anexan la data cruda y el reporte estadístico como parte de la evidencia. Si el equipo no dispone de impresión, transferencia, gestión de usuarios o respaldo electrónico, los ensayos correspondientes se declaran no aplica con su justificación, sin sustituir la evidencia por una suposición.</p>",
+    "familia": "friabilometro"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-FR-001",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-FR-001 — Encendido, tambor y autoprueba",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que el friabilómetro enciende, el tambor está montado y el equipo completa la autoprueba."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Encender el equipo y registrar la versión de software<br>\n  2) Verificar el montaje, la limpieza y el estado del tambor<br>\n  3) Verificar el resultado de la autoprueba"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  La autoprueba finaliza sin error.<br>\n  El tambor está correctamente montado y sin daños."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de encendido, tambor y autoprueba"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante; URS aprobada."
+     }
+    ],
+    "tabla": null,
+    "familia": "friabilometro"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-FR-002",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-FR-002 — Velocidad de rotación",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que la velocidad del tambor coincide con la consigna y se mantiene estable."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Ajustar la velocidad definida en la URS<br>\n  2) Medir la velocidad con tacómetro patrón en al menos tres repeticiones<br>\n  3) Calcular la diferencia y la variación<br>\n  4) Procesar los datos crudos de este ensayo en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o condiciones con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  La velocidad está dentro de la tolerancia de la URS aprobada.<br>\n  La variación durante la prueba está dentro del criterio aprobado."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de velocidad de rotación<br>\n  - Data cruda y reporte estadístico del análisis correspondiente"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante; URS aprobada."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "friabilometro"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-FR-003",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-FR-003 — Número de vueltas y temporizador",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar el conteo de vueltas y el temporizador del equipo."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Programar el número de vueltas definido en la URS<br>\n  2) Medir el tiempo real con cronómetro patrón y contar las vueltas<br>\n  3) Comparar ambos valores con la consigna<br>\n  4) Procesar los datos crudos de este ensayo en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o condiciones con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  El número de vueltas y el tiempo están dentro de la tolerancia de la URS aprobada."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de vueltas y tiempo<br>\n  - Data cruda y reporte estadístico del análisis correspondiente"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante; URS aprobada."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "friabilometro"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-FR-004",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-FR-004 — Caída y ángulo del tambor",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar la caída y el ángulo del tambor según el diseño del fabricante."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Medir la caída del tambor en los puntos definidos<br>\n  2) Verificar el ángulo de inclinación según el manual<br>\n  3) Registrar la posición y el ajuste"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  La caída y el ángulo están dentro de las tolerancias del manual del fabricante."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de caída y ángulo"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante."
+     }
+    ],
+    "tabla": null,
+    "familia": "friabilometro"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-FR-005",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-FR-005 — Repetibilidad con comprimidos de referencia",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que la pérdida por friabilidad es repetible con comprimidos de referencia."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Pesar los comprimidos de referencia antes de la prueba<br>\n  2) Ejecutar al menos tres pruebas con las condiciones aprobadas<br>\n  3) Pesar después de la prueba y calcular la pérdida por prueba<br>\n  4) Procesar los datos crudos de este ensayo en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o condiciones con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  La pérdida por friabilidad y su repetibilidad están dentro del criterio de la URS aprobada."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de pérdida por friabilidad por prueba<br>\n  - Data cruda y reporte estadístico del análisis correspondiente"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante; URS aprobada."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "friabilometro"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-FR-006",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-FR-006 — Limpieza, alarmas y control de datos",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar la limpieza del tambor, las alarmas del equipo y el registro de datos."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Verificar el procedimiento de limpieza y el estado del tambor<br>\n  2) Provocar las alarmas disponibles y registrar el disparo<br>\n  3) Verificar el registro de fecha, hora y usuario y la transferencia o impresión si aplica"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  El tambor queda limpio y sin residuos según el procedimiento aprobado.<br>\n  Las alarmas actúan según el manual y los registros son trazables (si aplica)."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de limpieza, alarmas y control de datos"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante; 21 CFR Part 11 / EU GMP Anexo 11 (si aplica)."
+     }
+    ],
+    "tabla": null,
+    "familia": "friabilometro"
+   },
+   {
+    "kind": "resumen",
+    "id": "EQ-OQ-FR-RES",
+    "bloque": 4,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-FR-RES — Tabla resumen de los ensayos del OQ",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Consolidar el listado de ensayos del OQ para la tabla resumen del protocolo."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Confirmar que los ensayos EQ-OQ-FR-001 a EQ-OQ-FR-006 están incluidos en el índice del protocolo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Los 6 ensayos aparecen en la tabla resumen con su veredicto."
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>EU GMP Anexo 15."
+     }
+    ],
+    "tabla": null,
+    "familia": "friabilometro"
+   },
+   {
+    "kind": "tabla",
+    "id": "EQ-OQ-FR-REF",
+    "bloque": 6,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-FR-REF — Referencias del OQ de Friabilómetro",
+    "secciones": [],
+    "tabla": {
+     "headers": [
+      "SECCIÓN",
+      "TÍTULO",
+      "ESTADO"
+     ],
+     "rows": [
+      [
+       "6.1",
+       "Manual del fabricante del equipo — Tambor, velocidad, vueltas y límites",
+       "VIGENTE"
+      ],
+      [
+       "6.2",
+       "URS aprobada — Velocidad, número de vueltas y criterios de aceptación",
+       "VIGENTE"
+      ],
+      [
+       "6.3",
+       "USP <1058> — Analytical Instrument Qualification",
+       "VIGENTE"
+      ],
+      [
+       "6.4",
+       "EU GMP Anexo 15 — Calificación y validación",
+       "VIGENTE"
+      ],
+      [
+       "6.5",
+       "21 CFR Part 11 / EU GMP Anexo 11 — Registros electrónicos y firmas electrónicas (si aplica)",
+       "VIGENTE"
+      ],
+      [
+       "6.6",
+       "Norma específica del friabilómetro — PENDIENTE DEL RESPONSABLE",
+       "PENDIENTE"
+      ]
+     ]
+    },
+    "familia": "friabilometro"
+   },
+   {
+    "kind": "div",
+    "clase": "anexos",
+    "bloque": 8,
+    "html": "<p><strong>ANEXOS:</strong></p>\n  <table>\n  <tbody><tr><th>SECCIÓN</th><th>TÍTULO</th></tr>\n<tr><td>8.1</td><td>Anexo A — Registros de velocidad, vueltas, caída, ángulo y pérdida por friabilidad</td></tr>\n<tr><td>8.2</td><td>Anexo B — Certificados del tacómetro, cronómetro y balanza utilizados</td></tr>\n<tr><td>8.3</td><td>Anexo C — Registros de limpieza, alarmas y control de datos</td></tr>\n<tr><td>8.4</td><td>Anexo D — Matriz de trazabilidad requisito-prueba (RTM) y evidencia de revisión</td></tr>\n  </tbody></table>",
+    "familia": "friabilometro"
+   },
+   {
+    "kind": "div",
+    "clase": "portada",
+    "bloque": 1,
+    "html": "<p><strong>PORTADA DEL PROTOCOLO OQ</strong></p>\n  <p><strong>Logo:</strong><br><img class=\"ent-logo\" alt=\"Logo de la entidad\"></p>\n  <p><strong>Calificación de Operación de <span class=\"equipo\">equipo</span>:</strong> <span class=\"ent-descripcion\">______</span></p>\n  <ol>\n    <li><strong>Marca:</strong> <span class=\"ent-marca\">______</span></li>\n    <li><strong>Modelo:</strong> <span class=\"ent-modelo\">______</span></li>\n    <li><strong>Código:</strong> <span class=\"ent-codigo\">______</span></li>\n  </ol>",
+    "familia": "durometro"
+   },
+   {
+    "kind": "div",
+    "clase": "firmas",
+    "bloque": 1,
+    "html": "<p><strong>FLUJO DE FIRMAS DEL PROTOCOLO:</strong></p>\n  <p>Este apartado establece que los responsables revisan y aprueban el presente protocolo, declarando que está apto para su ejecución. Cualquier cambio posterior a la firma obliga a reiniciar el flujo de firmas, con el fin de garantizar que todos los departamentos involucrados estén al tanto de los ensayos a ejecutar.</p>\n  <ol>\n    <li><strong>Elaborado Por:</strong> <br> Analista de validaciones — elabora / Nombre: ______ Firma: ______ Fecha: ______</li><br>\n    <li><strong>Revisado Por:</strong> <br> Coordinador de validaciones — revisa / Nombre: ______ Firma: ______ Fecha: ______</li><br>\n    <li><strong>Revisado Por:</strong> <br> Gerente de Área — revisa / Nombre: ______ Firma: ______ Fecha: ______</li><br>\n    <li><strong>Aprobado por:</strong> <br> Gerente de gestión de calidad — aprueba / Nombre: ______ Firma: ______ Fecha: ______</li><br>\n  </ol>",
+    "familia": "durometro"
+   },
+   {
+    "kind": "div",
+    "clase": "responsabilidades",
+    "bloque": 1,
+    "html": "<p><strong>RESPONSABILIDADES DEL PROTOCOLO:</strong></p>\n  <p><strong>Responsabilidad del Analista de validaciones:</strong></p>\n  <ol><li>Coordinar la ejecución de la Calificación de Operación con las áreas involucradas, asegurando personal, <span class=\"equipo\">equipo</span>, patrones, materiales e instrumentos y documentación.</li><li>Verificar que los instrumentos de medición estén identificados y con calibración vigente.</li><li>Ejecutar y/o supervisar los ensayos del protocolo según los criterios aprobados.</li><li>Registrar los datos de forma completa, legible y trazable (ALCOA+).</li><li>Documentar las desviaciones según los procedimientos internos vigentes.</li><li>Elaborar el informe de calificación con resultados, conclusiones y anexos.</li></ol>\n  <p><strong>Responsabilidad del Coordinador de validaciones:</strong></p>\n  <ol><li>Revisar técnicamente el protocolo antes de su ejecución.</li><li>Asignar al analista responsable y coordinar recursos.</li><li>Revisar las desviaciones, su tratamiento y las CAPA asociadas.</li><li>Revisar el informe final y autorizar la fase siguiente.</li></ol>\n  <p><strong>Responsabilidad del Gerente de Área:</strong></p>\n  <ol><li>Garantizar la disponibilidad del <span class=\"equipo\">equipo</span> y los accesos para la ejecución.</li><li>Facilitar la documentación técnica del fabricante y del proveedor.</li><li>Implementar las acciones operativas derivadas de desviaciones y CAPA.</li></ol>\n  <p><strong>Responsabilidad del Gerente de gestión de calidad:</strong></p>\n  <ol><li>Aprobar el protocolo y sus criterios de aceptación.</li><li>Aprobar las desviaciones y sus evaluaciones de impacto.</li><li>Emitir el dictamen final del estado de calificación.</li></ol>",
+    "familia": "durometro"
+   },
+   {
+    "kind": "div",
+    "clase": "alcance",
+    "bloque": 1,
+    "html": "<p><strong>ALCANCE</strong></p>\n  <p>Esta calificación aplica a <span class=\"equipo\">equipo</span>, del durómetro, instrumento analítico tipo L, y cubre los 6 ensayos listados en el índice. No incluye PQ: el desempeño se demuestra en este OQ y se mantiene con la verificación periódica definida en el procedimiento de uso. Los límites se toman de la URS aprobada y del manual del fabricante.</p>",
+    "familia": "durometro"
+   },
+   {
+    "kind": "div",
+    "clase": "def-usp",
+    "bloque": 1,
+    "html": "<p><strong>DEFINICIÓN USP</strong></p>\n  <p>Calificación de Operación: colección documentada de las actividades necesarias para demostrar que un instrumento se desempeña de manera uniforme de acuerdo con las especificaciones definidas por el usuario y es apropiado para el uso previsto, en el entorno seleccionado (<span class=\"refnorma\"></span>).</p>",
+    "familia": "durometro"
+   },
+   {
+    "kind": "div",
+    "clase": "nota-datos",
+    "bloque": 1,
+    "html": "<p><strong>NOTA — DATOS DIGITALES</strong></p>\n  <p>Si el equipo entrega datos digitales, se procesan directamente y se anexan la data cruda y el reporte estadístico como parte de la evidencia. Si el equipo no dispone de impresión, transferencia, gestión de usuarios o respaldo electrónico, los ensayos correspondientes se declaran no aplica con su justificación, sin sustituir la evidencia por una suposición.</p>",
+    "familia": "durometro"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-DU-001",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-DU-001 — Encendido y autoprueba",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que el durómetro enciende, inicializa y completa la autoprueba."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Encender el equipo y registrar la versión de software<br>\n  2) Verificar la calibración vigente del instrumento<br>\n  3) Verificar el resultado de la autoprueba"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  La autoprueba finaliza sin error.<br>\n  El certificado de calibración está vigente y cubre la fecha de ejecución."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de encendido, calibración y autoprueba"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante; URS aprobada."
+     }
+    ],
+    "tabla": null,
+    "familia": "durometro"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-DU-002",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-DU-002 — Exactitud de fuerza con patrón",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que la fuerza aplicada coincide con la del patrón certificado."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Aplicar el patrón en los puntos definidos del rango de uso<br>\n  2) Registrar la fuerza medida y el valor certificado<br>\n  3) Calcular la diferencia en cada punto<br>\n  4) Procesar los datos crudos de este ensayo en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o condiciones con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  La diferencia en cada punto está dentro del criterio de la URS aprobada."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de exactitud de fuerza por punto<br>\n  - Data cruda y reporte estadístico del análisis correspondiente"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante; URS aprobada; certificado del patrón."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "durometro"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-DU-003",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-DU-003 — Repetibilidad de la fuerza",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que las mediciones repetidas sobre el mismo patrón son reproducibles."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Realizar al menos diez mediciones sobre el patrón definido<br>\n  2) Registrar la fuerza en cada medición<br>\n  3) Calcular la desviación estándar y el RSD<br>\n  4) Procesar los datos crudos de este ensayo en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o condiciones con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  La desviación estándar o el RSD están dentro del criterio de la URS aprobada."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de repetibilidad con cálculo estadístico<br>\n  - Data cruda y reporte estadístico del análisis correspondiente"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante; URS aprobada."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "durometro"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-DU-004",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-DU-004 — Rango y linealidad",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que la respuesta es lineal en el rango de uso definido."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Medir al menos cinco puntos del rango de uso con patrones certificados<br>\n  2) Calcular la regresión y los residuos<br>\n  3) Comparar con el criterio aprobado<br>\n  4) Procesar los datos crudos de este ensayo en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o condiciones con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  La linealidad y los residuos están dentro del criterio de la URS aprobada.<br>\n  El rango evaluado cubre el rango de uso declarado."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de linealidad con regresión y residuos<br>\n  - Data cruda y reporte estadístico del análisis correspondiente"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante; URS aprobada."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "durometro"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-DU-005",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-DU-005 — Unidades y geometría de los punzones",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar las unidades de medida y la geometría de los punzones instalados."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Verificar que la unidad mostrada coincide con la definida en la URS<br>\n  2) Medir la geometría de los punzones según el manual<br>\n  3) Registrar el tipo y el estado de cada punzón"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  La unidad y la geometría corresponden al tipo de producto y a la URS aprobada.<br>\n  Los punzones están en buen estado y sin desgaste fuera de tolerancia."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de unidades y geometría de punzones"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante; URS aprobada."
+     }
+    ],
+    "tabla": null,
+    "familia": "durometro"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-DU-006",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-DU-006 — Alarmas, límites y control de datos",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar las alarmas y límites del durómetro y el registro de resultados."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Configurar los límites definidos en la URS y verificar que el equipo los aplica<br>\n  2) Provocar las alarmas disponibles y registrar el disparo<br>\n  3) Verificar el registro de fecha, hora y usuario y la transferencia o impresión si aplica"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  El equipo aplica los límites configurados y las alarmas actúan según el manual.<br>\n  Los registros son trazables y no modificables por el usuario operativo (si aplica)."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de límites, alarmas y control de datos"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante; 21 CFR Part 11 / EU GMP Anexo 11 (si aplica)."
+     }
+    ],
+    "tabla": null,
+    "familia": "durometro"
+   },
+   {
+    "kind": "resumen",
+    "id": "EQ-OQ-DU-RES",
+    "bloque": 4,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-DU-RES — Tabla resumen de los ensayos del OQ",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Consolidar el listado de ensayos del OQ para la tabla resumen del protocolo."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Confirmar que los ensayos EQ-OQ-DU-001 a EQ-OQ-DU-006 están incluidos en el índice del protocolo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Los 6 ensayos aparecen en la tabla resumen con su veredicto."
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>EU GMP Anexo 15."
+     }
+    ],
+    "tabla": null,
+    "familia": "durometro"
+   },
+   {
+    "kind": "tabla",
+    "id": "EQ-OQ-DU-REF",
+    "bloque": 6,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-DU-REF — Referencias del OQ de Durómetro",
+    "secciones": [],
+    "tabla": {
+     "headers": [
+      "SECCIÓN",
+      "TÍTULO",
+      "ESTADO"
+     ],
+     "rows": [
+      [
+       "6.1",
+       "Manual del fabricante del equipo — Fuerza, punzones, unidades y límites",
+       "VIGENTE"
+      ],
+      [
+       "6.2",
+       "URS aprobada — Rango de fuerza, unidades y criterios de aceptación",
+       "VIGENTE"
+      ],
+      [
+       "6.3",
+       "USP <1058> — Analytical Instrument Qualification",
+       "VIGENTE"
+      ],
+      [
+       "6.4",
+       "EU GMP Anexo 15 — Calificación y validación",
+       "VIGENTE"
+      ],
+      [
+       "6.5",
+       "21 CFR Part 11 / EU GMP Anexo 11 — Registros electrónicos y firmas electrónicas (si aplica)",
+       "VIGENTE"
+      ],
+      [
+       "6.6",
+       "Norma específica del durómetro — PENDIENTE DEL RESPONSABLE",
+       "PENDIENTE"
+      ]
+     ]
+    },
+    "familia": "durometro"
+   },
+   {
+    "kind": "div",
+    "clase": "anexos",
+    "bloque": 8,
+    "html": "<p><strong>ANEXOS:</strong></p>\n  <table>\n  <tbody><tr><th>SECCIÓN</th><th>TÍTULO</th></tr>\n<tr><td>8.1</td><td>Anexo A — Registros de exactitud, repetibilidad, linealidad y geometría de punzones</td></tr>\n<tr><td>8.2</td><td>Anexo B — Certificados de los patrones de fuerza y de calibración del equipo</td></tr>\n<tr><td>8.3</td><td>Anexo C — Registros de límites, alarmas y control de datos</td></tr>\n<tr><td>8.4</td><td>Anexo D — Matriz de trazabilidad requisito-prueba (RTM) y evidencia de revisión</td></tr>\n  </tbody></table>",
+    "familia": "durometro"
+   },
+   {
+    "kind": "div",
+    "clase": "portada",
+    "bloque": 1,
+    "html": "<p><strong>PORTADA DEL PROTOCOLO OQ</strong></p>\n  <p><strong>Logo:</strong><br><img class=\"ent-logo\" alt=\"Logo de la entidad\"></p>\n  <p><strong>Calificación de Operación de <span class=\"equipo\">equipo</span>:</strong> <span class=\"ent-descripcion\">______</span></p>\n  <ol>\n    <li><strong>Marca:</strong> <span class=\"ent-marca\">______</span></li>\n    <li><strong>Modelo:</strong> <span class=\"ent-modelo\">______</span></li>\n    <li><strong>Código:</strong> <span class=\"ent-codigo\">______</span></li>\n  </ol>",
+    "familia": "karl-fischer"
+   },
+   {
+    "kind": "div",
+    "clase": "firmas",
+    "bloque": 1,
+    "html": "<p><strong>FLUJO DE FIRMAS DEL PROTOCOLO:</strong></p>\n  <p>Este apartado establece que los responsables revisan y aprueban el presente protocolo, declarando que está apto para su ejecución. Cualquier cambio posterior a la firma obliga a reiniciar el flujo de firmas, con el fin de garantizar que todos los departamentos involucrados estén al tanto de los ensayos a ejecutar.</p>\n  <ol>\n    <li><strong>Elaborado Por:</strong> <br> Analista de validaciones — elabora / Nombre: ______ Firma: ______ Fecha: ______</li><br>\n    <li><strong>Revisado Por:</strong> <br> Coordinador de validaciones — revisa / Nombre: ______ Firma: ______ Fecha: ______</li><br>\n    <li><strong>Revisado Por:</strong> <br> Gerente de Área — revisa / Nombre: ______ Firma: ______ Fecha: ______</li><br>\n    <li><strong>Aprobado por:</strong> <br> Gerente de gestión de calidad — aprueba / Nombre: ______ Firma: ______ Fecha: ______</li><br>\n  </ol>",
+    "familia": "karl-fischer"
+   },
+   {
+    "kind": "div",
+    "clase": "responsabilidades",
+    "bloque": 1,
+    "html": "<p><strong>RESPONSABILIDADES DEL PROTOCOLO:</strong></p>\n  <p><strong>Responsabilidad del Analista de validaciones:</strong></p>\n  <ol><li>Coordinar la ejecución de la Calificación de Operación con las áreas involucradas, asegurando personal, <span class=\"equipo\">equipo</span>, patrones, materiales e instrumentos y documentación.</li><li>Verificar que los instrumentos de medición estén identificados y con calibración vigente.</li><li>Ejecutar y/o supervisar los ensayos del protocolo según los criterios aprobados.</li><li>Registrar los datos de forma completa, legible y trazable (ALCOA+).</li><li>Documentar las desviaciones según los procedimientos internos vigentes.</li><li>Elaborar el informe de calificación con resultados, conclusiones y anexos.</li></ol>\n  <p><strong>Responsabilidad del Coordinador de validaciones:</strong></p>\n  <ol><li>Revisar técnicamente el protocolo antes de su ejecución.</li><li>Asignar al analista responsable y coordinar recursos.</li><li>Revisar las desviaciones, su tratamiento y las CAPA asociadas.</li><li>Revisar el informe final y autorizar la fase siguiente.</li></ol>\n  <p><strong>Responsabilidad del Gerente de Área:</strong></p>\n  <ol><li>Garantizar la disponibilidad del <span class=\"equipo\">equipo</span> y los accesos para la ejecución.</li><li>Facilitar la documentación técnica del fabricante y del proveedor.</li><li>Implementar las acciones operativas derivadas de desviaciones y CAPA.</li></ol>\n  <p><strong>Responsabilidad del Gerente de gestión de calidad:</strong></p>\n  <ol><li>Aprobar el protocolo y sus criterios de aceptación.</li><li>Aprobar las desviaciones y sus evaluaciones de impacto.</li><li>Emitir el dictamen final del estado de calificación.</li></ol>",
+    "familia": "karl-fischer"
+   },
+   {
+    "kind": "div",
+    "clase": "alcance",
+    "bloque": 1,
+    "html": "<p><strong>ALCANCE</strong></p>\n  <p>Esta calificación aplica a <span class=\"equipo\">equipo</span>, del karl fischer, instrumento analítico tipo L, y cubre los 6 ensayos listados en el índice. No incluye PQ: el desempeño se demuestra en este OQ y se mantiene con la verificación periódica definida en el procedimiento de uso. Los límites se toman de la URS aprobada y del manual del fabricante.</p>",
+    "familia": "karl-fischer"
+   },
+   {
+    "kind": "div",
+    "clase": "def-usp",
+    "bloque": 1,
+    "html": "<p><strong>DEFINICIÓN USP</strong></p>\n  <p>Calificación de Operación: colección documentada de las actividades necesarias para demostrar que un instrumento se desempeña de manera uniforme de acuerdo con las especificaciones definidas por el usuario y es apropiado para el uso previsto, en el entorno seleccionado (<span class=\"refnorma\"></span>).</p>",
+    "familia": "karl-fischer"
+   },
+   {
+    "kind": "div",
+    "clase": "nota-datos",
+    "bloque": 1,
+    "html": "<p><strong>NOTA — DATOS DIGITALES</strong></p>\n  <p>Si el equipo entrega datos digitales, se procesan directamente y se anexan la data cruda y el reporte estadístico como parte de la evidencia. Si el equipo no dispone de impresión, transferencia, gestión de usuarios o respaldo electrónico, los ensayos correspondientes se declaran no aplica con su justificación, sin sustituir la evidencia por una suposición.</p>",
+    "familia": "karl-fischer"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-KF-001",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-KF-001 — Encendido, celda y autoprueba",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que el titulador enciende, la celda está montada y el equipo completa la autoprueba."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Encender el equipo y registrar la versión de software<br>\n  2) Verificar el montaje, la limpieza y el sellado de la celda<br>\n  3) Verificar el resultado de la autoprueba y el estado del electrodo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  La autoprueba finaliza sin error.<br>\n  La celda está correctamente montada y sin fugas."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de encendido, celda y autoprueba"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante; URS aprobada."
+     }
+    ],
+    "tabla": null,
+    "familia": "karl-fischer"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-KF-002",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-KF-002 — Estandarización del reactivo",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar la concentración del reactivo Karl Fischer con el estándar certificado."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Pesar el estándar de agua certificado según el procedimiento aprobado<br>\n  2) Titular y calcular el factor o la concentración del reactivo<br>\n  3) Repetir al menos tres veces y calcular la variación<br>\n  4) Procesar los datos crudos de este ensayo en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o condiciones con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  La concentración determinada está dentro del criterio de la URS aprobada.<br>\n  La variación entre determinaciones está dentro del criterio aprobado."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de estandarización con factor y variación<br>\n  - Data cruda y reporte estadístico del análisis correspondiente"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante; URS aprobada; certificado del estándar."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "karl-fischer"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-KF-003",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-KF-003 — Repetibilidad de la titulación",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que las titulaciones repetidas de una misma muestra son reproducibles."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Medir la muestra de referencia al menos cinco veces<br>\n  2) Registrar el resultado de humedad en cada medición<br>\n  3) Calcular la desviación estándar y el RSD<br>\n  4) Procesar los datos crudos de este ensayo en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o condiciones con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  La desviación estándar o el RSD están dentro del criterio de la URS aprobada."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de repetibilidad con cálculo estadístico<br>\n  - Data cruda y reporte estadístico del análisis correspondiente"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante; URS aprobada."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "karl-fischer"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-KF-004",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-KF-004 — Deriva de fondo y tiempo de estabilidad",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que la deriva de fondo y el tiempo de estabilidad son adecuados para el método."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Registrar la deriva de fondo antes de cada titulación<br>\n  2) Medir el tiempo de estabilidad del punto final<br>\n  3) Comparar ambos con los límites del método aprobado<br>\n  4) Procesar los datos crudos de este ensayo en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o condiciones con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  La deriva y el tiempo de estabilidad están dentro de los límites del método aprobado."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de deriva y tiempo de estabilidad<br>\n  - Data cruda y reporte estadístico del análisis correspondiente"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante; método aprobado."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "karl-fischer"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-KF-005",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-KF-005 — Linealidad con estándar de agua",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que la respuesta es lineal en el rango de humedad de uso."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Preparar al menos cinco niveles de agua con el estándar certificado<br>\n  2) Titular cada nivel al menos por triplicado<br>\n  3) Calcular la regresión y los residuos<br>\n  4) Procesar los datos crudos de este ensayo en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o condiciones con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  La linealidad y los residuos están dentro del criterio de la URS aprobada."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de linealidad con regresión y residuos<br>\n  - Data cruda y reporte estadístico del análisis correspondiente"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante; URS aprobada."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "karl-fischer"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-KF-006",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-KF-006 — Celda, sellado, residuos y control de datos",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar el sellado de la celda, la gestión de residuos y el registro de datos."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Verificar el sellado y el estado de los septos y conexiones<br>\n  2) Verificar la gestión de residuos del reactivo según el procedimiento aprobado<br>\n  3) Verificar el registro de fecha, hora y usuario y la transferencia o impresión si aplica"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  La celda no presenta fugas y los residuos se gestionan según el procedimiento.<br>\n  Los registros son trazables y no modificables por el usuario operativo (si aplica)."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de sellado, residuos y control de datos"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante; 21 CFR Part 11 / EU GMP Anexo 11 (si aplica)."
+     }
+    ],
+    "tabla": null,
+    "familia": "karl-fischer"
+   },
+   {
+    "kind": "resumen",
+    "id": "EQ-OQ-KF-RES",
+    "bloque": 4,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-KF-RES — Tabla resumen de los ensayos del OQ",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Consolidar el listado de ensayos del OQ para la tabla resumen del protocolo."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Confirmar que los ensayos EQ-OQ-KF-001 a EQ-OQ-KF-006 están incluidos en el índice del protocolo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Los 6 ensayos aparecen en la tabla resumen con su veredicto."
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>EU GMP Anexo 15."
+     }
+    ],
+    "tabla": null,
+    "familia": "karl-fischer"
+   },
+   {
+    "kind": "tabla",
+    "id": "EQ-OQ-KF-REF",
+    "bloque": 6,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-KF-REF — Referencias del OQ de Karl Fischer",
+    "secciones": [],
+    "tabla": {
+     "headers": [
+      "SECCIÓN",
+      "TÍTULO",
+      "ESTADO"
+     ],
+     "rows": [
+      [
+       "6.1",
+       "Manual del fabricante del equipo — Celda, reactivo, electrodo y límites",
+       "VIGENTE"
+      ],
+      [
+       "6.2",
+       "URS aprobada — Rango de humedad, criterios de repetibilidad y linealidad",
+       "VIGENTE"
+      ],
+      [
+       "6.3",
+       "USP <1058> — Analytical Instrument Qualification",
+       "VIGENTE"
+      ],
+      [
+       "6.4",
+       "EU GMP Anexo 15 — Calificación y validación",
+       "VIGENTE"
+      ],
+      [
+       "6.5",
+       "21 CFR Part 11 / EU GMP Anexo 11 — Registros electrónicos y firmas electrónicas (si aplica)",
+       "VIGENTE"
+      ],
+      [
+       "6.6",
+       "Norma específica del Karl Fischer — PENDIENTE DEL RESPONSABLE",
+       "PENDIENTE"
+      ]
+     ]
+    },
+    "familia": "karl-fischer"
+   },
+   {
+    "kind": "div",
+    "clase": "anexos",
+    "bloque": 8,
+    "html": "<p><strong>ANEXOS:</strong></p>\n  <table>\n  <tbody><tr><th>SECCIÓN</th><th>TÍTULO</th></tr>\n<tr><td>8.1</td><td>Anexo A — Registros de estandarización, repetibilidad, deriva y linealidad</td></tr>\n<tr><td>8.2</td><td>Anexo B — Certificados del estándar de agua y de los instrumentos de pesada</td></tr>\n<tr><td>8.3</td><td>Anexo C — Registros de celda, residuos y control de datos</td></tr>\n<tr><td>8.4</td><td>Anexo D — Matriz de trazabilidad requisito-prueba (RTM) y evidencia de revisión</td></tr>\n  </tbody></table>",
+    "familia": "karl-fischer"
+   },
+   {
+    "kind": "div",
+    "clase": "portada",
+    "bloque": 1,
+    "html": "<p><strong>PORTADA DEL PROTOCOLO OQ</strong></p>\n  <p><strong>Logo:</strong><br><img class=\"ent-logo\" alt=\"Logo de la entidad\"></p>\n  <p><strong>Calificación de Operación de <span class=\"equipo\">equipo</span>:</strong> <span class=\"ent-descripcion\">______</span></p>\n  <ol>\n    <li><strong>Marca:</strong> <span class=\"ent-marca\">______</span></li>\n    <li><strong>Modelo:</strong> <span class=\"ent-modelo\">______</span></li>\n    <li><strong>Código:</strong> <span class=\"ent-codigo\">______</span></li>\n  </ol>",
+    "familia": "toc"
+   },
+   {
+    "kind": "div",
+    "clase": "firmas",
+    "bloque": 1,
+    "html": "<p><strong>FLUJO DE FIRMAS DEL PROTOCOLO:</strong></p>\n  <p>Este apartado establece que los responsables revisan y aprueban el presente protocolo, declarando que está apto para su ejecución. Cualquier cambio posterior a la firma obliga a reiniciar el flujo de firmas, con el fin de garantizar que todos los departamentos involucrados estén al tanto de los ensayos a ejecutar.</p>\n  <ol>\n    <li><strong>Elaborado Por:</strong> <br> Analista de validaciones — elabora / Nombre: ______ Firma: ______ Fecha: ______</li><br>\n    <li><strong>Revisado Por:</strong> <br> Coordinador de validaciones — revisa / Nombre: ______ Firma: ______ Fecha: ______</li><br>\n    <li><strong>Revisado Por:</strong> <br> Gerente de Área — revisa / Nombre: ______ Firma: ______ Fecha: ______</li><br>\n    <li><strong>Aprobado por:</strong> <br> Gerente de gestión de calidad — aprueba / Nombre: ______ Firma: ______ Fecha: ______</li><br>\n  </ol>",
+    "familia": "toc"
+   },
+   {
+    "kind": "div",
+    "clase": "responsabilidades",
+    "bloque": 1,
+    "html": "<p><strong>RESPONSABILIDADES DEL PROTOCOLO:</strong></p>\n  <p><strong>Responsabilidad del Analista de validaciones:</strong></p>\n  <ol><li>Coordinar la ejecución de la Calificación de Operación con las áreas involucradas, asegurando personal, <span class=\"equipo\">equipo</span>, patrones, materiales e instrumentos y documentación.</li><li>Verificar que los instrumentos de medición estén identificados y con calibración vigente.</li><li>Ejecutar y/o supervisar los ensayos del protocolo según los criterios aprobados.</li><li>Registrar los datos de forma completa, legible y trazable (ALCOA+).</li><li>Documentar las desviaciones según los procedimientos internos vigentes.</li><li>Elaborar el informe de calificación con resultados, conclusiones y anexos.</li></ol>\n  <p><strong>Responsabilidad del Coordinador de validaciones:</strong></p>\n  <ol><li>Revisar técnicamente el protocolo antes de su ejecución.</li><li>Asignar al analista responsable y coordinar recursos.</li><li>Revisar las desviaciones, su tratamiento y las CAPA asociadas.</li><li>Revisar el informe final y autorizar la fase siguiente.</li></ol>\n  <p><strong>Responsabilidad del Gerente de Área:</strong></p>\n  <ol><li>Garantizar la disponibilidad del <span class=\"equipo\">equipo</span> y los accesos para la ejecución.</li><li>Facilitar la documentación técnica del fabricante y del proveedor.</li><li>Implementar las acciones operativas derivadas de desviaciones y CAPA.</li></ol>\n  <p><strong>Responsabilidad del Gerente de gestión de calidad:</strong></p>\n  <ol><li>Aprobar el protocolo y sus criterios de aceptación.</li><li>Aprobar las desviaciones y sus evaluaciones de impacto.</li><li>Emitir el dictamen final del estado de calificación.</li></ol>",
+    "familia": "toc"
+   },
+   {
+    "kind": "div",
+    "clase": "alcance",
+    "bloque": 1,
+    "html": "<p><strong>ALCANCE</strong></p>\n  <p>Esta calificación aplica a <span class=\"equipo\">equipo</span>, del toc, instrumento analítico tipo L, y cubre los 6 ensayos listados en el índice. No incluye PQ: el desempeño se demuestra en este OQ y se mantiene con la verificación periódica definida en el procedimiento de uso. Los límites se toman de la URS aprobada y del manual del fabricante.</p>",
+    "familia": "toc"
+   },
+   {
+    "kind": "div",
+    "clase": "def-usp",
+    "bloque": 1,
+    "html": "<p><strong>DEFINICIÓN USP</strong></p>\n  <p>Calificación de Operación: colección documentada de las actividades necesarias para demostrar que un instrumento se desempeña de manera uniforme de acuerdo con las especificaciones definidas por el usuario y es apropiado para el uso previsto, en el entorno seleccionado (<span class=\"refnorma\"></span>).</p>",
+    "familia": "toc"
+   },
+   {
+    "kind": "div",
+    "clase": "nota-datos",
+    "bloque": 1,
+    "html": "<p><strong>NOTA — DATOS DIGITALES</strong></p>\n  <p>Si el equipo entrega datos digitales, se procesan directamente y se anexan la data cruda y el reporte estadístico como parte de la evidencia. Si el equipo no dispone de impresión, transferencia, gestión de usuarios o respaldo electrónico, los ensayos correspondientes se declaran no aplica con su justificación, sin sustituir la evidencia por una suposición.</p>",
+    "familia": "toc"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-TO-001",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-TO-001 — Encendido, gases y autoprueba",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que el analizador enciende, alcanza las condiciones de gases y completa la autoprueba."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Encender el equipo y registrar la versión de software<br>\n  2) Verificar presión y pureza de los gases según el manual<br>\n  3) Verificar el resultado de la autoprueba y la ausencia de alarmas"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  La autoprueba finaliza sin error.<br>\n  Los gases cumplen la especificación del fabricante."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de encendido, gases y autoprueba"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante; URS aprobada."
+     }
+    ],
+    "tabla": null,
+    "familia": "toc"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-TO-002",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-TO-002 — Calibración con estándares de carbono",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar la calibración del analizador con estándares certificados de carbono."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Preparar los estándares certificados según el procedimiento aprobado<br>\n  2) Ejecutar la calibración con los niveles definidos en el protocolo<br>\n  3) Registrar la respuesta y el factor o curva obtenidos<br>\n  4) Procesar los datos crudos de este ensayo en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o condiciones con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  La calibración se completa y el resultado está dentro del criterio de la URS aprobada."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de calibración con estándares y curva<br>\n  - Data cruda y reporte estadístico del análisis correspondiente"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante; URS aprobada; certificados de los estándares."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "toc"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-TO-003",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-TO-003 — Exactitud y linealidad",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar la exactitud y la linealidad en el rango de uso."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Medir al menos cinco niveles de carbono del rango de uso<br>\n  2) Calcular la diferencia respecto del valor certificado<br>\n  3) Calcular la regresión y los residuos<br>\n  4) Procesar los datos crudos de este ensayo en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o condiciones con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  La exactitud y la linealidad están dentro del criterio de la URS aprobada."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de exactitud y linealidad con regresión y residuos<br>\n  - Data cruda y reporte estadístico del análisis correspondiente"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante; URS aprobada."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "toc"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-TO-004",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-TO-004 — Repetibilidad y límite de detección",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar la repetibilidad y el límite de detección del analizador."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Medir la muestra de referencia al menos diez veces<br>\n  2) Calcular la desviación estándar y el RSD<br>\n  3) Estimar el límite de detección con el blanco y el criterio estadístico definido en el protocolo<br>\n  4) Procesar los datos crudos de este ensayo en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o condiciones con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  La repetibilidad y el límite de detección están dentro del criterio de la URS aprobada."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de repetibilidad y límite de detección<br>\n  - Data cruda y reporte estadístico del análisis correspondiente"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante; URS aprobada."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "toc"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-TO-005",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-TO-005 — Blanco, agua de reactivo y arrastre",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar el blanco, el agua de reactivo y el arrastre entre muestras."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Medir el blanco y el agua de reactivo según el procedimiento aprobado<br>\n  2) Medir una muestra de baja concentración después de una de alta y calcular el arrastre<br>\n  3) Comparar con los límites del método aprobado<br>\n  4) Procesar los datos crudos de este ensayo en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o condiciones con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  El blanco y el arrastre están dentro de los límites del método aprobado."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de blanco, agua de reactivo y arrastre<br>\n  - Data cruda y reporte estadístico del análisis correspondiente"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante; método aprobado."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "toc"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-TO-006",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-TO-006 — Consumibles, alarmas y control de datos",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar los consumibles, las alarmas del equipo y el registro de datos."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Verificar el estado y la vigencia de los consumibles críticos<br>\n  2) Provocar las alarmas disponibles y registrar el disparo<br>\n  3) Verificar el registro de fecha, hora y usuario y la transferencia o impresión si aplica"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Los consumibles están vigentes y en estado operativo.<br>\n  Las alarmas actúan según el manual y los registros son trazables (si aplica)."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de consumibles, alarmas y control de datos"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante; 21 CFR Part 11 / EU GMP Anexo 11 (si aplica)."
+     }
+    ],
+    "tabla": null,
+    "familia": "toc"
+   },
+   {
+    "kind": "resumen",
+    "id": "EQ-OQ-TO-RES",
+    "bloque": 4,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-TO-RES — Tabla resumen de los ensayos del OQ",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Consolidar el listado de ensayos del OQ para la tabla resumen del protocolo."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Confirmar que los ensayos EQ-OQ-TO-001 a EQ-OQ-TO-006 están incluidos en el índice del protocolo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Los 6 ensayos aparecen en la tabla resumen con su veredicto."
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>EU GMP Anexo 15."
+     }
+    ],
+    "tabla": null,
+    "familia": "toc"
+   },
+   {
+    "kind": "tabla",
+    "id": "EQ-OQ-TO-REF",
+    "bloque": 6,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-TO-REF — Referencias del OQ de TOC",
+    "secciones": [],
+    "tabla": {
+     "headers": [
+      "SECCIÓN",
+      "TÍTULO",
+      "ESTADO"
+     ],
+     "rows": [
+      [
+       "6.1",
+       "Manual del fabricante del equipo — Gases, consumibles, límites y mantenimiento",
+       "VIGENTE"
+      ],
+      [
+       "6.2",
+       "URS aprobada — Rango de TOC, exactitud, repetibilidad y criterios de aceptación",
+       "VIGENTE"
+      ],
+      [
+       "6.3",
+       "USP <1058> — Analytical Instrument Qualification",
+       "VIGENTE"
+      ],
+      [
+       "6.4",
+       "EU GMP Anexo 15 — Calificación y validación",
+       "VIGENTE"
+      ],
+      [
+       "6.5",
+       "21 CFR Part 11 / EU GMP Anexo 11 — Registros electrónicos y firmas electrónicas (si aplica)",
+       "VIGENTE"
+      ],
+      [
+       "6.6",
+       "Norma específica del analizador TOC — PENDIENTE DEL RESPONSABLE",
+       "PENDIENTE"
+      ]
+     ]
+    },
+    "familia": "toc"
+   },
+   {
+    "kind": "div",
+    "clase": "anexos",
+    "bloque": 8,
+    "html": "<p><strong>ANEXOS:</strong></p>\n  <table>\n  <tbody><tr><th>SECCIÓN</th><th>TÍTULO</th></tr>\n<tr><td>8.1</td><td>Anexo A — Registros de calibración, exactitud, linealidad, repetibilidad y blanco</td></tr>\n<tr><td>8.2</td><td>Anexo B — Certificados de estándares de carbono y de los gases</td></tr>\n<tr><td>8.3</td><td>Anexo C — Registros de consumibles, alarmas y control de datos</td></tr>\n<tr><td>8.4</td><td>Anexo D — Matriz de trazabilidad requisito-prueba (RTM) y evidencia de revisión</td></tr>\n  </tbody></table>",
+    "familia": "toc"
+   },
+   {
+    "kind": "div",
+    "clase": "portada",
+    "bloque": 1,
+    "html": "<p><strong>PORTADA DEL PROTOCOLO OQ</strong></p>\n  <p><strong>Logo:</strong><br><img class=\"ent-logo\" alt=\"Logo de la entidad\"></p>\n  <p><strong>Calificación de Operación de <span class=\"equipo\">equipo</span>:</strong> <span class=\"ent-descripcion\">______</span></p>\n  <ol>\n    <li><strong>Marca:</strong> <span class=\"ent-marca\">______</span></li>\n    <li><strong>Modelo:</strong> <span class=\"ent-modelo\">______</span></li>\n    <li><strong>Código:</strong> <span class=\"ent-codigo\">______</span></li>\n  </ol>",
+    "familia": "incubadora"
+   },
+   {
+    "kind": "div",
+    "clase": "firmas",
+    "bloque": 1,
+    "html": "<p><strong>FLUJO DE FIRMAS DEL PROTOCOLO:</strong></p>\n  <p>Este apartado establece que los responsables revisan y aprueban el presente protocolo, declarando que está apto para su ejecución. Cualquier cambio posterior a la firma obliga a reiniciar el flujo de firmas, con el fin de garantizar que todos los departamentos involucrados estén al tanto de los ensayos a ejecutar.</p>\n  <ol>\n    <li><strong>Elaborado Por:</strong> <br> Analista de validaciones — elabora / Nombre: ______ Firma: ______ Fecha: ______</li><br>\n    <li><strong>Revisado Por:</strong> <br> Coordinador de validaciones — revisa / Nombre: ______ Firma: ______ Fecha: ______</li><br>\n    <li><strong>Revisado Por:</strong> <br> Gerente de Área — revisa / Nombre: ______ Firma: ______ Fecha: ______</li><br>\n    <li><strong>Aprobado por:</strong> <br> Gerente de gestión de calidad — aprueba / Nombre: ______ Firma: ______ Fecha: ______</li><br>\n  </ol>",
+    "familia": "incubadora"
+   },
+   {
+    "kind": "div",
+    "clase": "responsabilidades",
+    "bloque": 1,
+    "html": "<p><strong>RESPONSABILIDADES DEL PROTOCOLO:</strong></p>\n  <p><strong>Responsabilidad del Analista de validaciones:</strong></p>\n  <ol><li>Coordinar la ejecución de la Calificación de Operación con las áreas involucradas, asegurando personal, <span class=\"equipo\">equipo</span>, patrones, materiales e instrumentos y documentación.</li><li>Verificar que los instrumentos de medición estén identificados y con calibración vigente.</li><li>Ejecutar y/o supervisar los ensayos del protocolo según los criterios aprobados.</li><li>Registrar los datos de forma completa, legible y trazable (ALCOA+).</li><li>Documentar las desviaciones según los procedimientos internos vigentes.</li><li>Elaborar el informe de calificación con resultados, conclusiones y anexos.</li></ol>\n  <p><strong>Responsabilidad del Coordinador de validaciones:</strong></p>\n  <ol><li>Revisar técnicamente el protocolo antes de su ejecución.</li><li>Asignar al analista responsable y coordinar recursos.</li><li>Revisar las desviaciones, su tratamiento y las CAPA asociadas.</li><li>Revisar el informe final y autorizar la fase siguiente.</li></ol>\n  <p><strong>Responsabilidad del Gerente de Área:</strong></p>\n  <ol><li>Garantizar la disponibilidad del <span class=\"equipo\">equipo</span> y los accesos para la ejecución.</li><li>Facilitar la documentación técnica del fabricante y del proveedor.</li><li>Implementar las acciones operativas derivadas de desviaciones y CAPA.</li></ol>\n  <p><strong>Responsabilidad del Gerente de gestión de calidad:</strong></p>\n  <ol><li>Aprobar el protocolo y sus criterios de aceptación.</li><li>Aprobar las desviaciones y sus evaluaciones de impacto.</li><li>Emitir el dictamen final del estado de calificación.</li></ol>",
+    "familia": "incubadora"
+   },
+   {
+    "kind": "div",
+    "clase": "alcance",
+    "bloque": 1,
+    "html": "<p><strong>ALCANCE</strong></p>\n  <p>Esta calificación aplica a <span class=\"equipo\">equipo</span>, de la incubadora, instrumento analítico tipo L, y cubre los 6 ensayos listados en el índice. No incluye PQ: el desempeño se demuestra en este OQ y se mantiene con la verificación periódica definida en el procedimiento de uso. Los límites se toman de la URS aprobada y del manual del fabricante.</p>",
+    "familia": "incubadora"
+   },
+   {
+    "kind": "div",
+    "clase": "def-usp",
+    "bloque": 1,
+    "html": "<p><strong>DEFINICIÓN USP</strong></p>\n  <p>Calificación de Operación: colección documentada de las actividades necesarias para demostrar que un instrumento se desempeña de manera uniforme de acuerdo con las especificaciones definidas por el usuario y es apropiado para el uso previsto, en el entorno seleccionado (<span class=\"refnorma\"></span>).</p>",
+    "familia": "incubadora"
+   },
+   {
+    "kind": "div",
+    "clase": "nota-datos",
+    "bloque": 1,
+    "html": "<p><strong>NOTA — DATOS DIGITALES</strong></p>\n  <p>Si el equipo entrega datos digitales, se procesan directamente y se anexan la data cruda y el reporte estadístico como parte de la evidencia. Si el equipo no dispone de impresión, transferencia, gestión de usuarios o respaldo electrónico, los ensayos correspondientes se declaran no aplica con su justificación, sin sustituir la evidencia por una suposición.</p>",
+    "familia": "incubadora"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-IN-001",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-IN-001 — Encendido, setpoint y autoprueba",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que la incubadora enciende, alcanza el setpoint y completa la autoprueba."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Encender el equipo y registrar la versión de software<br>\n  2) Programar el setpoint definido en la URS y esperar la estabilización<br>\n  3) Verificar el resultado de la autoprueba y la ausencia de alarmas"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  La autoprueba finaliza sin error.<br>\n  El equipo alcanza el setpoint en el tiempo definido."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de encendido, setpoint y autoprueba"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante; URS aprobada."
+     }
+    ],
+    "tabla": null,
+    "familia": "incubadora"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-IN-002",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-IN-002 — Uniformidad de temperatura en vacío",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que la temperatura es uniforme en todo el volumen útil de la cámara vacía."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Ubicar sensores en los puntos definidos del volumen útil<br>\n  2) Registrar la temperatura durante el período de estabilización<br>\n  3) Calcular la diferencia máxima entre puntos y el RSD<br>\n  4) Procesar los datos crudos de este ensayo en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o condiciones con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  La diferencia entre puntos está dentro del criterio de la URS aprobada."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de uniformidad por punto con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis correspondiente"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante; URS aprobada."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "incubadora"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-IN-003",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-IN-003 — Estabilidad de temperatura en el tiempo",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que la temperatura se mantiene estable durante el período de operación."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Registrar la temperatura en el punto de control durante el período definido<br>\n  2) Calcular la desviación y la deriva<br>\n  3) Comparar con el criterio aprobado<br>\n  4) Procesar los datos crudos de este ensayo en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o condiciones con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  La estabilidad y la deriva están dentro del criterio de la URS aprobada."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de estabilidad y deriva<br>\n  - Data cruda y reporte estadístico del análisis correspondiente"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante; URS aprobada."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "incubadora"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-IN-004",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-IN-004 — Exactitud del sensor de control frente a patrón",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar la exactitud del sensor de control contra un patrón trazable."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Colocar el patrón en el punto de control y estabilizar en cada setpoint<br>\n  2) Registrar la lectura del equipo y del patrón<br>\n  3) Calcular la diferencia por setpoint<br>\n  4) Procesar los datos crudos de este ensayo en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o condiciones con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  La diferencia en cada setpoint está dentro del criterio de la URS aprobada."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de exactitud por setpoint<br>\n  - Data cruda y reporte estadístico del análisis correspondiente"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante; URS aprobada."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "incubadora"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-IN-005",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-IN-005 — Alarmas de temperatura y puerta",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar las alarmas de alta y baja temperatura y de puerta abierta."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Provocar la alarma alta y la baja según el procedimiento del fabricante<br>\n  2) Abrir la puerta y verificar la alarma y el retardo definidos<br>\n  3) Registrar el disparo y la recuperación"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Cada alarma actúa en el límite y con el retardo definidos en el protocolo aprobado."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de alarmas y retardos"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante; URS aprobada."
+     }
+    ],
+    "tabla": null,
+    "familia": "incubadora"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-IN-006",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-IN-006 — Corte de energía y recuperación",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar el comportamiento de la incubadora ante un corte de energía."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Cortar la energía y registrar el tiempo que mantiene la temperatura<br>\n  2) Verificar la alarma y el estado seguro<br>\n  3) Restablecer y medir el tiempo de recuperación al setpoint<br>\n  4) Procesar los datos crudos de este ensayo en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o condiciones con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  La temperatura se mantiene dentro del rango durante el tiempo definido en la URS.<br>\n  La recuperación al setpoint cumple el tiempo aprobado."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de corte y recuperación<br>\n  - Data cruda y reporte estadístico del análisis correspondiente"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante; URS aprobada."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "incubadora"
+   },
+   {
+    "kind": "resumen",
+    "id": "EQ-OQ-IN-RES",
+    "bloque": 4,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-IN-RES — Tabla resumen de los ensayos del OQ",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Consolidar el listado de ensayos del OQ para la tabla resumen del protocolo."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Confirmar que los ensayos EQ-OQ-IN-001 a EQ-OQ-IN-006 están incluidos en el índice del protocolo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Los 6 ensayos aparecen en la tabla resumen con su veredicto."
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>EU GMP Anexo 15."
+     }
+    ],
+    "tabla": null,
+    "familia": "incubadora"
+   },
+   {
+    "kind": "tabla",
+    "id": "EQ-OQ-IN-REF",
+    "bloque": 6,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-IN-REF — Referencias del OQ de Incubadora",
+    "secciones": [],
+    "tabla": {
+     "headers": [
+      "SECCIÓN",
+      "TÍTULO",
+      "ESTADO"
+     ],
+     "rows": [
+      [
+       "6.1",
+       "Manual del fabricante del equipo — Setpoints, alarmas y límites de operación",
+       "VIGENTE"
+      ],
+      [
+       "6.2",
+       "URS aprobada — Rango de temperatura, uniformidad y criterios de aceptación",
+       "VIGENTE"
+      ],
+      [
+       "6.3",
+       "USP <1058> — Analytical Instrument Qualification",
+       "VIGENTE"
+      ],
+      [
+       "6.4",
+       "EU GMP Anexo 15 — Calificación y validación",
+       "VIGENTE"
+      ],
+      [
+       "6.5",
+       "21 CFR Part 11 / EU GMP Anexo 11 — Registros electrónicos y firmas electrónicas (si aplica)",
+       "VIGENTE"
+      ],
+      [
+       "6.6",
+       "Norma específica de la incubadora — PENDIENTE DEL RESPONSABLE",
+       "PENDIENTE"
+      ]
+     ]
+    },
+    "familia": "incubadora"
+   },
+   {
+    "kind": "div",
+    "clase": "anexos",
+    "bloque": 8,
+    "html": "<p><strong>ANEXOS:</strong></p>\n  <table>\n  <tbody><tr><th>SECCIÓN</th><th>TÍTULO</th></tr>\n<tr><td>8.1</td><td>Anexo A — Registros de uniformidad, estabilidad, exactitud y recuperación</td></tr>\n<tr><td>8.2</td><td>Anexo B — Certificados de los patrones de temperatura utilizados</td></tr>\n<tr><td>8.3</td><td>Anexo C — Registros de alarmas, corte de energía y control de datos</td></tr>\n<tr><td>8.4</td><td>Anexo D — Matriz de trazabilidad requisito-prueba (RTM) y evidencia de revisión</td></tr>\n  </tbody></table>",
+    "familia": "incubadora"
+   },
+   {
+    "kind": "div",
+    "clase": "portada",
+    "bloque": 1,
+    "html": "<p><strong>PORTADA DEL PROTOCOLO OQ</strong></p>\n  <p><strong>Logo:</strong><br><img class=\"ent-logo\" alt=\"Logo de la entidad\"></p>\n  <p><strong>Calificación de Operación de <span class=\"equipo\">equipo</span>:</strong> <span class=\"ent-descripcion\">______</span></p>\n  <ol>\n    <li><strong>Marca:</strong> <span class=\"ent-marca\">______</span></li>\n    <li><strong>Modelo:</strong> <span class=\"ent-modelo\">______</span></li>\n    <li><strong>Código:</strong> <span class=\"ent-codigo\">______</span></li>\n  </ol>",
+    "familia": "centrifuga"
+   },
+   {
+    "kind": "div",
+    "clase": "firmas",
+    "bloque": 1,
+    "html": "<p><strong>FLUJO DE FIRMAS DEL PROTOCOLO:</strong></p>\n  <p>Este apartado establece que los responsables revisan y aprueban el presente protocolo, declarando que está apto para su ejecución. Cualquier cambio posterior a la firma obliga a reiniciar el flujo de firmas, con el fin de garantizar que todos los departamentos involucrados estén al tanto de los ensayos a ejecutar.</p>\n  <ol>\n    <li><strong>Elaborado Por:</strong> <br> Analista de validaciones — elabora / Nombre: ______ Firma: ______ Fecha: ______</li><br>\n    <li><strong>Revisado Por:</strong> <br> Coordinador de validaciones — revisa / Nombre: ______ Firma: ______ Fecha: ______</li><br>\n    <li><strong>Revisado Por:</strong> <br> Gerente de Área — revisa / Nombre: ______ Firma: ______ Fecha: ______</li><br>\n    <li><strong>Aprobado por:</strong> <br> Gerente de gestión de calidad — aprueba / Nombre: ______ Firma: ______ Fecha: ______</li><br>\n  </ol>",
+    "familia": "centrifuga"
+   },
+   {
+    "kind": "div",
+    "clase": "responsabilidades",
+    "bloque": 1,
+    "html": "<p><strong>RESPONSABILIDADES DEL PROTOCOLO:</strong></p>\n  <p><strong>Responsabilidad del Analista de validaciones:</strong></p>\n  <ol><li>Coordinar la ejecución de la Calificación de Operación con las áreas involucradas, asegurando personal, <span class=\"equipo\">equipo</span>, patrones, materiales e instrumentos y documentación.</li><li>Verificar que los instrumentos de medición estén identificados y con calibración vigente.</li><li>Ejecutar y/o supervisar los ensayos del protocolo según los criterios aprobados.</li><li>Registrar los datos de forma completa, legible y trazable (ALCOA+).</li><li>Documentar las desviaciones según los procedimientos internos vigentes.</li><li>Elaborar el informe de calificación con resultados, conclusiones y anexos.</li></ol>\n  <p><strong>Responsabilidad del Coordinador de validaciones:</strong></p>\n  <ol><li>Revisar técnicamente el protocolo antes de su ejecución.</li><li>Asignar al analista responsable y coordinar recursos.</li><li>Revisar las desviaciones, su tratamiento y las CAPA asociadas.</li><li>Revisar el informe final y autorizar la fase siguiente.</li></ol>\n  <p><strong>Responsabilidad del Gerente de Área:</strong></p>\n  <ol><li>Garantizar la disponibilidad del <span class=\"equipo\">equipo</span> y los accesos para la ejecución.</li><li>Facilitar la documentación técnica del fabricante y del proveedor.</li><li>Implementar las acciones operativas derivadas de desviaciones y CAPA.</li></ol>\n  <p><strong>Responsabilidad del Gerente de gestión de calidad:</strong></p>\n  <ol><li>Aprobar el protocolo y sus criterios de aceptación.</li><li>Aprobar las desviaciones y sus evaluaciones de impacto.</li><li>Emitir el dictamen final del estado de calificación.</li></ol>",
+    "familia": "centrifuga"
+   },
+   {
+    "kind": "div",
+    "clase": "alcance",
+    "bloque": 1,
+    "html": "<p><strong>ALCANCE</strong></p>\n  <p>Esta calificación aplica a <span class=\"equipo\">equipo</span>, de la centrífuga, instrumento analítico tipo L, y cubre los 6 ensayos listados en el índice. No incluye PQ: el desempeño se demuestra en este OQ y se mantiene con la verificación periódica definida en el procedimiento de uso. Los límites se toman de la URS aprobada y del manual del fabricante.</p>",
+    "familia": "centrifuga"
+   },
+   {
+    "kind": "div",
+    "clase": "def-usp",
+    "bloque": 1,
+    "html": "<p><strong>DEFINICIÓN USP</strong></p>\n  <p>Calificación de Operación: colección documentada de las actividades necesarias para demostrar que un instrumento se desempeña de manera uniforme de acuerdo con las especificaciones definidas por el usuario y es apropiado para el uso previsto, en el entorno seleccionado (<span class=\"refnorma\"></span>).</p>",
+    "familia": "centrifuga"
+   },
+   {
+    "kind": "div",
+    "clase": "nota-datos",
+    "bloque": 1,
+    "html": "<p><strong>NOTA — DATOS DIGITALES</strong></p>\n  <p>Si el equipo entrega datos digitales, se procesan directamente y se anexan la data cruda y el reporte estadístico como parte de la evidencia. Si el equipo no dispone de impresión, transferencia, gestión de usuarios o respaldo electrónico, los ensayos correspondientes se declaran no aplica con su justificación, sin sustituir la evidencia por una suposición.</p>",
+    "familia": "centrifuga"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-CE-001",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-CE-001 — Encendido, tapa y autoprueba",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que la centrífuga enciende, detecta la tapa cerrada y completa la autoprueba."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Encender el equipo y registrar la versión de software<br>\n  2) Verificar el enclavamiento de la tapa y el estado del rotor<br>\n  3) Verificar el resultado de la autoprueba"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  La autoprueba finaliza sin error.<br>\n  El equipo no permite operar con la tapa abierta."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de encendido, tapa y autoprueba"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante; URS aprobada."
+     }
+    ],
+    "tabla": null,
+    "familia": "centrifuga"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-CE-002",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-CE-002 — Velocidad y fuerza centrífuga relativa",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que la velocidad y la fuerza centrífuga relativa coinciden con la consigna."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Ajustar la velocidad definida en la URS<br>\n  2) Medir la velocidad con tacómetro patrón en al menos tres repeticiones<br>\n  3) Calcular la RCF con el radio declarado y compararla con la consigna<br>\n  4) Procesar los datos crudos de este ensayo en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o condiciones con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  La velocidad y la RCF están dentro de las tolerancias de la URS aprobada."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de velocidad y RCF por consigna<br>\n  - Data cruda y reporte estadístico del análisis correspondiente"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante; URS aprobada."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "centrifuga"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-CE-003",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-CE-003 — Temporizador y rampas",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar el temporizador y las rampas de aceleración y frenado."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Programar el tiempo definido y medirlo con cronómetro patrón<br>\n  2) Verificar la rampa de aceleración y la de frenado configuradas<br>\n  3) Registrar el tiempo real y la respuesta del rotor<br>\n  4) Procesar los datos crudos de este ensayo en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o condiciones con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  El tiempo y las rampas están dentro del criterio de la URS aprobada."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de temporizador y rampas<br>\n  - Data cruda y reporte estadístico del análisis correspondiente"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante; URS aprobada."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "centrifuga"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-CE-004",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-CE-004 — Balanceo, vibración y estado del rotor",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar el balanceo de la carga, el nivel de vibración y el estado del rotor."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Verificar la carga equilibrada según el manual y el estado del rotor<br>\n  2) Registrar el nivel de vibración en la operación definida<br>\n  3) Verificar la ausencia de ruidos o alarmas anormales"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  La vibración está dentro del criterio del fabricante.<br>\n  El rotor está en buen estado y sin fisuras ni corrosión."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de balanceo, vibración y estado del rotor"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante."
+     }
+    ],
+    "tabla": null,
+    "familia": "centrifuga"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-CE-005",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-CE-005 — Enclavamiento de tapa y freno",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar el enclavamiento de la tapa y el funcionamiento del freno."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Intentar abrir la tapa durante la operación y verificar el bloqueo<br>\n  2) Accionar el freno y medir el tiempo de detención<br>\n  3) Registrar la recuperación y la apertura normal al detenerse"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  La tapa permanece bloqueada hasta la detención completa.<br>\n  El freno detiene el rotor en el tiempo definido por el fabricante."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de enclavamiento y freno"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante."
+     }
+    ],
+    "tabla": null,
+    "familia": "centrifuga"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-CE-006",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-CE-006 — Alarmas, corte de energía y control de datos",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar las alarmas del equipo, el comportamiento ante un corte de energía y el registro de datos."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Provocar las alarmas disponibles y registrar el disparo<br>\n  2) Cortar la energía durante la operación y verificar el estado seguro<br>\n  3) Verificar el registro de fecha, hora y usuario y la transferencia o impresión si aplica"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Las alarmas actúan según el manual del fabricante.<br>\n  Ante el corte, el equipo queda en estado seguro y se recupera sin pérdida de registros."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de alarmas, corte de energía y datos"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante; 21 CFR Part 11 / EU GMP Anexo 11 (si aplica)."
+     }
+    ],
+    "tabla": null,
+    "familia": "centrifuga"
+   },
+   {
+    "kind": "resumen",
+    "id": "EQ-OQ-CE-RES",
+    "bloque": 4,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-CE-RES — Tabla resumen de los ensayos del OQ",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Consolidar el listado de ensayos del OQ para la tabla resumen del protocolo."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Confirmar que los ensayos EQ-OQ-CE-001 a EQ-OQ-CE-006 están incluidos en el índice del protocolo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Los 6 ensayos aparecen en la tabla resumen con su veredicto."
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>EU GMP Anexo 15."
+     }
+    ],
+    "tabla": null,
+    "familia": "centrifuga"
+   },
+   {
+    "kind": "tabla",
+    "id": "EQ-OQ-CE-REF",
+    "bloque": 6,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-CE-REF — Referencias del OQ de Centrífuga",
+    "secciones": [],
+    "tabla": {
+     "headers": [
+      "SECCIÓN",
+      "TÍTULO",
+      "ESTADO"
+     ],
+     "rows": [
+      [
+       "6.1",
+       "Manual del fabricante del equipo — Rotores, velocidad, freno y límites",
+       "VIGENTE"
+      ],
+      [
+       "6.2",
+       "URS aprobada — Velocidad, RCF, tiempo y criterios de aceptación",
+       "VIGENTE"
+      ],
+      [
+       "6.3",
+       "USP <1058> — Analytical Instrument Qualification",
+       "VIGENTE"
+      ],
+      [
+       "6.4",
+       "EU GMP Anexo 15 — Calificación y validación",
+       "VIGENTE"
+      ],
+      [
+       "6.5",
+       "21 CFR Part 11 / EU GMP Anexo 11 — Registros electrónicos y firmas electrónicas (si aplica)",
+       "VIGENTE"
+      ],
+      [
+       "6.6",
+       "Norma específica de la centrífuga — PENDIENTE DEL RESPONSABLE",
+       "PENDIENTE"
+      ]
+     ]
+    },
+    "familia": "centrifuga"
+   },
+   {
+    "kind": "div",
+    "clase": "anexos",
+    "bloque": 8,
+    "html": "<p><strong>ANEXOS:</strong></p>\n  <table>\n  <tbody><tr><th>SECCIÓN</th><th>TÍTULO</th></tr>\n<tr><td>8.1</td><td>Anexo A — Registros de velocidad, RCF, temporizador, rampas y vibración</td></tr>\n<tr><td>8.2</td><td>Anexo B — Certificados del tacómetro y del cronómetro patrón</td></tr>\n<tr><td>8.3</td><td>Anexo C — Registros de enclavamiento, alarmas, corte de energía y datos</td></tr>\n<tr><td>8.4</td><td>Anexo D — Matriz de trazabilidad requisito-prueba (RTM) y evidencia de revisión</td></tr>\n  </tbody></table>",
+    "familia": "centrifuga"
+   },
+   {
+    "kind": "div",
+    "clase": "portada",
+    "bloque": 1,
+    "html": "<p><strong>PORTADA DEL PROTOCOLO OQ</strong></p>\n  <p><strong>Logo:</strong><br><img class=\"ent-logo\" alt=\"Logo de la entidad\"></p>\n  <p><strong>Calificación de Operación de <span class=\"equipo\">equipo</span>:</strong> <span class=\"ent-descripcion\">______</span></p>\n  <ol>\n    <li><strong>Marca:</strong> <span class=\"ent-marca\">______</span></li>\n    <li><strong>Modelo:</strong> <span class=\"ent-modelo\">______</span></li>\n    <li><strong>Código:</strong> <span class=\"ent-codigo\">______</span></li>\n  </ol>",
+    "familia": "termometro"
+   },
+   {
+    "kind": "div",
+    "clase": "firmas",
+    "bloque": 1,
+    "html": "<p><strong>FLUJO DE FIRMAS DEL PROTOCOLO:</strong></p>\n  <p>Este apartado establece que los responsables revisan y aprueban el presente protocolo, declarando que está apto para su ejecución. Cualquier cambio posterior a la firma obliga a reiniciar el flujo de firmas, con el fin de garantizar que todos los departamentos involucrados estén al tanto de los ensayos a ejecutar.</p>\n  <ol>\n    <li><strong>Elaborado Por:</strong> <br> Analista de validaciones — elabora / Nombre: ______ Firma: ______ Fecha: ______</li><br>\n    <li><strong>Revisado Por:</strong> <br> Coordinador de validaciones — revisa / Nombre: ______ Firma: ______ Fecha: ______</li><br>\n    <li><strong>Revisado Por:</strong> <br> Gerente de Área — revisa / Nombre: ______ Firma: ______ Fecha: ______</li><br>\n    <li><strong>Aprobado por:</strong> <br> Gerente de gestión de calidad — aprueba / Nombre: ______ Firma: ______ Fecha: ______</li><br>\n  </ol>",
+    "familia": "termometro"
+   },
+   {
+    "kind": "div",
+    "clase": "responsabilidades",
+    "bloque": 1,
+    "html": "<p><strong>RESPONSABILIDADES DEL PROTOCOLO:</strong></p>\n  <p><strong>Responsabilidad del Analista de validaciones:</strong></p>\n  <ol><li>Coordinar la ejecución de la Calificación de Operación con las áreas involucradas, asegurando personal, <span class=\"equipo\">equipo</span>, patrones, materiales e instrumentos y documentación.</li><li>Verificar que los instrumentos de medición estén identificados y con calibración vigente.</li><li>Ejecutar y/o supervisar los ensayos del protocolo según los criterios aprobados.</li><li>Registrar los datos de forma completa, legible y trazable (ALCOA+).</li><li>Documentar las desviaciones según los procedimientos internos vigentes.</li><li>Elaborar el informe de calificación con resultados, conclusiones y anexos.</li></ol>\n  <p><strong>Responsabilidad del Coordinador de validaciones:</strong></p>\n  <ol><li>Revisar técnicamente el protocolo antes de su ejecución.</li><li>Asignar al analista responsable y coordinar recursos.</li><li>Revisar las desviaciones, su tratamiento y las CAPA asociadas.</li><li>Revisar el informe final y autorizar la fase siguiente.</li></ol>\n  <p><strong>Responsabilidad del Gerente de Área:</strong></p>\n  <ol><li>Garantizar la disponibilidad del <span class=\"equipo\">equipo</span> y los accesos para la ejecución.</li><li>Facilitar la documentación técnica del fabricante y del proveedor.</li><li>Implementar las acciones operativas derivadas de desviaciones y CAPA.</li></ol>\n  <p><strong>Responsabilidad del Gerente de gestión de calidad:</strong></p>\n  <ol><li>Aprobar el protocolo y sus criterios de aceptación.</li><li>Aprobar las desviaciones y sus evaluaciones de impacto.</li><li>Emitir el dictamen final del estado de calificación.</li></ol>",
+    "familia": "termometro"
+   },
+   {
+    "kind": "div",
+    "clase": "alcance",
+    "bloque": 1,
+    "html": "<p><strong>ALCANCE</strong></p>\n  <p>Esta calificación aplica a <span class=\"equipo\">equipo</span>, de los termómetros y data loggers, instrumento analítico tipo L, y cubre los 6 ensayos listados en el índice. No incluye PQ: el desempeño se demuestra en este OQ y se mantiene con la verificación periódica definida en el procedimiento de uso. Los límites se toman de la URS aprobada y del manual del fabricante.</p>",
+    "familia": "termometro"
+   },
+   {
+    "kind": "div",
+    "clase": "def-usp",
+    "bloque": 1,
+    "html": "<p><strong>DEFINICIÓN USP</strong></p>\n  <p>Calificación de Operación: colección documentada de las actividades necesarias para demostrar que un instrumento se desempeña de manera uniforme de acuerdo con las especificaciones definidas por el usuario y es apropiado para el uso previsto, en el entorno seleccionado (<span class=\"refnorma\"></span>).</p>",
+    "familia": "termometro"
+   },
+   {
+    "kind": "div",
+    "clase": "nota-datos",
+    "bloque": 1,
+    "html": "<p><strong>NOTA — DATOS DIGITALES</strong></p>\n  <p>Si el equipo entrega datos digitales, se procesan directamente y se anexan la data cruda y el reporte estadístico como parte de la evidencia. Si el equipo no dispone de impresión, transferencia, gestión de usuarios o respaldo electrónico, los ensayos correspondientes se declaran no aplica con su justificación, sin sustituir la evidencia por una suposición.</p>",
+    "familia": "termometro"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-TE-001",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-TE-001 — Encendido, batería y autoprueba",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que el instrumento enciende, informa el estado de la batería y completa la autoprueba."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Encender el instrumento y registrar el modelo, el número de serie y la versión de firmware<br>\n  2) Verificar el estado de la batería y la memoria disponible<br>\n  3) Verificar el resultado de la autoprueba y la ausencia de alarmas"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  La autoprueba finaliza sin error.<br>\n  La batería y la memoria son suficientes para el período de registro definido."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de encendido, batería y autoprueba"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante; URS aprobada."
+     }
+    ],
+    "tabla": null,
+    "familia": "termometro"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-TE-002",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-TE-002 — Exactitud en puntos de referencia",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar la exactitud del instrumento en puntos trazables del rango de uso."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Someter el instrumento a los puntos de referencia definidos en el protocolo<br>\n  2) Registrar la lectura y el valor del patrón en cada punto<br>\n  3) Calcular la diferencia en cada punto<br>\n  4) Procesar los datos crudos de este ensayo en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o condiciones con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  La diferencia en cada punto está dentro del criterio de la URS aprobada."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de exactitud por punto con patrón<br>\n  - Data cruda y reporte estadístico del análisis correspondiente"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante; URS aprobada; certificado del patrón."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "termometro"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-TE-003",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-TE-003 — Repetibilidad de la lectura",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que las lecturas repetidas en el mismo punto son reproducibles."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Realizar al menos diez lecturas en el punto de referencia definido<br>\n  2) Registrar la lectura en cada medición<br>\n  3) Calcular la desviación estándar y el RSD<br>\n  4) Procesar los datos crudos de este ensayo en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o condiciones con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  La desviación estándar o el RSD están dentro del criterio de la URS aprobada."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de repetibilidad con cálculo estadístico<br>\n  - Data cruda y reporte estadístico del análisis correspondiente"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante; URS aprobada."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "termometro"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-TE-004",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-TE-004 — Tiempo de respuesta",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar el tiempo que tarda el instrumento en alcanzar la lectura estable tras un cambio de temperatura."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Pasar el instrumento de una temperatura a otra del rango de uso<br>\n  2) Registrar el tiempo hasta alcanzar el criterio de estabilidad definido<br>\n  3) Repetir al menos tres veces<br>\n  4) Procesar los datos crudos de este ensayo en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o condiciones con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  El tiempo de respuesta está dentro del criterio de la URS aprobada."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de tiempo de respuesta por repetición<br>\n  - Data cruda y reporte estadístico del análisis correspondiente"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante; URS aprobada."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "termometro"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-TE-005",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-TE-005 — Intervalo de registro y marca de tiempo",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar el intervalo de registro y la exactitud de la fecha y hora del data logger."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Configurar el intervalo definido en la URS<br>\n  2) Verificar la marca de tiempo contra una referencia horaria<br>\n  3) Registrar el intervalo real y la desviación de la marca de tiempo<br>\n  4) Procesar los datos crudos de este ensayo en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o condiciones con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  El intervalo y la marca de tiempo están dentro del criterio de la URS aprobada."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro del intervalo y la marca de tiempo<br>\n  - Data cruda y reporte estadístico del análisis correspondiente"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante; URS aprobada."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "termometro"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-OQ-TE-006",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-TE-006 — Alarmas, descarga y control de datos",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar las alarmas del instrumento, la descarga de datos y la integridad del registro."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Configurar los límites de alarma definidos y provocar cada alarma<br>\n  2) Descargar los datos y verificar que coinciden con el registro del equipo<br>\n  3) Verificar que los archivos no pueden modificarse sin trazabilidad"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Las alarmas actúan en los límites definidos.<br>\n  La descarga es completa y consistente con el registro del equipo.<br>\n  Los datos conservan trazabilidad de fecha, hora y usuario (si aplica)."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de alarmas, descarga y control de datos"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante; 21 CFR Part 11 / EU GMP Anexo 11 (si aplica)."
+     }
+    ],
+    "tabla": null,
+    "familia": "termometro"
+   },
+   {
+    "kind": "resumen",
+    "id": "EQ-OQ-TE-RES",
+    "bloque": 4,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-TE-RES — Tabla resumen de los ensayos del OQ",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Consolidar el listado de ensayos del OQ para la tabla resumen del protocolo."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Confirmar que los ensayos EQ-OQ-TE-001 a EQ-OQ-TE-006 están incluidos en el índice del protocolo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Los 6 ensayos aparecen en la tabla resumen con su veredicto."
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>EU GMP Anexo 15."
+     }
+    ],
+    "tabla": null,
+    "familia": "termometro"
+   },
+   {
+    "kind": "tabla",
+    "id": "EQ-OQ-TE-REF",
+    "bloque": 6,
+    "cond": "ambas",
+    "titulo": "EQ-OQ-TE-REF — Referencias del OQ de Termómetros y data loggers",
+    "secciones": [],
+    "tabla": {
+     "headers": [
+      "SECCIÓN",
+      "TÍTULO",
+      "ESTADO"
+     ],
+     "rows": [
+      [
+       "6.1",
+       "Manual del fabricante del equipo — Rango, batería, intervalo y límites",
+       "VIGENTE"
+      ],
+      [
+       "6.2",
+       "URS aprobada — Rango de temperatura, exactitud, respuesta y criterios de aceptación",
+       "VIGENTE"
+      ],
+      [
+       "6.3",
+       "USP <1058> — Analytical Instrument Qualification",
+       "VIGENTE"
+      ],
+      [
+       "6.4",
+       "EU GMP Anexo 15 — Calificación y validación",
+       "VIGENTE"
+      ],
+      [
+       "6.5",
+       "21 CFR Part 11 / EU GMP Anexo 11 — Registros electrónicos y firmas electrónicas (si aplica)",
+       "VIGENTE"
+      ],
+      [
+       "6.6",
+       "Norma específica de termómetros y data loggers — PENDIENTE DEL RESPONSABLE",
+       "PENDIENTE"
+      ]
+     ]
+    },
+    "familia": "termometro"
+   },
+   {
+    "kind": "div",
+    "clase": "anexos",
+    "bloque": 8,
+    "html": "<p><strong>ANEXOS:</strong></p>\n  <table>\n  <tbody><tr><th>SECCIÓN</th><th>TÍTULO</th></tr>\n<tr><td>8.1</td><td>Anexo A — Registros de exactitud, repetibilidad, tiempo de respuesta y marcas de tiempo</td></tr>\n<tr><td>8.2</td><td>Anexo B — Certificados de los patrones de temperatura y de calibración del instrumento</td></tr>\n<tr><td>8.3</td><td>Anexo C — Registros de alarmas, descarga y control de datos</td></tr>\n<tr><td>8.4</td><td>Anexo D — Matriz de trazabilidad requisito-prueba (RTM) y evidencia de revisión</td></tr>\n  </tbody></table>",
+    "familia": "termometro"
    }
   ],
   "PQ": [
@@ -33701,6 +40507,1897 @@ var BancoEquipos = {
     "bloque": 8,
     "html": "<p><strong>ANEXOS:</strong></p>\n<table>\n<tbody><tr><th>SECCIÓN</th><th>TÍTULO</th></tr>\n<tr><td>8.1</td><td>Anexo A — Registros de mapeo con carga, hold-up, operación continua y repetibilidad del desempeño</td></tr>\n<tr><td>8.2</td><td>Anexo B — Certificados de calibración de patrones e instrumentos</td></tr>\n<tr><td>8.3</td><td>Anexo C — Registros de retos, excursiones y alarmas verificadas; revisión de registros y datos</td></tr>\n<tr><td>8.4</td><td>Anexo D — Matriz de trazabilidad requisito-prueba (RTM) y evidencia de revisión</td></tr>\n</tbody></table>",
     "familia": "congelador-lab"
+   },
+   {
+    "kind": "div",
+    "clase": "portada",
+    "bloque": 1,
+    "html": "<p><strong>PORTADA DEL PROTOCOLO PQ</strong></p>\n  <p><strong>Logo:</strong><br><img class=\"ent-logo\" alt=\"Logo de la entidad\"></p>\n  <p><strong>Calificación de Desempeño de <span class=\"equipo\">equipo</span>:</strong> <span class=\"ent-descripcion\">______</span></p>\n  <ol>\n    <li><strong>Marca:</strong> <span class=\"ent-marca\">______</span></li>\n    <li><strong>Modelo:</strong> <span class=\"ent-modelo\">______</span></li>\n    <li><strong>Código:</strong> <span class=\"ent-codigo\">______</span></li>\n  </ol>",
+    "familia": "liofilizador"
+   },
+   {
+    "kind": "div",
+    "clase": "firmas",
+    "bloque": 1,
+    "html": "<p><strong>FLUJO DE FIRMAS DEL PROTOCOLO:</strong></p>\n  <p>Este apartado establece que los responsables revisan y aprueban el presente protocolo, declarando que está apto para su ejecución. Cualquier cambio posterior a la firma obliga a reiniciar el flujo de firmas, con el fin de garantizar que todos los departamentos involucrados estén al tanto de los ensayos a ejecutar.</p>\n  <ol>\n    <li><strong>Elaborado Por:</strong> <br> Analista de validaciones — elabora / Nombre: ______ Firma: ______ Fecha: ______</li><br>\n    <li><strong>Revisado Por:</strong> <br> Coordinador de validaciones — revisa / Nombre: ______ Firma: ______ Fecha: ______</li><br>\n    <li><strong>Revisado Por:</strong> <br> Gerente de Área — revisa / Nombre: ______ Firma: ______ Fecha: ______</li><br>\n    <li><strong>Aprobado por:</strong> <br> Gerente de gestión de calidad — aprueba / Nombre: ______ Firma: ______ Fecha: ______</li><br>\n  </ol>",
+    "familia": "liofilizador"
+   },
+   {
+    "kind": "div",
+    "clase": "responsabilidades",
+    "bloque": 1,
+    "html": "<p><strong>RESPONSABILIDADES DEL PROTOCOLO:</strong></p>\n  <p><strong>Responsabilidad del Analista de validaciones:</strong></p>\n  <ol><li>Coordinar la ejecución de la Calificación de Desempeño con las áreas involucradas, asegurando personal, <span class=\"equipo\">equipo</span>, patrones, materiales e instrumentos y documentación.</li><li>Verificar que los instrumentos de medición estén identificados y con calibración vigente.</li><li>Ejecutar y/o supervisar los ensayos del protocolo según los criterios aprobados.</li><li>Registrar los datos de forma completa, legible y trazable (ALCOA+).</li><li>Documentar las desviaciones según los procedimientos internos vigentes.</li><li>Elaborar el informe de calificación con resultados, conclusiones y anexos.</li></ol>\n  <p><strong>Responsabilidad del Coordinador de validaciones:</strong></p>\n  <ol><li>Revisar técnicamente el protocolo antes de su ejecución.</li><li>Asignar al analista responsable y coordinar recursos.</li><li>Revisar las desviaciones, su tratamiento y las CAPA asociadas.</li><li>Revisar el informe final y autorizar la fase siguiente.</li></ol>\n  <p><strong>Responsabilidad del Gerente de Área:</strong></p>\n  <ol><li>Garantizar la disponibilidad del <span class=\"equipo\">equipo</span> y los accesos para la ejecución.</li><li>Facilitar la documentación técnica del fabricante y del proveedor.</li><li>Implementar las acciones operativas derivadas de desviaciones y CAPA.</li></ol>\n  <p><strong>Responsabilidad del Gerente de gestión de calidad:</strong></p>\n  <ol><li>Aprobar el protocolo y sus criterios de aceptación.</li><li>Aprobar las desviaciones y sus evaluaciones de impacto.</li><li>Emitir el dictamen final del estado de calificación.</li></ol>",
+    "familia": "liofilizador"
+   },
+   {
+    "kind": "div",
+    "clase": "alcance",
+    "bloque": 1,
+    "html": "<p><strong>ALCANCE</strong></p>\n  <p>Esta calificación aplica a <span class=\"equipo\">equipo</span>, del liofilizador, según protocolo PQ, y cubre los 6 ensayos listados en el índice. Los setpoints, tolerancias y criterios de aceptación se toman de la URS aprobada y del manual del fabricante; la norma específica de la familia permanece como PENDIENTE DEL RESPONSABLE.</p>",
+    "familia": "liofilizador"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-LI-001",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-LI-001 — Curva de producto frente a estante con carga",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que la temperatura de producto sigue al estante dentro del criterio aprobado durante el ciclo con carga representativa."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Cargar la cámara con la cantidad y distribución definidas en la URS<br>\n  2) Ubicar sensores de producto en los viales o puntos críticos definidos<br>\n  3) Ejecutar el ciclo completo y registrar estante y producto<br>\n  4) Calcular la diferencia producto-estante en congelación, sublimación y secado secundario<br>\n  5) Procesar los datos crudos de este ensayo en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o condiciones con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  La diferencia producto-estante en cada fase está dentro del criterio de la URS aprobada.<br>\n  El ciclo completa sin excursiones no evaluadas."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro del ciclo con curvas de estante y producto por punto<br>\n  - Data cruda y reporte estadístico del análisis correspondiente"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>URS aprobada; manual del fabricante."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "liofilizador"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-LI-002",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-LI-002 — Uniformidad entre viales y posiciones con carga",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que la temperatura de producto es uniforme entre los viales y posiciones evaluadas durante el ciclo."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Seleccionar viales en el centro, los bordes y los estantes superior e inferior<br>\n  2) Registrar la temperatura de producto durante todo el ciclo<br>\n  3) Calcular la diferencia máxima entre posiciones y el RSD por fase<br>\n  4) Procesar los datos crudos de este ensayo en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o condiciones con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  La diferencia entre posiciones está dentro del criterio de la URS aprobada.<br>\n  Todos los puntos permanecen dentro del rango aprobado."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de uniformidad por posición con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis correspondiente"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>URS aprobada."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "liofilizador"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-LI-003",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-LI-003 — Humedad residual del producto liofilizado",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que la humedad residual del producto al final del ciclo cumple la especificación aprobada."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Tomar las muestras definidas en el plan de muestreo aprobado<br>\n  2) Determinar la humedad residual por el método validado definido en la especificación<br>\n  3) Registrar el resultado por muestra y compararlo con la especificación<br>\n  4) Procesar los datos crudos de este ensayo en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o condiciones con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  La humedad residual de todas las muestras cumple la especificación aprobada del producto."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de humedad residual por muestra con método y resultado<br>\n  - Data cruda y reporte estadístico del análisis correspondiente"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Especificación aprobada del producto; método analítico validado."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "liofilizador"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-LI-004",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-LI-004 — Integridad de cierre de los viales",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que el cierre de los viales sometidos al ciclo mantiene la integridad según el método aprobado."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Seleccionar la muestra definida en el plan de muestreo aprobado<br>\n  2) Aplicar el método de integridad de cierre aprobado para el producto<br>\n  3) Registrar el resultado por vial y la sensibilidad del método"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Todos los viales evaluados cumplen el criterio de integridad definido en la especificación aprobada.<br>\n  El método utilizado está validado para el producto y su sensibilidad es adecuada al criterio."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de integridad de cierre por vial y método utilizado"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Especificación aprobada del producto; método validado."
+     }
+    ],
+    "tabla": null,
+    "familia": "liofilizador"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-LI-005",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-LI-005 — Corte de energía durante el ciclo con carga",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar el comportamiento del producto y del equipo ante un corte de energía durante la fase crítica del ciclo."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Cortar la energía en el punto del ciclo definido como crítico en la URS<br>\n  2) Registrar el tiempo que el producto se mantiene dentro del rango y la respuesta de las alarmas<br>\n  3) Restablecer la energía y verificar la recuperación del ciclo o la aplicación del procedimiento de contingencia<br>\n  4) Procesar los datos crudos de este ensayo en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o condiciones con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  El producto permanece dentro del rango durante el tiempo definido en la URS.<br>\n  La contingencia aplicada está documentada y el lote se evalúa según el procedimiento aprobado."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro del corte, tiempos y evaluación de impacto sobre el producto<br>\n  - Data cruda y reporte estadístico del análisis correspondiente"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>URS aprobada; procedimiento de contingencia aprobado."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "liofilizador"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-LI-006",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-LI-006 — Revisión de registros y datos del PQ",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que los registros del PQ están completos, legibles, trazables y revisados conforme a ALCOA+, y que la data cruda coincide con el informe."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Revisar que cada ensayo tenga registro con fecha, hora, equipo, punto, setpoint y responsable<br>\n  2) Verificar que cada desviación o excursión tenga evaluación de impacto y disposición<br>\n  3) Verificar que la data cruda y los reportes estadísticos estén anexados y coincidan con el informe<br>\n  4) Verificar que las correcciones estén firmadas, fechadas y justificadas"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  El 100 % de los ensayos tiene registro completo y trazable.<br>\n  Toda desviación tiene evaluación de impacto y disposición documentada.<br>\n  La data cruda y los reportes son consistentes con el informe."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Lista de verificación de registros por ensayo<br>\n  - Registro de revisión de data cruda y desviaciones"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>EU GMP Anexo 15; 21 CFR Part 11 / EU GMP Anexo 11; ALCOA+."
+     }
+    ],
+    "tabla": null,
+    "familia": "liofilizador"
+   },
+   {
+    "kind": "resumen",
+    "id": "EQ-PQ-LI-RES",
+    "bloque": 4,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-LI-RES — Tabla resumen de los ensayos del PQ",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Consolidar el listado de ensayos del PQ para la tabla resumen del protocolo."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Confirmar que los ensayos EQ-PQ-LI-001 a EQ-PQ-LI-006 están incluidos en el índice del protocolo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Los 6 ensayos aparecen en la tabla resumen con su veredicto."
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>EU GMP Anexo 15."
+     }
+    ],
+    "tabla": null,
+    "familia": "liofilizador"
+   },
+   {
+    "kind": "tabla",
+    "id": "EQ-PQ-LI-REF",
+    "bloque": 6,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-LI-REF — Referencias del PQ de Liofilizador",
+    "secciones": [],
+    "tabla": {
+     "headers": [
+      "SECCIÓN",
+      "TÍTULO",
+      "ESTADO"
+     ],
+     "rows": [
+      [
+       "6.1",
+       "Manual del fabricante del equipo — Setpoints, límites de vacío, alarmas y curvas de diseño",
+       "VIGENTE"
+      ],
+      [
+       "6.2",
+       "URS aprobada — Rango de operación, carga, criterios de aceptación y puntos de monitoreo",
+       "VIGENTE"
+      ],
+      [
+       "6.3",
+       "EU GMP Anexo 15 — Calificación y validación: el OQ y el PQ demuestran operación según especificaciones aprobadas",
+       "VIGENTE"
+      ],
+      [
+       "6.4",
+       "GAMP 5, 2.ª ed. y 21 CFR Part 11 / EU GMP Anexo 11 — Ciclo de vida y registros electrónicos",
+       "VIGENTE"
+      ],
+      [
+       "6.5",
+       "ISPE Baseline Guide Vol. 5 — Commissioning and Qualification de equipos de producción",
+       "VIGENTE"
+      ],
+      [
+       "6.6",
+       "Norma específica de liofilización — PENDIENTE DEL RESPONSABLE",
+       "PENDIENTE"
+      ]
+     ]
+    },
+    "familia": "liofilizador"
+   },
+   {
+    "kind": "div",
+    "clase": "anexos",
+    "bloque": 8,
+    "html": "<p><strong>ANEXOS:</strong></p>\n  <table>\n  <tbody><tr><th>SECCIÓN</th><th>TÍTULO</th></tr>\n<tr><td>8.1</td><td>Anexo A — Registros de estanqueidad, enfriamiento, vacío, rampas y curvas de producto por ciclo y posición</td></tr>\n<tr><td>8.2</td><td>Anexo B — Certificados de calibración de patrones de temperatura, vacío y sensores utilizados</td></tr>\n<tr><td>8.3</td><td>Anexo C — Registros de alarmas, enclavamientos, cortes de energía, desviaciones y CAPA</td></tr>\n<tr><td>8.4</td><td>Anexo D — Matriz de trazabilidad requisito-prueba (RTM) y evidencia de revisión</td></tr>\n  </tbody></table>",
+    "familia": "liofilizador"
+   },
+   {
+    "kind": "div",
+    "clase": "portada",
+    "bloque": 1,
+    "html": "<p><strong>PORTADA DEL PROTOCOLO PQ</strong></p>\n  <p><strong>Logo:</strong><br><img class=\"ent-logo\" alt=\"Logo de la entidad\"></p>\n  <p><strong>Calificación de Desempeño de <span class=\"equipo\">equipo</span>:</strong> <span class=\"ent-descripcion\">______</span></p>\n  <ol>\n    <li><strong>Marca:</strong> <span class=\"ent-marca\">______</span></li>\n    <li><strong>Modelo:</strong> <span class=\"ent-modelo\">______</span></li>\n    <li><strong>Código:</strong> <span class=\"ent-codigo\">______</span></li>\n  </ol>",
+    "familia": "tunel-despirogenizacion"
+   },
+   {
+    "kind": "div",
+    "clase": "firmas",
+    "bloque": 1,
+    "html": "<p><strong>FLUJO DE FIRMAS DEL PROTOCOLO:</strong></p>\n  <p>Este apartado establece que los responsables revisan y aprueban el presente protocolo, declarando que está apto para su ejecución. Cualquier cambio posterior a la firma obliga a reiniciar el flujo de firmas, con el fin de garantizar que todos los departamentos involucrados estén al tanto de los ensayos a ejecutar.</p>\n  <ol>\n    <li><strong>Elaborado Por:</strong> <br> Analista de validaciones — elabora / Nombre: ______ Firma: ______ Fecha: ______</li><br>\n    <li><strong>Revisado Por:</strong> <br> Coordinador de validaciones — revisa / Nombre: ______ Firma: ______ Fecha: ______</li><br>\n    <li><strong>Revisado Por:</strong> <br> Gerente de Área — revisa / Nombre: ______ Firma: ______ Fecha: ______</li><br>\n    <li><strong>Aprobado por:</strong> <br> Gerente de gestión de calidad — aprueba / Nombre: ______ Firma: ______ Fecha: ______</li><br>\n  </ol>",
+    "familia": "tunel-despirogenizacion"
+   },
+   {
+    "kind": "div",
+    "clase": "responsabilidades",
+    "bloque": 1,
+    "html": "<p><strong>RESPONSABILIDADES DEL PROTOCOLO:</strong></p>\n  <p><strong>Responsabilidad del Analista de validaciones:</strong></p>\n  <ol><li>Coordinar la ejecución de la Calificación de Desempeño con las áreas involucradas, asegurando personal, <span class=\"equipo\">equipo</span>, patrones, materiales e instrumentos y documentación.</li><li>Verificar que los instrumentos de medición estén identificados y con calibración vigente.</li><li>Ejecutar y/o supervisar los ensayos del protocolo según los criterios aprobados.</li><li>Registrar los datos de forma completa, legible y trazable (ALCOA+).</li><li>Documentar las desviaciones según los procedimientos internos vigentes.</li><li>Elaborar el informe de calificación con resultados, conclusiones y anexos.</li></ol>\n  <p><strong>Responsabilidad del Coordinador de validaciones:</strong></p>\n  <ol><li>Revisar técnicamente el protocolo antes de su ejecución.</li><li>Asignar al analista responsable y coordinar recursos.</li><li>Revisar las desviaciones, su tratamiento y las CAPA asociadas.</li><li>Revisar el informe final y autorizar la fase siguiente.</li></ol>\n  <p><strong>Responsabilidad del Gerente de Área:</strong></p>\n  <ol><li>Garantizar la disponibilidad del <span class=\"equipo\">equipo</span> y los accesos para la ejecución.</li><li>Facilitar la documentación técnica del fabricante y del proveedor.</li><li>Implementar las acciones operativas derivadas de desviaciones y CAPA.</li></ol>\n  <p><strong>Responsabilidad del Gerente de gestión de calidad:</strong></p>\n  <ol><li>Aprobar el protocolo y sus criterios de aceptación.</li><li>Aprobar las desviaciones y sus evaluaciones de impacto.</li><li>Emitir el dictamen final del estado de calificación.</li></ol>",
+    "familia": "tunel-despirogenizacion"
+   },
+   {
+    "kind": "div",
+    "clase": "alcance",
+    "bloque": 1,
+    "html": "<p><strong>ALCANCE</strong></p>\n  <p>Esta calificación aplica a <span class=\"equipo\">equipo</span>, del túnel de despirogenización, según protocolo PQ, y cubre los 6 ensayos listados en el índice. Los setpoints, tolerancias y criterios de aceptación se toman de la URS aprobada y del manual del fabricante; la norma específica de la familia permanece como PENDIENTE DEL RESPONSABLE.</p>",
+    "familia": "tunel-despirogenizacion"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-TD-001",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-TD-001 — Reto de endotoxina con carga",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que el túnel reduce la endotoxina en la carga según el criterio aprobado y el método validado."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Preparar los testigos con la endotoxina y la carga definidas en el protocolo aprobado<br>\n  2) Someter los testigos al ciclo completo en la peor condición de carga y velocidad<br>\n  3) Cuantificar la endotoxina antes y después por el método validado<br>\n  4) Calcular la reducción y compararla con el criterio de la URS<br>\n  5) Procesar los datos crudos de este ensayo en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o condiciones con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  La reducción de endotoxina es igual o mayor que la definida en la URS aprobada.<br>\n  El método de cuantificación está validado y su sensibilidad es adecuada al criterio."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro del reto con resultados antes y después por testigo<br>\n  - Data cruda y reporte estadístico del análisis correspondiente"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>URS aprobada; método validado; especificación aprobada."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "tunel-despirogenizacion"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-TD-002",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-TD-002 — Perfil térmico con carga máxima y mínima",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que el perfil térmico se mantiene con la carga máxima y mínima definidas."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Operar con la carga máxima definida y registrar la temperatura en los puntos críticos<br>\n  2) Repetir con la carga mínima<br>\n  3) Comparar ambos perfiles con el obtenido en vacío<br>\n  4) Procesar los datos crudos de este ensayo en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o condiciones con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Ambos perfiles cumplen los setpoints y la tolerancia de la URS aprobada.<br>\n  La carga no genera zonas frías fuera del criterio."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de perfiles con carga máxima y mínima<br>\n  - Data cruda y reporte estadístico del análisis correspondiente"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>URS aprobada; manual del fabricante."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "tunel-despirogenizacion"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-TD-003",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-TD-003 — Tiempo de exposición con carga",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que la carga recibe el tiempo de exposición definido en la zona de despirogenización."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Medir el tiempo de permanencia de los testigos con la carga en operación<br>\n  2) Registrar la velocidad de banda durante la prueba<br>\n  3) Calcular el tiempo de exposición efectivo por testigo<br>\n  4) Procesar los datos crudos de este ensayo en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o condiciones con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  El tiempo de exposición efectivo cumple el valor aprobado en la URS."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de tiempos de exposición por testigo y velocidad<br>\n  - Data cruda y reporte estadístico del análisis correspondiente"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>URS aprobada."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "tunel-despirogenizacion"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-TD-004",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-TD-004 — Estado e integridad de los viales a la salida",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que los viales sometidos al túnel conservan su integridad y estado según la especificación aprobada."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Seleccionar la muestra definida en el plan de muestreo<br>\n  2) Inspeccionar integridad, deformación y estado del cierre<br>\n  3) Registrar los defectos y compararlos con el criterio aprobado"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Los viales cumplen el criterio de integridad y estado de la especificación aprobada."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de inspección de viales a la salida"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Especificación aprobada del producto."
+     }
+    ],
+    "tabla": null,
+    "familia": "tunel-despirogenizacion"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-TD-005",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-TD-005 — Alarmas y paradas con carga en operación",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar la respuesta de alarmas y paradas con la carga real en operación."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Provocar las alarmas definidas con la carga en la banda<br>\n  2) Verificar que la parada deja el producto en condición segura y que se aplica la contingencia<br>\n  3) Registrar el tiempo de respuesta y la disposición del producto"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Las alarmas y paradas actúan según el manual del fabricante.<br>\n  El producto afectado se evalúa y dispone según el procedimiento aprobado."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de alarmas y paradas con carga"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante; procedimiento de contingencia aprobado."
+     }
+    ],
+    "tabla": null,
+    "familia": "tunel-despirogenizacion"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-TD-006",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-TD-006 — Revisión de registros y datos del PQ",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que los registros del PQ están completos, trazables y revisados conforme a ALCOA+, y que la data cruda coincide con el informe."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Revisar que cada ensayo tenga registro con fecha, hora, equipo, zona, velocidad y responsable<br>\n  2) Verificar la evaluación de impacto de cada desviación<br>\n  3) Verificar que la data cruda y los reportes estén anexados y sean consistentes"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  El 100 % de los ensayos tiene registro completo y trazable.<br>\n  Toda desviación tiene evaluación de impacto y disposición.<br>\n  La data cruda y los reportes coinciden con el informe."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Lista de verificación de registros por ensayo<br>\n  - Registro de revisión de data cruda y desviaciones"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>EU GMP Anexo 15; 21 CFR Part 11 / EU GMP Anexo 11; ALCOA+."
+     }
+    ],
+    "tabla": null,
+    "familia": "tunel-despirogenizacion"
+   },
+   {
+    "kind": "resumen",
+    "id": "EQ-PQ-TD-RES",
+    "bloque": 4,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-TD-RES — Tabla resumen de los ensayos del PQ",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Consolidar el listado de ensayos del PQ para la tabla resumen del protocolo."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Confirmar que los ensayos EQ-PQ-TD-001 a EQ-PQ-TD-006 están incluidos en el índice del protocolo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Los 6 ensayos aparecen en la tabla resumen con su veredicto."
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>EU GMP Anexo 15."
+     }
+    ],
+    "tabla": null,
+    "familia": "tunel-despirogenizacion"
+   },
+   {
+    "kind": "tabla",
+    "id": "EQ-PQ-TD-REF",
+    "bloque": 6,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-TD-REF — Referencias del PQ de Túnel de despirogenización",
+    "secciones": [],
+    "tabla": {
+     "headers": [
+      "SECCIÓN",
+      "TÍTULO",
+      "ESTADO"
+     ],
+     "rows": [
+      [
+       "6.1",
+       "Manual del fabricante del equipo — Zonas, setpoints, velocidad de banda y límites de diseño",
+       "VIGENTE"
+      ],
+      [
+       "6.2",
+       "URS aprobada — Rango de operación, carga, criterios de aceptación y puntos de monitoreo",
+       "VIGENTE"
+      ],
+      [
+       "6.3",
+       "EU GMP Anexo 15 — Calificación y validación: el OQ y el PQ demuestran operación según especificaciones aprobadas",
+       "VIGENTE"
+      ],
+      [
+       "6.4",
+       "GAMP 5, 2.ª ed. y 21 CFR Part 11 / EU GMP Anexo 11 — Ciclo de vida y registros electrónicos",
+       "VIGENTE"
+      ],
+      [
+       "6.5",
+       "ISPE Baseline Guide Vol. 5 — Commissioning and Qualification de equipos de producción",
+       "VIGENTE"
+      ],
+      [
+       "6.6",
+       "Norma específica de despirogenización — PENDIENTE DEL RESPONSABLE",
+       "PENDIENTE"
+      ]
+     ]
+    },
+    "familia": "tunel-despirogenizacion"
+   },
+   {
+    "kind": "div",
+    "clase": "anexos",
+    "bloque": 8,
+    "html": "<p><strong>ANEXOS:</strong></p>\n  <table>\n  <tbody><tr><th>SECCIÓN</th><th>TÍTULO</th></tr>\n<tr><td>8.1</td><td>Anexo A — Registros de velocidad, tiempos de permanencia, perfiles térmicos y uniformidad por zona</td></tr>\n<tr><td>8.2</td><td>Anexo B — Certificados de calibración de patrones de temperatura, cronómetros e instrumentos de flujo</td></tr>\n<tr><td>8.3</td><td>Anexo C — Registros del reto de endotoxina, alarmas, paradas, desviaciones y CAPA</td></tr>\n<tr><td>8.4</td><td>Anexo D — Matriz de trazabilidad requisito-prueba (RTM) y evidencia de revisión</td></tr>\n  </tbody></table>",
+    "familia": "tunel-despirogenizacion"
+   },
+   {
+    "kind": "div",
+    "clase": "portada",
+    "bloque": 1,
+    "html": "<p><strong>PORTADA DEL PROTOCOLO PQ</strong></p>\n  <p><strong>Logo:</strong><br><img class=\"ent-logo\" alt=\"Logo de la entidad\"></p>\n  <p><strong>Calificación de Desempeño de <span class=\"equipo\">equipo</span>:</strong> <span class=\"ent-descripcion\">______</span></p>\n  <ol>\n    <li><strong>Marca:</strong> <span class=\"ent-marca\">______</span></li>\n    <li><strong>Modelo:</strong> <span class=\"ent-modelo\">______</span></li>\n    <li><strong>Código:</strong> <span class=\"ent-codigo\">______</span></li>\n  </ol>",
+    "familia": "secador-bandejas"
+   },
+   {
+    "kind": "div",
+    "clase": "firmas",
+    "bloque": 1,
+    "html": "<p><strong>FLUJO DE FIRMAS DEL PROTOCOLO:</strong></p>\n  <p>Este apartado establece que los responsables revisan y aprueban el presente protocolo, declarando que está apto para su ejecución. Cualquier cambio posterior a la firma obliga a reiniciar el flujo de firmas, con el fin de garantizar que todos los departamentos involucrados estén al tanto de los ensayos a ejecutar.</p>\n  <ol>\n    <li><strong>Elaborado Por:</strong> <br> Analista de validaciones — elabora / Nombre: ______ Firma: ______ Fecha: ______</li><br>\n    <li><strong>Revisado Por:</strong> <br> Coordinador de validaciones — revisa / Nombre: ______ Firma: ______ Fecha: ______</li><br>\n    <li><strong>Revisado Por:</strong> <br> Gerente de Área — revisa / Nombre: ______ Firma: ______ Fecha: ______</li><br>\n    <li><strong>Aprobado por:</strong> <br> Gerente de gestión de calidad — aprueba / Nombre: ______ Firma: ______ Fecha: ______</li><br>\n  </ol>",
+    "familia": "secador-bandejas"
+   },
+   {
+    "kind": "div",
+    "clase": "responsabilidades",
+    "bloque": 1,
+    "html": "<p><strong>RESPONSABILIDADES DEL PROTOCOLO:</strong></p>\n  <p><strong>Responsabilidad del Analista de validaciones:</strong></p>\n  <ol><li>Coordinar la ejecución de la Calificación de Desempeño con las áreas involucradas, asegurando personal, <span class=\"equipo\">equipo</span>, patrones, materiales e instrumentos y documentación.</li><li>Verificar que los instrumentos de medición estén identificados y con calibración vigente.</li><li>Ejecutar y/o supervisar los ensayos del protocolo según los criterios aprobados.</li><li>Registrar los datos de forma completa, legible y trazable (ALCOA+).</li><li>Documentar las desviaciones según los procedimientos internos vigentes.</li><li>Elaborar el informe de calificación con resultados, conclusiones y anexos.</li></ol>\n  <p><strong>Responsabilidad del Coordinador de validaciones:</strong></p>\n  <ol><li>Revisar técnicamente el protocolo antes de su ejecución.</li><li>Asignar al analista responsable y coordinar recursos.</li><li>Revisar las desviaciones, su tratamiento y las CAPA asociadas.</li><li>Revisar el informe final y autorizar la fase siguiente.</li></ol>\n  <p><strong>Responsabilidad del Gerente de Área:</strong></p>\n  <ol><li>Garantizar la disponibilidad del <span class=\"equipo\">equipo</span> y los accesos para la ejecución.</li><li>Facilitar la documentación técnica del fabricante y del proveedor.</li><li>Implementar las acciones operativas derivadas de desviaciones y CAPA.</li></ol>\n  <p><strong>Responsabilidad del Gerente de gestión de calidad:</strong></p>\n  <ol><li>Aprobar el protocolo y sus criterios de aceptación.</li><li>Aprobar las desviaciones y sus evaluaciones de impacto.</li><li>Emitir el dictamen final del estado de calificación.</li></ol>",
+    "familia": "secador-bandejas"
+   },
+   {
+    "kind": "div",
+    "clase": "alcance",
+    "bloque": 1,
+    "html": "<p><strong>ALCANCE</strong></p>\n  <p>Esta calificación aplica a <span class=\"equipo\">equipo</span>, del secador de bandejas, según protocolo PQ, y cubre los 6 ensayos listados en el índice. Los setpoints, tolerancias y criterios de aceptación se toman de la URS aprobada y del manual del fabricante; la norma específica de la familia permanece como PENDIENTE DEL RESPONSABLE.</p>",
+    "familia": "secador-bandejas"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-SB-001",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-SB-001 — Curva de secado con carga representativa",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que el ciclo de secado con la carga representativa sigue la curva definida y alcanza la humedad final aprobada."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Cargar las bandejas con la cantidad y distribución definidas en la URS<br>\n  2) Registrar la humedad o pérdida de peso en los intervalos definidos<br>\n  3) Comparar la curva medida con la definida y registrar el tiempo de ciclo<br>\n  4) Procesar los datos crudos de este ensayo en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o condiciones con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  La curva de secado y el tiempo de ciclo están dentro de lo definido en la URS aprobada.<br>\n  La humedad final alcanza la especificación aprobada."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de la curva de secado con puntos y tiempo de ciclo<br>\n  - Data cruda y reporte estadístico del análisis correspondiente"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>URS aprobada; especificación del producto."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "secador-bandejas"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-SB-002",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-SB-002 — Uniformidad de humedad final entre bandejas",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que la humedad final es uniforme entre bandejas y posiciones del carro."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Muestrear las bandejas y posiciones definidas en el plan de muestreo<br>\n  2) Determinar la humedad por el método validado<br>\n  3) Calcular la diferencia y el RSD entre posiciones<br>\n  4) Procesar los datos crudos de este ensayo en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o condiciones con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  La diferencia de humedad entre bandejas está dentro del criterio de la URS aprobada.<br>\n  Todas las muestras cumplen la especificación aprobada."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de humedad final por bandeja y posición<br>\n  - Data cruda y reporte estadístico del análisis correspondiente"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>URS aprobada; método validado."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "secador-bandejas"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-SB-003",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-SB-003 — Capacidad y tiempo de ciclo con carga",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que el secador procesa la carga definida en el tiempo de ciclo aprobado."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Cargar la cantidad máxima definida en la URS<br>\n  2) Registrar el tiempo total hasta alcanzar la humedad final<br>\n  3) Comparar la capacidad real con la declarada<br>\n  4) Procesar los datos crudos de este ensayo en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o condiciones con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  El tiempo de ciclo y la capacidad están dentro de lo definido en la URS aprobada."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de capacidad y tiempo de ciclo por lote<br>\n  - Data cruda y reporte estadístico del análisis correspondiente"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>URS aprobada; manual del fabricante."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "secador-bandejas"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-SB-004",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-SB-004 — Repetibilidad entre ciclos",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que la humedad final y el tiempo de ciclo son repetibles entre ciclos independientes."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Ejecutar al menos tres ciclos con la misma carga y setpoint<br>\n  2) Registrar humedad final y tiempo de ciclo por ciclo<br>\n  3) Calcular la diferencia entre ciclos y el RSD<br>\n  4) Procesar los datos crudos de este ensayo en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o condiciones con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  La diferencia entre ciclos está dentro del criterio de la URS aprobada.<br>\n  Todos los ciclos alcanzan la especificación aprobada."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de los ciclos de repetibilidad<br>\n  - Data cruda y reporte estadístico del análisis correspondiente"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>URS aprobada."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "secador-bandejas"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-SB-005",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-SB-005 — Alarmas y desviaciones con carga",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar la respuesta de alarmas y la gestión de desviaciones con la carga real."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Provocar las alarmas definidas con la carga en el secador<br>\n  2) Verificar la condición segura del producto y la aplicación de la contingencia<br>\n  3) Registrar la disposición del lote o material afectado"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Las alarmas actúan según el manual del fabricante.<br>\n  El material afectado se evalúa y dispone según el procedimiento aprobado."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de alarmas y desviaciones con carga"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante; procedimiento de contingencia aprobado."
+     }
+    ],
+    "tabla": null,
+    "familia": "secador-bandejas"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-SB-006",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-SB-006 — Revisión de registros y datos del PQ",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que los registros del PQ están completos, trazables y revisados conforme a ALCOA+, y que la data cruda coincide con el informe."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Revisar que cada ensayo tenga registro con fecha, hora, equipo, bandeja, setpoint y responsable<br>\n  2) Verificar la evaluación de impacto de cada desviación<br>\n  3) Verificar que la data cruda y los reportes estén anexados y sean consistentes"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  El 100 % de los ensayos tiene registro completo y trazable.<br>\n  Toda desviación tiene evaluación de impacto y disposición.<br>\n  La data cruda y los reportes coinciden con el informe."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Lista de verificación de registros por ensayo<br>\n  - Registro de revisión de data cruda y desviaciones"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>EU GMP Anexo 15; 21 CFR Part 11 / EU GMP Anexo 11; ALCOA+."
+     }
+    ],
+    "tabla": null,
+    "familia": "secador-bandejas"
+   },
+   {
+    "kind": "resumen",
+    "id": "EQ-PQ-SB-RES",
+    "bloque": 4,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-SB-RES — Tabla resumen de los ensayos del PQ",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Consolidar el listado de ensayos del PQ para la tabla resumen del protocolo."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Confirmar que los ensayos EQ-PQ-SB-001 a EQ-PQ-SB-006 están incluidos en el índice del protocolo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Los 6 ensayos aparecen en la tabla resumen con su veredicto."
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>EU GMP Anexo 15."
+     }
+    ],
+    "tabla": null,
+    "familia": "secador-bandejas"
+   },
+   {
+    "kind": "tabla",
+    "id": "EQ-PQ-SB-REF",
+    "bloque": 6,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-SB-REF — Referencias del PQ de Secador de bandejas",
+    "secciones": [],
+    "tabla": {
+     "headers": [
+      "SECCIÓN",
+      "TÍTULO",
+      "ESTADO"
+     ],
+     "rows": [
+      [
+       "6.1",
+       "Manual del fabricante del equipo — Setpoints, velocidad de aire, alarmas y límites de diseño",
+       "VIGENTE"
+      ],
+      [
+       "6.2",
+       "URS aprobada — Rango de operación, carga, humedad final y criterios de aceptación",
+       "VIGENTE"
+      ],
+      [
+       "6.3",
+       "EU GMP Anexo 15 — Calificación y validación: el OQ y el PQ demuestran operación según especificaciones aprobadas",
+       "VIGENTE"
+      ],
+      [
+       "6.4",
+       "GAMP 5, 2.ª ed. y 21 CFR Part 11 / EU GMP Anexo 11 — Ciclo de vida y registros electrónicos",
+       "VIGENTE"
+      ],
+      [
+       "6.5",
+       "ISPE Baseline Guide Vol. 5 — Commissioning and Qualification de equipos de producción",
+       "VIGENTE"
+      ],
+      [
+       "6.6",
+       "Norma específica de secado por bandejas — PENDIENTE DEL RESPONSABLE",
+       "PENDIENTE"
+      ]
+     ]
+    },
+    "familia": "secador-bandejas"
+   },
+   {
+    "kind": "div",
+    "clase": "anexos",
+    "bloque": 8,
+    "html": "<p><strong>ANEXOS:</strong></p>\n  <table>\n  <tbody><tr><th>SECCIÓN</th><th>TÍTULO</th></tr>\n<tr><td>8.1</td><td>Anexo A — Registros de distribución de aire, perfiles térmicos, humedad y curvas de secado</td></tr>\n<tr><td>8.2</td><td>Anexo B — Certificados de calibración de patrones de temperatura, humedad y anemómetros</td></tr>\n<tr><td>8.3</td><td>Anexo C — Registros de alarmas, desviaciones, CAPA y disposición de material</td></tr>\n<tr><td>8.4</td><td>Anexo D — Matriz de trazabilidad requisito-prueba (RTM) y evidencia de revisión</td></tr>\n  </tbody></table>",
+    "familia": "secador-bandejas"
+   },
+   {
+    "kind": "div",
+    "clase": "portada",
+    "bloque": 1,
+    "html": "<p><strong>PORTADA DEL PROTOCOLO PQ</strong></p>\n  <p><strong>Logo:</strong><br><img class=\"ent-logo\" alt=\"Logo de la entidad\"></p>\n  <p><strong>Calificación de Desempeño de <span class=\"equipo\">equipo</span>:</strong> <span class=\"ent-descripcion\">______</span></p>\n  <ol>\n    <li><strong>Marca:</strong> <span class=\"ent-marca\">______</span></li>\n    <li><strong>Modelo:</strong> <span class=\"ent-modelo\">______</span></li>\n    <li><strong>Código:</strong> <span class=\"ent-codigo\">______</span></li>\n  </ol>",
+    "familia": "secador-tambor"
+   },
+   {
+    "kind": "div",
+    "clase": "firmas",
+    "bloque": 1,
+    "html": "<p><strong>FLUJO DE FIRMAS DEL PROTOCOLO:</strong></p>\n  <p>Este apartado establece que los responsables revisan y aprueban el presente protocolo, declarando que está apto para su ejecución. Cualquier cambio posterior a la firma obliga a reiniciar el flujo de firmas, con el fin de garantizar que todos los departamentos involucrados estén al tanto de los ensayos a ejecutar.</p>\n  <ol>\n    <li><strong>Elaborado Por:</strong> <br> Analista de validaciones — elabora / Nombre: ______ Firma: ______ Fecha: ______</li><br>\n    <li><strong>Revisado Por:</strong> <br> Coordinador de validaciones — revisa / Nombre: ______ Firma: ______ Fecha: ______</li><br>\n    <li><strong>Revisado Por:</strong> <br> Gerente de Área — revisa / Nombre: ______ Firma: ______ Fecha: ______</li><br>\n    <li><strong>Aprobado por:</strong> <br> Gerente de gestión de calidad — aprueba / Nombre: ______ Firma: ______ Fecha: ______</li><br>\n  </ol>",
+    "familia": "secador-tambor"
+   },
+   {
+    "kind": "div",
+    "clase": "responsabilidades",
+    "bloque": 1,
+    "html": "<p><strong>RESPONSABILIDADES DEL PROTOCOLO:</strong></p>\n  <p><strong>Responsabilidad del Analista de validaciones:</strong></p>\n  <ol><li>Coordinar la ejecución de la Calificación de Desempeño con las áreas involucradas, asegurando personal, <span class=\"equipo\">equipo</span>, patrones, materiales e instrumentos y documentación.</li><li>Verificar que los instrumentos de medición estén identificados y con calibración vigente.</li><li>Ejecutar y/o supervisar los ensayos del protocolo según los criterios aprobados.</li><li>Registrar los datos de forma completa, legible y trazable (ALCOA+).</li><li>Documentar las desviaciones según los procedimientos internos vigentes.</li><li>Elaborar el informe de calificación con resultados, conclusiones y anexos.</li></ol>\n  <p><strong>Responsabilidad del Coordinador de validaciones:</strong></p>\n  <ol><li>Revisar técnicamente el protocolo antes de su ejecución.</li><li>Asignar al analista responsable y coordinar recursos.</li><li>Revisar las desviaciones, su tratamiento y las CAPA asociadas.</li><li>Revisar el informe final y autorizar la fase siguiente.</li></ol>\n  <p><strong>Responsabilidad del Gerente de Área:</strong></p>\n  <ol><li>Garantizar la disponibilidad del <span class=\"equipo\">equipo</span> y los accesos para la ejecución.</li><li>Facilitar la documentación técnica del fabricante y del proveedor.</li><li>Implementar las acciones operativas derivadas de desviaciones y CAPA.</li></ol>\n  <p><strong>Responsabilidad del Gerente de gestión de calidad:</strong></p>\n  <ol><li>Aprobar el protocolo y sus criterios de aceptación.</li><li>Aprobar las desviaciones y sus evaluaciones de impacto.</li><li>Emitir el dictamen final del estado de calificación.</li></ol>",
+    "familia": "secador-tambor"
+   },
+   {
+    "kind": "div",
+    "clase": "alcance",
+    "bloque": 1,
+    "html": "<p><strong>ALCANCE</strong></p>\n  <p>Esta calificación aplica a <span class=\"equipo\">equipo</span>, del secador de tambor rotativo, según protocolo PQ, y cubre los 6 ensayos listados en el índice. Los setpoints, tolerancias y criterios de aceptación se toman de la URS aprobada y del manual del fabricante; la norma específica de la familia permanece como PENDIENTE DEL RESPONSABLE.</p>",
+    "familia": "secador-tambor"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-ST-001",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-ST-001 — Curva de secado y humedad final con carga",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que el ciclo con carga alcanza la humedad final aprobada y sigue la curva definida."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Cargar el tambor con la cantidad definida en la URS<br>\n  2) Registrar la humedad o pérdida de peso en los intervalos definidos<br>\n  3) Comparar la curva medida con la definida y registrar el tiempo de ciclo<br>\n  4) Procesar los datos crudos de este ensayo en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o condiciones con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  La curva y el tiempo de ciclo están dentro de lo definido en la URS aprobada.<br>\n  La humedad final alcanza la especificación aprobada."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de la curva de secado con puntos y tiempo de ciclo<br>\n  - Data cruda y reporte estadístico del análisis correspondiente"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>URS aprobada; especificación del producto."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "secador-tambor"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-ST-002",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-ST-002 — Uniformidad de humedad en el producto",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que la humedad final es uniforme en el producto descargado del tambor."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Muestrear los puntos definidos en el plan de muestreo<br>\n  2) Determinar la humedad por el método validado<br>\n  3) Calcular la diferencia y el RSD entre muestras<br>\n  4) Procesar los datos crudos de este ensayo en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o condiciones con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  La diferencia de humedad entre muestras está dentro del criterio de la URS aprobada.<br>\n  Todas las muestras cumplen la especificación aprobada."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de humedad final por muestra<br>\n  - Data cruda y reporte estadístico del análisis correspondiente"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>URS aprobada; método validado."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "secador-tambor"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-ST-003",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-ST-003 — Rendimiento y capacidad por lote",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que el rendimiento y la capacidad del secador cumplen lo definido para el producto."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Procesar la carga definida en la URS<br>\n  2) Registrar la masa de entrada, la masa de salida y el tiempo de ciclo<br>\n  3) Calcular el rendimiento y compararlo con el criterio aprobado<br>\n  4) Procesar los datos crudos de este ensayo en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o condiciones con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  El rendimiento y la capacidad están dentro de lo definido en la URS aprobada."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de masa, rendimiento y tiempo de ciclo por lote<br>\n  - Data cruda y reporte estadístico del análisis correspondiente"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>URS aprobada; especificación del producto."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "secador-tambor"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-ST-004",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-ST-004 — Repetibilidad entre lotes",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que la humedad final y el tiempo de ciclo son repetibles entre lotes independientes."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Ejecutar al menos tres lotes con la misma carga y setpoint<br>\n  2) Registrar humedad final, rendimiento y tiempo de ciclo por lote<br>\n  3) Calcular la diferencia entre lotes y el RSD<br>\n  4) Procesar los datos crudos de este ensayo en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o condiciones con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  La diferencia entre lotes está dentro del criterio de la URS aprobada.<br>\n  Todos los lotes alcanzan la especificación aprobada."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de los lotes de repetibilidad<br>\n  - Data cruda y reporte estadístico del análisis correspondiente"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>URS aprobada."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "secador-tambor"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-ST-005",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-ST-005 — Alarmas y desviaciones con carga",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar la respuesta de alarmas y la gestión de desviaciones con la carga real."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Provocar las alarmas definidas con el tambor cargado<br>\n  2) Verificar la condición segura del producto y la aplicación de la contingencia<br>\n  3) Registrar la disposición del lote afectado"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Las alarmas actúan según el manual del fabricante.<br>\n  El lote afectado se evalúa y dispone según el procedimiento aprobado."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de alarmas y desviaciones con carga"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante; procedimiento de contingencia aprobado."
+     }
+    ],
+    "tabla": null,
+    "familia": "secador-tambor"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-ST-006",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-ST-006 — Revisión de registros y datos del PQ",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que los registros del PQ están completos, trazables y revisados conforme a ALCOA+, y que la data cruda coincide con el informe."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Revisar que cada ensayo tenga registro con fecha, hora, equipo, lote, setpoint y responsable<br>\n  2) Verificar la evaluación de impacto de cada desviación<br>\n  3) Verificar que la data cruda y los reportes estén anexados y sean consistentes"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  El 100 % de los ensayos tiene registro completo y trazable.<br>\n  Toda desviación tiene evaluación de impacto y disposición.<br>\n  La data cruda y los reportes coinciden con el informe."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Lista de verificación de registros por ensayo<br>\n  - Registro de revisión de data cruda y desviaciones"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>EU GMP Anexo 15; 21 CFR Part 11 / EU GMP Anexo 11; ALCOA+."
+     }
+    ],
+    "tabla": null,
+    "familia": "secador-tambor"
+   },
+   {
+    "kind": "resumen",
+    "id": "EQ-PQ-ST-RES",
+    "bloque": 4,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-ST-RES — Tabla resumen de los ensayos del PQ",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Consolidar el listado de ensayos del PQ para la tabla resumen del protocolo."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Confirmar que los ensayos EQ-PQ-ST-001 a EQ-PQ-ST-006 están incluidos en el índice del protocolo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Los 6 ensayos aparecen en la tabla resumen con su veredicto."
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>EU GMP Anexo 15."
+     }
+    ],
+    "tabla": null,
+    "familia": "secador-tambor"
+   },
+   {
+    "kind": "tabla",
+    "id": "EQ-PQ-ST-REF",
+    "bloque": 6,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-ST-REF — Referencias del PQ de Secador de tambor rotativo",
+    "secciones": [],
+    "tabla": {
+     "headers": [
+      "SECCIÓN",
+      "TÍTULO",
+      "ESTADO"
+     ],
+     "rows": [
+      [
+       "6.1",
+       "Manual del fabricante del equipo — Velocidad, setpoints, cuchilla y límites de diseño",
+       "VIGENTE"
+      ],
+      [
+       "6.2",
+       "URS aprobada — Rango de operación, carga, humedad final y criterios de aceptación",
+       "VIGENTE"
+      ],
+      [
+       "6.3",
+       "EU GMP Anexo 15 — Calificación y validación: el OQ y el PQ demuestran operación según especificaciones aprobadas",
+       "VIGENTE"
+      ],
+      [
+       "6.4",
+       "GAMP 5, 2.ª ed. y 21 CFR Part 11 / EU GMP Anexo 11 — Ciclo de vida y registros electrónicos",
+       "VIGENTE"
+      ],
+      [
+       "6.5",
+       "ISPE Baseline Guide Vol. 5 — Commissioning and Qualification de equipos de producción",
+       "VIGENTE"
+      ],
+      [
+       "6.6",
+       "Norma específica de secado por tambor — PENDIENTE DEL RESPONSABLE",
+       "PENDIENTE"
+      ]
+     ]
+    },
+    "familia": "secador-tambor"
+   },
+   {
+    "kind": "div",
+    "clase": "anexos",
+    "bloque": 8,
+    "html": "<p><strong>ANEXOS:</strong></p>\n  <table>\n  <tbody><tr><th>SECCIÓN</th><th>TÍTULO</th></tr>\n<tr><td>8.1</td><td>Anexo A — Registros de rotación, temperatura de superficie, vacío, curvas de secado y humedad final</td></tr>\n<tr><td>8.2</td><td>Anexo B — Certificados de calibración de tacómetro, patrones de temperatura y vacío</td></tr>\n<tr><td>8.3</td><td>Anexo C — Registros de alarmas, desviaciones, CAPA y disposición de lote</td></tr>\n<tr><td>8.4</td><td>Anexo D — Matriz de trazabilidad requisito-prueba (RTM) y evidencia de revisión</td></tr>\n  </tbody></table>",
+    "familia": "secador-tambor"
+   },
+   {
+    "kind": "div",
+    "clase": "portada",
+    "bloque": 1,
+    "html": "<p><strong>PORTADA DEL PROTOCOLO PQ</strong></p>\n  <p><strong>Logo:</strong><br><img class=\"ent-logo\" alt=\"Logo de la entidad\"></p>\n  <p><strong>Calificación de Desempeño de <span class=\"equipo\">equipo</span>:</strong> <span class=\"ent-descripcion\">______</span></p>\n  <ol>\n    <li><strong>Marca:</strong> <span class=\"ent-marca\">______</span></li>\n    <li><strong>Modelo:</strong> <span class=\"ent-modelo\">______</span></li>\n    <li><strong>Código:</strong> <span class=\"ent-codigo\">______</span></li>\n  </ol>",
+    "familia": "cabina-flujo"
+   },
+   {
+    "kind": "div",
+    "clase": "firmas",
+    "bloque": 1,
+    "html": "<p><strong>FLUJO DE FIRMAS DEL PROTOCOLO:</strong></p>\n  <p>Este apartado establece que los responsables revisan y aprueban el presente protocolo, declarando que está apto para su ejecución. Cualquier cambio posterior a la firma obliga a reiniciar el flujo de firmas, con el fin de garantizar que todos los departamentos involucrados estén al tanto de los ensayos a ejecutar.</p>\n  <ol>\n    <li><strong>Elaborado Por:</strong> <br> Analista de validaciones — elabora / Nombre: ______ Firma: ______ Fecha: ______</li><br>\n    <li><strong>Revisado Por:</strong> <br> Coordinador de validaciones — revisa / Nombre: ______ Firma: ______ Fecha: ______</li><br>\n    <li><strong>Revisado Por:</strong> <br> Gerente de Área — revisa / Nombre: ______ Firma: ______ Fecha: ______</li><br>\n    <li><strong>Aprobado por:</strong> <br> Gerente de gestión de calidad — aprueba / Nombre: ______ Firma: ______ Fecha: ______</li><br>\n  </ol>",
+    "familia": "cabina-flujo"
+   },
+   {
+    "kind": "div",
+    "clase": "responsabilidades",
+    "bloque": 1,
+    "html": "<p><strong>RESPONSABILIDADES DEL PROTOCOLO:</strong></p>\n  <p><strong>Responsabilidad del Analista de validaciones:</strong></p>\n  <ol><li>Coordinar la ejecución de la Calificación de Desempeño con las áreas involucradas, asegurando personal, <span class=\"equipo\">equipo</span>, patrones, materiales e instrumentos y documentación.</li><li>Verificar que los instrumentos de medición estén identificados y con calibración vigente.</li><li>Ejecutar y/o supervisar los ensayos del protocolo según los criterios aprobados.</li><li>Registrar los datos de forma completa, legible y trazable (ALCOA+).</li><li>Documentar las desviaciones según los procedimientos internos vigentes.</li><li>Elaborar el informe de calificación con resultados, conclusiones y anexos.</li></ol>\n  <p><strong>Responsabilidad del Coordinador de validaciones:</strong></p>\n  <ol><li>Revisar técnicamente el protocolo antes de su ejecución.</li><li>Asignar al analista responsable y coordinar recursos.</li><li>Revisar las desviaciones, su tratamiento y las CAPA asociadas.</li><li>Revisar el informe final y autorizar la fase siguiente.</li></ol>\n  <p><strong>Responsabilidad del Gerente de Área:</strong></p>\n  <ol><li>Garantizar la disponibilidad del <span class=\"equipo\">equipo</span> y los accesos para la ejecución.</li><li>Facilitar la documentación técnica del fabricante y del proveedor.</li><li>Implementar las acciones operativas derivadas de desviaciones y CAPA.</li></ol>\n  <p><strong>Responsabilidad del Gerente de gestión de calidad:</strong></p>\n  <ol><li>Aprobar el protocolo y sus criterios de aceptación.</li><li>Aprobar las desviaciones y sus evaluaciones de impacto.</li><li>Emitir el dictamen final del estado de calificación.</li></ol>",
+    "familia": "cabina-flujo"
+   },
+   {
+    "kind": "div",
+    "clase": "alcance",
+    "bloque": 1,
+    "html": "<p><strong>ALCANCE</strong></p>\n  <p>Esta calificación aplica a <span class=\"equipo\">equipo</span>, de la cabina de flujo laminar, según protocolo PQ, y cubre los 6 ensayos listados en el índice. Los setpoints, tolerancias y criterios de aceptación se toman de la URS aprobada y del manual del fabricante; la norma específica de la familia permanece como PENDIENTE DEL RESPONSABLE.</p>",
+    "familia": "cabina-flujo"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-CF-001",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-CF-001 — Partículas en operación con carga",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que la cabina mantiene la clase de partículas durante la operación con la carga representativa."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Ubicar la carga y los materiales según el uso real definido en la URS<br>\n  2) Realizar el conteo en los puntos y momentos definidos en el protocolo<br>\n  3) Registrar el conteo y las perturbaciones ocurridas durante la operación<br>\n  4) Procesar los datos crudos de este ensayo en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o condiciones con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  La concentración durante la operación cumple la clase definida en la URS aprobada.<br>\n  Las perturbaciones no generan excursiones no evaluadas."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de conteo en operación con carga<br>\n  - Data cruda y reporte estadístico del análisis correspondiente"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>URS aprobada; manual del fabricante."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "cabina-flujo"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-CF-002",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-CF-002 — Recuperación del flujo tras perturbación",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar el tiempo de recuperación de la cabina tras una apertura o perturbación definida."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Provocar la perturbación definida en el protocolo aprobado (apertura, movimiento de brazos o carga)<br>\n  2) Registrar el tiempo hasta recuperar la velocidad y la clase de partículas<br>\n  3) Repetir la perturbación al menos tres veces<br>\n  4) Procesar los datos crudos de este ensayo en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o condiciones con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  La cabina recupera la condición de operación en el tiempo definido en la URS aprobada.<br>\n  Todas las repeticiones cumplen el criterio."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de recuperación por perturbación y repetición<br>\n  - Data cruda y reporte estadístico del análisis correspondiente"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>URS aprobada."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "cabina-flujo"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-CF-003",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-CF-003 — Uniformidad de flujo con carga",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que la carga no genera zonas sin flujo ni desvíos fuera del criterio aprobado."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Medir la velocidad en la grilla de puntos con la carga instalada<br>\n  2) Registrar los puntos afectados por la carga<br>\n  3) Comparar con la medición sin carga<br>\n  4) Procesar los datos crudos de este ensayo en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o condiciones con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  La velocidad en todos los puntos se mantiene dentro del rango de la URS aprobada.<br>\n  No se detectan zonas sin flujo atribuibles a la carga."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de uniformidad con carga<br>\n  - Data cruda y reporte estadístico del análisis correspondiente"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>URS aprobada."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "cabina-flujo"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-CF-004",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-CF-004 — Alarmas en operación con carga",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar la respuesta de las alarmas durante la operación con carga."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Provocar las alarmas definidas con la carga instalada<br>\n  2) Verificar la condición segura del material y la aplicación de la contingencia<br>\n  3) Registrar el tiempo de respuesta y la disposición del material"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Las alarmas actúan según el manual del fabricante.<br>\n  El material afectado se evalúa y dispone según el procedimiento aprobado."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de alarmas en operación"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante; procedimiento de contingencia aprobado."
+     }
+    ],
+    "tabla": null,
+    "familia": "cabina-flujo"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-CF-005",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-CF-005 — Operación continua representativa",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar el desempeño de la cabina durante un período representativo de uso."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Operar la cabina durante el período definido en el protocolo con el uso de rutina<br>\n  2) Registrar velocidad, partículas y alarmas durante el período<br>\n  3) Evaluar las excursiones y su impacto<br>\n  4) Procesar los datos crudos de este ensayo en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o condiciones con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  La cabina se mantiene dentro de los rangos aprobados durante todo el período, salvo excursiones evaluadas."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro continuo del período de operación<br>\n  - Data cruda y reporte estadístico del análisis correspondiente"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>URS aprobada."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "cabina-flujo"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-CF-006",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-CF-006 — Revisión de registros y datos del PQ",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que los registros del PQ están completos, trazables y revisados conforme a ALCOA+, y que la data cruda coincide con el informe."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Revisar que cada ensayo tenga registro con fecha, hora, equipo, punto y responsable<br>\n  2) Verificar la evaluación de impacto de cada desviación<br>\n  3) Verificar que la data cruda y los reportes estén anexados y sean consistentes"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  El 100 % de los ensayos tiene registro completo y trazable.<br>\n  Toda desviación tiene evaluación de impacto y disposición.<br>\n  La data cruda y los reportes coinciden con el informe."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Lista de verificación de registros por ensayo<br>\n  - Registro de revisión de data cruda y desviaciones"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>EU GMP Anexo 15; 21 CFR Part 11 / EU GMP Anexo 11; ALCOA+."
+     }
+    ],
+    "tabla": null,
+    "familia": "cabina-flujo"
+   },
+   {
+    "kind": "resumen",
+    "id": "EQ-PQ-CF-RES",
+    "bloque": 4,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-CF-RES — Tabla resumen de los ensayos del PQ",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Consolidar el listado de ensayos del PQ para la tabla resumen del protocolo."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Confirmar que los ensayos EQ-PQ-CF-001 a EQ-PQ-CF-006 están incluidos en el índice del protocolo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Los 6 ensayos aparecen en la tabla resumen con su veredicto."
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>EU GMP Anexo 15."
+     }
+    ],
+    "tabla": null,
+    "familia": "cabina-flujo"
+   },
+   {
+    "kind": "tabla",
+    "id": "EQ-PQ-CF-REF",
+    "bloque": 6,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-CF-REF — Referencias del PQ de Cabina de flujo laminar",
+    "secciones": [],
+    "tabla": {
+     "headers": [
+      "SECCIÓN",
+      "TÍTULO",
+      "ESTADO"
+     ],
+     "rows": [
+      [
+       "6.1",
+       "Manual del fabricante del equipo — Filtros, velocidad, alarmas y límites de diseño",
+       "VIGENTE"
+      ],
+      [
+       "6.2",
+       "URS aprobada — Clase de partículas, velocidad, recuperación y criterios de aceptación",
+       "VIGENTE"
+      ],
+      [
+       "6.3",
+       "EU GMP Anexo 15 — Calificación y validación: el OQ y el PQ demuestran operación según especificaciones aprobadas",
+       "VIGENTE"
+      ],
+      [
+       "6.4",
+       "GAMP 5, 2.ª ed. y 21 CFR Part 11 / EU GMP Anexo 11 — Ciclo de vida y registros electrónicos",
+       "VIGENTE"
+      ],
+      [
+       "6.5",
+       "ISPE Baseline Guide Vol. 5 — Commissioning and Qualification de equipos de producción",
+       "VIGENTE"
+      ],
+      [
+       "6.6",
+       "Norma específica de cabinas de flujo laminar — PENDIENTE DEL RESPONSABLE",
+       "PENDIENTE"
+      ]
+     ]
+    },
+    "familia": "cabina-flujo"
+   },
+   {
+    "kind": "div",
+    "clase": "anexos",
+    "bloque": 8,
+    "html": "<p><strong>ANEXOS:</strong></p>\n  <table>\n  <tbody><tr><th>SECCIÓN</th><th>TÍTULO</th></tr>\n<tr><td>8.1</td><td>Anexo A — Registros de integridad de filtros, velocidad, presión y conteo de partículas</td></tr>\n<tr><td>8.2</td><td>Anexo B — Certificados de calibración de anemómetros, manómetros y contadores de partículas</td></tr>\n<tr><td>8.3</td><td>Anexo C — Registros de alarmas, perturbaciones, desviaciones y CAPA</td></tr>\n<tr><td>8.4</td><td>Anexo D — Matriz de trazabilidad requisito-prueba (RTM) y evidencia de revisión</td></tr>\n  </tbody></table>",
+    "familia": "cabina-flujo"
+   },
+   {
+    "kind": "div",
+    "clase": "portada",
+    "bloque": 1,
+    "html": "<p><strong>PORTADA DEL PROTOCOLO PQ</strong></p>\n  <p><strong>Logo:</strong><br><img class=\"ent-logo\" alt=\"Logo de la entidad\"></p>\n  <p><strong>Calificación de Desempeño de <span class=\"equipo\">equipo</span>:</strong> <span class=\"ent-descripcion\">______</span></p>\n  <ol>\n    <li><strong>Marca:</strong> <span class=\"ent-marca\">______</span></li>\n    <li><strong>Modelo:</strong> <span class=\"ent-modelo\">______</span></li>\n    <li><strong>Código:</strong> <span class=\"ent-codigo\">______</span></li>\n  </ol>",
+    "familia": "cabina-bioseguridad"
+   },
+   {
+    "kind": "div",
+    "clase": "firmas",
+    "bloque": 1,
+    "html": "<p><strong>FLUJO DE FIRMAS DEL PROTOCOLO:</strong></p>\n  <p>Este apartado establece que los responsables revisan y aprueban el presente protocolo, declarando que está apto para su ejecución. Cualquier cambio posterior a la firma obliga a reiniciar el flujo de firmas, con el fin de garantizar que todos los departamentos involucrados estén al tanto de los ensayos a ejecutar.</p>\n  <ol>\n    <li><strong>Elaborado Por:</strong> <br> Analista de validaciones — elabora / Nombre: ______ Firma: ______ Fecha: ______</li><br>\n    <li><strong>Revisado Por:</strong> <br> Coordinador de validaciones — revisa / Nombre: ______ Firma: ______ Fecha: ______</li><br>\n    <li><strong>Revisado Por:</strong> <br> Gerente de Área — revisa / Nombre: ______ Firma: ______ Fecha: ______</li><br>\n    <li><strong>Aprobado por:</strong> <br> Gerente de gestión de calidad — aprueba / Nombre: ______ Firma: ______ Fecha: ______</li><br>\n  </ol>",
+    "familia": "cabina-bioseguridad"
+   },
+   {
+    "kind": "div",
+    "clase": "responsabilidades",
+    "bloque": 1,
+    "html": "<p><strong>RESPONSABILIDADES DEL PROTOCOLO:</strong></p>\n  <p><strong>Responsabilidad del Analista de validaciones:</strong></p>\n  <ol><li>Coordinar la ejecución de la Calificación de Desempeño con las áreas involucradas, asegurando personal, <span class=\"equipo\">equipo</span>, patrones, materiales e instrumentos y documentación.</li><li>Verificar que los instrumentos de medición estén identificados y con calibración vigente.</li><li>Ejecutar y/o supervisar los ensayos del protocolo según los criterios aprobados.</li><li>Registrar los datos de forma completa, legible y trazable (ALCOA+).</li><li>Documentar las desviaciones según los procedimientos internos vigentes.</li><li>Elaborar el informe de calificación con resultados, conclusiones y anexos.</li></ol>\n  <p><strong>Responsabilidad del Coordinador de validaciones:</strong></p>\n  <ol><li>Revisar técnicamente el protocolo antes de su ejecución.</li><li>Asignar al analista responsable y coordinar recursos.</li><li>Revisar las desviaciones, su tratamiento y las CAPA asociadas.</li><li>Revisar el informe final y autorizar la fase siguiente.</li></ol>\n  <p><strong>Responsabilidad del Gerente de Área:</strong></p>\n  <ol><li>Garantizar la disponibilidad del <span class=\"equipo\">equipo</span> y los accesos para la ejecución.</li><li>Facilitar la documentación técnica del fabricante y del proveedor.</li><li>Implementar las acciones operativas derivadas de desviaciones y CAPA.</li></ol>\n  <p><strong>Responsabilidad del Gerente de gestión de calidad:</strong></p>\n  <ol><li>Aprobar el protocolo y sus criterios de aceptación.</li><li>Aprobar las desviaciones y sus evaluaciones de impacto.</li><li>Emitir el dictamen final del estado de calificación.</li></ol>",
+    "familia": "cabina-bioseguridad"
+   },
+   {
+    "kind": "div",
+    "clase": "alcance",
+    "bloque": 1,
+    "html": "<p><strong>ALCANCE</strong></p>\n  <p>Esta calificación aplica a <span class=\"equipo\">equipo</span>, de la cabina de bioseguridad, según protocolo PQ, y cubre los 6 ensayos listados en el índice. Los setpoints, tolerancias y criterios de aceptación se toman de la URS aprobada y del manual del fabricante; la norma específica de la familia permanece como PENDIENTE DEL RESPONSABLE.</p>",
+    "familia": "cabina-bioseguridad"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-CB-001",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-CB-001 — Contención microbiana en operación",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que la cabina contiene el aerosol o microorganismo de prueba según el método aprobado."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Preparar el reto y el método definidos en el protocolo aprobado<br>\n  2) Operar la cabina con la carga y la perturbación representativas<br>\n  3) Registrar la contención en los puntos y con los indicadores definidos<br>\n  4) Procesar los datos crudos de este ensayo en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o condiciones con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  La contención cumple el criterio definido en la URS aprobada y en el método aprobado.<br>\n  El método utilizado está validado y su sensibilidad es adecuada al criterio."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de contención con resultados por punto<br>\n  - Data cruda y reporte estadístico del análisis correspondiente"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>URS aprobada; método validado."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "cabina-bioseguridad"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-CB-002",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-CB-002 — Partículas en operación con carga",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que la cabina mantiene la clase de partículas durante la operación con carga."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Instalar la carga y los materiales según el uso real definido en la URS<br>\n  2) Realizar el conteo en los puntos y momentos definidos<br>\n  3) Registrar las perturbaciones y las excursiones<br>\n  4) Procesar los datos crudos de este ensayo en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o condiciones con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  La concentración durante la operación cumple la clase definida en la URS aprobada.<br>\n  Las perturbaciones no generan excursiones no evaluadas."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de conteo en operación con carga<br>\n  - Data cruda y reporte estadístico del análisis correspondiente"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>URS aprobada; manual del fabricante."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "cabina-bioseguridad"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-CB-003",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-CB-003 — Recuperación tras apertura del vidrio",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar el tiempo de recuperación de la contención tras la apertura y cierre del vidrio."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Abrir y cerrar el vidrio según la maniobra definida en el protocolo<br>\n  2) Registrar el tiempo hasta recuperar la velocidad de entrada y la presión<br>\n  3) Repetir la maniobra al menos tres veces<br>\n  4) Procesar los datos crudos de este ensayo en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o condiciones con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  La cabina recupera la condición de operación en el tiempo definido en la URS aprobada.<br>\n  Todas las repeticiones cumplen el criterio."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de recuperación por maniobra<br>\n  - Data cruda y reporte estadístico del análisis correspondiente"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>URS aprobada."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "cabina-bioseguridad"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-CB-004",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-CB-004 — Uniformidad de flujo con carga",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que la carga no genera zonas sin flujo ni desvíos fuera del criterio."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Medir la velocidad en la grilla de puntos con la carga instalada<br>\n  2) Registrar los puntos afectados por la carga<br>\n  3) Comparar con la medición sin carga<br>\n  4) Procesar los datos crudos de este ensayo en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o condiciones con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  La velocidad en todos los puntos se mantiene dentro del rango de la URS aprobada.<br>\n  No se detectan zonas sin flujo atribuibles a la carga."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de uniformidad con carga<br>\n  - Data cruda y reporte estadístico del análisis correspondiente"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>URS aprobada."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "cabina-bioseguridad"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-CB-005",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-CB-005 — Alarmas en operación con carga",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar la respuesta de las alarmas durante la operación con carga."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Provocar las alarmas definidas con la carga instalada<br>\n  2) Verificar la condición segura del material y la aplicación de la contingencia<br>\n  3) Registrar el tiempo de respuesta y la disposición del material"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Las alarmas actúan según el manual del fabricante.<br>\n  El material afectado se evalúa y dispone según el procedimiento aprobado."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de alarmas en operación"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante; procedimiento de contingencia aprobado."
+     }
+    ],
+    "tabla": null,
+    "familia": "cabina-bioseguridad"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-PQ-CB-006",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-CB-006 — Revisión de registros y datos del PQ",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que los registros del PQ están completos, trazables y revisados conforme a ALCOA+, y que la data cruda coincide con el informe."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Revisar que cada ensayo tenga registro con fecha, hora, equipo, punto y responsable<br>\n  2) Verificar la evaluación de impacto de cada desviación<br>\n  3) Verificar que la data cruda y los reportes estén anexados y sean consistentes"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  El 100 % de los ensayos tiene registro completo y trazable.<br>\n  Toda desviación tiene evaluación de impacto y disposición.<br>\n  La data cruda y los reportes coinciden con el informe."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Lista de verificación de registros por ensayo<br>\n  - Registro de revisión de data cruda y desviaciones"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>EU GMP Anexo 15; 21 CFR Part 11 / EU GMP Anexo 11; ALCOA+."
+     }
+    ],
+    "tabla": null,
+    "familia": "cabina-bioseguridad"
+   },
+   {
+    "kind": "resumen",
+    "id": "EQ-PQ-CB-RES",
+    "bloque": 4,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-CB-RES — Tabla resumen de los ensayos del PQ",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Consolidar el listado de ensayos del PQ para la tabla resumen del protocolo."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Confirmar que los ensayos EQ-PQ-CB-001 a EQ-PQ-CB-006 están incluidos en el índice del protocolo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Los 6 ensayos aparecen en la tabla resumen con su veredicto."
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>EU GMP Anexo 15."
+     }
+    ],
+    "tabla": null,
+    "familia": "cabina-bioseguridad"
+   },
+   {
+    "kind": "tabla",
+    "id": "EQ-PQ-CB-REF",
+    "bloque": 6,
+    "cond": "ambas",
+    "titulo": "EQ-PQ-CB-REF — Referencias del PQ de Cabina de bioseguridad",
+    "secciones": [],
+    "tabla": {
+     "headers": [
+      "SECCIÓN",
+      "TÍTULO",
+      "ESTADO"
+     ],
+     "rows": [
+      [
+       "6.1",
+       "Manual del fabricante del equipo — Filtros, velocidades, alarmas y límites de diseño",
+       "VIGENTE"
+      ],
+      [
+       "6.2",
+       "URS aprobada — Clase de partículas, velocidades, contención y criterios de aceptación",
+       "VIGENTE"
+      ],
+      [
+       "6.3",
+       "EU GMP Anexo 15 — Calificación y validación: el OQ y el PQ demuestran operación según especificaciones aprobadas",
+       "VIGENTE"
+      ],
+      [
+       "6.4",
+       "GAMP 5, 2.ª ed. y 21 CFR Part 11 / EU GMP Anexo 11 — Ciclo de vida y registros electrónicos",
+       "VIGENTE"
+      ],
+      [
+       "6.5",
+       "ISPE Baseline Guide Vol. 5 — Commissioning and Qualification de equipos de producción",
+       "VIGENTE"
+      ],
+      [
+       "6.6",
+       "Norma específica de cabinas de bioseguridad — PENDIENTE DEL RESPONSABLE",
+       "PENDIENTE"
+      ]
+     ]
+    },
+    "familia": "cabina-bioseguridad"
+   },
+   {
+    "kind": "div",
+    "clase": "anexos",
+    "bloque": 8,
+    "html": "<p><strong>ANEXOS:</strong></p>\n  <table>\n  <tbody><tr><th>SECCIÓN</th><th>TÍTULO</th></tr>\n<tr><td>8.1</td><td>Anexo A — Registros de integridad de filtros, velocidades, presión, contención y partículas</td></tr>\n<tr><td>8.2</td><td>Anexo B — Certificados de calibración de anemómetros, manómetros y contadores de partículas</td></tr>\n<tr><td>8.3</td><td>Anexo C — Registros de alarmas, perturbaciones, desviaciones y CAPA</td></tr>\n<tr><td>8.4</td><td>Anexo D — Matriz de trazabilidad requisito-prueba (RTM) y evidencia de revisión</td></tr>\n  </tbody></table>",
+    "familia": "cabina-bioseguridad"
    }
   ]
  }

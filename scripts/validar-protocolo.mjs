@@ -13,6 +13,9 @@ const familiasPrioritarias = [
 const familiasBackfill = [
   'autoclave', 'congelador-lab', 'horno', 'horno-vacio', 'lecho-fluido',
   'llenadora', 'llenadora-tubos', 'mezclador', 'refrigerador-lab',
+  // Banco 2026-11-08: 6 familias M con OQ+PQ y fila 6.6 pendiente.
+  'liofilizador', 'tunel-despirogenizacion', 'secador-bandejas',
+  'secador-tambor', 'cabina-flujo', 'cabina-bioseguridad',
 ];
 const familias = familiasPrioritarias.concat(familiasBackfill);
 // La balanza y el viscosímetro son instrumentos analíticos (tipo L): USP <1058> sí les aplica.

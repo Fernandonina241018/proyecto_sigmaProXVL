@@ -96,11 +96,18 @@ describe('OQ lecho fluido (banco por familia)', () => {
     expect(txt).toContain('GASKET INFLABLE');
   });
 
-  it('otra familia recibe solo el común hasta tener banco propio', async () => {
+  it('cabina de flujo laminar ya tiene banco propio', async () => {
     const { r, doc } = await genOQ({ id: 'cabina-flujo', nombre: 'Cabina de flujo laminar' });
-    expect(r.ensayos).toEqual(['EQ-OQ-COM-001']);
+    expect(r.ensayos).toHaveLength(7); // 6 familia + EQ-OQ-COM-001
+    expect(r.ensayos[0]).toBe('EQ-OQ-COM-001');
+    expect(r.ensayos).toContain('EQ-OQ-CF-001');
     expect(doc).not.toContain('EQ-OQ-LF-001');
     expect(doc).not.toContain('EQ-OQ-AU-001');
+  });
+
+  it('una entidad sin banco de familia recibe solo el común', async () => {
+    const { r } = await genOQ({ id: 'sin-banco', nombre: 'Equipo sin banco' });
+    expect(r.ensayos).toEqual(['EQ-OQ-COM-001']);
   });
 });
 
