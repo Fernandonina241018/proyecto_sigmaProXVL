@@ -90,6 +90,25 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (SigmaProXVL) con spr
 
 ## CAMBIOS RECIENTES
 
+### 2026-11-07 (256): Validaciones — DQ usa el Código del schema en el cajetín
+
+**Qué:** El DQ generado para equipos, estabilidad y sistemas conservaba `DQ-1/400AAAA` en “DOCUMENTO NO.” aunque el Paso 2 tuviera el Código completo. Ahora el cajetín usa el código del schema (`DQ-<código>`), igual que IQ/OQ/PQ.
+
+- **Causa:** `generarDQScaffold()` reemplazaba `NOMBRE DEL EQUIPO`, `MARCA`, `MODELO`, `CÓDIGO:` y `SELECCIONA EL ÁREA`, pero no el token del número de documento (`1/400AAAA`) que sí reemplaza el generador principal.
+- **Arreglo:** una línea en el mismo bucle de partes; sin tocar la plantilla ni el flujo de descarga.
+
+**Archivos afectados:**
+| Archivo | Cambio |
+|---------|--------|
+| `js/core/plantilla-docx.js` | `generarDQScaffold()` reemplaza `1/400AAAA` por el código del schema |
+| `tests/dq-scaffold.test.js` | Regresión: cajetín `DQ-400999`, sin `1/400AAAA` |
+
+**Verificación:**
+```
+node --check js/core/plantilla-docx.js → OK
+Vitest (dq-scaffold, plantilla-docx, plantilla-equipos) → 102 tests OK
+```
+
 ### 2026-11-07 (255): Validaciones — descargas duplicadas al generar
 
 **Qué:** Se corrige que “Generar y descargar” emitiera un archivo por cada ficha de entidad visitada.

@@ -730,6 +730,8 @@ const PlantillaDocx = (() => {
       x = reemplazarTodas(x, 'MARCA', marca, 'MARCA:');
       x = reemplazarTodas(x, 'MODELO', modelo, 'MODELO:');
       x = reemplazarTodas(x, 'CÓDIGO', codigo, 'CÓDIGO:');
+      // Cajetín: DOCUMENTO NO. = DQ-CÓDIGO del schema (igual que IQ/OQ/PQ).
+      if (String(d.codigo || '').trim()) x = reemplazarTodas(x, '1/400AAAA', codigo);
       x = reemplazarTodas(x, 'SELECCIONA EL ÁREA', area);
       x = reemplazarTodas(x, 'SIN MARCA NI MODELO', '');
       if (fecha) x = reemplazarTodas(x, '01/Oct/2026', fecha);
