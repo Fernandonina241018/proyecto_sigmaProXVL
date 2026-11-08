@@ -519,9 +519,9 @@ const Auth = (() => {
             });
             svg = svg.replace('<path ',
                 '<defs><linearGradient id="av2QrInk" x1="0" y1="0" x2="1" y2="1">' +
-                '<stop offset="0" stop-color="#2f1f5a"/>' +
-                '<stop offset=".55" stop-color="#3f2a86"/>' +
-                '<stop offset="1" stop-color="#4c34a6"/>' +
+                '<stop offset="0" stop-color="#0d1117"/>' +
+                '<stop offset=".55" stop-color="#1f2937"/>' +
+                '<stop offset="1" stop-color="#0d1117"/>' +
                 '</linearGradient></defs><path fill="url(#av2QrInk)" ');
             box.innerHTML = svg;
             block.hidden = false;

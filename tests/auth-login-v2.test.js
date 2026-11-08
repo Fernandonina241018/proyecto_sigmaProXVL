@@ -232,3 +232,9 @@ describe('login V2 — tarjeta recordada e información de proyecto', () => {
     expect(document.getElementById('av2-project-info').hidden).toBe(true);
   });
 });
+
+  test('QR legible en ambos temas: fondo blanco y tinta oscura fija', () => {
+    const css = readFileSync(join(__dirname, '..', 'css', 'core', 'auth-v2.css'), 'utf-8');
+    expect(SRC).toContain('stop-color="#0d1117"');
+    expect(css).toMatch(/\.qr-box\{[^}]*background:#ffffff/);
+  });
