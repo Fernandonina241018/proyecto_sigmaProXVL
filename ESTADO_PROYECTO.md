@@ -90,6 +90,29 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (SigmaProXVL) con spr
 
 ## CAMBIOS RECIENTES
 
+### 2026-11-07 (255): Validaciones — descargas duplicadas al generar
+
+**Qué:** Se corrige que “Generar y descargar” emitiera un archivo por cada ficha de entidad visitada.
+
+- **Causa:** `bindEntidad()` añadía un listener de clic al `.vd-content` persistente en cada `render()`. Los listeners viejos quedaban activos con el formulario desmontado y volvían a ejecutar `generarDescargar()`; como el `.docx` es determinista, el SHA era igual y el backend deduplicaba la fila, pero el navegador recibía N archivos.
+- **Arreglo:** `render()` limpia `content.onclick` antes de pintar la ruta y `bindEntidad()` asigna un único `main.onclick`. Un solo handler, siempre el de la vista actual.
+- **Efecto colateral evitado:** guardar Configuración ya no puede disparar la generación de la última entidad visitada (su botón comparte `v7-btn-download`).
+- **Sin cambios en backend:** el registro sigue deduplicando por `sha256`.
+
+**Archivos afectados:**
+| Archivo | Cambio |
+|---------|--------|
+| `js/core/indexx-validaciones.js` | `content.onclick = null` en `render()`; `main.onclick` en `bindEntidad()` |
+| `tests/validaciones-panel.test.js` | Test de regresión del handler único |
+| `ESTADO_PROYECTO.md` | Entrada 255 |
+
+**Verificación:**
+```
+node --check → OK
+typecheck → 0 errores
+Vitest (validaciones-panel) → 46 tests OK
+```
+
 ### 2026-11-07 (254): Validaciones — Fase 4 (rutas completas)
 
 **Qué:** Se completan las rutas que seguían en “En construcción” y se reemplazan los datos de demostración del dashboard por datos del registro real.
