@@ -1,5 +1,5 @@
 // ========================================
-// indexx-validaciones.js — SigmaProXVL
+// indexx-validaciones.js — StatAnalyzer Pro
 // Área de Validaciones V7 (réplica "Admin Dashboard V7").
 // Shell independiente: riel + saludo + stats + actividad + panel derecho.
 // Mini-router por hash: #/banco · #/generador · #/protocolos · #/reportes.
@@ -700,7 +700,7 @@ const Validaciones = (() => {
       + '<article class="panel"><div class="right-lower"><div><div class="calendar-title"><strong>' + new Date().toLocaleDateString('es-ES', { month: 'long', year: 'numeric' }) + '</strong><span aria-hidden="true">‹ &nbsp; ›</span></div><div id="val-cal-dash">' + calendarHtml() + '</div></div>'
       + '<div><div class="calendar-title"><strong>Últimos protocolos</strong><span>Registro</span></div><div id="val-recent">' + recentHtml([]) + '</div></div></div>'
       + '<div class="status" role="status" aria-atomic="true"><i aria-hidden="true"></i> Todos los sistemas operativos</div></article></section>'
-      + '<footer>SigmaProXVL · Banco: ' + fmtNum(m.total || 0) + ' ensayos · Corte ' + esc(fechaCorte()) + '</footer></div>';
+      + '<footer>StatAnalyzer Pro · Banco: ' + fmtNum(m.total || 0) + ' ensayos · Corte ' + esc(fechaCorte()) + '</footer></div>';
   }
 
   function viewGenerador() {
@@ -1111,7 +1111,7 @@ const Validaciones = (() => {
         for (let i = 0; i < el.options.length; i++) el.options[i].selected = sel.has(el.options[i].value);
       });
     }
-    const defaults = { orgName: 'SigmaProXVL', logoUrl: '', numberingPrefix: 'VAL', reviewRoles: ['gerente'], approveRoles: ['admin', 'supervisor'] };
+    const defaults = { orgName: 'StatAnalyzer Pro', logoUrl: '', numberingPrefix: 'VAL', reviewRoles: ['gerente'], approveRoles: ['admin', 'supervisor'] };
     fill(defaults);
     try {
       const r = await apiGet('/api/val/v1/settings');
@@ -1981,15 +1981,15 @@ const Validaciones = (() => {
       ov.id = 'validaciones-app';
       ov.innerHTML = '<a class="skip-link" href="#vd-content">Saltar al contenido</a>'
         + '<div class="app"><aside class="sidebar" id="vd-sidebar">'
-        + '<div class="brand"><div class="brand-mark" aria-hidden="true">Σ</div><div class="brand-name">Sigma<span>Pro</span>XVL</div></div>'
+        + '<div class="brand"><div class="brand-mark" aria-hidden="true">Σ</div><div class="brand-name">Stat<span>Analyzer</span> Pro</div></div>'
         + '<div><p class="nav-label">MENÚ PRINCIPAL</p><nav class="nav" aria-label="Menú principal">' + mainNav + '</nav></div>'
         + '<div><p class="nav-label">CONFIGURACIÓN</p><nav class="nav" aria-label="Configuración">' + confNav + '</nav></div>'
-        + '<div class="side-bottom"><div class="help-card"><strong>¿Necesitas ayuda?</strong><p>Consulta la guía de usuario de SigmaProXVL.</p>'
+        + '<div class="side-bottom"><div class="help-card"><strong>¿Necesitas ayuda?</strong><p>Consulta la guía de usuario de StatAnalyzer Pro.</p>'
         + '<button type="button" data-route="ayuda">Ver documentación <span aria-hidden="true">↗</span></button></div></div>'
         + '</aside><div class="nav-overlay" id="vd-overlay"></div>'
         + '<main><header class="topbar">'
         + '<button class="icon-btn menu-toggle" type="button" aria-label="Abrir menú" aria-expanded="false" aria-controls="vd-sidebar"><span aria-hidden="true">☰</span></button>'
-        + '<div class="welcome"><h1>¡Bienvenido de nuevo!</h1><p>Este es el resumen de actividad de tu entorno SigmaProXVL.</p></div>'
+        + '<div class="welcome"><h1>¡Bienvenido de nuevo!</h1><p>Este es el resumen de actividad de tu entorno StatAnalyzer Pro.</p></div>'
         + '<div class="top-actions"><input class="search" id="v7-search" placeholder="Buscar categoría o entidad…" aria-label="Buscar"></div>'
         + '<div class="top-tools"><button class="icon-btn" type="button" data-act="notifications" aria-label="Notificaciones"><span aria-hidden="true">♧</span><i class="dot" aria-hidden="true"></i></button>'
         + '<button class="profile" type="button" data-act="area" aria-label="Cambiar de área"><span class="avatar" aria-hidden="true">' + esc(firstLetter(user)) + '</span>'

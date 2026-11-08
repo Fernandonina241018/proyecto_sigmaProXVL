@@ -1,5 +1,5 @@
 // ========================================
-// area-select.js — SigmaProXVL
+// area-select.js — StatAnalyzer Pro
 // Selector de área post-login: Estadística | Validaciones.
 // Estado en sessionStorage (sigmaPro_area). Sin dependencias.
 // ========================================

@@ -1,4 +1,4 @@
-# StatAnalyzer Pro — SigmaProXVL
+# StatAnalyzer Pro — StatAnalyzer Pro
 
 SPA de análisis estadístico con cumplimiento FDA 21 CFR Part 11. Backend Node.js/Express + ML Service FastAPI.
 

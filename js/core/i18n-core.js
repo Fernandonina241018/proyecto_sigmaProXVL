@@ -1,5 +1,5 @@
 // ========================================
-// i18n-core.js — Shared translations for SigmaProXVL
+// i18n-core.js — Shared translations for StatAnalyzer Pro
 // ========================================
 
 window._LANG = window._LANG || 'es';

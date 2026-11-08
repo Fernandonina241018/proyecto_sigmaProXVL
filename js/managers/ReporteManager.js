@@ -1112,7 +1112,7 @@ const ReporteManager = (() => {
                 color: { dark: '#000000', light: '#ffffff' }
             });
             
-            // Agregar logo SAP2.0
+            // Agregar logo StatAnalyzer Pro
             const ctx = canvas.getContext('2d');
             const cx = canvas.width / 2;
             const cy = canvas.height / 2;

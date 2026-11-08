@@ -1,5 +1,5 @@
 // ========================================
-// plantilla-docx.js — SigmaProXVL · Área de Validaciones
+// plantilla-docx.js — StatAnalyzer Pro · Área de Validaciones
 // Genera los protocolos IQ / OQ / PQ usando como PLANTILLA los modelos
 // Word originales (docs/plantillas/*.docx): se conservan encabezado,
 // portada, estilos, numeración, firmas, tablas de conclusión, referencias,

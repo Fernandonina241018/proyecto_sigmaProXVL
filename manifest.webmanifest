@@ -1,6 +1,6 @@
 {
-  "name": "Stats Analizer Pro (SAP2.0)",
-  "short_name": "SAP2.0",
+  "name": "StatAnalyzer Pro",
+  "short_name": "StatAnalyzer",
   "description": "Análisis estadístico con trazabilidad y cumplimiento normativo.",
   "lang": "es",
   "start_url": "./indexx.html",

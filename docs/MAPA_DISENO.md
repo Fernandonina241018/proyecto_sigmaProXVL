@@ -1,4 +1,4 @@
-# Mapa de diseño — SigmaProXVL
+# Mapa de diseño — StatAnalyzer Pro
 
 Estado del sistema visual y reglas para que los módulos se vean iguales sin romper
 comportamientos. Última actualización: 2026-10-30 (F0–F2 del módulo estadístico).

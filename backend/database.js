@@ -18,7 +18,7 @@ const USE_PG = !!process.env.DATABASE_URL;
 // Aditivo: una sola fila "global" con ajustes del área. Los roles se usan
 // en la Fase 3 (firma); aquí solo se guardan y se muestran.
 const VALIDATION_SETTINGS_DEFAULT = {
-    orgName: 'SigmaProXVL',
+    orgName: 'StatAnalyzer Pro',
     logoUrl: '',
     numberingPrefix: 'VAL',
     reviewRoles: ['gerente'],
