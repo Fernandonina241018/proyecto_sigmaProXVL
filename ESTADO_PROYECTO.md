@@ -90,6 +90,40 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (StatAnalyzer Pro) co
 
 ## CAMBIOS RECIENTES
 
+### 2026-11-08 (263): Login con tema y modo claro completo
+
+**Qué:** el login v2 sigue el tema claro/oscuro y el modo claro se completa en todas las pantallas. El login v1 se retira.
+
+- **Login:** `auth-v2` usa los tokens globales; en claro se ve blanco/azul y en oscuro grafito/azul. Se agregaron **18 símbolos matemáticos** de fondo con tamaños y opacidades variadas, visibles en ambos temas.
+- **v1 retirado:** `?login=v1` y el localStorage ya no seleccionan el login clásico; siempre se usa v2. Se eliminó `css/core/auth.css` (611 líneas) y el renderer v1 queda inerte con un comentario `shortcut:`.
+- **Modo claro completo:** Usuarios, Auditoría, Dispositivos, Validaciones, ML, Visualización y Reportes usan los tokens; se tokenizaron badges, tabs, tablas y chips que seguían con colores fijos.
+- **Nativos:** `color-scheme` global (`dark`/`light`) para scrollbars, inputs y date pickers coherentes.
+- **Visualización:** el acento de UI y la paleta por defecto pasan de violeta a azul; las paletas de datos siguen disponibles.
+- **Excepciones intencionales:** el documento imprimible de reportes conserva su paleta clara y el `.docx` sigue en Tahoma por portabilidad de Word.
+
+**Archivos afectados:**
+| Archivo | Cambio |
+|---------|--------|
+| `css/core/auth-v2.css` | Tokens, fondos claro/oscuro, símbolos y formularios |
+| `js/core/auth.js` | v1 retirado; 18 símbolos; versión forzada v2 |
+| `css/core/indexx.css` | `color-scheme`, banner de error, acentos y visualización |
+| `js/core/indexx-viz.js` | Acento de UI azul; paleta por defecto azul |
+| `js/core/indexx-validaciones.js` | KPI y categorías con `--data-*` |
+| `js/managers/UsuariosManager.js` | Badges/avatares con tokens |
+| `css/pages/usuarios.css`, `auditoria.css`, `dispositivos.css` | Estados y tablas con tokens |
+| `css/validaciones-v7.css`, `validaciones-dashboard.css`, `ml-predict.css` | Tokens en ambos temas |
+| `css/core/auth.css` | Eliminado |
+| `indexx.html`, `tests/auth-login-v2.test.js` | Carga sin auth.css; v1 fuera de los tests |
+
+**Verificación:**
+```
+node --check → OK
+Vitest dirigido (login v2 + validaciones) → 60 tests OK
+typecheck → 0 errores
+Preflight + E2E → 13 tests OK
+Capturas Chromium claro/oscuro: login, Datos, Trabajo, Reportes, Usuarios, Auditoría, Dispositivos, ML, Validaciones, Visualización
+```
+
 ### 2026-11-08 (262): Paleta ejecutiva — Fase 1 (tokens y módulos)
 
 **Qué:** se aplica la paleta aprobada en el preview: grafito neutro, un solo azul de acción y estados accesibles. Desaparecen el violeta, el naranja de Validaciones y el verde neón de ML de la interfaz principal.
@@ -102,7 +136,7 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (StatAnalyzer Pro) co
 - **Limpieza:** se elimina `css/validaciones.css` (224 líneas muertas) y se actualiza `theme_color` del manifest.
 - **Contraste:** todos los pares texto/fondo de la UI pasan AA (texto 16:1, muted 7.5:1, faint 5.6:1, acento 5.05:1 en oscuro; 15.8, 6.1, 4.55, 5.19 en claro).
 
-**Pendiente para Fase 2:** los colores hardcodeados de `UsuariosManager`, los chips de Auditoría/Dispositivos y la paleta por defecto de los gráficos (`indexx-viz.js`). El login v1 (`?login=v1`) conserva su paleta azul/dorado y `auth.css`; es la única excepción visible y requiere decisión de producto para retirarlo.
+**Pendiente para Fase 2:** los colores hardcodeados de `UsuariosManager`, los chips de Auditoría/Dispositivos y la paleta por defecto de los gráficos (`indexx-viz.js`). El login v1 (`?login=v1`) conservaba su paleta azul/dorado y `auth.css`; se retiró en la entrada 263.
 
 **Archivos afectados:**
 | Archivo | Cambio |

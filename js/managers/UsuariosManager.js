@@ -155,51 +155,51 @@ function _generateSecurePassword(length) {
                 .usr-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:10px}
                 .uc{background:var(--bg-panel);border-radius:12px;border:.5px solid var(--border);position:relative;overflow:hidden;transition:border-color .15s ease}
                 .uc::before{content:'';position:absolute;left:0;top:0;bottom:0;width:4px;z-index:1}
-                .uc.rd::before{background:#ef4444}.uc.rw::before{background:#f59e0b}.uc.ra::before{background:#6366f1}.uc.ts::before{background:#22c55e}
-                .uc.rd:hover{border-color:#ef444466}.uc.rw:hover{border-color:#f59e0b66}.uc.ra:hover{border-color:#6366f166}
-                .uc.me{border-color:#6366f1}
+                .uc.rd::before{background:var(--danger)}.uc.rw::before{background:var(--warn)}.uc.ra::before{background:var(--accent)}.uc.ts::before{background:var(--ok)}
+                .uc.rd:hover{border-color:var(--danger-border)}.uc.rw:hover{border-color:var(--warn-border)}.uc.ra:hover{border-color:var(--border)}
+                .uc.me{border-color:var(--accent)}
                 .uc-inactive{opacity:.65}
                 .ch{padding:1rem 1rem .875rem 1.375rem;display:flex;gap:11px}
                 .avw{position:relative;flex-shrink:0}
                 .av{width:44px;height:44px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:500;color:#fff}
-                .av.rd{background:#3d1e1e;color:#fc8181}.av.rw{background:#3d2e0e;color:#f6e05e}.av.ra{background:#1e2a3d;color:#63b3ed}
+                .av.rd{background:var(--danger-bg);color:var(--danger)}.av.rw{background:var(--warn-bg);color:var(--warn)}.av.ra{background:var(--bg-accent);color:var(--accent)}
                 @keyframes pr{0%{transform:scale(1);opacity:.6}70%{opacity:0;transform:scale(1.65)}100%{opacity:0}}
                 .avw.on::after{content:'';position:absolute;inset:-4px;border-radius:50%;animation:pr 3s ease-out infinite;pointer-events:none}
-                .avw.on.rd::after{border:1.5px solid #ef4444}
-                .avw.on.rw::after{border:1.5px solid #f59e0b}
-                .avw.on.ra::after{border:1.5px solid #6366f1}
-                .sdot{position:absolute;bottom:1px;right:1px;width:10px;height:10px;border-radius:50%;background:#22c55e;border:2px solid var(--bg-panel)}
+                .avw.on.rd::after{border:1.5px solid var(--danger)}
+                .avw.on.rw::after{border:1.5px solid var(--warn)}
+                .avw.on.ra::after{border:1.5px solid var(--accent)}
+                .sdot{position:absolute;bottom:1px;right:1px;width:10px;height:10px;border-radius:50%;background:var(--ok);border:2px solid var(--bg-panel)}
                 .um{flex:1;min-width:0}
                 .unr{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
                 .un{font-size:14px;font-weight:500;color:var(--text-primary)}
-                .mebg{font-size:10px;padding:1px 5px;border-radius:4px;background:#1e2a3d;color:#63b3ed;border:.5px solid #6366f166;letter-spacing:.05em;text-transform:uppercase}
+                .mebg{font-size:10px;padding:1px 5px;border-radius:4px;background:var(--bg-accent);color:var(--accent);border:.5px solid var(--border);letter-spacing:.05em;text-transform:uppercase}
                 .ue{margin-top:2px;font-size:11px;color:var(--text-muted);font-family:var(--font-mono,monospace);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
                 .uph{margin-top:2px;font-size:11px;display:flex;align-items:center;gap:4px;color:var(--text-muted)}
                 .tags{display:flex;gap:4px;margin-top:7px;flex-wrap:wrap}
                 .tag{font-size:11px;padding:2px 6px;border-radius:4px;display:flex;align-items:center;gap:3px;line-height:1.4}
-                .td{background:#3d1e1e;color:#fc8181;border:.5px solid #ef444466}
-                .tw{background:#3d2e0e;color:#f6e05e;border:.5px solid #f59e0b66}
-                .ta{background:#1e2a3d;color:#63b3ed;border:.5px solid #6366f166}
-                .ts{background:#1e3d2a;color:#4ade80;border:.5px solid #22c55e66}
-                .tp{background:#1e3d3d;color:#4dd4ac;border:.5px solid #4dd4ac66}
+                .td{background:var(--danger-bg);color:var(--danger);border:.5px solid var(--danger-border)}
+                .tw{background:var(--warn-bg);color:var(--warn);border:.5px solid var(--warn-border)}
+                .ta{background:var(--bg-accent);color:var(--accent);border:.5px solid var(--border)}
+                .ts{background:var(--ok-bg);color:var(--ok);border:.5px solid var(--ok-border)}
+                .tp{background:var(--bg-accent);color:var(--data-2);border:.5px solid var(--border)}
                 .cs{margin:0 1.375rem;padding:.725rem 0;border-top:.5px solid var(--border);display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
                 .sl{font-size:10px;font-weight:500;text-transform:uppercase;letter-spacing:.065em;color:var(--text-muted)}
                 .sv{font-size:13px;font-weight:500;color:var(--text-primary);margin-top:2px;font-variant-numeric:tabular-nums}
-                .sv.ac{color:#6366f1}.sv.sc{color:#22c55e}.sv.wc{color:#f59e0b}.sv.dc{color:#ef4444}
+                .sv.ac{color:var(--accent)}.sv.sc{color:var(--ok)}.sv.wc{color:var(--warn)}.sv.dc{color:var(--danger)}
                 .ssb{font-size:10px;color:var(--text-muted);margin-top:1px}
                 .ca{margin:0 1rem 0 1.375rem;padding:.6rem 0 .725rem;border-top:.5px solid var(--border);display:flex;gap:5px;align-items:center;flex-wrap:wrap}
                 .ca button,.ca select{height:28px;font-size:12px;border-radius:6px;border:.5px solid var(--border);background:var(--bg-panel);color:var(--text-primary);cursor:pointer;display:flex;align-items:center;gap:4px}
                 .ca select{flex:1;min-width:0;padding:0 7px;border-radius:6px}
                 .ca .sep{width:.5px;height:16px;background:var(--border);margin:0 1px;flex-shrink:0}
-                .usr-btn-2fa-on{background:#1e3d3d;color:#4dd4ac;border-color:#4dd4ac66;padding:0 7px}
-                .usr-btn-2fa-off{color:#a0aec0;padding:0 7px}
-                .usr-btn-2fa-off:hover{background:#1e3d3d;color:#4dd4ac;border-color:#4dd4ac66}
+                .usr-btn-2fa-on{background:var(--bg-accent);color:var(--data-2);border-color:var(--border);padding:0 7px}
+                .usr-btn-2fa-off{color:var(--text-faint);padding:0 7px}
+                .usr-btn-2fa-off:hover{background:var(--bg-accent);color:var(--data-2);border-color:var(--border)}
                 .usr-btn-act{color:var(--text-muted);padding:0 9px}
                 .usr-btn-act:hover{background:var(--border)}
-                .usr-btn-deact{color:#fc8181;padding:0}
-                .usr-btn-deact:hover{background:#3d1e1e}
-                .usr-btn-react{color:#4ade80;padding:0}
-                .usr-btn-react:hover{background:#1e3d2a}
+                .usr-btn-deact{color:var(--danger);padding:0}
+                .usr-btn-deact:hover{background:var(--danger-bg)}
+                .usr-btn-react{color:var(--ok);padding:0}
+                .usr-btn-react:hover{background:var(--ok-bg)}
                 .usr-2fa-modal-qr{text-align:center;padding:16px 0}
                 .usr-2fa-modal-qr img{max-width:200px;border-radius:8px}
                 .usr-2fa-modal-secret{font-family:monospace;font-size:.9rem;background:var(--bg-panel);padding:8px;border-radius:6px;text-align:center;letter-spacing:2px;margin:8px 0}
@@ -407,8 +407,8 @@ function _generateSecurePassword(length) {
         wrap.innerHTML = `
             <div class="usr-summary">
                 <div class="usr-sum-item"><div class="usr-sum-val">${usuarios.length}</div><div class="usr-sum-lbl">Usuarios totales</div></div>
-                <div class="usr-sum-item"><div class="usr-sum-val" style="color:#22c55e">${nActive}</div><div class="usr-sum-lbl">Cuentas activas</div></div>
-                <div class="usr-sum-item"><div class="usr-sum-val" style="color:#4dd4ac">${n2FA}</div><div class="usr-sum-lbl">Con 2FA activo</div></div>
+                <div class="usr-sum-item"><div class="usr-sum-val" style="color:var(--ok)">${nActive}</div><div class="usr-sum-lbl">Cuentas activas</div></div>
+                <div class="usr-sum-item"><div class="usr-sum-val" style="color:var(--data-2)">${n2FA}</div><div class="usr-sum-lbl">Con 2FA activo</div></div>
                 <div class="usr-sum-item"><div class="usr-sum-val">${nTotalSessions}</div><div class="usr-sum-lbl">Sesiones totales</div></div>
             </div>
             <div class="usr-grid">${cards}</div>`;
@@ -493,7 +493,7 @@ function _generateSecurePassword(length) {
                 <h2 style="margin:0 0 8px 0;color:#1e293b;">Resetear contraseña</h2>
                 <p style="margin:0 0 20px 0;color:#64748b;font-size:0.9rem;">Usuario: <strong>${escapeHtml(username)}</strong></p>
                 
-                <button type="button" id="usr-reset-quick" style="margin-bottom:16px;padding:16px 20px;background:linear-gradient(135deg,#f59e0b,#d97706);color:white;border:none;border-radius:12px;cursor:pointer;font-weight:600;width:100%;font-size:1rem;">
+                <button type="button" id="usr-reset-quick" style="margin-bottom:16px;padding:16px 20px;background:linear-gradient(135deg,var(--warn),#d97706);color:white;border:none;border-radius:12px;cursor:pointer;font-weight:600;width:100%;font-size:1rem;">
                     ⚡ Generar nueva contraseña segura
                 </button>
                 
@@ -530,7 +530,7 @@ function _generateSecurePassword(length) {
                         <button id="usr-reset-copy-btn" style="padding:10px 14px;background:var(--bg-input,#e2e8f0);border:none;border-radius:8px;cursor:pointer;font-size:1.1rem;" title="Copiar">📋</button>
                     </div>
                 </div>
-                <button id="usr-reset-send" style="padding:14px 20px;background:linear-gradient(135deg,#f59e0b,#d97706);color:white;border:none;border-radius:12px;cursor:pointer;font-weight:600;width:100%;font-size:1rem;">📤 Enviar contraseña</button>
+                <button id="usr-reset-send" style="padding:14px 20px;background:linear-gradient(135deg,var(--warn),#d97706);color:white;border:none;border-radius:12px;cursor:pointer;font-weight:600;width:100%;font-size:1rem;">📤 Enviar contraseña</button>
             `;
 
             document.getElementById('usr-reset-copy-btn').addEventListener('click', () => {
@@ -972,7 +972,7 @@ function _generateSecurePassword(length) {
                 <div id="usr-2fa-msg" style="display:none;"></div>
                 <div style="display:flex;gap:12px;">
                     <button type="button" id="usr-2fa-cancel" style="flex:1;padding:14px;border:2px solid #e2e8f0;border-radius:10px;background:#f1f5f9;color:#64748b;font-weight:600;cursor:pointer;">Cancelar</button>
-                    <button type="button" id="usr-2fa-disable-btn" style="flex:1;padding:14px;border:none;border-radius:10px;background:linear-gradient(135deg,#dc2626,#ef4444);color:white;font-weight:600;cursor:pointer;">✓ Desactivar</button>
+                    <button type="button" id="usr-2fa-disable-btn" style="flex:1;padding:14px;border:none;border-radius:10px;background:linear-gradient(135deg,#dc2626,var(--danger));color:white;font-weight:600;cursor:pointer;">✓ Desactivar</button>
                 </div>
             </div>`;
 
@@ -1027,37 +1027,37 @@ return { init, buildView, abrirModalCrearUsuario, guardarUsuarioModal: window.gu
 // HELPER: Color de avatar basado en nombre
 // ========================================
 function _getAvatarColor(nombre) {
-    if (!nombre) return 'linear-gradient(135deg, #3046ac, #6366f1)';
+    if (!nombre) return 'linear-gradient(135deg, #3046ac, var(--accent))';
     const firstChar = nombre[0].toUpperCase();
     const colors = {
-        'A': 'linear-gradient(135deg, #dc2626, #ef4444)',  // Rojo
+        'A': 'linear-gradient(135deg, #dc2626, var(--danger))',  // Rojo
         'B': 'linear-gradient(135deg, #ea580c, #f97316)', // Naranja
         'C': 'linear-gradient(135deg, #ca8a04, #eab308)', // Amarillo
-        'D': 'linear-gradient(135deg, #16a34a, #22c55e)', // Verde
+        'D': 'linear-gradient(135deg, #16a34a, var(--ok))', // Verde
         'E': 'linear-gradient(135deg, #059669, #10b981)', // Verde esmeralda
         'F': 'linear-gradient(135deg, #0891b2, #06b6d4)', // Cyan
         'G': 'linear-gradient(135deg, #2563eb, #3b82f6)', // Azul
-        'H': 'linear-gradient(135deg, #4338ca, #6366f1)', // Indigo
+        'H': 'linear-gradient(135deg, #4338ca, var(--accent))', // Indigo
         'I': 'linear-gradient(135deg, #7c3aed, #8b5cf6)', // Violeta
         'J': 'linear-gradient(135deg, #db2777, #ec4899)', // Rosa
         'K': 'linear-gradient(135deg, #be185d, #db2777)', // Rosa oscuro
         'L': 'linear-gradient(135deg, #9333ea, #a855f7)', // Púrpura
-        'M': 'linear-gradient(135deg, #dc2626, #ef4444)', // Rojo
+        'M': 'linear-gradient(135deg, #dc2626, var(--danger))', // Rojo
         'N': 'linear-gradient(135deg, #ea580c, #f97316)', // Naranja
         'O': 'linear-gradient(135deg, #ca8a04, #eab308)', // Amarillo
-        'P': 'linear-gradient(135deg, #16a34a, #22c55e)', // Verde
+        'P': 'linear-gradient(135deg, #16a34a, var(--ok))', // Verde
         'Q': 'linear-gradient(135deg, #0891b2, #06b6d4)', // Cyan
         'R': 'linear-gradient(135deg, #2563eb, #3b82f6)', // Azul
-        'S': 'linear-gradient(135deg, #4338ca, #6366f1)', // Indigo
+        'S': 'linear-gradient(135deg, #4338ca, var(--accent))', // Indigo
         'T': 'linear-gradient(135deg, #7c3aed, #8b5cf6)', // Violeta
         'U': 'linear-gradient(135deg, #059669, #10b981)', // Verde
         'V': 'linear-gradient(135deg, #be185d, #db2777)', // Rosa
         'W': 'linear-gradient(135deg, #9333ea, #a855f7)', // Púrpura
-        'X': 'linear-gradient(135deg, #dc2626, #ef4444)', // Rojo
+        'X': 'linear-gradient(135deg, #dc2626, var(--danger))', // Rojo
         'Y': 'linear-gradient(135deg, #ea580c, #f97316)', // Naranja
         'Z': 'linear-gradient(135deg, #9333ea, #a855f7)'  // Púrpura
     };
-    return colors[firstChar] || 'linear-gradient(135deg, #3046ac, #6366f1)';
+    return colors[firstChar] || 'linear-gradient(135deg, #3046ac, var(--accent))';
 }
 
 // Exponer funciones al window para que funcionen los onclick

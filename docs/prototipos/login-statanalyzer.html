@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>StatAnalyzer Pro — Preview login</title>
+<style>
+  :root {
+    --bg: #0d1117;
+    --surface-1: #161b22;
+    --surface-2: #21262d;
+    --surface-3: #30363d;
+    --border: #30363d;
+    --text: #e6edf3;
+    --text-muted: #9aa4b2;
+    --text-faint: #848d97;
+    --accent: #2f81f7;
+    --accent-hover: #58a6ff;
+    --accent-soft: rgba(47,129,247,.14);
+    --ok: #3fb950;
+    --ok-bg: rgba(63,185,80,.12);
+    --danger: #f85149;
+    --danger-bg: rgba(248,81,73,.12);
+    --warn: #d29922;
+    --font: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    --mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    --radius: 10px;
+    --card-radius: 18px;
+    --shadow: 0 24px 70px rgba(0,0,0,.45);
+    --glow-1: rgba(47,129,247,.12);
+    --glow-2: rgba(57,197,207,.06);
+    --symbol: rgba(230,237,243,.055);
+    --input-bg: #0d1117;
+    --footer: rgba(230,237,243,.45);
+  }
+
+  [data-theme="light"] {
+    --bg: #ffffff;
+    --surface-1: #ffffff;
+    --surface-2: #f6f8fa;
+    --surface-3: #eaeef2;
+    --border: #d0d7de;
+    --text: #1f2328;
+    --text-muted: #59636e;
+    --text-faint: #6e7781;
+    --accent: #0969da;
+    --accent-hover: #0550ae;
+    --accent-soft: rgba(9,105,218,.10);
+    --ok: #1a7f37;
+    --ok-bg: rgba(26,127,55,.08);
+    --danger: #d1242f;
+    --danger-bg: rgba(209,36,47,.08);
+    --warn: #9a6700;
+    --shadow: 0 24px 70px rgba(31,35,40,.12);
+    --glow-1: rgba(9,105,218,.10);
+    --glow-2: rgba(27,124,131,.06);
+    --symbol: rgba(31,35,40,.055);
+    --input-bg: #f6f8fa;
+    --footer: rgba(31,35,40,.55);
+  }
+
+  * { box-sizing: border-box; }
+  html, body { height: 100%; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font: 14px/1.5 var(--font);
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+
+  /* Fondo con dos halos suaves y símbolos matemáticos */
+  .bg {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    background:
+      radial-gradient(ellipse 60% 55% at 12% 8%, var(--glow-1) 0%, transparent 70%),
+      radial-gradient(ellipse 55% 50% at 88% 92%, var(--glow-2) 0%, transparent 70%);
+  }
+  .symbols { position: fixed; inset: 0; pointer-events: none; overflow: hidden; }
+  .symbols span {
+    position: absolute;
+    color: var(--text);
+    opacity: .06;
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: clamp(22px, 3vw, 42px);
+    user-select: none;
+  }
+
+  .topbar {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 26px 32px;
+  }
+  .brand { display: flex; align-items: center; gap: 12px; }
+  .brand-mark {
+    width: 42px; height: 42px; border-radius: 12px;
+    display: grid; place-items: center;
+    background: linear-gradient(145deg, var(--accent), var(--accent-hover));
+    color: #fff;
+    box-shadow: 0 8px 22px var(--accent-soft);
+  }
+  .brand-title {
+    font-size: 12px; font-weight: 800; letter-spacing: 1.1px;
+    text-transform: uppercase; line-height: 1.2;
+  }
+  .brand-sub {
+    font-size: 10px; font-weight: 600; letter-spacing: 1.4px;
+    color: var(--text-faint); text-transform: uppercase; margin-top: 2px;
+  }
+  .secure {
+    display: inline-flex; align-items: center; gap: 7px;
+    border: 1px solid var(--border); border-radius: 999px;
+    padding: 6px 12px; font-size: 11px; font-weight: 600;
+    color: var(--text-muted); background: var(--surface-1);
+    white-space: nowrap;
+  }
+  .secure svg { color: var(--ok); }
+
+  main {
+    position: relative;
+    z-index: 2;
+    flex: 1;
+    display: grid;
+    place-items: center;
+    padding: 20px 18px 50px;
+  }
+
+  .card {
+    width: min(460px, 100%);
+    background: var(--surface-1);
+    border: 1px solid var(--border);
+    border-radius: var(--card-radius);
+    box-shadow: var(--shadow);
+    padding: 26px 26px 20px;
+  }
+
+  .card-head {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 22px;
+  }
+  .card-icon {
+    width: 46px; height: 46px; border-radius: 12px;
+    display: grid; place-items: center;
+    color: var(--accent);
+    background: var(--accent-soft);
+    border: 1px solid rgba(47,129,247,.28);
+    flex-shrink: 0;
+  }
+  [data-theme="light"] .card-icon { border-color: rgba(9,105,218,.28); }
+  .card-title { font-size: 19px; font-weight: 800; letter-spacing: -.3px; margin: 0; }
+  .card-sub { font-size: 12px; color: var(--text-muted); margin: 2px 0 0; }
+
+  .field { margin-bottom: 13px; }
+  .field label {
+    display: block;
+    font-size: 10px; font-weight: 800; letter-spacing: 1px;
+    text-transform: uppercase; color: var(--text-muted);
+    margin-bottom: 5px;
+  }
+  .control {
+    display: flex; align-items: center; gap: 10px;
+    background: var(--input-bg);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 0 12px;
+    min-height: 46px;
+    transition: border-color .15s, box-shadow .15s;
+  }
+  .control:focus-within {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px var(--accent-soft);
+  }
+  .control > svg { color: var(--text-faint); flex-shrink: 0; }
+  .control input {
+    flex: 1;
+    min-width: 0;
+    border: 0;
+    outline: 0;
+    background: transparent;
+    color: var(--text);
+    font: inherit;
+    font-size: 13px;
+    padding: 11px 0;
+  }
+  .control input::placeholder { color: var(--text-faint); opacity: 1; }
+  .eye {
+    border: 0; background: transparent; color: var(--text-faint);
+    display: grid; place-items: center; padding: 4px; cursor: pointer;
+    border-radius: 6px;
+  }
+  .eye:hover { color: var(--accent); background: var(--accent-soft); }
+
+  .row {
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 10px; margin: 2px 0 18px; font-size: 12px;
+  }
+  .remember { display: inline-flex; align-items: center; gap: 8px; color: var(--text-muted); cursor: pointer; }
+  .remember input { accent-color: var(--accent); width: 15px; height: 15px; margin: 0; }
+  a { color: var(--accent); text-decoration: none; }
+  a:hover { color: var(--accent-hover); text-decoration: underline; }
+
+  .btn {
+    width: 100%;
+    border: 0;
+    border-radius: var(--radius);
+    min-height: 46px;
+    background: var(--accent);
+    color: #fff;
+    font: inherit;
+    font-size: 13px;
+    font-weight: 750;
+    cursor: pointer;
+    transition: background .15s, transform .1s;
+  }
+  .btn:hover { background: var(--accent-hover); }
+  .btn:active { transform: translateY(1px); }
+  .btn:focus-visible { outline: 2px solid var(--accent-hover); outline-offset: 2px; }
+
+  .meta {
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 10px; flex-wrap: wrap;
+    margin-top: 16px; padding-top: 14px;
+    border-top: 1px solid var(--border);
+    font-size: 11px; color: var(--text-faint);
+  }
+  .compliance { display: inline-flex; align-items: center; gap: 6px; }
+  .compliance svg { color: var(--ok); }
+  .build {
+    font-family: var(--mono); font-size: 10px;
+    border: 1px solid var(--border); border-radius: 999px;
+    padding: 3px 8px; color: var(--text-muted); background: var(--bg);
+  }
+  .help { text-align: center; margin-top: 12px; font-size: 11.5px; }
+
+  footer {
+    position: relative; z-index: 2;
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 14px; flex-wrap: wrap;
+    padding: 18px 32px 24px;
+    font-size: 10.5px; color: var(--footer);
+  }
+  footer b { color: var(--text-muted); font-weight: 650; }
+
+  .switch {
+    position: fixed; top: 28px; left: 50%; transform: translateX(-50%); z-index: 5;
+    display: inline-flex; align-items: center; gap: 8px;
+    font-size: 11px; color: var(--text-muted);
+  }
+  .switch button {
+    font: inherit; font-size: 11px; font-weight: 650;
+    border: 1px solid var(--border); border-radius: 999px;
+    background: var(--surface-1); color: var(--text);
+    padding: 6px 11px; cursor: pointer;
+  }
+  .switch button:hover { border-color: var(--accent); color: var(--accent); }
+
+  .note {
+    position: fixed; bottom: 10px; left: 50%; transform: translateX(-50%);
+    font-size: 10px; color: var(--text-faint); text-align: center;
+    z-index: 5; white-space: nowrap;
+  }
+
+  @media (max-width: 700px) {
+    .topbar { padding: 18px; }
+    .switch { top: 18px; left: auto; right: 18px; transform: none; }
+    .brand-sub { display: none; }
+    .secure { display: none; }
+    .card { padding: 22px 18px 16px; }
+    footer { padding: 14px 18px 22px; }
+    .note { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<div class="bg" aria-hidden="true"></div>
+<div class="symbols" aria-hidden="true">
+  <span style="left:4%;top:14%;font-size:34px;opacity:.07">x̄</span>
+  <span style="left:9%;top:70%;font-size:58px;opacity:.05">σ</span>
+  <span style="left:22%;top:38%;font-size:22px;opacity:.08">μ</span>
+  <span style="left:15%;top:84%;font-size:28px;opacity:.06">π</span>
+  <span style="left:33%;top:12%;font-size:18px;opacity:.05">Δ</span>
+  <span style="left:44%;top:89%;font-size:42px;opacity:.04">∫</span>
+  <span style="left:56%;top:8%;font-size:26px;opacity:.06">α</span>
+  <span style="left:66%;top:78%;font-size:34px;opacity:.05">β</span>
+  <span style="left:76%;top:20%;font-size:50px;opacity:.05">Σ</span>
+  <span style="left:84%;top:60%;font-size:20px;opacity:.08">λ</span>
+  <span style="left:91%;top:88%;font-size:32px;opacity:.06">√</span>
+  <span style="left:94%;top:11%;font-size:24px;opacity:.07">R²</span>
+  <span style="left:70%;top:46%;font-size:18px;opacity:.04">χ²</span>
+  <span style="left:27%;top:58%;font-size:30px;opacity:.04">≈</span>
+  <span style="left:48%;top:52%;font-size:16px;opacity:.05">±</span>
+  <span style="left:60%;top:34%;font-size:22px;opacity:.04">∑</span>
+  <span style="left:7%;top:44%;font-size:20px;opacity:.05">n</span>
+  <span style="left:87%;top:36%;font-size:38px;opacity:.04">∑</span>
+</div>
+
+<div class="switch">
+  <button type="button" id="themeBtn">Ver claro</button>
+</div>
+
+<header class="topbar">
+  <div class="brand">
+    <div class="brand-mark" aria-hidden="true">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M4 5.5 12 2l8 3.5v6.1c0 4.7-3.3 8-8 10.4-4.7-2.4-8-5.7-8-10.4z"/><path d="m8.5 12 2.3 2.3 4.8-5"/>
+      </svg>
+    </div>
+    <div>
+      <div class="brand-title">Powered for compliance</div>
+      <div class="brand-sub">21 CFR Part 11</div>
+    </div>
+  </div>
+  <div class="secure">
+    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>
+    Acceso protegido
+  </div>
+</header>
+
+<main>
+  <section class="card" aria-labelledby="card-title">
+    <div class="card-head">
+      <div class="card-icon" aria-hidden="true">
+        <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/><path d="M12 14v3"/></svg>
+      </div>
+      <div>
+        <h1 class="card-title" id="card-title">StatAnalyzer Pro</h1>
+        <p class="card-sub">Sistema de análisis estadístico</p>
+      </div>
+    </div>
+
+    <form id="demoForm" autocomplete="on">
+      <div class="field">
+        <label for="user">Usuario</label>
+        <div class="control">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg>
+          <input id="user" name="user" type="text" placeholder="tu.usuario" autocomplete="username" autocapitalize="none" spellcheck="false">
+        </div>
+      </div>
+
+      <div class="field">
+        <label for="pass">Contraseña</label>
+        <div class="control">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>
+          <input id="pass" name="pass" type="password" placeholder="Escribe tu contraseña" autocomplete="current-password">
+          <button class="eye" id="eyeBtn" type="button" aria-label="Mostrar contraseña" aria-pressed="false">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.5-6 10-6 10 6 10 6-3.5 6-10 6S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg>
+          </button>
+        </div>
+      </div>
+
+      <div class="row">
+        <label class="remember">
+          <input type="checkbox" checked>
+          Recordar usuario
+        </label>
+        <a href="#" onclick="return false">¿La olvidaste?</a>
+      </div>
+
+      <button class="btn" type="submit">Iniciar sesión</button>
+    </form>
+
+    <div class="meta">
+      <span class="compliance">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 5 5 9-9"/></svg>
+        Diseñado para apoyar 21 CFR Part 11
+      </span>
+      <span class="build">v1.0 · preview</span>
+    </div>
+    <div class="help"><a href="#" onclick="return false">¿Necesitas ayuda?</a></div>
+  </section>
+</main>
+
+<footer>
+  <span>© 2026 <b>StatAnalyzer Pro</b></span>
+  <span>Powered for compliance · 21 CFR Part 11</span>
+</footer>
+
+<div class="note">Preview estático: no envía credenciales.</div>
+
+<script>
+  (function () {
+    var root = document.documentElement;
+    var btn = document.getElementById('themeBtn');
+    if (new URLSearchParams(window.location.search).get('theme') === 'light') {
+      root.setAttribute('data-theme', 'light');
+      btn.textContent = 'Ver oscuro';
+    }
+    btn.addEventListener('click', function () {
+      var light = root.getAttribute('data-theme') === 'light';
+      if (light) root.removeAttribute('data-theme');
+      else root.setAttribute('data-theme', 'light');
+      btn.textContent = light ? 'Ver claro' : 'Ver oscuro';
+    });
+
+    var pass = document.getElementById('pass');
+    var eye = document.getElementById('eyeBtn');
+    eye.addEventListener('click', function () {
+      var show = pass.type === 'password';
+      pass.type = show ? 'text' : 'password';
+      eye.setAttribute('aria-label', show ? 'Ocultar contraseña' : 'Mostrar contraseña');
+      eye.setAttribute('aria-pressed', show ? 'true' : 'false');
+    });
+
+    document.getElementById('demoForm').addEventListener('submit', function (e) {
+      e.preventDefault();
+      var b = e.target.querySelector('.btn');
+      b.textContent = 'Demo: no se envía';
+      setTimeout(function () { b.textContent = 'Iniciar sesión'; }, 1200);
+    });
+  })();
+</script>
+</body>
+</html>

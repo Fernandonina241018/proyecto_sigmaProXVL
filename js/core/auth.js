@@ -34,25 +34,9 @@ const Auth = (() => {
     const LOGIN_VARIANT_KEY = '__auth_login_variant';
     const PROFILE_CACHE_KEY = '__auth_profile_cache';
     const REMEMBER_OPTOUT_KEY = '__auth_remember_optout';
-    function _resolveLoginVariant() {
-        try {
-            if (typeof window !== 'undefined' && window.location
-                && window.location.search && typeof URLSearchParams !== 'undefined') {
-                var q = new URLSearchParams(window.location.search).get('login');
-                if (q === 'v2' || q === 'v1') return q;
-            }
-        } catch (e) {}
-        try {
-            var saved = localStorage.getItem(LOGIN_VARIANT_KEY);
-            if (saved === 'v2' || saved === 'v1') return saved;
-        } catch (e) {}
-        return 'v2';
-    }
-    function setLoginVariant(variant) {
-        var v = variant === 'v2' ? 'v2' : 'v1';
-        try { localStorage.setItem(LOGIN_VARIANT_KEY, v); } catch (e) {}
-        return v;
-    }
+    // v1 retirado: el login sigue el tema claro/oscuro y no tiene una segunda paleta.
+    function _resolveLoginVariant() { return 'v2'; }
+    function setLoginVariant() { return 'v2'; }
     function getLoginVariant() { return _resolveLoginVariant(); }
 
     // Puerta de área: antes de entrar a la app se exige área válida
@@ -273,6 +257,7 @@ const Auth = (() => {
         } catch (_e) {}
     }
 
+    // shortcut: v1 sin CSS ni selección; borrar el renderer cuando se confirme que nadie usa ?login=v1.
     function _renderLoginModal(reason='') {
         document.getElementById('auth-overlay')?.remove();
         const reasonMsg={timeout:'⏱ Tu sesión expiró por inactividad.',logout:'👋 Sesión cerrada correctamente.'}[reason]||'';
@@ -631,9 +616,24 @@ const Auth = (() => {
         overlay.className = 'auth-v2';
         overlay.innerHTML = `
         <div class="bg" aria-hidden="true">
-            <span style="left:5%;top:20%">x̄</span><span style="left:10%;top:74%">σ</span>
-            <span style="left:88%;top:18%">μ</span><span style="left:93%;top:68%">R²</span>
-            <span style="left:78%;top:86%">Σ</span><span style="left:16%;top:44%">χ²</span>
+            <span style="left:4%;top:14%;font-size:34px;opacity:.07">x̄</span>
+            <span style="left:9%;top:70%;font-size:58px;opacity:.05">σ</span>
+            <span style="left:22%;top:38%;font-size:22px;opacity:.08">μ</span>
+            <span style="left:15%;top:84%;font-size:28px;opacity:.06">π</span>
+            <span style="left:33%;top:12%;font-size:18px;opacity:.05">Δ</span>
+            <span style="left:44%;top:89%;font-size:42px;opacity:.04">∫</span>
+            <span style="left:56%;top:8%;font-size:26px;opacity:.06">α</span>
+            <span style="left:66%;top:78%;font-size:34px;opacity:.05">β</span>
+            <span style="left:76%;top:20%;font-size:50px;opacity:.05">Σ</span>
+            <span style="left:84%;top:60%;font-size:20px;opacity:.08">λ</span>
+            <span style="left:91%;top:88%;font-size:32px;opacity:.06">√</span>
+            <span style="left:94%;top:11%;font-size:24px;opacity:.07">R²</span>
+            <span style="left:70%;top:46%;font-size:18px;opacity:.04">χ²</span>
+            <span style="left:27%;top:58%;font-size:30px;opacity:.04">≈</span>
+            <span style="left:48%;top:52%;font-size:16px;opacity:.05">±</span>
+            <span style="left:60%;top:34%;font-size:22px;opacity:.04">∑</span>
+            <span style="left:7%;top:44%;font-size:20px;opacity:.05">n</span>
+            <span style="left:87%;top:36%;font-size:38px;opacity:.04">∑</span>
         </div>
         <div class="shell">
             <header class="topbar">

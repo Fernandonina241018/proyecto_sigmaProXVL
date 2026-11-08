@@ -52,14 +52,14 @@
     letter-spacing: 0.5px;
 }
 
-.aud-kpi-ok   { border-color: rgba(74,222,128,0.4); background: rgba(74,222,128,0.08); }
-.aud-kpi-ok   .aud-kpi-value { color: #4ade80; }
+.aud-kpi-ok   { border-color: var(--ok-border); background: var(--ok-bg); }
+.aud-kpi-ok   .aud-kpi-value { color: var(--ok); }
 
-.aud-kpi-fail { border-color: rgba(248,113,113,0.4); background: rgba(248,113,113,0.08); }
-.aud-kpi-fail .aud-kpi-value { color: #fc8181; }
+.aud-kpi-fail { border-color: var(--danger-border); background: var(--danger-bg); }
+.aud-kpi-fail .aud-kpi-value { color: var(--danger); }
 
-.aud-kpi-rate { border-color: rgba(96,165,250,0.4); background: rgba(96,165,250,0.08); }
-.aud-kpi-rate .aud-kpi-value { color: #60a5fa; }
+.aud-kpi-rate { border-color: var(--border); background: var(--bg-accent); }
+.aud-kpi-rate .aud-kpi-value { color: var(--accent); }
 
 /* ── Barra de filtros ── */
 .aud-filters-bar {
@@ -162,13 +162,13 @@
 }
 
 .aud-btn-filter {
-    background: linear-gradient(135deg, var(--accent), #6b5ce7);
+    background: linear-gradient(135deg, var(--accent), var(--accent-hover));
     color: white;
 }
 
 .aud-btn-filter:hover {
     transform: translateY(-1px);
-    box-shadow: 0 4px 12px rgba(124,106,247,0.3);
+    box-shadow: 0 4px 12px rgba(47,129,247,0.3);
 }
 
 .aud-btn-reset {
@@ -184,7 +184,7 @@
 
 .aud-btn-export {
     background: rgba(74,222,128,0.1);
-    color: #4ade80;
+    color: var(--ok);
     border: 1.5px solid rgba(74,222,128,0.3);
 }
 
@@ -202,7 +202,7 @@
 }
 
 .aud-btn-refresh:hover {
-    background: rgba(124,106,247,0.1);
+    background: rgba(47,129,247,0.1);
     border-color: var(--accent);
 }
 
@@ -230,8 +230,8 @@
 }
 
 .aud-table thead th {
-    background: linear-gradient(135deg, var(--accent) 0%, #6b5ce7 100%);
-    color: white;
+    background: var(--surface-2);
+    color: var(--text-muted);
     padding: 12px 14px;
     text-align: left;
     font-size: 0.72rem;
@@ -247,7 +247,7 @@
 }
 
 .aud-table tbody tr:last-child { border-bottom: none; }
-.aud-table tbody tr:hover { background: rgba(124,106,247,0.06); }
+.aud-table tbody tr:hover { background: var(--bg-accent); }
 
 .aud-table td {
     padding: 10px 14px;
@@ -306,11 +306,11 @@
 }
 
 .aud-td-details .detail-old {
-    color: #fc8181;
+    color: var(--danger);
 }
 
 .aud-td-details .detail-new {
-    color: #4ade80;
+    color: var(--ok);
 }
 
 /* ── Badges ── */
@@ -324,17 +324,17 @@
     white-space: nowrap;
 }
 
-.aud-badge-ok   { background: #1e3d2a; color: #4ade80; }
-.aud-badge-fail { background: #3d1e1e; color: #fc8181; }
-.aud-badge-module { background: #1e2a3d; color: #60a5fa; font-size: 0.7rem; }
-.aud-risk-high  { background: #3d1e1e; color: #fc8181; }
-.aud-risk-med   { background: #3d2e0e; color: #f6e05e; }
-.aud-risk-low   { background: #1e3d2a; color: #4ade80; }
+.aud-badge-ok   { background: var(--ok-bg); color: var(--ok); }
+.aud-badge-fail { background: var(--danger-bg); color: var(--danger); }
+.aud-badge-module { background: var(--bg-accent); color: var(--accent); font-size: 0.7rem; }
+.aud-risk-high  { background: var(--danger-bg); color: var(--danger); }
+.aud-risk-med   { background: var(--warn-bg); color: var(--warn); }
+.aud-risk-low   { background: var(--ok-bg); color: var(--ok); }
 
 /* ── Sección de intentos fallidos ── */
 .aud-fails-section {
-    background: #2a2520;
-    border: 2px solid #5c4a1e;
+    background: var(--warn-bg);
+    border: 2px solid var(--warn-border);
     border-radius: 12px;
     padding: 18px 20px;
 }
@@ -342,10 +342,10 @@
 .aud-fails-title {
     font-size: 0.88rem;
     font-weight: 700;
-    color: #f6e05e;
+    color: var(--warn);
     margin-bottom: 14px;
     padding-bottom: 10px;
-    border-bottom: 1px solid #5c4a1e;
+    border-bottom: 1px solid var(--warn-border);
 }
 
 .aud-table-compact td,
@@ -384,7 +384,7 @@
 .aud-error {
     text-align: center;
     padding: 30px;
-    color: #fc8181;
+    color: var(--danger);
     background: rgba(248,113,113,0.1);
 }
 
@@ -453,7 +453,7 @@
 
 .aud-bar {
     width: 100%;
-    background: linear-gradient(180deg, var(--accent), #6b5ce7);
+    background: linear-gradient(180deg, var(--accent), var(--accent-hover));
     border-radius: 4px 4px 0 0;
     min-height: 4px;
     transition: height 0.3s ease;
@@ -482,13 +482,13 @@
 .aud-alert-alto {
     background: rgba(239,68,68,0.12);
     border: 2px solid rgba(239,68,68,0.4);
-    color: #f87171;
+    color: var(--danger);
 }
 
 .aud-alert-medio {
     background: rgba(245,158,11,0.12);
     border: 2px solid rgba(245,158,11,0.4);
-    color: #fbbf24;
+    color: var(--warn);
 }
 
 /* ── Paginación y columnas nuevas (duración/dispositivo) ── */

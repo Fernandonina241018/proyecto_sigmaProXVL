@@ -606,7 +606,7 @@ const Validaciones = (() => {
     return '<svg class="chart" viewBox="0 0 600 190" role="img" aria-label="Protocolos registrados en los últimos 7 días">'
       + '<line class="chart-grid" x1="38" y1="25" x2="590" y2="25"/><line class="chart-grid" x1="38" y1="70" x2="590" y2="70"/>'
       + '<line class="chart-grid" x1="38" y1="115" x2="590" y2="115"/><line class="chart-grid" x1="38" y1="160" x2="590" y2="160"/>'
-      + '<defs><linearGradient id="area" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#f28a32" stop-opacity=".28"/><stop offset="1" stop-color="#f28a32" stop-opacity="0"/></linearGradient></defs>'
+      + '<defs><linearGradient id="area" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="var(--accent)" stop-opacity=".28"/><stop offset="1" stop-color="var(--accent)" stop-opacity="0"/></linearGradient></defs>'
       + '<path class="chart-area" d="' + line + ' L555 160 L45 160 Z"/>'
       + '<path class="chart-line" d="' + line + '"/>' + dots + labels + '</svg>';
   }
@@ -662,19 +662,19 @@ const Validaciones = (() => {
     const f = m.fases || {};
     const cats = m.categorias || {};
     const cards = [
-      { t: 'Ensayos en el banco', v: m.total || 0, u: 'Total del banco', i: '▤', s: '--accent:#ffad5d;--glow:#f28a32;--glowbg:#f28a3220', g: sparkBars([4, 7, 5, 9, 6, 11, 8], '#ff5c1a') },
-      { t: 'DQ · Diseño', v: f.DQ || 0, u: 'Ensayos catalogados', i: '◇', s: '--accent:#58a9ed;--glow:#58a9ed;--glowbg:#58a9ed20', g: sparkPulse('#e13d8f') },
-      { t: 'IQ · Instalación', v: f.IQ || 0, u: 'Ensayos catalogados', i: '⌂', s: '--accent:#42c69a;--glow:#42c69a;--glowbg:#42c69a20', g: sparkRing(72, '#34c98e') },
-      { t: 'OQ · Operación', v: f.OQ || 0, u: 'Ensayos catalogados', i: '⚙', s: '--accent:#a78bfa;--glow:#a78bfa;--glowbg:#a78bfa20', g: sparkBars([6, 3, 8, 5, 9, 4, 7], '#4f9cf7') },
-      { t: 'PQ · Desempeño', v: f.PQ || 0, u: 'Ensayos catalogados', i: '▥', s: '--accent:#e9a3c6;--glow:#e9a3c6;--glowbg:#e9a3c620', g: sparkPulse('#7c5cf0') },
+      { t: 'Ensayos en el banco', v: m.total || 0, u: 'Total del banco', i: '▤', s: '--accent:var(--data-1);--glow:var(--data-1);--glowbg:var(--bg-accent)', g: sparkBars([4, 7, 5, 9, 6, 11, 8], 'var(--data-1)') },
+      { t: 'DQ · Diseño', v: f.DQ || 0, u: 'Ensayos catalogados', i: '◇', s: '--accent:var(--data-2);--glow:var(--data-2);--glowbg:var(--bg-accent)', g: sparkPulse('var(--data-2)') },
+      { t: 'IQ · Instalación', v: f.IQ || 0, u: 'Ensayos catalogados', i: '⌂', s: '--accent:var(--data-3);--glow:var(--data-3);--glowbg:var(--bg-accent)', g: sparkRing(72, 'var(--data-3)') },
+      { t: 'OQ · Operación', v: f.OQ || 0, u: 'Ensayos catalogados', i: '⚙', s: '--accent:var(--data-5);--glow:var(--data-5);--glowbg:var(--bg-accent)', g: sparkBars([6, 3, 8, 5, 9, 4, 7], 'var(--data-5)') },
+      { t: 'PQ · Desempeño', v: f.PQ || 0, u: 'Ensayos catalogados', i: '▥', s: '--accent:var(--data-4);--glow:var(--data-4);--glowbg:var(--bg-accent)', g: sparkPulse('var(--data-4)') },
     ];
-    const catColor = { almacenes: '#58a9ed', equipos: '#42c69a', sistemas: '#a78bfa', estabilidad: '#e9a3c6', software: '#ffad5d' };
+    const catColor = { almacenes: 'var(--data-1)', equipos: 'var(--data-3)', sistemas: 'var(--data-5)', estabilidad: 'var(--data-2)', software: 'var(--data-4)' };
     const catCards = CATS.map(function (c) {
       const n = Number(cats[c.id] || 0);
       const detalle = c.id === 'software'
         ? (n ? fmtNum(n) + ' registros' : 'Sin banco')
         : (c.id === 'estabilidad' ? fmtNum(n) + ' estudios' : fmtNum(n) + ' registros');
-      const color = catColor[c.id] || '#58a9ed';
+      const color = catColor[c.id] || 'var(--data-1)';
       return '<a class="category" href="#/entidad/' + c.id + '" target="_self" data-name="' + esc(c.nombre) + '">'
         + '<div class="cat-icon" aria-hidden="true" style="background:' + color + '20;color:' + color + '">' + c.icono + '</div>'
         + '<strong>' + esc(c.nombre) + '</strong><small>' + esc(detalle) + '</small></a>';
@@ -706,7 +706,7 @@ const Validaciones = (() => {
   function viewGenerador() {
     const cards = CATS.filter(function (c) { return GEN_CATS.indexOf(c.id) >= 0; }).map(function (c) {
       return '<a class="category" href="#/entidad/' + c.id + '" target="_self" data-name="' + esc(c.nombre) + '">'
-        + '<div class="cat-icon" aria-hidden="true" style="background:#58a9ed20;color:#58a9ed">' + c.icono + '</div>'
+        + '<div class="cat-icon" aria-hidden="true" style="background:var(--bg-accent);color:var(--accent)">' + c.icono + '</div>'
         + '<strong>' + esc(c.nombre) + '</strong><small>' + esc(c.desc) + '</small></a>';
     }).join('');
     return '<div class="v7-view"><h1>Generador de protocolos</h1><p class="sub">Elija una categoría, cargue los datos de la entidad y genere el .docx.</p>'

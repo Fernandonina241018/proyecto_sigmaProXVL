@@ -15,7 +15,6 @@
   --line:var(--border);--text:var(--text-primary);--muted:var(--text-muted);--orange:var(--accent);
   --orange2:var(--accent-hover);--green:var(--ok);--blue:var(--accent);--purple:var(--accent);
   --shadow:var(--shadow-md);--radius:var(--radius-lg);
-  color-scheme:dark;
 }
 *{box-sizing:border-box}&{margin:0;background:var(--bg);color:var(--text);font:14px/1.45 system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif}
 button,input,select{font:inherit}.app{display:grid;grid-template-columns:238px minmax(0,1fr);min-height:100vh}

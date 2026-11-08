@@ -10,7 +10,7 @@
 
 .dsp-card {
     background: var(--bg-primary, #fff);
-    border: 1.5px solid var(--border, #e2e8f0);
+    border: 1.5px solid var(--border, #d0d7de);
     border-radius: 10px;
     padding: 14px;
     transition: box-shadow 0.2s;
@@ -21,8 +21,8 @@
 }
 
 .dsp-card-current {
-    border-color: var(--accent, #667aea);
-    box-shadow: 0 0 0 1px var(--accent, #667aea);
+    border-color: var(--accent, #2f81f7);
+    box-shadow: 0 0 0 1px var(--accent, #2f81f7);
 }
 
 .dsp-card-header {
@@ -35,7 +35,7 @@
 .dsp-card-title {
     font-weight: 600;
     font-size: 0.9rem;
-    color: var(--text-primary, #1a202c);
+    color: var(--text-primary, #1f2328);
 }
 
 .dsp-card-badge {
@@ -46,13 +46,13 @@
 }
 
 .dsp-badge-trusted {
-    background: #c6f6d5;
-    color: #22543d;
+    background: var(--ok-bg);
+    color: var(--ok);
 }
 
 .dsp-badge-untrusted {
-    background: #fed7d7;
-    color: #9b2c2c;
+    background: var(--danger-bg);
+    color: var(--danger);
 }
 
 .dsp-card-body {
@@ -64,15 +64,15 @@
     justify-content: space-between;
     padding: 3px 0;
     font-size: 0.78rem;
-    border-bottom: 1px solid var(--border-faint, #f0f0f0);
+    border-bottom: 1px solid var(--border-faint, #d0d7de);
 }
 
 .dsp-info-label {
-    color: var(--text-faint, #a0aec0);
+    color: var(--text-faint, #6e7781);
 }
 
 .dsp-info-value {
-    color: var(--text-primary, #1a202c);
+    color: var(--text-primary, #1f2328);
     font-weight: 500;
     text-align: right;
 }
@@ -95,7 +95,7 @@
 
 .dsp-current-tag {
     font-size: 0.7rem;
-    color: var(--accent, #667aea);
+    color: var(--accent, #2f81f7);
     font-weight: 500;
     margin-left: auto;
 }
