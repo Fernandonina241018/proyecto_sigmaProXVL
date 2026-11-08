@@ -39,6 +39,22 @@ test('el mismo hash no duplica el registro', async () => {
   assert.equal(await db.countValidationProtocols({ category: 'equipos', entity: 'reactor', phase: 'OQ' }), 1);
 });
 
+test('regenerar el mismo archivo con otro nombre normaliza el registro', async () => {
+  const bytes = Buffer.from('docx-demo-1');
+  const row = await db.saveValidationProtocol({
+    category: 'equipos', entity: 'reactor', phase: 'OQ', code: 'OQ-RC-01',
+    version: '01', filename: 'DQ-4002058 AUTOCLAVE.docx', sha256: sha(bytes),
+    username: 'val_admin', details: { code: 'OQ-RC-01' }, fileData: bytes,
+  });
+  assert.equal(row.created, false);
+  assert.equal(row.renamed, true);
+  assert.equal(row.filename, 'DQ-4002058 AUTOCLAVE.docx');
+  assert.equal(row.previousFilename, 'OQ-reactor.docx');
+  const list = await db.listValidationProtocols({ category: 'equipos', entity: 'reactor', phase: 'OQ' });
+  assert.equal(list.length, 1);
+  assert.equal(list[0].filename, 'DQ-4002058 AUTOCLAVE.docx');
+});
+
 test('lista y cuenta con filtros por categoría, entidad y fase', async () => {
   const bytes = Buffer.from('docx-demo-2');
   await db.saveValidationProtocol({
@@ -60,5 +76,6 @@ test('server: endpoints admin, sin edición ni borrado', () => {
   assert.match(SERVER, /app\.get\('\/api\/val\/v1\/protocols\/:id\/download',\s*requireAuth,\s*requireAdmin/);
   assert.match(SERVER, /createHash\('sha256'\)/);
   assert.match(SERVER, /PROTOCOL_REGISTERED/);
+  assert.match(SERVER, /PROTOCOL_RENAMED/);
   assert.doesNotMatch(SERVER, /app\.(put|patch|delete)\('\/api\/val\/v1\/protocols/);
 });

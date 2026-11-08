@@ -90,6 +90,29 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (SigmaProXVL) con spr
 
 ## CAMBIOS RECIENTES
 
+### 2026-11-07 (258): Validaciones — el registro adopta el nombre del generador
+
+**Qué:** Al regenerar un protocolo ya registrado, el registro guardado pasa a usar el nombre nuevo (`DQ-4002058 AUTOCLAVE.docx`) en lugar de quedarse con el antiguo (`DQ-autoclave.docx`).
+
+- **Causa:** el `.docx` es determinista; al regenerar con el mismo contenido el SHA-256 coincide y el backend devolvía la fila existente sin tocar su `filename`. La descarga desde Protocolos servía el nombre viejo.
+- **Arreglo:** si el SHA existe pero el `filename` entrante es distinto, se actualiza `filename` y `details.filename` de esa fila. El binario y el SHA no cambian: solo se normaliza el nombre visible.
+- **Auditoría:** evento `PROTOCOL_RENAMED` con nombre anterior y nuevo. La respuesta incluye `renamed: true`.
+- **Sin borrado ni edición de archivos:** no hay endpoints nuevos; sigue siendo el mismo `POST /api/val/v1/protocols`.
+
+**Archivos afectados:**
+| Archivo | Cambio |
+|---------|--------|
+| `backend/database.js` | Renombrado en el store PG y local al detectar SHA duplicado |
+| `backend/server.js` | Auditoría `PROTOCOL_RENAMED` y flag `renamed` en la respuesta |
+| `backend/tests/validation-protocols.test.js` | Regeneración con nombre nuevo: una fila, nombre actualizado |
+| `ESTADO_PROYECTO.md` | Entrada 258 |
+
+**Verificación:**
+```
+node --check → OK
+Backend node:test → 150 tests OK
+```
+
 ### 2026-11-07 (257): Validaciones — nombre de archivo FASE-CÓDIGO EQUIPO
 
 **Qué:** El `.docx` descargado y el registrado en Protocolos pasan de `IQ-autoclave.docx` a `IQ-4002058 AUTOCLAVE.docx`.

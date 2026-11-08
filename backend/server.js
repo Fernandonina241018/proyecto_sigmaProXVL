@@ -750,9 +750,15 @@ app.post('/api/val/v1/protocols', requireAuth, requireAdmin, async (req, res) =>
                 ip: getClientIP(req), userAgent: req.headers['user-agent'], module: 'VALIDACIONES',
                 details: JSON.stringify({ protocolId: row.id, category, entity, phase, code, version, filename }),
             });
+        } else if (row.renamed) {
+            await db.logAuditEvent({
+                username: req.user.username, action: 'PROTOCOL_RENAMED', success: 1,
+                ip: getClientIP(req), userAgent: req.headers['user-agent'], module: 'VALIDACIONES',
+                details: JSON.stringify({ protocolId: row.id, previousFilename: row.previousFilename, filename: row.filename }),
+            });
         }
         res.status(row.created === false ? 200 : 201).json({
-            ok: true, duplicate: row.created === false,
+            ok: true, duplicate: row.created === false, renamed: row.renamed === true,
             protocol: {
                 id: row.id, category: row.category, entity: row.entity, phase: row.phase,
                 code: row.code, version: row.version, filename: row.filename,
