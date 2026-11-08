@@ -51,8 +51,9 @@ describe('DQ scaffold desde plantilla', () => {
   });
 
   it('cajetín: usa el Código del schema (DQ-400999, sin 1/400AAAA)', () => {
-    expect(visible(headers)).toContain('DQ-400999');
-    expect(visible(headers)).not.toContain('1/400AAAA');
+    const plano = visible(headers).replace(/\s+/g, '');
+    expect(plano).toContain('DQ-400999');
+    expect(plano).not.toContain('1/400AAAA');
   });
 
   it('conserva la estructura DQ para completar después', () => {
