@@ -90,6 +90,33 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (StatAnalyzer Pro) co
 
 ## CAMBIOS RECIENTES
 
+### 2026-11-08 (266): Login — migración del diseño del demo
+
+**Qué:** el login real adopta el diseño trabajado en `docs/prototipos/login-statanalyzer.html`.
+
+- **Círculo izquierdo:** abre el panel de información del proyecto como **modal centrado** con backdrop; se elimina el icono de información de la esquina superior derecha.
+- **Píldora central:** cápsula farmacéutica, “Iniciar sesión” más grande y subtítulo con usuario + estado 2FA. Si hay sesión recordada muestra `2FA activo/no configurado`; si no, `2FA —`.
+- **Círculo derecho:** muestra **π** y al pulsarlo se convierte en flecha y ejecuta el mismo login.
+- **Último cambio:** el modal muestra el hash del build y las novedades de esta migración. Es estático por ahora (`shortcut: generar desde build-info.json en CI`).
+- Se conservan el tema claro/oscuro, el QR y el flujo de sesión recordada.
+
+**Archivos afectados:**
+| Archivo | Cambio |
+|---------|--------|
+| `js/core/auth.js` | Fila info/píldora/π, subtítulo 2FA, modal y notas de build |
+| `css/core/auth-v2.css` | Estilos de la fila, píldora, círculos y modal |
+| `docs/prototipos/login-statanalyzer.html` | Referencia del diseño migrado |
+| `ESTADO_PROYECTO.md` | Este registro |
+
+**Verificación:**
+```
+node --check → OK
+Vitest auth-login-v2 → 14 tests OK
+E2E login v2 → 6 tests OK
+Preflight + E2E → 14 tests OK
+Capturas Chromium claro/oscuro: login, modal de información y tarjeta recordada con QR y 2FA
+```
+
 ### 2026-11-08 (265): Login — QR legible en claro y oscuro
 
 **Qué:** el QR de la tarjeta recordada deja de ponerse oscuro en modo claro.

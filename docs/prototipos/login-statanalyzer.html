@@ -228,6 +228,132 @@
   .btn:active { transform: translateY(1px); }
   .btn:focus-visible { outline: 2px solid var(--accent-hover); outline-offset: 2px; }
 
+  /* Fila del submit: círculo + píldora + círculo */
+  .btn-row { position: relative; display: flex; align-items: center; gap: 10px; }
+  .btn-row .btn {
+    flex: 1; width: auto; min-height: 62px; padding: 8px 20px 8px 11px;
+    border-radius: 999px;
+    display: flex; align-items: center; gap: 11px; text-align: left;
+  }
+  .pill-icon {
+    width: 40px; height: 40px; flex: 0 0 40px; border-radius: 50%;
+    display: grid; place-items: center;
+    background: #fff; color: var(--accent);
+  }
+  .pill-icon svg { width: 22px; height: 22px; }
+  .pill-copy { display: flex; flex-direction: column; min-width: 0; line-height: 1.2; }
+  .pill-title { font-size: 15px; font-weight: 800; letter-spacing: -.1px; }
+  .pill-sub {
+    display: inline-flex; align-items: center; gap: 5px;
+    margin-top: 3px; font-size: 10.5px; font-weight: 500;
+    color: rgba(255,255,255,.78); white-space: nowrap;
+    overflow: hidden; text-overflow: ellipsis;
+  }
+  .pill-dot { width: 6px; height: 6px; border-radius: 50%; flex: 0 0 6px; }
+  .pill-dot.ok { background: var(--ok); }
+  .pill-dot.warn { background: var(--warn); }
+  .btn-circle {
+    position: relative;
+    flex: 0 0 66px;
+    width: 66px; height: 66px;
+    border: 1px solid var(--border);
+    border-radius: 50%;
+    background: var(--surface-1);
+    color: var(--text);
+    display: grid; place-items: center;
+    cursor: pointer;
+    box-shadow: 0 4px 14px rgba(0,0,0,.10);
+    transition: background .15s, border-color .15s, color .15s, transform .1s, box-shadow .15s;
+  }
+  .btn-circle:hover { border-color: var(--accent); color: var(--accent); background: var(--surface-2); }
+  .btn-circle:active { transform: scale(.96); }
+  .btn-circle:focus-visible { outline: 2px solid var(--accent-hover); outline-offset: 3px; }
+  .btn-circle svg { width: 20px; height: 20px; }
+
+  .btn-circle .pi {
+    position: absolute;
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 24px; line-height: 1;
+    transition: transform .4s cubic-bezier(.34,1.56,.64,1), opacity .25s ease;
+  }
+  .btn-circle .arrow {
+    position: absolute;
+    opacity: 0;
+    transform: rotate(-90deg) scale(.6);
+    transition: transform .4s cubic-bezier(.34,1.56,.64,1), opacity .25s ease;
+  }
+  .btn-circle.is-go {
+    background: var(--accent); border-color: var(--accent); color: #fff;
+    box-shadow: 0 6px 18px var(--accent-soft);
+  }
+  .btn-circle.is-go .pi { opacity: 0; transform: rotate(90deg) scale(.5); }
+  .btn-circle.is-go .arrow { opacity: 1; transform: rotate(0) scale(1); }
+
+  .btn-circle[aria-expanded="true"] {
+    border-color: var(--accent); color: var(--accent); background: var(--surface-2);
+  }
+  .info-modal {
+    position: fixed; inset: 0; z-index: 50;
+    display: grid; place-items: center; padding: 18px;
+    background: rgba(0,0,0,.42);
+    backdrop-filter: blur(2px);
+  }
+  .info-modal[hidden] { display: none; }
+  .info-card {
+    position: relative; width: min(420px, 100%); max-height: 85vh; overflow: auto;
+    padding: 22px 22px 18px;
+    border: 1px solid var(--border); border-radius: 16px;
+    background: var(--surface-1); color: var(--text);
+    box-shadow: 0 24px 70px rgba(0,0,0,.35);
+  }
+  .info-close {
+    position: absolute; top: 10px; right: 10px;
+    width: 30px; height: 30px; display: grid; place-items: center;
+    border: 1px solid transparent; border-radius: 8px;
+    background: transparent; color: var(--text-faint);
+    font-size: 18px; line-height: 1; cursor: pointer;
+  }
+  .info-close:hover { background: var(--surface-2); color: var(--text); border-color: var(--border); }
+  .info-kicker {
+    display: block; padding-right: 26px;
+    font-size: 8px; font-weight: 850; letter-spacing: 1.3px;
+    text-transform: uppercase; color: var(--accent);
+  }
+  .info-card h2 { margin: 6px 0 0; font-size: 18px; letter-spacing: -.2px; }
+  .info-desc { margin: 7px 0 0; font-size: 12px; line-height: 1.55; color: var(--text-muted); }
+  .info-meta {
+    display: grid; gap: 7px; margin: 14px 0 0; padding-top: 12px;
+    border-top: 1px solid var(--border);
+  }
+  .info-meta div { display: grid; grid-template-columns: 92px 1fr; gap: 8px; font-size: 11px; }
+  .info-meta dt {
+    margin: 0; padding-top: 2px; color: var(--text-faint);
+    font-size: 9px; font-weight: 800; letter-spacing: .7px; text-transform: uppercase;
+  }
+  .info-meta dd { margin: 0; color: var(--text); line-height: 1.45; }
+  .info-note {
+    margin: 14px 0 0; padding-top: 10px;
+    border-top: 1px solid var(--border);
+    font-size: 10px; line-height: 1.5; color: var(--text-faint);
+  }
+  .info-change {
+    margin-top: 14px; padding-top: 12px;
+    border-top: 1px solid var(--border);
+  }
+  .info-change h3 {
+    margin: 0 0 6px; font-size: 9px; font-weight: 800;
+    letter-spacing: .8px; text-transform: uppercase; color: var(--text-faint);
+  }
+  .info-change-commit {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    font-size: 10px; line-height: 1.4; color: var(--accent); margin-bottom: 5px;
+  }
+  .info-change ul {
+    margin: 0; padding-left: 16px;
+    font-size: 11px; line-height: 1.55; color: var(--text-muted);
+  }
+  .info-change li + li { margin-top: 2px; }
+
   .meta {
     display: flex; align-items: center; justify-content: space-between;
     gap: 10px; flex-wrap: wrap;
@@ -388,7 +514,59 @@
         <a href="#" onclick="return false">¿La olvidaste?</a>
       </div>
 
-      <button class="btn" type="submit">Iniciar sesión</button>
+      <div class="btn-row">
+        <button class="btn-circle" type="button" id="infoBtn" aria-label="Información" aria-expanded="false" aria-controls="infoPop" title="Información">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="12" cy="12" r="9"/><path d="M12 11v5"/><path d="M12 8h.01"/>
+          </svg>
+        </button>
+        <button class="btn" type="submit">
+          <span class="pill-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+              <g transform="rotate(45 12 12)">
+                <rect x="6.5" y="2.5" width="11" height="19" rx="5.5"/>
+                <path d="M6.5 12h11"/>
+                <path d="M6.5 12V8a5.5 5.5 0 0 1 11 0v4z" fill="currentColor" opacity=".85" stroke="none"/>
+              </g>
+            </svg>
+          </span>
+          <span class="pill-copy">
+            <span class="pill-title">Iniciar sesión</span>
+            <span class="pill-sub"><span class="pill-dot ok" id="loginDot"></span><span id="loginSubText">tu.usuario · 2FA activo</span></span>
+          </span>
+        </button>
+        <button class="btn-circle btn-go" type="submit" aria-label="Continuar" title="Continuar">
+          <span class="pi" aria-hidden="true">π</span>
+          <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M5 12h14"/><path d="m13 6 6 6-6 6"/>
+          </svg>
+        </button>
+        <div class="info-modal" id="infoPop" hidden>
+          <div class="info-card" role="dialog" aria-modal="true" aria-labelledby="infoTitle">
+            <button type="button" class="info-close" id="infoClose" aria-label="Cerrar información">×</button>
+            <span class="info-kicker">POWERED FOR COMPLIANCE · 21 CFR PART 11</span>
+            <h2 id="infoTitle">StatAnalyzer Pro</h2>
+            <p class="info-desc">Sistema de análisis estadístico para laboratorios: carga y limpieza de datos, análisis, visualización y reportes con trazabilidad.</p>
+            <dl class="info-meta">
+              <div><dt>Versión</dt><dd>v1.0 · preview</dd></div>
+              <div><dt>Responsable</dt><dd>Fernando Alberto Nina Ramirez</dd></div>
+              <div><dt>Módulos</dt><dd>Datos · Análisis · Visualización · Reportes · Firma electrónica · Auditoría · Usuarios</dd></div>
+              <div><dt>Cumplimiento</dt><dd>Diseñado para apoyar 21 CFR Part 11</dd></div>
+              <div><dt>Sesión</dt><dd>Cierre por inactividad a los 5 min</dd></div>
+            </dl>
+            <p class="info-note">Los datos de la tarjeta provienen de tu último acceso y se guardan solo en este equipo.</p>
+            <div class="info-change">
+              <h3>Último cambio en producción</h3>
+              <div class="info-change-commit"><code>43acba3</code> · fix(login): QR legible en claro y oscuro</div>
+              <ul>
+                <li>Fondo del QR siempre blanco.</li>
+                <li>Tinta del QR oscura e independiente del tema.</li>
+                <li>Test de contraste incluido.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
     </form>
 
     <div class="meta">
@@ -441,11 +619,53 @@
       eye.setAttribute('aria-pressed', show ? 'true' : 'false');
     });
 
+    var infoBtn = document.getElementById('infoBtn');
+    var infoPop = document.getElementById('infoPop');
+    var infoClose = document.getElementById('infoClose');
+    function closeInfo() {
+      infoPop.hidden = true;
+      infoBtn.setAttribute('aria-expanded', 'false');
+    }
+    infoBtn.addEventListener('click', function () {
+      var open = infoPop.hidden;
+      infoPop.hidden = !open;
+      infoBtn.setAttribute('aria-expanded', open ? 'true' : 'false');
+      if (open && infoClose) infoClose.focus();
+    });
+    if (infoClose) infoClose.addEventListener('click', closeInfo);
+    infoPop.addEventListener('click', function (e) {
+      if (e.target === infoPop) closeInfo();
+    });
+    document.addEventListener('click', function (e) {
+      if (!infoPop.hidden && !infoPop.contains(e.target) && !infoBtn.contains(e.target)) closeInfo();
+    });
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && !infoPop.hidden) closeInfo();
+    });
+
+    // Demo: cambiá a false para ver el estado "2FA no configurado".
+    var DEMO_2FA = true;
+    var userInput = document.getElementById('user');
+    var subText = document.getElementById('loginSubText');
+    var loginDot = document.getElementById('loginDot');
+    function updateLoginSub() {
+      var u = (userInput.value || '').trim() || 'tu.usuario';
+      subText.textContent = u + ' · ' + (DEMO_2FA ? '2FA activo' : '2FA no configurado');
+      loginDot.className = 'pill-dot ' + (DEMO_2FA ? 'ok' : 'warn');
+    }
+    userInput.addEventListener('input', updateLoginSub);
+    updateLoginSub();
+
     document.getElementById('demoForm').addEventListener('submit', function (e) {
       e.preventDefault();
-      var b = e.target.querySelector('.btn');
-      b.textContent = 'Demo: no se envía';
-      setTimeout(function () { b.textContent = 'Iniciar sesión'; }, 1200);
+      var title = e.target.querySelector('.pill-title');
+      var go = e.target.querySelector('.btn-go');
+      title.textContent = 'Demo: no se envía';
+      if (go) {
+        go.classList.add('is-go');
+        setTimeout(function () { go.classList.remove('is-go'); }, 900);
+      }
+      setTimeout(function () { title.textContent = 'Iniciar sesión'; }, 1200);
     });
   })();
 </script>
