@@ -842,7 +842,23 @@ function buildPostgres() {
             `SELECT id, category, entity, phase, code, version, filename, sha256, username, details, created_at
              FROM validation_protocols WHERE sha256 = $1`, [sha256]
         );
-        return existing ? Object.assign({}, existing, { created: false }) : null;
+        if (!existing) return null;
+        // Mismo archivo regenerado con el nombre nuevo: el binario y el SHA no
+        // cambian, solo se normaliza el nombre visible del registro.
+        if (existing.filename !== filename) {
+            const renamed = await get(
+                `UPDATE validation_protocols
+                 SET filename = $2,
+                     details = jsonb_set(COALESCE(details, '{}'::jsonb), '{filename}', to_jsonb($2::text))
+                 WHERE sha256 = $1
+                 RETURNING id, category, entity, phase, code, version, filename, sha256, username, details, created_at`,
+                [sha256, filename]
+            );
+            return Object.assign({}, renamed || existing, {
+                created: false, renamed: true, previousFilename: existing.filename,
+            });
+        }
+        return Object.assign({}, existing, { created: false });
     }
     async function listValidationProtocols({ category, entity, phase, limit, offset } = {}) {
         const where = [];
@@ -2033,7 +2049,19 @@ function buildLocalStore() {
     // ── FASE 2 — Registro inmutable de protocolos (local) ────────
     async function saveValidationProtocol({ category, entity, phase, code, version, filename, sha256, username, details, fileData }) {
         var found = state.validation_protocols.find(function (p) { return p.sha256 === sha256; });
-        if (found) return { id: found.id, category: found.category, entity: found.entity, phase: found.phase, code: found.code, version: found.version, filename: found.filename, sha256: found.sha256, username: found.username, details: found.details, created_at: found.created_at, created: false };
+        if (found) {
+            var base = { id: found.id, category: found.category, entity: found.entity, phase: found.phase, code: found.code, version: found.version, filename: found.filename, sha256: found.sha256, username: found.username, details: found.details, created_at: found.created_at, created: false };
+            if (found.filename !== filename) {
+                base.previousFilename = found.filename;
+                found.filename = filename;
+                found.details = Object.assign({}, found.details, { filename: filename });
+                base.filename = filename;
+                base.details = found.details;
+                base.renamed = true;
+                save();
+            }
+            return base;
+        }
         var row = {
             id: _protocolIdCounter++, category: category, entity: entity, phase: phase,
             code: code || null, version: version || null, filename: filename, sha256: sha256,
