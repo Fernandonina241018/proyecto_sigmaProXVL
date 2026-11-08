@@ -99,3 +99,18 @@ test('login V2: al cerrar sesión reaparece la tarjeta recordada', async ({ page
   await expect(page.locator('#av2-remembered')).toBeVisible();
   await expect(page.locator('#av2-remembered-name')).not.toHaveText('—');
 });
+
+test('login V2: el sol/luna cambia el tema global y lo persiste', async ({ page }) => {
+  await page.goto('/indexx.html?login=v2');
+  const btn = page.locator('#av2-theme-toggle');
+  await expect(btn).toBeVisible();
+
+  await expect(page.locator('html')).not.toHaveAttribute('data-theme', 'light');
+  await btn.click();
+  await expect(page.locator('html')).toHaveAttribute('data-theme', 'light');
+  expect(await page.evaluate(() => localStorage.getItem('theme'))).toBe('light');
+
+  await btn.click();
+  await expect(page.locator('html')).not.toHaveAttribute('data-theme', 'light');
+  expect(await page.evaluate(() => localStorage.getItem('theme'))).toBe('dark');
+});

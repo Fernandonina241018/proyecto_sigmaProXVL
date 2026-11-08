@@ -90,6 +90,33 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (StatAnalyzer Pro) co
 
 ## CAMBIOS RECIENTES
 
+### 2026-11-08 (264): Login — sol/luna y tema global
+
+**Qué:** el login tiene un botón circular **fuera de la tarjeta, en la esquina superior derecha**, con sol y luna. Cambia el tema de todo el programa y lo persiste.
+
+- **Icono:** sol en claro y luna en oscuro; al cambiar rota/escala con una transición.
+- **Efecto:** revelado circular desde el botón usando View Transitions nativo; si el navegador no lo soporta, el cambio es inmediato. Respeta `prefers-reduced-motion`.
+- **Global:** escribe `data-theme` y `localStorage.theme`, actualiza el icono del pie (`__sigmaApplyTheme`) y los defaults de Chart.js. Al iniciar sesión, la app ya está en el tema elegido.
+- **Preview:** `docs/prototipos/login-statanalyzer.html` refleja el mismo botón y efecto.
+- **Test E2E:** el toggle cambia `data-theme` y persiste en localStorage.
+
+**Archivos afectados:**
+| Archivo | Cambio |
+|---------|--------|
+| `js/core/auth.js` | Botón sol/luna en el topbar y lógica con View Transitions |
+| `css/core/auth-v2.css` | Estilos del botón, animación de iconos y revelado |
+| `indexx.html` | `window.__sigmaApplyTheme` y guardas del tema global |
+| `docs/prototipos/login-statanalyzer.html` | Botón y efecto en el preview |
+| `e2e/login-v2.spec.js` | Test del cambio de tema y persistencia |
+| `ESTADO_PROYECTO.md` | Este registro |
+
+**Verificación:**
+```
+node --check → OK
+E2E login v2 completo → 6 tests OK (incluye el toggle)
+Preflight + E2E → 14 tests OK
+```
+
 ### 2026-11-08 (263): Login con tema y modo claro completo
 
 **Qué:** el login v2 sigue el tema claro/oscuro y el modo claro se completa en todas las pantallas. El login v1 se retira.

@@ -599,6 +599,40 @@ const Auth = (() => {
         }
     }
 
+    function _attachV2ThemeToggle() {
+        const btn = document.getElementById('av2-theme-toggle');
+        if (!btn) return;
+        const root = document.documentElement;
+        const label = function () {
+            const light = root.getAttribute('data-theme') === 'light';
+            btn.setAttribute('aria-label', light ? 'Cambiar a modo oscuro' : 'Cambiar a modo claro');
+            btn.setAttribute('title', light ? 'Cambiar a modo oscuro' : 'Cambiar a modo claro');
+        };
+        label();
+        btn.addEventListener('click', function () {
+            const isLight = root.getAttribute('data-theme') === 'light';
+            const rect = btn.getBoundingClientRect();
+            root.style.setProperty('--theme-x', (rect.left + rect.width / 2) + 'px');
+            root.style.setProperty('--theme-y', (rect.top + rect.height / 2) + 'px');
+            const apply = function () {
+                if (typeof window.__sigmaApplyTheme === 'function') window.__sigmaApplyTheme(!isLight);
+                else {
+                    if (isLight) {
+                        root.removeAttribute('data-theme');
+                        try { localStorage.setItem('theme', 'dark'); } catch (e) {}
+                    } else {
+                        root.setAttribute('data-theme', 'light');
+                        try { localStorage.setItem('theme', 'light'); } catch (e) {}
+                    }
+                }
+                label();
+            };
+            if (document.startViewTransition) {
+                try { document.startViewTransition(apply); } catch (e) { apply(); }
+            } else apply();
+        });
+    }
+
     function _renderLoginModalV2(reason = '') {
         document.getElementById('auth-overlay')?.remove();
         if (!_v2PendingVersion) {
@@ -646,9 +680,15 @@ const Auth = (() => {
                         <div class="brand-sub">21 CFR PART 11</div>
                     </div>
                 </div>
-                <div class="secure-pill">
-                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>
-                    Acceso protegido
+                <div class="topbar-right">
+                    <div class="secure-pill">
+                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>
+                        Acceso protegido
+                    </div>
+                    <button type="button" class="theme-toggle-login" id="av2-theme-toggle" aria-label="Cambiar tema" title="Cambiar tema">
+                        <svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+                        <svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+                    </button>
                 </div>
             </header>
 
@@ -827,6 +867,7 @@ const Auth = (() => {
         }
         _attachV2LoginExtras(hasCard);
         _attachV2InfoPanel();
+        _attachV2ThemeToggle();
         _v2SetVersion(versionLabel, safeRev);
         setTimeout(function () {
             const target = hasCard ? document.getElementById('auth-pass') : document.getElementById('auth-user');
