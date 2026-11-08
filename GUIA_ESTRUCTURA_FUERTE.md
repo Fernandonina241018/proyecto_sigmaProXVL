@@ -33,7 +33,6 @@ proyecto_sigmaProXVL/
 │   ├── css/
 │   │   ├── core/
 │   │   ├── pages/
-│   │   ├── validaciones.css
 │   │   └── validaciones-v7.css
 │   ├── js/
 │   │   ├── main.js                 # Wiring: une domain + infra + ui. Punto de entrada.
