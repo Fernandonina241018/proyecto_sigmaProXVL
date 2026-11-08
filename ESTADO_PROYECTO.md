@@ -90,6 +90,42 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (StatAnalyzer Pro) co
 
 ## CAMBIOS RECIENTES
 
+### 2026-11-08 (262): Paleta ejecutiva — Fase 1 (tokens y módulos)
+
+**Qué:** se aplica la paleta aprobada en el preview: grafito neutro, un solo azul de acción y estados accesibles. Desaparecen el violeta, el naranja de Validaciones y el verde neón de ML de la interfaz principal.
+
+- **Tokens:** fondo `#0d1117` / `#ffffff`, superficies `#161b22`/`#f6f8fa`, borde `#30363d`/`#d0d7de`, texto `#e6edf3`/`#1f2328`, muted `#9aa4b2`/`#59636e`, faint `#848d97`/`#6e7781`, acento `#2f81f7`/`#0969da`.
+- **Estados:** éxito `#3fb950`/`#1a7f37`, advertencia `#d29922`/`#9a6700`, error `#f85149`/`#d1242f`. Se agregaron al bloque claro, que antes no los definía.
+- **Datos:** `--data-1..5` para series de gráficos, separados del acento de UI.
+- **Módulos:** `auth-v2`, `validaciones-v7`, `validaciones-dashboard` y `ml-predict` usan los tokens; se eliminan sus paletas propias, el fondo radial azul marino y los degradados naranjas/neón.
+- **Tipografía:** se quita el `@import` de Google Fonts y Tahoma de Validaciones; un solo stack del sistema (`-apple-system, Segoe UI, Roboto…`).
+- **Limpieza:** se elimina `css/validaciones.css` (224 líneas muertas) y se actualiza `theme_color` del manifest.
+- **Contraste:** todos los pares texto/fondo de la UI pasan AA (texto 16:1, muted 7.5:1, faint 5.6:1, acento 5.05:1 en oscuro; 15.8, 6.1, 4.55, 5.19 en claro).
+
+**Pendiente para Fase 2:** los colores hardcodeados de `UsuariosManager`, los chips de Auditoría/Dispositivos y la paleta por defecto de los gráficos (`indexx-viz.js`). El login v1 (`?login=v1`) conserva su paleta azul/dorado y `auth.css`; es la única excepción visible y requiere decisión de producto para retirarlo.
+
+**Archivos afectados:**
+| Archivo | Cambio |
+|---------|--------|
+| `css/core/indexx.css` | Tokens oscuros/claros, estados del tema claro, data tokens, stack de fuentes, theme-color |
+| `css/core/auth-v2.css` | Login oscuro con la nueva paleta azul/grafito |
+| `css/validaciones-v7.css` | `--v7-*` aliasados a tokens; fuera naranja |
+| `css/validaciones-dashboard.css` | Shell aliasado; fuera azul marino y degradados naranjas |
+| `css/pages/ml-predict.css` | Tokens globales; fuera verde neón; datos con `--data-*` |
+| `css/core/eda-dashboard.css` | Fallback del acento actualizado |
+| `css/validaciones.css` | Eliminado |
+| `indexx.html`, `manifest.webmanifest` | `theme-color` / `background_color` |
+| `GUIA_ESTRUCTURA_FUERTE.md` | Árbol sin el CSS eliminado |
+
+**Verificación:**
+```
+node --check → OK
+Vitest dirigido (login v2 + validaciones) → 60 tests OK
+typecheck → 0 errores
+Preflight + E2E → 13 tests OK
+Login v2 renderizado en Chromium (oscuro) → azul/grafito, sin violeta
+```
+
 ### 2026-11-08 (261): Marca — StatAnalyzer Pro en toda la aplicación
 
 **Qué:** se unifica el nombre visible del producto como **StatAnalyzer Pro**. Desaparecen de la UI y los documentos las variantes `SigmaProXVL` y `Stats Analizer Pro (SAP2.0)`.

@@ -13,7 +13,7 @@
   --eda-text: var(--text-primary, #dcddde);
   --eda-text-secondary: var(--text-muted, #888);
   --eda-text-faint: var(--text-faint, #555);
-  --eda-accent: var(--accent, #7c6af7);
+  --eda-accent: var(--accent, #2f81f7);
   --eda-accent-hover: var(--accent-hover, #9585ff);
   --eda-gradient: linear-gradient(135deg, var(--eda-accent) 0%, var(--eda-accent-hover) 100%);
 }

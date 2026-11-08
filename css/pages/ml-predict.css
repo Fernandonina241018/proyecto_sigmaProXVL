@@ -1,37 +1,24 @@
 /* ─── Prediction Dashboard (scoped under .ml-predict-dashboard) ─── */
 .ml-predict-dashboard {
-  --bg-base:      #080c10;
-  --bg-card:      #111820;
-  --bg-card2:     #141c26;
-  --accent-green: #00e5a0;
-  --accent-cyan:  #00c8e0;
-  --accent-red:   #ff4757;
-  --accent-amber: #ffa502;
-  --accent-blue:  #4dabf7;
-  --text-sec:     #7a9ab5;
-  --text-dim:     #3d5a73;
-  --green-glow:   0 0 20px #00e5a030, 0 0 60px #00e5a010;
-  --card-shadow:  0 4px 24px #00000060;
+  --bg-base:      var(--bg-primary);
+  --bg-card:      var(--surface-1);
+  --bg-card2:     var(--surface-2);
+  --accent-green: var(--ok);
+  --accent-cyan:  var(--data-2);
+  --accent-red:   var(--danger);
+  --accent-amber: var(--warn);
+  --accent-blue:  var(--data-1);
+  --text-sec:     var(--text-muted);
+  --text-dim:     var(--text-faint);
+  --green-glow:   var(--bg-accent);
+  --card-shadow:  var(--shadow-md);
 
   color: var(--text-primary);
   font-family: var(--font-body);
   font-size: 13px;
 }
 
-[data-theme="light"] .ml-predict-dashboard {
-  --bg-base:      #eef2f6;
-  --bg-card:      #ffffff;
-  --bg-card2:     #f1f5f9;
-  --accent-green: #10b981;
-  --accent-cyan:  #06b6d4;
-  --accent-red:   #ef4444;
-  --accent-amber: #f59e0b;
-  --accent-blue:  #3b82f6;
-  --text-sec:     #64748b;
-  --text-dim:     #94a3b8;
-  --green-glow:   0 0 20px #10b98120, 0 0 60px #10b98110;
-  --card-shadow:  0 4px 24px rgba(0,0,0,0.08);
-}
+/* El bloque claro lo resuelven los tokens globales. */
 
 .ml-predict-dashboard .dp-header {
   display: flex; align-items: center; justify-content: space-between;
@@ -45,8 +32,8 @@
   font-family: var(--font-mono);
   font-size: 10px; font-weight: 500;
   color: var(--accent-cyan);
-  background: #00c8e015;
-  border: 1px solid #00c8e030;
+  background: var(--bg-accent);
+  border: 1px solid var(--border);
   padding: 2px 8px; border-radius: 2px;
   letter-spacing: .08em;
 }
@@ -83,7 +70,7 @@
   content: '';
   position: absolute; top: 0; right: 0;
   width: 300px; height: 100%;
-  background: radial-gradient(ellipse at right center, #00e5a00a 0%, transparent 70%);
+  background: radial-gradient(ellipse at right center, var(--bg-accent) 0%, transparent 70%);
   pointer-events: none;
 }
 .ml-predict-dashboard .dp-verdict-icon { font-size: 32px; line-height: 1; }
@@ -115,9 +102,9 @@
   padding: 2px 8px; border-radius: 2px;
   margin-top: 6px;
 }
-.ml-predict-dashboard .dp-risk-green { background: #00e5a015; color: var(--accent-green); border: 1px solid #00e5a030; }
-.ml-predict-dashboard .dp-risk-red   { background: #ff475715; color: var(--accent-red);   border: 1px solid #ff475730; }
-.ml-predict-dashboard .dp-risk-amber { background: #ffa50215; color: var(--accent-amber); border: 1px solid #ffa50230; }
+.ml-predict-dashboard .dp-risk-green { background: var(--ok-bg); color: var(--accent-green); border: 1px solid var(--ok-border); }
+.ml-predict-dashboard .dp-risk-red   { background: var(--danger-bg); color: var(--accent-red);   border: 1px solid var(--danger-border); }
+.ml-predict-dashboard .dp-risk-amber { background: var(--warn-bg); color: var(--accent-amber); border: 1px solid var(--warn-border); }
 
 /* ─── Confidence bar ─── */
 .ml-predict-dashboard .dp-bar-row {
@@ -133,11 +120,11 @@
 }
 .ml-predict-dashboard .dp-bar-fill {
   height: 100%;
-  background: linear-gradient(90deg, var(--accent-green), #00ffbe);
+  background: linear-gradient(90deg, var(--accent-green), var(--accent-hover));
   border-radius: 2px;
   width: 0%;
   transition: width 1s cubic-bezier(.4,0,.2,1);
-  box-shadow: 0 0 10px #00e5a060;
+  box-shadow: 0 0 10px rgba(63,185,80,.38);
 }
 .ml-predict-dashboard .dp-bar-ticks { display: flex; justify-content: space-between; margin-top: 4px; }
 .ml-predict-dashboard .dp-bar-ticks span { font-family: var(--font-mono); font-size: 9px; color: var(--text-dim); }
@@ -192,9 +179,9 @@
   font-family: var(--font-mono); font-size: 9px;
   padding: 2px 6px; border-radius: 2px;
 }
-.ml-predict-dashboard .dp-badge-green { background: #00e5a015; color: var(--accent-green); border: 1px solid #00e5a030; }
-.ml-predict-dashboard .dp-badge-red   { background: #ff475715; color: var(--accent-red);   border: 1px solid #ff475730; }
-.ml-predict-dashboard .dp-badge-amber { background: #ffa50215; color: var(--accent-amber); border: 1px solid #ffa50230; }
+.ml-predict-dashboard .dp-badge-green { background: var(--ok-bg); color: var(--accent-green); border: 1px solid var(--ok-border); }
+.ml-predict-dashboard .dp-badge-red   { background: var(--danger-bg); color: var(--accent-red);   border: 1px solid var(--danger-border); }
+.ml-predict-dashboard .dp-badge-amber { background: var(--warn-bg); color: var(--accent-amber); border: 1px solid var(--warn-border); }
 
 /* ─── Feature contributions ─── */
 .ml-predict-dashboard .dp-feat-list { display: flex; flex-direction: column; gap: 8px; }
@@ -202,9 +189,9 @@
 .ml-predict-dashboard .dp-feat-name { font-family: var(--font-mono); font-size: 10px; color: var(--text-primary); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .ml-predict-dashboard .dp-feat-track { height: 5px; background: var(--bg-card2); border-radius: 1px; overflow: hidden; }
 .ml-predict-dashboard .dp-feat-fill { height: 100%; border-radius: 1px; width: 0%; transition: width 1s cubic-bezier(.4,0,.2,1); }
-.ml-predict-dashboard .dp-fill-neg { background: linear-gradient(90deg, #ff4757cc, #ff6b7a); }
-.ml-predict-dashboard .dp-fill-neu { background: linear-gradient(90deg, #3d5a73, #4d6a83); }
-.ml-predict-dashboard .dp-fill-pos { background: linear-gradient(90deg, var(--accent-cyan), #00e5a0); }
+.ml-predict-dashboard .dp-fill-neg { background: linear-gradient(90deg, var(--danger), var(--danger)); }
+.ml-predict-dashboard .dp-fill-neu { background: linear-gradient(90deg, var(--text-faint), var(--text-faint)); }
+.ml-predict-dashboard .dp-fill-pos { background: linear-gradient(90deg, var(--accent-cyan), var(--ok)); }
 .ml-predict-dashboard .dp-feat-val { font-family: var(--font-mono); font-size: 10px; text-align: right; }
 .ml-predict-dashboard .dp-val-neg { color: var(--accent-red); }
 .ml-predict-dashboard .dp-val-neu { color: var(--text-dim); }
@@ -275,7 +262,7 @@
 /* ─── Risk panel ─── */
 .ml-predict-dashboard .dp-risk-alert {
   background: var(--bg-card);
-  border: 1px solid #00e5a025;
+  border: 1px solid var(--ok-border);
   border-left: 3px solid var(--accent-green);
   border-radius: 3px; padding: 12px 14px;
   font-size: 11px; color: var(--text-primary); line-height: 1.6;
@@ -293,7 +280,7 @@
 /* ─── Anomaly banner ─── */
 .ml-predict-dashboard .dp-anomaly {
   display: flex; align-items: center; gap: 6px;
-  padding: 6px 10px; background: #ff475711; border: 1px solid #ff475733; border-radius: 4px; font-size: 10px; margin-bottom: 10px;
+  padding: 6px 10px; background: var(--danger-bg); border: 1px solid var(--danger-border); border-radius: 4px; font-size: 10px; margin-bottom: 10px;
 }
 .ml-predict-dashboard .dp-anomaly-item { padding: 3px 0 0 20px; font-size: 10px; color: var(--text-sec); }
 

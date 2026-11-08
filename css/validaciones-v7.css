@@ -4,23 +4,23 @@
    Base INDEPENDIENTE: todo bajo #validaciones-app. No toca indexx.css.
    ======================================== */
 #validaciones-app {
-  --v7-bg: #101319;
-  --v7-panel: #1b1f27;
-  --v7-panel-2: #22262f;
-  --v7-card: #f4f5f7;
-  --v7-card-ink: #171a21;
-  --v7-card-muted: #6b7280;
-  --v7-ink: #f2f4f8;
-  --v7-muted: #9aa3b2;
-  --v7-accent: #ff5c1a;
-  --v7-accent-soft: rgba(255, 92, 26, 0.16);
-  --v7-blue: #4f9cf7;
-  --v7-green: #34c98e;
-  --v7-border: #2b303b;
+  --v7-bg: var(--bg-primary);
+  --v7-panel: var(--surface-1);
+  --v7-panel-2: var(--surface-2);
+  --v7-card: var(--surface-1);
+  --v7-card-ink: var(--text-primary);
+  --v7-card-muted: var(--text-muted);
+  --v7-ink: var(--text-primary);
+  --v7-muted: var(--text-muted);
+  --v7-accent: var(--accent);
+  --v7-accent-soft: var(--bg-accent);
+  --v7-blue: var(--accent);
+  --v7-green: var(--ok);
+  --v7-border: var(--border);
   --v7-radius: 22px;
   --v7-float: 0 12px 32px rgba(0, 0, 0, 0.5), 0 2px 6px rgba(0, 0, 0, 0.4);
   --v7-float-soft: 0 8px 22px rgba(0, 0, 0, 0.42);
-  --v7-font: Tahoma, "Segoe UI", system-ui, sans-serif;
+  --v7-font: var(--font-body);
   position: fixed;
   inset: 0;
   z-index: 90000;
@@ -42,7 +42,7 @@
   align-items: center;
   gap: 8px;
   padding: 16px 0;
-  background: #14171d;
+  background: var(--bg-primary);
   border-right: 1px solid var(--v7-border);
 }
 #validaciones-app .v7-rail .v7-dots {
@@ -170,8 +170,8 @@
   margin-bottom: 14px;
 }
 #validaciones-app .v7-panel {
-  background: linear-gradient(180deg, #20242e, var(--v7-panel));
-  border: 1px solid #363c49;
+  background: linear-gradient(180deg, var(--surface-2), var(--v7-panel));
+  border: 1px solid var(--border);
   border-radius: 24px;
   padding: 18px;
   box-shadow: var(--v7-float);
@@ -261,7 +261,7 @@
   height: 52px;
   border-radius: 50%;
   margin: 0 auto;
-  background: linear-gradient(135deg, var(--v7-accent), #ffb03a);
+  background: linear-gradient(135deg, var(--v7-accent), var(--accent-hover));
   display: grid;
   place-items: center;
   font-size: 22px;
@@ -282,7 +282,7 @@
 #validaciones-app .v7-cal table { width: 100%; border-collapse: collapse; font-size: 11px; }
 #validaciones-app .v7-cal th { color: var(--v7-muted); font-weight: 400; padding: 3px; }
 #validaciones-app .v7-cal td { text-align: center; padding: 4px 2px; border-radius: 50%; }
-#validaciones-app .v7-cal td.mk { background: var(--v7-green); color: #06281c; font-weight: 700; }
+#validaciones-app .v7-cal td.mk { background: var(--v7-green); color: var(--ok-bg); font-weight: 700; }
 #validaciones-app .v7-cal td.mk2 { background: var(--v7-accent); color: #fff; font-weight: 700; }
 #validaciones-app .v7-sched { margin-top: 16px; }
 #validaciones-app .v7-sched .sh {
@@ -298,7 +298,7 @@
   gap: 10px;
   align-items: center;
   background: var(--v7-panel-2);
-  border: 1px solid #363c49;
+  border: 1px solid var(--border);
   border-radius: 18px;
   padding: 10px 12px;
   margin-bottom: 10px;
@@ -475,7 +475,7 @@
 }
 #validaciones-app .v7-form-msg { font-size: 12px; color: var(--v7-muted); margin-right: auto; }
 #validaciones-app .v7-form-msg.ok { color: var(--v7-green); }
-#validaciones-app .v7-form-msg.err { color: #ff6b6b; }
+#validaciones-app .v7-form-msg.err { color: var(--danger); }
 #validaciones-app .v7-btn-save,
 #validaciones-app .v7-btn-gen {
   font: inherit;
@@ -561,7 +561,7 @@
 #validaciones-app .v7-genresumen strong { color: var(--v7-accent); }
 #validaciones-app .v7-gen-msg { font-size: 12px; color: var(--v7-muted); margin-right: auto; }
 #validaciones-app .v7-gen-msg.ok { color: var(--v7-green); }
-#validaciones-app .v7-gen-msg.err { color: #ff6b6b; }
+#validaciones-app .v7-gen-msg.err { color: var(--danger); }
 #validaciones-app .v7-btn-download {
   font: inherit;
   font-size: 13px;
@@ -571,7 +571,7 @@
   padding: 11px 22px;
   cursor: pointer;
   background: var(--v7-green);
-  color: #0c1512;
+  color: var(--bg-primary);
 }
 #validaciones-app .v7-btn-download:hover { filter: brightness(1.06); }
 #validaciones-app .v7-btn-download:disabled { opacity: 0.5; cursor: wait; }
