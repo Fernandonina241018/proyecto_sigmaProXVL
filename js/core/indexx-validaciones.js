@@ -1816,7 +1816,7 @@ const Validaciones = (() => {
       return true;
     }
 
-    main.addEventListener('click', function (e) {
+    main.onclick = function (e) {
       const ent = e.target && e.target.closest ? e.target.closest('.v7-ent') : null;
       if (ent) {
         elegirEntidad(ent.getAttribute('data-ent'));
@@ -1847,7 +1847,7 @@ const Validaciones = (() => {
       if (e.target && e.target.classList && e.target.classList.contains('gen-fase')) {
         pintarResumen3();
       }
-    });
+    };
 
     if (step3 && step3.addEventListener) {
       step3.addEventListener('change', function (e) {
@@ -1895,8 +1895,11 @@ const Validaciones = (() => {
   function render() {
     const root = document.getElementById('validaciones-app');
     if (!root) return;
-    const content = root.querySelector('.vd-content') || root.querySelector('.v7-main');
+    const content = /** @type {HTMLElement} */ (root.querySelector('.vd-content') || root.querySelector('.v7-main'));
     if (!content) return;
+    // El nodo es persistente: sin esto el clic de la vista anterior sigue vivo
+    // y "Generar y descargar" se ejecuta una vez por cada ficha visitada.
+    content.onclick = null;
     if (!isAdmin()) {
       content.innerHTML = viewDev();
       return;

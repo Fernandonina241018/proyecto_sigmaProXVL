@@ -370,6 +370,13 @@ describe('Validaciones V7', () => {
     expect(html).toContain('Cargando');
   });
 
+  test('un solo handler de clic por vista de entidad (sin descargas duplicadas)', () => {
+    const src = readFileSync(join(core, 'indexx-validaciones.js'), 'utf-8');
+    expect(src).not.toContain("main.addEventListener('click'");
+    expect(src).toContain('content.onclick = null');
+    expect(src).toContain('main.onclick = function');
+  });
+
   test('rutas del shell de Validaciones', () => {
     expect(Validaciones.ROUTES.map((r) => r.id)).toEqual([
       'banco', 'protocolos', 'generador', 'documentacion',
