@@ -23,7 +23,7 @@
     justify-content: space-between;
     align-items: center;
     padding: 14px 20px;
-    background: linear-gradient(135deg, var(--accent), #6b5ce7);
+    background: linear-gradient(135deg, var(--accent), #1f6feb);
     color: white;
 }
 
@@ -114,7 +114,7 @@
 #view-usuarios .usr-btn-create {
     width: 100%;
     padding: 10px;
-    background: linear-gradient(135deg, var(--accent), #6b5ce7);
+    background: linear-gradient(135deg, var(--accent), #1f6feb);
     color: white;
     border: none;
     border-radius: 8px;
@@ -125,7 +125,7 @@
 }
 #view-usuarios .usr-btn-create:hover:not(:disabled) {
     transform: translateY(-1px);
-    box-shadow: 0 4px 12px rgba(124,106,247,0.3);
+    box-shadow: 0 4px 12px rgba(47,129,247,0.3);
 }
 #view-usuarios .usr-btn-create:disabled { opacity: 0.6; cursor: not-allowed; }
 
@@ -170,7 +170,7 @@
     font-size: 1rem;
     transition: all 0.2s;
 }
-#view-usuarios .usr-btn-refresh:hover { background: rgba(124,106,247,0.1); border-color: var(--accent); }
+#view-usuarios .usr-btn-refresh:hover { background: rgba(47,129,247,0.1); border-color: var(--accent); }
 
 /* ── Tabla ── */
 #view-usuarios .usr-table-wrap {
@@ -188,7 +188,7 @@
 }
 
 #view-usuarios .usr-table thead th {
-    background: linear-gradient(135deg, var(--accent), #6b5ce7);
+    background: linear-gradient(135deg, var(--accent), #1f6feb);
     color: white;
     padding: 12px 14px;
     text-align: left;
@@ -204,7 +204,7 @@
     transition: background 0.15s;
 }
 #view-usuarios .usr-table tbody tr:last-child { border-bottom: none; }
-#view-usuarios .usr-table tbody tr:hover { background: rgba(124,106,247,0.06); }
+#view-usuarios .usr-table tbody tr:hover { background: rgba(47,129,247,0.06); }
 #view-usuarios .usr-row-inactive { opacity: 0.55; }
 
 #view-usuarios .usr-table td {
@@ -241,13 +241,13 @@
     font-weight: 700;
     white-space: nowrap;
 }
-#view-usuarios .usr-role-admin    { background: #3d1e1e; color: #fc8181; }
-#view-usuarios .usr-role-user     { background: #1e2a3d; color: #63b3ed; }
-#view-usuarios .usr-role-readonly { background: #2a2a2a; color: #a0aec0; }
-#view-usuarios .usr-role-supervisor  { background: #3d2e0e; color: #f6e05e; }
-#view-usuarios .usr-role-analista    { background: #1e2a3d; color: #63b3ed; }
-#view-usuarios .usr-role-gerente     { background: #2a1e3d; color: #b794f4; }
-#view-usuarios .usr-role-coordinador { background: #3d2a1e; color: #f6ad55; }
+#view-usuarios .usr-role-admin    { background: var(--danger-bg); color: var(--danger); }
+#view-usuarios .usr-role-user     { background: var(--bg-accent); color: var(--accent); }
+#view-usuarios .usr-role-readonly { background: var(--surface-2); color: var(--text-faint); }
+#view-usuarios .usr-role-supervisor  { background: var(--warn-bg); color: var(--warn); }
+#view-usuarios .usr-role-analista    { background: var(--bg-accent); color: var(--accent); }
+#view-usuarios .usr-role-gerente     { background: var(--bg-accent); color: var(--data-5); }
+#view-usuarios .usr-role-coordinador { background: var(--warn-bg); color: var(--warn); }
 
 #view-usuarios .usr-status-badge {
     display: inline-block;
@@ -256,11 +256,11 @@
     font-size: 0.75rem;
     font-weight: 700;
 }
-#view-usuarios .usr-status-ok  { background: #1e3d2a; color: #4ade80; }
-#view-usuarios .usr-status-off { background: #2a2a2a; color: #a0aec0; }
+#view-usuarios .usr-status-ok  { background: var(--ok-bg); color: var(--ok); }
+#view-usuarios .usr-status-off { background: var(--surface-2); color: var(--text-faint); }
 
 #view-usuarios .usr-me-badge {
-    background: rgba(124,106,247,0.15);
+    background: rgba(47,129,247,0.15);
     color: var(--accent);
     font-size: 0.65rem;
     padding: 1px 6px;
@@ -302,19 +302,19 @@
 
 #view-usuarios .usr-btn-pass {
     background: rgba(43,108,176,0.2);
-    color: #63b3ed;
+    color: var(--accent);
 }
 #view-usuarios .usr-btn-pass:hover:not(:disabled) { background: rgba(43,108,176,0.35); transform: scale(1.1); }
 
 #view-usuarios .usr-btn-deactivate {
     background: rgba(248,113,113,0.1);
-    color: #fc8181;
+    color: var(--danger);
 }
 #view-usuarios .usr-btn-deactivate:hover:not(:disabled) { background: rgba(248,113,113,0.25); transform: scale(1.1); }
 
 #view-usuarios .usr-btn-activate {
     background: rgba(74,222,128,0.1);
-    color: #4ade80;
+    color: var(--ok);
 }
 #view-usuarios .usr-btn-activate:hover:not(:disabled) { background: rgba(74,222,128,0.25); transform: scale(1.1); }
 
@@ -336,7 +336,7 @@
 @keyframes usr-spin { to { transform: rotate(360deg); } }
 
 #view-usuarios .usr-empty { text-align: center; padding: 40px; color: var(--text-faint); font-style: italic; }
-#view-usuarios .usr-error { text-align: center; padding: 30px; color: #fc8181; background: rgba(248,113,113,0.1); }
+#view-usuarios .usr-error { text-align: center; padding: 30px; color: var(--danger); background: rgba(248,113,113,0.1); }
 
 #view-usuarios .usr-no-access { text-align: center; padding: 60px 20px; color: var(--text-muted); }
 #view-usuarios .usr-no-access-icon { font-size: 3rem; margin-bottom: 16px; opacity: 0.4; }
@@ -374,7 +374,7 @@
     justify-content: space-between;
     align-items: center;
     padding: 16px 20px;
-    background: linear-gradient(135deg, var(--accent), #6b5ce7);
+    background: linear-gradient(135deg, var(--accent), #1f6feb);
     color: white;
 }
 .usr-modal-header h3 { font-size: 1rem; font-weight: 600; }
@@ -414,7 +414,7 @@
 .usr-btn-cancel:hover { background: var(--item-hover); }
 .usr-btn-confirm {
     padding: 8px 18px;
-    background: linear-gradient(135deg, var(--accent), #6b5ce7);
+    background: linear-gradient(135deg, var(--accent), #1f6feb);
     color: white;
     border: none;
     border-radius: 8px;
@@ -423,7 +423,7 @@
     cursor: pointer;
     transition: all 0.2s;
 }
-.usr-btn-confirm:hover { transform: translateY(-1px); box-shadow: 0 4px 12px rgba(124,106,247,0.3); }
+.usr-btn-confirm:hover { transform: translateY(-1px); box-shadow: 0 4px 12px rgba(47,129,247,0.3); }
 
 /* ── Toast ── */
 .usr-toast {
@@ -442,8 +442,8 @@
     white-space: nowrap;
 }
 .usr-toast.usr-toast-visible { opacity: 1; transform: translateX(-50%) translateY(0); }
-.usr-toast-ok    { background: #1e3d2a; color: #4ade80; }
-.usr-toast-error { background: #3d1e1e; color: #fc8181; }
+.usr-toast-ok    { background: var(--ok-bg); color: var(--ok); }
+.usr-toast-error { background: var(--danger-bg); color: var(--danger); }
 
 /* ── Responsive ── */
 @media (max-width: 1100px) {

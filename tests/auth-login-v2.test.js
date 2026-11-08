@@ -45,16 +45,10 @@ describe('login V2 — selección de variante', () => {
     expect(Auth.getLoginVariant()).toBe('v2');
   });
 
-  test('localStorage puede fijar v1 o v2', () => {
-    const { window, Auth } = loadAuth({ savedVariant: 'v1' });
-    expect(Auth.getLoginVariant()).toBe('v1');
-    expect(Auth.setLoginVariant('v2')).toBe('v2');
-    expect(window.localStorage.getItem('__auth_login_variant')).toBe('v2');
-  });
-
-  test('?login=v1 tiene prioridad y permite volver al clásico', () => {
-    const { Auth } = loadAuth({ url: 'http://localhost/indexx.html?login=v1', savedVariant: 'v2' });
-    expect(Auth.getLoginVariant()).toBe('v1');
+  test('v1 retirado: siempre se usa v2', () => {
+    const { Auth } = loadAuth({ savedVariant: 'v1', url: 'http://localhost/indexx.html?login=v1' });
+    expect(Auth.getLoginVariant()).toBe('v2');
+    expect(Auth.setLoginVariant('v1')).toBe('v2');
   });
 });
 
