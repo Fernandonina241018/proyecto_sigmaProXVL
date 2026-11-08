@@ -499,7 +499,7 @@ describe('Validaciones V7', () => {
       expect(Validaciones.tieneBancoFam('PQ', 'equipos', 'etiquetadora')).toBe(true);
       expect(Validaciones.tieneBancoFam('OQ', 'equipos', 'sistema-cremas-vacio')).toBe(true);
       expect(Validaciones.tieneBancoFam('PQ', 'equipos', 'sistema-cremas-vacio')).toBe(true);
-      expect(Validaciones.tieneBancoFam('OQ', 'equipos', 'secador-bandejas')).toBe(false);
+      expect(Validaciones.tieneBancoFam('OQ', 'equipos', 'secador-bandejas')).toBe(true);
       expect(Validaciones.tieneBancoFam('OQ', 'equipos', 'detector-metales')).toBe(true);
       expect(Validaciones.tieneBancoFam('PQ', 'equipos', 'detector-metales')).toBe(true);
       expect(Validaciones.tieneBancoFam('OQ', 'equipos', 'blistera')).toBe(true);
@@ -524,7 +524,7 @@ describe('Validaciones V7', () => {
     globalThis.BancoEquipos = require('../js/core/banco-equipos-data.js');
     try {
       expect(Validaciones.estadoBancoFam('OQ', 'equipos', 'reactor')).toBe('ok');
-      expect(Validaciones.estadoBancoFam('PQ', 'equipos', 'secador-bandejas')).toBe('sin-banco');
+      expect(Validaciones.estadoBancoFam('PQ', 'equipos', 'secador-bandejas')).toBe('ok');
       expect(Validaciones.estadoBancoFam('IQ', 'equipos', 'secador-bandejas')).toBe('ok');
     } finally { delete globalThis.BancoEquipos; }
   });

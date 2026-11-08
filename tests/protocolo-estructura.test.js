@@ -17,10 +17,15 @@ const backfill = [
   'autoclave', 'congelador-lab', 'horno', 'horno-vacio', 'lecho-fluido',
   'llenadora', 'llenadora-tubos', 'mezclador', 'refrigerador-lab',
 ];
+// Banco 2026-11-08: familias M que ya tienen OQ+PQ y fila 6.6 pendiente.
+const backfillNuevo = [
+  'liofilizador', 'tunel-despirogenizacion', 'secador-bandejas',
+  'secador-tambor', 'cabina-flujo', 'cabina-bioseguridad',
+];
 const fases = ['oq', 'pq'];
-const familias = prioritarias.concat(backfill);
+const familias = prioritarias.concat(backfill, backfillNuevo);
 
-describe('protocolo maestro: 18 familias con bloques 6 y 8', () => {
+describe('protocolo maestro: 24 familias con bloques 6 y 8', () => {
   for (const fase of fases) {
     for (const fam of familias) {
       it(`${fase}-${fam}: referencias, anexos A-D y sin USP <1058>`, () => {
@@ -39,6 +44,17 @@ describe('protocolo maestro: 18 familias con bloques 6 y 8', () => {
 describe('protocolo maestro: fila 6.6 de las 9 prioritarias', () => {
   for (const fase of fases) {
     for (const fam of prioritarias) {
+      it(`${fase}-${fam}: pendiente explícito del responsable`, () => {
+        const html = leer(`${fase}-${fam}.html`);
+        expect(html).toContain('PENDIENTE DEL RESPONSABLE');
+      });
+    }
+  }
+});
+
+describe('protocolo maestro: fila 6.6 de las familias M nuevas', () => {
+  for (const fase of fases) {
+    for (const fam of backfillNuevo) {
       it(`${fase}-${fam}: pendiente explícito del responsable`, () => {
         const html = leer(`${fase}-${fam}.html`);
         expect(html).toContain('PENDIENTE DEL RESPONSABLE');

@@ -1,6 +1,6 @@
 # Protocolo maestro IQ/OQ/PQ — equipos
 
-**Versión:** 1.1 · 2026-11-06
+**Versión:** 1.2 · 2026-11-08
 **Alcance:** protocolos IQ/OQ/PQ de equipos de producción y laboratorio, e instrumentos analíticos tipo L con protocolo OQ.
 **Objetivo:** una estructura única para todos los documentos, sin depender de la familia.
 
@@ -58,11 +58,15 @@ Cada ensayo debe incluir, en este orden:
 
 **Backfill completado (F1.1):** autoclave, congelador de laboratorio, horno de secado, horno de vacío, lecho fluido, llenadora de líquidos, llenadora y selladora de tubos, mezclador y refrigerador de laboratorio. Los 9 ya tienen bloques 6 y 8 y normas específicas declaradas; el validador los cubre desde esta versión.
 
+**Banco 2026-11-08:** se agregaron 6 familias M con OQ+PQ (liofilizador, túnel de despirogenización, secador de bandejas, secador de tambor, cabina de flujo laminar y cabina de bioseguridad) y 15 instrumentos L con OQ. Las 12 documentos M llevan bloques 4, 6 y 8, anexos A–D y la fila 6.6 como `PENDIENTE DEL RESPONSABLE`; los 15 bancos L declaran `USP <1058>` y dejan la norma específica del instrumento pendiente. Total: 27 archivos generados por `scripts/generar-bancos-equipos.mjs`.
+
 **Refrigerador y congelador de laboratorio (2026-11-06):** el PQ de ambas familias queda consolidado en **16 ensayos** (`EQ-PQ-RF-001…016` y `EQ-PQ-CG-001…016`), con la repetibilidad del desempeño (`015`) y la revisión de registros y datos (`016`) incorporadas desde la lista fuente de 20 ensayos. Se mantiene un solo protocolo por familia porque los equipos **solo difieren en el rango de temperatura** (2–8 °C frente a −20 °C); setpoints y criterios provienen de la URS de cada equipo.
 
 ### 4.1 Instrumentos analíticos tipo L (excepción declarada)
 
 La balanza analítica/precisión y el viscosímetro rotacional son instrumentos analíticos **tipo L**. Se califican con **OQ** y no llevan PQ salvo que el responsable técnico lo determine. Les aplica `USP <1058>`; el validador de familias M no los cuenta como familias de producción.
+
+**Instrumentos L incorporados el 2026-11-08:** pH-metro, espectrofotómetro UV-Vis, espectrofotómetro IR, espectrómetro, HPLC, GC, disolutor, desintegrador, friabilómetro, durómetro, Karl Fischer, TOC, incubadora, centrífuga y termómetros/data loggers. Cada uno tiene un banco OQ de **6 ensayos**, sin PQ. Todos declaran `USP <1058>` como referencia base y dejan la norma específica del instrumento como `PENDIENTE DEL RESPONSABLE`; los criterios remiten a la URS aprobada y al manual del fabricante.
 
 - **Viscosímetro rotacional (Brookfield):** banco `oq-viscosimetro.html` con 17 ensayos (`EQ-OQ-VS-001` a `EQ-OQ-VS-017`), **sin PQ**. La reproducibilidad se evalúa en OQ (`EQ-OQ-VS-009`). Referencias aprobadas el 2026-11-06: `USP <1058>`, `USP <912>`, `ISO 2555`, `ISO 3219-1/-2`, `ASTM D2196`, `IEC 61010-1`, `EU GMP Anexo 15` y `21 CFR Part 11 / EU GMP Anexo 11`. Los ensayos de usuarios y respaldo se declaran no aplica para la configuración actual sin software de gestión.
 
@@ -72,7 +76,7 @@ La balanza analítica/precisión y el viscosímetro rotacional son instrumentos 
 npm run protocolo:check
 ```
 
-El validador comprueba, para las 18 familias con protocolo (9 prioritarias + 9 backfill):
+El validador comprueba, para las 24 familias con protocolo (9 prioritarias + 15 backfill):
 
 - que cada familia tenga bloques 6 y 8;
 - que el bloque 6 no cite USP <1058> en maquinaria de producción (tipo M);

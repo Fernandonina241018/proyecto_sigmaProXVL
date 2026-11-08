@@ -37,7 +37,7 @@ describe('banco de equipos: contrato', () => {
 
   it('solo familias conocidas', () => {
     const fams = [...new Set(todos.filter((x) => x.familia).map((x) => x.familia))].sort();
-    expect(fams).toEqual(['autoclave', 'balanza', 'blistera', 'congelador-lab', 'detector-metales', 'encapsuladora', 'etiquetadora', 'granulador', 'horno-secado', 'horno-vacio', 'lecho-fluido', 'liofilizador', 'llenadora', 'llenadora-tubos', 'mezclador', 'reactor', 'recubridora', 'refrigerador-lab', 'sistema-cremas-vacio', 'tableteadora', 'tunel-despirogenizacion', 'viscosimetro']);
+    expect(fams).toEqual(['autoclave', 'balanza', 'blistera', 'cabina-bioseguridad', 'cabina-flujo', 'centrifuga', 'congelador-lab', 'desintegrador', 'detector-metales', 'disolutor', 'durometro', 'encapsuladora', 'espectrofotometro', 'espectrofotometro-ir', 'espectrometro', 'etiquetadora', 'friabilometro', 'gc', 'granulador', 'horno-secado', 'horno-vacio', 'hplc', 'incubadora', 'karl-fischer', 'lecho-fluido', 'liofilizador', 'llenadora', 'llenadora-tubos', 'mezclador', 'phmetro', 'reactor', 'recubridora', 'refrigerador-lab', 'secador-bandejas', 'secador-tambor', 'sistema-cremas-vacio', 'tableteadora', 'termometro', 'toc', 'tunel-despirogenizacion', 'viscosimetro']);
   });
 
   it.each([
@@ -92,6 +92,34 @@ describe('banco de equipos: contrato', () => {
     ['PQ', 'autoclave', 17],
     ['PQ', 'mezclador', 14],
     ['OQ', 'viscosimetro', 17], // banco OQ tipo L, sin PQ (2026-11-06)
+    // Banco de ensayos 2026-11-08: 6 familias M (OQ+PQ) y 15 instrumentos L (OQ).
+    ['OQ', 'liofilizador', 6],
+    ['PQ', 'liofilizador', 6],
+    ['OQ', 'tunel-despirogenizacion', 6],
+    ['PQ', 'tunel-despirogenizacion', 6],
+    ['OQ', 'secador-bandejas', 6],
+    ['PQ', 'secador-bandejas', 6],
+    ['OQ', 'secador-tambor', 6],
+    ['PQ', 'secador-tambor', 6],
+    ['OQ', 'cabina-flujo', 6],
+    ['PQ', 'cabina-flujo', 6],
+    ['OQ', 'cabina-bioseguridad', 6],
+    ['PQ', 'cabina-bioseguridad', 6],
+    ['OQ', 'phmetro', 6],
+    ['OQ', 'espectrofotometro', 6],
+    ['OQ', 'espectrofotometro-ir', 6],
+    ['OQ', 'espectrometro', 6],
+    ['OQ', 'hplc', 6],
+    ['OQ', 'gc', 6],
+    ['OQ', 'disolutor', 6],
+    ['OQ', 'desintegrador', 6],
+    ['OQ', 'friabilometro', 6],
+    ['OQ', 'durometro', 6],
+    ['OQ', 'karl-fischer', 6],
+    ['OQ', 'toc', 6],
+    ['OQ', 'incubadora', 6],
+    ['OQ', 'centrifuga', 6],
+    ['OQ', 'termometro', 6],
   ])('%s %s tiene %i ensayos propios', (fase, fam, n) => {
     expect(familia.filter((x) => x.fase === fase && x.familia === fam).length).toBe(n);
   });

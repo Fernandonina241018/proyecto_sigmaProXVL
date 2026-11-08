@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<style>
+  body { font-family: Tahoma, sans-serif; font-size: 11pt; }
+  strong { text-transform: uppercase; }
+</style>
+<title>Banco de Ensayos OQ — Cabina de flujo laminar</title>
+</head>
+<body>
+
+<p><a href="../equipos.html">← Equipos e Instrumentos</a></p>
+<h2>OQ — Cabina de flujo laminar (banco por familia)</h2>
+<p>Versión del banco: <span data-banco-version>EQ-OQ-CF 2026-11-08 v1</span></p>
+<p>Ensayos de Calificación de Operación y Desempeño específicos de la cabina de flujo laminar (filtros HEPA, velocidad y partículas). Se filtran por familia (<code>data-familia="cabina-flujo"</code>) según la entidad elegida en el paso 1. Banco creado el 2026-11-08: los límites y clases se toman de la URS aprobada y del manual del fabricante.</p>
+
+<!-- ================= OQ ================= -->
+<section id="fase-oq" data-familia="cabina-flujo">
+<h2>OQ — Ensayos</h2>
+
+  <div class="portada" data-bloque="1">
+  <p><strong>PORTADA DEL PROTOCOLO OQ</strong></p>
+  <p><strong>Logo:</strong><br><img class="ent-logo" alt="Logo de la entidad"></p>
+  <p><strong>Calificación de Operación de <span class="equipo">equipo</span>:</strong> <span class="ent-descripcion">______</span></p>
+  <ol>
+    <li><strong>Marca:</strong> <span class="ent-marca">______</span></li>
+    <li><strong>Modelo:</strong> <span class="ent-modelo">______</span></li>
+    <li><strong>Código:</strong> <span class="ent-codigo">______</span></li>
+  </ol>
+  </div>
+
+  <div class="firmas" data-bloque="1">
+  <p><strong>FLUJO DE FIRMAS DEL PROTOCOLO:</strong></p>
+  <p>Este apartado establece que los responsables revisan y aprueban el presente protocolo, declarando que está apto para su ejecución. Cualquier cambio posterior a la firma obliga a reiniciar el flujo de firmas, con el fin de garantizar que todos los departamentos involucrados estén al tanto de los ensayos a ejecutar.</p>
+  <ol>
+    <li><strong>Elaborado Por:</strong> <br> Analista de validaciones — elabora / Nombre: ______ Firma: ______ Fecha: ______</li><br>
+    <li><strong>Revisado Por:</strong> <br> Coordinador de validaciones — revisa / Nombre: ______ Firma: ______ Fecha: ______</li><br>
+    <li><strong>Revisado Por:</strong> <br> Gerente de Área — revisa / Nombre: ______ Firma: ______ Fecha: ______</li><br>
+    <li><strong>Aprobado por:</strong> <br> Gerente de gestión de calidad — aprueba / Nombre: ______ Firma: ______ Fecha: ______</li><br>
+  </ol>
+  </div>
+
+  <div class="responsabilidades" data-bloque="1">
+  <p><strong>RESPONSABILIDADES DEL PROTOCOLO:</strong></p>
+  <p><strong>Responsabilidad del Analista de validaciones:</strong></p>
+  <ol><li>Coordinar la ejecución de la Calificación de Operación con las áreas involucradas, asegurando personal, <span class="equipo">equipo</span>, patrones, materiales e instrumentos y documentación.</li><li>Verificar que los instrumentos de medición estén identificados y con calibración vigente.</li><li>Ejecutar y/o supervisar los ensayos del protocolo según los criterios aprobados.</li><li>Registrar los datos de forma completa, legible y trazable (ALCOA+).</li><li>Documentar las desviaciones según los procedimientos internos vigentes.</li><li>Elaborar el informe de calificación con resultados, conclusiones y anexos.</li></ol>
+  <p><strong>Responsabilidad del Coordinador de validaciones:</strong></p>
+  <ol><li>Revisar técnicamente el protocolo antes de su ejecución.</li><li>Asignar al analista responsable y coordinar recursos.</li><li>Revisar las desviaciones, su tratamiento y las CAPA asociadas.</li><li>Revisar el informe final y autorizar la fase siguiente.</li></ol>
+  <p><strong>Responsabilidad del Gerente de Área:</strong></p>
+  <ol><li>Garantizar la disponibilidad del <span class="equipo">equipo</span> y los accesos para la ejecución.</li><li>Facilitar la documentación técnica del fabricante y del proveedor.</li><li>Implementar las acciones operativas derivadas de desviaciones y CAPA.</li></ol>
+  <p><strong>Responsabilidad del Gerente de gestión de calidad:</strong></p>
+  <ol><li>Aprobar el protocolo y sus criterios de aceptación.</li><li>Aprobar las desviaciones y sus evaluaciones de impacto.</li><li>Emitir el dictamen final del estado de calificación.</li></ol>
+  </div>
+
+  <div class="alcance" data-bloque="1">
+  <p><strong>ALCANCE</strong></p>
+  <p>Esta calificación aplica a <span class="equipo">equipo</span>, de la cabina de flujo laminar, según protocolo OQ, y cubre los 6 ensayos listados en el índice. Los setpoints, tolerancias y criterios de aceptación se toman de la URS aprobada y del manual del fabricante; la norma específica de la familia permanece como PENDIENTE DEL RESPONSABLE.</p>
+  </div>
+
+  <article data-bloque="3" id="art-EQ-OQ-CF-001" class="ensayo" data-id="EQ-OQ-CF-001" data-fase="OQ" data-cond="ambas" data-familia="cabina-flujo" data-analisis="si">
+  <h3>EQ-OQ-CF-001 — Integridad de los filtros HEPA</h3>
+  <p><strong>Objetivo:</strong><br>Verificar que los filtros HEPA no presentan fugas en el marco, el medio ni la junta.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Realizar el escaneo de integridad con el aerosol y el detector definidos por el fabricante<br>
+  2) Escanear el perímetro del marco, la junta y la superficie del medio<br>
+  3) Registrar cada punto con fuga y la reparación o reemplazo aplicado<br>
+  4) Procesar los datos crudos de este ensayo en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o condiciones con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  No se detectan fugas por encima del criterio definido en la URS aprobada o en el manual del fabricante.<br>
+  Todo punto con fuga tiene reparación documentada y nueva verificación.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro del escaneo de integridad por filtro y punto<br>
+  - Data cruda y reporte estadístico del análisis correspondiente</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante; URS aprobada.</p>
+  </article>
+
+  <article data-bloque="3" id="art-EQ-OQ-CF-002" class="ensayo" data-id="EQ-OQ-CF-002" data-fase="OQ" data-cond="ambas" data-familia="cabina-flujo" data-analisis="si">
+  <h3>EQ-OQ-CF-002 — Velocidad y uniformidad del flujo descendente</h3>
+  <p><strong>Objetivo:</strong><br>Verificar que la velocidad del aire en el plano de trabajo es uniforme y está dentro del rango aprobado.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Medir la velocidad en la grilla de puntos definida para el plano de trabajo<br>
+  2) Registrar la lectura en cada punto con el anemómetro patrón<br>
+  3) Calcular la media, la desviación y los puntos fuera de rango<br>
+  4) Procesar los datos crudos de este ensayo en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o condiciones con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  La velocidad media está dentro del rango de la URS aprobada.<br>
+  La uniformidad cumple el criterio definido para la cabina.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro de velocidad por punto con data cruda y reporte<br>
+  - Data cruda y reporte estadístico del análisis correspondiente</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante; URS aprobada.</p>
+  </article>
+
+  <article data-bloque="3" id="art-EQ-OQ-CF-003" class="ensayo" data-id="EQ-OQ-CF-003" data-fase="OQ" data-cond="ambas" data-familia="cabina-flujo">
+  <h3>EQ-OQ-CF-003 — Presión diferencial y alarmas de flujo</h3>
+  <p><strong>Objetivo:</strong><br>Verificar la indicación de presión diferencial y la respuesta de las alarmas de flujo.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Registrar la presión diferencial con el instrumento patrón<br>
+  2) Provocar la alarma de flujo bajo y verificar su disparo<br>
+  3) Verificar la recuperación al restablecer la condición normal</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  La indicación de presión coincide con el patrón dentro del criterio aprobado.<br>
+  La alarma de flujo actúa y se recupera según el manual del fabricante.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro de presión diferencial y alarmas de flujo</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante; URS aprobada.</p>
+  </article>
+
+  <article data-bloque="3" id="art-EQ-OQ-CF-004" class="ensayo" data-id="EQ-OQ-CF-004" data-fase="OQ" data-cond="ambas" data-familia="cabina-flujo" data-analisis="si">
+  <h3>EQ-OQ-CF-004 — Partículas en reposo en el plano de trabajo</h3>
+  <p><strong>Objetivo:</strong><br>Verificar que la concentración de partículas en reposo cumple la clase definida para la cabina.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Realizar el conteo en los puntos y con el equipo definidos en el protocolo aprobado<br>
+  2) Registrar el conteo por punto y tamaño de partícula<br>
+  3) Comparar con la clase definida en la URS<br>
+  4) Procesar los datos crudos de este ensayo en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o condiciones con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  La concentración en todos los puntos cumple la clase definida en la URS aprobada.<br>
+  El equipo de conteo tiene calibración vigente.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro de conteo de partículas por punto<br>
+  - Data cruda y reporte estadístico del análisis correspondiente</p>
+  <p><strong>Referencia:</strong><br>URS aprobada; manual del fabricante.</p>
+  </article>
+
+  <article data-bloque="3" id="art-EQ-OQ-CF-005" class="ensayo" data-id="EQ-OQ-CF-005" data-fase="OQ" data-cond="ambas" data-familia="cabina-flujo">
+  <h3>EQ-OQ-CF-005 — Luz UV y temporizador</h3>
+  <p><strong>Objetivo:</strong><br>Verificar, cuando la cabina dispone de luz UV, que funciona y que el temporizador cumple la consigna.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Encender la luz UV y verificar su funcionamiento y el enclavamiento de seguridad<br>
+  2) Programar el temporizador en el valor definido y medir el tiempo real<br>
+  3) Registrar la intensidad o el estado según el manual, si el equipo lo permite</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  La luz UV funciona y respeta el enclavamiento de seguridad.<br>
+  El temporizador cumple el tiempo programado dentro de la tolerancia aprobada.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro de luz UV y temporizador</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante.</p>
+  </article>
+
+  <article data-bloque="3" id="art-EQ-OQ-CF-006" class="ensayo" data-id="EQ-OQ-CF-006" data-fase="OQ" data-cond="ambas" data-familia="cabina-flujo">
+  <h3>EQ-OQ-CF-006 — Alarmas generales y corte de energía</h3>
+  <p><strong>Objetivo:</strong><br>Verificar las alarmas del equipo y el comportamiento ante un corte de energía.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Provocar cada alarma disponible y registrar el disparo<br>
+  2) Cortar la energía y verificar el estado seguro y la respuesta de la cabina<br>
+  3) Restablecer y verificar la recuperación del flujo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Cada alarma actúa según el manual del fabricante.<br>
+  Tras el corte, la cabina se recupera sin pérdida de configuración ni registros.</p>
+  <p><strong>Documentos entregables:</strong><br>
+  - Registro de alarmas y corte de energía</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante; 21 CFR Part 11 / EU GMP Anexo 11 (si aplica).</p>
+  </article>
+
+  <article data-bloque="4" id="art-EQ-OQ-CF-RES" class="ensayo" data-id="EQ-OQ-CF-RES" data-fase="OQ" data-cond="ambas" data-familia="cabina-flujo">
+  <h3>EQ-OQ-CF-RES — Tabla resumen de los ensayos del OQ</h3>
+  <p><strong>Objetivo:</strong><br>Consolidar el listado de ensayos del OQ para la tabla resumen del protocolo.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Confirmar que los ensayos EQ-OQ-CF-001 a EQ-OQ-CF-006 están incluidos en el índice del protocolo</p>
+  <p><strong>Criterio de aceptación:</strong><br>
+  Los 6 ensayos aparecen en la tabla resumen con su veredicto.</p>
+  <p><strong>Referencia:</strong><br>EU GMP Anexo 15.</p>
+  </article>
+
+  <article data-bloque="6" id="art-EQ-OQ-CF-REF" class="ensayo tabla-info" data-id="EQ-OQ-CF-REF" data-fase="OQ" data-cond="ambas" data-familia="cabina-flujo">
+  <h3>EQ-OQ-CF-REF — Referencias del OQ de Cabina de flujo laminar</h3>
+  <table>
+    <tr><th>SECCIÓN</th><th>TÍTULO</th><th>ESTADO</th></tr>
+    <tr><td>6.1</td><td>Manual del fabricante del equipo — Filtros, velocidad, alarmas y límites de diseño</td><td>VIGENTE</td></tr>
+    <tr><td>6.2</td><td>URS aprobada — Clase de partículas, velocidad, recuperación y criterios de aceptación</td><td>VIGENTE</td></tr>
+    <tr><td>6.3</td><td>EU GMP Anexo 15 — Calificación y validación: el OQ y el PQ demuestran operación según especificaciones aprobadas</td><td>VIGENTE</td></tr>
+    <tr><td>6.4</td><td>GAMP 5, 2.ª ed. y 21 CFR Part 11 / EU GMP Anexo 11 — Ciclo de vida y registros electrónicos</td><td>VIGENTE</td></tr>
+    <tr><td>6.5</td><td>ISPE Baseline Guide Vol. 5 — Commissioning and Qualification de equipos de producción</td><td>VIGENTE</td></tr>
+    <tr><td>6.6</td><td>Norma específica de cabinas de flujo laminar — PENDIENTE DEL RESPONSABLE</td><td>PENDIENTE</td></tr>
+  </table>
+  </article>
+
+  <div class="anexos" data-bloque="8">
+  <p><strong>ANEXOS:</strong></p>
+  <table>
+  <tr><th>SECCIÓN</th><th>TÍTULO</th></tr>
+<tr><td>8.1</td><td>Anexo A — Registros de integridad de filtros, velocidad, presión y conteo de partículas</td></tr>
+<tr><td>8.2</td><td>Anexo B — Certificados de calibración de anemómetros, manómetros y contadores de partículas</td></tr>
+<tr><td>8.3</td><td>Anexo C — Registros de alarmas, perturbaciones, desviaciones y CAPA</td></tr>
+<tr><td>8.4</td><td>Anexo D — Matriz de trazabilidad requisito-prueba (RTM) y evidencia de revisión</td></tr>
+  </table>
+  </div>
+
+</section>
+
+</body>
+</html>
