@@ -363,8 +363,8 @@
 #auth-overlay.auth-v2 .session-qr{position:absolute;right:11px;bottom:9px;z-index:2;display:flex;flex-direction:column;align-items:center}
 #auth-overlay.auth-v2 .qr-box{
   width:60px;height:60px;padding:3px;border-radius:8px;
-  background:linear-gradient(145deg,var(--text),var(--text-muted) 72%,var(--accent));
-  box-shadow:0 0 0 1px rgba(47,129,247,0.35),0 3px 10px #0005,0 0 16px rgba(47,129,247,.20),inset 0 0 0 1px #ffffffa6;
+  background:#ffffff;
+  box-shadow:0 0 0 1px rgba(47,129,247,0.35),0 3px 10px rgba(0,0,0,.18),0 0 16px rgba(47,129,247,.20),inset 0 0 0 1px #ffffff;
 }
 #auth-overlay.auth-v2 .qr-box svg{display:block;width:100%;height:100%}
 #auth-overlay.auth-v2 .qr-box svg rect{fill:transparent}

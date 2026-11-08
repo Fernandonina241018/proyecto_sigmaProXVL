@@ -90,6 +90,31 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (StatAnalyzer Pro) co
 
 ## CAMBIOS RECIENTES
 
+### 2026-11-08 (265): Login — QR legible en claro y oscuro
+
+**Qué:** el QR de la tarjeta recordada deja de ponerse oscuro en modo claro.
+
+- **Causa:** el fondo de `.qr-box` usaba `var(--text)`/`var(--text-muted)`; en claro esos tokens son oscuros, mientras el QR usa tinta violeta oscura fija. Resultado: QR oscuro sobre fondo oscuro.
+- **Arreglo:** fondo del QR siempre blanco y tinta siempre oscura (`#0d1117`/`#1f2937`), independientes del tema. El borde y la sombra siguen usando los tokens.
+- **Sin re-render:** al ser colores fijos, el QR no necesita regenerarse al cambiar de tema.
+- **Test:** contrato estático que bloquea un fondo no blanco o una tinta clara.
+
+**Archivos afectados:**
+| Archivo | Cambio |
+|---------|--------|
+| `css/core/auth-v2.css` | `.qr-box` con fondo blanco y sombra neutra |
+| `js/core/auth.js` | Degradado del QR en grises oscuros |
+| `tests/auth-login-v2.test.js` | Test del contraste fijo del QR |
+| `ESTADO_PROYECTO.md` | Este registro |
+
+**Verificación:**
+```
+node --check → OK
+Vitest auth-login-v2 → 14 tests OK
+Capturas Chromium claro/oscuro con tarjeta recordada y QR visible
+Preflight + E2E → 14 tests OK
+```
+
 ### 2026-11-08 (264): Login — sol/luna y tema global
 
 **Qué:** el login tiene un botón circular **fuera de la tarjeta, en la esquina superior derecha**, con sol y luna. Cambia el tema de todo el programa y lo persiste.
