@@ -547,14 +547,26 @@ const GeneradorDocx = (() => {
     return doc;
   }
 
+  // Mismo formato que plantilla-docx: FASE-CÓDIGO EQUIPO.docx, charset del backend.
+  function nombreArchivo(fase, draft, entidad) {
+    const limpio = (s) => String(s || '')
+      .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+      .replace(/[^A-Za-z0-9._ -]+/g, ' ')
+      .replace(/\s+/g, ' ').trim().toUpperCase();
+    const prefijo = String(fase || '').trim().toUpperCase() + '-';
+    let codigo = limpio(draft && draft.codigo) || 'SIN-CODIGO';
+    if (codigo.indexOf(prefijo) === 0 && codigo.length > prefijo.length) codigo = codigo.slice(prefijo.length);
+    const equipo = (limpio(draft && draft.descripcion) || limpio(entidad && entidad.nombre) || limpio(entidad && entidad.id) || 'EQUIPO').slice(0, 120);
+    return prefijo + codigo.slice(0, 40) + ' ' + equipo + '.docx';
+  }
+
   async function descargar(fase, draft, entidad, filtroCond, onBeforeDownload) {
     const D = lib();
     if (!D) throw new Error('Librería docx no cargada');
     const modelo = buildModelo(fase, draft, entidad, filtroCond);
     const doc = modeloADocx(modelo);
     const blob = await D.Packer.toBlob(doc);
-    const entId = (entidad && entidad.id) ? entidad.id : 'entidad';
-    const filename = fase + '-' + entId + '.docx';
+    const filename = nombreArchivo(fase, draft, entidad);
     if (typeof onBeforeDownload === 'function') {
       const bytes = new Uint8Array(await blob.arrayBuffer());
       await onBeforeDownload({ bytes: bytes, filename: filename, fase: fase });
@@ -571,7 +583,7 @@ const GeneradorDocx = (() => {
   return {
     FASE_NOMBRE, COND_TXT, FOOTER_TXT, T, lib, banco, pasaCondicion, rangoTexto, entidadTexto,
     congelarMarcas, htmlAParrafos, portadaCampos, alcanceTexto, puntosEvidencia, firmantesModelo,
-    buildModelo, contarEnsayos, estilosBase, modeloADocx, descargar, SALTO_PAGINA, SALTO_H1, SALTO_TABLA,
+    buildModelo, contarEnsayos, estilosBase, modeloADocx, descargar, nombreArchivo, SALTO_PAGINA, SALTO_H1, SALTO_TABLA,
   };
 })();
 

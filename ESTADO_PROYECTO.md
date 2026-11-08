@@ -90,6 +90,34 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (SigmaProXVL) con spr
 
 ## CAMBIOS RECIENTES
 
+### 2026-11-07 (257): Validaciones — nombre de archivo FASE-CÓDIGO EQUIPO
+
+**Qué:** El `.docx` descargado y el registrado en Protocolos pasan de `IQ-autoclave.docx` a `IQ-4002058 AUTOCLAVE.docx`.
+
+- **Formato:** `<FASE>-<CÓDIGO> <NOMBRE DEL EQUIPO>.docx`, con el nombre tomado de `Descripción` del Paso 2 y respaldo en el nombre de la entidad.
+- **Una sola fuente:** el `filename` se calcula antes de registrar; el registro y la descarga de Protocolos heredan el mismo nombre sin tocar el backend.
+- **Normalización:** mayúsculas, sin tildes y símbolos no admitidos (`/`, `°`, `()`, etc.) convertidos a espacio, porque el servidor solo acepta `[A-Za-z0-9._ -]` y responde 400 en caso contrario (fail-closed).
+- **Sin duplicar el prefijo:** si el código ya viene como `DQ-4002058`, el archivo no sale `DQ-DQ-...`.
+- **Respaldo:** `SIN-CODIGO` si falta el código (la generación ya lo bloquea) y nombre de entidad si falta la descripción.
+
+**Archivos afectados:**
+| Archivo | Cambio |
+|---------|--------|
+| `js/core/plantilla-docx.js` | Helper `nombreArchivo()`; usado en `descargar()` y `descargarDQ()` |
+| `js/core/generador-docx.js` | Mismo helper; usado en `descargar()` (fallback y DQ almacenes) |
+| `tests/plantilla-docx.test.js` | Formato, normalización, prefijo y respaldos |
+| `tests/generador-docx.test.js` | Mismo formato en el generador alternativo |
+| `ESTADO_PROYECTO.md` | Entrada 257 |
+
+**Verificación:**
+```
+node --check → OK
+Vitest (plantilla, generador, dq-scaffold) → 86 tests OK
+typecheck → 0 errores
+```
+
+**Nota:** los protocolos ya registrados conservan su nombre y archivo anteriores; el formato aplica solo a generaciones nuevas.
+
 ### 2026-11-07 (256): Validaciones — DQ usa el Código del schema en el cajetín
 
 **Qué:** El DQ generado para equipos, estabilidad y sistemas conservaba `DQ-1/400AAAA` en “DOCUMENTO NO.” aunque el Paso 2 tuviera el Código completo. Ahora el cajetín usa el código del schema (`DQ-<código>`), igual que IQ/OQ/PQ.

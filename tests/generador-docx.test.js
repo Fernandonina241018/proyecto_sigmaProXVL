@@ -422,3 +422,9 @@ describe('Objetivo en su propia línea en DQ', () => {
     expect(paras.some((t) => /^ENSAYO /.test(t))).toBe(true);
   });
 });
+
+describe('nombreArchivo', () => {
+  test('mismo formato que plantilla-docx', () => {
+    expect(GeneradorDocx.nombreArchivo('OQ', DRAFT, ENT)).toBe('OQ-CF-01 CUARTO FRIO PRINCIPAL.docx');
+  });
+});

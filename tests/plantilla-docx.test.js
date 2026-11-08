@@ -586,3 +586,21 @@ describe('H-05/H-08/H-09/H-11: límites, bloques fijos y trazabilidad', () => {
     });
   });
 });
+
+describe('nombreArchivo', () => {
+  test('formato FASE-CÓDIGO NOMBRE.docx', () => {
+    expect(P.nombreArchivo('DQ', { codigo: '4002058', descripcion: 'Autoclave' }, { id: 'autoclave', nombre: 'Autoclave' }))
+      .toBe('DQ-4002058 AUTOCLAVE.docx');
+    expect(P.nombreArchivo('IQ', DRAFT, ENT)).toBe('IQ-CF-01 CUARTO FRIO PRINCIPAL.docx');
+  });
+
+  test('normaliza tildes y símbolos al charset del backend', () => {
+    expect(P.nombreArchivo('DQ', { codigo: '400999', descripcion: 'Túnel de despirogenización (V / bins)' }, {}))
+      .toBe('DQ-400999 TUNEL DE DESPIROGENIZACION V BINS.docx');
+  });
+
+  test('no duplica el prefijo de fase y cae a entidad/SIN-CODIGO', () => {
+    expect(P.nombreArchivo('OQ', { codigo: 'OQ-4001', descripcion: 'Autoclave' }, {})).toBe('OQ-4001 AUTOCLAVE.docx');
+    expect(P.nombreArchivo('PQ', {}, { nombre: 'Mezclador (V / bins)' })).toBe('PQ-SIN-CODIGO MEZCLADOR V BINS.docx');
+  });
+});
