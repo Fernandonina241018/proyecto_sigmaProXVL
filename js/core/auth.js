@@ -464,7 +464,19 @@ const Auth = (() => {
         const pv = document.getElementById('av2-project-version');
         if (pv) pv.textContent = label;
     }
+    function _v2UpdateLoginSub() {
+        const sub = document.getElementById('login-sub-text');
+        const dot = document.getElementById('login-sub-dot');
+        if (!sub) return;
+        const input = document.getElementById('auth-user');
+        const user = String((input && input.value) || '').trim() || 'tu.usuario';
+        const p = _v2Profile;
+        const known = !!(p && String(p.username || '') === user && typeof p.has2FA === 'boolean');
+        sub.textContent = user + ' · ' + (known ? (p.has2FA ? '2FA activo' : '2FA no configurado') : '2FA —');
+        if (dot) dot.className = 'login-sub-dot' + (known ? (p.has2FA ? ' ok' : ' warn') : '');
+    }
     function _v2FillCard(p) {
+        _v2Profile = p;
         const set = function (id, value) {
             const el = document.getElementById(id);
             if (el) el.textContent = value;
@@ -493,6 +505,7 @@ const Auth = (() => {
         if (userField) userField.hidden = true;
         const userInput = document.getElementById('auth-user');
         if (userInput && p.username) userInput.value = p.username;
+        _v2UpdateLoginSub();
     }
     function _v2RenderQr(p) {
         const block = document.getElementById('av2-session-qr-block');
@@ -531,6 +544,7 @@ const Auth = (() => {
     }
 
     let _v2InfoDocBound = false;
+    let _v2Profile = null;
     function _attachV2InfoPanel() {
         const toggle = document.getElementById('av2-info-toggle');
         const panel = document.getElementById('av2-project-info');
@@ -585,6 +599,7 @@ const Auth = (() => {
                 if (userField) userField.hidden = false;
                 const u = document.getElementById('auth-user');
                 if (u) { u.value = ''; u.focus(); }
+                _v2UpdateLoginSub();
             });
         }
         const form = document.getElementById('av2-login-form');
@@ -641,6 +656,21 @@ const Auth = (() => {
         const buildRev = ((document.querySelector('meta[name="build-revision"]') || {}).content || '').trim();
         const safeRev = buildRev.replace(/[^a-zA-Z0-9._-]/g, '');
         const versionLabel = 'v1.0' + (safeRev ? ' · ' + safeRev : '');
+        // shortcut: notas estáticas por ahora; en la migración conviene generarlas
+        // desde build-info.json (hash + mensaje del commit desplegado).
+        const lastChange = {
+            title: 'Migrar el diseño de login del demo a producción',
+            items: [
+                'Círculo de información y modal del proyecto.',
+                'Píldora central con cápsula y estado de 2FA.',
+                'Círculo π que se convierte en flecha al continuar.',
+            ],
+        };
+        const lastChangeHtml = '<div class="pi-change">'
+            + '<span class="pi-change-title">Último cambio en producción</span>'
+            + '<div class="pi-change-commit"><code>' + (safeRev || 'local') + '</code> · ' + lastChange.title + '</div>'
+            + '<ul>' + lastChange.items.map(function (x) { return '<li>' + x + '</li>'; }).join('') + '</ul>'
+            + '</div>';
         const reasonMsg = { timeout: '⏱ Tu sesión expiró por inactividad.', logout: '👋 Sesión cerrada correctamente.' }[reason] || '';
         const profile = _profileForRemembered();
         const hasCard = !!profile;
@@ -695,9 +725,6 @@ const Auth = (() => {
             <main>
                 <div class="card-shell">
                     <section class="card auth-card" aria-labelledby="av2-card-title">
-                        <button type="button" class="card-info" id="av2-info-toggle" aria-label="Información del proyecto" aria-expanded="false" aria-controls="av2-project-info" title="Información del proyecto">
-                            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 11v5"/><path d="M12 8h.01"/></svg>
-                        </button>
                         <div class="card-head">
                             <div class="card-icon" aria-hidden="true">
                                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/><path d="M12 14v3"/></svg>
@@ -794,7 +821,24 @@ const Auth = (() => {
 
                                 <div class="auth-error" id="auth-error" style="display:none"></div>
                                 <div class="auth-attempts" id="auth-attempts-info" style="display:none"></div>
-                                <button class="primary" id="auth-btn-login" type="button"><span id="auth-btn-text">Iniciar sesión</span></button>
+                                <div class="login-actions">
+                                    <button type="button" class="info-circle" id="av2-info-toggle" aria-label="Información del proyecto" aria-expanded="false" aria-controls="av2-project-info" title="Información del proyecto">
+                                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 11v5"/><path d="M12 8h.01"/></svg>
+                                    </button>
+                                    <button class="primary" id="auth-btn-login" type="button">
+                                        <span class="login-pill-icon" aria-hidden="true">
+                                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><g transform="rotate(45 12 12)"><rect x="6.5" y="2.5" width="11" height="19" rx="5.5"/><path d="M6.5 12h11"/><path d="M6.5 12V8a5.5 5.5 0 0 1 11 0v4z" fill="currentColor" opacity=".85" stroke="none"/></g></svg>
+                                        </span>
+                                        <span class="login-pill-copy">
+                                            <span class="login-pill-title" id="auth-btn-text">Iniciar sesión</span>
+                                            <span class="login-pill-sub"><span class="login-sub-dot" id="login-sub-dot"></span><span id="login-sub-text">tu.usuario · 2FA —</span></span>
+                                        </span>
+                                    </button>
+                                    <button type="button" class="login-go" id="auth-btn-go" aria-label="Continuar" title="Continuar">
+                                        <span class="login-pi" aria-hidden="true">π</span>
+                                        <svg class="login-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg>
+                                    </button>
+                                </div>
                             </form>
                         </div>
 
@@ -819,7 +863,7 @@ const Auth = (() => {
                         </div>
                     </section>
 
-                    <section class="project-info" id="av2-project-info" role="dialog" aria-modal="false" aria-labelledby="av2-project-title" hidden>
+                    <section class="project-info" id="av2-project-info" role="dialog" aria-modal="true" aria-labelledby="av2-project-title" hidden>
                         <button type="button" class="project-close" id="av2-project-close" aria-label="Cerrar información del proyecto">×</button>
                         <span class="pi-kicker">POWERED FOR COMPLIANCE · 21 CFR PART 11</span>
                         <h2 id="av2-project-title">StatAnalyzer Pro</h2>
@@ -832,6 +876,7 @@ const Auth = (() => {
                             <div><dt>Sesión</dt><dd>Cierre por inactividad a los 5 min</dd></div>
                         </dl>
                         <p class="pi-note">Los datos de la tarjeta provienen de tu último acceso y se guardan solo en este equipo.</p>
+                        ${lastChangeHtml}
                     </section>
                 </div>
             </main>
@@ -865,6 +910,7 @@ const Auth = (() => {
             const qrBlock = document.getElementById('av2-session-qr-block');
             if (qrBlock) qrBlock.hidden = true;
         }
+        _v2UpdateLoginSub();
         _attachV2LoginExtras(hasCard);
         _attachV2InfoPanel();
         _attachV2ThemeToggle();
@@ -1223,9 +1269,17 @@ const Auth = (() => {
         });
         [inputUser,inputPass].forEach(el=>{
             el?.addEventListener('keydown',(e)=>{ if(e.key==='Enter') _doLogin(); });
-            el?.addEventListener('input',()=>{ document.getElementById('auth-error').style.display='none'; });
+            el?.addEventListener('input',()=>{ document.getElementById('auth-error').style.display='none'; _v2UpdateLoginSub(); });
         });
         document.getElementById('auth-btn-login')?.addEventListener('click',_doLogin);
+        const go = document.getElementById('auth-btn-go');
+        go?.addEventListener('click', function () {
+            const btn = document.getElementById('auth-btn-login');
+            if (!btn || btn.disabled) return;
+            go.classList.add('is-go');
+            setTimeout(function () { go.classList.remove('is-go'); }, 900);
+            _doLogin();
+        });
     }
 
     async function _doLogin() {
