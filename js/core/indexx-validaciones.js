@@ -880,6 +880,7 @@ const Validaciones = (() => {
   function puestoGerente(area, cargoFb) {
     const a = String(area || '').trim();
     if (/^gerente\b/i.test(a)) return a;
+    if (/^sr\.?\b/i.test(a)) return 'Gerente ' + a;
     if (a) return 'Gerente de ' + a.charAt(0).toUpperCase() + a.slice(1);
     return String(cargoFb || '').trim();
   }

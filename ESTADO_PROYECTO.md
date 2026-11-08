@@ -98,6 +98,7 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (SigmaProXVL) con spr
 - **Área automática:** nuevo helper `areaDesdeCargo()` deriva el área del cargo (`Gerente de Calidad` → `Calidad`, `Gerente del Área Producción` → `Área Producción`, `Gerente Sr. Producción` → `Sr. Producción`; un cargo sin "Gerente" se usa tal cual).
 - **Siempre, no solo si está vacía:** cambiar de gerente reemplaza el área; elegir "— Seleccione —" la limpia.
 - **Borrador:** al abrir un protocolo con revisor guardado y sin área, se deriva del cargo de ese gerente.
+- **Título correcto:** `puestoGerente('Sr. Producción')` devuelve `Gerente Sr. Producción` (antes habría dicho `Gerente de Sr. Producción`).
 
 **Archivos afectados:**
 | Archivo | Cambio |
@@ -109,6 +110,8 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (SigmaProXVL) con spr
 ```
 node --check indexx-validaciones.js → OK
 Vitest → 63 archivos, 1078 tests OK
+typecheck → 0 errores
+Preflight + E2E → 13 tests OK
 ```
 
 ### 2026-11-07 (258): Validaciones — el registro adopta el nombre del generador

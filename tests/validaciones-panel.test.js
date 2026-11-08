@@ -316,6 +316,7 @@ describe('Validaciones V7', () => {
     expect(Validaciones.areaDesdeCargo('Gerente de Calidad')).toBe('Calidad');
     expect(Validaciones.areaDesdeCargo('Gerente del Área Producción')).toBe('Área Producción');
     expect(Validaciones.areaDesdeCargo('Gerente Sr. Producción')).toBe('Sr. Producción');
+    expect(Validaciones.puestoGerente('Sr. Producción')).toBe('Gerente Sr. Producción');
     expect(Validaciones.areaDesdeCargo('Analista')).toBe('Analista');
     expect(Validaciones.areaDesdeCargo('')).toBe('');
     expect(Validaciones.AREAS_GERENCIA.length).toBeGreaterThan(3);
