@@ -313,6 +313,11 @@ describe('Validaciones V7', () => {
     expect(Validaciones.puestoGerente('Gerente de Calidad')).toBe('Gerente de Calidad');
     expect(Validaciones.puestoGerente('', 'Analista')).toBe('Analista');
     expect(Validaciones.puestoGerente('')).toBe('');
+    expect(Validaciones.areaDesdeCargo('Gerente de Calidad')).toBe('Calidad');
+    expect(Validaciones.areaDesdeCargo('Gerente del Área Producción')).toBe('Área Producción');
+    expect(Validaciones.areaDesdeCargo('Gerente Sr. Producción')).toBe('Sr. Producción');
+    expect(Validaciones.areaDesdeCargo('Analista')).toBe('Analista');
+    expect(Validaciones.areaDesdeCargo('')).toBe('');
     expect(Validaciones.AREAS_GERENCIA.length).toBeGreaterThan(3);
     const h = Validaciones.firmantesHtml();
     expect(h).toContain('data-k="realizadoPor"');
