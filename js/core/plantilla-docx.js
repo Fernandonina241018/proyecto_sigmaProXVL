@@ -1684,13 +1684,27 @@ const PlantillaDocx = (() => {
     return { version: '', fases: {} };
   }
 
+  // Nombre de archivo: FASE-CÓDIGO EQUIPO.docx con el charset que acepta el
+  // backend ([A-Za-z0-9._ -]). Sin esto, una entidad con tilde o "/" hace que
+  // el registro responda 400 y el archivo no se descargue (fail-closed).
+  function nombreArchivo(fase, draft, entidad) {
+    const limpio = (s) => String(s || '')
+      .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+      .replace(/[^A-Za-z0-9._ -]+/g, ' ')
+      .replace(/\s+/g, ' ').trim().toUpperCase();
+    const prefijo = String(fase || '').trim().toUpperCase() + '-';
+    let codigo = limpio(draft && draft.codigo) || 'SIN-CODIGO';
+    if (codigo.indexOf(prefijo) === 0 && codigo.length > prefijo.length) codigo = codigo.slice(prefijo.length);
+    const equipo = (limpio(draft && draft.descripcion) || limpio(entidad && entidad.nombre) || limpio(entidad && entidad.id) || 'EQUIPO').slice(0, 120);
+    return prefijo + codigo.slice(0, 40) + ' ' + equipo + '.docx';
+  }
+
   async function descargar(fase, draft, entidad, filtroCond, cat, onBeforeDownload) {
     const resp = await fetch(PLANTILLAS[fase], { cache: 'no-store' });
     if (!resp.ok) throw new Error('No se encontró la plantilla ' + PLANTILLAS[fase] + ' (' + resp.status + ').');
     const u8 = new Uint8Array(await resp.arrayBuffer());
     const r = await generar(fase, u8, mezclarComun(banco(cat), fase, cat), draft, entidad, filtroCond);
-    const entId = (entidad && entidad.id) ? entidad.id : 'entidad';
-    const filename = fase + '-' + entId + '.docx';
+    const filename = nombreArchivo(fase, draft, entidad);
     if (typeof onBeforeDownload === 'function') await onBeforeDownload({ bytes: r.bytes, filename: filename, fase: fase });
     const blob = new Blob([r.bytes], { type: MIME_DOCX });
     const a = document.createElement('a');
@@ -1707,8 +1721,7 @@ const PlantillaDocx = (() => {
     if (!resp.ok) throw new Error('No se encontró la plantilla ' + PLANTILLAS.DQ + ' (' + resp.status + ').');
     const u8 = new Uint8Array(await resp.arrayBuffer());
     const r = await generarDQScaffold(u8, draft, entidad);
-    const entId = (entidad && entidad.id) ? entidad.id : 'entidad';
-    const filename = 'DQ-' + entId + '.docx';
+    const filename = nombreArchivo('DQ', draft, entidad);
     if (typeof onBeforeDownload === 'function') await onBeforeDownload({ bytes: r.bytes, filename: filename, fase: 'DQ' });
     const blob = new Blob([r.bytes], { type: MIME_DOCX });
     const a = document.createElement('a');
@@ -1740,7 +1753,7 @@ const PlantillaDocx = (() => {
   }
 
   return {
-    FASES, PLANTILLAS, OPC, SALTO_PAGINA, SALTO_H1, SALTO_H2, SALTO_TABLA, REFS_NORMATIVAS, refNormativa, soporta, configurar, generar, descargar, banco, mezclarComun, generarDQScaffold, descargarDQ,
+    FASES, PLANTILLAS, OPC, SALTO_PAGINA, SALTO_H1, SALTO_H2, SALTO_TABLA, REFS_NORMATIVAS, refNormativa, soporta, configurar, generar, descargar, banco, mezclarComun, generarDQScaffold, descargarDQ, nombreArchivo,
     LIMITES, limitesDe, aplicarLimites, limitesPendientes, limitesResumen, paramsFaltantes, parametrosFamilia, bloquesFijos, rtmLineas,
     _interno: { leerZip, escribirZip, hijos, texto, reemplazarEnParrafo, congelar, lineas, estructura, puntosVerificacion, puntosTabla, cabeceraResultado, fechaTexto, crc32, llenarFirmas, fijarTahoma11, debeSaltar, debeSaltarH1, debeSaltarH2, debeSaltarTabla, saltoPrevio, generoDe, ajustarArticulos },
   };
