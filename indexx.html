@@ -474,13 +474,14 @@ loadList(files, 0, function() { window.__sigmaCoreReady = true; });
 (function(){
 var t=document.getElementById('themeToggle'),d=document.documentElement,s=localStorage.getItem('theme');
 function applyTheme(isLight){
-if(isLight){d.setAttribute('data-theme','light');localStorage.setItem('theme','light');t.textContent='☀️'
-if(typeof Chart!=='undefined'){Chart.defaults.color='#64748b';Chart.defaults.plugins.legend.labels.color='#64748b';Chart.defaults.plugins.title.color='#0f172a'}}
-else{d.removeAttribute('data-theme');localStorage.setItem('theme','dark');t.textContent='🌙'
-if(typeof Chart!=='undefined'){Chart.defaults.color='#94a3b8';Chart.defaults.plugins.legend.labels.color='#94a3b8';Chart.defaults.plugins.title.color='#f1f5f9'}}
+if(isLight){d.setAttribute('data-theme','light');localStorage.setItem('theme','light');if(t)t.textContent='☀️'
+if(typeof Chart!=='undefined'){Chart.defaults.color='#59636e';Chart.defaults.plugins.legend.labels.color='#59636e';Chart.defaults.plugins.title.color='#1f2328'}}
+else{d.removeAttribute('data-theme');localStorage.setItem('theme','dark');if(t)t.textContent='🌙'
+if(typeof Chart!=='undefined'){Chart.defaults.color='#9aa4b2';Chart.defaults.plugins.legend.labels.color='#9aa4b2';Chart.defaults.plugins.title.color='#e6edf3'}}
 }
+window.__sigmaApplyTheme = applyTheme;
 if(s==='light')applyTheme(true);
-t.addEventListener('click',function(){var isLight=d.getAttribute('data-theme')==='light';applyTheme(!isLight)})
+if(t)t.addEventListener('click',function(){var isLight=d.getAttribute('data-theme')==='light';applyTheme(!isLight)})
 })()
 </script>
 </body>

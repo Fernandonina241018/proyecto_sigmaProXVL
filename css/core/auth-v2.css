@@ -62,6 +62,35 @@
 #auth-overlay.auth-v2 .brand-sub{font-size:8.5px;color:var(--muted);letter-spacing:.17em;text-transform:uppercase;margin-top:2px}
 #auth-overlay.auth-v2 .secure-pill{display:inline-flex;align-items:center;gap:7px;padding:6px 10px;border:1px solid var(--border);border-radius:999px;background:var(--surface-2);color:var(--text-muted);font-size:10.5px;white-space:nowrap}
 #auth-overlay.auth-v2 .secure-pill svg{color:var(--green)}
+#auth-overlay.auth-v2 .topbar-right{display:flex;align-items:center;gap:10px}
+#auth-overlay.auth-v2 .theme-toggle-login{
+  position:relative;width:38px;height:38px;border:1px solid var(--border);border-radius:50%;
+  background:var(--surface-2);color:var(--text-muted);cursor:pointer;display:grid;place-items:center;
+  overflow:hidden;transition:border-color .2s,color .2s,background .2s,transform .15s;
+}
+#auth-overlay.auth-v2 .theme-toggle-login:hover{border-color:var(--accent);color:var(--accent);background:var(--bg-accent)}
+#auth-overlay.auth-v2 .theme-toggle-login:active{transform:scale(.94)}
+#auth-overlay.auth-v2 .theme-toggle-login:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+#auth-overlay.auth-v2 .theme-toggle-login svg{
+  position:absolute;width:18px;height:18px;
+  transition:transform .45s cubic-bezier(.34,1.56,.64,1),opacity .3s ease;
+}
+#auth-overlay.auth-v2 .theme-toggle-login .sun{opacity:0;transform:rotate(-90deg) scale(.35)}
+#auth-overlay.auth-v2 .theme-toggle-login .moon{opacity:1;transform:rotate(0) scale(1)}
+[data-theme="light"] #auth-overlay.auth-v2 .theme-toggle-login .sun{opacity:1;transform:rotate(0) scale(1)}
+[data-theme="light"] #auth-overlay.auth-v2 .theme-toggle-login .moon{opacity:0;transform:rotate(90deg) scale(.35)}
+
+/* Cambio de tema: revelado circular desde el botón (View Transitions nativo) */
+::view-transition-old(root),::view-transition-new(root){animation:none;mix-blend-mode:normal}
+::view-transition-new(root){animation:av2-theme-reveal .55s cubic-bezier(.4,0,.2,1)}
+@keyframes av2-theme-reveal{
+  from{clip-path:circle(0 at var(--theme-x,50%) var(--theme-y,50%))}
+  to{clip-path:circle(150% at var(--theme-x,50%) var(--theme-y,50%))}
+}
+@media (prefers-reduced-motion: reduce){
+  ::view-transition-new(root){animation:none}
+  #auth-overlay.auth-v2 .theme-toggle-login svg{transition:none}
+}
 
 /* ── Layout ── */
 #auth-overlay.auth-v2 main{flex:1;display:grid;place-items:center;padding:10px 18px 30px}
