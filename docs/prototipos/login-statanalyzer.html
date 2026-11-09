@@ -222,7 +222,7 @@
     font-size: 13px;
     font-weight: 750;
     cursor: pointer;
-    transition: background .15s, transform .1s;
+    transition: background .25s, box-shadow .25s, transform .1s;
   }
   .btn:hover { background: var(--accent-hover); }
   .btn:active { transform: translateY(1px); }
@@ -231,6 +231,7 @@
   /* Fila del submit: círculo + píldora + círculo */
   .btn-row { position: relative; display: flex; align-items: center; gap: 10px; }
   .btn-row .btn {
+    position: relative; overflow: hidden;
     flex: 1; width: auto; min-height: 62px; padding: 8px 20px 8px 11px;
     border-radius: 999px;
     display: flex; align-items: center; gap: 11px; text-align: left;
@@ -269,6 +270,39 @@
   .btn-circle:active { transform: scale(.96); }
   .btn-circle:focus-visible { outline: 2px solid var(--accent-hover); outline-offset: 3px; }
   .btn-circle svg { width: 20px; height: 20px; }
+
+  /* Estado de carga de la píldora central */
+  .btn.is-loading { pointer-events: none; animation: pill-pulse 1.6s ease-in-out infinite; }
+  .btn.is-loading .pill-icon svg { animation: capsule-spin 1.05s linear infinite; }
+  .btn.is-loading::before {
+    content: ""; position: absolute; left: 16px; right: 16px; bottom: 7px;
+    height: 2px; border-radius: 2px; background: rgba(255,255,255,.8);
+    transform-origin: left; animation: pill-progress 2.2s linear forwards;
+  }
+  .btn.is-loading::after {
+    content: ""; position: absolute; inset: 0;
+    background: linear-gradient(110deg, transparent 28%, rgba(255,255,255,.24) 50%, transparent 72%);
+    transform: translateX(-120%);
+    animation: pill-shimmer 1.35s ease-in-out infinite;
+    pointer-events: none;
+  }
+  .btn.is-ok {
+    background: #1a7f37; box-shadow: 0 8px 22px rgba(26,127,55,.28);
+  }
+  .btn.is-error {
+    background: #d1242f; box-shadow: 0 8px 22px rgba(209,36,47,.28);
+  }
+  .btn.is-ok .pill-icon, .btn.is-error .pill-icon { background: #fff; }
+  .btn.is-ok .pill-icon { color: #1a7f37; }
+  .btn.is-error .pill-icon { color: #d1242f; }
+  .btn.is-ok .login-sub-dot, .btn.is-error .login-sub-dot { background: rgba(255,255,255,.85); }
+  @keyframes capsule-spin { to { transform: rotate(360deg); } }
+  @keyframes pill-progress { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+  @keyframes pill-shimmer { to { transform: translateX(120%); } }
+  @keyframes pill-pulse {
+    0%, 100% { box-shadow: 0 0 0 0 var(--accent-soft); }
+    50% { box-shadow: 0 0 0 6px var(--accent-soft); }
+  }
 
   .btn-circle .pi {
     position: absolute;
@@ -656,16 +690,51 @@
     userInput.addEventListener('input', updateLoginSub);
     updateLoginSub();
 
+    // Demo: esta es la única contraseña que muestra el estado verde.
+    var DEMO_PASSWORD = 'demo';
+    var demoLoading = false;
+
+    function clearLoginResult() {
+      var btn = document.querySelector('#demoForm .btn');
+      if (!btn || btn.classList.contains('is-loading')) return;
+      btn.classList.remove('is-ok', 'is-error');
+      var title = btn.querySelector('.pill-title');
+      if (title) title.textContent = 'Iniciar sesión';
+      updateLoginSub();
+    }
+    userInput.addEventListener('input', clearLoginResult);
+    document.getElementById('pass').addEventListener('input', clearLoginResult);
+
     document.getElementById('demoForm').addEventListener('submit', function (e) {
       e.preventDefault();
+      if (demoLoading) return;
+      var btn = e.target.querySelector('.btn');
       var title = e.target.querySelector('.pill-title');
       var go = e.target.querySelector('.btn-go');
-      title.textContent = 'Demo: no se envía';
-      if (go) {
-        go.classList.add('is-go');
-        setTimeout(function () { go.classList.remove('is-go'); }, 900);
-      }
-      setTimeout(function () { title.textContent = 'Iniciar sesión'; }, 1200);
+      var sub = document.getElementById('loginSubText');
+      var pass = document.getElementById('pass').value;
+      btn.classList.remove('is-ok', 'is-error');
+      demoLoading = true;
+      btn.classList.add('is-loading');
+      btn.setAttribute('aria-busy', 'true');
+      if (go) go.classList.add('is-go');
+      title.textContent = 'Verificando…';
+      if (sub) sub.textContent = 'Comprobando credenciales y 2FA…';
+      setTimeout(function () {
+        var ok = pass === DEMO_PASSWORD;
+        demoLoading = false;
+        btn.classList.remove('is-loading');
+        btn.removeAttribute('aria-busy');
+        if (go) go.classList.remove('is-go');
+        btn.classList.add(ok ? 'is-ok' : 'is-error');
+        title.textContent = ok ? 'Acceso correcto' : 'Contraseña incorrecta';
+        if (sub) {
+          var who = (userInput.value || '').trim() || 'tu.usuario';
+          sub.textContent = ok
+            ? who + ' · ' + (DEMO_2FA ? '2FA activo' : '2FA no configurado')
+            : 'Revisa e intenta de nuevo';
+        }
+      }, 2200);
     });
   })();
 </script>

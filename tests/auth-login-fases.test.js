@@ -81,7 +81,7 @@ describe('login real — fases de progreso', () => {
     expect(progress.textContent).toContain('base de datos');
 
     pending.resolve({ ok: false, json: async () => ({ error: 'Credenciales incorrectas' }) });
-    await tick(10);
+    await tick(700);
     expect(progress.hidden).toBe(true);
     expect(document.getElementById('auth-error').textContent).toContain('Credenciales incorrectas');
   });
@@ -96,7 +96,7 @@ describe('login real — fases de progreso', () => {
     });
     Auth.showLogin();
     fillAndSubmit(document);
-    await tick(10);
+    await tick(700);
 
     const progress = document.getElementById('auth-progress');
     expect(progress.hidden).toBe(false);
@@ -119,7 +119,7 @@ describe('login real — fases de progreso', () => {
     });
     Auth.showLogin();
     fillAndSubmit(document);
-    await tick(10);
+    await tick(1400);
 
     const progress = document.getElementById('auth-progress');
     expect(progress.textContent).toContain('segundo paso');
@@ -147,7 +147,7 @@ describe('login real — fases de progreso', () => {
     });
     Auth.showLogin();
     fillAndSubmit(document);
-    await tick(10);
+    await tick(1400);
 
     const input = document.getElementById('auth-totp');
     input.value = '123456';
@@ -172,7 +172,7 @@ describe('login real — fases de progreso', () => {
     });
     Auth.showLogin();
     fillAndSubmit(document);
-    await tick(10);
+    await tick(1400);
 
     document.getElementById('auth-totp').value = '000000';
     document.getElementById('auth-btn-2fa').click();
@@ -201,7 +201,7 @@ describe('login real — fases de progreso', () => {
     });
     Auth.showLogin();
     fillAndSubmit(document);
-    await tick(10);
+    await tick(1400);
 
     const area = document.getElementById('auth-passkey-area');
     expect(area).not.toBeNull();
@@ -228,7 +228,7 @@ describe('login real — fases de progreso', () => {
     });
     Auth.showLogin();
     fillAndSubmit(document);
-    await tick(10);
+    await tick(1400);
 
     expect(document.getElementById('auth-passkey-area').style.display).toBe('none');
     expect(document.getElementById('auth-totp')).not.toBeNull();
@@ -249,7 +249,7 @@ describe('login real — fases de progreso', () => {
     });
     Auth.showLogin();
     fillAndSubmit(document);
-    await tick(10);
+    await tick(1400);
 
     document.getElementById('auth-btn-passkey').click();
     await tick(10);

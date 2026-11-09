@@ -90,6 +90,34 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (StatAnalyzer Pro) co
 
 ## CAMBIOS RECIENTES
 
+### 2026-11-08 (267): Login — animación de carga y resultado en la píldora
+
+**Qué:** la píldora central del login real muestra el progreso y el resultado de la autenticación.
+
+- **Carga:** cápsula girando, shimmer, pulso y línea de progreso; título “Verificando…” y subtítulo “Comprobando credenciales y 2FA…”. Mínimo 600 ms para que la animación sea visible.
+- **Éxito:** píldora verde, “Acceso correcto” (o “Credenciales correctas” si sigue 2FA) y usuario + estado 2FA; se mantiene 650 ms antes de continuar.
+- **Error:** píldora roja, “Contraseña incorrecta” o “No se pudo iniciar sesión”, subtítulo “Revisa e intenta de nuevo”.
+- **Interacción:** el círculo derecho muestra flecha durante la carga; los estados de resultado se limpian al editar un campo o reintentar.
+- La demo conserva la misma animación y reglas.
+
+**Archivos afectados:**
+| Archivo | Cambio |
+|---------|--------|
+| `js/core/auth.js` | Estados de carga/éxito/error, mínimo de 600 ms y limpieza al editar |
+| `css/core/auth-v2.css` | Animaciones de la píldora y colores de resultado |
+| `docs/prototipos/login-statanalyzer.html` | Referencia del estado de carga y resultado |
+| `tests/auth-login-v2.test.js` | Esperas y título de error actualizados |
+| `ESTADO_PROYECTO.md` | Este registro |
+
+**Verificación:**
+```
+node --check → OK
+Vitest auth-login-v2 → 14 tests OK
+E2E login v2 → 6 tests OK
+Preflight + E2E → 14 tests OK
+Capturas claro/oscuro: carga, éxito verde y error rojo
+```
+
 ### 2026-11-08 (266): Login — migración del diseño del demo
 
 **Qué:** el login real adopta el diseño trabajado en `docs/prototipos/login-statanalyzer.html`.

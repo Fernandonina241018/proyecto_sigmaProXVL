@@ -659,11 +659,11 @@ const Auth = (() => {
         // shortcut: notas estáticas por ahora; en la migración conviene generarlas
         // desde build-info.json (hash + mensaje del commit desplegado).
         const lastChange = {
-            title: 'Migrar el diseño de login del demo a producción',
+            title: 'Animación de carga y resultado del login',
             items: [
-                'Círculo de información y modal del proyecto.',
-                'Píldora central con cápsula y estado de 2FA.',
-                'Círculo π que se convierte en flecha al continuar.',
+                'Píldora con cápsula girando, shimmer y progreso.',
+                'Verde con credenciales correctas; rojo con incorrectas.',
+                'Mínimo 600 ms para que la animación sea visible.',
             ],
         };
         const lastChangeHtml = '<div class="pi-change">'
@@ -1269,7 +1269,16 @@ const Auth = (() => {
         });
         [inputUser,inputPass].forEach(el=>{
             el?.addEventListener('keydown',(e)=>{ if(e.key==='Enter') _doLogin(); });
-            el?.addEventListener('input',()=>{ document.getElementById('auth-error').style.display='none'; _v2UpdateLoginSub(); });
+            el?.addEventListener('input',()=>{
+                document.getElementById('auth-error').style.display='none';
+                const b = document.getElementById('auth-btn-login');
+                if (b && !b.classList.contains('is-loading')) {
+                    b.classList.remove('is-ok', 'is-error');
+                    const t = document.getElementById('auth-btn-text');
+                    if (t) t.textContent = 'Iniciar sesión';
+                }
+                _v2UpdateLoginSub();
+            });
         });
         document.getElementById('auth-btn-login')?.addEventListener('click',_doLogin);
         const go = document.getElementById('auth-btn-go');
@@ -1277,7 +1286,6 @@ const Auth = (() => {
             const btn = document.getElementById('auth-btn-login');
             if (!btn || btn.disabled) return;
             go.classList.add('is-go');
-            setTimeout(function () { go.classList.remove('is-go'); }, 900);
             _doLogin();
         });
     }
@@ -1290,18 +1298,27 @@ const Auth = (() => {
         const attempEl=document.getElementById('auth-attempts-info');
         const btnText =document.getElementById('auth-btn-text');
         const btn     =document.getElementById('auth-btn-login');
+        const goBtn   =document.getElementById('auth-btn-go');
+        const loginSub=document.getElementById('login-sub-text');
 
         if(!user||!pass){
             errorEl.textContent='❌ Completa usuario y contraseña.';
             errorEl.style.cssText='display:block';
+            if (goBtn) goBtn.classList.remove('is-go');
             return;
         }
 
         // Mostrar indicador de carga
         const spinnerEl = document.getElementById('auth-spinner');
         if(spinnerEl) spinnerEl.classList.add('active');
-        if(btnText) btnText.textContent='Iniciando sesión...';
+        btn.classList.remove('is-ok','is-error');
+        btn.classList.add('is-loading');
+        btn.setAttribute('aria-busy','true');
+        if (goBtn) goBtn.classList.add('is-go');
+        if(btnText) btnText.textContent='Verificando…';
+        if(loginSub) loginSub.textContent='Comprobando credenciales y 2FA…';
         btn.disabled=true;
+        const loginStarted = Date.now();
 
         // Fases visibles: conexión → verificación en BD. El aviso de servidor
         // frío aparece si el backend tarda (primer acceso en Render).
@@ -1320,12 +1337,22 @@ const Auth = (() => {
         const result=await _verifyCredentials(user,pass);
         clearTimeout(phase2);
         clearTimeout(slowTimer);
+        // Mínimo 600 ms para que la animación de carga sea visible.
+        const elapsed = Date.now() - loginStarted;
+        if (elapsed < 600) await new Promise(function (r) { setTimeout(r, 600 - elapsed); });
 
         // Ocultar indicador de carga
         if(spinnerEl) spinnerEl.classList.remove('active');
+        btn.classList.remove('is-loading');
+        btn.removeAttribute('aria-busy');
+        if (goBtn) goBtn.classList.remove('is-go');
 
         if(result.ok){
             _attempts=0;
+            const needs2FA = !!result.requires2FA;
+            btn.classList.add('is-ok');
+            if(btnText) btnText.textContent = needs2FA ? 'Credenciales correctas' : 'Acceso correcto';
+            if(loginSub) loginSub.textContent = user + ' · ' + (needs2FA ? '2FA activo' : '2FA no configurado');
             var rememberCb = document.getElementById('auth-remember');
             if (rememberCb && rememberCb.checked) {
                 try { localStorage.setItem('__auth_remembered', JSON.stringify({username: user})); } catch(_e) {}
@@ -1337,13 +1364,14 @@ const Auth = (() => {
             }
             if (result.requires2FA) {
                 _setAuthProgress('info', 'Te enviamos al segundo paso.', 'El código caduca en 30 s.', false);
+                await new Promise(function (r) { setTimeout(r, 650); });
                 _show2FAInput(user, pass, { hasWebAuthn: result.hasWebAuthn });
-                if(btnText) btnText.textContent='Iniciar sesión';
                 btn.disabled=false;
                 return;
             }
             _setAuthProgress('ok', 'Acceso concedido.', 'Cargando perfil y sesión…', false);
             if (rememberCb && rememberCb.checked) _cacheProfileFromServer(result.username);
+            await new Promise(function (r) { setTimeout(r, 650); });
             _onLoginSuccess({username:result.username,role:result.role,mustChangePassword:result.mustChangePassword});
         } else {
             _setAuthProgress('');
@@ -1360,7 +1388,9 @@ const Auth = (() => {
                 card?.classList.add('auth-shake');
                 setTimeout(()=>card?.classList.remove('auth-shake'),500);
             }
-            if(btnText) btnText.textContent='Iniciar sesión';
+            btn.classList.add('is-error');
+            if(btnText) btnText.textContent=/credencial/i.test(result.error||'') ? 'Contraseña incorrecta' : 'No se pudo iniciar sesión';
+            if(loginSub) loginSub.textContent='Revisa e intenta de nuevo';
             btn.disabled=false;
         }
     }
