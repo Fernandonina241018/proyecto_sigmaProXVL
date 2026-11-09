@@ -1,7 +1,7 @@
 fastapi>=0.162.0
 uvicorn[standard]>=0.54.0
 pydantic>=2.14.2
-pandas>=3.1.0
+pandas>=3.1.1
 # Piso conservador: 2.4.6 instala tanto en 3.11 como en 3.12 (imagen actual).
 numpy>=2.4.6
 scikit-learn>=1.9.1
