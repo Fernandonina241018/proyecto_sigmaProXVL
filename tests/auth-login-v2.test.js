@@ -106,13 +106,14 @@ describe('login V2 — render y compatibilidad de IDs', () => {
     document.getElementById('auth-user').value = 'd.nina';
     document.getElementById('auth-pass').value = 'mala';
     document.getElementById('auth-btn-login').click();
-    await tick(10);
+    await tick(700);
 
     const error = document.getElementById('auth-error');
     expect(error.style.display).toBe('block');
     expect(error.textContent).toMatch('Credenciales incorrectas');
     expect(document.getElementById('auth-btn-login').disabled).toBe(false);
-    expect(document.getElementById('auth-btn-text').textContent).toBe('Iniciar sesión');
+    expect(document.getElementById('auth-btn-text').textContent).toBe('Contraseña incorrecta');
+    expect(document.getElementById('auth-btn-login').classList.contains('is-error')).toBe(true);
   });
 
   test('2FA: volver desde el código regresa al login V2 (no al clásico)', async () => {
@@ -127,7 +128,7 @@ describe('login V2 — render y compatibilidad de IDs', () => {
     document.getElementById('auth-user').value = 'ana';
     document.getElementById('auth-pass').value = 'clave';
     document.getElementById('auth-btn-login').click();
-    await tick(10);
+    await tick(1400);
 
     expect(document.getElementById('auth-totp')).not.toBeNull();
     document.getElementById('auth-back-to-login').click();

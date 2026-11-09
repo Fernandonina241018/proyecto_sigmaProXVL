@@ -183,6 +183,43 @@
 #auth-overlay.auth-v2 .login-go.is-go .login-pi{opacity:0;transform:rotate(90deg) scale(.5)}
 #auth-overlay.auth-v2 .login-go.is-go .login-arrow{opacity:1;transform:rotate(0) scale(1)}
 
+/* Carga y resultado de la píldora */
+#auth-overlay.auth-v2 .login-actions .primary{
+  position:relative;overflow:hidden;
+  transition:background .25s,box-shadow .25s,transform .16s,filter .16s;
+}
+#auth-overlay.auth-v2 .login-actions .primary.is-loading{
+  pointer-events:none;animation:av2-pillPulse 1.6s ease-in-out infinite;
+}
+#auth-overlay.auth-v2 .login-actions .primary.is-loading .login-pill-icon svg{
+  animation:av2-capsuleSpin 1.05s linear infinite;
+}
+#auth-overlay.auth-v2 .login-actions .primary.is-loading::before{
+  content:"";position:absolute;left:16px;right:16px;bottom:7px;height:2px;
+  border-radius:2px;background:rgba(255,255,255,.8);
+  transform-origin:left;animation:av2-pillProgress 2.2s linear forwards;
+}
+#auth-overlay.auth-v2 .login-actions .primary.is-loading::after{
+  content:"";position:absolute;inset:0;
+  background:linear-gradient(110deg,transparent 28%,rgba(255,255,255,.24) 50%,transparent 72%);
+  transform:translateX(-120%);animation:av2-pillShimmer 1.35s ease-in-out infinite;
+  pointer-events:none;
+}
+#auth-overlay.auth-v2 .login-actions .primary.is-ok{
+  background:#1a7f37;border-color:#1a7f37;box-shadow:0 8px 22px rgba(26,127,55,.28);
+}
+#auth-overlay.auth-v2 .login-actions .primary.is-error{
+  background:#d1242f;border-color:#d1242f;box-shadow:0 8px 22px rgba(209,36,47,.28);
+}
+#auth-overlay.auth-v2 .login-actions .primary.is-ok .login-pill-icon{background:#fff;color:#1a7f37}
+#auth-overlay.auth-v2 .login-actions .primary.is-error .login-pill-icon{background:#fff;color:#d1242f}
+#auth-overlay.auth-v2 .login-actions .primary.is-ok .login-sub-dot,
+#auth-overlay.auth-v2 .login-actions .primary.is-error .login-sub-dot{background:rgba(255,255,255,.85)}
+@keyframes av2-capsuleSpin{to{transform:rotate(360deg)}}
+@keyframes av2-pillProgress{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+@keyframes av2-pillShimmer{to{transform:translateX(120%)}}
+@keyframes av2-pillPulse{0%,100%{box-shadow:0 0 0 0 var(--bg-accent)}50%{box-shadow:0 0 0 6px var(--bg-accent)}}
+
 #auth-overlay.auth-v2 .project-info{
   position:fixed;inset:0;margin:auto;z-index:36;
   width:min(440px,92vw);height:max-content;max-height:85vh;overflow:auto;
