@@ -1,6 +1,6 @@
 {
   "dependencies": {
-    "docx": "^9.15.0",
+    "docx": "^9.15.2",
     "papaparse": "^5.7.0"
   },
   "scripts": {
