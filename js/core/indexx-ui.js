@@ -1294,14 +1294,6 @@ document.getElementById('sidebarBackdrop')?.addEventListener('click', function()
   this.classList.remove('show');
 });
 
-// ── El sidebar siempre abre colapsado en rail (desktop) ──
-try {
-  if (window.innerWidth > 768) {
-    var sidebar = document.getElementById('sidebar');
-    if (sidebar) sidebar.classList.add('rail');
-  }
-} catch(e) {}
-
 // ── Zoom ──
 var _zoomLevel = (function(){ try { return parseInt(localStorage.getItem('zoomLevel')) || 100; } catch(e){ return 100; } })();
 function applyZoom() {

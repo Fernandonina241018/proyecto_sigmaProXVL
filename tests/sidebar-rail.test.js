@@ -92,15 +92,14 @@ function fakeCard() {
 }
 
 describe('sidebar rail (Ctrl+B)', () => {
-  test('boot en desktop abre colapsado en rail', () => {
-    expect(sidebarFake.classList.contains('rail')).toBe(true);
+  test('boot en desktop abre expandido', () => {
+    expect(sidebarFake.classList.contains('rail')).toBe(false);
   });
   test('toggleSidebar alterna rail en desktop', () => {
+    toggleSidebar();
     expect(sidebarFake.classList.contains('rail')).toBe(true);
     toggleSidebar();
     expect(sidebarFake.classList.contains('rail')).toBe(false);
-    toggleSidebar();
-    expect(sidebarFake.classList.contains('rail')).toBe(true);
   });
   test('en móvil alterna open sin tocar rail', () => {
     globalThis.window.innerWidth = 500;
