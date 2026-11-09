@@ -90,6 +90,27 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (StatAnalyzer Pro) co
 
 ## CAMBIOS RECIENTES
 
+### 2026-11-08 (268): Sidebar — abre expandido por defecto
+
+**Qué:** el sidebar de la app ya no arranca en modo rail (colapsado) en escritorio.
+
+- Se elimina el bloque de arranque que añadía `.rail` al cargar la página.
+- `Ctrl+B` / el botón de la cinta siguen alternando rail ↔ expandido igual que antes.
+- En móvil no cambia nada: el overlay sigue cerrado hasta pulsar el botón.
+
+**Archivos afectados:**
+| Archivo | Cambio |
+|---------|--------|
+| `js/core/indexx-ui.js` | Se quita el arranque en `.rail` |
+| `tests/sidebar-rail.test.js` | Boot espera expandido; toggle sigue alternando |
+| `ESTADO_PROYECTO.md` | Este registro |
+
+**Verificación:**
+```
+node --check → OK
+Vitest sidebar-rail → 8 tests OK
+```
+
 ### 2026-11-08 (267): Login — animación de carga y resultado en la píldora
 
 **Qué:** la píldora central del login real muestra el progreso y el resultado de la autenticación.
