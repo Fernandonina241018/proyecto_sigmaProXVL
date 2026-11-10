@@ -851,5 +851,20 @@
 }
 #auth-overlay.auth-v2 .auth-card.auth-shake { animation: auth-shake 0.45s ease; }
 #auth-overlay.auth-v2 .auth-card.auth-success-exit { animation: auth-success 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards; }
-#auth-overlay.auth-v2 .auth-timeout-warn { z-index: 10002; }
+/* Aviso de expiración: vive en body (no en el overlay del login). */
+.auth-timeout-warn {
+  position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%);
+  z-index: 10002; display: flex; align-items: center; gap: 14px;
+  padding: 12px 24px; border-radius: 12px;
+  background: var(--surface-2); color: var(--text); border: 1px solid var(--border);
+  font-size: .88rem; white-space: nowrap; box-shadow: var(--shadow-lg);
+  opacity: 0; pointer-events: none; transition: opacity .4s ease;
+}
+.auth-timeout-warn[style*="opacity: 1"],
+.auth-timeout-warn[style*="opacity:1"] { pointer-events: auto; }
+.auth-warn-btn {
+  padding: 5px 14px; background: var(--accent); color: #fff; border: none;
+  border-radius: 6px; font-size: .8rem; font-weight: 700; cursor: pointer;
+}
+.auth-warn-btn:hover { filter: brightness(1.08); }
 #auth-overlay.auth-v2 .auth-field .auth-error { margin-top: 10px; }
