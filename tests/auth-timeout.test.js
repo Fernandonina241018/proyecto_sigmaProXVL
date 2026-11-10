@@ -12,6 +12,7 @@ const SRC = readFileSync(join(core, 'auth.js'), 'utf-8');
 
 function loadAuth(area) {
   const store = {};
+  const els = {};
   const sandbox = {
     console,
     API_URL: '',
@@ -27,12 +28,15 @@ function loadAuth(area) {
     },
     localStorage: { getItem: () => null, setItem: () => {}, removeItem: () => {} },
     document: {
-      getElementById: () => null,
+      getElementById: (id) => els[id] || null,
       querySelectorAll: () => [],
       addEventListener: () => {},
       removeEventListener: () => {},
-      createElement: () => null,
-      body: {},
+      createElement: () => {
+        const el = { id: '', className: '', innerHTML: '', style: {}, appendChild: () => {} };
+        return el;
+      },
+      body: { appendChild: (el) => { els[el.id] = el; } },
     },
     AreaSelect: { getArea: () => area, clearArea: vi.fn() },
     Validaciones: { hide: vi.fn() },
@@ -43,7 +47,7 @@ function loadAuth(area) {
   vm.createContext(sandbox);
   vm.runInContext(SRC, sandbox);
   const Auth = vm.runInContext('Auth', sandbox);
-  return { sb: sandbox, store, Auth };
+  return { sb: sandbox, store, Auth, els };
 }
 
 describe('timeout por área', () => {
@@ -61,6 +65,22 @@ describe('timeout por área', () => {
     e2.store.auth_session = JSON.stringify({ username: 'a', role: 'admin', expiresAt: 0 });
     e2.Auth.keepAlive();
     expect(JSON.parse(e2.store.auth_session).expiresAt).toBe(new Date('2026-09-30T12:05:00').getTime());
+  });
+
+  test('el aviso de expiración vive fuera del login y se muestra antes de expirar', () => {
+    vi.setSystemTime(new Date('2026-09-30T12:00:00'));
+    const { store, Auth, els } = loadAuth('estadistica');
+    store.auth_session = JSON.stringify({ username: 'a', role: 'admin', expiresAt: 0 });
+    Auth.keepAlive();
+    expect(els['auth-timeout-warn']).toBeUndefined();
+
+    vi.advanceTimersByTime(4 * 60 * 1000 + 1000);
+    const warn = els['auth-timeout-warn'];
+    expect(warn).toBeTruthy();
+    expect(warn.style.opacity).toBe('1');
+
+    Auth.keepAlive();
+    expect(warn.style.opacity).toBe('0');
   });
 
   test('configuración y salida del módulo en el código', () => {

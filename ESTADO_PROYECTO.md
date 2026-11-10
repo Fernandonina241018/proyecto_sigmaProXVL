@@ -90,6 +90,31 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (StatAnalyzer Pro) co
 
 ## CAMBIOS RECIENTES
 
+### 2026-11-09 (269): Sesión — aviso de expiración restaurado fuera del login
+
+**Qué:** el aviso “Tu sesión expirará en 60 segundos” deja de aparecer en el login y vuelve a mostrarse dentro de la app.
+
+- **Causa:** el PR #177 eliminó `css/core/auth.css`, que tenía la regla base (`.auth-timeout-warn { position:fixed; opacity:0; … }`). El markup seguía en los dos renderers del login, así que se mostraba siempre, sin estilos, al pie de la pantalla.
+- **Arreglo:** el aviso se crea una vez como hijo de `body` cuando toca mostrarlo (`_ensureTimeoutWarn`), con su CSS base en `auth-v2.css`; `showLogin` lo oculta y `keepAlive` lo cierra.
+- Antes estaba dentro del overlay, que se elimina al entrar: por eso tampoco funcionaba en la app.
+- Estilos con tokens: claro/oscuro, centrado abajo, botón “Mantener sesión”.
+
+**Archivos afectados:**
+| Archivo | Cambio |
+|---------|--------|
+| `js/core/auth.js` | Banner fuera del login; creación bajo demanda y ocultado al volver al login |
+| `css/core/auth-v2.css` | Regla base del aviso y del botón |
+| `tests/auth-timeout.test.js` | DOM mínimo y test de aparición/ocultado |
+| `ESTADO_PROYECTO.md` | Este registro |
+
+**Verificación:**
+```
+node --check → OK
+Vitest auth-timeout → 3 tests OK
+Preflight + E2E → 14 tests OK
+Capturas claro/oscuro: login sin aviso y aviso centrado en la app
+```
+
 ### 2026-11-08 (268): Sidebar — abre expandido por defecto
 
 **Qué:** el sidebar de la app ya no arranca en modo rail (colapsado) en escritorio.

@@ -194,7 +194,19 @@ const Auth = (() => {
         _warnTimer   = setTimeout(()=>_showTimeoutWarning(), t-CFG.WARN_BEFORE_MS);
         _sessionTimer= setTimeout(()=>_expireSession(),      t);
     }
+    // El aviso vive fuera del login: debe seguir existiendo con la app abierta.
+    function _ensureTimeoutWarn() {
+        if (document.getElementById('auth-timeout-warn')) return;
+        const w = document.createElement('div');
+        if (!w) return;
+        w.id = 'auth-timeout-warn';
+        w.className = 'auth-timeout-warn';
+        w.innerHTML = '⏱ Tu sesión expirará en <strong id="auth-warn-countdown">60</strong> segundos por inactividad. '
+            + '<button onclick="Auth.keepAlive()" class="auth-warn-btn">Mantener sesión</button>';
+        document.body.appendChild(w);
+    }
     function _showTimeoutWarning() {
+        _ensureTimeoutWarn();
         const w=document.getElementById('auth-timeout-warn'); if(!w) return;
         w.style.opacity='1';
         let secs=Math.floor(CFG.WARN_BEFORE_MS/1000);
@@ -332,10 +344,7 @@ const Auth = (() => {
             </div>
             <div class="auth-footer"><span>FDA 21 CFR Part 11 Compliant</span><span>v1.0${buildRevHtml}</span></div>
         </div>
-        <div class="auth-timeout-warn" id="auth-timeout-warn">
-            ⏱ Tu sesión expirará en <strong id="auth-warn-countdown">60</strong> segundos por inactividad.
-            <button onclick="Auth.keepAlive()" class="auth-warn-btn">Mantener sesión</button>
-        </div>`;
+`;
         document.body.appendChild(overlay);
         _attachLoginListeners();
         _renderParticles();
@@ -886,10 +895,7 @@ const Auth = (() => {
                 <span>POWERED FOR COMPLIANCE · 21 CFR Part 11</span>
             </footer>
         </div>
-        <div class="auth-timeout-warn" id="auth-timeout-warn">
-            ⏱ Tu sesión expirará en <strong id="auth-warn-countdown">60</strong> segundos por inactividad.
-            <button onclick="Auth.keepAlive()" class="auth-warn-btn">Mantener sesión</button>
-        </div>`;
+`;
         document.body.appendChild(overlay);
         if (_v2PendingVersion) {
             const ub = document.getElementById('av2-update');
@@ -1785,6 +1791,7 @@ const Auth = (() => {
     // ── API pública ───────────────────────
     function showLogin(reason=''){
         _unregisterActivityListeners();
+        const warn=document.getElementById('auth-timeout-warn'); if(warn) warn.style.opacity='0';
         if(_resolveLoginVariant()==='v2') _renderLoginModalV2(reason);
         else _renderLoginModal(reason);
     }
