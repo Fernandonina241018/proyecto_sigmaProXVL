@@ -1349,7 +1349,7 @@
 [data-theme="light"] .fglass-item{background:rgba(255,255,255,.75);border-color:rgba(20,22,40,.12);
   box-shadow:inset 0 1px 0 rgba(255,255,255,.9),0 4px 14px rgba(0,0,0,.08)}
 [data-theme="light"] .fglass-item:hover{box-shadow:inset 0 1px 0 rgba(255,255,255,.9),0 10px 22px rgba(0,0,0,.12)}
-[data-theme="light"] .fglass-btn{background:rgba(20,22,40,.05);border-color:rgba(20,22,40,.16)}
+[data-theme="light"] .fglass-btn:not(.is-primary){background:rgba(20,22,40,.05);border-color:rgba(20,22,40,.16)}
 [data-theme="light"] .fglass-status{background:rgba(9,105,218,.08)}
 @media (prefers-reduced-motion:reduce){#firmaTabs.fp-tabs *{transition:none}}
 /* ── Editor de firmas: timeline liquid-glass (diseño .gl namespacado fsg-*) ── */
