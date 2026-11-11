@@ -90,6 +90,29 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (StatAnalyzer Pro) co
 
 ## CAMBIOS RECIENTES
 
+### 2026-11-10 (270): Visualización — modal de gráficos múltiples en modo claro
+
+**Qué:** el modal “Generar múltiples gráficos” sigue el tema claro/oscuro de la app.
+
+- **Causa:** el `<style>` inyectado definía `:root{--panel:#151822;…}`, pisando los tokens globales mientras el modal estaba abierto; por eso se veía oscuro incluso en claro y también afectaba al resto de la app.
+- **Arreglo:** tokens scoped a `#vizBatchModal` mapeados a los de la app (`--bg-panel`, `--item-bg`, `--border`, `--text-primary`, `--text-muted`, `--text-accent`, `--text-danger`); bordes y fondos fijos pasan a tokens; backdrop único para ambos temas.
+- Se evita el alias autorreferente `--accent:var(--accent)` (se usa `--text-accent`).
+
+**Archivos afectados:**
+| Archivo | Cambio |
+|---------|--------|
+| `js/core/indexx-viz.js` | Bloque de tokens scopeado y colores fijos reemplazados |
+| `tests/viz-batch-modal.test.js` | Test de estilos con tokens del tema |
+| `ESTADO_PROYECTO.md` | Este registro |
+
+**Verificación:**
+```
+node --check → OK
+Vitest viz-batch-modal → 9 tests OK
+Preflight + E2E → 14 tests OK
+Capturas claro/oscuro del modal
+```
+
 ### 2026-11-09 (269): Sesión — aviso de expiración restaurado fuera del login
 
 **Qué:** el aviso “Tu sesión expirará en 60 segundos” deja de aparecer en el login y vuelve a mostrarse dentro de la app.

@@ -61,6 +61,15 @@ describe('modal generar múltiples gráficos', () => {
     expect(hint).toContain('4 columna');
   });
 
+  test('los estilos usan los tokens del tema (claro/oscuro)', () => {
+    const { sandbox, document } = loadBatchHarness(['A','B'], { x: '' });
+    vm.runInContext('showBatchGraphModal()', sandbox);
+    const css = document.querySelector('#vizBatchModal style').textContent;
+    expect(css).toContain('#vizBatchModal{--panel:var(--bg-panel)');
+    expect(css).toContain('--text:var(--text-primary)');
+    expect(css).not.toContain('--panel:#151822');
+  });
+
   test('select-all desmarca todo (viene todo marcado)', () => {
     const { sandbox, document } = loadBatchHarness(['A','B','C'], { x: '' });
     vm.runInContext('showBatchGraphModal()', sandbox);
