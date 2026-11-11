@@ -90,6 +90,28 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (StatAnalyzer Pro) co
 
 ## CAMBIOS RECIENTES
 
+### 2026-11-11 (272): Firmas — botón “Abrir bandeja” legible en modo claro
+
+**Qué:** el botón primario de la bandeja de firmas vuelve a verse azul con texto blanco en tema claro.
+
+- **Causa:** la regla `[data-theme="light"] .fglass-btn` (misma especificidad y posterior en el archivo) pisaba el `background` de `.fglass-btn.is-primary`: quedaba `rgba(20,22,40,.05)` con texto blanco.
+- **Arreglo:** la excepción de tema claro ahora aplica solo a botones sin `.is-primary`.
+- Afecta a todos los primarios de esa familia (“Abrir bandeja de firmas”, “Publicar”).
+
+**Archivos afectados:**
+| Archivo | Cambio |
+|---------|--------|
+| `css/core/indexx.css` | Selector claro con `:not(.is-primary)` |
+| `ESTADO_PROYECTO.md` | Este registro |
+
+**Verificación:**
+```
+Computed style antes: bg rgba(20,22,40,.05) · texto #fff
+Computed style después: bg #0969da · texto #fff
+Preflight + E2E → 14 tests OK
+Capturas claro/oscuro de la página y del modal
+```
+
 ### 2026-11-10 (271): Trabajo — panel lateral con solo Límites abierto
 
 **Qué:** en la Hoja de Trabajo, el panel lateral arranca con todas las tarjetas colapsadas salvo **Límites**, la última.
