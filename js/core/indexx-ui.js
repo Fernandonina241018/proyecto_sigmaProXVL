@@ -537,9 +537,9 @@ var leftPanels = {
 
     return '<div class="left-panel datos" id="panelTrabajo" aria-label="Hoja de trabajo" style="gap:12px;padding:8px">' +
       _sideCard('cardTrabajoHoja', _sideCardIcon('<rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M3 15h18M9 3v18M15 3v18"/>'), 'Hoja de Trabajo', 'Datos, edición y vista', hoja, true) +
-      _sideCard('cardTrabajoHojas', _sideCardIcon('<path d="M4 7h16M4 12h16M4 17h16"/>'), 'Hojas', 'Cambia o crea hojas', hojas, false) +
-      _sideCard('cardTrabajoResumen', _sideCardIcon('<path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/>'), 'Resumen', 'Estadísticas rápidas', resumen, false) +
-      _sideCard('cardTrabajoCelda', _sideCardIcon('<circle cx="12" cy="12" r="8"/><path d="M12 2v4M12 18v4M2 12h4M18 12h4"/>'), 'Celda activa', 'Valor y posición', celda, false) +
+      _sideCard('cardTrabajoHojas', _sideCardIcon('<path d="M4 7h16M4 12h16M4 17h16"/>'), 'Hojas', 'Cambia o crea hojas', hojas, true) +
+      _sideCard('cardTrabajoResumen', _sideCardIcon('<path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/>'), 'Resumen', 'Estadísticas rápidas', resumen, true) +
+      _sideCard('cardTrabajoCelda', _sideCardIcon('<circle cx="12" cy="12" r="8"/><path d="M12 2v4M12 18v4M2 12h4M18 12h4"/>'), 'Celda activa', 'Valor y posición', celda, true) +
       _sideCard('cardTrabajoLimites', _sideCardIcon('<path d="M3 8h18M3 16h18M6 5v6M6 13v6M18 5v6M18 13v6"/>'), 'Límites', 'Especificaciones y cuantificación', limites, false) +
     '</div>';
   },
