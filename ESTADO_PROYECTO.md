@@ -90,6 +90,26 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (StatAnalyzer Pro) co
 
 ## CAMBIOS RECIENTES
 
+### 2026-11-10 (271): Trabajo — panel lateral con solo Límites abierto
+
+**Qué:** en la Hoja de Trabajo, el panel lateral arranca con todas las tarjetas colapsadas salvo **Límites**, la última.
+
+- **Hojas**, **Resumen** y **Celda activa** pasan a iniciar colapsadas (antes abiertas); **Hoja de Trabajo** ya lo estaba.
+- Límites sigue abierta; el usuario puede expandir/colapsar cualquiera con su cabecera.
+
+**Archivos afectados:**
+| Archivo | Cambio |
+|---------|--------|
+| `js/core/indexx-ui.js` | Estado inicial de las tarjetas del panel Trabajo |
+| `ESTADO_PROYECTO.md` | Este registro |
+
+**Verificación:**
+```
+node --check → OK
+Preflight + E2E → 14 tests OK
+Capturas claro/oscuro: 4 tarjetas colapsadas y Límites abierta
+```
+
 ### 2026-11-10 (270): Visualización — modal de gráficos múltiples en modo claro
 
 **Qué:** el modal “Generar múltiples gráficos” sigue el tema claro/oscuro de la app.
