@@ -52,6 +52,23 @@ function _storageScope() {
   };
 }
 
+// Invariante del dataset: toda fila tiene exactamente headers.length celdas.
+// Se aplica en los puntos de entrada (pegar/importar/reciente/restaurar) para
+// que ningún consumidor (tabla, análisis, export) vea filas desparejas.
+// Reglas: ancho = máx(encabezado, fila más ancha) → si una fila trae más
+// celdas que el encabezado se agregan columnas "Col N" (no se pierden datos);
+// filas cortas se rellenan con ''; solo se descartan filas totalmente vacías.
+function _normalizeDataset(headers, rows) {
+  var h = (headers || []).slice();
+  var r = (rows || []).map(function(row) { return row == null ? [] : row.slice(); });
+  r = r.filter(function(row) { return row.some(function(c) { return c != null && String(c).trim() !== ''; }); });
+  var width = h.length;
+  for (var i = 0; i < r.length; i++) { if (r[i].length > width) width = r[i].length; }
+  while (h.length < width) h.push('Col' + (h.length + 1));
+  for (var j = 0; j < r.length; j++) { while (r[j].length < width) r[j].push(''); }
+  return { headers: h, rows: r };
+}
+
 function _persistAllData() {
   var quotaStep = 0;
   var maxSteps = 4;
@@ -103,7 +120,13 @@ function _restoreAllData() {
     if (ts) {
       var parsed = JSON.parse(ts);
       if (Array.isArray(parsed) && parsed.length > 0) {
-        trabajoSheets = parsed;
+        trabajoSheets = parsed.map(function(sh) {
+          if (!sh || !Array.isArray(sh.headers)) return sh;
+          var n = _normalizeDataset(sh.headers, sh.rows);
+          sh.headers = n.headers;
+          sh.rows = n.rows;
+          return sh;
+        });
       }
     }
     var tl = SS.sGet('sigmaPro_trabajoLimits');

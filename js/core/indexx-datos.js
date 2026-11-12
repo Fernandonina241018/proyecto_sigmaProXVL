@@ -328,6 +328,8 @@ function parseXLSX(file) {
 
 function finishLoad(headers, rows, filename, size) {
   datosFilters = []; datosSortCol = -1; datosSortAsc = true; datosPage = 0;
+  var norm = _normalizeDataset(headers, rows);
+  headers = norm.headers; rows = norm.rows;
   datosCurrentData = { headers: headers, rows: rows, colTypes: detectColTypes(headers, rows) };
   datosCurrentFileName = filename;
   datosSourceType = filename === 'datos_pegados.csv' ? 'paste' : 'file';
@@ -675,7 +677,8 @@ function loadRecentFile(index) {
   if (!file) return;
   if (file.headers && file.rows) {
     datosFilters = []; datosSortCol = -1; datosSortAsc = true; datosPage = 0;
-    datosCurrentData = { headers: file.headers, rows: file.rows, colTypes: detectColTypes(file.headers, file.rows) };
+    var norm = _normalizeDataset(file.headers, file.rows);
+    datosCurrentData = { headers: norm.headers, rows: norm.rows, colTypes: detectColTypes(norm.headers, norm.rows) };
     datosCurrentFileName = file.name;
     updateDatosUI();
   } else {

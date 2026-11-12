@@ -90,6 +90,32 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (StatAnalyzer Pro) co
 
 ## CAMBIOS RECIENTES
 
+### 2026-11-11 (273): Datasets — filas rectangulares sin perder datos
+
+**Qué:** todo dataset que entra a la app queda homologado (todas las filas del mismo ancho) sin recortar valores.
+
+- **Invariante:** `_normalizeDataset(headers, rows)` en `indexx-globals.js`: ancho = máx(encabezado, fila más ancha); filas cortas se rellenan con `''`; si una fila trae más celdas que el encabezado se agregan columnas `Col N`; solo se descartan filas totalmente vacías.
+- **Puntos de entrada cubiertos:** `finishLoad()` (pegar/CSV/JSON/Excel), `loadRecentFile()` y restauración de hojas desde storage.
+- **Ejemplo:** 10 columnas con 7 datos + 1 columna con 14 → 14 filas y 11 columnas; la columna larga conserva sus 14 valores. Los análisis multivariados siguen usando solo las filas completas (`getPairedValues`), y los univariados de la columna larga usan n=14.
+
+**Archivos afectados:**
+| Archivo | Cambio |
+|---------|--------|
+| `js/core/indexx-globals.js` | Helper `_normalizeDataset` y normalización al restaurar |
+| `js/core/indexx-datos.js` | Normalización en `finishLoad` y `loadRecentFile` |
+| `tests/dataset-normalize.test.js` | Casos de filas cortas/largas/vacías y no mutación |
+| `tests/datos-panel.test.js` | Stub del helper para el harness aislado |
+| `ESTADO_PROYECTO.md` | Este registro |
+
+**Verificación:**
+```
+node --check → OK
+Vitest dataset-normalize → 4 tests OK
+Vitest completo → 1136 tests OK
+Preflight + E2E → 14 tests OK
+Pegado real 11 columnas (7 + 7 extra) → 14 filas × 11 columnas, sin errores
+```
+
 ### 2026-11-11 (272): Firmas — botón “Abrir bandeja” legible en modo claro
 
 **Qué:** el botón primario de la bandeja de firmas vuelve a verse azul con texto blanco en tema claro.
