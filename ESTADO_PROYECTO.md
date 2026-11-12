@@ -90,6 +90,30 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (StatAnalyzer Pro) co
 
 ## CAMBIOS RECIENTES
 
+### 2026-11-11 (274): Análisis — F0/MKT toleran configuración de otro dataset
+
+**Qué:** el análisis grupal de F0 (y MKT) ya no falla cuando la configuración guardada apunta a columnas que no existen en el dataset actual.
+
+- **Causa:** `hypothesisConfig` persiste por estadístico con nombres de columna. Al cargar otro dataset, `getNumericValues` lanzaba “La columna X no contiene valores numéricos válidos” al contar observaciones, al evaluar advertencias y dentro de la rama del estadístico. Reconfigurar el card reescribía las columnas y por eso después funcionaba.
+- **Arreglo:** las columnas configuradas se filtran contra `data.headers`; si no queda ninguna válida se usa la detección automática de columnas numéricas. En automático, las columnas con <2 lecturas se omiten; si el usuario las eligió explícitamente, se mantiene el aviso. Aplicado también a MKT.
+- `contarObservacionesValidas` y `evaluarAdvertencias` ignoran columnas inexistentes en vez de lanzar.
+
+**Archivos afectados:**
+| Archivo | Cambio |
+|---------|--------|
+| `js/core/EstadisticaDescriptiva.js` | Filtro de columnas configuradas, lecturas sin throw y fallback automático |
+| `tests/estadisticos-integracion.test.js` | F0/MKT con columnas inexistentes y config válida |
+| `ESTADO_PROYECTO.md` | Este registro |
+
+**Verificación:**
+```
+node --check → OK
+Vitest estadisticos-integracion → 39 tests OK
+Vitest completo → 1139 tests OK
+Preflight + E2E → 14 tests OK
+Navegador: F0 con config vieja → columnas T1/T2, HTML generado, sin errores
+```
+
 ### 2026-11-11 (273): Datasets — filas rectangulares sin perder datos
 
 **Qué:** todo dataset que entra a la app queda homologado (todas las filas del mismo ancho) sin recortar valores.

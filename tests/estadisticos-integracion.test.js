@@ -540,3 +540,43 @@ describe('Lote 2 — corrección estadística', () => {
     expect(res.F).toBeCloseTo((res.gl2 / res.gl1) * (res.pillai / (s - res.pillai)), 3);
   });
 });
+
+describe('Integración — F0/MKT con configuración de otro dataset', () => {
+  const rows = [
+    { T1: 120, T2: 121, Lote: 'A' },
+    { T1: 121, T2: 122, Lote: 'A' },
+    { T1: 122, T2: 123, Lote: 'B' },
+    { T1: 123, T2: 124, Lote: 'B' },
+    { T1: 124, T2: 125, Lote: 'A' },
+  ];
+  const data = dataDe(rows, ['T1', 'T2', 'Lote']);
+  const cfg = { delta_t: 1, z: 10, T_ref: 121 };
+
+  test('F0: si las columnas configuradas ya no existen, usa detección automática', () => {
+    const res = ED.ejecutarAnalisis(data, ['Factor de Letalidad (F0)'], {
+      'Factor de Letalidad (F0)': Object.assign({ columnas: ['NO_EXISTE'] }, cfg),
+    });
+    const f0 = res.resultados['Factor de Letalidad (F0)'];
+    expect(f0.error).toBeUndefined();
+    expect(f0.T1.F0).toBeGreaterThan(0);
+    expect(f0.T2.F0).toBeGreaterThan(0);
+  });
+
+  test('F0: respeta una columna configurada válida', () => {
+    const res = ED.ejecutarAnalisis(data, ['Factor de Letalidad (F0)'], {
+      'Factor de Letalidad (F0)': Object.assign({ columnas: ['T1'] }, cfg),
+    });
+    const f0 = res.resultados['Factor de Letalidad (F0)'];
+    expect(f0.T1.F0).toBeGreaterThan(0);
+    expect(f0.T2).toBeUndefined();
+  });
+
+  test('MKT: si las columnas configuradas ya no existen, usa detección automática', () => {
+    const res = ED.ejecutarAnalisis(data, ['MKT (Mean Kinetic Temperature)'], {
+      'MKT (Mean Kinetic Temperature)': { columnas: ['NO_EXISTE'] },
+    });
+    const mkt = res.resultados['MKT (Mean Kinetic Temperature)'];
+    expect(mkt.error).toBeUndefined();
+    expect(mkt.T1.MKT_C).toBeGreaterThan(0);
+  });
+});

@@ -108,8 +108,11 @@ const EstadisticaDescriptiva = (() => {
             ['columnas', 'columnasX', 'numericCols'].forEach(k => {
                 if (cfg && Array.isArray(cfg[k])) cfg[k].forEach(add);
             });
-            if (!cols.length) return Array.isArray(data.data) ? data.data.length : 0;
-            const counts = cols.map(c => getNumericValues(data, c).length).filter(n => n > 0);
+            // Columnas configuradas que ya no existen (config de otro dataset):
+            // se ignoran para no bloquear el test antes de su detección automática.
+            const validCols = cols.filter(c => data.headers.indexOf(c) !== -1);
+            if (!validCols.length) return Array.isArray(data.data) ? data.data.length : 0;
+            const counts = validCols.map(c => Stats.getNumericValues(data, c).length).filter(n => n > 0);
             return counts.length ? Math.min(...counts) : 0;
         };
         const alternativaDe = (cfg) => {
@@ -250,7 +253,11 @@ const EstadisticaDescriptiva = (() => {
             ['numericCol', 'columnaX', 'columnaY', 'columnaObservada', 'columnaPredicha', 'columnaTiempo']
                 .forEach(k => addCol(hyp[k]));
             ['columnas', 'columnasX', 'numericCols'].forEach(k => { if (Array.isArray(hyp[k])) hyp[k].forEach(addCol); });
-            const series = cols.map(c => getNumericValues(data, c)).filter(v => v && v.length);
+            // Ignorar columnas configuradas que ya no existen (config de otro dataset).
+            const series = cols
+                .filter(c => data.headers.indexOf(c) !== -1)
+                .map(c => Stats.getNumericValues(data, c))
+                .filter(v => v && v.length);
             const todos = series.flat();
 
             // ── Umbrales de n genéricos ──
@@ -1009,7 +1016,10 @@ resultados['Límites de Cuantificación'] = { error: 'Configuración no encontra
                      case 'Factor de Letalidad (F0)':
                         resultados['Factor de Letalidad (F0)'] = {};
                         var f0Cfg = hypothesisConfig['Factor de Letalidad (F0)'] || {};
-                        var f0Cols = f0Cfg.columnas && f0Cfg.columnas.length ? f0Cfg.columnas : numericCols;
+                        // Config persistida de otro dataset: si sus columnas ya no
+                        // existen se ignora y se vuelve a la detección automática.
+                        var f0Wanted = (f0Cfg.columnas || []).filter(function(c) { return data.headers.indexOf(c) !== -1; });
+                        var f0Cols = f0Wanted.length ? f0Wanted : numericCols;
                         if (!f0Cols.length) break;
                         var f0Opts = {};
                         if (f0Cfg.delta_t) f0Opts.delta_t = parseFloat(f0Cfg.delta_t);
@@ -1018,9 +1028,11 @@ resultados['Límites de Cuantificación'] = { error: 'Configuración no encontra
                         if (f0Cfg.umbral_F0) f0Opts.umbral_F0 = parseFloat(f0Cfg.umbral_F0);
                         if (f0Cfg.umbral_F0_min) f0Opts.umbral_F0_min = parseFloat(f0Cfg.umbral_F0_min);
                         f0Cols.forEach(function(col) {
-                            var f0Values = getNumericValues(data, col);
+                            var f0Values = Stats.getNumericValues(data, col);
                             if (f0Values.length < 2) {
-                                resultados['Factor de Letalidad (F0)'][col] = { error: 'Se necesitan al menos 2 lecturas de temperatura' };
+                                // En automático se omite (p. ej. una columna de IDs);
+                                // si el usuario la eligió, se avisa.
+                                if (f0Wanted.length) resultados['Factor de Letalidad (F0)'][col] = { error: 'Se necesitan al menos 2 lecturas de temperatura' };
                             } else {
                                 resultados['Factor de Letalidad (F0)'][col] = calcularFactorLetalidad(f0Values, f0Opts);
                             }
@@ -1030,16 +1042,17 @@ resultados['Límites de Cuantificación'] = { error: 'Configuración no encontra
                      case 'MKT (Mean Kinetic Temperature)':
                         resultados['MKT (Mean Kinetic Temperature)'] = {};
                         var mktCfg = hypothesisConfig['MKT (Mean Kinetic Temperature)'] || {};
-                        var mktCols = mktCfg.columnas && mktCfg.columnas.length ? mktCfg.columnas : numericCols;
+                        var mktWanted = (mktCfg.columnas || []).filter(function(c) { return data.headers.indexOf(c) !== -1; });
+                        var mktCols = mktWanted.length ? mktWanted : numericCols;
                         if (!mktCols.length) break;
                         var mktOpts = {};
                         if (mktCfg.delta_HR) mktOpts.delta_HR = parseFloat(mktCfg.delta_HR);
                         if (mktCfg.limite_max != null) mktOpts.limite_max = parseFloat(mktCfg.limite_max);
                         if (mktCfg.limite_min != null) mktOpts.limite_min = parseFloat(mktCfg.limite_min);
                         mktCols.forEach(function(col) {
-                            var mktValues = getNumericValues(data, col);
+                            var mktValues = Stats.getNumericValues(data, col);
                             if (mktValues.length < 2) {
-                                resultados['MKT (Mean Kinetic Temperature)'][col] = { error: 'Se necesitan al menos 2 lecturas de temperatura' };
+                                if (mktWanted.length) resultados['MKT (Mean Kinetic Temperature)'][col] = { error: 'Se necesitan al menos 2 lecturas de temperatura' };
                             } else {
                                 resultados['MKT (Mean Kinetic Temperature)'][col] = calcularMKT(mktValues, mktOpts);
                             }
