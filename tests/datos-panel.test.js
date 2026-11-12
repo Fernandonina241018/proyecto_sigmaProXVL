@@ -60,6 +60,8 @@ function loadDatosHarness() {
     trabajoPage: 0,
     datosFilteredRows: [],
     _persistAllData: () => {},
+    // Invariante definida en indexx-globals.js; el test de normalización la cubre aparte.
+    _normalizeDataset: (h, r) => ({ headers: (h || []).slice(), rows: (r || []).slice() }),
     datosCurrentData: null,
     datosCurrentFileName: '',
     datosRecentFiles: [],
