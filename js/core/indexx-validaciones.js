@@ -190,44 +190,6 @@ const Validaciones = (() => {
       },
       ..._protocolo,
       {
-        k: 'tipoCalificacion',
-        label: 'Tipo de calificación',
-        tipo: 'select',
-        req: true,
-        opciones: [
-          'Calificación inicial',
-          'Recalificación',
-          'Calificación posterior a modificación',
-          'Calificación posterior a traslado'
-        ]
-      },
-      {
-        k: 'estudio',
-        label: 'Tipo de estudio',
-        tipo: 'select',
-        req: true,
-        opciones: [
-          'Distribución de temperatura',
-          'Distribución de temperatura y humedad',
-          'Mapeo térmico',
-          'Mapeo térmico bajo carga',
-          'Mapeo térmico sin carga'
-        ]
-      },
-      {
-        k: 'condicionEstudio',
-        label: 'Condición del estudio',
-        tipo: 'select',
-        req: true,
-        opciones: [
-          'Sin carga',
-          'Carga mínima',
-          'Carga normal',
-          'Carga máxima',
-          'Carga representativa'
-        ]
-      },
-      {
         k: 'duracionEstudio',
         label: 'Duración del estudio',
         tipo: 'text',
@@ -253,16 +215,11 @@ const Validaciones = (() => {
     estabilidad: [
       ..._ident,
       ..._fabricante,
-      { k: 'serie', label: 'Serie', tipo: 'text', req: false },
-      { k: 'setpoint', label: 'Setpoint T°/HR', tipo: 'text', req: true },
-      { k: 'camara', label: 'Cámara', tipo: 'text', req: true },
-      { k: 'norma', label: 'Norma', tipo: 'select', req: true, opciones: ['ICH Q1A', 'Otra'] },
       ..._protocolo,
     ],
     equipos: [
       ..._ident,
       ..._fabricante,
-      { k: 'serie', label: 'Serie', tipo: 'text', req: false },
       ..._protocolo,
     ],
     sistemas: [
@@ -273,9 +230,6 @@ const Validaciones = (() => {
     ],
     software: [
       { k: 'descripcion', label: 'Descripción', tipo: 'text', req: true },
-      { k: 'version', label: 'Versión / build', tipo: 'text', req: true },
-      { k: 'modulos', label: 'Módulos en alcance', tipo: 'text', req: true },
-      { k: 'gamp', label: 'Categoría GAMP 5', tipo: 'select', req: true, opciones: ['1', '3', '4', '5'] },
     ],
   };
 
@@ -868,8 +822,6 @@ const Validaciones = (() => {
 
   function firmantesHtml() {
     return '<fieldset class="v7-fs"><legend>Firmantes</legend><div class="v7-grid">'
-      + '<label class="v7-field" data-f="realizadoPor"><span>Realizado por (automático) <b>*</b></span>'
-      + '<input type="text" data-k="realizadoPor" data-req="1" readonly placeholder="Cargando usuario…"></label>'
       + '<label class="v7-field" data-f="revisorGerente"><span>Revisor Gerente · nombre <b>*</b></span>'
       + '<select data-k="revisorGerente" data-req="1"><option value="">— Seleccione —</option></select></label>'
       + '<label class="v7-field" data-f="gerenciaArea"><span>Revisor Gerente · gerencia que revisa <b>*</b></span>'
@@ -1317,6 +1269,7 @@ const Validaciones = (() => {
     if (tmin != null && tmax != null && tmin >= tmax) errores.push('La temperatura mínima debe ser menor que la máxima');
     const hmin = num('humedadMin');
     const hmax = num('humedadMax');
+    if ((hmin == null) !== (hmax == null)) errores.push('Complete ambos extremos de humedad o deje los dos vacíos');
     if (hmin != null && hmax != null && hmin > hmax) errores.push('La humedad mínima no puede ser mayor que la máxima');
     return errores;
   }
