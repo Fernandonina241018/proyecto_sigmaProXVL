@@ -165,7 +165,11 @@ describe('Validaciones V7', () => {
 
   test('sistemas: esquema trae código y ubicación (blindaje de generar)', () => {
     const ks = Validaciones.getSchema('sistemas').map((f) => f.k);
-    ['descripcion', 'marca', 'modelo', 'sistema', 'codigo', 'ubicacion', 'ursCodigo', 'riesgoCodigo'].forEach((k) => expect(ks).toContain(k));
+    ['descripcion', 'marca', 'modelo', 'codigo', 'ubicacion', 'ursCodigo', 'riesgoCodigo'].forEach((k) => expect(ks).toContain(k));
+    // El sistema ya se eligió como entidad en el paso 1; el select duplicado
+    // y los setpoints sin uso se retiraron.
+    expect(ks).not.toContain('sistema');
+    expect(ks).not.toContain('setpoints');
     expect(new Set(ks).size).toBe(ks.length);
   });
 

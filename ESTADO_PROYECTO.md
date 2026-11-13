@@ -90,6 +90,32 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (StatAnalyzer Pro) co
 
 ## CAMBIOS RECIENTES
 
+### 2026-11-12 (275): Validaciones — esquema de Sistemas sin redundancias
+
+**Qué:** se limpió el esquema del formulario de Sistemas y se deduplicó la definición de campos entre categorías.
+
+- **Se quitó `sistema` (select):** duplicaba la entidad elegida en el paso 1 (`ENTIDADES.sistemas`) y su valor no se usaba al generar.
+- **Se quitó `setpoints`:** no se consumía en ningún documento (el banco de sistemas no tiene `rango` ni parámetros `LIMITES`).
+- **Etiquetas:** `ubicacion` → “Ubicación física”; `area` → “Área usuaria” para distinguir ubicación de área atendida.
+- **Bloques compartidos** en `SCHEMAS`: `_ident` (descripción/código/ubicación), `_fabricante` (marca/modelo) y `_protocolo` (control de cambios/versión). Antes estaban copiados hasta 5 veces.
+- Sin cambios en el orden de los pasos ni en la generación de documentos.
+
+**Archivos afectados:**
+| Archivo | Cambio |
+|---------|--------|
+| `js/core/indexx-validaciones.js` | Bloques compartidos y limpieza del esquema de Sistemas |
+| `tests/validaciones-panel.test.js` | Espera sin `sistema`/`setpoints` y verifica duplicados |
+| `ESTADO_PROYECTO.md` | Este registro |
+
+**Verificación:**
+```
+node --check → OK
+Vitest validaciones-panel → 46 tests OK
+Vitest completo → 1139 tests OK
+Preflight + E2E → 14 tests OK
+Captura claro/oscuro: formulario de Sistemas sin select duplicado ni setpoints
+```
+
 ### 2026-11-11 (274): Análisis — F0/MKT toleran configuración de otro dataset
 
 **Qué:** el análisis grupal de F0 (y MKT) ya no falla cuando la configuración guardada apunta a columnas que no existen en el dataset actual.

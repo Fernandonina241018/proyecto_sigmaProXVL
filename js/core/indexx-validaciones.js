@@ -93,6 +93,22 @@ const Validaciones = (() => {
     ],
   };
 
+  // Bloques de campos compartidos: una sola definición evita que las
+  // categorías se desincronicen (antes estaban copiados hasta 5 veces).
+  const _ident = [
+    { k: 'descripcion', label: 'Descripción', tipo: 'text', req: true },
+    { k: 'codigo', label: 'Código', tipo: 'text', req: true },
+    { k: 'ubicacion', label: 'Ubicación física', tipo: 'text', req: true },
+  ];
+  const _fabricante = [
+    { k: 'marca', label: 'Marca', tipo: 'text', req: true },
+    { k: 'modelo', label: 'Modelo', tipo: 'text', req: true },
+  ];
+  const _protocolo = [
+    { k: 'controlCambios', label: 'Control de cambios #', tipo: 'text', req: false },
+    { k: 'versionProtocolo', label: 'Versión del protocolo', tipo: 'text', req: false },
+  ];
+
   // Plantilla adaptativa: comunes + específicos por categoría.
   // tipo: text | select | date. req: obligatorio.
   const SCHEMAS = {
@@ -127,24 +143,7 @@ const Validaciones = (() => {
         req: false },
     ],
     almacenes: [
-      {
-        k: 'codigo',
-        label: 'Código',
-        tipo: 'text',
-        req: true
-      },
-      {
-        k: 'descripcion',
-        label: 'Descripción',
-        tipo: 'text',
-        req: true
-      },
-      {
-        k: 'ubicacion',
-        label: 'Ubicación',
-        tipo: 'text',
-        req: true
-      },
+      ..._ident,
       {
         k: 'tipo',
         label: 'Tipo de almacén',
@@ -189,18 +188,7 @@ const Validaciones = (() => {
         min: 0,
         max: 100
       },
-      {
-        k: 'controlCambios',
-        label: 'Control de cambios #',
-        tipo: 'text',
-        req: false
-      },
-      {
-        k: 'versionProtocolo',
-        label: 'Versión del protocolo',
-        tipo: 'text',
-        req: false
-      },
+      ..._protocolo,
       {
         k: 'tipoCalificacion',
         label: 'Tipo de calificación',
@@ -263,39 +251,25 @@ const Validaciones = (() => {
     ],
     
     estabilidad: [
-      { k: 'descripcion', label: 'Descripción', tipo: 'text', req: true },
-      { k: 'marca', label: 'Marca', tipo: 'text', req: true },
-      { k: 'modelo', label: 'Modelo', tipo: 'text', req: true },
+      ..._ident,
+      ..._fabricante,
       { k: 'serie', label: 'Serie', tipo: 'text', req: false },
-      { k: 'codigo', label: 'Código', tipo: 'text', req: true },
-      { k: 'ubicacion', label: 'Ubicación', tipo: 'text', req: true },
       { k: 'setpoint', label: 'Setpoint T°/HR', tipo: 'text', req: true },
       { k: 'camara', label: 'Cámara', tipo: 'text', req: true },
       { k: 'norma', label: 'Norma', tipo: 'select', req: true, opciones: ['ICH Q1A', 'Otra'] },
-      { k: 'controlCambios', label: 'Control de cambios #', tipo: 'text', req: false },
-      { k: 'versionProtocolo', label: 'Versión del protocolo', tipo: 'text', req: false },
+      ..._protocolo,
     ],
     equipos: [
-      { k: 'descripcion', label: 'Descripción', tipo: 'text', req: true },
-      { k: 'marca', label: 'Marca', tipo: 'text', req: true },
-      { k: 'modelo', label: 'Modelo', tipo: 'text', req: true },
+      ..._ident,
+      ..._fabricante,
       { k: 'serie', label: 'Serie', tipo: 'text', req: false },
-      { k: 'codigo', label: 'Código', tipo: 'text', req: true },
-      { k: 'ubicacion', label: 'Ubicación', tipo: 'text', req: true },
-      { k: 'controlCambios', label: 'Control de cambios #', tipo: 'text', req: false },
-      { k: 'versionProtocolo', label: 'Versión del protocolo', tipo: 'text', req: false },
+      ..._protocolo,
     ],
     sistemas: [
-      { k: 'descripcion', label: 'Descripción', tipo: 'text', req: true },
-      { k: 'marca', label: 'Marca', tipo: 'text', req: true },
-      { k: 'modelo', label: 'Modelo', tipo: 'text', req: true },
-      { k: 'sistema', label: 'Sistema', tipo: 'select', req: true, opciones: ['HVAC', 'Agua purificada', 'Vapor limpio', 'Aire comprimido'] },
-      { k: 'codigo', label: 'Código', tipo: 'text', req: true },
-      { k: 'ubicacion', label: 'Ubicación', tipo: 'text', req: true },
-      { k: 'area', label: 'Área que atiende', tipo: 'text', req: true },
-      { k: 'setpoints', label: 'Setpoints', tipo: 'text', req: true },
-      { k: 'controlCambios', label: 'Control de cambios #', tipo: 'text', req: false },
-      { k: 'versionProtocolo', label: 'Versión del protocolo', tipo: 'text', req: false },
+      ..._ident,
+      ..._fabricante,
+      { k: 'area', label: 'Área usuaria', tipo: 'text', req: true },
+      ..._protocolo,
     ],
     software: [
       { k: 'descripcion', label: 'Descripción', tipo: 'text', req: true },
