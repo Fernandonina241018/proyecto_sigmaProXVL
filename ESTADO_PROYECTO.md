@@ -90,6 +90,35 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (StatAnalyzer Pro) co
 
 ## CAMBIOS RECIENTES
 
+### 2026-11-12 (276): Validaciones — limpieza de esquemas y validación de humedad
+
+**Qué:** se retiraron campos que nunca llegaban al documento y se completó la validación de rangos.
+
+- **Almacenes:** fuera `tipoCalificacion`, `estudio` y `condicionEstudio` (solo los usaba el generador legacy, inalcanzable con `PlantillaDocx`).
+- **Estabilidad:** fuera `setpoint`, `camara`, `norma` y `serie` (0 apariciones en la generación).
+- **Equipos:** fuera `serie`.
+- **Software:** fuera `version`, `modulos` y `gamp` (no se imprimían).
+- **Firmantes:** se quitó “Realizado por (automático)”, que duplicaba “Responsable (automático)” del bloque común.
+- **Validación:** la humedad exige ambos extremos o ninguno; se mantiene min < max y la temperatura mínima < máxima.
+
+Los borradores existentes conservan esos valores en el JSON; dejan de mostrarse.
+
+**Archivos afectados:**
+| Archivo | Cambio |
+|---------|--------|
+| `js/core/indexx-validaciones.js` | Esquemas depurados, firmantes y validación de humedad |
+| `tests/validaciones-panel.test.js` | Campos retirados y caso de humedad incompleta |
+| `ESTADO_PROYECTO.md` | Este registro |
+
+**Verificación:**
+```
+node --check → OK
+Vitest validaciones-panel → 46 tests OK
+Vitest completo → 1139 tests OK
+Preflight + E2E → 14 tests OK
+Navegador: campos renderizados por categoría y error de humedad incompleta
+```
+
 ### 2026-11-12 (275): Validaciones — esquema de Sistemas sin redundancias
 
 **Qué:** se limpió el esquema del formulario de Sistemas y se deduplicó la definición de campos entre categorías.

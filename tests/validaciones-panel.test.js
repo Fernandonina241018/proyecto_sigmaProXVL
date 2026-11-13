@@ -185,7 +185,9 @@ describe('Validaciones V7', () => {
     expect(new Set(alm).size).toBe(alm.length);
     // estabilidad: mismos campos de identificación que equipos (portada/encabezado completos)
     const est = Validaciones.getSchema('estabilidad').map((f) => f.k);
-    for (const k of ['codigo', 'descripcion', 'marca', 'modelo', 'ubicacion', 'setpoint', 'camara', 'norma', 'controlCambios', 'versionProtocolo']) expect(est).toContain(k);
+    for (const k of ['codigo', 'descripcion', 'marca', 'modelo', 'ubicacion', 'controlCambios', 'versionProtocolo']) expect(est).toContain(k);
+    // Campos que nunca llegaban al documento se retiraron del formulario.
+    for (const k of ['setpoint', 'camara', 'norma', 'serie']) expect(est).not.toContain(k);
     // campos numéricos reales: deben renderizar como <input type="number">
     const src2 = readFileSync(join(core, 'indexx-validaciones.js'), 'utf-8');
     expect(src2).toContain("f.tipo === 'number'");
@@ -325,10 +327,10 @@ describe('Validaciones V7', () => {
     expect(Validaciones.areaDesdeCargo('')).toBe('');
     expect(Validaciones.AREAS_GERENCIA.length).toBeGreaterThan(3);
     const h = Validaciones.firmantesHtml();
-    expect(h).toContain('data-k="realizadoPor"');
+    // "Realizado por" duplicaba el Responsable automático del bloque común.
+    expect(h).not.toContain('data-k="realizadoPor"');
     expect(h).toContain('data-k="revisorGerente"');
     expect(h).toContain('data-k="gerenciaArea"');
-    expect(h).toContain('readonly');
   });
 
   test('selección de protocolos persiste por entidad', () => {
@@ -369,6 +371,11 @@ describe('Validaciones V7', () => {
     expect(malo.join(' | ')).toMatch('temperatura mínima debe ser menor');
     expect(malo.join(' | ')).toMatch('humedad mínima no puede ser mayor');
     expect(malo.join(' | ')).toMatch('entero');
+    // Humedad: ambos extremos o ninguno.
+    const unaHumedad = Validaciones.validarDatos(schema, {
+      codigo: 'ALM-01', fecha: '2026-11-07', temperaturaMin: '2', temperaturaMax: '8', humedadMin: '40',
+    });
+    expect(unaHumedad.join(' | ')).toMatch('ambos extremos de humedad');
     expect(Validaciones.validarDatos(schema, null).length).toBeGreaterThan(0);
   });
 
