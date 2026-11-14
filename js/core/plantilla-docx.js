@@ -718,22 +718,28 @@ const PlantillaDocx = (() => {
       + '<w:r>' + rpr(false) + '<w:fldChar w:fldCharType="separate" /></w:r>'
       + '<w:r>' + rpr(false) + '<w:t>#</w:t></w:r>'
       + '<w:r>' + rpr(false) + '<w:fldChar w:fldCharType="end" /></w:r></w:p>';
+    const tcb = '<w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="000000" />'
+      + '<w:left w:val="single" w:sz="4" w:space="0" w:color="000000" />'
+      + '<w:bottom w:val="single" w:sz="4" w:space="0" w:color="000000" />'
+      + '<w:right w:val="single" w:sz="4" w:space="0" w:color="000000" /></w:tcBorders>';
     const cell = (w, content, shade) => '<w:tc><w:tcPr><w:tcW w:w="' + w + '" w:type="dxa" />'
-      + (shade ? '<w:shd w:val="clear" w:color="auto" w:fill="F2F2F2" />' : '') + '<w:vAlign w:val="center" /></w:tcPr>' + content + '</w:tc>';
-    const rows = entries.map((e, i) => '<w:tr><w:trPr><w:cantSplit /></w:trPr>'
+      + tcb + (shade ? '<w:shd w:val="clear" w:color="auto" w:fill="F2F2F2" />' : '')
+      + '<w:vAlign w:val="center" /></w:tcPr>' + content + '</w:tc>';
+    const rows = entries.map((e, i) => '<w:tr><w:trPr><w:cantSplit /><w:trHeight w:val="476" /></w:trPr>'
       + cell(1100, textP(e.num, 'left', e.level === 1))
-      + cell(7060, textP(e.title, 'left', e.level === 1))
+      + cell(8410, textP(e.title, 'left', e.level === 1))
       + cell(1200, pageP('_SigmaToc' + (i + 1)))
       + '</w:tr>').join('');
-    return '<w:tbl><w:tblPr><w:tblW w:w="9360" w:type="dxa" /><w:tblInd w:w="0" w:type="dxa" />'
+    return '<w:tbl><w:tblPr><w:tblW w:w="10710" w:type="dxa" /><w:tblInd w:w="-661" w:type="dxa" />'
       + '<w:tblBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="BFBFBF" />'
       + '<w:bottom w:val="single" w:sz="4" w:space="0" w:color="BFBFBF" />'
       + '<w:insideH w:val="single" w:sz="4" w:space="0" w:color="D9D9D9" /></w:tblBorders>'
-      + '<w:tblLayout w:type="fixed" /></w:tblPr>'
-      + '<w:tblGrid><w:gridCol w:w="1100" /><w:gridCol w:w="7060" /><w:gridCol w:w="1200" /></w:tblGrid>'
-      + '<w:tr><w:trPr><w:tblHeader /></w:trPr>'
+      + '<w:tblLayout w:type="fixed" />'
+      + '<w:tblLook w:val="04A0" w:firstRow="1" w:lastRow="0" w:firstColumn="1" w:lastColumn="0" w:noHBand="0" w:noVBand="1" /></w:tblPr>'
+      + '<w:tblGrid><w:gridCol w:w="1100" /><w:gridCol w:w="8410" /><w:gridCol w:w="1200" /></w:tblGrid>'
+      + '<w:tr><w:trPr><w:trHeight w:val="432" /><w:tblHeader /></w:trPr>'
       + cell(1100, textP('ACÁPITE', 'center', true), true)
-      + cell(7060, textP('DESCRIPCIÓN', 'left', true), true)
+      + cell(8410, textP('DESCRIPCIÓN', 'left', true), true)
       + cell(1200, textP('PÁG.', 'right', true), true)
       + '</w:tr>' + rows + '</w:tbl>';
   }
