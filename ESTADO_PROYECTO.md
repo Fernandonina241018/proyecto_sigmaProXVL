@@ -90,6 +90,34 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (StatAnalyzer Pro) co
 
 ## CAMBIOS RECIENTES
 
+### 2026-11-13 (278): Plantilla DQ — índice TOC automático y sin hoja en blanco
+
+**Qué:** el DQ deja de tener un índice estático y usa un campo TOC de Word que se actualiza al abrir el documento.
+
+- Se reemplazó la tabla “ACÁPITE / DESCRIPCIÓN / PÁG.” por un campo `TOC \o "1-2" \h \z \u` y se activó `updateFields` en `settings.xml` (Word lo actualiza al abrir; F9 también).
+- Se normalizaron 9 párrafos de cuerpo que estaban con estilo Heading 1/2 (firmantes, objetivo, alcance, responsabilidades, referencia europea): ahora son Normales, así el TOC solo lista secciones reales.
+- Se quitó `keepNext` al primer H2 del procedimiento (7.1) para que no se empuje solo a la página siguiente y deje una hoja casi vacía entre 7 y 7.1.
+- `generarDQScaffold` agrega `updateFields` si la plantilla no lo trae.
+- IQ/OQ/PQ no cambian: ya reconstruyen el índice con PAGEREF y actualizan campos.
+
+**Archivos afectados:**
+| Archivo | Cambio |
+|---------|--------|
+| `docs/plantillas/DQ-1-400AAAA.docx` | Campo TOC, estilos normalizados y keepNext del 7.1 |
+| `js/core/plantilla-docx.js` | `updateFields` en el scaffold DQ |
+| `tests/dq-scaffold.test.js` | Índice TOC, sin tabla estática y updateFields |
+| `ESTADO_PROYECTO.md` | Este registro |
+
+**Verificación:**
+```
+unzip -t DQ → OK
+python-docx abre DQ → OK
+Vitest plantilla-docx + dq-scaffold → 59 tests OK
+Vitest completo → 1144 tests OK
+Preflight + E2E → 14 tests OK
+DQ generado: campo TOC, updateFields, sin USP/Deinicion
+```
+
 ### 2026-11-13 (277): Plantillas — adecuación tras quitar “Definición USP”
 
 **Qué:** se alineó el sistema con las plantillas DQ/IQ/OQ/PQ actualizadas (sin la sección “Definición USP”).
