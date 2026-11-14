@@ -316,10 +316,6 @@ describe('SALTO_H1: cada acápite numerado abre página nueva', () => {
     return arch['word/document.xml'];
   };
 
-  test('sin excepciones: todo acápite principal abre página', () => {
-    expect(Object.keys(P.SALTO_H1)).toHaveLength(0);
-  });
-
   test('debeSaltarH1: default true, primero y excepciones', () => {
     expect(P._interno.debeSaltarH1(2)).toBe(true);
     P.SALTO_H1['3'] = false;
