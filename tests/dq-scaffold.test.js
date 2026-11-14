@@ -100,6 +100,7 @@ describe('DQ scaffold desde plantilla', () => {
     expect(toc).toContain('w:tblW w:w="10710"');
     expect(toc).toContain('w:tcBorders');
     expect(toc).toContain('w:trHeight w:val="476"');
+    expect(toc).toContain('w:jc w:val="center"');
   });
 
   it('no incorpora contenido de almacén', () => {

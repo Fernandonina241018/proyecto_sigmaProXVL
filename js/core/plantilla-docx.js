@@ -712,7 +712,7 @@ const PlantillaDocx = (() => {
     const ppr = (align, bold) => '<w:pPr><w:spacing w:after="' + after + '" w:line="240" w:lineRule="auto" />'
       + (align ? '<w:jc w:val="' + align + '" />' : '') + rpr(bold) + '</w:pPr>';
     const textP = (text, align, bold) => '<w:p>' + ppr(align, bold) + '<w:r>' + rpr(bold) + '<w:t xml:space="preserve">' + esc(text) + '</w:t></w:r></w:p>';
-    const pageP = (bm) => '<w:p>' + ppr('right', false)
+    const pageP = (bm) => '<w:p>' + ppr('center', false)
       + '<w:r>' + rpr(false) + '<w:fldChar w:fldCharType="begin" /></w:r>'
       + '<w:r>' + rpr(false) + '<w:instrText xml:space="preserve"> PAGEREF ' + bm + ' \\h </w:instrText></w:r>'
       + '<w:r>' + rpr(false) + '<w:fldChar w:fldCharType="separate" /></w:r>'
@@ -726,7 +726,7 @@ const PlantillaDocx = (() => {
       + tcb + (shade ? '<w:shd w:val="clear" w:color="auto" w:fill="F2F2F2" />' : '')
       + '<w:vAlign w:val="center" /></w:tcPr>' + content + '</w:tc>';
     const rows = entries.map((e, i) => '<w:tr><w:trPr><w:cantSplit /><w:trHeight w:val="476" /></w:trPr>'
-      + cell(1100, textP(e.num, 'left', e.level === 1))
+      + cell(1100, textP(e.num, 'center', e.level === 1))
       + cell(8410, textP(e.title, 'left', e.level === 1))
       + cell(1200, pageP('_SigmaToc' + (i + 1)))
       + '</w:tr>').join('');
@@ -740,7 +740,7 @@ const PlantillaDocx = (() => {
       + '<w:tr><w:trPr><w:trHeight w:val="432" /><w:tblHeader /></w:trPr>'
       + cell(1100, textP('ACÁPITE', 'center', true), true)
       + cell(8410, textP('DESCRIPCIÓN', 'left', true), true)
-      + cell(1200, textP('PÁG.', 'right', true), true)
+      + cell(1200, textP('PÁG.', 'center', true), true)
       + '</w:tr>' + rows + '</w:tbl>';
   }
 

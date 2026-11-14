@@ -90,6 +90,28 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (StatAnalyzer Pro) co
 
 ## CAMBIOS RECIENTES
 
+### 2026-11-14 (285): DQ — columnas Acápite y Pág. centradas
+
+**Qué:** el índice del DQ iguala la alineación del ejemplo aprobado.
+
+- Encabezados: ACÁPITE centrado, DESCRIPCIÓN a la izquierda, PÁG. centrado.
+- Filas: número y página centrados; descripción a la izquierda.
+- Se mantienen ancho 10710/-661, bordes, alto de fila y `tblHeader`.
+
+**Archivos afectados:**
+| Archivo | Cambio |
+|---------|--------|
+| `js/core/plantilla-docx.js` | Alineación de número y página al centro |
+| `tests/dq-scaffold.test.js` | Comprueba alineación centrada |
+| `ESTADO_PROYECTO.md` | Este registro |
+
+**Verificación:**
+```
+DQ generado: celdas [center, left, center] en encabezado y datos
+Vitest dq-scaffold + plantilla-docx → 60 tests OK
+Preflight + E2E → 14 tests OK
+```
+
 ### 2026-11-14 (284): Login — “Último cambio” desde version.json
 
 **Qué:** la tarjeta de información del login deja de mostrar notas fijas y toma el mensaje del commit desplegado.
