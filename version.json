@@ -1,1 +1,1 @@
-{"v":"7177bd2","t":"2026-11-14T17:26:35Z","m":"fix(version): bullets limpios en el ultimo cambio (#228)","b":["Filtra los asuntos de commit del cuerpo y muestra hasta 6 detalles."]}
+{"v":"ad108bf","t":"2026-11-14T17:37:15Z","m":"fix(plantilla-dq): centrar columnas de acapite y pagina (#230)","b":["Iguala la alineacion del ejemplo: numero y pagina centrados, descripcion a la izquierda."]}
