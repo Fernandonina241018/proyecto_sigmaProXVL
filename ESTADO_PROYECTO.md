@@ -90,6 +90,31 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (StatAnalyzer Pro) co
 
 ## CAMBIOS RECIENTES
 
+### 2026-11-14 (288): OQ — requisitos previos completos en la plantilla
+
+**Qué:** se completó la Tabla 6.1-1 de requisitos previos de OQ con las 8 filas que faltaban.
+
+- Se conservaron las filas 1–2 cargadas (“Calificación de Instalación”, “Informe de IQ”).
+- Filas 3–10: URS, análisis de riesgo, manual del fabricante, instrumentos calibrados, utilidades, personal capacitado, desviaciones abiertas y controles de cambio abiertos.
+- Se mantiene el 7.1 duplicado (“Evaluación de requisitos previos…”) por decisión del usuario.
+- Se incluyó la modificación local de `OQ-1-400AAAA.docx`.
+- No se tocó el motor: la tabla de la plantilla se conserva al generar (verificado).
+
+**Archivos afectados:**
+| Archivo | Cambio |
+|---------|--------|
+| `docs/plantillas/OQ-1-400AAAA.docx` | Filas 3–10 de la Tabla 6.1-1 completadas |
+| `ESTADO_PROYECTO.md` | Este registro |
+
+**Verificación:**
+```
+OQ generado: Tabla 6.1-1 con 10 filas de datos
+7.1 duplicado conservado (índice y cuerpo)
+Vitest plantilla-docx + banco-estabilidad → 66 tests OK
+Vitest completo → 1152 tests OK
+Preflight + E2E → 14 tests OK
+```
+
 ### 2026-11-14 (287): IQ/PQ — 7 y 7.1 unidos como en OQ/DQ
 
 **Qué:** el primer ensayo del procedimiento ya no fuerza salto de página, así el acápite 7 y su 7.1 quedan juntos.
