@@ -40,13 +40,13 @@ function gitInfo(ref) {
   try {
     const s = execFileSync('git', ['log', '-1', '--pretty=%s', ref], { cwd: ROOT }).toString().trim();
     const b = execFileSync('git', ['log', '-1', '--pretty=%b', ref], { cwd: ROOT }).toString().trim();
-    // shortcut: hasta 5 líneas del cuerpo; el resto queda en el commit.
+    // shortcut: hasta 6 líneas del cuerpo; el resto queda en el commit.
     const items = b.replace(/\\n/g, '\n').split(/\r?\n/)
       .map((x) => x.trim())
       .filter((x) => x && !/^#/.test(x) && !/^```/.test(x) && !/^co-authored-by/i.test(x))
       .map((x) => x.replace(/^[-*]\s*/, '').replace(/`/g, '').trim())
-      .filter(Boolean)
-      .slice(0, 5);
+      .filter((x) => x && !/^[a-z][a-z0-9-]*(\([^)]+\))?:\s/i.test(x))
+      .slice(0, 6);
     return { m: s, b: items };
   } catch (e) {
     return { m: '', b: [] };
