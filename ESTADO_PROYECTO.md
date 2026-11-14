@@ -90,6 +90,33 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (StatAnalyzer Pro) co
 
 ## CAMBIOS RECIENTES
 
+### 2026-11-14 (282): DQ — índice generado, adaptativo y con otro diseño
+
+**Qué:** el DQ deja el campo TOC de Word y pasa a una tabla generada por el código, con diseño controlado y adaptación al tamaño del índice.
+
+- **Diseño:** tabla ACÁPITE / DESCRIPCIÓN / PÁG., encabezado gris que se repite al cortar página, H1 en negrita, H2 regular, sin sangría, página alineada a la derecha.
+- **Títulos:** en caja alta/baja solo en el índice (“Objetivo”), sin tocar los del cuerpo.
+- **Adaptativo:** hasta 15 entradas 10,5 pt; hasta 30, 10 pt; más de 30, 9,5 pt y filas más ajustadas.
+- **Páginas:** bookmarks automáticos + campos `PAGEREF`; `updateFields` hace que Word las actualice al abrir.
+- **Borrado:** se eliminó el campo `TOC \o "1-2"` del DQ generado.
+- IQ/OQ/PQ no cambian (su índice ya es generado).
+
+**Archivos afectados:**
+| Archivo | Cambio |
+|---------|--------|
+| `js/core/plantilla-docx.js` | Generador de tabla TOC para DQ, bookmarks y PAGEREF |
+| `tests/dq-scaffold.test.js` | Tabla, PAGEREF, encabezado repetible y tamaño adaptativo |
+| `ESTADO_PROYECTO.md` | Este registro |
+
+**Verificación:**
+```
+node --check → OK
+DQ generado: XML válido, 23 entradas, 23 PAGEREF, sin campo TOC
+Vitest dq-scaffold + plantilla-docx → 60 tests OK
+Vitest completo → 1145 tests OK
+Preflight + E2E → 14 tests OK
+```
+
 ### 2026-11-14 (281): Plantillas — saltos selectivos: 3/4/5 comparten página
 
 **Qué:** se corrigió el layout: el acápite 1 arranca en la página 2 y los acápites cortos 3, 4 y 5 comparten página.
