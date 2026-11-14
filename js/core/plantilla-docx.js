@@ -968,6 +968,8 @@ const PlantillaDocx = (() => {
       if (inf[i].estilo === 'Heading2' && inf[i].numId) {
         if (subs.length) subs[subs.length - 1].fin = i;
         const t = sinEsp(inf[i].texto).toUpperCase();
+        // Las plantillas actuales ya no traen "Definición USP"; el tipo se conserva
+        // para modelos históricos (si no, esa sección se trataría como ensayo).
         const tipo = /^DEFINICI[ÓO]NUSP/.test(t) ? 'usp'
           : /REQUISITOSPREVIO/.test(t) ? 'req'
             : /^RESUMEN/.test(t) ? 'resumen' : 'ensayo';

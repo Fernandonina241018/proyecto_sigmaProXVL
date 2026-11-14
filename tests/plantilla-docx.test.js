@@ -202,6 +202,13 @@ describe('firmantes T0/T2 dinámicos, T1/T3 fijos, header negro', () => {
     expect(doc).not.toContain('Gerente de Área)');
   });
 
+  it('no incluye la sección Definición USP (eliminada de las plantillas)', async () => {
+    await prep();
+    const doc = arch['word/document.xml'];
+    expect(doc).not.toContain('Definición USP');
+    expect(doc).not.toContain('DEFINICIÓN USP');
+  });
+
   it('encabezado 100% negro', async () => {
     await prep();
     const hs = Object.keys(arch).filter((n) => /^word\/header\d+\.xml$/.test(n)).map((n) => arch[n]).join('');
