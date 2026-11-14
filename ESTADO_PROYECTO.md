@@ -90,6 +90,32 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (StatAnalyzer Pro) co
 
 ## CAMBIOS RECIENTES
 
+### 2026-11-14 (281): Plantillas — saltos selectivos: 3/4/5 comparten página
+
+**Qué:** se corrigió el layout: el acápite 1 arranca en la página 2 y los acápites cortos 3, 4 y 5 comparten página.
+
+- **DQ:** se quitó `pageBreakBefore` del estilo Heading 1 y se puso directo solo en: Firmas, Tabla de contenido, Objetivo, Descripción, Procedimiento, Registro de firmas y Referencias. Alcance, Responsabilidades, Anexos e Historial siguen en la página anterior.
+- **IQ/OQ/PQ:** se restauraron las excepciones de `SALTO_H1` para 4/5 (alcance y responsabilidades) y 10/11 (anexos e historial); el resto abre página.
+- El índice mantiene el diseño del registro 280 (Tahoma, compacto, sin mayúsculas forzadas).
+- Resultado esperado: portada en página 1; Firmas página 2; índice página 3; Objetivo, Alcance y Responsabilidades en la página 4.
+
+**Archivos afectados:**
+| Archivo | Cambio |
+|---------|--------|
+| `docs/plantillas/DQ-1-400AAAA.docx` | Saltos directos por acápite (sin salto global en H1) |
+| `js/core/plantilla-docx.js` | `SALTO_H1` con excepciones 4/5/10/11 |
+| `tests/dq-scaffold.test.js` | Comprueba qué acápites abren página |
+| `tests/plantilla-docx.test.js` | Excepciones restauradas |
+| `ESTADO_PROYECTO.md` | Este registro |
+
+**Verificación:**
+```
+unzip -t DQ → OK
+Vitest plantilla-docx + dq-scaffold → 60 tests OK
+Vitest completo → 1145 tests OK
+Preflight + E2E → 14 tests OK
+```
+
 ### 2026-11-14 (280): Plantillas — acápites principales y diseño del índice
 
 **Qué:** todo acápite principal abre página nueva, y el índice del DQ se rediseñó compacto y legible.

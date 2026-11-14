@@ -68,9 +68,17 @@ describe('DQ scaffold desde plantilla', () => {
     expect(doc).toContain('PROCEDIMIENTO DE CALIFICACIÓN');
   });
 
-  it('cada acápite principal abre página y el índice es compacto', () => {
+  it('acápites 1/2/3/6/7/8/9 abren página; 4/5/10/11 comparten', () => {
     const h1 = /<w:style\b[^>]*w:styleId="1143"[\s\S]*?<\/w:style>/.exec(styles)[0];
-    expect(h1).toContain('pageBreakBefore');
+    expect(h1).not.toContain('pageBreakBefore');
+    const paras = [...doc.matchAll(/<w:p\b[\s\S]*?<\/w:p>/g)].map((m) => m[0]);
+    const h1p = (txt) => paras.find((p) => p.includes('w:val="1143"') && p.replace(/<[^>]+>/g, ' ').includes(txt));
+    for (const t of ['FIRMA', 'TABLA DE CONTENIDO', 'OBJETIVO', 'PROCEDIMIENTO', 'REGISTRO DE FIRMAS', 'REFERENCIAS']) {
+      expect(h1p(t)).toContain('pageBreakBefore');
+    }
+    for (const t of ['ALCANCE', 'RESPONSABILIDADES', 'ANEXOS', 'HISTORIAL']) {
+      expect(h1p(t)).not.toContain('pageBreakBefore');
+    }
     const toc1 = /<w:style\b[^>]*w:styleId="1180"[\s\S]*?<\/w:style>/.exec(styles)[0];
     expect(toc1).toContain('Tahoma');
     expect(toc1).not.toContain('w:caps');
