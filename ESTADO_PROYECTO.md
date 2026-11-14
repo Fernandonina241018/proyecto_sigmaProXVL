@@ -90,6 +90,33 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (StatAnalyzer Pro) co
 
 ## CAMBIOS RECIENTES
 
+### 2026-11-13 (277): Plantillas — adecuación tras quitar “Definición USP”
+
+**Qué:** se alineó el sistema con las plantillas DQ/IQ/OQ/PQ actualizadas (sin la sección “Definición USP”).
+
+- **DQ:** se reconstruyó el bloque 7.x del índice. Se quitó la fila “7.1 Deinicion de USP”, se renumeró 7.1–7.9 y se agregaron las secciones que faltaban (“Diseño y consideraciones” y “Documentación”), que ya existían en el cuerpo.
+- **Generador:** la clasificación `usp` de `plantilla-docx.js` se conserva con comentario para modelos históricos; las plantillas actuales ya no la usan.
+- **IQ/OQ/PQ:** se revisaron los índices generados de las tres fases; se reconstruyen en cada generación y no contienen entradas “Definición USP”. OQ conserva solo la referencia legítima USP <1079.4>.
+- **Pruebas:** se agregó la regresión para IQ, OQ y PQ generados y para el scaffold DQ: sin “Definición USP” ni “Deinicion”.
+- Los bloques `def-usp` del banco de ensayos quedan como referencia documental; no se insertan en los protocolos (solo se procesan bloques 2 y 3).
+
+**Archivos afectados:**
+| Archivo | Cambio |
+|---------|--------|
+| `docs/plantillas/DQ-1-400AAAA.docx` | Índice 7.x corregido (sin USP) |
+| `js/core/plantilla-docx.js` | Comentario del tipo `usp` histórico |
+| `tests/plantilla-docx.test.js` | IQ/OQ/PQ sin “Definición USP” |
+| `tests/dq-scaffold.test.js` | DQ sin referencia a la definición |
+| `ESTADO_PROYECTO.md` | Este registro |
+
+**Verificación:**
+```
+unzip -t DQ → OK
+Vitest plantilla-docx + dq-scaffold → 58 tests OK
+Vitest completo → 1141 tests OK
+Preflight + E2E → 14 tests OK
+```
+
 ### 2026-11-12 (276): Validaciones — limpieza de esquemas y validación de humedad
 
 **Qué:** se retiraron campos que nunca llegaban al documento y se completó la validación de rangos.

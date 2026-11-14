@@ -60,6 +60,12 @@ describe.each(['IQ', 'OQ', 'PQ'])('%s con formato del modelo', (fase) => {
     const ids = [...arch['word/document.xml'].matchAll(/<w:bookmarkStart[^>]*w:id="(\d+)"/g)].map((m) => m[1]);
     expect(new Set(ids).size).toBe(ids.length);
   });
+
+  it('no incluye la sección Definición USP (eliminada de las plantillas)', async () => {
+    await prep();
+    expect(arch['word/document.xml']).not.toContain('Definición USP');
+    expect(arch['word/document.xml']).not.toContain('DEFINICIÓN USP');
+  });
 });
 
 describe('códigos solo en Resumen + refs de ensayos en tabla', () => {

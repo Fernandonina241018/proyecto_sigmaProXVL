@@ -56,6 +56,11 @@ describe('DQ scaffold desde plantilla', () => {
     expect(plano).not.toContain('1/400AAAA');
   });
 
+  it('no conserva referencias a la Definición USP en el índice', () => {
+    expect(visible(doc)).not.toContain('Deinicion');
+    expect(visible(doc)).not.toContain('DEFINICIÓN USP');
+  });
+
   it('conserva la estructura DQ para completar después', () => {
     expect(doc).toContain('FIRMA DE APROBACIÓN');
     expect(doc).toContain('PROCEDIMIENTO DE CALIFICACIÓN');
