@@ -1,1 +1,1 @@
-{"v":"098f1fb","t":"2026-11-14T16:33:25Z"}
+{"v":"17e18a2","t":"2026-11-14T17:10:53Z","m":"DQ: ancho del índice aprobado + login: último cambio dinámico (#226)","b":["fix(plantilla-dq): ancho y bordes del indice aprobados","tblW 10710, indent -661, columnas 1100/8410/1200.","Bordes negros por celda y alto de fila 432/476.","Se conserva tblHeader para repetir el encabezado.","feat(login): ultimo cambio desde version.json"]}
