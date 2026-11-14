@@ -22,7 +22,7 @@ const DRAFT = {
 const visible = (xml) => [...String(xml).matchAll(/<w:t[^>]*>([^<]*)<\/w:t>/g)].map((m) => m[1]).join(' ');
 
 describe('DQ scaffold desde plantilla', () => {
-  let out, doc, headers, settings;
+  let out, doc, headers, settings, styles;
 
   beforeAll(async () => {
     const u8 = new Uint8Array(readFileSync(resolve(process.cwd(), 'docs/plantillas/DQ-1-400AAAA.docx')));
@@ -32,6 +32,7 @@ describe('DQ scaffold desde plantilla', () => {
     doc = get('word/document.xml');
     headers = partes.filter((p) => /^word\/header\d+\.xml$/.test(p.nombre)).map((p) => dec(p.datos)).join(' ');
     settings = get('word/settings.xml');
+    styles = get('word/styles.xml');
   });
 
   it('reemplaza los datos del schema', () => {
@@ -65,6 +66,15 @@ describe('DQ scaffold desde plantilla', () => {
   it('conserva la estructura DQ para completar después', () => {
     expect(doc).toContain('FIRMA DE APROBACIÓN');
     expect(doc).toContain('PROCEDIMIENTO DE CALIFICACIÓN');
+  });
+
+  it('cada acápite principal abre página y el índice es compacto', () => {
+    const h1 = /<w:style\b[^>]*w:styleId="1143"[\s\S]*?<\/w:style>/.exec(styles)[0];
+    expect(h1).toContain('pageBreakBefore');
+    const toc1 = /<w:style\b[^>]*w:styleId="1180"[\s\S]*?<\/w:style>/.exec(styles)[0];
+    expect(toc1).toContain('Tahoma');
+    expect(toc1).not.toContain('w:caps');
+    expect(toc1).toContain('w:leader="dot"');
   });
 
   it('el índice es un campo TOC que Word actualiza al abrir', () => {

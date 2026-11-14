@@ -90,6 +90,31 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (StatAnalyzer Pro) co
 
 ## CAMBIOS RECIENTES
 
+### 2026-11-14 (280): Plantillas — acápites principales y diseño del índice
+
+**Qué:** todo acápite principal abre página nueva, y el índice del DQ se rediseñó compacto y legible.
+
+- **Saltos de página garantizados:** el estilo Heading 1 del DQ lleva `pageBreakBefore` (con excepción directa en el primero para no crear hoja en blanco). En IQ/OQ/PQ se quitaron las excepciones de `SALTO_H1` (4/5/10/11): todos los acápites principales abren página.
+- **Índice DQ:** `toc 1` en Tahoma 11 negro sin mayúsculas forzadas; `toc 2` en Tahoma 10 regular. Se conservan la sangría colgante de 720 twips, el tabulador derecho con puntos guía en 9360 y el espaciado compacto.
+- El campo TOC `1-2` + `updateFields` sigue igual: Word actualiza títulos y páginas al abrir.
+
+**Archivos afectados:**
+| Archivo | Cambio |
+|---------|--------|
+| `docs/plantillas/DQ-1-400AAAA.docx` | Heading 1 con salto de página y estilos TOC rediseñados |
+| `js/core/plantilla-docx.js` | `SALTO_H1` sin excepciones |
+| `tests/dq-scaffold.test.js` | Salto de H1 y TOC compacto |
+| `tests/plantilla-docx.test.js` | Sin excepciones de salto de H1 |
+| `ESTADO_PROYECTO.md` | Este registro |
+
+**Verificación:**
+```
+unzip -t DQ → OK
+Vitest plantilla-docx + dq-scaffold → 61 tests OK
+Vitest completo → 1146 tests OK
+Preflight + E2E → 14 tests OK
+```
+
 ### 2026-11-14 (279): Plantilla DQ — índice compacto y alineado
 
 **Qué:** se redujo el espaciado del índice automático y se alinearon las entradas con el texto del documento.
