@@ -1,1 +1,1 @@
-{"v":"d2876be","t":"2026-11-14T18:07:28Z","m":"feat(plantillas): unificar indice generado en IQ/OQ/PQ (#232)","b":["Usa tocTabla/tocTitulo compartidos con el DQ.","Elimina el clonado de filas del modelo y conserva bookmarks/PAGEREF.","Preserva siglas y codigos; IQ/OQ/PQ con 63 tests."]}
+{"v":"c2c1907","t":"2026-11-14T18:43:45Z","m":"fix(plantillas): unir 7 y 7.1 en IQ/PQ (#234)","b":["El primer ensayo del procedimiento no fuerza salto de pagina.","Los 7.2+ conservan su salto; DQ/OQ siguen igual."]}
