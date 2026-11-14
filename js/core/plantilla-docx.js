@@ -693,6 +693,62 @@ const PlantillaDocx = (() => {
   }
 
   // ---------------------------------------------------------------
+  // Índice del DQ: tabla generada (no campo TOC) para controlar el diseño
+  // y adaptar tipografía/espaciado a la cantidad de entradas.
+  // ---------------------------------------------------------------
+  function dqTocTitulo(s) {
+    const t = norm(s).replace(/:+$/, '');
+    if (!t) return '';
+    const low = t.toLocaleLowerCase('es');
+    return low.charAt(0).toLocaleUpperCase('es') + low.slice(1);
+  }
+
+  function dqTocTabla(entries) {
+    const n = entries.length;
+    const size = n <= 15 ? 21 : n <= 30 ? 20 : 19;
+    const after = n <= 15 ? 40 : n <= 30 ? 20 : 0;
+    const rpr = (bold) => '<w:rPr><w:rFonts w:ascii="Tahoma" w:hAnsi="Tahoma" w:cs="Tahoma" />'
+      + (bold ? '<w:b/><w:bCs/>' : '') + '<w:color w:val="000000" /><w:sz w:val="' + size + '" /><w:szCs w:val="' + size + '" /></w:rPr>';
+    const ppr = (align, bold) => '<w:pPr><w:spacing w:after="' + after + '" w:line="240" w:lineRule="auto" />'
+      + (align ? '<w:jc w:val="' + align + '" />' : '') + rpr(bold) + '</w:pPr>';
+    const textP = (text, align, bold) => '<w:p>' + ppr(align, bold) + '<w:r>' + rpr(bold) + '<w:t xml:space="preserve">' + esc(text) + '</w:t></w:r></w:p>';
+    const pageP = (bm) => '<w:p>' + ppr('right', false)
+      + '<w:r>' + rpr(false) + '<w:fldChar w:fldCharType="begin" /></w:r>'
+      + '<w:r>' + rpr(false) + '<w:instrText xml:space="preserve"> PAGEREF ' + bm + ' \\h </w:instrText></w:r>'
+      + '<w:r>' + rpr(false) + '<w:fldChar w:fldCharType="separate" /></w:r>'
+      + '<w:r>' + rpr(false) + '<w:t>#</w:t></w:r>'
+      + '<w:r>' + rpr(false) + '<w:fldChar w:fldCharType="end" /></w:r></w:p>';
+    const cell = (w, content, shade) => '<w:tc><w:tcPr><w:tcW w:w="' + w + '" w:type="dxa" />'
+      + (shade ? '<w:shd w:val="clear" w:color="auto" w:fill="F2F2F2" />' : '') + '<w:vAlign w:val="center" /></w:tcPr>' + content + '</w:tc>';
+    const rows = entries.map((e, i) => '<w:tr><w:trPr><w:cantSplit /></w:trPr>'
+      + cell(1100, textP(e.num, 'left', e.level === 1))
+      + cell(7060, textP(e.title, 'left', e.level === 1))
+      + cell(1200, pageP('_SigmaToc' + (i + 1)))
+      + '</w:tr>').join('');
+    return '<w:tbl><w:tblPr><w:tblW w:w="9360" w:type="dxa" /><w:tblInd w:w="0" w:type="dxa" />'
+      + '<w:tblBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="BFBFBF" />'
+      + '<w:bottom w:val="single" w:sz="4" w:space="0" w:color="BFBFBF" />'
+      + '<w:insideH w:val="single" w:sz="4" w:space="0" w:color="D9D9D9" /></w:tblBorders>'
+      + '<w:tblLayout w:type="fixed" /></w:tblPr>'
+      + '<w:tblGrid><w:gridCol w:w="1100" /><w:gridCol w:w="7060" /><w:gridCol w:w="1200" /></w:tblGrid>'
+      + '<w:tr><w:trPr><w:tblHeader /></w:trPr>'
+      + cell(1100, textP('ACÁPITE', 'center', true), true)
+      + cell(7060, textP('DESCRIPCIÓN', 'left', true), true)
+      + cell(1200, textP('PÁG.', 'right', true), true)
+      + '</w:tr>' + rows + '</w:tbl>';
+  }
+
+  function dqBookmark(xml, id, name) {
+    const m = /^(<w:p\b[^>]*>)([\s\S]*?)(<\/w:p>)$/.exec(xml);
+    if (!m) return xml;
+    const body = m[2];
+    const ppr = /^<w:pPr>[\s\S]*?<\/w:pPr>/.exec(body);
+    const at = ppr ? ppr[0].length : 0;
+    return m[1] + body.slice(0, at) + '<w:bookmarkStart w:id="' + id + '" w:name="' + name + '" />'
+      + body.slice(at) + '<w:bookmarkEnd w:id="' + id + '" />' + m[3];
+  }
+
+  // ---------------------------------------------------------------
   // DQ: scaffold desde la plantilla DQ-1-400AAAA.
   // Genera el documento con los datos del borrador (schema) y deja las
   // secciones técnicas 7.1–7.8 para completar después. No usa banco DQ.
@@ -741,7 +797,40 @@ const PlantillaDocx = (() => {
       p.datos = enc(x);
     });
 
-    // El índice del DQ es un campo TOC: se actualiza al abrir Word.
+    // Índice generado: reemplaza el campo TOC del modelo por una tabla
+    // con bookmarks + PAGEREF (Word actualiza las páginas al abrir).
+    const docPart = archivos.find((a) => a.nombre === 'word/document.xml');
+    if (docPart) {
+      cargarEstilos(archivos);
+      const docXml = dec(docPart.datos);
+      const iBody = docXml.indexOf('<w:body>') + 8;
+      const fBody = docXml.lastIndexOf('</w:body>');
+      const parts = hijos(docXml.slice(iBody, fBody));
+      const inf = parts.map(info);
+      const entries = [];
+      let h1 = 0, h2 = 0;
+      parts.forEach((p, i) => {
+        const x = inf[i];
+        if (!x || x.tag !== 'w:p' || !x.texto) return;
+        if (x.estilo === 'Heading1') {
+          h1++; h2 = 0;
+          entries.push({ level: 1, num: String(h1), title: dqTocTitulo(x.texto), idx: i });
+        } else if (x.estilo === 'Heading2' && h1) {
+          h2++;
+          entries.push({ level: 2, num: h1 + '.' + h2, title: dqTocTitulo(x.texto), idx: i });
+        }
+      });
+      const tocAt = parts.findIndex((p) => p.tag === 'w:p' && /TOC \\o/.test(p.xml));
+      if (entries.length && tocAt >= 0) {
+        entries.forEach((e, i) => {
+          parts[e.idx].xml = dqBookmark(parts[e.idx].xml, 60000 + i, '_SigmaToc' + (i + 1));
+        });
+        parts[tocAt].xml = dqTocTabla(entries);
+        docPart.datos = enc(docXml.slice(0, iBody) + parts.map((p) => p.xml).join('') + docXml.slice(fBody));
+      }
+    }
+
+    // El índice del DQ usa PAGEREF: Word actualiza las páginas al abrir.
     const settPart = archivos.find((a) => a.nombre === 'word/settings.xml');
     if (settPart) {
       let sx = dec(settPart.datos);

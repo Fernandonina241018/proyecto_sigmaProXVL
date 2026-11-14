@@ -85,11 +85,18 @@ describe('DQ scaffold desde plantilla', () => {
     expect(toc1).toContain('w:leader="dot"');
   });
 
-  it('el índice es un campo TOC que Word actualiza al abrir', () => {
-    expect(doc).toContain('TOC \\o "1-2"');
-    expect(doc).toContain('w:fldCharType="begin"');
-    expect(doc).not.toContain('ACÁPITE');
+  it('el índice es una tabla generada con PAGEREF y diseño adaptativo', () => {
+    expect(doc).toContain('ACÁPITE');
+    expect(doc).toContain('DESCRIPCIÓN');
+    expect(doc).toContain('PÁG.');
+    expect(doc).toContain('PAGEREF _SigmaToc');
+    expect(doc).not.toContain('TOC \\o');
+    expect(doc).toContain('<w:tblHeader');
+    expect(visible(doc)).toContain('Objetivo');
     expect(settings).toContain('updateFields');
+    const i = doc.indexOf('ACÁPITE');
+    const toc = doc.slice(doc.lastIndexOf('<w:tbl>', i), doc.indexOf('</w:tbl>', i) + 8);
+    expect(toc).toContain('<w:sz w:val="20"');
   });
 
   it('no incorpora contenido de almacén', () => {
