@@ -90,18 +90,20 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (StatAnalyzer Pro) co
 
 ## CAMBIOS RECIENTES
 
-### 2026-11-14 (279): Plantilla DQ — índice compacto
+### 2026-11-14 (279): Plantilla DQ — índice compacto y alineado
 
-**Qué:** se redujo el espaciado de las entradas del índice automático para que no empuje páginas de más en protocolos cortos.
+**Qué:** se redujo el espaciado del índice automático y se alinearon las entradas con el texto del documento.
 
 - Estilo `toc 1`: espaciado antes 18 pt → 5 pt, después 0 → 2 pt.
 - Estilo `toc 2`: espaciado antes 12 pt → 1,5 pt, después 0.
+- **Sangría colgante de 720 twips:** el número del acápite arranca en el margen izquierdo (igual que los títulos del cuerpo) y el texto vuelve al margen; las líneas que envuelven quedan alineadas al texto.
+- **Tabulador derecho con puntos guía en 9360 twips:** el número de página termina en el margen derecho del texto.
 - Sin cambios en títulos, jerarquía ni en el campo TOC (`1-2`). Word sigue actualizando el índice al abrir.
 
 **Archivos afectados:**
 | Archivo | Cambio |
 |---------|--------|
-| `docs/plantillas/DQ-1-400AAAA.docx` | Estilos `toc 1` y `toc 2` compactos |
+| `docs/plantillas/DQ-1-400AAAA.docx` | Estilos `toc 1` y `toc 2` compactos, con sangría y tabulador |
 | `ESTADO_PROYECTO.md` | Este registro |
 
 **Verificación:**
