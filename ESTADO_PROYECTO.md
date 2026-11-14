@@ -90,6 +90,32 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (StatAnalyzer Pro) co
 
 ## CAMBIOS RECIENTES
 
+### 2026-11-14 (286): IQ/OQ/PQ — mismo índice generado que el DQ
+
+**Qué:** los tres protocolos usan el mismo constructor de índice que el DQ, en lugar de clonar las filas del modelo.
+
+- `generar()` arma `tocTabla()` con las entradas H1/H2, reutilizando los bookmarks existentes (`_SigmaH1`, `_SigmaH2`, `_SigmaSec`) y `PAGEREF`.
+- Diseño único: 10710/-661, bordes, filas 432/476, `tblHeader`, número/página centrados y tamaño adaptativo.
+- Se eliminó el clonado `tpl1/tpl2`/`nuevas`; `nombresModelo` queda solo como fallback de títulos de secciones fijas.
+- Títulos conservadores: caja alta/baja solo en palabras en mayúsculas; se preservan siglas (GMP, URS, HVAC, IQ/OQ/PQ) y códigos con dígitos.
+- IQ/OQ/PQ siguen con sus saltos de página (excepciones 4/5/10/11) y firmas sin cambios.
+
+**Archivos afectados:**
+| Archivo | Cambio |
+|---------|--------|
+| `js/core/plantilla-docx.js` | `tocTabla/tocTitulo` compartidos y reemplazo del clonado en `generar()` |
+| `tests/plantilla-docx.test.js` | Índice con diseño DQ, PAGEREF y bookmarks en IQ/OQ/PQ |
+| `ESTADO_PROYECTO.md` | Este registro |
+
+**Verificación:**
+```
+IQ: 28 entradas; OQ: 24; PQ: 23 — todas con 10710, tcBorders, tblHeader y PAGEREF
+Bookmarks de destino: 0 faltantes
+Vitest plantilla-docx + dq-scaffold → 63 tests OK
+Vitest completo → 1148 tests OK (pendiente de correr)
+Preflight + E2E → pendiente
+```
+
 ### 2026-11-14 (285): DQ — columnas Acápite y Pág. centradas
 
 **Qué:** el índice del DQ iguala la alineación del ejemplo aprobado.
