@@ -61,6 +61,18 @@ describe.each(['IQ', 'OQ', 'PQ'])('%s con formato del modelo', (fase) => {
     expect(new Set(ids).size).toBe(ids.length);
   });
 
+  it('7 y 7.1 quedan juntos: el primer H2 no fuerza salto', async () => {
+    await prep();
+    const doc = arch['word/document.xml'];
+    const paras = [...doc.matchAll(/<w:p\b[\s\S]*?<\/w:p>/g)].map((m) => m[0]);
+    const txt = (p) => p.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ');
+    const i = paras.findIndex((p) => txt(p).includes('PROCEDIMIENTO DE CALIFICACIÓN'));
+    expect(i).toBeGreaterThan(-1);
+    expect(paras[i]).toContain('pageBreakBefore');
+    const primero = paras.slice(i + 1).find((p) => txt(p).trim());
+    expect(primero).not.toContain('pageBreakBefore');
+  });
+
   it('no incluye la sección Definición USP (eliminada de las plantillas)', async () => {
     await prep();
     expect(arch['word/document.xml']).not.toContain('Definición USP');
@@ -414,13 +426,13 @@ describe('SALTO_H2: salto configurable en H2 del modelo (6.1, 6.2, ...)', () => 
       const xml = await genPQ();
       expect(conSalto(h2Modelo(xml, '_SigmaH2_6_1'))).toBe(false);
       expect(conSalto(h2Modelo(xml, '_SigmaH2_6_2'))).toBe(true);
-      // guard: un ensayo del banco conserva su salto (SALTO_PAGINA manda;
-      // se excluyen USP/requisitos, que van en flujo por diseño)
-      const hEns = [...xml.matchAll(/<w:p\b[\s\S]*?<\/w:p>/g)].map((m) => m[0])
-        .find((p) => p.includes('bookmarkStart') && /w:name="_SigmaSec\d+_\d+"/.test(p)
+      // guard: los ensayos del banco conservan su salto, salvo el primero
+      // (queda unido al acápite 7). Se excluyen USP/requisitos.
+      const hEnss = [...xml.matchAll(/<w:p\b[\s\S]*?<\/w:p>/g)].map((m) => m[0])
+        .filter((p) => p.includes('bookmarkStart') && /w:name="_SigmaSec\d+_\d+"/.test(p)
           && !/DEFINICI[ÓO]N USP|REQUISITOS PREVIO/.test(p.replace(/<[^>]+>/g, ' ')));
-      expect(hEns).toBeTruthy();
-      expect(conSalto(hEns)).toBe(true);
+      expect(hEnss.length).toBeGreaterThan(1);
+      expect(hEnss.slice(1).some((p) => conSalto(p))).toBe(true);
     });
   });
 });

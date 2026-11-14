@@ -85,6 +85,16 @@ describe('DQ scaffold desde plantilla', () => {
     expect(toc1).toContain('w:leader="dot"');
   });
 
+  it('7 y 7.1 quedan juntos: el primer H2 no fuerza salto', () => {
+    const paras = [...doc.matchAll(/<w:p\b[\s\S]*?<\/w:p>/g)].map((m) => m[0]);
+    const txt = (p) => p.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ');
+    const i = paras.findIndex((p) => txt(p).includes('PROCEDIMIENTO DE CALIFICACIÓN DE DISEÑO'));
+    expect(i).toBeGreaterThan(-1);
+    expect(paras[i]).toContain('pageBreakBefore');
+    const primero = paras.slice(i + 1).find((p) => txt(p).trim());
+    expect(primero).not.toContain('pageBreakBefore');
+  });
+
   it('el índice es una tabla generada con PAGEREF y diseño adaptativo', () => {
     expect(doc).toContain('ACÁPITE');
     expect(doc).toContain('DESCRIPCIÓN');

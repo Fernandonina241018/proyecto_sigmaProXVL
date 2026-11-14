@@ -90,6 +90,32 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (StatAnalyzer Pro) co
 
 ## CAMBIOS RECIENTES
 
+### 2026-11-14 (287): IQ/PQ — 7 y 7.1 unidos como en OQ/DQ
+
+**Qué:** el primer ensayo del procedimiento ya no fuerza salto de página, así el acápite 7 y su 7.1 quedan juntos.
+
+- **Causa:** cada ensayo del banco se insertaba como H2 con `pageBreakBefore` por defecto (`SALTO_PAGINA`). En IQ/PQ el primer 7.1 es un ensayo del banco; en OQ/DQ es una sección del modelo sin salto.
+- **Arreglo:** `primerEnsayo` en `generar()`: el primer H2 no recibe `pageBreakBefore`; del segundo en adelante se mantiene.
+- **Resultado:** IQ/PQ/OQ/DQ con 7 y 7.1 en flujo; al borrar 6.2 y el espacio, ambos suben juntos.
+- Los 7.2+ siguen abriendo página; no cambia el resto del paginado.
+
+**Archivos afectados:**
+| Archivo | Cambio |
+|---------|--------|
+| `js/core/plantilla-docx.js` | Sin salto en el primer ensayo del procedimiento |
+| `tests/plantilla-docx.test.js` | 7/7.1 juntos y guard de saltos siguientes |
+| `tests/dq-scaffold.test.js` | 7/7.1 juntos en DQ |
+| `ESTADO_PROYECTO.md` | Este registro |
+
+**Verificación:**
+```
+IQ/PQ/OQ/DQ: H1 PROCEDIMIENTO con salto; primer H2 sin salto
+IQ/PQ: segundo ensayo y siguientes conservan pageBreakBefore
+Vitest plantilla-docx + dq-scaffold → 67 tests OK
+Vitest completo → 1148 tests OK (pendiente)
+Preflight + E2E → pendiente
+```
+
 ### 2026-11-14 (286): IQ/OQ/PQ — mismo índice generado que el DQ
 
 **Qué:** los tres protocolos usan el mismo constructor de índice que el DQ, en lugar de clonar las filas del modelo.

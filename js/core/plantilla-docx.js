@@ -1360,6 +1360,9 @@ const PlantillaDocx = (() => {
     const resumenFilas = [];
     const refsEnsayo = [];
     const normRef = (t) => String(t || '').toUpperCase().replace(/\s+/g, ' ').replace(/[.\s]+$/, '').trim();
+    // El primer ensayo no fuerza salto: 7 y 7.1 quedan juntos. Del segundo
+    // en adelante se mantiene el salto por ensayo.
+    let primerEnsayo = true;
     ensayos.forEach((art) => {
       nSub++;
       const e = estructura(art, ctx);
@@ -1371,7 +1374,9 @@ const PlantillaDocx = (() => {
         resumenFilas.push({ id: art.id, tit });
         if (e.referencia && !refsEnsayo.some((r) => normRef(r) === normRef(e.referencia))) refsEnsayo.push(e.referencia);
       }
-      P(parrafo(T.h2, [{ t: tit.toUpperCase() + ':', b: true }], { salto: debeSaltar(art), marcador: bm }));
+      const saltoEnsayo = debeSaltar(art) && !primerEnsayo;
+      primerEnsayo = false;
+      P(parrafo(T.h2, [{ t: tit.toUpperCase() + ':', b: true }], { salto: saltoEnsayo, marcador: bm }));
       if (OPC.incluirCodigoEnsayo && !art.fijo) {
         P(parrafo(T.nota, [{ t: 'Código del ensayo en el banco: ', b: true }, { t: art.id }], { sinNum: true, runNormal: 1 }));
       }
