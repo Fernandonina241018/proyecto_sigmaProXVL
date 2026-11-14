@@ -739,6 +739,18 @@ const PlantillaDocx = (() => {
       p.datos = enc(x);
     });
 
+    // El índice del DQ es un campo TOC: se actualiza al abrir Word.
+    const settPart = archivos.find((a) => a.nombre === 'word/settings.xml');
+    if (settPart) {
+      let sx = dec(settPart.datos);
+      if (!/<w:updateFields\b/.test(sx)) {
+        const ancla = ['<w:hdrShapeDefaults', '<w:footnotePr', '<w:endnotePr', '<w:compat', '<w:docVars', '<w:rsids', '</w:settings>']
+          .find((t) => sx.indexOf(t) >= 0);
+        sx = sx.replace(ancla, '<w:updateFields w:val="true"/>' + ancla);
+        settPart.datos = enc(sx);
+      }
+    }
+
     const bytes = await escribirZip(archivos);
     return { bytes, avisos: ['DQ generado como documento base; complete las secciones técnicas antes de ejecutar.'] };
   }

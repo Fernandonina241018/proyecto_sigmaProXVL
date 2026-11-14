@@ -22,7 +22,7 @@ const DRAFT = {
 const visible = (xml) => [...String(xml).matchAll(/<w:t[^>]*>([^<]*)<\/w:t>/g)].map((m) => m[1]).join(' ');
 
 describe('DQ scaffold desde plantilla', () => {
-  let out, doc, headers;
+  let out, doc, headers, settings;
 
   beforeAll(async () => {
     const u8 = new Uint8Array(readFileSync(resolve(process.cwd(), 'docs/plantillas/DQ-1-400AAAA.docx')));
@@ -31,6 +31,7 @@ describe('DQ scaffold desde plantilla', () => {
     const get = (n) => dec(partes.find((p) => p.nombre === n).datos);
     doc = get('word/document.xml');
     headers = partes.filter((p) => /^word\/header\d+\.xml$/.test(p.nombre)).map((p) => dec(p.datos)).join(' ');
+    settings = get('word/settings.xml');
   });
 
   it('reemplaza los datos del schema', () => {
@@ -64,7 +65,13 @@ describe('DQ scaffold desde plantilla', () => {
   it('conserva la estructura DQ para completar después', () => {
     expect(doc).toContain('FIRMA DE APROBACIÓN');
     expect(doc).toContain('PROCEDIMIENTO DE CALIFICACIÓN');
-    expect(doc).toContain('7.2');
+  });
+
+  it('el índice es un campo TOC que Word actualiza al abrir', () => {
+    expect(doc).toContain('TOC \\o "1-2"');
+    expect(doc).toContain('w:fldCharType="begin"');
+    expect(doc).not.toContain('ACÁPITE');
+    expect(settings).toContain('updateFields');
   });
 
   it('no incorpora contenido de almacén', () => {
