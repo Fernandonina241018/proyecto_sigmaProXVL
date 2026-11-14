@@ -657,6 +657,36 @@ const Auth = (() => {
         });
     }
 
+    // Completa "Último cambio en producción" desde version.json.
+    function _v2LoadBuildInfo(overlay, fallbackRev) {
+        const change = overlay.querySelector('.pi-change');
+        if (!change) return;
+        fetch('version.json?t=' + Date.now(), { cache: 'no-store' })
+            .then(function (r) { return r.ok ? r.json() : null; })
+            .then(function (v) {
+                if (!v || !overlay.isConnected) return;
+                const commit = change.querySelector('.pi-change-commit');
+                if (commit) {
+                    commit.textContent = '';
+                    const code = document.createElement('code');
+                    code.textContent = String(v.v || fallbackRev || 'local');
+                    commit.appendChild(code);
+                    commit.appendChild(document.createTextNode(' · ' + String(v.m || 'Cambios desplegados')));
+                }
+                const list = change.querySelector('ul');
+                if (!list) return;
+                const items = Array.isArray(v.b) ? v.b : [];
+                list.textContent = '';
+                items.forEach(function (x) {
+                    const li = document.createElement('li');
+                    li.textContent = String(x);
+                    list.appendChild(li);
+                });
+                if (!items.length) list.remove();
+            })
+            .catch(function () {});
+    }
+
     function _renderLoginModalV2(reason = '') {
         document.getElementById('auth-overlay')?.remove();
         if (!_v2PendingVersion) {
@@ -665,16 +695,9 @@ const Auth = (() => {
         const buildRev = ((document.querySelector('meta[name="build-revision"]') || {}).content || '').trim();
         const safeRev = buildRev.replace(/[^a-zA-Z0-9._-]/g, '');
         const versionLabel = 'v1.0' + (safeRev ? ' · ' + safeRev : '');
-        // shortcut: notas estáticas por ahora; en la migración conviene generarlas
-        // desde build-info.json (hash + mensaje del commit desplegado).
-        const lastChange = {
-            title: 'Animación de carga y resultado del login',
-            items: [
-                'Píldora con cápsula girando, shimmer y progreso.',
-                'Verde con credenciales correctas; rojo con incorrectas.',
-                'Mínimo 600 ms para que la animación sea visible.',
-            ],
-        };
+        // Se completa al vuelo desde version.json (mensaje y cuerpo del
+        // commit sellado); el hash del meta es el fallback.
+        const lastChange = { title: 'Cambios desplegados', items: [] };
         const lastChangeHtml = '<div class="pi-change">'
             + '<span class="pi-change-title">Último cambio en producción</span>'
             + '<div class="pi-change-commit"><code>' + (safeRev || 'local') + '</code> · ' + lastChange.title + '</div>'
@@ -897,6 +920,7 @@ const Auth = (() => {
         </div>
 `;
         document.body.appendChild(overlay);
+        _v2LoadBuildInfo(overlay, safeRev);
         if (_v2PendingVersion) {
             const ub = document.getElementById('av2-update');
             const uv = document.getElementById('av2-update-version');

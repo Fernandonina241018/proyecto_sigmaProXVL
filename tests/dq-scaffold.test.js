@@ -97,6 +97,9 @@ describe('DQ scaffold desde plantilla', () => {
     const i = doc.indexOf('ACÁPITE');
     const toc = doc.slice(doc.lastIndexOf('<w:tbl>', i), doc.indexOf('</w:tbl>', i) + 8);
     expect(toc).toContain('<w:sz w:val="20"');
+    expect(toc).toContain('w:tblW w:w="10710"');
+    expect(toc).toContain('w:tcBorders');
+    expect(toc).toContain('w:trHeight w:val="476"');
   });
 
   it('no incorpora contenido de almacén', () => {
