@@ -696,14 +696,25 @@ const PlantillaDocx = (() => {
   // Índice del DQ: tabla generada (no campo TOC) para controlar el diseño
   // y adaptar tipografía/espaciado a la cantidad de entradas.
   // ---------------------------------------------------------------
-  function dqTocTitulo(s) {
+  function tocTitulo(s) {
     const t = norm(s).replace(/:+$/, '');
     if (!t) return '';
-    const low = t.toLocaleLowerCase('es');
-    return low.charAt(0).toLocaleUpperCase('es') + low.slice(1);
+    const small = { de: 1, del: 1, la: 1, las: 1, el: 1, los: 1, y: 1, o: 1, en: 1, a: 1, al: 1, por: 1, para: 1, con: 1, sin: 1 };
+    return t.split(/\s+/).map(function (w, i) {
+      const plano = w.replace(/[.,;:()%]/g, '');
+      const letras = plano.replace(/[^A-Za-zÁÉÍÓÚÜÑáéíóúüñ]/g, '');
+      const todoMayus = !!letras && letras === letras.toUpperCase();
+      if (!todoMayus) return w; // caja mixta y códigos
+      if (i && small[plano.toLowerCase()]) return w.toLowerCase();
+      if (/[0-9]/.test(plano) && /[A-Z]/.test(plano)) return w; // ALM-IQ-001
+      if (plano.indexOf('/') >= 0) return w; // IQ/OQ/PQ, Y/O
+      if (/^[A-Z]{2,4}$/.test(plano)) return w; // GMP, URS, HVAC, IQ
+      const low = w.toLocaleLowerCase('es');
+      return low.charAt(0).toLocaleUpperCase('es') + low.slice(1);
+    }).join(' ');
   }
 
-  function dqTocTabla(entries) {
+  function tocTabla(entries) {
     const n = entries.length;
     const size = n <= 15 ? 21 : n <= 30 ? 20 : 19;
     const after = n <= 15 ? 40 : n <= 30 ? 20 : 0;
@@ -728,7 +739,7 @@ const PlantillaDocx = (() => {
     const rows = entries.map((e, i) => '<w:tr><w:trPr><w:cantSplit /><w:trHeight w:val="476" /></w:trPr>'
       + cell(1100, textP(e.num, 'center', e.level === 1))
       + cell(8410, textP(e.title, 'left', e.level === 1))
-      + cell(1200, pageP('_SigmaToc' + (i + 1)))
+      + cell(1200, pageP(e.bm || ('_SigmaToc' + (i + 1))))
       + '</w:tr>').join('');
     return '<w:tbl><w:tblPr><w:tblW w:w="10710" w:type="dxa" /><w:tblInd w:w="-661" w:type="dxa" />'
       + '<w:tblBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="BFBFBF" />'
@@ -744,7 +755,7 @@ const PlantillaDocx = (() => {
       + '</w:tr>' + rows + '</w:tbl>';
   }
 
-  function dqBookmark(xml, id, name) {
+  function tocBookmark(xml, id, name) {
     const m = /^(<w:p\b[^>]*>)([\s\S]*?)(<\/w:p>)$/.exec(xml);
     if (!m) return xml;
     const body = m[2];
@@ -820,18 +831,19 @@ const PlantillaDocx = (() => {
         if (!x || x.tag !== 'w:p' || !x.texto) return;
         if (x.estilo === 'Heading1') {
           h1++; h2 = 0;
-          entries.push({ level: 1, num: String(h1), title: dqTocTitulo(x.texto), idx: i });
+          entries.push({ level: 1, num: String(h1), title: tocTitulo(x.texto), idx: i });
         } else if (x.estilo === 'Heading2' && h1) {
           h2++;
-          entries.push({ level: 2, num: h1 + '.' + h2, title: dqTocTitulo(x.texto), idx: i });
+          entries.push({ level: 2, num: h1 + '.' + h2, title: tocTitulo(x.texto), idx: i });
         }
       });
       const tocAt = parts.findIndex((p) => p.tag === 'w:p' && /TOC \\o/.test(p.xml));
       if (entries.length && tocAt >= 0) {
         entries.forEach((e, i) => {
-          parts[e.idx].xml = dqBookmark(parts[e.idx].xml, 60000 + i, '_SigmaToc' + (i + 1));
+          e.bm = '_SigmaToc' + (i + 1);
+          parts[e.idx].xml = tocBookmark(parts[e.idx].xml, 60000 + i, e.bm);
         });
-        parts[tocAt].xml = dqTocTabla(entries);
+        parts[tocAt].xml = tocTabla(entries);
         docPart.datos = enc(docXml.slice(0, iBody) + parts.map((p) => p.xml).join('') + docXml.slice(fBody));
       }
     }
@@ -1644,8 +1656,6 @@ const PlantillaDocx = (() => {
     const iToc = inf.findIndex((x) => x.tag === 'w:tbl' && /^ACÁPITE/.test(x.texto));
     if (iToc >= 0) {
       const fs = filas(parts[iToc].xml);
-      const tpl1 = fs.find((f, k) => k > 0 && celdas(f).length === 3) || fs[1];
-      const tpl2 = fs.find((f) => celdas(f).length === 4 && /^\d+\.\d+$/.test(norm(texto(celdas(f)[1])))) || tpl1;
       const nombresModelo = {};
       fs.forEach((f) => {
         const c = celdas(f).map((x) => norm(texto(x)));
@@ -1679,29 +1689,10 @@ const PlantillaDocx = (() => {
           entradas.push({ nivel: 2, num, texto: toc[bm] || nombresModelo[num] || y.texto.replace(/\s*:\s*$/, ''), bm });
         }
       });
-      const campo = (rpr, bm) => {
-        const r = limpiarRPr(rpr);
-        return '<w:r>' + r + '<w:fldChar w:fldCharType="begin"/></w:r><w:r>' + r
-          + '<w:instrText xml:space="preserve"> PAGEREF ' + bm + ' \\h </w:instrText></w:r><w:r>' + r
-          + '<w:fldChar w:fldCharType="separate"/></w:r><w:r>' + r + '<w:t>#</w:t></w:r><w:r>' + r
-          + '<w:fldChar w:fldCharType="end"/></w:r>';
-      };
-      const nuevas = entradas.map((e) => {
-        const tpl = e.nivel === 1 ? tpl1 : tpl2;
-        const c = celdas(clonar(tpl));
-        if (e.nivel === 1) {
-          c[0] = textoCelda(c[0], e.num);
-          c[1] = textoCelda(c[1], e.texto);
-          c[2] = camposCelda(c[2], campo(rPrRun(c[2], 0), e.bm));
-        } else {
-          c[0] = textoCelda(c[0], '');
-          c[1] = textoCelda(c[1], e.num);
-          c[2] = textoCelda(c[2], e.texto);
-          c[3] = camposCelda(c[3], campo(rPrRun(c[3], 0), e.bm));
-        }
-        return conCeldas(clonar(tpl), c);
-      });
-      parts[iToc] = { tag: 'w:tbl', xml: conFilas(parts[iToc].xml, [fs[0]].concat(nuevas)) };
+      const filasToc = entradas.map((e) => ({
+        level: e.nivel, num: e.num, title: tocTitulo(e.texto), bm: e.bm,
+      }));
+      parts[iToc] = { tag: 'w:tbl', xml: tocTabla(filasToc) };
     }
 
     // ---- firmas T0/T2 dinámicas (T1/T3 fijas) + Tahoma 11 blindado ----

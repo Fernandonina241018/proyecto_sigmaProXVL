@@ -66,6 +66,25 @@ describe.each(['IQ', 'OQ', 'PQ'])('%s con formato del modelo', (fase) => {
     expect(arch['word/document.xml']).not.toContain('Definición USP');
     expect(arch['word/document.xml']).not.toContain('DEFINICIÓN USP');
   });
+
+  it('índice generado con el diseño del DQ', async () => {
+    await prep();
+    const doc = arch['word/document.xml'];
+    const i = doc.indexOf('ACÁPITE');
+    const toc = doc.slice(doc.lastIndexOf('<w:tbl>', i), doc.indexOf('</w:tbl>', i) + 8);
+    expect(toc).toContain('w:tblW w:w="10710"');
+    expect(toc).toContain('w:tcBorders');
+    expect(toc).toContain('<w:tblHeader');
+    expect(toc).toContain('w:jc w:val="center"');
+    expect(toc).toContain('PAGEREF _Sigma');
+    expect(toc).toContain('Objetivo');
+    expect(toc).not.toContain('OBJETIVO');
+    const refs = [...toc.matchAll(/PAGEREF (\S+)/g)].map((m) => m[1]);
+    const bms = new Set([...doc.matchAll(/w:name="([^"]+)"/g)].map((m) => m[1]));
+    expect(refs.length).toBeGreaterThan(5);
+    for (const r of refs) expect(bms.has(r)).toBe(true);
+    if (fase === 'IQ') expect(toc).toContain('Verificación de layout');
+  });
 });
 
 describe('códigos solo en Resumen + refs de ensayos en tabla', () => {
