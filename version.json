@@ -1,1 +1,1 @@
-{"v":"17e18a2","t":"2026-11-14T17:10:53Z","m":"DQ: ancho del índice aprobado + login: último cambio dinámico (#226)","b":["fix(plantilla-dq): ancho y bordes del indice aprobados","tblW 10710, indent -661, columnas 1100/8410/1200.","Bordes negros por celda y alto de fila 432/476.","Se conserva tblHeader para repetir el encabezado.","feat(login): ultimo cambio desde version.json"]}
+{"v":"7177bd2","t":"2026-11-14T17:26:35Z","m":"fix(version): bullets limpios en el ultimo cambio (#228)","b":["Filtra los asuntos de commit del cuerpo y muestra hasta 6 detalles."]}
