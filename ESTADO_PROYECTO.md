@@ -90,6 +90,53 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (StatAnalyzer Pro) co
 
 ## CAMBIOS RECIENTES
 
+### 2026-11-14 (284): Login — “Último cambio” desde version.json
+
+**Qué:** la tarjeta de información del login deja de mostrar notas fijas y toma el mensaje del commit desplegado.
+
+- `version.json` ahora incluye `m` (asunto del commit) y `b` (hasta 5 líneas del cuerpo), sellados por `stamp-version.mjs`.
+- `auth.js` consulta `version.json?t=…` al abrir el login y completa “Último cambio en producción” con hash, asunto y bullets.
+- Si el fetch falla, muestra el hash del build y “Cambios desplegados” (sin datos viejos).
+- El botón de información y el modal no cambian; el texto se inyecta con `textContent` (sin HTML del commit).
+- Límite conocido: solo se muestran las primeras 5 líneas del cuerpo del commit.
+
+**Archivos afectados:**
+| Archivo | Cambio |
+|---------|--------|
+| `scripts/stamp-version.mjs` | Guarda asunto y bullets del commit |
+| `js/core/auth.js` | Carga dinámica del último cambio |
+| `ESTADO_PROYECTO.md` | Este registro |
+
+**Verificación:**
+```
+version.json sellado de prueba → m/b correctos
+Navegador con payload de prueba → hash, asunto y 2 bullets visibles
+Fallback sin m/b → hash + “Cambios desplegados”, sin lista vieja
+Preflight + E2E → pendiente en el PR
+```
+
+### 2026-11-14 (283): DQ — ancho y bordes del índice aprobados
+
+**Qué:** la tabla del índice del DQ iguala el diseño aprobado en el archivo real.
+
+- `tblW 10710`, `tblInd -661`, columnas `1100 / 8410 / 1200`.
+- Bordes negros en todas las celdas; encabezado gris.
+- Alto de fila 432 (encabezado) y 476 (datos).
+- Se mantienen `tblHeader` (repetición en segunda página), PAGEREF, título en caja alta/baja y tamaño adaptativo.
+
+**Archivos afectados:**
+| Archivo | Cambio |
+|---------|--------|
+| `js/core/plantilla-docx.js` | Propiedades y bordes de la tabla TOC del DQ |
+| `tests/dq-scaffold.test.js` | Ancho, bordes y alto de fila |
+| `ESTADO_PROYECTO.md` | Este registro |
+
+**Verificación:**
+```
+Vitest dq-scaffold + plantilla-docx → 60 tests OK
+DQ generado: tblW 10710, tcBorders, trHeight 476, tblHeader
+```
+
 ### 2026-11-14 (282): DQ — índice generado, adaptativo y con otro diseño
 
 **Qué:** el DQ deja el campo TOC de Word y pasa a una tabla generada por el código, con diseño controlado y adaptación al tamaño del índice.
