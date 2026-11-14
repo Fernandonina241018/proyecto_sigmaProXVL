@@ -1,1 +1,1 @@
-{"v":"ad108bf","t":"2026-11-14T17:37:15Z","m":"fix(plantilla-dq): centrar columnas de acapite y pagina (#230)","b":["Iguala la alineacion del ejemplo: numero y pagina centrados, descripcion a la izquierda."]}
+{"v":"d2876be","t":"2026-11-14T18:07:28Z","m":"feat(plantillas): unificar indice generado en IQ/OQ/PQ (#232)","b":["Usa tocTabla/tocTitulo compartidos con el DQ.","Elimina el clonado de filas del modelo y conserva bookmarks/PAGEREF.","Preserva siglas y codigos; IQ/OQ/PQ con 63 tests."]}
