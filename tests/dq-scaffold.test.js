@@ -95,6 +95,15 @@ describe('DQ scaffold desde plantilla', () => {
     expect(primero).not.toContain('pageBreakBefore');
   });
 
+  it('todo el texto del cuerpo queda en 11 pt y el encabezado conserva su tamaño', () => {
+    const i = doc.indexOf('ATRIBUTOS CRÍTICOS');
+    const run = doc.slice(doc.lastIndexOf('<w:r>', i), doc.indexOf('</w:r>', i) + 6);
+    expect(run).toContain('<w:sz w:val="22"');
+    expect(run).not.toContain('<w:sz w:val="20"');
+    expect(doc).not.toContain('<w:sz w:val="19"');
+    expect(headers).toContain('<w:sz w:val="18"');
+  });
+
   it('el índice es una tabla generada con PAGEREF y diseño adaptativo', () => {
     expect(doc).toContain('ACÁPITE');
     expect(doc).toContain('DESCRIPCIÓN');
@@ -106,7 +115,7 @@ describe('DQ scaffold desde plantilla', () => {
     expect(settings).toContain('updateFields');
     const i = doc.indexOf('ACÁPITE');
     const toc = doc.slice(doc.lastIndexOf('<w:tbl>', i), doc.indexOf('</w:tbl>', i) + 8);
-    expect(toc).toContain('<w:sz w:val="20"');
+    expect(toc).toContain('<w:sz w:val="22"');
     expect(toc).toContain('w:tblW w:w="10710"');
     expect(toc).toContain('w:tcBorders');
     expect(toc).toContain('w:trHeight w:val="476"');

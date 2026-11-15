@@ -50,6 +50,9 @@ describe.each(['IQ', 'OQ', 'PQ'])('%s con formato del modelo', (fase) => {
     expect(hs).not.toContain('400AAAA');
     expect(hs).not.toContain('DD/MMM/AAAA');
     expect(hs).toContain('30/SEP/2026');
+    expect(hs).toContain('<w:sz w:val="18"');
+    const fs = Object.keys(arch).filter((n) => /^word\/footer\d+\.xml$/.test(n)).map((n) => arch[n]).join('');
+    expect(fs).toContain('<w:sz w:val="16"');
     const doc = arch['word/document.xml'];
     expect(doc).not.toContain('NOMBRE DEL EQUIPO');
     expect(doc).not.toMatch(/&lt;\/?(span|strong|br|li|ul)\b/);
@@ -88,6 +91,7 @@ describe.each(['IQ', 'OQ', 'PQ'])('%s con formato del modelo', (fase) => {
     expect(toc).toContain('w:tcBorders');
     expect(toc).toContain('<w:tblHeader');
     expect(toc).toContain('w:jc w:val="center"');
+    expect(toc).toContain('<w:sz w:val="22"');
     expect(toc).toContain('PAGEREF _Sigma');
     expect(toc).toContain('Objetivo');
     expect(toc).not.toContain('OBJETIVO');
@@ -96,6 +100,17 @@ describe.each(['IQ', 'OQ', 'PQ'])('%s con formato del modelo', (fase) => {
     expect(refs.length).toBeGreaterThan(5);
     for (const r of refs) expect(bms.has(r)).toBe(true);
     if (fase === 'IQ') expect(toc).toContain('Verificación de layout');
+  });
+});
+
+describe('tamaño de texto', () => {
+  it('normaliza el texto del cuerpo a 11 pt y respeta los símbolos de formulario', () => {
+    const f = P._interno.fijarTexto11;
+    const normal = f('<w:r><w:rPr><w:sz w:val="20" /></w:rPr><w:t>Texto</w:t></w:r>');
+    expect(normal).toContain('w:sz w:val="22"');
+    expect(normal).not.toContain('w:sz w:val="20"');
+    const check = f('<w:r><w:rPr><w:sz w:val="32" /></w:rPr><w:t>□ </w:t></w:r>');
+    expect(check).toContain('w:sz w:val="32"');
   });
 });
 
