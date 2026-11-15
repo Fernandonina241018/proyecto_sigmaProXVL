@@ -76,6 +76,13 @@ describe.each(['IQ', 'OQ', 'PQ'])('%s con formato del modelo', (fase) => {
     expect(primero).not.toContain('pageBreakBefore');
   });
 
+  it('IQ de cuarto frío no incluye humedad relativa', async () => {
+    await prep();
+    if (fase !== 'IQ') return;
+    const doc = arch['word/document.xml'];
+    expect(doc).not.toMatch(/HUMEDAD RELATIVA|Humedad relativa|Humedad Relativa/i);
+  });
+
   it('no incluye la sección Definición USP (eliminada de las plantillas)', async () => {
     await prep();
     expect(arch['word/document.xml']).not.toContain('Definición USP');
@@ -103,6 +110,22 @@ describe.each(['IQ', 'OQ', 'PQ'])('%s con formato del modelo', (fase) => {
     expect(refs.length).toBeGreaterThan(5);
     for (const r of refs) expect(bms.has(r)).toBe(true);
     if (fase === 'IQ') expect(toc).toContain('Verificación de layout');
+  });
+});
+
+describe('quitarHumedad', () => {
+  it('elimina la referencia y la columna HR del IQ', () => {
+    const sample = '<w:tbl><w:tr><w:tc><w:p><w:r><w:t>TEMPERATURA AMBIENTAL</w:t></w:r></w:p></w:tc>'
+      + '<w:tc><w:p><w:r><w:t> - </w:t></w:r><w:r><w:t>HUMEDAD RELATIVA</w:t></w:r></w:p></w:tc></w:tr>'
+      + '<w:tr><w:tc><w:tcPr><w:tcW w:w="2790" w:type="dxa"/></w:tcPr><w:p><w:r><w:t>Humedad Relativa (%)</w:t></w:r></w:p></w:tc></w:tr>'
+      + '<w:tr><w:tc><w:p><w:r><w:t>Humedad relativa.</w:t></w:r></w:p></w:tc></w:tr>'
+      + '<w:tblGrid><w:gridCol w:w="2610"/><w:gridCol w:w="2790"/></w:tblGrid></w:tbl>';
+    const out = P._interno.quitarHumedad(sample);
+    expect(out).not.toMatch(/HUMEDAD RELATIVA|Humedad Relativa|Humedad relativa/i);
+    expect(out).toContain('TEMPERATURA AMBIENTAL');
+    expect(out).toContain('w:gridCol w:w="5400"');
+    expect(out).toContain('w:gridCol w:w="0"');
+    expect(out).toContain('w:tcW w:w="0"');
   });
 });
 

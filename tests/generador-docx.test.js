@@ -48,6 +48,7 @@ describe('filtros y marcas', () => {
 
   test('rangoTexto arma rango del borrador', () => {
     expect(GeneradorDocx.rangoTexto(DRAFT)).toBe('2–8 °C');
+    expect(GeneradorDocx.rangoTexto({ ...DRAFT, humedadMin: '', humedadMax: '' })).toBe('2–8 °C');
     expect(GeneradorDocx.rangoTexto({ ...DRAFT, humedadMin: '10', humedadMax: '60' }))
       .toBe('2–8 °C / HR 10–60 %');
   });

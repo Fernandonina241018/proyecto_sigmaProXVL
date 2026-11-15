@@ -90,6 +90,34 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (StatAnalyzer Pro) co
 
 ## CAMBIOS RECIENTES
 
+### 2026-11-15 (300): Almacenes — cuarto frío sin HR y temperaturas automáticas
+
+**Qué:** se agregaron condiciones tabuladas por entidad al formulario de Almacenes.
+- `ENTIDADES.almacenes` ahora lleva `tipo`, `tempMin`, `tempMax` y `humedad`.
+- Al elegir una entidad, `datosAlmacen()`/`aplicarCondicionesAlmacen()` cargan:
+  - Ambiente 15–25: tipo “Temperatura controlada”, 15/25, HR visible.
+  - Ambiente 0–30: tipo “Ambiente”, 0/30, HR visible.
+  - Cuarto frío: tipo “Cuarto frío”, 2/8, HR oculto/deshabilitado/vacío.
+  - Congelador: tipo “Congelador”, −25/−10, HR oculto/deshabilitado/vacío.
+- El valor guardado en el borrador tiene prioridad sobre el default de temperatura.
+- IQ: `quitarHumedad()` elimina las referencias y la columna HR cuando el documento la trae; el IQ de cuarto frío/congelador sale sin HR.
+
+**Archivos afectados:**
+| Archivo | Cambio |
+|---------|--------|
+| `js/core/indexx-validaciones.js` | Metadatos, `datosAlmacen`, autofill y ocultamiento de HR |
+| `js/core/plantilla-docx.js` | `quitarHumedad` para IQ de entidades sin HR |
+| `tests/validaciones-panel.test.js` | Metadatos/helper |
+| `tests/plantilla-docx.test.js` | IQ sin HR y test unitario de `quitarHumedad` |
+| `tests/generador-docx.test.js` | Rango sin HR |
+
+**Verificación:**
+```
+Vitest completo → 1168 tests OK
+Preflight + E2E → 14 tests OK
+Navegador: cuarto 2/8 HR oculto; ambiente 15/25 y 0/30 HR visible; congelador −25/−10 HR oculto
+```
+
 ### 2026-11-15 (299): Perfil — retirar el código de firma del modal
 
 **Qué:** el modal de perfil mostraba `signature_code` en el campo “Firma”, información clasificada.
