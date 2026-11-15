@@ -577,7 +577,37 @@
 #validaciones-app .v7-btn-download:disabled { opacity: 0.5; cursor: wait; }
 
 /* ----- paso 1: combobox con buscador ----- */
-#validaciones-app .v7-combo { max-width: 560px; }
+#validaciones-app .v7-combo { max-width: 560px; position: relative; }
+#validaciones-app .v7-ent-list {
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 0;
+  right: 0;
+  z-index: 40;
+  max-height: min(300px, 50vh);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: 4px;
+  background: var(--v7-panel-2);
+  border: 1px solid var(--v7-border);
+  border-radius: 12px;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, .35);
+}
+#validaciones-app .v7-ent-list[hidden] { display: none; }
+#validaciones-app .v7-ent-opt {
+  display: block;
+  width: 100%;
+  text-align: left;
+  padding: 9px 12px;
+  border-radius: 8px;
+  border: 1px solid transparent;
+  background: transparent;
+  font-size: 13px;
+}
+#validaciones-app .v7-ent-opt:hover,
+#validaciones-app .v7-ent-opt.activo { background: var(--v7-accent-soft); border-color: var(--v7-accent); }
+#validaciones-app .v7-ent-opt.sel { background: var(--v7-accent); border-color: var(--v7-accent); color: #fff; }
+#validaciones-app .v7-ent-empty { padding: 10px; text-align: center; color: var(--v7-muted, var(--text-muted)); font-size: 12px; }
 #validaciones-app .v7-ent-input {
   font: inherit;
   font-size: 14px;
@@ -586,8 +616,18 @@
   border: 1px solid var(--v7-border);
   border-radius: 12px;
   height: 44px;
-  padding: 0 14px;
+  padding: 0 38px 0 14px;
   width: 100%;
   box-sizing: border-box;
+}
+#validaciones-app .v7-combo:after {
+  content: "▾";
+  position: absolute;
+  right: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--v7-muted);
+  font-size: 15px;
+  pointer-events: none;
 }
 #validaciones-app .v7-ent-input:focus { outline: none; border-color: var(--v7-accent); box-shadow: 0 0 0 3px var(--v7-accent-soft); }

@@ -90,6 +90,28 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (StatAnalyzer Pro) co
 
 ## CAMBIOS RECIENTES
 
+### 2026-11-15 (296): Equipos — combobox propio en lugar del datalist nativo
+
+**Qué:** el selector de entidades de Equipos/Estabilidad dejó de usar `<datalist>`.
+- El `<datalist>` lo dibujaba el navegador, sin `max-height`/`z-index`; con 41 equipos se abría fuera del layout y tapaba el topbar.
+- Ahora es un combobox propio: input + lista con `max-height:min(300px,50vh)`, scroll, filtro al escribir, navegación con flechas/Enter/Escape, cierre al hacer clic afuera y chevron.
+- Almacenes, Sistemas y Software siguen usando botones (pocas entidades).
+- El resto del flujo (`elegirEntidad`, borrador, descripción, firmantes) no cambia.
+
+**Archivos afectados:**
+| Archivo | Cambio |
+|---------|--------|
+| `js/core/indexx-validaciones.js` | `paso1Html` sin datalist; `cerrarCombo`; selección/teclado/filtro |
+| `css/validaciones-v7.css` | Lista absoluta, scroll, opciones, chevron |
+| `tests/validaciones-panel.test.js` | Assert de `v7-ent-list`/`v7-ent-opt`; sin `v7-ents-dl` |
+
+**Verificación:**
+```
+Vitest completo → 1162 tests OK
+Preflight + E2E → 14 tests OK
+Medido en navegador: 41 opciones, lista 560x300 con scroll, filtro “auto” → Autoclave, selección OK
+```
+
 ### 2026-11-15 (294): Índice — ACÁPITE a 1200 twips
 
 **Qué:** se amplió la columna del encabezado “ACÁPITE” para que no salte de línea.

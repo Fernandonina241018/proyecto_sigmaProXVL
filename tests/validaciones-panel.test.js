@@ -295,14 +295,17 @@ describe('Validaciones V7', () => {
   test('paso 1: combobox con buscador en equipos y estabilidad, botones en el resto', () => {
     const eq = Validaciones.viewEntidad('equipos');
     expect(eq).toContain('v7-ent-input');
-    expect(eq).toContain('v7-ents-dl');
+    expect(eq).toContain('v7-ent-list');
+    expect(eq).toContain('role="listbox"');
     expect(eq).toContain('Escriba para buscar');
-    expect(eq).not.toContain('class="v7-ent"');
+    expect(eq).toContain('v7-ent-opt');
+    expect(eq).not.toContain('v7-ents-dl');
+    expect((eq.match(/v7-ent-opt/g) || []).length).toBeGreaterThan(10);
     const est = Validaciones.viewEntidad('estabilidad');
     expect(est).toContain('v7-ent-input');
-    expect(est).toContain('v7-ents-dl');
+    expect(est).toContain('v7-ent-list');
     expect(est).toContain('Cabina estabilidad acelerada');
-    expect(est).not.toContain('class="v7-ent"');
+    expect(est).toContain('v7-ent-opt');
     const alm = Validaciones.viewEntidad('almacenes');
     expect(alm).toContain('class="v7-ent"');
     expect(alm).not.toContain('v7-ent-input');
