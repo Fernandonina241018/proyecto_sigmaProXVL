@@ -90,6 +90,29 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (StatAnalyzer Pro) co
 
 ## CAMBIOS RECIENTES
 
+### 2026-11-15 (290): Muesca en el titlebar — no tapa pestañas
+
+**Qué:** la muesca de Estadística se movió del tabbar al borde superior de la ventana.
+- En Estadística queda centrada en el titlebar, a la altura de los menús.
+- Se inserta un separador invisible en el menú para abrir un hueco central; las opciones posteriores se corren sin cambiar el orden.
+- Si el titlebar está oculto (≤1091 px) o no hay hueco, cae al borde superior derecho.
+- En Validaciones se mantiene centrada en el borde superior del shell.
+- Con muchas hojas abiertas ya no se superpone a ninguna pestaña.
+
+**Archivos afectados:**
+| Archivo | Cambio |
+|---------|--------|
+| `js/core/indexx-ui.js` | `mountPerfilNotch` mide el menú, inserta/retira el separador y posiciona la muesca en el titlebar |
+| `tests/perfil-modal.test.js` | Test estático del separador y del titlebar |
+| `ESTADO_PROYECTO.md` | Este registro |
+
+**Verificación:**
+```
+Vitest completo → 1159 tests OK
+Preflight + E2E → 14 tests OK
+Medido con 13 pestañas abiertas: muesca en titlebar (y=8) y pestañas debajo (y=57), sin solape
+```
+
 ### 2026-11-15 (289): Perfil compartido Estadística/Validaciones + muesca
 
 **Qué:** se integró en la app el modal de perfil compartido que se prototipó fuera del repo.
