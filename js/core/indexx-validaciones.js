@@ -1185,10 +1185,11 @@ const Validaciones = (() => {
     // Estabilidad usa combobox como equipos aunque tenga pocas entidades.
     if (ents.length > UMBRAL_COMBO || catId === 'estabilidad') {
       return '<div class="v7-combo">'
-        + '<input type="text" class="v7-ent-input" list="v7-ents-dl" placeholder="Escriba para buscar el equipo…" autocomplete="off" aria-label="Buscar entidad">'
-        + '<datalist id="v7-ents-dl">'
-        + ents.map((e) => '<option value="' + esc(e.nombre) + '">').join('')
-        + '</datalist></div>';
+        + '<input type="text" class="v7-ent-input" placeholder="Escriba para buscar la entidad…" autocomplete="off" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="v7-ents-list" aria-label="Buscar entidad">'
+        + '<div class="v7-ent-list" id="v7-ents-list" role="listbox" hidden>'
+        + ents.map((e) => '<button type="button" class="v7-ent v7-ent-opt" role="option" aria-selected="false" data-ent="' + esc(e.id) + '">' + esc(e.nombre) + '</button>').join('')
+        + '<div class="v7-ent-empty" hidden>Sin coincidencias</div>'
+        + '</div></div>';
     }
     return '<div class="v7-ents">'
       + ents.map((e) => '<button type="button" class="v7-ent" data-ent="' + esc(e.id) + '">' + esc(e.nombre) + '</button>').join('')
@@ -1305,6 +1306,16 @@ const Validaciones = (() => {
         msg.textContent = text || '';
         msg.className = 'v7-form-msg' + (text ? (ok ? ' ok' : ' err') : '');
       }
+    }
+
+    function cerrarCombo() {
+      const list = main.querySelector('.v7-ent-list');
+      const inp = main.querySelector('.v7-ent-input');
+      if (list) {
+        list.hidden = true;
+        list.querySelectorAll('.v7-ent.activo').forEach((b) => b.classList.remove('activo'));
+      }
+      if (inp) inp.setAttribute('aria-expanded', 'false');
     }
 
     function validarErrores() {
@@ -1732,8 +1743,18 @@ const Validaciones = (() => {
 
     async function elegirEntidad(entId) {
       if (!entId) return false;
+      const combo = main.querySelector('.v7-ent-input');
+      if (combo) {
+        const ent = getEntidades(catId).filter((x) => x.id === entId)[0];
+        if (ent) combo.value = ent.nombre;
+      }
+      cerrarCombo();
       const token = ++cargaToken;
-      main.querySelectorAll('.v7-ent').forEach((b) => b.classList.toggle('sel', b.getAttribute('data-ent') === entId));
+      main.querySelectorAll('.v7-ent').forEach((b) => {
+        const on = b.getAttribute('data-ent') === entId;
+        b.classList.toggle('sel', on);
+        b.setAttribute('aria-selected', on ? 'true' : 'false');
+      });
       step2.hidden = false;
       setMsg('Cargando borrador…', true);
       const draft = await cargarBorrador(entId, catId);
@@ -1756,6 +1777,8 @@ const Validaciones = (() => {
     }
 
     main.onclick = function (e) {
+      const comboBox = main.querySelector('.v7-combo');
+      if (comboBox && !comboBox.contains(e.target)) cerrarCombo();
       const ent = e.target && e.target.closest ? e.target.closest('.v7-ent') : null;
       if (ent) {
         elegirEntidad(ent.getAttribute('data-ent'));
@@ -1796,12 +1819,68 @@ const Validaciones = (() => {
 
     // Combobox con buscador (categorías con muchas entidades)
     const comboInput = main.querySelector('.v7-ent-input');
+    const comboList = main.querySelector('.v7-ent-list');
     if (comboInput && comboInput.addEventListener) {
+      const opciones = function () {
+        return comboList ? Array.prototype.slice.call(comboList.querySelectorAll('.v7-ent')) : [];
+      };
+      const visibles = function () {
+        return opciones().filter(function (b) { return !b.hidden; });
+      };
+      const marcar = function (b) {
+        opciones().forEach(function (o) { o.classList.toggle('activo', o === b); });
+        if (b && b.scrollIntoView) { try { b.scrollIntoView({ block: 'nearest' }); } catch (e) {} }
+      };
+      const abrir = function (filtro) {
+        if (!comboList) return;
+        const q = String(filtro || '').trim().toLowerCase();
+        let n = 0;
+        opciones().forEach(function (b) {
+          const ok = !q || String(b.textContent || '').toLowerCase().indexOf(q) >= 0;
+          b.hidden = !ok;
+          if (ok) n++;
+        });
+        const empty = comboList.querySelector('.v7-ent-empty');
+        if (empty) empty.hidden = n > 0;
+        comboList.hidden = false;
+        comboInput.setAttribute('aria-expanded', 'true');
+        marcar(null);
+      };
+      let comboPicking = false;
+      if (comboList) comboList.addEventListener('mousedown', function () { comboPicking = true; });
+      comboInput.addEventListener('focus', function () { abrir(''); });
+      comboInput.addEventListener('click', function () { abrir(''); });
+      comboInput.addEventListener('input', function () { abrir(comboInput.value); });
+      comboInput.addEventListener('keydown', function (e) {
+        if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
+          e.preventDefault();
+          if (comboList && comboList.hidden) abrir(comboInput.value);
+          const vs = visibles();
+          if (!vs.length) return;
+          const activo = vs.filter(function (b) { return b.classList.contains('activo'); })[0];
+          let i = activo ? vs.indexOf(activo) : -1;
+          i = e.key === 'ArrowDown' ? Math.min(vs.length - 1, i + 1) : Math.max(0, i - 1);
+          marcar(vs[i]);
+        } else if (e.key === 'Enter') {
+          const activo = visibles().filter(function (b) { return b.classList.contains('activo'); })[0];
+          if (activo) {
+            e.preventDefault();
+            activo.click();
+          } else {
+            const found = entidadPorNombre(catId, comboInput.value);
+            if (found) { e.preventDefault(); elegirEntidad(found.id); }
+          }
+        } else if (e.key === 'Escape') {
+          cerrarCombo();
+        }
+      });
       comboInput.addEventListener('change', function () {
+        if (comboPicking) { comboPicking = false; return; }
         const found = entidadPorNombre(catId, comboInput.value);
         if (found) elegirEntidad(found.id);
-        else setMsg('Escriba y seleccione una entidad de la lista.', false);
+        else { setMsg('Escriba y seleccione una entidad de la lista.', false); cerrarCombo(); }
       });
+      cerrarCombo();
     }
 
     if (form.addEventListener) {
