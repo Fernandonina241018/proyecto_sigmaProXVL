@@ -24,6 +24,11 @@ describe('Perfil compartido', () => {
     expect(css).toContain('.perfil-duo');
   });
 
+  test('la muesca usa el titlebar sin tapar pestañas', () => {
+    expect(ui).toContain('sigma-notch-spacer');
+    expect(ui).toContain("querySelector('.titlebar')");
+  });
+
   test('la muesca se monta en el shell activo y abre el perfil', () => {
     expect(ui).toContain('function mountPerfilNotch');
     expect(ui).toContain('sigma-perfil-notch');

@@ -242,17 +242,63 @@ function mountPerfilNotch() {
     b.addEventListener('click', function () { showPerfilModal(); });
     document.body.appendChild(b);
   }
+  var staleSpacer = document.getElementById('sigma-notch-spacer');
+  if (staleSpacer) staleSpacer.remove();
   if (valShell) {
     // Dentro del shell (z 90000) para quedar por encima de su contenido.
     b.style.position = 'absolute';
     b.style.top = '0px';
     b.style.zIndex = '60';
+    b.style.left = '50%';
+    b.style.right = 'auto';
+    b.style.transform = 'translateX(-50%)';
     if (b.parentNode !== valShell) valShell.appendChild(b);
   } else {
-    // Estadística: fija al borde superior del shell, centrada en el viewport.
+    // Estadística: borde superior de la ventana (titlebar), no sobre las pestañas.
+    var titlebar = document.querySelector('.titlebar');
+    var titlebarVisible = titlebar && getComputedStyle(titlebar).display !== 'none';
+    var menu = document.querySelector('.menubar');
+    var centered = false;
+    if (titlebarVisible && menu) {
+      var center = window.innerWidth / 2;
+      var notchLeft = center - 58;
+      var notchRight = center + 58;
+      var items = menu.querySelectorAll('.menu-item');
+      var firstAfter = null;
+      for (var i = 0; i < items.length; i++) {
+        if (items[i].getBoundingClientRect().right > notchLeft) { firstAfter = items[i]; break; }
+      }
+      if (firstAfter) {
+        var gap = Math.round((notchRight + 6) - firstAfter.getBoundingClientRect().left);
+        if (gap > 0) {
+          var sp = document.createElement('span');
+          sp.id = 'sigma-notch-spacer';
+          sp.setAttribute('aria-hidden', 'true');
+          sp.style.cssText = 'display:block;flex:0 0 ' + gap + 'px;width:' + gap + 'px;height:1px;align-self:center;pointer-events:none';
+          menu.insertBefore(sp, firstAfter);
+          if (menu.scrollWidth > menu.clientWidth + 1) {
+            sp.remove();
+          } else {
+            centered = true;
+          }
+        }
+      } else {
+        centered = true;
+      }
+    }
     b.style.position = 'fixed';
-    b.style.top = Math.round(mainApp.getBoundingClientRect().top) + 'px';
+    b.style.top = Math.round(titlebarVisible ? titlebar.getBoundingClientRect().top : mainApp.getBoundingClientRect().top) + 'px';
     b.style.zIndex = '60';
+    if (centered) {
+      b.style.left = '50%';
+      b.style.right = 'auto';
+      b.style.transform = 'translateX(-50%)';
+    } else {
+      // Sin hueco central: borde derecho, fuera de pestañas y menús.
+      b.style.left = 'auto';
+      b.style.right = '12px';
+      b.style.transform = 'none';
+    }
     if (b.parentNode !== document.body) document.body.appendChild(b);
   }
 }
