@@ -760,10 +760,13 @@ const PlantillaDocx = (() => {
   // Solo se aplica a word/document.xml: header/footer son partes aparte.
   function fijarTexto11(xml) {
     return String(xml || '').replace(/<w:r\b[\s\S]*?<\/w:r>/g, function (run) {
-      const textos = (run.match(/<w:t\b[^>]*>[\s\S]*?<\/w:t>/g) || [])
-        .map(function (t) { return t.replace(/<[^>]+>/g, ''); }).join('');
-      if (!textos.trim()) return run;
-      if (/^[\s\u25A1\u2610\u2611\u2612\u2713\u2714\u2717\u2718]+$/.test(textos)) return run;
+      const textos = [];
+      const reTexto = /<w:t\b[^>]*>([\s\S]*?)<\/w:t>/g;
+      let m;
+      while ((m = reTexto.exec(run))) textos.push(m[1]);
+      const texto = textos.join('');
+      if (!texto.trim()) return run;
+      if (/^[\s\u25A1\u2610\u2611\u2612\u2713\u2714\u2717\u2718]+$/.test(texto)) return run;
       let out = run.replace(/<w:rPr>([\s\S]*?)<\/w:rPr>/g, function (m, inner) {
         const limpio = inner.replace(/<w:sz\b[^>]*\/>/g, '').replace(/<w:szCs\b[^>]*\/>/g, '');
         return '<w:rPr>' + limpio + '<w:sz w:val="22" /><w:szCs w:val="22" /></w:rPr>';
