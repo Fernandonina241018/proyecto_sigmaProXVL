@@ -1168,8 +1168,7 @@ const Validaciones = (() => {
       + '</div>';
   }
 
-  // Paso 1: botones si hay pocas entidades, combobox con buscador si hay muchas.
-  const UMBRAL_COMBO = 10;
+  // Paso 1: combobox con buscador para todas las categorías.
 
   function entidadPorNombre(catId, nombre) {
     const n = String(nombre || '').trim().toLowerCase();
@@ -1181,19 +1180,13 @@ const Validaciones = (() => {
     return null;
   }
 
-  function paso1Html(catId, ents) {
-    // Estabilidad usa combobox como equipos aunque tenga pocas entidades.
-    if (ents.length > UMBRAL_COMBO || catId === 'estabilidad') {
-      return '<div class="v7-combo">'
-        + '<input type="text" class="v7-ent-input" placeholder="Escriba para buscar la entidad…" autocomplete="off" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="v7-ents-list" aria-label="Buscar entidad">'
-        + '<div class="v7-ent-list" id="v7-ents-list" role="listbox" hidden>'
-        + ents.map((e) => '<button type="button" class="v7-ent v7-ent-opt" role="option" aria-selected="false" data-ent="' + esc(e.id) + '">' + esc(e.nombre) + '</button>').join('')
-        + '<div class="v7-ent-empty" hidden>Sin coincidencias</div>'
-        + '</div></div>';
-    }
-    return '<div class="v7-ents">'
-      + ents.map((e) => '<button type="button" class="v7-ent" data-ent="' + esc(e.id) + '">' + esc(e.nombre) + '</button>').join('')
-      + '</div>';
+  function paso1Html(ents) {
+    return '<div class="v7-combo">'
+      + '<input type="text" class="v7-ent-input" placeholder="Escriba para buscar la entidad…" autocomplete="off" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="v7-ents-list" aria-label="Buscar entidad">'
+      + '<div class="v7-ent-list" id="v7-ents-list" role="listbox" hidden>'
+      + ents.map((e) => '<button type="button" class="v7-ent v7-ent-opt" role="option" aria-selected="false" data-ent="' + esc(e.id) + '">' + esc(e.nombre) + '</button>').join('')
+      + '<div class="v7-ent-empty" hidden>Sin coincidencias</div>'
+      + '</div></div>';
   }
 
   function viewEntidad(catId) {
@@ -1209,7 +1202,7 @@ const Validaciones = (() => {
       + '<p class="sub">Cargue los datos de la entidad. No se muestran ensayos: el protocolo se genera después con estos datos.</p>'
       + '<div class="v7-step" data-step="1">'
       + '<div class="gt">1 · Seleccione la entidad</div>'
-      + paso1Html(catId, ents)
+      + paso1Html(ents)
       + '</div>'
       + '<div class="v7-step" data-step="2" hidden>'
       + '<div class="gt">2 · Datos de la entidad</div>'

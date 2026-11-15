@@ -292,23 +292,19 @@ describe('Validaciones V7', () => {
     }
   });
 
-  test('paso 1: combobox con buscador en equipos y estabilidad, botones en el resto', () => {
+  test('paso 1: combobox con buscador en todas las categorías', () => {
+    for (const cat of ['almacenes', 'equipos', 'estabilidad', 'sistemas', 'software']) {
+      const html = Validaciones.viewEntidad(cat);
+      expect(html).toContain('v7-ent-input');
+      expect(html).toContain('v7-ent-list');
+      expect(html).toContain('v7-ent-opt');
+      expect(html).not.toContain('v7-ents-dl');
+      expect(html).not.toContain('<div class="v7-ents">');
+    }
     const eq = Validaciones.viewEntidad('equipos');
-    expect(eq).toContain('v7-ent-input');
-    expect(eq).toContain('v7-ent-list');
-    expect(eq).toContain('role="listbox"');
-    expect(eq).toContain('Escriba para buscar');
-    expect(eq).toContain('v7-ent-opt');
-    expect(eq).not.toContain('v7-ents-dl');
     expect((eq.match(/v7-ent-opt/g) || []).length).toBeGreaterThan(10);
     const est = Validaciones.viewEntidad('estabilidad');
-    expect(est).toContain('v7-ent-input');
-    expect(est).toContain('v7-ent-list');
     expect(est).toContain('Cabina estabilidad acelerada');
-    expect(est).toContain('v7-ent-opt');
-    const alm = Validaciones.viewEntidad('almacenes');
-    expect(alm).toContain('class="v7-ent"');
-    expect(alm).not.toContain('v7-ent-input');
     // La entidad declara su tipo (M = producción, Q = estabilidad, L = analítico):
     // de ahí sale la referencia normativa del protocolo.
     expect(Validaciones.entidadPorNombre('equipos', 'balanza analítica / precisión')).toEqual({ id: 'balanza', nombre: 'Balanza analítica / precisión', tipo: 'L' });

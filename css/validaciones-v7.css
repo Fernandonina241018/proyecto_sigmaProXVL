@@ -373,7 +373,6 @@
   padding-left: 10px;
   border-left: 3px solid var(--v7-accent);
 }
-#validaciones-app .v7-ents { display: flex; flex-wrap: wrap; gap: 10px; }
 #validaciones-app .v7-ent {
   font: inherit;
   font-size: 13px;
