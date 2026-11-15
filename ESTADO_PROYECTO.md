@@ -90,6 +90,28 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (StatAnalyzer Pro) co
 
 ## CAMBIOS RECIENTES
 
+### 2026-11-15 (294): Índice — ACÁPITE a 1200 twips
+
+**Qué:** se amplió la columna del encabezado “ACÁPITE” para que no salte de línea.
+- `ACÁPITE`: 1100 → **1200** twips.
+- `DESCRIPCIÓN`: 8810 (se conserva el ancho ganado para el título).
+- `PÁG.`: 800 (sin cambios).
+- Total de la tabla: 10710 → **10810** twips; sigue dentro de la hoja.
+- Aplica a **todos los protocolos y entidades** porque `tocTabla` es compartida por DQ/IQ/OQ/PQ (sistemas, almacenes, equipos, estabilidad, software, etc.).
+
+**Archivos afectados:**
+| Archivo | Cambio |
+|---------|--------|
+| `js/core/plantilla-docx.js` | Ancho de la primera columna y `tblGrid`/`tblW` |
+| `tests/dq-scaffold.test.js` | `tblW 10810`, `gridCol 1200` |
+| `tests/plantilla-docx.test.js` | `tblW 10810`, `gridCol 1200` |
+
+**Verificación:**
+```
+Vitest completo → 1162 tests OK
+Preflight + E2E → 14 tests OK
+```
+
 ### 2026-11-15 (293): Índice — columna del título más ancha
 
 **Qué:** se rebalanceó la tabla del índice para reducir los títulos en dos líneas.
