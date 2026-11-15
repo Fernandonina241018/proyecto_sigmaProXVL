@@ -90,6 +90,28 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (StatAnalyzer Pro) co
 
 ## CAMBIOS RECIENTES
 
+### 2026-11-15 (297): Selector de entidades — combobox en todas las categorías
+
+**Qué:** el paso 1 usa el mismo combobox con buscador en todas las categorías.
+- Se eliminó el umbral `UMBRAL_COMBO` y el fallback de botones (`v7-ents`).
+- Almacenes, Equipos, Sistemas, Estabilidad y Software usan input + lista con scroll/filtro/teclado.
+- Equipos mantiene las 41 opciones; Almacenes/Sistemas/Software tienen listas cortas.
+- Se retiró el CSS muerto de `.v7-ents`; `.v7-ent` se conserva para las opciones.
+
+**Archivos afectados:**
+| Archivo | Cambio |
+|---------|--------|
+| `js/core/indexx-validaciones.js` | `paso1Html` siempre combobox; sin umbral |
+| `css/validaciones-v7.css` | Eliminado `.v7-ents` |
+| `tests/validaciones-panel.test.js` | Cobertura de las 5 categorías |
+
+**Verificación:**
+```
+Vitest completo → 1162 tests OK
+Preflight + E2E → 14 tests OK
+Navegador: almacenes 4, sistemas 4, estabilidad 6, software 4, equipos 41 opciones; sin errores
+```
+
 ### 2026-11-15 (296): Equipos — combobox propio en lugar del datalist nativo
 
 **Qué:** el selector de entidades de Equipos/Estabilidad dejó de usar `<datalist>`.
