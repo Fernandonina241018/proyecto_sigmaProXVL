@@ -95,35 +95,7 @@ document.getElementById('ribbonPopupBtn').addEventListener('click', function(e) 
   document.getElementById('ribbonNavPopup').classList.toggle('open');
 });
 
-// ── Sidebar user dropdown ──
-document.getElementById('sidebarUser').addEventListener('click', function(e) {
-  e.stopPropagation();
-  if (typeof Auth === 'undefined') return;
-  var session = Auth.getSession();
-  if (!session) { Auth.showLogin(); return; }
-  var dd = document.getElementById('sidebarUserDropdown');
-  if (!dd) return;
-  document.getElementById('sudName').textContent = session.username || 'Usuario';
-  document.getElementById('sudEmail').textContent = session.email || (session.username + '@sigmapro.com');
-  document.getElementById('sudAvatar').textContent = (session.username || 'U').charAt(0).toUpperCase();
-  var areaItem = document.getElementById('sudAreaItem');
-  if (areaItem) areaItem.style.display = (session.role === 'admin') ? '' : 'none';
-  dd.classList.toggle('open');
-});
-document.getElementById('sidebarUserDropdown').addEventListener('click', function(e) {
-  var item = e.target.closest('.sud-item');
-  if (!item) return;
-  var dd = document.getElementById('sidebarUserDropdown');
-  dd.classList.remove('open');
-  if (item.getAttribute('data-action') === 'perfil') { if (typeof showPerfilModal === 'function') showPerfilModal(); return; }
-  if (item.getAttribute('data-action') === 'area' && typeof Auth !== 'undefined' && Auth.selectArea) { Auth.selectArea(); return; }
-  if (item.getAttribute('data-action') === 'logout' && typeof Auth !== 'undefined') Auth.logout();
-});
 document.addEventListener('click', function(e) {
-  var dd = document.getElementById('sidebarUserDropdown');
-  if (dd && !e.target.closest('#sidebarUser') && !e.target.closest('#sidebarUserDropdown')) {
-    dd.classList.remove('open');
-  }
   var popup = document.getElementById('ribbonNavPopup');
   if (popup && !e.target.closest('#sidebarToggle') && !e.target.closest('#ribbonPopupBtn') && !e.target.closest('#ribbonNavPopup')) {
     popup.classList.remove('open');

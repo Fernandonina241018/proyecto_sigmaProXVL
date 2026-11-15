@@ -43,8 +43,6 @@ const els = {
   panesContainer: fakeEl(),
   sidebarToggle: fakeEl(),
   ribbonPopupBtn: fakeEl(),
-  sidebarUser: fakeEl(),
-  sidebarUserDropdown: fakeEl(),
   tabNew: fakeEl(),
   sidebar: sidebarFake,
   sidebarSearch: searchInputFake,

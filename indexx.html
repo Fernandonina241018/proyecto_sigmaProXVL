@@ -207,32 +207,12 @@
         </svg>
       </div>
       <div class="ribbon-toggle" id="sidebarToggle" title="Toggle sidebar">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
           <rect x="3" y="3" width="18" height="18" rx="2"/>
           <line x1="9" y1="3" x2="9" y2="21"/>
           <polyline points="5 9 3 12 5 15"/>
         </svg>
       </div>
-      <div class="ribbon-togglee" id="sidebarUser" title="User menu">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
-              <circle cx="12" cy="7" r="4"/>
-          </svg>
-      </div>
-    </div>
-    <div class="sidebar-user-dropdown" id="sidebarUserDropdown">
-        <div class="sud-header">
-            <div class="sud-avatar" id="sudAvatar">U</div>
-            <div class="sud-info">
-                <div class="sud-header-name" id="sudName"></div>
-                <div class="sud-header-email" id="sudEmail"></div>
-            </div>
-        </div>
-        <div class="sud-body">
-            <div class="sud-item" data-action="perfil"><span class="sud-item-icon">👤</span> Mi Perfil</div>
-            <div class="sud-item" data-action="area" id="sudAreaItem" style="display:none"><span class="sud-item-icon">⇄</span> Cambiar de área</div>
-            <div class="sud-item logout" data-action="logout"><span class="sud-item-icon">🚪</span> Cerrar Sesión</div>
-        </div>
     </div>
     <div class="ribbon-nav-popup" id="ribbonNavPopup"></div>
   </div>
@@ -270,7 +250,7 @@
       <div class="sidebar-footer-icons">
         <span class="footer-icon" id="themeToggle" title="Cambiar tema">🌙</span>
         <span class="footer-icon" onclick="showHelpModal()" title="Atajos y ayuda">?</span>
-        <span class="footer-icon" onclick="showSettingsModal()" title="Configuración">⚙</span>
+        <span class="footer-icon settings" onclick="showSettingsModal()" title="Configuración">⚙</span>
       </div>
     </div>
   </div>
