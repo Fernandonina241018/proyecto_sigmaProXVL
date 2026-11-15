@@ -716,7 +716,7 @@ const PlantillaDocx = (() => {
 
   function tocTabla(entries) {
     const n = entries.length;
-    const size = n <= 15 ? 21 : n <= 30 ? 20 : 19;
+    const size = 22; // 11 pt: mismo tamaño que el texto del protocolo
     const after = n <= 15 ? 40 : n <= 30 ? 20 : 0;
     const rpr = (bold) => '<w:rPr><w:rFonts w:ascii="Tahoma" w:hAnsi="Tahoma" w:cs="Tahoma" />'
       + (bold ? '<w:b/><w:bCs/>' : '') + '<w:color w:val="000000" /><w:sz w:val="' + size + '" /><w:szCs w:val="' + size + '" /></w:rPr>';
@@ -753,6 +753,25 @@ const PlantillaDocx = (() => {
       + cell(8410, textP('DESCRIPCIÓN', 'left', true), true)
       + cell(1200, textP('PÁG.', 'center', true), true)
       + '</w:tr>' + rows + '</w:tbl>';
+  }
+
+  // Todo el texto del cuerpo a 11 pt (w:sz=22), salvo los símbolos de
+  // formulario (□/☐/✓), que se dejan en su tamaño para que sigan visibles.
+  // Solo se aplica a word/document.xml: header/footer son partes aparte.
+  function fijarTexto11(xml) {
+    return String(xml || '').replace(/<w:r\b[\s\S]*?<\/w:r>/g, function (run) {
+      const textos = (run.match(/<w:t\b[^>]*>[\s\S]*?<\/w:t>/g) || [])
+        .map(function (t) { return t.replace(/<[^>]+>/g, ''); }).join('');
+      if (!textos.trim()) return run;
+      if (/^[\s\u25A1\u2610\u2611\u2612\u2713\u2714\u2717\u2718]+$/.test(textos)) return run;
+      let out = run.replace(/<w:rPr>([\s\S]*?)<\/w:rPr>/g, function (m, inner) {
+        const limpio = inner.replace(/<w:sz\b[^>]*\/>/g, '').replace(/<w:szCs\b[^>]*\/>/g, '');
+        return '<w:rPr>' + limpio + '<w:sz w:val="22" /><w:szCs w:val="22" /></w:rPr>';
+      });
+      out = out.replace(/<w:rPr\/>/g, '<w:rPr><w:sz w:val="22" /><w:szCs w:val="22" /></w:rPr>');
+      out = out.replace(/<w:r(\s[^>]*)?>(<w:t)/g, '<w:r$1><w:rPr><w:sz w:val="22" /><w:szCs w:val="22" /></w:rPr>$2');
+      return out;
+    });
   }
 
   function tocBookmark(xml, id, name) {
@@ -844,7 +863,7 @@ const PlantillaDocx = (() => {
           parts[e.idx].xml = tocBookmark(parts[e.idx].xml, 60000 + i, e.bm);
         });
         parts[tocAt].xml = tocTabla(entries);
-        docPart.datos = enc(docXml.slice(0, iBody) + parts.map((p) => p.xml).join('') + docXml.slice(fBody));
+        docPart.datos = enc(fijarTexto11(docXml.slice(0, iBody) + parts.map((p) => p.xml).join('') + docXml.slice(fBody)));
       }
     }
 
@@ -1744,7 +1763,7 @@ const PlantillaDocx = (() => {
     }
 
     // ---- ensamblar ----
-    const cuerpoXml = parts.map((x) => x.xml).join('');
+    const cuerpoXml = fijarTexto11(parts.map((x) => x.xml).join(''));
     setTxt('word/document.xml', docXml.slice(0, iBody) + cuerpoXml + docXml.slice(fBody));
     if (numsNuevos.length) setTxt('word/numbering.xml', numXml.replace('</w:numbering>', numsNuevos.join('') + '</w:numbering>'));
     // docDefaults a 11pt: ningún run heredado puede mostrar 12pt en Word
@@ -1862,7 +1881,7 @@ const PlantillaDocx = (() => {
   return {
     FASES, PLANTILLAS, OPC, SALTO_PAGINA, SALTO_H1, SALTO_H2, SALTO_TABLA, REFS_NORMATIVAS, refNormativa, soporta, configurar, generar, descargar, banco, mezclarComun, generarDQScaffold, descargarDQ, nombreArchivo,
     LIMITES, limitesDe, aplicarLimites, limitesPendientes, limitesResumen, paramsFaltantes, parametrosFamilia, bloquesFijos, rtmLineas,
-    _interno: { leerZip, escribirZip, hijos, texto, reemplazarEnParrafo, congelar, lineas, estructura, puntosVerificacion, puntosTabla, cabeceraResultado, fechaTexto, crc32, llenarFirmas, fijarTahoma11, debeSaltar, debeSaltarH1, debeSaltarH2, debeSaltarTabla, saltoPrevio, generoDe, ajustarArticulos },
+    _interno: { leerZip, escribirZip, hijos, texto, reemplazarEnParrafo, congelar, lineas, estructura, puntosVerificacion, puntosTabla, cabeceraResultado, fechaTexto, crc32, llenarFirmas, fijarTahoma11, fijarTexto11, debeSaltar, debeSaltarH1, debeSaltarH2, debeSaltarTabla, saltoPrevio, generoDe, ajustarArticulos },
   };
 })();
 

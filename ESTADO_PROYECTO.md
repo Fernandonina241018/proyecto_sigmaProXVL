@@ -90,6 +90,27 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (StatAnalyzer Pro) co
 
 ## CAMBIOS RECIENTES
 
+### 2026-11-15 (292): Protocolos — texto del cuerpo en 11 pt
+
+**Qué:** se unificó el tamaño del texto de los protocolos.
+- El índice de DQ/IQ/OQ/PQ pasó del tamaño adaptativo 10/9.5 pt a **11 pt**.
+- Se agregó `fijarTexto11` sobre `word/document.xml`: todo el texto visible queda en `w:sz=22` (11 pt), incluido el rótulo DQ que estaba en 10 pt.
+- No se tocan el encabezado ni el pie de página (PBO de la empresa); conservan sus tamaños.
+- Los símbolos de formulario `□/☐/✓` se mantienen en 16 pt.
+
+**Archivos afectados:**
+| Archivo | Cambio |
+|---------|--------|
+| `js/core/plantilla-docx.js` | `tocTabla` a 11 pt; nuevo `fijarTexto11` aplicado a DQ e IQ/OQ/PQ |
+| `tests/dq-scaffold.test.js` | Índice 22; rótulo DQ 22; header 18; sin 19 |
+| `tests/plantilla-docx.test.js` | Índice 22 en IQ/OQ/PQ; header/footer intactos; test de `fijarTexto11` con `□` |
+
+**Verificación:**
+```
+Vitest completo → 1162 tests OK
+Preflight + E2E → 14 tests OK
+```
+
 ### 2026-11-15 (291): Rail — quitar perfil y agrandar colapsar/settings
 
 **Qué:** se limpió el extremo inferior izquierdo de Estadística.
