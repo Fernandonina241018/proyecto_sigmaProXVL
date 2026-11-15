@@ -90,6 +90,25 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (StatAnalyzer Pro) co
 
 ## CAMBIOS RECIENTES
 
+### 2026-11-15 (299): Perfil — retirar el código de firma del modal
+
+**Qué:** el modal de perfil mostraba `signature_code` en el campo “Firma”, información clasificada.
+- Se reemplazó por **Correo** (`u.email`); la clave ya no se muestra en la UI.
+- El dato permanece en el backend para el flujo de firma; solo se retiró del modal.
+- Test de regresión para que `indexx-ui.js` no vuelva a renderizar `signature_code`.
+
+**Archivos afectados:**
+| Archivo | Cambio |
+|---------|--------|
+| `js/core/indexx-ui.js` | Campo Firma → Correo |
+| `tests/perfil-modal.test.js` | Assert de que no se usa `signature_code` |
+
+**Verificación:**
+```
+Vitest completo → 1163 tests OK
+Preflight + E2E → 14 tests OK
+```
+
 ### 2026-11-15 (298): Combobox — primera coincidencia resaltada al escribir
 
 **Qué:** el combobox selecciona visualmente la primera coincidencia.

@@ -379,7 +379,7 @@ function renderPerfil(box, u, opts) {
           + campo('Usuario', u.username)
           + campo('Cargo', u.cargo)
           + campo('Teléfono', u.telefono)
-          + campo('Firma', u.signature_code)
+          + campo('Correo', u.email)
           + '<div class="perfil-field wide"><span>Área</span><b data-perfil-area>' + escapeHtml(seleccion === 'validaciones' ? 'Validaciones · calificación y protocolos' : 'Estadística · análisis de datos') + '</b></div>'
         + '</div>'
       + '</section>'
