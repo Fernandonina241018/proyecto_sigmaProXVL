@@ -479,6 +479,31 @@ const PlantillaDocx = (() => {
     return !cond || cond === 'ambas' || cond === filtro;
   }
 
+  // IQ de cuarto frío/congelador: el estudio no lleva humedad relativa.
+  // Se vacían las referencias del template y se anula la columna HR de la
+  // tabla de condiciones ambientales (el ancho se pasa a la temperatura).
+  function quitarHumedad(xml) {
+    let out = String(xml || '');
+    out = out.replace(/<w:t([^>]*)>\s*HUMEDAD RELATIVA\s*<\/w:t>/gi, '<w:t$1></w:t>');
+    out = out.replace(/<w:t([^>]*)>\s*Humedad relativa\.?\s*<\/w:t>/gi, '<w:t$1></w:t>');
+    out = out.replace(/<w:t([^>]*)>\s*Humedad Relativa \(%\)\s*<\/w:t>/gi, '<w:t$1></w:t>');
+    out = out.replace(/<w:tbl\b[\s\S]*?<\/w:tbl>/g, function (tbl) {
+      if (tbl.indexOf('TEMPERATURA AMBIENTAL') < 0) return tbl;
+      let t = tbl;
+      const i = t.indexOf('TEMPERATURA AMBIENTAL');
+      if (i >= 0) {
+        const before = t.slice(0, i);
+        let after = t.slice(i);
+        after = after.replace(/<w:t([^>]*)>\s*-\s*<\/w:t>/, '<w:t$1></w:t>');
+        t = before + after;
+      }
+      t = t.replace(/<w:gridCol w:w="2610"\s*\/>\s*<w:gridCol w:w="2790"\s*\/>/, '<w:gridCol w:w="5400"/><w:gridCol w:w="0"/>');
+      t = t.replace(/<w:tcW w:w="2790"[^>]*\/>/g, '<w:tcW w:w="0" w:type="dxa"/>');
+      return t;
+    });
+    return out;
+  }
+
   function rangoTexto(d) {
     d = d || {};
     const g = (k) => String(d[k] == null ? '' : d[k]).trim();
@@ -1766,7 +1791,9 @@ const PlantillaDocx = (() => {
     }
 
     // ---- ensamblar ----
-    const cuerpoXml = fijarTexto11(parts.map((x) => x.xml).join(''));
+    let cuerpoXml = fijarTexto11(parts.map((x) => x.xml).join(''));
+    const tipoEnt = String(d.tipo || '').trim() + ' ' + String((entidad && (entidad.nombre || entidad.id)) || '');
+    if (fase === 'IQ' && /cuarto\s*fr[ií]o|congelador/i.test(tipoEnt)) cuerpoXml = quitarHumedad(cuerpoXml);
     setTxt('word/document.xml', docXml.slice(0, iBody) + cuerpoXml + docXml.slice(fBody));
     if (numsNuevos.length) setTxt('word/numbering.xml', numXml.replace('</w:numbering>', numsNuevos.join('') + '</w:numbering>'));
     // docDefaults a 11pt: ningún run heredado puede mostrar 12pt en Word
@@ -1884,7 +1911,7 @@ const PlantillaDocx = (() => {
   return {
     FASES, PLANTILLAS, OPC, SALTO_PAGINA, SALTO_H1, SALTO_H2, SALTO_TABLA, REFS_NORMATIVAS, refNormativa, soporta, configurar, generar, descargar, banco, mezclarComun, generarDQScaffold, descargarDQ, nombreArchivo,
     LIMITES, limitesDe, aplicarLimites, limitesPendientes, limitesResumen, paramsFaltantes, parametrosFamilia, bloquesFijos, rtmLineas,
-    _interno: { leerZip, escribirZip, hijos, texto, reemplazarEnParrafo, congelar, lineas, estructura, puntosVerificacion, puntosTabla, cabeceraResultado, fechaTexto, crc32, llenarFirmas, fijarTahoma11, fijarTexto11, debeSaltar, debeSaltarH1, debeSaltarH2, debeSaltarTabla, saltoPrevio, generoDe, ajustarArticulos },
+    _interno: { leerZip, escribirZip, hijos, texto, reemplazarEnParrafo, congelar, lineas, estructura, puntosVerificacion, puntosTabla, cabeceraResultado, fechaTexto, crc32, llenarFirmas, fijarTahoma11, fijarTexto11, quitarHumedad, debeSaltar, debeSaltarH1, debeSaltarH2, debeSaltarTabla, saltoPrevio, generoDe, ajustarArticulos },
   };
 })();
 

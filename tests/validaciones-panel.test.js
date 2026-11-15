@@ -157,6 +157,19 @@ describe('Validaciones V7', () => {
     } finally { delete globalThis.BancoSistemas; }
   });
 
+  test('almacenes: condiciones USP y autofill de temperatura', () => {
+    const list = Validaciones.getEntidades('almacenes');
+    const cuarto = list.find((e) => e.id === 'cuarto-frio');
+    const congelador = list.find((e) => e.id === 'congelador');
+    expect(cuarto).toMatchObject({ tipo: 'Cuarto frío', tempMin: 2, tempMax: 8, humedad: false });
+    expect(congelador).toMatchObject({ tipo: 'Congelador', tempMin: -25, tempMax: -10, humedad: false });
+    expect(Validaciones.datosAlmacen(cuarto, {})).toEqual({ tipo: 'Cuarto frío', temperaturaMin: '2', temperaturaMax: '8', sinHumedad: true });
+    expect(Validaciones.datosAlmacen(cuarto, { temperaturaMin: '3' })).toMatchObject({ temperaturaMin: '3', temperaturaMax: '8' });
+    const ambiente = list.find((e) => e.id === 'almacen-ambiente-a');
+    expect(Validaciones.datosAlmacen(ambiente, {})).toMatchObject({ tipo: 'Temperatura controlada', temperaturaMin: '15', temperaturaMax: '25', sinHumedad: false });
+    expect(Validaciones.datosAlmacen(list.find((e) => e.id === 'almacen-ambiente-b'), {}).tipo).toBe('Ambiente');
+  });
+
   test('sistemas: fase IQ cableada (DQ+IQ+OQ+PQ)', () => {
     expect(Validaciones.GEN_FASES.sistemas).toEqual(['DQ', 'IQ', 'OQ', 'PQ']);
     const html = Validaciones.viewEntidad('sistemas');

@@ -23,10 +23,10 @@ const Validaciones = (() => {
   //   L = instrumento analítico o de control de calidad (USP <1058>)
   const ENTIDADES = {
     almacenes: [
-      { id: 'almacen-ambiente-a', nombre: 'Almacén 15–25 °C / HR < 65%' },
-      { id: 'almacen-ambiente-b', nombre: 'Almacén 0–30 °C / HR < 80%' },
-      { id: 'cuarto-frio', nombre: 'Cuarto frío (2–8 °C)' },
-      { id: 'congelador', nombre: 'Congelador (−20 °C)' },
+      { id: 'almacen-ambiente-a', nombre: 'Almacén 15–25 °C / HR < 65%', tipo: 'Temperatura controlada', tempMin: 15, tempMax: 25, humedad: true },
+      { id: 'almacen-ambiente-b', nombre: 'Almacén 0–30 °C / HR < 80%', tipo: 'Ambiente', tempMin: 0, tempMax: 30, humedad: true },
+      { id: 'cuarto-frio', nombre: 'Cuarto frío (2–8 °C)', tipo: 'Cuarto frío', tempMin: 2, tempMax: 8, humedad: false },
+      { id: 'congelador', nombre: 'Congelador (−20 °C)', tipo: 'Congelador', tempMin: -25, tempMax: -10, humedad: false },
     ],
     equipos: [
       { id: 'tableteadora', nombre: 'Tableteadora rotativa', tipo: 'M' },
@@ -1180,6 +1180,23 @@ const Validaciones = (() => {
     return null;
   }
 
+  // Condiciones tabuladas de un almacén: el borrador guardado manda en las
+  // temperaturas; si no hay valor, se usa el rango de la entidad.
+  function datosAlmacen(ent, draft) {
+    if (!ent) return null;
+    const d = draft || {};
+    const val = function (k, def) {
+      const v = String(d[k] == null ? '' : d[k]).trim();
+      return v || String(def);
+    };
+    return {
+      tipo: ent.tipo,
+      temperaturaMin: val('temperaturaMin', ent.tempMin),
+      temperaturaMax: val('temperaturaMax', ent.tempMax),
+      sinHumedad: ent.humedad === false
+    };
+  }
+
   function paso1Html(ents) {
     return '<div class="v7-combo">'
       + '<input type="text" class="v7-ent-input" placeholder="Escriba para buscar la entidad…" autocomplete="off" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="v7-ents-list" aria-label="Buscar entidad">'
@@ -1737,6 +1754,30 @@ const Validaciones = (() => {
 
     let cargaToken = 0;
 
+    function aplicarCondicionesAlmacen(draft) {
+      if (catId !== 'almacenes') return;
+      const ent = getEntidades('almacenes').filter((e) => e.id === entActual)[0];
+      const cfg = datosAlmacen(ent, draft);
+      if (!cfg) return;
+      const set = function (k, v) {
+        const el = form.querySelector('[data-k="' + k + '"]');
+        if (el) el.value = String(v == null ? '' : v);
+      };
+      set('tipo', cfg.tipo);
+      set('temperaturaMin', cfg.temperaturaMin);
+      set('temperaturaMax', cfg.temperaturaMax);
+      ['humedadMin', 'humedadMax'].forEach(function (k) {
+        const lab = form.querySelector('[data-f="' + k + '"]');
+        const inp = form.querySelector('[data-k="' + k + '"]');
+        const v = draft && draft[k] != null ? String(draft[k]).trim() : '';
+        if (lab) lab.hidden = cfg.sinHumedad;
+        if (inp) {
+          inp.disabled = cfg.sinHumedad;
+          inp.value = cfg.sinHumedad ? '' : v;
+        }
+      });
+    }
+
     async function elegirEntidad(entId) {
       if (!entId) return false;
       const combo = main.querySelector('.v7-ent-input');
@@ -1758,6 +1799,7 @@ const Validaciones = (() => {
       entActual = entId;
       pintarParametros(draft);
       cargar(draft);
+      aplicarCondicionesAlmacen(draft);
       pintarDescripcion();
       setMsg(Object.keys(draft).length ? 'Borrador cargado' : '', true);
       if (conGen) {
@@ -2156,7 +2198,7 @@ const Validaciones = (() => {
 
   return {
     CATS, ROUTES, DOCS, ENTIDADES, SCHEMAS, FASES_GEN, GEN_FASES, AREAS_GERENCIA, parseRoute, catById, getSchema, getEntidades,
-    entidadPorNombre,
+    entidadPorNombre, datosAlmacen,
     puestoGerente, areaDesdeCargo, firmantesHtml, saveDraft, loadDraft, cargarBorrador, guardarBorrador, validarDatos, saveGen, loadGen, viewEntidad, show, hide, apply, currentArea, render, contarGen, tieneBancoFam, estadoBancoFam, resolverDescripcion, mejorarFecha, manifest, viewProtocolos,
     viewDocumentacion, viewReportes, viewConfiguracion, viewAyuda, viewCalendario, chartHtml, reportHtml, calendarHtml, cargarResumen, cargarCalendario, cargarReportes, bindConfiguracion,
   };
