@@ -1919,7 +1919,7 @@ const Validaciones = (() => {
         + '<div class="welcome"><h1>¡Bienvenido de nuevo!</h1><p>Este es el resumen de actividad de tu entorno StatAnalyzer Pro.</p></div>'
         + '<div class="top-actions"><input class="search" id="v7-search" placeholder="Buscar categoría o entidad…" aria-label="Buscar"></div>'
         + '<div class="top-tools"><button class="icon-btn" type="button" data-act="notifications" aria-label="Notificaciones"><span aria-hidden="true">♧</span><i class="dot" aria-hidden="true"></i></button>'
-        + '<button class="profile" type="button" data-act="area" aria-label="Cambiar de área"><span class="avatar" aria-hidden="true">' + esc(firstLetter(user)) + '</span>'
+        + '<button class="profile" type="button" data-act="profile" aria-label="Abrir perfil"><span class="avatar" aria-hidden="true">' + esc(firstLetter(user)) + '</span>'
         + '<span><strong>' + esc(user) + '</strong><small>' + esc(roleLabel) + '</small></span><span aria-hidden="true" style="color:#8291a3">⌄</span></button></div>'
         + '</header><div class="vd-content" id="vd-content" tabindex="-1"></div></main></div>';
 
@@ -1966,6 +1966,10 @@ const Validaciones = (() => {
           setOpen(false);
           return;
         }
+        if (item.getAttribute('data-act') === 'profile') {
+          try { if (typeof showPerfilModal === 'function') showPerfilModal(); } catch (err) {}
+          return;
+        }
         if (item.getAttribute('data-act') === 'area') {
           try {
             if (typeof Auth !== 'undefined' && Auth.selectArea) { Auth.selectArea(); return; }
@@ -1992,6 +1996,7 @@ const Validaciones = (() => {
 
       document.body.appendChild(ov);
       render();
+      try { if (typeof window.mountPerfilNotch === 'function') window.mountPerfilNotch(); } catch (e) {}
       return true;
     } catch (e) { return false; }
   }
@@ -2004,6 +2009,7 @@ const Validaciones = (() => {
       }
       document.getElementById('validaciones-view')?.remove();
       document.getElementById('validaciones-app')?.remove();
+      try { if (typeof window.mountPerfilNotch === 'function') window.mountPerfilNotch(); } catch (e) {}
       return true;
     } catch (e) { return false; }
   }

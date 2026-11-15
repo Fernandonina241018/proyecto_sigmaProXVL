@@ -223,76 +223,232 @@ function expandSidebarFromRailSearch(e) {
 })();
 
 // ── Perfil modal ──
+function mountPerfilNotch() {
+  if (typeof document === 'undefined') return;
+  var host = document.querySelector('#validaciones-app .app') || document.querySelector('.content');
+  var old = document.getElementById('sigma-perfil-notch');
+  if (!host) { if (old) old.remove(); return; }
+  if (old && old.parentNode === host) return;
+  if (old) old.remove();
+  var b = document.createElement('button');
+  b.id = 'sigma-perfil-notch';
+  b.className = 'sigma-notch';
+  b.type = 'button';
+  b.setAttribute('aria-haspopup', 'dialog');
+  b.setAttribute('aria-label', 'Abrir perfil, módulos y sesión');
+  b.title = 'Perfil, módulos y sesión';
+  b.innerHTML = '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="8" r="3.4"></circle><path d="M5.2 20c.7-3.7 3.4-5.6 6.8-5.6s6.1 1.9 6.8 5.6"></path></svg>';
+  b.addEventListener('click', function () { showPerfilModal(); });
+  host.appendChild(b);
+}
+window.mountPerfilNotch = mountPerfilNotch;
+
 function showPerfilModal() {
   var session = typeof Auth !== 'undefined' ? Auth.getSession() : null;
   if (!session) return;
+
   var overlay = document.createElement('div');
-  overlay.className = 'modal-overlay';
-  overlay.onclick = function(e) { if (e.target === overlay) overlay.remove(); };
-  overlay.innerHTML = '<div style="max-width:440px;width:90%">'
-    + '<div id="perfilConnStatus" style="padding:6px 16px;font-size:11px;font-weight:600;text-align:center;background:var(--bg-secondary);color:var(--text-muted);border-radius:12px 12px 0 0;display:flex;align-items:center;justify-content:center;gap:6px">⏳ Conectando...</div>'
-    + '<div class="modal-box" style="max-width:100%;padding:0;overflow:hidden;border-radius:0 0 12px 12px">'
-    + '<div class="perfil-loading" style="text-align:center;padding:40px 20px;color:var(--text-muted);font-size:14px">Cargando perfil...</div>'
-    + '</div></div>';
+  overlay.className = 'modal-overlay perfil-overlay';
+  overlay.innerHTML = '<div class="perfil-modal" role="dialog" aria-modal="true" aria-label="Perfil">'
+    + '<button class="perfil-close" type="button" aria-label="Cerrar perfil">×</button>'
+    + '<div class="perfil-loading">Cargando perfil…</div>'
+    + '</div>';
   document.body.appendChild(overlay);
-  var box = overlay.querySelector('.modal-box');
-  var statusEl = document.getElementById('perfilConnStatus');
+
+  var modal = overlay.querySelector('.perfil-modal');
+
+  function closePerfil() {
+    document.removeEventListener('keydown', onKey);
+    if (overlay.parentNode) overlay.remove();
+  }
+  function onKey(e) {
+    if (e.key === 'Escape' && !document.querySelector('.perfil-passkeys-overlay')) closePerfil();
+  }
+
+  overlay.addEventListener('click', function (e) { if (e.target === overlay) closePerfil(); });
+  var loadingClose = overlay.querySelector('.perfil-close');
+  if (loadingClose) loadingClose.addEventListener('click', closePerfil);
+  document.addEventListener('keydown', onKey);
+  if (loadingClose) setTimeout(function () { loadingClose.focus(); }, 30);
+
   var apiUrl = typeof API_URL !== 'undefined' ? API_URL : '';
-  fetchWithTimeout(apiUrl + '/api/me', { credentials: 'include', headers: { Authorization: 'Bearer ' + (Auth.getToken() || '') } })
-    .then(function(r) { return r.json(); })
-    .then(function(data) {
+  fetchWithTimeout(apiUrl + '/api/me', {
+    credentials: 'include',
+    headers: { Authorization: 'Bearer ' + (Auth.getToken() || '') }
+  })
+    .then(function (r) { return r.json(); })
+    .then(function (data) {
       if (!data.ok) throw new Error(data.error || 'Error al cargar');
       var user = data.profile || { username: data.username, role: data.role };
-      // Indicador de backend (local vs Fly): evita dudas entre dispositivos.
-      var _host = String(apiUrl || '').replace(/^https?:\/\//, '').split('/')[0] || 'mismo origen';
-      if (statusEl) { statusEl.innerHTML = '✓ ' + escapeHtml(_host); statusEl.style.background = 'rgba(74,222,128,0.12)'; statusEl.style.color = '#4ade80'; }
-      renderPerfil(box, user);
-      try {
-        var _row = document.createElement('div');
-        _row.style.cssText = 'padding:6px 24px 12px;font-size:10px;color:var(--text-faint);text-align:center';
-        _row.textContent = '🌐 Backend: ' + _host;
-        box.appendChild(_row);
-      } catch (_e) {}
+      var host = String(apiUrl || '').replace(/^https?:\/\//, '').split('/')[0] || 'mismo origen';
+      renderPerfil(modal, user, { host: host, onClose: closePerfil });
     })
-    .catch(function() {
-      if (statusEl) { statusEl.innerHTML = '✕ Sin conexión al servidor'; statusEl.style.background = 'rgba(248,113,113,0.12)'; statusEl.style.color = '#f87171'; }
-      renderPerfilSimple(box, session);
+    .catch(function () {
+      renderPerfilSimple(modal, session, { host: 'sin conexión', onClose: closePerfil, fallback: true });
     });
 }
 
-function renderPerfil(box, u) {
-  var nombreCompleto = [u.nombre, u.apellido].filter(Boolean).join(' ') || u.username;
-  var inicial = nombreCompleto.charAt(0).toUpperCase();
-  var colores = ['#7c6af7','#6ee7b7','#fb923c','#f87171','#60a5fa','#a78bfa','#f472b6','#34d399'];
-  var color = colores[nombreCompleto.length % colores.length];
-  var rolLabel = { admin:'🔴 Admin', user:'👤 Usuario', supervisor:'🟡 Supervisor', analista:'🔵 Analista', gerente:'🟣 Gerente', coordinador:'🟠 Coordinador', readonly:'👁 Solo lectura' }[u.role] || escapeHtml(u.role);
-  var activo = u.active === 1;
-  var lastLogin = u.last_login ? (typeof fmtDate === 'function' ? fmtDate(u.last_login) : u.last_login.slice(0,16).replace('T',' ')) : 'Nunca';
+function renderPerfil(box, u, opts) {
+  opts = opts || {};
+  var onClose = typeof opts.onClose === 'function' ? opts.onClose : function () {
+    var ov = box.closest('.perfil-overlay');
+    if (ov) ov.remove();
+  };
+  var nombreCompleto = [u.nombre, u.apellido].filter(Boolean).join(' ') || u.username || 'Usuario';
+  var inicial = String(nombreCompleto).charAt(0).toUpperCase();
+  var rolLabel = ({ admin: 'Administrador', user: 'Usuario', supervisor: 'Supervisor', analista: 'Analista', gerente: 'Gerente', coordinador: 'Coordinador', readonly: 'Solo lectura' }[u.role] || u.role || 'Usuario');
+  var activo = u.active === 1 || u.active === true;
+  var lastLogin = u.last_login
+    ? (typeof fmtDate === 'function' ? fmtDate(u.last_login) : String(u.last_login).slice(0, 16).replace('T', ' '))
+    : (opts.fallback ? '—' : 'Nunca');
+  var areaActual = 'estadistica';
+  try {
+    if (typeof Auth !== 'undefined' && Auth.getArea) areaActual = Auth.getArea() || 'estadistica';
+  } catch (e) {}
+  var esAdmin = u.role === 'admin';
+  var seleccion = areaActual;
+  var host = opts.host || '';
 
-  box.innerHTML =
-    '<div style="background:linear-gradient(135deg,' + color + ',rgba(0,0,0,0.3));padding:24px 24px 20px;text-align:center;position:relative">'
-    + '<div style="width:64px;height:64px;border-radius:50%;background:rgba(255,255,255,0.2);display:flex;align-items:center;justify-content:center;margin:0 auto 12px;font-size:26px;font-weight:700;color:#fff;border:3px solid rgba(255,255,255,0.3);font-family:var(--font-display,Outfit)">' + inicial + '</div>'
-    + '<div style="font-size:18px;font-weight:700;color:#fff;font-family:var(--font-display,Outfit)">' + escapeHtml(nombreCompleto) + '</div>'
-    + '<div style="font-size:13px;color:rgba(255,255,255,0.75);margin-top:2px">' + escapeHtml(u.email || '—') + '</div>'
-    + '<div style="margin-top:10px;display:flex;gap:8px;justify-content:center">'
-    + '<span style="padding:3px 12px;border-radius:20px;font-size:11px;font-weight:600;background:rgba(255,255,255,0.15);color:#fff">' + rolLabel + '</span>'
-    + '<span style="padding:3px 12px;border-radius:20px;font-size:11px;font-weight:600;background:' + (activo ? 'rgba(74,222,128,0.25)' : 'rgba(248,113,113,0.25)') + ';color:' + (activo ? '#4ade80' : '#f87171') + '">' + (activo ? '✓ Activo' : '✕ Inactivo') + '</span>'
-    + '</div></div>'
-    + '<div style="padding:20px 24px;display:flex;flex-direction:column;gap:12px">'
-    + '<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">'
-    + campoPerfil('👤 Usuario', u.username)
-    + campoPerfil('💼 Cargo', u.cargo || '—')
-    + campoPerfil('📱 Teléfono', u.telefono || '—')
-    + campoPerfil('✍️ Firma', u.signature_code || '—')
+  function campo(label, value) {
+    return '<div class="perfil-field"><span>' + escapeHtml(label) + '</span><b>' + escapeHtml(value || '—') + '</b></div>';
+  }
+
+  box.innerHTML = '<div class="perfil-grid">'
+    + '<aside class="perfil-hero">'
+      + '<button class="perfil-close" type="button" aria-label="Cerrar perfil">×</button>'
+      + '<div class="perfil-hero-body">'
+        + '<div class="perfil-avatar">' + escapeHtml(inicial) + '</div>'
+        + '<div class="perfil-hero-id">'
+          + '<h2 id="perfilNombre">' + escapeHtml(nombreCompleto) + '</h2>'
+          + '<p>' + escapeHtml(u.email || '—') + '</p>'
+          + '<div class="perfil-chips">'
+            + '<span class="perfil-chip">' + escapeHtml(rolLabel) + '</span>'
+            + '<span class="perfil-chip ' + (activo ? 'ok' : 'off') + '">' + (activo ? '✓ Activo' : '✕ Inactivo') + '</span>'
+          + '</div>'
+        + '</div>'
+      + '</div>'
+      + (host ? '<div class="perfil-host">🌐 ' + escapeHtml(host) + '</div>' : '')
+    + '</aside>'
+    + '<div class="perfil-main">'
+      + '<section>'
+        + '<p class="perfil-section-title">Módulo de trabajo</p>'
+        + '<div class="perfil-module">'
+          + '<div class="perfil-seg" role="tablist" aria-label="Cambiar módulo">'
+            + '<button type="button" role="tab" data-perfil-module="estadistica" aria-selected="' + (seleccion === 'estadistica' ? 'true' : 'false') + '">Estadística</button>'
+            + '<button type="button" role="tab" data-perfil-module="validaciones" aria-selected="' + (seleccion === 'validaciones' ? 'true' : 'false') + '"' + (esAdmin ? '' : ' disabled title="Solo administradores"') + '>Validaciones</button>'
+          + '</div>'
+          + '<div class="perfil-note"><span>Cambia sin cerrar sesión</span><b data-perfil-current>' + (seleccion === 'validaciones' ? 'Validaciones' : 'Estadística') + '</b></div>'
+        + '</div>'
+      + '</section>'
+      + '<section>'
+        + '<p class="perfil-section-title">Datos del perfil</p>'
+        + '<div class="perfil-fields">'
+          + campo('Usuario', u.username)
+          + campo('Cargo', u.cargo)
+          + campo('Teléfono', u.telefono)
+          + campo('Firma', u.signature_code)
+          + '<div class="perfil-field wide"><span>Área</span><b data-perfil-area>' + escapeHtml(seleccion === 'validaciones' ? 'Validaciones · calificación y protocolos' : 'Estadística · análisis de datos') + '</b></div>'
+        + '</div>'
+      + '</section>'
+      + '<div class="perfil-duo">'
+        + '<section>'
+          + '<p class="perfil-section-title">Sesión</p>'
+          + '<div class="perfil-fields">'
+            + campo('Último acceso', lastLogin)
+            + campo('Ingresos', u.login_count != null ? String(u.login_count) : '—')
+          + '</div>'
+          + '<div class="perfil-session"><span>🕐 Sesión activa</span><span>' + (opts.fallback ? 'sin conexión' : 'API') + '</span></div>'
+        + '</section>'
+        + '<section>'
+          + '<p class="perfil-section-title">Seguridad</p>'
+          + '<div class="perfil-sec-line"><div>Passkeys<small>Huella, teléfono o llave</small></div><span class="perfil-passkey-count" data-perfil-passkeys>…</span></div>'
+          + '<button class="perfil-sec-btn" type="button" data-perfil-manage-passkeys>Gestionar passkeys</button>'
+        + '</section>'
+      + '</div>'
+      + '<div class="perfil-foot">'
+        + '<button class="perfil-btn" type="button" data-perfil-close>Cerrar</button>'
+        + '<button class="perfil-btn primary" type="button" data-perfil-apply>Ir al módulo</button>'
+      + '</div>'
+      + '<button class="perfil-logout" type="button" data-perfil-logout>Cerrar sesión</button>'
     + '</div>'
-    + '<div style="display:flex;gap:16px;padding-top:12px;border-top:1px solid var(--border);font-size:12px;color:var(--text-muted);justify-content:center">'
-    + '<span>🕐 ' + escapeHtml(lastLogin) + '</span>'
-    + '<span>🔑 ' + (u.login_count || 0) + ' logins</span>'
-    + '</div>'
-    + '<div id="perfil-passkeys" style="border-top:1px solid var(--border);padding-top:12px"></div>'
-    + '<button class="btn btn-secondary" style="width:100%;justify-content:center" onclick="this.closest(\'.modal-overlay\').remove()">Cerrar</button>'
+  + '</div>';
+
+  var segBtns = box.querySelectorAll('[data-perfil-module]');
+  function setSeleccion(id) {
+    seleccion = id;
+    Array.prototype.forEach.call(segBtns, function (b) {
+      b.setAttribute('aria-selected', b.getAttribute('data-perfil-module') === id ? 'true' : 'false');
+    });
+    var cur = box.querySelector('[data-perfil-current]');
+    if (cur) cur.textContent = id === 'validaciones' ? 'Validaciones' : 'Estadística';
+    var area = box.querySelector('[data-perfil-area]');
+    if (area) area.textContent = id === 'validaciones' ? 'Validaciones · calificación y protocolos' : 'Estadística · análisis de datos';
+  }
+  Array.prototype.forEach.call(segBtns, function (b) {
+    b.addEventListener('click', function () {
+      if (b.disabled) return;
+      setSeleccion(b.getAttribute('data-perfil-module'));
+    });
+  });
+
+  var closeBtn = box.querySelector('.perfil-close');
+  if (closeBtn) closeBtn.addEventListener('click', onClose);
+  var closeFoot = box.querySelector('[data-perfil-close]');
+  if (closeFoot) closeFoot.addEventListener('click', onClose);
+
+  var apply = box.querySelector('[data-perfil-apply]');
+  if (apply) apply.addEventListener('click', function () {
+    var target = seleccion;
+    onClose();
+    if (target === areaActual) return;
+    try {
+      if (typeof AreaSelect !== 'undefined' && AreaSelect.setArea) AreaSelect.setArea(target);
+      else if (typeof Auth !== 'undefined' && Auth.selectArea) Auth.selectArea();
+    } catch (e) {}
+  });
+
+  var logout = box.querySelector('[data-perfil-logout]');
+  if (logout) logout.addEventListener('click', function () {
+    try { if (typeof Auth !== 'undefined' && Auth.logout) Auth.logout(); } catch (e) {}
+  });
+
+  var manage = box.querySelector('[data-perfil-manage-passkeys]');
+  if (manage) manage.addEventListener('click', showPasskeysModal);
+
+  var countEl = box.querySelector('[data-perfil-passkeys]');
+  if (countEl && typeof Auth !== 'undefined' && Auth.listarPasskeys) {
+    Auth.listarPasskeys().then(function (res) {
+      if (!res || !res.ok) { countEl.textContent = '—'; return; }
+      var n = (res.credentials || []).length;
+      countEl.textContent = n ? (n + (n === 1 ? ' activa' : ' activas')) : 'Sin passkeys';
+    }).catch(function () { countEl.textContent = '—'; });
+  } else if (countEl) {
+    countEl.textContent = 'No disponibles';
+  }
+
+  if (closeBtn) setTimeout(function () { closeBtn.focus(); }, 30);
+}
+
+function showPasskeysModal() {
+  var overlay = document.createElement('div');
+  overlay.className = 'modal-overlay perfil-passkeys-overlay';
+  overlay.innerHTML = '<div class="perfil-passkeys-box" role="dialog" aria-modal="true" aria-label="Passkeys">'
+    + '<div class="perfil-passkeys-head"><strong>Passkeys</strong><button type="button" aria-label="Cerrar passkeys">×</button></div>'
+    + '<div id="perfil-passkeys"></div>'
     + '</div>';
-  renderPasskeysSection(box);
+  document.body.appendChild(overlay);
+
+  function close() {
+    document.removeEventListener('keydown', onKey);
+    if (overlay.parentNode) overlay.remove();
+  }
+  function onKey(e) { if (e.key === 'Escape') close(); }
+
+  overlay.addEventListener('click', function (e) { if (e.target === overlay) close(); });
+  var closeBtn = overlay.querySelector('.perfil-passkeys-head button');
+  if (closeBtn) { closeBtn.addEventListener('click', close); closeBtn.focus(); }
+  document.addEventListener('keydown', onKey);
+  renderPasskeysSection(overlay.querySelector('.perfil-passkeys-box'));
 }
 
 // ── Passkeys en el perfil ──
@@ -405,21 +561,15 @@ function renderPasskeysSection(box) {
   cargarLista();
 }
 
-function renderPerfilSimple(box, session) {
-  var inicial = (session.username || 'U').charAt(0).toUpperCase();
-  box.innerHTML =
-    '<div style="background:linear-gradient(135deg,var(--accent),rgba(0,0,0,0.3));padding:24px 24px 20px;text-align:center">'
-    + '<div style="width:64px;height:64px;border-radius:50%;background:rgba(255,255,255,0.2);display:flex;align-items:center;justify-content:center;margin:0 auto 12px;font-size:26px;font-weight:700;color:#fff;border:3px solid rgba(255,255,255,0.3);font-family:var(--font-display,Outfit)">' + inicial + '</div>'
-    + '<div style="font-size:18px;font-weight:700;color:#fff;font-family:var(--font-display,Outfit)">' + escapeHtml(session.username) + '</div>'
-    + '<div style="margin-top:10px;display:flex;gap:8px;justify-content:center">'
-    + '<span style="padding:3px 12px;border-radius:20px;font-size:11px;font-weight:600;background:rgba(255,255,255,0.15);color:#fff">' + escapeHtml(session.role || '—') + '</span>'
-    + '</div></div>'
-    + '<div style="padding:20px 24px;text-align:center;color:var(--text-muted);font-size:12px">ℹ️ Conectado como ' + escapeHtml(session.username) + '</div>'
-    + '<div style="padding:0 24px 20px"><button class="btn btn-secondary" style="width:100%;justify-content:center" onclick="this.closest(\'.modal-overlay\').remove()">Cerrar</button></div>';
-}
-
-function campoPerfil(label, value) {
-  return '<div style="display:flex;flex-direction:column;gap:4px;background:var(--item-bg);padding:10px 12px;border-radius:8px"><span style="font-size:10px;font-weight:600;color:var(--text-faint);text-transform:uppercase;letter-spacing:0.5px">' + label + '</span><span style="font-size:13px;font-weight:500;color:var(--text-primary)">' + escapeHtml(value || '—') + '</span></div>';
+function renderPerfilSimple(box, session, opts) {
+  opts = opts || {};
+  renderPerfil(box, {
+    username: session.username,
+    role: session.role,
+    nombre: session.username,
+    email: '',
+    active: 1
+  }, { host: opts.host || 'sin conexión', onClose: opts.onClose, fallback: true });
 }
 
 // ── Tab management ──
@@ -1390,3 +1540,14 @@ document.addEventListener('keydown', function(e) {
   }
 });
 
+
+// ── Muesca de perfil: montar en el shell activo ──
+(function () {
+  if (typeof document === 'undefined' || typeof window === 'undefined') return;
+  function boot() {
+    try { mountPerfilNotch(); } catch (e) {}
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot);
+  else setTimeout(boot, 0);
+  window.addEventListener('sigma-area', function () { setTimeout(boot, 0); });
+})();

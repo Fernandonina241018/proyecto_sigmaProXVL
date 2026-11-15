@@ -90,6 +90,35 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (StatAnalyzer Pro) co
 
 ## CAMBIOS RECIENTES
 
+### 2026-11-15 (289): Perfil compartido Estadística/Validaciones + muesca
+
+**Qué:** se integró en la app el modal de perfil compartido que se prototipó fuera del repo.
+- Un solo componente para Estadística y Validaciones: hero con avatar/datos, módulo actual, cambio de módulo, sesión, seguridad y logout.
+- El modal principal es de una sola vista: grilla de dos columnas, sin scroll interno. En pantallas bajas se compacta; en móvil ≤720 px es hoja completa.
+- Muesca superior (`.sigma-notch`) como disparador persistente: se monta en `.content` (Estadística) o en `#validaciones-app .app` (Validaciones) y abre el mismo perfil.
+- Validaciones: el avatar del topbar ahora abre el perfil compartido (antes abría el selector de área). El cambio de módulo vive dentro del modal.
+- Logout dentro del perfil: `Auth.logout()`; el selector de passkeys quedó como modal hijo (z-index 9100) para no romper la vista sin scroll.
+- Accesibilidad: `aria-modal`, foco al cerrar, Escape y clic en overlay. El modal de passkeys no cierra el perfil al presionar Escape.
+
+**Archivos afectados:**
+| Archivo | Cambio |
+|---------|--------|
+| `css/core/perfil-modal.css` | **NUEVO** — modal de perfil, muesca y modal hijo de passkeys |
+| `indexx.html` | Carga `perfil-modal.css` con cache-bust |
+| `js/core/indexx-ui.js` | `showPerfilModal`/`renderPerfil` reescritos; `showPasskeysModal`, `mountPerfilNotch`; montaje de la muesca |
+| `js/core/indexx-validaciones.js` | Avatar del topbar `data-act="profile"`; montaje/remontaje de la muesca en show/hide |
+| `tests/perfil-modal.test.js` | **NUEVO** — cobertura estática de la integración |
+
+**Verificación:**
+```
+Vitest completo → 1156 tests OK (65 archivos)
+Preflight + E2E → 14 tests OK
+Prueba manual con sesión simulada: muesca → modal → módulo → Validaciones → perfil → passkeys
+Escritorio 1440x900: modal 920x502, sin scroll interno
+Móvil 390x844: modal 390x844, sin scroll interno
+Light/dark y logout → login: OK
+```
+
 ### 2026-11-14 (288): OQ — requisitos previos completos en la plantilla
 
 **Qué:** se completó la Tabla 6.1-1 de requisitos previos de OQ con las 8 filas que faltaban.
