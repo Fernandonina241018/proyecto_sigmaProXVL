@@ -88,6 +88,8 @@ describe.each(['IQ', 'OQ', 'PQ'])('%s con formato del modelo', (fase) => {
     const i = doc.indexOf('ACÁPITE');
     const toc = doc.slice(doc.lastIndexOf('<w:tbl>', i), doc.indexOf('</w:tbl>', i) + 8);
     expect(toc).toContain('w:tblW w:w="10710"');
+    expect(toc).toContain('<w:gridCol w:w="8810"');
+    expect(toc).toContain('<w:gridCol w:w="800"');
     expect(toc).toContain('w:tcBorders');
     expect(toc).toContain('<w:tblHeader');
     expect(toc).toContain('w:jc w:val="center"');
