@@ -347,6 +347,23 @@ describe('Validaciones V7', () => {
     expect(Validaciones.loadDraft('cuarto-frio', 'almacenes')).toEqual({});
   });
 
+  test('cambio de entidad: la planilla arranca limpia, sin datos del equipo anterior', () => {
+    const schema = [
+      { k: 'codigo', tipo: 'text' },
+      { k: 'marca', tipo: 'text' },
+      { k: 'param_lf_deltaT', tipo: 'text' },
+      { k: 'foto', tipo: 'file' },
+    ];
+    // Borrador nuevo con un solo campo: el resto se pinta vacío (no se arrastra
+    // la balanza anterior) y el file input también se limpia.
+    expect(Validaciones.valoresDesdeBorrador(schema, { codigo: 'AUT-02' })).toEqual({
+      codigo: 'AUT-02', marca: '', param_lf_deltaT: '', foto: '',
+    });
+    expect(Validaciones.valoresDesdeBorrador(schema, null)).toEqual({
+      codigo: '', marca: '', param_lf_deltaT: '', foto: '',
+    });
+  });
+
   test('validarDatos: obligatorios, números, fechas y rangos coherentes', () => {
     const schema = [
       { k: 'codigo', label: 'Código', tipo: 'text', req: true },
