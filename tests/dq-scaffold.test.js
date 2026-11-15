@@ -117,6 +117,8 @@ describe('DQ scaffold desde plantilla', () => {
     const toc = doc.slice(doc.lastIndexOf('<w:tbl>', i), doc.indexOf('</w:tbl>', i) + 8);
     expect(toc).toContain('<w:sz w:val="22"');
     expect(toc).toContain('w:tblW w:w="10710"');
+    expect(toc).toContain('<w:gridCol w:w="8810"');
+    expect(toc).toContain('<w:gridCol w:w="800"');
     expect(toc).toContain('w:tcBorders');
     expect(toc).toContain('w:trHeight w:val="476"');
     expect(toc).toContain('w:jc w:val="center"');

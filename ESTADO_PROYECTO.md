@@ -90,6 +90,27 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (StatAnalyzer Pro) co
 
 ## CAMBIOS RECIENTES
 
+### 2026-11-15 (293): Índice — columna del título más ancha
+
+**Qué:** se rebalanceó la tabla del índice para reducir los títulos en dos líneas.
+- `DESCRIPCIÓN` (título): 8410 → **8810** twips (+400).
+- `PÁG.`: 1200 → **800** twips; sigue entrando el encabezado y los números de tres cifras.
+- `ACÁPITE` (número): se mantiene en 1100 para que su encabezado no se corte.
+- El ancho total de la tabla sigue en 10710 y conserva la alineación con el cajetín.
+
+**Archivos afectados:**
+| Archivo | Cambio |
+|---------|--------|
+| `js/core/plantilla-docx.js` | `tocTabla`: anchos de celdas y `tblGrid` |
+| `tests/dq-scaffold.test.js` | Assert de `gridCol 8810/800` |
+| `tests/plantilla-docx.test.js` | Assert de `gridCol 8810/800` |
+
+**Verificación:**
+```
+Vitest completo → 1162 tests OK
+Preflight + E2E → 14 tests OK
+```
+
 ### 2026-11-15 (292): Protocolos — texto del cuerpo en 11 pt
 
 **Qué:** se unificó el tamaño del texto de los protocolos.
