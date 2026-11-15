@@ -90,6 +90,29 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (StatAnalyzer Pro) co
 
 ## CAMBIOS RECIENTES
 
+### 2026-11-15 (291): Rail — quitar perfil y agrandar colapsar/settings
+
+**Qué:** se limpió el extremo inferior izquierdo de Estadística.
+- Se retiró el icono de perfil del rail (`#sidebarUser`) y su dropdown (Mi Perfil / Cambiar de área / Cerrar sesión); esas acciones quedan en la muesca.
+- El botón de colapsar el sidebar pasó de 28×28 a 34×34 con icono de 18 px.
+- El engranaje de Configuración del pie del sidebar pasó a 18 px y 30×30 de área clicable.
+
+**Archivos afectados:**
+| Archivo | Cambio |
+|---------|--------|
+| `indexx.html` | Eliminado `#sidebarUser` + dropdown; toggle con icono 18; clase `settings` en el engranaje |
+| `js/core/indexx-ui.js` | Eliminados listeners y limpieza del dropdown de usuario |
+| `css/core/indexx.css` | Estilos muertos del dropdown; toggle 34×34; `.footer-icon.settings` |
+| `tests/sidebar-rail.test.js` | Stubs retirados |
+| `tests/perfil-modal.test.js` | Test de regresión del rail |
+
+**Verificación:**
+```
+Vitest completo → 1160 tests OK
+Preflight + E2E → 14 tests OK
+Medido: toggle 34×34, settings 30×30 (18 px), sin `#sidebarUser`, sin errores de consola
+```
+
 ### 2026-11-15 (290): Muesca en el titlebar — no tapa pestañas
 
 **Qué:** la muesca de Estadística se movió del tabbar al borde superior de la ventana.

@@ -14,6 +14,7 @@ const ui = readFileSync(join(core, 'indexx-ui.js'), 'utf-8');
 const auth = readFileSync(join(core, 'auth.js'), 'utf-8');
 const val = readFileSync(join(core, 'indexx-validaciones.js'), 'utf-8');
 const css = readFileSync(join(root, 'css', 'core', 'perfil-modal.css'), 'utf-8');
+const appCss = readFileSync(join(root, 'css', 'core', 'indexx.css'), 'utf-8');
 const html = readFileSync(join(root, 'indexx.html'), 'utf-8');
 
 describe('Perfil compartido', () => {
@@ -51,6 +52,14 @@ describe('Perfil compartido', () => {
 
   test('logout sale de Validaciones antes de mostrar el login', () => {
     expect(auth).toMatch(/function logout\(\)\s*\{\s*_closeAllModals\(\);\s*_salirDeValidaciones\(\);/);
+  });
+
+  test('el perfil del rail se retiró y settings quedó más visible', () => {
+    expect(html).not.toContain('id="sidebarUser"');
+    expect(html).not.toContain('id="sidebarUserDropdown"');
+    expect(html).toContain('footer-icon settings');
+    expect(appCss).toMatch(/\.footer-icon\.settings\s*\{[^}]*font-size:\s*18px/s);
+    expect(appCss).toMatch(/\.ribbon-toggle\s*\{[^}]*width:\s*34px/s);
   });
 
   test('Validaciones abre el perfil compartido desde el avatar', () => {
