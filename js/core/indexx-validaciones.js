@@ -23,8 +23,8 @@ const Validaciones = (() => {
   //   L = instrumento analítico o de control de calidad (USP <1058>)
   const ENTIDADES = {
     almacenes: [
-      { id: 'almacen-ambiente-a', nombre: 'Almacén 15–25 °C / HR < 65%', tipo: 'Temperatura controlada', tempMin: 15, tempMax: 25, humedad: true },
-      { id: 'almacen-ambiente-b', nombre: 'Almacén 0–30 °C / HR < 80%', tipo: 'Ambiente', tempMin: 0, tempMax: 30, humedad: true },
+      { id: 'almacen-ambiente-a', nombre: 'Almacén 15–25 °C / HR < 65%', tipo: 'Temperatura controlada', tempMin: 15, tempMax: 25, humedad: true, humedadMin: 0, humedadMax: 65 },
+      { id: 'almacen-ambiente-b', nombre: 'Almacén 0–30 °C / HR < 80%', tipo: 'Ambiente', tempMin: 0, tempMax: 30, humedad: true, humedadMin: 0, humedadMax: 80 },
       { id: 'cuarto-frio', nombre: 'Cuarto frío (2–8 °C)', tipo: 'Cuarto frío', tempMin: 2, tempMax: 8, humedad: false },
       { id: 'congelador', nombre: 'Congelador (−20 °C)', tipo: 'Congelador', tempMin: -25, tempMax: -10, humedad: false },
     ],
@@ -1189,12 +1189,18 @@ const Validaciones = (() => {
       const v = String(d[k] == null ? '' : d[k]).trim();
       return v || String(def);
     };
-    return {
+    const cfg = {
       tipo: ent.tipo,
       temperaturaMin: val('temperaturaMin', ent.tempMin),
       temperaturaMax: val('temperaturaMax', ent.tempMax),
       sinHumedad: ent.humedad === false
     };
+    // HR automática donde aplica (0–65 % / 0–80 %); sin humedad no se carga.
+    if (!cfg.sinHumedad) {
+      cfg.humedadMin = val('humedadMin', ent.humedadMin);
+      cfg.humedadMax = val('humedadMax', ent.humedadMax);
+    }
+    return cfg;
   }
 
   function paso1Html(ents) {
@@ -1769,11 +1775,10 @@ const Validaciones = (() => {
       ['humedadMin', 'humedadMax'].forEach(function (k) {
         const lab = form.querySelector('[data-f="' + k + '"]');
         const inp = form.querySelector('[data-k="' + k + '"]');
-        const v = draft && draft[k] != null ? String(draft[k]).trim() : '';
         if (lab) lab.hidden = cfg.sinHumedad;
         if (inp) {
           inp.disabled = cfg.sinHumedad;
-          inp.value = cfg.sinHumedad ? '' : v;
+          inp.value = cfg.sinHumedad ? '' : String(cfg[k] == null ? '' : cfg[k]);
         }
       });
     }

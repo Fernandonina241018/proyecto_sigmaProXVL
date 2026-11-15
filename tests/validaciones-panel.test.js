@@ -166,8 +166,11 @@ describe('Validaciones V7', () => {
     expect(Validaciones.datosAlmacen(cuarto, {})).toEqual({ tipo: 'Cuarto frío', temperaturaMin: '2', temperaturaMax: '8', sinHumedad: true });
     expect(Validaciones.datosAlmacen(cuarto, { temperaturaMin: '3' })).toMatchObject({ temperaturaMin: '3', temperaturaMax: '8' });
     const ambiente = list.find((e) => e.id === 'almacen-ambiente-a');
-    expect(Validaciones.datosAlmacen(ambiente, {})).toMatchObject({ tipo: 'Temperatura controlada', temperaturaMin: '15', temperaturaMax: '25', sinHumedad: false });
-    expect(Validaciones.datosAlmacen(list.find((e) => e.id === 'almacen-ambiente-b'), {}).tipo).toBe('Ambiente');
+    expect(Validaciones.datosAlmacen(ambiente, {})).toMatchObject({ tipo: 'Temperatura controlada', temperaturaMin: '15', temperaturaMax: '25', sinHumedad: false, humedadMin: '0', humedadMax: '65' });
+    const ambienteB = Validaciones.datosAlmacen(list.find((e) => e.id === 'almacen-ambiente-b'), {});
+    expect(ambienteB).toMatchObject({ tipo: 'Ambiente', humedadMin: '0', humedadMax: '80' });
+    // El borrador guardado manda sobre la HR automática.
+    expect(Validaciones.datosAlmacen(ambiente, { humedadMax: '60' })).toMatchObject({ humedadMin: '0', humedadMax: '60' });
   });
 
   test('sistemas: fase IQ cableada (DQ+IQ+OQ+PQ)', () => {

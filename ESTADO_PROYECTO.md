@@ -90,6 +90,22 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (StatAnalyzer Pro) co
 
 ## CAMBIOS RECIENTES
 
+### 2026-11-15 (301): Almacenes — HR automática por entidad
+
+**Qué:** la humedad relativa se autocompleta igual que la temperatura.
+- Ambiente 15–25: `humedadMin/humedadMax` = 0/65 %HR.
+- Ambiente 0–30: 0/80 %HR.
+- Cuarto frío y congelador: sin campos de HR (ocultos/deshabilitados y vacíos, como ya estaba).
+- El borrador guardado sigue teniendo prioridad sobre el default.
+
+**Archivos afectados:**
+| Archivo | Cambio |
+|---------|--------|
+| `js/core/indexx-validaciones.js` | Metadatos `humedadMin/Max`, `datosAlmacen` y autofill de HR |
+| `tests/validaciones-panel.test.js` | Rangos automáticos y prioridad del borrador |
+
+**Verificación:** `node --check` + `vitest run tests/validaciones-panel.test.js tests/generador-docx.test.js` (79 tests OK).
+
 ### 2026-11-15 (300): Almacenes — cuarto frío sin HR y temperaturas automáticas
 
 **Qué:** se agregaron condiciones tabuladas por entidad al formulario de Almacenes.
