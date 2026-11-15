@@ -90,6 +90,28 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (StatAnalyzer Pro) co
 
 ## CAMBIOS RECIENTES
 
+### 2026-11-15 (298): Combobox — primera coincidencia resaltada al escribir
+
+**Qué:** el combobox selecciona visualmente la primera coincidencia.
+- Al filtrar, la primera opción visible queda `.activo` y el input expone `aria-activedescendant`.
+- Enter selecciona esa opción; flechas siguen moviendo el resaltado.
+- Al salir del campo, si hay **una sola** coincidencia se selecciona automáticamente; si hay varias, no (evita elegir la equivocada).
+- Las opciones tienen `id="v7-ent-opt-N"` para el `aria-activedescendant`.
+- Aplica a todas las categorías (Almacenes, Equipos, Sistemas, Estabilidad, Software).
+
+**Archivos afectados:**
+| Archivo | Cambio |
+|---------|--------|
+| `js/core/indexx-validaciones.js` | `marcar/abrir` resaltan la primera; `change` acepta la única coincidencia |
+| `tests/validaciones-panel.test.js` | Assert de ids de opción |
+
+**Verificación:**
+```
+Vitest completo → 1162 tests OK
+Preflight + E2E → 14 tests OK
+Navegador: “auto” → Autoclave activo + Enter selecciona; “cong” → única y selecciona al salir; “cabina” → 2 y no selecciona al salir
+```
+
 ### 2026-11-15 (297): Selector de entidades — combobox en todas las categorías
 
 **Qué:** el paso 1 usa el mismo combobox con buscador en todas las categorías.

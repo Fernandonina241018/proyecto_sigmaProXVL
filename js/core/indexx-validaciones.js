@@ -1184,7 +1184,7 @@ const Validaciones = (() => {
     return '<div class="v7-combo">'
       + '<input type="text" class="v7-ent-input" placeholder="Escriba para buscar la entidad…" autocomplete="off" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="v7-ents-list" aria-label="Buscar entidad">'
       + '<div class="v7-ent-list" id="v7-ents-list" role="listbox" hidden>'
-      + ents.map((e) => '<button type="button" class="v7-ent v7-ent-opt" role="option" aria-selected="false" data-ent="' + esc(e.id) + '">' + esc(e.nombre) + '</button>').join('')
+      + ents.map((e, i) => '<button type="button" class="v7-ent v7-ent-opt" id="v7-ent-opt-' + i + '" role="option" aria-selected="false" data-ent="' + esc(e.id) + '">' + esc(e.nombre) + '</button>').join('')
       + '<div class="v7-ent-empty" hidden>Sin coincidencias</div>'
       + '</div></div>';
   }
@@ -1308,7 +1308,10 @@ const Validaciones = (() => {
         list.hidden = true;
         list.querySelectorAll('.v7-ent.activo').forEach((b) => b.classList.remove('activo'));
       }
-      if (inp) inp.setAttribute('aria-expanded', 'false');
+      if (inp) {
+        inp.setAttribute('aria-expanded', 'false');
+        inp.removeAttribute('aria-activedescendant');
+      }
     }
 
     function validarErrores() {
@@ -1822,6 +1825,8 @@ const Validaciones = (() => {
       };
       const marcar = function (b) {
         opciones().forEach(function (o) { o.classList.toggle('activo', o === b); });
+        if (b) comboInput.setAttribute('aria-activedescendant', b.id);
+        else comboInput.removeAttribute('aria-activedescendant');
         if (b && b.scrollIntoView) { try { b.scrollIntoView({ block: 'nearest' }); } catch (e) {} }
       };
       const abrir = function (filtro) {
@@ -1837,7 +1842,8 @@ const Validaciones = (() => {
         if (empty) empty.hidden = n > 0;
         comboList.hidden = false;
         comboInput.setAttribute('aria-expanded', 'true');
-        marcar(null);
+        const vs = visibles();
+        marcar(q && vs.length ? vs[0] : null);
       };
       let comboPicking = false;
       if (comboList) comboList.addEventListener('mousedown', function () { comboPicking = true; });
@@ -1870,8 +1876,14 @@ const Validaciones = (() => {
       comboInput.addEventListener('change', function () {
         if (comboPicking) { comboPicking = false; return; }
         const found = entidadPorNombre(catId, comboInput.value);
-        if (found) elegirEntidad(found.id);
-        else { setMsg('Escriba y seleccione una entidad de la lista.', false); cerrarCombo(); }
+        if (found) { elegirEntidad(found.id); return; }
+        const vs = visibles();
+        if (vs.length === 1) {
+          const unica = entidadPorNombre(catId, vs[0].textContent);
+          if (unica) { elegirEntidad(unica.id); return; }
+        }
+        setMsg('Escriba y seleccione una entidad de la lista.', false);
+        cerrarCombo();
       });
       cerrarCombo();
     }
