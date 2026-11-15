@@ -1274,6 +1274,18 @@ const Validaciones = (() => {
     return errores;
   }
 
+  // Valores a pintar en la planilla: toda clave del esquema que el borrador de
+  // la entidad no trae queda vacía. Evita que al cambiar de equipo se arrastren
+  // los datos del anterior (marca, serie, parámetros de otra familia, etc.).
+  function valoresDesdeBorrador(schema, draft) {
+    const d = draft || {};
+    const out = {};
+    (schema || []).forEach(function (f) {
+      out[f.k] = (f.tipo === 'file' || d[f.k] == null) ? '' : String(d[f.k]);
+    });
+    return out;
+  }
+
   // Lógica pura del autofill de descripción (testeable sin DOM):
   // devuelve { valor, manual } dado el valor actual, el nombre de la entidad
   // elegida, el nombre de la entidad anterior y si ya era manual.
@@ -1325,12 +1337,15 @@ const Validaciones = (() => {
     }
 
     function cargar(data) {
-      schemaTotal().forEach((f) => {
+      const sch = schemaTotal();
+      const vals = valoresDesdeBorrador(sch, data);
+      sch.forEach((f) => {
         const el = form.querySelector('[data-k="' + f.k + '"]');
-        if (el && f.tipo !== 'file' && data[f.k] != null) el.value = data[f.k];
+        if (!el) return;
+        el.value = vals[f.k];
         // El calendario flotante no se entera de value directo: sincronizar.
         try {
-          if (el && el._flatpickr) el._flatpickr.setDate(el.value || null);
+          if (el._flatpickr) el._flatpickr.setDate(el.value || null);
         } catch (e) {}
       });
     }
@@ -1358,7 +1373,15 @@ const Validaciones = (() => {
     function pintarParametros(draft) {
       let box = form.querySelector('.v7-params');
       const ps = famParams();
-      if (!ps.length) { if (box) box.hidden = true; return; }
+      if (!ps.length) {
+        // Sin parámetros propios: la familia anterior no deja campos en el DOM.
+        if (box) {
+          box.hidden = true;
+          const g = box.querySelector('.v7-grid');
+          if (g) g.innerHTML = '';
+        }
+        return;
+      }
       if (!box && form.insertAdjacentHTML) {
         const acts = form.querySelector('.v7-form-actions');
         const html = '<fieldset class="v7-fs v7-params"><legend>Parámetros del banco (fuente: URS aprobada)</legend><div class="v7-grid"></div></fieldset>';
@@ -1744,6 +1767,11 @@ const Validaciones = (() => {
       pintarDescripcion();
       setMsg(Object.keys(draft).length ? 'Borrador cargado' : '', true);
       if (conGen) {
+        // Firmantes de la entidad nueva: lo elegido para otro equipo no se hereda.
+        const rev = form.querySelector('[data-k="revisorGerente"]');
+        if (rev) rev.value = '';
+        const ger = form.querySelector('[data-k="gerenciaArea"]');
+        if (ger) ger.value = '';
         await cargarFirmantes(draft);
         if (token !== cargaToken) return false;
       }
@@ -2072,7 +2100,7 @@ const Validaciones = (() => {
 
   return {
     CATS, ROUTES, DOCS, ENTIDADES, SCHEMAS, FASES_GEN, GEN_FASES, AREAS_GERENCIA, parseRoute, catById, getSchema, getEntidades,
-    entidadPorNombre,
+    entidadPorNombre, valoresDesdeBorrador,
     puestoGerente, areaDesdeCargo, firmantesHtml, saveDraft, loadDraft, cargarBorrador, guardarBorrador, validarDatos, saveGen, loadGen, viewEntidad, show, hide, apply, currentArea, render, contarGen, tieneBancoFam, estadoBancoFam, resolverDescripcion, mejorarFecha, manifest, viewProtocolos,
     viewDocumentacion, viewReportes, viewConfiguracion, viewAyuda, viewCalendario, chartHtml, reportHtml, calendarHtml, cargarResumen, cargarCalendario, cargarReportes, bindConfiguracion,
   };

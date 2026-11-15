@@ -90,6 +90,29 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (StatAnalyzer Pro) co
 
 ## CAMBIOS RECIENTES
 
+### 2026-11-15 (295): Planilla de Validaciones — al cambiar de equipo se limpia lo del anterior
+
+**Problema:** al elegir una entidad, `cargar(draft)` solo escribía las claves que el borrador nuevo traía (`data[f.k] != null`). Si la balanza tenía `marca`, `modelo`, `ubicación` y parámetros de su familia, al pasar a otro equipo con borrador vacío esos campos conservaban los valores de la balanza y se guardaban en el borrador del equipo nuevo (información cruzada entre protocolos). Los firmantes (Revisor Gerente y gerencia) también heredaban la selección previa.
+
+**Fix:**
+- Nuevo helper puro `valoresDesdeBorrador(schema, draft)` (exportado): toda clave del esquema ausente en el borrador se pinta vacía; los `input type="file"` también se limpian.
+- `cargar()` usa ese mapa (antes solo asignaba las claves presentes).
+- `pintarParametros()` vacía la grilla de parámetros cuando la familia nueva no tiene ninguno, para no dejar campos de la familia anterior en el DOM.
+- `elegirEntidad()` limpia `revisorGerente` y `gerenciaArea` antes de repintar los firmantes desde el borrador de la entidad.
+- Los parámetros por familia siguen aislados en el borrador (`param_<clave>`) y `recoger()` solo recoge los de la familia actual.
+
+**Archivos afectados:**
+| Archivo | Cambio |
+|---------|--------|
+| `js/core/indexx-validaciones.js` | `valoresDesdeBorrador`, `cargar`, `pintarParametros`, `elegirEntidad`, export |
+| `tests/validaciones-panel.test.js` | Test nuevo: planilla arranca limpia al cambiar de entidad |
+
+**Verificación:**
+```
+node --check js/core/indexx-validaciones.js  → OK
+Vitest completo → 1163 tests OK (65 archivos)
+```
+
 ### 2026-11-15 (294): Índice — ACÁPITE a 1200 twips
 
 **Qué:** se amplió la columna del encabezado “ACÁPITE” para que no salte de línea.
