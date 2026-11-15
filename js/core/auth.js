@@ -1853,6 +1853,7 @@ const Auth = (() => {
 
     function logout(){
         _closeAllModals();
+        _salirDeValidaciones();
         fetchWithTimeout(`${CFG.API_URL}/api/logout`,{method:'POST',credentials:'include',headers:{Authorization:'Bearer '+(_token||'')}}).catch(()=>{});
         try { if (typeof AreaSelect !== 'undefined' && AreaSelect.clearArea) AreaSelect.clearArea(); } catch (e) {}
         _clearSession(); _unregisterActivityListeners(); showLogin('logout'); if(_onLogout) _onLogout('logout');
