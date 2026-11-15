@@ -54,6 +54,12 @@ describe('Perfil compartido', () => {
     expect(auth).toMatch(/function logout\(\)\s*\{\s*_closeAllModals\(\);\s*_salirDeValidaciones\(\);/);
   });
 
+  test('el perfil no muestra el código de firma (clave clasificada)', () => {
+    expect(ui).not.toContain("campo('Firma'");
+    expect(ui).not.toContain('u.signature_code');
+    expect(ui).toContain("campo('Correo'");
+  });
+
   test('el perfil del rail se retiró y settings quedó más visible', () => {
     expect(html).not.toContain('id="sidebarUser"');
     expect(html).not.toContain('id="sidebarUserDropdown"');
