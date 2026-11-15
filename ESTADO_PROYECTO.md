@@ -95,9 +95,10 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (StatAnalyzer Pro) co
 **Qué:** se integró en la app el modal de perfil compartido que se prototipó fuera del repo.
 - Un solo componente para Estadística y Validaciones: hero con avatar/datos, módulo actual, cambio de módulo, sesión, seguridad y logout.
 - El modal principal es de una sola vista: grilla de dos columnas, sin scroll interno. En pantallas bajas se compacta; en móvil ≤720 px es hoja completa.
-- Muesca superior (`.sigma-notch`) como disparador persistente: se monta en `.content` (Estadística) o en `#validaciones-app .app` (Validaciones) y abre el mismo perfil.
+- Muesca superior centralizada (`.sigma-notch`) como disparador persistente: queda fija al borde superior del shell activo y centrada en el viewport, y abre el mismo perfil.
 - Validaciones: el avatar del topbar ahora abre el perfil compartido (antes abría el selector de área). El cambio de módulo vive dentro del modal.
-- Logout dentro del perfil: `Auth.logout()`; el selector de passkeys quedó como modal hijo (z-index 9100) para no romper la vista sin scroll.
+- Logout dentro del perfil: `Auth.logout()`; el selector de passkeys quedó como modal hijo (z-index 96000) para no romper la vista sin scroll.
+- El modal usa z-index 95000 para quedar por encima del shell de Validaciones (90000); el logout ahora sale de Validaciones antes de mostrar el login.
 - Accesibilidad: `aria-modal`, foco al cerrar, Escape y clic en overlay. El modal de passkeys no cierra el perfil al presionar Escape.
 
 **Archivos afectados:**
@@ -107,6 +108,7 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (StatAnalyzer Pro) co
 | `indexx.html` | Carga `perfil-modal.css` con cache-bust |
 | `js/core/indexx-ui.js` | `showPerfilModal`/`renderPerfil` reescritos; `showPasskeysModal`, `mountPerfilNotch`; montaje de la muesca |
 | `js/core/indexx-validaciones.js` | Avatar del topbar `data-act="profile"`; montaje/remontaje de la muesca en show/hide |
+| `js/core/auth.js` | `logout()` sale de Validaciones antes de mostrar el login |
 | `tests/perfil-modal.test.js` | **NUEVO** — cobertura estática de la integración |
 
 **Verificación:**

@@ -225,21 +225,36 @@ function expandSidebarFromRailSearch(e) {
 // ── Perfil modal ──
 function mountPerfilNotch() {
   if (typeof document === 'undefined') return;
-  var host = document.querySelector('#validaciones-app .app') || document.querySelector('.content');
+  var valShell = document.querySelector('#validaciones-app');
+  var mainApp = document.querySelector('.app');
   var old = document.getElementById('sigma-perfil-notch');
-  if (!host) { if (old) old.remove(); return; }
-  if (old && old.parentNode === host) return;
-  if (old) old.remove();
-  var b = document.createElement('button');
-  b.id = 'sigma-perfil-notch';
-  b.className = 'sigma-notch';
-  b.type = 'button';
-  b.setAttribute('aria-haspopup', 'dialog');
-  b.setAttribute('aria-label', 'Abrir perfil, módulos y sesión');
-  b.title = 'Perfil, módulos y sesión';
-  b.innerHTML = '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="8" r="3.4"></circle><path d="M5.2 20c.7-3.7 3.4-5.6 6.8-5.6s6.1 1.9 6.8 5.6"></path></svg>';
-  b.addEventListener('click', function () { showPerfilModal(); });
-  host.appendChild(b);
+  if (!valShell && !mainApp) { if (old) old.remove(); return; }
+  var b = old;
+  if (!b) {
+    b = document.createElement('button');
+    b.id = 'sigma-perfil-notch';
+    b.className = 'sigma-notch';
+    b.type = 'button';
+    b.setAttribute('aria-haspopup', 'dialog');
+    b.setAttribute('aria-label', 'Abrir perfil, módulos y sesión');
+    b.title = 'Perfil, módulos y sesión';
+    b.innerHTML = '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="8" r="3.4"></circle><path d="M5.2 20c.7-3.7 3.4-5.6 6.8-5.6s6.1 1.9 6.8 5.6"></path></svg>';
+    b.addEventListener('click', function () { showPerfilModal(); });
+    document.body.appendChild(b);
+  }
+  if (valShell) {
+    // Dentro del shell (z 90000) para quedar por encima de su contenido.
+    b.style.position = 'absolute';
+    b.style.top = '0px';
+    b.style.zIndex = '60';
+    if (b.parentNode !== valShell) valShell.appendChild(b);
+  } else {
+    // Estadística: fija al borde superior del shell, centrada en el viewport.
+    b.style.position = 'fixed';
+    b.style.top = Math.round(mainApp.getBoundingClientRect().top) + 'px';
+    b.style.zIndex = '60';
+    if (b.parentNode !== document.body) document.body.appendChild(b);
+  }
 }
 window.mountPerfilNotch = mountPerfilNotch;
 
@@ -1550,4 +1565,5 @@ document.addEventListener('keydown', function(e) {
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot);
   else setTimeout(boot, 0);
   window.addEventListener('sigma-area', function () { setTimeout(boot, 0); });
+  window.addEventListener('resize', function () { setTimeout(boot, 0); });
 })();

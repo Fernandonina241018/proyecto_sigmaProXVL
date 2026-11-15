@@ -11,6 +11,7 @@ const root = join(__dirname, '..');
 const core = join(root, 'js', 'core');
 
 const ui = readFileSync(join(core, 'indexx-ui.js'), 'utf-8');
+const auth = readFileSync(join(core, 'auth.js'), 'utf-8');
 const val = readFileSync(join(core, 'indexx-validaciones.js'), 'utf-8');
 const css = readFileSync(join(root, 'css', 'core', 'perfil-modal.css'), 'utf-8');
 const html = readFileSync(join(root, 'indexx.html'), 'utf-8');
@@ -36,6 +37,15 @@ describe('Perfil compartido', () => {
     expect(ui).toContain('data-perfil-apply');
     expect(ui).toContain('data-perfil-logout');
     expect(css).toContain('.perfil-logout');
+  });
+
+  test('el perfil queda por encima del shell de Validaciones', () => {
+    expect(css).toMatch(/\.perfil-overlay\s*\{[^}]*z-index:\s*95000/s);
+    expect(css).toMatch(/\.perfil-passkeys-overlay\s*\{[^}]*z-index:\s*96000/s);
+  });
+
+  test('logout sale de Validaciones antes de mostrar el login', () => {
+    expect(auth).toMatch(/function logout\(\)\s*\{\s*_closeAllModals\(\);\s*_salirDeValidaciones\(\);/);
   });
 
   test('Validaciones abre el perfil compartido desde el avatar', () => {

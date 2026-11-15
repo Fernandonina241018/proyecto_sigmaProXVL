@@ -4,13 +4,9 @@
    que abre perfil, cambio de módulo y cierre de sesión.
    ============================================================ */
 
-.content { position: relative; }
-#validaciones-app main { position: relative; }
-#validaciones-app .app { position: relative; }
-
 /* ── Muesca superior ── */
 .sigma-notch {
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 50%;
   transform: translateX(-50%);
@@ -38,7 +34,7 @@
 .perfil-overlay {
   position: fixed;
   inset: 0;
-  z-index: 9000;
+  z-index: 95000;
   touch-action: none;
   overscroll-behavior: contain;
   display: grid;
@@ -323,7 +319,7 @@
 .perfil-logout:hover { background: var(--danger-bg); }
 
 /* ── Passkeys: modal hijo (puede crecer) ── */
-.perfil-passkeys-overlay { z-index: 9100; touch-action: auto; }
+.perfil-passkeys-overlay { z-index: 96000; touch-action: auto; }
 .perfil-passkeys-box,
 .perfil-passkeys-box * { box-sizing: border-box; }
 .perfil-passkeys-box {
