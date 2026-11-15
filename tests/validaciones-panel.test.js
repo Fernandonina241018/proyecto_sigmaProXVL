@@ -298,6 +298,7 @@ describe('Validaciones V7', () => {
       expect(html).toContain('v7-ent-input');
       expect(html).toContain('v7-ent-list');
       expect(html).toContain('v7-ent-opt');
+      expect(html).toContain('id="v7-ent-opt-0"');
       expect(html).not.toContain('v7-ents-dl');
       expect(html).not.toContain('<div class="v7-ents">');
     }
