@@ -1283,6 +1283,28 @@ const Validaciones = (() => {
     return errores;
   }
 
+  // Fail-closed: si no se puede comprobar el respaldo documental o los
+  // parámetros del banco, se bloquea la generación en vez de asumir OK.
+  function sinTablaPreaprobada(fase, catId, entId, cond) {
+    try {
+      if (typeof PlantillaDocx === 'undefined' || !PlantillaDocx.limitesResumen) return false;
+      return (PlantillaDocx.limitesResumen(fase, catId, entId, cond).sinEntrada || []).length > 0;
+    } catch (e) {
+      try { if (typeof Logger !== 'undefined' && Logger.logError) Logger.logError('limitesResumen ' + fase + ': ' + e.message); } catch (_) {}
+      return true;
+    }
+  }
+
+  function faltantesParametrosBanco(fase, catId, entId, cond, draft) {
+    try {
+      if (typeof PlantillaDocx === 'undefined' || !PlantillaDocx.paramsFaltantes) return [];
+      return PlantillaDocx.paramsFaltantes(fase, catId, entId, cond, draft) || [];
+    } catch (e) {
+      try { if (typeof Logger !== 'undefined' && Logger.logError) Logger.logError('paramsFaltantes ' + fase + ': ' + e.message); } catch (_) {}
+      return null;
+    }
+  }
+
   // Lógica pura del autofill de descripción (testeable sin DOM):
   // devuelve { valor, manual } dado el valor actual, el nombre de la entidad
   // elegida, el nombre de la entidad anterior y si ya era manual.
@@ -1636,11 +1658,7 @@ const Validaciones = (() => {
       }
       // H-05: fases con "[n]" sin entrada en la tabla de límites no se emiten.
       if (typeof PlantillaDocx !== 'undefined' && PlantillaDocx.limitesResumen) {
-        const sinTabla = permitidas.filter((f) => {
-          try {
-            return (PlantillaDocx.limitesResumen(f, catId, entActual, sel.cond).sinEntrada || []).length > 0;
-          } catch (e) { return false; }
-        });
+        const sinTabla = permitidas.filter((f) => sinTablaPreaprobada(f, catId, entActual, sel.cond));
         if (sinTabla.length) {
           if (sinTabla.length === permitidas.length) {
             setGenMsg('Límites "[n]" sin tabla preaprobada en ' + sinTabla.join(', ') + ': complete la tabla de límites antes de generar.', false); return;
@@ -1666,14 +1684,24 @@ const Validaciones = (() => {
       if (typeof PlantillaDocx !== 'undefined' && PlantillaDocx.paramsFaltantes) {
         try {
           const falt = [];
+          let errorParams = false;
           sel.fases.forEach((f) => {
-            PlantillaDocx.paramsFaltantes(f, catId, entActual, sel.cond, draft).forEach((p) => falt.push(p));
+            const p = faltantesParametrosBanco(f, catId, entActual, sel.cond, draft);
+            if (p === null) errorParams = true;
+            else p.forEach((x) => falt.push(x));
           });
+          if (errorParams) {
+            setGenMsg('No se pudieron validar los parámetros del banco. Recargue e intente de nuevo.', false);
+            return;
+          }
           if (falt.length) {
             const prim = falt.slice(0, 3).map((p) => p.id + ' [' + p.token + '] ' + p.label).join('; ');
             setGenMsg('Faltan ' + falt.length + ' parámetro(s) del banco en el paso 2: ' + prim + (falt.length > 3 ? '…' : ''), false); return;
           }
-        } catch (e) {}
+        } catch (e) {
+          setGenMsg('No se pudieron validar los parámetros del banco. Recargue e intente de nuevo.', false);
+          return;
+        }
       }
       const ent = entidadObj();
       const registrar = async function (r) {
@@ -2195,7 +2223,7 @@ const Validaciones = (() => {
 
   return {
     CATS, ROUTES, DOCS, ENTIDADES, SCHEMAS, FASES_GEN, GEN_FASES, AREAS_GERENCIA, parseRoute, catById, getSchema, getEntidades,
-    entidadPorNombre, datosAlmacen,
+    entidadPorNombre, datosAlmacen, sinTablaPreaprobada, faltantesParametrosBanco,
     puestoGerente, areaDesdeCargo, firmantesHtml, saveDraft, loadDraft, cargarBorrador, guardarBorrador, validarDatos, saveGen, loadGen, viewEntidad, show, hide, apply, currentArea, render, contarGen, tieneBancoFam, estadoBancoFam, resolverDescripcion, mejorarFecha, manifest, viewProtocolos,
     viewDocumentacion, viewReportes, viewConfiguracion, viewAyuda, viewCalendario, chartHtml, reportHtml, calendarHtml, cargarResumen, cargarCalendario, cargarReportes, bindConfiguracion,
   };

@@ -1,3 +1,9 @@
+import { readFileSync } from 'fs';
+import { join, dirname } from 'path';
+import { fileURLToPath } from 'url';
+
+const __dirname = dirname(fileURLToPath(import.meta.url));
+
 let mockStore = {};
 
 beforeEach(async () => {
@@ -79,6 +85,12 @@ describe('StateManager — sheets', () => {
 });
 
 describe('StateManager — data', () => {
+  test('updateCell invalida el cache de columnas', () => {
+    const src = readFileSync(join(__dirname, '..', 'js', 'core', 'StateManager.js'), 'utf-8');
+    const fn = /function updateCell[\s\S]*?\n    }/.exec(src);
+    expect(fn && fn[0]).toContain('clearNumericColumnsCache');
+  });
+
   test('updateCell modifies cell value', () => {
     StateManager.updateCell(0, 1, '42');
     const data = StateManager.getSheetData();
