@@ -271,3 +271,13 @@ describe('FIX-AUDIT: tests unilaterales (antes muertos)', () => {
     expect(mM.valorP).toBeLessThan(mB.valorP);
   });
 });
+
+
+describe('FIX-AUDIT: bootstrap B', () => {
+  test('rechaza B<2 y acepta B=2', () => {
+    const vals = Array.from({ length: 10 }, (_, i) => i + 1);
+    expect(C.calcularBootstrap(vals, 'media', 1).error).toBeTruthy();
+    expect(C.calcularBootstrap(vals, 'media', -1).error).toBeTruthy();
+    expect(C.calcularBootstrap(vals, 'media', 2).error).toBeUndefined();
+  });
+});

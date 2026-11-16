@@ -198,12 +198,21 @@ const StatsUtils = (function () {
             return !isNaN(n) && isFinite(n) ? n : NaN;
         }).filter(function(v) { return !isNaN(v); });
         if (vals.length === 0) return;
-        const mean = vals.reduce(function(a, b) { return a + b; }, 0) / vals.length;
+        let fill;
+        if (method === 'mediana' || method === 'median') {
+            const sorted = vals.slice().sort(function(a, b) { return a - b; });
+            const mid = Math.floor(sorted.length / 2);
+            fill = sorted.length % 2
+                ? sorted[mid]
+                : (sorted[mid - 1] + sorted[mid]) / 2;
+        } else {
+            fill = vals.reduce(function(a, b) { return a + b; }, 0) / vals.length;
+        }
         data.data.forEach(function(row) {
             const v = Array.isArray(row) ? row[idx] : row[colName];
             if (v === null || v === '' || v === undefined || isNaN(parseFloat(v))) {
-                if (Array.isArray(row)) row[idx] = mean;
-                else row[colName] = mean;
+                if (Array.isArray(row)) row[idx] = fill;
+                else row[colName] = fill;
             }
         });
     }
@@ -272,7 +281,8 @@ const StatsUtils = (function () {
      * @returns {number}
      */
     function calcularVarianza(values, esMuestral = true) {
-        if (!values || values.length === 0) return 0;
+        if (!values || values.length === 0) return null;
+        if (esMuestral && values.length < 2) return null;
         const mean = calcularMedia(values);
         const sqDiffs = values.map(v => Math.pow(v - mean, 2));
         const divisor = esMuestral ? values.length - 1 : values.length;
@@ -286,7 +296,8 @@ const StatsUtils = (function () {
      * @returns {number}
      */
     function calcularDesviacionEstandar(values, esMuestral = true) {
-        return Math.sqrt(calcularVarianza(values, esMuestral));
+        const varianza = calcularVarianza(values, esMuestral);
+        return varianza == null ? null : Math.sqrt(varianza);
     }
 
     /**
@@ -307,7 +318,8 @@ const StatsUtils = (function () {
     function calcularCoeficienteVariacion(values) {
         const mean = calcularMedia(values);
         if (mean === 0) return 0;
-        return (calcularDesviacionEstandar(values) / mean) * 100;
+        const de = calcularDesviacionEstandar(values);
+        return de == null ? null : (de / mean) * 100;
     }
 
     // ========================================
@@ -575,23 +587,27 @@ const StatsUtils = (function () {
     function resumenEstadistico(values) {
         if (!values || values.length === 0) return { error: 'No hay datos válidos' };
 
+        const de = calcularDesviacionEstandar(values);
+        const varianza = calcularVarianza(values);
+        const cv = calcularCoeficienteVariacion(values);
+        const redondear = (v) => v == null ? null : parseFloat(v.toFixed(4));
         return {
             n: values.length,
-            media: parseFloat(calcularMedia(values).toFixed(4)),
-            mediana: parseFloat(calcularMediana(values).toFixed(4)),
+            media: redondear(calcularMedia(values)),
+            mediana: redondear(calcularMediana(values)),
             moda: calcularModa(values),
-            de: parseFloat(calcularDesviacionEstandar(values).toFixed(4)),
-            varianza: parseFloat(calcularVarianza(values).toFixed(4)),
-            min: parseFloat(Math.min(...values).toFixed(4)),
-            max: parseFloat(Math.max(...values).toFixed(4)),
-            rango: parseFloat(calcularRango(values).toFixed(4)),
-            q1: parseFloat(calcularPercentil(values, 25).toFixed(4)),
-            q3: parseFloat(calcularPercentil(values, 75).toFixed(4)),
-            iqr: parseFloat(calcularIQR(values).toFixed(4)),
-            asimetria: parseFloat(calcularAsimetria(values).toFixed(4)),
-            curtosis: parseFloat(calcularCurtosis(values).toFixed(4)),
-            cv: parseFloat(calcularCoeficienteVariacion(values).toFixed(4)),
-            se: parseFloat(calcularErrorEstandar(values).toFixed(4))
+            de: redondear(de),
+            varianza: redondear(varianza),
+            min: redondear(Math.min(...values)),
+            max: redondear(Math.max(...values)),
+            rango: redondear(calcularRango(values)),
+            q1: redondear(calcularPercentil(values, 25)),
+            q3: redondear(calcularPercentil(values, 75)),
+            iqr: redondear(calcularIQR(values)),
+            asimetria: redondear(calcularAsimetria(values)),
+            curtosis: redondear(calcularCurtosis(values)),
+            cv: redondear(cv),
+            se: redondear(calcularErrorEstandar(values))
         };
     }
 
