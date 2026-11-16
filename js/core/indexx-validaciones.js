@@ -1226,7 +1226,7 @@ const Validaciones = (() => {
       + '</div></fieldset>'
       + (conGen ? firmantesHtml() : '')
       + '<div class="v7-form-actions">'
-      + '<span class="v7-form-msg" role="status"></span>'
+      + '<span class="v7-form-msg" role="status" aria-live="polite"></span>'
       + '<button type="button" class="v7-btn-save">Guardar borrador</button>'
       + (conGen ? '' : '<button type="button" class="v7-btn-gen" disabled title="Próximamente">Generar (próximamente)</button>')
       + '</div></form>'
@@ -1283,6 +1283,22 @@ const Validaciones = (() => {
     return errores;
   }
 
+  // VAL-04: estado documental visible. Un borrador puede guardarse incompleto,
+  // pero no debe parecer listo para generar si faltan datos, firmantes o URS.
+  function estadoIntegridad(errores, faltaFirm, draft) {
+    const d = draft || {};
+    const faltaDocs = ['ursCodigo', 'ursVersion', 'riesgoCodigo', 'riesgoVersion']
+      .some(function (k) { return !String(d[k] || '').trim(); }) ? 1 : 0;
+    const pendientes = (errores || 0) + (faltaFirm || 0) + faltaDocs;
+    return {
+      pendientes: pendientes,
+      listo: pendientes === 0,
+      texto: pendientes
+        ? 'Borrador incompleto · ' + pendientes + ' pendiente' + (pendientes === 1 ? '' : 's')
+        : 'Datos completos · listo para generar',
+    };
+  }
+
   // Fail-closed: si no se puede comprobar el respaldo documental o los
   // parámetros del banco, se bloquea la generación en vez de asumir OK.
   function sinTablaPreaprobada(fase, catId, entId, cond) {
@@ -1336,6 +1352,11 @@ const Validaciones = (() => {
         msg.textContent = text || '';
         msg.className = 'v7-form-msg' + (text ? (ok ? ' ok' : ' err') : '');
       }
+    }
+
+    function pintarEstado() {
+      const est = estadoIntegridad(validarErrores().length, validarFirmantes(), recoger());
+      setMsg(est.texto, est.listo);
     }
 
     function cerrarCombo() {
@@ -1826,11 +1847,11 @@ const Validaciones = (() => {
       cargar(draft);
       aplicarCondicionesAlmacen(draft);
       pintarDescripcion();
-      setMsg(Object.keys(draft).length ? 'Borrador cargado' : '', true);
       if (conGen) {
         await cargarFirmantes(draft);
         if (token !== cargaToken) return false;
       }
+      pintarEstado();
       if (step3 && conGen) {
         step3.hidden = false;
         restaurarSel3();
@@ -1957,7 +1978,7 @@ const Validaciones = (() => {
 
     if (form.addEventListener) {
       form.addEventListener('submit', function (e) { e.preventDefault(); });
-      form.addEventListener('input', function () { setMsg(''); });
+      form.addEventListener('input', function () { setMsg(''); pintarEstado(); });
       // Edición manual de la descripción: se respeta ante cambios de entidad
       form.addEventListener('input', function (e) {
         const t = e && e.target;
@@ -2223,7 +2244,7 @@ const Validaciones = (() => {
 
   return {
     CATS, ROUTES, DOCS, ENTIDADES, SCHEMAS, FASES_GEN, GEN_FASES, AREAS_GERENCIA, parseRoute, catById, getSchema, getEntidades,
-    entidadPorNombre, datosAlmacen, sinTablaPreaprobada, faltantesParametrosBanco,
+    entidadPorNombre, datosAlmacen, sinTablaPreaprobada, faltantesParametrosBanco, estadoIntegridad,
     puestoGerente, areaDesdeCargo, firmantesHtml, saveDraft, loadDraft, cargarBorrador, guardarBorrador, validarDatos, saveGen, loadGen, viewEntidad, show, hide, apply, currentArea, render, contarGen, tieneBancoFam, estadoBancoFam, resolverDescripcion, mejorarFecha, manifest, viewProtocolos,
     viewDocumentacion, viewReportes, viewConfiguracion, viewAyuda, viewCalendario, chartHtml, reportHtml, calendarHtml, cargarResumen, cargarCalendario, cargarReportes, bindConfiguracion,
   };

@@ -115,6 +115,32 @@ describe('fase 2 — imputación y varianza', () => {
   });
 });
 
+describe('fase 3 — parseo estricto e imputación trazable', () => {
+  test('parseNumeric rechaza texto parcial y coma decimal', () => {
+    expect(S.parseNumeric('12abc')).toBe(null);
+    expect(S.parseNumeric('2,5')).toBe(null);
+    expect(S.parseNumeric('1,234')).toBe(null);
+    expect(S.parseNumeric('0x10')).toBe(null);
+    expect(S.parseNumeric(Infinity)).toBe(null);
+    expect(S.parseNumeric(' 4 ')).toBe(4);
+    expect(S.parseNumeric('1e3')).toBe(1000);
+    expect(S.parseNumeric('.5')).toBe(0.5);
+  });
+
+  test('getNumericValues excluye y cuenta valores inválidos', () => {
+    S.clearExclusionesParseo();
+    const d = { headers: ['x'], data: [['12abc'], ['2.5'], [''], ['Infinity']] };
+    expect(S.getNumericValues(d, 'x')).toEqual([2.5]);
+    expect(S.getExclusionesParseo()).toBe(2);
+  });
+
+  test('imputeColumn devuelve la traza de lo imputado', () => {
+    const d = { headers: ['x'], data: [[1], [2], [100], ['']] };
+    expect(S.imputeColumn(d, 'x', 'mediana')).toEqual({ metodo: 'mediana', celdasImputadas: 1 });
+    expect(S.imputeColumn({ headers: ['y'], data: [['a']] }, 'y')).toBe(null);
+  });
+});
+
 describe('calcularMedia', () => {
   test('correct mean', () => {
     expect(S.calcularMedia([1, 2, 3, 4, 5])).toBe(3);

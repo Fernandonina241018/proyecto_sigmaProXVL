@@ -26,16 +26,38 @@ const StatsUtils = (function () {
      * @param {string} colName - Nombre de la columna
      * @returns {number[]} Array de valores numéricos válidos
      */
+    // Política de parseo (auditoría EST-01): solo número completo con punto
+    // decimal y exponente opcional. "12abc", "1,234" (miles) y comas
+    // decimales se excluyen y se cuentan; nunca se convierten en silencio.
+    const _NUM_RE = /^[+-]?(?:\d+(?:\.\d*)?|\.\d+)(?:[eE][+-]?\d+)?$/;
+    let _exclusionesParseo = 0;
+
+    function parseNumeric(val) {
+        if (typeof val === 'number') return isFinite(val) ? val : null;
+        if (typeof val !== 'string') return null;
+        const s = val.trim();
+        if (!s || !_NUM_RE.test(s)) return null;
+        const n = Number(s);
+        return isFinite(n) ? n : null;
+    }
+
+    // Igual que parseNumeric, pero cuenta el texto no vacío que se excluye.
+    function _extractNumeric(val) {
+        const n = parseNumeric(val);
+        if (n === null && val != null && String(val).trim() !== '') _exclusionesParseo++;
+        return n;
+    }
+
+    function getExclusionesParseo() { return _exclusionesParseo; }
+    function clearExclusionesParseo() { _exclusionesParseo = 0; }
+
     function getNumericValues(data, colName) {
         if (!data || !data.headers || !data.data) return [];
         const idx = data.headers.indexOf(colName);
         if (idx === -1) return [];
         return data.data
-            .map(row => {
-                const val = Array.isArray(row) ? row[idx] : row[colName];
-                return parseFloat(val);
-            })
-            .filter(v => !isNaN(v) && isFinite(v));
+            .map(row => _extractNumeric(Array.isArray(row) ? row[idx] : row[colName]))
+            .filter(v => v !== null);
     }
 
     /**
@@ -116,7 +138,7 @@ const StatsUtils = (function () {
                 return str !== '' && str !== null && !isDateLike(str);
             });
             if (nonDateValues.length === 0) return false;
-            const numericCount = nonDateValues.filter(function(v) { return !isNaN(parseFloat(v)) && isFinite(parseFloat(v)); }).length;
+            const numericCount = nonDateValues.filter(function(v) { return parseNumeric(v) !== null; }).length;
             return numericCount / nonDateValues.length >= threshold;
         });
         _numColsCache.set(fp, result.slice());
@@ -139,7 +161,7 @@ const StatsUtils = (function () {
         data.data.forEach(row => {
             data.headers.forEach((h, idx) => {
                 const val = Array.isArray(row) ? row[idx] : row[h];
-                if (val === null || val === '' || val === undefined || isNaN(parseFloat(val))) count++;
+                if (val === null || val === '' || val === undefined || parseNumeric(val) === null) count++;
             });
         });
         return count;
@@ -165,7 +187,7 @@ const StatsUtils = (function () {
                 return v !== null && v !== '' && v !== undefined;
             }).length;
             const numericos = values.filter(function(v) {
-                return !isNaN(parseFloat(v)) && isFinite(parseFloat(v));
+                return parseNumeric(v) !== null;
             }).length;
             const density = validos / total;
             const numericRatio = total > 0 ? numericos / total : 0;
@@ -186,18 +208,17 @@ const StatsUtils = (function () {
     }
 
     /**
-     * Imputa valores no numéricos usando la media de la columna
+     * Imputa valores no numéricos usando la media o la mediana de la columna.
+     * Devuelve { metodo, celdasImputadas } para dejar traza del cambio.
      */
     function imputeColumn(data, colName, method) {
         method = method || 'media';
         const idx = data.headers.indexOf(colName);
-        if (idx === -1) return;
+        if (idx === -1) return null;
         const vals = data.data.map(function(row) {
-            const v = Array.isArray(row) ? row[idx] : row[colName];
-            const n = parseFloat(v);
-            return !isNaN(n) && isFinite(n) ? n : NaN;
-        }).filter(function(v) { return !isNaN(v); });
-        if (vals.length === 0) return;
+            return parseNumeric(Array.isArray(row) ? row[idx] : row[colName]);
+        }).filter(function(v) { return v !== null; });
+        if (vals.length === 0) return null;
         let fill;
         if (method === 'mediana' || method === 'median') {
             const sorted = vals.slice().sort(function(a, b) { return a - b; });
@@ -208,13 +229,16 @@ const StatsUtils = (function () {
         } else {
             fill = vals.reduce(function(a, b) { return a + b; }, 0) / vals.length;
         }
+        let celdasImputadas = 0;
         data.data.forEach(function(row) {
             const v = Array.isArray(row) ? row[idx] : row[colName];
-            if (v === null || v === '' || v === undefined || isNaN(parseFloat(v))) {
+            if (parseNumeric(v) === null) {
                 if (Array.isArray(row)) row[idx] = fill;
                 else row[colName] = fill;
+                celdasImputadas++;
             }
         });
+        return { metodo: method, celdasImputadas: celdasImputadas };
     }
 
     // ========================================
@@ -618,6 +642,9 @@ const StatsUtils = (function () {
     return {
         // Extracción y validación
         getNumericValues,
+        parseNumeric,
+        getExclusionesParseo,
+        clearExclusionesParseo,
         getNumericColumns,
         clearNumericColumnsCache,
         countMissingValues,
