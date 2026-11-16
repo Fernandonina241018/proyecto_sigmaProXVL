@@ -85,11 +85,23 @@ const EstadisticaDescriptiva = (() => {
     }
     
     function ejecutarAnalisis(data, estadisticos, hypothesisConfig = {}) {
-        // Imputación si está configurada
+        // Traza de la auditoría (EST-08/EST-09): nunca imputar el dataset del
+        // llamador y dejar constancia de celdas y exclusiones de parseo.
+        let imputacion = null;
+        Stats.clearExclusionesParseo();
         if (typeof columnAnalysisConfig !== 'undefined' && columnAnalysisConfig && columnAnalysisConfig.imputeMissing) {
-            data.headers.forEach(function(h) {
-                Stats.imputeColumn(data, h, columnAnalysisConfig.imputeMethod || 'media');
+            const metodo = columnAnalysisConfig.imputeMethod || 'media';
+            data = Object.assign({}, data, {
+                data: data.data.map(function(row) {
+                    return Array.isArray(row) ? row.slice() : Object.assign({}, row);
+                }),
             });
+            let celdasImputadas = 0;
+            data.headers.forEach(function(h) {
+                const r = Stats.imputeColumn(data, h, metodo);
+                if (r) celdasImputadas += r.celdasImputadas;
+            });
+            imputacion = { metodo: metodo, celdasImputadas: celdasImputadas };
         }
         
         const numericCols = getNumericColumns(data);
@@ -1951,6 +1963,8 @@ resultados['Test de Signos'].columna1 = col1;
             totalDatos: (data.rowCount || (Array.isArray(data.data) ? data.data.length : 0)) * numericCols.length,
             registrosPorColumna: registrosPorColumna,
             estadisticos: estadisticos,
+            imputacion: imputacion,
+            parseo: { exclusiones: Stats.getExclusionesParseo() },
             resultados: resultados
         };
     }
@@ -2003,6 +2017,9 @@ function generarHTML(analisisResultado) {
     function kpiCards(statKey) {
         const data = analisisResultado.resultados[statKey];
         if (!data) return '';
+        // null = estadístico no calculable (p. ej. varianza con n<2): se dice,
+        // no se imprime "null" ni NaN.
+        const fmtVal = (v) => v === null ? 'No calculable' : (typeof v === 'number' ? v.toFixed(4) : String(v));
 
         // Si es prueba de hipótesis, usar vista especial.
         // PCA y Análisis Factorial tienen renderer propio más abajo.
@@ -2186,6 +2203,9 @@ function generarHTML(analisisResultado) {
         return cols.map(col => {
             const val = data[col];
             if (val === undefined) return '';
+            if (val === null) {
+                return `<div class="ar-kpi-card"><div class="ar-kpi-col-label">COLUMNA ${escapeHtml(col)}</div><div class="ar-kpi-val">${fmtVal(val)}</div></div>`;
+            }
 
             const compliance = null; // (código original omitido)
             let dispersionEval = null;
@@ -2243,19 +2263,19 @@ function generarHTML(analisisResultado) {
                         const display = margen ? `[${lower}, ${upper}] ±${margen}` : `[${lower}, ${upper}]`;
                         return `<div class="ar-kpi-sub"><span class="ar-kpi-sub-k">${k}</span><span class="ar-kpi-sub-v">${display}</span></div>`;
                     }
-                    return `<div class="ar-kpi-sub"><span class="ar-kpi-sub-k">${k}</span><span class="ar-kpi-sub-v">${typeof v === 'number' ? v.toFixed(4) : v}</span></div>`;
+                    return `<div class="ar-kpi-sub"><span class="ar-kpi-sub-k">${k}</span><span class="ar-kpi-sub-v">${fmtVal(v)}</span></div>`;
                 }).join('');
                 return `<div class="ar-kpi-card ar-kpi-multi"><div class="ar-kpi-col-label">${escapeHtml(col)}</div><div class="ar-kpi-sub-grid">${rows}</div>${dispersionBadgeHTML}${dispersionLimitsHTML}</div>`;
             }
 
             // Array (moda)
             if (Array.isArray(val)) {
-                const display = val.length > 0 ? val.map(v => v.toFixed(4)).join(', ') : '—';
+                const display = val.length > 0 ? val.map(v => fmtVal(v)).join(', ') : '—';
                 return `<div class="ar-kpi-card"><div class="ar-kpi-col-label">${escapeHtml(col)}</div><div class="ar-kpi-val ar-kpi-val-sm">${display}</div>${dispersionBadgeHTML}${dispersionLimitsHTML}</div>`;
             }
 
             // Escalar simple
-            const display = typeof val === 'number' ? val.toFixed(4) : String(val);
+            const display = fmtVal(val);
             return `<div class="ar-kpi-card"><div class="ar-kpi-col-label">COLUMNA ${escapeHtml(col)}</div><div class="ar-kpi-val">${display}</div>${dispersionBadgeHTML}${dispersionLimitsHTML}</div>`;
         }).join('');
     }

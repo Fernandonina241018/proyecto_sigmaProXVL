@@ -2180,9 +2180,6 @@ const ESTADISTICOS_CONFIG = {
             formula:  'IC = [θ*_(α/2), θ*_(1−α/2)]',
             umbrales: { preciso: 'IC estrecho', impreciso: 'IC amplio' },
         },
-        interpretacion: {
-            plantilla: 'Estimación: {estimacion} (SE={se_bootstrap}). IC 95% bootstrap: [{ic95Lo}, {ic95Hi}] (B={B} remuestreos).',
-        },
         advertencias: [
             { condicion: 'n_menor_30',   mensaje: 'Con n pequeño el bootstrap puede no representar bien la distribución muestral.' },
             { condicion: 'b_menor_1000', mensaje: 'Se recomienda B≥1000 para IC estables. Aumente el número de remuestreos.' },
@@ -2832,34 +2829,6 @@ function getNivelAlfa(nombre) {
     return ESTADISTICOS_CONFIG[nombre]?.nivelAlfa ?? 0.05;
 }
 
-/**
- * Construye el texto de interpretación a partir de la plantilla del config
- * y un objeto de valores calculados.
- * @param {string} nombre      - Nombre del estadístico
- * @param {boolean} significativo - true si p < alfa
- * @param {Object}  valores    - Valores calculados { p, t, r, ... }
- * @returns {string} Texto de interpretación listo para el reporte
- */
-function buildInterpretacion(nombre, significativo, valores) {
-    const config = ESTADISTICOS_CONFIG[nombre];
-    if (!config?.interpretacion) return '';
-
-    const interp = config.interpretacion;
-    let plantilla = '';
-
-    if (interp.plantilla) {
-        plantilla = interp.plantilla;
-    } else if (significativo && interp.significativo) {
-        plantilla = interp.significativo;
-    } else if (!significativo && interp.noSignificativo) {
-        plantilla = interp.noSignificativo;
-    }
-
-    return plantilla.replace(/\{(\w+)\}/g, (_, key) =>
-        valores[key] !== undefined ? valores[key] : `{${key}}`
-    );
-}
-
 // ════════════════════════════════════════
 // EXPORTAR PARA USO GLOBAL
 // ════════════════════════════════════════
@@ -2876,7 +2845,6 @@ globalObj.getEstadisticosPorSeccion = getEstadisticosPorSeccion;
 globalObj.getEstadisticosEDA = getEstadisticosEDA;
 globalObj.getEstadisticosDobleColumna = getEstadisticosDobleColumna;
 globalObj.getNivelAlfa = getNivelAlfa;
-globalObj.buildInterpretacion = buildInterpretacion;
 
 // Para CommonJS / Node.js (opcional)
 if (typeof module !== 'undefined' && module.exports) {
@@ -2889,7 +2857,6 @@ if (typeof module !== 'undefined' && module.exports) {
         getEstadisticosPorSeccion,
         getEstadisticosEDA,
         getEstadisticosDobleColumna,
-        getNivelAlfa,
-        buildInterpretacion
+        getNivelAlfa
     };
 }

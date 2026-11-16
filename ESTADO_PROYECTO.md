@@ -90,6 +90,36 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (StatAnalyzer Pro) co
 
 ## CAMBIOS RECIENTES
 
+### 2026-11-16 (305): Auditoría — fase 3 (trazabilidad, estado documental y limpieza)
+
+**Qué:** se cierra la fase 3 y el parseo pendiente de la fase 2.
+- **Parseo estricto (EST-01):** `StatsUtils.parseNumeric()` acepta solo número completo con punto decimal y exponente (`2.5`, `1e3`, `.5`); rechaza `12abc`, `2,5` y `1,234` y los cuenta en `getExclusionesParseo()`. `getNumericValues`, `getNumericColumns`, `analyzeColumns`, `countMissingValues` e `imputeColumn` usan la misma política. Decisión: **solo punto decimal** (sin coma ni separador de miles); si Calidad exige coma decimal, se cambia en un solo punto.
+- **Imputación trazable (EST-08):** `ejecutarAnalisis()` imputa sobre una copia de las filas, nunca sobre el dataset del llamador, y devuelve `imputacion: {metodo, celdasImputadas}` y `parseo: {exclusiones}`. `imputeColumn()` devuelve su propia traza.
+- **n<2 visible (EST-07):** Varianza, DE y CV con `null` se muestran como **“No calculable”** en las tarjetas; antes imprimían `null`.
+- **VAL-04:** el formulario de entidad muestra estado vivo `Borrador incompleto · N pendiente(s)` / `Datos completos · listo para generar`, calculado con los mismos validadores que bloquean la generación (datos + firmantes + URS/riesgo) y anunciado con `role="status"`.
+- **Limpieza:** eliminado `buildInterpretacion()` (sin llamadas) y la plantilla del IC 95% fijo de Bootstrap.
+
+**Archivos afectados:**
+| Archivo | Cambio |
+|---------|--------|
+| `js/core/StatsUtils.js` | `parseNumeric`, contador de exclusiones, imputación con traza |
+| `js/core/EstadisticaDescriptiva.js` | Copia antes de imputar, `imputacion`/`parseo` en el retorno, “No calculable” |
+| `js/core/estadisticosConfig.js` | Borrado `buildInterpretacion` y plantilla muerta de Bootstrap |
+| `js/core/indexx-validaciones.js` | `estadoIntegridad()`, estado vivo en el formulario, `aria-live` |
+| `tests/StatsUtils.test.js` | Parseo estricto, contador y traza de imputación |
+| `tests/auditoria-fase3.test.js` | Copia del dataset, traza y presentación de n<2 |
+| `tests/validaciones-panel.test.js` | VAL-04 estado y markup accesible |
+| `Informe audit 3.0` (Descargas) | Cabecera con fecha/commit/alcance, IDs únicos y líneas de VAL-03 |
+
+**Verificación:**
+```
+Vitest completo → 1185 tests OK
+Preflight + E2E → 14 tests OK
+```
+PR #268 (`1f34728`).
+
+**Riesgo asumido:** los valores con coma decimal (`2,5`) ahora se excluyen y se cuentan, no se interpretan como `2`. Si los datasets reales usan coma, habrá que habilitarla en `parseNumeric` (un solo punto) y volver a correr la suite.
+
 ### 2026-11-16 (304): Auditoría — fase 2 (imputación, varianza, bootstrap)
 
 **Qué:** se corrigieron los defectos de cálculo de la fase 2.

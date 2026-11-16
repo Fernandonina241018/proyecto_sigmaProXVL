@@ -80,6 +80,20 @@ describe('Validaciones V7', () => {
     expect(Validaciones.parseRoute('')).toBe('banco');
   });
 
+  test('VAL-04: estado visible distingue borrador incompleto de listo', () => {
+    const completo = { ursCodigo: 'URS-1', ursVersion: '1', riesgoCodigo: 'R-1', riesgoVersion: '1' };
+    expect(Validaciones.estadoIntegridad(0, 0, completo)).toEqual({
+      pendientes: 0, listo: true, texto: 'Datos completos · listo para generar',
+    });
+    const est = Validaciones.estadoIntegridad(2, 1, { ...completo, ursVersion: '' });
+    expect(est.pendientes).toBe(4);
+    expect(est.listo).toBe(false);
+    expect(est.texto).toContain('Borrador incompleto');
+    const html = Validaciones.viewEntidad('almacenes');
+    expect(html).toContain('role="status"');
+    expect(html).toContain('aria-live="polite"');
+  });
+
   test('5 categorías SIN enlaces a docs (flujo ciego)', () => {
     expect(Validaciones.CATS.length).toBe(5);
     for (const c of Validaciones.CATS) {
