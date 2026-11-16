@@ -858,6 +858,9 @@ negativos: negativos,
      * Bootstrap - Remuestreo para estimar distribuciones muestrales
      */
     function calcularBootstrap(values, statName = 'media', B = 1000, nivelConfianza = 0.95, semilla = 12345) {
+        if (!Number.isInteger(B) || B < 2) {
+            return { error: 'B debe ser un entero mayor o igual a 2' };
+        }
         values = values.filter(v => !isNaN(v) && isFinite(v));
         const n = values.length;
         if (n < 10) {

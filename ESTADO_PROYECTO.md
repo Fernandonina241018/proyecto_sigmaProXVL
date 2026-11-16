@@ -90,6 +90,29 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (StatAnalyzer Pro) co
 
 ## CAMBIOS RECIENTES
 
+### 2026-11-16 (304): Auditoría — fase 2 (imputación, varianza, bootstrap)
+
+**Qué:** se corrigieron los defectos de cálculo de la fase 2.
+- `imputeColumn()` respeta `mediana` (y `median`); sigue usando media por defecto.
+- `calcularVarianza()` devuelve `null` con muestra n<2 y con array vacío; la varianza poblacional de n=1 sigue siendo 0.
+- `calcularDesviacionEstandar()` y `calcularCoeficienteVariacion()` propagan `null`; `resumenEstadistico()` no llama `.toFixed()` sobre null.
+- `calcularBootstrap()` exige `B` entero ≥2.
+- **Pendiente:** `parseFloat` estricto; requiere definir política de coma decimal/notación científica.
+
+**Archivos afectados:**
+| Archivo | Cambio |
+|---------|--------|
+| `js/core/StatsUtils.js` | Mediana, varianza null, sd/cv/resumen seguros |
+| `js/core/indexx-stats-core.js` | Validación de B |
+| `tests/StatsUtils.test.js` | Imputación, varianza, resumen |
+| `tests/stats-audit-fix.test.js` | B inválido |
+
+**Verificación:**
+```
+Vitest completo → 1178 tests OK
+Preflight + E2E → 14 tests OK
+```
+
 ### 2026-11-16 (303): Auditoría — fase 1 (fail-closed y chi-cuadrado)
 
 **Qué:** se cerraron los cuatro puntos bloqueantes de la fase 1.

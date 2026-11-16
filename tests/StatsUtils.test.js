@@ -89,6 +89,32 @@ describe('getNumericColumns caché (LOTE C)', () => {
   });
 });
 
+describe('fase 2 — imputación y varianza', () => {
+  test('imputeColumn usa la mediana cuando se pide', () => {
+    const d = { headers: ['x'], data: [[1], [2], [100], ['']] };
+    S.imputeColumn(d, 'x', 'mediana');
+    expect(d.data[3][0]).toBe(2);
+    const m = { headers: ['x'], data: [[1], [2], [100], ['']] };
+    S.imputeColumn(m, 'x', 'media');
+    expect(m.data[3][0]).toBeCloseTo(34.3333, 3);
+  });
+
+  test('varianza muestral no calculable con n<2', () => {
+    expect(S.calcularVarianza([5])).toBe(null);
+    expect(S.calcularVarianza([])).toBe(null);
+    expect(S.calcularVarianza([5], false)).toBe(0);
+    expect(S.calcularDesviacionEstandar([5])).toBe(null);
+    expect(S.calcularCoeficienteVariacion([5])).toBe(null);
+  });
+
+  test('resumenEstadistico no rompe con una sola observación', () => {
+    const r = S.resumenEstadistico([5]);
+    expect(r.varianza).toBe(null);
+    expect(r.de).toBe(null);
+    expect(r.cv).toBe(null);
+  });
+});
+
 describe('calcularMedia', () => {
   test('correct mean', () => {
     expect(S.calcularMedia([1, 2, 3, 4, 5])).toBe(3);
