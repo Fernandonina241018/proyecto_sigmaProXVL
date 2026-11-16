@@ -509,7 +509,11 @@ const PlantillaDocx = (() => {
     const g = (k) => String(d[k] == null ? '' : d[k]).trim();
     let r = '';
     if (g('temperaturaMin') || g('temperaturaMax')) r = (g('temperaturaMin') || '?') + '–' + (g('temperaturaMax') || '?') + ' °C';
-    if (g('humedadMin') || g('humedadMax')) r += (r ? ' / ' : '') + 'HR ' + (g('humedadMin') || '?') + '–' + (g('humedadMax') || '?') + ' %';
+    const hmin = g('humedadMin');
+    const hmax = g('humedadMax');
+    if (hmin && hmax) r += (r ? ' / ' : '') + 'HR ' + hmin + '–' + hmax + ' %';
+    else if (hmax) r += (r ? ' / ' : '') + 'HR < ' + hmax + ' %';
+    else if (hmin) r += (r ? ' / ' : '') + 'HR > ' + hmin + ' %';
     return r;
   }
 

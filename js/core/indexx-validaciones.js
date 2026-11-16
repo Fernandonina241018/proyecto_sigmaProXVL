@@ -23,8 +23,8 @@ const Validaciones = (() => {
   //   L = instrumento analítico o de control de calidad (USP <1058>)
   const ENTIDADES = {
     almacenes: [
-      { id: 'almacen-ambiente-a', nombre: 'Almacén 15–25 °C / HR < 65%', tipo: 'Temperatura controlada', tempMin: 15, tempMax: 25, humedad: true },
-      { id: 'almacen-ambiente-b', nombre: 'Almacén 0–30 °C / HR < 80%', tipo: 'Ambiente', tempMin: 0, tempMax: 30, humedad: true },
+      { id: 'almacen-ambiente-a', nombre: 'Almacén 15–25 °C / HR < 65%', tipo: 'Temperatura controlada', tempMin: 15, tempMax: 25, humedad: true, humedadMax: 65 },
+      { id: 'almacen-ambiente-b', nombre: 'Almacén 0–30 °C / HR < 80%', tipo: 'Ambiente', tempMin: 0, tempMax: 30, humedad: true, humedadMax: 80 },
       { id: 'cuarto-frio', nombre: 'Cuarto frío (2–8 °C)', tipo: 'Cuarto frío', tempMin: 2, tempMax: 8, humedad: false },
       { id: 'congelador', nombre: 'Congelador (−20 °C)', tipo: 'Congelador', tempMin: -25, tempMax: -10, humedad: false },
     ],
@@ -171,14 +171,6 @@ const Validaciones = (() => {
         req: true,
         min: -200,
         max: 300
-      },
-      {
-        k: 'humedadMin',
-        label: 'Humedad relativa mínima (%HR)',
-        tipo: 'number',
-        req: false,
-        min: 0,
-        max: 100
       },
       {
         k: 'humedadMax',
@@ -1189,12 +1181,14 @@ const Validaciones = (() => {
       const v = String(d[k] == null ? '' : d[k]).trim();
       return v || String(def);
     };
-    return {
+    const cfg = {
       tipo: ent.tipo,
       temperaturaMin: val('temperaturaMin', ent.tempMin),
       temperaturaMax: val('temperaturaMax', ent.tempMax),
       sinHumedad: ent.humedad === false
     };
+    if (!cfg.sinHumedad) cfg.humedadMax = val('humedadMax', ent.humedadMax);
+    return cfg;
   }
 
   function paso1Html(ents) {
@@ -1278,10 +1272,14 @@ const Validaciones = (() => {
     const tmin = num('temperaturaMin');
     const tmax = num('temperaturaMax');
     if (tmin != null && tmax != null && tmin >= tmax) errores.push('La temperatura mínima debe ser menor que la máxima');
-    const hmin = num('humedadMin');
-    const hmax = num('humedadMax');
-    if ((hmin == null) !== (hmax == null)) errores.push('Complete ambos extremos de humedad o deje los dos vacíos');
-    if (hmin != null && hmax != null && hmin > hmax) errores.push('La humedad mínima no puede ser mayor que la máxima');
+    const tieneMin = (schema || []).some(function (f) { return f.k === 'humedadMin'; });
+    const tieneMax = (schema || []).some(function (f) { return f.k === 'humedadMax'; });
+    if (tieneMin && tieneMax) {
+      const hmin = num('humedadMin');
+      const hmax = num('humedadMax');
+      if ((hmin == null) !== (hmax == null)) errores.push('Complete ambos extremos de humedad o deje los dos vacíos');
+      if (hmin != null && hmax != null && hmin > hmax) errores.push('La humedad mínima no puede ser mayor que la máxima');
+    }
     return errores;
   }
 
@@ -1766,14 +1764,13 @@ const Validaciones = (() => {
       set('tipo', cfg.tipo);
       set('temperaturaMin', cfg.temperaturaMin);
       set('temperaturaMax', cfg.temperaturaMax);
-      ['humedadMin', 'humedadMax'].forEach(function (k) {
+      ['humedadMax'].forEach(function (k) {
         const lab = form.querySelector('[data-f="' + k + '"]');
         const inp = form.querySelector('[data-k="' + k + '"]');
-        const v = draft && draft[k] != null ? String(draft[k]).trim() : '';
         if (lab) lab.hidden = cfg.sinHumedad;
         if (inp) {
           inp.disabled = cfg.sinHumedad;
-          inp.value = cfg.sinHumedad ? '' : v;
+          inp.value = cfg.sinHumedad ? '' : String(cfg[k] == null ? '' : cfg[k]);
         }
       });
     }

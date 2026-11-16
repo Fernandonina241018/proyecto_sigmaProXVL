@@ -90,6 +90,32 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (StatAnalyzer Pro) co
 
 ## CAMBIOS RECIENTES
 
+### 2026-11-15 (302): Almacenes — HR solo máxima y automática
+
+**Qué:** la humedad relativa de los ambientes quedó como un único valor máximo automático.
+- Se retiró `humedadMin` del schema de Almacenes; solo queda **Humedad relativa máxima (%HR)**.
+- Ambiente 15–25 → 65 %HR; Ambiente 0–30 → 80 %HR; se autocompletan al elegir la entidad.
+- Cuarto frío y congelador: HR oculta, deshabilitada y vacía.
+- `validarDatos()` exige ambos extremos solo si el schema tiene ambos campos; con el schema actual (solo máximo) no pide mínimo.
+- `rangoTexto()` muestra `HR < 65 %` / `HR < 80 %`; si un borrador viejo trae mínimo y máximo, conserva `HR min–max %`.
+- Se cerró el PR #261 (usaba 0/65) por quedar reemplazado por este enfoque.
+
+**Archivos afectados:**
+| Archivo | Cambio |
+|---------|--------|
+| `js/core/indexx-validaciones.js` | Schema solo `humedadMax`; metadatos 65/80; autofill; validación condicional |
+| `js/core/plantilla-docx.js` | `rangoTexto` con máximo único |
+| `js/core/generador-docx.js` | Igual en el generador legado |
+| `tests/validaciones-panel.test.js` | Schema/autofill/validación max-only |
+| `tests/generador-docx.test.js` | `HR < 65 %` |
+
+**Verificación:**
+```
+Vitest completo → 1168 tests OK
+Preflight + E2E → 14 tests OK
+Navegador: sin campo de HR mínima; ambiente 65/80; cuarto y congelador HR oculta/vacía
+```
+
 ### 2026-11-15 (300): Almacenes — cuarto frío sin HR y temperaturas automáticas
 
 **Qué:** se agregaron condiciones tabuladas por entidad al formulario de Almacenes.
