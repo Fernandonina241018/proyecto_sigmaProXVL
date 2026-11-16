@@ -169,6 +169,14 @@ describe('ED — tests de hipótesis', () => {
     const c = ED.calcularChiCuadrado([[20, 30], [30, 20]]);
     expect(isReal(c.estadisticoChi2)).toBe(true);
   });
+
+  test('Chi-Cuadrado rechaza conteos inválidos', () => {
+    expect(ED.calcularChiCuadrado([[10, -2], [5, 7]]).error).toBeTruthy();
+    expect(ED.calcularChiCuadrado([[1, 0], [1, 0]]).error).toBeTruthy();
+    expect(ED.calcularChiCuadrado([[1, Infinity], [1, 1]]).error).toBeTruthy();
+    expect(ED.calcularChiCuadrado([[1, 1.5], [1, 1]]).error).toBeTruthy();
+    expect(ED.calcularChiCuadrado([[0, 0], [0, 0]]).error).toBeTruthy();
+  });
 });
 
 describe('ED — intervalos de confianza', () => {

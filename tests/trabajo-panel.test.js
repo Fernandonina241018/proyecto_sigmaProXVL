@@ -116,3 +116,20 @@ describe('Pegar en la rejilla: detección de encabezados', () => {
     expect(vm.runInContext('JSON.stringify(__sheet.rows[0])', sandbox)).toBe('["1.5","2.3","3.4"]');
   });
 });
+
+
+describe('invalidarAnalisis al editar celdas', () => {
+  test('saveCellData limpia el cache de columnas', () => {
+    const { sandbox } = loadTrabajoHarness();
+    sandbox.__clear = 0;
+    vm.runInContext(`
+      StatsUtils = { clearNumericColumnsCache: function () { __clear++; } };
+      StateManager = { setUltimosResultados: function () {} };
+      getCurrentSheet = function () { return { locked: false, rows: [[1]], headers: ['x'] }; };
+      trabajoActiveCell = { row: -1, col: -1 };
+      hideAutocomplete = function () {};
+      saveCellData(0, 0, '2');
+    `, sandbox);
+    expect(sandbox.__clear).toBe(1);
+  });
+});

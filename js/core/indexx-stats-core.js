@@ -1123,7 +1123,9 @@ negativos: negativos,
             for (var fj = 0; fj < tabla[fi].length; fj++) {
                 var v = tabla[fi][fj];
                 if (v === null || v === undefined) return { error: 'La tabla contiene valores nulos' };
-                if (typeof v !== 'number' || isNaN(v)) return { error: 'La tabla contiene valores no numéricos' };
+                if (typeof v !== 'number' || !isFinite(v) || v < 0 || !Number.isInteger(v)) {
+                    return { error: 'La tabla solo admite conteos enteros no negativos' };
+                }
                 flatValues.push(v);
             }
         }
@@ -1136,6 +1138,9 @@ negativos: negativos,
         for (let j = 0; j < cols; j++) {
             totalCols.push(tabla.reduce((sum, row) => sum + row[j], 0));
         }
+        if (totalFilas.some((t) => t <= 0) || totalCols.some((t) => t <= 0)) {
+            return { error: 'Cada fila y columna debe tener al menos una observación' };
+        }
 
         // Valores esperados y chi-cuadrado
         let chi2 = 0;
@@ -1146,9 +1151,7 @@ negativos: negativos,
                 const esperado = (totalFilas[i] * totalCols[j]) / N;
                 if (esperado < minEsperado) minEsperado = esperado;
                 if (esperado < 5) celdasMenor5 += 1;
-                if (esperado > 0) {
-                    chi2 += Math.pow(tabla[i][j] - esperado, 2) / esperado;
-                }
+                chi2 += Math.pow(tabla[i][j] - esperado, 2) / esperado;
             }
         }
 

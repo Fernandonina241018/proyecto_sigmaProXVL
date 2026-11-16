@@ -70,6 +70,16 @@ describe('getNumericColumns caché (LOTE C)', () => {
     expect(strict).toEqual(loose); // mismo dataset 100% numérico
   });
 
+  test('cambio intermedio no se detecta por fingerprint hasta clear', () => {
+    S.clearNumericColumnsCache();
+    const d = { headers: ['x'], data: Array.from({ length: 10 }, (_, i) => [String(i)]) };
+    expect(S.getNumericColumns(d)).toEqual(['x']);
+    for (let i = 1; i < 9; i++) d.data[i][0] = 'texto';
+    expect(S.getNumericColumns(d)).toEqual(['x']);
+    S.clearNumericColumnsCache();
+    expect(S.getNumericColumns(d)).toEqual([]);
+  });
+
   test('clear invalida (recomputa tras cambio simulado)', () => {
     S.clearNumericColumnsCache();
     const d2 = { headers: ['c'], data: [['x']] };

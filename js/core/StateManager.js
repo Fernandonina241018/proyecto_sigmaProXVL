@@ -250,6 +250,7 @@ const StateManager = (() => {
         sheet.modified = new Date().toISOString();
         
         notifyListeners('dataChange');
+        try { if (typeof StatsUtils !== 'undefined' && StatsUtils.clearNumericColumnsCache) StatsUtils.clearNumericColumnsCache(); } catch (e) {}
         scheduleAutoSave();
     }
     
@@ -267,6 +268,7 @@ const StateManager = (() => {
         sheet.modified = new Date().toISOString();
         
         notifyListeners('dataChange');
+        try { if (typeof StatsUtils !== 'undefined' && StatsUtils.clearNumericColumnsCache) StatsUtils.clearNumericColumnsCache(); } catch (e) {}
         scheduleAutoSave();
     }
     
@@ -288,6 +290,7 @@ const StateManager = (() => {
         sheet.modified = new Date().toISOString();
         
         notifyListeners('dataChange');
+        try { if (typeof StatsUtils !== 'undefined' && StatsUtils.clearNumericColumnsCache) StatsUtils.clearNumericColumnsCache(); } catch (e) {}
         scheduleAutoSave();
         
         return newRow;
@@ -321,6 +324,7 @@ const StateManager = (() => {
         sheet.modified = new Date().toISOString();
         
         notifyListeners('dataChange');
+        try { if (typeof StatsUtils !== 'undefined' && StatsUtils.clearNumericColumnsCache) StatsUtils.clearNumericColumnsCache(); } catch (e) {}
         scheduleAutoSave();
         
         return deletedRow;
@@ -365,6 +369,7 @@ const StateManager = (() => {
         sheet.modified = new Date().toISOString();
         
         notifyListeners('dataChange');
+        try { if (typeof StatsUtils !== 'undefined' && StatsUtils.clearNumericColumnsCache) StatsUtils.clearNumericColumnsCache(); } catch (e) {}
         scheduleAutoSave();
         
         return newHeader;
@@ -393,6 +398,7 @@ const StateManager = (() => {
         sheet.modified = new Date().toISOString();
         
         notifyListeners('dataChange');
+        try { if (typeof StatsUtils !== 'undefined' && StatsUtils.clearNumericColumnsCache) StatsUtils.clearNumericColumnsCache(); } catch (e) {}
         scheduleAutoSave();
         
         return deletedHeader;
@@ -424,6 +430,7 @@ const StateManager = (() => {
         sheet.modified = new Date().toISOString();
         
         notifyListeners('dataChange');
+        try { if (typeof StatsUtils !== 'undefined' && StatsUtils.clearNumericColumnsCache) StatsUtils.clearNumericColumnsCache(); } catch (e) {}
         scheduleAutoSave();
         
         return newRow;
@@ -464,6 +471,7 @@ const StateManager = (() => {
         sheet.modified = new Date().toISOString();
         
         notifyListeners('dataChange');
+        try { if (typeof StatsUtils !== 'undefined' && StatsUtils.clearNumericColumnsCache) StatsUtils.clearNumericColumnsCache(); } catch (e) {}
         scheduleAutoSave();
         
         return newHeader;
@@ -482,6 +490,7 @@ const StateManager = (() => {
         sheet.modified = new Date().toISOString();
         
         notifyListeners('dataChange');
+        try { if (typeof StatsUtils !== 'undefined' && StatsUtils.clearNumericColumnsCache) StatsUtils.clearNumericColumnsCache(); } catch (e) {}
         scheduleAutoSave();
     }
     
@@ -500,6 +509,7 @@ const StateManager = (() => {
         sheet.modified = new Date().toISOString();
         
         notifyListeners('dataChange');
+        try { if (typeof StatsUtils !== 'undefined' && StatsUtils.clearNumericColumnsCache) StatsUtils.clearNumericColumnsCache(); } catch (e) {}
         scheduleAutoSave();
     }
     
@@ -531,6 +541,7 @@ const StateManager = (() => {
         invalidateNumericColsCache();
 
         notifyListeners('dataChange');
+        try { if (typeof StatsUtils !== 'undefined' && StatsUtils.clearNumericColumnsCache) StatsUtils.clearNumericColumnsCache(); } catch (e) {}
         scheduleAutoSave();
     }
     
@@ -544,6 +555,7 @@ const StateManager = (() => {
         invalidateNumericColsCache();
 
         notifyListeners('dataChange');
+        try { if (typeof StatsUtils !== 'undefined' && StatsUtils.clearNumericColumnsCache) StatsUtils.clearNumericColumnsCache(); } catch (e) {}
         scheduleAutoSave();
     }
     
@@ -600,6 +612,7 @@ const StateManager = (() => {
         _pushToHistory('hypothesisConfig', statName, state.hypothesisConfig[statName], config);
         state.hypothesisConfig[statName] = config;
         notifyListeners('dataChange');
+        try { if (typeof StatsUtils !== 'undefined' && StatsUtils.clearNumericColumnsCache) StatsUtils.clearNumericColumnsCache(); } catch (e) {}
         scheduleAutoSave();
     }
 
@@ -631,6 +644,7 @@ const StateManager = (() => {
         }
         state.historyIndex--;
         notifyListeners('dataChange');
+        try { if (typeof StatsUtils !== 'undefined' && StatsUtils.clearNumericColumnsCache) StatsUtils.clearNumericColumnsCache(); } catch (e) {}
         scheduleAutoSave();
         return true;
     }
@@ -647,6 +661,7 @@ const StateManager = (() => {
             state.paramConfig[entry.key] = entry.newValue !== undefined ? structuredClone(entry.newValue) : undefined;
         }
         notifyListeners('dataChange');
+        try { if (typeof StatsUtils !== 'undefined' && StatsUtils.clearNumericColumnsCache) StatsUtils.clearNumericColumnsCache(); } catch (e) {}
         scheduleAutoSave();
         return true;
     }
@@ -680,6 +695,7 @@ const StateManager = (() => {
         _pushToHistory('paramConfig', statName, state.paramConfig[statName], config);
         state.paramConfig[statName] = config;
         notifyListeners('dataChange');
+        try { if (typeof StatsUtils !== 'undefined' && StatsUtils.clearNumericColumnsCache) StatsUtils.clearNumericColumnsCache(); } catch (e) {}
         scheduleAutoSave();
     }
 

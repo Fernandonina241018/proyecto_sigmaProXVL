@@ -90,6 +90,33 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (StatAnalyzer Pro) co
 
 ## CAMBIOS RECIENTES
 
+### 2026-11-16 (303): Auditoría — fase 1 (fail-closed y chi-cuadrado)
+
+**Qué:** se cerraron los cuatro puntos bloqueantes de la fase 1.
+- **VAL-01/VAL-02:** `sinTablaPreaprobada()` y `faltantesParametrosBanco()` aíslan las comprobaciones; si lanzan, bloquean la generación (`true` / `null`) y dejan log. El `catch` externo de parámetros también bloquea.
+- **Chi-cuadrado:** rechaza no finitos, negativos, decimales y filas/columnas con suma 0; se quitó el salto silencioso de celdas con esperado 0.
+- **Caché de columnas:** `StateManager` y las mutaciones de `indexx-trabajo` llaman a `StatsUtils.clearNumericColumnsCache()`.
+- Tests nuevos: VAL-01/02 con `PlantillaDocx` que lanza, chi inválido, cambio intermedio del caché, `updateCell` y `saveCellData`.
+
+**Archivos afectados:**
+| Archivo | Cambio |
+|---------|--------|
+| `js/core/indexx-validaciones.js` | Helpers fail-closed y uso en generación |
+| `js/core/indexx-stats-core.js` | Validación de conteos y márgenes |
+| `js/core/StateManager.js` | Invalidación del caché en mutaciones |
+| `js/core/indexx-trabajo.js` | `invalidarAnalisis()` en ediciones |
+| `tests/validaciones-panel.test.js` | VAL-01/02 |
+| `tests/EstadisticaDescriptiva.test.js` | Chi inválido |
+| `tests/StatsUtils.test.js` | Caché intermedio |
+| `tests/StateManager.test.js` | Wiring del caché |
+| `tests/trabajo-panel.test.js` | Save de celda invalida |
+
+**Verificación:**
+```
+Vitest completo → 1174 tests OK
+Preflight + E2E → 14 tests OK
+```
+
 ### 2026-11-15 (302): Almacenes — HR solo máxima y automática
 
 **Qué:** la humedad relativa de los ambientes quedó como un único valor máximo automático.

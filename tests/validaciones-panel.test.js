@@ -157,6 +157,32 @@ describe('Validaciones V7', () => {
     } finally { delete globalThis.BancoSistemas; }
   });
 
+  test('VAL-01/VAL-02: si la comprobación lanza, se bloquea', () => {
+    globalThis.PlantillaDocx = {
+      limitesResumen() { throw new Error('boom'); },
+      paramsFaltantes() { throw new Error('boom'); }
+    };
+    try {
+      expect(Validaciones.sinTablaPreaprobada('IQ', 'almacenes', 'e', 'ambas')).toBe(true);
+      expect(Validaciones.faltantesParametrosBanco('IQ', 'almacenes', 'e', 'ambas', {})).toBe(null);
+    } finally {
+      delete globalThis.PlantillaDocx;
+    }
+  });
+
+  test('VAL-01/VAL-02: sin error no bloquean', () => {
+    globalThis.PlantillaDocx = {
+      limitesResumen() { return { sinEntrada: [] }; },
+      paramsFaltantes() { return []; }
+    };
+    try {
+      expect(Validaciones.sinTablaPreaprobada('IQ', 'almacenes', 'e', 'ambas')).toBe(false);
+      expect(Validaciones.faltantesParametrosBanco('IQ', 'almacenes', 'e', 'ambas', {})).toEqual([]);
+    } finally {
+      delete globalThis.PlantillaDocx;
+    }
+  });
+
   test('almacenes: condiciones USP y autofill de temperatura', () => {
     const list = Validaciones.getEntidades('almacenes');
     const cuarto = list.find((e) => e.id === 'cuarto-frio');
