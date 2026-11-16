@@ -116,6 +116,7 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (StatAnalyzer Pro) co
 Vitest completo → 1185 tests OK
 Preflight + E2E → 14 tests OK
 ```
+PR #268 (`1f34728`).
 
 **Riesgo asumido:** los valores con coma decimal (`2,5`) ahora se excluyen y se cuentan, no se interpretan como `2`. Si los datasets reales usan coma, habrá que habilitarla en `parseNumeric` (un solo punto) y volver a correr la suite.
 
