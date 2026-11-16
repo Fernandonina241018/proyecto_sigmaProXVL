@@ -51,6 +51,8 @@ describe('filtros y marcas', () => {
     expect(GeneradorDocx.rangoTexto({ ...DRAFT, humedadMin: '', humedadMax: '' })).toBe('2–8 °C');
     expect(GeneradorDocx.rangoTexto({ ...DRAFT, humedadMin: '10', humedadMax: '60' }))
       .toBe('2–8 °C / HR 10–60 %');
+    expect(GeneradorDocx.rangoTexto({ ...DRAFT, humedadMin: '', humedadMax: '65' }))
+      .toBe('2–8 °C / HR < 65 %');
   });
 
   test('alcanceTexto congela datos de la entidad', () => {

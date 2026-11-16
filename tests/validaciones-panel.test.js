@@ -166,7 +166,7 @@ describe('Validaciones V7', () => {
     expect(Validaciones.datosAlmacen(cuarto, {})).toEqual({ tipo: 'Cuarto frío', temperaturaMin: '2', temperaturaMax: '8', sinHumedad: true });
     expect(Validaciones.datosAlmacen(cuarto, { temperaturaMin: '3' })).toMatchObject({ temperaturaMin: '3', temperaturaMax: '8' });
     const ambiente = list.find((e) => e.id === 'almacen-ambiente-a');
-    expect(Validaciones.datosAlmacen(ambiente, {})).toMatchObject({ tipo: 'Temperatura controlada', temperaturaMin: '15', temperaturaMax: '25', sinHumedad: false });
+    expect(Validaciones.datosAlmacen(ambiente, {})).toMatchObject({ tipo: 'Temperatura controlada', temperaturaMin: '15', temperaturaMax: '25', humedadMax: '65', sinHumedad: false });
     expect(Validaciones.datosAlmacen(list.find((e) => e.id === 'almacen-ambiente-b'), {}).tipo).toBe('Ambiente');
   });
 
@@ -192,7 +192,8 @@ describe('Validaciones V7', () => {
     for (const k of comun) expect(eq).toContain(k);
     for (const k of ['marca', 'modelo', 'codigo', 'ubicacion', 'controlCambios', 'versionProtocolo']) expect(eq).toContain(k);
     const alm = Validaciones.getSchema('almacenes').map((f) => f.k);
-    for (const k of ['codigo', 'descripcion', 'ubicacion', 'tipo', 'temperaturaMin', 'temperaturaMax', 'humedadMin', 'humedadMax', 'controlCambios', 'versionProtocolo']) expect(alm).toContain(k);
+    for (const k of ['codigo', 'descripcion', 'ubicacion', 'tipo', 'temperaturaMin', 'temperaturaMax', 'humedadMax', 'controlCambios', 'versionProtocolo']) expect(alm).toContain(k);
+    expect(alm).not.toContain('humedadMin');
     expect(alm).not.toContain('marca');
     // sin duplicados en el esquema
     expect(new Set(alm).size).toBe(alm.length);
@@ -383,6 +384,7 @@ describe('Validaciones V7', () => {
     expect(malo.join(' | ')).toMatch('fecha válida');
     expect(malo.join(' | ')).toMatch('temperatura mínima debe ser menor');
     expect(malo.join(' | ')).toMatch('humedad mínima no puede ser mayor');
+    expect(Validaciones.validarDatos([{ k: 'humedadMax', label: 'Humedad máxima', tipo: 'number', req: false, min: 0, max: 100 }], { humedadMax: '65' })).toEqual([]);
     expect(malo.join(' | ')).toMatch('entero');
     // Humedad: ambos extremos o ninguno.
     const unaHumedad = Validaciones.validarDatos(schema, {

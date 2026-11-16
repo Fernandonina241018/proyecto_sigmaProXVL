@@ -133,7 +133,9 @@ const GeneradorDocx = (() => {
     const hmax = String(d.humedadMax || '').trim();
     let r = '';
     if (tmin || tmax) r = (tmin || '?') + '–' + (tmax || '?') + ' °C';
-    if (hmin || hmax) r += (r ? ' / ' : '') + 'HR ' + (hmin || '?') + '–' + (hmax || '?') + ' %';
+    if (hmin && hmax) r += (r ? ' / ' : '') + 'HR ' + hmin + '–' + hmax + ' %';
+    else if (hmax) r += (r ? ' / ' : '') + 'HR < ' + hmax + ' %';
+    else if (hmin) r += (r ? ' / ' : '') + 'HR > ' + hmin + ' %';
     return r || '—';
   }
 
