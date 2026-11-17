@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<style>
+  body { font-family: Tahoma, sans-serif; font-size: 11pt; }
+  strong { text-transform: uppercase; }
+  table { border-collapse: collapse; width: 100%; }
+  th, td { border: 1px solid #999; padding: 4px; vertical-align: top; }
+  th { background: #eee; }
+  .pendiente, .estado { background: #fff4d6; }
+</style>
+<title>AR — Vapor limpio</title>
+</head>
+<body>
+<p><a href="../sistemas.html">← Sistemas</a> · <a href="vapor-limpio.html">Ficha</a> · <a href="urs-vapor-limpio.html">URS-VL-001</a></p>
+<article class="documento" data-doc="AR" data-sistema="vapor-limpio" data-codigo="AR-VL-001" data-version="1.0" data-estado="BORRADOR">
+<h1>AR — Análisis de riesgos — Vapor limpio</h1>
+<p><strong>Código:</strong> AR-VL-001 · <strong>Versión:</strong> 1.0 · <strong>Estado:</strong> BORRADOR</p>
+<p>Documento complementario: <a href="urs-vapor-limpio.html">URS-VL-001 — Requisitos de usuario</a>. El mapa de §4 declara qué apartados se complementan y cada campo con dependencia la nombra en su columna.</p>
+
+<section id="sec-1">
+<h2>1. Objetivo</h2>
+<p>Evaluar los riesgos asociados a los requisitos de la URS de Vapor limpio y declarar el control que los reduce a un nivel aceptable, antes de la calificación.</p>
+</section>
+
+<section id="sec-2">
+<h2>2. Alcance</h2>
+<p>Generador de vapor limpio, separador de gotas, distribución, purgadores, puntos de muestreo y uso, y tratamiento del agua de alimentación. No cubre los esterilizadores que consumen el vapor.</p>
+</section>
+
+<section id="sec-3">
+<h2>3. Metodología</h2>
+<p>FMEA por requisito. Escalas de 1 a 5:</p>
+<table>
+<tr><th>Escala</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th></tr>
+<tr><td>Severidad (S)</td><td>Sin impacto en producto</td><td>Impacto menor</td><td>Impacto en calidad</td><td>Impacto en seguridad o producto estéril</td><td>Impacto crítico / regulatorio</td></tr>
+<tr><td>Probabilidad (P)</td><td>Remota</td><td>Poco probable</td><td>Posible</td><td>Probable</td><td>Frecuente</td></tr>
+<tr><td>Detectabilidad (D)</td><td>Detectado siempre</td><td>Alta detección</td><td>Detección media</td><td>Baja detección</td><td>No detectable</td></tr>
+</table>
+<p>Nivel de riesgo = S × P × D. Los umbrales de aceptación y la necesidad de acción se definen en el plan de validación del sistema (PLAN-VAL-VL); hasta su aprobación, el nivel queda POR EVALUAR.</p>
+</section>
+
+<section id="sec-4">
+<h2>4. Mapa de complementariedad AR ↔ URS</h2>
+<p>El AR no crea requisitos: cada fila nace de un requisito de la URS y declara el control y el ensayo que lo verifica.</p>
+<table>
+<tr><th>Apartado URS</th><th>Apartado AR</th><th>Cómo se complementan</th></tr>
+<tr data-urs="sec-3" data-ar="sec-3">
+  <td><a href="urs-vapor-limpio.html#sec-3">URS · Documentos de entrada y dependencias</a></td>
+  <td><a href="#sec-3">AR · Documentos de entrada y dependencias</a></td>
+  <td>Mismos documentos de entrada: las dependencias declaradas en la URS son las que alimentan el análisis de riesgos.</td>
+</tr>
+<tr data-urs="sec-5" data-ar="sec-5">
+  <td><a href="urs-vapor-limpio.html#sec-5">URS · Requisitos / Riesgos</a></td>
+  <td><a href="#sec-5">AR · Requisitos / Riesgos</a></td>
+  <td>Correspondencia 1:1 por ID: cada URS-xx tiene su AR-xx y ningún AR evalúa un requisito que no exista en la URS.</td>
+</tr>
+<tr data-urs="sec-6" data-ar="sec-6">
+  <td><a href="urs-vapor-limpio.html#sec-6">URS · Trazabilidad / Resumen</a></td>
+  <td><a href="#sec-6">AR · Trazabilidad / Resumen</a></td>
+  <td>Los ensayos de verificación citados deben coincidir; la matriz de la URS y el resumen del AR se revisan juntos.</td>
+</tr>
+<tr data-urs="sec-7" data-ar="sec-7">
+  <td><a href="urs-vapor-limpio.html#sec-7">URS · Flujo de firmas</a></td>
+  <td><a href="#sec-7">AR · Flujo de firmas</a></td>
+  <td>Mismos roles, mismo alcance de revisión de ensayos y mismo orden de firma en ambos documentos.</td>
+</tr>
+<tr data-urs="sec-8" data-ar="sec-8">
+  <td><a href="urs-vapor-limpio.html#sec-8">URS · Control de cambios</a></td>
+  <td><a href="#sec-8">AR · Control de cambios</a></td>
+  <td>Un cambio aprobado en cualquiera de los dos documentos obliga a revisar el otro.</td>
+</tr>
+</table>
+</section>
+
+<section id="sec-5">
+<h2>5. Riesgos por requisito</h2>
+<p>Sev., Prob. y Detec. quedan POR EVALUAR hasta que el responsable técnico los califique y apruebe. La columna <strong>Depende de</strong> nombra el requisito y el ensayo de los que toma el control.</p>
+<table>
+<tr><th>ID</th><th>Peligro / modo de falla</th><th>Requisito URS</th><th>Sev.</th><th>Prob.</th><th>Detec.</th><th>Nivel</th><th>Control / requisito derivado</th><th>Verificación</th><th>Depende de</th><th>Estado</th></tr>
+<tr data-risk="AR-VL-001" data-req="URS-VL-001" data-depende="URS-VL-001 SIS-PQ-VL-010" data-verifica="SIS-PQ-VL-010 SIS-PQ-VL-011 SIS-PQ-VL-012" data-estado="POR EVALUAR">
+  <td><strong>AR-VL-001</strong></td>
+  <td>Vapor húmedo o con gases no condensables</td>
+  <td><a href="urs-vapor-limpio.html#URS-VL-001">URS-VL-001</a></td>
+  <td>POR EVALUAR</td>
+  <td>POR EVALUAR</td>
+  <td>POR EVALUAR</td>
+  <td>POR EVALUAR</td>
+  <td>Separador de gotas, purga y ensayos de calidad</td>
+  <td>SIS-PQ-VL-010<br>SIS-PQ-VL-011<br>SIS-PQ-VL-012</td>
+  <td class="dep">URS-VL-001<br>SIS-PQ-VL-010</td>
+  <td class="estado">POR EVALUAR</td>
+</tr>
+<tr data-risk="AR-VL-002" data-req="URS-VL-002" data-depende="URS-VL-002 SIS-PQ-VL-007" data-verifica="SIS-PQ-VL-007 SIS-PQ-VL-008 SIS-PQ-VL-009" data-estado="POR EVALUAR">
+  <td><strong>AR-VL-002</strong></td>
+  <td>Condensado fuera de especificación</td>
+  <td><a href="urs-vapor-limpio.html#URS-VL-002">URS-VL-002</a></td>
+  <td>POR EVALUAR</td>
+  <td>POR EVALUAR</td>
+  <td>POR EVALUAR</td>
+  <td>POR EVALUAR</td>
+  <td>Muestreo, tendencia y respuesta a excursión</td>
+  <td>SIS-PQ-VL-007<br>SIS-PQ-VL-008<br>SIS-PQ-VL-009</td>
+  <td class="dep">URS-VL-002<br>SIS-PQ-VL-007</td>
+  <td class="estado">POR EVALUAR</td>
+</tr>
+<tr data-risk="AR-VL-003" data-req="URS-VL-003" data-depende="URS-VL-003 SIS-OQ-VL-008" data-verifica="SIS-OQ-VL-008 SIS-OQ-VL-009" data-estado="POR EVALUAR">
+  <td><strong>AR-VL-003</strong></td>
+  <td>Capacidad insuficiente en demanda máxima</td>
+  <td><a href="urs-vapor-limpio.html#URS-VL-003">URS-VL-003</a></td>
+  <td>POR EVALUAR</td>
+  <td>POR EVALUAR</td>
+  <td>POR EVALUAR</td>
+  <td>POR EVALUAR</td>
+  <td>Diseño de capacidad y prueba a demanda máxima</td>
+  <td>SIS-OQ-VL-008<br>SIS-OQ-VL-009</td>
+  <td class="dep">URS-VL-003<br>SIS-OQ-VL-008</td>
+  <td class="estado">POR EVALUAR</td>
+</tr>
+<tr data-risk="AR-VL-004" data-req="URS-VL-004" data-depende="URS-VL-004 SIS-OQ-VL-012" data-verifica="SIS-OQ-VL-012" data-estado="POR EVALUAR">
+  <td><strong>AR-VL-004</strong></td>
+  <td>Presión o temperatura baja en punto de uso</td>
+  <td><a href="urs-vapor-limpio.html#URS-VL-004">URS-VL-004</a></td>
+  <td>POR EVALUAR</td>
+  <td>POR EVALUAR</td>
+  <td>POR EVALUAR</td>
+  <td>POR EVALUAR</td>
+  <td>Reductoras, aislamiento y verificación en OQ</td>
+  <td>SIS-OQ-VL-012</td>
+  <td class="dep">URS-VL-004<br>SIS-OQ-VL-012</td>
+  <td class="estado">POR EVALUAR</td>
+</tr>
+<tr data-risk="AR-VL-005" data-req="URS-VL-005" data-depende="URS-VL-005 SIS-IQ-VL-002" data-verifica="SIS-IQ-VL-002 SIS-OQ-VL-014 SIS-OQ-VL-016" data-estado="POR EVALUAR">
+  <td><strong>AR-VL-005</strong></td>
+  <td>Retención de condensado o ramal muerto</td>
+  <td><a href="urs-vapor-limpio.html#URS-VL-005">URS-VL-005</a></td>
+  <td>POR EVALUAR</td>
+  <td>POR EVALUAR</td>
+  <td>POR EVALUAR</td>
+  <td>POR EVALUAR</td>
+  <td>Pendiente, purgadores y revisión de P&amp;ID</td>
+  <td>SIS-IQ-VL-002<br>SIS-OQ-VL-014<br>SIS-OQ-VL-016</td>
+  <td class="dep">URS-VL-005<br>SIS-IQ-VL-002</td>
+  <td class="estado">POR EVALUAR</td>
+</tr>
+<tr data-risk="AR-VL-006" data-req="URS-VL-006" data-depende="URS-VL-006 SIS-IQ-VL-004" data-verifica="SIS-IQ-VL-004" data-estado="POR EVALUAR">
+  <td><strong>AR-VL-006</strong></td>
+  <td>Agua de alimentación fuera de límite</td>
+  <td><a href="urs-vapor-limpio.html#URS-VL-006">URS-VL-006</a></td>
+  <td>POR EVALUAR</td>
+  <td>POR EVALUAR</td>
+  <td>POR EVALUAR</td>
+  <td>POR EVALUAR</td>
+  <td>Tratamiento y verificación de calidad de alimentación</td>
+  <td>SIS-IQ-VL-004</td>
+  <td class="dep">URS-VL-006<br>SIS-IQ-VL-004</td>
+  <td class="estado">POR EVALUAR</td>
+</tr>
+<tr data-risk="AR-VL-007" data-req="URS-VL-007" data-depende="URS-VL-007 SIS-OQ-VL-001" data-verifica="SIS-OQ-VL-001 SIS-OQ-VL-004" data-estado="POR EVALUAR">
+  <td><strong>AR-VL-007</strong></td>
+  <td>Falla de válvula de alivio o alarma</td>
+  <td><a href="urs-vapor-limpio.html#URS-VL-007">URS-VL-007</a></td>
+  <td>POR EVALUAR</td>
+  <td>POR EVALUAR</td>
+  <td>POR EVALUAR</td>
+  <td>POR EVALUAR</td>
+  <td>Calibración y prueba de seguridad</td>
+  <td>SIS-OQ-VL-001<br>SIS-OQ-VL-004</td>
+  <td class="dep">URS-VL-007<br>SIS-OQ-VL-001</td>
+  <td class="estado">POR EVALUAR</td>
+</tr>
+<tr data-risk="AR-VL-008" data-req="URS-VL-008" data-depende="URS-VL-008 SIS-OQ-VL-024" data-verifica="SIS-OQ-VL-024 SIS-PQ-VL-015" data-estado="POR EVALUAR">
+  <td><strong>AR-VL-008</strong></td>
+  <td>Vapor fuera de calidad tras paro</td>
+  <td><a href="urs-vapor-limpio.html#URS-VL-008">URS-VL-008</a></td>
+  <td>POR EVALUAR</td>
+  <td>POR EVALUAR</td>
+  <td>POR EVALUAR</td>
+  <td>POR EVALUAR</td>
+  <td>Procedimiento de arranque y muestreo antes del uso</td>
+  <td>SIS-OQ-VL-024<br>SIS-PQ-VL-015</td>
+  <td class="dep">URS-VL-008<br>SIS-OQ-VL-024</td>
+  <td class="estado">POR EVALUAR</td>
+</tr>
+<tr data-risk="AR-VL-009" data-req="URS-VL-009" data-depende="URS-VL-009 SIS-OQ-VL-020" data-verifica="SIS-OQ-VL-020" data-estado="POR EVALUAR">
+  <td><strong>AR-VL-009</strong></td>
+  <td>Muestreo no representativo</td>
+  <td><a href="urs-vapor-limpio.html#URS-VL-009">URS-VL-009</a></td>
+  <td>POR EVALUAR</td>
+  <td>POR EVALUAR</td>
+  <td>POR EVALUAR</td>
+  <td>POR EVALUAR</td>
+  <td>Diseño de puntos y verificación en OQ</td>
+  <td>SIS-OQ-VL-020</td>
+  <td class="dep">URS-VL-009<br>SIS-OQ-VL-020</td>
+  <td class="estado">POR EVALUAR</td>
+</tr>
+<tr data-risk="AR-VL-010" data-req="URS-VL-010" data-depende="URS-VL-010 SIS-PQ-VL-023" data-verifica="SIS-PQ-VL-023 SIS-PQ-VL-024" data-estado="POR EVALUAR">
+  <td><strong>AR-VL-010</strong></td>
+  <td>Pérdida de registros o tendencias</td>
+  <td><a href="urs-vapor-limpio.html#URS-VL-010">URS-VL-010</a></td>
+  <td>POR EVALUAR</td>
+  <td>POR EVALUAR</td>
+  <td>POR EVALUAR</td>
+  <td>POR EVALUAR</td>
+  <td>Registro continuo y revisión documentada</td>
+  <td>SIS-PQ-VL-023<br>SIS-PQ-VL-024</td>
+  <td class="dep">URS-VL-010<br>SIS-PQ-VL-023</td>
+  <td class="estado">POR EVALUAR</td>
+</tr>
+</table>
+</section>
+
+<section id="sec-6">
+<h2>6. Resumen</h2>
+<table>
+<tr><th>Fase que verifica el control</th><th>Requisitos cubiertos</th></tr>
+<tr><td>IQ</td><td>2</td></tr>
+<tr><td>OQ</td><td>6</td></tr>
+<tr><td>PQ</td><td>4</td></tr>
+<tr><td>Riesgos registrados</td><td>10</td></tr>
+<tr><td>Riesgos evaluados</td><td>0 (todos POR EVALUAR)</td></tr>
+</table>
+</section>
+
+<section id="sec-7">
+<h2>7. Flujo de firmas y revisión</h2>
+<p>Cada rol revisa las filas de su alcance y los ensayos citados antes de firmar; el aprobador no firma con riesgos sin evaluar o sin control.</p>
+<table>
+<tr><th>Rol</th><th>Responsabilidad</th><th>Ensayos que revisa</th><th>Nombre</th><th>Firma</th><th>Fecha</th></tr>
+<tr data-rol="autor" data-revisa="FASE:IQ">
+  <td><strong>Autor — Ingeniería / dueño del sistema</strong></td>
+  <td>Redacta requisitos, criterios y dependencias</td>
+  <td>Todos los ensayos IQ del sistema y los documentos de entrada de §3</td>
+  <td>&nbsp;</td>
+  <td>&nbsp;</td>
+  <td>&nbsp;</td>
+</tr>
+<tr data-rol="proceso" data-revisa="FASE:OQ">
+  <td><strong>Revisor de proceso — Producción / usuario</strong></td>
+  <td>Confirma que los requisitos representan el uso real y el peor caso</td>
+  <td>Todos los ensayos OQ del sistema</td>
+  <td>&nbsp;</td>
+  <td>&nbsp;</td>
+  <td>&nbsp;</td>
+</tr>
+<tr data-rol="calidad" data-revisa="FASE:PQ">
+  <td><strong>Revisor de calidad — Validación / QA</strong></td>
+  <td>Verifica criterios, trazabilidad y cierre de desviaciones</td>
+  <td>Todos los ensayos PQ del sistema</td>
+  <td>&nbsp;</td>
+  <td>&nbsp;</td>
+  <td>&nbsp;</td>
+</tr>
+<tr data-rol="aprobador" data-revisa="TODOS">
+  <td><strong>Aprobador — Dirección de QA</strong></td>
+  <td>Aprueba el documento y libera el sistema para uso GMP</td>
+  <td>Todos los ensayos IQ/OQ/PQ y la matriz de trazabilidad</td>
+  <td>&nbsp;</td>
+  <td>&nbsp;</td>
+  <td>&nbsp;</td>
+</tr>
+</table>
+</section>
+
+<section id="sec-8">
+<h2>8. Control de cambios</h2>
+<table>
+<tr><th>Versión</th><th>Fecha</th><th>Cambio</th><th>Aprobado por</th></tr>
+<tr><td>1.0</td><td>2026-11-17</td><td>Emisión inicial del par URS/AR del sistema.</td><td>PENDIENTE</td></tr>
+</table>
+</section>
+</article>
+</body>
+</html>

@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<style>
+  body { font-family: Tahoma, sans-serif; font-size: 11pt; }
+  strong { text-transform: uppercase; }
+  table { border-collapse: collapse; width: 100%; }
+  th, td { border: 1px solid #999; padding: 4px; vertical-align: top; }
+  th { background: #eee; }
+  .pendiente, .estado { background: #fff4d6; }
+</style>
+<title>URS — Agua purificada / WFI</title>
+</head>
+<body>
+<p><a href="../sistemas.html">← Sistemas</a> · <a href="agua-purificada.html">Ficha</a> · <a href="ar-agua-purificada.html">AR-AP-001</a></p>
+<article class="documento" data-doc="URS" data-sistema="agua-purificada" data-codigo="URS-AP-001" data-version="1.0" data-estado="BORRADOR">
+<h1>URS — Agua purificada / WFI</h1>
+<p><strong>Código:</strong> URS-AP-001 · <strong>Versión:</strong> 1.0 · <strong>Estado:</strong> BORRADOR</p>
+<p>Documento complementario: <a href="ar-agua-purificada.html">AR-AP-001 — Análisis de riesgos</a>. El mapa de §4 declara qué apartados se complementan y cada campo con dependencia la nombra en su columna.</p>
+
+<section id="sec-1">
+<h2>1. Objetivo</h2>
+<p>Definir los requisitos de usuario del sistema de generación, almacenamiento y distribución de agua purificada/WFI, para que la calidad química y microbiológica se mantenga en todos los puntos de uso durante la vida del sistema.</p>
+</section>
+
+<section id="sec-2">
+<h2>2. Alcance</h2>
+<p>Pretratamiento, ósmosis inversa, EDI, tanque, loop de distribución, sanitización, puntos de muestreo y uso, e instrumentación en línea. No cubre los equipos que consumen el agua.</p>
+<p><strong>Referencias normativas:</strong> EU GMP Anexo 1 — Fabricación de productos estériles; EU GMP Anexo 15 — Calificación y validación; USP &lt;1231&gt; — Agua para uso farmacéutico; USP &lt;645&gt; — Conductividad del agua; ISPE Baseline Guide Vol. 4 — Water and Steam Systems.</p>
+</section>
+
+<section id="sec-3">
+<h2>3. Documentos de entrada y dependencias</h2>
+<p>Los requisitos toman valores, límites y ubicaciones de estos documentos. Si un documento no está aprobado, el requisito queda PENDIENTE DE VALOR y no se libera el sistema.</p>
+<table>
+<tr><th>Código</th><th>Documento</th><th>Versión</th><th>Qué aporta al requisito</th></tr>
+<tr data-ref="P&ID-AP">
+  <td>P&amp;ID-AP</td>
+  <td>Plano de tuberías e instrumentación del sistema de agua</td>
+  <td>PENDIENTE</td>
+  <td>Frontera, materiales, instrumentos y componentes</td>
+</tr>
+<tr data-ref="LAYOUT-AP">
+  <td>LAYOUT-AP</td>
+  <td>Layout de la red y ubicación de puntos de uso y muestreo</td>
+  <td>PENDIENTE</td>
+  <td>Recorrido, pendientes y puntos críticos</td>
+</tr>
+<tr data-ref="ESP-AGUA">
+  <td>ESP-AGUA</td>
+  <td>Especificación de calidad de agua purificada/WFI aprobada</td>
+  <td>PENDIENTE</td>
+  <td>Límites químicos, microbiológicos y de endotoxinas</td>
+</tr>
+<tr data-ref="PLAN-MUESTREO-AP">
+  <td>PLAN-MUESTREO-AP</td>
+  <td>Plan de muestreo y frecuencias</td>
+  <td>PENDIENTE</td>
+  <td>Puntos, frecuencia y criterios de alerta/acción</td>
+</tr>
+<tr data-ref="SOP-SANITIZACION-AP">
+  <td>SOP-SANITIZACION-AP</td>
+  <td>Procedimiento de sanitización del sistema</td>
+  <td>PENDIENTE</td>
+  <td>Agente, temperatura, tiempo y frecuencia</td>
+</tr>
+<tr data-ref="PLAN-VAL-AP">
+  <td>PLAN-VAL-AP</td>
+  <td>Plan de validación del sistema de agua</td>
+  <td>PENDIENTE</td>
+  <td>Fases PQ, muestreo y criterios de aceptación</td>
+</tr>
+</table>
+</section>
+
+<section id="sec-4">
+<h2>4. Mapa de complementariedad URS ↔ AR</h2>
+<p>La URS define <strong>qué debe cumplir</strong> el sistema; el AR define <strong>qué puede fallar</strong> y cómo se controla. No se duplican: cada documento referencia al otro por sección.</p>
+<table>
+<tr><th>Apartado URS</th><th>Apartado AR</th><th>Cómo se complementan</th></tr>
+<tr data-urs="sec-3" data-ar="sec-3">
+  <td><a href="#sec-3">URS · Documentos de entrada y dependencias</a></td>
+  <td><a href="ar-agua-purificada.html#sec-3">AR · Documentos de entrada y dependencias</a></td>
+  <td>Mismos documentos de entrada: las dependencias declaradas en la URS son las que alimentan el análisis de riesgos.</td>
+</tr>
+<tr data-urs="sec-5" data-ar="sec-5">
+  <td><a href="#sec-5">URS · Requisitos / Riesgos</a></td>
+  <td><a href="ar-agua-purificada.html#sec-5">AR · Requisitos / Riesgos</a></td>
+  <td>Correspondencia 1:1 por ID: cada URS-xx tiene su AR-xx y ningún AR evalúa un requisito que no exista en la URS.</td>
+</tr>
+<tr data-urs="sec-6" data-ar="sec-6">
+  <td><a href="#sec-6">URS · Trazabilidad / Resumen</a></td>
+  <td><a href="ar-agua-purificada.html#sec-6">AR · Trazabilidad / Resumen</a></td>
+  <td>Los ensayos de verificación citados deben coincidir; la matriz de la URS y el resumen del AR se revisan juntos.</td>
+</tr>
+<tr data-urs="sec-7" data-ar="sec-7">
+  <td><a href="#sec-7">URS · Flujo de firmas</a></td>
+  <td><a href="ar-agua-purificada.html#sec-7">AR · Flujo de firmas</a></td>
+  <td>Mismos roles, mismo alcance de revisión de ensayos y mismo orden de firma en ambos documentos.</td>
+</tr>
+<tr data-urs="sec-8" data-ar="sec-8">
+  <td><a href="#sec-8">URS · Control de cambios</a></td>
+  <td><a href="ar-agua-purificada.html#sec-8">AR · Control de cambios</a></td>
+  <td>Un cambio aprobado en cualquiera de los dos documentos obliga a revisar el otro.</td>
+</tr>
+</table>
+</section>
+
+<section id="sec-5">
+<h2>5. Requisitos</h2>
+<p>Toda fila declara en <strong>Depende de</strong> los documentos o IDs de los que toma el valor, y en <strong>Verificación</strong> el ensayo del protocolo que lo demuestra.</p>
+<table>
+<tr><th>ID</th><th>Requisito</th><th>Tipo</th><th>Criterio de aceptación</th><th>Depende de</th><th>Verificación</th><th>Estado</th></tr>
+<tr id="URS-AP-001" data-req="URS-AP-001" data-tipo="Funcional / regulatorio" data-depende="ESP-AGUA PLAN-MUESTREO-AP" data-verifica="SIS-OQ-AP-013 SIS-PQ-AP-013" data-estado="PENDIENTE DE VALOR">
+  <td><strong>URS-AP-001</strong></td>
+  <td>Calidad química en continuo</td>
+  <td>Funcional / regulatorio</td>
+  <td>Conductividad y TOC cumplen los límites de ESP-AGUA en todos los puntos de uso.</td>
+  <td class="dep">ESP-AGUA<br>PLAN-MUESTREO-AP</td>
+  <td class="ver">SIS-OQ-AP-013<br>SIS-PQ-AP-013</td>
+  <td class="estado">PENDIENTE DE VALOR</td>
+</tr>
+<tr id="URS-AP-002" data-req="URS-AP-002" data-tipo="Funcional / regulatorio" data-depende="ESP-AGUA PLAN-MUESTREO-AP" data-verifica="SIS-PQ-AP-014 SIS-PQ-AP-015" data-estado="PENDIENTE DE VALOR">
+  <td><strong>URS-AP-002</strong></td>
+  <td>Calidad microbiológica y endotoxinas</td>
+  <td>Funcional / regulatorio</td>
+  <td>El agua cumple los límites microbiológicos y de endotoxinas de ESP-AGUA.</td>
+  <td class="dep">ESP-AGUA<br>PLAN-MUESTREO-AP</td>
+  <td class="ver">SIS-PQ-AP-014<br>SIS-PQ-AP-015</td>
+  <td class="estado">PENDIENTE DE VALOR</td>
+</tr>
+<tr id="URS-AP-003" data-req="URS-AP-003" data-tipo="Funcional" data-depende="ESP-AGUA P&ID-AP" data-verifica="SIS-OQ-AP-021 SIS-OQ-AP-022" data-estado="PENDIENTE DE VALOR">
+  <td><strong>URS-AP-003</strong></td>
+  <td>Caudal y presión del loop</td>
+  <td>Funcional</td>
+  <td>El loop mantiene el caudal y la presión mínimos de ESP-AGUA en todos los puntos de uso.</td>
+  <td class="dep">ESP-AGUA<br>P&amp;ID-AP</td>
+  <td class="ver">SIS-OQ-AP-021<br>SIS-OQ-AP-022</td>
+  <td class="estado">PENDIENTE DE VALOR</td>
+</tr>
+<tr id="URS-AP-004" data-req="URS-AP-004" data-tipo="Funcional / regulatorio" data-depende="SOP-SANITIZACION-AP PLAN-VAL-AP" data-verifica="SIS-OQ-AP-028 SIS-PQ-AP-020" data-estado="PENDIENTE DE VALOR">
+  <td><strong>URS-AP-004</strong></td>
+  <td>Sanitización periódica</td>
+  <td>Funcional / regulatorio</td>
+  <td>La sanitización se ejecuta según SOP-SANITIZACION-AP y su eficacia se demuestra en cada ciclo.</td>
+  <td class="dep">SOP-SANITIZACION-AP<br>PLAN-VAL-AP</td>
+  <td class="ver">SIS-OQ-AP-028<br>SIS-PQ-AP-020</td>
+  <td class="estado">PENDIENTE DE VALOR</td>
+</tr>
+<tr id="URS-AP-005" data-req="URS-AP-005" data-tipo="No funcional / calidad" data-depende="P&ID-AP" data-verifica="SIS-IQ-AP-001 SIS-IQ-AP-006" data-estado="PENDIENTE DE VALOR">
+  <td><strong>URS-AP-005</strong></td>
+  <td>Materiales y puntos muertos</td>
+  <td>No funcional / calidad</td>
+  <td>Materiales y acabados corresponden a P&amp;ID-AP y no existen ramales muertos fuera del límite aprobado.</td>
+  <td class="dep">P&amp;ID-AP</td>
+  <td class="ver">SIS-IQ-AP-001<br>SIS-IQ-AP-006</td>
+  <td class="estado">PENDIENTE DE VALOR</td>
+</tr>
+<tr id="URS-AP-006" data-req="URS-AP-006" data-tipo="No funcional / regulatorio" data-depende="PLAN-MUESTREO-AP LAYOUT-AP" data-verifica="SIS-IQ-AP-002 SIS-OQ-AP-032" data-estado="PENDIENTE DE VALOR">
+  <td><strong>URS-AP-006</strong></td>
+  <td>Puntos de muestreo representativos</td>
+  <td>No funcional / regulatorio</td>
+  <td>La red dispone de los puntos de muestreo definidos en PLAN-MUESTREO-AP, accesibles y representativos.</td>
+  <td class="dep">PLAN-MUESTREO-AP<br>LAYOUT-AP</td>
+  <td class="ver">SIS-IQ-AP-002<br>SIS-OQ-AP-032</td>
+  <td class="estado">PENDIENTE DE VALOR</td>
+</tr>
+<tr id="URS-AP-007" data-req="URS-AP-007" data-tipo="No funcional / regulatorio" data-depende="P&ID-AP PLAN-VAL-AP" data-verifica="SIS-IQ-AP-005 SIS-OQ-AP-030" data-estado="PENDIENTE DE VALOR">
+  <td><strong>URS-AP-007</strong></td>
+  <td>Instrumentación en línea</td>
+  <td>No funcional / regulatorio</td>
+  <td>Conductividad, TOC y temperatura en línea están calibrados, alarmados y registrados.</td>
+  <td class="dep">P&amp;ID-AP<br>PLAN-VAL-AP</td>
+  <td class="ver">SIS-IQ-AP-005<br>SIS-OQ-AP-030</td>
+  <td class="estado">PENDIENTE DE VALOR</td>
+</tr>
+<tr id="URS-AP-008" data-req="URS-AP-008" data-tipo="No funcional / regulatorio" data-depende="PLAN-MUESTREO-AP SOP-SANITIZACION-AP" data-verifica="SIS-OQ-AP-003 SIS-PQ-AP-011" data-estado="PENDIENTE DE VALOR">
+  <td><strong>URS-AP-008</strong></td>
+  <td>Alarmas, excursiones y tendencias</td>
+  <td>No funcional / regulatorio</td>
+  <td>Toda excursión queda registrada y notificada; la tendencia se evalúa según PLAN-MUESTREO-AP.</td>
+  <td class="dep">PLAN-MUESTREO-AP<br>SOP-SANITIZACION-AP</td>
+  <td class="ver">SIS-OQ-AP-003<br>SIS-PQ-AP-011</td>
+  <td class="estado">PENDIENTE DE VALOR</td>
+</tr>
+<tr id="URS-AP-009" data-req="URS-AP-009" data-tipo="No funcional / seguridad" data-depende="P&ID-AP" data-verifica="SIS-OQ-AP-004 SIS-OQ-AP-005" data-estado="PENDIENTE DE VALOR">
+  <td><strong>URS-AP-009</strong></td>
+  <td>Continuidad ante falla</td>
+  <td>No funcional / seguridad</td>
+  <td>La falla de energía o de un componente no compromete la calidad; la redundancia es la de P&amp;ID-AP.</td>
+  <td class="dep">P&amp;ID-AP</td>
+  <td class="ver">SIS-OQ-AP-004<br>SIS-OQ-AP-005</td>
+  <td class="estado">PENDIENTE DE VALOR</td>
+</tr>
+<tr id="URS-AP-010" data-req="URS-AP-010" data-tipo="Regulatorio" data-depende="PLAN-VAL-AP PLAN-MUESTREO-AP" data-verifica="SIS-PQ-AP-001 SIS-PQ-AP-009" data-estado="PENDIENTE DE VALOR">
+  <td><strong>URS-AP-010</strong></td>
+  <td>PQ por fases</td>
+  <td>Regulatorio</td>
+  <td>El PQ se ejecuta en las fases y con el muestreo definidos en PLAN-VAL-AP.</td>
+  <td class="dep">PLAN-VAL-AP<br>PLAN-MUESTREO-AP</td>
+  <td class="ver">SIS-PQ-AP-001<br>SIS-PQ-AP-009</td>
+  <td class="estado">PENDIENTE DE VALOR</td>
+</tr>
+</table>
+</section>
+
+<section id="sec-6">
+<h2>6. Matriz de trazabilidad URS → protocolo</h2>
+<table>
+<tr><th>Requisito</th><th>IQ</th><th>OQ</th><th>PQ</th></tr>
+<tr><td>URS-AP-001</td><td>—</td><td>SIS-OQ-AP-013</td><td>SIS-PQ-AP-013</td></tr>
+<tr><td>URS-AP-002</td><td>—</td><td>—</td><td>SIS-PQ-AP-014, SIS-PQ-AP-015</td></tr>
+<tr><td>URS-AP-003</td><td>—</td><td>SIS-OQ-AP-021, SIS-OQ-AP-022</td><td>—</td></tr>
+<tr><td>URS-AP-004</td><td>—</td><td>SIS-OQ-AP-028</td><td>SIS-PQ-AP-020</td></tr>
+<tr><td>URS-AP-005</td><td>SIS-IQ-AP-001, SIS-IQ-AP-006</td><td>—</td><td>—</td></tr>
+<tr><td>URS-AP-006</td><td>SIS-IQ-AP-002</td><td>SIS-OQ-AP-032</td><td>—</td></tr>
+<tr><td>URS-AP-007</td><td>SIS-IQ-AP-005</td><td>SIS-OQ-AP-030</td><td>—</td></tr>
+<tr><td>URS-AP-008</td><td>—</td><td>SIS-OQ-AP-003</td><td>SIS-PQ-AP-011</td></tr>
+<tr><td>URS-AP-009</td><td>—</td><td>SIS-OQ-AP-004, SIS-OQ-AP-005</td><td>—</td></tr>
+<tr><td>URS-AP-010</td><td>—</td><td>—</td><td>SIS-PQ-AP-001, SIS-PQ-AP-009</td></tr>
+</table>
+</section>
+
+<section id="sec-7">
+<h2>7. Flujo de firmas y revisión</h2>
+<p>Cada rol revisa los ensayos de su alcance antes de firmar. La firma no sustituye la revisión: el revisor deja constancia de los ensayos revisados en el expediente.</p>
+<table>
+<tr><th>Rol</th><th>Responsabilidad</th><th>Ensayos que revisa</th><th>Nombre</th><th>Firma</th><th>Fecha</th></tr>
+<tr data-rol="autor" data-revisa="FASE:IQ">
+  <td><strong>Autor — Ingeniería / dueño del sistema</strong></td>
+  <td>Redacta requisitos, criterios y dependencias</td>
+  <td>Todos los ensayos IQ del sistema y los documentos de entrada de §3</td>
+  <td>&nbsp;</td>
+  <td>&nbsp;</td>
+  <td>&nbsp;</td>
+</tr>
+<tr data-rol="proceso" data-revisa="FASE:OQ">
+  <td><strong>Revisor de proceso — Producción / usuario</strong></td>
+  <td>Confirma que los requisitos representan el uso real y el peor caso</td>
+  <td>Todos los ensayos OQ del sistema</td>
+  <td>&nbsp;</td>
+  <td>&nbsp;</td>
+  <td>&nbsp;</td>
+</tr>
+<tr data-rol="calidad" data-revisa="FASE:PQ">
+  <td><strong>Revisor de calidad — Validación / QA</strong></td>
+  <td>Verifica criterios, trazabilidad y cierre de desviaciones</td>
+  <td>Todos los ensayos PQ del sistema</td>
+  <td>&nbsp;</td>
+  <td>&nbsp;</td>
+  <td>&nbsp;</td>
+</tr>
+<tr data-rol="aprobador" data-revisa="TODOS">
+  <td><strong>Aprobador — Dirección de QA</strong></td>
+  <td>Aprueba el documento y libera el sistema para uso GMP</td>
+  <td>Todos los ensayos IQ/OQ/PQ y la matriz de trazabilidad</td>
+  <td>&nbsp;</td>
+  <td>&nbsp;</td>
+  <td>&nbsp;</td>
+</tr>
+</table>
+</section>
+
+<section id="sec-8">
+<h2>8. Control de cambios</h2>
+<table>
+<tr><th>Versión</th><th>Fecha</th><th>Cambio</th><th>Aprobado por</th></tr>
+<tr><td>1.0</td><td>2026-11-17</td><td>Emisión inicial del par URS/AR del sistema.</td><td>PENDIENTE</td></tr>
+</table>
+</section>
+</article>
+</body>
+</html>

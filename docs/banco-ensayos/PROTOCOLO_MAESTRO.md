@@ -94,6 +94,17 @@ El validador comprueba, para las 24 familias con protocolo (9 prioritarias + 15 
 - Los IQ de sistemas (`docs/banco-ensayos/sistemas/iq-*.html`) están cableados al banco `BancoSistemas` y la fase IQ está habilitada para la categoría `sistemas`: HVAC, agua purificada/WFI, vapor limpio y aire comprimido.
 - La generación de IQ de sistemas usa el mismo núcleo de plantilla que equipos y no hereda los ensayos comunes de equipos.
 
+### 5.3 URS y AR de sistemas
+
+Cada sistema tiene un par `urs-<sistema>.html` + `ar-<sistema>.html` (HVAC, agua purificada, vapor limpio y aire comprimido). La URS declara qué debe cumplir el sistema; el AR declara qué puede fallar y cómo se controla. El §4 de ambos documentos es el mapa de complementariedad URS ↔ AR y no se duplica: cada apartado remite al otro.
+
+- **Dependencias declaradas:** toda fila de requisito o riesgo tiene columna «Depende de» y atributo `data-depende`; el valor debe ser un ID URS/AR, un ensayo existente del protocolo o un documento declarado en el §3 de la URS. El linter falla si una dependencia no se declara o no resuelve.
+- **Trazabilidad:** cada requisito cita en `data-verifica` el ensayo IQ/OQ/PQ que lo demuestra; el AR reutiliza esa misma verificación.
+- **Firmas:** autor, revisor de proceso, revisor de calidad y aprobador. El alcance de revisión (`data-revisa`) debe cubrir todos los ensayos citados; el aprobador no firma con riesgos POR EVALUAR.
+- **Generación y validación:** `npm run urs:gen` regenera los ocho documentos desde `scripts/generar-urs-ar-sistemas.mjs`; `npm run urs:check` valida y corre en `npm run preflight`.
+
+Los valores numéricos, la calificación S/P/D y la aprobación quedan `PENDIENTE DEL RESPONSABLE`; el banco no los infiere.
+
 ## 6. Criterios de aceptación
 
 - [x] Las 18 familias con protocolo tienen bloques 6 y 8 (9 prioritarias + 9 backfill).

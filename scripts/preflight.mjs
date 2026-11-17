@@ -20,6 +20,11 @@ const STEPS = [
     args: ['run', 'protocolo:check'],
   },
   {
+    name: 'URS/AR de sistemas (dependencias y firmas)',
+    cmd: 'npm',
+    args: ['run', 'urs:check'],
+  },
+  {
     name: 'Frontend unit (vitest)',
     cmd: 'npm',
     args: ['test'],
