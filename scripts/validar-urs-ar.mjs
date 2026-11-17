@@ -18,8 +18,9 @@ const rows = (html, name) =>
 const ids = (html, name) => rows(html, name).map((r) => attr(r, name));
 const anchors = (html) => new Set([...html.matchAll(/<section\s+id="([^"]+)"/g)].map((m) => m[1]));
 const tokens = (value) => value.split(/[\s;]+/).filter(Boolean);
-const texto = (row) => row.replace(/<[^>]+>/g, ' ').replace(/&nbsp;/g, ' ')
-  .replace(/&amp;/g, '&').replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/\s+/g, ' ');
+const ENTIDADES = { nbsp: ' ', amp: '&', lt: '<', gt: '>' };
+const texto = (row) => row.replace(/<[^>]+>/g, ' ')
+  .replace(/&(nbsp|amp|lt|gt);/g, (_, k) => ENTIDADES[k]).replace(/\s+/g, ' ');
 
 for (const sistema of sistemas) {
   const archivos = {

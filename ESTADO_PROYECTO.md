@@ -118,6 +118,8 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (StatAnalyzer Pro) co
 ```
 node scripts/validar-urs-ar.mjs   → OK (8 warnings de campos por aprobar)
 ```
+CodeQL (PR #276) marcó doble-unescapeo de entidades en `texto()`; se cambió a una
+sola pasada con mapa de entidades (`&(nbsp|amp|lt|gt);`).
 
 ### 2026-11-16 (305): Auditoría — fase 3 (trazabilidad, estado documental y limpieza)
 
