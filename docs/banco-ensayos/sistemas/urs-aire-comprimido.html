@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<style>
+  body { font-family: Tahoma, sans-serif; font-size: 11pt; }
+  strong { text-transform: uppercase; }
+  table { border-collapse: collapse; width: 100%; }
+  th, td { border: 1px solid #999; padding: 4px; vertical-align: top; }
+  th { background: #eee; }
+  .pendiente, .estado { background: #fff4d6; }
+</style>
+<title>URS — Aire comprimido grado proceso</title>
+</head>
+<body>
+<p><a href="../sistemas.html">← Sistemas</a> · <a href="aire-comprimido.html">Ficha</a> · <a href="ar-aire-comprimido.html">AR-AC-001</a></p>
+<article class="documento" data-doc="URS" data-sistema="aire-comprimido" data-codigo="URS-AC-001" data-version="1.0" data-estado="BORRADOR">
+<h1>URS — Aire comprimido grado proceso</h1>
+<p><strong>Código:</strong> URS-AC-001 · <strong>Versión:</strong> 1.0 · <strong>Estado:</strong> BORRADOR</p>
+<p>Documento complementario: <a href="ar-aire-comprimido.html">AR-AC-001 — Análisis de riesgos</a>. El mapa de §4 declara qué apartados se complementan y cada campo con dependencia la nombra en su columna.</p>
+
+<section id="sec-1">
+<h2>1. Objetivo</h2>
+<p>Definir los requisitos de usuario del sistema de aire comprimido en contacto con producto o con superficies del producto, para que la calidad ISO 8573 se mantenga en todos los puntos de uso.</p>
+</section>
+
+<section id="sec-2">
+<h2>2. Alcance</h2>
+<p>Compresor, posenfriador, secadores, cadena de filtración, tanque receptor, distribución, puntos de uso y purgas. No cubre los equipos neumáticos que consumen el aire.</p>
+<p><strong>Referencias normativas:</strong> EU GMP Anexo 1 — Fabricación de productos estériles; EU GMP Anexo 15 — Calificación y validación; ISO 8573-1 — Calidad del aire comprimido; ISO 8573-2/-3/-4 — Ensayos de aceite, humedad y partículas.</p>
+</section>
+
+<section id="sec-3">
+<h2>3. Documentos de entrada y dependencias</h2>
+<p>Los requisitos toman valores, límites y ubicaciones de estos documentos. Si un documento no está aprobado, el requisito queda PENDIENTE DE VALOR y no se libera el sistema.</p>
+<table>
+<tr><th>Código</th><th>Documento</th><th>Versión</th><th>Qué aporta al requisito</th></tr>
+<tr data-ref="P&ID-AC">
+  <td>P&amp;ID-AC</td>
+  <td>Plano de tuberías e instrumentación del aire comprimido</td>
+  <td>PENDIENTE</td>
+  <td>Frontera, componentes, filtros y puntos de uso</td>
+</tr>
+<tr data-ref="ESP-AIRE">
+  <td>ESP-AIRE</td>
+  <td>Especificación de calidad ISO 8573 por punto de uso</td>
+  <td>PENDIENTE</td>
+  <td>Clase de partículas, agua y aceite</td>
+</tr>
+<tr data-ref="PLAN-MUESTREO-AC">
+  <td>PLAN-MUESTREO-AC</td>
+  <td>Plan de muestreo de aire comprimido</td>
+  <td>PENDIENTE</td>
+  <td>Puntos, frecuencia y criterios de alerta/acción</td>
+</tr>
+<tr data-ref="PLAN-VAL-AC">
+  <td>PLAN-VAL-AC</td>
+  <td>Plan de validación del sistema de aire</td>
+  <td>PENDIENTE</td>
+  <td>Estrategia IQ/OQ/PQ y prueba de demanda máxima</td>
+</tr>
+</table>
+</section>
+
+<section id="sec-4">
+<h2>4. Mapa de complementariedad URS ↔ AR</h2>
+<p>La URS define <strong>qué debe cumplir</strong> el sistema; el AR define <strong>qué puede fallar</strong> y cómo se controla. No se duplican: cada documento referencia al otro por sección.</p>
+<table>
+<tr><th>Apartado URS</th><th>Apartado AR</th><th>Cómo se complementan</th></tr>
+<tr data-urs="sec-3" data-ar="sec-3">
+  <td><a href="#sec-3">URS · Documentos de entrada y dependencias</a></td>
+  <td><a href="ar-aire-comprimido.html#sec-3">AR · Documentos de entrada y dependencias</a></td>
+  <td>Mismos documentos de entrada: las dependencias declaradas en la URS son las que alimentan el análisis de riesgos.</td>
+</tr>
+<tr data-urs="sec-5" data-ar="sec-5">
+  <td><a href="#sec-5">URS · Requisitos / Riesgos</a></td>
+  <td><a href="ar-aire-comprimido.html#sec-5">AR · Requisitos / Riesgos</a></td>
+  <td>Correspondencia 1:1 por ID: cada URS-xx tiene su AR-xx y ningún AR evalúa un requisito que no exista en la URS.</td>
+</tr>
+<tr data-urs="sec-6" data-ar="sec-6">
+  <td><a href="#sec-6">URS · Trazabilidad / Resumen</a></td>
+  <td><a href="ar-aire-comprimido.html#sec-6">AR · Trazabilidad / Resumen</a></td>
+  <td>Los ensayos de verificación citados deben coincidir; la matriz de la URS y el resumen del AR se revisan juntos.</td>
+</tr>
+<tr data-urs="sec-7" data-ar="sec-7">
+  <td><a href="#sec-7">URS · Flujo de firmas</a></td>
+  <td><a href="ar-aire-comprimido.html#sec-7">AR · Flujo de firmas</a></td>
+  <td>Mismos roles, mismo alcance de revisión de ensayos y mismo orden de firma en ambos documentos.</td>
+</tr>
+<tr data-urs="sec-8" data-ar="sec-8">
+  <td><a href="#sec-8">URS · Control de cambios</a></td>
+  <td><a href="ar-aire-comprimido.html#sec-8">AR · Control de cambios</a></td>
+  <td>Un cambio aprobado en cualquiera de los dos documentos obliga a revisar el otro.</td>
+</tr>
+</table>
+</section>
+
+<section id="sec-5">
+<h2>5. Requisitos</h2>
+<p>Toda fila declara en <strong>Depende de</strong> los documentos o IDs de los que toma el valor, y en <strong>Verificación</strong> el ensayo del protocolo que lo demuestra.</p>
+<table>
+<tr><th>ID</th><th>Requisito</th><th>Tipo</th><th>Criterio de aceptación</th><th>Depende de</th><th>Verificación</th><th>Estado</th></tr>
+<tr id="URS-AC-001" data-req="URS-AC-001" data-tipo="Funcional / regulatorio" data-depende="ESP-AIRE PLAN-MUESTREO-AC" data-verifica="SIS-PQ-AC-011 SIS-PQ-AC-012" data-estado="PENDIENTE DE VALOR">
+  <td><strong>URS-AC-001</strong></td>
+  <td>Calidad ISO 8573</td>
+  <td>Funcional / regulatorio</td>
+  <td>Partículas, agua y aceite cumplen la clase de ESP-AIRE en cada punto de uso.</td>
+  <td class="dep">ESP-AIRE<br>PLAN-MUESTREO-AC</td>
+  <td class="ver">SIS-PQ-AC-011<br>SIS-PQ-AC-012</td>
+  <td class="estado">PENDIENTE DE VALOR</td>
+</tr>
+<tr id="URS-AC-002" data-req="URS-AC-002" data-tipo="Funcional / regulatorio" data-depende="ESP-AIRE P&ID-AC" data-verifica="SIS-OQ-AC-013 SIS-PQ-AC-010" data-estado="PENDIENTE DE VALOR">
+  <td><strong>URS-AC-002</strong></td>
+  <td>Punto de rocío</td>
+  <td>Funcional / regulatorio</td>
+  <td>El punto de rocío se mantiene dentro del límite de ESP-AIRE, medido en continuo e independiente.</td>
+  <td class="dep">ESP-AIRE<br>P&amp;ID-AC</td>
+  <td class="ver">SIS-OQ-AC-013<br>SIS-PQ-AC-010</td>
+  <td class="estado">PENDIENTE DE VALOR</td>
+</tr>
+<tr id="URS-AC-003" data-req="URS-AC-003" data-tipo="Funcional" data-depende="ESP-AIRE P&ID-AC" data-verifica="SIS-OQ-AC-008 SIS-OQ-AC-009" data-estado="PENDIENTE DE VALOR">
+  <td><strong>URS-AC-003</strong></td>
+  <td>Presión y capacidad</td>
+  <td>Funcional</td>
+  <td>El sistema cubre la demanda máxima sin caer bajo la presión mínima de ESP-AIRE.</td>
+  <td class="dep">ESP-AIRE<br>P&amp;ID-AC</td>
+  <td class="ver">SIS-OQ-AC-008<br>SIS-OQ-AC-009</td>
+  <td class="estado">PENDIENTE DE VALOR</td>
+</tr>
+<tr id="URS-AC-004" data-req="URS-AC-004" data-tipo="Funcional / calidad" data-depende="P&ID-AC" data-verifica="SIS-IQ-AC-002 SIS-OQ-AC-021" data-estado="PENDIENTE DE VALOR">
+  <td><strong>URS-AC-004</strong></td>
+  <td>Cadena de filtración</td>
+  <td>Funcional / calidad</td>
+  <td>La cadena de filtros corresponde a P&amp;ID-AC, está completa y sin bypass.</td>
+  <td class="dep">P&amp;ID-AC</td>
+  <td class="ver">SIS-IQ-AC-002<br>SIS-OQ-AC-021</td>
+  <td class="estado">PENDIENTE DE VALOR</td>
+</tr>
+<tr id="URS-AC-005" data-req="URS-AC-005" data-tipo="No funcional / calidad" data-depende="P&ID-AC" data-verifica="SIS-OQ-AC-023 SIS-OQ-AC-026" data-estado="PENDIENTE DE VALOR">
+  <td><strong>URS-AC-005</strong></td>
+  <td>Distribución estanca</td>
+  <td>No funcional / calidad</td>
+  <td>La red no presenta fugas, retenciones ni ramales muertos según P&amp;ID-AC.</td>
+  <td class="dep">P&amp;ID-AC</td>
+  <td class="ver">SIS-OQ-AC-023<br>SIS-OQ-AC-026</td>
+  <td class="estado">PENDIENTE DE VALOR</td>
+</tr>
+<tr id="URS-AC-006" data-req="URS-AC-006" data-tipo="No funcional / calidad" data-depende="P&ID-AC" data-verifica="SIS-IQ-AC-005 SIS-OQ-AC-028" data-estado="PENDIENTE DE VALOR">
+  <td><strong>URS-AC-006</strong></td>
+  <td>Puntos de uso y purgas</td>
+  <td>No funcional / calidad</td>
+  <td>Cada punto de uso tiene regulador, purga e identificación conforme a P&amp;ID-AC.</td>
+  <td class="dep">P&amp;ID-AC</td>
+  <td class="ver">SIS-IQ-AC-005<br>SIS-OQ-AC-028</td>
+  <td class="estado">PENDIENTE DE VALOR</td>
+</tr>
+<tr id="URS-AC-007" data-req="URS-AC-007" data-tipo="No funcional / regulatorio" data-depende="P&ID-AC PLAN-VAL-AC" data-verifica="SIS-IQ-AC-006 SIS-OQ-AC-032" data-estado="PENDIENTE DE VALOR">
+  <td><strong>URS-AC-007</strong></td>
+  <td>Instrumentación de calidad</td>
+  <td>No funcional / regulatorio</td>
+  <td>Presión, caudal y punto de rocío están calibrados, alarmados y registrados.</td>
+  <td class="dep">P&amp;ID-AC<br>PLAN-VAL-AC</td>
+  <td class="ver">SIS-IQ-AC-006<br>SIS-OQ-AC-032</td>
+  <td class="estado">PENDIENTE DE VALOR</td>
+</tr>
+<tr id="URS-AC-008" data-req="URS-AC-008" data-tipo="No funcional / seguridad" data-depende="PLAN-VAL-AC P&ID-AC" data-verifica="SIS-OQ-AC-005 SIS-PQ-AC-020" data-estado="PENDIENTE DE VALOR">
+  <td><strong>URS-AC-008</strong></td>
+  <td>Falla del secador</td>
+  <td>No funcional / seguridad</td>
+  <td>Ante falla del secador, la alarma se activa y el uso se restringe o la calidad se mantiene.</td>
+  <td class="dep">PLAN-VAL-AC<br>P&amp;ID-AC</td>
+  <td class="ver">SIS-OQ-AC-005<br>SIS-PQ-AC-020</td>
+  <td class="estado">PENDIENTE DE VALOR</td>
+</tr>
+<tr id="URS-AC-009" data-req="URS-AC-009" data-tipo="Funcional / regulatorio" data-depende="ESP-AIRE PLAN-MUESTREO-AC" data-verifica="SIS-PQ-AC-013" data-estado="PENDIENTE DE VALOR">
+  <td><strong>URS-AC-009</strong></td>
+  <td>Contacto con producto</td>
+  <td>Funcional / regulatorio</td>
+  <td>El aire en contacto directo cumple los límites de viables de ESP-AIRE.</td>
+  <td class="dep">ESP-AIRE<br>PLAN-MUESTREO-AC</td>
+  <td class="ver">SIS-PQ-AC-013</td>
+  <td class="estado">PENDIENTE DE VALOR</td>
+</tr>
+<tr id="URS-AC-010" data-req="URS-AC-010" data-tipo="No funcional / regulatorio" data-depende="PLAN-MUESTREO-AC PLAN-VAL-AC" data-verifica="SIS-OQ-AC-034 SIS-PQ-AC-028" data-estado="PENDIENTE DE VALOR">
+  <td><strong>URS-AC-010</strong></td>
+  <td>Registros y monitoreo de rutina</td>
+  <td>No funcional / regulatorio</td>
+  <td>El monitoreo de rutina y las tendencias se ejecutan según PLAN-MUESTREO-AC.</td>
+  <td class="dep">PLAN-MUESTREO-AC<br>PLAN-VAL-AC</td>
+  <td class="ver">SIS-OQ-AC-034<br>SIS-PQ-AC-028</td>
+  <td class="estado">PENDIENTE DE VALOR</td>
+</tr>
+</table>
+</section>
+
+<section id="sec-6">
+<h2>6. Matriz de trazabilidad URS → protocolo</h2>
+<table>
+<tr><th>Requisito</th><th>IQ</th><th>OQ</th><th>PQ</th></tr>
+<tr><td>URS-AC-001</td><td>—</td><td>—</td><td>SIS-PQ-AC-011, SIS-PQ-AC-012</td></tr>
+<tr><td>URS-AC-002</td><td>—</td><td>SIS-OQ-AC-013</td><td>SIS-PQ-AC-010</td></tr>
+<tr><td>URS-AC-003</td><td>—</td><td>SIS-OQ-AC-008, SIS-OQ-AC-009</td><td>—</td></tr>
+<tr><td>URS-AC-004</td><td>SIS-IQ-AC-002</td><td>SIS-OQ-AC-021</td><td>—</td></tr>
+<tr><td>URS-AC-005</td><td>—</td><td>SIS-OQ-AC-023, SIS-OQ-AC-026</td><td>—</td></tr>
+<tr><td>URS-AC-006</td><td>SIS-IQ-AC-005</td><td>SIS-OQ-AC-028</td><td>—</td></tr>
+<tr><td>URS-AC-007</td><td>SIS-IQ-AC-006</td><td>SIS-OQ-AC-032</td><td>—</td></tr>
+<tr><td>URS-AC-008</td><td>—</td><td>SIS-OQ-AC-005</td><td>SIS-PQ-AC-020</td></tr>
+<tr><td>URS-AC-009</td><td>—</td><td>—</td><td>SIS-PQ-AC-013</td></tr>
+<tr><td>URS-AC-010</td><td>—</td><td>SIS-OQ-AC-034</td><td>SIS-PQ-AC-028</td></tr>
+</table>
+</section>
+
+<section id="sec-7">
+<h2>7. Flujo de firmas y revisión</h2>
+<p>Cada rol revisa los ensayos de su alcance antes de firmar. La firma no sustituye la revisión: el revisor deja constancia de los ensayos revisados en el expediente.</p>
+<table>
+<tr><th>Rol</th><th>Responsabilidad</th><th>Ensayos que revisa</th><th>Nombre</th><th>Firma</th><th>Fecha</th></tr>
+<tr data-rol="autor" data-revisa="FASE:IQ">
+  <td><strong>Autor — Ingeniería / dueño del sistema</strong></td>
+  <td>Redacta requisitos, criterios y dependencias</td>
+  <td>Todos los ensayos IQ del sistema y los documentos de entrada de §3</td>
+  <td>&nbsp;</td>
+  <td>&nbsp;</td>
+  <td>&nbsp;</td>
+</tr>
+<tr data-rol="proceso" data-revisa="FASE:OQ">
+  <td><strong>Revisor de proceso — Producción / usuario</strong></td>
+  <td>Confirma que los requisitos representan el uso real y el peor caso</td>
+  <td>Todos los ensayos OQ del sistema</td>
+  <td>&nbsp;</td>
+  <td>&nbsp;</td>
+  <td>&nbsp;</td>
+</tr>
+<tr data-rol="calidad" data-revisa="FASE:PQ">
+  <td><strong>Revisor de calidad — Validación / QA</strong></td>
+  <td>Verifica criterios, trazabilidad y cierre de desviaciones</td>
+  <td>Todos los ensayos PQ del sistema</td>
+  <td>&nbsp;</td>
+  <td>&nbsp;</td>
+  <td>&nbsp;</td>
+</tr>
+<tr data-rol="aprobador" data-revisa="TODOS">
+  <td><strong>Aprobador — Dirección de QA</strong></td>
+  <td>Aprueba el documento y libera el sistema para uso GMP</td>
+  <td>Todos los ensayos IQ/OQ/PQ y la matriz de trazabilidad</td>
+  <td>&nbsp;</td>
+  <td>&nbsp;</td>
+  <td>&nbsp;</td>
+</tr>
+</table>
+</section>
+
+<section id="sec-8">
+<h2>8. Control de cambios</h2>
+<table>
+<tr><th>Versión</th><th>Fecha</th><th>Cambio</th><th>Aprobado por</th></tr>
+<tr><td>1.0</td><td>2026-11-17</td><td>Emisión inicial del par URS/AR del sistema.</td><td>PENDIENTE</td></tr>
+</table>
+</section>
+</article>
+</body>
+</html>

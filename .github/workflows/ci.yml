@@ -30,6 +30,8 @@ jobs:
       - run: npm ci
       - name: Protocolo IQ/OQ/PQ (estructura)
         run: npm run protocolo:check
+      - name: URS/AR de sistemas (dependencias y firmas)
+        run: npm run urs:check
       - run: npm test
       # Coverage en modo reporte (sin umbrales bloqueantes aún; ver vitest.config.ts)
       - run: npm run test:coverage

@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<style>
+  body { font-family: Tahoma, sans-serif; font-size: 11pt; }
+  strong { text-transform: uppercase; }
+  table { border-collapse: collapse; width: 100%; }
+  th, td { border: 1px solid #999; padding: 4px; vertical-align: top; }
+  th { background: #eee; }
+  .pendiente, .estado { background: #fff4d6; }
+</style>
+<title>URS — HVAC / Climatización</title>
+</head>
+<body>
+<p><a href="../sistemas.html">← Sistemas</a> · <a href="hvac.html">Ficha</a> · <a href="ar-hvac.html">AR-HV-001</a></p>
+<article class="documento" data-doc="URS" data-sistema="hvac" data-codigo="URS-HV-001" data-version="1.0" data-estado="BORRADOR">
+<h1>URS — HVAC / Climatización</h1>
+<p><strong>Código:</strong> URS-HV-001 · <strong>Versión:</strong> 1.0 · <strong>Estado:</strong> BORRADOR</p>
+<p>Documento complementario: <a href="ar-hvac.html">AR-HV-001 — Análisis de riesgos</a>. El mapa de §4 declara qué apartados se complementan y cada campo con dependencia la nombra en su columna.</p>
+
+<section id="sec-1">
+<h2>1. Objetivo</h2>
+<p>Definir los requisitos de usuario del sistema de climatización que sirve a las áreas clasificadas, para que el diseño, la calificación y la operación demuestren el grado de limpieza, la cascada de presiones y el control ambiental exigidos por el proceso.</p>
+</section>
+
+<section id="sec-2">
+<h2>2. Alcance</h2>
+<p>Unidades de tratamiento de aire, filtros HEPA, ductos, difusores, retornos, esclusas y sistema de control/monitoreo ambiental del HVAC. No cubre los equipos de proceso instalados en las áreas.</p>
+<p><strong>Referencias normativas:</strong> EU GMP Anexo 1 — Fabricación de productos estériles; EU GMP Anexo 15 — Calificación y validación; ISO 14644-1/-2/-3 — Salas limpias y ensayos; EN 1822 — Filtros HEPA.</p>
+</section>
+
+<section id="sec-3">
+<h2>3. Documentos de entrada y dependencias</h2>
+<p>Los requisitos toman valores, límites y ubicaciones de estos documentos. Si un documento no está aprobado, el requisito queda PENDIENTE DE VALOR y no se libera el sistema.</p>
+<table>
+<tr><th>Código</th><th>Documento</th><th>Versión</th><th>Qué aporta al requisito</th></tr>
+<tr data-ref="P&ID-HVAC">
+  <td>P&amp;ID-HVAC</td>
+  <td>Plano de tuberías e instrumentación del HVAC y de las UMA</td>
+  <td>PENDIENTE</td>
+  <td>Frontera del sistema, componentes, filtros y puntos de medición</td>
+</tr>
+<tr data-ref="LAYOUT-HVAC">
+  <td>LAYOUT-HVAC</td>
+  <td>Layout de áreas clasificadas y matriz de grados, presiones, T y HR</td>
+  <td>PENDIENTE</td>
+  <td>Grado, renovaciones, cascada y rangos por área</td>
+</tr>
+<tr data-ref="SOP-BMS">
+  <td>SOP-BMS</td>
+  <td>Procedimiento de operación y administración del BMS</td>
+  <td>PENDIENTE</td>
+  <td>Roles, alarmas, registros y retención</td>
+</tr>
+<tr data-ref="PLAN-VAL-HVAC">
+  <td>PLAN-VAL-HVAC</td>
+  <td>Plan de validación del sistema HVAC</td>
+  <td>PENDIENTE</td>
+  <td>Estrategia IQ/OQ/PQ, criterios de muestreo y tiempos de recuperación</td>
+</tr>
+</table>
+</section>
+
+<section id="sec-4">
+<h2>4. Mapa de complementariedad URS ↔ AR</h2>
+<p>La URS define <strong>qué debe cumplir</strong> el sistema; el AR define <strong>qué puede fallar</strong> y cómo se controla. No se duplican: cada documento referencia al otro por sección.</p>
+<table>
+<tr><th>Apartado URS</th><th>Apartado AR</th><th>Cómo se complementan</th></tr>
+<tr data-urs="sec-3" data-ar="sec-3">
+  <td><a href="#sec-3">URS · Documentos de entrada y dependencias</a></td>
+  <td><a href="ar-hvac.html#sec-3">AR · Documentos de entrada y dependencias</a></td>
+  <td>Mismos documentos de entrada: las dependencias declaradas en la URS son las que alimentan el análisis de riesgos.</td>
+</tr>
+<tr data-urs="sec-5" data-ar="sec-5">
+  <td><a href="#sec-5">URS · Requisitos / Riesgos</a></td>
+  <td><a href="ar-hvac.html#sec-5">AR · Requisitos / Riesgos</a></td>
+  <td>Correspondencia 1:1 por ID: cada URS-xx tiene su AR-xx y ningún AR evalúa un requisito que no exista en la URS.</td>
+</tr>
+<tr data-urs="sec-6" data-ar="sec-6">
+  <td><a href="#sec-6">URS · Trazabilidad / Resumen</a></td>
+  <td><a href="ar-hvac.html#sec-6">AR · Trazabilidad / Resumen</a></td>
+  <td>Los ensayos de verificación citados deben coincidir; la matriz de la URS y el resumen del AR se revisan juntos.</td>
+</tr>
+<tr data-urs="sec-7" data-ar="sec-7">
+  <td><a href="#sec-7">URS · Flujo de firmas</a></td>
+  <td><a href="ar-hvac.html#sec-7">AR · Flujo de firmas</a></td>
+  <td>Mismos roles, mismo alcance de revisión de ensayos y mismo orden de firma en ambos documentos.</td>
+</tr>
+<tr data-urs="sec-8" data-ar="sec-8">
+  <td><a href="#sec-8">URS · Control de cambios</a></td>
+  <td><a href="ar-hvac.html#sec-8">AR · Control de cambios</a></td>
+  <td>Un cambio aprobado en cualquiera de los dos documentos obliga a revisar el otro.</td>
+</tr>
+</table>
+</section>
+
+<section id="sec-5">
+<h2>5. Requisitos</h2>
+<p>Toda fila declara en <strong>Depende de</strong> los documentos o IDs de los que toma el valor, y en <strong>Verificación</strong> el ensayo del protocolo que lo demuestra.</p>
+<table>
+<tr><th>ID</th><th>Requisito</th><th>Tipo</th><th>Criterio de aceptación</th><th>Depende de</th><th>Verificación</th><th>Estado</th></tr>
+<tr id="URS-HV-001" data-req="URS-HV-001" data-tipo="Funcional / regulatorio" data-depende="LAYOUT-HVAC PLAN-VAL-HVAC" data-verifica="HVAC-IQ-003" data-estado="PENDIENTE DE VALOR">
+  <td><strong>URS-HV-001</strong></td>
+  <td>Clasificación de áreas</td>
+  <td>Funcional / regulatorio</td>
+  <td>Cada área clasificada alcanza y mantiene el grado asignado en LAYOUT-HVAC (ISO 14644-1).</td>
+  <td class="dep">LAYOUT-HVAC<br>PLAN-VAL-HVAC</td>
+  <td class="ver">HVAC-IQ-003</td>
+  <td class="estado">PENDIENTE DE VALOR</td>
+</tr>
+<tr id="URS-HV-002" data-req="URS-HV-002" data-tipo="Funcional" data-depende="LAYOUT-HVAC P&ID-HVAC" data-verifica="SIS-OQ-HV-006 SIS-OQ-HV-019" data-estado="PENDIENTE DE VALOR">
+  <td><strong>URS-HV-002</strong></td>
+  <td>Renovaciones y caudal de aire</td>
+  <td>Funcional</td>
+  <td>Cada área recibe el caudal y las renovaciones/h definidos en LAYOUT-HVAC.</td>
+  <td class="dep">LAYOUT-HVAC<br>P&amp;ID-HVAC</td>
+  <td class="ver">SIS-OQ-HV-006<br>SIS-OQ-HV-019</td>
+  <td class="estado">PENDIENTE DE VALOR</td>
+</tr>
+<tr id="URS-HV-003" data-req="URS-HV-003" data-tipo="Funcional / seguridad" data-depende="LAYOUT-HVAC" data-verifica="SIS-OQ-HV-020 SIS-PQ-HV-010" data-estado="PENDIENTE DE VALOR">
+  <td><strong>URS-HV-003</strong></td>
+  <td>Cascada de presiones</td>
+  <td>Funcional / seguridad</td>
+  <td>Los diferenciales entre áreas cumplen la cascada aprobada en LAYOUT-HVAC y no se invierten en operación.</td>
+  <td class="dep">LAYOUT-HVAC</td>
+  <td class="ver">SIS-OQ-HV-020<br>SIS-PQ-HV-010</td>
+  <td class="estado">PENDIENTE DE VALOR</td>
+</tr>
+<tr id="URS-HV-004" data-req="URS-HV-004" data-tipo="Funcional / regulatorio" data-depende="P&ID-HVAC" data-verifica="HVAC-IQ-003 SIS-OQ-HV-014" data-estado="PENDIENTE DE VALOR">
+  <td><strong>URS-HV-004</strong></td>
+  <td>Filtración HEPA e integridad</td>
+  <td>Funcional / regulatorio</td>
+  <td>Los filtros son de la clase declarada en P&amp;ID-HVAC y no presentan fuga detectable (EN 1822 / ISO 14644-3).</td>
+  <td class="dep">P&amp;ID-HVAC</td>
+  <td class="ver">HVAC-IQ-003<br>SIS-OQ-HV-014</td>
+  <td class="estado">PENDIENTE DE VALOR</td>
+</tr>
+<tr id="URS-HV-005" data-req="URS-HV-005" data-tipo="Funcional" data-depende="LAYOUT-HVAC" data-verifica="SIS-OQ-HV-024" data-estado="PENDIENTE DE VALOR">
+  <td><strong>URS-HV-005</strong></td>
+  <td>Temperatura y humedad por área</td>
+  <td>Funcional</td>
+  <td>Cada área mantiene T y HR dentro del rango aprobado en LAYOUT-HVAC.</td>
+  <td class="dep">LAYOUT-HVAC</td>
+  <td class="ver">SIS-OQ-HV-024</td>
+  <td class="estado">PENDIENTE DE VALOR</td>
+</tr>
+<tr id="URS-HV-006" data-req="URS-HV-006" data-tipo="No funcional / regulatorio" data-depende="SOP-BMS LAYOUT-HVAC" data-verifica="HVAC-IQ-006 SIS-OQ-HV-036" data-estado="PENDIENTE DE VALOR">
+  <td><strong>URS-HV-006</strong></td>
+  <td>Control, alarmas y registros</td>
+  <td>No funcional / regulatorio</td>
+  <td>Setpoints, alarmas y registros del BMS son trazables (usuario, fecha, valor) y cubren el 100 % de los puntos críticos de LAYOUT-HVAC.</td>
+  <td class="dep">SOP-BMS<br>LAYOUT-HVAC</td>
+  <td class="ver">HVAC-IQ-006<br>SIS-OQ-HV-036</td>
+  <td class="estado">PENDIENTE DE VALOR</td>
+</tr>
+<tr id="URS-HV-007" data-req="URS-HV-007" data-tipo="No funcional / seguridad" data-depende="PLAN-VAL-HVAC P&ID-HVAC" data-verifica="SIS-OQ-HV-004 SIS-OQ-HV-005 SIS-PQ-HV-017" data-estado="PENDIENTE DE VALOR">
+  <td><strong>URS-HV-007</strong></td>
+  <td>Tolerancia a falla</td>
+  <td>No funcional / seguridad</td>
+  <td>Ante falla de UMA o de energía, el sistema mantiene o restaura la cascada y las condiciones en el tiempo definido en PLAN-VAL-HVAC.</td>
+  <td class="dep">PLAN-VAL-HVAC<br>P&amp;ID-HVAC</td>
+  <td class="ver">SIS-OQ-HV-004<br>SIS-OQ-HV-005<br>SIS-PQ-HV-017</td>
+  <td class="estado">PENDIENTE DE VALOR</td>
+</tr>
+<tr id="URS-HV-008" data-req="URS-HV-008" data-tipo="No funcional / regulatorio" data-depende="LAYOUT-HVAC SOP-BMS" data-verifica="SIS-OQ-HV-035 SIS-PQ-HV-008" data-estado="PENDIENTE DE VALOR">
+  <td><strong>URS-HV-008</strong></td>
+  <td>Monitoreo ambiental continuo</td>
+  <td>No funcional / regulatorio</td>
+  <td>El sistema registra T, HR y ΔP de forma continua con la frecuencia definida en LAYOUT-HVAC.</td>
+  <td class="dep">LAYOUT-HVAC<br>SOP-BMS</td>
+  <td class="ver">SIS-OQ-HV-035<br>SIS-PQ-HV-008</td>
+  <td class="estado">PENDIENTE DE VALOR</td>
+</tr>
+<tr id="URS-HV-009" data-req="URS-HV-009" data-tipo="Funcional / seguridad" data-depende="LAYOUT-HVAC" data-verifica="SIS-OQ-HV-031 SIS-PQ-HV-014" data-estado="PENDIENTE DE VALOR">
+  <td><strong>URS-HV-009</strong></td>
+  <td>Contención y flujo unidireccional</td>
+  <td>Funcional / seguridad</td>
+  <td>Las zonas grado A mantienen flujo unidireccional y no hay contaminación cruzada entre áreas de distinto grado.</td>
+  <td class="dep">LAYOUT-HVAC</td>
+  <td class="ver">SIS-OQ-HV-031<br>SIS-PQ-HV-014</td>
+  <td class="estado">PENDIENTE DE VALOR</td>
+</tr>
+<tr id="URS-HV-010" data-req="URS-HV-010" data-tipo="Regulatorio" data-depende="PLAN-VAL-HVAC" data-verifica="SIS-PQ-HV-020" data-estado="PENDIENTE DE VALOR">
+  <td><strong>URS-HV-010</strong></td>
+  <td>Cierre de calificación</td>
+  <td>Regulatorio</td>
+  <td>IQ/OQ/PQ completos, desviaciones cerradas y matriz URS→ensayo aprobada antes de liberar el sistema.</td>
+  <td class="dep">PLAN-VAL-HVAC</td>
+  <td class="ver">SIS-PQ-HV-020</td>
+  <td class="estado">PENDIENTE DE VALOR</td>
+</tr>
+</table>
+</section>
+
+<section id="sec-6">
+<h2>6. Matriz de trazabilidad URS → protocolo</h2>
+<table>
+<tr><th>Requisito</th><th>IQ</th><th>OQ</th><th>PQ</th></tr>
+<tr><td>URS-HV-001</td><td>HVAC-IQ-003</td><td>—</td><td>—</td></tr>
+<tr><td>URS-HV-002</td><td>—</td><td>SIS-OQ-HV-006, SIS-OQ-HV-019</td><td>—</td></tr>
+<tr><td>URS-HV-003</td><td>—</td><td>SIS-OQ-HV-020</td><td>SIS-PQ-HV-010</td></tr>
+<tr><td>URS-HV-004</td><td>HVAC-IQ-003</td><td>SIS-OQ-HV-014</td><td>—</td></tr>
+<tr><td>URS-HV-005</td><td>—</td><td>SIS-OQ-HV-024</td><td>—</td></tr>
+<tr><td>URS-HV-006</td><td>HVAC-IQ-006</td><td>SIS-OQ-HV-036</td><td>—</td></tr>
+<tr><td>URS-HV-007</td><td>—</td><td>SIS-OQ-HV-004, SIS-OQ-HV-005</td><td>SIS-PQ-HV-017</td></tr>
+<tr><td>URS-HV-008</td><td>—</td><td>SIS-OQ-HV-035</td><td>SIS-PQ-HV-008</td></tr>
+<tr><td>URS-HV-009</td><td>—</td><td>SIS-OQ-HV-031</td><td>SIS-PQ-HV-014</td></tr>
+<tr><td>URS-HV-010</td><td>—</td><td>—</td><td>SIS-PQ-HV-020</td></tr>
+</table>
+</section>
+
+<section id="sec-7">
+<h2>7. Flujo de firmas y revisión</h2>
+<p>Cada rol revisa los ensayos de su alcance antes de firmar. La firma no sustituye la revisión: el revisor deja constancia de los ensayos revisados en el expediente.</p>
+<table>
+<tr><th>Rol</th><th>Responsabilidad</th><th>Ensayos que revisa</th><th>Nombre</th><th>Firma</th><th>Fecha</th></tr>
+<tr data-rol="autor" data-revisa="FASE:IQ">
+  <td><strong>Autor — Ingeniería / dueño del sistema</strong></td>
+  <td>Redacta requisitos, criterios y dependencias</td>
+  <td>Todos los ensayos IQ del sistema y los documentos de entrada de §3</td>
+  <td>&nbsp;</td>
+  <td>&nbsp;</td>
+  <td>&nbsp;</td>
+</tr>
+<tr data-rol="proceso" data-revisa="FASE:OQ">
+  <td><strong>Revisor de proceso — Producción / usuario</strong></td>
+  <td>Confirma que los requisitos representan el uso real y el peor caso</td>
+  <td>Todos los ensayos OQ del sistema</td>
+  <td>&nbsp;</td>
+  <td>&nbsp;</td>
+  <td>&nbsp;</td>
+</tr>
+<tr data-rol="calidad" data-revisa="FASE:PQ">
+  <td><strong>Revisor de calidad — Validación / QA</strong></td>
+  <td>Verifica criterios, trazabilidad y cierre de desviaciones</td>
+  <td>Todos los ensayos PQ del sistema</td>
+  <td>&nbsp;</td>
+  <td>&nbsp;</td>
+  <td>&nbsp;</td>
+</tr>
+<tr data-rol="aprobador" data-revisa="TODOS">
+  <td><strong>Aprobador — Dirección de QA</strong></td>
+  <td>Aprueba el documento y libera el sistema para uso GMP</td>
+  <td>Todos los ensayos IQ/OQ/PQ y la matriz de trazabilidad</td>
+  <td>&nbsp;</td>
+  <td>&nbsp;</td>
+  <td>&nbsp;</td>
+</tr>
+</table>
+</section>
+
+<section id="sec-8">
+<h2>8. Control de cambios</h2>
+<table>
+<tr><th>Versión</th><th>Fecha</th><th>Cambio</th><th>Aprobado por</th></tr>
+<tr><td>1.0</td><td>2026-11-17</td><td>Emisión inicial del par URS/AR del sistema.</td><td>PENDIENTE</td></tr>
+</table>
+</section>
+</article>
+</body>
+</html>

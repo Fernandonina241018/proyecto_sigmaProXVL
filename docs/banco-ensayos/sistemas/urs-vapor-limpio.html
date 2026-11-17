@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<style>
+  body { font-family: Tahoma, sans-serif; font-size: 11pt; }
+  strong { text-transform: uppercase; }
+  table { border-collapse: collapse; width: 100%; }
+  th, td { border: 1px solid #999; padding: 4px; vertical-align: top; }
+  th { background: #eee; }
+  .pendiente, .estado { background: #fff4d6; }
+</style>
+<title>URS — Vapor limpio</title>
+</head>
+<body>
+<p><a href="../sistemas.html">← Sistemas</a> · <a href="vapor-limpio.html">Ficha</a> · <a href="ar-vapor-limpio.html">AR-VL-001</a></p>
+<article class="documento" data-doc="URS" data-sistema="vapor-limpio" data-codigo="URS-VL-001" data-version="1.0" data-estado="BORRADOR">
+<h1>URS — Vapor limpio</h1>
+<p><strong>Código:</strong> URS-VL-001 · <strong>Versión:</strong> 1.0 · <strong>Estado:</strong> BORRADOR</p>
+<p>Documento complementario: <a href="ar-vapor-limpio.html">AR-VL-001 — Análisis de riesgos</a>. El mapa de §4 declara qué apartados se complementan y cada campo con dependencia la nombra en su columna.</p>
+
+<section id="sec-1">
+<h2>1. Objetivo</h2>
+<p>Definir los requisitos de usuario del sistema de vapor limpio para esterilización y contacto con producto, de modo que la calidad del vapor y del condensado se mantenga en todos los puntos de uso.</p>
+</section>
+
+<section id="sec-2">
+<h2>2. Alcance</h2>
+<p>Generador de vapor limpio, separador de gotas, distribución, purgadores, puntos de muestreo y uso, y tratamiento del agua de alimentación. No cubre los esterilizadores que consumen el vapor.</p>
+<p><strong>Referencias normativas:</strong> EU GMP Anexo 1 — Fabricación de productos estériles; EU GMP Anexo 15 — Calificación y validación; EN 285 — Esterilización por vapor; ISPE Baseline Guide Vol. 4 — Water and Steam Systems.</p>
+</section>
+
+<section id="sec-3">
+<h2>3. Documentos de entrada y dependencias</h2>
+<p>Los requisitos toman valores, límites y ubicaciones de estos documentos. Si un documento no está aprobado, el requisito queda PENDIENTE DE VALOR y no se libera el sistema.</p>
+<table>
+<tr><th>Código</th><th>Documento</th><th>Versión</th><th>Qué aporta al requisito</th></tr>
+<tr data-ref="P&ID-VL">
+  <td>P&amp;ID-VL</td>
+  <td>Plano de tuberías e instrumentación del vapor limpio</td>
+  <td>PENDIENTE</td>
+  <td>Frontera, componentes, purgadores y puntos de muestreo</td>
+</tr>
+<tr data-ref="ESP-VAPOR">
+  <td>ESP-VAPOR</td>
+  <td>Especificación de calidad de vapor limpio y condensado</td>
+  <td>PENDIENTE</td>
+  <td>Límites de sequedad, gases no condensables, sobrecalentamiento y calidad del condensado</td>
+</tr>
+<tr data-ref="ESP-AGUA-ALIM">
+  <td>ESP-AGUA-ALIM</td>
+  <td>Especificación del agua de alimentación del generador</td>
+  <td>PENDIENTE</td>
+  <td>Límites químicos y microbiológicos</td>
+</tr>
+<tr data-ref="PLAN-MUESTREO-VL">
+  <td>PLAN-MUESTREO-VL</td>
+  <td>Plan de muestreo de vapor y condensado</td>
+  <td>PENDIENTE</td>
+  <td>Puntos, frecuencia y criterios de aceptación</td>
+</tr>
+<tr data-ref="PLAN-VAL-VL">
+  <td>PLAN-VAL-VL</td>
+  <td>Plan de validación del sistema de vapor</td>
+  <td>PENDIENTE</td>
+  <td>Estrategia IQ/OQ/PQ y prueba de arranque</td>
+</tr>
+</table>
+</section>
+
+<section id="sec-4">
+<h2>4. Mapa de complementariedad URS ↔ AR</h2>
+<p>La URS define <strong>qué debe cumplir</strong> el sistema; el AR define <strong>qué puede fallar</strong> y cómo se controla. No se duplican: cada documento referencia al otro por sección.</p>
+<table>
+<tr><th>Apartado URS</th><th>Apartado AR</th><th>Cómo se complementan</th></tr>
+<tr data-urs="sec-3" data-ar="sec-3">
+  <td><a href="#sec-3">URS · Documentos de entrada y dependencias</a></td>
+  <td><a href="ar-vapor-limpio.html#sec-3">AR · Documentos de entrada y dependencias</a></td>
+  <td>Mismos documentos de entrada: las dependencias declaradas en la URS son las que alimentan el análisis de riesgos.</td>
+</tr>
+<tr data-urs="sec-5" data-ar="sec-5">
+  <td><a href="#sec-5">URS · Requisitos / Riesgos</a></td>
+  <td><a href="ar-vapor-limpio.html#sec-5">AR · Requisitos / Riesgos</a></td>
+  <td>Correspondencia 1:1 por ID: cada URS-xx tiene su AR-xx y ningún AR evalúa un requisito que no exista en la URS.</td>
+</tr>
+<tr data-urs="sec-6" data-ar="sec-6">
+  <td><a href="#sec-6">URS · Trazabilidad / Resumen</a></td>
+  <td><a href="ar-vapor-limpio.html#sec-6">AR · Trazabilidad / Resumen</a></td>
+  <td>Los ensayos de verificación citados deben coincidir; la matriz de la URS y el resumen del AR se revisan juntos.</td>
+</tr>
+<tr data-urs="sec-7" data-ar="sec-7">
+  <td><a href="#sec-7">URS · Flujo de firmas</a></td>
+  <td><a href="ar-vapor-limpio.html#sec-7">AR · Flujo de firmas</a></td>
+  <td>Mismos roles, mismo alcance de revisión de ensayos y mismo orden de firma en ambos documentos.</td>
+</tr>
+<tr data-urs="sec-8" data-ar="sec-8">
+  <td><a href="#sec-8">URS · Control de cambios</a></td>
+  <td><a href="ar-vapor-limpio.html#sec-8">AR · Control de cambios</a></td>
+  <td>Un cambio aprobado en cualquiera de los dos documentos obliga a revisar el otro.</td>
+</tr>
+</table>
+</section>
+
+<section id="sec-5">
+<h2>5. Requisitos</h2>
+<p>Toda fila declara en <strong>Depende de</strong> los documentos o IDs de los que toma el valor, y en <strong>Verificación</strong> el ensayo del protocolo que lo demuestra.</p>
+<table>
+<tr><th>ID</th><th>Requisito</th><th>Tipo</th><th>Criterio de aceptación</th><th>Depende de</th><th>Verificación</th><th>Estado</th></tr>
+<tr id="URS-VL-001" data-req="URS-VL-001" data-tipo="Funcional / regulatorio" data-depende="ESP-VAPOR PLAN-MUESTREO-VL" data-verifica="SIS-PQ-VL-010 SIS-PQ-VL-011 SIS-PQ-VL-012" data-estado="PENDIENTE DE VALOR">
+  <td><strong>URS-VL-001</strong></td>
+  <td>Calidad del vapor en uso</td>
+  <td>Funcional / regulatorio</td>
+  <td>Sequedad, gases no condensables y sobrecalentamiento cumplen ESP-VAPOR.</td>
+  <td class="dep">ESP-VAPOR<br>PLAN-MUESTREO-VL</td>
+  <td class="ver">SIS-PQ-VL-010<br>SIS-PQ-VL-011<br>SIS-PQ-VL-012</td>
+  <td class="estado">PENDIENTE DE VALOR</td>
+</tr>
+<tr id="URS-VL-002" data-req="URS-VL-002" data-tipo="Funcional / regulatorio" data-depende="ESP-VAPOR PLAN-MUESTREO-VL" data-verifica="SIS-PQ-VL-007 SIS-PQ-VL-008 SIS-PQ-VL-009" data-estado="PENDIENTE DE VALOR">
+  <td><strong>URS-VL-002</strong></td>
+  <td>Calidad del condensado</td>
+  <td>Funcional / regulatorio</td>
+  <td>Conductividad, TOC, endotoxinas y carga microbiana del condensado cumplen ESP-VAPOR.</td>
+  <td class="dep">ESP-VAPOR<br>PLAN-MUESTREO-VL</td>
+  <td class="ver">SIS-PQ-VL-007<br>SIS-PQ-VL-008<br>SIS-PQ-VL-009</td>
+  <td class="estado">PENDIENTE DE VALOR</td>
+</tr>
+<tr id="URS-VL-003" data-req="URS-VL-003" data-tipo="Funcional" data-depende="ESP-VAPOR P&ID-VL" data-verifica="SIS-OQ-VL-008 SIS-OQ-VL-009" data-estado="PENDIENTE DE VALOR">
+  <td><strong>URS-VL-003</strong></td>
+  <td>Capacidad y respuesta a demanda</td>
+  <td>Funcional</td>
+  <td>El sistema cubre la demanda máxima de ESP-VAPOR sin caer bajo el mínimo de presión o caudal.</td>
+  <td class="dep">ESP-VAPOR<br>P&amp;ID-VL</td>
+  <td class="ver">SIS-OQ-VL-008<br>SIS-OQ-VL-009</td>
+  <td class="estado">PENDIENTE DE VALOR</td>
+</tr>
+<tr id="URS-VL-004" data-req="URS-VL-004" data-tipo="Funcional" data-depende="ESP-VAPOR P&ID-VL" data-verifica="SIS-OQ-VL-012" data-estado="PENDIENTE DE VALOR">
+  <td><strong>URS-VL-004</strong></td>
+  <td>Presión y temperatura en puntos de uso</td>
+  <td>Funcional</td>
+  <td>Cada punto de uso recibe la presión y temperatura definidas en ESP-VAPOR.</td>
+  <td class="dep">ESP-VAPOR<br>P&amp;ID-VL</td>
+  <td class="ver">SIS-OQ-VL-012</td>
+  <td class="estado">PENDIENTE DE VALOR</td>
+</tr>
+<tr id="URS-VL-005" data-req="URS-VL-005" data-tipo="No funcional / calidad" data-depende="P&ID-VL" data-verifica="SIS-IQ-VL-002 SIS-OQ-VL-014 SIS-OQ-VL-016" data-estado="PENDIENTE DE VALOR">
+  <td><strong>URS-VL-005</strong></td>
+  <td>Distribución sin retenciones</td>
+  <td>No funcional / calidad</td>
+  <td>La red tiene la pendiente, purgadores y ausencia de ramales muertos definidos en P&amp;ID-VL.</td>
+  <td class="dep">P&amp;ID-VL</td>
+  <td class="ver">SIS-IQ-VL-002<br>SIS-OQ-VL-014<br>SIS-OQ-VL-016</td>
+  <td class="estado">PENDIENTE DE VALOR</td>
+</tr>
+<tr id="URS-VL-006" data-req="URS-VL-006" data-tipo="Funcional / regulatorio" data-depende="ESP-AGUA-ALIM" data-verifica="SIS-IQ-VL-004" data-estado="PENDIENTE DE VALOR">
+  <td><strong>URS-VL-006</strong></td>
+  <td>Agua de alimentación</td>
+  <td>Funcional / regulatorio</td>
+  <td>El agua de alimentación cumple ESP-AGUA-ALIM antes de entrar al generador.</td>
+  <td class="dep">ESP-AGUA-ALIM</td>
+  <td class="ver">SIS-IQ-VL-004</td>
+  <td class="estado">PENDIENTE DE VALOR</td>
+</tr>
+<tr id="URS-VL-007" data-req="URS-VL-007" data-tipo="No funcional / seguridad" data-depende="P&ID-VL PLAN-VAL-VL" data-verifica="SIS-OQ-VL-001 SIS-OQ-VL-004" data-estado="PENDIENTE DE VALOR">
+  <td><strong>URS-VL-007</strong></td>
+  <td>Seguridad y alarmas</td>
+  <td>No funcional / seguridad</td>
+  <td>Válvulas de alivio y alarmas están calibradas, probadas y con consigna aprobada.</td>
+  <td class="dep">P&amp;ID-VL<br>PLAN-VAL-VL</td>
+  <td class="ver">SIS-OQ-VL-001<br>SIS-OQ-VL-004</td>
+  <td class="estado">PENDIENTE DE VALOR</td>
+</tr>
+<tr id="URS-VL-008" data-req="URS-VL-008" data-tipo="Funcional / regulatorio" data-depende="ESP-VAPOR PLAN-VAL-VL" data-verifica="SIS-OQ-VL-024 SIS-PQ-VL-015" data-estado="PENDIENTE DE VALOR">
+  <td><strong>URS-VL-008</strong></td>
+  <td>Calidad tras paro prolongado</td>
+  <td>Funcional / regulatorio</td>
+  <td>Tras un paro, el vapor alcanza la calidad de ESP-VAPOR antes del primer uso.</td>
+  <td class="dep">ESP-VAPOR<br>PLAN-VAL-VL</td>
+  <td class="ver">SIS-OQ-VL-024<br>SIS-PQ-VL-015</td>
+  <td class="estado">PENDIENTE DE VALOR</td>
+</tr>
+<tr id="URS-VL-009" data-req="URS-VL-009" data-tipo="No funcional / regulatorio" data-depende="PLAN-MUESTREO-VL P&ID-VL" data-verifica="SIS-OQ-VL-020" data-estado="PENDIENTE DE VALOR">
+  <td><strong>URS-VL-009</strong></td>
+  <td>Muestreo representativo</td>
+  <td>No funcional / regulatorio</td>
+  <td>Los puntos de muestreo de vapor y condensado son los de PLAN-MUESTREO-VL.</td>
+  <td class="dep">PLAN-MUESTREO-VL<br>P&amp;ID-VL</td>
+  <td class="ver">SIS-OQ-VL-020</td>
+  <td class="estado">PENDIENTE DE VALOR</td>
+</tr>
+<tr id="URS-VL-010" data-req="URS-VL-010" data-tipo="No funcional / regulatorio" data-depende="PLAN-VAL-VL PLAN-MUESTREO-VL" data-verifica="SIS-PQ-VL-023 SIS-PQ-VL-024" data-estado="PENDIENTE DE VALOR">
+  <td><strong>URS-VL-010</strong></td>
+  <td>Registros y tendencias</td>
+  <td>No funcional / regulatorio</td>
+  <td>La calidad, las alarmas y el mantenimiento quedan registrados con trazabilidad.</td>
+  <td class="dep">PLAN-VAL-VL<br>PLAN-MUESTREO-VL</td>
+  <td class="ver">SIS-PQ-VL-023<br>SIS-PQ-VL-024</td>
+  <td class="estado">PENDIENTE DE VALOR</td>
+</tr>
+</table>
+</section>
+
+<section id="sec-6">
+<h2>6. Matriz de trazabilidad URS → protocolo</h2>
+<table>
+<tr><th>Requisito</th><th>IQ</th><th>OQ</th><th>PQ</th></tr>
+<tr><td>URS-VL-001</td><td>—</td><td>—</td><td>SIS-PQ-VL-010, SIS-PQ-VL-011, SIS-PQ-VL-012</td></tr>
+<tr><td>URS-VL-002</td><td>—</td><td>—</td><td>SIS-PQ-VL-007, SIS-PQ-VL-008, SIS-PQ-VL-009</td></tr>
+<tr><td>URS-VL-003</td><td>—</td><td>SIS-OQ-VL-008, SIS-OQ-VL-009</td><td>—</td></tr>
+<tr><td>URS-VL-004</td><td>—</td><td>SIS-OQ-VL-012</td><td>—</td></tr>
+<tr><td>URS-VL-005</td><td>SIS-IQ-VL-002</td><td>SIS-OQ-VL-014, SIS-OQ-VL-016</td><td>—</td></tr>
+<tr><td>URS-VL-006</td><td>SIS-IQ-VL-004</td><td>—</td><td>—</td></tr>
+<tr><td>URS-VL-007</td><td>—</td><td>SIS-OQ-VL-001, SIS-OQ-VL-004</td><td>—</td></tr>
+<tr><td>URS-VL-008</td><td>—</td><td>SIS-OQ-VL-024</td><td>SIS-PQ-VL-015</td></tr>
+<tr><td>URS-VL-009</td><td>—</td><td>SIS-OQ-VL-020</td><td>—</td></tr>
+<tr><td>URS-VL-010</td><td>—</td><td>—</td><td>SIS-PQ-VL-023, SIS-PQ-VL-024</td></tr>
+</table>
+</section>
+
+<section id="sec-7">
+<h2>7. Flujo de firmas y revisión</h2>
+<p>Cada rol revisa los ensayos de su alcance antes de firmar. La firma no sustituye la revisión: el revisor deja constancia de los ensayos revisados en el expediente.</p>
+<table>
+<tr><th>Rol</th><th>Responsabilidad</th><th>Ensayos que revisa</th><th>Nombre</th><th>Firma</th><th>Fecha</th></tr>
+<tr data-rol="autor" data-revisa="FASE:IQ">
+  <td><strong>Autor — Ingeniería / dueño del sistema</strong></td>
+  <td>Redacta requisitos, criterios y dependencias</td>
+  <td>Todos los ensayos IQ del sistema y los documentos de entrada de §3</td>
+  <td>&nbsp;</td>
+  <td>&nbsp;</td>
+  <td>&nbsp;</td>
+</tr>
+<tr data-rol="proceso" data-revisa="FASE:OQ">
+  <td><strong>Revisor de proceso — Producción / usuario</strong></td>
+  <td>Confirma que los requisitos representan el uso real y el peor caso</td>
+  <td>Todos los ensayos OQ del sistema</td>
+  <td>&nbsp;</td>
+  <td>&nbsp;</td>
+  <td>&nbsp;</td>
+</tr>
+<tr data-rol="calidad" data-revisa="FASE:PQ">
+  <td><strong>Revisor de calidad — Validación / QA</strong></td>
+  <td>Verifica criterios, trazabilidad y cierre de desviaciones</td>
+  <td>Todos los ensayos PQ del sistema</td>
+  <td>&nbsp;</td>
+  <td>&nbsp;</td>
+  <td>&nbsp;</td>
+</tr>
+<tr data-rol="aprobador" data-revisa="TODOS">
+  <td><strong>Aprobador — Dirección de QA</strong></td>
+  <td>Aprueba el documento y libera el sistema para uso GMP</td>
+  <td>Todos los ensayos IQ/OQ/PQ y la matriz de trazabilidad</td>
+  <td>&nbsp;</td>
+  <td>&nbsp;</td>
+  <td>&nbsp;</td>
+</tr>
+</table>
+</section>
+
+<section id="sec-8">
+<h2>8. Control de cambios</h2>
+<table>
+<tr><th>Versión</th><th>Fecha</th><th>Cambio</th><th>Aprobado por</th></tr>
+<tr><td>1.0</td><td>2026-11-17</td><td>Emisión inicial del par URS/AR del sistema.</td><td>PENDIENTE</td></tr>
+</table>
+</section>
+</article>
+</body>
+</html>

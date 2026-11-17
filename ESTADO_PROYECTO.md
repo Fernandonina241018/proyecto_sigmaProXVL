@@ -90,6 +90,35 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (StatAnalyzer Pro) co
 
 ## CAMBIOS RECIENTES
 
+
+### 2026-11-17 (307): URS + AR de sistemas + linter de dependencias
+
+**Qué:** arranca la familia `sistemas` con el par documental URS/AR para HVAC, agua purificada, vapor limpio y aire comprimido (8 documentos).
+- **URS:** 10 requisitos por sistema, cada uno con criterio, tipo, columna «Depende de» y ensayo IQ/OQ/PQ que lo verifica. Matriz de trazabilidad URS → protocolo.
+- **AR:** análisis FMEA 1:1 con los requisitos URS (10 riesgos por sistema), control, verificación y dependencia declarada. S/P/D y umbrales quedan POR EVALUAR hasta aprobación del responsable.
+- **Complementariedad explícita:** §4 de ambos documentos mapea URS §3/5/6/7/8 ↔ AR §3/5/6/7/8 y declara cómo se complementan.
+- **Flujo de firmas:** autor (IQ), revisor de proceso (OQ), revisor de calidad (PQ) y aprobador (todo); el linter exige que el alcance de revisión cubra cada ensayo citado.
+- **Linter `urs-ar:check`:** verifica existencia del par, mapa de secciones, dependencias visibles y resolubles, 1:1 URS↔AR, verificación existente en los protocolos y firmas con cobertura completa. Corre en `npm run preflight` y en CI.
+
+**Archivos afectados:**
+| Archivo | Cambio |
+|---------|--------|
+| `scripts/generar-urs-ar-sistemas.mjs` | **NUEVO** — genera los 8 documentos desde una tabla de datos |
+| `scripts/validar-urs-ar.mjs` | **NUEVO** — linter de dependencias, trazabilidad y firmas |
+| `docs/banco-ensayos/sistemas/urs-*.html` | **NUEVO** — 4 URS (HV, AP, VL, AC) |
+| `docs/banco-ensayos/sistemas/ar-*.html` | **NUEVO** — 4 AR (HV, AP, VL, AC) |
+| `docs/banco-ensayos/sistemas.html` | Columnas URS y AR en la tabla de sistemas |
+| `docs/banco-ensayos/sistemas/{hvac,agua-purificada,vapor-limpio,aire-comprimido}.html` | Enlace a URS/AR de la entidad |
+| `docs/banco-ensayos/PROTOCOLO_MAESTRO.md` | §5.3 URS y AR de sistemas |
+| `package.json` | `urs:check` y `urs:gen` |
+| `scripts/preflight.mjs` | Paso `urs:check` tras `protocolo:check` |
+| `.github/workflows/ci.yml`, `deploy.yml` | Paso `urs:check` en CI y deploy |
+
+**Verificación:**
+```
+node scripts/validar-urs-ar.mjs   → OK (8 warnings de campos por aprobar)
+```
+
 ### 2026-11-16 (305): Auditoría — fase 3 (trazabilidad, estado documental y limpieza)
 
 **Qué:** se cierra la fase 3 y el parseo pendiente de la fase 2.
