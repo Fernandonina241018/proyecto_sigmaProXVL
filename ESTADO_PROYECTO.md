@@ -90,6 +90,35 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (StatAnalyzer Pro) co
 
 ## CAMBIOS RECIENTES
 
+### 2026-11-17 (308): Nota al analista + reporte de contenido del banco
+
+**Qué:** el protocolo cierra con una nota de traspaso y el banco tiene un reporte de contenido real.
+- **NOTA AL ANALISTA:** cuarto bloque fijo (`fijo:'nota'`) al final de cada protocolo. Lista qué completa el analista (equipo, fechas, instrumentos con calibración, crudos, desvíos, firmas) y fija que los criterios, límites y plan estadístico **no se redefinen después de ver los datos**; un criterio inaplicable exige desviación, no «No Aplica» sin aprobación.
+- **`npm run banco:check`:** reporta por familia cuántos ensayos traen objetivo, procedimiento, criterio, referencia, plan estadístico (si `analisis:"si"`), criticidad e instrumentos. Reporte, no bloqueo; `--strict` devuelve código 1. Corre en `preflight`.
+
+**Estado medido (1064 ensayos de bloques 2-3, 42 familias):**
+```
+completos: 0/1064
+falta criticidad: 1064      falta instrumentos: 1064
+falta plan: 161 (15 %)      falta procedimiento: 29
+falta criterio: 20          falta referencia: 8
+criterio con valor numérico: 141/1064 (13 %)
+```
+
+**Archivos afectados:**
+| Archivo | Cambio |
+|---------|--------|
+| `js/core/plantilla-docx.js` | Bloque `nota` en `bloquesFijos()` |
+| `scripts/validar-banco-contenido.mjs` | **NUEVO** — reporte por familia |
+| `package.json` | `banco:check` |
+| `scripts/preflight.mjs` | Paso `banco:check` (no bloqueante) |
+| `tests/plantilla-docx.test.js` | Nota + conteo de bloques fijos |
+
+**Verificación:**
+```
+Vitest completo → 1186 tests OK
+banco:check → 0/1064 completos; falta criticidad 1064, instrumentos 1064, plan 161
+```
 
 ### 2026-11-17 (307): URS + AR de sistemas + linter de dependencias
 

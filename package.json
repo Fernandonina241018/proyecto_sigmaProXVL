@@ -10,6 +10,7 @@
     "typecheck": "tsc --project tsconfig.json",
     "agent:check": "node scripts/agent-check.mjs",
     "protocolo:check": "node scripts/validar-protocolo.mjs",
+    "banco:check": "node scripts/validar-banco-contenido.mjs",
     "urs:check": "node scripts/validar-urs-ar.mjs",
     "urs:gen": "node scripts/generar-urs-ar-sistemas.mjs",
     "doctor": "npx react-doctor@latest",
