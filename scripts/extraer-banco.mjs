@@ -83,7 +83,7 @@ function extractArticle(art) {
  if (tt) item.tablaTipo = tt;
  // F2: cabecera del resultado. Opcionales: si el banco no los declara, el
  // generador usa una referencia al bloque correspondiente (no inventa datos).
- for (const [attr, key] of [['data-criticidad', 'criticidad'], ['data-prerrequisitos', 'prerrequisitos'], ['data-instrumentos', 'instrumentos']]) {
+ for (const [attr, key] of [['data-criticidad', 'criticidad'], ['data-prerrequisitos', 'prerrequisitos'], ['data-instrumentos', 'instrumentos'], ['data-aplica', 'aplica']]) {
   const v = art.getAttribute(attr);
   if (v) item[key] = v;
  }

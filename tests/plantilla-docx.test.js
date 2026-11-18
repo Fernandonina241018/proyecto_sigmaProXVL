@@ -676,6 +676,16 @@ describe('H-05/H-08/H-09/H-11: límites, bloques fijos y trazabilidad', () => {
       expect(txt).toMatch(/Instrumentos y prerrequisitos sin declarar/);
     });
 
+    test('la nota confirma el alcance restringido sin borrar el ensayo', () => {
+      const ensayos = [{
+        id: 'SIS-PQ-AP-015', aplica: 'WFI', criticidad: 'Alta', instrumentos: 'LAL',
+        secciones: [{ et: 'Criterio de aceptación', html: '≤ 0,25 UE/mL' }, { et: 'Plan estadístico', html: 'n = 3' }],
+      }];
+      const txt = P.bloquesFijos('PQ', ensayos).at(-1).secciones.find((s) => s.et === 'Pendientes').html;
+      expect(txt).toMatch(/Alcance restringido/);
+      expect(txt).toContain('SIS-PQ-AP-015 (aplica a WFI)');
+    });
+
     test('sin pendientes, la nota lo declara en vez de callar', () => {
       const ensayos = [{
         id: 'EQ-OQ-001', criticidad: 'Alta', instrumentos: 'Balanza calibrada',

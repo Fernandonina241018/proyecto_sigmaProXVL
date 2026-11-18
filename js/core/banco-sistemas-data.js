@@ -5,6 +5,13 @@ var BancoSistemas = {
  "fases": {
   "IQ": [
    {
+    "kind": "div",
+    "clase": "alcance",
+    "bloque": 1,
+    "html": "<p><strong>ALCANCE</strong></p>\n<p>Este protocolo cubre agua purificada (PW) y agua para inyección (WFI). El tipo de agua se declara en la portada antes de la ejecución; los ensayos marcados «solo WFI» se declaran No Aplica con aprobación previa de Calidad cuando el sistema no produce WFI, y no se eliminan del protocolo aprobado.</p>",
+    "familia": "agua-purificada"
+   },
+   {
     "kind": "ensayo",
     "id": "SIS-IQ-AP-001",
     "bloque": 3,
@@ -1263,7 +1270,7 @@ var BancoSistemas = {
     "kind": "div",
     "clase": "alcance",
     "bloque": 1,
-    "html": "<p><strong>ALCANCE</strong></p>\n<p>Esta calificación aplica a <span class=\"equipo\">equipo</span>, según protocolo OQ, y cubre los ensayos listados en el índice.</p>",
+    "html": "<p><strong>ALCANCE</strong></p>\n<p>Esta calificación aplica a <span class=\"equipo\">equipo</span>, según protocolo OQ, y cubre los ensayos listados en el índice. Este protocolo cubre agua purificada (PW) y agua para inyección (WFI). El tipo de agua se declara en la portada antes de la ejecución; los ensayos marcados «solo WFI» se declaran No Aplica con aprobación previa de Calidad cuando el sistema no produce WFI, y no se eliminan del protocolo aprobado.</p>",
     "familia": "agua-purificada"
    },
    {
@@ -6300,7 +6307,7 @@ var BancoSistemas = {
     "kind": "div",
     "clase": "alcance",
     "bloque": 1,
-    "html": "<p><strong>ALCANCE</strong></p>\n<p>Esta calificación aplica a <span class=\"equipo\">equipo</span>, según protocolo PQ, y cubre los ensayos listados en el índice.</p>",
+    "html": "<p><strong>ALCANCE</strong></p>\n<p>Esta calificación aplica a <span class=\"equipo\">equipo</span>, según protocolo PQ, y cubre los ensayos listados en el índice. Este protocolo cubre agua purificada (PW) y agua para inyección (WFI). El tipo de agua se declara en la portada antes de la ejecución; los ensayos marcados «solo WFI» se declaran No Aplica con aprobación previa de Calidad cuando el sistema no produce WFI, y no se eliminan del protocolo aprobado.</p>",
     "familia": "agua-purificada"
    },
    {
@@ -6840,6 +6847,7 @@ var BancoSistemas = {
      }
     ],
     "tabla": null,
+    "aplica": "WFI",
     "analisis": "si",
     "familia": "agua-purificada"
    },

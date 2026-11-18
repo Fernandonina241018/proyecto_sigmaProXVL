@@ -8,11 +8,12 @@ import { join } from 'node:path';
 const out = join(process.cwd(), 'docs', 'banco-ensayos', 'sistemas');
 const esc = (s) => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 
+// Firma real del protocolo: el área responsable varía según el sistema y su
+// firma (página 2) da conformidad al protocolo completo; gerencia aprueba la
+// emisión. No se inventan revisores por fase que la app no tiene.
 const roles = [
-  ['autor', 'Autor — Ingeniería / dueño del sistema', 'Redacta requisitos, criterios y dependencias', 'FASE:IQ', 'Todos los ensayos IQ del sistema y los documentos de entrada de §3'],
-  ['proceso', 'Revisor de proceso — Producción / usuario', 'Confirma que los requisitos representan el uso real y el peor caso', 'FASE:OQ', 'Todos los ensayos OQ del sistema'],
-  ['calidad', 'Revisor de calidad — Validación / QA', 'Verifica criterios, trazabilidad y cierre de desviaciones', 'FASE:PQ', 'Todos los ensayos PQ del sistema'],
-  ['aprobador', 'Aprobador — Dirección de QA', 'Aprueba el documento y libera el sistema para uso GMP', 'TODOS', 'Todos los ensayos IQ/OQ/PQ y la matriz de trazabilidad'],
+  ['area', 'Responsable del área — dueño del sistema', 'Firma la conformidad con el protocolo completo en la página 2. El área varía según el sistema (producción, ingeniería, laboratorio o mantenimiento)', 'TODOS', 'Todos los ensayos IQ/OQ/PQ y la matriz de trazabilidad'],
+  ['aprobador', 'Aprobador — Gerencia de gestión de calidad', 'Aprueba la emisión del documento y libera el sistema para uso GMP', 'TODOS', 'Todos los ensayos IQ/OQ/PQ y la matriz de trazabilidad'],
 ];
 
 const sistemas = [
@@ -194,7 +195,7 @@ function mapa(s, tipo) {
     ['sec-3', 'Documentos de entrada y dependencias', 'Mismos documentos de entrada: las dependencias declaradas en la URS son las que alimentan el análisis de riesgos.'],
     ['sec-5', 'Requisitos / Riesgos', 'Correspondencia 1:1 por ID: cada URS-xx tiene su AR-xx y ningún AR evalúa un requisito que no exista en la URS.'],
     ['sec-6', 'Trazabilidad / Resumen', 'Los ensayos de verificación citados deben coincidir; la matriz de la URS y el resumen del AR se revisan juntos.'],
-    ['sec-7', 'Flujo de firmas', 'Mismos roles, mismo alcance de revisión de ensayos y mismo orden de firma en ambos documentos.'],
+    ['sec-7', 'Flujo de firmas', 'Mismos dos firmantes en ambos documentos: área responsable (conformidad, página 2) y aprobador (emisión).'],
     ['sec-8', 'Control de cambios', 'Un cambio aprobado en cualquiera de los dos documentos obliga a revisar el otro.'],
   ];
   const local = tipo === 'URS' ? 'URS' : 'AR';
@@ -314,7 +315,7 @@ ${rtm}
 
 <section id="sec-7">
 <h2>7. Flujo de firmas y revisión</h2>
-<p>Cada rol revisa los ensayos de su alcance antes de firmar. La firma no sustituye la revisión: el revisor deja constancia de los ensayos revisados en el expediente.</p>
+<p>El responsable del área firma la conformidad en la página 2 del protocolo: esa firma cubre el protocolo completo, no una fase. El aprobador firma la emisión. La firma no sustituye la revisión: quien firma deja constancia de lo revisado en el expediente.</p>
 <table>
 <tr><th>Rol</th><th>Responsabilidad</th><th>Ensayos que revisa</th><th>Nombre</th><th>Firma</th><th>Fecha</th></tr>
 ${firmas(s)}
@@ -427,7 +428,7 @@ ${porFase}
 
 <section id="sec-7">
 <h2>7. Flujo de firmas y revisión</h2>
-<p>Cada rol revisa las filas de su alcance y los ensayos citados antes de firmar; el aprobador no firma con riesgos sin evaluar o sin control.</p>
+<p>El responsable del área firma la conformidad del protocolo completo en la página 2 y el aprobador firma la emisión; ninguno firma con riesgos sin evaluar o sin control.</p>
 <table>
 <tr><th>Rol</th><th>Responsabilidad</th><th>Ensayos que revisa</th><th>Nombre</th><th>Firma</th><th>Fecha</th></tr>
 ${firmas(s)}

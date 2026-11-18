@@ -1074,6 +1074,13 @@ const PlantillaDocx = (() => {
     if (pend.length) out.push('Criterio con valor por definir: ' + ids(pend));
     const sinInst = lista.filter((e) => !String(e.instrumentos || '').trim());
     if (sinInst.length) out.push('Instrumentos y prerrequisitos sin declarar: ' + ids(sinInst));
+    // Ensayos que solo aplican a una parte del alcance (p. ej. endotoxinas en WFI):
+    // el responsable confirma el alcance antes de ejecutar; no se borra el ensayo.
+    const restringidos = lista.filter((e) => String(e.aplica || '').trim());
+    if (restringidos.length) {
+      out.push('Alcance restringido, confirmar antes de ejecutar: '
+        + restringidos.map((e) => e.id + ' (aplica a ' + String(e.aplica).trim() + ')').join(', '));
+    }
     return out;
   }
 
