@@ -121,6 +121,27 @@ node scripts/validar-urs-ar.mjs   → OK (8 warnings de campos por aprobar)
 CodeQL (PR #276) marcó doble-unescapeo de entidades en `texto()`; se cambió a una
 sola pasada con mapa de entidades (`&(nbsp|amp|lt|gt);`).
 
+### 2026-11-16 (306): Parseo — punto y coma decimal
+
+**Qué:** `parseNumeric()` acepta ambos formatos decimales sin adivinar miles.
+- `2.5` y `2,5` → 2.5; `2,0` → 2.
+- **Coma con exactamente 3 dígitos (`1,000`) → ambigua:** se excluye y se cuenta, no se interpreta como 1000 ni como 1.000.
+- Separadores mezclados (`1.234,5` / `1,234.5`) y texto parcial (`12abc`, `0x10`) se excluyen y se cuentan.
+- `getNumericValues`, `imputeColumn`, la detección de columnas numéricas y las matrices de cluster usan el mismo parser.
+
+**Archivos afectados:**
+| Archivo | Cambio |
+|---------|--------|
+| `js/core/StatsUtils.js` | `parseNumeric`, imputación |
+| `js/core/EstadisticaDescriptiva.js` | Matrices de cluster/LDA con `parseNumeric` |
+| `js/core/indexx-analysis.js` | Detección de columnas numéricas |
+| `tests/StatsUtils.test.js` | Punto/coma, ambigüedad, exclusiones, imputación |
+
+**Verificación:**
+```
+tests/StatsUtils.test.js → 36 tests OK
+```
+
 ### 2026-11-16 (305): Auditoría — fase 3 (trazabilidad, estado documental y limpieza)
 
 **Qué:** se cierra la fase 3 y el parseo pendiente de la fase 2.

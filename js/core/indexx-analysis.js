@@ -209,13 +209,19 @@ function getDataForEjecutarAnalisis() {
   return { headers: sheet.headers, data: mapped, rowCount: mapped.length };
 }
 
+function _numeroAnalisis(v) {
+  if (typeof StatsUtils !== 'undefined' && StatsUtils.parseNumeric) return StatsUtils.parseNumeric(v);
+  var n = parseFloat(v);
+  return isNaN(n) ? null : n;
+}
+
 function _detectColTypes(headers, data) {
   var catCols = [], numCols = [];
   headers.forEach(function(h) {
     var n = 0, t = 0;
     for (var i = 0; i < Math.min(data.length, 50); i++) {
       var v = data[i][h];
-      if (v !== '' && v != null) { t++; if (!isNaN(parseFloat(v))) n++; }
+      if (v !== '' && v != null) { t++; if (_numeroAnalisis(v) !== null) n++; }
     }
     if (t > 0 && n / t >= 0.8) numCols.push(h);
     else catCols.push(h);
@@ -753,7 +759,7 @@ function runSingleStat(nombre) {
       var val = data.data[i][data.headers[j]];
       if (val !== '' && val != null) {
         total++;
-        if (!isNaN(parseFloat(val))) numCount++;
+        if (_numeroAnalisis(val) !== null) numCount++;
       }
     }
     if (total > 0 && numCount / total >= 0.8) {
@@ -916,7 +922,7 @@ function runBatchAnalysis() {
       var val = data.data[i][data.headers[j]];
       if (val !== '' && val != null) {
         total++;
-        if (!isNaN(parseFloat(val))) numCount++;
+        if (_numeroAnalisis(val) !== null) numCount++;
       }
     }
     if (total > 0 && numCount / total >= 0.8) {

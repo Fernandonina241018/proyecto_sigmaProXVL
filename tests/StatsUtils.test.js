@@ -90,6 +90,19 @@ describe('getNumericColumns caché (LOTE C)', () => {
 });
 
 describe('fase 2 — imputación y varianza', () => {
+  test('getNumericValues acepta punto y coma decimal y cuenta exclusiones', () => {
+    S.clearExclusionesParseo();
+    const d = { headers: ['x'], data: [['2.5'], ['2,0'], ['1e3'], ['12abc'], ['']] };
+    expect(S.getNumericValues(d, 'x')).toEqual([2.5, 2, 1000]);
+    expect(S.getExclusionesParseo()).toBe(1);
+  });
+
+  test('imputeColumn interpreta coma decimal', () => {
+    const d = { headers: ['x'], data: [['2,5'], ['3,5'], ['']] };
+    S.imputeColumn(d, 'x', 'mediana');
+    expect(d.data[2][0]).toBe(3);
+  });
+
   test('imputeColumn usa la mediana cuando se pide', () => {
     const d = { headers: ['x'], data: [[1], [2], [100], ['']] };
     S.imputeColumn(d, 'x', 'mediana');
@@ -116,10 +129,15 @@ describe('fase 2 — imputación y varianza', () => {
 });
 
 describe('fase 3 — parseo estricto e imputación trazable', () => {
-  test('parseNumeric rechaza texto parcial y coma decimal', () => {
+  test('parseNumeric acepta punto y coma decimal, y rechaza texto parcial', () => {
     expect(S.parseNumeric('12abc')).toBe(null);
-    expect(S.parseNumeric('2,5')).toBe(null);
-    expect(S.parseNumeric('1,234')).toBe(null);
+    expect(S.parseNumeric('2.5')).toBe(2.5);
+    expect(S.parseNumeric('2,5')).toBe(2.5);
+    expect(S.parseNumeric('2,0')).toBe(2);
+    expect(S.parseNumeric('0,500')).toBe(0.5);
+    expect(S.parseNumeric('1234,567')).toBe(1234.567);
+    expect(S.parseNumeric('1.234,5')).toBe(null);
+    expect(S.parseNumeric('1,234.5')).toBe(null);
     expect(S.parseNumeric('0x10')).toBe(null);
     expect(S.parseNumeric(Infinity)).toBe(null);
     expect(S.parseNumeric(' 4 ')).toBe(4);
@@ -127,11 +145,17 @@ describe('fase 3 — parseo estricto e imputación trazable', () => {
     expect(S.parseNumeric('.5')).toBe(0.5);
   });
 
+  test('coma con tres dígitos es ambigua: se excluye, no se adivina', () => {
+    ['1,000', '2,000', '12,345', '1,234,567'].forEach((v) => expect(S.parseNumeric(v)).toBe(null));
+    expect(S.parseNumeric('1,0000')).toBe(1);
+    expect(S.parseNumeric('1,00')).toBe(1);
+  });
+
   test('getNumericValues excluye y cuenta valores inválidos', () => {
     S.clearExclusionesParseo();
-    const d = { headers: ['x'], data: [['12abc'], ['2.5'], [''], ['Infinity']] };
+    const d = { headers: ['x'], data: [['12abc'], ['2.5'], [''], ['Infinity'], ['1,000']] };
     expect(S.getNumericValues(d, 'x')).toEqual([2.5]);
-    expect(S.getExclusionesParseo()).toBe(2);
+    expect(S.getExclusionesParseo()).toBe(3);
   });
 
   test('imputeColumn devuelve la traza de lo imputado', () => {
