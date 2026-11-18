@@ -90,6 +90,28 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (StatAnalyzer Pro) co
 
 ## CAMBIOS RECIENTES
 
+### 2026-11-18 (309): Control documental — cita Part 58, extractor y alcance Part 11
+
+**Qué:** tres correcciones de control documental de la auditoría FDA.
+- **Cita normativa (ALM-OQ-001):** calibración de instrumentos citaba `21 CFR Part 58` (GLP, estudios no clínicos). Se reemplaza por `21 CFR 211.160(b); 21 CFR 211.68; 21 CFR Parte 11`, ya alineado con ISO/IEC 17025 y OMS TRS 1010.
+- **Extractor duplicado:** `scripts/extraer-banco-almacenes.mjs` no leía `data-analisis`, `data-criticidad`, `data-prerrequisitos` ni `data-instrumentos`. Regenerar el banco con él borraba en silencio el flag de análisis de ALM-OQ-003, ALM-PQ-003 y ALM-PQ-004. Se elimina y queda `node scripts/extraer-banco.mjs almacenes` como única vía.
+- **Alcance de Part 11 en README:** el texto decía «cumplimiento FDA 21 CFR Part 11» sin límites. Ahora aclara que aplica a los reportes firmados electrónicamente y que los protocolos IQ/OQ/PQ van en papel hasta la Fase 3.
+
+**Archivos afectados:**
+| Archivo | Cambio |
+|---------|--------|
+| `docs/banco-ensayos/almacenes.html` | Referencia de ALM-OQ-001 |
+| `js/core/banco-almacenes-data.js` | Regenerado con `extraer-banco.mjs` (solo la cita) |
+| `scripts/extraer-banco-almacenes.mjs` | **Eliminado** (duplicado con pérdida de atributos) |
+| `scripts/extraer-banco.mjs` | Comentario de cabecera sin la referencia al duplicado |
+| `README.md` | Alcance de Part 11 |
+
+**Verificación:**
+```
+npm run preflight → protocolo:check OK, urs-ar:check OK, Vitest 1189, backend, E2E 14
+extraer-banco.mjs almacenes → 43 artículos, 43 IDs únicos
+```
+
 ### 2026-11-17 (308): Nota al analista + reporte de contenido del banco
 
 **Qué:** el protocolo cierra con una nota de traspaso y el banco tiene un reporte de contenido real.

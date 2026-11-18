@@ -1,6 +1,6 @@
 // Extrae un banco de ensayos HTML a js/core/banco-<cat>-data.js.
-// Misma lógica que scripts/extraer-banco-almacenes.mjs, parametrizada por categoría,
-// y además lleva al JSON `tablaModelo` (data-tabla-modelo) y `tablaTipo` (data-tabla-tipo).
+// Cubre las cuatro categorías; además lleva al JSON `tablaModelo`
+// (data-tabla-modelo) y `tablaTipo` (data-tabla-tipo).
 // Uso: node scripts/extraer-banco.mjs equipos [--estricto]
 //   --estricto: además falla si quedan campos vacíos "[ ]" en ensayos de bloques 2-3.
 // Validaciones (2026-10-05): IDs únicos en todo el banco, fases esperadas por archivo,

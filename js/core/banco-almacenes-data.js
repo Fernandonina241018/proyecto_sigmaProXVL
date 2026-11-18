@@ -1023,7 +1023,7 @@ var BancoAlmacenes = {
      },
      {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>OMS TRS 1010 Anexo 7; ISO/IEC 17025; PDA TR-64; 21 CFR Part 58."
+      "html": "<strong>Referencia:</strong><br>OMS TRS 1010 Anexo 7; ISO/IEC 17025; PDA TR-64; 21 CFR 211.160(b); 21 CFR 211.68; 21 CFR Parte 11."
      }
     ],
     "tabla": null
