@@ -9,8 +9,20 @@ const require = createRequire(import.meta.url);
 const B = require('../js/core/banco-equipos-data.js');
 const strict = process.argv.includes('--strict');
 
-const texto = (e) => (e.secciones || []).map((s) => s.html).join(' ')
-  .replace(/<[^>]+>/g, ' ').replace(/&nbsp;/g, ' ').replace(/\s+/g, ' ').trim();
+// Sin regex de etiquetas: CodeQL marca el strip con `[^>]+` como sanitización
+// incompleta, y aquí no se sanitiza nada (el HTML es del repo, no del usuario).
+function textoPlano(html) {
+  let out = '';
+  for (let i = 0; i < html.length;) {
+    const abre = html.indexOf('<', i);
+    if (abre < 0) { out += html.slice(i); break; }
+    out += html.slice(i, abre);
+    const cierra = html.indexOf('>', abre);
+    if (cierra < 0) break;
+    i = cierra + 1;
+  }
+  return out;
+}
 const seccion = (e, prefijo) => (e.secciones || []).find((s) => s.et.startsWith(prefijo));
 const pasos = (e) => {
   const s = seccion(e, 'Procedimiento');
@@ -19,15 +31,15 @@ const pasos = (e) => {
 const PENDIENTE = /pendiente|por definir|por evaluar/i;
 
 const checks = {
-  objetivo: (e) => (seccion(e, 'Objetivo')?.html || '').replace(/<[^>]+>/g, '').trim().length > 40,
+  objetivo: (e) => textoPlano(seccion(e, 'Objetivo')?.html || '').trim().length > 40,
   procedimiento: (e) => pasos(e) >= 3,
   criterio: (e) => {
     const s = seccion(e, 'Criterio');
-    return Boolean(s) && !PENDIENTE.test(s.html) && s.html.replace(/<[^>]+>/g, '').trim().length > 30;
+    return Boolean(s) && !PENDIENTE.test(s.html) && textoPlano(s.html).trim().length > 30;
   },
   referencia: (e) => {
     const s = seccion(e, 'Referencia');
-    return Boolean(s) && !PENDIENTE.test(s.html) && s.html.replace(/<[^>]+>/g, '').trim().length > 15;
+    return Boolean(s) && !PENDIENTE.test(s.html) && textoPlano(s.html).trim().length > 15;
   },
   plan: (e) => e.analisis !== 'si' || Boolean(seccion(e, 'Plan estadístico')),
   criticidad: (e) => Boolean(String(e.criticidad || '').trim()),
