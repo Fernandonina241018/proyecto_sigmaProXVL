@@ -96,14 +96,17 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (StatAnalyzer Pro) co
 - **NOTA AL ANALISTA:** cuarto bloque fijo (`fijo:'nota'`) al final de cada protocolo. Lista qué completa el analista (equipo, fechas, instrumentos con calibración, crudos, desvíos, firmas) y fija que los criterios, límites y plan estadístico **no se redefinen después de ver los datos**; un criterio inaplicable exige desviación, no «No Aplica» sin aprobación.
 - **`npm run banco:check`:** reporta por familia cuántos ensayos traen objetivo, procedimiento, criterio, referencia, plan estadístico (si `analisis:"si"`), criticidad e instrumentos. Reporte, no bloqueo; `--strict` devuelve código 1. Corre en `preflight`.
 
-**Estado medido (1064 ensayos de bloques 2-3, 42 familias):**
+**Estado medido (1392 ensayos de bloques 2-3, 4 bancos, 55 grupos):**
 ```
-completos: 0/1064
-falta criticidad: 1064      falta instrumentos: 1064
-falta plan: 161 (15 %)      falta procedimiento: 29
-falta criterio: 20          falta referencia: 8
-criterio con valor numérico: 141/1064 (13 %)
+completos: 0/1392
+falta criticidad: 1392      falta instrumentos: 1392
+falta plan: 190 (14 %)      falta criterio: 29
+criterio con valor numérico: 187/1392 (13 %)
 ```
+Corrección de criterios del reporte: «falta procedimiento» y «falta referencia»
+daban falsos positivos por contar pasos y longitud; ahora detectan sección
+ausente o marcador `PENDIENTE`. La cobertura pasó de equipos (1064) a los
+cuatro bancos (1392), que es el número real del banco de ensayos.
 
 **Archivos afectados:**
 | Archivo | Cambio |
@@ -117,7 +120,7 @@ criterio con valor numérico: 141/1064 (13 %)
 **Verificación:**
 ```
 Vitest completo → 1186 tests OK
-banco:check → 0/1064 completos; falta criticidad 1064, instrumentos 1064, plan 161
+banco:check → 0/1392 completos; falta criticidad 1392, instrumentos 1392, plan 190
 ```
 
 ### 2026-11-17 (307): URS + AR de sistemas + linter de dependencias
