@@ -38,6 +38,7 @@ const checks = {
   procedimiento: (e) => cuerpo(e, 'Procedimiento').length > 30,
   criterio: (e) => cuerpo(e, 'Criterio').length > 30 && !PENDIENTE.test(cuerpo(e, 'Criterio')),
   referencia: (e) => cuerpo(e, 'Referencia').length > 8 && !PENDIENTE.test(cuerpo(e, 'Referencia')),
+  entregables: (e) => cuerpo(e, 'Documentos entregables').length > 10,
   plan: (e) => e.analisis !== 'si' || cuerpo(e, 'Plan estadístico').length > 30,
   criticidad: (e) => Boolean(String(e.criticidad || '').trim()),
   instrumentos: (e) => Boolean(String(e.instrumentos || '').trim()),
@@ -49,6 +50,7 @@ const fallas = Object.fromEntries(Object.keys(checks).map((k) => [k, 0]));
 let total = 0;
 let completos = 0;
 let conNumero = 0;
+const criterios = [];
 
 for (const [banco, B] of BANCOS) {
   const ensayos = Object.entries(B.fases || {})
@@ -69,18 +71,20 @@ for (const [banco, B] of BANCOS) {
     completos += ok;
     total += xs.length;
     conNumero += xs.filter((e) => /\d/.test(cuerpo(e, 'Criterio'))).length;
+    for (const e of xs) criterios.push({ id: e.id, fam, texto: cuerpo(e, 'Criterio').toLowerCase().replace(/\s+/g, ' ') });
     filas.push({ fam, total: xs.length, completos: ok, faltan });
   }
 }
 
 console.log('banco:check — contenido mínimo por ensayo (reporte, no bloquea)\n');
-console.log('familia'.padEnd(30), 'ensayos', 'completos', 'objet', 'proc', 'crit', 'ref', 'plan', 'critic', 'instr');
+console.log('familia'.padEnd(30), 'ensayos', 'completos', 'objet', 'proc', 'crit', 'ref', 'entr', 'plan', 'critic', 'instr');
 for (const f of filas.sort((a, b) => a.completos / a.total - b.completos / b.total)) {
   console.log(
     f.fam.padEnd(30),
     String(f.total).padStart(7), String(f.completos).padStart(9),
     String(f.faltan.objetivo).padStart(5), String(f.faltan.procedimiento).padStart(4),
     String(f.faltan.criterio).padStart(4), String(f.faltan.referencia).padStart(3),
+    String(f.faltan.entregables).padStart(4),
     String(f.faltan.plan).padStart(4), String(f.faltan.criticidad).padStart(6),
     String(f.faltan.instrumentos).padStart(5),
   );
@@ -88,6 +92,19 @@ for (const f of filas.sort((a, b) => a.completos / a.total - b.completos / b.tot
 console.log(`\ntotal: ${total} ensayos · ${completos} completos (${pct(completos, total)} %) · ${filas.length} grupos`);
 for (const [k, n] of Object.entries(fallas)) if (n) console.log(`  falta ${k}: ${n} (${pct(n, total)} %)`);
 console.log(`  criterio con valor numérico: ${conNumero}/${total} (${pct(conNumero, total)} %)`);
+
+// El esqueleto se comparte; el criterio debe ser de cada ensayo.
+const grupos = new Map();
+for (const c of criterios) {
+  if (!grupos.has(c.texto)) grupos.set(c.texto, []);
+  grupos.get(c.texto).push(c);
+}
+const clonados = [...grupos.values()].filter((g) => g.length > 1).sort((a, b) => b.length - a.length);
+const afectados = clonados.reduce((s, g) => s + g.length, 0);
+console.log(`  criterio clonado: ${afectados} ensayos en ${clonados.length} grupos`);
+for (const g of clonados.slice(0, 3)) {
+  console.log(`    ${g.length}x ${g.slice(0, 4).map((c) => c.id).join(', ')}${g.length > 4 ? ' …' : ''} — ${g[0].texto.slice(0, 60)}`);
+}
 
 if (!total) {
   console.error('\nbanco:check FALLÓ: no se encontraron ensayos (¿cambió la forma de los bancos?).');

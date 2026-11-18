@@ -100,10 +100,43 @@ Cada sistema tiene un par `urs-<sistema>.html` + `ar-<sistema>.html` (HVAC, agua
 
 - **Dependencias declaradas:** toda fila de requisito o riesgo tiene columna «Depende de» y atributo `data-depende`; el valor debe ser un ID URS/AR, un ensayo existente del protocolo o un documento declarado en el §3 de la URS. El linter falla si una dependencia no se declara o no resuelve.
 - **Trazabilidad:** cada requisito cita en `data-verifica` el ensayo IQ/OQ/PQ que lo demuestra; el AR reutiliza esa misma verificación.
-- **Firmas:** autor, revisor de proceso, revisor de calidad y aprobador. El alcance de revisión (`data-revisa`) debe cubrir todos los ensayos citados; el aprobador no firma con riesgos POR EVALUAR.
+- **Firmas:** dos. El responsable del área firma la conformidad con el protocolo completo en la página 2 (el área varía según el sistema) y el aprobador firma la emisión. Entre ambos deben cubrir todos los ensayos citados (`data-revisa`); ninguno firma con riesgos POR EVALUAR.
 - **Generación y validación:** `npm run urs:gen` regenera los ocho documentos desde `scripts/generar-urs-ar-sistemas.mjs`; `npm run urs:check` valida y corre en `npm run preflight`.
 
 Los valores numéricos, la calificación S/P/D y la aprobación quedan `PENDIENTE DEL RESPONSABLE`; el banco no los infiere.
+
+### 5.4 Estándar de ensayo — esqueleto común, criterio individual
+
+Todo ensayo de bloques 2-3 usa las mismas seis secciones, en este orden:
+
+| Sección | Contenido mínimo |
+|---|---|
+| Objetivo | Qué se demuestra y para qué decisión de la calificación |
+| Procedimiento | Pasos numerados y ejecutables, con registro y manejo de desviaciones |
+| Plan estadístico | Obligatorio si `data-analisis="si"`: variable, unidad, n, método y regla de decisión |
+| Criterios de aceptación | Valor + unidad + regla C/NC + fuente versionada |
+| Documentos entregables | La evidencia que queda en el expediente |
+| Referencia | Norma o URS con versión; «manual del fabricante» solo no basta |
+
+**El esqueleto se comparte; el criterio no.** Cada ensayo aporta a la calificación de forma distinta, así que su criterio debe ser propio: valor, unidad, regla de decisión y fuente. Un criterio idéntico al de otra familia es un hallazgo salvo que la justificación del ensayo explique por qué el riesgo es el mismo. Hoy hay **377 ensayos en 152 grupos clonados** (el peor: 8 ensayos de familias distintas) y solo **187 de 1392 criterios contienen un número**.
+
+**Plan por tipo de dato** (el plan genérico «variable = la magnitud medida» no se acepta):
+
+| Tipo | Métodos admitidos |
+|---|---|
+| Variable continua | media, DE, RSD, IC 95 %, ANOVA o modelo mixto, cartas de control |
+| Recuento microbiológico | log10, media geométrica, Kruskal-Wallis o modelo mixto; Grubbs solo sobre log y con n ≥ 7 |
+| Atributo / pasa-no pasa | proporción, IC binomial exacto, criterio de cero fallas |
+| Analítico (TOC, endotoxinas) | comparación contra especificación, log para endotoxinas, LOD/LOQ |
+
+**Reglas de redacción del criterio:**
+
+- No se acepta «deberá estar justificado», «con base en datos» ni «según criterio del responsable»: describen una expectativa, no un límite.
+- Si el límite se decide al ejecutar, el ensayo no está listo; la nota al analista lo declara como pendiente.
+- Todo límite tomado de una norma cita norma y versión (`USP <1231>`, ISO 8573-1, EN 285, ICH Q1A).
+- Una frecuencia o criticidad propuesta por un ensayo es provisional hasta que el monitoreo posterior la confirme.
+
+**Verificación:** `npm run banco:check` reporta, por familia, secciones ausentes, criterios sin valor numérico y grupos de criterios clonados.
 
 ## 6. Criterios de aceptación
 
