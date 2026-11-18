@@ -2,6 +2,8 @@
 
 SPA de análisis estadístico con cumplimiento FDA 21 CFR Part 11. Backend Node.js/Express + ML Service FastAPI.
 
+Alcance de Part 11: aplica a los **reportes firmados electrónicamente**. Los protocolos IQ/OQ/PQ se generan como borrador y se firman en papel hasta la Fase 3 (firma electrónica de protocolos).
+
 ## Fase 0 (2026-06-25)
 - ✅ **2FA (TOTP)** — Autenticación de dos factores
 - ✅ **WORM** — Preservación de datos originales (snapshots inmutables)
