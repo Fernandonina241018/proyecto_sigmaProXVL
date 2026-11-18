@@ -1,7 +1,7 @@
 // Generado por scripts/extraer-banco.mjs sistemas — NO EDITAR A MANO.
-// Fuente: docs/banco-ensayos/sistemas/iq-agua-purificada.html + docs/banco-ensayos/sistemas/iq-hvac.html + docs/banco-ensayos/sistemas/iq-vapor-limpio.html + docs/banco-ensayos/sistemas/iq-aire-comprimido.html + docs/banco-ensayos/sistemas/oq-agua-purificada.html + docs/banco-ensayos/sistemas/pq-agua-purificada.html + docs/banco-ensayos/sistemas/oq-hvac.html + docs/banco-ensayos/sistemas/pq-hvac.html + docs/banco-ensayos/sistemas/oq-vapor-limpio.html + docs/banco-ensayos/sistemas/pq-vapor-limpio.html + docs/banco-ensayos/sistemas/oq-aire-comprimido.html + docs/banco-ensayos/sistemas/pq-aire-comprimido.html (versión: SIS-IQ-AP 2026-10-24 v1 + SIS-IQ-HV 2026-10-24 v1 + SIS-IQ-VL 2026-10-24 v1 + SIS-IQ-AC 2026-10-24 v1 + SIS-OQ-AP 2026-10-14 v1 + SIS-PQ-AP 2026-10-14 v1 + SIS-OQ-HV 2026-10-14 v1 + SIS-PQ-HV 2026-10-14 v1 + SIS-OQ-VL 2026-10-14 v1 + SIS-PQ-VL 2026-10-14 v1 + SIS-OQ-AC 2026-10-15 v1 + SIS-PQ-AC 2026-10-15 v1).
+// Fuente: docs/banco-ensayos/sistemas/iq-agua-purificada.html + docs/banco-ensayos/sistemas/iq-hvac.html + docs/banco-ensayos/sistemas/iq-vapor-limpio.html + docs/banco-ensayos/sistemas/iq-aire-comprimido.html + docs/banco-ensayos/sistemas/oq-agua-purificada.html + docs/banco-ensayos/sistemas/pq-agua-purificada.html + docs/banco-ensayos/sistemas/oq-hvac.html + docs/banco-ensayos/sistemas/pq-hvac.html + docs/banco-ensayos/sistemas/oq-vapor-limpio.html + docs/banco-ensayos/sistemas/pq-vapor-limpio.html + docs/banco-ensayos/sistemas/oq-aire-comprimido.html + docs/banco-ensayos/sistemas/pq-aire-comprimido.html (versión: SIS-IQ-AP 2026-10-24 v1 + SIS-IQ-HV 2026-10-24 v1 + SIS-IQ-VL 2026-10-24 v1 + SIS-IQ-AC 2026-10-24 v1 + SIS-OQ-AP 2026-10-14 v1 + SIS-PQ-AP 2026-11-18 v2 + SIS-OQ-HV 2026-10-14 v1 + SIS-PQ-HV 2026-10-14 v1 + SIS-OQ-VL 2026-10-14 v1 + SIS-PQ-VL 2026-10-14 v1 + SIS-OQ-AC 2026-10-15 v1 + SIS-PQ-AC 2026-10-15 v1).
 var BancoSistemas = {
- "version": "SIS-IQ-AP 2026-10-24 v1 + SIS-IQ-HV 2026-10-24 v1 + SIS-IQ-VL 2026-10-24 v1 + SIS-IQ-AC 2026-10-24 v1 + SIS-OQ-AP 2026-10-14 v1 + SIS-PQ-AP 2026-10-14 v1 + SIS-OQ-HV 2026-10-14 v1 + SIS-PQ-HV 2026-10-14 v1 + SIS-OQ-VL 2026-10-14 v1 + SIS-PQ-VL 2026-10-14 v1 + SIS-OQ-AC 2026-10-15 v1 + SIS-PQ-AC 2026-10-15 v1",
+ "version": "SIS-IQ-AP 2026-10-24 v1 + SIS-IQ-HV 2026-10-24 v1 + SIS-IQ-VL 2026-10-24 v1 + SIS-IQ-AC 2026-10-24 v1 + SIS-OQ-AP 2026-10-14 v1 + SIS-PQ-AP 2026-11-18 v2 + SIS-OQ-HV 2026-10-14 v1 + SIS-PQ-HV 2026-10-14 v1 + SIS-OQ-VL 2026-10-14 v1 + SIS-PQ-VL 2026-10-14 v1 + SIS-OQ-AC 2026-10-15 v1 + SIS-PQ-AC 2026-10-15 v1",
  "fases": {
   "IQ": [
    {
@@ -6319,27 +6319,27 @@ var BancoSistemas = {
     "secciones": [
      {
       "et": "Objetivo",
-      "html": "<strong>Objetivo:</strong><br>Desarrollar el sistema con muestreo diario de todos los puntos para conductividad, TOC y microbiología."
+      "html": "<strong>Objetivo:</strong><br>Demostrar con muestreo diario de todos los puntos que el sistema produce agua conforme en la Fase 1 y establecer la línea base de alerta y acción."
      },
      {
       "et": "Procedimiento",
-      "html": "<strong>Procedimiento:</strong><br>\n  1) Muestrear a diario todos los puntos del loops y de uso: conductividad, TOC y microbiología<br>\n  2) Muestrear el pretratamiento con frecuencia menor pero regular<br>\n  3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Muestrear a diario todos los puntos del loop y de uso: conductividad, TOC y microbiología<br>\n  2) Muestrear el pretratamiento con frecuencia menor pero regular<br>\n  3) Registrar cada muestra con punto, fecha, hora, instrumento y analista<br>\n  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
      },
      {
       "et": "Plan estadístico",
-      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+      "html": "<strong>Plan estadístico:</strong><br>Cobertura y línea base. Variable = conductividad (µS/cm), TOC (ppb) y recuento microbiano (UFC/mL o UFC/100 mL) por punto. n = todos los días de la Fase 1 (14 a 28 días) por cada punto. Cobertura = muestras válidas / muestras programadas con IC 95 % binomial exacto. Por parámetro y punto: media, DE, RSD, mínimo, máximo e IC 95 %. Línea de alerta = media + 2 DE de la Fase 1; línea de acción = límite farmacopeico. Tendencia = regresión lineal contra día. Sin exclusión de datos sin investigación documentada."
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Cobertura diaria completa durante la Fase 1 (de 2 a 4 semanas)."
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Cobertura del 100 % de los puntos programados durante 14 a 28 días.<br>\n  0 días sin cobertura y 0 resultados por encima del límite de acción."
      },
      {
       "et": "Documentos entregables",
-      "html": "<strong>Documentos entregables:</strong><br>\n  - Registros diarios con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de Fase 1"
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registros diarios con data cruda y reporte<br>\n  - Data cruda y reporte estadístico de la línea base de Fase 1"
      },
      {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>URS aprobada (rangos y criterios)."
+      "html": "<strong>Referencia:</strong><br>URS aprobada; USP &lt;1231&gt; (validación del sistema y niveles de alerta y acción)."
      }
     ],
     "tabla": null,
@@ -6355,27 +6355,27 @@ var BancoSistemas = {
     "secciones": [
      {
       "et": "Objetivo",
-      "html": "<strong>Objetivo:</strong><br>Mantener el agua sin liberar para producto, o con estricta restricción, durante la Fase 1."
+      "html": "<strong>Objetivo:</strong><br>Demostrar que el agua no se libera para producto, o se usa solo con restricción documentada, durante la Fase 1."
      },
      {
       "et": "Procedimiento",
-      "html": "<strong>Procedimiento:</strong><br>\n  1) Aplicar la restricción de uso definida<br>\n  2) Registrar las liberaciones restringidas si las hay<br>\n  3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Aplicar la restricción de uso definida<br>\n  2) Registrar cada autorización de uso restringido con responsable, fecha y justificación<br>\n  3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
      },
      {
       "et": "Plan estadístico",
-      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+      "html": "<strong>Plan estadístico:</strong><br>Estudio de atributo. Variable = uso liberado (sí/no) y autorización documentada (sí/no). n = todos los eventos de uso de la Fase 1. Proporción de usos restringidos con autorización con IC 95 % binomial exacto; criterio de cero liberaciones no autorizadas."
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Sin liberación para producto, o restricción documentada."
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  0 liberaciones a producto durante la Fase 1.<br>\n  100 % de los usos restringidos con autorización documentada."
      },
      {
       "et": "Documentos entregables",
-      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de restricción con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de restricción"
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de restricción con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del uso restringido"
      },
      {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>Manual del fabricante del sistema."
+      "html": "<strong>Referencia:</strong><br>URS aprobada; EU GMP Anexo 15."
      }
     ],
     "tabla": null,
@@ -6391,27 +6391,31 @@ var BancoSistemas = {
     "secciones": [
      {
       "et": "Objetivo",
-      "html": "<strong>Objetivo:</strong><br>Confirmar caudales, temperaturas, sanitizaciones y SOPs con los datos de la Fase 1."
+      "html": "<strong>Objetivo:</strong><br>Confirmar con los datos de la Fase 1 que caudales, temperaturas, sanitizaciones y SOPs operan dentro del diseño."
      },
      {
       "et": "Procedimiento",
-      "html": "<strong>Procedimiento:</strong><br>\n  1) Confirmar caudales y temperaturas contra lo definido<br>\n  2) Confirmar sanitizaciones ejecutadas y SOPs aplicables<br>\n  3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Registrar caudal y temperatura de recirculación por turno<br>\n  2) Registrar cada sanitización con fecha, temperatura o concentración, duración y puntos alcanzados<br>\n  3) Confirmar los SOPs aplicados<br>\n  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
      },
      {
       "et": "Plan estadístico",
-      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+      "html": "<strong>Plan estadístico:</strong><br>Variables continuas (caudal m³/h, velocidad m/s, temperatura °C, duración min) y atributos (sanitización ejecutada sí/no). n = registros por turno de la Fase 1. Por variable: media, DE, mínimo, máximo e IC 95 %; comparación contra el valor de diseño de la URS con prueba t de una muestra o intervalo de confianza. Sanitizaciones: proporción ejecutada / programada con IC 95 % binomial exacto."
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Parámetros confirmados con datos."
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Caudal y velocidad ≥ <span class=\"por-confirmar\">el valor de diseño de la URS (referencia 1,5 m/s)</span>.<br>\n  Temperatura de sanitización ≥ <span class=\"por-confirmar\">80 °C durante ≥ 60 min</span>.<br>\n  100 % de las sanitizaciones registradas y 0 parámetros fuera de diseño."
      },
      {
       "et": "Documentos entregables",
-      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de confirmación con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de parámetros"
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de confirmación con data cruda y reporte<br>\n  - Data cruda y reporte estadístico de parámetros de operación"
+     },
+     {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>Los valores en rojo son referencias de diseño y quedan pendientes de confirmación contra la URS y el manual del fabricante antes de firmar el protocolo."
      },
      {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>Manual del fabricante del sistema."
+      "html": "<strong>Referencia:</strong><br>URS aprobada; manual del fabricante; USP &lt;1231&gt;."
      }
     ],
     "tabla": null,
@@ -6427,27 +6431,31 @@ var BancoSistemas = {
     "secciones": [
      {
       "et": "Objetivo",
-      "html": "<strong>Objetivo:</strong><br>Definir los puntos críticos y las frecuencias de sanitización con base en los datos."
+      "html": "<strong>Objetivo:</strong><br>Definir con los datos de la Fase 1 los puntos críticos y la frecuencia de sanitización que sostiene el control."
      },
      {
       "et": "Procedimiento",
-      "html": "<strong>Procedimiento:</strong><br>\n  1) Analizar los datos de la Fase 1<br>\n  2) Definir puntos críticos y frecuencias de sanitización<br>\n  3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Analizar por punto la frecuencia y magnitud de las excursiones de Fase 1<br>\n  2) Identificar los puntos críticos y proponer la frecuencia de sanitización<br>\n  3) Documentar la justificación con los datos y aprobarla antes de ejecutar<br>\n  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
      },
      {
       "et": "Plan estadístico",
-      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+      "html": "<strong>Plan estadístico:</strong><br>Estudio de conteo por punto. Variable = número de excursiones por punto y por intervalo entre sanitizaciones. n = intervalos observados en la Fase 1. Tasa de excursiones por 100 muestras con IC 95 % de Poisson. Se elige la frecuencia que produce 0 excursiones en 3 ciclos consecutivos. Punto crítico = punto con tasa ≥ 2 veces la mediana del sistema."
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Puntos y frecuencias definidos con base en datos."
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Frecuencia de sanitización ≤ <span class=\"por-confirmar\">7 días</span> para PW y ≤ <span class=\"por-confirmar\">7 días</span> para WFI, o la que demuestre 0 excursiones en 3 ciclos consecutivos.<br>\n  100 % de los puntos críticos identificados y justificados con datos."
      },
      {
       "et": "Documentos entregables",
-      "html": "<strong>Documentos entregables:</strong><br>\n  - Documento de definición con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de criticidad"
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Documento de definición con data cruda y reporte<br>\n  - Data cruda y reporte estadístico de criticidad y frecuencias"
+     },
+     {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>La frecuencia en rojo es una referencia; la frecuencia final se aprueba con los datos de la Fase 1 antes de ejecutar la sanitización."
      },
      {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>Manual del fabricante del sistema."
+      "html": "<strong>Referencia:</strong><br>USP &lt;1231&gt;; URS aprobada."
      }
     ],
     "tabla": null,
@@ -6463,7 +6471,7 @@ var BancoSistemas = {
     "secciones": [
      {
       "et": "Objetivo",
-      "html": "<strong>Objetivo:</strong><br>Demostrar control con monitoreo continuo a frecuencia reducida, con todos los puntos incluidos."
+      "html": "<strong>Objetivo:</strong><br>Demostrar control con monitoreo continuo a frecuencia reducida y todos los puntos incluidos."
      },
      {
       "et": "Procedimiento",
@@ -6471,19 +6479,19 @@ var BancoSistemas = {
      },
      {
       "et": "Plan estadístico",
-      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+      "html": "<strong>Plan estadístico:</strong><br>Cobertura y comparación con la línea base. Variable = conductividad, TOC y recuento microbiano por punto. n = todas las muestras de la Fase 2 (14 a 28 días). Cobertura semanal con IC 95 % binomial exacto. Comparación de medias contra la Fase 1 con prueba t o Mann-Whitney; tendencia con regresión lineal."
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Cobertura total durante la Fase 2 (de 2 a 4 semanas)."
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  100 % de los puntos muestreados en cada semana de la Fase 2.<br>\n  Máximo 1 muestra omitida por punto con justificación documentada.<br>\n  0 resultados por encima del límite de acción."
      },
      {
       "et": "Documentos entregables",
-      "html": "<strong>Documentos entregables:</strong><br>\n  - Registros con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de Fase 2"
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registros con data cruda y reporte<br>\n  - Data cruda y reporte estadístico de la Fase 2"
      },
      {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>URS aprobada (rangos y criterios)."
+      "html": "<strong>Referencia:</strong><br>URS aprobada; USP &lt;1231&gt;."
      }
     ],
     "tabla": null,
@@ -6499,27 +6507,31 @@ var BancoSistemas = {
     "secciones": [
      {
       "et": "Objetivo",
-      "html": "<strong>Objetivo:</strong><br>Verificar que no hay excursiones de límite de acción, o que cada una está investigada y cerrada."
+      "html": "<strong>Objetivo:</strong><br>Verificar que no quedan excursiones de límite de acción abiertas al cierre de la Fase 2."
      },
      {
       "et": "Procedimiento",
-      "html": "<strong>Procedimiento:</strong><br>\n  1) Revisar los límites de acción en toda la Fase 2<br>\n  2) Investigar y cerrar cada excursión<br>\n  3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Revisar los límites de acción en toda la Fase 2<br>\n  2) Investigar y cerrar cada excursión con causa y disposición<br>\n  3) Registrar el tiempo de cierre de cada evento<br>\n  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
      },
      {
       "et": "Plan estadístico",
-      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+      "html": "<strong>Plan estadístico:</strong><br>Estudio de conteo. Variable = número de excursiones de límite de acción. n = todas las muestras de la Fase 2. Tasa por 100 muestras con IC 95 % de Poisson; tiempo a cierre en días (mediana, mínimo, máximo); proporción cerrada con IC 95 % binomial exacto."
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Sin excursiones abiertas al cierre de la Fase 2."
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  0 excursiones de límite de acción abiertas al cierre de la Fase 2.<br>\n  100 % investigadas y cerradas; tiempo de cierre ≤ <span class=\"por-confirmar\">30 días</span>."
      },
      {
       "et": "Documentos entregables",
-      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de excursiones con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de excursiones"
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de excursiones con data cruda y reporte<br>\n  - Data cruda y reporte estadístico de excursiones"
+     },
+     {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>El plazo en rojo es una referencia y queda pendiente de confirmación por Calidad antes de la ejecución."
      },
      {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>Manual del fabricante del sistema."
+      "html": "<strong>Referencia:</strong><br>21 CFR 211.192; URS aprobada."
      }
     ],
     "tabla": null,
@@ -6535,27 +6547,31 @@ var BancoSistemas = {
     "secciones": [
      {
       "et": "Objetivo",
-      "html": "<strong>Objetivo:</strong><br>Verificar la carga microbiana antes y después de la sanitización."
+      "html": "<strong>Objetivo:</strong><br>Verificar que cada sanitización reduce la carga microbiana de forma demostrable."
      },
      {
       "et": "Procedimiento",
-      "html": "<strong>Procedimiento:</strong><br>\n  1) Medir la carga microbiana antes de sanitizar<br>\n  2) Medir después y comparar<br>\n  3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Medir la carga microbiana antes de sanitizar en los puntos definidos<br>\n  2) Medir después de sanitizar en los mismos puntos<br>\n  3) Registrar temperatura o concentración y duración de la sanitización<br>\n  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
      },
      {
       "et": "Plan estadístico",
-      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+      "html": "<strong>Plan estadístico:</strong><br>Comparación pareada antes/después. Variable = log10 UFC/mL o log10 UFC/100 mL por punto. n ≥ 3 puntos por sanitización. Diferencia de medias en log10 con IC 95 %; prueba t pareada si Shapiro-Wilk p &gt; 0,05, si no Wilcoxon. Reducción = media antes − media después."
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Reducción conforme a lo definido."
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Reducción ≥ <span class=\"por-confirmar\">3 log10</span> tras cada sanitización, o recuento posterior ≤ <span class=\"por-confirmar\">10 UFC/100 mL</span>.<br>\n  0 puntos con aumento de carga microbiana."
      },
      {
       "et": "Documentos entregables",
-      "html": "<strong>Documentos entregables:</strong><br>\n  - Registros con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de eficacia"
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registros antes/después con data cruda y reporte<br>\n  - Data cruda y reporte estadístico de eficacia"
+     },
+     {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>La reducción objetivo y el recuento posterior en rojo quedan pendientes de confirmación contra la USP adoptada y el SOP de sanitización antes de ejecutar."
      },
      {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>Manual del fabricante del sistema."
+      "html": "<strong>Referencia:</strong><br>USP &lt;1231&gt;; SOP de sanitización."
      }
     ],
     "tabla": null,
@@ -6571,27 +6587,31 @@ var BancoSistemas = {
     "secciones": [
      {
       "et": "Objetivo",
-      "html": "<strong>Objetivo:</strong><br>Verificar conductividad, TOC y microbiología sin deriva."
+      "html": "<strong>Objetivo:</strong><br>Verificar que conductividad, TOC y microbiología no presentan deriva durante la Fase 2."
      },
      {
       "et": "Procedimiento",
-      "html": "<strong>Procedimiento:</strong><br>\n  1) Graficar la tendencia de conductividad, TOC y microbiología<br>\n  2) Verificar ausencia de deriva<br>\n  3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Graficar la tendencia de conductividad, TOC y log10 del recuento microbiano por punto<br>\n  2) Evaluar la pendiente y las reglas de carta de control<br>\n  3) Investigar toda señal de deriva antes de cerrar la fase<br>\n  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
      },
      {
       "et": "Plan estadístico",
-      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+      "html": "<strong>Plan estadístico:</strong><br>Tendencia por parámetro y punto. Variable = conductividad, TOC y log10 del recuento. n = todas las muestras de la Fase 2. Regresión lineal contra tiempo: pendiente, IC 95 % y p; sin deriva = p &gt; 0,05 y pendiente dentro de ±<span class=\"por-confirmar\">5 %</span> del valor medio por semana. Reglas de carta: 2 de 3 puntos &gt; 2 DE u 8 consecutivos al mismo lado."
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Sin deriva en los tres parámetros."
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Sin deriva estadísticamente significativa (p &gt; 0,05) en conductividad, TOC ni recuento microbiano.<br>\n  0 reglas de carta disparadas sin investigación cerrada."
      },
      {
       "et": "Documentos entregables",
-      "html": "<strong>Documentos entregables:</strong><br>\n  - Gráficos con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de tendencia"
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Gráficos con data cruda y reporte<br>\n  - Data cruda y reporte estadístico de tendencia"
+     },
+     {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>El porcentaje en rojo es una referencia de práctica y queda pendiente de confirmación por el responsable antes de ejecutar."
      },
      {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>Manual del fabricante del sistema."
+      "html": "<strong>Referencia:</strong><br>USP &lt;1231&gt;; URS aprobada."
      }
     ],
     "tabla": null,
@@ -6607,27 +6627,31 @@ var BancoSistemas = {
     "secciones": [
      {
       "et": "Objetivo",
-      "html": "<strong>Objetivo:</strong><br>Confirmar a largo plazo con la frecuencia definida, rotando los puntos de uso."
+      "html": "<strong>Objetivo:</strong><br>Confirmar a largo plazo que el sistema sostiene el desempeño con la frecuencia de rutina y la rotación de puntos."
      },
      {
       "et": "Procedimiento",
-      "html": "<strong>Procedimiento:</strong><br>\n  1) Muestrear con la frecuencia definida (por ejemplo semanal en cada punto, rotando los puntos de uso)<br>\n  2) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Muestrear con la frecuencia definida, rotando los puntos de uso<br>\n  2) Registrar cada muestra con punto, fecha, hora e instrumento<br>\n  3) Comparar la media mensual contra la línea base de la Fase 1<br>\n  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
      },
      {
       "et": "Plan estadístico",
-      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+      "html": "<strong>Plan estadístico:</strong><br>Cobertura y estabilidad a largo plazo. n = todas las muestras del ciclo de Fase 3. Cobertura por punto con IC 95 % binomial exacto. Media mensual contra la línea base de Fase 1 con prueba t o Mann-Whitney; tendencia por regresión lineal."
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Cobertura de todos los puntos durante el ciclo."
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  100 % de los puntos muestreados según la frecuencia definida (<span class=\"por-confirmar\">semanal</span> por punto, con rotación).<br>\n  0 muestras vencidas; medias mensuales dentro de ±<span class=\"por-confirmar\">2 DE</span> de la línea base."
      },
      {
       "et": "Documentos entregables",
-      "html": "<strong>Documentos entregables:</strong><br>\n  - Registros con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de Fase 3"
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registros con data cruda y reporte<br>\n  - Data cruda y reporte estadístico de la Fase 3"
+     },
+     {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>La frecuencia y el margen en rojo son referencias y quedan pendientes de confirmación por el responsable antes de ejecutar."
      },
      {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>URS aprobada (rangos y criterios)."
+      "html": "<strong>Referencia:</strong><br>USP &lt;1231&gt;; URS aprobada."
      }
     ],
     "tabla": null,
@@ -6643,27 +6667,31 @@ var BancoSistemas = {
     "secciones": [
      {
       "et": "Objetivo",
-      "html": "<strong>Objetivo:</strong><br>Cubrir los cambios en la calidad del agua de alimentación durante las cuatro estaciones."
+      "html": "<strong>Objetivo:</strong><br>Demostrar que el sistema sostiene la calidad frente a los cambios estacionales del agua de alimentación."
      },
      {
       "et": "Procedimiento",
-      "html": "<strong>Procedimiento:</strong><br>\n  1) Registrar temperatura, cloro, carga orgánica y microorganismos del agua de alimentación por estación<br>\n  2) Verificar el desempeño del sistema en cada estación<br>\n  3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Registrar temperatura, cloro, carga orgánica y microorganismos del agua de alimentación por estación<br>\n  2) Verificar el desempeño del sistema en cada estación<br>\n  3) Comparar las medias entre estaciones<br>\n  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
      },
      {
       "et": "Plan estadístico",
-      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+      "html": "<strong>Plan estadístico:</strong><br>Comparación entre estaciones. Variable = temperatura, cloro, carga orgánica y microorganismos del agua de alimentación, y desempeño del sistema. n ≥ 4 muestras por estación. ANOVA de una vía o Kruskal-Wallis según normalidad; diferencia entre estaciones con IC 95 %; umbral práctico ±<span class=\"por-confirmar\">20 %</span> en TOC y conductividad."
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Desempeño dentro de los límites en las cuatro estaciones."
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Desempeño dentro de los límites en las 4 estaciones.<br>\n  Diferencia de media entre estaciones ≤ <span class=\"por-confirmar\">20 %</span> en TOC y conductividad.<br>\n  0 excursiones microbiológicas de causa estacional sin investigación."
      },
      {
       "et": "Documentos entregables",
-      "html": "<strong>Documentos entregables:</strong><br>\n  - Registros con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis estacional"
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registros con data cruda y reporte<br>\n  - Data cruda y reporte estadístico estacional"
+     },
+     {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>El umbral en rojo es una referencia y queda pendiente de confirmación por el responsable antes de ejecutar."
      },
      {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>Manual del fabricante del sistema."
+      "html": "<strong>Referencia:</strong><br>USP &lt;1231&gt;; URS aprobada."
      }
     ],
     "tabla": null,
@@ -6679,27 +6707,27 @@ var BancoSistemas = {
     "secciones": [
      {
       "et": "Objetivo",
-      "html": "<strong>Objetivo:</strong><br>Revisar tendencias y excursiones, y ajustar los límites de alerta y acción con los datos acumulados."
+      "html": "<strong>Objetivo:</strong><br>Revisar las tendencias y excursiones acumuladas y ajustar los límites de alerta y acción con los datos."
      },
      {
       "et": "Procedimiento",
-      "html": "<strong>Procedimiento:</strong><br>\n  1) Revisar tendencias y excursiones acumuladas<br>\n  2) Ajustar los límites de alerta y acción con los datos<br>\n  3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Revisar tendencias y excursiones acumuladas de las tres fases<br>\n  2) Calcular los límites de alerta y acción con la línea base<br>\n  3) Documentar y aprobar el ajuste antes de aplicarlo<br>\n  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
      },
      {
       "et": "Plan estadístico",
-      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+      "html": "<strong>Plan estadístico:</strong><br>Ajuste de límites con datos acumulados. n = todas las muestras de las Fases 1 a 3. Límite de alerta = media + 2 DE de la línea base; límite de acción = límite farmacopeico. Proporción de resultados entre alerta y acción con IC 95 % binomial exacto; tendencia por regresión lineal."
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Límites ajustados con datos."
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Límite de alerta = media de Fase 1 + 2 DE; límite de acción = límite farmacopeico.<br>\n  100 % de los resultados por debajo del límite de acción.<br>\n  100 % de los resultados en alerta investigados y documentados."
      },
      {
       "et": "Documentos entregables",
-      "html": "<strong>Documentos entregables:</strong><br>\n  - Documento de límites con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de límites"
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Documento de límites con data cruda y reporte<br>\n  - Data cruda y reporte estadístico de límites"
      },
      {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>Manual del fabricante del sistema."
+      "html": "<strong>Referencia:</strong><br>USP &lt;1231&gt;; URS aprobada."
      }
     ],
     "tabla": null,
@@ -6715,27 +6743,31 @@ var BancoSistemas = {
     "secciones": [
      {
       "et": "Objetivo",
-      "html": "<strong>Objetivo:</strong><br>Confirmar la frecuencia de sanitización y de mantenimiento dentro de los intervalos definidos."
+      "html": "<strong>Objetivo:</strong><br>Confirmar que la sanitización y el mantenimiento se ejecutan dentro de los intervalos definidos."
      },
      {
       "et": "Procedimiento",
-      "html": "<strong>Procedimiento:</strong><br>\n  1) Verificar cambio de membranas, de lámparas UV y de filtros dentro de los intervalos<br>\n  2) Confirmar la frecuencia de sanitización<br>\n  3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Verificar el cambio de membranas, lámparas UV y filtros dentro de los intervalos<br>\n  2) Confirmar la frecuencia de sanitización<br>\n  3) Registrar cada vencimiento y su disposición<br>\n  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
      },
      {
       "et": "Plan estadístico",
-      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+      "html": "<strong>Plan estadístico:</strong><br>Estudio de atributo y de intervalo. n = todos los mantenimientos y sanitizaciones del período. Cumplimiento = ejecutados dentro del intervalo / programados, con IC 95 % binomial exacto; días de vencimiento (mediana, máximo); tendencia de presión diferencial e intensidad UV."
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Mantenimientos dentro de los intervalos definidos."
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  100 % de los mantenimientos (membranas, lámparas UV y filtros) dentro del intervalo definido (<span class=\"por-confirmar\">según manual del fabricante</span>).<br>\n  0 vencimientos y 100 % de las sanitizaciones según la frecuencia aprobada."
      },
      {
       "et": "Documentos entregables",
-      "html": "<strong>Documentos entregables:</strong><br>\n  - Registros con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de mantenimiento"
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registros con data cruda y reporte<br>\n  - Data cruda y reporte estadístico de mantenimiento"
+     },
+     {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>El intervalo en rojo queda pendiente de confirmación contra el manual del fabricante antes de ejecutar."
      },
      {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>Manual del fabricante del sistema."
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante; URS aprobada."
      }
     ],
     "tabla": null,
@@ -6751,27 +6783,31 @@ var BancoSistemas = {
     "secciones": [
      {
       "et": "Objetivo",
-      "html": "<strong>Objetivo:</strong><br>Verificar conductividad y TOC en todas las fases contra la especificación."
+      "html": "<strong>Objetivo:</strong><br>Verificar conductividad y TOC en todas las fases contra la especificación farmacopeica adoptada."
      },
      {
       "et": "Procedimiento",
-      "html": "<strong>Procedimiento:</strong><br>\n  1) Medir conductividad (USP 645 tres etapas, o la monografía que apliques)<br>\n  2) Medir TOC (referencia USP 643: 500 ppb en PW; verifica tu farmacopea y tu especificación)<br>\n  3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Medir conductividad sin compensación de temperatura (USP &lt;645&gt;, tres etapas)<br>\n  2) Medir TOC (USP &lt;643&gt;)<br>\n  3) Comparar cada resultado contra el límite de acción y registrar el instrumento usado<br>\n  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
      },
      {
       "et": "Plan estadístico",
-      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+      "html": "<strong>Plan estadístico:</strong><br>Variables continuas por punto. n = todas las muestras válidas de PW y WFI en las tres fases. Conductividad y TOC: media, DE, RSD, mínimo, máximo e IC 95 %. Tendencia por regresión contra tiempo. Límite de alerta = media de Fase 1 + 2 DE; límite de acción = <span class=\"por-confirmar\">1,3 µS/cm</span> y <span class=\"por-confirmar\">500 ppb</span>. Grubbs solo con investigación documentada."
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Dentro de la especificación adoptada."
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Conductividad ≤ <span class=\"por-confirmar\">1,3 µS/cm a 25 °C sin compensación</span> (USP &lt;645&gt;, etapa 1).<br>\n  TOC ≤ <span class=\"por-confirmar\">500 ppb (0,5 mg/L)</span> (USP &lt;643&gt;) en el 100 % de las muestras de PW y WFI."
      },
      {
       "et": "Documentos entregables",
-      "html": "<strong>Documentos entregables:</strong><br>\n  - Registros con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de conductividad y TOC"
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registros con data cruda y reporte<br>\n  - Data cruda y reporte estadístico de conductividad y TOC"
+     },
+     {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>Los valores en rojo corresponden a USP &lt;645&gt; y &lt;643&gt; y quedan pendientes de confirmación de adopción por el responsable antes de firmar; si se adopta otra farmacopea, se actualizan antes de la ejecución."
      },
      {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>USP 645 (conductividad); USP 643 (TOC); más la especificación adoptada; USP 1231 (validación del sistema y niveles de alerta y acción)."
+      "html": "<strong>Referencia:</strong><br>USP &lt;645&gt; (conductividad); USP &lt;643&gt; (TOC); USP &lt;1231&gt;."
      }
     ],
     "tabla": null,
@@ -6787,27 +6823,31 @@ var BancoSistemas = {
     "secciones": [
      {
       "et": "Objetivo",
-      "html": "<strong>Objetivo:</strong><br>Verificar el límite de acción según farmacopea y especificación."
+      "html": "<strong>Objetivo:</strong><br>Verificar que el recuento microbiano total se mantiene por debajo del límite de acción adoptado."
      },
      {
       "et": "Procedimiento",
-      "html": "<strong>Procedimiento:</strong><br>\n  1) Medir el recuento microbiano total (referencia habitual: 100 UFC por mL para PW en USP 1231, 10 UFC por 100 mL para WFI; verifica el criterio que adoptes)<br>\n  2) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Medir el recuento microbiano total por punto con el método compendial adoptado<br>\n  2) Comparar cada resultado contra el límite de acción de PW o WFI<br>\n  3) Registrar el método, el medio y el tiempo de incubación<br>\n  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
      },
      {
       "et": "Plan estadístico",
-      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+      "html": "<strong>Plan estadístico:</strong><br>Recuento microbiológico por punto. n = todas las muestras de PW y WFI. Los recuentos se transforman a log10. Por punto: media geométrica, DE de log10, mínimo, máximo e IC 95 %. Límite de acción = <span class=\"por-confirmar\">100 UFC/mL</span> (PW) o <span class=\"por-confirmar\">10 UFC/100 mL</span> (WFI). Proporción sobre el límite con IC 95 % binomial exacto; tendencia por regresión de log10. Grubbs solo sobre log10 y con n ≥ 7."
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Dentro del límite adoptado."
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  PW ≤ <span class=\"por-confirmar\">100 UFC/mL</span> y WFI ≤ <span class=\"por-confirmar\">10 UFC/100 mL</span> (límites de acción USP &lt;1231&gt;) en el 100 % de las muestras.<br>\n  0 resultados por encima del límite de acción."
      },
      {
       "et": "Documentos entregables",
-      "html": "<strong>Documentos entregables:</strong><br>\n  - Registros con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis microbiano"
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registros con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del recuento microbiano"
+     },
+     {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>Los límites en rojo corresponden a USP &lt;1231&gt; y quedan pendientes de confirmación de adopción por el responsable antes de firmar."
      },
      {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>USP 1231 (criterios microbiológicos); más la especificación adoptada."
+      "html": "<strong>Referencia:</strong><br>USP &lt;1231&gt; (criterios microbiológicos); USP &lt;61&gt; (métodos)."
      }
     ],
     "tabla": null,
@@ -6823,27 +6863,31 @@ var BancoSistemas = {
     "secciones": [
      {
       "et": "Objetivo",
-      "html": "<strong>Objetivo:</strong><br>Verificar endotoxinas (solo WFI, si aplica)."
+      "html": "<strong>Objetivo:</strong><br>Verificar que el agua para inyección cumple el límite de endotoxinas adoptado."
      },
      {
       "et": "Procedimiento",
-      "html": "<strong>Procedimiento:</strong><br>\n  1) Medir endotoxinas (referencia: 0,25 UE por mL para WFI)<br>\n  2) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Medir endotoxinas en cada punto de WFI con el método compendial adoptado<br>\n  2) Comparar cada resultado individual contra el límite y registrar LOD/LOQ<br>\n  3) No promediar resultados para declarar cumplimiento<br>\n  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
      },
      {
       "et": "Plan estadístico",
-      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+      "html": "<strong>Plan estadístico:</strong><br>Método analítico. n = todas las muestras de WFI. Cada resultado se compara contra <span class=\"por-confirmar\">0,25 UE/mL</span>; por punto: mediana, mínimo, máximo e IC 95 %; tendencia por regresión de log10; LOD/LOQ del método declarados."
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Dentro del límite adoptado (solo WFI, si aplica)."
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  WFI ≤ <span class=\"por-confirmar\">0,25 UE/mL</span> (USP &lt;85&gt;/&lt;1231&gt;) en el 100 % de las muestras.<br>\n  0 resultados ≥ límite."
      },
      {
       "et": "Documentos entregables",
-      "html": "<strong>Documentos entregables:</strong><br>\n  - Registros con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de endotoxinas"
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registros con data cruda y reporte<br>\n  - Data cruda y reporte estadístico de endotoxinas"
+     },
+     {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>El límite en rojo corresponde a USP &lt;85&gt;/&lt;1231&gt; y queda pendiente de confirmación de adopción por el responsable antes de firmar. El ensayo solo aplica a WFI."
      },
      {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>URS aprobada (rangos y criterios); USP 1231 (endotoxinas en WFI)."
+      "html": "<strong>Referencia:</strong><br>USP &lt;85&gt;; USP &lt;1231&gt;; URS aprobada."
      }
     ],
     "tabla": null,
@@ -6860,27 +6904,31 @@ var BancoSistemas = {
     "secciones": [
      {
       "et": "Objetivo",
-      "html": "<strong>Objetivo:</strong><br>Verificar si la monografía lo exige."
+      "html": "<strong>Objetivo:</strong><br>Verificar los parámetros fisicoquímicos que exija la monografía adoptada."
      },
      {
       "et": "Procedimiento",
-      "html": "<strong>Procedimiento:</strong><br>\n  1) Medir nitratos, metales pesados y oxidantes si la monografía lo exige<br>\n  2) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Confirmar qué parámetros exige la monografía adoptada (USP, Ph. Eur., IP o BP)<br>\n  2) Medir nitratos, metales pesados y sustancias oxidables solo si la monografía los exige<br>\n  3) Registrar el método y el LOD/LOQ de cada parámetro<br>\n  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
      },
      {
       "et": "Plan estadístico",
-      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+      "html": "<strong>Plan estadístico:</strong><br>Métodos analíticos según la monografía adoptada. n = 1 muestra por punto y fase. Cada resultado se compara con el límite de la monografía; se reportan LOD/LOQ y método. Si la monografía no exige el parámetro, el ensayo se declara No Aplica con justificación."
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Dentro de la especificación si aplica."
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Si la monografía adoptada los exige: nitrato ≤ <span class=\"por-confirmar\">0,2 ppm</span>, metales pesados ≤ <span class=\"por-confirmar\">0,1 ppm</span> y sustancias oxidables conformes a la prueba de permanganato.<br>\n  En USP, nitrato y metales pesados no se exigen en agua a granel."
      },
      {
       "et": "Documentos entregables",
-      "html": "<strong>Documentos entregables:</strong><br>\n  - Registros con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis fisicoquímico"
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registros con data cruda y reporte<br>\n  - Data cruda y reporte estadístico fisicoquímico"
+     },
+     {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>Los límites en rojo provienen de IP/BP y quedan pendientes de confirmación de la monografía aplicable; USP no exige nitrato ni metales pesados en agua a granel."
      },
      {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>URS aprobada (rangos y criterios)."
+      "html": "<strong>Referencia:</strong><br>Monografía adoptada (USP/Ph. Eur./IP/BP); URS aprobada."
      }
     ],
     "tabla": null,
@@ -6896,27 +6944,31 @@ var BancoSistemas = {
     "secciones": [
      {
       "et": "Objetivo",
-      "html": "<strong>Objetivo:</strong><br>Verificar la ausencia de patógenos específicos según el uso del agua."
+      "html": "<strong>Objetivo:</strong><br>Verificar la ausencia de microorganismos objetables según el uso del agua."
      },
      {
       "et": "Procedimiento",
-      "html": "<strong>Procedimiento:</strong><br>\n  1) Investigar patógenos específicos según el uso del agua<br>\n  2) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Investigar los patógenos específicos definidos para el uso del agua<br>\n  2) Registrar el método de identificación y el volumen filtrado<br>\n  3) Documentar la acción ante cualquier positivo<br>\n  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
      },
      {
       "et": "Plan estadístico",
-      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+      "html": "<strong>Plan estadístico:</strong><br>Estudio de atributo (presencia/ausencia). n = 1 muestra por punto y fase. Proporción de muestras con ausencia con IC 95 % binomial exacto; criterio de cero positivos; identificación del microorganismo y acción documentada si hay positivo."
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Ausencia según el uso del agua."
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  0 UFC de Pseudomonas aeruginosa, Escherichia coli, Staphylococcus aureus y Burkholderia cepacia en <span class=\"por-confirmar\">100 mL</span> de muestra (o ausencia según el uso del agua)."
      },
      {
       "et": "Documentos entregables",
-      "html": "<strong>Documentos entregables:</strong><br>\n  - Registros con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de objetables"
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registros con data cruda y reporte<br>\n  - Data cruda y reporte estadístico de objetables"
+     },
+     {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>El volumen en rojo es una referencia y queda pendiente de confirmación contra la USP adoptada y el uso del agua."
      },
      {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>URS aprobada (rangos y criterios)."
+      "html": "<strong>Referencia:</strong><br>USP &lt;1231&gt;; USP &lt;62&gt; (identificación); URS aprobada."
      }
     ],
     "tabla": null,
@@ -6932,27 +6984,31 @@ var BancoSistemas = {
     "secciones": [
      {
       "et": "Objetivo",
-      "html": "<strong>Objetivo:</strong><br>Verificar el cloro residual para proteger la RO (si aplica)."
+      "html": "<strong>Objetivo:</strong><br>Verificar que el cloro residual en la alimentación protege las membranas de la RO sin exceder el rango del fabricante."
      },
      {
       "et": "Procedimiento",
-      "html": "<strong>Procedimiento:</strong><br>\n  1) Medir el cloro residual en el pretratamiento (si aplica)<br>\n  2) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Medir el cloro libre residual en la alimentación a la RO (si aplica)<br>\n  2) Registrar la medición con hora, instrumento y analista<br>\n  3) Activar la alarma y la acción si el valor sale del rango<br>\n  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
      },
      {
       "et": "Plan estadístico",
-      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+      "html": "<strong>Plan estadístico:</strong><br>Variable continua. n = todas las mediciones de cloro residual en la alimentación a la RO. Media, DE, mínimo, máximo e IC 95 %; comparación con el rango del fabricante; tendencia y conteo de alarmas. Límite de alerta = <span class=\"por-confirmar\">0,1 ppm</span>; límite inferior = <span class=\"por-confirmar\">0,05 ppm</span>."
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Dentro de lo definido (si aplica)."
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Cloro libre residual en la alimentación a la RO ≤ <span class=\"por-confirmar\">0,1 ppm</span> y ≥ <span class=\"por-confirmar\">0,05 ppm</span> (o el rango del fabricante) en el 100 % de las mediciones."
      },
      {
       "et": "Documentos entregables",
-      "html": "<strong>Documentos entregables:</strong><br>\n  - Registros con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de cloro"
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registros con data cruda y reporte<br>\n  - Data cruda y reporte estadístico de cloro residual"
+     },
+     {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>El rango en rojo es una referencia y queda pendiente de confirmación contra el manual del fabricante antes de ejecutar."
      },
      {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>Manual del fabricante del sistema."
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante; URS aprobada."
      }
     ],
     "tabla": null,
@@ -6964,31 +7020,35 @@ var BancoSistemas = {
     "id": "SIS-PQ-AP-019",
     "bloque": 3,
     "cond": "ambas",
-    "titulo": "SIS-PQ-AP-019 — Velocidad y presión en el loops",
+    "titulo": "SIS-PQ-AP-019 — Velocidad y presión en el loop",
     "secciones": [
      {
       "et": "Objetivo",
-      "html": "<strong>Objetivo:</strong><br>Verificar velocidad y presión en el loops en todo el período, con alarmas registradas."
+      "html": "<strong>Objetivo:</strong><br>Verificar que la velocidad y la presión del loop se mantienen en diseño durante todo el período."
      },
      {
       "et": "Procedimiento",
-      "html": "<strong>Procedimiento:</strong><br>\n  1) Registrar velocidad y presión en todo el período<br>\n  2) Registrar las alarmas ocurridas<br>\n  3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Registrar velocidad y presión del loop en continuo<br>\n  2) Registrar cada alarma con hora, punto y causa<br>\n  3) Evaluar el efecto de cada evento fuera de rango<br>\n  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
      },
      {
       "et": "Plan estadístico",
-      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+      "html": "<strong>Plan estadístico:</strong><br>Variables continuas registradas en continuo. n = todos los registros del período. Por día: mínimo, media y máximo de velocidad y presión con IC 95 %; comparación contra el diseño; conteo de alarmas y tiempo fuera de rango. Límite = <span class=\"por-confirmar\">1,5 m/s</span> o el de diseño de la URS."
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Registro continuo con alarmas documentadas."
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Velocidad de recirculación ≥ <span class=\"por-confirmar\">1,5 m/s</span> (o el valor de diseño de la URS) en el 100 % de los registros.<br>\n  Presión positiva en el loop y 100 % de las alarmas documentadas y evaluadas."
      },
      {
       "et": "Documentos entregables",
-      "html": "<strong>Documentos entregables:</strong><br>\n  - Registros con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis hidráulico"
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registros con data cruda y reporte<br>\n  - Data cruda y reporte estadístico hidráulico"
+     },
+     {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>La velocidad en rojo es una referencia y queda pendiente de confirmación contra la URS y el diseño del loop antes de ejecutar."
      },
      {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>Manual del fabricante del sistema."
+      "html": "<strong>Referencia:</strong><br>URS aprobada; manual del fabricante."
      }
     ],
     "tabla": null,
@@ -7004,27 +7064,31 @@ var BancoSistemas = {
     "secciones": [
      {
       "et": "Objetivo",
-      "html": "<strong>Objetivo:</strong><br>Verificar temperatura o concentración en todos los puntos, y resultados microbiológicos posteriores."
+      "html": "<strong>Objetivo:</strong><br>Verificar que la sanitización alcanza todos los puntos y que el resultado microbiológico posterior es conforme."
      },
      {
       "et": "Procedimiento",
-      "html": "<strong>Procedimiento:</strong><br>\n  1) Verificar cumplimiento de temperatura o concentración en todos los puntos<br>\n  2) Verificar resultados microbiológicos posteriores<br>\n  3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Verificar temperatura o concentración del sanitizante en todos los puntos<br>\n  2) Registrar la duración y el punto más desfavorable<br>\n  3) Medir el recuento microbiológico posterior<br>\n  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
      },
      {
       "et": "Plan estadístico",
-      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+      "html": "<strong>Plan estadístico:</strong><br>Variables continuas (temperatura °C, tiempo min, concentración ppm) y atributo microbiológico posterior. n = todos los puntos y eventos. Temperatura y tiempo: mínimo, media e IC 95 %; micro: proporción conforme con IC 95 % binomial exacto; comparación pre/post con prueba pareada."
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Cumplimiento en todos los puntos con micro posterior conforme."
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Temperatura ≥ <span class=\"por-confirmar\">80 °C</span> durante ≥ <span class=\"por-confirmar\">60 min</span> en todos los puntos (o concentración de sanitizante <span class=\"por-confirmar\">según fabricante</span>).<br>\n  Recuento microbiológico posterior ≤ <span class=\"por-confirmar\">10 UFC/100 mL</span>."
      },
      {
       "et": "Documentos entregables",
-      "html": "<strong>Documentos entregables:</strong><br>\n  - Registros con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de eficacia"
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registros con data cruda y reporte<br>\n  - Data cruda y reporte estadístico de eficacia"
+     },
+     {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>Las condiciones y el límite en rojo quedan pendientes de confirmación contra la USP adoptada, el SOP de sanitización y el manual del fabricante antes de ejecutar."
      },
      {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>Manual del fabricante del sistema."
+      "html": "<strong>Referencia:</strong><br>USP &lt;1231&gt;; SOP de sanitización; manual del fabricante."
      }
     ],
     "tabla": null,
@@ -7040,27 +7104,27 @@ var BancoSistemas = {
     "secciones": [
      {
       "et": "Objetivo",
-      "html": "<strong>Objetivo:</strong><br>Verificar aislamiento del punto o sistema, investigación, acción correctiva y repetición del muestreo."
+      "html": "<strong>Objetivo:</strong><br>Verificar que toda excursión se aísla, investiga, corrige y remuestrea antes de liberar."
      },
      {
       "et": "Procedimiento",
-      "html": "<strong>Procedimiento:</strong><br>\n  1) Aislar el punto o sistema ante la excursión<br>\n  2) Investigar, aplicar acción correctiva y repetir el muestreo<br>\n  3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Aislar el punto o el sistema ante la excursión<br>\n  2) Investigar, aplicar la acción correctiva y repetir el muestreo<br>\n  3) Registrar el cierre y la autorización de liberación<br>\n  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
      },
      {
       "et": "Plan estadístico",
-      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+      "html": "<strong>Plan estadístico:</strong><br>Estudio de atributo y de tiempo. n = todas las excursiones del período. Proporción de excursiones aisladas, investigadas y cerradas con IC 95 % binomial exacto; tiempo a cierre en días (mediana, mínimo, máximo); criterio de cero liberaciones con excursión abierta."
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Excursión cerrada con correctiva y remuestreo."
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  100 % de las excursiones aisladas, investigadas y cerradas antes de liberar.<br>\n  0 liberaciones con excursión abierta y remuestreo conforme en el 100 %."
      },
      {
       "et": "Documentos entregables",
-      "html": "<strong>Documentos entregables:</strong><br>\n  - Registros con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de excursiones"
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registros con data cruda y reporte<br>\n  - Data cruda y reporte estadístico de excursiones"
      },
      {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>Manual del fabricante del sistema."
+      "html": "<strong>Referencia:</strong><br>21 CFR 211.192; URS aprobada."
      }
     ],
     "tabla": null,
@@ -7076,27 +7140,31 @@ var BancoSistemas = {
     "secciones": [
      {
       "et": "Objetivo",
-      "html": "<strong>Objetivo:</strong><br>Verificar el comportamiento tras un paro prolongado, con muestreo tras la reposición y criterio de vuelta a servicio (si aplica)."
+      "html": "<strong>Objetivo:</strong><br>Verificar que tras un paro prolongado el sistema vuelve a servicio solo con muestreo conforme."
      },
      {
       "et": "Procedimiento",
-      "html": "<strong>Procedimiento:</strong><br>\n  1) Tras un paro prolongado (fin de semana, mantenimiento), muestrear tras la reposición (si aplica)<br>\n  2) Aplicar el criterio de vuelta a servicio<br>\n  3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Tras un paro, purgar y reponer el sistema según el SOP<br>\n  2) Muestrear antes de liberar el agua<br>\n  3) Aplicar el criterio de vuelta a servicio y registrar el evento<br>\n  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
      },
      {
       "et": "Plan estadístico",
-      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+      "html": "<strong>Plan estadístico:</strong><br>Estudio de atributo por evento de paro/reinicio. n = todos los paros &gt; <span class=\"por-confirmar\">72 h</span>. Proporción de reinicios conformes con IC 95 % binomial exacto; comparación pre/post con prueba de McNemar si hay pares; tiempo de reposición en horas."
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Vuelta a servicio solo con criterio cumplido (si aplica)."
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Tras un paro &gt; <span class=\"por-confirmar\">72 h</span>, liberar solo con muestreo conforme: conductividad ≤ <span class=\"por-confirmar\">1,3 µS/cm</span>, TOC ≤ <span class=\"por-confirmar\">500 ppb</span> y micro ≤ <span class=\"por-confirmar\">100 UFC/mL</span> (PW) o ≤ <span class=\"por-confirmar\">10 UFC/100 mL</span> (WFI)."
      },
      {
       "et": "Documentos entregables",
-      "html": "<strong>Documentos entregables:</strong><br>\n  - Registros con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de paros"
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registros con data cruda y reporte<br>\n  - Data cruda y reporte estadístico de paros y reinicios"
+     },
+     {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>El plazo y los límites en rojo son referencias y quedan pendientes de confirmación contra la USP adoptada y el SOP de paros antes de ejecutar."
      },
      {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>Manual del fabricante del sistema."
+      "html": "<strong>Referencia:</strong><br>USP &lt;1231&gt;; URS aprobada; SOP de paros y reinicios."
      }
     ],
     "tabla": null,
@@ -7112,27 +7180,31 @@ var BancoSistemas = {
     "secciones": [
      {
       "et": "Objetivo",
-      "html": "<strong>Objetivo:</strong><br>Verificar el efecto sobre la calidad del agua tras cada evento."
+      "html": "<strong>Objetivo:</strong><br>Verificar que cada retrolavado, regeneración o cambio de consumible no degrada la calidad del agua."
      },
      {
       "et": "Procedimiento",
-      "html": "<strong>Procedimiento:</strong><br>\n  1) Tras cada retrolavado, regeneración o cambio de consumibles, medir el efecto en la calidad del agua<br>\n  2) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Registrar cada retrolavado, regeneración o cambio de consumible<br>\n  2) Medir conductividad, TOC y microbiología antes y después del evento<br>\n  3) Comparar el efecto y documentar cualquier desvío<br>\n  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
      },
      {
       "et": "Plan estadístico",
-      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+      "html": "<strong>Plan estadístico:</strong><br>Comparación pre/post por evento. n = todos los retrolavados, regeneraciones y cambios de consumibles. Variables: conductividad, TOC y recuento microbiológico antes y después; diferencia de medias con IC 95 %; prueba t pareada o Wilcoxon según normalidad; proporción de eventos conformes con IC 95 % binomial exacto."
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Calidad dentro de los límites tras cada evento."
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Calidad conforme tras cada evento: conductividad ≤ <span class=\"por-confirmar\">1,3 µS/cm</span>, TOC ≤ <span class=\"por-confirmar\">500 ppb</span> y micro ≤ <span class=\"por-confirmar\">100 UFC/mL</span>.<br>\n  100 % de los eventos con muestra post-evento."
      },
      {
       "et": "Documentos entregables",
-      "html": "<strong>Documentos entregables:</strong><br>\n  - Registros con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de eventos"
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registros con data cruda y reporte<br>\n  - Data cruda y reporte estadístico de eventos"
+     },
+     {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>Los límites en rojo corresponden a la USP adoptada y quedan pendientes de confirmación por el responsable antes de firmar el protocolo."
      },
      {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>Manual del fabricante del sistema."
+      "html": "<strong>Referencia:</strong><br>Manual del fabricante; USP &lt;1231&gt;; URS aprobada."
      }
     ],
     "tabla": null,

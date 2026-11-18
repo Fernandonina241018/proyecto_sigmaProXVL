@@ -5,6 +5,7 @@
 <style>
   body { font-family: Tahoma, sans-serif; font-size: 11pt; }
   strong { text-transform: uppercase; }
+  .por-confirmar { color: #C00000; font-weight: bold; }
 </style>
 <title>Banco de Ensayos PQ — Sistema de agua purificada</title>
 </head>
@@ -12,7 +13,7 @@
 
 <p><a href="../sistemas.html">← Sistemas</a></p>
 <h2>PQ — Sistema de agua purificada (banco por familia)</h2>
-<p>Versión del banco: <span data-banco-version>SIS-PQ-AP 2026-10-14 v1</span></p>
+<p>Versión del banco: <span data-banco-version>SIS-PQ-AP 2026-11-18 v2</span></p>
 <p>Ensayos de Calificación de Desempeño específicos del sistema de agua purificada y WFI (<span class="equipo">equipo</span>). Se filtran por familia (<code>data-familia="agua-purificada"</code>) según la entidad elegida en el paso 1. Fuente: ENSAYOS.txt del usuario (sistema de agua).</p>
 
 <!-- ================= PQ ================= -->
@@ -61,363 +62,433 @@
 
 <article data-bloque="3" id="art-SIS-PQ-AP-001" class="ensayo" data-id="SIS-PQ-AP-001" data-fase="PQ" data-cond="ambas" data-familia="agua-purificada" data-analisis="si">
   <h3>SIS-PQ-AP-001 — Monitoreo intensivo de Fase 1</h3>
-  <p><strong>Objetivo:</strong><br>Desarrollar el sistema con muestreo diario de todos los puntos para conductividad, TOC y microbiología.</p>
+  <p><strong>Objetivo:</strong><br>Demostrar con muestreo diario de todos los puntos que el sistema produce agua conforme en la Fase 1 y establecer la línea base de alerta y acción.</p>
   <p><strong>Procedimiento:</strong><br>
-  1) Muestrear a diario todos los puntos del loops y de uso: conductividad, TOC y microbiología<br>
+  1) Muestrear a diario todos los puntos del loop y de uso: conductividad, TOC y microbiología<br>
   2) Muestrear el pretratamiento con frecuencia menor pero regular<br>
-  3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
+  3) Registrar cada muestra con punto, fecha, hora, instrumento y analista<br>
+  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Plan estadístico:</strong><br>Cobertura y línea base. Variable = conductividad (µS/cm), TOC (ppb) y recuento microbiano (UFC/mL o UFC/100 mL) por punto. n = todos los días de la Fase 1 (14 a 28 días) por cada punto. Cobertura = muestras válidas / muestras programadas con IC 95 % binomial exacto. Por parámetro y punto: media, DE, RSD, mínimo, máximo e IC 95 %. Línea de alerta = media + 2 DE de la Fase 1; línea de acción = límite farmacopeico. Tendencia = regresión lineal contra día. Sin exclusión de datos sin investigación documentada.</p>
   <p><strong>Criterio de aceptación:</strong><br>
-  Cobertura diaria completa durante la Fase 1 (de 2 a 4 semanas).</p>
+  Cobertura del 100 % de los puntos programados durante 14 a 28 días.<br>
+  0 días sin cobertura y 0 resultados por encima del límite de acción.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registros diarios con data cruda y reporte<br>
-  - Data cruda y reporte estadístico del análisis de Fase 1</p>
-  <p><strong>Referencia:</strong><br>URS aprobada (rangos y criterios).</p>
+  - Data cruda y reporte estadístico de la línea base de Fase 1</p>
+  <p><strong>Referencia:</strong><br>URS aprobada; USP &lt;1231&gt; (validación del sistema y niveles de alerta y acción).</p>
 </article>
 
 <article data-bloque="3" id="art-SIS-PQ-AP-002" class="ensayo" data-id="SIS-PQ-AP-002" data-fase="PQ" data-cond="ambas" data-familia="agua-purificada" data-analisis="si">
   <h3>SIS-PQ-AP-002 — Restricción de uso en Fase 1</h3>
-  <p><strong>Objetivo:</strong><br>Mantener el agua sin liberar para producto, o con estricta restricción, durante la Fase 1.</p>
+  <p><strong>Objetivo:</strong><br>Demostrar que el agua no se libera para producto, o se usa solo con restricción documentada, durante la Fase 1.</p>
   <p><strong>Procedimiento:</strong><br>
   1) Aplicar la restricción de uso definida<br>
-  2) Registrar las liberaciones restringidas si las hay<br>
+  2) Registrar cada autorización de uso restringido con responsable, fecha y justificación<br>
   3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
+  <p><strong>Plan estadístico:</strong><br>Estudio de atributo. Variable = uso liberado (sí/no) y autorización documentada (sí/no). n = todos los eventos de uso de la Fase 1. Proporción de usos restringidos con autorización con IC 95 % binomial exacto; criterio de cero liberaciones no autorizadas.</p>
   <p><strong>Criterio de aceptación:</strong><br>
-  Sin liberación para producto, o restricción documentada.</p>
+  0 liberaciones a producto durante la Fase 1.<br>
+  100 % de los usos restringidos con autorización documentada.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro de restricción con data cruda y reporte<br>
-  - Data cruda y reporte estadístico del análisis de restricción</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante del sistema.</p>
+  - Data cruda y reporte estadístico del uso restringido</p>
+  <p><strong>Referencia:</strong><br>URS aprobada; EU GMP Anexo 15.</p>
 </article>
 
 <article data-bloque="3" id="art-SIS-PQ-AP-003" class="ensayo" data-id="SIS-PQ-AP-003" data-fase="PQ" data-cond="ambas" data-familia="agua-purificada" data-analisis="si">
   <h3>SIS-PQ-AP-003 — Confirmación de parámetros de operación</h3>
-  <p><strong>Objetivo:</strong><br>Confirmar caudales, temperaturas, sanitizaciones y SOPs con los datos de la Fase 1.</p>
+  <p><strong>Objetivo:</strong><br>Confirmar con los datos de la Fase 1 que caudales, temperaturas, sanitizaciones y SOPs operan dentro del diseño.</p>
   <p><strong>Procedimiento:</strong><br>
-  1) Confirmar caudales y temperaturas contra lo definido<br>
-  2) Confirmar sanitizaciones ejecutadas y SOPs aplicables<br>
-  3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
+  1) Registrar caudal y temperatura de recirculación por turno<br>
+  2) Registrar cada sanitización con fecha, temperatura o concentración, duración y puntos alcanzados<br>
+  3) Confirmar los SOPs aplicados<br>
+  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Plan estadístico:</strong><br>Variables continuas (caudal m³/h, velocidad m/s, temperatura °C, duración min) y atributos (sanitización ejecutada sí/no). n = registros por turno de la Fase 1. Por variable: media, DE, mínimo, máximo e IC 95 %; comparación contra el valor de diseño de la URS con prueba t de una muestra o intervalo de confianza. Sanitizaciones: proporción ejecutada / programada con IC 95 % binomial exacto.</p>
   <p><strong>Criterio de aceptación:</strong><br>
-  Parámetros confirmados con datos.</p>
+  Caudal y velocidad ≥ <span class="por-confirmar">el valor de diseño de la URS (referencia 1,5 m/s)</span>.<br>
+  Temperatura de sanitización ≥ <span class="por-confirmar">80 °C durante ≥ 60 min</span>.<br>
+  100 % de las sanitizaciones registradas y 0 parámetros fuera de diseño.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro de confirmación con data cruda y reporte<br>
-  - Data cruda y reporte estadístico del análisis de parámetros</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante del sistema.</p>
+  - Data cruda y reporte estadístico de parámetros de operación</p>
+  <p><strong>Nota:</strong><br>Los valores en rojo son referencias de diseño y quedan pendientes de confirmación contra la URS y el manual del fabricante antes de firmar el protocolo.</p>
+  <p><strong>Referencia:</strong><br>URS aprobada; manual del fabricante; USP &lt;1231&gt;.</p>
 </article>
 
 <article data-bloque="3" id="art-SIS-PQ-AP-004" class="ensayo" data-id="SIS-PQ-AP-004" data-fase="PQ" data-cond="ambas" data-familia="agua-purificada" data-analisis="si">
   <h3>SIS-PQ-AP-004 — Puntos críticos y frecuencias de sanitización</h3>
-  <p><strong>Objetivo:</strong><br>Definir los puntos críticos y las frecuencias de sanitización con base en los datos.</p>
+  <p><strong>Objetivo:</strong><br>Definir con los datos de la Fase 1 los puntos críticos y la frecuencia de sanitización que sostiene el control.</p>
   <p><strong>Procedimiento:</strong><br>
-  1) Analizar los datos de la Fase 1<br>
-  2) Definir puntos críticos y frecuencias de sanitización<br>
-  3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
+  1) Analizar por punto la frecuencia y magnitud de las excursiones de Fase 1<br>
+  2) Identificar los puntos críticos y proponer la frecuencia de sanitización<br>
+  3) Documentar la justificación con los datos y aprobarla antes de ejecutar<br>
+  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Plan estadístico:</strong><br>Estudio de conteo por punto. Variable = número de excursiones por punto y por intervalo entre sanitizaciones. n = intervalos observados en la Fase 1. Tasa de excursiones por 100 muestras con IC 95 % de Poisson. Se elige la frecuencia que produce 0 excursiones en 3 ciclos consecutivos. Punto crítico = punto con tasa ≥ 2 veces la mediana del sistema.</p>
   <p><strong>Criterio de aceptación:</strong><br>
-  Puntos y frecuencias definidos con base en datos.</p>
+  Frecuencia de sanitización ≤ <span class="por-confirmar">7 días</span> para PW y ≤ <span class="por-confirmar">7 días</span> para WFI, o la que demuestre 0 excursiones en 3 ciclos consecutivos.<br>
+  100 % de los puntos críticos identificados y justificados con datos.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Documento de definición con data cruda y reporte<br>
-  - Data cruda y reporte estadístico del análisis de criticidad</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante del sistema.</p>
+  - Data cruda y reporte estadístico de criticidad y frecuencias</p>
+  <p><strong>Nota:</strong><br>La frecuencia en rojo es una referencia; la frecuencia final se aprueba con los datos de la Fase 1 antes de ejecutar la sanitización.</p>
+  <p><strong>Referencia:</strong><br>USP &lt;1231&gt;; URS aprobada.</p>
 </article>
 
 <article data-bloque="3" id="art-SIS-PQ-AP-005" class="ensayo" data-id="SIS-PQ-AP-005" data-fase="PQ" data-cond="ambas" data-familia="agua-purificada" data-analisis="si">
   <h3>SIS-PQ-AP-005 — Monitoreo de Fase 2</h3>
-  <p><strong>Objetivo:</strong><br>Demostrar control con monitoreo continuo a frecuencia reducida, con todos los puntos incluidos.</p>
+  <p><strong>Objetivo:</strong><br>Demostrar control con monitoreo continuo a frecuencia reducida y todos los puntos incluidos.</p>
   <p><strong>Procedimiento:</strong><br>
   1) Monitorear con frecuencia reducida respecto a la Fase 1, con todos los puntos incluidos<br>
   2) Usar el agua para producto de forma controlada si la Fase 1 fue satisfactoria<br>
   3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
+  <p><strong>Plan estadístico:</strong><br>Cobertura y comparación con la línea base. Variable = conductividad, TOC y recuento microbiano por punto. n = todas las muestras de la Fase 2 (14 a 28 días). Cobertura semanal con IC 95 % binomial exacto. Comparación de medias contra la Fase 1 con prueba t o Mann-Whitney; tendencia con regresión lineal.</p>
   <p><strong>Criterio de aceptación:</strong><br>
-  Cobertura total durante la Fase 2 (de 2 a 4 semanas).</p>
+  100 % de los puntos muestreados en cada semana de la Fase 2.<br>
+  Máximo 1 muestra omitida por punto con justificación documentada.<br>
+  0 resultados por encima del límite de acción.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registros con data cruda y reporte<br>
-  - Data cruda y reporte estadístico del análisis de Fase 2</p>
-  <p><strong>Referencia:</strong><br>URS aprobada (rangos y criterios).</p>
+  - Data cruda y reporte estadístico de la Fase 2</p>
+  <p><strong>Referencia:</strong><br>URS aprobada; USP &lt;1231&gt;.</p>
 </article>
 
 <article data-bloque="3" id="art-SIS-PQ-AP-006" class="ensayo" data-id="SIS-PQ-AP-006" data-fase="PQ" data-cond="ambas" data-familia="agua-purificada" data-analisis="si">
   <h3>SIS-PQ-AP-006 — Excursiones de Fase 2</h3>
-  <p><strong>Objetivo:</strong><br>Verificar que no hay excursiones de límite de acción, o que cada una está investigada y cerrada.</p>
+  <p><strong>Objetivo:</strong><br>Verificar que no quedan excursiones de límite de acción abiertas al cierre de la Fase 2.</p>
   <p><strong>Procedimiento:</strong><br>
   1) Revisar los límites de acción en toda la Fase 2<br>
-  2) Investigar y cerrar cada excursión<br>
-  3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
+  2) Investigar y cerrar cada excursión con causa y disposición<br>
+  3) Registrar el tiempo de cierre de cada evento<br>
+  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Plan estadístico:</strong><br>Estudio de conteo. Variable = número de excursiones de límite de acción. n = todas las muestras de la Fase 2. Tasa por 100 muestras con IC 95 % de Poisson; tiempo a cierre en días (mediana, mínimo, máximo); proporción cerrada con IC 95 % binomial exacto.</p>
   <p><strong>Criterio de aceptación:</strong><br>
-  Sin excursiones abiertas al cierre de la Fase 2.</p>
+  0 excursiones de límite de acción abiertas al cierre de la Fase 2.<br>
+  100 % investigadas y cerradas; tiempo de cierre ≤ <span class="por-confirmar">30 días</span>.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro de excursiones con data cruda y reporte<br>
-  - Data cruda y reporte estadístico del análisis de excursiones</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante del sistema.</p>
+  - Data cruda y reporte estadístico de excursiones</p>
+  <p><strong>Nota:</strong><br>El plazo en rojo es una referencia y queda pendiente de confirmación por Calidad antes de la ejecución.</p>
+  <p><strong>Referencia:</strong><br>21 CFR 211.192; URS aprobada.</p>
 </article>
 
 <article data-bloque="3" id="art-SIS-PQ-AP-007" class="ensayo" data-id="SIS-PQ-AP-007" data-fase="PQ" data-cond="ambas" data-familia="agua-purificada" data-analisis="si">
   <h3>SIS-PQ-AP-007 — Eficacia de la sanitización</h3>
-  <p><strong>Objetivo:</strong><br>Verificar la carga microbiana antes y después de la sanitización.</p>
+  <p><strong>Objetivo:</strong><br>Verificar que cada sanitización reduce la carga microbiana de forma demostrable.</p>
   <p><strong>Procedimiento:</strong><br>
-  1) Medir la carga microbiana antes de sanitizar<br>
-  2) Medir después y comparar<br>
-  3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
+  1) Medir la carga microbiana antes de sanitizar en los puntos definidos<br>
+  2) Medir después de sanitizar en los mismos puntos<br>
+  3) Registrar temperatura o concentración y duración de la sanitización<br>
+  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Plan estadístico:</strong><br>Comparación pareada antes/después. Variable = log10 UFC/mL o log10 UFC/100 mL por punto. n ≥ 3 puntos por sanitización. Diferencia de medias en log10 con IC 95 %; prueba t pareada si Shapiro-Wilk p &gt; 0,05, si no Wilcoxon. Reducción = media antes − media después.</p>
   <p><strong>Criterio de aceptación:</strong><br>
-  Reducción conforme a lo definido.</p>
+  Reducción ≥ <span class="por-confirmar">3 log10</span> tras cada sanitización, o recuento posterior ≤ <span class="por-confirmar">10 UFC/100 mL</span>.<br>
+  0 puntos con aumento de carga microbiana.</p>
   <p><strong>Documentos entregables:</strong><br>
-  - Registros con data cruda y reporte<br>
-  - Data cruda y reporte estadístico del análisis de eficacia</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante del sistema.</p>
+  - Registros antes/después con data cruda y reporte<br>
+  - Data cruda y reporte estadístico de eficacia</p>
+  <p><strong>Nota:</strong><br>La reducción objetivo y el recuento posterior en rojo quedan pendientes de confirmación contra la USP adoptada y el SOP de sanitización antes de ejecutar.</p>
+  <p><strong>Referencia:</strong><br>USP &lt;1231&gt;; SOP de sanitización.</p>
 </article>
 
 <article data-bloque="3" id="art-SIS-PQ-AP-008" class="ensayo" data-id="SIS-PQ-AP-008" data-fase="PQ" data-cond="ambas" data-familia="agua-purificada" data-analisis="si">
   <h3>SIS-PQ-AP-008 — Tendencia de Fase 2</h3>
-  <p><strong>Objetivo:</strong><br>Verificar conductividad, TOC y microbiología sin deriva.</p>
+  <p><strong>Objetivo:</strong><br>Verificar que conductividad, TOC y microbiología no presentan deriva durante la Fase 2.</p>
   <p><strong>Procedimiento:</strong><br>
-  1) Graficar la tendencia de conductividad, TOC y microbiología<br>
-  2) Verificar ausencia de deriva<br>
-  3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
+  1) Graficar la tendencia de conductividad, TOC y log10 del recuento microbiano por punto<br>
+  2) Evaluar la pendiente y las reglas de carta de control<br>
+  3) Investigar toda señal de deriva antes de cerrar la fase<br>
+  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Plan estadístico:</strong><br>Tendencia por parámetro y punto. Variable = conductividad, TOC y log10 del recuento. n = todas las muestras de la Fase 2. Regresión lineal contra tiempo: pendiente, IC 95 % y p; sin deriva = p &gt; 0,05 y pendiente dentro de ±<span class="por-confirmar">5 %</span> del valor medio por semana. Reglas de carta: 2 de 3 puntos &gt; 2 DE u 8 consecutivos al mismo lado.</p>
   <p><strong>Criterio de aceptación:</strong><br>
-  Sin deriva en los tres parámetros.</p>
+  Sin deriva estadísticamente significativa (p &gt; 0,05) en conductividad, TOC ni recuento microbiano.<br>
+  0 reglas de carta disparadas sin investigación cerrada.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Gráficos con data cruda y reporte<br>
-  - Data cruda y reporte estadístico del análisis de tendencia</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante del sistema.</p>
+  - Data cruda y reporte estadístico de tendencia</p>
+  <p><strong>Nota:</strong><br>El porcentaje en rojo es una referencia de práctica y queda pendiente de confirmación por el responsable antes de ejecutar.</p>
+  <p><strong>Referencia:</strong><br>USP &lt;1231&gt;; URS aprobada.</p>
 </article>
 
 <article data-bloque="3" id="art-SIS-PQ-AP-009" class="ensayo" data-id="SIS-PQ-AP-009" data-fase="PQ" data-cond="ambas" data-familia="agua-purificada" data-analisis="si">
   <h3>SIS-PQ-AP-009 — Monitoreo de rutina de Fase 3</h3>
-  <p><strong>Objetivo:</strong><br>Confirmar a largo plazo con la frecuencia definida, rotando los puntos de uso.</p>
+  <p><strong>Objetivo:</strong><br>Confirmar a largo plazo que el sistema sostiene el desempeño con la frecuencia de rutina y la rotación de puntos.</p>
   <p><strong>Procedimiento:</strong><br>
-  1) Muestrear con la frecuencia definida (por ejemplo semanal en cada punto, rotando los puntos de uso)<br>
-  2) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
+  1) Muestrear con la frecuencia definida, rotando los puntos de uso<br>
+  2) Registrar cada muestra con punto, fecha, hora e instrumento<br>
+  3) Comparar la media mensual contra la línea base de la Fase 1<br>
+  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Plan estadístico:</strong><br>Cobertura y estabilidad a largo plazo. n = todas las muestras del ciclo de Fase 3. Cobertura por punto con IC 95 % binomial exacto. Media mensual contra la línea base de Fase 1 con prueba t o Mann-Whitney; tendencia por regresión lineal.</p>
   <p><strong>Criterio de aceptación:</strong><br>
-  Cobertura de todos los puntos durante el ciclo.</p>
+  100 % de los puntos muestreados según la frecuencia definida (<span class="por-confirmar">semanal</span> por punto, con rotación).<br>
+  0 muestras vencidas; medias mensuales dentro de ±<span class="por-confirmar">2 DE</span> de la línea base.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registros con data cruda y reporte<br>
-  - Data cruda y reporte estadístico del análisis de Fase 3</p>
-  <p><strong>Referencia:</strong><br>URS aprobada (rangos y criterios).</p>
+  - Data cruda y reporte estadístico de la Fase 3</p>
+  <p><strong>Nota:</strong><br>La frecuencia y el margen en rojo son referencias y quedan pendientes de confirmación por el responsable antes de ejecutar.</p>
+  <p><strong>Referencia:</strong><br>USP &lt;1231&gt;; URS aprobada.</p>
 </article>
 
 <article data-bloque="3" id="art-SIS-PQ-AP-010" class="ensayo" data-id="SIS-PQ-AP-010" data-fase="PQ" data-cond="ambas" data-familia="agua-purificada" data-analisis="si">
   <h3>SIS-PQ-AP-010 — Variaciones estacionales</h3>
-  <p><strong>Objetivo:</strong><br>Cubrir los cambios en la calidad del agua de alimentación durante las cuatro estaciones.</p>
+  <p><strong>Objetivo:</strong><br>Demostrar que el sistema sostiene la calidad frente a los cambios estacionales del agua de alimentación.</p>
   <p><strong>Procedimiento:</strong><br>
   1) Registrar temperatura, cloro, carga orgánica y microorganismos del agua de alimentación por estación<br>
   2) Verificar el desempeño del sistema en cada estación<br>
-  3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
+  3) Comparar las medias entre estaciones<br>
+  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Plan estadístico:</strong><br>Comparación entre estaciones. Variable = temperatura, cloro, carga orgánica y microorganismos del agua de alimentación, y desempeño del sistema. n ≥ 4 muestras por estación. ANOVA de una vía o Kruskal-Wallis según normalidad; diferencia entre estaciones con IC 95 %; umbral práctico ±<span class="por-confirmar">20 %</span> en TOC y conductividad.</p>
   <p><strong>Criterio de aceptación:</strong><br>
-  Desempeño dentro de los límites en las cuatro estaciones.</p>
+  Desempeño dentro de los límites en las 4 estaciones.<br>
+  Diferencia de media entre estaciones ≤ <span class="por-confirmar">20 %</span> en TOC y conductividad.<br>
+  0 excursiones microbiológicas de causa estacional sin investigación.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registros con data cruda y reporte<br>
-  - Data cruda y reporte estadístico del análisis estacional</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante del sistema.</p>
+  - Data cruda y reporte estadístico estacional</p>
+  <p><strong>Nota:</strong><br>El umbral en rojo es una referencia y queda pendiente de confirmación por el responsable antes de ejecutar.</p>
+  <p><strong>Referencia:</strong><br>USP &lt;1231&gt;; URS aprobada.</p>
 </article>
 
 <article data-bloque="3" id="art-SIS-PQ-AP-011" class="ensayo" data-id="SIS-PQ-AP-011" data-fase="PQ" data-cond="ambas" data-familia="agua-purificada" data-analisis="si">
   <h3>SIS-PQ-AP-011 — Tendencias, excursiones y límites</h3>
-  <p><strong>Objetivo:</strong><br>Revisar tendencias y excursiones, y ajustar los límites de alerta y acción con los datos acumulados.</p>
+  <p><strong>Objetivo:</strong><br>Revisar las tendencias y excursiones acumuladas y ajustar los límites de alerta y acción con los datos.</p>
   <p><strong>Procedimiento:</strong><br>
-  1) Revisar tendencias y excursiones acumuladas<br>
-  2) Ajustar los límites de alerta y acción con los datos<br>
-  3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
+  1) Revisar tendencias y excursiones acumuladas de las tres fases<br>
+  2) Calcular los límites de alerta y acción con la línea base<br>
+  3) Documentar y aprobar el ajuste antes de aplicarlo<br>
+  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Plan estadístico:</strong><br>Ajuste de límites con datos acumulados. n = todas las muestras de las Fases 1 a 3. Límite de alerta = media + 2 DE de la línea base; límite de acción = límite farmacopeico. Proporción de resultados entre alerta y acción con IC 95 % binomial exacto; tendencia por regresión lineal.</p>
   <p><strong>Criterio de aceptación:</strong><br>
-  Límites ajustados con datos.</p>
+  Límite de alerta = media de Fase 1 + 2 DE; límite de acción = límite farmacopeico.<br>
+  100 % de los resultados por debajo del límite de acción.<br>
+  100 % de los resultados en alerta investigados y documentados.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Documento de límites con data cruda y reporte<br>
-  - Data cruda y reporte estadístico del análisis de límites</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante del sistema.</p>
+  - Data cruda y reporte estadístico de límites</p>
+  <p><strong>Referencia:</strong><br>USP &lt;1231&gt;; URS aprobada.</p>
 </article>
 
 <article data-bloque="3" id="art-SIS-PQ-AP-012" class="ensayo" data-id="SIS-PQ-AP-012" data-fase="PQ" data-cond="ambas" data-familia="agua-purificada" data-analisis="si">
   <h3>SIS-PQ-AP-012 — Sanitización y mantenimiento</h3>
-  <p><strong>Objetivo:</strong><br>Confirmar la frecuencia de sanitización y de mantenimiento dentro de los intervalos definidos.</p>
+  <p><strong>Objetivo:</strong><br>Confirmar que la sanitización y el mantenimiento se ejecutan dentro de los intervalos definidos.</p>
   <p><strong>Procedimiento:</strong><br>
-  1) Verificar cambio de membranas, de lámparas UV y de filtros dentro de los intervalos<br>
+  1) Verificar el cambio de membranas, lámparas UV y filtros dentro de los intervalos<br>
   2) Confirmar la frecuencia de sanitización<br>
-  3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
+  3) Registrar cada vencimiento y su disposición<br>
+  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Plan estadístico:</strong><br>Estudio de atributo y de intervalo. n = todos los mantenimientos y sanitizaciones del período. Cumplimiento = ejecutados dentro del intervalo / programados, con IC 95 % binomial exacto; días de vencimiento (mediana, máximo); tendencia de presión diferencial e intensidad UV.</p>
   <p><strong>Criterio de aceptación:</strong><br>
-  Mantenimientos dentro de los intervalos definidos.</p>
+  100 % de los mantenimientos (membranas, lámparas UV y filtros) dentro del intervalo definido (<span class="por-confirmar">según manual del fabricante</span>).<br>
+  0 vencimientos y 100 % de las sanitizaciones según la frecuencia aprobada.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registros con data cruda y reporte<br>
-  - Data cruda y reporte estadístico del análisis de mantenimiento</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante del sistema.</p>
+  - Data cruda y reporte estadístico de mantenimiento</p>
+  <p><strong>Nota:</strong><br>El intervalo en rojo queda pendiente de confirmación contra el manual del fabricante antes de ejecutar.</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante; URS aprobada.</p>
 </article>
 
 <article data-bloque="3" id="art-SIS-PQ-AP-013" class="ensayo" data-id="SIS-PQ-AP-013" data-fase="PQ" data-cond="ambas" data-familia="agua-purificada" data-analisis="si">
   <h3>SIS-PQ-AP-013 — Conductividad y TOC</h3>
-  <p><strong>Objetivo:</strong><br>Verificar conductividad y TOC en todas las fases contra la especificación.</p>
+  <p><strong>Objetivo:</strong><br>Verificar conductividad y TOC en todas las fases contra la especificación farmacopeica adoptada.</p>
   <p><strong>Procedimiento:</strong><br>
-  1) Medir conductividad (USP 645 tres etapas, o la monografía que apliques)<br>
-  2) Medir TOC (referencia USP 643: 500 ppb en PW; verifica tu farmacopea y tu especificación)<br>
-  3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
+  1) Medir conductividad sin compensación de temperatura (USP &lt;645&gt;, tres etapas)<br>
+  2) Medir TOC (USP &lt;643&gt;)<br>
+  3) Comparar cada resultado contra el límite de acción y registrar el instrumento usado<br>
+  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Plan estadístico:</strong><br>Variables continuas por punto. n = todas las muestras válidas de PW y WFI en las tres fases. Conductividad y TOC: media, DE, RSD, mínimo, máximo e IC 95 %. Tendencia por regresión contra tiempo. Límite de alerta = media de Fase 1 + 2 DE; límite de acción = <span class="por-confirmar">1,3 µS/cm</span> y <span class="por-confirmar">500 ppb</span>. Grubbs solo con investigación documentada.</p>
   <p><strong>Criterio de aceptación:</strong><br>
-  Dentro de la especificación adoptada.</p>
+  Conductividad ≤ <span class="por-confirmar">1,3 µS/cm a 25 °C sin compensación</span> (USP &lt;645&gt;, etapa 1).<br>
+  TOC ≤ <span class="por-confirmar">500 ppb (0,5 mg/L)</span> (USP &lt;643&gt;) en el 100 % de las muestras de PW y WFI.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registros con data cruda y reporte<br>
-  - Data cruda y reporte estadístico del análisis de conductividad y TOC</p>
-  <p><strong>Referencia:</strong><br>USP 645 (conductividad); USP 643 (TOC); más la especificación adoptada; USP 1231 (validación del sistema y niveles de alerta y acción).</p>
+  - Data cruda y reporte estadístico de conductividad y TOC</p>
+  <p><strong>Nota:</strong><br>Los valores en rojo corresponden a USP &lt;645&gt; y &lt;643&gt; y quedan pendientes de confirmación de adopción por el responsable antes de firmar; si se adopta otra farmacopea, se actualizan antes de la ejecución.</p>
+  <p><strong>Referencia:</strong><br>USP &lt;645&gt; (conductividad); USP &lt;643&gt; (TOC); USP &lt;1231&gt;.</p>
 </article>
 
 <article data-bloque="3" id="art-SIS-PQ-AP-014" class="ensayo" data-id="SIS-PQ-AP-014" data-fase="PQ" data-cond="ambas" data-familia="agua-purificada" data-analisis="si">
   <h3>SIS-PQ-AP-014 — Recuento microbiano total</h3>
-  <p><strong>Objetivo:</strong><br>Verificar el límite de acción según farmacopea y especificación.</p>
+  <p><strong>Objetivo:</strong><br>Verificar que el recuento microbiano total se mantiene por debajo del límite de acción adoptado.</p>
   <p><strong>Procedimiento:</strong><br>
-  1) Medir el recuento microbiano total (referencia habitual: 100 UFC por mL para PW en USP 1231, 10 UFC por 100 mL para WFI; verifica el criterio que adoptes)<br>
-  2) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
+  1) Medir el recuento microbiano total por punto con el método compendial adoptado<br>
+  2) Comparar cada resultado contra el límite de acción de PW o WFI<br>
+  3) Registrar el método, el medio y el tiempo de incubación<br>
+  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Plan estadístico:</strong><br>Recuento microbiológico por punto. n = todas las muestras de PW y WFI. Los recuentos se transforman a log10. Por punto: media geométrica, DE de log10, mínimo, máximo e IC 95 %. Límite de acción = <span class="por-confirmar">100 UFC/mL</span> (PW) o <span class="por-confirmar">10 UFC/100 mL</span> (WFI). Proporción sobre el límite con IC 95 % binomial exacto; tendencia por regresión de log10. Grubbs solo sobre log10 y con n ≥ 7.</p>
   <p><strong>Criterio de aceptación:</strong><br>
-  Dentro del límite adoptado.</p>
+  PW ≤ <span class="por-confirmar">100 UFC/mL</span> y WFI ≤ <span class="por-confirmar">10 UFC/100 mL</span> (límites de acción USP &lt;1231&gt;) en el 100 % de las muestras.<br>
+  0 resultados por encima del límite de acción.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registros con data cruda y reporte<br>
-  - Data cruda y reporte estadístico del análisis microbiano</p>
-  <p><strong>Referencia:</strong><br>USP 1231 (criterios microbiológicos); más la especificación adoptada.</p>
+  - Data cruda y reporte estadístico del recuento microbiano</p>
+  <p><strong>Nota:</strong><br>Los límites en rojo corresponden a USP &lt;1231&gt; y quedan pendientes de confirmación de adopción por el responsable antes de firmar.</p>
+  <p><strong>Referencia:</strong><br>USP &lt;1231&gt; (criterios microbiológicos); USP &lt;61&gt; (métodos).</p>
 </article>
 
 <article data-bloque="3" id="art-SIS-PQ-AP-015" class="ensayo" data-id="SIS-PQ-AP-015" data-fase="PQ" data-cond="ambas" data-familia="agua-purificada" data-analisis="si" data-aplica="WFI">
   <h3>SIS-PQ-AP-015 — Endotoxinas</h3>
-  <p><strong>Objetivo:</strong><br>Verificar endotoxinas (solo WFI, si aplica).</p>
+  <p><strong>Objetivo:</strong><br>Verificar que el agua para inyección cumple el límite de endotoxinas adoptado.</p>
   <p><strong>Procedimiento:</strong><br>
-  1) Medir endotoxinas (referencia: 0,25 UE por mL para WFI)<br>
-  2) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
+  1) Medir endotoxinas en cada punto de WFI con el método compendial adoptado<br>
+  2) Comparar cada resultado individual contra el límite y registrar LOD/LOQ<br>
+  3) No promediar resultados para declarar cumplimiento<br>
+  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Plan estadístico:</strong><br>Método analítico. n = todas las muestras de WFI. Cada resultado se compara contra <span class="por-confirmar">0,25 UE/mL</span>; por punto: mediana, mínimo, máximo e IC 95 %; tendencia por regresión de log10; LOD/LOQ del método declarados.</p>
   <p><strong>Criterio de aceptación:</strong><br>
-  Dentro del límite adoptado (solo WFI, si aplica).</p>
+  WFI ≤ <span class="por-confirmar">0,25 UE/mL</span> (USP &lt;85&gt;/&lt;1231&gt;) en el 100 % de las muestras.<br>
+  0 resultados ≥ límite.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registros con data cruda y reporte<br>
-  - Data cruda y reporte estadístico del análisis de endotoxinas</p>
-  <p><strong>Referencia:</strong><br>URS aprobada (rangos y criterios); USP 1231 (endotoxinas en WFI).</p>
+  - Data cruda y reporte estadístico de endotoxinas</p>
+  <p><strong>Nota:</strong><br>El límite en rojo corresponde a USP &lt;85&gt;/&lt;1231&gt; y queda pendiente de confirmación de adopción por el responsable antes de firmar. El ensayo solo aplica a WFI.</p>
+  <p><strong>Referencia:</strong><br>USP &lt;85&gt;; USP &lt;1231&gt;; URS aprobada.</p>
 </article>
 
 <article data-bloque="3" id="art-SIS-PQ-AP-016" class="ensayo" data-id="SIS-PQ-AP-016" data-fase="PQ" data-cond="ambas" data-familia="agua-purificada" data-analisis="si">
   <h3>SIS-PQ-AP-016 — Nitratos, metales pesados y oxidantes</h3>
-  <p><strong>Objetivo:</strong><br>Verificar si la monografía lo exige.</p>
+  <p><strong>Objetivo:</strong><br>Verificar los parámetros fisicoquímicos que exija la monografía adoptada.</p>
   <p><strong>Procedimiento:</strong><br>
-  1) Medir nitratos, metales pesados y oxidantes si la monografía lo exige<br>
-  2) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
+  1) Confirmar qué parámetros exige la monografía adoptada (USP, Ph. Eur., IP o BP)<br>
+  2) Medir nitratos, metales pesados y sustancias oxidables solo si la monografía los exige<br>
+  3) Registrar el método y el LOD/LOQ de cada parámetro<br>
+  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Plan estadístico:</strong><br>Métodos analíticos según la monografía adoptada. n = 1 muestra por punto y fase. Cada resultado se compara con el límite de la monografía; se reportan LOD/LOQ y método. Si la monografía no exige el parámetro, el ensayo se declara No Aplica con justificación.</p>
   <p><strong>Criterio de aceptación:</strong><br>
-  Dentro de la especificación si aplica.</p>
+  Si la monografía adoptada los exige: nitrato ≤ <span class="por-confirmar">0,2 ppm</span>, metales pesados ≤ <span class="por-confirmar">0,1 ppm</span> y sustancias oxidables conformes a la prueba de permanganato.<br>
+  En USP, nitrato y metales pesados no se exigen en agua a granel.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registros con data cruda y reporte<br>
-  - Data cruda y reporte estadístico del análisis fisicoquímico</p>
-  <p><strong>Referencia:</strong><br>URS aprobada (rangos y criterios).</p>
+  - Data cruda y reporte estadístico fisicoquímico</p>
+  <p><strong>Nota:</strong><br>Los límites en rojo provienen de IP/BP y quedan pendientes de confirmación de la monografía aplicable; USP no exige nitrato ni metales pesados en agua a granel.</p>
+  <p><strong>Referencia:</strong><br>Monografía adoptada (USP/Ph. Eur./IP/BP); URS aprobada.</p>
 </article>
 
 <article data-bloque="3" id="art-SIS-PQ-AP-017" class="ensayo" data-id="SIS-PQ-AP-017" data-fase="PQ" data-cond="ambas" data-familia="agua-purificada" data-analisis="si">
   <h3>SIS-PQ-AP-017 — Microorganismos objetables</h3>
-  <p><strong>Objetivo:</strong><br>Verificar la ausencia de patógenos específicos según el uso del agua.</p>
+  <p><strong>Objetivo:</strong><br>Verificar la ausencia de microorganismos objetables según el uso del agua.</p>
   <p><strong>Procedimiento:</strong><br>
-  1) Investigar patógenos específicos según el uso del agua<br>
-  2) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
+  1) Investigar los patógenos específicos definidos para el uso del agua<br>
+  2) Registrar el método de identificación y el volumen filtrado<br>
+  3) Documentar la acción ante cualquier positivo<br>
+  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Plan estadístico:</strong><br>Estudio de atributo (presencia/ausencia). n = 1 muestra por punto y fase. Proporción de muestras con ausencia con IC 95 % binomial exacto; criterio de cero positivos; identificación del microorganismo y acción documentada si hay positivo.</p>
   <p><strong>Criterio de aceptación:</strong><br>
-  Ausencia según el uso del agua.</p>
+  0 UFC de Pseudomonas aeruginosa, Escherichia coli, Staphylococcus aureus y Burkholderia cepacia en <span class="por-confirmar">100 mL</span> de muestra (o ausencia según el uso del agua).</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registros con data cruda y reporte<br>
-  - Data cruda y reporte estadístico del análisis de objetables</p>
-  <p><strong>Referencia:</strong><br>URS aprobada (rangos y criterios).</p>
+  - Data cruda y reporte estadístico de objetables</p>
+  <p><strong>Nota:</strong><br>El volumen en rojo es una referencia y queda pendiente de confirmación contra la USP adoptada y el uso del agua.</p>
+  <p><strong>Referencia:</strong><br>USP &lt;1231&gt;; USP &lt;62&gt; (identificación); URS aprobada.</p>
 </article>
 
 <article data-bloque="3" id="art-SIS-PQ-AP-018" class="ensayo" data-id="SIS-PQ-AP-018" data-fase="PQ" data-cond="ambas" data-familia="agua-purificada" data-analisis="si">
   <h3>SIS-PQ-AP-018 — Cloro residual en pretratamiento</h3>
-  <p><strong>Objetivo:</strong><br>Verificar el cloro residual para proteger la RO (si aplica).</p>
+  <p><strong>Objetivo:</strong><br>Verificar que el cloro residual en la alimentación protege las membranas de la RO sin exceder el rango del fabricante.</p>
   <p><strong>Procedimiento:</strong><br>
-  1) Medir el cloro residual en el pretratamiento (si aplica)<br>
-  2) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
+  1) Medir el cloro libre residual en la alimentación a la RO (si aplica)<br>
+  2) Registrar la medición con hora, instrumento y analista<br>
+  3) Activar la alarma y la acción si el valor sale del rango<br>
+  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Plan estadístico:</strong><br>Variable continua. n = todas las mediciones de cloro residual en la alimentación a la RO. Media, DE, mínimo, máximo e IC 95 %; comparación con el rango del fabricante; tendencia y conteo de alarmas. Límite de alerta = <span class="por-confirmar">0,1 ppm</span>; límite inferior = <span class="por-confirmar">0,05 ppm</span>.</p>
   <p><strong>Criterio de aceptación:</strong><br>
-  Dentro de lo definido (si aplica).</p>
+  Cloro libre residual en la alimentación a la RO ≤ <span class="por-confirmar">0,1 ppm</span> y ≥ <span class="por-confirmar">0,05 ppm</span> (o el rango del fabricante) en el 100 % de las mediciones.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registros con data cruda y reporte<br>
-  - Data cruda y reporte estadístico del análisis de cloro</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante del sistema.</p>
+  - Data cruda y reporte estadístico de cloro residual</p>
+  <p><strong>Nota:</strong><br>El rango en rojo es una referencia y queda pendiente de confirmación contra el manual del fabricante antes de ejecutar.</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante; URS aprobada.</p>
 </article>
 
 <article data-bloque="3" id="art-SIS-PQ-AP-019" class="ensayo" data-id="SIS-PQ-AP-019" data-fase="PQ" data-cond="ambas" data-familia="agua-purificada" data-analisis="si">
-  <h3>SIS-PQ-AP-019 — Velocidad y presión en el loops</h3>
-  <p><strong>Objetivo:</strong><br>Verificar velocidad y presión en el loops en todo el período, con alarmas registradas.</p>
+  <h3>SIS-PQ-AP-019 — Velocidad y presión en el loop</h3>
+  <p><strong>Objetivo:</strong><br>Verificar que la velocidad y la presión del loop se mantienen en diseño durante todo el período.</p>
   <p><strong>Procedimiento:</strong><br>
-  1) Registrar velocidad y presión en todo el período<br>
-  2) Registrar las alarmas ocurridas<br>
-  3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
+  1) Registrar velocidad y presión del loop en continuo<br>
+  2) Registrar cada alarma con hora, punto y causa<br>
+  3) Evaluar el efecto de cada evento fuera de rango<br>
+  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Plan estadístico:</strong><br>Variables continuas registradas en continuo. n = todos los registros del período. Por día: mínimo, media y máximo de velocidad y presión con IC 95 %; comparación contra el diseño; conteo de alarmas y tiempo fuera de rango. Límite = <span class="por-confirmar">1,5 m/s</span> o el de diseño de la URS.</p>
   <p><strong>Criterio de aceptación:</strong><br>
-  Registro continuo con alarmas documentadas.</p>
+  Velocidad de recirculación ≥ <span class="por-confirmar">1,5 m/s</span> (o el valor de diseño de la URS) en el 100 % de los registros.<br>
+  Presión positiva en el loop y 100 % de las alarmas documentadas y evaluadas.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registros con data cruda y reporte<br>
-  - Data cruda y reporte estadístico del análisis hidráulico</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante del sistema.</p>
+  - Data cruda y reporte estadístico hidráulico</p>
+  <p><strong>Nota:</strong><br>La velocidad en rojo es una referencia y queda pendiente de confirmación contra la URS y el diseño del loop antes de ejecutar.</p>
+  <p><strong>Referencia:</strong><br>URS aprobada; manual del fabricante.</p>
 </article>
 
 <article data-bloque="3" id="art-SIS-PQ-AP-020" class="ensayo" data-id="SIS-PQ-AP-020" data-fase="PQ" data-cond="ambas" data-familia="agua-purificada" data-analisis="si">
   <h3>SIS-PQ-AP-020 — Eficacia de la sanitización en PQ</h3>
-  <p><strong>Objetivo:</strong><br>Verificar temperatura o concentración en todos los puntos, y resultados microbiológicos posteriores.</p>
+  <p><strong>Objetivo:</strong><br>Verificar que la sanitización alcanza todos los puntos y que el resultado microbiológico posterior es conforme.</p>
   <p><strong>Procedimiento:</strong><br>
-  1) Verificar cumplimiento de temperatura o concentración en todos los puntos<br>
-  2) Verificar resultados microbiológicos posteriores<br>
-  3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
+  1) Verificar temperatura o concentración del sanitizante en todos los puntos<br>
+  2) Registrar la duración y el punto más desfavorable<br>
+  3) Medir el recuento microbiológico posterior<br>
+  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Plan estadístico:</strong><br>Variables continuas (temperatura °C, tiempo min, concentración ppm) y atributo microbiológico posterior. n = todos los puntos y eventos. Temperatura y tiempo: mínimo, media e IC 95 %; micro: proporción conforme con IC 95 % binomial exacto; comparación pre/post con prueba pareada.</p>
   <p><strong>Criterio de aceptación:</strong><br>
-  Cumplimiento en todos los puntos con micro posterior conforme.</p>
+  Temperatura ≥ <span class="por-confirmar">80 °C</span> durante ≥ <span class="por-confirmar">60 min</span> en todos los puntos (o concentración de sanitizante <span class="por-confirmar">según fabricante</span>).<br>
+  Recuento microbiológico posterior ≤ <span class="por-confirmar">10 UFC/100 mL</span>.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registros con data cruda y reporte<br>
-  - Data cruda y reporte estadístico del análisis de eficacia</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante del sistema.</p>
+  - Data cruda y reporte estadístico de eficacia</p>
+  <p><strong>Nota:</strong><br>Las condiciones y el límite en rojo quedan pendientes de confirmación contra la USP adoptada, el SOP de sanitización y el manual del fabricante antes de ejecutar.</p>
+  <p><strong>Referencia:</strong><br>USP &lt;1231&gt;; SOP de sanitización; manual del fabricante.</p>
 </article>
 
 <article data-bloque="3" id="art-SIS-PQ-AP-021" class="ensayo" data-id="SIS-PQ-AP-021" data-fase="PQ" data-cond="ambas" data-familia="agua-purificada" data-analisis="si">
   <h3>SIS-PQ-AP-021 — Respuesta ante excursiones</h3>
-  <p><strong>Objetivo:</strong><br>Verificar aislamiento del punto o sistema, investigación, acción correctiva y repetición del muestreo.</p>
+  <p><strong>Objetivo:</strong><br>Verificar que toda excursión se aísla, investiga, corrige y remuestrea antes de liberar.</p>
   <p><strong>Procedimiento:</strong><br>
-  1) Aislar el punto o sistema ante la excursión<br>
-  2) Investigar, aplicar acción correctiva y repetir el muestreo<br>
-  3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
+  1) Aislar el punto o el sistema ante la excursión<br>
+  2) Investigar, aplicar la acción correctiva y repetir el muestreo<br>
+  3) Registrar el cierre y la autorización de liberación<br>
+  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Plan estadístico:</strong><br>Estudio de atributo y de tiempo. n = todas las excursiones del período. Proporción de excursiones aisladas, investigadas y cerradas con IC 95 % binomial exacto; tiempo a cierre en días (mediana, mínimo, máximo); criterio de cero liberaciones con excursión abierta.</p>
   <p><strong>Criterio de aceptación:</strong><br>
-  Excursión cerrada con correctiva y remuestreo.</p>
+  100 % de las excursiones aisladas, investigadas y cerradas antes de liberar.<br>
+  0 liberaciones con excursión abierta y remuestreo conforme en el 100 %.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registros con data cruda y reporte<br>
-  - Data cruda y reporte estadístico del análisis de excursiones</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante del sistema.</p>
+  - Data cruda y reporte estadístico de excursiones</p>
+  <p><strong>Referencia:</strong><br>21 CFR 211.192; URS aprobada.</p>
 </article>
 
 <article data-bloque="3" id="art-SIS-PQ-AP-022" class="ensayo" data-id="SIS-PQ-AP-022" data-fase="PQ" data-cond="ambas" data-familia="agua-purificada" data-analisis="si">
   <h3>SIS-PQ-AP-022 — Paros y reinicios</h3>
-  <p><strong>Objetivo:</strong><br>Verificar el comportamiento tras un paro prolongado, con muestreo tras la reposición y criterio de vuelta a servicio (si aplica).</p>
+  <p><strong>Objetivo:</strong><br>Verificar que tras un paro prolongado el sistema vuelve a servicio solo con muestreo conforme.</p>
   <p><strong>Procedimiento:</strong><br>
-  1) Tras un paro prolongado (fin de semana, mantenimiento), muestrear tras la reposición (si aplica)<br>
-  2) Aplicar el criterio de vuelta a servicio<br>
-  3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
+  1) Tras un paro, purgar y reponer el sistema según el SOP<br>
+  2) Muestrear antes de liberar el agua<br>
+  3) Aplicar el criterio de vuelta a servicio y registrar el evento<br>
+  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Plan estadístico:</strong><br>Estudio de atributo por evento de paro/reinicio. n = todos los paros &gt; <span class="por-confirmar">72 h</span>. Proporción de reinicios conformes con IC 95 % binomial exacto; comparación pre/post con prueba de McNemar si hay pares; tiempo de reposición en horas.</p>
   <p><strong>Criterio de aceptación:</strong><br>
-  Vuelta a servicio solo con criterio cumplido (si aplica).</p>
+  Tras un paro &gt; <span class="por-confirmar">72 h</span>, liberar solo con muestreo conforme: conductividad ≤ <span class="por-confirmar">1,3 µS/cm</span>, TOC ≤ <span class="por-confirmar">500 ppb</span> y micro ≤ <span class="por-confirmar">100 UFC/mL</span> (PW) o ≤ <span class="por-confirmar">10 UFC/100 mL</span> (WFI).</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registros con data cruda y reporte<br>
-  - Data cruda y reporte estadístico del análisis de paros</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante del sistema.</p>
+  - Data cruda y reporte estadístico de paros y reinicios</p>
+  <p><strong>Nota:</strong><br>El plazo y los límites en rojo son referencias y quedan pendientes de confirmación contra la USP adoptada y el SOP de paros antes de ejecutar.</p>
+  <p><strong>Referencia:</strong><br>USP &lt;1231&gt;; URS aprobada; SOP de paros y reinicios.</p>
 </article>
 
 <article data-bloque="3" id="art-SIS-PQ-AP-023" class="ensayo" data-id="SIS-PQ-AP-023" data-fase="PQ" data-cond="ambas" data-familia="agua-purificada" data-analisis="si">
   <h3>SIS-PQ-AP-023 — Retrolavados, regeneraciones y consumibles</h3>
-  <p><strong>Objetivo:</strong><br>Verificar el efecto sobre la calidad del agua tras cada evento.</p>
+  <p><strong>Objetivo:</strong><br>Verificar que cada retrolavado, regeneración o cambio de consumible no degrada la calidad del agua.</p>
   <p><strong>Procedimiento:</strong><br>
-  1) Tras cada retrolavado, regeneración o cambio de consumibles, medir el efecto en la calidad del agua<br>
-  2) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
+  1) Registrar cada retrolavado, regeneración o cambio de consumible<br>
+  2) Medir conductividad, TOC y microbiología antes y después del evento<br>
+  3) Comparar el efecto y documentar cualquier desvío<br>
+  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Plan estadístico:</strong><br>Comparación pre/post por evento. n = todos los retrolavados, regeneraciones y cambios de consumibles. Variables: conductividad, TOC y recuento microbiológico antes y después; diferencia de medias con IC 95 %; prueba t pareada o Wilcoxon según normalidad; proporción de eventos conformes con IC 95 % binomial exacto.</p>
   <p><strong>Criterio de aceptación:</strong><br>
-  Calidad dentro de los límites tras cada evento.</p>
+  Calidad conforme tras cada evento: conductividad ≤ <span class="por-confirmar">1,3 µS/cm</span>, TOC ≤ <span class="por-confirmar">500 ppb</span> y micro ≤ <span class="por-confirmar">100 UFC/mL</span>.<br>
+  100 % de los eventos con muestra post-evento.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registros con data cruda y reporte<br>
-  - Data cruda y reporte estadístico del análisis de eventos</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante del sistema.</p>
+  - Data cruda y reporte estadístico de eventos</p>
+  <p><strong>Nota:</strong><br>Los límites en rojo corresponden a la USP adoptada y quedan pendientes de confirmación por el responsable antes de firmar el protocolo.</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante; USP &lt;1231&gt;; URS aprobada.</p>
 </article>
 
 <article data-bloque="4" id="art-SIS-PQ-AP-RES" class="ensayo" data-id="SIS-PQ-AP-RES" data-fase="PQ" data-cond="ambas" data-familia="agua-purificada">

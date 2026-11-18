@@ -90,6 +90,39 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (StatAnalyzer Pro) co
 
 ## CAMBIOS RECIENTES
 
+### 2026-11-18 (313): Piloto agua PQ — criterio individual y pendientes en rojo
+
+**Qué:** se ejecuta el paso 1 del plan: los 23 ensayos PQ del sistema de agua (`SIS-PQ-AP-001` a `023`) pasan de plan genérico y criterio vago a plan por tipo de dato y criterio propio con valor numérico. Lo que no se puede confirmar sin el analista queda en rojo.
+
+- **Contenido:** plan estadístico por tipo de dato (continua, recuento, atributo, analítico) y criterio con valor + unidad + regla + fuente en cada ensayo. Los 23 criterios son distintos entre sí.
+- **Rojo:** `<span class="por-confirmar">` marca los límites que dependen de USP `<645>`/`<643>`/`<1231>`/`<85>` (conductividad 1,3 µS/cm; TOC 500 ppb; micro 100 UFC/mL PW y 10 UFC/100 mL WFI; endotoxinas 0,25 UE/mL) y otras referencias de diseño (velocidad, temperatura de sanitización, frecuencias, plazos). El DOCX los escribe en rojo (C00000) y cada ensayo lleva una `Nota:` que declara que están pendientes de confirmación.
+- **Nota al analista:** la sección `Pendientes` no llegaba al DOCX (el generador solo leía secciones `Nota`); ahora se renderiza y sus pendientes salen en rojo. La cabecera del resultado también muestra en rojo criticidad e instrumentos no declarados.
+- **Alcance:** los 1.392 ensayos restantes siguen con el estándar anterior; este cambio no los toca.
+
+**Estado medido (1.392 ensayos):**
+```
+criterio con valor numérico: 207 (15 %) — +20 por el piloto
+criterio clonado: 370 ensayos en 149 grupos — −7 por el piloto
+falta plan: 190 · falta criticidad: 1392 · falta instrumentos: 1392
+```
+
+**Archivos afectados:**
+| Archivo | Cambio |
+|---------|--------|
+| `docs/banco-ensayos/sistemas/pq-agua-purificada.html` | 23 ensayos reescritos; CSS `.por-confirmar`; banco `SIS-PQ-AP 2026-11-18 v2` |
+| `js/core/banco-sistemas-data.js` | Regenerado con `extraer-banco.mjs sistemas` |
+| `js/core/plantilla-docx.js` | Rojo en DOCX, nota `Pendientes` visible, cabecera en rojo |
+| `tests/plantilla-docx.test.js` | 3 pruebas del marcado en rojo y la nota |
+| `docs/banco-ensayos/PROTOCOLO_MAESTRO.md` | §5.5 nuevo; versión 1.3 |
+
+**Verificación:**
+```
+npm test → 66 archivos, 1195 pruebas OK
+protocolo:check → OK (30 warnings)
+banco:check → 1392 ensayos, 207 con valor numérico, 370 clonados en 149 grupos
+DOCX PQ generado → 129 runs en C00000, 0 marcadores de control, nota de pendientes presente
+```
+
 ### 2026-11-18 (312): Estándar de ensayo — esqueleto común, criterio individual
 
 **Qué:** se documenta y se mide el estándar que el banco ya usaba a medias.

@@ -313,6 +313,33 @@ const PlantillaDocx = (() => {
 
   const run = (rpr, t) => '<w:r>' + rpr + '<w:t xml:space="preserve">' + esc(t) + '</w:t></w:r>';
 
+  // Texto marcado para confirmar: se escribe en rojo en el DOCX.
+  const ROJO_INI = '\u0001';
+  const ROJO_FIN = '\u0002';
+  function colorRojo(rpr) {
+    let r = rpr || '<w:rPr></w:rPr>';
+    r = r.replace(/<w:color\b[^>]*\/>/g, '');
+    if (/<w:rPr\/>/.test(r)) return r.replace('<w:rPr/>', '<w:rPr><w:color w:val="C00000"/></w:rPr>');
+    if (/<w:rPr>/.test(r)) return r.replace('<w:rPr>', '<w:rPr><w:color w:val="C00000"/>');
+    return '<w:rPr><w:color w:val="C00000"/></w:rPr>';
+  }
+  function expandirRojo(segs) {
+    const out = [];
+    (segs || []).forEach((s) => {
+      const t = String(s.t == null ? '' : s.t);
+      let i = 0;
+      while (i < t.length) {
+        const a = t.indexOf(ROJO_INI, i);
+        const b = a < 0 ? -1 : t.indexOf(ROJO_FIN, a + 1);
+        if (a < 0 || b < 0) { out.push({ t: t.slice(i), b: s.b, rpr: s.rpr }); break; }
+        if (a > i) out.push({ t: t.slice(i, a), b: s.b, rpr: s.rpr });
+        out.push({ t: t.slice(a + 1, b), b: s.b, rpr: s.rpr, rojo: true });
+        i = b + 1;
+      }
+    });
+    return out;
+  }
+
   function ajustarPPr(ppr, o) {
     let s = ppr || '<w:pPr></w:pPr>';
     if (o.ilvl != null) s = s.replace(/<w:ilvl w:val="\d+"\s*\/>/, '<w:ilvl w:val="' + o.ilvl + '"/>');
@@ -331,7 +358,10 @@ const PlantillaDocx = (() => {
     o = o || {};
     const ppr = ajustarPPr(pPrDe(tpl), o);
     const rNormal = rPrRun(tpl, o.runNormal == null ? 0 : o.runNormal);
-    const runs = segs.map((s) => run(negrita(s.rpr || rNormal, !!s.b), s.t)).join('');
+    const runs = expandirRojo(segs).map((s) => {
+      const r = negrita(s.rpr || rNormal, !!s.b);
+      return run(s.rojo ? colorRojo(r) : r, s.t);
+    }).join('');
     let bm = '', bmFin = '';
     if (o.marcador) {
       const id = BM++;
@@ -353,10 +383,11 @@ const PlantillaDocx = (() => {
   function textoParrafo(pXml, t, o) {
     // Reemplaza todo el texto del párrafo conservando pPr y el formato del primer run.
     o = o || {};
+    const limpio = String(t == null ? '' : t).replace(/[\u0001\u0002]/g, '');
     const abre = /^<w:p\b[^>]*>/.exec(pXml)[0];
     const ppr = pPrDe(pXml);
     const rpr = limpiarRPr(rPrRun(pXml, 0));
-    return abre + ppr + (o.bold != null ? run(negrita(rpr, o.bold), t) : run(rpr, t)) + '</w:p>';
+    return abre + ppr + (o.bold != null ? run(negrita(rpr, o.bold), limpio) : run(rpr, limpio)) + '</w:p>';
   }
 
   // Mantiene una tabla en una sola página (filas sin partir + keepNext en cada párrafo
@@ -628,6 +659,8 @@ const PlantillaDocx = (() => {
 
   function lineas(html) {
     return desc(String(html || '')
+      // Lo que el banco marca como por confirmar se conserva para pintarlo en rojo.
+      .replace(/<span[^>]*class="[^"]*por-confirmar[^"]*"[^>]*>([\s\S]*?)<\/span>/gi, ROJO_INI + '$1' + ROJO_FIN)
       .replace(/<br\s*\/?>/gi, '\n').replace(/<\/(p|li|div|tr)>/gi, '\n').replace(/<[^>]+>/g, ''))
       .split('\n').map((l) => l.replace(/\s+/g, ' ').trim()).filter(Boolean);
   }
@@ -661,7 +694,7 @@ const PlantillaDocx = (() => {
       plan: una(/^plan estadístico/i).join(' '),
       criterios: una(/^criterio/i),
       entregables: niveles(una(/entregable/i)),
-      notas: una(/^nota/i),
+      notas: una(/^nota/i).concat(una(/^pendientes/i)),
       referencia: una(/^referencia/i).join(' '),
       otros: (art.secciones || []).filter((s) => !(s.et || '').trim()).flatMap((s) => lineas(congelar(s.html, ctx))),
     };
@@ -691,12 +724,13 @@ const PlantillaDocx = (() => {
   // explícita al bloque correspondiente. NUNCA se inventa su contenido.
   function cabeceraResultado(art) {
     const a = art || {};
+    const rojo = (t) => ROJO_INI + t + ROJO_FIN;
     const criticidad = String(a.criticidad || '').trim()
-      || 'Por definir por el responsable (análisis de riesgo)';
+      || rojo('Por definir por el responsable (análisis de riesgo)');
     const prerrequisitos = String(a.prerrequisitos || '').trim()
-      || 'Bloque 2 — requisitos previos del protocolo';
+      || rojo('Bloque 2 — requisitos previos del protocolo');
     const instrumentos = String(a.instrumentos || '').trim()
-      || 'Tabla de instrumentos del protocolo (bloque 2)';
+      || rojo('Tabla de instrumentos del protocolo (bloque 2)');
     return 'Criticidad: ' + criticidad + ' · Prerrequisitos: ' + prerrequisitos
       + ' · Instrumentos: ' + instrumentos;
   }
@@ -1131,9 +1165,9 @@ const PlantillaDocx = (() => {
         ...(Array.isArray(ensayosProtocolo) ? [(() => {
           const pend = pendientesProtocolo(ensayosProtocolo);
           const html = pend.length
-            ? '<strong>Pendientes de este protocolo (' + pend.length + '):</strong><br>' + pend.map((t) => '- ' + t).join('<br>')
-              + '<br>El responsable debe resolverlos y aprobarlos antes de la ejecución; el analista no los define durante la corrida.'
-            : '<strong>Pendientes de este protocolo:</strong><br>Ninguno. El contenido está completo; el analista solo agrega datos de sitio y ejecución.';
+            ? '<strong>Nota:</strong><br>Pendientes de este protocolo (' + pend.length + '):<br>' + pend.map((t) => '- <span class="por-confirmar">' + t + '</span>').join('<br>')
+              + '<br>Los pendientes en rojo deben resolverse y aprobarse antes de la ejecución; el analista no los define durante la corrida.'
+            : '<strong>Nota:</strong><br>Pendientes de este protocolo: Ninguno. El contenido está completo; el analista solo agrega datos de sitio y ejecución.';
           return { et: 'Pendientes', html };
         })()] : []),
         { et: 'Procedimiento', html: '<strong>Procedimiento:</strong><br>1) Identificar el equipo: marca, modelo, código interno, número de serie y ubicación; verificar que coinciden con la entidad del protocolo<br>2) Registrar la fecha, la hora y el turno reales de cada verificación, y las condiciones ambientales cuando el ensayo lo exija<br>3) Completar la tabla de instrumentos con el ID de cada instrumento usado y su certificado de calibración vigente<br>4) Anexar los datos crudos y el reporte estadístico generado, con su identificador y fecha<br>5) Registrar desviaciones y reensayos con su disposición, según el bloque de desviaciones<br>6) Completar las firmas por rol (ejecutor, revisor, aprobador) con nombre, fecha y hora' },
@@ -1965,7 +1999,7 @@ const PlantillaDocx = (() => {
   return {
     FASES, PLANTILLAS, OPC, SALTO_PAGINA, SALTO_H1, SALTO_H2, SALTO_TABLA, REFS_NORMATIVAS, refNormativa, soporta, configurar, generar, descargar, banco, mezclarComun, generarDQScaffold, descargarDQ, nombreArchivo,
     LIMITES, limitesDe, aplicarLimites, limitesPendientes, limitesResumen, paramsFaltantes, parametrosFamilia, bloquesFijos, rtmLineas,
-    _interno: { leerZip, escribirZip, hijos, texto, reemplazarEnParrafo, congelar, lineas, estructura, puntosVerificacion, puntosTabla, cabeceraResultado, fechaTexto, crc32, llenarFirmas, fijarTahoma11, fijarTexto11, quitarHumedad, debeSaltar, debeSaltarH1, debeSaltarH2, debeSaltarTabla, saltoPrevio, generoDe, ajustarArticulos },
+    _interno: { leerZip, escribirZip, hijos, texto, reemplazarEnParrafo, congelar, lineas, parrafo, estructura, puntosVerificacion, puntosTabla, cabeceraResultado, fechaTexto, crc32, llenarFirmas, fijarTahoma11, fijarTexto11, quitarHumedad, debeSaltar, debeSaltarH1, debeSaltarH2, debeSaltarTabla, saltoPrevio, generoDe, ajustarArticulos },
   };
 })();
 
