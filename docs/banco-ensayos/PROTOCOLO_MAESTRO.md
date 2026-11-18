@@ -1,6 +1,6 @@
 # Protocolo maestro IQ/OQ/PQ — equipos
 
-**Versión:** 1.2 · 2026-11-08
+**Versión:** 1.3 · 2026-11-18
 **Alcance:** protocolos IQ/OQ/PQ de equipos de producción y laboratorio, e instrumentos analíticos tipo L con protocolo OQ.
 **Objetivo:** una estructura única para todos los documentos, sin depender de la familia.
 
@@ -137,6 +137,15 @@ Todo ensayo de bloques 2-3 usa las mismas seis secciones, en este orden:
 - Una frecuencia o criticidad propuesta por un ensayo es provisional hasta que el monitoreo posterior la confirme.
 
 **Verificación:** `npm run banco:check` reporta, por familia, secciones ausentes, criterios sin valor numérico y grupos de criterios clonados.
+
+**Piloto agua PQ (23 ensayos):** `SIS-PQ-AP-001` a `023` quedan con plan por tipo de dato (continua, recuento, atributo, analítico) y criterio propio con valor numérico; ninguno comparte texto con otro ensayo del piloto. Los límites que dependen de la farmacopea adoptada salen marcados en rojo (ver §5.5).
+
+### 5.5 Pendientes en rojo
+
+- Lo que el banco no puede confirmar se marca con `<span class="por-confirmar">` y sale en rojo en el protocolo DOCX y en el HTML del banco: límites farmacopeicos, frecuencias, criticidad e instrumentos no declarados.
+- El rojo no es un criterio aprobado: el responsable debe confirmarlo o reemplazarlo antes de firmar. La nota al analista lista esos pendientes en rojo y el protocolo no se ejecuta hasta resolverlos.
+- Si un ensayo no declara criticidad o instrumentos, la cabecera del resultado también los muestra en rojo.
+- El generador conserva la marca solo para el texto: nunca deja marcadores de control en el DOCX.
 
 ## 6. Criterios de aceptación
 

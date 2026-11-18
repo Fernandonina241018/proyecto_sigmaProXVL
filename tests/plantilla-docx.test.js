@@ -695,6 +695,30 @@ describe('H-05/H-08/H-09/H-11: límites, bloques fijos y trazabilidad', () => {
       expect(txt).toMatch(/Ninguno/);
     });
 
+    test('lo marcado como por confirmar se conserva y sale en rojo', () => {
+      const ls = P._interno.lineas('Conductividad ≤ <span class="por-confirmar">1,3 µS/cm</span>');
+      expect(ls.at(-1)).toContain('\u00011,3 µS/cm\u0002');
+      const tpl = '<w:p><w:pPr><w:rPr><w:rFonts w:ascii="Tahoma"/></w:rPr></w:pPr><w:r><w:rPr><w:rFonts w:ascii="Tahoma"/></w:rPr></w:r></w:p>';
+      const xml = P._interno.parrafo(tpl, [{ t: ls.at(-1) }]);
+      expect(xml).toContain('<w:color w:val="C00000"/>');
+      expect(xml).not.toContain('\u0001');
+      expect(xml).not.toContain('\u0002');
+    });
+
+    test('los datos de ensayo sin declarar salen en rojo en la cabecera', () => {
+      const cab = P._interno.cabeceraResultado({});
+      expect(cab).toContain('\u0001Por definir por el responsable');
+      expect(cab).toContain('\u0001Tabla de instrumentos');
+    });
+
+    test('la nota de pendientes llega al ensayo generado, no se descarta', () => {
+      const e = P._interno.estructura({
+        secciones: [{ et: 'Pendientes', html: '<strong>Nota:</strong><br>Pendientes de este protocolo:<br>- <span class="por-confirmar">x</span>' }],
+      }, { genero: 'm', numero: 1, entidad: 'equipo' });
+      expect(e.notas.join(' ')).toContain('Pendientes de este protocolo');
+      expect(e.notas.join(' ')).toContain('\u0001x\u0002');
+    });
+
     test('rtmLineas arma trazabilidad por ensayo', () => {
       const d = { ursCodigo: 'URS-01', ursVersion: '1.0', riesgoCodigo: 'AR-01', riesgoVersion: '2.0' };
       const ls = P.rtmLineas(d, [{ id: 'EQ-OQ-RC-001' }, { id: null }]);
