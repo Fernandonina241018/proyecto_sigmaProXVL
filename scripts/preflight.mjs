@@ -20,6 +20,12 @@ const STEPS = [
     args: ['run', 'protocolo:check'],
   },
   {
+    // Reporte de contenido por ensayo: informa, no bloquea (sin --strict).
+    name: 'Banco de ensayos (contenido mínimo)',
+    cmd: 'npm',
+    args: ['run', 'banco:check'],
+  },
+  {
     name: 'URS/AR de sistemas (dependencias y firmas)',
     cmd: 'npm',
     args: ['run', 'urs:check'],

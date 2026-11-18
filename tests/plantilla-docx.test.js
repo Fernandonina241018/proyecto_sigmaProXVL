@@ -572,8 +572,8 @@ describe('Objetivo en su propia línea (etiqueta sola + texto debajo)', () => {
       const l = /<w:ilvl w:val="(\d+)"/.exec(pr);
       return { numId: n && n[1], ilvl: l && +l[1] };
     };
-    // etiquetas exactas: una por ensayo del banco + 3 bloques fijos (desviaciones, integridad, informe)
-    expect(paras.filter((t) => t === 'Objetivo:')).toHaveLength(r.ensayos.length + 3);
+    // etiquetas exactas: una por ensayo del banco + 4 bloques fijos (desviaciones, integridad, informe, nota)
+    expect(paras.filter((t) => t === 'Objetivo:')).toHaveLength(r.ensayos.length + 4);
     // el texto del objetivo de cada ensayo NO comparte párrafo con la etiqueta
     // y va en SUBNIVEL (7.2.1.1): mismo numId, ilvl +1 respecto a la etiqueta
     for (const id of r.ensayos) {
@@ -650,9 +650,18 @@ describe('H-05/H-08/H-09/H-11: límites, bloques fijos y trazabilidad', () => {
 
     test('bloquesFijos trae desviaciones, integridad de datos e informe (fuera de resumen)', () => {
       const f = P.bloquesFijos('OQ');
-      expect(f.map((x) => x.titulo)).toEqual(['DESVIACIONES Y REENSAYOS', 'INTEGRIDAD DE DATOS Y REGISTROS', 'INFORME DE CALIFICACIÓN Y DICTAMEN DE LIBERACIÓN']);
+      expect(f.map((x) => x.titulo)).toEqual(['DESVIACIONES Y REENSAYOS', 'INTEGRIDAD DE DATOS Y REGISTROS', 'INFORME DE CALIFICACIÓN Y DICTAMEN DE LIBERACIÓN', 'NOTA AL ANALISTA — DATOS DE SITIO Y EJECUCIÓN']);
       expect(f.every((x) => x.fijo && x.bloque === 3)).toBe(true);
       expect(P.bloquesFijos('XX')).toEqual([]);
+    });
+
+    test('la nota al analista cierra el protocolo con el traspaso de datos de sitio', () => {
+      const nota = P.bloquesFijos('PQ').at(-1);
+      const texto = nota.secciones.map((s) => s.html).join(' ');
+      expect(nota.fijo).toBe('nota');
+      expect(texto).toMatch(/no los define ni los ajusta después de ver los datos/);
+      expect(texto).toMatch(/No Aplica/);
+      expect(texto).toMatch(/calibración vigente/);
     });
 
     test('rtmLineas arma trazabilidad por ensayo', () => {

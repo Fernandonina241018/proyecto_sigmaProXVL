@@ -1093,7 +1093,18 @@ const PlantillaDocx = (() => {
         { et: 'Referencia', html: '<strong>Referencia:</strong><br>21 CFR Parte 11; EU GMP Anexo 11; PIC/S PI 041; OMS TRS 1033 Anexo 5; ALCOA+.' },
       ],
     };
-    return [desv, di, inf];
+    const nota = {
+      kind: 'ensayo', id: '', bloque: 3, cond: 'ambas', fijo: 'nota',
+      titulo: 'NOTA AL ANALISTA — DATOS DE SITIO Y EJECUCIÓN',
+      secciones: [
+        { et: 'Objetivo', html: '<strong>Objetivo:</strong><br>Dejar constancia de los datos que completa el analista durante la ejecución y de los que ya están definidos en este protocolo y no se redefinen.' },
+        { et: 'Procedimiento', html: '<strong>Procedimiento:</strong><br>1) Identificar el equipo: marca, modelo, código interno, número de serie y ubicación; verificar que coinciden con la entidad del protocolo<br>2) Registrar la fecha, la hora y el turno reales de cada verificación, y las condiciones ambientales cuando el ensayo lo exija<br>3) Completar la tabla de instrumentos con el ID de cada instrumento usado y su certificado de calibración vigente<br>4) Anexar los datos crudos y el reporte estadístico generado, con su identificador y fecha<br>5) Registrar desviaciones y reensayos con su disposición, según el bloque de desviaciones<br>6) Completar las firmas por rol (ejecutor, revisor, aprobador) con nombre, fecha y hora' },
+        { et: 'Criterios de aceptación', html: '<strong>Criterios de aceptación:</strong><br>Todos los campos de sitio y ejecución están completos, legibles y trazables a la persona, fecha y equipo.<br>Los criterios de aceptación, los límites y el plan estadístico son los de este protocolo y la URS/AR referenciada; el analista no los define ni los ajusta después de ver los datos.<br>Si un criterio no puede aplicarse, se registra una desviación con disposición aprobada; no se declara «No Aplica» sin aprobación previa de Calidad.' },
+        { et: 'Documentos entregables', html: '<strong>Documentos entregables:</strong><br>- Protocolo ejecutado con datos crudos y reporte estadístico anexos<br>- Registro de desviaciones y reensayos<br>- Informe de calificación firmado con dictamen de liberación' },
+        { et: 'Referencia', html: '<strong>Referencia:</strong><br>21 CFR 211.160(b); 21 CFR 211.194(a); EU GMP Anexo 15; ALCOA+; URS/AR del sistema o equipo.' },
+      ],
+    };
+    return [desv, di, inf, nota];
   }
 
   // H-09 (auditoría FDA): anexo de trazabilidad URS–riesgo–ensayo.
