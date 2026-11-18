@@ -26,9 +26,9 @@ const StatsUtils = (function () {
      * @param {string} colName - Nombre de la columna
      * @returns {number[]} Array de valores numéricos válidos
      */
-    // Política de parseo (auditoría EST-01): solo número completo con punto
-    // decimal y exponente opcional. "12abc", "1,234" (miles) y comas
-    // decimales se excluyen y se cuentan; nunca se convierten en silencio.
+    // Política de parseo (auditoría EST-01): número completo con punto o
+    // coma decimal (no ambos a la vez) y exponente opcional. "12abc" se
+    // excluye y se cuenta; nunca se convierte en silencio.
     const _NUM_RE = /^[+-]?(?:\d+(?:\.\d*)?|\.\d+)(?:[eE][+-]?\d+)?$/;
     let _exclusionesParseo = 0;
 
@@ -36,8 +36,18 @@ const StatsUtils = (function () {
         if (typeof val === 'number') return isFinite(val) ? val : null;
         if (typeof val !== 'string') return null;
         const s = val.trim();
-        if (!s || !_NUM_RE.test(s)) return null;
-        const n = Number(s);
+        if (!s) return null;
+        const tieneComa = s.indexOf(',') >= 0;
+        const tienePunto = s.indexOf('.') >= 0;
+        // "1,000" puede ser 1000 o 1.000: no se adivina, se excluye.
+        // Un cero a la izquierda ("0,500") descarta el separador de miles.
+        // shortcut: coma con 3 dígitos se excluye siempre; si un dataset real
+        // usa coma decimal con 3 dígitos, hay que declarar el formato por columna.
+        if (tieneComa && !tienePunto && /^[+-]?[1-9]\d{0,2}(?:,\d{3})+$/.test(s)) return null;
+        // Separadores mezclados (1.234,5 / 1,234.5) son ambiguos: se excluyen.
+        const normalizado = tieneComa ? (tienePunto ? null : s.replace(/,/g, '.')) : s;
+        if (normalizado == null || !_NUM_RE.test(normalizado)) return null;
+        const n = Number(normalizado);
         return isFinite(n) ? n : null;
     }
 

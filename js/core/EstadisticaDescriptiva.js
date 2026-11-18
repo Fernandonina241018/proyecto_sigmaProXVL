@@ -1731,7 +1731,7 @@ resultados['Test de Signos'].columna1 = col1;
                                 const dataMatrix = [];
                                 const minLen = Math.min(...clusterColumns.map(col => getNumericValues(data, col).length));
                                 for (let i = 0; i < minLen; i++) {
-                                    const row = clusterColumns.map(col => parseFloat(data.data[i]?.[col] ?? NaN));
+                                    const row = clusterColumns.map(col => { const n = Stats.parseNumeric(data.data[i]?.[col]); return n == null ? NaN : n; });
                                     if (row.some(v => isNaN(v))) continue;
                                     dataMatrix.push(row);
                                 }
@@ -1763,7 +1763,7 @@ resultados['Test de Signos'].columna1 = col1;
                                 const dataMatrix = [];
                                 const labels = [];
                                 for (let i = 0; i < data.data.length; i++) {
-                                    const row = numCols.map(col => parseFloat(data.data[i]?.[col] ?? NaN));
+                                    const row = numCols.map(col => { const n = Stats.parseNumeric(data.data[i]?.[col]); return n == null ? NaN : n; });
                                     if (row.some(v => isNaN(v))) continue;
                                     dataMatrix.push(row);
                                     labels.push(data.data[i][catCol]);
@@ -1796,7 +1796,7 @@ resultados['Test de Signos'].columna1 = col1;
                                 const dataMatrix = [];
                                 const labels = [];
                                 for (let i = 0; i < data.data.length; i++) {
-                                    const row = numCols.map(col => parseFloat(data.data[i]?.[col] ?? NaN));
+                                    const row = numCols.map(col => { const n = Stats.parseNumeric(data.data[i]?.[col]); return n == null ? NaN : n; });
                                     if (row.some(v => isNaN(v))) continue;
                                     dataMatrix.push(row);
                                     labels.push(data.data[i][catCol]);
