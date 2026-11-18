@@ -90,6 +90,33 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (StatAnalyzer Pro) co
 
 ## CAMBIOS RECIENTES
 
+### 2026-11-18 (312): Estándar de ensayo — esqueleto común, criterio individual
+
+**Qué:** se documenta y se mide el estándar que el banco ya usaba a medias.
+- **§5.4 del protocolo maestro:** seis secciones obligatorias (objetivo, procedimiento, plan, criterios, entregables, referencia), el plan por tipo de dato (continua, recuento, atributo, analítico) y las reglas de redacción del criterio. El plan genérico «variable = la magnitud medida» deja de ser aceptable.
+- **Regla central:** el esqueleto se comparte; el criterio es de cada ensayo (valor + unidad + regla + fuente). Un criterio copiado es hallazgo salvo justificación del riesgo idéntico.
+- **`banco:check`:** agrega columna de entregables (esqueleto completo) y detección de criterios clonados con los IDs del grupo peor.
+- **§5.3 corregido:** seguía describiendo cuatro firmantes; ahora dos (área responsable en página 2 + aprobador).
+
+**Estado medido (1392 ensayos):**
+```
+criterio con valor numérico: 187 (13 %)
+criterio clonado: 377 ensayos en 152 grupos (peor grupo: 8 ensayos de familias distintas)
+falta plan: 190 · falta criterio: 29 · falta criticidad: 1392 · falta instrumentos: 1392
+```
+
+**Archivos afectados:**
+| Archivo | Cambio |
+|---------|--------|
+| `docs/banco-ensayos/PROTOCOLO_MAESTRO.md` | §5.4 nuevo y §5.3 con dos firmantes |
+| `scripts/validar-banco-contenido.mjs` | Check de entregables y reporte de clones |
+
+**Verificación:**
+```
+npm run preflight → protocolo:check OK, urs-ar:check OK, Vitest 1192, backend, E2E 14
+banco:check → 1392 ensayos, 187 con valor numérico, 377 clonados en 152 grupos
+```
+
 ### 2026-11-18 (311): Firma real en URS/AR y alcance PW/WFI del protocolo
 
 **Qué:** se alinean los documentos con la práctica real de firma y se declara el alcance del agua.
