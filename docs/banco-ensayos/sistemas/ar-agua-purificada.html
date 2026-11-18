@@ -64,7 +64,7 @@
 <tr data-urs="sec-7" data-ar="sec-7">
   <td><a href="urs-agua-purificada.html#sec-7">URS · Flujo de firmas</a></td>
   <td><a href="#sec-7">AR · Flujo de firmas</a></td>
-  <td>Mismos roles, mismo alcance de revisión de ensayos y mismo orden de firma en ambos documentos.</td>
+  <td>Mismos dos firmantes en ambos documentos: área responsable (conformidad, página 2) y aprobador (emisión).</td>
 </tr>
 <tr data-urs="sec-8" data-ar="sec-8">
   <td><a href="urs-agua-purificada.html#sec-8">URS · Control de cambios</a></td>
@@ -226,36 +226,20 @@
 
 <section id="sec-7">
 <h2>7. Flujo de firmas y revisión</h2>
-<p>Cada rol revisa las filas de su alcance y los ensayos citados antes de firmar; el aprobador no firma con riesgos sin evaluar o sin control.</p>
+<p>El responsable del área firma la conformidad del protocolo completo en la página 2 y el aprobador firma la emisión; ninguno firma con riesgos sin evaluar o sin control.</p>
 <table>
 <tr><th>Rol</th><th>Responsabilidad</th><th>Ensayos que revisa</th><th>Nombre</th><th>Firma</th><th>Fecha</th></tr>
-<tr data-rol="autor" data-revisa="FASE:IQ">
-  <td><strong>Autor — Ingeniería / dueño del sistema</strong></td>
-  <td>Redacta requisitos, criterios y dependencias</td>
-  <td>Todos los ensayos IQ del sistema y los documentos de entrada de §3</td>
-  <td>&nbsp;</td>
-  <td>&nbsp;</td>
-  <td>&nbsp;</td>
-</tr>
-<tr data-rol="proceso" data-revisa="FASE:OQ">
-  <td><strong>Revisor de proceso — Producción / usuario</strong></td>
-  <td>Confirma que los requisitos representan el uso real y el peor caso</td>
-  <td>Todos los ensayos OQ del sistema</td>
-  <td>&nbsp;</td>
-  <td>&nbsp;</td>
-  <td>&nbsp;</td>
-</tr>
-<tr data-rol="calidad" data-revisa="FASE:PQ">
-  <td><strong>Revisor de calidad — Validación / QA</strong></td>
-  <td>Verifica criterios, trazabilidad y cierre de desviaciones</td>
-  <td>Todos los ensayos PQ del sistema</td>
+<tr data-rol="area" data-revisa="TODOS">
+  <td><strong>Responsable del área — dueño del sistema</strong></td>
+  <td>Firma la conformidad con el protocolo completo en la página 2. El área varía según el sistema (producción, ingeniería, laboratorio o mantenimiento)</td>
+  <td>Todos los ensayos IQ/OQ/PQ y la matriz de trazabilidad</td>
   <td>&nbsp;</td>
   <td>&nbsp;</td>
   <td>&nbsp;</td>
 </tr>
 <tr data-rol="aprobador" data-revisa="TODOS">
-  <td><strong>Aprobador — Dirección de QA</strong></td>
-  <td>Aprueba el documento y libera el sistema para uso GMP</td>
+  <td><strong>Aprobador — Gerencia de gestión de calidad</strong></td>
+  <td>Aprueba la emisión del documento y libera el sistema para uso GMP</td>
   <td>Todos los ensayos IQ/OQ/PQ y la matriz de trazabilidad</td>
   <td>&nbsp;</td>
   <td>&nbsp;</td>

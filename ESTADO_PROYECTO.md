@@ -90,6 +90,34 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (StatAnalyzer Pro) co
 
 ## CAMBIOS RECIENTES
 
+### 2026-11-18 (311): Firma real en URS/AR y alcance PW/WFI del protocolo
+
+**Qué:** se alinean los documentos con la práctica real de firma y se declara el alcance del agua.
+- **Firma (URS/AR §7):** el flujo de 4 roles (autor IQ, proceso OQ, calidad PQ, aprobador) no existe en la app ni en la práctica. Se reemplaza por **dos firmantes**: responsable del área (varía según el sistema; su firma en la página 2 da conformidad al protocolo completo) y aprobador (gerencia de calidad, emisión). El linter `urs:check` espera esos dos roles.
+- **Alcance PW/WFI:** el protocolo de agua purificada sirve para PW y WFI. Se declara en el bloque ALCANCE de IQ, OQ y PQ: el tipo de agua se define en la portada antes de la ejecución y los ensayos marcados «solo WFI» se declaran No Aplica con aprobación previa de Calidad, sin eliminarse del protocolo aprobado.
+- **`data-aplica`:** atributo nuevo en el banco (extractor + `banco-sistemas-data.js`). `SIS-PQ-AP-015` (endotoxinas) lo declara como `WFI`. La nota lista «Alcance restringido, confirmar antes de ejecutar: SIS-PQ-AP-015 (aplica a WFI)», así el alcance se decide antes y el ensayo no se borra del protocolo firmado.
+
+**Por qué no se borra el ensayo no aplicable:** eliminar contenido de un protocolo ya aprobado rompe ALCOA+ (registro original completo) y el control de cambios. La vía defendible es la NA pre-aprobada, que el propio bloque declara.
+
+**Archivos afectados:**
+| Archivo | Cambio |
+|---------|--------|
+| `scripts/generar-urs-ar-sistemas.mjs` | Dos roles de firma y textos de §7 |
+| `scripts/validar-urs-ar.mjs` | `rolesEsperados = ['area','aprobador']` |
+| `docs/banco-ensayos/sistemas/{urs,ar}-*.html` | Regenerados (solo §7 y mapa §4) |
+| `docs/banco-ensayos/sistemas/iq-agua-purificada.html` | Bloque ALCANCE nuevo |
+| `docs/banco-ensayos/sistemas/{oq,pq}-agua-purificada.html` | Alcance PW/WFI |
+| `js/core/banco-sistemas-data.js` | Regenerado con `extraer-banco.mjs sistemas` |
+| `scripts/extraer-banco.mjs` | `data-aplica` → `aplica` |
+| `js/core/plantilla-docx.js` | Pendiente de alcance restringido en la nota |
+| `tests/plantilla-docx.test.js` | Caso de alcance restringido |
+
+**Verificación:**
+```
+npm run preflight → protocolo:check OK, urs-ar:check OK, Vitest 1192, backend, E2E 14
+extraer-banco.mjs sistemas → 285 artículos, 285 IDs únicos
+```
+
 ### 2026-11-18 (310): Pendientes del protocolo en la nota + aviso de vigencia
 
 **Qué:** la nota al analista deja de ser genérica y declara los pendientes del protocolo concreto.

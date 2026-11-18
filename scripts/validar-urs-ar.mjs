@@ -7,7 +7,7 @@ import { join } from 'node:path';
 const base = join(process.cwd(), 'docs', 'banco-ensayos', 'sistemas');
 const sistemas = ['hvac', 'agua-purificada', 'vapor-limpio', 'aire-comprimido'];
 const fases = ['iq', 'oq', 'pq'];
-const rolesEsperados = ['autor', 'proceso', 'calidad', 'aprobador'];
+const rolesEsperados = ['area', 'aprobador'];
 const seccionesEsperadas = ['sec-3', 'sec-5', 'sec-6', 'sec-7', 'sec-8'];
 const errors = [];
 const warnings = [];
