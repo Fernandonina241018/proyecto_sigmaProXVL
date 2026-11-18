@@ -664,6 +664,27 @@ describe('H-05/H-08/H-09/H-11: límites, bloques fijos y trazabilidad', () => {
       expect(texto).toMatch(/calibración vigente/);
     });
 
+    test('la nota lista los pendientes del protocolo con sus IDs', () => {
+      const ensayos = [{ id: 'EQ-OQ-999', analisis: 'si', secciones: [{ et: 'Criterio de aceptación', html: 'Pendiente de confirmación' }] }];
+      const nota = P.bloquesFijos('OQ', ensayos).at(-1);
+      const txt = nota.secciones.find((s) => s.et === 'Pendientes').html;
+      expect(txt).toMatch(/Pendientes de este protocolo \(4\)/);
+      expect(txt).toContain('EQ-OQ-999');
+      expect(txt).toMatch(/Criticidad sin declarar/);
+      expect(txt).toMatch(/Análisis sin plan estadístico/);
+      expect(txt).toMatch(/Criterio con valor por definir/);
+      expect(txt).toMatch(/Instrumentos y prerrequisitos sin declarar/);
+    });
+
+    test('sin pendientes, la nota lo declara en vez de callar', () => {
+      const ensayos = [{
+        id: 'EQ-OQ-001', criticidad: 'Alta', instrumentos: 'Balanza calibrada',
+        secciones: [{ et: 'Criterio de aceptación', html: 'RSD ≤ 2,0 %' }, { et: 'Plan estadístico', html: 'n = 3 réplicas' }],
+      }];
+      const txt = P.bloquesFijos('OQ', ensayos).at(-1).secciones.find((s) => s.et === 'Pendientes').html;
+      expect(txt).toMatch(/Ninguno/);
+    });
+
     test('rtmLineas arma trazabilidad por ensayo', () => {
       const d = { ursCodigo: 'URS-01', ursVersion: '1.0', riesgoCodigo: 'AR-01', riesgoVersion: '2.0' };
       const ls = P.rtmLineas(d, [{ id: 'EQ-OQ-RC-001' }, { id: null }]);

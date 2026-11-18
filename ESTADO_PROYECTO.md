@@ -90,6 +90,25 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (StatAnalyzer Pro) co
 
 ## CAMBIOS RECIENTES
 
+### 2026-11-18 (310): Pendientes del protocolo en la nota + aviso de vigencia
+
+**Qué:** la nota al analista deja de ser genérica y declara los pendientes del protocolo concreto.
+- **`pendientesProtocolo(ensayos)`:** calcula, sobre los ensayos que el usuario seleccionó, criticidad sin declarar, análisis sin plan estadístico, criterios con valor por definir e instrumentos/prerrequisitos sin declarar. Los lista con IDs (hasta 6 + «y N más»).
+- **Decisión:** la lista **sale siempre**, no solo en borrador. El analista culmina el proceso antes de la aprobación, así que la nota es apoyo de peso, no una advertencia oculta. Si el protocolo está completo, dice «Ninguno».
+- **`estabilidad.html`:** aviso de vigencia al inicio. Los IQ/OQ/PQ de esa página son históricos; los vigentes son `estabilidad/*-camaras.html`. Los `EST-DQ-*` se conservan porque el generador arma la DQ con plantilla, no con el banco: no se pierde contenido.
+
+**Archivos afectados:**
+| Archivo | Cambio |
+|---------|--------|
+| `js/core/plantilla-docx.js` | `pendientesProtocolo()`, `bloquesFijos(fase, ensayos)` |
+| `tests/plantilla-docx.test.js` | Pendientes con IDs, caso «Ninguno» |
+| `docs/banco-ensayos/estabilidad.html` | Aviso de vigencia |
+
+**Verificación:**
+```
+npm run preflight → protocolo:check OK, urs-ar:check OK, Vitest 1191, backend, E2E 14
+```
+
 ### 2026-11-18 (309): Control documental — cita Part 58, extractor y alcance Part 11
 
 **Qué:** tres correcciones de control documental de la auditoría FDA.

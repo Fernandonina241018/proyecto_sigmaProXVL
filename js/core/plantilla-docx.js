@@ -1054,10 +1054,33 @@ const PlantillaDocx = (() => {
     } catch (e) { return []; }
   }
 
+  // Pendientes del protocolo concreto: se listan para que el responsable los
+  // resuelva antes de la ejecución. Nunca se completan solos ni se inventan.
+  function pendientesProtocolo(ensayos) {
+    const lista = ensayos || [];
+    const ids = (xs) => xs.slice(0, 6).map((x) => x.id).join(', ')
+      + (xs.length > 6 ? ' y ' + (xs.length - 6) + ' más' : '')
+      + (xs.length > 1 ? ' (' + xs.length + ' ensayos)' : '');
+    const texto = (e, prefijo) => {
+      const s = (e.secciones || []).find((x) => String(x.et || '').startsWith(prefijo));
+      return String((s && s.html) || '');
+    };
+    const out = [];
+    const sinCrit = lista.filter((e) => !String(e.criticidad || '').trim());
+    if (sinCrit.length) out.push('Criticidad sin declarar: ' + ids(sinCrit));
+    const sinPlan = lista.filter((e) => e.analisis === 'si' && !texto(e, 'Plan estadístico'));
+    if (sinPlan.length) out.push('Análisis sin plan estadístico: ' + ids(sinPlan));
+    const pend = lista.filter((e) => /pendiente|por definir|por evaluar/i.test(texto(e, 'Criterio')));
+    if (pend.length) out.push('Criterio con valor por definir: ' + ids(pend));
+    const sinInst = lista.filter((e) => !String(e.instrumentos || '').trim());
+    if (sinInst.length) out.push('Instrumentos y prerrequisitos sin declarar: ' + ids(sinInst));
+    return out;
+  }
+
   // H-08/H-11 (auditoría FDA): bloques fijos al final de cada protocolo.
   // Se concatenan tras los ensayos del banco: salen como últimas secciones 7.x,
   // fuera del resumen (fijo:true) y sin código de banco.
-  function bloquesFijos(fase) {
+  function bloquesFijos(fase, ensayosProtocolo) {
     const F = String(fase || '').toUpperCase();
     if (FASES.indexOf(F) < 0) return [];
     const desv = {
@@ -1098,6 +1121,14 @@ const PlantillaDocx = (() => {
       titulo: 'NOTA AL ANALISTA — DATOS DE SITIO Y EJECUCIÓN',
       secciones: [
         { et: 'Objetivo', html: '<strong>Objetivo:</strong><br>Dejar constancia de los datos que completa el analista durante la ejecución y de los que ya están definidos en este protocolo y no se redefinen.' },
+        ...(Array.isArray(ensayosProtocolo) ? [(() => {
+          const pend = pendientesProtocolo(ensayosProtocolo);
+          const html = pend.length
+            ? '<strong>Pendientes de este protocolo (' + pend.length + '):</strong><br>' + pend.map((t) => '- ' + t).join('<br>')
+              + '<br>El responsable debe resolverlos y aprobarlos antes de la ejecución; el analista no los define durante la corrida.'
+            : '<strong>Pendientes de este protocolo:</strong><br>Ninguno. El contenido está completo; el analista solo agrega datos de sitio y ejecución.';
+          return { et: 'Pendientes', html };
+        })()] : []),
         { et: 'Procedimiento', html: '<strong>Procedimiento:</strong><br>1) Identificar el equipo: marca, modelo, código interno, número de serie y ubicación; verificar que coinciden con la entidad del protocolo<br>2) Registrar la fecha, la hora y el turno reales de cada verificación, y las condiciones ambientales cuando el ensayo lo exija<br>3) Completar la tabla de instrumentos con el ID de cada instrumento usado y su certificado de calibración vigente<br>4) Anexar los datos crudos y el reporte estadístico generado, con su identificador y fecha<br>5) Registrar desviaciones y reensayos con su disposición, según el bloque de desviaciones<br>6) Completar las firmas por rol (ejecutor, revisor, aprobador) con nombre, fecha y hora' },
         { et: 'Criterios de aceptación', html: '<strong>Criterios de aceptación:</strong><br>Todos los campos de sitio y ejecución están completos, legibles y trazables a la persona, fecha y equipo.<br>Los criterios de aceptación, los límites y el plan estadístico son los de este protocolo y la URS/AR referenciada; el analista no los define ni los ajusta después de ver los datos.<br>Si un criterio no puede aplicarse, se registra una desviación con disposición aprobada; no se declara «No Aplica» sin aprobación previa de Calidad.' },
         { et: 'Documentos entregables', html: '<strong>Documentos entregables:</strong><br>- Protocolo ejecutado con datos crudos y reporte estadístico anexos<br>- Registro de desviaciones y reensayos<br>- Informe de calificación firmado con dictamen de liberación' },
@@ -1338,7 +1369,8 @@ const PlantillaDocx = (() => {
     const artReq = ensayosTodos.find((a) => /requisitos previos/i.test(a.titulo || ''));
     // H-05: los valores "[n]" se sustituyen desde la tabla de límites (trazables).
     // H-08/H-11: bloques fijos de desviaciones e informe al final (fuera del resumen).
-    const ensayos = aplicarLimites(ensayosTodos.filter((a) => a !== artReq), d).concat(bloquesFijos(fase));
+    const ensayosFiltrados = aplicarLimites(ensayosTodos.filter((a) => a !== artReq), d);
+    const ensayos = ensayosFiltrados.concat(bloquesFijos(fase, ensayosFiltrados));
     const ctx = contexto(d, entidad, filtro, ensayosTodos);
     if (!ctx.rango) avisos.push('Sin rango de temperatura/HR en el borrador: se imprime el rango del banco.');
     if (!ensayos.length) avisos.push('El banco no tiene ensayos ' + fase + ' para la condición seleccionada.');
