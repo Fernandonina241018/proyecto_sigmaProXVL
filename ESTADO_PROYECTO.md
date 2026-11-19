@@ -90,6 +90,29 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (StatAnalyzer Pro) co
 
 ## CAMBIOS RECIENTES
 
+### 2026-11-18 (314): Seguridad — secretos en /api/me y SRI en scripts de CDN
+
+**Qué:** se cierra el hallazgo Alto de la auditoría ZAP (2026-11-18).
+- **`GET /api/me` filtraba secretos.** El endpoint hacía `const { password_hash, password_temp, ...profile } = user`, pero la columna se llama **`password`** (`database.js:235`), así que el spread devolvía la fila completa de `SELECT *`: hash bcrypt, **`totp_secret`** (anula el 2FA), `signature_code` (código de firma electrónica), email y teléfono. Ahora usa `perfilPublico()` con **allowlist** (`backend/me-profile.js`): un campo nuevo no se filtra por olvido.
+- **SRI en scripts dinámicos.** `jszip`, `jspdf` y `html2canvas` se cargaban desde CDN sin `integrity`. `_V_loadScript()` y `__cargarScript()` aceptan el hash y fijan `crossOrigin`. `xlsx-worker.js` queda exceptuado con comentario: `importScripts` no admite SRI.
+- **Token en el body de `/api/me`:** se mantiene, con `shortcut:` documentado. Quitarlo rompería la restauración de sesión cuando el navegador bloquea cookies de terceros (GitHub Pages → Fly.io). El cierre real es sesión cookie-only con CSP en enforce (P2).
+
+**Archivos afectados:**
+| Archivo | Cambio |
+|---------|--------|
+| `backend/me-profile.js` | **NUEVO** — allowlist de perfil público |
+| `backend/server.js` | `/api/me` usa `perfilPublico()`; comentario del token |
+| `backend/tests/me-profile.test.js` | **NUEVO** — 4 pruebas (secretos, campos de UI, allowlist, vacíos) |
+| `js/core/utils.js`, `js/core/indexx-viz.js` | SRI en cargas dinámicas |
+| `js/core/xlsx-worker.js` | `shortcut:` documentado |
+| `tests/cdn-sri-dinamico.test.js` | **NUEVO** — ningún CDN dinámico sin SRI |
+
+**Verificación:**
+```
+npm run preflight → protocolo:check OK, urs-ar:check OK, Vitest 1195, backend 154, E2E 14
+backend/tests/me-profile.test.js → 4 pruebas OK
+```
+
 ### 2026-11-18 (313): Aviso de portada y lista de confirmación del piloto
 
 **Qué:** cierra el piloto de agua por el lado del control documental.

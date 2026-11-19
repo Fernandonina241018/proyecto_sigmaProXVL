@@ -215,11 +215,16 @@ function debugLog(...args) {
 // PDF REAL (html2canvas + jsPDF) — compartido entre Reportes y Firma
 // ========================================
 
-window.__cargarScript = function (src) {
+// integrity (SRI) es obligatorio para scripts de CDN: auditoría ZAP 2026-11-18.
+window.__cargarScript = function (src, integrity) {
     return new Promise(function (resolve) {
         if (document.querySelector('script[src="' + src + '"]')) { resolve(); return; }
         var s = document.createElement('script');
         s.src = src;
+        if (integrity) {
+            s.integrity = integrity;
+            s.crossOrigin = 'anonymous';
+        }
         s.onload = function () { resolve(); };
         s.onerror = function () { resolve(); }; // resuelve igual; el caller hace fallback
         document.head.appendChild(s);
@@ -316,8 +321,10 @@ window.__htmlSinScripts = function (html) {
 // Devuelve true si descargó, false si falló (el caller decide el fallback).
 window.__generarPDF = async function (html, filename, hash) {
     try {
-        await window.__cargarScript('https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js');
-        await window.__cargarScript('https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js');
+        await window.__cargarScript('https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js',
+            'sha384-ZZ1pncU3bQe8y31yfZdMFdSpttDoPmOZg2wguVK9almUodir1PghgT0eY7Mrty8H');
+        await window.__cargarScript('https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js',
+            'sha384-JcnsjUPPylna1s1fvi1u12X5qjY5OL56iySh75FdtrwhO/SWXgMjoVqcKyIIWOLk');
         if (!window.html2canvas || !window.jspdf) throw new Error('librerías PDF no disponibles');
 
         var scale = 2;
