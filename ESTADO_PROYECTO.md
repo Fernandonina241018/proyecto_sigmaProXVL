@@ -90,6 +90,33 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (StatAnalyzer Pro) co
 
 ## CAMBIOS RECIENTES
 
+### 2026-11-19 (318): Equipos — piloto tableteadora + contrato de contenido
+
+**Qué:** arranca la migración de equipos con la familia piloto completa (51 ensayos: 5 IQ, 27 OQ, 19 PQ).
+- **Criterio propio** con valor, unidad, regla y fuente: TIR ≤ 0,05 mm, holgura punzón-matriz 0,05-0,1 mm, fuerza ±5 %, RSD de fuerza ≤ 5 %, friabilidad ≤ 1 %, peso ±5 % (USP <905>), rechazo 100 %/0, rendimiento ≥ 98 %, ruido ≤ 80 dB(A), vibración ≤ 4,5 mm/s.
+- **Plan por tipo de dato** en los 42 ensayos con `data-analisis`; se reemplazó el plan genérico «variable = la magnitud medida» donde quedaba.
+- **33/51 criterios con valor numérico** y 24 ensayos con valores propuestos en rojo, cada uno con nota de origen (USP, EU GMP Anexo 15, fabricante).
+- **Contrato de contenido nuevo** (`tests/bancos-contenido-equipos.test.js`) con `MIGRADAS = {tableteadora}`: secciones, plan completo, sin límites delegados, nota si hay rojo, ≥ 50 % de criterios con valor y fuente normativa. Se amplía familia por familia.
+
+**Estado medido:**
+```
+tableteadora: 51 ensayos · 42 con plan · 33 con valor numérico · 24 con valores propuestos
+global: 407/1392 criterios con valor (29 %, antes 379) · 277 clonados en 113 grupos (antes 301/121)
+```
+
+**Archivos afectados:**
+| Archivo | Cambio |
+|---------|--------|
+| `docs/banco-ensayos/equipos/{iq,oq,pq}-tableteadora.html` | 51 ensayos reescritos |
+| `js/core/banco-equipos-data.js` | Regenerado |
+| `tests/bancos-contenido-equipos.test.js` | **NUEVO** — contrato por familia migrada |
+
+**Verificación:**
+```
+npm run preflight → protocolo:check OK, urs-ar:check OK, Vitest 1209, backend 154, E2E 14
+tests/bancos-contrato.test.js + bancos-contenido-equipos → 98 pruebas OK
+```
+
 ### 2026-11-19 (317): Estabilidad con estándar del piloto + contrato de contenido
 
 **Qué:** los 40 ensayos de cámaras de estabilidad quedan con criterio propio, plan por tipo de dato y contrato de test.
