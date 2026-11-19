@@ -66,14 +66,13 @@
   2) Escanear el perímetro del marco, la junta y la superficie del medio<br>
   3) Registrar cada punto con fuga y la reparación o reemplazo aplicado<br>
   4) Procesar los datos crudos de este ensayo en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia</p>
-  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o condiciones con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  No se detectan fugas por encima del criterio definido en la URS aprobada o en el manual del fabricante.<br>
-  Todo punto con fuga tiene reparación documentada y nueva verificación.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = penetración del HEPA; unidad = %. Tipo de dato = continua. n = escaneo del 100 %. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = cada punto ≤ 0,01 %. Atípicos = Grubbs solo si n ≥ 7; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Integridad de los filtros HEPA del marco, el medio y la junta: penetración ≤ <span class="por-confirmar">0,01 %</span>.<br>Escaneo del 100 % de la superficie y del marco.<br>Registro por punto con fuga.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro del escaneo de integridad por filtro y punto<br>
   - Data cruda y reporte estadístico del análisis correspondiente</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante; URS aprobada.</p>
+  <p><strong>Nota:</strong><br>El criterio en rojo corresponde a H13/H14; se confirma con la clase del filtro.</p>
+  <p><strong>Referencia:</strong><br>ISO 14644-1; ISO 14644-3; ISO 14644-4; EU GMP Anexo 1; 21 CFR 211.42(c).</p>
   </article>
 
   <article data-bloque="3" id="art-EQ-OQ-CF-002" class="ensayo" data-id="EQ-OQ-CF-002" data-fase="OQ" data-cond="ambas" data-familia="cabina-flujo" data-analisis="si">
@@ -84,14 +83,13 @@
   2) Registrar la lectura en cada punto con el anemómetro patrón<br>
   3) Calcular la media, la desviación y los puntos fuera de rango<br>
   4) Procesar los datos crudos de este ensayo en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia</p>
-  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o condiciones con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  La velocidad media está dentro del rango de la URS aprobada.<br>
-  La uniformidad cumple el criterio definido para la cabina.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = velocidad del aire; unidad = m/s. Tipo de dato = continua. n = mínimo 5 puntos. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = cada punto dentro de 0,45 m/s ± 20 %. Atípicos = Grubbs solo si n ≥ 7; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Velocidad del aire en el plano de trabajo de <span class="por-confirmar">0,45 m/s ± 20 %</span> y uniforme.<br>Mínimo 5 puntos por zona.<br>Registro por punto.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro de velocidad por punto con data cruda y reporte<br>
   - Data cruda y reporte estadístico del análisis correspondiente</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante; URS aprobada.</p>
+  <p><strong>Nota:</strong><br>La velocidad en rojo corresponde a ISO 14644-3 para flujo unidireccional.</p>
+  <p><strong>Referencia:</strong><br>ISO 14644-1; ISO 14644-3; ISO 14644-4; EU GMP Anexo 1; 21 CFR 211.42(c).</p>
   </article>
 
   <article data-bloque="3" id="art-EQ-OQ-CF-003" class="ensayo" data-id="EQ-OQ-CF-003" data-fase="OQ" data-cond="ambas" data-familia="cabina-flujo">
@@ -101,12 +99,12 @@
   1) Registrar la presión diferencial con el instrumento patrón<br>
   2) Provocar la alarma de flujo bajo y verificar su disparo<br>
   3) Verificar la recuperación al restablecer la condición normal</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  La indicación de presión coincide con el patrón dentro del criterio aprobado.<br>
-  La alarma de flujo actúa y se recupera según el manual del fabricante.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = alarma de flujo; unidad = pasa/no pasa. Tipo de dato = atributo. n = 3 pruebas. Estadísticos = proporción de cumplimiento con IC binomial exacto. Regla de decisión = alarma actúa en las 3. Atípicos: no aplica a datos de atributo; toda exclusión se documenta y se conserva el registro original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Indicación de presión diferencial y alarmas de flujo operativas.<br>La alarma actúa al límite configurado.<br>Registro por prueba.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro de presión diferencial y alarmas de flujo</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante; URS aprobada.</p>
+  <p><strong>Nota:</strong><br>Una cabina sin alarma de flujo puede operar fuera de especificación sin aviso.</p>
+  <p><strong>Referencia:</strong><br>ISO 14644-1; ISO 14644-3; ISO 14644-4; EU GMP Anexo 1; 21 CFR 211.42(c).</p>
   </article>
 
   <article data-bloque="3" id="art-EQ-OQ-CF-004" class="ensayo" data-id="EQ-OQ-CF-004" data-fase="OQ" data-cond="ambas" data-familia="cabina-flujo" data-analisis="si">
@@ -117,14 +115,13 @@
   2) Registrar el conteo por punto y tamaño de partícula<br>
   3) Comparar con la clase definida en la URS<br>
   4) Procesar los datos crudos de este ensayo en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia</p>
-  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o condiciones con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  La concentración en todos los puntos cumple la clase definida en la URS aprobada.<br>
-  El equipo de conteo tiene calibración vigente.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = partículas en reposo; unidad = partículas/m³. Tipo de dato = continua. n = puntos según ISO 14644-1. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = cada punto cumple la clase. Atípicos = Grubbs solo si n ≥ 7; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Concentración de partículas en reposo dentro de la clase definida (<span class="por-confirmar">ISO 5</span>).<br>Puntos y volumen según ISO 14644-1.<br>Registro por punto.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro de conteo de partículas por punto<br>
   - Data cruda y reporte estadístico del análisis correspondiente</p>
-  <p><strong>Referencia:</strong><br>URS aprobada; manual del fabricante.</p>
+  <p><strong>Nota:</strong><br>La clase en rojo se confirma con la URS del área.</p>
+  <p><strong>Referencia:</strong><br>ISO 14644-1; ISO 14644-3; ISO 14644-4; EU GMP Anexo 1; 21 CFR 211.42(c).</p>
   </article>
 
   <article data-bloque="3" id="art-EQ-OQ-CF-005" class="ensayo" data-id="EQ-OQ-CF-005" data-fase="OQ" data-cond="ambas" data-familia="cabina-flujo">
@@ -134,12 +131,11 @@
   1) Encender la luz UV y verificar su funcionamiento y el enclavamiento de seguridad<br>
   2) Programar el temporizador en el valor definido y medir el tiempo real<br>
   3) Registrar la intensidad o el estado según el manual, si el equipo lo permite</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  La luz UV funciona y respeta el enclavamiento de seguridad.<br>
-  El temporizador cumple el tiempo programado dentro de la tolerancia aprobada.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Luz UV funciona y el temporizador limita la exposición.<br>Intensidad y vida útil dentro del fabricante.<br>Registro de horas y prueba.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro de luz UV y temporizador</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante.</p>
+  <p><strong>Nota:</strong><br>La UV es complementaria: no reemplaza la limpieza ni el flujo.</p>
+  <p><strong>Referencia:</strong><br>ISO 14644-1; ISO 14644-3; ISO 14644-4; EU GMP Anexo 1; 21 CFR 211.42(c).</p>
   </article>
 
   <article data-bloque="3" id="art-EQ-OQ-CF-006" class="ensayo" data-id="EQ-OQ-CF-006" data-fase="OQ" data-cond="ambas" data-familia="cabina-flujo">
@@ -149,12 +145,11 @@
   1) Provocar cada alarma disponible y registrar el disparo<br>
   2) Cortar la energía y verificar el estado seguro y la respuesta de la cabina<br>
   3) Restablecer y verificar la recuperación del flujo</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Cada alarma actúa según el manual del fabricante.<br>
-  Tras el corte, la cabina se recupera sin pérdida de configuración ni registros.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Alarmas y comportamiento ante corte de energía: la cabina no opera sin flujo.<br>Recuperación al restablecer, con verificación de flujo.<br>Registro del evento.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro de alarmas y corte de energía</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante; 21 CFR Part 11 / EU GMP Anexo 11 (si aplica).</p>
+  <p><strong>Nota:</strong><br>Una cabina que sigue encendida sin flujo da falsa protección.</p>
+  <p><strong>Referencia:</strong><br>ISO 14644-1; ISO 14644-3; ISO 14644-4; EU GMP Anexo 1; 21 CFR 211.42(c).</p>
   </article>
 
   <article data-bloque="4" id="art-EQ-OQ-CF-RES" class="ensayo" data-id="EQ-OQ-CF-RES" data-fase="OQ" data-cond="ambas" data-familia="cabina-flujo">

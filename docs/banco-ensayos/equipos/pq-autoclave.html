@@ -80,13 +80,14 @@
   b) El ΔT entre sondas está dentro de ±1 °C<br>
   5) Definir y registrar el punto frío de la carga de referencia<br>
   6) Procesar los datos crudos de temperatura del mapeo con carga en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Uniformidad en banda en meseta; punto frío definido.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = temperatura por punto con carga; unidad = °C. Tipo de dato = continua. n = mínimo 5 puntos, 3 ciclos. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = cada punto dentro de ±1 °C. Atípicos = Grubbs solo si n ≥ 7; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Distribución de temperatura con carga de referencia: ΔT ≤ <span class="por-confirmar">±1 °C</span> entre puntos.<br>Todos los puntos dentro de límite durante la esterilización.<br>Registro por ciclo y tipo de carga.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Plano de ubicación de termopares en la carga<br>
   - Curvas de temperatura y tabla por sonda con ΔT<br>
   - Data cruda y reporte estadístico del análisis de temperatura del mapeo con carga</p>
-  <p><strong>Referencia:</strong><br>EN 285 §16.2 (termometría con carga); ISO 17665-1.</p>
+  <p><strong>Nota:</strong><br>La uniformidad en rojo se confirma con EN 285 y la carga real.</p>
+  <p><strong>Referencia:</strong><br>EN 285; ISO 17665-1; PDA TR1; EU GMP Anexo 1; 21 CFR 211.160(b).</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-PQ-AU-002" class="ensayo" data-analisis="si" data-id="EQ-PQ-AU-002" data-fase="PQ" data-cond="ambas" data-familia="autoclave">
@@ -98,12 +99,13 @@
   3) Confirmar que el tiempo de mantenimiento programado cubre el equilibrio más la exposición requerida<br>
   a) Equilibrio dentro del límite del diseño y mantenimiento posterior completo<br>
   4) Procesar los datos crudos de tiempos de equilibrio por posición en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Equilibrio conocido y cubierto por el tiempo de mantenimiento del ciclo.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = tiempo de calentamiento de la carga; unidad = min. Tipo de dato = continua. n = 3 ciclos por carga. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = dentro del programa. Atípicos = Grubbs solo si n ≥ 7; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Tiempo que tarda la carga en alcanzar la temperatura de esterilización.<br>Medido en el punto más lento y dentro del programa.<br>Registro del perfil.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Tabla de tiempos de equilibrio por sonda y posición<br>
   - Data cruda y reporte estadístico del análisis de tiempos de equilibrio</p>
-  <p><strong>Referencia:</strong><br>EN 285 §3.13–3.14 (equilibrio y mantenimiento); OMS TRS 961 §6.2.</p>
+  <p><strong>Nota:</strong><br>El tiempo de calentamiento define la duración real del ciclo.</p>
+  <p><strong>Referencia:</strong><br>EN 285; ISO 17665-1; PDA TR1; EU GMP Anexo 1; 21 CFR 211.160(b).</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-PQ-AU-003" class="ensayo" data-id="EQ-PQ-AU-003" data-fase="PQ" data-cond="ambas" data-familia="autoclave">
@@ -115,11 +117,12 @@
   3) Confirmar que el control nunca libera el ciclo antes de que la carga complete su exposición<br>
   a) La diferencia está dentro de lo previsto en el diseño del ciclo<br>
   4) Anexar la comparativa control contra punto frío por ciclo</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  El control representa a la carga en todos los ciclos.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = diferencia control-punto frío; unidad = °C. Tipo de dato = continua. n = 3 ciclos. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = ≤ 1 °C. Atípicos = Grubbs solo si n ≥ 7; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Temperatura del drenaje o del sensor de control coincide con el punto frío: diferencia ≤ <span class="por-confirmar">1 °C</span>.<br>Sin diferencia sistemática.<br>Registro por ciclo.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Comparativa control contra punto frío por ciclo</p>
-  <p><strong>Referencia:</strong><br>OMS TRS 961 §6 (punto más frío).</p>
+  <p><strong>Nota:</strong><br>Si el control no representa el punto frío, el ciclo puede liberar carga no estéril.</p>
+  <p><strong>Referencia:</strong><br>EN 285; ISO 17665-1; PDA TR1; EU GMP Anexo 1; 21 CFR 211.160(b).</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-PQ-AU-004" class="ensayo" data-analisis="si" data-id="EQ-PQ-AU-004" data-fase="PQ" data-cond="ambas" data-familia="autoclave">
@@ -132,12 +135,13 @@
   4) Confirmar meseta completa en el punto difícil de cada tipo<br>
   a) El punto difícil alcanza la banda y la mantiene toda la meseta<br>
   5) Procesar los datos crudos de penetración por tipo de carga en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Penetración demostrada en el punto difícil de cada tipo de carga en los 3 ciclos consecutivos, o bracketing justificado.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = penetración en punto difícil; unidad = °C. Tipo de dato = continua. n = 3 ciclos por tipo de carga. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = alcanza temperatura y tiempo. Atípicos = Grubbs solo si n ≥ 7; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Penetración de calor en el punto más difícil de cada tipo de carga.<br>El punto difícil alcanza la temperatura y el tiempo.<br>Registro por tipo de carga.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Tabla de penetración por tipo de carga con curvas<br>
   - Data cruda y reporte estadístico del análisis de penetración por tipo de carga</p>
-  <p><strong>Referencia:</strong><br>PDA TR-01 (cargas porosas y duras); EN 285 (cargas de prueba).</p>
+  <p><strong>Nota:</strong><br>El punto difícil se identifica con datos, no por suposición.</p>
+  <p><strong>Referencia:</strong><br>EN 285; ISO 17665-1; PDA TR1; EU GMP Anexo 1; 21 CFR 211.160(b).</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-PQ-AU-005" class="ensayo" data-analisis="si" data-id="EQ-PQ-AU-005" data-fase="PQ" data-cond="ambas" data-familia="autoclave">
@@ -150,13 +154,13 @@
   a) F0 físico mayor o igual al mínimo y coherente con el biológico<br>
   4) Procesar los datos crudos de letalidad en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo<br>
   5) Anexar la memoria de cálculo del F0</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  F0 físico en el punto frío mayor o igual al mínimo definido (12 minutos por defecto, enfoque de sobremuerte) y coherente con el F0 biológico, demostrando un SAL menor o igual a 10⁻⁶.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = F0 en punto frío; unidad = min. Tipo de dato = continua. n = 3 ciclos por carga. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = F0 ≥ 15 min. Atípicos = Grubbs solo si n ≥ 7; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>F0 o equivalencia letal en el punto frío ≥ <span class="por-confirmar">15 min</span> (121 °C) o el criterio adoptado.<br>Calculado con los datos del ciclo.<br>Registro del cálculo.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Memoria de cálculo del F0 en el punto frío<br>
   - Data cruda y reporte estadístico del análisis de letalidad</p>
-  <p><strong>Nota:</strong><br>El F0 mínimo se justifica según el enfoque: sobremuerte (reducción de 12 log de un indicador con D121 de 1 minuto, F0 = 12 min) o basado en biocarga (F0 = D121 × (log N0 − log SAL), con N0 la biocarga máxima y D121 del organismo más resistente). Anexar la memoria de cálculo con el enfoque elegido.</p>
-  <p><strong>Referencia:</strong><br>USP &lt;1229&gt;; PDA TR-01 (F0 físico y biológico).</p>
+  <p><strong>Nota:</strong><br>El F0 en rojo se confirma con el programa y la carga; SAL 10⁻⁶ como objetivo.</p>
+  <p><strong>Referencia:</strong><br>EN 285; ISO 17665-1; PDA TR1; EU GMP Anexo 1; 21 CFR 211.160(b).</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-PQ-AU-006" class="ensayo" data-id="EQ-PQ-AU-006" data-fase="PQ" data-cond="ambas" data-familia="autoclave">
@@ -168,11 +172,11 @@
   3) Repetir en 3 ciclos<br>
   a) Viraje completo y temperatura en banda en el reto, en todos los ciclos<br>
   4) Anexar los retos evaluados con su lectura</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Sin aire residual en el reto en los 3 ciclos.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Detección de aire residual en material poroso o con lúmenes.<br>Bowie-Dick uniforme y sin zonas no reactivas.<br>Registro del indicador.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Retos (PCD) evaluados por ciclo</p>
-  <p><strong>Referencia:</strong><br>EN 285 (cargas huecas y porosas); ISO 11140.</p>
+  <p><strong>Nota:</strong><br>El aire residual es la causa principal de falla en cargas porosas.</p>
+  <p><strong>Referencia:</strong><br>EN 285; ISO 17665-1; PDA TR1; EU GMP Anexo 1; 21 CFR 211.160(b).</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-PQ-AU-007" class="ensayo" data-id="EQ-PQ-AU-007" data-fase="PQ" data-cond="ambas" data-familia="autoclave">
@@ -185,11 +189,12 @@
   4) Leer: expuestos sin crecimiento; control positivo con crecimiento; control negativo sin crecimiento<br>
   a) Muerte completa en expuestos con controles válidos<br>
   5) Registrar los indicadores por ciclo con lote y posición</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Eficacia demostrada con controles válidos en los 3 ciclos.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = indicadores biológicos positivos; unidad = UFC. Tipo de dato = atributo. n = 3 ciclos con indicadores por carga. Estadísticos = proporción de cumplimiento con IC binomial exacto. Regla de decisión = 0 positivos. Atípicos: no aplica a datos de atributo; toda exclusión se documenta y se conserva el registro original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Desafío con Geobacillus stearothermophilus (10⁶ UFC) junto a la carga.<br>0 indicadores positivos en los 3 ciclos.<br>Registro por indicador y por ciclo.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro de indicadores biológicos por ciclo con controles</p>
-  <p><strong>Referencia:</strong><br>USP &lt;1229.5&gt;; ISO 11138-1 e ISO 11138-3 (indicadores biológicos para calor húmedo).</p>
+  <p><strong>Nota:</strong><br>El indicador biológico es la prueba directa de esterilidad.</p>
+  <p><strong>Referencia:</strong><br>EN 285; ISO 17665-1; PDA TR1; EU GMP Anexo 1; 21 CFR 211.160(b).</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-PQ-AU-008" class="ensayo" data-analisis="si" data-id="EQ-PQ-AU-008" data-fase="PQ" data-cond="ambas" data-familia="autoclave">
@@ -201,12 +206,13 @@
   3) Comparar parámetros críticos y atributos entre los 3 ciclos de cada configuración<br>
   a) Los 3 ciclos cumplen idénticos criterios por configuración<br>
   4) Procesar los datos crudos inter-ciclo en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Repetibilidad demostrada por configuración.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = repetibilidad entre ciclos; unidad = °C y min. Tipo de dato = continua. n = 3 ciclos consecutivos. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = los 3 dentro de criterio. Atípicos = Grubbs solo si n ≥ 7; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Repetibilidad en 3 ciclos consecutivos con los mismos criterios.<br>Temperatura, F0 e indicadores dentro de límite en los 3.<br>Registro por ciclo.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Comparativa de los 3 ciclos por configuración<br>
   - Data cruda y reporte estadístico del análisis inter-ciclo</p>
-  <p><strong>Referencia:</strong><br>EU GMP Anexo 15 §§4.16–4.19.</p>
+  <p><strong>Nota:</strong><br>La repetibilidad es lo que demuestra control del proceso.</p>
+  <p><strong>Referencia:</strong><br>EN 285; ISO 17665-1; PDA TR1; EU GMP Anexo 1; 21 CFR 211.160(b).</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-PQ-AU-009" class="ensayo" data-analisis="si" data-id="EQ-PQ-AU-009" data-fase="PQ" data-cond="ambas" data-familia="autoclave">
@@ -218,12 +224,13 @@
   3) Comparar uniformidad, equilibrio y F0 de cada extremo contra la corrida nominal<br>
   a) Extremos conformes en uniformidad, equilibrio y F0<br>
   4) Procesar los datos crudos comparativos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Extremos de carga conformes.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = desempeño en extremos; unidad = °C y min. Tipo de dato = continua. n = 3 ciclos por extremo. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = ambos extremos dentro de criterio. Atípicos = Grubbs solo si n ≥ 7; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Desempeño en carga mínima y máxima.<br>Temperatura y F0 dentro de límite en ambos extremos.<br>Registro por condición.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registros de ciclo de cada extremo con mapeo reducido<br>
   - Data cruda y reporte estadístico del análisis comparativo de extremos</p>
-  <p><strong>Referencia:</strong><br>URS del equipo; EU GMP Anexo 15 (rango y bracketing).</p>
+  <p><strong>Nota:</strong><br>La carga mínima calienta más rápido y puede sobrecalentar; la máxima tarda más.</p>
+  <p><strong>Referencia:</strong><br>EN 285; ISO 17665-1; PDA TR1; EU GMP Anexo 1; 21 CFR 211.160(b).</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-PQ-AU-010" class="ensayo" data-analisis="si" data-id="EQ-PQ-AU-010" data-fase="PQ" data-cond="ambas" data-familia="autoclave">
@@ -235,13 +242,14 @@
   3) Confirmar meseta, F0 y muerte en el peor caso<br>
   a) Peor caso conforme en meseta, F0 e indicadores<br>
   4) Procesar los datos crudos del peor caso en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Peor caso conforme en todo.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = desempeño en peor caso; unidad = °C y min. Tipo de dato = continua. n = 3 ciclos del peor caso. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = dentro de criterio. Atípicos = Grubbs solo si n ≥ 7; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Peor caso: carga más densa o de envoltura más difícil.<br>Penetración y F0 dentro de criterio en el peor caso.<br>Registro de la condición usada.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Definición del peor caso con análisis de riesgo<br>
   - Registros del peor caso con indicadores<br>
   - Data cruda y reporte estadístico del análisis del peor caso</p>
-  <p><strong>Referencia:</strong><br>EU GMP Anexo 15 (peor caso); PDA TR-01.</p>
+  <p><strong>Nota:</strong><br>El peor caso se define con datos de la carga real.</p>
+  <p><strong>Referencia:</strong><br>EN 285; ISO 17665-1; PDA TR1; EU GMP Anexo 1; 21 CFR 211.160(b).</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-PQ-AU-011" class="ensayo" data-analisis="si" data-id="EQ-PQ-AU-011" data-fase="PQ" data-cond="ambas" data-familia="autoclave">
@@ -253,12 +261,13 @@
   3) Confirmar la integridad de los empaques (sin condensación interna)<br>
   a) Tiempo dentro del límite y empaques secos<br>
   4) Procesar los datos crudos de enfriamiento en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Enfriamiento definido y repetible con empaques íntegros.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = tiempo de enfriamiento; unidad = min. Tipo de dato = continua. n = 3 ciclos. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = ≤ 60 °C en el tiempo definido. Atípicos = Grubbs solo si n ≥ 7; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Tiempo de enfriamiento hasta temperatura segura para manipular (<span class="por-confirmar">≤ 60 °C</span>).<br>Sin presión residual en la cámara.<br>Registro por ciclo.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Curvas de enfriamiento por ciclo<br>
   - Data cruda y reporte estadístico del análisis de enfriamiento</p>
-  <p><strong>Referencia:</strong><br>Receta aprobada; OMS TRS 961 §6.21.</p>
+  <p><strong>Nota:</strong><br>El tiempo en rojo se confirma con el procedimiento de descarga.</p>
+  <p><strong>Referencia:</strong><br>EN 285; ISO 17665-1; PDA TR1; EU GMP Anexo 1; 21 CFR 211.160(b).</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-PQ-AU-012" class="ensayo" data-id="EQ-PQ-AU-012" data-fase="PQ" data-cond="ambas" data-familia="autoclave">
@@ -270,11 +279,11 @@
   3) Correr el ciclo Bowie-Dick y evaluar el viraje uniforme, repitiendo en 3 corridas<br>
   a) Viraje uniforme en todas las corridas<br>
   4) Sin cargas porosas: redactar la justificación de No Aplica con firma del ejecutor y del revisor</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Conforme con carga porosa, o No Aplica justificado y firmado.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Remoción de aire con carga porosa; si no hay carga porosa, se declara la limitación.<br>Bowie-Dick y vacío dentro de criterio.<br>Registro por ciclo.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Hojas Bowie-Dick evaluadas o justificación de No Aplica firmada</p>
-  <p><strong>Referencia:</strong><br>EN 285 §17.</p>
+  <p><strong>Nota:</strong><br>Sin carga porosa no se puede concluir sobre remoción de aire.</p>
+  <p><strong>Referencia:</strong><br>EN 285; ISO 17665-1; PDA TR1; EU GMP Anexo 1; 21 CFR 211.160(b).</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-PQ-AU-013" class="ensayo" data-analisis="si" data-id="EQ-PQ-AU-013" data-fase="PQ" data-cond="ambas" data-familia="autoclave">
@@ -285,12 +294,13 @@
   2) Calcular la estabilidad (rango y SD) y listar las alarmas ocurridas<br>
   a) Dentro de banda el 100% del tiempo, con cero alarmas no gestionadas<br>
   3) Procesar los datos crudos de estabilidad en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Meseta estable sin alarmas no gestionadas.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = estabilidad en meseta; unidad = °C y bar. Tipo de dato = continua. n = registro continuo por ciclo. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = sin excursión > 1 °C. Atípicos = Grubbs solo si n ≥ 7; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Estabilidad de presión y temperatura durante la meseta de esterilización.<br>Sin excursión > <span class="por-confirmar">1 °C</span> ni caída de presión.<br>Registro continuo.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registros de presión y temperatura en meseta<br>
   - Data cruda y reporte estadístico del análisis de estabilidad</p>
-  <p><strong>Referencia:</strong><br>EN 285 (bandas); EU GMP Anexo 15.</p>
+  <p><strong>Nota:</strong><br>Una caída de presión en la meseta indica fuga o vapor insuficiente.</p>
+  <p><strong>Referencia:</strong><br>EN 285; ISO 17665-1; PDA TR1; EU GMP Anexo 1; 21 CFR 211.160(b).</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-PQ-AU-014" class="ensayo" data-analisis="si" data-id="EQ-PQ-AU-014" data-fase="PQ" data-cond="ambas" data-familia="autoclave">
@@ -302,12 +312,13 @@
   3) Confirmar la remoción de aire por la vía asociada (Bowie-Dick o mapeo del ciclo)<br>
   a) Niveles conformes en todos los ciclos<br>
   4) Procesar los datos crudos de vacío en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Vacío conforme con carga en todos los ciclos.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = nivel de vacío y pulsos por fase; unidad = mbar. Tipo de dato = continua. n = 3 ciclos por programa. Estadísticos = media, DE e IC 95 %. Regla de decisión = vacío y pulsos dentro del nivel requerido. Atípicos = Grubbs solo si n ≥ 7; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Vacío y pulsos alcanzan el nivel requerido por el programa.<br>Sin diferencia entre ciclos.<br>Registro por fase.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registros de vacío por pulso y ciclo<br>
   - Data cruda y reporte estadístico del análisis de vacío</p>
-  <p><strong>Referencia:</strong><br>Receta aprobada; EN 285.</p>
+  <p><strong>Nota:</strong><br>Pulsos insuficientes dejan aire residual en la carga.</p>
+  <p><strong>Referencia:</strong><br>EN 285; ISO 17665-1; PDA TR1; EU GMP Anexo 1; 21 CFR 211.160(b).</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-PQ-AU-015" class="ensayo" data-id="EQ-PQ-AU-015" data-fase="PQ" data-cond="ambas" data-familia="autoclave">
@@ -320,11 +331,12 @@
   4) Registrar la validez aprobada por tipo de empaque<br>
   a) Empaque íntegro al vencimiento del tiempo declarado<br>
   5) Anexar el estudio con la validez declarada</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Tiempo de espera validado por empaque.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = tiempo de espera estéril; unidad = h. Tipo de dato = continua. n = 1 registro por lote. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = ≤ hold time validado. Atípicos = Grubbs solo si n ≥ 7; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Tiempo de espera del material estéril tras el ciclo dentro del validado (<span class="por-confirmar">hold time</span>).<br>Sin exceder en ningún lote.<br>Registro de horas.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Estudio de tiempo de espera con validez declarada</p>
-  <p><strong>Referencia:</strong><br>EU GMP Anexo 1 (tiempos de almacenamiento del material estéril); ISO 11607-1 (sistemas de barrera estéril); práctica 7–30 días según empaque.</p>
+  <p><strong>Nota:</strong><br>El hold time estéril se valida con integridad de barrera y condiciones de almacenamiento.</p>
+  <p><strong>Referencia:</strong><br>EN 285; ISO 17665-1; PDA TR1; EU GMP Anexo 1; 21 CFR 211.160(b).</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-PQ-AU-016" class="ensayo" data-id="EQ-PQ-AU-016" data-fase="PQ" data-cond="ambas" data-familia="autoclave">
@@ -337,12 +349,12 @@
   4) Simular un hallazgo de ciclo abortado y confirmar la segregación efectiva<br>
   a) Cero mezclas; liberación solo con registro aprobado<br>
   5) Anexar el procedimiento y el registro del simulacro</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Sistema a prueba de mezcla de estéril con no estéril.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Criterios y registros del material no esterilizado y de la liberación definidos.<br>El 100 % de los ciclos fallidos registrados y dispositionados.<br>Sin liberación sin criterio.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Procedimiento de segregación y liberación<br>
   - Registro del simulacro de hallazgo</p>
-  <p><strong>Referencia:</strong><br>OMS TRS 961 §§5.9–5.10 (patrones de carga y registros por corrida).</p>
+  <p><strong>Nota:</strong><br>Un ciclo fallido sin disposición es un riesgo de liberación.</p>
+  <p><strong>Referencia:</strong><br>EN 285; ISO 17665-1; PDA TR1; EU GMP Anexo 1; 21 CFR 211.160(b).</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-PQ-AU-017" class="ensayo" data-id="EQ-PQ-AU-017" data-fase="PQ" data-cond="ambas" data-familia="autoclave">
@@ -354,11 +366,12 @@
   3) Pesar elementos testigo antes y después cuando aplique<br>
   a) Carga seca en todos los ciclos con secado<br>
   4) Anexar el registro de inspección</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Secado efectivo o No Aplica justificado.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = humedad residual; unidad = %. Tipo de dato = continua. n = 3 ciclos por carga. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = ≤ 1 %. Atípicos = Grubbs solo si n ≥ 7; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Secado de la carga cuando el programa incluye fase de secado.<br>Sin agua libre y humedad residual ≤ <span class="por-confirmar">1 %</span>.<br>Registro por ciclo y carga.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro de inspección de secado</p>
-  <p><strong>Referencia:</strong><br>EN 285 (sequedad de carga); receta aprobada.</p>
+  <p><strong>Nota:</strong><br>La humedad residual rompe la barrera estéril al manipular.</p>
+  <p><strong>Referencia:</strong><br>EN 285; ISO 17665-1; PDA TR1; EU GMP Anexo 1; 21 CFR 211.160(b).</p>
 </article>
 
 <article data-bloque="4" id="art-EQ-PQ-AU-RES" class="ensayo" data-id="EQ-PQ-AU-RES" data-fase="PQ" data-cond="ambas" data-familia="autoclave">
