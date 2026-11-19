@@ -2790,15 +2790,19 @@ var BancoEquipos = {
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  El diagrama de flujo corresponde con lo instalado en su revisión vigente.<br>\n  No existen componentes, líneas ni instrumentos sin identificar."
+      "html": "<strong>Criterio de aceptación:</strong><br>Flujo de producto (tolva, alimentador, torreta, salida) coincide con el diagrama aprobado.<br>El 100 % de los componentes identificados y accesibles para limpieza.<br>Sin puntos muertos ni recodos donde retenga producto.<br>Tolva con sensor de nivel bajo instalado y funcional."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Diagrama de flujo verificado y firmado (anexo del informe)"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>La verificación es contra el diagrama de flujo aprobado; un cambio de recorrido requiere control de cambios."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>Manual del fabricante de la tableteadora."
+      "html": "<strong>Referencia:</strong><br>USP &lt;905&gt;; USP &lt;1216&gt;; USP &lt;701&gt;; USP &lt;711&gt;; EU GMP Anexo 15; 21 CFR 211.160(b)."
      }
     ],
     "tabla": null,
@@ -2821,15 +2825,19 @@ var BancoEquipos = {
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  La torreta y el juego instalado corresponden a lo especificado con certificados vigentes.<br>\n  Sin punzones ni matrices dañados o sin identificar."
+      "html": "<strong>Criterio de aceptación:</strong><br>Torreta con el número de estaciones del diseño; juego de punzones y matrices compatible.<br>Concentricidad (TIR) ≤ <span class=\"por-confirmar\">0,05 mm</span> y holgura punzón-matriz de <span class=\"por-confirmar\">0,05-0,1 mm</span>.<br>Punzones identificados por estación y con certificado dimensional.<br>Sin desgaste, rebaba ni golpes en punta ni matriz."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Tabla de torreta y punzones con certificados (anexo del informe)"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>La TIR y la holgura en rojo dependen del fabricante; se confirman con el certificado del juego de punzones."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>Especificación del fabricante de punzones y matrices (TSM/EU)."
+      "html": "<strong>Referencia:</strong><br>USP &lt;905&gt;; USP &lt;1216&gt;; USP &lt;701&gt;; USP &lt;711&gt;; EU GMP Anexo 15; 21 CFR 211.160(b)."
      }
     ],
     "tabla": null,
@@ -2853,15 +2861,19 @@ var BancoEquipos = {
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Todos los componentes están instalados, identificados y conectados.<br>\n  Las celdas cuentan con calibración vigente."
+      "html": "<strong>Criterio de aceptación:</strong><br>Celdas de fuerza, control de peso y desviador de rechazo instalados y calibrados.<br>El desviador no tiene bypass manual ni puede anularse sin registro.<br>Calibración vigente de la celda de referencia.<br>Registro de la última verificación del desviador."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registro del sistema de control y rechazo verificado (anexo del informe)"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>La calibración de la celda de fuerza se verifica con certificado, no con la lectura del HMI."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>Manual del fabricante de la tableteadora."
+      "html": "<strong>Referencia:</strong><br>USP &lt;905&gt;; USP &lt;1216&gt;; USP &lt;701&gt;; USP &lt;711&gt;; EU GMP Anexo 15; 21 CFR 211.160(b)."
      }
     ],
     "tabla": null,
@@ -2884,15 +2896,19 @@ var BancoEquipos = {
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  La extracción y el desempolvador corresponden a lo especificado.<br>\n  Los filtros cuentan con certificado y programa de recambio."
+      "html": "<strong>Criterio de aceptación:</strong><br>Sistema de extracción y desempolvador instalados según plano, con presión negativa verificable.<br>Conductos sin fugas y filtros accesibles.<br>Punto de medición de presión negativa instalado.<br>Sin retorno de polvo al área de compresión."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de extracción y desempolvador (anexo del informe)"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>La presión negativa mínima se confirma con el diseño del sistema de extracción y la evaluación de exposición."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>Manual del fabricante de la tableteadora."
+      "html": "<strong>Referencia:</strong><br>USP &lt;905&gt;; USP &lt;1216&gt;; USP &lt;701&gt;; USP &lt;711&gt;; EU GMP Anexo 15; 21 CFR 211.160(b)."
      }
     ],
     "tabla": null,
@@ -2915,15 +2931,19 @@ var BancoEquipos = {
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Guardas, sobrecarga y paros instalados y operativos.<br>\n  La placa de datos corresponde a la especificación de compra."
+      "html": "<strong>Criterio de aceptación:</strong><br>Guardas instaladas en los puntos de riesgo identificados en el análisis de riesgo.<br>Interruptores de guarda y paros de emergencia accesibles desde la posición del operador.<br>El 100 % de las guardas con interruptor operativo; sin anulación posible.<br>Registro de verificación por guarda."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de seguridades y placa de datos (anexo del informe)"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>La lista de guardas sale del análisis de riesgo, no de la costumbre de la planta."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>Manual del fabricante de la tableteadora."
+      "html": "<strong>Referencia:</strong><br>USP &lt;905&gt;; USP &lt;1216&gt;; USP &lt;701&gt;; USP &lt;711&gt;; EU GMP Anexo 15; 21 CFR 211.160(b)."
      }
     ],
     "tabla": null,
@@ -8813,16 +8833,24 @@ var BancoEquipos = {
       "html": "<strong>Procedimiento:</strong><br>\n  1) Con la torreta girando a velocidad nominal sin producto, accionar la parada de emergencia<br>\n  2) Medir el tiempo de detención de la torreta<br>\n  3) Verificar el estado seguro: torreta detenida, alimentador parado, sin rearranque espontáneo<br>\n  4) Restablecer y verificar el rearranque controlado"
      },
      {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = parada de emergencia; unidad = s. Tipo de dato = continua. n = 3 activaciones. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = detención ≤ 2 s en las 3. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable medida; toda exclusión se documenta y se conserva el dato original."
+     },
+     {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  La torreta se detiene dentro del tiempo especificado.<br>\n  No existe rearranque espontáneo tras el restablecimiento de energía."
+      "html": "<strong>Criterio de aceptación:</strong><br>La parada de emergencia detiene la torreta en ≤ <span class=\"por-confirmar\">2 s</span> y deja la máquina en estado seguro.<br>El rearme es manual y no hay reinicio automático.<br>El evento queda registrado con hora y usuario."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de parada de emergencia (anexo del informe)"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>El tiempo en rojo se confirma con el fabricante y el análisis de riesgo de la máquina."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>Manual del fabricante de la tableteadora."
+      "html": "<strong>Referencia:</strong><br>USP &lt;905&gt;; USP &lt;1216&gt;; USP &lt;701&gt;; USP &lt;711&gt;; EU GMP Anexo 15; 21 CFR 211.160(b)."
      }
     ],
     "tabla": null,
@@ -8844,16 +8872,24 @@ var BancoEquipos = {
       "html": "<strong>Procedimiento:</strong><br>\n  1) Con cada puerta o guarda abierta, intentar arrancar: no debe permitirlo<br>\n  2) Con la ventana de compresión abierta (si aplica), intentar operar: no debe permitirlo<br>\n  3) Con la tolva retirada o sin nivel (si aplica sensor), verificar la acción del interlock<br>\n  4) Con la contención aislada abierta (si aplica), verificar que no arranca<br>\n  5) Registrar cada interlock con su respuesta"
      },
      {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = actuación de interlocks; unidad = s. Tipo de dato = continua. n = 3 repeticiones por interlock. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = detención ≤ 1 s en las 3. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable medida; toda exclusión se documenta y se conserva el dato original."
+     },
+     {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Ningún interlock permite la operación en condición insegura.<br>\n  Ningún interlock puede puentearse sin herramienta o clave."
+      "html": "<strong>Criterio de aceptación:</strong><br>Cada interlock detiene la máquina o impide el arranque con puerta o guarda abierta en ≤ <span class=\"por-confirmar\">1 s</span>.<br>El rearme es manual y exige cerrar la guarda.<br>Prueba registrada por interlock."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Matriz de interlocks con respuesta verificada (anexo del informe)"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>El tiempo en rojo se confirma con el fabricante; se prueba cada guarda, no una muestra."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>Manual del fabricante de la tableteadora."
+      "html": "<strong>Referencia:</strong><br>USP &lt;905&gt;; USP &lt;1216&gt;; USP &lt;701&gt;; USP &lt;711&gt;; EU GMP Anexo 15; 21 CFR 211.160(b)."
      }
     ],
     "tabla": null,
@@ -8875,16 +8911,24 @@ var BancoEquipos = {
       "html": "<strong>Procedimiento:</strong><br>\n  1) Identificar el sistema de sobrecarga (hidráulico o mecánico) y su ajuste<br>\n  2) Simular o provocar la condición de sobrecarga según el procedimiento del fabricante<br>\n  3) Verificar el corte de la compresión y la señalización<br>\n  4) Verificar el rearme y la recuperación de la operación"
      },
      {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = corte por sobrecarga; unidad = % de fuerza máxima. Tipo de dato = continua. n = 3 repeticiones. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = corte ≤ 110 % en las 3. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable medida; toda exclusión se documenta y se conserva el dato original."
+     },
+     {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  La protección actúa al superar la fuerza máxima sin daño a punzones ni matriz.<br>\n  La máquina señaliza la sobrecarga y permite el rearme controlado."
+      "html": "<strong>Criterio de aceptación:</strong><br>La protección de sobrecarga corta la compresión al superar la fuerza máxima (<span class=\"por-confirmar\">110 %</span>).<br>La alarma queda registrada y el rearme es manual.<br>No hay deformación de punzones ni de la torreta."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de protección de sobrecarga (anexo del informe)"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>El umbral en rojo se confirma con la fuerza máxima del producto y el fabricante."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>Manual del fabricante de la tableteadora."
+      "html": "<strong>Referencia:</strong><br>USP &lt;905&gt;; USP &lt;1216&gt;; USP &lt;701&gt;; USP &lt;711&gt;; EU GMP Anexo 15; 21 CFR 211.160(b)."
      }
     ],
     "tabla": null,
@@ -8906,16 +8950,24 @@ var BancoEquipos = {
       "html": "<strong>Procedimiento:</strong><br>\n  1) Simular sobrecorriente del motor y verificar alarma y protección<br>\n  2) Simular fuerza fuera de límites y verificar alarma y acción (rechazo o paro)<br>\n  3) Simular falla del alimentador y verificar la alarma<br>\n  4) Simular falla de extracción de polvo y verificar la alarma<br>\n  5) Simular nivel bajo de tolva (si aplica sensor) y verificar la alarma<br>\n  6) Verificar el registro de cada alarma en el histórico"
      },
      {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = disparo de alarmas; unidad = pasa/no pasa. Tipo de dato = atributo. n = 3 repeticiones por alarma. Estadísticos = proporción de cumplimiento con IC binomial exacto. Regla de decisión = cada alarma dispara y actúa. Atípicos: no aplica a datos de atributo; toda exclusión se documenta y se conserva el registro original."
+     },
+     {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Cada alarma dispara ante su condición y ejecuta su acción asociada.<br>\n  Todas las alarmas quedan registradas en el histórico."
+      "html": "<strong>Criterio de aceptación:</strong><br>Cada alarma dispara ante su condición y ejecuta la acción asociada (parada, rechazo o aviso).<br>El registro conserva fecha, hora, valor y usuario.<br>Prueba registrada por alarma."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Matriz de alarmas con disparo y acción verificados (anexo del informe)"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>Se prueban todas las alarmas del análisis de riesgo; una que no dispara invalida el ensayo."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>Manual del fabricante de la tableteadora."
+      "html": "<strong>Referencia:</strong><br>USP &lt;905&gt;; USP &lt;1216&gt;; USP &lt;701&gt;; USP &lt;711&gt;; EU GMP Anexo 15; 21 CFR 211.160(b)."
      }
     ],
     "tabla": null,
@@ -8938,15 +8990,19 @@ var BancoEquipos = {
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Ante la falla la máquina queda en estado seguro.<br>\n  No existe arranque espontáneo al retornar la energía."
+      "html": "<strong>Criterio de aceptación:</strong><br>Ante falla de energía la máquina queda en estado seguro, sin reinicio automático.<br>Las tabletas de la torreta al momento del corte se descartan según el procedimiento.<br>El evento queda registrado."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de falla y recuperación de energía (anexo del informe)"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>El descarte de tabletas se define antes de la prueba; no se decide al ver el resultado."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>Manual del fabricante de la tableteadora."
+      "html": "<strong>Referencia:</strong><br>USP &lt;905&gt;; USP &lt;1216&gt;; USP &lt;701&gt;; USP &lt;711&gt;; EU GMP Anexo 15; 21 CFR 211.160(b)."
      }
     ],
     "tabla": null,
@@ -8969,19 +9025,23 @@ var BancoEquipos = {
      },
      {
       "et": "Plan estadístico",
-      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+      "html": "<strong>Plan estadístico:</strong><br>Variable = velocidad de torreta; unidad = rpm. Tipo de dato = continua. n = 3 lecturas por velocidad. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = desviación ≤ ±2 % del setpoint. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable medida; toda exclusión se documenta y se conserva el dato original."
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  La velocidad indicada está dentro de la tolerancia especificada en los tres puntos.<br>\n  La repetibilidad cumple el criterio en cada punto."
+      "html": "<strong>Criterio de aceptación:</strong><br>Exactitud de la velocidad de torreta ≤ <span class=\"por-confirmar\">±2 %</span> en mínimo, nominal y máximo.<br>Sin oscilación &gt; 2 % en 5 min por velocidad.<br>El sentido de giro coincide con el indicado."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de velocidades con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de velocidad de torreta"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>La tolerancia en rojo se confirma con el fabricante y el rango validado del producto."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>Manual del fabricante de la tableteadora."
+      "html": "<strong>Referencia:</strong><br>USP &lt;905&gt;; USP &lt;1216&gt;; USP &lt;701&gt;; USP &lt;711&gt;; EU GMP Anexo 15; 21 CFR 211.160(b)."
      }
     ],
     "tabla": null,
@@ -9005,19 +9065,23 @@ var BancoEquipos = {
      },
      {
       "et": "Plan estadístico",
-      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+      "html": "<strong>Plan estadístico:</strong><br>Variable = velocidad del alimentador; unidad = rpm. Tipo de dato = continua. n = 3 lecturas por setpoint. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = desviación ≤ ±2 %. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable medida; toda exclusión se documenta y se conserva el dato original."
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  La velocidad está dentro de tolerancia y el sentido es correcto.<br>\n  La repetibilidad cumple el criterio."
+      "html": "<strong>Criterio de aceptación:</strong><br>Exactitud de la velocidad del alimentador ≤ <span class=\"por-confirmar\">±2 %</span> y sentido de giro correcto.<br>Respuesta al cambio de setpoint ≤ 10 s.<br>Sin patinaje ni atasco con el granulado de prueba."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registro del alimentador con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de velocidad del alimentador"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>La tolerancia en rojo se confirma con el fabricante del alimentador."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>Manual del fabricante de la tableteadora."
+      "html": "<strong>Referencia:</strong><br>USP &lt;905&gt;; USP &lt;1216&gt;; USP &lt;701&gt;; USP &lt;711&gt;; EU GMP Anexo 15; 21 CFR 211.160(b)."
      }
     ],
     "tabla": null,
@@ -9040,16 +9104,24 @@ var BancoEquipos = {
       "html": "<strong>Procedimiento:</strong><br>\n  1) Medir la concentricidad (TIR) de la torreta con comparador en los puntos definidos<br>\n  2) Medir la holgura punzón-matriz en una muestra de estaciones<br>\n  3) Comparar contra la especificación del fabricante y del juego de punzones<br>\n  4) Registrar desgaste o daño visible en punzones y matrices"
      },
      {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = TIR y holgura punzón-matriz; unidad = mm. Tipo de dato = continua. n = mínimo 10 estaciones. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = cada estación dentro del límite. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable medida; toda exclusión se documenta y se conserva el dato original."
+     },
+     {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  El TIR y la holgura están dentro de especificación.<br>\n  Sin punzones ni matrices dañados en la muestra."
+      "html": "<strong>Criterio de aceptación:</strong><br>Concentricidad de torreta (TIR) ≤ <span class=\"por-confirmar\">0,05 mm</span> y holgura punzón-matriz <span class=\"por-confirmar\">0,05-0,1 mm</span>.<br>Medición en el 100 % de las estaciones o en la muestra justificada.<br>Sin desgaste que comprometa la calidad de la tableta."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de concentricidad y holguras (anexo del informe)"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>Los valores en rojo se confirman con el certificado de la torreta y de los punzones."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>Especificación del fabricante de punzones y matrices (TSM/EU)."
+      "html": "<strong>Referencia:</strong><br>USP &lt;905&gt;; USP &lt;1216&gt;; USP &lt;701&gt;; USP &lt;711&gt;; EU GMP Anexo 15; 21 CFR 211.160(b)."
      }
     ],
     "tabla": null,
@@ -9072,19 +9144,23 @@ var BancoEquipos = {
      },
      {
       "et": "Plan estadístico",
-      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+      "html": "<strong>Plan estadístico:</strong><br>Variable = profundidad de llenado; unidad = mm. Tipo de dato = continua. n = 3 ajustes con 3 repeticiones. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = desviación ≤ ±0,05 mm. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable medida; toda exclusión se documenta y se conserva el dato original."
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  La profundidad responde al ajuste dentro de tolerancia en los tres puntos.<br>\n  La repetibilidad cumple el criterio."
+      "html": "<strong>Criterio de aceptación:</strong><br>Repetibilidad de la profundidad de llenado ≤ <span class=\"por-confirmar\">±0,05 mm</span> en 3 ajustes.<br>Respuesta al cambio de ajuste sin histéresis &gt; 0,05 mm.<br>Registro por ajuste y estación."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de profundidad con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de profundidad de llenado"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>La tolerancia en rojo se confirma con el fabricante; impacta directo en la variación de peso."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>Manual del fabricante de la tableteadora."
+      "html": "<strong>Referencia:</strong><br>USP &lt;905&gt;; USP &lt;1216&gt;; USP &lt;701&gt;; USP &lt;711&gt;; EU GMP Anexo 15; 21 CFR 211.160(b)."
      }
     ],
     "tabla": null,
@@ -9107,16 +9183,24 @@ var BancoEquipos = {
       "html": "<strong>Procedimiento:</strong><br>\n  1) Ajustar la altura de compresión en varios puntos del rango<br>\n  2) Comprimir placebo y medir el espesor resultante con micrómetro calibrado<br>\n  3) Verificar repetibilidad en el punto nominal<br>\n  4) Verificar ausencia de juego excesivo en el mecanismo"
      },
      {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = altura de compresión; unidad = mm. Tipo de dato = continua. n = 3 ajustes con 10 ciclos. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = desviación ≤ ±0,05 mm. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable medida; toda exclusión se documenta y se conserva el dato original."
+     },
+     {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  El espesor responde al ajuste dentro de tolerancia.<br>\n  La repetibilidad cumple el criterio."
+      "html": "<strong>Criterio de aceptación:</strong><br>Repetibilidad de la altura de compresión ≤ <span class=\"por-confirmar\">±0,05 mm</span> en 3 ajustes.<br>Sin histéresis ni deriva tras 10 ciclos.<br>Registro por ajuste."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de espesor por ajuste (anexo del informe)"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>La tolerancia en rojo se confirma con el fabricante; afecta dureza y espesor."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>Manual del fabricante de la tableteadora."
+      "html": "<strong>Referencia:</strong><br>USP &lt;905&gt;; USP &lt;1216&gt;; USP &lt;701&gt;; USP &lt;711&gt;; EU GMP Anexo 15; 21 CFR 211.160(b)."
      }
     ],
     "tabla": null,
@@ -9138,16 +9222,24 @@ var BancoEquipos = {
       "html": "<strong>Procedimiento:</strong><br>\n  1) Operar a velocidad mínima y registrar la corriente estable y de arranque<br>\n  2) Operar a velocidad máxima y registrar la corriente estable y de arranque<br>\n  3) Comparar contra la corriente nominal de placa<br>\n  4) Verificar ausencia de picos anormales en operación estable"
      },
      {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = corriente del motor; unidad = A. Tipo de dato = continua. n = 3 lecturas por velocidad. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = media dentro de ±10 % de la nominal. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable medida; toda exclusión se documenta y se conserva el dato original."
+     },
+     {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  La corriente no supera la nominal de placa en ningún punto.<br>\n  Sin picos anormales en operación estable."
+      "html": "<strong>Criterio de aceptación:</strong><br>Corriente del motor principal dentro de ±<span class=\"por-confirmar\">10 %</span> de la nominal a velocidad mínima y máxima.<br>Sin picos anormales al arrancar ni en régimen.<br>Registro por condición."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de corrientes (anexo del informe)"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>La tolerancia en rojo se confirma con la placa del motor."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>Placa del motor principal."
+      "html": "<strong>Referencia:</strong><br>USP &lt;905&gt;; USP &lt;1216&gt;; USP &lt;701&gt;; USP &lt;711&gt;; EU GMP Anexo 15; 21 CFR 211.160(b)."
      }
     ],
     "tabla": null,
@@ -9169,16 +9261,24 @@ var BancoEquipos = {
       "html": "<strong>Procedimiento:</strong><br>\n  1) Operar a velocidad nominal y registrar vibración y ruido (si aplica medición)<br>\n  2) Medir la temperatura de cojinetes principales y del motor tras la estabilización<br>\n  3) Comparar contra los límites del fabricante<br>\n  4) Verificar ausencia de ruidos anormales localizados"
      },
      {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = vibración, ruido y temperatura; unidad = mm/s, dB(A), °C. Tipo de dato = continua. n = 3 lecturas por punto. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = cada valor dentro del límite. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable medida; toda exclusión se documenta y se conserva el dato original."
+     },
+     {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Vibración, ruido y temperatura dentro de lo esperado.<br>\n  Sin puntos calientes ni ruidos anormales."
+      "html": "<strong>Criterio de aceptación:</strong><br>Vibración ≤ <span class=\"por-confirmar\">4,5 mm/s</span> (ISO 10816) y ruido ≤ <span class=\"por-confirmar\">80 dB(A)</span>.<br>Temperatura de cojinetes ≤ <span class=\"por-confirmar\">70 °C</span> en régimen.<br>Registro por punto de medición."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de vibración y temperaturas (anexo del informe)"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>Los límites en rojo se confirman con la clase de la máquina y la evaluación de exposición al ruido."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>Manual del fabricante de la tableteadora."
+      "html": "<strong>Referencia:</strong><br>USP &lt;905&gt;; USP &lt;1216&gt;; USP &lt;701&gt;; USP &lt;711&gt;; EU GMP Anexo 15; 21 CFR 211.160(b)."
      }
     ],
     "tabla": null,
@@ -9201,15 +9301,19 @@ var BancoEquipos = {
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  La lubricación corresponde a lo especificado sin exceso contaminante.<br>\n  La alarma de nivel (si aplica) opera."
+      "html": "<strong>Criterio de aceptación:</strong><br>Sistema de lubricación entrega la dosis por ciclo definida por el fabricante.<br>Sin contaminación del producto ni goteo sobre la torreta.<br>Alarma de nivel bajo operativa."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de lubricación (anexo del informe)"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>La dosis por ciclo se confirma con el fabricante; el lubricante debe ser apto para contacto indirecto."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>Manual del fabricante de la tableteadora."
+      "html": "<strong>Referencia:</strong><br>USP &lt;905&gt;; USP &lt;1216&gt;; USP &lt;701&gt;; USP &lt;711&gt;; EU GMP Anexo 15; 21 CFR 211.160(b)."
      }
     ],
     "tabla": null,
@@ -9232,19 +9336,23 @@ var BancoEquipos = {
      },
      {
       "et": "Plan estadístico",
-      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+      "html": "<strong>Plan estadístico:</strong><br>Variable = fuerza de compresión; unidad = kN. Tipo de dato = continua. n = 3 puntos de fuerza con 3 repeticiones. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = desviación ≤ ±5 %. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable medida; toda exclusión se documenta y se conserva el dato original."
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  La fuerza indicada está dentro de la tolerancia especificada en todos los puntos.<br>\n  La repetibilidad cumple el criterio."
+      "html": "<strong>Criterio de aceptación:</strong><br>Exactitud de la fuerza de compresión principal ≤ <span class=\"por-confirmar\">±5 %</span> frente a celda de referencia.<br>Sin deriva tras 30 min de operación.<br>Registro por punto de fuerza."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de fuerzas con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de fuerza de compresión"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>La tolerancia en rojo se confirma con el certificado de la celda de referencia."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>Certificado de la celda de referencia."
+      "html": "<strong>Referencia:</strong><br>USP &lt;905&gt;; USP &lt;1216&gt;; USP &lt;701&gt;; USP &lt;711&gt;; EU GMP Anexo 15; 21 CFR 211.160(b)."
      }
     ],
     "tabla": null,
@@ -9268,19 +9376,23 @@ var BancoEquipos = {
      },
      {
       "et": "Plan estadístico",
-      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+      "html": "<strong>Plan estadístico:</strong><br>Variable = precompresión y eyección; unidad = kN. Tipo de dato = continua. n = 3 puntos con 3 repeticiones. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = desviación ≤ ±5 %. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable medida; toda exclusión se documenta y se conserva el dato original."
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Precompresión y eyección dentro de tolerancia en todos los puntos.<br>\n  La repetibilidad cumple el criterio."
+      "html": "<strong>Criterio de aceptación:</strong><br>Exactitud de precompresión y eyección ≤ <span class=\"por-confirmar\">±5 %</span> frente a referencia.<br>Sin diferencia entre estaciones &gt; 5 %.<br>Registro por punto."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registro con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de precompresión y eyección"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>La tolerancia en rojo se confirma con el fabricante y la celda de referencia."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>Certificado de la celda de referencia."
+      "html": "<strong>Referencia:</strong><br>USP &lt;905&gt;; USP &lt;1216&gt;; USP &lt;701&gt;; USP &lt;711&gt;; EU GMP Anexo 15; 21 CFR 211.160(b)."
      }
     ],
     "tabla": null,
@@ -9304,19 +9416,23 @@ var BancoEquipos = {
      },
      {
       "et": "Plan estadístico",
-      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+      "html": "<strong>Plan estadístico:</strong><br>Variable = linealidad ajuste-fuerza; unidad = kN. Tipo de dato = continua. n = mínimo 5 puntos de ajuste. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = R² ≥ 0,99. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable medida; toda exclusión se documenta y se conserva el dato original."
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  La relación es lineal dentro del criterio (coeficiente de correlación aprobado).<br>\n  Sin histéresis significativa al subir y bajar el ajuste."
+      "html": "<strong>Criterio de aceptación:</strong><br>Linealidad entre ajuste y fuerza medida con R² ≥ <span class=\"por-confirmar\">0,99</span> en el rango de operación.<br>Sin quiebres ni saturación en los extremos.<br>Registro de la curva completa."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Curva de linealidad con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de linealidad"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>El R² en rojo se confirma con el criterio del fabricante; se calcula sobre los puntos medidos."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>Manual del fabricante de la tableteadora."
+      "html": "<strong>Referencia:</strong><br>USP &lt;905&gt;; USP &lt;1216&gt;; USP &lt;701&gt;; USP &lt;711&gt;; EU GMP Anexo 15; 21 CFR 211.160(b)."
      }
     ],
     "tabla": null,
@@ -9340,19 +9456,23 @@ var BancoEquipos = {
      },
      {
       "et": "Plan estadístico",
-      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+      "html": "<strong>Plan estadístico:</strong><br>Variable = fuerza en operación continua; unidad = kN. Tipo de dato = continua. n = 30 min por velocidad. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = RSD ≤ 5 % en cada velocidad. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable medida; toda exclusión se documenta y se conserva el dato original."
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  La fuerza se mantiene dentro de la banda especificada sin deriva.<br>\n  La variabilidad cumple el criterio a cada velocidad."
+      "html": "<strong>Criterio de aceptación:</strong><br>Estabilidad de la fuerza en operación continua: RSD ≤ <span class=\"por-confirmar\">5 %</span> durante 30 min a cada velocidad.<br>Sin tendencia creciente ni escalones.<br>Registro continuo por velocidad."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registros de estabilidad con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de estabilidad de fuerza"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>El RSD en rojo se confirma con el criterio del producto y del fabricante."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>Manual del fabricante de la tableteadora."
+      "html": "<strong>Referencia:</strong><br>USP &lt;905&gt;; USP &lt;1216&gt;; USP &lt;701&gt;; USP &lt;711&gt;; EU GMP Anexo 15; 21 CFR 211.160(b)."
      }
     ],
     "tabla": null,
@@ -9376,19 +9496,23 @@ var BancoEquipos = {
      },
      {
       "et": "Plan estadístico",
-      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+      "html": "<strong>Plan estadístico:</strong><br>Variable = respuesta del control de peso; unidad = s. Tipo de dato = continua. n = 3 perturbaciones. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = corrección ≤ 30 s sin sobrecorrección. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable medida; toda exclusión se documenta y se conserva el dato original."
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  El lazo corrige la variación dentro del tiempo especificado.<br>\n  Sin oscilación sostenida tras la corrección.<br>\n  Matriz de desafío: número de unidades por condición definido en el protocolo aprobado; el 100 % de las unidades malas se rechaza y el 0 % de las unidades buenas se rechaza."
+      "html": "<strong>Criterio de aceptación:</strong><br>El lazo de control de peso corrige una perturbación de ±<span class=\"por-confirmar\">5 %</span> en ≤ <span class=\"por-confirmar\">30 s</span>.<br>Sin sobrecorrección &gt; 2 % del setpoint.<br>Registro de la respuesta.<br>\n  Matriz de desafío: 100 % de las unidades malas se rechaza y el 0 % de las unidades buenas se rechaza."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de respuesta del lazo con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de control de peso"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>El tiempo y la tolerancia en rojo se confirman con el producto y el fabricante."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>Manual del fabricante del sistema de control."
+      "html": "<strong>Referencia:</strong><br>USP &lt;905&gt;; USP &lt;1216&gt;; USP &lt;701&gt;; USP &lt;711&gt;; EU GMP Anexo 15; 21 CFR 211.160(b)."
      }
     ],
     "tabla": null,
@@ -9412,19 +9536,23 @@ var BancoEquipos = {
      },
      {
       "et": "Plan estadístico",
-      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+      "html": "<strong>Plan estadístico:</strong><br>Variable = selectividad del rechazo; unidad = %. Tipo de dato = continua. n = 3 series de 100 tabletas con defectos conocidos. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = 100 % de defectuosas rechazadas y 0 buenas rechazadas. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable medida; toda exclusión se documenta y se conserva el dato original."
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  El 100% de las tabletas malas inducidas se rechaza.<br>\n  Ninguna tableta mala llega al recipiente de buenas.<br>\n  Matriz de desafío: número de unidades por condición definido en el protocolo aprobado; el 100 % de las unidades malas se rechaza y el 0 % de las unidades buenas se rechaza."
+      "html": "<strong>Criterio de aceptación:</strong><br>El 100 % de las tabletas fuera de límites se desvía al rechazo.<br>Ninguna tableta buena se rechaza por error del desviador.<br>Conteo de rechazo coincide con el esperado (±1 tableta).<br>\n  Matriz de desafío: 100 % de las unidades malas se rechaza y el 0 % de las unidades buenas se rechaza."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de rechazo con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de rechazo"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>La prueba se hace con tabletas defectuosas conocidas; no se simula con el contador."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>Manual del fabricante de la tableteadora."
+      "html": "<strong>Referencia:</strong><br>USP &lt;905&gt;; USP &lt;1216&gt;; USP &lt;701&gt;; USP &lt;711&gt;; EU GMP Anexo 15; 21 CFR 211.160(b)."
      }
     ],
     "tabla": null,
@@ -9448,19 +9576,23 @@ var BancoEquipos = {
      },
      {
       "et": "Plan estadístico",
-      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+      "html": "<strong>Plan estadístico:</strong><br>Variable = diferencia entre el muestreador automático y el muestreo manual; unidad = % o mg según el atributo. Tipo de dato = continua. n = 3 muestras pareadas por punto. Estadísticos = media, DE e IC 95 % de la diferencia. Regla de decisión = la diferencia media debe quedar dentro de la tolerancia del método. Atípicos = Grubbs solo si n ≥ 7 y sobre la diferencia; toda exclusión se documenta y se conserva el dato original."
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  El muestreador toma en los intervalos programados.<br>\n  La muestra automática es representativa (sin sesgo contra el manual)."
+      "html": "<strong>Criterio de aceptación:</strong><br>El muestreador automático toma la muestra del punto y momento definidos.<br>Representatividad verificada contra muestreo manual simultáneo.<br>Sin contaminación ni pérdida de muestra."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registro del muestreador con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis del muestreador"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>Aplica si existe muestreador; la representatividad se demuestra comparando, no declarando."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>Manual del fabricante de la tableteadora."
+      "html": "<strong>Referencia:</strong><br>USP &lt;905&gt;; USP &lt;1216&gt;; USP &lt;701&gt;; USP &lt;711&gt;; EU GMP Anexo 15; 21 CFR 211.160(b)."
      }
     ],
     "tabla": null,
@@ -9484,19 +9616,23 @@ var BancoEquipos = {
      },
      {
       "et": "Plan estadístico",
-      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+      "html": "<strong>Plan estadístico:</strong><br>Variable = exactitud del contador; unidad = %. Tipo de dato = continua. n = 3 series de 1.000 tabletas. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = error ≤ ±0,1 %. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable medida; toda exclusión se documenta y se conserva el dato original."
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  El conteo automático coincide con el independiente dentro de tolerancia.<br>\n  Sin tabletas contadas de más ni de menos fuera de criterio."
+      "html": "<strong>Criterio de aceptación:</strong><br>Exactitud del contador de tabletas ≤ <span class=\"por-confirmar\">±0,1 %</span> en 3 series.<br>Sin doble conteo ni omisión.<br>Registro por serie."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de conteo con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis del contador"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>La tolerancia en rojo se confirma con el fabricante del contador."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>Manual del fabricante de la tableteadora."
+      "html": "<strong>Referencia:</strong><br>USP &lt;905&gt;; USP &lt;1216&gt;; USP &lt;701&gt;; USP &lt;711&gt;; EU GMP Anexo 15; 21 CFR 211.160(b)."
      }
     ],
     "tabla": null,
@@ -9520,19 +9656,23 @@ var BancoEquipos = {
      },
      {
       "et": "Plan estadístico",
-      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+      "html": "<strong>Plan estadístico:</strong><br>Variable = presión negativa y caudal; unidad = mbar y m³/h. Tipo de dato = continua. n = 3 lecturas por punto. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = presión ≥ 0,5 mbar y caudal en diseño. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable medida; toda exclusión se documenta y se conserva el dato original."
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Presión negativa y caudal dentro de lo especificado.<br>\n  Sin acumulación visible de polvo en la cámara."
+      "html": "<strong>Criterio de aceptación:</strong><br>Presión negativa en la cámara de compresión ≥ <span class=\"por-confirmar\">0,5 mbar</span> y caudal de extracción dentro del diseño.<br>Sin escape de polvo al área.<br>Registro por punto de medición."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de extracción con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de extracción"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>La presión mínima en rojo se confirma con el diseño de extracción y la evaluación de exposición."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>Manual del fabricante de la tableteadora."
+      "html": "<strong>Referencia:</strong><br>USP &lt;905&gt;; USP &lt;1216&gt;; USP &lt;701&gt;; USP &lt;711&gt;; EU GMP Anexo 15; 21 CFR 211.160(b)."
      }
     ],
     "tabla": null,
@@ -9555,16 +9695,24 @@ var BancoEquipos = {
       "html": "<strong>Procedimiento:</strong><br>\n  1) Identificar los filtros del sistema de extracción (si aplica) con su clasificación<br>\n  2) Verificar certificados y programa de recambio<br>\n  3) Verificar asentamiento y sellado sin bypass<br>\n  4) Verificar el diferencial de presión con calibración vigente"
      },
      {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = integridad de filtros; unidad = pasa/no pasa. Tipo de dato = atributo. n = 100 % de filtros. Estadísticos = proporción de cumplimiento con IC binomial exacto. Regla de decisión = todos íntegros. Atípicos: no aplica a datos de atributo; toda exclusión se documenta y se conserva el registro original."
+     },
+     {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Los filtros corresponden a lo especificado con certificados vigentes.<br>\n  Sin bypass y con diferencial dentro de rango."
+      "html": "<strong>Criterio de aceptación:</strong><br>Integridad de los filtros de extracción según el criterio del fabricante.<br>Sin rotura ni saturación; ΔP dentro del rango.<br>Registro de la prueba por filtro."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de filtros de extracción (anexo del informe)"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>El criterio de integridad en rojo es el del fabricante; no se asume por fecha de cambio."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>Manual del fabricante del sistema de extracción."
+      "html": "<strong>Referencia:</strong><br>USP &lt;905&gt;; USP &lt;1216&gt;; USP &lt;701&gt;; USP &lt;711&gt;; EU GMP Anexo 15; 21 CFR 211.160(b)."
      }
     ],
     "tabla": null,
@@ -9587,15 +9735,19 @@ var BancoEquipos = {
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Las tabletas salen sin polvo residual visible.<br>\n  El desempolvador opera sin daño a las tabletas."
+      "html": "<strong>Criterio de aceptación:</strong><br>El desempolvador retira el polvo residual de las tabletas.<br>Sin polvo visible en la tableta a la salida.<br>Sin acumulación que obstruya el flujo."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registro del desempolvador (anexo del informe)"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>Aplica si existe desempolvador; la verificación es visual y con aire de soplado documentado."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>Manual del fabricante de la tableteadora."
+      "html": "<strong>Referencia:</strong><br>USP &lt;905&gt;; USP &lt;1216&gt;; USP &lt;701&gt;; USP &lt;711&gt;; EU GMP Anexo 15; 21 CFR 211.160(b)."
      }
     ],
     "tabla": null,
@@ -9618,19 +9770,23 @@ var BancoEquipos = {
      },
      {
       "et": "Plan estadístico",
-      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+      "html": "<strong>Plan estadístico:</strong><br>Variable = peso, dureza y espesor con placebo; unidad = mg, N, mm. Tipo de dato = continua. n = 3 velocidades con 20 tabletas cada una. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = RSD de peso ≤ 2 % y atributos en rango. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable medida; toda exclusión se documenta y se conserva el dato original."
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Peso, espesor, dureza y friabilidad dentro de lo esperado a las tres velocidades.<br>\n  Sin alarmas ni desviaciones no justificadas."
+      "html": "<strong>Criterio de aceptación:</strong><br>Corrida con placebo a velocidad mínima, nominal y máxima: peso, dureza y espesor dentro de los límites del producto.<br>RSD de peso ≤ <span class=\"por-confirmar\">2 %</span> en cada velocidad.<br>Sin atascos ni rechazo anormal."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registros de corrida con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de corrida con placebo"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>El RSD en rojo se confirma con el criterio del producto; es la antesala del PQ."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>Especificación de operación de la tableteadora."
+      "html": "<strong>Referencia:</strong><br>USP &lt;905&gt;; USP &lt;1216&gt;; USP &lt;701&gt;; USP &lt;711&gt;; EU GMP Anexo 15; 21 CFR 211.160(b)."
      }
     ],
     "tabla": null,
@@ -9654,19 +9810,23 @@ var BancoEquipos = {
      },
      {
       "et": "Plan estadístico",
-      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+      "html": "<strong>Plan estadístico:</strong><br>Variable = respuesta a cambio de fuerza; unidad = s. Tipo de dato = continua. n = 3 cambios de ajuste. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = estable ≤ 30 s y sobreimpulso ≤ 5 %. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable medida; toda exclusión se documenta y se conserva el dato original."
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  La fuerza responde al ajuste de forma estable y sin saltos.<br>\n  Los atributos se mantienen dentro de lo esperado en cada escalón."
+      "html": "<strong>Criterio de aceptación:</strong><br>Respuesta a cambio de ajuste de fuerza: estable en ≤ <span class=\"por-confirmar\">30 s</span>.<br>Sin sobreimpulso &gt; 5 % de la fuerza objetivo.<br>Registro de la transición."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de cambios de ajuste con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de cambio de ajuste"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>El tiempo en rojo se confirma con el fabricante; un sobreimpulso alto puede dañar punzones."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>Manual del fabricante de la tableteadora."
+      "html": "<strong>Referencia:</strong><br>USP &lt;905&gt;; USP &lt;1216&gt;; USP &lt;701&gt;; USP &lt;711&gt;; EU GMP Anexo 15; 21 CFR 211.160(b)."
      }
     ],
     "tabla": null,
@@ -9690,15 +9850,19 @@ var BancoEquipos = {
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Roles y accesos corresponden a lo aprobado.<br>\n  La pista de auditoría registra usuario, fecha, hora y significado; el respaldo restaura correctamente."
+      "html": "<strong>Criterio de aceptación:</strong><br>Registros del HMI: audit trail activo, usuarios y roles únicos, sin borrado.<br>Los cambios de receta y de ajustes quedan registrados con usuario y hora.<br>Respaldo de configuración probado."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de roles, pista de auditoría y respaldo verificados (anexo del informe)"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>Aplica si hay HMI con registros electrónicos; si no, se declara No Aplica con aprobación."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>21 CFR Parte 11 (registros y firmas electrónicas)."
+      "html": "<strong>Referencia:</strong><br>USP &lt;905&gt;; USP &lt;1216&gt;; USP &lt;701&gt;; USP &lt;711&gt;; EU GMP Anexo 15; 21 CFR 211.160(b)."
      }
     ],
     "tabla": null,
@@ -31495,19 +31659,23 @@ var BancoEquipos = {
      },
      {
       "et": "Plan estadístico",
-      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+      "html": "<strong>Plan estadístico:</strong><br>Variable = atributos por lote; unidad = mg, N, mm, %, min. Tipo de dato = continua. n = 3 lotes con muestreo inicio/medio/fin. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = todos los atributos dentro de especificación. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable medida; toda exclusión se documenta y se conserva el dato original."
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Los tres lotes cumplen todos los atributos de calidad.<br>\n  La variabilidad entre lotes está dentro de lo esperado."
+      "html": "<strong>Criterio de aceptación:</strong><br>Tres lotes consecutivos a velocidad nominal con todos los atributos dentro de especificación.<br>Peso, dureza, espesor, friabilidad, desintegración y disolución conformes en cada lote.<br>Sin tendencia entre lotes."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registros de los tres lotes con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de lotes consecutivos"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>Los límites por atributo salen de la especificación del producto; no se fijan en el PQ."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>USP &lt;905&gt; (uniformidad de unidades de dosificación); EU GMP Anexo 15."
+      "html": "<strong>Referencia:</strong><br>USP &lt;905&gt;; USP &lt;1216&gt;; USP &lt;701&gt;; USP &lt;711&gt;; EU GMP Anexo 15; 21 CFR 211.160(b)."
      }
     ],
     "tabla": null,
@@ -31531,19 +31699,23 @@ var BancoEquipos = {
      },
      {
       "et": "Plan estadístico",
-      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+      "html": "<strong>Plan estadístico:</strong><br>Variable = atributos en extremos de velocidad; unidad = mg, N, mm. Tipo de dato = continua. n = 3 réplicas por extremo. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = todos los atributos dentro de especificación. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable medida; toda exclusión se documenta y se conserva el dato original."
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Ambas corridas cumplen todos los atributos de calidad.<br>\n  Sin deriva de peso atribuible a la velocidad fuera de criterio."
+      "html": "<strong>Criterio de aceptación:</strong><br>Desempeño en los extremos de velocidad declarados (mínima y máxima).<br>Atributos dentro de especificación en ambos extremos.<br>Sin diferencia entre extremos que exceda la especificación."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registros de corridas extremas con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de velocidad mínima y máxima"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>La velocidad máxima puede degradar el peso: el extremo se define antes de correr, no después."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>USP &lt;905&gt;; EU GMP Anexo 15."
+      "html": "<strong>Referencia:</strong><br>USP &lt;905&gt;; USP &lt;1216&gt;; USP &lt;701&gt;; USP &lt;711&gt;; EU GMP Anexo 15; 21 CFR 211.160(b)."
      }
     ],
     "tabla": null,
@@ -31567,19 +31739,23 @@ var BancoEquipos = {
      },
      {
       "et": "Plan estadístico",
-      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+      "html": "<strong>Plan estadístico:</strong><br>Variable = atributos en peor caso; unidad = mg, N, mm. Tipo de dato = continua. n = 3 réplicas del peor caso. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = todos los atributos dentro de especificación. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable medida; toda exclusión se documenta y se conserva el dato original."
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  El lote de peor caso cumple todos los atributos de calidad.<br>\n  La justificación del peor caso está documentada y aprobada."
+      "html": "<strong>Criterio de aceptación:</strong><br>Peor caso definido y documentado: granulado de menor fluidez y mayor finos.<br>Atributos dentro de especificación en el peor caso.<br>Sin rechazo anormal ni atascos."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Justificación del peor caso y registro del lote con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de peor caso"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>El peor caso se elige con datos de fluidez del granulado, no por intuición."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>Análisis de riesgo del proceso; USP &lt;905&gt;."
+      "html": "<strong>Referencia:</strong><br>USP &lt;905&gt;; USP &lt;1216&gt;; USP &lt;701&gt;; USP &lt;711&gt;; EU GMP Anexo 15; 21 CFR 211.160(b)."
      }
     ],
     "tabla": null,
@@ -31603,19 +31779,23 @@ var BancoEquipos = {
      },
      {
       "et": "Plan estadístico",
-      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+      "html": "<strong>Plan estadístico:</strong><br>Variable = puntos de muestreo por corrida; unidad = pasa/no pasa. Tipo de dato = atributo. n = 3 puntos por lote. Estadísticos = proporción de cumplimiento con IC binomial exacto. Regla de decisión = todos los puntos muestreados. Atípicos: no aplica a datos de atributo; toda exclusión se documenta y se conserva el registro original."
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Todos los puntos cumplen los atributos dentro de especificación.<br>\n  Sin tendencia significativa entre inicio, mitad y final (regresión sin pendiente significativa al 95 % de confianza)."
+      "html": "<strong>Criterio de aceptación:</strong><br>Muestreo en los 3 puntos por corrida (inicio, mitad y final) según el plan.<br>\n  Mínimo 10 tabletas por punto y por atributo.<br>\n  El 100 % de los puntos planificados se muestrea; no se sustituyen ni se agrupan."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Plan de muestreo y resultados con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de muestreo por punto"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>El plan de muestreo se define antes de la corrida; cambiarlo después invalida el lote."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>USP &lt;905&gt;; plan de muestreo aprobado."
+      "html": "<strong>Referencia:</strong><br>USP &lt;905&gt;; USP &lt;1216&gt;; USP &lt;701&gt;; USP &lt;711&gt;; EU GMP Anexo 15; 21 CFR 211.160(b)."
      }
     ],
     "tabla": null,
@@ -31639,19 +31819,23 @@ var BancoEquipos = {
      },
      {
       "et": "Plan estadístico",
-      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+      "html": "<strong>Plan estadístico:</strong><br>Variable = peso, friabilidad, espesor y dureza; unidad = mg, %, mm, N. Tipo de dato = continua. n = mínimo 10 tabletas por punto y atributo. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = cada atributo dentro de especificación. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable medida; toda exclusión se documenta y se conserva el dato original."
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Peso, espesor, dureza y friabilidad cumplen especificación en cada lote.<br>\n  La variación de peso cumple el criterio aprobado."
+      "html": "<strong>Criterio de aceptación:</strong><br>Peso individual y promedio dentro de <span class=\"por-confirmar\">±5 %</span> (USP &lt;905&gt;) o el límite del producto.<br>Friabilidad ≤ <span class=\"por-confirmar\">1 %</span> (USP &lt;1216&gt;).<br>Espesor y dureza dentro de la especificación del producto."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registros de atributos con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de atributos de tableta"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>Los límites de USP &lt;905&gt; dependen del peso promedio; se confirman con la especificación del producto."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>USP &lt;1216&gt; (friabilidad); USP &lt;1217&gt; (dureza); especificación del producto."
+      "html": "<strong>Referencia:</strong><br>USP &lt;905&gt;; USP &lt;1216&gt;; USP &lt;701&gt;; USP &lt;711&gt;; EU GMP Anexo 15; 21 CFR 211.160(b)."
      }
     ],
     "tabla": null,
@@ -31675,19 +31859,23 @@ var BancoEquipos = {
      },
      {
       "et": "Plan estadístico",
-      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+      "html": "<strong>Plan estadístico:</strong><br>Variable = uniformidad de dosis; unidad = %. Tipo de dato = continua. n = 10 tabletas por punto. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = cada unidad dentro del límite de USP &lt;905&gt;. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable medida; toda exclusión se documenta y se conserva el dato original."
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  El valor de aceptación cumple USP &lt;905&gt; en cada lote.<br>\n  Sin unidades fuera de los límites individuales."
+      "html": "<strong>Criterio de aceptación:</strong><br>Uniformidad de dosis por variación de peso o uniformidad de contenido según USP &lt;905&gt;.<br>Cada tableta dentro del límite de aceptación.<br>Sin promediar para cumplir."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Valoraciones y cálculo de aceptación con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de uniformidad de dosis"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>El criterio de USP &lt;905&gt; usa el valor de aceptación; no se declara cumplimiento por promedio."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>USP &lt;905&gt; (uniformidad de unidades de dosificación)."
+      "html": "<strong>Referencia:</strong><br>USP &lt;905&gt;; USP &lt;1216&gt;; USP &lt;701&gt;; USP &lt;711&gt;; EU GMP Anexo 15; 21 CFR 211.160(b)."
      }
     ],
     "tabla": null,
@@ -31711,19 +31899,23 @@ var BancoEquipos = {
      },
      {
       "et": "Plan estadístico",
-      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+      "html": "<strong>Plan estadístico:</strong><br>Variable = desintegración y disolución; unidad = min y %. Tipo de dato = analitico. n = 6 unidades por lote para desintegración, 6 para disolución. Estadísticos = mediana, mínimo, máximo e IC 95 %; concentraciones en escala log10. Regla de decisión = cada unidad dentro de especificación. Atípicos = Grubbs solo si n ≥ 7 y sobre log10; toda exclusión se documenta y se conserva el dato original."
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Desintegración y disolución cumplen especificación en cada lote.<br>\n  Sin diferencias significativas entre lotes (ANOVA sin diferencia significativa al 95 % de confianza)."
+      "html": "<strong>Criterio de aceptación:</strong><br>Desintegración y disolución dentro de la especificación en cada lote.<br>Método de USP &lt;701&gt; y &lt;711&gt; declarado.<br>Sin resultados por debajo del Q en disolución."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Resultados de desintegración y disolución con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de desintegración y disolución"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>El criterio de disolución es del producto; el PQ no lo define."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>USP &lt;701&gt; (desintegración); USP &lt;711&gt; (disolución)."
+      "html": "<strong>Referencia:</strong><br>USP &lt;905&gt;; USP &lt;1216&gt;; USP &lt;701&gt;; USP &lt;711&gt;; EU GMP Anexo 15; 21 CFR 211.160(b)."
      }
     ],
     "tabla": null,
@@ -31747,19 +31939,23 @@ var BancoEquipos = {
      },
      {
       "et": "Plan estadístico",
-      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+      "html": "<strong>Plan estadístico:</strong><br>Variable = defectos visuales; unidad = % de defectuosas. Tipo de dato = atributo. n = muestra por punto según plan. Estadísticos = proporción de cumplimiento con IC binomial exacto. Regla de decisión = defectos dentro del nivel de aceptación. Atípicos: no aplica a datos de atributo; toda exclusión se documenta y se conserva el registro original."
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Los defectos están dentro del nivel aceptado por tipo.<br>\n  Sin defectos críticos en ningún lote."
+      "html": "<strong>Criterio de aceptación:</strong><br>Aspecto sin laminación, capping, pegado, picking ni descostrado.<br>\n  Defectos ≤ <span class=\"por-confirmar\">AQL 2,5 %</span> de la muestra, o el nivel de aceptación del producto.<br>\n  Registro fotográfico de cada tipo de defecto."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de defectos con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de aspecto"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>El nivel de aceptación de defectos se define con Calidad y el producto; no se improvisa."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>Patrón de defectos aprobado; especificación del producto."
+      "html": "<strong>Referencia:</strong><br>USP &lt;905&gt;; USP &lt;1216&gt;; USP &lt;701&gt;; USP &lt;711&gt;; EU GMP Anexo 15; 21 CFR 211.160(b)."
      }
     ],
     "tabla": null,
@@ -31783,19 +31979,23 @@ var BancoEquipos = {
      },
      {
       "et": "Plan estadístico",
-      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+      "html": "<strong>Plan estadístico:</strong><br>Variable = peso y dureza por estación; unidad = mg y N. Tipo de dato = continua. n = todas las estaciones, 10 tabletas cada una. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = cada estación dentro de especificación. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable medida; toda exclusión se documenta y se conserva el dato original."
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Todas las estaciones evaluadas cumplen peso y dureza.<br>\n  Ninguna estación se desvía significativamente del promedio."
+      "html": "<strong>Criterio de aceptación:</strong><br>Variación de peso y dureza por estación dentro de la especificación en todas las estaciones.<br>Identificación de estaciones desviadas y su causa.<br>Sin estaciones sistemáticamente fuera."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Resultados por estación con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis entre estaciones"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>La revisión por estación detecta punzones gastados que el promedio oculta."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>USP &lt;905&gt;; análisis de riesgo (muestra de estaciones)."
+      "html": "<strong>Referencia:</strong><br>USP &lt;905&gt;; USP &lt;1216&gt;; USP &lt;701&gt;; USP &lt;711&gt;; EU GMP Anexo 15; 21 CFR 211.160(b)."
      }
     ],
     "tabla": null,
@@ -31819,19 +32019,23 @@ var BancoEquipos = {
      },
      {
       "et": "Plan estadístico",
-      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+      "html": "<strong>Plan estadístico:</strong><br>Variable = fuerza durante la corrida; unidad = kN. Tipo de dato = continua. n = registro continuo por lote. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = RSD ≤ 5 % sin deriva. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable medida; toda exclusión se documenta y se conserva el dato original."
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Las fuerzas se mantienen en banda sin deriva durante la corrida.<br>\n  La variabilidad cumple el criterio."
+      "html": "<strong>Criterio de aceptación:</strong><br>Fuerza de compresión, precompresión y eyección estables durante la corrida: RSD ≤ <span class=\"por-confirmar\">5 %</span>.<br>Sin deriva creciente ni escalones.<br>Registro continuo."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Tendencias de fuerza con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de estabilidad de fuerza"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>El RSD en rojo se confirma con el criterio del producto y la capacidad del equipo."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>Especificación de operación de la tableteadora."
+      "html": "<strong>Referencia:</strong><br>USP &lt;905&gt;; USP &lt;1216&gt;; USP &lt;701&gt;; USP &lt;711&gt;; EU GMP Anexo 15; 21 CFR 211.160(b)."
      }
     ],
     "tabla": null,
@@ -31855,19 +32059,23 @@ var BancoEquipos = {
      },
      {
       "et": "Plan estadístico",
-      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+      "html": "<strong>Plan estadístico:</strong><br>Variable = peso con control automático; unidad = mg. Tipo de dato = continua. n = muestreo por punto y registro del lazo. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = peso dentro de ±5 % durante la corrida. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable medida; toda exclusión se documenta y se conserva el dato original."
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  El peso se mantiene dentro de límites durante toda la corrida.<br>\n  Las correcciones no generan oscilación."
+      "html": "<strong>Criterio de aceptación:</strong><br>El control automático de peso mantiene el peso dentro de ±<span class=\"por-confirmar\">5 %</span> con producto.<br>Corrige perturbaciones sin intervención manual.<br>Registro de las correcciones."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registro del control con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de control de peso"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>Aplica si el equipo tiene control automático; la tolerancia en rojo se confirma con la especificación."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>Manual del fabricante del sistema de control."
+      "html": "<strong>Referencia:</strong><br>USP &lt;905&gt;; USP &lt;1216&gt;; USP &lt;701&gt;; USP &lt;711&gt;; EU GMP Anexo 15; 21 CFR 211.160(b)."
      }
     ],
     "tabla": null,
@@ -31891,19 +32099,23 @@ var BancoEquipos = {
      },
      {
       "et": "Plan estadístico",
-      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+      "html": "<strong>Plan estadístico:</strong><br>Variable = estabilidad del flujo; unidad = pasa/no pasa. Tipo de dato = atributo. n = 1 corrida completa por lote. Estadísticos = proporción de cumplimiento con IC binomial exacto. Regla de decisión = sin puentes ni atascos. Atípicos: no aplica a datos de atributo; toda exclusión se documenta y se conserva el registro original."
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Flujo continuo sin puentes ni canalización.<br>\n  Sin variación de llenado atribuible al nivel bajo fuera de criterio."
+      "html": "<strong>Criterio de aceptación:</strong><br>Flujo del granulado sin puentes ni interrupciones en tolva y alimentador.<br>Velocidad de flujo estable durante la corrida.<br>Sin intervención manual para desatascar."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de flujo con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de fluidez"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>Un puente en tolva es una desviación, no un ajuste operativo."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>Especificación del granulado; análisis de riesgo."
+      "html": "<strong>Referencia:</strong><br>USP &lt;905&gt;; USP &lt;1216&gt;; USP &lt;701&gt;; USP &lt;711&gt;; EU GMP Anexo 15; 21 CFR 211.160(b)."
      }
     ],
     "tabla": null,
@@ -31927,19 +32139,23 @@ var BancoEquipos = {
      },
      {
       "et": "Plan estadístico",
-      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+      "html": "<strong>Plan estadístico:</strong><br>Variable = contenido al inicio, medio y final; unidad = %. Tipo de dato = analitico. n = 3 puntos por lote con 10 unidades. Estadísticos = mediana, mínimo, máximo e IC 95 %; concentraciones en escala log10. Regla de decisión = cada punto dentro de uniformidad de dosis. Atípicos = Grubbs solo si n ≥ 7 y sobre log10; toda exclusión se documenta y se conserva el dato original."
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Sin diferencia significativa de contenido entre inicio, medio y final.<br>\n  El contenido cumple especificación en los tres puntos."
+      "html": "<strong>Criterio de aceptación:</strong><br>Segregación evaluada con contenido del activo al inicio, medio y final.<br>Contenido dentro de la uniformidad de dosis en los tres puntos.<br>Sin diferencia &gt; especificación entre puntos."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Valoraciones por punto con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de segregación"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>La segregación se evalúa con contenido, no con peso; el peso puede no detectarla."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>USP &lt;905&gt;; análisis de riesgo."
+      "html": "<strong>Referencia:</strong><br>USP &lt;905&gt;; USP &lt;1216&gt;; USP &lt;701&gt;; USP &lt;711&gt;; EU GMP Anexo 15; 21 CFR 211.160(b)."
      }
     ],
     "tabla": null,
@@ -31963,19 +32179,23 @@ var BancoEquipos = {
      },
      {
       "et": "Plan estadístico",
-      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+      "html": "<strong>Plan estadístico:</strong><br>Variable = selectividad del rechazo con producto; unidad = %. Tipo de dato = continua. n = 3 series por lote. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = 100 % de defectuosas rechazadas y 0 buenas rechazadas. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable medida; toda exclusión se documenta y se conserva el dato original."
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Las rechazadas corresponden a causa real verificable.<br>\n  Sin desvío indebido de tabletas buenas."
+      "html": "<strong>Criterio de aceptación:</strong><br>El 100 % de las tabletas fuera de límites se rechaza y ninguna buena se rechaza.<br>Conteo de rechazo coherente con la producción.<br>Registro por corrida."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de rechazo con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de rechazo con producto"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>Se verifica con el contador y con inspección de la bandeja de rechazo."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>Manual del fabricante de la tableteadora."
+      "html": "<strong>Referencia:</strong><br>USP &lt;905&gt;; USP &lt;1216&gt;; USP &lt;701&gt;; USP &lt;711&gt;; EU GMP Anexo 15; 21 CFR 211.160(b)."
      }
     ],
     "tabla": null,
@@ -31999,19 +32219,23 @@ var BancoEquipos = {
      },
      {
       "et": "Plan estadístico",
-      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+      "html": "<strong>Plan estadístico:</strong><br>Variable = polvo y finos; unidad = pasa/no pasa. Tipo de dato = atributo. n = 1 verificación por lote. Estadísticos = proporción de cumplimiento con IC binomial exacto. Regla de decisión = sin acumulación ni escape al área. Atípicos: no aplica a datos de atributo; toda exclusión se documenta y se conserva el registro original."
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  La extracción mantiene los parámetros durante toda la corrida.<br>\n  El polvo generado está dentro de lo esperado sin acumulación indebida."
+      "html": "<strong>Criterio de aceptación:</strong><br>Generación de polvo y finos dentro del límite del área.<br>Desempolvador operativo y sin acumulación.<br>Registro de presión negativa durante la corrida."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registros de extracción y polvo con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de polvo y extracción"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>El límite de polvo se confirma con la evaluación de exposición y el diseño de extracción."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>Especificación de operación de la tableteadora."
+      "html": "<strong>Referencia:</strong><br>USP &lt;905&gt;; USP &lt;1216&gt;; USP &lt;701&gt;; USP &lt;711&gt;; EU GMP Anexo 15; 21 CFR 211.160(b)."
      }
     ],
     "tabla": null,
@@ -32035,19 +32259,23 @@ var BancoEquipos = {
      },
      {
       "et": "Plan estadístico",
-      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+      "html": "<strong>Plan estadístico:</strong><br>Variable = rendimiento y balance de masa; unidad = %. Tipo de dato = continua. n = 1 balance por lote. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = rendimiento ≥ 98 % y pérdidas explicadas. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable medida; toda exclusión se documenta y se conserva el dato original."
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  El rendimiento cumple el rango especificado.<br>\n  El balance de masa cierra dentro de tolerancia."
+      "html": "<strong>Criterio de aceptación:</strong><br>Rendimiento y balance de masa: buenas contra cargadas ≥ <span class=\"por-confirmar\">98 %</span>.<br>Rechazos y pérdidas explicados y registrados.<br>Sin diferencia no justificada &gt; 2 %."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Balances de masa con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de rendimiento"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>El rendimiento en rojo se confirma con el criterio del producto y el histórico de la planta."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>Protocolo de fabricación del producto."
+      "html": "<strong>Referencia:</strong><br>USP &lt;905&gt;; USP &lt;1216&gt;; USP &lt;701&gt;; USP &lt;711&gt;; EU GMP Anexo 15; 21 CFR 211.160(b)."
      }
     ],
     "tabla": null,
@@ -32071,19 +32299,23 @@ var BancoEquipos = {
      },
      {
       "et": "Plan estadístico",
-      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+      "html": "<strong>Plan estadístico:</strong><br>Variable = continuidad operativa; unidad = pasa/no pasa. Tipo de dato = atributo. n = 1 corrida de la duración máxima. Estadísticos = proporción de cumplimiento con IC binomial exacto. Regla de decisión = sin alarmas no tratadas ni paradas. Atípicos: no aplica a datos de atributo; toda exclusión se documenta y se conserva el registro original."
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  La máquina sostiene la operación continua sin deriva fuera de criterio.<br>\n  Los atributos se mantienen en especificación durante toda la duración."
+      "html": "<strong>Criterio de aceptación:</strong><br>Operación continua durante la duración más larga prevista de un lote.<br>Sin alarmas no tratadas ni paradas no programadas.<br>Atributos estables al final de la corrida."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de operación continua con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de operación continua"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>La duración se toma del lote más largo previsto, no de una corrida corta."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>Protocolo de fabricación del producto."
+      "html": "<strong>Referencia:</strong><br>USP &lt;905&gt;; USP &lt;1216&gt;; USP &lt;701&gt;; USP &lt;711&gt;; EU GMP Anexo 15; 21 CFR 211.160(b)."
      }
     ],
     "tabla": null,
@@ -32107,19 +32339,23 @@ var BancoEquipos = {
      },
      {
       "et": "Plan estadístico",
-      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+      "html": "<strong>Plan estadístico:</strong><br>Variable = reinicio tras detención; unidad = pasa/no pasa. Tipo de dato = atributo. n = 3 detenciones por lote. Estadísticos = proporción de cumplimiento con IC binomial exacto. Regla de decisión = atributos conformes tras el descarte definido. Atípicos: no aplica a datos de atributo; toda exclusión se documenta y se conserva el registro original."
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  El material afectado se descarta según lo definido.<br>\n  Tras la reanudación los atributos retornan a especificación."
+      "html": "<strong>Criterio de aceptación:</strong><br>Tras detención y reanudación: descarte de las primeras <span class=\"por-confirmar\">5 tabletas</span> según procedimiento.<br>\n  Atributos conformes en las 10 tabletas siguientes al descarte.<br>\n  Registro del tiempo detenido y del descarte."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de paro y reanudación con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de paros y reinicios"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>El número de tabletas a descartar se define antes; no se ajusta según el resultado."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>Procedimiento de operación de la tableteadora."
+      "html": "<strong>Referencia:</strong><br>USP &lt;905&gt;; USP &lt;1216&gt;; USP &lt;701&gt;; USP &lt;711&gt;; EU GMP Anexo 15; 21 CFR 211.160(b)."
      }
     ],
     "tabla": null,
@@ -32143,19 +32379,23 @@ var BancoEquipos = {
      },
      {
       "et": "Plan estadístico",
-      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+      "html": "<strong>Plan estadístico:</strong><br>Variable = atributos vs humedad ambiental; unidad = mg, N, mm. Tipo de dato = continua. n = 3 puntos de HR dentro del rango del área. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = atributos dentro de especificación en cada condición. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable medida; toda exclusión se documenta y se conserva el dato original."
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Dentro del rango ambiental controlado los atributos cumplen especificación.<br>\n  El rango ambiental queda establecido y documentado."
+      "html": "<strong>Criterio de aceptación:</strong><br>Efecto de la humedad ambiental evaluado si el producto es higroscópico.<br>Atributos dentro de especificación en la condición evaluada.<br>Registro de HR durante la corrida."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registros ambientales con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de humedad ambiental"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>Aplica solo a productos higroscópicos; si no, No Aplica con aprobación."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>Especificación del producto; control ambiental del área."
+      "html": "<strong>Referencia:</strong><br>USP &lt;905&gt;; USP &lt;1216&gt;; USP &lt;701&gt;; USP &lt;711&gt;; EU GMP Anexo 15; 21 CFR 211.160(b)."
      }
     ],
     "tabla": null,

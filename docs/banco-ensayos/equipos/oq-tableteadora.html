@@ -27,12 +27,12 @@
   2) Medir el tiempo de detención de la torreta<br>
   3) Verificar el estado seguro: torreta detenida, alimentador parado, sin rearranque espontáneo<br>
   4) Restablecer y verificar el rearranque controlado</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  La torreta se detiene dentro del tiempo especificado.<br>
-  No existe rearranque espontáneo tras el restablecimiento de energía.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = parada de emergencia; unidad = s. Tipo de dato = continua. n = 3 activaciones. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = detención ≤ 2 s en las 3. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable medida; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>La parada de emergencia detiene la torreta en ≤ <span class="por-confirmar">2 s</span> y deja la máquina en estado seguro.<br>El rearme es manual y no hay reinicio automático.<br>El evento queda registrado con hora y usuario.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro de parada de emergencia (anexo del informe)</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante de la tableteadora.</p>
+  <p><strong>Nota:</strong><br>El tiempo en rojo se confirma con el fabricante y el análisis de riesgo de la máquina.</p>
+  <p><strong>Referencia:</strong><br>USP &lt;905&gt;; USP &lt;1216&gt;; USP &lt;701&gt;; USP &lt;711&gt;; EU GMP Anexo 15; 21 CFR 211.160(b).</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-OQ-TB-002" class="ensayo" data-id="EQ-OQ-TB-002" data-fase="OQ" data-cond="ambas">
@@ -44,12 +44,12 @@
   3) Con la tolva retirada o sin nivel (si aplica sensor), verificar la acción del interlock<br>
   4) Con la contención aislada abierta (si aplica), verificar que no arranca<br>
   5) Registrar cada interlock con su respuesta</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Ningún interlock permite la operación en condición insegura.<br>
-  Ningún interlock puede puentearse sin herramienta o clave.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = actuación de interlocks; unidad = s. Tipo de dato = continua. n = 3 repeticiones por interlock. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = detención ≤ 1 s en las 3. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable medida; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Cada interlock detiene la máquina o impide el arranque con puerta o guarda abierta en ≤ <span class="por-confirmar">1 s</span>.<br>El rearme es manual y exige cerrar la guarda.<br>Prueba registrada por interlock.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Matriz de interlocks con respuesta verificada (anexo del informe)</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante de la tableteadora.</p>
+  <p><strong>Nota:</strong><br>El tiempo en rojo se confirma con el fabricante; se prueba cada guarda, no una muestra.</p>
+  <p><strong>Referencia:</strong><br>USP &lt;905&gt;; USP &lt;1216&gt;; USP &lt;701&gt;; USP &lt;711&gt;; EU GMP Anexo 15; 21 CFR 211.160(b).</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-OQ-TB-003" class="ensayo" data-id="EQ-OQ-TB-003" data-fase="OQ" data-cond="ambas">
@@ -60,12 +60,12 @@
   2) Simular o provocar la condición de sobrecarga según el procedimiento del fabricante<br>
   3) Verificar el corte de la compresión y la señalización<br>
   4) Verificar el rearme y la recuperación de la operación</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  La protección actúa al superar la fuerza máxima sin daño a punzones ni matriz.<br>
-  La máquina señaliza la sobrecarga y permite el rearme controlado.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = corte por sobrecarga; unidad = % de fuerza máxima. Tipo de dato = continua. n = 3 repeticiones. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = corte ≤ 110 % en las 3. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable medida; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>La protección de sobrecarga corta la compresión al superar la fuerza máxima (<span class="por-confirmar">110 %</span>).<br>La alarma queda registrada y el rearme es manual.<br>No hay deformación de punzones ni de la torreta.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro de protección de sobrecarga (anexo del informe)</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante de la tableteadora.</p>
+  <p><strong>Nota:</strong><br>El umbral en rojo se confirma con la fuerza máxima del producto y el fabricante.</p>
+  <p><strong>Referencia:</strong><br>USP &lt;905&gt;; USP &lt;1216&gt;; USP &lt;701&gt;; USP &lt;711&gt;; EU GMP Anexo 15; 21 CFR 211.160(b).</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-OQ-TB-004" class="ensayo" data-id="EQ-OQ-TB-004" data-fase="OQ" data-cond="ambas">
@@ -78,12 +78,12 @@
   4) Simular falla de extracción de polvo y verificar la alarma<br>
   5) Simular nivel bajo de tolva (si aplica sensor) y verificar la alarma<br>
   6) Verificar el registro de cada alarma en el histórico</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Cada alarma dispara ante su condición y ejecuta su acción asociada.<br>
-  Todas las alarmas quedan registradas en el histórico.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = disparo de alarmas; unidad = pasa/no pasa. Tipo de dato = atributo. n = 3 repeticiones por alarma. Estadísticos = proporción de cumplimiento con IC binomial exacto. Regla de decisión = cada alarma dispara y actúa. Atípicos: no aplica a datos de atributo; toda exclusión se documenta y se conserva el registro original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Cada alarma dispara ante su condición y ejecuta la acción asociada (parada, rechazo o aviso).<br>El registro conserva fecha, hora, valor y usuario.<br>Prueba registrada por alarma.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Matriz de alarmas con disparo y acción verificados (anexo del informe)</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante de la tableteadora.</p>
+  <p><strong>Nota:</strong><br>Se prueban todas las alarmas del análisis de riesgo; una que no dispara invalida el ensayo.</p>
+  <p><strong>Referencia:</strong><br>USP &lt;905&gt;; USP &lt;1216&gt;; USP &lt;701&gt;; USP &lt;711&gt;; EU GMP Anexo 15; 21 CFR 211.160(b).</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-OQ-TB-005" class="ensayo" data-id="EQ-OQ-TB-005" data-fase="OQ" data-cond="ambas">
@@ -94,12 +94,11 @@
   2) Verificar el estado seguro: torreta detenida, alimentador parado, sin movimientos residuales peligrosos<br>
   3) Restablecer la energía y verificar que no hay arranque espontáneo<br>
   4) Verificar el rearranque manual controlado</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Ante la falla la máquina queda en estado seguro.<br>
-  No existe arranque espontáneo al retornar la energía.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Ante falla de energía la máquina queda en estado seguro, sin reinicio automático.<br>Las tabletas de la torreta al momento del corte se descartan según el procedimiento.<br>El evento queda registrado.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro de falla y recuperación de energía (anexo del informe)</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante de la tableteadora.</p>
+  <p><strong>Nota:</strong><br>El descarte de tabletas se define antes de la prueba; no se decide al ver el resultado.</p>
+  <p><strong>Referencia:</strong><br>USP &lt;905&gt;; USP &lt;1216&gt;; USP &lt;701&gt;; USP &lt;711&gt;; EU GMP Anexo 15; 21 CFR 211.160(b).</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-OQ-TB-006" class="ensayo" data-id="EQ-OQ-TB-006" data-fase="OQ" data-cond="ambas" data-analisis="si">
@@ -110,14 +109,13 @@
   2) Medir cada punto con un tacómetro independiente calibrado, por triplicado<br>
   3) Registrar la lectura del control y la del tacómetro en cada punto<br>
   4) Procesar los datos crudos de velocidad en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  La velocidad indicada está dentro de la tolerancia especificada en los tres puntos.<br>
-  La repetibilidad cumple el criterio en cada punto.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = velocidad de torreta; unidad = rpm. Tipo de dato = continua. n = 3 lecturas por velocidad. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = desviación ≤ ±2 % del setpoint. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable medida; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Exactitud de la velocidad de torreta ≤ <span class="por-confirmar">±2 %</span> en mínimo, nominal y máximo.<br>Sin oscilación > 2 % en 5 min por velocidad.<br>El sentido de giro coincide con el indicado.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro de velocidades con data cruda y reporte<br>
   - Data cruda y reporte estadístico del análisis de velocidad de torreta</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante de la tableteadora.</p>
+  <p><strong>Nota:</strong><br>La tolerancia en rojo se confirma con el fabricante y el rango validado del producto.</p>
+  <p><strong>Referencia:</strong><br>USP &lt;905&gt;; USP &lt;1216&gt;; USP &lt;701&gt;; USP &lt;711&gt;; EU GMP Anexo 15; 21 CFR 211.160(b).</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-OQ-TB-007" class="ensayo" data-id="EQ-OQ-TB-007" data-fase="OQ" data-cond="ambas" data-analisis="si">
@@ -128,14 +126,13 @@
   2) Medir cada punto con instrumento independiente, por triplicado<br>
   3) Verificar el sentido de giro contra lo especificado<br>
   4) Procesar los datos crudos de velocidad en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  La velocidad está dentro de tolerancia y el sentido es correcto.<br>
-  La repetibilidad cumple el criterio.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = velocidad del alimentador; unidad = rpm. Tipo de dato = continua. n = 3 lecturas por setpoint. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = desviación ≤ ±2 %. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable medida; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Exactitud de la velocidad del alimentador ≤ <span class="por-confirmar">±2 %</span> y sentido de giro correcto.<br>Respuesta al cambio de setpoint ≤ 10 s.<br>Sin patinaje ni atasco con el granulado de prueba.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro del alimentador con data cruda y reporte<br>
   - Data cruda y reporte estadístico del análisis de velocidad del alimentador</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante de la tableteadora.</p>
+  <p><strong>Nota:</strong><br>La tolerancia en rojo se confirma con el fabricante del alimentador.</p>
+  <p><strong>Referencia:</strong><br>USP &lt;905&gt;; USP &lt;1216&gt;; USP &lt;701&gt;; USP &lt;711&gt;; EU GMP Anexo 15; 21 CFR 211.160(b).</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-OQ-TB-008" class="ensayo" data-id="EQ-OQ-TB-008" data-fase="OQ" data-cond="ambas">
@@ -146,12 +143,12 @@
   2) Medir la holgura punzón-matriz en una muestra de estaciones<br>
   3) Comparar contra la especificación del fabricante y del juego de punzones<br>
   4) Registrar desgaste o daño visible en punzones y matrices</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  El TIR y la holgura están dentro de especificación.<br>
-  Sin punzones ni matrices dañados en la muestra.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = TIR y holgura punzón-matriz; unidad = mm. Tipo de dato = continua. n = mínimo 10 estaciones. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = cada estación dentro del límite. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable medida; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Concentricidad de torreta (TIR) ≤ <span class="por-confirmar">0,05 mm</span> y holgura punzón-matriz <span class="por-confirmar">0,05-0,1 mm</span>.<br>Medición en el 100 % de las estaciones o en la muestra justificada.<br>Sin desgaste que comprometa la calidad de la tableta.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro de concentricidad y holguras (anexo del informe)</p>
-  <p><strong>Referencia:</strong><br>Especificación del fabricante de punzones y matrices (TSM/EU).</p>
+  <p><strong>Nota:</strong><br>Los valores en rojo se confirman con el certificado de la torreta y de los punzones.</p>
+  <p><strong>Referencia:</strong><br>USP &lt;905&gt;; USP &lt;1216&gt;; USP &lt;701&gt;; USP &lt;711&gt;; EU GMP Anexo 15; 21 CFR 211.160(b).</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-OQ-TB-009" class="ensayo" data-id="EQ-OQ-TB-009" data-fase="OQ" data-cond="ambas" data-analisis="si">
@@ -162,14 +159,13 @@
   2) Medir la profundidad resultante con instrumento calibrado, por triplicado en cada punto<br>
   3) Verificar la respuesta del ajuste (sin juego excesivo ni saltos)<br>
   4) Procesar los datos crudos de profundidad en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  La profundidad responde al ajuste dentro de tolerancia en los tres puntos.<br>
-  La repetibilidad cumple el criterio.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = profundidad de llenado; unidad = mm. Tipo de dato = continua. n = 3 ajustes con 3 repeticiones. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = desviación ≤ ±0,05 mm. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable medida; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Repetibilidad de la profundidad de llenado ≤ <span class="por-confirmar">±0,05 mm</span> en 3 ajustes.<br>Respuesta al cambio de ajuste sin histéresis > 0,05 mm.<br>Registro por ajuste y estación.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro de profundidad con data cruda y reporte<br>
   - Data cruda y reporte estadístico del análisis de profundidad de llenado</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante de la tableteadora.</p>
+  <p><strong>Nota:</strong><br>La tolerancia en rojo se confirma con el fabricante; impacta directo en la variación de peso.</p>
+  <p><strong>Referencia:</strong><br>USP &lt;905&gt;; USP &lt;1216&gt;; USP &lt;701&gt;; USP &lt;711&gt;; EU GMP Anexo 15; 21 CFR 211.160(b).</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-OQ-TB-010" class="ensayo" data-id="EQ-OQ-TB-010" data-fase="OQ" data-cond="ambas">
@@ -180,12 +176,12 @@
   2) Comprimir placebo y medir el espesor resultante con micrómetro calibrado<br>
   3) Verificar repetibilidad en el punto nominal<br>
   4) Verificar ausencia de juego excesivo en el mecanismo</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  El espesor responde al ajuste dentro de tolerancia.<br>
-  La repetibilidad cumple el criterio.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = altura de compresión; unidad = mm. Tipo de dato = continua. n = 3 ajustes con 10 ciclos. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = desviación ≤ ±0,05 mm. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable medida; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Repetibilidad de la altura de compresión ≤ <span class="por-confirmar">±0,05 mm</span> en 3 ajustes.<br>Sin histéresis ni deriva tras 10 ciclos.<br>Registro por ajuste.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro de espesor por ajuste (anexo del informe)</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante de la tableteadora.</p>
+  <p><strong>Nota:</strong><br>La tolerancia en rojo se confirma con el fabricante; afecta dureza y espesor.</p>
+  <p><strong>Referencia:</strong><br>USP &lt;905&gt;; USP &lt;1216&gt;; USP &lt;701&gt;; USP &lt;711&gt;; EU GMP Anexo 15; 21 CFR 211.160(b).</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-OQ-TB-011" class="ensayo" data-id="EQ-OQ-TB-011" data-fase="OQ" data-cond="ambas">
@@ -196,12 +192,12 @@
   2) Operar a velocidad máxima y registrar la corriente estable y de arranque<br>
   3) Comparar contra la corriente nominal de placa<br>
   4) Verificar ausencia de picos anormales en operación estable</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  La corriente no supera la nominal de placa en ningún punto.<br>
-  Sin picos anormales en operación estable.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = corriente del motor; unidad = A. Tipo de dato = continua. n = 3 lecturas por velocidad. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = media dentro de ±10 % de la nominal. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable medida; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Corriente del motor principal dentro de ±<span class="por-confirmar">10 %</span> de la nominal a velocidad mínima y máxima.<br>Sin picos anormales al arrancar ni en régimen.<br>Registro por condición.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro de corrientes (anexo del informe)</p>
-  <p><strong>Referencia:</strong><br>Placa del motor principal.</p>
+  <p><strong>Nota:</strong><br>La tolerancia en rojo se confirma con la placa del motor.</p>
+  <p><strong>Referencia:</strong><br>USP &lt;905&gt;; USP &lt;1216&gt;; USP &lt;701&gt;; USP &lt;711&gt;; EU GMP Anexo 15; 21 CFR 211.160(b).</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-OQ-TB-012" class="ensayo" data-id="EQ-OQ-TB-012" data-fase="OQ" data-cond="ambas">
@@ -212,12 +208,12 @@
   2) Medir la temperatura de cojinetes principales y del motor tras la estabilización<br>
   3) Comparar contra los límites del fabricante<br>
   4) Verificar ausencia de ruidos anormales localizados</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Vibración, ruido y temperatura dentro de lo esperado.<br>
-  Sin puntos calientes ni ruidos anormales.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = vibración, ruido y temperatura; unidad = mm/s, dB(A), °C. Tipo de dato = continua. n = 3 lecturas por punto. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = cada valor dentro del límite. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable medida; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Vibración ≤ <span class="por-confirmar">4,5 mm/s</span> (ISO 10816) y ruido ≤ <span class="por-confirmar">80 dB(A)</span>.<br>Temperatura de cojinetes ≤ <span class="por-confirmar">70 °C</span> en régimen.<br>Registro por punto de medición.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro de vibración y temperaturas (anexo del informe)</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante de la tableteadora.</p>
+  <p><strong>Nota:</strong><br>Los límites en rojo se confirman con la clase de la máquina y la evaluación de exposición al ruido.</p>
+  <p><strong>Referencia:</strong><br>USP &lt;905&gt;; USP &lt;1216&gt;; USP &lt;701&gt;; USP &lt;711&gt;; EU GMP Anexo 15; 21 CFR 211.160(b).</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-OQ-TB-013" class="ensayo" data-id="EQ-OQ-TB-013" data-fase="OQ" data-cond="ambas">
@@ -228,12 +224,11 @@
   2) Verificar la dosificación del sistema automático en los puntos de lubricación<br>
   3) Verificar ausencia de exceso de lubricante que contamine el producto<br>
   4) Verificar la alarma de nivel bajo (si aplica)</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  La lubricación corresponde a lo especificado sin exceso contaminante.<br>
-  La alarma de nivel (si aplica) opera.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Sistema de lubricación entrega la dosis por ciclo definida por el fabricante.<br>Sin contaminación del producto ni goteo sobre la torreta.<br>Alarma de nivel bajo operativa.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro de lubricación (anexo del informe)</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante de la tableteadora.</p>
+  <p><strong>Nota:</strong><br>La dosis por ciclo se confirma con el fabricante; el lubricante debe ser apto para contacto indirecto.</p>
+  <p><strong>Referencia:</strong><br>USP &lt;905&gt;; USP &lt;1216&gt;; USP &lt;701&gt;; USP &lt;711&gt;; EU GMP Anexo 15; 21 CFR 211.160(b).</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-OQ-TB-014" class="ensayo" data-id="EQ-OQ-TB-014" data-fase="OQ" data-cond="ambas" data-analisis="si">
@@ -244,14 +239,13 @@
   2) Medir la fuerza indicada contra la referencia en varios puntos del rango declarado, por triplicado<br>
   3) Registrar la lectura del control y la de la celda en cada punto<br>
   4) Procesar los datos crudos de fuerza en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  La fuerza indicada está dentro de la tolerancia especificada en todos los puntos.<br>
-  La repetibilidad cumple el criterio.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = fuerza de compresión; unidad = kN. Tipo de dato = continua. n = 3 puntos de fuerza con 3 repeticiones. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = desviación ≤ ±5 %. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable medida; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Exactitud de la fuerza de compresión principal ≤ <span class="por-confirmar">±5 %</span> frente a celda de referencia.<br>Sin deriva tras 30 min de operación.<br>Registro por punto de fuerza.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro de fuerzas con data cruda y reporte<br>
   - Data cruda y reporte estadístico del análisis de fuerza de compresión</p>
-  <p><strong>Referencia:</strong><br>Certificado de la celda de referencia.</p>
+  <p><strong>Nota:</strong><br>La tolerancia en rojo se confirma con el certificado de la celda de referencia.</p>
+  <p><strong>Referencia:</strong><br>USP &lt;905&gt;; USP &lt;1216&gt;; USP &lt;701&gt;; USP &lt;711&gt;; EU GMP Anexo 15; 21 CFR 211.160(b).</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-OQ-TB-015" class="ensayo" data-id="EQ-OQ-TB-015" data-fase="OQ" data-cond="ambas" data-analisis="si">
@@ -262,14 +256,13 @@
   2) Medir la fuerza de eyección contra referencia en varios puntos, por triplicado<br>
   3) Registrar lecturas del control y de referencia<br>
   4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Precompresión y eyección dentro de tolerancia en todos los puntos.<br>
-  La repetibilidad cumple el criterio.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = precompresión y eyección; unidad = kN. Tipo de dato = continua. n = 3 puntos con 3 repeticiones. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = desviación ≤ ±5 %. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable medida; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Exactitud de precompresión y eyección ≤ <span class="por-confirmar">±5 %</span> frente a referencia.<br>Sin diferencia entre estaciones > 5 %.<br>Registro por punto.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro con data cruda y reporte<br>
   - Data cruda y reporte estadístico del análisis de precompresión y eyección</p>
-  <p><strong>Referencia:</strong><br>Certificado de la celda de referencia.</p>
+  <p><strong>Nota:</strong><br>La tolerancia en rojo se confirma con el fabricante y la celda de referencia.</p>
+  <p><strong>Referencia:</strong><br>USP &lt;905&gt;; USP &lt;1216&gt;; USP &lt;701&gt;; USP &lt;711&gt;; EU GMP Anexo 15; 21 CFR 211.160(b).</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-OQ-TB-016" class="ensayo" data-id="EQ-OQ-TB-016" data-fase="OQ" data-cond="ambas" data-analisis="si">
@@ -280,14 +273,13 @@
   2) Registrar la fuerza medida en cada punto, por triplicado<br>
   3) Ajustar la recta de regresión ajuste contra fuerza<br>
   4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  La relación es lineal dentro del criterio (coeficiente de correlación aprobado).<br>
-  Sin histéresis significativa al subir y bajar el ajuste.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = linealidad ajuste-fuerza; unidad = kN. Tipo de dato = continua. n = mínimo 5 puntos de ajuste. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = R² ≥ 0,99. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable medida; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Linealidad entre ajuste y fuerza medida con R² ≥ <span class="por-confirmar">0,99</span> en el rango de operación.<br>Sin quiebres ni saturación en los extremos.<br>Registro de la curva completa.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Curva de linealidad con data cruda y reporte<br>
   - Data cruda y reporte estadístico del análisis de linealidad</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante de la tableteadora.</p>
+  <p><strong>Nota:</strong><br>El R² en rojo se confirma con el criterio del fabricante; se calcula sobre los puntos medidos.</p>
+  <p><strong>Referencia:</strong><br>USP &lt;905&gt;; USP &lt;1216&gt;; USP &lt;701&gt;; USP &lt;711&gt;; EU GMP Anexo 15; 21 CFR 211.160(b).</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-OQ-TB-017" class="ensayo" data-id="EQ-OQ-TB-017" data-fase="OQ" data-cond="ambas" data-analisis="si">
@@ -298,14 +290,13 @@
   2) Registrar la fuerza principal a intervalos definidos<br>
   3) Evaluar deriva y variabilidad en cada velocidad<br>
   4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  La fuerza se mantiene dentro de la banda especificada sin deriva.<br>
-  La variabilidad cumple el criterio a cada velocidad.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = fuerza en operación continua; unidad = kN. Tipo de dato = continua. n = 30 min por velocidad. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = RSD ≤ 5 % en cada velocidad. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable medida; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Estabilidad de la fuerza en operación continua: RSD ≤ <span class="por-confirmar">5 %</span> durante 30 min a cada velocidad.<br>Sin tendencia creciente ni escalones.<br>Registro continuo por velocidad.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registros de estabilidad con data cruda y reporte<br>
   - Data cruda y reporte estadístico del análisis de estabilidad de fuerza</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante de la tableteadora.</p>
+  <p><strong>Nota:</strong><br>El RSD en rojo se confirma con el criterio del producto y del fabricante.</p>
+  <p><strong>Referencia:</strong><br>USP &lt;905&gt;; USP &lt;1216&gt;; USP &lt;701&gt;; USP &lt;711&gt;; EU GMP Anexo 15; 21 CFR 211.160(b).</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-OQ-TB-018" class="ensayo" data-id="EQ-OQ-TB-018" data-fase="OQ" data-cond="ambas" data-analisis="si">
@@ -317,15 +308,14 @@
   3) Medir el tiempo de corrección hasta retornar a la banda<br>
   4) Verificar ausencia de oscilación sostenida<br>
   5) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  El lazo corrige la variación dentro del tiempo especificado.<br>
-  Sin oscilación sostenida tras la corrección.<br>
-  Matriz de desafío: número de unidades por condición definido en el protocolo aprobado; el 100 % de las unidades malas se rechaza y el 0 % de las unidades buenas se rechaza.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = respuesta del control de peso; unidad = s. Tipo de dato = continua. n = 3 perturbaciones. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = corrección ≤ 30 s sin sobrecorrección. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable medida; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>El lazo de control de peso corrige una perturbación de ±<span class="por-confirmar">5 %</span> en ≤ <span class="por-confirmar">30 s</span>.<br>Sin sobrecorrección > 2 % del setpoint.<br>Registro de la respuesta.<br>
+  Matriz de desafío: 100 % de las unidades malas se rechaza y el 0 % de las unidades buenas se rechaza.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro de respuesta del lazo con data cruda y reporte<br>
   - Data cruda y reporte estadístico del análisis de control de peso</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante del sistema de control.</p>
+  <p><strong>Nota:</strong><br>El tiempo y la tolerancia en rojo se confirman con el producto y el fabricante.</p>
+  <p><strong>Referencia:</strong><br>USP &lt;905&gt;; USP &lt;1216&gt;; USP &lt;701&gt;; USP &lt;711&gt;; EU GMP Anexo 15; 21 CFR 211.160(b).</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-OQ-TB-019" class="ensayo" data-id="EQ-OQ-TB-019" data-fase="OQ" data-cond="ambas" data-analisis="si">
@@ -337,15 +327,14 @@
   3) Verificar el conteo de rechazadas contra las inducidas<br>
   4) Inspeccionar el recipiente de buenas: ninguna mala debe estar presente<br>
   5) Procesar los datos crudos de conteo en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  El 100% de las tabletas malas inducidas se rechaza.<br>
-  Ninguna tableta mala llega al recipiente de buenas.<br>
-  Matriz de desafío: número de unidades por condición definido en el protocolo aprobado; el 100 % de las unidades malas se rechaza y el 0 % de las unidades buenas se rechaza.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = selectividad del rechazo; unidad = %. Tipo de dato = continua. n = 3 series de 100 tabletas con defectos conocidos. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = 100 % de defectuosas rechazadas y 0 buenas rechazadas. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable medida; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>El 100 % de las tabletas fuera de límites se desvía al rechazo.<br>Ninguna tableta buena se rechaza por error del desviador.<br>Conteo de rechazo coincide con el esperado (±1 tableta).<br>
+  Matriz de desafío: 100 % de las unidades malas se rechaza y el 0 % de las unidades buenas se rechaza.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro de rechazo con data cruda y reporte<br>
   - Data cruda y reporte estadístico del análisis de rechazo</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante de la tableteadora.</p>
+  <p><strong>Nota:</strong><br>La prueba se hace con tabletas defectuosas conocidas; no se simula con el contador.</p>
+  <p><strong>Referencia:</strong><br>USP &lt;905&gt;; USP &lt;1216&gt;; USP &lt;701&gt;; USP &lt;711&gt;; EU GMP Anexo 15; 21 CFR 211.160(b).</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-OQ-TB-020" class="ensayo" data-id="EQ-OQ-TB-020" data-fase="OQ" data-cond="ambas" data-analisis="si">
@@ -356,14 +345,13 @@
   2) Verificar la toma en los intervalos programados<br>
   3) Comparar la muestra automática contra muestreo manual simultáneo<br>
   4) Procesar los datos crudos comparativos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  El muestreador toma en los intervalos programados.<br>
-  La muestra automática es representativa (sin sesgo contra el manual).</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = diferencia entre el muestreador automático y el muestreo manual; unidad = % o mg según el atributo. Tipo de dato = continua. n = 3 muestras pareadas por punto. Estadísticos = media, DE e IC 95 % de la diferencia. Regla de decisión = la diferencia media debe quedar dentro de la tolerancia del método. Atípicos = Grubbs solo si n ≥ 7 y sobre la diferencia; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>El muestreador automático toma la muestra del punto y momento definidos.<br>Representatividad verificada contra muestreo manual simultáneo.<br>Sin contaminación ni pérdida de muestra.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro del muestreador con data cruda y reporte<br>
   - Data cruda y reporte estadístico del análisis del muestreador</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante de la tableteadora.</p>
+  <p><strong>Nota:</strong><br>Aplica si existe muestreador; la representatividad se demuestra comparando, no declarando.</p>
+  <p><strong>Referencia:</strong><br>USP &lt;905&gt;; USP &lt;1216&gt;; USP &lt;701&gt;; USP &lt;711&gt;; EU GMP Anexo 15; 21 CFR 211.160(b).</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-OQ-TB-021" class="ensayo" data-id="EQ-OQ-TB-021" data-fase="OQ" data-cond="ambas" data-analisis="si">
@@ -374,14 +362,13 @@
   2) Contar manualmente o por método independiente el mismo lote<br>
   3) Comparar ambas cuentas, por triplicado<br>
   4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  El conteo automático coincide con el independiente dentro de tolerancia.<br>
-  Sin tabletas contadas de más ni de menos fuera de criterio.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = exactitud del contador; unidad = %. Tipo de dato = continua. n = 3 series de 1.000 tabletas. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = error ≤ ±0,1 %. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable medida; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Exactitud del contador de tabletas ≤ <span class="por-confirmar">±0,1 %</span> en 3 series.<br>Sin doble conteo ni omisión.<br>Registro por serie.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro de conteo con data cruda y reporte<br>
   - Data cruda y reporte estadístico del análisis del contador</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante de la tableteadora.</p>
+  <p><strong>Nota:</strong><br>La tolerancia en rojo se confirma con el fabricante del contador.</p>
+  <p><strong>Referencia:</strong><br>USP &lt;905&gt;; USP &lt;1216&gt;; USP &lt;701&gt;; USP &lt;711&gt;; EU GMP Anexo 15; 21 CFR 211.160(b).</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-OQ-TB-022" class="ensayo" data-id="EQ-OQ-TB-022" data-fase="OQ" data-cond="ambas" data-analisis="si">
@@ -392,14 +379,13 @@
   2) Medir el caudal de extracción en los puntos definidos<br>
   3) Verificar el desempolvador: operación y puntos de aspiración libres<br>
   4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Presión negativa y caudal dentro de lo especificado.<br>
-  Sin acumulación visible de polvo en la cámara.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = presión negativa y caudal; unidad = mbar y m³/h. Tipo de dato = continua. n = 3 lecturas por punto. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = presión ≥ 0,5 mbar y caudal en diseño. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable medida; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Presión negativa en la cámara de compresión ≥ <span class="por-confirmar">0,5 mbar</span> y caudal de extracción dentro del diseño.<br>Sin escape de polvo al área.<br>Registro por punto de medición.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro de extracción con data cruda y reporte<br>
   - Data cruda y reporte estadístico del análisis de extracción</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante de la tableteadora.</p>
+  <p><strong>Nota:</strong><br>La presión mínima en rojo se confirma con el diseño de extracción y la evaluación de exposición.</p>
+  <p><strong>Referencia:</strong><br>USP &lt;905&gt;; USP &lt;1216&gt;; USP &lt;701&gt;; USP &lt;711&gt;; EU GMP Anexo 15; 21 CFR 211.160(b).</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-OQ-TB-023" class="ensayo" data-id="EQ-OQ-TB-023" data-fase="OQ" data-cond="ambas">
@@ -410,12 +396,12 @@
   2) Verificar certificados y programa de recambio<br>
   3) Verificar asentamiento y sellado sin bypass<br>
   4) Verificar el diferencial de presión con calibración vigente</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Los filtros corresponden a lo especificado con certificados vigentes.<br>
-  Sin bypass y con diferencial dentro de rango.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = integridad de filtros; unidad = pasa/no pasa. Tipo de dato = atributo. n = 100 % de filtros. Estadísticos = proporción de cumplimiento con IC binomial exacto. Regla de decisión = todos íntegros. Atípicos: no aplica a datos de atributo; toda exclusión se documenta y se conserva el registro original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Integridad de los filtros de extracción según el criterio del fabricante.<br>Sin rotura ni saturación; ΔP dentro del rango.<br>Registro de la prueba por filtro.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro de filtros de extracción (anexo del informe)</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante del sistema de extracción.</p>
+  <p><strong>Nota:</strong><br>El criterio de integridad en rojo es el del fabricante; no se asume por fecha de cambio.</p>
+  <p><strong>Referencia:</strong><br>USP &lt;905&gt;; USP &lt;1216&gt;; USP &lt;701&gt;; USP &lt;711&gt;; EU GMP Anexo 15; 21 CFR 211.160(b).</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-OQ-TB-024" class="ensayo" data-id="EQ-OQ-TB-024" data-fase="OQ" data-cond="ambas">
@@ -426,12 +412,11 @@
   2) Inspeccionar visualmente las tabletas a la salida: ausencia de polvo residual<br>
   3) Verificar perforaciones o tamices del desempolvador libres y sin daño<br>
   4) Verificar la aspiración conectada al desempolvador</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Las tabletas salen sin polvo residual visible.<br>
-  El desempolvador opera sin daño a las tabletas.</p>
+  <p><strong>Criterio de aceptación:</strong><br>El desempolvador retira el polvo residual de las tabletas.<br>Sin polvo visible en la tableta a la salida.<br>Sin acumulación que obstruya el flujo.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro del desempolvador (anexo del informe)</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante de la tableteadora.</p>
+  <p><strong>Nota:</strong><br>Aplica si existe desempolvador; la verificación es visual y con aire de soplado documentado.</p>
+  <p><strong>Referencia:</strong><br>USP &lt;905&gt;; USP &lt;1216&gt;; USP &lt;701&gt;; USP &lt;711&gt;; EU GMP Anexo 15; 21 CFR 211.160(b).</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-OQ-TB-025" class="ensayo" data-id="EQ-OQ-TB-025" data-fase="OQ" data-cond="ambas" data-analisis="si">
@@ -442,14 +427,13 @@
   2) Repetir a velocidad nominal y a velocidad máxima<br>
   3) Registrar alarmas e intervenciones en cada corrida<br>
   4) Procesar los datos crudos de atributos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Peso, espesor, dureza y friabilidad dentro de lo esperado a las tres velocidades.<br>
-  Sin alarmas ni desviaciones no justificadas.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = peso, dureza y espesor con placebo; unidad = mg, N, mm. Tipo de dato = continua. n = 3 velocidades con 20 tabletas cada una. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = RSD de peso ≤ 2 % y atributos en rango. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable medida; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Corrida con placebo a velocidad mínima, nominal y máxima: peso, dureza y espesor dentro de los límites del producto.<br>RSD de peso ≤ <span class="por-confirmar">2 %</span> en cada velocidad.<br>Sin atascos ni rechazo anormal.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registros de corrida con data cruda y reporte<br>
   - Data cruda y reporte estadístico del análisis de corrida con placebo</p>
-  <p><strong>Referencia:</strong><br>Especificación de operación de la tableteadora.</p>
+  <p><strong>Nota:</strong><br>El RSD en rojo se confirma con el criterio del producto; es la antesala del PQ.</p>
+  <p><strong>Referencia:</strong><br>USP &lt;905&gt;; USP &lt;1216&gt;; USP &lt;701&gt;; USP &lt;711&gt;; EU GMP Anexo 15; 21 CFR 211.160(b).</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-OQ-TB-026" class="ensayo" data-id="EQ-OQ-TB-026" data-fase="OQ" data-cond="ambas" data-analisis="si">
@@ -461,14 +445,13 @@
   3) Registrar la fuerza y los atributos resultantes en cada escalón<br>
   4) Verificar ausencia de saltos o inestabilidad en la transición<br>
   5) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  La fuerza responde al ajuste de forma estable y sin saltos.<br>
-  Los atributos se mantienen dentro de lo esperado en cada escalón.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = respuesta a cambio de fuerza; unidad = s. Tipo de dato = continua. n = 3 cambios de ajuste. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = estable ≤ 30 s y sobreimpulso ≤ 5 %. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable medida; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Respuesta a cambio de ajuste de fuerza: estable en ≤ <span class="por-confirmar">30 s</span>.<br>Sin sobreimpulso > 5 % de la fuerza objetivo.<br>Registro de la transición.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro de cambios de ajuste con data cruda y reporte<br>
   - Data cruda y reporte estadístico del análisis de cambio de ajuste</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante de la tableteadora.</p>
+  <p><strong>Nota:</strong><br>El tiempo en rojo se confirma con el fabricante; un sobreimpulso alto puede dañar punzones.</p>
+  <p><strong>Referencia:</strong><br>USP &lt;905&gt;; USP &lt;1216&gt;; USP &lt;701&gt;; USP &lt;711&gt;; EU GMP Anexo 15; 21 CFR 211.160(b).</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-OQ-TB-027" class="ensayo" data-id="EQ-OQ-TB-027" data-fase="OQ" data-cond="ambas" data-familia="tableteadora">
@@ -480,12 +463,11 @@
   3) Verificar el significado de la firma electrónica (revisión/aprobación) y su manifestación (nombre, fecha, significado)<br>
   4) Ejecutar el respaldo de recetas y parámetros y verificar su restauración en un entorno de prueba o según procedimiento<br>
   5) Verificar la sincronización de fecha y hora con la red (si aplica)</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Roles y accesos corresponden a lo aprobado.<br>
-  La pista de auditoría registra usuario, fecha, hora y significado; el respaldo restaura correctamente.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Registros del HMI: audit trail activo, usuarios y roles únicos, sin borrado.<br>Los cambios de receta y de ajustes quedan registrados con usuario y hora.<br>Respaldo de configuración probado.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro de roles, pista de auditoría y respaldo verificados (anexo del informe)</p>
-  <p><strong>Referencia:</strong><br>21 CFR Parte 11 (registros y firmas electrónicas).</p>
+  <p><strong>Nota:</strong><br>Aplica si hay HMI con registros electrónicos; si no, se declara No Aplica con aprobación.</p>
+  <p><strong>Referencia:</strong><br>USP &lt;905&gt;; USP &lt;1216&gt;; USP &lt;701&gt;; USP &lt;711&gt;; EU GMP Anexo 15; 21 CFR 211.160(b).</p>
 </article>
 
 <article data-bloque="6" id="art-EQ-OQ-TB-REF" class="ensayo tabla-info" data-id="EQ-OQ-TB-REF" data-fase="OQ" data-cond="ambas" data-familia="tableteadora">
