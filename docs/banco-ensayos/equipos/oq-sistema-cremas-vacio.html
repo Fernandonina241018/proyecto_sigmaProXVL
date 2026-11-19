@@ -27,12 +27,12 @@
   2) Verificar la detención del agitador, el homogeneizador y las bombas, y el corte de calefacción<br>
   3) Verificar la señalización del paro y el requerimiento de rearme manual<br>
   4) Restablecer y verificar el rearranque controlado</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  La parada de emergencia detiene agitador, homogeneizador, bombas y calefacción.<br>
-  El rearranque exige rearme manual deliberado.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = parada de emergencia; unidad = s. Tipo de dato = continua. n = 3 activaciones. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = detención ≤ 2 s. Atípicos = Grubbs solo si n ≥ 7; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>La parada de emergencia detiene agitador, homogeneizador y calefacción en ≤ <span class="por-confirmar">2 s</span>.<br>Estado seguro, sin reinicio automático.<br>Evento registrado con hora y usuario.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro de accionamiento de parada de emergencia (anexo del informe)</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante del sistema.</p>
+  <p><strong>Nota:</strong><br>El tiempo en rojo se confirma con el fabricante y el análisis de riesgo.</p>
+  <p><strong>Referencia:</strong><br>EU GMP Anexo 15; ASME Sección VIII; ICH Q8(R2); USP &lt;711&gt;; 21 CFR 211.63; 21 CFR 211.68.</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-OQ-UC-002" class="ensayo" data-id="EQ-OQ-UC-002" data-fase="OQ" data-cond="ambas" data-familia="sistema-cremas-vacio">
@@ -45,12 +45,12 @@
   4) Con la válvula de fondo abierta durante el proceso, verificar la acción del interlock<br>
   5) Verificar el movimiento controlado del cabezal elevable (si aplica)<br>
   6) Registrar cada interlock con su respuesta</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Todos los interlocks impiden la condición insegura correspondiente.<br>
-  Ningún interlock puede puentearse sin herramienta o clave.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = actuación de interlocks; unidad = s. Tipo de dato = continua. n = 3 repeticiones por interlock. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = actuación ≤ 5 s. Atípicos = Grubbs solo si n ≥ 7; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Interlocks: tapa o cabezal abierto, presión/vacío y nivel bajo impiden agitación y calefacción.<br>La acción ocurre en ≤ <span class="por-confirmar">5 s</span>.<br>Prueba registrada por interlock.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Matriz de interlocks con respuesta verificada (anexo del informe)</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante del sistema.</p>
+  <p><strong>Nota:</strong><br>Un agitador que gira con la tapa abierta es un riesgo grave.</p>
+  <p><strong>Referencia:</strong><br>EU GMP Anexo 15; ASME Sección VIII; ICH Q8(R2); USP &lt;711&gt;; 21 CFR 211.63; 21 CFR 211.68.</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-OQ-UC-003" class="ensayo" data-id="EQ-OQ-UC-003" data-fase="OQ" data-cond="ambas" data-familia="sistema-cremas-vacio">
@@ -62,12 +62,12 @@
   3) Simular sobrecorriente de los motores y verificar alarma y protección<br>
   4) Simular pérdida de vacío, sobrepresión, falla del sello o de su fluido de barrera y falla de bomba, verificando cada alarma<br>
   5) Verificar el registro de cada alarma en el histórico de eventos</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Cada alarma dispara ante su condición y ejecuta su acción asociada.<br>
-  Todas las alarmas quedan registradas en el histórico.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = disparo de alarmas; unidad = pasa/no pasa. Tipo de dato = atributo. n = 3 repeticiones por alarma. Estadísticos = proporción de cumplimiento con IC binomial exacto. Regla de decisión = cada alarma dispara y actúa. Atípicos: no aplica a datos de atributo; toda exclusión se documenta y se conserva el registro original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Cada alarma dispara y ejecuta su acción (parada, cierre o aviso).<br>Registro con fecha, hora, valor y usuario.<br>Prueba registrada por alarma.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Matriz de alarmas con disparo y acción verificados (anexo del informe)</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante del sistema de control.</p>
+  <p><strong>Nota:</strong><br>Se prueban todas las alarmas del análisis de riesgo.</p>
+  <p><strong>Referencia:</strong><br>EU GMP Anexo 15; ASME Sección VIII; ICH Q8(R2); USP &lt;711&gt;; 21 CFR 211.63; 21 CFR 211.68.</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-OQ-UC-004" class="ensayo" data-id="EQ-OQ-UC-004" data-fase="OQ" data-cond="ambas" data-familia="sistema-cremas-vacio">
@@ -78,12 +78,12 @@
   2) Verificar la prueba de apertura documentada (banco o en sitio según procedimiento)<br>
   3) Verificar que la descarga está conducida a zona segura<br>
   4) Registrar el ajuste contra la presión máxima admisible del recipiente</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  La válvula cuenta con certificado vigente y abre a su presión de ajuste.<br>
-  El ajuste no supera la presión máxima admisible.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = presión de apertura; unidad = bar. Tipo de dato = continua. n = 3 pruebas. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = apertura dentro de ±5 % del tarado. Atípicos = Grubbs solo si n ≥ 7; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Válvula de alivio con certificado vigente y apertura a presión de tarado ±<span class="por-confirmar">5 %</span>.<br>Descarga sin obstrucción y a zona segura.<br>Registro de la prueba.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Certificado de la válvula de seguridad (anexo del informe)</p>
-  <p><strong>Referencia:</strong><br>ASME BPVC Sección VIII (recipientes a presión).</p>
+  <p><strong>Nota:</strong><br>La tolerancia en rojo se confirma con el certificado del fabricante.</p>
+  <p><strong>Referencia:</strong><br>EU GMP Anexo 15; ASME Sección VIII; ICH Q8(R2); USP &lt;711&gt;; 21 CFR 211.63; 21 CFR 211.68.</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-OQ-UC-005" class="ensayo" data-id="EQ-OQ-UC-005" data-fase="OQ" data-cond="ambas" data-familia="sistema-cremas-vacio">
@@ -95,12 +95,11 @@
   3) Verificar que no hay retroceso de agua u aceite al producto por pérdida de vacío<br>
   4) Restablecer la energía y verificar que no hay arranque espontáneo<br>
   5) Verificar el rearranque manual controlado</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Ante la falla el sistema queda en estado seguro.<br>
-  No existe arranque espontáneo ni retroceso de fluidos al producto.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Ante falla de energía queda en estado seguro, sin arranque espontáneo ni ingreso de aire.<br>El producto en proceso se dispone según procedimiento.<br>Evento registrado.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro de falla y recuperación de energía (anexo del informe)</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante del sistema.</p>
+  <p><strong>Nota:</strong><br>La disposición del producto se define antes de la prueba.</p>
+  <p><strong>Referencia:</strong><br>EU GMP Anexo 15; ASME Sección VIII; ICH Q8(R2); USP &lt;711&gt;; 21 CFR 211.63; 21 CFR 211.68.</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-OQ-UC-006" class="ensayo" data-id="EQ-OQ-UC-006" data-fase="OQ" data-cond="ambas" data-familia="sistema-cremas-vacio" data-analisis="si">
@@ -111,14 +110,13 @@
   2) Medir cada punto con un tacómetro independiente calibrado, por triplicado<br>
   3) Registrar la lectura del control y la del tacómetro en cada punto<br>
   4) Procesar los datos crudos de velocidad en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  La velocidad indicada está dentro de la tolerancia especificada en los tres puntos.<br>
-  La repetibilidad cumple el criterio en cada punto.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = velocidad del agitador; unidad = rpm. Tipo de dato = continua. n = 3 lecturas por setpoint. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = desviación ≤ ±2 %. Atípicos = Grubbs solo si n ≥ 7; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Velocidad del agitador de ancla dentro de <span class="por-confirmar">±2 %</span> del setpoint.<br>Sin oscilación > 2 % en 5 min.<br>Registro por velocidad.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro de velocidades con data cruda y reporte<br>
   - Data cruda y reporte estadístico del análisis de velocidad de agitación</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante del sistema.</p>
+  <p><strong>Nota:</strong><br>La tolerancia en rojo se confirma con el fabricante.</p>
+  <p><strong>Referencia:</strong><br>EU GMP Anexo 15; ASME Sección VIII; ICH Q8(R2); USP &lt;711&gt;; 21 CFR 211.63; 21 CFR 211.68.</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-OQ-UC-007" class="ensayo" data-id="EQ-OQ-UC-007" data-fase="OQ" data-cond="ambas" data-familia="sistema-cremas-vacio">
@@ -128,12 +126,12 @@
   1) Arrancar el agitador y verificar visualmente el sentido de giro contra el indicado en placa o manual<br>
   2) Medir el tiempo de aceleración hasta la velocidad nominal y el de parada<br>
   3) Verificar ausencia de golpes o vibración anormal durante las rampas</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  El sentido de giro corresponde al especificado.<br>
-  Las rampas y la parada están dentro de los tiempos especificados sin anomalías.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = sentido y rampas; unidad = s. Tipo de dato = continua. n = 3 ciclos. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = rampa dentro del tiempo del fabricante. Atípicos = Grubbs solo si n ≥ 7; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Sentido de giro y rampas de aceleración/desaceleración dentro del tiempo del fabricante.<br>Sin golpe de producto al arrancar.<br>Registro por rampa.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro de sentido de giro y rampas (anexo del informe)</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante del sistema.</p>
+  <p><strong>Nota:</strong><br>Una rampa brusca genera salpicaduras y entrada de aire.</p>
+  <p><strong>Referencia:</strong><br>EU GMP Anexo 15; ASME Sección VIII; ICH Q8(R2); USP &lt;711&gt;; 21 CFR 211.63; 21 CFR 211.68.</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-OQ-UC-008" class="ensayo" data-id="EQ-OQ-UC-008" data-fase="OQ" data-cond="ambas" data-familia="sistema-cremas-vacio">
@@ -144,12 +142,12 @@
   2) Inspeccionar el estado y el desgaste del material de las rasquetas<br>
   3) Verificar ausencia de escamas o fragmentos del material en el producto placebo<br>
   4) Registrar el desgaste contra el criterio de recambio</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  La holgura está dentro de especificación en todos los puntos.<br>
-  Sin escamas del material en el producto y desgaste dentro del criterio.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = holgura de rasquetas; unidad = mm. Tipo de dato = continua. n = 100 % de las rasquetas. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = ≤ 2 mm y sin contacto. Atípicos = Grubbs solo si n ≥ 7; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Contacto de rasquetas con la pared: holgura ≤ <span class="por-confirmar">2 mm</span> y desgaste uniforme.<br>Sin rayas en el recipiente ni producto quemado.<br>Registro por rasqueta.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro dimensional de rasquetas (anexo del informe)</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante del sistema.</p>
+  <p><strong>Nota:</strong><br>Las rasquetas son las que evitan el sobrecalentamiento en la pared.</p>
+  <p><strong>Referencia:</strong><br>EU GMP Anexo 15; ASME Sección VIII; ICH Q8(R2); USP &lt;711&gt;; 21 CFR 211.63; 21 CFR 211.68.</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-OQ-UC-009" class="ensayo" data-id="EQ-OQ-UC-009" data-fase="OQ" data-cond="ambas" data-familia="sistema-cremas-vacio" data-analisis="si">
@@ -160,14 +158,13 @@
   2) Cargar al volumen máximo y operar registrando la corriente<br>
   3) Registrar la corriente de arranque en ambos casos<br>
   4) Procesar los datos crudos de corriente en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  La corriente de operación no supera la nominal de placa en ningún volumen.<br>
-  No existen picos anormales durante la operación estable.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = corriente de agitación; unidad = A. Tipo de dato = continua. n = 3 lecturas por condición. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = media dentro de ±10 %. Atípicos = Grubbs solo si n ≥ 7; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Corriente del motor de agitación dentro de ±<span class="por-confirmar">10 %</span> de la nominal con agua y placebo.<br>Sin picos al cambiar de velocidad.<br>Registro por condición.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro de corrientes con data cruda y reporte<br>
   - Data cruda y reporte estadístico del análisis de corriente del motor</p>
-  <p><strong>Referencia:</strong><br>Placa del motor de agitación.</p>
+  <p><strong>Nota:</strong><br>La tolerancia en rojo se confirma con la placa del motor.</p>
+  <p><strong>Referencia:</strong><br>EU GMP Anexo 15; ASME Sección VIII; ICH Q8(R2); USP &lt;711&gt;; 21 CFR 211.63; 21 CFR 211.68.</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-OQ-UC-010" class="ensayo" data-id="EQ-OQ-UC-010" data-fase="OQ" data-cond="ambas" data-familia="sistema-cremas-vacio">
@@ -178,12 +175,12 @@
   2) Verificar el fluido de barrera: nivel, tipo y conexiones correctas<br>
   3) Medir la presión del fluido de barrera y verificar que está en rango<br>
   4) Verificar temperatura del sello sin sobrecalentamiento</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  El sello no presenta fugas.<br>
-  El fluido de barrera es correcto con presión en rango.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = estanqueidad del sello; unidad = bar. Tipo de dato = continua. n = 3 pruebas. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = sin fuga con presión en rango. Atípicos = Grubbs solo si n ≥ 7; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Sello mecánico sin fuga, con fluido de barrera a la presión correcta.<br>Sin ingreso de producto al sello ni de barrera al producto.<br>Registro de presión y prueba.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro del sello mecánico (anexo del informe)</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante del sistema.</p>
+  <p><strong>Nota:</strong><br>Una fuga de barrera contamina el producto; una de producto arruina el sello.</p>
+  <p><strong>Referencia:</strong><br>EU GMP Anexo 15; ASME Sección VIII; ICH Q8(R2); USP &lt;711&gt;; 21 CFR 211.63; 21 CFR 211.68.</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-OQ-UC-011" class="ensayo" data-id="EQ-OQ-UC-011" data-fase="OQ" data-cond="ambas" data-familia="sistema-cremas-vacio" data-analisis="si">
@@ -194,14 +191,13 @@
   2) Medir cada punto con instrumento independiente calibrado, por triplicado<br>
   3) Registrar la lectura del control y la del patrón en cada punto<br>
   4) Procesar los datos crudos de velocidad en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  La velocidad indicada está dentro de la tolerancia especificada en los tres puntos.<br>
-  La repetibilidad cumple el criterio en cada punto.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = velocidad del homogeneizador; unidad = rpm. Tipo de dato = continua. n = 3 lecturas por setpoint. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = desviación ≤ ±2 %. Atípicos = Grubbs solo si n ≥ 7; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Velocidad del homogeneizador dentro de <span class="por-confirmar">±2 %</span> del setpoint.<br>Sin caída al aumentar la viscosidad.<br>Registro por condición.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro de velocidades con data cruda y reporte<br>
   - Data cruda y reporte estadístico del análisis de velocidad del homogeneizador</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante del sistema.</p>
+  <p><strong>Nota:</strong><br>La tolerancia en rojo se confirma con el fabricante.</p>
+  <p><strong>Referencia:</strong><br>EU GMP Anexo 15; ASME Sección VIII; ICH Q8(R2); USP &lt;711&gt;; 21 CFR 211.63; 21 CFR 211.68.</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-OQ-UC-012" class="ensayo" data-id="EQ-OQ-UC-012" data-fase="OQ" data-cond="ambas" data-familia="sistema-cremas-vacio">
@@ -211,12 +207,12 @@
   1) Verificar el sentido de giro contra lo especificado<br>
   2) Medir el tiempo de parada desde velocidad máxima<br>
   3) Con nivel por debajo del mínimo, intentar arrancar: no debe girar en seco</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Sentido de giro correcto con parada dentro del tiempo especificado.<br>
-  El homogeneizador no gira en seco.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = tiempo de parada; unidad = s. Tipo de dato = continua. n = 3 pruebas. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = parada dentro del tiempo del fabricante. Atípicos = Grubbs solo si n ≥ 7; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Sentido de giro correcto y tiempo de parada dentro del fabricante.<br>Sin giro residual peligroso al abrir.<br>Registro por prueba.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro del homogeneizador (anexo del informe)</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante del sistema.</p>
+  <p><strong>Nota:</strong><br>Un rotor que sigue girando al abrir es un riesgo de atrapamiento.</p>
+  <p><strong>Referencia:</strong><br>EU GMP Anexo 15; ASME Sección VIII; ICH Q8(R2); USP &lt;711&gt;; 21 CFR 211.63; 21 CFR 211.68.</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-OQ-UC-013" class="ensayo" data-id="EQ-OQ-UC-013" data-fase="OQ" data-cond="ambas" data-familia="sistema-cremas-vacio">
@@ -226,12 +222,12 @@
   1) Medir la holgura rotor-estator en los puntos definidos con instrumento calibrado<br>
   2) Comparar contra la especificación del fabricante<br>
   3) Verificar ausencia de roces y desgaste anormal</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  La holgura está dentro de especificación en todos los puntos.<br>
-  Sin roces ni desgaste anormal.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = holgura rotor-estator; unidad = mm. Tipo de dato = continua. n = mínimo 4 puntos. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = cada punto dentro de 0,2-0,5 mm. Atípicos = Grubbs solo si n ≥ 7; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Holgura rotor-estator dentro de <span class="por-confirmar">0,2-0,5 mm</span>.<br>Sin contacto ni desgaste.<br>Medición en varios puntos.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro dimensional de holgura (anexo del informe)</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante del sistema.</p>
+  <p><strong>Nota:</strong><br>La holgura en rojo se confirma con el fabricante; define el tamaño de gota.</p>
+  <p><strong>Referencia:</strong><br>EU GMP Anexo 15; ASME Sección VIII; ICH Q8(R2); USP &lt;711&gt;; 21 CFR 211.63; 21 CFR 211.68.</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-OQ-UC-014" class="ensayo" data-id="EQ-OQ-UC-014" data-fase="OQ" data-cond="ambas" data-familia="sistema-cremas-vacio" data-analisis="si">
@@ -242,14 +238,13 @@
   2) Registrar la corriente del motor y compararla contra la nominal de placa<br>
   3) Medir la temperatura del sello tras la estabilización<br>
   4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  La corriente no supera la nominal de placa.<br>
-  La temperatura del sello está dentro del límite sin sobrecalentamiento.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = corriente y temperatura del sello; unidad = A y °C. Tipo de dato = continua. n = 3 lecturas por condición. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = cada valor dentro de rango. Atípicos = Grubbs solo si n ≥ 7; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Corriente y temperatura del sello del homogeneizador dentro de rango.<br>Sin sobrecalentamiento en operación continua.<br>Registro por condición.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro con data cruda y reporte<br>
   - Data cruda y reporte estadístico del análisis de corriente y temperatura</p>
-  <p><strong>Referencia:</strong><br>Placa del motor del homogeneizador.</p>
+  <p><strong>Nota:</strong><br>El sello se calienta y falla si el homogeneizador opera en seco.</p>
+  <p><strong>Referencia:</strong><br>EU GMP Anexo 15; ASME Sección VIII; ICH Q8(R2); USP &lt;711&gt;; 21 CFR 211.63; 21 CFR 211.68.</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-OQ-UC-015" class="ensayo" data-id="EQ-OQ-UC-015" data-fase="OQ" data-cond="ambas" data-familia="sistema-cremas-vacio" data-analisis="si">
@@ -260,14 +255,13 @@
   2) Operar el homogeneizador a la velocidad de rutina<br>
   3) Verificar que el rotor-estator opera sumergido sin aspiración de aire<br>
   4) Procesar los datos crudos de nivel y detección de aire en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  A volumen mínimo el rotor-estator opera sumergido sin aspiración de aire.<br>
-  El nivel mínimo operativo queda establecido y documentado.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = sumersión del rotor a volumen mínimo; unidad = pasa/no pasa. Tipo de dato = atributo. n = 3 pruebas. Estadísticos = proporción de cumplimiento con IC binomial exacto. Regla de decisión = rotor sumergido sin cavitación. Atípicos = Grubbs solo si n ≥ 7; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>A volumen mínimo, el rotor-estator queda sumergido.<br>Sin cavitación ni entrada de aire.<br>Registro de la prueba.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro con data cruda y reporte<br>
   - Data cruda y reporte estadístico del análisis de volumen mínimo</p>
-  <p><strong>Referencia:</strong><br>Especificación de operación del sistema.</p>
+  <p><strong>Nota:</strong><br>Homogeneizar sin producto sumergido daña el sello y no emulsiona.</p>
+  <p><strong>Referencia:</strong><br>EU GMP Anexo 15; ASME Sección VIII; ICH Q8(R2); USP &lt;711&gt;; 21 CFR 211.63; 21 CFR 211.68.</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-OQ-UC-016" class="ensayo" data-id="EQ-OQ-UC-016" data-fase="OQ" data-cond="ambas" data-familia="sistema-cremas-vacio" data-analisis="si">
@@ -278,14 +272,13 @@
   2) Medir el caudal y la presión de descarga, por triplicado<br>
   3) Comparar contra lo especificado<br>
   4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Caudal y presión dentro de lo especificado.<br>
-  La repetibilidad cumple el criterio.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = caudal de recirculación; unidad = L/h. Tipo de dato = continua. n = 3 lecturas por condición. Estadísticos = media, DE e IC 95 %. Regla de decisión = desviación ≤ ±10 % del diseño. Atípicos = Grubbs solo si n ≥ 7; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Homogeneizador en línea o de recirculación: caudal y efecto dentro de diseño.<br>Sin sobrepresión ni fuga.<br>Registro por condición.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro con data cruda y reporte<br>
   - Data cruda y reporte estadístico del análisis del homogeneizador en línea</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante del sistema.</p>
+  <p><strong>Nota:</strong><br>Aplica si existe; si no, No Aplica con aprobación.</p>
+  <p><strong>Referencia:</strong><br>EU GMP Anexo 15; ASME Sección VIII; ICH Q8(R2); USP &lt;711&gt;; 21 CFR 211.63; 21 CFR 211.68.</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-OQ-UC-017" class="ensayo" data-id="EQ-OQ-UC-017" data-fase="OQ" data-cond="ambas" data-familia="sistema-cremas-vacio" data-analisis="si">
@@ -296,14 +289,13 @@
   2) Repetir con carga de agua al volumen de rutina<br>
   3) Registrar el nivel mínimo alcanzado en cada caso<br>
   4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  El nivel de vacío y el tiempo de evacuación cumplen lo especificado en vacío y con carga.<br>
-  La repetibilidad cumple el criterio.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = vacío y tiempo de evacuación; unidad = mbar y min. Tipo de dato = continua. n = 3 evacuaciones por condición. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = ≤ 50 mbar y ≤ 15 min. Atípicos = Grubbs solo si n ≥ 7; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Vacío alcanzable ≤ <span class="por-confirmar">50 mbar</span> y tiempo de evacuación ≤ <span class="por-confirmar">15 min</span>.<br>Medición con recipiente vacío y con producto.<br>Registro por condición.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro de vacío con data cruda y reporte<br>
   - Data cruda y reporte estadístico del análisis de vacío alcanzable</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante del sistema.</p>
+  <p><strong>Nota:</strong><br>Los valores en rojo se confirman con el diseño y la bomba instalada.</p>
+  <p><strong>Referencia:</strong><br>EU GMP Anexo 15; ASME Sección VIII; ICH Q8(R2); USP &lt;711&gt;; 21 CFR 211.63; 21 CFR 211.68.</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-OQ-UC-018" class="ensayo" data-id="EQ-OQ-UC-018" data-fase="OQ" data-cond="ambas" data-familia="sistema-cremas-vacio" data-analisis="si">
@@ -313,14 +305,13 @@
   1) Comparar la lectura del transductor contra un patrón calibrado en varios puntos del rango<br>
   2) Registrar por triplicado en cada punto<br>
   3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  El transductor está dentro de tolerancia en todos los puntos.<br>
-  La repetibilidad cumple el criterio.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = exactitud del transductor; unidad = mbar. Tipo de dato = continua. n = 3 comparaciones contra patrón. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = desviación ≤ ±10 %. Atípicos = Grubbs solo si n ≥ 7; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Exactitud del transductor de vacío ≤ <span class="por-confirmar">±10 %</span> de la lectura frente a patrón.<br>Calibración vigente y trazable.<br>Registro por comparación.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro con data cruda y reporte<br>
   - Data cruda y reporte estadístico del análisis del transductor de vacío</p>
-  <p><strong>Referencia:</strong><br>Certificado del patrón de referencia.</p>
+  <p><strong>Nota:</strong><br>La tolerancia en rojo se confirma con el certificado del instrumento.</p>
+  <p><strong>Referencia:</strong><br>EU GMP Anexo 15; ASME Sección VIII; ICH Q8(R2); USP &lt;711&gt;; 21 CFR 211.63; 21 CFR 211.68.</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-OQ-UC-019" class="ensayo" data-id="EQ-OQ-UC-019" data-fase="OQ" data-cond="ambas" data-familia="sistema-cremas-vacio" data-analisis="si">
@@ -331,14 +322,13 @@
   2) Registrar la presión a intervalos definidos durante el tiempo de observación<br>
   3) Calcular la tasa de aumento y compararla contra el criterio del URS<br>
   4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  La tasa de aumento no supera el criterio del URS.<br>
-  Sin fugas detectables en conexiones.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = tasa de fuga; unidad = mbar/min. Tipo de dato = continua. n = 3 pruebas de 10 min. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = ≤ 1 mbar/min. Atípicos = Grubbs solo si n ≥ 7; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Hermeticidad: aumento de presión ≤ <span class="por-confirmar">1 mbar/min</span> con el recipiente aislado.<br>Prueba de 10 min con registro.<br>Sin fugas en tapa, sello ni penetraciones.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro de fuga con data cruda y reporte<br>
   - Data cruda y reporte estadístico del análisis de hermeticidad</p>
-  <p><strong>Referencia:</strong><br>URS aprobada del sistema.</p>
+  <p><strong>Nota:</strong><br>La tasa en rojo se confirma con el diseño y el fabricante.</p>
+  <p><strong>Referencia:</strong><br>EU GMP Anexo 15; ASME Sección VIII; ICH Q8(R2); USP &lt;711&gt;; 21 CFR 211.63; 21 CFR 211.68.</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-OQ-UC-020" class="ensayo" data-id="EQ-OQ-UC-020" data-fase="OQ" data-cond="ambas" data-familia="sistema-cremas-vacio" data-analisis="si">
@@ -349,14 +339,13 @@
   2) Registrar el vacío a intervalos definidos en cada etapa<br>
   3) Evaluar la estabilidad en cada etapa<br>
   4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  El vacío se mantiene en banda durante las tres etapas.<br>
-  Sin caídas fuera de criterio.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = estabilidad de vacío; unidad = mbar. Tipo de dato = continua. n = 3 ciclos. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = variación ≤ 10 %. Atípicos = Grubbs solo si n ≥ 7; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Vacío estable durante calentamiento y agitación: variación ≤ <span class="por-confirmar">10 %</span>.<br>Sin desgasificación que rompa el vacío.<br>Registro continuo.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro de estabilidad con data cruda y reporte<br>
   - Data cruda y reporte estadístico del análisis de estabilidad del vacío</p>
-  <p><strong>Referencia:</strong><br>Especificación de operación del sistema.</p>
+  <p><strong>Nota:</strong><br>La desgasificación del producto puede elevar la presión y arruinar la desaireación.</p>
+  <p><strong>Referencia:</strong><br>EU GMP Anexo 15; ASME Sección VIII; ICH Q8(R2); USP &lt;711&gt;; 21 CFR 211.63; 21 CFR 211.68.</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-OQ-UC-021" class="ensayo" data-id="EQ-OQ-UC-021" data-fase="OQ" data-cond="ambas" data-familia="sistema-cremas-vacio" data-analisis="si">
@@ -367,14 +356,13 @@
   2) Verificar el filtro de aire de ruptura (si aplica): grado, instalación y certificado<br>
   3) Verificar que la velocidad de ventilación no fluidiza el producto<br>
   4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Ruptura controlada dentro del tiempo definido.<br>
-  Sin fluidización del producto y filtro conforme.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = integridad del filtro de ventilación; unidad = pasa/no pasa. Tipo de dato = atributo. n = 3 pruebas. Estadísticos = proporción de cumplimiento con IC binomial exacto. Regla de decisión = filtro íntegro en las 3. Atípicos = Grubbs solo si n ≥ 7; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Ruptura del vacío controlada, con filtro de aire hidrofóbico íntegro.<br>Sin ingreso de aire sin filtrar.<br>Registro de la prueba.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro con data cruda y reporte<br>
   - Data cruda y reporte estadístico del análisis de ruptura del vacío</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante del sistema.</p>
+  <p><strong>Nota:</strong><br>Ventilar sin filtro introduce contaminación en el producto.</p>
+  <p><strong>Referencia:</strong><br>EU GMP Anexo 15; ASME Sección VIII; ICH Q8(R2); USP &lt;711&gt;; 21 CFR 211.63; 21 CFR 211.68.</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-OQ-UC-022" class="ensayo" data-id="EQ-OQ-UC-022" data-fase="OQ" data-cond="ambas" data-familia="sistema-cremas-vacio" data-analisis="si">
@@ -385,14 +373,13 @@
   2) Verificar la trampa de volátiles: instalación y capacidad<br>
   3) Verificar la compatibilidad con los volátiles del producto según la hoja del fabricante<br>
   4) Procesar los datos crudos de desempeño en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  La bomba y la trampa corresponden a lo especificado.<br>
-  Compatibilidad documentada con los volátiles del producto.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = capacidad de la bomba de vacío; unidad = mbar. Tipo de dato = continua. n = 3 evacuaciones. Estadísticos = media, DE e IC 95 %. Regla de decisión = vacío ≤ 50 mbar. Atípicos = Grubbs solo si n ≥ 7; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Bomba de vacío: tipo, fluido de sello y trampa correctos; capacidad suficiente.<br>Sin retroceso de fluido al recipiente.<br>Registro de mantenimiento.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro con data cruda y reporte<br>
   - Data cruda y reporte estadístico del análisis de la bomba de vacío</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante de la bomba.</p>
+  <p><strong>Nota:</strong><br>El retroceso de aceite o agua contamina el lote.</p>
+  <p><strong>Referencia:</strong><br>EU GMP Anexo 15; ASME Sección VIII; ICH Q8(R2); USP &lt;711&gt;; 21 CFR 211.63; 21 CFR 211.68.</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-OQ-UC-023" class="ensayo" data-id="EQ-OQ-UC-023" data-fase="OQ" data-cond="ambas" data-familia="sistema-cremas-vacio" data-analisis="si">
@@ -403,14 +390,13 @@
   2) Medir cada punto con un patrón de referencia calibrado, por triplicado<br>
   3) Registrar la lectura del control y la del patrón en cada punto<br>
   4) Procesar los datos crudos de temperatura en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  El sensor de control está dentro de la tolerancia especificada en los tres setpoints.<br>
-  La repetibilidad cumple el criterio en cada punto.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = exactitud del sensor; unidad = °C. Tipo de dato = continua. n = 3 comparaciones. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = desviación ≤ ±0,5 °C. Atípicos = Grubbs solo si n ≥ 7; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Exactitud del sensor de temperatura ≤ <span class="por-confirmar">±0,5 °C</span> frente a patrón.<br>Calibración vigente.<br>Registro por comparación.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro de exactitud con data cruda y reporte<br>
   - Data cruda y reporte estadístico del análisis de exactitud del sensor de temperatura</p>
-  <p><strong>Referencia:</strong><br>Certificado del patrón de referencia.</p>
+  <p><strong>Nota:</strong><br>La tolerancia en rojo se confirma con el certificado.</p>
+  <p><strong>Referencia:</strong><br>EU GMP Anexo 15; ASME Sección VIII; ICH Q8(R2); USP &lt;711&gt;; 21 CFR 211.63; 21 CFR 211.68.</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-OQ-UC-024" class="ensayo" data-id="EQ-OQ-UC-024" data-fase="OQ" data-cond="ambas" data-familia="sistema-cremas-vacio" data-analisis="si">
@@ -421,14 +407,13 @@
   2) Repetir con agua a volumen máximo<br>
   3) Calcular las velocidades promedio de calentamiento y enfriamiento en cada caso<br>
   4) Procesar los datos crudos de temperatura contra tiempo en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Las velocidades de calentamiento y enfriamiento cumplen lo especificado a ambos volúmenes.<br>
-  Las curvas son reproducibles entre réplicas.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = velocidad de calentamiento; unidad = °C/min. Tipo de dato = continua. n = 3 mediciones por volumen. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = velocidad ≥ diseño. Atípicos = Grubbs solo si n ≥ 7; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Velocidad de calentamiento y enfriamiento ≥ <span class="por-confirmar">valor de diseño</span> con agua.<br>Sin sobrepasar el setpoint.<br>Registro por condición.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Curvas de calentamiento y enfriamiento con data cruda y reporte<br>
   - Data cruda y reporte estadístico del análisis de velocidad de calentamiento y enfriamiento</p>
-  <p><strong>Referencia:</strong><br>Especificación de operación del sistema.</p>
+  <p><strong>Nota:</strong><br>La velocidad en rojo se confirma con el diseño térmico y la URS.</p>
+  <p><strong>Referencia:</strong><br>EU GMP Anexo 15; ASME Sección VIII; ICH Q8(R2); USP &lt;711&gt;; 21 CFR 211.63; 21 CFR 211.68.</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-OQ-UC-025" class="ensayo" data-id="EQ-OQ-UC-025" data-fase="OQ" data-cond="ambas" data-familia="sistema-cremas-vacio" data-analisis="si">
@@ -439,14 +424,13 @@
   2) Registrar la temperatura a intervalos definidos durante el tiempo de observación<br>
   3) Determinar el sobreimpulso máximo y la banda de estabilidad alcanzada<br>
   4) Procesar los datos crudos de temperatura en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  El sobreimpulso no supera el límite especificado.<br>
-  La temperatura se mantiene dentro de la banda de estabilidad especificada.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = estabilidad de temperatura; unidad = °C. Tipo de dato = continua. n = 3 ventanas por setpoint. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = DE ≤ 0,5 °C y sobreimpulso ≤ 2 °C. Atípicos = Grubbs solo si n ≥ 7; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Estabilidad en el setpoint ±<span class="por-confirmar">0,5 °C</span> y sobreimpulso ≤ <span class="por-confirmar">2 °C</span>.<br>Sin oscilación sostenida.<br>Registro continuo.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro de estabilidad con data cruda y reporte<br>
   - Data cruda y reporte estadístico del análisis de estabilidad y sobreimpulso</p>
-  <p><strong>Referencia:</strong><br>Especificación de operación del sistema.</p>
+  <p><strong>Nota:</strong><br>Las tolerancias en rojo se confirman con el producto y el fabricante.</p>
+  <p><strong>Referencia:</strong><br>EU GMP Anexo 15; ASME Sección VIII; ICH Q8(R2); USP &lt;711&gt;; 21 CFR 211.63; 21 CFR 211.68.</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-OQ-UC-026" class="ensayo" data-id="EQ-OQ-UC-026" data-fase="OQ" data-cond="ambas" data-familia="sistema-cremas-vacio" data-analisis="si">
@@ -457,14 +441,13 @@
   2) Mapear con agua a volumen mínimo en el setpoint de rutina<br>
   3) Mapear con agua a volumen máximo en el setpoint de rutina<br>
   4) Procesar los datos crudos de mapeo en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  La dispersión entre puntos no supera el límite especificado a ambos volúmenes.<br>
-  No existen puntos fríos o calientes fuera de criterio.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = temperatura por punto; unidad = °C. Tipo de dato = continua. n = 4 puntos, 30 min. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = cada punto dentro de ±1 °C. Atípicos = Grubbs solo si n ≥ 7; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Uniformidad de temperatura del producto ≤ <span class="por-confirmar">±1 °C</span> entre puntos.<br>Con agitación en operación normal.<br>Registro por punto.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Mapas de temperatura con data cruda y reporte<br>
   - Data cruda y reporte estadístico del análisis de mapeo de temperatura</p>
-  <p><strong>Referencia:</strong><br>Especificación de operación del sistema.</p>
+  <p><strong>Nota:</strong><br>Una crema es mala conductora: sin agitación hay gradientes grandes.</p>
+  <p><strong>Referencia:</strong><br>EU GMP Anexo 15; ASME Sección VIII; ICH Q8(R2); USP &lt;711&gt;; 21 CFR 211.63; 21 CFR 211.68.</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-OQ-UC-027" class="ensayo" data-id="EQ-OQ-UC-027" data-fase="OQ" data-cond="ambas" data-familia="sistema-cremas-vacio" data-analisis="si">
@@ -475,14 +458,13 @@
   2) Verificar exactitud, estabilidad y calentamiento con las mismas verificaciones del recipiente principal<br>
   3) Registrar los resultados por auxiliar<br>
   4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Cada auxiliar cumple exactitud y estabilidad en su setpoint.<br>
-  Sin desvíos fuera de criterio.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = temperatura de fases; unidad = °C. Tipo de dato = continua. n = 3 lecturas por recipiente. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = cada fase dentro de rango. Atípicos = Grubbs solo si n ≥ 7; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Recipientes auxiliares: calentamiento, agitación y transferencia dentro de diseño.<br>Temperatura de cada fase dentro de rango.<br>Registro por recipiente.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registros de auxiliares con data cruda y reporte<br>
   - Data cruda y reporte estadístico del análisis de recipientes auxiliares</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante del sistema.</p>
+  <p><strong>Nota:</strong><br>Una fase a temperatura distinta cambia la emulsión.</p>
+  <p><strong>Referencia:</strong><br>EU GMP Anexo 15; ASME Sección VIII; ICH Q8(R2); USP &lt;711&gt;; 21 CFR 211.63; 21 CFR 211.68.</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-OQ-UC-028" class="ensayo" data-id="EQ-OQ-UC-028" data-fase="OQ" data-cond="ambas" data-familia="sistema-cremas-vacio" data-analisis="si">
@@ -493,14 +475,13 @@
   2) Verificar el retorno: temperatura o presión de retorno dentro de lo esperado<br>
   3) Verificar las trampas de vapor (si aplican): tipo, descarga y ausencia de vapor vivo<br>
   4) Procesar los datos crudos de presión y caudal en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Presión y caudal de suministro cumplen lo especificado.<br>
-  Las trampas descargan condensado sin paso de vapor vivo.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = condiciones de utilidades; unidad = bar y °C. Tipo de dato = continua. n = 3 lecturas por condición. Estadísticos = media, DE e IC 95 %. Regla de decisión = cada valor dentro de rango. Atípicos = Grubbs solo si n ≥ 7; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Suministro y retorno de vapor y agua dentro de rango durante la prueba.<br>Sin caídas ni golpe de ariete.<br>Registro al inicio y al final.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro de suministro y retorno con data cruda y reporte<br>
   - Data cruda y reporte estadístico del análisis de suministro de medio térmico</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante del sistema.</p>
+  <p><strong>Nota:</strong><br>Los rangos son los del diseño de servicios.</p>
+  <p><strong>Referencia:</strong><br>EU GMP Anexo 15; ASME Sección VIII; ICH Q8(R2); USP &lt;711&gt;; 21 CFR 211.63; 21 CFR 211.68.</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-OQ-UC-029" class="ensayo" data-id="EQ-OQ-UC-029" data-fase="OQ" data-cond="ambas" data-familia="sistema-cremas-vacio" data-analisis="si">
@@ -511,14 +492,13 @@
   2) Medir el caudal y el tiempo de transferencia<br>
   3) Verificar ausencia de retorno y de arrastre de aire<br>
   4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Caudal y tiempo de transferencia dentro de lo especificado.<br>
-  Sin retorno ni arrastre de aire.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = cantidad transferida por vacío; unidad = kg o L. Tipo de dato = continua. n = 3 transferencias. Estadísticos = media, DE e IC 95 %. Regla de decisión = error ≤ ±5 % de lo programado. Atípicos = Grubbs solo si n ≥ 7; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Transferencia de fases por vacío: caudal y cantidad transferida dentro de lo programado.<br>Sin obstrucción ni arrastre de aire.<br>Registro por transferencia.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro de transferencia con data cruda y reporte<br>
   - Data cruda y reporte estadístico del análisis de transferencia de fases</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante del sistema.</p>
+  <p><strong>Nota:</strong><br>La transferencia por vacío es la que evita la entrada de aire.</p>
+  <p><strong>Referencia:</strong><br>EU GMP Anexo 15; ASME Sección VIII; ICH Q8(R2); USP &lt;711&gt;; 21 CFR 211.63; 21 CFR 211.68.</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-OQ-UC-030" class="ensayo" data-id="EQ-OQ-UC-030" data-fase="OQ" data-cond="ambas" data-familia="sistema-cremas-vacio" data-analisis="si">
@@ -529,14 +509,13 @@
   2) Medir la velocidad de aspiración<br>
   3) Verificar ausencia de aglomerados, atascos y retorno de polvo<br>
   4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  La velocidad de aspiración cumple lo especificado.<br>
-  Sin aglomerados, atascos ni retorno de polvo.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = inducción de polvos; unidad = % aglomerados. Tipo de dato = continua. n = 3 series. Estadísticos = media, DE e IC 95 %. Regla de decisión = ≤ 1 % de aglomerados. Atípicos = Grubbs solo si n ≥ 7; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Inducción de polvos: velocidad de aspiración y ausencia de aglomerados ≤ <span class="por-confirmar">1 %</span>.<br>Sin polvo en el ambiente ni obstrucción.<br>Registro por condición.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro de inducción con data cruda y reporte<br>
   - Data cruda y reporte estadístico del análisis de inducción de polvos</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante del sistema.</p>
+  <p><strong>Nota:</strong><br>Aplica si hay inducción de sólidos; si no, No Aplica.</p>
+  <p><strong>Referencia:</strong><br>EU GMP Anexo 15; ASME Sección VIII; ICH Q8(R2); USP &lt;711&gt;; 21 CFR 211.63; 21 CFR 211.68.</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-OQ-UC-031" class="ensayo" data-id="EQ-OQ-UC-031" data-fase="OQ" data-cond="ambas" data-familia="sistema-cremas-vacio" data-analisis="si">
@@ -547,14 +526,13 @@
   2) Pesar o medir cada adición con instrumento independiente, por triplicado<br>
   3) Registrar la cantidad programada contra la realmente adicionada<br>
   4) Procesar los datos crudos de adiciones en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Cada adición está dentro de la tolerancia especificada.<br>
-  La repetibilidad cumple el criterio.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = exactitud de adiciones; unidad = kg o L. Tipo de dato = continua. n = 3 adiciones por tamaño. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = error ≤ ±0,5 %. Atípicos = Grubbs solo si n ≥ 7; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Adición de líquidos o aditivos con error ≤ <span class="por-confirmar">±0,5 %</span> de lo programado.<br>Sin deriva entre adiciones.<br>Registro por adición.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro de adiciones con data cruda y reporte<br>
   - Data cruda y reporte estadístico del análisis de exactitud de adiciones</p>
-  <p><strong>Referencia:</strong><br>Especificación de operación del sistema.</p>
+  <p><strong>Nota:</strong><br>La tolerancia en rojo se confirma con el producto; afecta la fórmula.</p>
+  <p><strong>Referencia:</strong><br>EU GMP Anexo 15; ASME Sección VIII; ICH Q8(R2); USP &lt;711&gt;; 21 CFR 211.63; 21 CFR 211.68.</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-OQ-UC-032" class="ensayo" data-id="EQ-OQ-UC-032" data-fase="OQ" data-cond="ambas" data-familia="sistema-cremas-vacio" data-analisis="si">
@@ -565,14 +543,13 @@
   2) Verificar el sensor de nivel contra volumen medido (si aplica)<br>
   3) Registrar por triplicado en cada nivel<br>
   4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  La indicación está dentro de tolerancia en todos los niveles.<br>
-  Las pesas patrón cuentan con certificado vigente.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = exactitud de pesaje; unidad = kg. Tipo de dato = continua. n = 5 puntos de calibración. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = error ≤ ±0,5 %. Atípicos = Grubbs solo si n ≥ 7; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Pesaje o nivel: calibración con pesas patrón, error ≤ <span class="por-confirmar">±0,5 %</span>.<br>Sin histéresis entre subida y bajada.<br>Registro por punto.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro de calibración con data cruda y reporte<br>
   - Data cruda y reporte estadístico del análisis de pesaje o nivel</p>
-  <p><strong>Referencia:</strong><br>Certificados de pesas patrón.</p>
+  <p><strong>Nota:</strong><br>La tolerancia en rojo se confirma con el certificado de las celdas.</p>
+  <p><strong>Referencia:</strong><br>EU GMP Anexo 15; ASME Sección VIII; ICH Q8(R2); USP &lt;711&gt;; 21 CFR 211.63; 21 CFR 211.68.</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-OQ-UC-033" class="ensayo" data-id="EQ-OQ-UC-033" data-fase="OQ" data-cond="ambas" data-familia="sistema-cremas-vacio" data-analisis="si">
@@ -583,14 +560,13 @@
   2) Cerrar la válvula y verificar ausencia de goteo durante el tiempo de observación<br>
   3) Descargar placebo y verificar ausencia de retención de material<br>
   4) Procesar los datos crudos de retención en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  La válvula abre y cierra completamente con estanqueidad.<br>
-  Sin goteo ni retención fuera de criterio.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = estanqueidad de la válvula de fondo; unidad = pasa/no pasa. Tipo de dato = atributo. n = 10 ciclos. Estadísticos = proporción de cumplimiento con IC binomial exacto. Regla de decisión = 0 goteo en 10 ciclos. Atípicos = Grubbs solo si n ≥ 7; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Válvula de fondo abre y cierra completa, con 0 goteo en <span class="por-confirmar">10 ciclos</span>.<br>Sin producto atrapado en la cavidad.<br>Registro de la prueba.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro con data cruda y reporte<br>
   - Data cruda y reporte estadístico del análisis de válvula de fondo</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante del sistema.</p>
+  <p><strong>Nota:</strong><br>Una válvula que retiene producto no se limpia.</p>
+  <p><strong>Referencia:</strong><br>EU GMP Anexo 15; ASME Sección VIII; ICH Q8(R2); USP &lt;711&gt;; 21 CFR 211.63; 21 CFR 211.68.</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-OQ-UC-034" class="ensayo" data-id="EQ-OQ-UC-034" data-fase="OQ" data-cond="ambas" data-familia="sistema-cremas-vacio" data-analisis="si">
@@ -601,14 +577,13 @@
   2) Medir el caudal y la presión de descarga, por triplicado<br>
   3) Verificar ausencia de cavitación y de calentamiento anormal<br>
   4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Caudal y presión dentro de lo especificado con producto viscoso.<br>
-  Sin cavitación sostenida.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = caudal de descarga; unidad = L/h. Tipo de dato = continua. n = 3 lecturas por condición. Estadísticos = media, DE e IC 95 %. Regla de decisión = desviación ≤ ±5 %. Atípicos = Grubbs solo si n ≥ 7; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Bomba de descarga: caudal y presión dentro del diseño.<br>Sin cavitación ni sobrepresión.<br>Registro por condición.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro con data cruda y reporte<br>
   - Data cruda y reporte estadístico del análisis de la bomba de descarga</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante de la bomba.</p>
+  <p><strong>Nota:</strong><br>Aplica si hay bomba de descarga; si no, No Aplica.</p>
+  <p><strong>Referencia:</strong><br>EU GMP Anexo 15; ASME Sección VIII; ICH Q8(R2); USP &lt;711&gt;; 21 CFR 211.63; 21 CFR 211.68.</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-OQ-UC-035" class="ensayo" data-id="EQ-OQ-UC-035" data-fase="OQ" data-cond="ambas" data-familia="sistema-cremas-vacio" data-analisis="si">
@@ -619,14 +594,13 @@
   2) Ejecutar el ciclo completo con placebo al volumen mínimo<br>
   3) Verificar la secuencia: carga por vacío, calentamiento, emulsificación, desaireación, enfriamiento y descarga<br>
   4) Procesar los datos crudos de cada etapa en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Ambos ciclos se completan según la secuencia aprobada.<br>
-  Sin alarmas ni desviaciones no justificadas.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = pasos del ciclo completo; unidad = pasa/no pasa. Tipo de dato = atributo. n = 100 % de los pasos del ciclo. Estadísticos = proporción de cumplimiento con IC binomial exacto. Regla de decisión = todos completados sin alarmas. Atípicos = Grubbs solo si n ≥ 7; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Ciclo completo con placebo y agua al volumen mínimo y máximo: el 100 % de los pasos completados.<br>Sin alarmas no tratadas ni fugas.<br>Registro por volumen.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registros de ciclo a volumen máximo y mínimo con data cruda y reporte<br>
   - Data cruda y reporte estadístico del análisis de ciclo completo</p>
-  <p><strong>Referencia:</strong><br>Especificación de operación del sistema.</p>
+  <p><strong>Nota:</strong><br>El volumen mínimo es el peor caso de mezcla y de sensor.</p>
+  <p><strong>Referencia:</strong><br>EU GMP Anexo 15; ASME Sección VIII; ICH Q8(R2); USP &lt;711&gt;; 21 CFR 211.63; 21 CFR 211.68.</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-OQ-UC-036" class="ensayo" data-id="EQ-OQ-UC-036" data-fase="OQ" data-cond="ambas" data-familia="sistema-cremas-vacio">
@@ -638,12 +612,11 @@
   3) Verificar el significado de la firma electrónica (revisión/aprobación) y su manifestación (nombre, fecha, significado)<br>
   4) Ejecutar el respaldo de recetas y parámetros y verificar su restauración en un entorno de prueba o según procedimiento<br>
   5) Verificar la sincronización de fecha y hora con la red (si aplica)</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Roles y accesos corresponden a lo aprobado.<br>
-  La pista de auditoría registra usuario, fecha, hora y significado; el respaldo restaura correctamente.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Registros del HMI: audit trail activo, usuarios y roles únicos, sin borrado.<br>Cambios de receta y ajustes registrados con usuario y hora.<br>Respaldo probado.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro de roles, pista de auditoría y respaldo verificados (anexo del informe)</p>
-  <p><strong>Referencia:</strong><br>21 CFR Parte 11 (registros y firmas electrónicas).</p>
+  <p><strong>Nota:</strong><br>Aplica si hay HMI con registros electrónicos.</p>
+  <p><strong>Referencia:</strong><br>EU GMP Anexo 15; ASME Sección VIII; ICH Q8(R2); USP &lt;711&gt;; 21 CFR 211.63; 21 CFR 211.68.</p>
 </article>
 
 <article data-bloque="6" id="art-EQ-OQ-UC-REF" class="ensayo tabla-info" data-id="EQ-OQ-UC-REF" data-fase="OQ" data-cond="ambas" data-familia="sistema-cremas-vacio">
