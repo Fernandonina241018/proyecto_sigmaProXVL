@@ -76,12 +76,11 @@
   1) Encender el instrumento y registrar la versión de firmware<br>
   2) Verificar que la autoprueba informa el estado del electrodo y de la temperatura<br>
   3) Conectar y desconectar el electrodo dentro del procedimiento permitido y verificar la detección</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  La autoprueba finaliza sin error.<br>
-  El instrumento detecta la presencia y ausencia del electrodo según el manual.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Autoprueba sin error y detección de electrodo presente y ausente.<br>El equipo informa el estado del electrodo.<br>Registro de la prueba.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro de encendido, autoprueba y detección de electrodo</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante; URS aprobada.</p>
+  <p><strong>Nota:</strong><br>Un electrodo agotado da lecturas plausibles pero falsas.</p>
+  <p><strong>Referencia:</strong><br>ISO/IEC 17025; USP &lt;41&gt;; USP &lt;791&gt;; 21 CFR 211.160(b).</p>
   </article>
 
   <article data-bloque="3" id="art-EQ-OQ-PH-002" class="ensayo" data-id="EQ-OQ-PH-002" data-fase="OQ" data-cond="ambas" data-familia="phmetro" data-analisis="si">
@@ -93,14 +92,13 @@
   3) Registrar la pendiente, el punto isopotencial y el estado de aceptación<br>
   4) Repetir la calibración al menos dos veces<br>
   5) Procesar los datos crudos de este ensayo en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia</p>
-  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o condiciones con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  La calibración finaliza y el instrumento informa pendiente y punto isopotencial dentro del criterio aprobado.<br>
-  El instrumento rechaza la calibración cuando el buffer está fuera de especificación (si la función está disponible).</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = pendiente de calibración; unidad = %. Tipo de dato = continua. n = 3 calibraciones con buffers. Estadísticos = media, DE e IC 95 %. Regla de decisión = pendiente 95-105 % y punto isopotencial en rango. Atípicos: Grubbs solo si n ≥ 7; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Calibración con buffers que cubre el rango de uso; pendiente 95-105 % y punto isopotencial en rango.<br>Al menos 2 buffers que abarquen la muestra.<br>Registro de pendiente y punto isopotencial.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro de calibración con buffers, pendiente y punto isopotencial<br>
   - Data cruda y reporte estadístico del análisis correspondiente</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante; URS aprobada.</p>
+  <p><strong>Nota:</strong><br>La pendiente en rojo se confirma con el fabricante; fuera de rango el electrodo está agotado.</p>
+  <p><strong>Referencia:</strong><br>ISO/IEC 17025; USP &lt;41&gt;; USP &lt;791&gt;; 21 CFR 211.160(b).</p>
   </article>
 
   <article data-bloque="3" id="art-EQ-OQ-PH-003" class="ensayo" data-id="EQ-OQ-PH-003" data-fase="OQ" data-cond="ambas" data-familia="phmetro" data-analisis="si">
@@ -111,13 +109,13 @@
   2) Registrar la lectura y la temperatura<br>
   3) Calcular la diferencia respecto del valor certificado<br>
   4) Procesar los datos crudos de este ensayo en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia</p>
-  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o condiciones con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  La diferencia en cada buffer está dentro del criterio definido en la URS aprobada.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = exactitud de pH; unidad = pH. Tipo de dato = continua. n = 3 buffers. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = desviación ≤ ±0,05 pH. Atípicos: no aplica a datos de atributo cuando el tipo es atributo; en variable continua, Grubbs solo si n ≥ 7. Toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Diferencia con el valor certificado del buffer ≤ <span class="por-confirmar">±0,05 pH</span> en cada buffer.<br>Buffers certificados y trazables, a temperatura de uso.<br>Registro por buffer.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro de exactitud por buffer con lectura y valor certificado<br>
   - Data cruda y reporte estadístico del análisis correspondiente</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante; URS aprobada; certificados de los buffers.</p>
+  <p><strong>Nota:</strong><br>La tolerancia en rojo se confirma con el método y la URS.</p>
+  <p><strong>Referencia:</strong><br>ISO/IEC 17025; USP &lt;41&gt;; USP &lt;791&gt;; 21 CFR 211.160(b).</p>
   </article>
 
   <article data-bloque="3" id="art-EQ-OQ-PH-004" class="ensayo" data-id="EQ-OQ-PH-004" data-fase="OQ" data-cond="ambas" data-familia="phmetro" data-analisis="si">
@@ -128,13 +126,13 @@
   2) Registrar al menos diez lecturas con estabilización entre cada una<br>
   3) Calcular la desviación estándar y el RSD<br>
   4) Procesar los datos crudos de este ensayo en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia</p>
-  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o condiciones con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  La desviación estándar o el RSD están dentro del criterio de la URS aprobada.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = repetibilidad; unidad = pH. Tipo de dato = continua. n = 10 lecturas. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = DE ≤ 0,02 pH. Atípicos: no aplica a datos de atributo cuando el tipo es atributo; en variable continua, Grubbs solo si n ≥ 7. Toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Repetibilidad: DE ≤ <span class="por-confirmar">0,02 pH</span> en 10 lecturas de la misma solución.<br>Sin agitación variable entre lecturas.<br>Registro por lectura.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro de lecturas repetidas con cálculo estadístico<br>
   - Data cruda y reporte estadístico del análisis correspondiente</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante; URS aprobada.</p>
+  <p><strong>Nota:</strong><br>La tolerancia en rojo se confirma con el método.</p>
+  <p><strong>Referencia:</strong><br>ISO/IEC 17025; USP &lt;41&gt;; USP &lt;791&gt;; 21 CFR 211.160(b).</p>
   </article>
 
   <article data-bloque="3" id="art-EQ-OQ-PH-005" class="ensayo" data-id="EQ-OQ-PH-005" data-fase="OQ" data-cond="ambas" data-familia="phmetro" data-analisis="si">
@@ -145,14 +143,13 @@
   2) Comparar la lectura con compensación activa y con la temperatura de referencia<br>
   3) Verificar la coincidencia entre el sensor de temperatura y el patrón<br>
   4) Procesar los datos crudos de este ensayo en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia</p>
-  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o condiciones con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  La lectura compensada está dentro del criterio de la URS aprobada en ambas temperaturas.<br>
-  El sensor de temperatura coincide con el patrón dentro del criterio aprobado.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = lectura con compensación; unidad = pH. Tipo de dato = continua. n = 3 lecturas por temperatura. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = desviación ≤ ±0,05 pH. Atípicos: no aplica a datos de atributo cuando el tipo es atributo; en variable continua, Grubbs solo si n ≥ 7. Toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Compensación de temperatura: lectura dentro de ±<span class="por-confirmar">0,05 pH</span> en ambas temperaturas.<br>Sensor de temperatura calibrado.<br>Registro por condición.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro de compensación de temperatura por punto<br>
   - Data cruda y reporte estadístico del análisis correspondiente</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante; URS aprobada.</p>
+  <p><strong>Nota:</strong><br>La compensación mal calibrada introduce un sesgo que no se ve a temperatura ambiente.</p>
+  <p><strong>Referencia:</strong><br>ISO/IEC 17025; USP &lt;41&gt;; USP &lt;791&gt;; 21 CFR 211.160(b).</p>
   </article>
 
   <article data-bloque="3" id="art-EQ-OQ-PH-006" class="ensayo" data-id="EQ-OQ-PH-006" data-fase="OQ" data-cond="ambas" data-familia="phmetro">
@@ -162,13 +159,11 @@
   1) Configurar el criterio de estabilidad y verificar que la lectura solo se acepta cuando estabiliza<br>
   2) Provocar las alarmas disponibles: calibración vencida, electrodo defectuoso y fuera de rango<br>
   3) Verificar el registro de fecha, hora y usuario, y la transferencia o impresión si aplica</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  El instrumento aplica el criterio de estabilidad configurado.<br>
-  Las alarmas actúan según el manual del fabricante.<br>
-  Los registros son trazables y no modificables por el usuario operativo (si aplica).</p>
+  <p><strong>Criterio de aceptación:</strong><br>Criterio de estabilidad aplicado y alarmas operativas según configuración.<br>El 100 % de las alarmas probadas.<br>Registro por alarma.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro de alarmas, estabilidad y control de datos</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante; 21 CFR Part 11 / EU GMP Anexo 11 (si aplica).</p>
+  <p><strong>Nota:</strong><br>Una lectura tomada sin estabilidad es una fuente de variabilidad silenciosa.</p>
+  <p><strong>Referencia:</strong><br>ISO/IEC 17025; USP &lt;41&gt;; USP &lt;791&gt;; 21 CFR 211.160(b).</p>
   </article>
 
   <article data-bloque="4" id="art-EQ-OQ-PH-RES" class="ensayo" data-id="EQ-OQ-PH-RES" data-fase="OQ" data-cond="ambas" data-familia="phmetro">

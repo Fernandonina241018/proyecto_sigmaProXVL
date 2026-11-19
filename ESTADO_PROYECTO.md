@@ -90,6 +90,33 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (StatAnalyzer Pro) co
 
 ## CAMBIOS RECIENTES
 
+### 2026-11-19 (326): Equipos lote 7 — instrumentos tipo L
+
+**Qué:** 121 ensayos de 17 familias de instrumentos analíticos al estándar (todos OQ).
+- **Viscosímetro 17, balanza 14**, y seis ensayos cada uno para pHmetro, UV-Vis, IR, espectrómetro, HPLC, GC, disolutor, desintegrador, friabilímetro, durómetro, Karl Fischer, TOC, incubadora, centrífuga y termómetro.
+- **Criterios con valor y fuente**: balanza USP `<41>` (2·DE/peso neto ≤ 0,10 %), pH ±0,05 y pendiente 95-105 %, UV ±1 nm y ±0,01 A, HPLC caudal ±2 % y RSD ≤ 1 %, GC ±2 %/±1 °C, disolutor 37 ± 0,5 °C y rpm ±4 %, desintegrador 55 ± 1 mm y 30 ± 1 ciclos/min, friabilímetro 25 ± 1 rpm y 100 vueltas, Karl Fischer deriva ≤ 10 µg/min, TOC LOD ≤ 50 ppb, incubadora ±1 °C, centrífuga ±2 %, termómetro ±0,1 °C.
+- **Sin `USP <1058>` escrito en el banco**: la referencia AIQ la agrega la configuración del protocolo según el tipo de equipo (el contrato `banco-tipo-equipos` lo exige así).
+- **Frases del contrato del viscosímetro preservadas**: «no lleva PQ», reproducibilidad en OQ (VS-009), No Aplica en VS-013/014/015 y USP `<912>` en VS-010.
+- `MIGRADAS` del contrato cubre 33 familias.
+
+**Estado medido:**
+```
+instrumentos L: 121 ensayos · 90 con valor numérico (74 %) · 0 con plan pendiente
+global: 787/1392 criterios con valor (57 %) · 111 clonados en 51 grupos · 31 sin plan
+```
+
+**Archivos afectados:**
+| Archivo | Cambio |
+|---------|--------|
+| `docs/banco-ensayos/equipos/oq-*.html` (17 instrumentos) | 121 ensayos reescritos |
+| `js/core/banco-equipos-data.js` | Regenerado |
+| `tests/bancos-contenido-equipos.test.js` | `MIGRADAS` ampliado |
+
+**Verificación:**
+```
+npm run preflight → protocolo:check OK, urs-ar:check OK, Vitest 1209, backend 154, E2E 14
+```
+
 ### 2026-11-19 (325): Equipos lote 6b — sistema de cremas al vacío
 
 **Qué:** 64 ensayos (8 IQ, 36 OQ, 20 PQ) al estándar, y el lote 6 queda completo.

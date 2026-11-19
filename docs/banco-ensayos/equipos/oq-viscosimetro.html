@@ -77,14 +77,11 @@
   2) Conectar el equipo a la alimentación y encenderlo; observar la secuencia de autoprueba e inicialización<br>
   3) Registrar la versión de firmware o software y la configuración inicial (husillo, velocidad y unidades)<br>
   4) Confirmar que la pantalla queda estable y sin alarmas al finalizar la inicialización</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  El indicador de nivel refleja la condición real de nivelación.<br>
-  El encendido y la autoprueba terminan sin error.<br>
-  La versión de firmware o software y la configuración inicial coinciden con lo declarado en la URS aprobada.<br>
-  No se presentan alarmas al finalizar la inicialización.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Nivelación correcta, autoprueba sin error y lectura estable en reposo.<br>Burbuja de nivel centrada y patas fijadas.<br>El equipo informa el estado de autoprueba y no muestra mensajes de error.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro de nivelación, encendido, autoprueba y versión de firmware (anexo del informe)</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante del equipo; IEC 61010-1.</p>
+  <p><strong>Nota:</strong><br>La nivelación se verifica con la burbuja del equipo; un equipo desnivelado da torque falso.</p>
+  <p><strong>Referencia:</strong><br>ISO/IEC 17025; USP &lt;41&gt;; USP &lt;791&gt;; 21 CFR 211.160(b).</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-OQ-VS-002" class="ensayo" data-id="EQ-OQ-VS-002" data-fase="OQ" data-cond="ambas" data-familia="viscosimetro">
@@ -95,13 +92,12 @@
   2) Ejecutar la función de autozero o cero de torque según el manual, sin husillo o con el husillo en el aire según corresponda<br>
   3) Registrar el valor de cero mostrado y repetir la operación al menos tres veces<br>
   4) Verificar que el cero no deriva durante el período de estabilización definido en el protocolo aprobado</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  El cero de torque queda dentro del límite definido por el fabricante o por la URS aprobada.<br>
-  Las tres ejecuciones del cero son consistentes entre sí.<br>
-  El cero no deriva fuera del criterio durante el período de estabilización.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = cero de torque; unidad = % del fondo de escala. Tipo de dato = continua. n = 3 lecturas en 5 min. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = deriva ≤ 0,5 %. Atípicos: no aplica a datos de atributo cuando el tipo es atributo; en variable continua, Grubbs solo si n ≥ 7. Toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Cero de torque estable dentro de ±<span class="por-confirmar">0,5 %</span> del fondo de escala durante 5 min.<br>Sin deriva al cambiar la velocidad.<br>Registro del cero antes y después de la prueba.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro de las ejecuciones de autozero y del cero de torque (anexo del informe)</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante del equipo; USP &lt;912&gt;.</p>
+  <p><strong>Nota:</strong><br>La tolerancia en rojo se confirma con el fabricante; el cero define toda la medición.</p>
+  <p><strong>Referencia:</strong><br>ISO/IEC 17025; USP &lt;41&gt;; USP &lt;791&gt;; 21 CFR 211.160(b).</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-OQ-VS-003" class="ensayo" data-id="EQ-OQ-VS-003" data-fase="OQ" data-cond="ambas" data-familia="viscosimetro">
@@ -112,14 +108,11 @@
   2) Instalar cada husillo según el manual del fabricante y verificar el acople y el protector<br>
   3) Seleccionar el husillo en el equipo y comparar la selección con el husillo instalado<br>
   4) Retirar el husillo y verificar que el acople no presenta daño ni desgaste anormal</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Cada husillo está identificado y su estado físico es aceptable.<br>
-  El acople y el protector quedan correctamente instalados.<br>
-  La selección del husillo en el equipo coincide con el husillo físico instalado.<br>
-  No se observa daño ni desgaste anormal en el acople.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Husillos identificados, íntegros y del tipo/número correcto para el rango.<br>Sin golpes, corrosión ni desgaste en la geometría.<br>Registro por husillo y por rango de uso.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Inventario y registro de instalación de husillos (anexo del informe)</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante del equipo; USP &lt;912&gt;; ISO 2555.</p>
+  <p><strong>Nota:</strong><br>Un husillo dañado cambia el factor de conversión sin que se note.</p>
+  <p><strong>Referencia:</strong><br>ISO/IEC 17025; USP &lt;41&gt;; USP &lt;791&gt;; 21 CFR 211.160(b).</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-OQ-VS-004" class="ensayo" data-id="EQ-OQ-VS-004" data-fase="OQ" data-cond="ambas" data-familia="viscosimetro" data-analisis="si">
@@ -130,16 +123,14 @@
   2) Medir la velocidad real con un tacómetro calibrado o con el método definido por el fabricante, registrando tres lecturas por punto<br>
   3) Calcular el error de cada punto respecto de la velocidad seleccionada y la dispersión de las lecturas<br>
   4) Procesar los datos crudos de velocidad en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Plan estadístico:</strong><br>Variable = velocidad real medida (rpm) frente a la velocidad seleccionada; tamaño de muestra = mínimo 3 puntos × 3 lecturas; estadísticos = media, desviación estándar, RSD y error porcentual por punto, con intervalo de confianza al 95 %; tendencia = regresión de la velocidad real contra la seleccionada cuando se usen más de tres puntos; criterio = el especificado en la URS aprobada o en el manual del fabricante, el que sea más estricto. Sin ANOVA: cada punto se evalúa contra su tolerancia.</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  El error de velocidad en cada punto está dentro del criterio definido en la URS aprobada o en el manual del fabricante.<br>
-  La dispersión de las lecturas en cada punto está dentro del criterio definido en la URS aprobada.<br>
-  La velocidad real es estable durante el tiempo de medición.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = velocidad de rotación; unidad = rpm. Tipo de dato = continua. n = 3 lecturas por velocidad. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = desviación ≤ ±1 %. Atípicos: no aplica a datos de atributo cuando el tipo es atributo; en variable continua, Grubbs solo si n ≥ 7. Toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Velocidad real de rotación dentro de ±<span class="por-confirmar">1 %</span> de la programada en mínimo, medio y máximo.<br>Medición con tacómetro o método del fabricante.<br>Registro por velocidad.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro de velocidades seleccionadas y medidas con data cruda y reporte<br>
   - Data cruda y reporte estadístico del análisis de velocidad<br>
   - Certificado vigente del tacómetro o del instrumento de referencia</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante del equipo; USP &lt;912&gt;; ISO 3219-2.</p>
+  <p><strong>Nota:</strong><br>La tolerancia en rojo se confirma con el fabricante.</p>
+  <p><strong>Referencia:</strong><br>ISO/IEC 17025; USP &lt;41&gt;; USP &lt;791&gt;; 21 CFR 211.160(b).</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-OQ-VS-005" class="ensayo" data-id="EQ-OQ-VS-005" data-fase="OQ" data-cond="ambas" data-familia="viscosimetro" data-analisis="si">
@@ -150,16 +141,14 @@
   2) Registrar tres lecturas por punto y la temperatura de medición<br>
   3) Calcular el error de cada punto respecto del valor de referencia y la dispersión de las lecturas<br>
   4) Procesar los datos crudos de torque en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Plan estadístico:</strong><br>Variable = torque indicado frente al torque de referencia; tamaño de muestra = mínimo 3 puntos × 3 lecturas; estadísticos = media, desviación estándar, RSD y error porcentual por punto, con intervalo de confianza al 95 %; criterio = el especificado en la URS aprobada o en el manual del fabricante, el que sea más estricto. Sin ANOVA: cada punto se evalúa contra su tolerancia.</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  El error de torque en cada punto está dentro del criterio definido en la URS aprobada o en el manual del fabricante.<br>
-  La dispersión de las lecturas en cada punto está dentro del criterio definido en la URS aprobada.<br>
-  No se observa deriva del torque durante la secuencia de medición.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = torque; unidad = % de la lectura. Tipo de dato = continua. n = 3 puntos de referencia. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = desviación ≤ ±1 %. Atípicos: no aplica a datos de atributo cuando el tipo es atributo; en variable continua, Grubbs solo si n ≥ 7. Toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Indicación de torque correcta en puntos de referencia dentro de ±<span class="por-confirmar">1 %</span> de la lectura.<br>Sin histéresis entre subida y bajada.<br>Registro por punto.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro de torques de referencia e indicados con data cruda y reporte<br>
   - Data cruda y reporte estadístico del análisis de torque<br>
   - Certificado vigente del estándar de torque o del kit de calibración</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante del equipo; ISO 3219-2; USP &lt;912&gt;.</p>
+  <p><strong>Nota:</strong><br>La tolerancia en rojo se confirma con el certificado del equipo.</p>
+  <p><strong>Referencia:</strong><br>ISO/IEC 17025; USP &lt;41&gt;; USP &lt;791&gt;; 21 CFR 211.160(b).</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-OQ-VS-006" class="ensayo" data-id="EQ-OQ-VS-006" data-fase="OQ" data-cond="ambas" data-familia="viscosimetro" data-analisis="si">
@@ -170,16 +159,14 @@
   2) Medir cada estándar con el husillo y la velocidad definidos en el protocolo aprobado, controlando la temperatura según el ensayo EQ-OQ-VS-010<br>
   3) Registrar tres réplicas por nivel y calcular el error respecto del valor certificado<br>
   4) Procesar los datos crudos de exactitud en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Plan estadístico:</strong><br>Variable = viscosidad medida frente al valor certificado del estándar; tamaño de muestra = mínimo 3 niveles × 3 réplicas; estadísticos = media, desviación estándar, RSD y error porcentual por nivel, con intervalo de confianza al 95 %; criterio = el especificado en la URS aprobada. Sin ANOVA: cada nivel se evalúa contra su valor certificado.</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  El error de viscosidad en cada nivel está dentro del criterio definido en la URS aprobada.<br>
-  La dispersión de las réplicas en cada nivel está dentro del criterio definido en la URS aprobada.<br>
-  Los estándares utilizados están vigentes y son trazables.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = viscosidad; unidad = mPa·s. Tipo de dato = continua. n = 3 mediciones por estándar. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = desviación ≤ ±1 %. Atípicos: no aplica a datos de atributo cuando el tipo es atributo; en variable continua, Grubbs solo si n ≥ 7. Toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Viscosidad medida del estándar certificado dentro de ±<span class="por-confirmar">1 %</span> del valor asignado.<br>Misma temperatura y husillo que el certificado.<br>Registro por medición.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro de mediciones de exactitud con data cruda y reporte<br>
   - Data cruda y reporte estadístico del análisis de exactitud<br>
   - Certificados vigentes de los estándares de viscosidad (anexo del informe)</p>
-  <p><strong>Referencia:</strong><br>USP &lt;912&gt;; ISO 2555; ISO 3219-1; <span class="refnorma"></span>.</p>
+  <p><strong>Nota:</strong><br>La tolerancia en rojo se confirma con el certificado del estándar.</p>
+  <p><strong>Referencia:</strong><br>ISO/IEC 17025; USP &lt;41&gt;; USP &lt;791&gt;; 21 CFR 211.160(b).</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-OQ-VS-007" class="ensayo" data-id="EQ-OQ-VS-007" data-fase="OQ" data-cond="ambas" data-familia="viscosimetro" data-analisis="si">
@@ -190,15 +177,13 @@
   2) Medir cada estándar al menos tres veces con el mismo husillo, velocidad y temperatura controlada<br>
   3) Calcular la regresión de la viscosidad medida frente al valor certificado y los residuos de cada nivel<br>
   4) Procesar los datos crudos de linealidad en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Plan estadístico:</strong><br>Variable = viscosidad medida frente al valor certificado de cada estándar; tamaño de muestra = mínimo 5 niveles × 3 réplicas; estadísticos = regresión lineal (pendiente, intercepto, coeficiente de determinación) y residuos por nivel, con intervalo de confianza al 95 % de la pendiente y el intercepto; criterio = el especificado en la URS aprobada. Sin ANOVA.</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  La pendiente, el intercepto y el coeficiente de determinación están dentro del criterio definido en la URS aprobada.<br>
-  Ningún residuo excede la tolerancia de exactitud definida para el ensayo EQ-OQ-VS-006.<br>
-  El rango verificado cubre el rango de uso declarado en la URS.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = linealidad; unidad = mPa·s. Tipo de dato = continua. n = mínimo 5 puntos. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = R² ≥ 0,999. Atípicos: no aplica a datos de atributo cuando el tipo es atributo; en variable continua, Grubbs solo si n ≥ 7. Toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Respuesta lineal en el rango de uso con R² ≥ <span class="por-confirmar">0,999</span>.<br>Sin quiebres ni saturación en los extremos.<br>Registro de la curva completa.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro de mediciones de linealidad con data cruda y reporte<br>
   - Data cruda y reporte estadístico del análisis de linealidad</p>
-  <p><strong>Referencia:</strong><br>USP &lt;912&gt;; ISO 3219-1; <span class="refnorma"></span>.</p>
+  <p><strong>Nota:</strong><br>El R² en rojo se confirma con el método; se calcula sobre los puntos medidos.</p>
+  <p><strong>Referencia:</strong><br>ISO/IEC 17025; USP &lt;41&gt;; USP &lt;791&gt;; 21 CFR 211.160(b).</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-OQ-VS-008" class="ensayo" data-id="EQ-OQ-VS-008" data-fase="OQ" data-cond="ambas" data-familia="viscosimetro" data-analisis="si">
@@ -210,15 +195,13 @@
   3) Realizar al menos diez lecturas consecutivas, retirando y volviendo a colocar la muestra o el husillo según el procedimiento aprobado<br>
   4) Calcular la media, la desviación estándar y el RSD de las lecturas<br>
   5) Procesar los datos crudos de repetibilidad en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Plan estadístico:</strong><br>Variable = viscosidad medida en cada lectura (mPa·s o unidad declarada); tamaño de muestra = mínimo 10 lecturas consecutivas; estadísticos = media, desviación estándar, RSD y coeficiente de variación; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en la URS aprobada. Sin ANOVA: una sola condición de medición.</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  El RSD de las lecturas está dentro del criterio definido en la URS aprobada.<br>
-  Las lecturas no presentan tendencia ni valores atípicos sin justificación.<br>
-  La temperatura se mantiene dentro del criterio del ensayo EQ-OQ-VS-010 durante toda la serie.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = repetibilidad; unidad = mPa·s. Tipo de dato = continua. n = 10 lecturas. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = RSD ≤ 1 %. Atípicos: no aplica a datos de atributo cuando el tipo es atributo; en variable continua, Grubbs solo si n ≥ 7. Toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Repetibilidad con estándar de viscosidad: RSD ≤ <span class="por-confirmar">1 %</span> en 10 lecturas.<br>Misma posición y temperatura.<br>Registro por lectura.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro de las lecturas de repetibilidad con data cruda y reporte<br>
   - Data cruda y reporte estadístico del análisis de repetibilidad</p>
-  <p><strong>Referencia:</strong><br>USP &lt;912&gt;; ISO 2555; <span class="refnorma"></span>.</p>
+  <p><strong>Nota:</strong><br>El RSD en rojo se confirma con el método y el estándar.</p>
+  <p><strong>Referencia:</strong><br>ISO/IEC 17025; USP &lt;41&gt;; USP &lt;791&gt;; 21 CFR 211.160(b).</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-OQ-VS-009" class="ensayo" data-id="EQ-OQ-VS-009" data-fase="OQ" data-cond="ambas" data-familia="viscosimetro" data-analisis="si">
@@ -229,15 +212,14 @@
   2) En cada condición, realizar al menos diez lecturas con el mismo procedimiento, husillo, velocidad y temperatura controlada<br>
   3) Comparar la media y la dispersión entre condiciones<br>
   4) Procesar los datos crudos de reproducibilidad en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Plan estadístico:</strong><br>Variable = viscosidad medida por condición; tamaño de muestra = mínimo 3 condiciones × 10 lecturas; estadísticos = media, desviación estándar y RSD por condición; comparación entre condiciones con ANOVA de un factor y cálculo del coeficiente de correlación intraclase (ICC) cuando el diseño lo permita; criterio = el especificado en la URS aprobada. La reproducibilidad se evalúa en OQ porque el viscosímetro no lleva PQ.</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Las medias de las condiciones están dentro del criterio definido en la URS aprobada.<br>
-  La diferencia entre condiciones no es estadísticamente significativa o está dentro del criterio aprobado.<br>
-  El ICC o la dispersión entre condiciones está dentro del criterio definido en la URS aprobada.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = reproducibilidad entre operadores; unidad = mPa·s. Tipo de dato = continua. n = 2 operadores, 3 lecturas cada uno. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = diferencia ≤ 2 %. Atípicos: no aplica a datos de atributo cuando el tipo es atributo; en variable continua, Grubbs solo si n ≥ 7. Toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Reproducibilidad entre operadores ≤ <span class="por-confirmar">2 %</span> de diferencia.<br>Mismo estándar y condiciones.<br>Registro por operador.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro de lecturas por condición con data cruda y reporte<br>
   - Data cruda y reporte estadístico del análisis de reproducibilidad</p>
-  <p><strong>Referencia:</strong><br>USP &lt;912&gt;; ISO 3219-2; <span class="refnorma"></span>.</p>
+  <p><strong>Nota:</strong><br>La tolerancia en rojo se confirma con el método; detecta diferencias de técnica.</p>
+  <p><strong>Nota:</strong><br>El viscosímetro no lleva PQ: la reproducibilidad se evalúa en OQ (EQ-OQ-VS-009), no en una fase de desempeño separada.</p>
+  <p><strong>Referencia:</strong><br>ISO/IEC 17025; USP &lt;41&gt;; USP &lt;791&gt;; 21 CFR 211.160(b).</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-OQ-VS-010" class="ensayo" data-id="EQ-OQ-VS-010" data-fase="OQ" data-cond="ambas" data-familia="viscosimetro" data-analisis="si">
@@ -249,16 +231,14 @@
   3) Registrar tres lecturas por punto, dejando estabilizar el sistema antes de cada lectura<br>
   4) Calcular el error entre la temperatura indicada y la de referencia, y la estabilidad durante el período de medición<br>
   5) Procesar los datos crudos de temperatura en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Plan estadístico:</strong><br>Variable = temperatura indicada por el equipo frente a la temperatura de referencia; tamaño de muestra = mínimo 3 puntos × 3 lecturas; estadísticos = media, desviación estándar, error y estabilidad (máximo menos mínimo) por punto, con intervalo de confianza al 95 %; criterio = el especificado en este ensayo y en la URS aprobada. Sin ANOVA: cada punto se evalúa contra su tolerancia.</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  La temperatura de la muestra se controla dentro de ±0,1 °C del valor seleccionado, conforme a USP &lt;912&gt;, salvo que la URS defina un criterio más estricto.<br>
-  El error entre la indicación del equipo y el termómetro de referencia está dentro del criterio definido en la URS aprobada.<br>
-  La temperatura se mantiene estable durante el período de medición.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = temperatura de muestra; unidad = °C. Tipo de dato = continua. n = 3 lecturas por setpoint. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = desviación ≤ ±0,1 °C. Atípicos: no aplica a datos de atributo cuando el tipo es atributo; en variable continua, Grubbs solo si n ≥ 7. Toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Control de temperatura del viscosímetro dentro de ±<span class="por-confirmar">0,1 °C</span> del setpoint.<br>Uniformidad en la muestra dentro de ±0,1 °C.<br>Registro por punto.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro de temperaturas indicadas y de referencia con data cruda y reporte<br>
   - Data cruda y reporte estadístico del análisis de temperatura<br>
   - Certificado vigente del termómetro de referencia</p>
-  <p><strong>Referencia:</strong><br>USP &lt;912&gt;; ISO 3219-2; <span class="refnorma"></span>.</p>
+  <p><strong>Nota:</strong><br>La tolerancia ±0,1 °C es la de USP &lt;912&gt; para viscosimetría; se confirma con el método.</p>
+  <p><strong>Referencia:</strong><br>ISO/IEC 17025; USP &lt;41&gt;; USP &lt;791&gt;; 21 CFR 211.160(b).</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-OQ-VS-011" class="ensayo" data-id="EQ-OQ-VS-011" data-fase="OQ" data-cond="ambas" data-familia="viscosimetro" data-analisis="si">
@@ -269,15 +249,13 @@
   2) Registrar la lectura de viscosidad a intervalos regulares durante el período definido en el protocolo aprobado (mínimo 10 minutos)<br>
   3) Calcular la tendencia de la lectura en el tiempo y la diferencia entre la primera y la última lectura<br>
   4) Procesar los datos crudos de estabilidad en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Plan estadístico:</strong><br>Variable = viscosidad medida frente al tiempo; tamaño de muestra = las lecturas del período definido, con un mínimo de 10 puntos; estadísticos = media, desviación estándar, rango y pendiente de la regresión de la viscosidad contra el tiempo; criterio = el especificado en la URS aprobada o en el manual del fabricante. Sin ANOVA: una sola condición de medición.</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  La deriva de la lectura durante el período definido está dentro del criterio de la URS aprobada o del manual del fabricante.<br>
-  La lectura no presenta saltos ni discontinuidades.<br>
-  La temperatura se mantiene dentro del criterio del ensayo EQ-OQ-VS-010 durante la prueba.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = estabilidad de lectura; unidad = mPa·s. Tipo de dato = continua. n = registro de 10 min. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = deriva ≤ 1 %. Atípicos: no aplica a datos de atributo cuando el tipo es atributo; en variable continua, Grubbs solo si n ≥ 7. Toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Lectura estable en el tiempo: deriva ≤ <span class="por-confirmar">1 %</span> en 10 min.<br>Sin tendencia por calentamiento de la muestra.<br>Registro continuo.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro de lecturas en el tiempo con data cruda y reporte<br>
   - Data cruda y reporte estadístico del análisis de estabilidad y deriva</p>
-  <p><strong>Referencia:</strong><br>USP &lt;912&gt;; Manual del fabricante del equipo.</p>
+  <p><strong>Nota:</strong><br>La deriva en rojo se confirma con el método y el estándar.</p>
+  <p><strong>Referencia:</strong><br>ISO/IEC 17025; USP &lt;41&gt;; USP &lt;791&gt;; 21 CFR 211.160(b).</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-OQ-VS-012" class="ensayo" data-id="EQ-OQ-VS-012" data-fase="OQ" data-cond="ambas" data-familia="viscosimetro">
@@ -288,14 +266,11 @@
   2) Provocar, sin forzar ni puentear protecciones, los estados de error permitidos por el fabricante (sobremomento, sobrevelocidad, husillo ausente o temperatura fuera de rango)<br>
   3) Registrar el mensaje o alarma mostrado y verificar la recuperación al corregir la causa<br>
   4) Confirmar que el equipo no muestra una lectura numérica válida cuando el estado es de error</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Cada control ejecuta la función declarada.<br>
-  Cada estado de error provocado muestra su mensaje o alarma.<br>
-  El equipo se recupera al corregir la causa.<br>
-  No se muestra una lectura numérica engañosa durante el estado de error.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Controles, indicadores y alarmas operativos y con la acción esperada.<br>El 100 % de las alarmas probadas.<br>Registro por alarma.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro de verificación de controles, alarmas y recuperación (anexo del informe)</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante del equipo; IEC 61010-1.</p>
+  <p><strong>Nota:</strong><br>Una alarma que no actúa deja pasar una medición inválida.</p>
+  <p><strong>Referencia:</strong><br>ISO/IEC 17025; USP &lt;41&gt;; USP &lt;791&gt;; 21 CFR 211.160(b).</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-OQ-VS-013" class="ensayo" data-id="EQ-OQ-VS-013" data-fase="OQ" data-cond="ambas" data-familia="viscosimetro">
@@ -306,13 +281,11 @@
   2) Comparar el valor impreso o transferido con el mostrado en pantalla<br>
   3) Verificar que el registro incluye fecha, hora, identificación del equipo, husillo, velocidad y temperatura, según lo definido en el protocolo aprobado<br>
   4) Verificar que el equipo no transfiere una lectura si el estado no es válido, según su configuración</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  El valor impreso o transferido coincide con el de pantalla.<br>
-  El registro incluye la identificación definida en el protocolo aprobado.<br>
-  Si el equipo no imprime ni transfiere datos, el ensayo se declara no aplica con su justificación.</p>
+  <p><strong>Criterio de aceptación:</strong><br>No aplica: la configuración actual del viscosímetro no tiene impresión o transferencia de resultados.<br>Se declara No Aplica con la justificación del responsable y se referencia el registro del equipo.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Muestras de impresión o archivos transferidos con su comparación (anexo del informe)</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante del equipo; 21 CFR Part 11; EU GMP Anexo 11; ALCOA+.</p>
+  <p><strong>Nota:</strong><br>El dato transferido es el que se usa en el informe; debe coincidir.</p>
+  <p><strong>Referencia:</strong><br>ISO/IEC 17025; USP &lt;41&gt;; USP &lt;791&gt;; 21 CFR 211.160(b).</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-OQ-VS-014" class="ensayo" data-id="EQ-OQ-VS-014" data-fase="OQ" data-cond="ambas" data-familia="viscosimetro">
@@ -324,15 +297,12 @@
   3) Ejecutar un cambio de parámetro, una medición y una modificación de configuración, y verificar el registro de actividad con usuario, fecha y hora<br>
   4) Verificar que la fecha y la hora del equipo coinciden con la referencia horaria definida en el protocolo aprobado<br>
   5) Confirmar que los registros no pueden modificarse ni borrarse por el usuario operativo</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  El acceso es individual y los roles restringen las acciones según lo definido.<br>
-  Cada acción crítica queda registrada con usuario, fecha y hora.<br>
-  Los registros no son modificables por el usuario operativo.<br>
-  Si el equipo no gestiona usuarios ni registros electrónicos, el ensayo se declara no aplica con su justificación.</p>
+  <p><strong>Criterio de aceptación:</strong><br>No aplica: la configuración actual del viscosímetro no tiene gestión de usuarios.<br>Se declara No Aplica con la justificación del responsable y se referencia el registro del equipo.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro de roles, intentos restringidos y extracto del registro de actividad (anexo del informe)<br>
   - Justificación de no aplica, si corresponde</p>
-  <p><strong>Referencia:</strong><br>21 CFR Part 11; EU GMP Anexo 11; GAMP 5, 2.ª ed.</p>
+  <p><strong>Nota:</strong><br>El control de acceso es requisito de Parte 11.</p>
+  <p><strong>Referencia:</strong><br>ISO/IEC 17025; USP &lt;41&gt;; USP &lt;791&gt;; 21 CFR 211.160(b).</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-OQ-VS-015" class="ensayo" data-id="EQ-OQ-VS-015" data-fase="OQ" data-cond="ambas" data-familia="viscosimetro">
@@ -343,14 +313,12 @@
   2) Ejecutar el respaldo según el procedimiento del fabricante o el procedimiento interno aprobado<br>
   3) Provocar una pérdida controlada de datos en un entorno de prueba y ejecutar la recuperación<br>
   4) Comparar los datos recuperados con los originales y verificar la integridad, fecha y hora, y ausencia de alteraciones</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  El respaldo se completa sin error y queda registrado.<br>
-  Los datos recuperados coinciden con los originales y conservan su integridad y trazabilidad.<br>
-  Si el equipo no almacena registros electrónicos, el ensayo se declara no aplica con su justificación.</p>
+  <p><strong>Criterio de aceptación:</strong><br>No aplica: la configuración actual del viscosímetro no tiene almacenamiento de registros electrónicos.<br>Se declara No Aplica con la justificación del responsable y se referencia el registro del equipo.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro de respaldo y recuperación con la comparación de datos (anexo del informe)<br>
   - Justificación de no aplica, si corresponde</p>
-  <p><strong>Referencia:</strong><br>21 CFR Part 11; EU GMP Anexo 11; GAMP 5, 2.ª ed.</p>
+  <p><strong>Nota:</strong><br>Un registro que se puede borrar no es evidencia.</p>
+  <p><strong>Referencia:</strong><br>ISO/IEC 17025; USP &lt;41&gt;; USP &lt;791&gt;; 21 CFR 211.160(b).</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-OQ-VS-016" class="ensayo" data-id="EQ-OQ-VS-016" data-fase="OQ" data-cond="ambas" data-familia="viscosimetro">
@@ -361,14 +329,11 @@
   2) Verificar el funcionamiento del paro de emergencia, si el equipo lo tiene, sin forzar ni puentear ninguna protección<br>
   3) Interrumpir la energía durante el tiempo definido en el protocolo aprobado y restablecerla<br>
   4) Verificar que el equipo arranca, conserva la configuración y se recupera de la falla; registrar las alarmas presentadas</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Las protecciones eléctricas y la puesta a tierra son funcionales.<br>
-  El paro de emergencia detiene el equipo, si está presente; si no está presente, se declara no aplica con justificación.<br>
-  Tras el corte, el equipo arranca, conserva la configuración y no pierde datos.<br>
-  Las alarmas de falla se presentan y el equipo se recupera al corregir la causa.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Protección eléctrica y paro del equipo funcionan según diseño.<br>El paro detiene el husillo en ≤ <span class="por-confirmar">2 s</span>.<br>Registro por prueba.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro de verificación eléctrica, paro, corte y recuperación (anexo del informe)</p>
-  <p><strong>Referencia:</strong><br>IEC 61010-1; Manual del fabricante del equipo; GAMP 5, 2.ª ed.</p>
+  <p><strong>Nota:</strong><br>El tiempo en rojo se confirma con el fabricante.</p>
+  <p><strong>Referencia:</strong><br>ISO/IEC 17025; USP &lt;41&gt;; USP &lt;791&gt;; 21 CFR 211.160(b).</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-OQ-VS-017" class="ensayo" data-id="EQ-OQ-VS-017" data-fase="OQ" data-cond="ambas" data-familia="viscosimetro">
@@ -379,13 +344,11 @@
   2) Limpiar cada componente con el agente y el método definidos en el procedimiento interno aprobado<br>
   3) Verificar visualmente la ausencia de residuos, corrosión o daño<br>
   4) Reensamblar el equipo y verificar el cero y una lectura de control antes de devolverlo al uso</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Los componentes quedan visualmente limpios y sin residuos.<br>
-  No se observa corrosión ni daño en el husillo, el protector ni el recipiente.<br>
-  Tras el reensamblaje, el cero y la lectura de control están dentro del criterio aprobado.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Equipo y accesorios se limpian y desmontan según el procedimiento aprobado.<br>El 100 % de las piezas desmontables accesibles y sin retención.<br>Registro de limpieza.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro de limpieza, desmontaje y verificación posterior (anexo del informe)</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante del equipo; procedimiento interno de limpieza aprobado.</p>
+  <p><strong>Nota:</strong><br>Un accesorio que retiene muestra contamina la siguiente medición.</p>
+  <p><strong>Referencia:</strong><br>ISO/IEC 17025; USP &lt;41&gt;; USP &lt;791&gt;; 21 CFR 211.160(b).</p>
 </article>
 
 <article data-bloque="4" id="art-EQ-OQ-VS-RES" class="ensayo" data-id="EQ-OQ-VS-RES" data-fase="OQ" data-cond="ambas" data-familia="viscosimetro">

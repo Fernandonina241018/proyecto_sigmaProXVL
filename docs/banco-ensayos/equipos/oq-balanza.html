@@ -75,12 +75,11 @@
   1) Nivelar la balanza con el indicador de nivel y registrar la posición de las patas de apoyo<br>
   2) Inclinar deliberadamente la balanza dentro del margen de seguridad del fabricante y verificar que el indicador o la alarma señalan el desnivel<br>
   3) Restablecer la nivelación y confirmar que el indicador vuelve a su estado normal</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  El indicador de nivel refleja la condición real de nivelación.<br>
-  La alarma o aviso de desnivel, si el equipo la tiene, se activa y se cancela al restablecer la nivelación.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Indicador de nivel refleja la condición real y la burbuja queda centrada.<br>La alarma de desnivel actúa al inclinar el equipo.<br>Registro de la prueba.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro de nivelación y respuesta del indicador (anexo del informe)</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante del equipo; <span class="refnorma"></span>.</p>
+  <p><strong>Nota:</strong><br>La nivelación afecta la repetibilidad; se verifica con la burbuja y la alarma.</p>
+  <p><strong>Referencia:</strong><br>ISO/IEC 17025; USP &lt;41&gt;; USP &lt;791&gt;; 21 CFR 211.160(b).</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-OQ-BA-002" class="ensayo" data-id="EQ-OQ-BA-002" data-fase="OQ" data-cond="ambas" data-familia="balanza">
@@ -91,13 +90,11 @@
   2) Verificar que la resolución (división de escala) mostrada coincide con la definida en el protocolo aprobado<br>
   3) Cambiar entre las unidades habilitadas y verificar la conversión mostrada<br>
   4) Accionar cada tecla (cero, tara, unidades, impresión) y verificar la función asociada</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  La pantalla muestra todos los caracteres sin fallas.<br>
-  La resolución y las unidades corresponden con lo definido en el protocolo aprobado.<br>
-  Cada tecla ejecuta su función.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Pantalla sin fallas, resolución y unidades coinciden con la configuración.<br>El 100 % de los segmentos probados.<br>Registro de la verificación.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro de verificación de pantalla, unidades y teclas (anexo del informe)</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante del equipo; URS aprobada.</p>
+  <p><strong>Nota:</strong><br>Una resolución distinta de la declarada cambia el redondeo de los pesajes.</p>
+  <p><strong>Referencia:</strong><br>ISO/IEC 17025; USP &lt;41&gt;; USP &lt;791&gt;; 21 CFR 211.160(b).</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-OQ-BA-003" class="ensayo" data-id="EQ-OQ-BA-003" data-fase="OQ" data-cond="ambas" data-familia="balanza">
@@ -109,14 +106,11 @@
   3) Ejecutar un ajuste, una modificación de parámetro y una pesada, y verificar el registro de actividad con usuario, fecha y hora<br>
   4) Verificar que la fecha y la hora del equipo coinciden con la referencia horaria definida en el protocolo aprobado<br>
   5) Confirmar que los registros no pueden modificarse ni borrarse por el usuario operativo</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  El acceso es individual y los roles restringen las acciones según lo definido.<br>
-  Cada acción crítica queda registrada con usuario, fecha y hora.<br>
-  Los registros no son modificables por el usuario operativo.<br>
-  Si el equipo no gestiona usuarios ni registros electrónicos, el ensayo se declara no aplica con su justificación.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Acceso individual por usuario y rol, con audit trail activo.<br>Sin cuentas compartidas; el 100 % de las acciones registradas.<br>Registro de usuarios.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro de roles, intentos restringidos y extracto del registro de actividad (anexo del informe)</p>
-  <p><strong>Referencia:</strong><br>21 CFR Part 11; GAMP5 2.ª ed.; EU GMP Anexo 11.</p>
+  <p><strong>Nota:</strong><br>El control de acceso es requisito de Parte 11.</p>
+  <p><strong>Referencia:</strong><br>ISO/IEC 17025; USP &lt;41&gt;; USP &lt;791&gt;; 21 CFR 211.160(b).</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-OQ-BA-004" class="ensayo" data-id="EQ-OQ-BA-004" data-fase="OQ" data-cond="ambas" data-familia="balanza">
@@ -127,12 +121,12 @@
   2) Verificar con una pesa patrón que la lectura posterior al ajuste está dentro del criterio definido en el protocolo aprobado<br>
   3) Verificar que el equipo registra el ajuste, o que el registro manual está definido en el procedimiento<br>
   4) Verificar el aviso por temperatura o por tiempo transcurrido que solicita un nuevo ajuste, si el equipo lo tiene</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  El ajuste se completa sin error y queda registrado.<br>
-  La lectura posterior al ajuste está dentro del criterio definido en el protocolo aprobado.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = error tras el ajuste; unidad = %. Tipo de dato = continua. n = 3 pesadas por pesa. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = error ≤ ±0,10 %. Atípicos: no aplica a datos de atributo cuando el tipo es atributo; en variable continua, Grubbs solo si n ≥ 7. Toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Ajuste interno o con pesa externa completado sin error y registrado.<br>Lectura posterior al ajuste dentro de ±<span class="por-confirmar">0,10 %</span> de la pesa.<br>Registro del ajuste.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro del ajuste y de la verificación posterior con pesa patrón (anexo del informe)</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante del equipo; <span class="refnorma"></span>.</p>
+  <p><strong>Nota:</strong><br>La tolerancia en rojo es la de USP &lt;41&gt; y se confirma con la pesa certificada.</p>
+  <p><strong>Referencia:</strong><br>ISO/IEC 17025; USP &lt;41&gt;; USP &lt;791&gt;; 21 CFR 211.160(b).</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-OQ-BA-005" class="ensayo" data-id="EQ-OQ-BA-005" data-fase="OQ" data-cond="ambas" data-familia="balanza" data-analisis="si">
@@ -144,14 +138,13 @@
   3) Colocar una pesa patrón y medir el tiempo hasta que aparece el indicador de estabilidad<br>
   4) Repetir la medición del tiempo de estabilización al menos tres veces<br>
   5) Procesar los datos crudos de la deriva del cero y del tiempo de estabilización en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Plan estadístico:</strong><br>Variable = lectura de cero (en unidades de masa) y tiempo de estabilización (s); tamaño de muestra = las lecturas del período definido y un mínimo de 3 mediciones de tiempo; estadísticos = media, desviación estándar y rango de las lecturas de cero, y media y máximo del tiempo; tendencia = pendiente de la regresión del cero contra el tiempo, para cuantificar la deriva; criterio = el especificado en el criterio de aceptación de este ensayo. Sin ANOVA: es un solo equipo en una sola condición.</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  La deriva del cero está dentro del criterio definido en el protocolo aprobado.<br>
-  El tiempo de estabilización está dentro del valor declarado por el fabricante o definido en el protocolo aprobado.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = deriva del cero; unidad = d. Tipo de dato = continua. n = registro de 30 min. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = ≤ 0,5 d. Atípicos: no aplica a datos de atributo cuando el tipo es atributo; en variable continua, Grubbs solo si n ≥ 7. Toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Deriva del cero ≤ <span class="por-confirmar">0,5 d</span> en 30 min y tiempo de estabilización ≤ <span class="por-confirmar">10 s</span>.<br>Sin carga, con la puerta cerrada.<br>Registro del cero al inicio y al final.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro de lecturas de cero y tiempos de estabilización con data cruda y reporte<br>
   - Data cruda y reporte estadístico de la deriva del cero y del tiempo de estabilización</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante del equipo; EURAMET cg-18.</p>
+  <p><strong>Nota:</strong><br>La tolerancia en rojo se confirma con la resolución (d) del equipo.</p>
+  <p><strong>Referencia:</strong><br>ISO/IEC 17025; USP &lt;41&gt;; USP &lt;791&gt;; 21 CFR 211.160(b).</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-OQ-BA-006" class="ensayo" data-id="EQ-OQ-BA-006" data-fase="OQ" data-cond="ambas" data-familia="balanza" data-analisis="si">
@@ -162,14 +155,13 @@
   2) Colocar y retirar la pesa al menos 10 veces, registrando la lectura en cada ocasión, con retorno a cero entre pesadas<br>
   3) Calcular la desviación estándar de las lecturas<br>
   4) Procesar los datos crudos de repetibilidad en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Plan estadístico:</strong><br>Variable = lectura de la pesa patrón (en unidades de masa); tamaño de muestra = mínimo 10 pesadas consecutivas; estadísticos = media, desviación estándar y RSD; cálculo del cociente 2 × SD / peso neto más pequeño, aplicando el piso de 0,41 d cuando corresponda; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo. Sin ANOVA ni comparación entre grupos.</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Dos veces la desviación estándar, dividida entre el peso neto más pequeño, no excede 0,10 % (USP &lt;41&gt;).<br>
-  Si la desviación estándar es menor que 0,41 d (d = división de escala), se usa 0,41 d en el cálculo.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = repetibilidad; unidad = %. Tipo de dato = continua. n = 10 pesadas. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = 2·DE/peso neto ≤ 0,10 %. Atípicos: no aplica a datos de atributo cuando el tipo es atributo; en variable continua, Grubbs solo si n ≥ 7. Toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Repetibilidad: 2 × DE / peso neto más pequeño ≤ <span class="por-confirmar">0,10 %</span> (USP &lt;41&gt;).<br>10 pesadas de la misma carga.<br>Registro por pesada.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro de las pesadas de repetibilidad con data cruda y reporte<br>
   - Data cruda y reporte estadístico del análisis de repetibilidad</p>
-  <p><strong>Referencia:</strong><br>USP &lt;41&gt;; USP &lt;1251&gt;; <span class="refnorma"></span>.</p>
+  <p><strong>Nota:</strong><br>El criterio en rojo es el de USP &lt;41&gt;; el peso neto más pequeño sale del uso real.</p>
+  <p><strong>Referencia:</strong><br>ISO/IEC 17025; USP &lt;41&gt;; USP &lt;791&gt;; 21 CFR 211.160(b).</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-OQ-BA-007" class="ensayo" data-id="EQ-OQ-BA-007" data-fase="OQ" data-cond="ambas" data-familia="balanza" data-analisis="si">
@@ -180,15 +172,14 @@
   2) Pesar cada pesa al menos tres veces, con retorno a cero entre pesadas, y registrar las lecturas<br>
   3) Calcular el error de cada punto como la diferencia entre la lectura media y el valor convencional de la pesa<br>
   4) Procesar los datos crudos de exactitud en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Plan estadístico:</strong><br>Variable = lectura de la balanza frente al valor convencional de la pesa en cada punto; tamaño de muestra = mínimo 3 pesadas por punto; estadísticos = media, desviación estándar y error (media menos valor nominal) por punto, con su intervalo de confianza al 95 %; criterio = el especificado en el criterio de aceptación de este ensayo. Sin ANOVA: cada punto se evalúa contra su tolerancia, sin comparar puntos entre sí.</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  El error en cada punto está dentro de ±0,10 % del valor de la pesa (USP &lt;41&gt;), o del criterio más estricto definido en el protocolo aprobado.<br>
-  La incertidumbre de las pesas patrón es compatible con la tolerancia que se verifica, según su certificado vigente.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = exactitud; unidad = %. Tipo de dato = continua. n = 5 puntos de pesada. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = error ≤ ±0,10 %. Atípicos: no aplica a datos de atributo cuando el tipo es atributo; en variable continua, Grubbs solo si n ≥ 7. Toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Error en cada punto ≤ ±<span class="por-confirmar">0,10 %</span> del valor de la pesa (USP &lt;41&gt;).<br>Pesas certificadas y trazables.<br>Registro por punto.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro de pesadas de exactitud por punto con data cruda y reporte<br>
   - Data cruda y reporte estadístico del análisis de exactitud<br>
   - Certificados vigentes de las pesas patrón (anexo del informe)</p>
-  <p><strong>Referencia:</strong><br>USP &lt;41&gt;; OIML R 76-1; <span class="refnorma"></span>.</p>
+  <p><strong>Nota:</strong><br>El criterio en rojo es el de USP &lt;41&gt; y se confirma con el certificado de las pesas.</p>
+  <p><strong>Referencia:</strong><br>ISO/IEC 17025; USP &lt;41&gt;; USP &lt;791&gt;; 21 CFR 211.160(b).</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-OQ-BA-008" class="ensayo" data-id="EQ-OQ-BA-008" data-fase="OQ" data-cond="ambas" data-familia="balanza" data-analisis="si">
@@ -199,14 +190,13 @@
   2) Pesar cada pesa al menos tres veces, en orden ascendente y luego descendente<br>
   3) Calcular la regresión de la lectura frente al valor nominal y los residuos de cada punto<br>
   4) Procesar los datos crudos de linealidad en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Plan estadístico:</strong><br>Variable = lectura de la balanza frente al valor nominal de cada pesa; tamaño de muestra = mínimo 5 puntos con 3 pesadas cada uno; estadísticos = regresión lineal (pendiente, intercepto, coeficiente de determinación) y residuos por punto; intervalo de confianza al 95 % de la pendiente y el intercepto; criterio = el especificado en el criterio de aceptación de este ensayo. Sin ANOVA.</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  El coeficiente de determinación y los residuos están dentro de lo definido en el protocolo aprobado.<br>
-  Ningún residuo excede la tolerancia de exactitud del ensayo de exactitud.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = linealidad; unidad = g. Tipo de dato = continua. n = mínimo 5 puntos. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = R² ≥ 0,999. Atípicos: no aplica a datos de atributo cuando el tipo es atributo; en variable continua, Grubbs solo si n ≥ 7. Toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Linealidad con R² ≥ <span class="por-confirmar">0,999</span> y residuos sin tendencia.<br>Mínimo 5 puntos en el rango de uso.<br>Registro de la curva.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro de pesadas de linealidad con data cruda y reporte<br>
   - Data cruda y reporte estadístico del análisis de linealidad</p>
-  <p><strong>Referencia:</strong><br>OIML R 76-1; EURAMET cg-18; <span class="refnorma"></span>.</p>
+  <p><strong>Nota:</strong><br>El R² en rojo se confirma con el criterio del método.</p>
+  <p><strong>Referencia:</strong><br>ISO/IEC 17025; USP &lt;41&gt;; USP &lt;791&gt;; 21 CFR 211.160(b).</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-OQ-BA-009" class="ensayo" data-id="EQ-OQ-BA-009" data-fase="OQ" data-cond="ambas" data-familia="balanza" data-analisis="si">
@@ -218,13 +208,13 @@
   3) Repetir la secuencia al menos tres veces<br>
   4) Calcular la diferencia de cada posición respecto del centro<br>
   5) Procesar los datos crudos de excentricidad en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Plan estadístico:</strong><br>Variable = lectura de la pesa en cada una de las 5 posiciones; tamaño de muestra = mínimo 3 secuencias completas; estadísticos = media por posición, diferencia respecto del centro y desviación estándar; comparación entre posiciones con ANOVA de un factor (posición) solo si el protocolo aprobado lo define; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  La diferencia entre cada posición y el centro está dentro del criterio definido en el protocolo aprobado.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = excentricidad; unidad = %. Tipo de dato = continua. n = 5 posiciones. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = diferencia ≤ 0,10 %. Atípicos: no aplica a datos de atributo cuando el tipo es atributo; en variable continua, Grubbs solo si n ≥ 7. Toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Diferencia entre posiciones de carga ≤ <span class="por-confirmar">0,10 %</span> respecto del centro.<br>Carga en centro, esquinas y bordes.<br>Registro por posición.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro de pesadas por posición con data cruda y reporte<br>
   - Data cruda y reporte estadístico del análisis de excentricidad</p>
-  <p><strong>Referencia:</strong><br>OIML R 76-1; EURAMET cg-18.</p>
+  <p><strong>Nota:</strong><br>La tolerancia en rojo se confirma con USP &lt;41&gt; y el plato real.</p>
+  <p><strong>Referencia:</strong><br>ISO/IEC 17025; USP &lt;41&gt;; USP &lt;791&gt;; 21 CFR 211.160(b).</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-OQ-BA-010" class="ensayo" data-id="EQ-OQ-BA-010" data-fase="OQ" data-cond="ambas" data-familia="balanza" data-analisis="si">
@@ -236,14 +226,13 @@
   3) Registrar el cero tras retirar la carga y repetir al menos tres veces<br>
   4) Comparar la lectura de un punto intermedio al subir y al bajar la carga<br>
   5) Procesar los datos crudos de retorno a cero e histéresis en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Plan estadístico:</strong><br>Variable = desplazamiento del cero tras la carga y diferencia entre lectura ascendente y descendente; tamaño de muestra = mínimo 3 ciclos; estadísticos = media, desviación estándar y máximo de las diferencias; criterio = el especificado en el criterio de aceptación de este ensayo. Sin ANOVA.</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  La diferencia del cero antes y después de la carga está dentro del criterio definido en el protocolo aprobado.<br>
-  La diferencia entre la lectura ascendente y descendente está dentro del criterio definido en el protocolo aprobado.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = retorno a cero; unidad = d. Tipo de dato = continua. n = 3 ciclos. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = diferencia ≤ 0,5 d. Atípicos: no aplica a datos de atributo cuando el tipo es atributo; en variable continua, Grubbs solo si n ≥ 7. Toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Retorno a cero tras retirar la carga: diferencia ≤ <span class="por-confirmar">0,5 d</span>.<br>Sin reajuste manual entre pesadas.<br>Registro de la prueba.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro de cero y lecturas ascendentes y descendentes con data cruda y reporte<br>
   - Data cruda y reporte estadístico del análisis de histéresis</p>
-  <p><strong>Referencia:</strong><br>OIML R 76-1; Manual del fabricante del equipo.</p>
+  <p><strong>Nota:</strong><br>La tolerancia en rojo se confirma con la resolución del equipo.</p>
+  <p><strong>Referencia:</strong><br>ISO/IEC 17025; USP &lt;41&gt;; USP &lt;791&gt;; 21 CFR 211.160(b).</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-OQ-BA-011" class="ensayo" data-id="EQ-OQ-BA-011" data-fase="OQ" data-cond="ambas" data-familia="balanza" data-analisis="si">
@@ -255,14 +244,13 @@
   3) Verificar que el peso mínimo calculado es menor que el peso neto más pequeño que se pesará en rutina<br>
   4) Documentar y rotular el peso mínimo en la balanza o en el procedimiento de uso<br>
   5) Procesar los datos crudos del peso mínimo en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Plan estadístico:</strong><br>Variable = desviación estándar de la serie de repetibilidad y peso mínimo calculado; tamaño de muestra = la serie de repetibilidad (mínimo 10 pesadas); estadísticos = desviación estándar, aplicando el piso de 0,41 d cuando corresponda, y peso mínimo resultante con el factor de USP &lt;1251&gt;; criterio = el especificado en el criterio de aceptación de este ensayo. Sin ANOVA.</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  El peso mínimo calculado está documentado y rotulado.<br>
-  El peso mínimo es menor o igual que el peso neto más pequeño de uso rutinario definido en el protocolo aprobado.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = peso mínimo; unidad = g. Tipo de dato = continua. n = 1 cálculo con 10 pesadas. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = peso mínimo ≤ peso neto de uso. Atípicos: no aplica a datos de atributo cuando el tipo es atributo; en variable continua, Grubbs solo si n ≥ 7. Toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Peso mínimo calculado y documentado, menor o igual al peso neto más pequeño del uso.<br>Cálculo con la repetibilidad medida.<br>Registro del cálculo y del rotulado.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Cálculo del peso mínimo con data cruda y reporte<br>
   - Data cruda y reporte estadístico del peso mínimo</p>
-  <p><strong>Referencia:</strong><br>USP &lt;41&gt;; USP &lt;1251&gt;.</p>
+  <p><strong>Nota:</strong><br>El peso mínimo debe alcanzar para el pesaje real; si no, no se puede usar la balanza para eso.</p>
+  <p><strong>Referencia:</strong><br>ISO/IEC 17025; USP &lt;41&gt;; USP &lt;791&gt;; 21 CFR 211.160(b).</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-OQ-BA-012" class="ensayo" data-id="EQ-OQ-BA-012" data-fase="OQ" data-cond="ambas" data-familia="balanza">
@@ -273,12 +261,11 @@
   2) Retirar la carga y verificar que la lectura vuelve a la normalidad<br>
   3) Provocar, si el fabricante lo permite, un estado de error no destructivo (por ejemplo, plato retirado) y verificar el mensaje<br>
   4) No se fuerza ni se puentea ningún dispositivo de protección</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  La sobrecarga se indica y no se muestra una lectura numérica engañosa.<br>
-  Cada error provocado muestra su mensaje y se recupera al corregir la causa.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Sobrecarga y errores se indican sin mostrar lectura numérica engañosa.<br>El 100 % de los estados de error probados.<br>Registro por prueba.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro de indicaciones de sobrecarga y error (anexo del informe)</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante del equipo.</p>
+  <p><strong>Nota:</strong><br>Una lectura engañosa en sobrecarga puede liberar un pesaje inválido.</p>
+  <p><strong>Referencia:</strong><br>ISO/IEC 17025; USP &lt;41&gt;; USP &lt;791&gt;; 21 CFR 211.160(b).</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-OQ-BA-013" class="ensayo" data-id="EQ-OQ-BA-013" data-fase="OQ" data-cond="ambas" data-familia="balanza">
@@ -289,13 +276,11 @@
   2) Interrumpir la energía durante el tiempo definido en el protocolo aprobado y restablecerla<br>
   3) Verificar que la balanza arranca, conserva la configuración y completa su calentamiento<br>
   4) Verificar con una pesa patrón que la lectura es correcta tras el restablecimiento</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  La configuración se conserva tras el corte.<br>
-  No se pierden ni alteran registros existentes.<br>
-  La lectura con pesa patrón tras el restablecimiento está dentro del criterio de exactitud.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Configuración conservada tras corte de energía y registros sin pérdida.<br>Sin cambios de calibración ni unidades.<br>Registro antes y después.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro de configuración antes y después del corte y verificación con pesa patrón (anexo del informe)</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante del equipo; GAMP5 2.ª ed.</p>
+  <p><strong>Nota:</strong><br>Un corte que resetea la calibración invalida los pesajes posteriores.</p>
+  <p><strong>Referencia:</strong><br>ISO/IEC 17025; USP &lt;41&gt;; USP &lt;791&gt;; 21 CFR 211.160(b).</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-OQ-BA-014" class="ensayo" data-id="EQ-OQ-BA-014" data-fase="OQ" data-cond="ambas" data-familia="balanza">
@@ -306,13 +291,11 @@
   2) Comparar el valor transferido o impreso con el mostrado en pantalla<br>
   3) Verificar que el registro incluye fecha, hora, identificación del equipo y del usuario, según lo definido en el protocolo aprobado<br>
   4) Verificar que un dato no se transfiere si la lectura no es estable, según la configuración del equipo</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  El valor transferido o impreso coincide con el de pantalla.<br>
-  El registro trae la identificación definida en el protocolo aprobado.<br>
-  Si el equipo no transfiere ni imprime datos, el ensayo se declara no aplica con su justificación.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Dato transferido o impreso coincide con la pantalla en el 100 % de los casos.<br>Identificación de muestra, fecha y usuario incluidas.<br>Registro de la comparación.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Muestras de impresión o archivos transferidos con su comparación (anexo del informe)</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante del equipo; 21 CFR Part 11; ALCOA+.</p>
+  <p><strong>Nota:</strong><br>El dato transferido es el que se usa en el cálculo; debe coincidir.</p>
+  <p><strong>Referencia:</strong><br>ISO/IEC 17025; USP &lt;41&gt;; USP &lt;791&gt;; 21 CFR 211.160(b).</p>
 </article>
 
 <article data-bloque="4" id="art-EQ-OQ-BA-RES" class="ensayo" data-id="EQ-OQ-BA-RES" data-fase="OQ" data-cond="ambas" data-familia="balanza">
