@@ -79,11 +79,12 @@
   4) Sin rearmar, intentar arrancar y confirmar que queda impedido<br>
   5) Rearmar según el fabricante y confirmar condición segura sin arranque solo<br>
   6) Repetir por cada parada y dejar el <span class="equipo">equipo</span> en condición segura</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Corte efectivo; estado seguro; sin arranque sin rearme.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = parada de emergencia; unidad = s. Tipo de dato = continua. n = 3 activaciones. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = corte ≤ 2 s. Atípicos = Grubbs solo si n ≥ 7; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>La parada de emergencia corta calefacción y bomba en ≤ <span class="por-confirmar">2 s</span>.<br>Estado seguro, sin reinicio automático.<br>Evento registrado.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro de la prueba con tiempos medidos</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante; GAMP5 2.ª ed.</p>
+  <p><strong>Nota:</strong><br>El tiempo en rojo se confirma con el fabricante.</p>
+  <p><strong>Referencia:</strong><br>EU GMP Anexo 15; USP &lt;731&gt;; ICH Q2(R2) (si aplica); 21 CFR 211.160(b); manual del fabricante.</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-OQ-VA-002" class="ensayo" data-id="EQ-OQ-VA-002" data-fase="OQ" data-cond="ambas" data-familia="horno-vacio">
@@ -96,11 +97,12 @@
   4) Confirmar el corte de la calefacción por el dispositivo independiente y su alarma<br>
   a) Corte efectivo al límite con el control principal inhabilitado<br>
   5) Restituir el control principal, normalizar y confirmar operación</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Protección independiente funcional al límite declarado.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = corte por sobretemperatura; unidad = °C. Tipo de dato = continua. n = 3 pruebas. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = corte ≤ setpoint + 5 °C. Atípicos = Grubbs solo si n ≥ 7; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>La protección de sobretemperatura es independiente y corta a setpoint + <span class="por-confirmar">5 °C</span>.<br>Rearme manual.<br>La actuación queda registrada.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro de la prueba con setpoint y respuesta</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante; EU GMP Anexo 15.</p>
+  <p><strong>Nota:</strong><br>El margen en rojo se confirma con el fabricante y el producto.</p>
+  <p><strong>Referencia:</strong><br>EU GMP Anexo 15; USP &lt;731&gt;; ICH Q2(R2) (si aplica); 21 CFR 211.160(b); manual del fabricante.</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-OQ-VA-003" class="ensayo" data-id="EQ-OQ-VA-003" data-fase="OQ" data-cond="ambas" data-familia="horno-vacio">
@@ -113,11 +115,12 @@
   3) Provocar o simular baja temperatura, falla de sensor (desconexión) y falla de vacío, según apliquen al modelo<br>
   4) Acusar cada alarma disponible, normalizar y confirmar el retorno a operación con el histórico completo<br>
   5) Registrar las alarmas que el modelo no tiene como No Aplica con justificación</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Todas las alarmas disponibles disparan, ejecutan su acción y quedan registradas.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = disparo de alarmas; unidad = pasa/no pasa. Tipo de dato = atributo. n = 3 repeticiones por alarma. Estadísticos = proporción de cumplimiento con IC binomial exacto. Regla de decisión = cada alarma dispara y actúa. Atípicos: no aplica a datos de atributo; toda exclusión se documenta y se conserva el registro original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Cada alarma dispara en su límite y ejecuta la acción.<br>Registro con fecha, hora, valor y usuario.<br>Prueba registrada por alarma.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Matriz de alarmas con límite, acción, tiempo y acuse</p>
-  <p><strong>Referencia:</strong><br>EU GMP Anexo 15; GAMP5 2.ª ed.</p>
+  <p><strong>Nota:</strong><br>Se prueban todas las alarmas del análisis de riesgo.</p>
+  <p><strong>Referencia:</strong><br>EU GMP Anexo 15; USP &lt;731&gt;; ICH Q2(R2) (si aplica); 21 CFR 211.160(b); manual del fabricante.</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-OQ-VA-004" class="ensayo" data-id="EQ-OQ-VA-004" data-fase="OQ" data-cond="ambas" data-familia="horno-vacio">
@@ -130,11 +133,11 @@
   4) Con vacío aplicado, intentar abrir y confirmar el bloqueo<br>
   a) Enclavamiento efectivo y vidrio íntegro<br>
   5) Registrar el resultado con evidencia fotográfica del vidrio</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Puerta enclavada y vidrio íntegro con protección.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Cierre, enclavamiento y protección contra implosión: la puerta no abre con vacío.<br>Apertura solo con presión igualada.<br>Registro de la prueba.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro de la prueba con evidencia fotográfica</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante; EU GMP Anexo 15.</p>
+  <p><strong>Nota:</strong><br>Abrir con vacío puede dañar la cámara y la carga.</p>
+  <p><strong>Referencia:</strong><br>EU GMP Anexo 15; USP &lt;731&gt;; ICH Q2(R2) (si aplica); 21 CFR 211.160(b); manual del fabricante.</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-OQ-VA-005" class="ensayo" data-id="EQ-OQ-VA-005" data-fase="OQ" data-cond="ambas" data-familia="horno-vacio">
@@ -148,11 +151,11 @@
   5) Restablecer y confirmar que no arranca solo y exige acción deliberada del operador<br>
   6) Rearrancar manualmente, confirmar operación normal y verificar integridad de registros (ALCOA+)<br>
   7) Anexar el registro del evento y la verificación de datos</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Estado seguro sin retroalimentación de aceite; sin arranque espontáneo; datos íntegros.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Ante falla de energía, la bomba se detiene y la cámara queda aislada; sin retroceso de aceite.<br>Ventilación de emergencia disponible si aplica.<br>Evento registrado.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro del evento con hora y verificación de datos</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante; GAMP5 2.ª ed.; 21 CFR Part 11.</p>
+  <p><strong>Nota:</strong><br>El retroceso de aceite contamina la cámara y el producto.</p>
+  <p><strong>Referencia:</strong><br>EU GMP Anexo 15; USP &lt;731&gt;; ICH Q2(R2) (si aplica); 21 CFR 211.160(b); manual del fabricante.</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-OQ-VA-006" class="ensayo" data-analisis="si" data-id="EQ-OQ-VA-006" data-fase="OQ" data-cond="ambas" data-familia="horno-vacio">
@@ -165,12 +168,13 @@
   4) Confirmar que el vacío requerido por los métodos se alcanza con margen<br>
   a) Presión mínima y tiempo dentro de lo previsto en las 3 repeticiones<br>
   5) Procesar los datos crudos de evacuated en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Vacío y tiempo conformes y repetibles.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = presión mínima y tiempo de evacuación; unidad = mbar y min. Tipo de dato = continua. n = 3 evacuaciones por condición. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = ≤ 1 mbar y ≤ 30 min. Atípicos = Grubbs solo si n ≥ 7; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Presión mínima alcanzable ≤ <span class="por-confirmar">1 mbar</span> y tiempo de evacuación ≤ <span class="por-confirmar">30 min</span>.<br>Medición con cámara vacía y con carga.<br>Registro por condición.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Curvas de evacuación por repetición<br>
   - Data cruda y reporte estadístico del análisis de evacuación</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante; métodos del laboratorio.</p>
+  <p><strong>Nota:</strong><br>Los valores en rojo se confirman con el diseño y la bomba instalada.</p>
+  <p><strong>Referencia:</strong><br>EU GMP Anexo 15; USP &lt;731&gt;; ICH Q2(R2) (si aplica); 21 CFR 211.160(b); manual del fabricante.</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-OQ-VA-007" class="ensayo" data-analisis="si" data-id="EQ-OQ-VA-007" data-fase="OQ" data-cond="ambas" data-familia="horno-vacio">
@@ -182,13 +186,14 @@
   3) Registrar por punto ambas lecturas y la diferencia<br>
   a) Diferencia dentro de la tolerancia del URS o del fabricante en los 3 puntos<br>
   4) Procesar los datos crudos de exactitud en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Exactitud conforme en todo el rango.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = exactitud del manómetro; unidad = mbar. Tipo de dato = continua. n = 3 comparaciones contra patrón. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = desviación ≤ ±10 %. Atípicos = Grubbs solo si n ≥ 7; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Exactitud del manómetro ≤ <span class="por-confirmar">±10 %</span> de la lectura frente a patrón.<br>Calibración vigente y trazable.<br>Registro por comparación.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Tabla de equipo contra patrón por punto<br>
   - Data cruda y reporte estadístico del análisis de exactitud<br>
   - Certificado del patrón de vacío</p>
-  <p><strong>Referencia:</strong><br><span class="refnorma"></span>; manual del fabricante.</p>
+  <p><strong>Nota:</strong><br>La tolerancia en rojo se confirma con el certificado del instrumento.</p>
+  <p><strong>Referencia:</strong><br>EU GMP Anexo 15; USP &lt;731&gt;; ICH Q2(R2) (si aplica); 21 CFR 211.160(b); manual del fabricante.</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-OQ-VA-008" class="ensayo" data-analisis="si" data-id="EQ-OQ-VA-008" data-fase="OQ" data-cond="ambas" data-familia="horno-vacio">
@@ -201,12 +206,13 @@
   4) Comparar contra el criterio de la URS registrado antes de iniciar<br>
   a) Tasa menor o igual al criterio URS<br>
   5) Procesar los datos crudos de fuga en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Tasa de fuga dentro del criterio URS.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = tasa de fuga en operación; unidad = mbar/h. Tipo de dato = continua. n = 3 pruebas de 60 min. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = ≤ 1 mbar/h. Atípicos = Grubbs solo si n ≥ 7; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Aumento de presión con la cámara aislada ≤ <span class="por-confirmar">1 mbar/h</span>.<br>Prueba de 60 min con registro de presión.<br>Sin fugas en puerta ni penetraciones.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Curva de aumento de presión con cálculo de tasa<br>
   - Data cruda y reporte estadístico del análisis de fuga</p>
-  <p><strong>Referencia:</strong><br>URS del equipo; ASTM F2338 (concepto de decaimiento de vacío).</p>
+  <p><strong>Nota:</strong><br>La tasa en rojo se confirma con el diseño y el fabricante.</p>
+  <p><strong>Referencia:</strong><br>EU GMP Anexo 15; USP &lt;731&gt;; ICH Q2(R2) (si aplica); 21 CFR 211.160(b); manual del fabricante.</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-OQ-VA-009" class="ensayo" data-analisis="si" data-id="EQ-OQ-VA-009" data-fase="OQ" data-cond="ambas" data-familia="horno-vacio">
@@ -218,12 +224,13 @@
   3) Confirmar que el vacío se mantiene dentro de banda pese al desgasificado inicial<br>
   a) Vacío estable dentro de banda durante el mantenimiento a T máxima<br>
   4) Procesar los datos crudos de estabilidad en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Vacío estable a temperatura máxima.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = estabilidad de vacío; unidad = mbar. Tipo de dato = continua. n = 3 ciclos. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = variación ≤ 10 %. Atípicos = Grubbs solo si n ≥ 7; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Vacío estable durante el calentamiento: variación ≤ <span class="por-confirmar">10 %</span> del valor de trabajo.<br>Sin desgasificación que rompa el vacío.<br>Registro continuo.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registros de presión y temperatura del mantenimiento<br>
   - Data cruda y reporte estadístico del análisis de estabilidad</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante; EU GMP Anexo 15.</p>
+  <p><strong>Nota:</strong><br>La desgasificación de la carga puede elevar la presión y arruinar el secado.</p>
+  <p><strong>Referencia:</strong><br>EU GMP Anexo 15; USP &lt;731&gt;; ICH Q2(R2) (si aplica); 21 CFR 211.160(b); manual del fabricante.</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-OQ-VA-010" class="ensayo" data-analisis="si" data-id="EQ-OQ-VA-010" data-fase="OQ" data-cond="ambas" data-familia="horno-vacio">
@@ -237,12 +244,13 @@
   a) Ventilación controlada sin remoción de material, con filtro íntegro<br>
   5) Procesar los datos crudos de ventilación en el módulo de análisis estadístico (cuando aplique) y anexar la data cruda y el reporte generado como evidencia de este ensayo<br>
   6) Sin purga: redactar la justificación de No Aplica con firma del ejecutor y del revisor</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Ventilación controlada con filtro íntegro, o No Aplica justificado y firmado.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = pureza del gas de purga; unidad = pasa/no pasa. Tipo de dato = atributo. n = 3 purgas. Estadísticos = proporción de cumplimiento con IC binomial exacto. Regla de decisión = sin ingreso de aire húmedo. Atípicos = Grubbs solo si n ≥ 7; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Válvula de ventilación y purga con gas seco operativas.<br>Sin ingreso de aire húmedo.<br>Registro de la purga.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro de ventilación con filtro, o justificación de No Aplica firmada<br>
   - Data cruda y reporte estadístico del análisis de ventilación</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante; EU GMP Anexo 15.</p>
+  <p><strong>Nota:</strong><br>Ventilar con aire húmedo reintroduce la humedad que se quiso sacar.</p>
+  <p><strong>Referencia:</strong><br>EU GMP Anexo 15; USP &lt;731&gt;; ICH Q2(R2) (si aplica); 21 CFR 211.160(b); manual del fabricante.</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-OQ-VA-011" class="ensayo" data-id="EQ-OQ-VA-011" data-fase="OQ" data-cond="ambas" data-familia="horno-vacio">
@@ -255,12 +263,12 @@
   4) Confirmar la compatibilidad con los solventes evaporados (tabla del fabricante o evaluación de riesgo)<br>
   a) Bomba mantenida con trampa operativa y compatibilidad confirmada<br>
   5) Registrar el resultado con el plan de mantenimiento asociado</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Bomba apta y compatible con el uso previsto.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Bomba: estado del aceite o tipo de bomba seca verificado.<br>Sin contaminación ni pérdida de capacidad.<br>Registro de mantenimiento.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Ficha de bomba y trampa con mantenimiento<br>
   - Evaluación de compatibilidad con solventes</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante; plan de mantenimiento.</p>
+  <p><strong>Nota:</strong><br>El aceite contaminado es la causa más común de pérdida de vacío.</p>
+  <p><strong>Referencia:</strong><br>EU GMP Anexo 15; USP &lt;731&gt;; ICH Q2(R2) (si aplica); 21 CFR 211.160(b); manual del fabricante.</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-OQ-VA-012" class="ensayo" data-analisis="si" data-id="EQ-OQ-VA-012" data-fase="OQ" data-cond="ambas" data-familia="horno-vacio">
@@ -273,13 +281,14 @@
   a) Diferencia menor o igual a ±0,5 °C o la tolerancia del URS<br>
   4) Repetir en todos los setpoints de la tabla<br>
   5) Procesar los datos crudos de exactitud en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Exactitud conforme en todos los setpoints.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = exactitud del sensor de temperatura; unidad = °C. Tipo de dato = continua. n = 3 comparaciones. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = desviación ≤ ±1 °C. Atípicos = Grubbs solo si n ≥ 7; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Exactitud del sensor de temperatura ≤ <span class="por-confirmar">±1 °C</span> frente a patrón.<br>Calibración vigente.<br>Registro por comparación.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Tabla de setpoints con control contra patrón<br>
   - Data cruda y reporte estadístico del análisis de exactitud<br>
   - Certificado del patrón</p>
-  <p><strong>Referencia:</strong><br><span class="refnorma"></span>; manual del fabricante.</p>
+  <p><strong>Nota:</strong><br>La tolerancia en rojo se confirma con el certificado.</p>
+  <p><strong>Referencia:</strong><br>EU GMP Anexo 15; USP &lt;731&gt;; ICH Q2(R2) (si aplica); 21 CFR 211.160(b); manual del fabricante.</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-OQ-VA-013" class="ensayo" data-analisis="si" data-id="EQ-OQ-VA-013" data-fase="OQ" data-cond="ambas" data-familia="horno-vacio">
@@ -292,12 +301,13 @@
   4) Calcular por setpoint el promedio, el rango y el sobreimpulso máximo<br>
   a) Estabilidad dentro de ±1 °C y sobreimpulso menor o igual al límite del fabricante<br>
   5) Procesar los datos crudos de estabilidad en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Estabilidad y sobreimpulso conformes en los tres setpoints.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = estabilidad de control; unidad = °C. Tipo de dato = continua. n = 3 ventanas por setpoint. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = DE ≤ 1 °C. Atípicos = Grubbs solo si n ≥ 7; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Estabilidad del control en setpoints bajo, medio y alto dentro de ±<span class="por-confirmar">1 °C</span>.<br>Sin oscilación sostenida.<br>Registro por setpoint.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registros de estabilidad y sobreimpulso por setpoint<br>
   - Data cruda y reporte estadístico del análisis de estabilidad</p>
-  <p><strong>Referencia:</strong><br><span class="refnorma"></span>; manual del fabricante.</p>
+  <p><strong>Nota:</strong><br>En vacío la transferencia térmica es menor y el control oscila más.</p>
+  <p><strong>Referencia:</strong><br>EU GMP Anexo 15; USP &lt;731&gt;; ICH Q2(R2) (si aplica); 21 CFR 211.160(b); manual del fabricante.</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-OQ-VA-014" class="ensayo" data-analisis="si" data-id="EQ-OQ-VA-014" data-fase="OQ" data-cond="ambas" data-familia="horno-vacio">
@@ -310,13 +320,13 @@
   4) Repetir en un segundo setpoint representativo<br>
   a) Tiempos dentro de lo previsto por el fabricante<br>
   5) Procesar los datos crudos de tiempos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Plan estadístico:</strong><br>Variable = tiempo medido en el procedimiento por repetición; tamaño de muestra = las repeticiones definidas en el procedimiento; estadísticos = media y rango de las repeticiones; criterio = todas las repeticiones dentro del tiempo definido; sin comparaciones entre grupos (no aplica ANOVA); valores atípicos con investigación documentada, sin exclusión silenciosa.</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Tiempos de calentamiento y recuperación conformes y repetibles.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = tiempo de calentamiento; unidad = min. Tipo de dato = continua. n = 3 arranques. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = sobreimpulso ≤ 5 °C. Atípicos = Grubbs solo si n ≥ 7; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Tiempo de calentamiento hasta el setpoint con vacío, con sobreimpulso ≤ <span class="por-confirmar">5 °C</span>.<br>Registro del perfil.<br>Sin sobrepasar el límite del producto.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Curvas de calentamiento y recuperación por setpoint<br>
   - Data cruda y reporte estadístico del análisis de tiempos</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante; EU GMP Anexo 15.</p>
+  <p><strong>Nota:</strong><br>El sobreimpulso en rojo se confirma con el producto y el fabricante.</p>
+  <p><strong>Referencia:</strong><br>EU GMP Anexo 15; USP &lt;731&gt;; ICH Q2(R2) (si aplica); 21 CFR 211.160(b); manual del fabricante.</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-OQ-VA-015" class="ensayo" data-analisis="si" data-id="EQ-OQ-VA-015" data-fase="OQ" data-cond="ambas" data-familia="horno-vacio">
@@ -329,12 +339,13 @@
   a) Diferencia menor o igual a ±1% o ±5 segundos, lo mayor<br>
   4) Sin temporizador: redactar la justificación de No Aplica con firma del ejecutor y del revisor<br>
   5) Procesar los datos crudos de tiempos en el módulo de análisis estadístico (cuando aplique) y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Temporizador exacto, o No Aplica justificado y firmado.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = temporizador; unidad = min. Tipo de dato = continua. n = 3 programas. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = desviación ≤ ±1 min. Atípicos = Grubbs solo si n ≥ 7; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Temporizador dentro de ±<span class="por-confirmar">1 min</span> frente a cronómetro de referencia.<br>Registro por programa.<br>Sin adelanto del conteo.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Tabla de tiempos equipo contra referencia, o justificación de No Aplica firmada<br>
   - Data cruda y reporte estadístico del análisis de tiempos</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante; EU GMP Anexo 15.</p>
+  <p><strong>Nota:</strong><br>El temporizador define el tiempo de proceso; un error acorta el secado.</p>
+  <p><strong>Referencia:</strong><br>EU GMP Anexo 15; USP &lt;731&gt;; ICH Q2(R2) (si aplica); 21 CFR 211.160(b); manual del fabricante.</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-OQ-VA-016" class="ensayo" data-analisis="si" data-id="EQ-OQ-VA-016" data-fase="OQ" data-cond="ambas" data-familia="horno-vacio">
@@ -346,13 +357,14 @@
   3) Calcular por sensor promedio, máximo y mínimo; ΔT entre sensores<br>
   a) Uniformidad dentro de la tolerancia en todos los setpoints<br>
   4) Procesar los datos crudos del mapeo en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Mapeo conforme en todos los setpoints con sensores justificados.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = temperatura por punto; unidad = °C. Tipo de dato = continua. n = mínimo 9 puntos, 60 min. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = cada punto dentro de ±3 °C. Atípicos = Grubbs solo si n ≥ 7; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Mapeo con el vacío de trabajo en cada setpoint, mínimo <span class="por-confirmar">9 puntos</span>.<br>Uniformidad ≤ <span class="por-confirmar">±3 °C</span> en todos los puntos.<br>Registro continuo por punto.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Plano de sensores con justificación por volumen<br>
   - Curvas y tabla por sensor y setpoint<br>
   - Data cruda y reporte estadístico del análisis del mapeo</p>
-  <p><strong>Referencia:</strong><br>DIN 12880 (hornos); OMS TRS 1010 Anexo 7.</p>
+  <p><strong>Nota:</strong><br>La uniformidad en vacío es peor que a presión atmosférica; el valor en rojo se confirma con la URS.</p>
+  <p><strong>Referencia:</strong><br>EU GMP Anexo 15; USP &lt;731&gt;; ICH Q2(R2) (si aplica); 21 CFR 211.160(b); manual del fabricante.</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-OQ-VA-017" class="ensayo" data-analisis="si" data-id="EQ-OQ-VA-017" data-fase="OQ" data-cond="ambas" data-familia="horno-vacio">
@@ -364,12 +376,13 @@
   3) Confirmar estabilidad sostenida durante todo el periodo<br>
   a) Periodo completo ejecutado con estabilidad sostenida<br>
   4) Procesar los datos crudos de duración en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Duración justificada y ejecutada con estabilidad sostenida.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = duración del mapeo; unidad = min. Tipo de dato = continua. n = 1 mapeo por setpoint. Estadísticos = media, DE e IC 95 %. Regla de decisión = duración justificada y sin huecos. Atípicos = Grubbs solo si n ≥ 7; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Duración del mapeo justificada (<span class="por-confirmar">≥ 60 min</span> por setpoint) y sin huecos.<br>Justificación documentada antes de la corrida.<br>Registro completo.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Justificación de la duración por setpoint<br>
   - Data cruda y reporte estadístico del análisis de duración</p>
-  <p><strong>Referencia:</strong><br>URS del equipo; EU GMP Anexo 15.</p>
+  <p><strong>Nota:</strong><br>La duración en rojo se confirma con la estabilidad térmica del horno.</p>
+  <p><strong>Referencia:</strong><br>EU GMP Anexo 15; USP &lt;731&gt;; ICH Q2(R2) (si aplica); 21 CFR 211.160(b); manual del fabricante.</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-OQ-VA-018" class="ensayo" data-analisis="si" data-id="EQ-OQ-VA-018" data-fase="OQ" data-cond="ambas" data-familia="horno-vacio">
@@ -382,12 +395,13 @@
   4) Reubicar el monitoreo si no está en posición representativa y registrar la nueva posición<br>
   a) Puntos identificados con sensores en posiciones representativas<br>
   5) Procesar los datos crudos de extremos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Puntos identificados con monitoreo representativo.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = temperatura por punto con vacío; unidad = °C. Tipo de dato = continua. n = mínimo 9 puntos. Estadísticos = media, DE e IC 95 %. Regla de decisión = punto frío identificado con vacío de trabajo. Atípicos = Grubbs solo si n ≥ 7; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Punto frío y caliente identificados con vacío de trabajo.<br>El sensor de control se ubica en el punto frío o se justifica.<br>Registro por punto.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Plano con puntos extremos y posición de sensores<br>
   - Data cruda y reporte estadístico del análisis de extremos</p>
-  <p><strong>Referencia:</strong><br>DIN 12880 (hornos); OMS TRS 1010 Anexo 7.</p>
+  <p><strong>Nota:</strong><br>Con vacío, el punto frío cambia respecto de la operación a presión atmosférica.</p>
+  <p><strong>Referencia:</strong><br>EU GMP Anexo 15; USP &lt;731&gt;; ICH Q2(R2) (si aplica); 21 CFR 211.160(b); manual del fabricante.</p>
 </article>
 
 <article data-bloque="4" id="art-EQ-OQ-VA-RES" class="ensayo" data-id="EQ-OQ-VA-RES" data-fase="OQ" data-cond="ambas" data-familia="horno-vacio">

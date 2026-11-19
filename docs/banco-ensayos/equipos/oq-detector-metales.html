@@ -26,12 +26,12 @@
   1) Con la línea en marcha sin producto, accionar la parada de emergencia<br>
   2) Verificar la detención de la banda o del flujo y el estado seguro del cabezal<br>
   3) Restablecer y verificar el rearranque controlado sin pérdida de ajustes</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  La línea se detiene y queda en estado seguro.<br>
-  No existe rearranque espontáneo.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = parada de emergencia; unidad = s. Tipo de dato = continua. n = 3 activaciones. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = detención ≤ 2 s. Atípicos = Grubbs solo si n ≥ 7; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>La parada de emergencia detiene la línea y deja el equipo en estado seguro en ≤ <span class="por-confirmar">2 s</span>.<br>Rearme manual, sin reinicio automático.<br>Evento registrado con hora y usuario.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro de parada de emergencia (anexo del informe)</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante del detector de metales.</p>
+  <p><strong>Nota:</strong><br>El tiempo en rojo se confirma con el fabricante y el análisis de riesgo.</p>
+  <p><strong>Referencia:</strong><br>21 CFR 211.125; EU GMP Anexo 15; ISO 22000 (referencia de detección); manual del fabricante; 21 CFR 211.160(b).</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-OQ-DM-002" class="ensayo" data-id="EQ-OQ-DM-002" data-fase="OQ" data-cond="ambas">
@@ -40,12 +40,12 @@
   <p><strong>Procedimiento:</strong><br>
   1) Simular cada condición de alarma aplicable y verificar disparo y acción<br>
   2) Verificar el registro de cada alarma en el histórico del equipo o de línea</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Cada alarma dispara ante su condición y ejecuta su acción asociada.<br>
-  Todas quedan registradas.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = disparo de alarmas; unidad = pasa/no pasa. Tipo de dato = atributo. n = 3 repeticiones por alarma. Estadísticos = proporción de cumplimiento con IC binomial exacto. Regla de decisión = cada alarma dispara y actúa. Atípicos: no aplica a datos de atributo; toda exclusión se documenta y se conserva el registro original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Cada alarma dispara y ejecuta su acción: falla del detector, rechazo lleno y pérdida de aire.<br>Registro con fecha, hora, valor y usuario.<br>Prueba registrada por alarma.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Matriz de alarmas con disparo y acción verificados (anexo del informe)</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante del detector de metales.</p>
+  <p><strong>Nota:</strong><br>Se prueban todas las alarmas del análisis de riesgo.</p>
+  <p><strong>Referencia:</strong><br>21 CFR 211.125; EU GMP Anexo 15; ISO 22000 (referencia de detección); manual del fabricante; 21 CFR 211.160(b).</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-OQ-DM-003" class="ensayo" data-id="EQ-OQ-DM-003" data-fase="OQ" data-cond="ambas">
@@ -56,12 +56,11 @@
   2) Interrumpir el aire comprimido (si aplica al rechazo) y verificar la acción segura<br>
   3) Simular la falla interna según el procedimiento del fabricante y verificar que ningún producto pasa sin detección<br>
   4) Medir el tiempo de detención de la línea y de actuación del rechazo en cada caso</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Ante cualquier falla el producto no pasa sin detección.<br>
-  La línea se detiene o el producto se desvía a rechazo, dentro de los tiempos definidos en el protocolo aprobado.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Ante pérdida de energía, de aire o falla interna, el equipo se detiene o rechaza; no sigue pasando producto sin verificar.<br>La línea se detiene en ≤ <span class="por-confirmar">2 s</span>.<br>Evento registrado.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro de falla segura (anexo del informe)</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante del detector de metales.</p>
+  <p><strong>Nota:</strong><br>Un equipo que sigue sin detector libera producto contaminado.</p>
+  <p><strong>Referencia:</strong><br>21 CFR 211.125; EU GMP Anexo 15; ISO 22000 (referencia de detección); manual del fabricante; 21 CFR 211.160(b).</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-OQ-DM-004" class="ensayo" data-id="EQ-OQ-DM-004" data-fase="OQ" data-cond="ambas">
@@ -72,12 +71,11 @@
   2) Verificar el estado seguro y la ausencia de arranque espontáneo al retornar<br>
   3) Verificar que los ajustes de sensibilidad se conservan y el equipo vuelve al estado calibrado<br>
   4) Verificar con una pieza de prueba que la detección sigue operativa</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Estado seguro sin arranque espontáneo.<br>
-  Sensibilidad conservada tras la recuperación.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Ante falla de energía queda en estado seguro, sin arranque espontáneo.<br>El producto en línea se reinspecciona según procedimiento.<br>Evento registrado.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro de falla y recuperación de energía (anexo del informe)</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante del detector de metales.</p>
+  <p><strong>Nota:</strong><br>La reinspección del producto en línea se define antes de la prueba.</p>
+  <p><strong>Referencia:</strong><br>21 CFR 211.125; EU GMP Anexo 15; ISO 22000 (referencia de detección); manual del fabricante; 21 CFR 211.160(b).</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-OQ-DM-005" class="ensayo" data-id="EQ-OQ-DM-005" data-fase="OQ" data-cond="ambas">
@@ -87,12 +85,11 @@
   1) Verificar el cierre o llave del contenedor de rechazo<br>
   2) Abrir el contenedor y verificar que se genera la alarma o parada definida<br>
   3) Verificar el registro del evento</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Solo personal autorizado puede abrir el contenedor.<br>
-  La apertura genera alarma.</p>
+  <p><strong>Criterio de aceptación:</strong><br>El contenedor de rechazo solo lo abre personal autorizado y registra la apertura.<br>Alarma cuando está lleno o abierto.<br>Registro por evento.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro del contenedor de rechazo (anexo del informe)</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante del detector de metales.</p>
+  <p><strong>Nota:</strong><br>Un rechazo accesible permite reintroducir producto contaminado.</p>
+  <p><strong>Referencia:</strong><br>21 CFR 211.125; EU GMP Anexo 15; ISO 22000 (referencia de detección); manual del fabricante; 21 CFR 211.160(b).</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-OQ-DM-006" class="ensayo" data-id="EQ-OQ-DM-006" data-fase="OQ" data-cond="ambas" data-analisis="si">
@@ -102,13 +99,13 @@
   1) Pasar cada pieza de prueba certificada (ferrosa, no ferrosa y de acero inoxidable, en cada tamaño definido) por el centro de la apertura<br>
   2) Registrar la detección de cada pasada, por triplicado como mínimo<br>
   3) Procesar los datos crudos de detección en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Detección del 100% de las pasadas en cada tipo de metal y tamaño.<br>
-  Sin piezas no detectadas en el centro de la apertura.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = sensibilidad por tipo de metal; unidad = mm. Tipo de dato = continua. n = 10 pasadas por tipo y tamaño. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = 100 % detectado en cada tipo. Atípicos = Grubbs solo si n ≥ 7; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Sensibilidad con piezas de Fe, no Fe y acero inoxidable según especificación (<span class="por-confirmar">Fe 1,0 / no Fe 1,2 / SS 1,5 mm</span>).<br>Cada tipo detectado en el 100 % de las pasadas.<br>Registro por tipo y tamaño.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro de sensibilidad con data cruda y reporte<br>
   - Data cruda y reporte estadístico del análisis de sensibilidad por tipo de metal</p>
-  <p><strong>Referencia:</strong><br>Certificados de las piezas de prueba.</p>
+  <p><strong>Nota:</strong><br>Los tamaños en rojo se confirman con el producto y el fabricante; son propuestas típicas.</p>
+  <p><strong>Referencia:</strong><br>21 CFR 211.125; EU GMP Anexo 15; ISO 22000 (referencia de detección); manual del fabricante; 21 CFR 211.160(b).</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-OQ-DM-007" class="ensayo" data-id="EQ-OQ-DM-007" data-fase="OQ" data-cond="ambas" data-analisis="si">
@@ -118,13 +115,13 @@
   1) Pasar las piezas de prueba por el centro, los bordes y las esquinas de la apertura<br>
   2) Registrar la señal o detección en cada posición, por triplicado<br>
   3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Detección del 100% en todas las posiciones.<br>
-  La variación entre posiciones queda registrada y dentro de lo esperado.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = sensibilidad por posición; unidad = %. Tipo de dato = continua. n = 10 pasadas por posición. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = 100 % detectado en todas las posiciones. Atípicos = Grubbs solo si n ≥ 7; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Sensibilidad en el centro y en los bordes de la apertura.<br>Cada posición detecta la pieza de prueba.<br>Registro por posición.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro por posición con data cruda y reporte<br>
   - Data cruda y reporte estadístico del análisis de sensibilidad por posición</p>
-  <p><strong>Referencia:</strong><br>Certificados de las piezas de prueba.</p>
+  <p><strong>Nota:</strong><br>Los bordes son la zona de menor sensibilidad; medir solo el centro sobreestima el equipo.</p>
+  <p><strong>Referencia:</strong><br>21 CFR 211.125; EU GMP Anexo 15; ISO 22000 (referencia de detección); manual del fabricante; 21 CFR 211.160(b).</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-OQ-DM-008" class="ensayo" data-id="EQ-OQ-DM-008" data-fase="OQ" data-cond="ambas" data-analisis="si">
@@ -134,13 +131,13 @@
   1) Pasar una pieza alargada (alambre) en distintas orientaciones respecto al sentido de avance (si aplica)<br>
   2) Registrar la detección en cada orientación, por triplicado<br>
   3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Detección del 100% en todas las orientaciones evaluadas.<br>
-  La orientación más desfavorable queda identificada y documentada.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = detección por orientación; unidad = %. Tipo de dato = continua. n = 10 pasadas por orientación. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = 100 % detectado en la peor orientación. Atípicos = Grubbs solo si n ≥ 7; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Efecto de la orientación de la pieza: la peor orientación se detecta.<br>Sin orientaciones que eviten la detección.<br>Registro por orientación.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro por orientación con data cruda y reporte<br>
   - Data cruda y reporte estadístico del análisis de orientación de pieza</p>
-  <p><strong>Referencia:</strong><br>Certificados de las piezas de prueba.</p>
+  <p><strong>Nota:</strong><br>Una pieza alargada puede pasar si se orienta en el eje menos sensible.</p>
+  <p><strong>Referencia:</strong><br>21 CFR 211.125; EU GMP Anexo 15; ISO 22000 (referencia de detección); manual del fabricante; 21 CFR 211.160(b).</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-OQ-DM-009" class="ensayo" data-id="EQ-OQ-DM-009" data-fase="OQ" data-cond="ambas" data-analisis="si">
@@ -150,13 +147,13 @@
   1) Pasar cada pieza de prueba al menos diez veces consecutivas por el centro de la apertura<br>
   2) Registrar cada resultado individual<br>
   3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Detección del 100% de las pasadas en cada pieza.<br>
-  Sin fallos de detección en ninguna de las diez pasadas.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = repetibilidad de detección; unidad = %. Tipo de dato = continua. n = 10 pasadas por tipo y tamaño. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = 100 % detectado. Atípicos = Grubbs solo si n ≥ 7; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Repetibilidad con al menos 10 pasadas por tipo y tamaño.<br>Detección del 100 % en todas las pasadas.<br>Registro por serie.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro de repetibilidad con data cruda y reporte<br>
   - Data cruda y reporte estadístico del análisis de repetibilidad</p>
-  <p><strong>Referencia:</strong><br>Certificados de las piezas de prueba.</p>
+  <p><strong>Nota:</strong><br>Una detección intermitente es peor que ninguna: da falsa confianza.</p>
+  <p><strong>Referencia:</strong><br>21 CFR 211.125; EU GMP Anexo 15; ISO 22000 (referencia de detección); manual del fabricante; 21 CFR 211.160(b).</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-OQ-DM-010" class="ensayo" data-id="EQ-OQ-DM-010" data-fase="OQ" data-cond="ambas" data-analisis="si">
@@ -167,13 +164,13 @@
   2) Pasar piezas de prueba a intervalos definidos y registrar la detección<br>
   3) Registrar falsos rechazos durante el período<br>
   4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Detección del 100% en todas las verificaciones intermedias.<br>
-  Sin deriva de sensibilidad ni falsos rechazos fuera de criterio.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = estabilidad de sensibilidad; unidad = %. Tipo de dato = continua. n = 3 verificaciones durante 4 h. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = sin deriva de detección. Atípicos = Grubbs solo si n ≥ 7; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Sensibilidad estable en operación continua durante <span class="por-confirmar">4 h</span>.<br>Sin deriva ni falsos rechazos crecientes.<br>Registro al inicio y al final.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro de estabilidad con data cruda y reporte<br>
   - Data cruda y reporte estadístico del análisis de estabilidad de sensibilidad</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante del detector de metales.</p>
+  <p><strong>Nota:</strong><br>El detector puede derivar con la temperatura; se verifica en el tiempo.</p>
+  <p><strong>Referencia:</strong><br>21 CFR 211.125; EU GMP Anexo 15; ISO 22000 (referencia de detección); manual del fabricante; 21 CFR 211.160(b).</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-OQ-DM-011" class="ensayo" data-id="EQ-OQ-DM-011" data-fase="OQ" data-cond="ambas" data-analisis="si">
@@ -183,13 +180,13 @@
   1) Pasar las piezas de prueba a velocidad mínima, nominal y máxima (si aplica)<br>
   2) Registrar la detección en cada velocidad, por triplicado<br>
   3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Detección del 100% en las tres velocidades.<br>
-  Sin pérdida de sensibilidad a velocidad máxima.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = detección por velocidad; unidad = %. Tipo de dato = continua. n = 10 pasadas por velocidad. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = 100 % detectado en las 3 velocidades. Atípicos = Grubbs solo si n ≥ 7; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Detección a velocidad mínima, nominal y máxima de la banda.<br>La pieza de prueba se detecta en las tres velocidades.<br>Registro por velocidad.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro por velocidad con data cruda y reporte<br>
   - Data cruda y reporte estadístico del análisis de velocidad</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante del detector de metales.</p>
+  <p><strong>Nota:</strong><br>A mayor velocidad menor tiempo de exposición y menor señal.</p>
+  <p><strong>Referencia:</strong><br>21 CFR 211.125; EU GMP Anexo 15; ISO 22000 (referencia de detección); manual del fabricante; 21 CFR 211.160(b).</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-OQ-DM-012" class="ensayo" data-id="EQ-OQ-DM-012" data-fase="OQ" data-cond="ambas">
@@ -199,12 +196,11 @@
   1) Registrar los valores de frecuencia y fase contra los de fábrica<br>
   2) Intentar modificarlos sin credencial autorizada: el equipo no debe permitirlo<br>
   3) Verificar el bloqueo físico de accesos a tarjetas o potenciómetros (si aplica)</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Los ajustes corresponden a los de fábrica o a los aprobados.<br>
-  Sin acceso no autorizado a los ajustes.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Ajustes de fábrica (frecuencia y fase) documentados y sin modificar.<br>Cualquier cambio requiere autorización y registro.<br>Registro de los valores actuales.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro de ajustes y control de acceso (anexo del informe)</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante del detector de metales.</p>
+  <p><strong>Nota:</strong><br>Cambiar frecuencia o fase sin justificación altera la detección de forma invisible.</p>
+  <p><strong>Referencia:</strong><br>21 CFR 211.125; EU GMP Anexo 15; ISO 22000 (referencia de detección); manual del fabricante; 21 CFR 211.160(b).</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-OQ-DM-013" class="ensayo" data-id="EQ-OQ-DM-013" data-fase="OQ" data-cond="ambas">
@@ -214,12 +210,11 @@
   1) Registrar el nivel de umbral aprobado<br>
   2) Verificar que está bloqueado contra cambios no autorizados<br>
   3) Verificar que un cambio autorizado queda registrado con usuario y fecha</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  El umbral aprobado está bloqueado.<br>
-  Todo cambio queda registrado.</p>
+  <p><strong>Criterio de aceptación:</strong><br>El umbral de sensibilidad está bloqueado con clave y solo lo modifica personal autorizado.<br>El registro muestra quién y cuándo cambió el ajuste.<br>Sin cambios no registrados.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro del umbral y su bloqueo (anexo del informe)</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante del detector de metales.</p>
+  <p><strong>Nota:</strong><br>Un umbral accesible permite bajar la sensibilidad y pasar producto contaminado.</p>
+  <p><strong>Referencia:</strong><br>21 CFR 211.125; EU GMP Anexo 15; ISO 22000 (referencia de detección); manual del fabricante; 21 CFR 211.160(b).</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-OQ-DM-014" class="ensayo" data-id="EQ-OQ-DM-014" data-fase="OQ" data-cond="ambas">
@@ -229,12 +224,12 @@
   1) Operar el equipo en su ubicación definitiva con los equipos vecinos en marcha<br>
   2) Verificar ausencia de falsos rechazos durante el período definido<br>
   3) Pasar piezas de prueba y verificar que la sensibilidad se mantiene</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Sin falsos rechazos atribuibles a interferencias.<br>
-  Sensibilidad conservada con los equipos vecinos en marcha.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = falsos rechazos por interferencia; unidad = %. Tipo de dato = continua. n = 100 unidades por condición. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = ≤ 0,5 %. Atípicos = Grubbs solo si n ≥ 7; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Respuesta ante interferencias: vibración, campos eléctricos y piezas de producto sin metal.<br>Falsos rechazos ≤ <span class="por-confirmar">0,5 %</span> con producto real.<br>Registro por condición.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro de interferencias (anexo del informe)</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante del detector de metales.</p>
+  <p><strong>Nota:</strong><br>El porcentaje en rojo se confirma con el producto; un falso rechazo alto lleva a bajar la sensibilidad.</p>
+  <p><strong>Referencia:</strong><br>21 CFR 211.125; EU GMP Anexo 15; ISO 22000 (referencia de detección); manual del fabricante; 21 CFR 211.160(b).</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-OQ-DM-015" class="ensayo" data-id="EQ-OQ-DM-015" data-fase="OQ" data-cond="ambas">
@@ -244,13 +239,12 @@
   1) Pasar piezas de prueba a cada velocidad probada y verificar su desvío al rechazo<br>
   2) Verificar que el producto bueno inmediatamente anterior y posterior no se desvía<br>
   3) Medir el retardo entre detección y actuación del desviador</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  El 100% de las piezas de prueba se desvía al rechazo.<br>
-  Ningún producto bueno se desvía indebidamente.<br>
-  Matriz de desafío: número de unidades por condición definido en el protocolo aprobado; el 100 % de las unidades malas se rechaza y el 0 % de las unidades buenas se rechaza.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = sincronización del rechazo; unidad = %. Tipo de dato = continua. n = 3 series de 100 con pieza marcada. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = 100 % de la pieza correcta rechazada. Atípicos = Grubbs solo si n ≥ 7; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Tiempo de rechazo y sincronización: la pieza detectada es la que se rechaza.<br>Matriz de desafío: 100 % de las unidades malas se rechaza y el 0 % de las unidades buenas se rechaza.<br>Sin piezas buenas rechazadas ni contaminadas que sigan en línea.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro de tiempo y sincronización (anexo del informe)</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante del detector de metales.</p>
+  <p><strong>Nota:</strong><br>El desfase entre detección y rechazo es un error frecuente y silencioso.</p>
+  <p><strong>Referencia:</strong><br>21 CFR 211.125; EU GMP Anexo 15; ISO 22000 (referencia de detección); manual del fabricante; 21 CFR 211.160(b).</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-OQ-DM-016" class="ensayo" data-id="EQ-OQ-DM-016" data-fase="OQ" data-cond="ambas">
@@ -260,12 +254,12 @@
   1) Medir la presión de aire del desviador (si aplica) en su rango operativo<br>
   2) Verificar el desvío efectivo en los extremos del rango<br>
   3) Registrar el ajuste aprobado</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  La presión o fuerza está dentro del rango operativo aprobado.<br>
-  Desvío efectivo en todo el rango.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = fuerza del desviador; unidad = bar o N. Tipo de dato = continua. n = 3 lecturas por velocidad. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = desvía la pieza en la 3 velocidades. Atípicos = Grubbs solo si n ≥ 7; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Presión de aire o fuerza del desviador suficiente para desviar la pieza a la velocidad máxima.<br>Sin piezas que reboten al flujo principal.<br>Registro por condición.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro del desviador (anexo del informe)</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante del detector de metales.</p>
+  <p><strong>Nota:</strong><br>A velocidad máxima, un desviador débil deja pasar la pieza rechazada.</p>
+  <p><strong>Referencia:</strong><br>21 CFR 211.125; EU GMP Anexo 15; ISO 22000 (referencia de detección); manual del fabricante; 21 CFR 211.160(b).</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-OQ-DM-017" class="ensayo" data-id="EQ-OQ-DM-017" data-fase="OQ" data-cond="ambas">
@@ -275,12 +269,11 @@
   1) Provocar rechazos controlados y verificar la confirmación del sensor<br>
   2) Bloquear el canal de rechazo y verificar que la línea se detiene o alarma<br>
   3) Verificar el registro del evento</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Cada rechazo queda confirmado por el sensor.<br>
-  La falta de confirmación detiene la línea o alarma.</p>
+  <p><strong>Criterio de aceptación:</strong><br>El sensor confirma que el producto salió por el canal de rechazo.<br>Sin rechazos no confirmados.<br>Registro por evento.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro de confirmación de rechazo (anexo del informe)</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante del detector de metales.</p>
+  <p><strong>Nota:</strong><br>El rechazo sin confirmación deja la pieza en el flujo.</p>
+  <p><strong>Referencia:</strong><br>21 CFR 211.125; EU GMP Anexo 15; ISO 22000 (referencia de detección); manual del fabricante; 21 CFR 211.160(b).</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-OQ-DM-018" class="ensayo" data-id="EQ-OQ-DM-018" data-fase="OQ" data-cond="ambas">
@@ -290,12 +283,11 @@
   1) Provocar rechazos consecutivos de forma controlada (si aplica)<br>
   2) Verificar que todos se desvían correctamente<br>
   3) Verificar que el sistema no se satura ni pierde sincronización</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Todos los rechazos consecutivos se desvían.<br>
-  Sin saturación ni pérdida de sincronización.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Ante varios rechazos seguidos, el sistema no se satura ni pierde piezas.<br>La línea se detiene o el rechazo se acumula de forma controlada.<br>Registro por prueba.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro de rechazo en cascada (anexo del informe)</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante del detector de metales.</p>
+  <p><strong>Nota:</strong><br>Un rechazo saturado desvía piezas buenas o deja pasar las malas.</p>
+  <p><strong>Referencia:</strong><br>21 CFR 211.125; EU GMP Anexo 15; ISO 22000 (referencia de detección); manual del fabricante; 21 CFR 211.160(b).</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-OQ-DM-019" class="ensayo" data-id="EQ-OQ-DM-019" data-fase="OQ" data-cond="ambas">
@@ -305,12 +297,11 @@
   1) Provocar una detección y verificar la parada de línea (si aplica esta configuración)<br>
   2) Simular una falla del detector y verificar la parada<br>
   3) Medir el tiempo de parada y verificar el estado resultante</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  La línea se detiene ante detección o falla según lo configurado.<br>
-  Tiempo y estado dentro de lo definido.</p>
+  <p><strong>Criterio de aceptación:</strong><br>El mecanismo de parada de línea, si aplica, detiene el flujo al detectar metal.<br>Tiempo de parada ≤ <span class="por-confirmar">2 s</span>.<br>Registro por prueba.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro de parada de línea (anexo del informe)</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante del detector de metales.</p>
+  <p><strong>Nota:</strong><br>La parada de línea es la última barrera cuando el rechazo falla.</p>
+  <p><strong>Referencia:</strong><br>21 CFR 211.125; EU GMP Anexo 15; ISO 22000 (referencia de detección); manual del fabricante; 21 CFR 211.160(b).</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-OQ-DM-020" class="ensayo" data-id="EQ-OQ-DM-020" data-fase="OQ" data-cond="ambas">
@@ -321,12 +312,12 @@
   2) Introducir piezas de prueba dentro del flujo de producto en cada velocidad<br>
   3) Verificar la detección y el rechazo de cada pieza<br>
   4) Verificar que ningún producto bueno se rechaza sin motivo</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  El 100% de las piezas introducidas se detecta y rechaza.<br>
-  Sin rechazos indebidos de producto bueno.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = desempeño con placebo; unidad = %. Tipo de dato = continua. n = 3 velocidades con 100 unidades. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = 100 % detección y ≤ 0,5 % falsos. Atípicos = Grubbs solo si n ≥ 7; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Corrida con placebo a velocidad mínima, nominal y máxima con piezas de prueba.<br>Detección del 100 % y falsos rechazos ≤ <span class="por-confirmar">0,5 %</span>.<br>Registro por velocidad.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro de corrida con placebo (anexo del informe)</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante del detector de metales.</p>
+  <p><strong>Nota:</strong><br>Es la antesala del PQ; se corre con producto real o placebo equivalente.</p>
+  <p><strong>Referencia:</strong><br>21 CFR 211.125; EU GMP Anexo 15; ISO 22000 (referencia de detección); manual del fabricante; 21 CFR 211.160(b).</p>
 </article>
 
 <article data-bloque="6" id="art-EQ-OQ-DM-REF" class="ensayo tabla-info" data-id="EQ-OQ-DM-REF" data-fase="OQ" data-cond="ambas" data-familia="detector-metales">
