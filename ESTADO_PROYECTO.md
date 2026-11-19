@@ -90,6 +90,33 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (StatAnalyzer Pro) co
 
 ## CAMBIOS RECIENTES
 
+### 2026-11-19 (321): Equipos lote 3 — llenadora y llenadora de tubos
+
+**Qué:** 122 ensayos más al estándar (58 llenadora + 64 llenadora-tubos).
+- **Llenadora:** volumen ±1 %, RSD ≤ 1 %, rechazo ±2 % con matriz de desafío, conteo ±0,1 %, temperatura ±2 °C, presión ±5 %, SIP y filtros esterilizantes, monitoreo ambiental, hold time validado.
+- **Llenadora de tubos:** peso ±2 %, parámetros de sello ±2 °C/±10 %/±0,2 s, integridad en límites, O₂ ≤ 2 %, código 100 % legible, torque por especificación, Cpk ≥ 1,33, rendimiento ≥ 98 %.
+- **Planes específicos** en 4 ensayos con `data-analisis` y plan genérico (IQ-LL-007, OQ-LL-022, OQ-LT-023, PQ-LT-029).
+- `MIGRADAS` del contrato cubre las siete familias migradas.
+
+**Estado medido:**
+```
+llenadora:        58 ensayos · 51 con plan · 35 con valor numérico · 25 con valores propuestos
+llenadora-tubos:  64 ensayos · 64 con plan · 36 con valor numérico · 26 con valores propuestos
+global: 538/1392 criterios con valor (39 %) · 210 clonados en 93 grupos (antes 224/100)
+```
+
+**Archivos afectados:**
+| Archivo | Cambio |
+|---------|--------|
+| `docs/banco-ensayos/equipos/{iq,oq}-llenadora.html`, `{oq,pq}-llenadora-tubos.html`, `pq-llenadora.html` | 122 ensayos reescritos |
+| `js/core/banco-equipos-data.js` | Regenerado |
+| `tests/bancos-contenido-equipos.test.js` | `MIGRADAS` ampliado |
+
+**Verificación:**
+```
+npm run preflight → protocolo:check OK, urs-ar:check OK, Vitest 1209, backend 154, E2E 14
+```
+
 ### 2026-11-19 (320): Equipos lote 2 — recubridora y reactor
 
 **Qué:** 97 ensayos más al estándar (48 recubridora + 49 reactor).
