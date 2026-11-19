@@ -90,6 +90,36 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (StatAnalyzer Pro) co
 
 ## CAMBIOS RECIENTES
 
+### 2026-11-19 (317): Almacenes — ensayos de datos con el estándar de sistemas
+
+**Qué:** los 6 ensayos de medición del banco de almacenes quedan con el estándar del piloto de sistemas; los de atributo se afinan.
+- **6 ensayos con `data-analisis="si"` y plan por tipo de dato:** `ALM-OQ-003` (mapeo en vacío), `ALM-OQ-004` (iluminación), `ALM-OQ-005` (excursión de puerta), `ALM-OQ-006` (corte energético) y `ALM-PQ-003/004` (mapeo carga media/máxima). A OQ-004/005/006 se les suma el flag, el paso «Procesar los datos crudos…» y el entregable de data cruda.
+- **Criterio numérico individual** con valor + unidad + regla + fuente; **14 valores propuestos en rojo** (`por-confirmar`): setpoint T/HR de la entidad (anidado en `<span class="rango">`), %RSD ≤ 5 %, recuperación < 30 min, transferencia < 60 s y 200 lux.
+- **Atributos (DQ/IQ):** criterio C/NC con fuente explícita; eliminado el «pendiente de confirmación» vago de OQ-005.
+- **Referencias por familia** sin cambios (OMS TRS 1010 Anexo 7, PDA TR-64, GDP, OMS TRS 961 Anexo 9 Supl. 8, USP `<1079.4>`, ISPE Cold Chain).
+- Banco versionado `ALM 2026-11-19 v2`.
+
+**Estado medido:**
+```
+almacenes: 43 ensayos · 6 con data-analisis (antes 3) · 6 con plan · 0 falta criterio/plan
+global: 347/1392 criterios con valor (25 %, antes 346) · 322 clonados en 130 grupos
+--por-confirmar: 6 ensayos de almacenes (14 valores)
+```
+
+**Archivos afectados:**
+| Archivo | Cambio |
+|---------|--------|
+| `docs/banco-ensayos/almacenes.html` | 6 ensayos reescritos (plan + criterio rojo + nota); 2 criterios de atributo con fuente; CSS `.por-confirmar`; sello de versión |
+| `js/core/banco-almacenes-data.js` | Regenerado con `extraer-banco.mjs almacenes` |
+| `tests/generador-docx.test.js` | Lista de ensayos `data-analisis` ampliada a 6 |
+| `docs/banco-ensayos/PROTOCOLO_MAESTRO.md` | §5.4 cifras + párrafo almacenes; versión 1.4 |
+
+**Verificación:**
+```
+npm run preflight → protocolo:check OK, banco:check OK, urs-ar:check OK, Vitest 1196, backend, E2E 14
+extraer-banco.mjs almacenes → 43 artículos, 43 IDs únicos, versión ALM 2026-11-19 v2
+```
+
 ### 2026-11-18 (316): Familia sistemas completa — IQ, OQ y PQ de los cuatro sistemas
 
 **Qué:** los 261 ensayos de sistemas (agua purificada, HVAC, vapor limpio y aire comprimido) quedan con el estándar del piloto.

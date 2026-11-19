@@ -338,7 +338,7 @@ describe('data-analisis en almacenes: paso + entregable estadístico', () => {
   test('todo artículo marcado trae el paso y el entregable', () => {
     const B = GeneradorDocx.banco();
     const marcados = ['DQ', 'IQ', 'OQ', 'PQ'].flatMap((f) => B.fases[f].filter((i) => i.analisis));
-    expect(marcados.map((a) => a.id).sort()).toEqual(['ALM-OQ-003', 'ALM-PQ-003', 'ALM-PQ-004']);
+    expect(marcados.map((a) => a.id).sort()).toEqual(['ALM-OQ-003', 'ALM-OQ-004', 'ALM-OQ-005', 'ALM-OQ-006', 'ALM-PQ-003', 'ALM-PQ-004']);
     for (const a of marcados) {
       const t = (a.secciones || []).map((s) => (s.html || '').replace(/<[^>]+>/g, ' ')).join(' ');
       expect(t).toContain('módulo de análisis estadístico');

@@ -1,7 +1,7 @@
 // Generado por scripts/extraer-banco.mjs almacenes — NO EDITAR A MANO.
-// Fuente: docs/banco-ensayos/almacenes.html (versión: sin-version).
+// Fuente: docs/banco-ensayos/almacenes.html (versión: ALM 2026-11-19 v2).
 var BancoAlmacenes = {
- "version": "sin-version",
+ "version": "ALM 2026-11-19 v2",
  "fases": {
   "DQ": [
    {
@@ -1045,7 +1045,7 @@ var BancoAlmacenes = {
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Número de sensores calculado y ubicado según norma; cobertura completa de zonas críticas (esquinas, centro, puerta, puntos de riesgo)."
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Número de sensores calculado y ubicado según ISPE Good Practice Guide: Cold Chain Management y OMS TRS 1010 Anexo 7; cobertura completa de zonas críticas (esquinas, centro, puerta, puntos de riesgo)."
      },
      {
       "et": "Documentos entregables",
@@ -1078,8 +1078,12 @@ var BancoAlmacenes = {
       "html": "<strong>Procedimiento:</strong><br>\n  1) Instalar los sensores calculados en <a href=\"#art-ALM-OQ-002\" data-goto=\"ALM-OQ-002\">ALM-OQ-002</a> según plano de ubicación<br>\n  2) Estabilizar el<span class=\"equipo\">almacén</span> en su setpoint: <span class=\"rango\">15–25 °C / HR &lt; 65 %</span> (mínimo 24 h antes de iniciar)<br>\n  3) Registrar ≥ 7 días continuos, 1 lectura cada 5 min, sin abrir puertas salvo lo programado<br>\n  4) Analizar por punto:<br>\n     a) Temperatura mínima, máxima y promedio<br>\n     b) MKT (temperatura cinética media, fórmula de Haynes/Arrhenius)<br>\n     c) Normalidad de la distribución (Shapiro-Wilk)<br>\n  5) Identificar punto frío y punto caliente del<span class=\"equipo\">almacén</span><br>\n  6) Procesar los datos crudos de temperatura y humedad relativa del mapeo en vacío en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo."
      },
      {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variables continuas: temperatura (°C) y humedad relativa (%HR) por punto. n = todos los registros del mapeo (1 lectura cada 5 min durante ≥ 7 días) por punto. Por punto: media, DE, RSD, mínimo, máximo e IC 95 %; MKT (temperatura cinética media, Haynes/Arrhenius) por punto y global; normalidad con Shapiro-Wilk; uniformidad = diferencia entre el máximo y el mínimo entre puntos. Sin exclusión de datos sin investigación documentada."
+     },
+     {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  100% de lecturas dentro de <span class=\"rango\">15–25 °C / HR &lt; 65 %</span>; MKT dentro de rango; puntos frío/caliente identificados y documentados."
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  100 % de las lecturas dentro del setpoint de la entidad <span class=\"por-confirmar\"><span class=\"rango\">15–25 °C / HR &lt; 65 %</span></span>.<br>\n  MKT dentro del setpoint de la entidad en el 100 % de los puntos.<br>\n  %RSD entre puntos ≤ <span class=\"por-confirmar\">5 %</span>.<br>\n  Punto frío y punto caliente identificados y documentados."
      },
      {
       "et": "Documentos entregables",
@@ -1087,7 +1091,7 @@ var BancoAlmacenes = {
      },
      {
       "et": "Nota",
-      "html": "<strong>Nota:</strong><br>\n  El punto frío identificado aquí es donde se colocan los indicadores/termopares de los desafíos PQ (excursión y corte energético)."
+      "html": "<strong>Nota:</strong><br>\n  El punto frío identificado aquí es donde se colocan los indicadores/termopares de los desafíos PQ (excursión y corte energético). El setpoint de T/HR y el %RSD en rojo son referencias de diseño y quedan pendientes de confirmación contra la URS del producto antes de firmar el protocolo."
      },
      {
       "et": "Referencia",
@@ -1110,26 +1114,31 @@ var BancoAlmacenes = {
      },
      {
       "et": "Procedimiento",
-      "html": "<strong>Procedimiento:</strong><br>\n  1) Verificar luxómetro con calibración vigente (ver <a href=\"#art-ALM-OQ-001\" data-goto=\"ALM-OQ-001\">ALM-OQ-001</a>)<br>\n  2) Definir grilla de puntos: pasillos, zonas de picking, recepción/despacho y frente a estanterías (mínimo 1 punto cada 10 m²)<br>\n  3) Medir a 1 m del piso, con todas las luminarias encendidas y puertas cerradas<br>\n  4) Repetir en turno nocturno si opera 24 h (solo luz artificial)<br>\n  5) Registrar cada punto en plano con su lectura en lux"
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Verificar luxómetro con calibración vigente (ver <a href=\"#art-ALM-OQ-001\" data-goto=\"ALM-OQ-001\">ALM-OQ-001</a>)<br>\n  2) Definir grilla de puntos: pasillos, zonas de picking, recepción/despacho y frente a estanterías (mínimo 1 punto cada 10 m²)<br>\n  3) Medir a 1 m del piso, con todas las luminarias encendidas y puertas cerradas<br>\n  4) Repetir en turno nocturno si opera 24 h (solo luz artificial)<br>\n  5) Registrar cada punto en plano con su lectura en lux<br>\n  6) Procesar los datos crudos de iluminación en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo."
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable continua: iluminancia (lux) por punto de la grilla. n = todos los puntos medidos (mínimo 1 punto cada 10 m²). Por punto y turno: media, DE, mínimo, máximo e IC 95 %; proporción de puntos ≥ límite con IC 95 % binomial exacto."
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  100% de puntos ≥ nivel mínimo del protocolo (referencia usual: 200 lux en áreas de trabajo); uniformidad sin zonas oscuras en rutas de personal."
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  100 % de los puntos con iluminancia ≥ <span class=\"por-confirmar\">200 lux</span> en áreas de trabajo.<br>\n  0 zonas oscuras en rutas de personal y pasillos."
      },
      {
       "et": "Documentos entregables",
-      "html": "<strong>Documentos entregables:</strong><br>\n  - Plano de puntos de medición con lecturas<br>\n  - Certificado de calibración del luxómetro<br>\n  - Informe de iluminación con puntos no conformes (si aplica) y acciones"
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Plano de puntos de medición con lecturas<br>\n  - Certificado de calibración del luxómetro<br>\n  - Informe de iluminación con puntos no conformes (si aplica) y acciones<br>\n  - Data cruda y reporte estadístico del análisis de iluminación"
      },
      {
       "et": "Nota",
-      "html": "<strong>Nota:</strong><br>\n  Luminarias fundidas o puntos bajo el mínimo se corrigen y se re-mide solo el punto afectado, documentando la re-medición."
+      "html": "<strong>Nota:</strong><br>\n  Luminarias fundidas o puntos bajo el mínimo se corrigen y se re-mide solo el punto afectado, documentando la re-medición. El nivel mínimo en rojo es una referencia (IESNA) y queda pendiente de confirmación por el responsable antes de firmar el protocolo."
      },
      {
       "et": "Referencia",
       "html": "<strong>Referencia:</strong><br>OMS TRS 1010 Anexo 7; PDA TR-64; IESNA (niveles recomendados)."
      }
     ],
-    "tabla": null
+    "tabla": null,
+    "analisis": "si"
    },
    {
     "kind": "ensayo",
@@ -1144,26 +1153,31 @@ var BancoAlmacenes = {
      },
      {
       "et": "Procedimiento",
-      "html": "<strong>Procedimiento:</strong><br>\n  1) Configurar ocupación ≥ 80% (producto real o simulado, ver <a href=\"#art-ALM-PQ-002\" data-goto=\"ALM-PQ-002\">ALM-PQ-002</a>)<br>\n  2) Estabilizar y registrar línea base 24 h en <span class=\"rango\">15–25 °C / HR &lt; 65 %</span><br>\n  3) Excursión programada: abrir puerta principal 5 min (cronometrados)<br>\n  4) Medir tiempo de recuperación al rango desde el cierre<br>\n  5) Verificar activación de alarma y registro continuo durante la excursión"
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Configurar ocupación ≥ 80% (producto real o simulado, ver <a href=\"#art-ALM-PQ-002\" data-goto=\"ALM-PQ-002\">ALM-PQ-002</a>)<br>\n  2) Estabilizar y registrar línea base 24 h en <span class=\"rango\">15–25 °C / HR &lt; 65 %</span><br>\n  3) Excursión programada: abrir puerta principal 5 min (cronometrados)<br>\n  4) Medir tiempo de recuperación al rango desde el cierre<br>\n  5) Verificar activación de alarma y registro continuo durante la excursión<br>\n  6) Procesar los datos crudos de temperatura de la excursión en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo."
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variables continuas: temperatura (°C) y tiempo de recuperación (min). n = todos los registros de la excursión (línea base 24 h + excursión + recuperación). Tiempo de recuperación = intervalo desde el cierre de la puerta hasta el retorno al setpoint. Por punto: media, DE, mínimo, máximo e IC 95 %; comparación pre/excursión/post; alarma registrada como atributo (sí/no)."
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Rango mantenido con carga; recuperación &lt; 30 min; alarma de excursión operativa y registrada. Límite pendiente de confirmación por el responsable en el protocolo aprobado."
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Temperatura mantenida dentro del setpoint de la entidad <span class=\"por-confirmar\"><span class=\"rango\">15–25 °C / HR &lt; 65 %</span></span> durante la línea base.<br>\n  Tiempo de recuperación al setpoint &lt; <span class=\"por-confirmar\">30 min</span> desde el cierre de la puerta.<br>\n  Alarma de excursión operativa y registrada en el 100 % de los eventos."
      },
      {
       "et": "Documentos entregables",
-      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de la excursión (gráfico antes/durante/después)<br>\n  - Tiempo de recuperación calculado<br>\n  - Evidencia de alarma (pantallazo/registro del sistema)"
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de la excursión (gráfico antes/durante/después)<br>\n  - Tiempo de recuperación calculado<br>\n  - Evidencia de alarma (pantallazo/registro del sistema)<br>\n  - Data cruda y reporte estadístico del análisis de la excursión"
      },
      {
       "et": "Nota",
-      "html": "<strong>Nota:</strong><br>\n  Si la recuperación supera 30 min, se investiga causa (infiltración, potencia, sellos) y se repite tras la corrección."
+      "html": "<strong>Nota:</strong><br>\n  Si la recuperación supera el límite, se investiga causa (infiltración, potencia, sellos) y se repite tras la corrección. El setpoint de T/HR y el tiempo de recuperación en rojo son referencias (OMS TRS 1010 Anexo 7 / PDA TR-64) y quedan pendientes de confirmación por el responsable antes de firmar el protocolo."
      },
      {
       "et": "Referencia",
       "html": "<strong>Referencia:</strong><br>OMS TRS 1010 Anexo 7; PDA TR-64."
      }
     ],
-    "tabla": null
+    "tabla": null,
+    "analisis": "si"
    },
    {
     "kind": "ensayo",
@@ -1178,26 +1192,31 @@ var BancoAlmacenes = {
      },
      {
       "et": "Procedimiento",
-      "html": "<strong>Procedimiento:</strong><br>\n  1) Con carga rutinaria, simular corte de energía (desconexión programada y autorizada)<br>\n  2) Registrar deriva de T°/HR y tiempo fuera de <span class=\"rango\">15–25 °C / HR &lt; 65 %</span><br>\n  3) Verificar arranque automático de respaldo (UPS/grupo electrógeno) y tiempo de transferencia<br>\n  4) Verificar alarma inmediata por corte<br>\n  5) Restablecer energía y medir tiempo de recuperación al rango"
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Con carga rutinaria, simular corte de energía (desconexión programada y autorizada)<br>\n  2) Registrar deriva de T°/HR y tiempo fuera de <span class=\"rango\">15–25 °C / HR &lt; 65 %</span><br>\n  3) Verificar arranque automático de respaldo (UPS/grupo electrógeno) y tiempo de transferencia<br>\n  4) Verificar alarma inmediata por corte<br>\n  5) Restablecer energía y medir tiempo de recuperación al rango<br>\n  6) Procesar los datos crudos de temperatura y humedad relativa del corte en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo."
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variables continuas: temperatura (°C), humedad relativa (%HR), tiempo de transferencia (s) y tiempo de recuperación (min). n = todos los registros del evento de corte. Deriva térmica por punto: media, DE, mínimo, máximo e IC 95 %; tiempo de transferencia del respaldo y tiempo de recuperación como valores puntuales medidos; alarma como atributo (sí/no)."
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Respaldo operativo &lt; 60 s; alarma inmediata; recuperación al rango &lt; 30 min tras restablecer; producto evaluado según procedimiento de excursiones."
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Temperatura y HR mantenidas dentro del setpoint de la entidad <span class=\"por-confirmar\"><span class=\"rango\">15–25 °C / HR &lt; 65 %</span></span> durante el corte o con respaldo activo.<br>\n  Arranque del respaldo en &lt; <span class=\"por-confirmar\">60 s</span>.<br>\n  Recuperación al setpoint &lt; <span class=\"por-confirmar\">30 min</span> tras restablecer la energía.<br>\n  Alarma inmediata y registrada en el 100 % de los eventos."
      },
      {
       "et": "Documentos entregables",
-      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de deriva térmica durante el corte<br>\n  - Tiempos de transferencia y recuperación<br>\n  - Evidencia de alarma y de arranque del respaldo<br>\n  - Evaluación de producto expuesto (si aplica)"
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de deriva térmica durante el corte<br>\n  - Tiempos de transferencia y recuperación<br>\n  - Evidencia de alarma y de arranque del respaldo<br>\n  - Evaluación de producto expuesto (si aplica)<br>\n  - Data cruda y reporte estadístico del análisis del corte energético"
      },
      {
       "et": "Nota",
-      "html": "<strong>Nota:</strong><br>\n  Coordinar con mantenimiento y seguridad: la simulación nunca se hace con producto crítico sin aprobación de calidad."
+      "html": "<strong>Nota:</strong><br>\n  Coordinar con mantenimiento y seguridad: la simulación nunca se hace con producto crítico sin aprobación de calidad. El setpoint de T/HR y los tiempos de transferencia y recuperación en rojo son referencias (OMS TRS 1010 Anexo 7) y quedan pendientes de confirmación por el responsable antes de firmar el protocolo."
      },
      {
       "et": "Referencia",
       "html": "<strong>Referencia:</strong><br>OMS TRS 1010 Anexo 7; GDP."
      }
     ],
-    "tabla": null
+    "tabla": null,
+    "analisis": "si"
    },
    {
     "kind": "ensayo",
@@ -1579,7 +1598,7 @@ var BancoAlmacenes = {
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Volumen óptimo calculado y ubicado según norma; % ocupación real dentro de ±5% del objetivo; cobertura completa de zonas críticas."
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  Volumen óptimo calculado y ubicado según OMS TRS 1010 Anexo 7; % ocupación real dentro de ±5 % del objetivo; cobertura completa de zonas críticas."
      },
      {
       "et": "Documentos entregables",
@@ -1612,8 +1631,12 @@ var BancoAlmacenes = {
       "html": "<strong>Procedimiento:</strong><br>\n  1) Cargar al 50% según cálculo de <a href=\"#art-ALM-PQ-002\" data-goto=\"ALM-PQ-002\">ALM-PQ-002</a><br>\n  2) Instalar el número de sensores de <a href=\"#art-ALM-OQ-002\" data-goto=\"ALM-OQ-002\">ALM-OQ-002</a> en los mismos puntos del mapeo en vacío<br>\n  3) Registrar ≥ 7 días continuos, 1 lectura cada 5 min<br>\n  4) Ejecutar excursión programada (puerta 5 min) y medir recuperación a <span class=\"rango\">15–25 °C / HR &lt; 65 %</span><br>\n  5) Analizar: promedio, SD, %RSD, mín/máx por punto, MKT, normalidad; comparar contra mapeo en vacío (<a href=\"#art-ALM-OQ-003\" data-goto=\"ALM-OQ-003\">ALM-OQ-003</a>)<br>\n  6) Procesar los datos crudos de temperatura y humedad relativa del mapeo con carga media en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo."
      },
      {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variables continuas: temperatura (°C) y humedad relativa (%HR) por punto. n = todos los registros del mapeo con carga media (1 lectura cada 5 min durante ≥ 7 días) por punto. Por punto: media, DE, RSD, mínimo, máximo e IC 95 %; MKT por punto y global; normalidad con Shapiro-Wilk; comparación contra el mapeo en vacío (ALM-OQ-003) con prueba t o Mann-Whitney; tiempo de recuperación de la excursión programada."
+     },
+     {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  100% de lecturas dentro de rango; recuperación &lt; 30 min; alarma operativa; sin puntos nuevos fuera de rango vs. vacío."
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  100 % de las lecturas dentro del setpoint de la entidad <span class=\"por-confirmar\"><span class=\"rango\">15–25 °C / HR &lt; 65 %</span></span>.<br>\n  MKT dentro del setpoint de la entidad en el 100 % de los puntos.<br>\n  %RSD entre puntos ≤ <span class=\"por-confirmar\">5 %</span>.<br>\n  Tiempo de recuperación &lt; <span class=\"por-confirmar\">30 min</span>; alarma operativa.<br>\n  Sin puntos nuevos fuera de rango respecto del mapeo en vacío."
      },
      {
       "et": "Documentos entregables",
@@ -1621,7 +1644,7 @@ var BancoAlmacenes = {
      },
      {
       "et": "Nota",
-      "html": "<strong>Nota:</strong><br>\n  Se utilizan el número de sensores calculado en el ensayo <a href=\"#art-ALM-OQ-002\" data-goto=\"ALM-OQ-002\">ALM-OQ-002</a>. El mapeo se realiza en carga media para representar el funcionamiento típico del<span class=\"equipo\">almacén</span>."
+      "html": "<strong>Nota:</strong><br>\n  Se utilizan el número de sensores calculado en el ensayo <a href=\"#art-ALM-OQ-002\" data-goto=\"ALM-OQ-002\">ALM-OQ-002</a>. El mapeo se realiza en carga media para representar el funcionamiento típico del<span class=\"equipo\">almacén</span>. El setpoint de T/HR, el %RSD y el tiempo de recuperación en rojo son referencias (OMS TRS 1010 Anexo 7 / PDA TR-64) y quedan pendientes de confirmación por el responsable antes de firmar el protocolo."
      },
      {
       "et": "Referencia",
@@ -1647,8 +1670,12 @@ var BancoAlmacenes = {
       "html": "<strong>Procedimiento:</strong><br>\n  1) Cargar al 100% según cálculo de <a href=\"#art-ALM-PQ-002\" data-goto=\"ALM-PQ-002\">ALM-PQ-002</a> (peor caso)<br>\n  2) Instalar el número de sensores de <a href=\"#art-ALM-OQ-002\" data-goto=\"ALM-OQ-002\">ALM-OQ-002</a> en los mismos puntos<br>\n  3) Registrar ≥ 7 días continuos, 1 lectura cada 5 min<br>\n  4) Ejecutar excursión programada (puerta 5 min) y medir recuperación a <span class=\"rango\">15–25 °C / HR &lt; 65 %</span><br>\n  5) Analizar: promedio, SD, %RSD, mín/máx por punto, MKT, normalidad; comparar contra vacío y carga media<br>\n  6) Procesar los datos crudos de temperatura y humedad relativa del mapeo con carga máxima en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo."
      },
      {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variables continuas: temperatura (°C) y humedad relativa (%HR) por punto. n = todos los registros del mapeo con carga máxima (1 lectura cada 5 min durante ≥ 7 días) por punto. Por punto: media, DE, RSD, mínimo, máximo e IC 95 %; MKT por punto y global; normalidad con Shapiro-Wilk; comparación contra el mapeo en vacío (ALM-OQ-003) y el de carga media (ALM-PQ-003) con ANOVA o Kruskal-Wallis; tiempo de recuperación de la excursión programada."
+     },
+     {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  100% de lecturas dentro de rango; recuperación &lt; 30 min; alarma operativa; desempeño documentado en peor caso."
+      "html": "<strong>Criterio de aceptación:</strong><br>\n  100 % de las lecturas dentro del setpoint de la entidad <span class=\"por-confirmar\"><span class=\"rango\">15–25 °C / HR &lt; 65 %</span></span>.<br>\n  MKT dentro del setpoint de la entidad en el 100 % de los puntos.<br>\n  %RSD entre puntos ≤ <span class=\"por-confirmar\">5 %</span>.<br>\n  Tiempo de recuperación &lt; <span class=\"por-confirmar\">30 min</span>; alarma operativa.<br>\n  Desempeño documentado en el peor caso de ocupación."
      },
      {
       "et": "Documentos entregables",
@@ -1656,7 +1683,7 @@ var BancoAlmacenes = {
      },
      {
       "et": "Nota",
-      "html": "<strong>Nota:</strong><br>\n  Se utilizan el número de sensores calculado en el ensayo <a href=\"#art-ALM-OQ-002\" data-goto=\"ALM-OQ-002\">ALM-OQ-002</a>. El mapeo se realiza en carga máxima para representar el peor caso de funcionamiento del<span class=\"equipo\">almacén</span>."
+      "html": "<strong>Nota:</strong><br>\n  Se utilizan el número de sensores calculado en el ensayo <a href=\"#art-ALM-OQ-002\" data-goto=\"ALM-OQ-002\">ALM-OQ-002</a>. El mapeo se realiza en carga máxima para representar el peor caso de funcionamiento del<span class=\"equipo\">almacén</span>. El setpoint de T/HR, el %RSD y el tiempo de recuperación en rojo son referencias (OMS TRS 1010 Anexo 7 / PDA TR-64) y quedan pendientes de confirmación por el responsable antes de firmar el protocolo."
      },
      {
       "et": "Referencia",
