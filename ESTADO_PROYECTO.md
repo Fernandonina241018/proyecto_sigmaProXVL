@@ -90,6 +90,30 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (StatAnalyzer Pro) co
 
 ## CAMBIOS RECIENTES
 
+### 2026-11-18 (313): Aviso de portada y lista de confirmación del piloto
+
+**Qué:** cierra el piloto de agua por el lado del control documental.
+- **Aviso de portada:** si el protocolo contiene valores `por-confirmar`, la primera página dice «Este protocolo contiene N valor(es) propuesto(s) pendiente(s) de confirmación. No ejecutar ni firmar sin aprobación del responsable». El conteo excluye la nota de pendientes (repetía los mismos textos e inflaba el número).
+- **`banco:check --por-confirmar`:** lista, por familia y ensayo, cada valor propuesto. Es la lista que firma el SME; se genera desde el banco y no se mantiene a mano.
+- **Maestro §5.5:** documenta el aviso de portada y la lista de confirmación.
+
+**Estado del piloto (verificado):**
+```
+PQ agua purificada: 23 ensayos · 23 con plan · 23 con criterio numérico
+18 ensayos con valores propuestos → 18 filas en la lista de confirmación
+global: 207/1392 con valor numérico · 370 clonados en 149 grupos
+```
+
+**Archivos afectados:**
+| Archivo | Cambio |
+|---------|--------|
+| `js/core/plantilla-docx.js` | Aviso de portada con conteo de valores propuestos |
+| `scripts/validar-banco-contenido.mjs` | `--por-confirmar` |
+| `docs/banco-ensayos/PROTOCOLO_MAESTRO.md` | §5.5 ampliado |
+| `tests/plantilla-docx.test.js` | Aviso de portada |
+
+**Verificación:** pendiente en este registro.
+
 ### 2026-11-18 (313): Piloto agua PQ — criterio individual y pendientes en rojo
 
 **Qué:** se ejecuta el paso 1 del plan: los 23 ensayos PQ del sistema de agua (`SIS-PQ-AP-001` a `023`) pasan de plan genérico y criterio vago a plan por tipo de dato y criterio propio con valor numérico. Lo que no se puede confirmar sin el analista queda en rojo.
