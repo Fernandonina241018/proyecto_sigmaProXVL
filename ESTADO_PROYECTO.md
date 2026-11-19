@@ -90,6 +90,30 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (StatAnalyzer Pro) co
 
 ## CAMBIOS RECIENTES
 
+### 2026-11-19 (317): Estabilidad con estándar del piloto + contrato de contenido
+
+**Qué:** los 40 ensayos de cámaras de estabilidad quedan con criterio propio, plan por tipo de dato y contrato de test.
+- **2 IQ + 19 OQ + 19 PQ.** Los 28 con `data-analisis="si"` tienen plan con variable, unidad, n y regla de decisión; no se tocaron los flags para no romper el contrato existente.
+- **35/40 criterios con valor numérico**: uniformidad ±2 °C y ±5 % HR, exactitud de sensores ±0,5 °C/±3 % HR, recuperación tras puerta ≤ 30 min, llegada a condiciones ≤ 60 min, autonomía tras corte ≥ 30 min, intervalo de registro ≤ 15 min.
+- **34 ensayos con valores propuestos en rojo**, cada uno con nota e origen (ICH Q1A(R2), ICH Q1B, OMS TRS 1010 Anexo 7, USP `<1079>`).
+- **Sin «dentro de lo definido»** ni «pendiente de confirmación» en criterios.
+- **Tests nuevos** en `tests/banco-estabilidad.test.js`: cinco secciones por ensayo, plan completo cuando analiza, criterios sin texto vago, nota obligatoria si hay valor propuesto y fuente normativa cuando hay °C/% HR.
+
+**Estado medido:**
+```
+estabilidad: 40 ensayos · 28 con plan · 35 con valor numérico · 34 con valores propuestos
+global: 379/1392 criterios con valor (27 %, antes 347) · 301 clonados en 121 grupos (antes 322/130)
+```
+
+**Archivos afectados:**
+| Archivo | Cambio |
+|---------|--------|
+| `docs/banco-ensayos/estabilidad/{iq,oq,pq}-camaras.html` | 40 ensayos reescritos |
+| `js/core/banco-estabilidad-data.js` | Regenerado (v3) |
+| `tests/banco-estabilidad.test.js` | 6 pruebas de contrato de contenido |
+
+**Verificación:** pendiente en este registro.
+
 ### 2026-11-19 (317): Almacenes — ensayos de datos con el estándar de sistemas
 
 **Qué:** los 6 ensayos de medición del banco de almacenes quedan con el estándar del piloto de sistemas; los de atributo se afinan.
