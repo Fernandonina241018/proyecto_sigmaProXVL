@@ -1,7 +1,7 @@
 // Generado por scripts/extraer-banco.mjs sistemas — NO EDITAR A MANO.
-// Fuente: docs/banco-ensayos/sistemas/iq-agua-purificada.html + docs/banco-ensayos/sistemas/iq-hvac.html + docs/banco-ensayos/sistemas/iq-vapor-limpio.html + docs/banco-ensayos/sistemas/iq-aire-comprimido.html + docs/banco-ensayos/sistemas/oq-agua-purificada.html + docs/banco-ensayos/sistemas/pq-agua-purificada.html + docs/banco-ensayos/sistemas/oq-hvac.html + docs/banco-ensayos/sistemas/pq-hvac.html + docs/banco-ensayos/sistemas/oq-vapor-limpio.html + docs/banco-ensayos/sistemas/pq-vapor-limpio.html + docs/banco-ensayos/sistemas/oq-aire-comprimido.html + docs/banco-ensayos/sistemas/pq-aire-comprimido.html (versión: SIS-IQ-AP 2026-11-18 v2 + SIS-IQ-HV 2026-10-24 v1 + SIS-IQ-VL 2026-10-24 v1 + SIS-IQ-AC 2026-10-24 v1 + SIS-OQ-AP 2026-11-18 v2 + SIS-PQ-AP 2026-11-18 v2 + SIS-OQ-HV 2026-10-14 v1 + SIS-PQ-HV 2026-10-14 v1 + SIS-OQ-VL 2026-10-14 v1 + SIS-PQ-VL 2026-10-14 v1 + SIS-OQ-AC 2026-10-15 v1 + SIS-PQ-AC 2026-10-15 v1).
+// Fuente: docs/banco-ensayos/sistemas/iq-agua-purificada.html + docs/banco-ensayos/sistemas/iq-hvac.html + docs/banco-ensayos/sistemas/iq-vapor-limpio.html + docs/banco-ensayos/sistemas/iq-aire-comprimido.html + docs/banco-ensayos/sistemas/oq-agua-purificada.html + docs/banco-ensayos/sistemas/pq-agua-purificada.html + docs/banco-ensayos/sistemas/oq-hvac.html + docs/banco-ensayos/sistemas/pq-hvac.html + docs/banco-ensayos/sistemas/oq-vapor-limpio.html + docs/banco-ensayos/sistemas/pq-vapor-limpio.html + docs/banco-ensayos/sistemas/oq-aire-comprimido.html + docs/banco-ensayos/sistemas/pq-aire-comprimido.html (versión: SIS-IQ-AP 2026-11-18 v2 + SIS-IQ-HV 2026-11-18 v2 + SIS-IQ-VL 2026-11-18 v2 + SIS-IQ-AC 2026-11-18 v2 + SIS-OQ-AP 2026-11-18 v2 + SIS-PQ-AP 2026-11-18 v2 + SIS-OQ-HV 2026-11-18 v2 + SIS-PQ-HV 2026-11-18 v2 + SIS-OQ-VL 2026-11-18 v2 + SIS-PQ-VL 2026-11-18 v2 + SIS-OQ-AC 2026-11-18 v2 + SIS-PQ-AC 2026-11-18 v2).
 var BancoSistemas = {
- "version": "SIS-IQ-AP 2026-11-18 v2 + SIS-IQ-HV 2026-10-24 v1 + SIS-IQ-VL 2026-10-24 v1 + SIS-IQ-AC 2026-10-24 v1 + SIS-OQ-AP 2026-11-18 v2 + SIS-PQ-AP 2026-11-18 v2 + SIS-OQ-HV 2026-10-14 v1 + SIS-PQ-HV 2026-10-14 v1 + SIS-OQ-VL 2026-10-14 v1 + SIS-PQ-VL 2026-10-14 v1 + SIS-OQ-AC 2026-10-15 v1 + SIS-PQ-AC 2026-10-15 v1",
+ "version": "SIS-IQ-AP 2026-11-18 v2 + SIS-IQ-HV 2026-11-18 v2 + SIS-IQ-VL 2026-11-18 v2 + SIS-IQ-AC 2026-11-18 v2 + SIS-OQ-AP 2026-11-18 v2 + SIS-PQ-AP 2026-11-18 v2 + SIS-OQ-HV 2026-11-18 v2 + SIS-PQ-HV 2026-11-18 v2 + SIS-OQ-VL 2026-11-18 v2 + SIS-PQ-VL 2026-11-18 v2 + SIS-OQ-AC 2026-11-18 v2 + SIS-PQ-AC 2026-11-18 v2",
  "fases": {
   "IQ": [
    {
@@ -364,15 +364,19 @@ var BancoSistemas = {
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Los componentes mecánicos corresponden al diseño aprobado.<br>\n  Sin fugas, daños ni componentes sueltos.<br>\n  Accesibilidad para mantenimiento garantizada."
+      "html": "<strong>Criterio de aceptación:</strong><br>UMA, ventiladores, serpentines y componentes mecánicos instalados según plano aprobado, con accesos de mantenimiento libres.<br>Aislamiento antivibratorio en ventiladores y soportes sin tensión mecánica.<br>Bandeja de condensado con pendiente ≥ <span class=\"por-confirmar\">1 %</span> y sello hidráulico funcional.<br>Sin fugas de agua, refrigerante ni aire en uniones y conexiones."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registro fotográfico de UMA y componentes (anexo del informe)<br>\n  - Checklist de verificación mecánica firmado"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>La pendiente y el sello hidráulico dependen del diseño de la UMA; se confirman contra el plano as-built."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br><span class=\"refnorma\">EU GMP Anexo 1 — Fabricación de productos estériles</span>; ISO 14644-1."
+      "html": "<strong>Referencia:</strong><br>ISO 14644-1; ISO 14644-3; EU GMP Anexo 1; OMS TRS 1010 Anexo 2; 21 CFR 211.42(c)."
      }
     ],
     "tabla": null,
@@ -395,15 +399,19 @@ var BancoSistemas = {
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Cada filtro HEPA cuenta con certificado de fábrica trazable a su número de serie.<br>\n  Marcos y juntas sin daños, sin vías de derivación.<br>\n  Clasificación de aire conforme al grado especificado."
+      "html": "<strong>Criterio de aceptación:</strong><br>Filtros HEPA de la clase especificada (<span class=\"por-confirmar\">H13/H14, ISO 29463</span>) y certificado del fabricante disponible.<br>Marco y empaque sin daño, sello continuo y sin bypass entre filtro y marco.<br>Identificación de clase, lote y fecha de instalación en cada filtro.<br>Registro de la caída de presión inicial por filtro."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Certificados de fábrica de filtros HEPA<br>\n  - Registro de filtros instalados (ubicación, serie, fecha de instalación)"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>La clase HEPA en rojo debe confirmarse contra la clasificación del área (ISO 14644-1) y la URS."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br><span class=\"refnorma\">EN 1822 — Filtros de partículas de alta eficiencia (EPA, HEPA, ULPA)</span>; ISO 14644-3."
+      "html": "<strong>Referencia:</strong><br>ISO 29463; ISO 14644-3; EU GMP Anexo 1; OMS TRS 1010 Anexo 2."
      }
     ],
     "tabla": null,
@@ -426,15 +434,19 @@ var BancoSistemas = {
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  100% de sensores instalados en ubicación correcta según plano.<br>\n  Etiqueta de calibración vigente por sensor.<br>\n  Setpoints configurados coinciden con la URS."
+      "html": "<strong>Criterio de aceptación:</strong><br>Sensores de temperatura, humedad y presión diferencial instalados en la ubicación representativa definida en plano.<br>Identificación individual y certificado de calibración vigente (≤ <span class=\"por-confirmar\">12 meses</span>).<br>Rango del instrumento cubre el valor de operación y el de alarma.<br>Sin obstrucción, estratificación ni exposición directa a la corriente de aire."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Tabla de instrumentos de medición (modelo/serie/ubicación/certificado)<br>\n  - Copias de certificados de calibración<br>\n  - Captura de pantalla de setpoints en BMS/SCADA"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>La vigencia de calibración en rojo es la del programa del sitio; la ubicación se verifica, no se asume."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br><span class=\"refnorma\">ISO/IEC 17025 — Competencia de laboratorios de ensayo y calibración</span>; EU GMP Anexo 15."
+      "html": "<strong>Referencia:</strong><br>ISO 14644-3; ISO/IEC 17025; 21 CFR 211.160(b)."
      }
     ],
     "tabla": null,
@@ -457,15 +469,19 @@ var BancoSistemas = {
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Ductos y componentes corresponden al plano as-built.<br>\n  Sin fugas, obstrucciones ni componentes sin identificar.<br>\n  Diferencias documentadas y justificadas."
+      "html": "<strong>Criterio de aceptación:</strong><br>Ductos, difusores, retornos y registros instalados según plano as-built, con el 100 % de los puntos identificados.<br>Sellado de ductos sin fugas visibles; aislamiento continuo y sin condensación.<br>Registros y dampers accesibles para ajuste y bloqueo.<br>Sin recorridos que crucen áreas de distinta clasificación sin sello."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Plano as-built con ductos verificados y firmado<br>\n  - Matriz ducto-vs-instalado<br>\n  - Registro fotográfico de difusores y retornos"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>El sellado se verifica por inspección y, si el diseño lo exige, por prueba de estanqueidad de ductos documentada."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br><span class=\"refnorma\">EU GMP Anexo 1 — Fabricación de productos estériles</span>; ASHRAE Handbook HVAC Applications."
+      "html": "<strong>Referencia:</strong><br>ISO 14644-1; ISO 14644-3; EU GMP Anexo 1; OMS TRS 1010 Anexo 2; 21 CFR 211.42(c)."
      }
     ],
     "tabla": null,
@@ -488,15 +504,19 @@ var BancoSistemas = {
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Lógica de control opera según especificación.<br>\n  Alarmas configuradas y funcionales para todos los parámetros críticos.<br>\n  Respaldo de energía verificado para equipos de control."
+      "html": "<strong>Criterio de aceptación:</strong><br>Sistema de control (BMS/SCADA/PLC) con el 100 % de los puntos de la lista de señales instalados y direccionados.<br>Alarmas configuradas con setpoint, retardo y destinatario definidos.<br>Usuarios y roles únicos, sin cuentas compartidas; audit trail activo.<br>Respaldo de configuración disponible y restauración probada."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de configuración de alarmas (BMS/SCADA)<br>\n  - Pruebas de activación de alarma (captura de pantalla/log)<br>\n  - Verificación de respaldo de energía"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>La lista de señales es la del diseño aprobado: un punto faltante es desviación, no un pendiente para después."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br><span class=\"refnorma\">EU GMP Anexo 11 — Sistemas informatizados</span>; 21 CFR Parte 11."
+      "html": "<strong>Referencia:</strong><br>21 CFR Parte 11; EU GMP Anexo 11; EU GMP Anexo 1; ALCOA+."
      }
     ],
     "tabla": null,
@@ -519,15 +539,19 @@ var BancoSistemas = {
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Renovaciones de aire dentro del rango especificado para el grado del área.<br>\n  Patrón de flujo conforme al diseño (unidireccional en grado A/B).<br>\n  Dirección de flujo de aire entre zonas correcta."
+      "html": "<strong>Criterio de aceptación:</strong><br>Renovaciones de aire por hora (ACH) calculadas con el caudal de diseño y el volumen real del cuarto, ≥ el mínimo del URS (<span class=\"por-confirmar\">clase del área</span>).<br>Patrón de flujo declarado (turbulento o unidireccional) y coherente con la clasificación.<br>Cálculo documentado con caudal medido y volumen as-built.<br>Sin zonas de estancamiento previstas en el diseño de difusión."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de mediciones de caudal y velocidad de aire<br>\n  - Prueba visual de patrón de flujo (fotos/video)<br>\n  - Cálculo de ACH por área"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>El ACH mínimo en rojo depende de la clase del área y de la guía adoptada (OMS/ISO); se confirma en la URS."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br><span class=\"refnorma\">ISO 14644-1 — Clasificación de limpieza del aire en salas limpias</span>; EU GMP Anexo 1."
+      "html": "<strong>Referencia:</strong><br>ISO 14644-1; ISO 14644-3; EU GMP Anexo 1; OMS TRS 1010 Anexo 2; 21 CFR 211.42(c)."
      }
     ],
     "tabla": null,
@@ -550,15 +574,19 @@ var BancoSistemas = {
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  100% de instrumentos con certificado de calibración vigente.<br>\n  Trazabilidad a patrones reconocidos.<br>\n  Incertidumbre declarada compatible con el uso previsto."
+      "html": "<strong>Criterio de aceptación:</strong><br>El 100 % de los instrumentos del HVAC (manómetros, termómetros, higrómetros, transmisores) identificados e instalados.<br>Calibración vigente (≤ <span class=\"por-confirmar\">12 meses</span>) y trazable, con certificado archivado.<br>Rango y resolución adecuados al valor de operación y al de alarma.<br>Acceso para verificación in situ sin desmontar el instrumento."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Listado de instrumentos HVAC con certificado de calibración<br>\n  - Copias de certificados de calibración (anexo del informe)"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>El intervalo de calibración en rojo debe confirmarse con el programa metrológico del sitio."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br><span class=\"refnorma\">ISO/IEC 17025 — Calibración trazable a patrones nacionales o internacionales</span>."
+      "html": "<strong>Referencia:</strong><br>ISO/IEC 17025; 21 CFR 211.160(b); ISO 14644-3."
      }
     ],
     "tabla": null,
@@ -672,15 +700,19 @@ var BancoSistemas = {
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Generador de vapor limpio instalado conforme a especificaciones.<br>\n  Materiales compatibles con vapor limpio (contacto con producto).<br>\n  Capacidad suficiente para la demanda del sistema."
+      "html": "<strong>Criterio de aceptación:</strong><br>Generador instalado según plano aprobado, con certificados de material 316L en superficies de contacto.<br>Conexiones sanitarias, sin puntos muertos y con drenaje completo.<br>Válvula de seguridad y purgadores instalados y accesibles.<br>Etiquetado de líneas: contenido, dirección y número de línea."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registro fotográfico del generador de vapor limpio (anexo del informe)<br>\n  - Ficha técnica y certificado del fabricante"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>El material y el acabado se confirman contra la especificación de diseño; el generador no se modifica en campo sin control de cambios."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br><span class=\"refnorma\">EN 285 — Esterilizadores a vapor de gran capacidad</span>; EU GMP Anexo 1."
+      "html": "<strong>Referencia:</strong><br>EN 285; HTM 2031; USP &lt;1231&gt;; EU GMP Anexo 1; EU GMP Anexo 15."
      }
     ],
     "tabla": null,
@@ -703,15 +735,19 @@ var BancoSistemas = {
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Materiales conforme a especificación de diseño.<br>\n  Pendiente y drenaje adecuados hacia puntos de drenaje.<br>\n  Trampas de vapor instaladas en puntos bajos y finales de ramal.<br>\n  Sin puntos muertos."
+      "html": "<strong>Criterio de aceptación:</strong><br>Red con pendiente ≥ <span class=\"por-confirmar\">1 %</span> hacia purgadores y puntos de drenaje.<br>Aislamiento térmico continuo, sin tramos descubiertos en zonas accesibles.<br>Purgadores en puntos bajos y al final de cada ramal.<br>Sellos y juntas aptos para vapor; sin materiales no compatibles."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Matriz material-diseño-vs-instalado de la red de vapor<br>\n  - Registro fotográfico de trampas de vapor y válvulas (anexo del informe)"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>La pendiente en rojo debe confirmarse contra el isométrico; se verifica en campo."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br><span class=\"refnorma\">EN 285 — Esterilizadores a vapor de gran capacidad</span>; EU GMP Parte II."
+      "html": "<strong>Referencia:</strong><br>EN 285; HTM 2031; USP &lt;1231&gt;; EU GMP Anexo 1; EU GMP Anexo 15."
      }
     ],
     "tabla": null,
@@ -734,15 +770,19 @@ var BancoSistemas = {
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Puntos de uso con válvula de corte y drenaje/trampa.<br>\n  Identificaciones y etiquetas presentes.<br>\n  Puntos de uso accesibles para operación y mantenimiento."
+      "html": "<strong>Criterio de aceptación:</strong><br>Puntos de uso con válvula de corte sanitaria, drenaje y trampa de vapor.<br>Conexión de muestreo con condensador de enfriamiento instalado.<br>Identificación de cada punto contra plano, con altura y acceso para muestreo.<br>Sin tramos ciegos &gt; 3D en la conexión del punto."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Listado de puntos de uso de vapor (ubicación, tipo, válvula de corte, trampa)<br>\n  - Plano de distribución con puntos de uso marcados"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>El criterio 3D en rojo debe adoptarse antes de medir; se registra la medición por punto."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br><span class=\"refnorma\">EN 285 — Esterilizadores a vapor de gran capacidad</span>; EU GMP Anexo 1."
+      "html": "<strong>Referencia:</strong><br>EN 285; HTM 2031; USP &lt;1231&gt;; EU GMP Anexo 1; EU GMP Anexo 15."
      }
     ],
     "tabla": null,
@@ -765,15 +805,19 @@ var BancoSistemas = {
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Calidad de agua de alimentación conforme a especificaciones del generador.<br>\n  Instrumentos de medición de calidad instalados y operativos.<br>\n  Registros de calidad disponibles."
+      "html": "<strong>Criterio de aceptación:</strong><br>Agua de alimentación conforme a la especificación del generador (<span class=\"por-confirmar\">conductividad y dureza</span>).<br>Sistema de tratamiento (ablandador, ósmosis o desmineralizador) instalado y operativo.<br>Punto de muestreo de alimentación accesible y identificado.<br>Registro de la calidad del agua de alimentación disponible."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Especificaciones de calidad de agua de alimentación<br>\n  - Registros de calidad de agua de entrada (primeros resultados)"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>Los límites del agua de alimentación en rojo salen del manual del generador; no se asumen."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br><span class=\"refnorma\">USP &lt;1231&gt; — Agua para usos farmacéuticos</span>; manual del fabricante del generador."
+      "html": "<strong>Referencia:</strong><br>EN 285; HTM 2031; USP &lt;1231&gt;; EU GMP Anexo 1; EU GMP Anexo 15."
      }
     ],
     "tabla": null,
@@ -796,15 +840,19 @@ var BancoSistemas = {
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  100% de instrumentos instalados en ubicación representativa.<br>\n  Etiqueta de calibración vigente por instrumento.<br>\n  Alarmas configuradas para límites de alta/baja."
+      "html": "<strong>Criterio de aceptación:</strong><br>Instrumentos de temperatura, presión y caudal instalados en ubicación representativa.<br>Identificación individual y calibración vigente (≤ <span class=\"por-confirmar\">12 meses</span>).<br>Rango adecuado a la presión y temperatura de operación.<br>Acceso para verificación in situ."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Tabla de instrumentos de medición (modelo/serie/ubicación/certificado)<br>\n  - Copias de certificados de calibración<br>\n  - Captura de pantalla de alarmas configuradas"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>El intervalo de calibración en rojo es el del programa metrológico del sitio."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br><span class=\"refnorma\">ISO/IEC 17025 — Competencia de laboratorios de ensayo y calibración</span>; EU GMP Anexo 15."
+      "html": "<strong>Referencia:</strong><br>EN 285; HTM 2031; USP &lt;1231&gt;; EU GMP Anexo 1; EU GMP Anexo 15."
      }
     ],
     "tabla": null,
@@ -827,15 +875,19 @@ var BancoSistemas = {
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Válvulas de alivio y seguridad con certificado de calibración vigente.<br>\n  Presión de ajuste conforme al diseño del sistema.<br>\n  Descarga conducida a zona segura."
+      "html": "<strong>Criterio de aceptación:</strong><br>Válvulas de alivio y seguridad instaladas, identificadas y con certificado vigente.<br>Tarado igual o menor a la presión máxima de diseño del sistema.<br>Tubería de descarga dirigida a zona segura y sin obstrucción.<br>Registro de la última prueba de apertura disponible."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Tabla de válvulas de alivio (ubicación/presión de ajuste/certificado)<br>\n  - Copias de certificados de calibración de válvulas de seguridad"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>El tarado se verifica contra el certificado; si difiere del diseño, es desviación, no ajuste en campo."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br><span class=\"refnorma\">ASME BPVC Sección VIII — Recipientes a presión</span>; EN 285."
+      "html": "<strong>Referencia:</strong><br>EN 285; HTM 2031; USP &lt;1231&gt;; EU GMP Anexo 1; EU GMP Anexo 15."
      }
     ],
     "tabla": null,
@@ -858,15 +910,19 @@ var BancoSistemas = {
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  100% de instrumentos con certificado de calibración vigente.<br>\n  Trazabilidad a patrones reconocidos.<br>\n  Incertidumbre declarada compatible con el uso previsto."
+      "html": "<strong>Criterio de aceptación:</strong><br>El 100 % de los instrumentos del sistema identificados e instalados.<br>Calibración vigente y trazable, con certificado archivado.<br>Rango y resolución adecuados al valor de operación y de alarma.<br>Acceso para verificación sin desmontar."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Listado de instrumentos de vapor con certificado de calibración<br>\n  - Copias de certificados de calibración (anexo del informe)"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>La vigencia de calibración debe confirmarse instrumento por instrumento; no se acepta un certificado genérico."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br><span class=\"refnorma\">ISO/IEC 17025 — Calibración trazable a patrones nacionales o internacionales</span>."
+      "html": "<strong>Referencia:</strong><br>EN 285; HTM 2031; USP &lt;1231&gt;; EU GMP Anexo 1; EU GMP Anexo 15."
      }
     ],
     "tabla": null,
@@ -980,15 +1036,19 @@ var BancoSistemas = {
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Compresor instalado conforme a especificaciones de diseño.<br>\n  Capacidad suficiente para la demanda del sistema de aire comprimido.<br>\n  Ubicación con ventilación adecuada y acceso para mantenimiento."
+      "html": "<strong>Criterio de aceptación:</strong><br>Compresor y equipo de generación instalados según plano, con accesos de mantenimiento y ventilación.<br>Aislamiento antivibratorio y anclaje sin tensión mecánica.<br>Separador de condensado y drenaje instalados y accesibles.<br>Admisión de aire en zona limpia, alejada de fuentes de contaminación."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registro fotográfico del compresor y equipo de generación (anexo del informe)<br>\n  - Ficha técnica y certificado del fabricante"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>La ubicación de la admisión se verifica en campo: el aire aspirado define la calidad que el tratamiento debe corregir."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br><span class=\"refnorma\">ISO 8573-1 — Calidad del aire comprimido</span>; EU GMP Parte II."
+      "html": "<strong>Referencia:</strong><br>ISO 8573-1; ISO 8573-2/-3/-4/-6/-9; ISO 12500; EU GMP Anexo 1; 21 CFR 211.160(b)."
      }
     ],
     "tabla": null,
@@ -1011,15 +1071,19 @@ var BancoSistemas = {
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Filtros instalados conforme al grado de filtración especificado.<br>\n  Certificados de fábrica trazables a número de serie.<br>\n  Sin vías de derivación ni daños en marcos y juntas."
+      "html": "<strong>Criterio de aceptación:</strong><br>Filtros de partículas, coalescentes y de carbón instalados en el orden del diseño.<br>Clase y caudal nominal iguales o mayores al diseño; certificado del fabricante disponible.<br>Indicadores de ΔP y purgas accesibles.<br>Sin bypass ni filtro omitido en la secuencia."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Certificados de fábrica de filtros<br>\n  - Registro de filtros instalados (tipo/ubicación/serie/fecha de instalación)"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>La secuencia de filtración se verifica contra el plano; un bypass abierto anula la calidad aguas abajo."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br><span class=\"refnorma\">ISO 8573-1 — Calidad del aire comprimido — Parte 1: Contaminantes y clases de pureza</span>; EU GMP Parte II."
+      "html": "<strong>Referencia:</strong><br>ISO 8573-1; ISO 8573-2/-3/-4/-6/-9; ISO 12500; EU GMP Anexo 1; 21 CFR 211.160(b)."
      }
     ],
     "tabla": null,
@@ -1042,15 +1106,19 @@ var BancoSistemas = {
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Secador instalado y operativo.<br>\n  Punto de rocío configurado conforme a especificación de diseño.<br>\n  Instrumento de medición de punto de rocío instalado y con calibración vigente."
+      "html": "<strong>Criterio de aceptación:</strong><br>Secador instalado con capacidad y clase de punto de rocío conforme al diseño (<span class=\"por-confirmar\">clase 2: -40 °C</span>).<br>Punto de muestreo de rocío instalado aguas abajo del secador.<br>Drenaje y purga conectados sin retención.<br>Filtro posterior al desecante instalado si el secador es de adsorción."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Descripción del sistema de secado instalado<br>\n  - Registro de punto de rocío configurado y medido<br>\n  - Certificado de calibración del sensor de humedad/punto de rocío"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>La clase de rocío en rojo se confirma con la clase ISO 8573-1 adoptada para el aire de proceso."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br><span class=\"refnorma\">ISO 8573-1 — Calidad del aire comprimido</span>; manual del fabricante del secador."
+      "html": "<strong>Referencia:</strong><br>ISO 8573-1; ISO 8573-2/-3/-4/-6/-9; ISO 12500; EU GMP Anexo 1; 21 CFR 211.160(b)."
      }
     ],
     "tabla": null,
@@ -1073,15 +1141,19 @@ var BancoSistemas = {
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Materiales conforme a especificación de diseño.<br>\n  Pendiente y drenaje adecuados hacia puntos de drenaje.<br>\n  Válvulas de purga en puntos bajos y finales de ramal.<br>\n  Sin puntos muertos."
+      "html": "<strong>Criterio de aceptación:</strong><br>Red en acero inoxidable o aluminio con certificados de material; sin cobre ni plástico no apto.<br>Pendiente ≥ <span class=\"por-confirmar\">1 %</span> hacia los drenajes y sin bolsas.<br>Purgadores y drenajes en puntos bajos y al final de ramales.<br>Sellos compatibles y sin fugas visibles."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Matriz material-diseño-vs-instalado de la red de aire comprimido<br>\n  - Registro fotográfico de válvulas de purga y drenaje (anexo del informe)"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>La pendiente en rojo se confirma contra el isométrico; se verifica en campo."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br><span class=\"refnorma\">ISO 8573-1 — Calidad del aire comprimido</span>; EU GMP Parte II."
+      "html": "<strong>Referencia:</strong><br>ISO 8573-1; ISO 8573-2/-3/-4/-6/-9; ISO 12500; EU GMP Anexo 1; 21 CFR 211.160(b)."
      }
     ],
     "tabla": null,
@@ -1104,15 +1176,19 @@ var BancoSistemas = {
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Puntos de uso con válvula de corte, regulador y purga.<br>\n  Identificaciones y etiquetas presentes.<br>\n  Puntos de uso accesibles para operación y mantenimiento."
+      "html": "<strong>Criterio de aceptación:</strong><br>Puntos de uso con válvula de corte, regulador y filtro final si el uso lo exige.<br>Conexión sanitaria e identificación contra plano.<br>Punto de muestreo accesible para calidad de aire.<br>Sin tramos ciegos &gt; 3D en la conexión."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Listado de puntos de uso de aire comprimido (ubicación, tipo, válvula de corte, regulador, purga)<br>\n  - Plano de distribución con puntos de uso marcados"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>El criterio 3D en rojo debe adoptarse antes de medir; se registra por punto."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br><span class=\"refnorma\">ISO 8573-1 — Calidad del aire comprimido</span>; EU GMP Parte II."
+      "html": "<strong>Referencia:</strong><br>ISO 8573-1; ISO 8573-2/-3/-4/-6/-9; ISO 12500; EU GMP Anexo 1; 21 CFR 211.160(b)."
      }
     ],
     "tabla": null,
@@ -1135,15 +1211,19 @@ var BancoSistemas = {
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  100% de instrumentos instalados en ubicación representativa.<br>\n  Etiqueta de calibración vigente por instrumento.<br>\n  Alarmas configuradas para límites de alta/baja y punto de rocío."
+      "html": "<strong>Criterio de aceptación:</strong><br>Manómetros, medidores de caudal y sensores de rocío instalados en ubicación representativa.<br>Calibración vigente (≤ <span class=\"por-confirmar\">12 meses</span>) y trazable.<br>Rango adecuado a presión, caudal y punto de rocío de operación.<br>Identificación individual por instrumento."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Tabla de instrumentos de medición (modelo/serie/ubicación/certificado)<br>\n  - Copias de certificados de calibración<br>\n  - Captura de pantalla de alarmas configuradas"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>El intervalo de calibración en rojo es el del programa metrológico del sitio."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br><span class=\"refnorma\">ISO/IEC 17025 — Competencia de laboratorios de ensayo y calibración</span>; EU GMP Anexo 15."
+      "html": "<strong>Referencia:</strong><br>ISO 8573-1; ISO 8573-2/-3/-4/-6/-9; ISO 12500; EU GMP Anexo 1; 21 CFR 211.160(b)."
      }
     ],
     "tabla": null,
@@ -1166,15 +1246,19 @@ var BancoSistemas = {
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Sistema de registro operativo con parámetros críticos capturados (cuando el aire contacta producto).<br>\n  Audit trail activo y acceso restringido (cuando aplique 21 CFR Parte 11).<br>\n  Copias de seguridad definidas."
+      "html": "<strong>Criterio de aceptación:</strong><br>Registro de partículas, aceite, humedad y punto de rocío con trazabilidad por punto.<br>Audit trail activo y acceso restringido por rol.<br>Respaldo definido y restauración probada.<br>Retención ≥ <span class=\"por-confirmar\">1 año</span> o la política del sitio."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Configuración del sistema de registro de calidad del aire<br>\n  - Evidencia de audit trail activo (si aplica)<br>\n  - Procedimiento de copias de seguridad"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>La retención en rojo se confirma con la política de registros; el respaldo se prueba."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br><span class=\"refnorma\">21 CFR Parte 11 — Registros electrónicos y firmas electrónicas</span>; ISO 8573-1."
+      "html": "<strong>Referencia:</strong><br>ISO 8573-1; ISO 8573-2/-3/-4/-6/-9; ISO 12500; EU GMP Anexo 1; 21 CFR 211.160(b)."
      }
     ],
     "tabla": null,
@@ -2387,7 +2471,7 @@ var BancoSistemas = {
      },
      {
       "et": "Procedimiento",
-      "html": "<strong>Procedimiento:</strong><br>\n  1) Ejecutar la sanitización térmica (80 °C) o química según el procedimiento aprobado<br>\n  2) Registrar temperatura o concentración y tiempo en cada punto, incluido el retorno<br>\n  3) Identificar con datos el punto más frío o de menor concentración<br>\n  4) Repetir 3 ciclos y comparar el punto más desfavorable contra el criterio"
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Ejecutar la sanitización térmica (80 °C) o química según el procedimiento aprobado<br>\n  2) Registrar temperatura o concentración y tiempo en cada punto, incluido el retorno<br>\n  3) Identificar con datos el punto más frío o de menor concentración<br>\n  4) Repetir 3 ciclos y comparar el punto más desfavorable contra el criterio<br>\n  5) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
      },
      {
       "et": "Plan estadístico",
@@ -2399,7 +2483,7 @@ var BancoSistemas = {
      },
      {
       "et": "Documentos entregables",
-      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de la sanitización (anexo del informe)"
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de la sanitización (anexo del informe)<br>\n  - Data cruda y reporte estadístico del ensayo"
      },
      {
       "et": "Nota",
@@ -2411,6 +2495,7 @@ var BancoSistemas = {
      }
     ],
     "tabla": null,
+    "analisis": "si",
     "familia": "agua-purificada"
    },
    {
@@ -2426,7 +2511,7 @@ var BancoSistemas = {
      },
      {
       "et": "Procedimiento",
-      "html": "<strong>Procedimiento:</strong><br>\n  1) Tomar muestra en cada punto representativo tras el enjuague<br>\n  2) Medir conductividad, TOC y ausencia del sanitizante por el método específico<br>\n  3) Repetir hasta obtener 3 muestras consecutivas conformes<br>\n  4) Liberar el sistema solo con las 3 muestras conformes registradas"
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Tomar muestra en cada punto representativo tras el enjuague<br>\n  2) Medir conductividad, TOC y ausencia del sanitizante por el método específico<br>\n  3) Repetir hasta obtener 3 muestras consecutivas conformes<br>\n  4) Liberar el sistema solo con las 3 muestras conformes registradas<br>\n  5) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
      },
      {
       "et": "Plan estadístico",
@@ -2438,7 +2523,7 @@ var BancoSistemas = {
      },
      {
       "et": "Documentos entregables",
-      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro del enjuague (anexo del informe)"
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro del enjuague (anexo del informe)<br>\n  - Data cruda y reporte estadístico del ensayo"
      },
      {
       "et": "Nota",
@@ -2450,6 +2535,7 @@ var BancoSistemas = {
      }
     ],
     "tabla": null,
+    "analisis": "si",
     "familia": "agua-purificada"
    },
    {
@@ -2585,7 +2671,7 @@ var BancoSistemas = {
      },
      {
       "et": "Procedimiento",
-      "html": "<strong>Procedimiento:</strong><br>\n  1) Operar el sistema completo durante el período definido (72 h propuestas)<br>\n  2) Registrar conductividad y TOC en cada intervalo definido, sin resúmenes<br>\n  3) Registrar cada alarma y desviación con su tratamiento<br>\n  4) Verificar que no haya paradas no programadas ni estancamiento"
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Operar el sistema completo durante el período definido (72 h propuestas)<br>\n  2) Registrar conductividad y TOC en cada intervalo definido, sin resúmenes<br>\n  3) Registrar cada alarma y desviación con su tratamiento<br>\n  4) Verificar que no haya paradas no programadas ni estancamiento<br>\n  5) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
      },
      {
       "et": "Plan estadístico",
@@ -2597,7 +2683,7 @@ var BancoSistemas = {
      },
      {
       "et": "Documentos entregables",
-      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de la operación (anexo del informe)"
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de la operación (anexo del informe)<br>\n  - Data cruda y reporte estadístico del ensayo"
      },
      {
       "et": "Nota",
@@ -2609,6 +2695,7 @@ var BancoSistemas = {
      }
     ],
     "tabla": null,
+    "analisis": "si",
     "familia": "agua-purificada"
    },
    {
@@ -2737,12 +2824,20 @@ var BancoSistemas = {
       "html": "<strong>Procedimiento:</strong><br>\n  1) Activar la alarma y verificar el cierre de cada damper cortafuego<br>\n  2) Verificar el rearme según el diseño y la normativa local"
      },
      {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = cierre del damper cortafuego; unidad = pasa/no pasa. Tipo de dato = atributo. n = 3 activaciones por damper. Estadísticos = proporción de cumplimiento con IC binomial exacto. Regla de decisión = las 3 activaciones deben cerrar completamente. Atípicos: no aplica a datos de atributo; toda exclusión de una repetición se documenta y se conserva el registro original."
+     },
+     {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Cierre total ante la alarma.<br>\n  Rearme según diseño y normativa local."
+      "html": "<strong>Criterio de aceptación:</strong><br>Cada damper cortafuego cierra al activar la alarma en ≤ <span class=\"por-confirmar\">30 s</span> y el rearme es manual.<br>Cierre completo sin holgura y con indicador de posición visible.<br>Registro por damper, con identificación y ubicación."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de la prueba (anexo del informe)"
+     },
+     {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>El tiempo de cierre en rojo debe confirmarse contra la especificación del fabricante y el diseño de protección contra incendio."
      },
      {
       "et": "Referencia",
@@ -2768,12 +2863,20 @@ var BancoSistemas = {
       "html": "<strong>Procedimiento:</strong><br>\n  1) Simular calefacción sin flujo de aire y verificar el bloqueo<br>\n  2) Simular humidificador sin flujo y verificar el bloqueo<br>\n  3) Simular condición anticongelante de serpentines y verificar la protección<br>\n  4) Verificar la coordinación del ventilador de extracción frente al suministro"
      },
      {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = actuación de cada interlock; unidad = pasa/no pasa. Tipo de dato = atributo. n = 3 repeticiones por interlock. Estadísticos = proporción de cumplimiento con IC binomial exacto. Regla de decisión = cada interlock actúa en las 3 repeticiones. Atípicos: no aplica a datos de atributo; toda exclusión de una repetición se documenta y se conserva el registro original."
+     },
+     {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Cada interlock actúa ante su condición."
+      "html": "<strong>Criterio de aceptación:</strong><br>Cada interlock actúa sobre su condición: calefacción sin flujo, humidificador sin flujo, protección anticongelante y presión diferencial.<br>La acción asociada ocurre en ≤ <span class=\"por-confirmar\">5 s</span> y exige rearme manual cuando corresponde.<br>Prueba registrada por interlock, no por grupo."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de interlocks simulados (anexo del informe)"
+     },
+     {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>El tiempo de actuación en rojo se confirma contra el diseño del sistema de control."
      },
      {
       "et": "Referencia",
@@ -2799,12 +2902,20 @@ var BancoSistemas = {
       "html": "<strong>Procedimiento:</strong><br>\n  1) Provocar presión diferencial fuera de rango y verificar disparo y acción<br>\n  2) Provocar alta y baja temperatura y humedad relativa y verificar<br>\n  3) Provocar diferencial de filtros, pérdida de flujo y falla de ventilador y verificar"
      },
      {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = disparo y notificación de alarmas; unidad = pasa/no pasa. Tipo de dato = atributo. n = 3 repeticiones por alarma. Estadísticos = proporción de cumplimiento con IC binomial exacto. Regla de decisión = cada alarma dispara y notifica en las 3 repeticiones. Atípicos: no aplica a datos de atributo; toda exclusión de una repetición se documenta y se conserva el registro original."
+     },
+     {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Cada alarma dispara y ejecuta su acción."
+      "html": "<strong>Criterio de aceptación:</strong><br>Cada alarma dispara en BMS/SCADA y ejecuta la acción asociada.<br>El aviso llega al destinatario definido en ≤ <span class=\"por-confirmar\">5 min</span>.<br>Se registran fecha, hora, valor, límite y usuario en el 100 % de las alarmas probadas."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de alarmas y acciones (anexo del informe)"
+     },
+     {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>El tiempo de aviso en rojo depende del esquema de guardias; debe confirmarse con Calidad y el área usuaria."
      },
      {
       "et": "Referencia",
@@ -2830,12 +2941,20 @@ var BancoSistemas = {
       "html": "<strong>Procedimiento:</strong><br>\n  1) Cortar la energía y verificar el estado seguro<br>\n  2) Restablecer y verificar el reinicio ordenado de ventiladores y extracción<br>\n  3) Verificar el efecto sobre la cascada de presiones"
      },
      {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = recuperación tras corte de energía; unidad = pasa/no pasa. Tipo de dato = atributo. n = 3 cortes controlados. Estadísticos = proporción de cumplimiento con IC binomial exacto. Regla de decisión = las 3 recuperaciones restablecen la cascada. Atípicos: no aplica a datos de atributo; toda exclusión de una repetición se documenta y se conserva el registro original."
+     },
+     {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Estado seguro ante la falla.<br>\n  Reinicio ordenado con cascada recuperada."
+      "html": "<strong>Criterio de aceptación:</strong><br>Ante corte de energía el sistema queda en estado seguro, sin retorno de aire ni pérdida de cascada.<br>Al reiniciar, los ventiladores arrancan en secuencia ordenada y la presión diferencial se restablece en ≤ <span class=\"por-confirmar\">15 min</span>.<br>El evento queda registrado con hora y causa."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de la prueba (anexo del informe)"
+     },
+     {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>Los tiempos en rojo deben confirmarse contra el procedimiento de arranque y el diseño de la cascada."
      },
      {
       "et": "Referencia",
@@ -2858,15 +2977,23 @@ var BancoSistemas = {
      },
      {
       "et": "Procedimiento",
-      "html": "<strong>Procedimiento:</strong><br>\n  1) Simular la falla del ventilador principal (si aplica)<br>\n  2) Verificar el cambio automático y registrar tiempo y presión durante la transferencia"
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Simular la falla del ventilador principal (si aplica)<br>\n  2) Verificar el cambio automático y registrar tiempo y presión durante la transferencia<br>\n  3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = transferencia a ventilador de reserva; unidad = s y Pa. Tipo de dato = continua. n = 3 transferencias forzadas. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = presión dentro de ±10 % y tiempo ≤ 30 s en las 3. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable medida; toda exclusión se documenta y se conserva el dato original."
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Cambio automático con tiempo y presión dentro de lo definido en el protocolo aprobado (si aplica)."
+      "html": "<strong>Criterio de aceptación:</strong><br>El cambio al ventilador de reserva es automático en ≤ <span class=\"por-confirmar\">30 s</span>.<br>La presión diferencial se mantiene dentro de ±<span class=\"por-confirmar\">10 %</span> durante la transferencia.<br>Se registran tiempo, presión y alarma de ventilador detenido; 3 repeticiones."
      },
      {
       "et": "Documentos entregables",
-      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de la transferencia (anexo del informe)"
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de la transferencia (anexo del informe)<br>\n  - Data cruda y reporte estadístico del ensayo"
+     },
+     {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>El tiempo y la tolerancia en rojo se confirman contra el fabricante y la URS."
      },
      {
       "et": "Referencia",
@@ -2874,6 +3001,7 @@ var BancoSistemas = {
      }
     ],
     "tabla": null,
+    "analisis": "si",
     "familia": "hvac"
    },
    {
@@ -2893,15 +3021,19 @@ var BancoSistemas = {
      },
      {
       "et": "Plan estadístico",
-      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+      "html": "<strong>Plan estadístico:</strong><br>Variable = caudal de suministro y retorno; unidad = m³/h. Tipo de dato = continua. n = 3 lecturas por condición. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = media dentro de ±10 % del diseño. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable medida; toda exclusión se documenta y se conserva el dato original."
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Caudales dentro de lo definido en el protocolo aprobado."
+      "html": "<strong>Criterio de aceptación:</strong><br>Caudal de suministro, retorno y aire fresco dentro de ±<span class=\"por-confirmar\">10 %</span> del diseño.<br>Relación frecuencia del ventilador vs. caudal lineal en el rango operativo.<br>3 lecturas por condición, con RSD ≤ 5 %."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registro con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de caudales"
+     },
+     {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>La tolerancia en rojo y los caudales de diseño deben confirmarse contra el balanceo aprobado."
      },
      {
       "et": "Referencia",
@@ -2925,15 +3057,23 @@ var BancoSistemas = {
      },
      {
       "et": "Procedimiento",
-      "html": "<strong>Procedimiento:</strong><br>\n  1) Ajustar la proporción y verificar el punto alcanzado<br>\n  2) Repetir y verificar repetibilidad"
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Ajustar la proporción y verificar el punto alcanzado<br>\n  2) Repetir y verificar repetibilidad<br>\n  3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = proporción de aire fresco; unidad = %. Tipo de dato = continua. n = 3 ajustes con 3 lecturas. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = cada ajuste dentro de ±5 % del valor. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable medida; toda exclusión se documenta y se conserva el dato original."
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Ajuste repetible según lo definido."
+      "html": "<strong>Criterio de aceptación:</strong><br>Proporción de aire fresco y recirculación ajustada al valor de diseño (<span class=\"por-confirmar\">% de aire fresco</span>).<br>Repetibilidad de 3 ajustes dentro de ±5 % del valor ajustado.<br>Sin deriva ni oscilación de los dampers en régimen estable."
      },
      {
       "et": "Documentos entregables",
-      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de la prueba (anexo del informe)"
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de la prueba (anexo del informe)<br>\n  - Data cruda y reporte estadístico del ensayo"
+     },
+     {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>El porcentaje de aire fresco en rojo debe confirmarse con el diseño de balanceo y la clasificación del área."
      },
      {
       "et": "Referencia",
@@ -2941,6 +3081,7 @@ var BancoSistemas = {
      }
     ],
     "tabla": null,
+    "analisis": "si",
     "familia": "hvac"
    },
    {
@@ -2956,15 +3097,23 @@ var BancoSistemas = {
      },
      {
       "et": "Procedimiento",
-      "html": "<strong>Procedimiento:</strong><br>\n  1) Verificar la capacidad de cada serpentín<br>\n  2) Verificar control y respuesta"
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Verificar la capacidad de cada serpentín<br>\n  2) Verificar control y respuesta<br>\n  3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = temperatura de impulsión; unidad = °C. Tipo de dato = continua. n = 3 lecturas por condición de carga. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = media dentro de ±1 °C del setpoint. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable medida; toda exclusión se documenta y se conserva el dato original."
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Capacidad y respuesta según lo definido."
+      "html": "<strong>Criterio de aceptación:</strong><br>Capacidad de enfriamiento, calefacción y poscalentamiento suficiente para el ΔT de diseño a la carga nominal.<br>Control estable sin oscilación &gt; <span class=\"por-confirmar\">±1 °C</span> en 30 min.<br>Sin congelamiento del serpentín ni arrastre de condensado."
      },
      {
       "et": "Documentos entregables",
-      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de la prueba (anexo del informe)"
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de la prueba (anexo del informe)<br>\n  - Data cruda y reporte estadístico del ensayo"
+     },
+     {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>El ΔT y la tolerancia en rojo dependen del diseño térmico; se confirman con la URS."
      },
      {
       "et": "Referencia",
@@ -2972,6 +3121,7 @@ var BancoSistemas = {
      }
     ],
     "tabla": null,
+    "analisis": "si",
     "familia": "hvac"
    },
    {
@@ -2991,15 +3141,19 @@ var BancoSistemas = {
      },
      {
       "et": "Plan estadístico",
-      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+      "html": "<strong>Plan estadístico:</strong><br>Variable = humedad relativa; unidad = % HR. Tipo de dato = continua. n = 3 lecturas por condición de carga. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = media dentro de ±5 % HR del setpoint. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable medida; toda exclusión se documenta y se conserva el dato original."
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Remoción y punto de rocío dentro de lo definido en el protocolo aprobado (si aplica)."
+      "html": "<strong>Criterio de aceptación:</strong><br>Capacidad de remoción de humedad suficiente para el punto de rocío de diseño.<br>Humedad relativa controlada dentro de ±<span class=\"por-confirmar\">5 % HR</span> tras la carga simulada.<br>Sin condensado arrastrado ni crecimiento microbiológico en bandeja."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registro con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de deshumidificación"
+     },
+     {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>La tolerancia y el punto de rocío en rojo deben confirmarse con la URS del área."
      },
      {
       "et": "Referencia",
@@ -3027,15 +3181,19 @@ var BancoSistemas = {
      },
      {
       "et": "Plan estadístico",
-      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+      "html": "<strong>Plan estadístico:</strong><br>Variable = humedad relativa con humidificación; unidad = % HR. Tipo de dato = continua. n = 3 lecturas por condición. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = media dentro de ±5 % HR del setpoint. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable medida; toda exclusión se documenta y se conserva el dato original."
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Capacidad y control dentro de lo definido en el protocolo aprobado (si aplica)."
+      "html": "<strong>Criterio de aceptación:</strong><br>Humidificador con capacidad para el setpoint y control estable dentro de ±<span class=\"por-confirmar\">5 % HR</span>.<br>Calidad del agua o vapor conforme a la referencia adoptada (purificada o limpio).<br>Sin aerosol ni gotas libres; drenaje y sello funcionales."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registro con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis del humidificador"
+     },
+     {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>La fuente de agua o vapor y la tolerancia en rojo se confirman con la URS; el agua debe cumplir su propia especificación."
      },
      {
       "et": "Referencia",
@@ -3063,15 +3221,19 @@ var BancoSistemas = {
      },
      {
       "et": "Plan estadístico",
-      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+      "html": "<strong>Plan estadístico:</strong><br>Variable = caída de presión por etapa de filtro; unidad = Pa. Tipo de dato = continua. n = 3 lecturas por etapa. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = media dentro del valor de diseño y alarma activa. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable medida; toda exclusión se documenta y se conserva el dato original."
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Alarma al límite definido."
+      "html": "<strong>Criterio de aceptación:</strong><br>Caída de presión inicial de prefiltros y filtros finos dentro del valor de diseño.<br>Alarma de filtro sucio configurada y activada al límite (<span class=\"por-confirmar\">ΔP de cambio</span>).<br>Registro por etapa de filtración, sin promediar etapas."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registro con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de filtros"
+     },
+     {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>El ΔP de cambio en rojo se toma del fabricante y del balanceo; no se fija por defecto."
      },
      {
       "et": "Referencia",
@@ -3098,12 +3260,20 @@ var BancoSistemas = {
       "html": "<strong>Procedimiento:</strong><br>\n  1) Verificar la carrera de cada damper<br>\n  2) Verificar hermeticidad y respuesta del actuador"
      },
      {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = carrera y hermeticidad del damper; unidad = pasa/no pasa. Tipo de dato = atributo. n = 3 ciclos por damper. Estadísticos = proporción de cumplimiento con IC binomial exacto. Regla de decisión = los 3 ciclos cierran y abren completos. Atípicos: no aplica a datos de atributo; toda exclusión de una repetición se documenta y se conserva el registro original."
+     },
+     {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Carrera completa, cierre hermético y respuesta según lo definido."
+      "html": "<strong>Criterio de aceptación:</strong><br>Carrera completa de dampers y actuadores sin atascamiento, en ≤ <span class=\"por-confirmar\">60 s</span>.<br>Fuga en posición cerrada ≤ <span class=\"por-confirmar\">5 %</span> del caudal nominal.<br>Indicador de posición coherente con la orden del control."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de la prueba (anexo del informe)"
+     },
+     {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>La carrera y la fuga en rojo se confirman contra el fabricante del damper."
      },
      {
       "et": "Referencia",
@@ -3130,15 +3300,19 @@ var BancoSistemas = {
      },
      {
       "et": "Plan estadístico",
-      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+      "html": "<strong>Plan estadístico:</strong><br>Variable = corriente y vibración del ventilador; unidad = A y mm/s. Tipo de dato = continua. n = 3 lecturas por condición. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = media dentro de ±10 % de la nominal y vibración en rango. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable medida; toda exclusión se documenta y se conserva el dato original."
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Valores dentro de lo definido en el protocolo aprobado."
+      "html": "<strong>Criterio de aceptación:</strong><br>Corriente del motor dentro del ±<span class=\"por-confirmar\">10 %</span> de la nominal.<br>Vibración dentro del rango del fabricante y temperatura de rodamientos estable.<br>Sin ruido anormal ni recalentamiento en 30 min de operación."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registro con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis del ventilador"
+     },
+     {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>Los límites en rojo se confirman contra la placa del motor y el fabricante del ventilador."
      },
      {
       "et": "Referencia",
@@ -3166,15 +3340,19 @@ var BancoSistemas = {
      },
      {
       "et": "Plan estadístico",
-      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+      "html": "<strong>Plan estadístico:</strong><br>Variable = penetración del filtro HEPA; unidad = %. Tipo de dato = continua. n = escaneo del 100 % de la superficie. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = cada punto ≤ 0,01 % de penetración. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable medida; toda exclusión se documenta y se conserva el dato original."
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  La penetración local no supera el límite definido (referencia habitual 0,01% de la concentración aguas arriba, verifica tu norma)."
+      "html": "<strong>Criterio de aceptación:</strong><br>Integridad del HEPA con aerosol de PAO y fotómetro: penetración ≤ <span class=\"por-confirmar\">0,01 %</span>.<br>Escaneo del 100 % de la superficie del filtro, marco y junta, sin omitir el sello.<br>Registro de puntos con fuga y su reparación o reemplazo documentado."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registro del escaneo con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de integridad"
+     },
+     {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>El criterio de penetración en rojo corresponde a H13/H14; debe confirmarse con la clase del filtro instalado."
      },
      {
       "et": "Referencia",
@@ -3202,15 +3380,19 @@ var BancoSistemas = {
      },
      {
       "et": "Plan estadístico",
-      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+      "html": "<strong>Plan estadístico:</strong><br>Variable = concentración de aerosol; unidad = µg/L. Tipo de dato = continua. n = 3 lecturas en la cara del filtro. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = cada lectura dentro del rango y uniforme. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable medida; toda exclusión se documenta y se conserva el dato original."
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Concentración suficiente y uniforme, verificada y registrada."
+      "html": "<strong>Criterio de aceptación:</strong><br>Concentración de aerosol suficiente y uniforme antes del filtro (<span class=\"por-confirmar\">10-100 µg/L</span>).<br>Uniformidad verificada con 3 lecturas en la cara del filtro.<br>Concentración registrada antes y después de la prueba."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registro con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis del aerosol"
+     },
+     {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>El rango de concentración en rojo se confirma con el fotómetro y el procedimiento de la norma adoptada."
      },
      {
       "et": "Referencia",
@@ -3238,15 +3420,19 @@ var BancoSistemas = {
      },
      {
       "et": "Plan estadístico",
-      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+      "html": "<strong>Plan estadístico:</strong><br>Variable = hermeticidad de carcasa y marco; unidad = pasa/no pasa. Tipo de dato = atributo. n = inspección del 100 %. Estadísticos = proporción de cumplimiento con IC binomial exacto. Regla de decisión = todos los puntos sin fuga. Atípicos: no aplica a datos de atributo; toda exclusión de una repetición se documenta y se conserva el registro original."
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Sin fugas en carcasa ni marco."
+      "html": "<strong>Criterio de aceptación:</strong><br>Carcasa y marco del HEPA sin fuga, verificados por inspección y prueba de presión o humo.<br>Sellos continuos, sin cortes ni aplastamiento.<br>Sin bypass entre etapas de filtración."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registro con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de hermeticidad"
+     },
+     {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>Si la hermeticidad ya se verificó en IQ, se referencia el registro en lugar de repetir la prueba."
      },
      {
       "et": "Referencia",
@@ -3274,15 +3460,19 @@ var BancoSistemas = {
      },
      {
       "et": "Plan estadístico",
-      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+      "html": "<strong>Plan estadístico:</strong><br>Variable = velocidad en la cara del filtro; unidad = m/s. Tipo de dato = continua. n = mínimo 3 puntos por filtro. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = media 0,45 m/s y cada punto dentro de ±20 %. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable medida; toda exclusión se documenta y se conserva el dato original."
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Velocidad y uniformidad según lo definido (si aplica)."
+      "html": "<strong>Criterio de aceptación:</strong><br>Velocidad en la cara del filtro de <span class=\"por-confirmar\">0,45 m/s ± 20 %</span> en flujo unidireccional.<br>Uniformidad dentro de ±20 % entre puntos de medición.<br>Medición con el filtro instalado y el sistema en operación normal."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registro con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de velocidad"
+     },
+     {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>La velocidad en rojo corresponde a ISO 14644-3 para flujo unidireccional; se confirma contra el diseño."
      },
      {
       "et": "Referencia",
@@ -3310,15 +3500,19 @@ var BancoSistemas = {
      },
      {
       "et": "Plan estadístico",
-      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+      "html": "<strong>Plan estadístico:</strong><br>Variable = caudal por difusor y total del cuarto; unidad = m³/h. Tipo de dato = continua. n = 100 % de difusores, 3 lecturas cada uno. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = cada difusor y el total dentro de ±10 %. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable medida; toda exclusión se documenta y se conserva el dato original."
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Caudales conformes al diseño."
+      "html": "<strong>Criterio de aceptación:</strong><br>Caudal por difusor o filtro terminal dentro de ±<span class=\"por-confirmar\">10 %</span> del diseño.<br>Caudal total del cuarto dentro de ±10 % del diseño.<br>El 100 % de los difusores medidos, no una muestra."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registro con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de caudales"
+     },
+     {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>La tolerancia en rojo se confirma con el balanceo aprobado; los caudales de diseño salen del plano as-built."
      },
      {
       "et": "Referencia",
@@ -3346,15 +3540,19 @@ var BancoSistemas = {
      },
      {
       "et": "Plan estadístico",
-      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+      "html": "<strong>Plan estadístico:</strong><br>Variable = renovaciones de aire por hora; unidad = 1/h. Tipo de dato = continua. n = cálculo sobre 3 mediciones de caudal. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = ACH ≥ mínimo del URS en todas las mediciones. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable medida; toda exclusión se documenta y se conserva el dato original."
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Dentro del criterio del URS."
+      "html": "<strong>Criterio de aceptación:</strong><br>ACH calculadas con caudal medido y volumen as-built, ≥ el mínimo del URS (<span class=\"por-confirmar\">valor del URS</span>).<br>Cálculo documentado y trazable a las mediciones de caudal.<br>Sin diferencia entre ACH de diseño y de operación &gt; 10 %."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registro con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de ACH"
+     },
+     {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>El mínimo de ACH en rojo depende de la clase del área; se toma de la URS, no de una tabla genérica."
      },
      {
       "et": "Referencia",
@@ -3382,15 +3580,19 @@ var BancoSistemas = {
      },
      {
       "et": "Plan estadístico",
-      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+      "html": "<strong>Plan estadístico:</strong><br>Variable = presión diferencial entre cuartos; unidad = Pa. Tipo de dato = continua. n = 3 lecturas por frontera. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = cada frontera ≥ 10 Pa con sentido correcto. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable medida; toda exclusión se documenta y se conserva el dato original."
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Diferencial según el URS (referencia habitual de 10 a 15 Pa entre clases distintas, o el valor del URS)."
+      "html": "<strong>Criterio de aceptación:</strong><br>Diferencial entre cuartos adyacentes ≥ <span class=\"por-confirmar\">10 Pa</span> con todas las puertas cerradas.<br>Sentido del flujo de la zona más limpia a la menos limpia en el 100 % de las fronteras.<br>Medición estable durante 5 min por frontera."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registro con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de cascada"
+     },
+     {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>El mínimo de 10 Pa en rojo debe confirmarse con la guía adoptada (OMS/ISO) y la clasificación de las áreas."
      },
      {
       "et": "Referencia",
@@ -3418,15 +3620,19 @@ var BancoSistemas = {
      },
      {
       "et": "Plan estadístico",
-      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+      "html": "<strong>Plan estadístico:</strong><br>Variable = recuperación del diferencial tras abrir puertas; unidad = s. Tipo de dato = continua. n = 3 ciclos. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = recuperación ≤ 2 min en los 3 ciclos. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable medida; toda exclusión se documenta y se conserva el dato original."
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Interlocks efectivos y recuperación dentro de lo definido en el protocolo aprobado (si aplica)."
+      "html": "<strong>Criterio de aceptación:</strong><br>Interlock de puertas activo: la apertura simultánea está impedida o señalizada.<br>Tiempo de recuperación del diferencial ≤ <span class=\"por-confirmar\">2 min</span> tras cerrar la puerta.<br>Secuencia de esclusa verificada con 3 ciclos completos."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registro con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de esclusas"
+     },
+     {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>El tiempo de recuperación en rojo se confirma con el diseño de la esclusa y la clase del área."
      },
      {
       "et": "Referencia",
@@ -3454,15 +3660,19 @@ var BancoSistemas = {
      },
      {
       "et": "Plan estadístico",
-      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+      "html": "<strong>Plan estadístico:</strong><br>Variable = dirección del flujo con humo; unidad = pasa/no pasa. Tipo de dato = atributo. n = 1 prueba por frontera. Estadísticos = proporción de cumplimiento con IC binomial exacto. Regla de decisión = todas las fronteras en sentido correcto. Atípicos: no aplica a datos de atributo; toda exclusión de una repetición se documenta y se conserva el registro original."
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Flujo de la zona más limpia a la menos limpia."
+      "html": "<strong>Criterio de aceptación:</strong><br>Prueba de humo: el aire va de la zona más limpia a la menos limpia en el 100 % de las fronteras.<br>Sin reversión ni zonas de estancamiento visibles.<br>Video o registro fotográfico por frontera, con fecha y responsable."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registro fotográfico y de observaciones con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de flujo"
+     },
+     {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>El humo se genera con el sistema en operación normal; una frontera con reversión invalida el ensayo."
      },
      {
       "et": "Referencia",
@@ -3490,15 +3700,19 @@ var BancoSistemas = {
      },
      {
       "et": "Plan estadístico",
-      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+      "html": "<strong>Plan estadístico:</strong><br>Variable = caudal de captura; unidad = m³/h. Tipo de dato = continua. n = 3 lecturas por condición. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = media ≥ diseño y presión del cuarto dentro de ±10 %. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable medida; toda exclusión se documenta y se conserva el dato original."
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Captura efectiva sin invertir la cascada (si aplica)."
+      "html": "<strong>Criterio de aceptación:</strong><br>Caudal de captura de la extracción ≥ el diseño y efecto sobre la presión del cuarto dentro de ±<span class=\"por-confirmar\">10 %</span>.<br>Con los equipos de extracción en marcha, según el caso de uso real.<br>Sin retorno de aire contaminado al área clasificada."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registro con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de extracción"
+     },
+     {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>El caudal de captura en rojo se confirma con el diseño de la campana o extracción local."
      },
      {
       "et": "Referencia",
@@ -3526,15 +3740,19 @@ var BancoSistemas = {
      },
      {
       "et": "Plan estadístico",
-      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+      "html": "<strong>Plan estadístico:</strong><br>Variable = exactitud de temperatura y humedad; unidad = °C y % HR. Tipo de dato = continua. n = 3 comparaciones contra patrón. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = desviación dentro de ±0,5 °C y ±5 % HR. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable medida; toda exclusión se documenta y se conserva el dato original."
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Exactitud y estabilidad dentro de lo definido en el protocolo aprobado en reposo."
+      "html": "<strong>Criterio de aceptación:</strong><br>Exactitud de temperatura ≤ <span class=\"por-confirmar\">±0,5 °C</span> y de humedad ≤ <span class=\"por-confirmar\">±5 % HR</span> frente a patrón.<br>Estabilidad sin oscilación &gt; ±1 °C en 30 min.<br>Tiempo de respuesta ante cambio de setpoint ≤ <span class=\"por-confirmar\">5 min</span>, medido y registrado."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registro con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis ambiental"
+     },
+     {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>Las tolerancias y el tiempo en rojo dependen del instrumento y de la URS; se confirman con el certificado."
      },
      {
       "et": "Referencia",
@@ -3562,15 +3780,19 @@ var BancoSistemas = {
      },
      {
       "et": "Plan estadístico",
-      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+      "html": "<strong>Plan estadístico:</strong><br>Variable = temperatura y humedad por punto; unidad = °C y % HR. Tipo de dato = continua. n = mínimo 5 puntos por cuarto, registro continuo. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = todos los puntos dentro del rango del área. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable medida; toda exclusión se documenta y se conserva el dato original."
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Cobertura y duración según lo justificado (si aplica)."
+      "html": "<strong>Criterio de aceptación:</strong><br>Mapeo de temperatura y humedad en cuartos críticos con sensores en varios puntos, durante el tiempo justificado (<span class=\"por-confirmar\">≥ 24 h</span>).<br>Cobertura de los puntos más desfavorables: esquinas, zonas de carga y cerca de equipos.<br>Registro continuo, sin interpolación de huecos."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registro con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de mapeo"
+     },
+     {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>La duración y la cantidad de puntos en rojo deben justificarse con el tamaño del cuarto y la criticidad."
      },
      {
       "et": "Referencia",
@@ -3598,15 +3820,19 @@ var BancoSistemas = {
      },
      {
       "et": "Plan estadístico",
-      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+      "html": "<strong>Plan estadístico:</strong><br>Variable = temperatura bajo carga térmica; unidad = °C. Tipo de dato = continua. n = 3 lecturas por condición de carga. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = media dentro del rango y sin oscilación &gt; ±1 °C. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable medida; toda exclusión se documenta y se conserva el dato original."
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Rango mantenido con la carga simulada (si aplica)."
+      "html": "<strong>Criterio de aceptación:</strong><br>El sistema mantiene temperatura y humedad dentro del rango ante la carga térmica simulada de diseño.<br>Sin oscilación &gt; <span class=\"por-confirmar\">±1 °C</span> ni deriva de humedad &gt; 5 % durante la prueba.<br>Carga aplicada y registrada (kW y kW de humedad)."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registro con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de carga"
+     },
+     {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>La carga simulada y la tolerancia en rojo deben corresponder al peor caso de la URS."
      },
      {
       "et": "Referencia",
@@ -3634,15 +3860,19 @@ var BancoSistemas = {
      },
      {
       "et": "Plan estadístico",
-      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+      "html": "<strong>Plan estadístico:</strong><br>Variable = nivel de ruido e iluminación; unidad = dB(A) y lux. Tipo de dato = continua. n = 3 lecturas por punto. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = media dentro del límite del URS. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable medida; toda exclusión se documenta y se conserva el dato original."
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Dentro de lo exigido por el URS, si aplica."
+      "html": "<strong>Criterio de aceptación:</strong><br>Ruido ≤ <span class=\"por-confirmar\">65 dB(A)</span> en el área ocupada y en el retorno, si el URS lo exige.<br>Iluminación ≥ <span class=\"por-confirmar\">300 lux</span> en áreas de trabajo, si aplica.<br>Medición con el sistema en operación normal y registro por punto."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registro con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de ruido e iluminación"
+     },
+     {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>Los valores en rojo deben confirmarse con la URS del área; si el URS no los exige, se declara No Aplica con aprobación."
      },
      {
       "et": "Referencia",
@@ -3670,15 +3900,19 @@ var BancoSistemas = {
      },
      {
       "et": "Plan estadístico",
-      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+      "html": "<strong>Plan estadístico:</strong><br>Variable = conteo de partículas ≥ 0,5 µm; unidad = partículas/m³. Tipo de dato = continua. n = puntos y volumen según ISO 14644-1. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = cada punto cumple la clase del área. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable medida; toda exclusión se documenta y se conserva el dato original."
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Límites conformes (referencia: ISO 8 = 3 520 000 e ISO 7 = 352 000 partículas por m3 en 0,5 µm; verifica contra tu edición de la norma)."
+      "html": "<strong>Criterio de aceptación:</strong><br>Conteo de partículas de 0,5 µm y 5 µm en reposo conforme a ISO 14644-1.<br>Clase obtenida igual o más limpia que la clase del área (<span class=\"por-confirmar\">clase del área</span>).<br>Puntos, volumen y número de muestras según ISO 14644-1, con ubicación justificada."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registros de conteo con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de partículas"
+     },
+     {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>La clase del área en rojo sale de la URS o del plano de clasificación; no se asume."
      },
      {
       "et": "Referencia",
@@ -3706,15 +3940,19 @@ var BancoSistemas = {
      },
      {
       "et": "Plan estadístico",
-      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+      "html": "<strong>Plan estadístico:</strong><br>Variable = recuperación de partículas; unidad = min. Tipo de dato = continua. n = 3 puntos por cuarto. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = recuperación ≤ 15 min en todos los puntos. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable medida; toda exclusión se documenta y se conserva el dato original."
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Recuperación dentro de lo definido en el protocolo aprobado (referencia habitual de 15 a 20 min para reducir 100 veces)."
+      "html": "<strong>Criterio de aceptación:</strong><br>Recuperación de la clase en ≤ <span class=\"por-confirmar\">15 min</span> tras generar partículas, según ISO 14644-3.<br>Concentración final ≤ 1 % de la inicial en el 100 % de los puntos.<br>Registro del decaimiento y del punto más desfavorable."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registro con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de recuperación"
+     },
+     {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>El tiempo de recuperación en rojo depende de la clase y del diseño; se confirma con ISO 14644-3 y la URS."
      },
      {
       "et": "Referencia",
@@ -3742,15 +3980,19 @@ var BancoSistemas = {
      },
      {
       "et": "Plan estadístico",
-      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+      "html": "<strong>Plan estadístico:</strong><br>Variable = paso de trazador entre áreas; unidad = pasa/no pasa. Tipo de dato = atributo. n = 1 prueba por frontera. Estadísticos = proporción de cumplimiento con IC binomial exacto. Regla de decisión = ninguna frontera muestra paso. Atípicos: no aplica a datos de atributo; toda exclusión de una repetición se documenta y se conserva el registro original."
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Sin paso entre cuartos (si aplica)."
+      "html": "<strong>Criterio de aceptación:</strong><br>Prueba con trazador o conteo en el cuarto adyacente: sin paso de partículas entre áreas.<br>Sin fuga a través de puertas, sellos ni penetraciones.<br>Registro por frontera y por punto de fuga detectado."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registro con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de contención"
+     },
+     {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>La prueba aplica cuando hay áreas de distinta clasificación; si no, se declara No Aplica con aprobación."
      },
      {
       "et": "Referencia",
@@ -3778,15 +4020,19 @@ var BancoSistemas = {
      },
      {
       "et": "Plan estadístico",
-      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+      "html": "<strong>Plan estadístico:</strong><br>Variable = velocidad del flujo unidireccional; unidad = m/s. Tipo de dato = continua. n = mínimo 5 puntos por zona. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = cada punto dentro de 0,45 m/s ± 20 %. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable medida; toda exclusión se documenta y se conserva el dato original."
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Flujo unidireccional conforme (solo áreas estériles, si aplica)."
+      "html": "<strong>Criterio de aceptación:</strong><br>Velocidad del flujo unidireccional en zona A de <span class=\"por-confirmar\">0,45 m/s ± 20 %</span> y uniformidad en el 100 % de los puntos.<br>Estudios de humo sin turbulencias ni zonas muertas sobre la zona crítica.<br>Registro con video y mapa de puntos."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registros con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis unidireccional"
+     },
+     {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>Aplica solo a zonas de flujo unidireccional; el valor en rojo se confirma con ISO 14644-3 y la URS."
      },
      {
       "et": "Referencia",
@@ -3814,15 +4060,19 @@ var BancoSistemas = {
      },
      {
       "et": "Plan estadístico",
-      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+      "html": "<strong>Plan estadístico:</strong><br>Variable = diferencial entre grados; unidad = Pa. Tipo de dato = continua. n = 3 lecturas por frontera. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = cada frontera ≥ 10 Pa. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable medida; toda exclusión se documenta y se conserva el dato original."
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Diferencial según lo definido (solo áreas estériles, si aplica)."
+      "html": "<strong>Criterio de aceptación:</strong><br>Diferencial entre grados adyacentes ≥ <span class=\"por-confirmar\">10 Pa</span> en áreas estériles.<br>Sentido del flujo correcto en el 100 % de las fronteras.<br>Registro por frontera con puertas cerradas."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registro con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de diferenciales"
+     },
+     {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>Solo aplica a áreas estériles; el valor en rojo se confirma con el diseño de la cascada."
      },
      {
       "et": "Referencia",
@@ -3850,15 +4100,19 @@ var BancoSistemas = {
      },
      {
       "et": "Plan estadístico",
-      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+      "html": "<strong>Plan estadístico:</strong><br>Variable = penetración del HEPA; unidad = %. Tipo de dato = continua. n = escaneo del 100 %. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = cada punto ≤ 0,01 %. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable medida; toda exclusión se documenta y se conserva el dato original."
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Integridad y hermeticidad conformes (solo áreas estériles, si aplica)."
+      "html": "<strong>Criterio de aceptación:</strong><br>Integridad de HEPA en áreas estériles con escaneo del 100 % y penetración ≤ <span class=\"por-confirmar\">0,01 %</span><br>Prueba de hermeticidad del marco y de la junta.<br>Registro de fugas y de su reparación o reemplazo."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registro con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis HEPA"
+     },
+     {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>Si no hay áreas estériles, se declara No Aplica con aprobación previa."
      },
      {
       "et": "Referencia",
@@ -3886,15 +4140,19 @@ var BancoSistemas = {
      },
      {
       "et": "Plan estadístico",
-      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+      "html": "<strong>Plan estadístico:</strong><br>Variable = partículas viables; unidad = UFC/m³. Tipo de dato = analitico. n = 1 muestra por punto y por período. Estadísticos = mediana, mínimo, máximo e IC 95 %; concentraciones en escala log10. Regla de decisión = cada punto dentro del límite del área. Atípicos = Grubbs solo si n ≥ 7 y sobre log10; toda exclusión se documenta y se conserva el dato original."
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Dentro de los límites adoptados (solo áreas estériles, si aplica)."
+      "html": "<strong>Criterio de aceptación:</strong><br>Partículas viables en reposo dentro del límite del área (<span class=\"por-confirmar\">UFC/m³ o placa</span>).<br>Partículas de 5 µm con muestreo continuo durante el período definido.<br>Método de muestreo y medio documentados; sin promediar puntos."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registros con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de viables"
+     },
+     {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>El límite microbiológico en rojo depende de la clase del área y de la guía adoptada; se confirma con Calidad."
      },
      {
       "et": "Referencia",
@@ -3922,15 +4180,19 @@ var BancoSistemas = {
      },
      {
       "et": "Plan estadístico",
-      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+      "html": "<strong>Plan estadístico:</strong><br>Variable = exactitud de los sensores; unidad = Pa, °C, % HR. Tipo de dato = continua. n = 3 comparaciones contra patrón por sensor. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = desviación dentro de la tolerancia. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable medida; toda exclusión se documenta y se conserva el dato original."
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Exactitud dentro de lo definido en el protocolo aprobado con alarmas operativas."
+      "html": "<strong>Criterio de aceptación:</strong><br>Exactitud de presión ≤ <span class=\"por-confirmar\">±2 Pa</span>, temperatura ≤ ±0,5 °C y humedad ≤ ±5 % HR frente a patrón.<br>Alarmas de los sensores configuradas y verificadas.<br>Calibración vigente de cada sensor usado en la prueba."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registro con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de sensores"
+     },
+     {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>Las tolerancias en rojo se confirman con los certificados de los instrumentos."
      },
      {
       "et": "Referencia",
@@ -3958,15 +4220,19 @@ var BancoSistemas = {
      },
      {
       "et": "Plan estadístico",
-      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+      "html": "<strong>Plan estadístico:</strong><br>Variable = intervalo y marca de tiempo del registro; unidad = min. Tipo de dato = continua. n = 1 verificación por registrador. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = intervalo ≤ 5 min y sin huecos. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable medida; toda exclusión se documenta y se conserva el dato original."
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Intervalo y marca exactos según lo definido."
+      "html": "<strong>Criterio de aceptación:</strong><br>Intervalo de registro ≤ <span class=\"por-confirmar\">5 min</span> y marca de tiempo sincronizada con la hora oficial.<br>Sin huecos de registro durante el período evaluado.<br>Registro exportable y trazable al usuario que lo generó."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registro con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de registro"
+     },
+     {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>El intervalo en rojo se confirma con la URS y el plan de monitoreo del área."
      },
      {
       "et": "Referencia",
@@ -3993,12 +4259,20 @@ var BancoSistemas = {
       "html": "<strong>Procedimiento:</strong><br>\n  1) Verificar cada servicio en su rango operativo"
      },
      {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = disponibilidad y rango de servicios; unidad = pasa/no pasa. Tipo de dato = atributo. n = 1 verificación al inicio y al final. Estadísticos = proporción de cumplimiento con IC binomial exacto. Regla de decisión = ambos extremos dentro del rango. Atípicos: no aplica a datos de atributo; toda exclusión de una repetición se documenta y se conserva el registro original."
+     },
+     {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Servicios en rango operativo."
+      "html": "<strong>Criterio de aceptación:</strong><br>Agua helada o refrigerante, vapor y electricidad disponibles en el rango operativo durante toda la prueba.<br>Sin caídas de suministro ni alarmas de servicio.<br>Parámetros de suministro registrados al inicio y al final."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de servicios (anexo del informe)"
+     },
+     {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>Los rangos operativos son los del diseño de servicios; se documentan, no se ajustan durante la prueba."
      },
      {
       "et": "Referencia",
@@ -4024,12 +4298,20 @@ var BancoSistemas = {
       "html": "<strong>Procedimiento:</strong><br>\n  1) Medir presión y calidad del aire de actuadores (si aplica)"
      },
      {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = calidad del aire de instrumentos; unidad = clase ISO 8573-1. Tipo de dato = atributo. n = 3 muestras en el punto de uso. Estadísticos = proporción de cumplimiento con IC binomial exacto. Regla de decisión = las 3 muestras dentro de la clase adoptada. Atípicos: no aplica a datos de atributo; toda exclusión de una repetición se documenta y se conserva el registro original."
+     },
+     {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Dentro de lo definido (si aplica)."
+      "html": "<strong>Criterio de aceptación:</strong><br>Aire comprimido para actuadores conforme a ISO 8573-1 clase <span class=\"por-confirmar\">1:4:1</span> o la adoptada.<br>Presión y caudal suficientes para la operación de todos los actuadores.<br>Sin agua ni aceite en el punto de uso."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de la prueba (anexo del informe)"
+     },
+     {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>La clase ISO en rojo debe confirmarse con la URS del aire de instrumentos; no se asume la misma que el aire de proceso."
      },
      {
       "et": "Referencia",
@@ -4162,22 +4444,31 @@ var BancoSistemas = {
      },
      {
       "et": "Procedimiento",
-      "html": "<strong>Procedimiento:</strong><br>\n  1) Verificar el certificado vigente de cada válvula<br>\n  2) Probar la apertura a la presión de tarado"
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Verificar el certificado vigente de cada válvula<br>\n  2) Probar la apertura a la presión de tarado<br>\n  3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = presión de apertura de la válvula; unidad = bar. Tipo de dato = continua. n = 3 pruebas de apertura. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = media dentro de ±5 % del tarado. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable medida; toda exclusión se documenta y se conserva el dato original."
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Certificado vigente.<br>\n  Apertura a la presión de tarado."
+      "html": "<strong>Criterio de aceptación:</strong><br>Certificado vigente de la válvula de seguridad y apertura a la presión de tarado ±<span class=\"por-confirmar\">5 %</span>.<br>Registro de la prueba con presión de apertura, fecha y laboratorio.<br>Sin fugas ni bloqueo en la descarga."
      },
      {
       "et": "Documentos entregables",
-      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro y certificados (anexo del informe)"
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro y certificados (anexo del informe)<br>\n  - Data cruda y reporte estadístico del ensayo"
+     },
+     {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>La tolerancia en rojo se confirma con el certificado del fabricante."
      },
      {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>Manual del fabricante del sistema."
+      "html": "<strong>Referencia:</strong><br>EN 285; HTM 2031; USP &lt;1231&gt;; EU GMP Anexo 1; EU GMP Anexo 15."
      }
     ],
     "tabla": null,
+    "analisis": "si",
     "familia": "vapor-limpio"
    },
    {
@@ -4193,22 +4484,31 @@ var BancoSistemas = {
      },
      {
       "et": "Procedimiento",
-      "html": "<strong>Procedimiento:</strong><br>\n  1) Accionar la parada de emergencia<br>\n  2) Verificar despresurización y estado seguro"
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Accionar la parada de emergencia<br>\n  2) Verificar despresurización y estado seguro<br>\n  3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = parada de emergencia; unidad = s. Tipo de dato = continua. n = 3 activaciones. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = despresurización en ≤ 30 s en las 3 repeticiones. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable medida; toda exclusión se documenta y se conserva el dato original."
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Despresurización completa y estado seguro."
+      "html": "<strong>Criterio de aceptación:</strong><br>La parada de emergencia despresuriza el sistema y lo deja en estado seguro en ≤ <span class=\"por-confirmar\">30 s</span>.<br>No hay reinicio automático; el rearme es manual.<br>El evento queda registrado con hora y usuario."
      },
      {
       "et": "Documentos entregables",
-      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de la prueba (anexo del informe)"
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de la prueba (anexo del informe)<br>\n  - Data cruda y reporte estadístico del ensayo"
+     },
+     {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>El tiempo en rojo se confirma con el diseño del sistema y el procedimiento de emergencia."
      },
      {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>Manual del fabricante del sistema."
+      "html": "<strong>Referencia:</strong><br>EN 285; HTM 2031; USP &lt;1231&gt;; EU GMP Anexo 1; EU GMP Anexo 15."
      }
     ],
     "tabla": null,
+    "analisis": "si",
     "familia": "vapor-limpio"
    },
    {
@@ -4227,16 +4527,24 @@ var BancoSistemas = {
       "html": "<strong>Procedimiento:</strong><br>\n  1) Simular nivel mínimo y verificar calefacción inhibida<br>\n  2) Simular sobrepresión y sobretemperatura y verificar la respuesta<br>\n  3) Simular falta de agua de alimentación y verificar el bloqueo"
      },
      {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = actuación de interlocks; unidad = pasa/no pasa. Tipo de dato = atributo. n = 3 repeticiones por interlock. Estadísticos = proporción de cumplimiento con IC binomial exacto. Regla de decisión = cada interlock actúa en las 3. Atípicos: no aplica a datos de atributo; toda exclusión se documenta y se conserva el registro original."
+     },
+     {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Cada interlock actúa ante su condición."
+      "html": "<strong>Criterio de aceptación:</strong><br>Cada interlock actúa: nivel mínimo con calefacción inhibida, sobrepresión, sobretemperatura y falta de agua de alimentación.<br>La acción ocurre en ≤ <span class=\"por-confirmar\">5 s</span> y exige rearme manual.<br>Prueba registrada por interlock."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de interlocks simulados (anexo del informe)"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>El tiempo en rojo se confirma con el diseño del control."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>Manual del fabricante del sistema."
+      "html": "<strong>Referencia:</strong><br>EN 285; HTM 2031; USP &lt;1231&gt;; EU GMP Anexo 1; EU GMP Anexo 15."
      }
     ],
     "tabla": null,
@@ -4258,16 +4566,24 @@ var BancoSistemas = {
       "html": "<strong>Procedimiento:</strong><br>\n  1) Provocar conductividad alta del condensado y verificar disparo y acción<br>\n  2) Provocar presión alta o baja, nivel, falla de bomba de alimentación y falla de purgador, y verificar<br>\n  3) Verificar el desvío de vapor fuera de especificación a drenaje"
      },
      {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = disparo y aviso de alarmas; unidad = pasa/no pasa. Tipo de dato = atributo. n = 3 repeticiones por alarma. Estadísticos = proporción de cumplimiento con IC binomial exacto. Regla de decisión = cada alarma dispara y notifica. Atípicos: no aplica a datos de atributo; toda exclusión se documenta y se conserva el registro original."
+     },
+     {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Cada alarma dispara.<br>\n  El vapor fuera de especificación se desvía a drenaje."
+      "html": "<strong>Criterio de aceptación:</strong><br>Cada alarma dispara y ejecuta su acción.<br>El aviso llega al responsable en ≤ <span class=\"por-confirmar\">5 min</span>.<br>Registro con fecha, hora, valor y usuario."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de alarmas y acciones (anexo del informe)"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>El tiempo de aviso en rojo depende del esquema de guardias."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>Manual del fabricante del sistema."
+      "html": "<strong>Referencia:</strong><br>EN 285; HTM 2031; USP &lt;1231&gt;; EU GMP Anexo 1; EU GMP Anexo 15."
      }
     ],
     "tabla": null,
@@ -4289,16 +4605,24 @@ var BancoSistemas = {
       "html": "<strong>Procedimiento:</strong><br>\n  1) Cortar la energía y verificar el estado seguro<br>\n  2) Restablecer y verificar que no hay arranque espontáneo<br>\n  3) Verificar que no retorna condensado al generador"
      },
      {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = estado tras corte de energía; unidad = pasa/no pasa. Tipo de dato = atributo. n = 3 cortes controlados. Estadísticos = proporción de cumplimiento con IC binomial exacto. Regla de decisión = las 3 quedan en estado seguro. Atípicos: no aplica a datos de atributo; toda exclusión se documenta y se conserva el registro original."
+     },
+     {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Estado seguro sin arranque espontáneo.<br>\n  Sin retorno de condensado."
+      "html": "<strong>Criterio de aceptación:</strong><br>Ante corte de energía el sistema queda en estado seguro, sin arranque espontáneo.<br>No hay retorno de condensado al generador.<br>El evento queda registrado."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de la prueba (anexo del informe)"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>La verificación se hace con corte controlado y autorización del área."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>Manual del fabricante del sistema."
+      "html": "<strong>Referencia:</strong><br>EN 285; HTM 2031; USP &lt;1231&gt;; EU GMP Anexo 1; EU GMP Anexo 15."
      }
     ],
     "tabla": null,
@@ -4317,22 +4641,31 @@ var BancoSistemas = {
      },
      {
       "et": "Procedimiento",
-      "html": "<strong>Procedimiento:</strong><br>\n  1) Simular la falla del equipo principal (si aplica)<br>\n  2) Verificar el cambio a la reserva"
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Simular la falla del equipo principal (si aplica)<br>\n  2) Verificar el cambio a la reserva<br>\n  3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = transferencia a respaldo; unidad = s y bar. Tipo de dato = continua. n = 3 transferencias. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = presión dentro de ±10 % y tiempo ≤ 60 s. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable medida; toda exclusión se documenta y se conserva el dato original."
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Cambio efectivo a la reserva (si aplica)."
+      "html": "<strong>Criterio de aceptación:</strong><br>El cambio a bomba o generador de reserva es automático en ≤ <span class=\"por-confirmar\">60 s</span>.<br>La presión de vapor se mantiene dentro de ±<span class=\"por-confirmar\">10 %</span> durante la transferencia.<br>Se registran tiempo, presión y alarma."
      },
      {
       "et": "Documentos entregables",
-      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de la prueba (anexo del informe)"
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de la prueba (anexo del informe)<br>\n  - Data cruda y reporte estadístico del ensayo"
+     },
+     {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>Si no hay respaldo, se declara No Aplica con aprobación previa."
      },
      {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>Manual del fabricante del sistema."
+      "html": "<strong>Referencia:</strong><br>EN 285; HTM 2031; USP &lt;1231&gt;; EU GMP Anexo 1; EU GMP Anexo 15."
      }
     ],
     "tabla": null,
+    "analisis": "si",
     "familia": "vapor-limpio"
    },
    {
@@ -4352,19 +4685,23 @@ var BancoSistemas = {
      },
      {
       "et": "Plan estadístico",
-      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+      "html": "<strong>Plan estadístico:</strong><br>Variable = caudal y presión de alimentación; unidad = L/h y bar. Tipo de dato = continua. n = 3 lecturas por condición. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = media dentro de ±10 % del diseño. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable medida; toda exclusión se documenta y se conserva el dato original."
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Alimentación dentro de lo definido en el protocolo aprobado."
+      "html": "<strong>Criterio de aceptación:</strong><br>Caudal y presión de alimentación de agua dentro de ±<span class=\"por-confirmar\">10 %</span> del diseño.<br>Presión de vapor de calefacción dentro del rango del generador.<br>Sin fluctuación &gt; 5 % en 10 min."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registro con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de alimentación"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>Las tolerancias en rojo se confirman con la hoja de datos del generador."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>Manual del fabricante del sistema."
+      "html": "<strong>Referencia:</strong><br>EN 285; HTM 2031; USP &lt;1231&gt;; EU GMP Anexo 1; EU GMP Anexo 15."
      }
     ],
     "tabla": null,
@@ -4388,19 +4725,23 @@ var BancoSistemas = {
      },
      {
       "et": "Plan estadístico",
-      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+      "html": "<strong>Plan estadístico:</strong><br>Variable = producción de vapor; unidad = kg/h. Tipo de dato = continua. n = 3 lecturas por demanda. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = media dentro de ±10 % de la capacidad declarada. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable medida; toda exclusión se documenta y se conserva el dato original."
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Producción conforme con presión estable en ambas demandas."
+      "html": "<strong>Criterio de aceptación:</strong><br>Producción de vapor a demanda nominal y máxima declarada dentro de ±<span class=\"por-confirmar\">10 %</span>.<br>Presión de salida estable durante 30 min en cada demanda.<br>Sin arrastre de gotas visible en el separador."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registro con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de capacidad"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>La tolerancia en rojo se confirma con la capacidad declarada del generador."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>Manual del fabricante del sistema."
+      "html": "<strong>Referencia:</strong><br>EN 285; HTM 2031; USP &lt;1231&gt;; EU GMP Anexo 1; EU GMP Anexo 15."
      }
     ],
     "tabla": null,
@@ -4424,19 +4765,23 @@ var BancoSistemas = {
      },
      {
       "et": "Plan estadístico",
-      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+      "html": "<strong>Plan estadístico:</strong><br>Variable = recuperación ante cambio de demanda; unidad = min. Tipo de dato = continua. n = 3 maniobras. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = recuperación ≤ 5 min en las 3. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable medida; toda exclusión se documenta y se conserva el dato original."
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Recuperación y estabilidad dentro de lo definido en el protocolo aprobado."
+      "html": "<strong>Criterio de aceptación:</strong><br>Aumento brusco y caída de demanda: tiempo de recuperación ≤ <span class=\"por-confirmar\">5 min</span>.<br>Presión estable dentro de ±10 % tras la recuperación.<br>Sin disparo de alarmas por la maniobra."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registro con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de demanda"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>El tiempo en rojo se confirma con el diseño del control de presión."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>Manual del fabricante del sistema."
+      "html": "<strong>Referencia:</strong><br>EN 285; HTM 2031; USP &lt;1231&gt;; EU GMP Anexo 1; EU GMP Anexo 15."
      }
     ],
     "tabla": null,
@@ -4460,19 +4805,23 @@ var BancoSistemas = {
      },
      {
       "et": "Plan estadístico",
-      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+      "html": "<strong>Plan estadístico:</strong><br>Variable = nivel y purga; unidad = pasa/no pasa. Tipo de dato = atributo. n = 3 ciclos de purga. Estadísticos = proporción de cumplimiento con IC binomial exacto. Regla de decisión = nivel estable y purga completa en los 3. Atípicos: no aplica a datos de atributo; toda exclusión se documenta y se conserva el registro original."
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Nivel controlado con purga según secuencia y tiempos."
+      "html": "<strong>Criterio de aceptación:</strong><br>Control de nivel mantiene el rango sin disparo de alarmas.<br>Purga continua o de fondo ejecutada con la secuencia y tiempos definidos (<span class=\"por-confirmar\">tiempo de purga</span>).<br>Registro de cada purga con hora y duración."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registro con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de nivel"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>El tiempo de purga en rojo se toma del manual del generador."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>Manual del fabricante del sistema."
+      "html": "<strong>Referencia:</strong><br>EN 285; HTM 2031; USP &lt;1231&gt;; EU GMP Anexo 1; EU GMP Anexo 15."
      }
     ],
     "tabla": null,
@@ -4496,19 +4845,23 @@ var BancoSistemas = {
      },
      {
       "et": "Plan estadístico",
-      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+      "html": "<strong>Plan estadístico:</strong><br>Variable = caída de presión del separador; unidad = bar. Tipo de dato = continua. n = 3 lecturas por condición. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = media dentro del rango del fabricante. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable medida; toda exclusión se documenta y se conserva el dato original."
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Separación efectiva según lo definido."
+      "html": "<strong>Criterio de aceptación:</strong><br>Separación de gotas verificada por caída de presión dentro del rango del fabricante y por sequedad del vapor.<br>Sin arrastre visible en la salida.<br>Registro de ΔP por separador."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registro con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis del separador"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>La eficiencia de separación se confirma con la prueba de sequedad del ensayo 022, no por inspección visual."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>Manual del fabricante del sistema."
+      "html": "<strong>Referencia:</strong><br>EN 285; HTM 2031; USP &lt;1231&gt;; EU GMP Anexo 1; EU GMP Anexo 15."
      }
     ],
     "tabla": null,
@@ -4532,19 +4885,23 @@ var BancoSistemas = {
      },
      {
       "et": "Plan estadístico",
-      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+      "html": "<strong>Plan estadístico:</strong><br>Variable = presión de salida; unidad = bar. Tipo de dato = continua. n = 3 lecturas por setpoint. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = media dentro de ±5 % del setpoint. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable medida; toda exclusión se documenta y se conserva el dato original."
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Control exacto en el rango operativo."
+      "html": "<strong>Criterio de aceptación:</strong><br>Exactitud del control de presión ≤ <span class=\"por-confirmar\">±5 %</span> del setpoint en el rango operativo.<br>Sin oscilación &gt; 5 % en régimen estable.<br>Respuesta a cambio de setpoint ≤ 2 min."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registro con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de salida"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>Las tolerancias en rojo se confirman con el instrumento y el fabricante."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>Manual del fabricante del sistema."
+      "html": "<strong>Referencia:</strong><br>EN 285; HTM 2031; USP &lt;1231&gt;; EU GMP Anexo 1; EU GMP Anexo 15."
      }
     ],
     "tabla": null,
@@ -4568,19 +4925,23 @@ var BancoSistemas = {
      },
      {
       "et": "Plan estadístico",
-      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+      "html": "<strong>Plan estadístico:</strong><br>Variable = drenaje de condensado; unidad = min. Tipo de dato = continua. n = 3 paradas. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = drenaje completo en ≤ 5 min. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable medida; toda exclusión se documenta y se conserva el dato original."
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Enfriamiento y drenaje efectivos."
+      "html": "<strong>Criterio de aceptación:</strong><br>Sistema de enfriamiento y drenaje del condensado opera sin acumulación.<br>Condensado drenado en ≤ <span class=\"por-confirmar\">5 min</span> tras la parada.<br>Sin retorno de condensado al generador."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registro con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de drenaje"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>El tiempo en rojo se confirma con el diseño del drenaje."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>Manual del fabricante del sistema."
+      "html": "<strong>Referencia:</strong><br>EN 285; HTM 2031; USP &lt;1231&gt;; EU GMP Anexo 1; EU GMP Anexo 15."
      }
     ],
     "tabla": null,
@@ -4603,16 +4964,24 @@ var BancoSistemas = {
       "html": "<strong>Procedimiento:</strong><br>\n  1) Recorrer las líneas y verificar la pendiente en campo<br>\n  2) Verificar que el condensado fluye hacia los purgadores"
      },
      {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = pendiente de la red; unidad = pasa/no pasa. Tipo de dato = atributo. n = inspección del 100 % de tramos. Estadísticos = proporción de cumplimiento con IC binomial exacto. Regla de decisión = todos los tramos drenan. Atípicos: no aplica a datos de atributo; toda exclusión se documenta y se conserva el registro original."
+     },
+     {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Sin tramos con contrapendiente.<br>\n  Flujo hacia purgadores confirmado."
+      "html": "<strong>Criterio de aceptación:</strong><br>Condensado fluye hacia los purgadores en el 100 % de los tramos, sin contrapendiente.<br>Pendiente ≥ <span class=\"por-confirmar\">1 %</span> verificada en campo.<br>Sin bolsas de condensado en puntos bajos."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de campo (anexo del informe)"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>La pendiente en rojo se confirma contra el isométrico aprobado."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>Manual del fabricante del sistema."
+      "html": "<strong>Referencia:</strong><br>EN 285; HTM 2031; USP &lt;1231&gt;; EU GMP Anexo 1; EU GMP Anexo 15."
      }
     ],
     "tabla": null,
@@ -4634,16 +5003,24 @@ var BancoSistemas = {
       "html": "<strong>Procedimiento:</strong><br>\n  1) Probar individualmente cada purgador: descarga de condensado sin fuga de vapor vivo<br>\n  2) Verificar ubicación en puntos bajos y al final de ramales"
      },
      {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = funcionamiento de purgadores; unidad = pasa/no pasa. Tipo de dato = atributo. n = 100 % de los purgadores. Estadísticos = proporción de cumplimiento con IC binomial exacto. Regla de decisión = todos descargan y cierran. Atípicos: no aplica a datos de atributo; toda exclusión se documenta y se conserva el registro original."
+     },
+     {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Cada purgador descarga sin fuga de vapor vivo.<br>\n  Ubicación conforme."
+      "html": "<strong>Criterio de aceptación:</strong><br>Cada purgador funciona: descarga condensado y cierra al vapor.<br>Ubicación en puntos bajos y final de ramales verificada.<br>Sin purgadores bloqueados, con fuga de vapor o invertidos."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registro individual por purgador (anexo del informe)"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>Se prueban todos los purgadores; uno bloqueado invalida el ensayo."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>Manual del fabricante del sistema."
+      "html": "<strong>Referencia:</strong><br>EN 285; HTM 2031; USP &lt;1231&gt;; EU GMP Anexo 1; EU GMP Anexo 15."
      }
     ],
     "tabla": null,
@@ -4662,22 +5039,31 @@ var BancoSistemas = {
      },
      {
       "et": "Procedimiento",
-      "html": "<strong>Procedimiento:</strong><br>\n  1) Medir cada ramal y su diámetro en puntos de uso y válvulas<br>\n  2) Aplicar la regla de 3D o el criterio adoptado"
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Medir cada ramal y su diámetro en puntos de uso y válvulas<br>\n  2) Aplicar la regla de 3D o el criterio adoptado<br>\n  3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = relación L/D; unidad = L/D. Tipo de dato = continua. n = medición del 100 % de ramales. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = L/D ≤ 3 en todos. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable medida; toda exclusión se documenta y se conserva el dato original."
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Dentro de la regla de 3D o del criterio adoptado."
+      "html": "<strong>Criterio de aceptación:</strong><br>L/D ≤ <span class=\"por-confirmar\">3</span> en puntos de uso y válvulas.<br>Medición del 100 % de los ramales, con diámetro interno real.<br>Sin tramos ciegos sin purga."
      },
      {
       "et": "Documentos entregables",
-      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de ramales (anexo del informe)"
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de ramales (anexo del informe)<br>\n  - Data cruda y reporte estadístico del ensayo"
+     },
+     {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>El criterio 3D en rojo debe adoptarse antes de medir."
      },
      {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>Manual del fabricante del sistema."
+      "html": "<strong>Referencia:</strong><br>EN 285; HTM 2031; USP &lt;1231&gt;; EU GMP Anexo 1; EU GMP Anexo 15."
      }
     ],
     "tabla": null,
+    "analisis": "si",
     "familia": "vapor-limpio"
    },
    {
@@ -4693,22 +5079,31 @@ var BancoSistemas = {
      },
      {
       "et": "Procedimiento",
-      "html": "<strong>Procedimiento:</strong><br>\n  1) Operar todos los usuarios a la vez<br>\n  2) Medir la presión en el punto más lejano"
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Operar todos los usuarios a la vez<br>\n  2) Medir la presión en el punto más lejano<br>\n  3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = caída de presión; unidad = bar. Tipo de dato = continua. n = 3 mediciones con todos los usuarios. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = caída ≤ 10 % y presión mínima cumplida. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable medida; toda exclusión se documenta y se conserva el dato original."
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Presión dentro de lo definido en el protocolo aprobado en el punto más lejano."
+      "html": "<strong>Criterio de aceptación:</strong><br>Caída de presión hasta el punto más lejano ≤ <span class=\"por-confirmar\">10 %</span> con todos los usuarios operando.<br>Presión en el punto más lejano ≥ la mínima requerida por el usuario.<br>Medición con la demanda real, no simulada."
      },
      {
       "et": "Documentos entregables",
-      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de la prueba (anexo del informe)"
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de la prueba (anexo del informe)<br>\n  - Data cruda y reporte estadístico del ensayo"
+     },
+     {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>La caída aceptable en rojo debe confirmarse contra el diseño de la red."
      },
      {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>Manual del fabricante del sistema."
+      "html": "<strong>Referencia:</strong><br>EN 285; HTM 2031; USP &lt;1231&gt;; EU GMP Anexo 1; EU GMP Anexo 15."
      }
     ],
     "tabla": null,
+    "analisis": "si",
     "familia": "vapor-limpio"
    },
    {
@@ -4727,16 +5122,24 @@ var BancoSistemas = {
       "html": "<strong>Procedimiento:</strong><br>\n  1) Arrancar y verificar el venteo de aire en líneas y equipos"
      },
      {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = eliminación de aire; unidad = pasa/no pasa. Tipo de dato = atributo. n = 1 verificación por punto alto. Estadísticos = proporción de cumplimiento con IC binomial exacto. Regla de decisión = sin bolsas de gas. Atípicos: no aplica a datos de atributo; toda exclusión se documenta y se conserva el registro original."
+     },
+     {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Sin bolsas de gas en el arranque."
+      "html": "<strong>Criterio de aceptación:</strong><br>Sin bolsas de aire en líneas y equipos tras la purga.<br>Eliminación de aire verificada en los puntos altos.<br>Sin ruido de golpe de ariete al abrir válvulas."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de la prueba (anexo del informe)"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>La verificación se hace con el sistema en operación y los puntos altos purgados."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>Manual del fabricante del sistema."
+      "html": "<strong>Referencia:</strong><br>EN 285; HTM 2031; USP &lt;1231&gt;; EU GMP Anexo 1; EU GMP Anexo 15."
      }
     ],
     "tabla": null,
@@ -4755,22 +5158,31 @@ var BancoSistemas = {
      },
      {
       "et": "Procedimiento",
-      "html": "<strong>Procedimiento:</strong><br>\n  1) Medir la temperatura superficial<br>\n  2) Verificar la pérdida de calor contra el criterio definido en el protocolo aprobado"
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Medir la temperatura superficial<br>\n  2) Verificar la pérdida de calor contra el criterio definido en el protocolo aprobado<br>\n  3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = temperatura superficial; unidad = °C. Tipo de dato = continua. n = 3 lecturas por tramo accesible. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = cada tramo ≤ 60 °C o aislado. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable medida; toda exclusión se documenta y se conserva el dato original."
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Superficie segura con pérdida dentro de lo definido en el protocolo aprobado."
+      "html": "<strong>Criterio de aceptación:</strong><br>Temperatura superficial de líneas accesibles ≤ <span class=\"por-confirmar\">60 °C</span> o aislamiento que impida el contacto.<br>Pérdida de calor dentro del criterio de diseño.<br>Registro por tramo accesible."
      },
      {
       "et": "Documentos entregables",
-      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de la prueba (anexo del informe)"
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de la prueba (anexo del informe)<br>\n  - Data cruda y reporte estadístico del ensayo"
+     },
+     {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>El límite de temperatura en rojo debe confirmarse con seguridad industrial del sitio."
      },
      {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>Manual del fabricante del sistema."
+      "html": "<strong>Referencia:</strong><br>EN 285; HTM 2031; USP &lt;1231&gt;; EU GMP Anexo 1; EU GMP Anexo 15."
      }
     ],
     "tabla": null,
+    "analisis": "si",
     "familia": "vapor-limpio"
    },
    {
@@ -4790,19 +5202,23 @@ var BancoSistemas = {
      },
      {
       "et": "Plan estadístico",
-      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+      "html": "<strong>Plan estadístico:</strong><br>Variable = muestreo de vapor; unidad = pasa/no pasa. Tipo de dato = atributo. n = 1 verificación por punto. Estadísticos = proporción de cumplimiento con IC binomial exacto. Regla de decisión = todos los puntos con condensador y conexión sanitaria. Atípicos: no aplica a datos de atributo; toda exclusión se documenta y se conserva el registro original."
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Puntos sanitarios con enfriamiento efectivo."
+      "html": "<strong>Criterio de aceptación:</strong><br>Diseño sanitario del punto de muestreo: condensador con enfriamiento, válvula y conexión estéril.<br>Muestreo representativo, sin contaminación cruzada.<br>Tiempo de enfriamiento suficiente para la toma segura."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registro con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de puntos"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>El diseño del condensador se verifica contra el plano y el procedimiento de muestreo."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>Manual del fabricante del sistema."
+      "html": "<strong>Referencia:</strong><br>EN 285; HTM 2031; USP &lt;1231&gt;; EU GMP Anexo 1; EU GMP Anexo 15."
      }
     ],
     "tabla": null,
@@ -4826,19 +5242,23 @@ var BancoSistemas = {
      },
      {
       "et": "Plan estadístico",
-      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+      "html": "<strong>Plan estadístico:</strong><br>Variable = presión aguas abajo; unidad = bar. Tipo de dato = continua. n = 3 lecturas por setpoint. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = media dentro de ±5 % del setpoint. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable medida; toda exclusión se documenta y se conserva el dato original."
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Presión aguas abajo controlada sin sobrecalentamiento excesivo (si aplica)."
+      "html": "<strong>Criterio de aceptación:</strong><br>Presión aguas abajo de la válvula reductora dentro de ±<span class=\"por-confirmar\">5 %</span> del setpoint.<br>Sin sobrecalentamiento excesivo (≤ 25 K) aguas abajo.<br>Sin ruido ni vibración anormal."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registro con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de reductoras"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>Aplica si hay reductora; si no, No Aplica con aprobación."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>Manual del fabricante del sistema."
+      "html": "<strong>Referencia:</strong><br>EN 285; HTM 2031; USP &lt;1231&gt;; EU GMP Anexo 1; EU GMP Anexo 15."
      }
     ],
     "tabla": null,
@@ -4862,19 +5282,23 @@ var BancoSistemas = {
      },
      {
       "et": "Plan estadístico",
-      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+      "html": "<strong>Plan estadístico:</strong><br>Variable = sequedad, gases no condensables y sobrecalentamiento; unidad = fracción, mL/100 mL, K. Tipo de dato = analitico. n = 3 muestras por condición. Estadísticos = mediana, mínimo, máximo e IC 95 %; concentraciones en escala log10. Regla de decisión = las 3 muestras dentro de los límites. Atípicos = Grubbs solo si n ≥ 7 y sobre log10; toda exclusión se documenta y se conserva el dato original."
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Dentro de los límites definidos en el protocolo aprobado."
+      "html": "<strong>Criterio de aceptación:</strong><br>Sequedad ≥ <span class=\"por-confirmar\">0,95</span> en la salida del generador.<br>Gases no condensables ≤ <span class=\"por-confirmar\">3,5 mL/100 mL</span> de condensado.<br>Sobrecalentamiento ≤ <span class=\"por-confirmar\">25 K</span> al expandir a presión atmosférica."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registro con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de calidad"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>Los límites en rojo son los de EN 285 y deben adoptarse formalmente antes de ejecutar."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>Manual del fabricante del sistema. EN 285 (calidad del vapor y del condensado; verifica la edición que adoptes)."
+      "html": "<strong>Referencia:</strong><br>EN 285; HTM 2031; USP &lt;1231&gt;; EU GMP Anexo 1; EU GMP Anexo 15."
      }
     ],
     "tabla": null,
@@ -4898,19 +5322,23 @@ var BancoSistemas = {
      },
      {
       "et": "Plan estadístico",
-      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+      "html": "<strong>Plan estadístico:</strong><br>Variable = tiempo hasta condensado conforme; unidad = min. Tipo de dato = continua. n = 3 arranques. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = primera muestra conforme ≤ 30 min. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable medida; toda exclusión se documenta y se conserva el dato original."
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Límite alcanzado en el tiempo definido."
+      "html": "<strong>Criterio de aceptación:</strong><br>Tras la puesta en marcha, el condensado alcanza el límite en ≤ <span class=\"por-confirmar\">30 min</span>.<br>Sin muestras fuera de límite después de ese tiempo.<br>Registro del tiempo hasta la primera muestra conforme."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registro con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de arranque"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>El tiempo en rojo se confirma con el procedimiento de arranque del sitio."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>Manual del fabricante del sistema."
+      "html": "<strong>Referencia:</strong><br>EN 285; HTM 2031; USP &lt;1231&gt;; EU GMP Anexo 1; EU GMP Anexo 15."
      }
     ],
     "tabla": null,
@@ -4930,22 +5358,31 @@ var BancoSistemas = {
      },
      {
       "et": "Procedimiento",
-      "html": "<strong>Procedimiento:</strong><br>\n  1) Purgar y calentar las líneas tras el paro prolongado<br>\n  2) Medir el tiempo hasta vapor en especificación"
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Purgar y calentar las líneas tras el paro prolongado<br>\n  2) Medir el tiempo hasta vapor en especificación<br>\n  3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = tiempo hasta vapor en especificación; unidad = min. Tipo de dato = continua. n = 3 arranques por ramal. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = primera muestra conforme ≤ 30 min. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable medida; toda exclusión se documenta y se conserva el dato original."
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Tiempo dentro de lo definido en el protocolo aprobado."
+      "html": "<strong>Criterio de aceptación:</strong><br>Purga y calentamiento de líneas hasta vapor en especificación en ≤ <span class=\"por-confirmar\">30 min</span>.<br>Sin condensado en el punto de uso al momento de la toma.<br>Registro del tiempo por ramal."
      },
      {
       "et": "Documentos entregables",
-      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro del arranque (anexo del informe)"
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro del arranque (anexo del informe)<br>\n  - Data cruda y reporte estadístico del ensayo"
+     },
+     {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>El tiempo en rojo se confirma con el diseño de la red y el procedimiento de arranque."
      },
      {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>Manual del fabricante del sistema."
+      "html": "<strong>Referencia:</strong><br>EN 285; HTM 2031; USP &lt;1231&gt;; EU GMP Anexo 1; EU GMP Anexo 15."
      }
     ],
     "tabla": null,
+    "analisis": "si",
     "familia": "vapor-limpio"
    },
    {
@@ -4964,16 +5401,24 @@ var BancoSistemas = {
       "html": "<strong>Procedimiento:</strong><br>\n  1) Purgar tras el paro y revisar puntos bajos"
      },
      {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = acumulación en puntos bajos; unidad = pasa/no pasa. Tipo de dato = atributo. n = 100 % de puntos bajos. Estadísticos = proporción de cumplimiento con IC binomial exacto. Regla de decisión = sin acumulación en ninguno. Atípicos: no aplica a datos de atributo; toda exclusión se documenta y se conserva el registro original."
+     },
+     {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Sin acumulación en puntos bajos."
+      "html": "<strong>Criterio de aceptación:</strong><br>Sin acumulación de condensado en puntos bajos tras la purga.<br>Verificación en el 100 % de los puntos bajos identificados.<br>Sin ruido ni arrastre al abrir el punto de uso."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de la purga (anexo del informe)"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>La verificación se hace inmediatamente después de la purga, no horas después."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>Manual del fabricante del sistema."
+      "html": "<strong>Referencia:</strong><br>EN 285; HTM 2031; USP &lt;1231&gt;; EU GMP Anexo 1; EU GMP Anexo 15."
      }
     ],
     "tabla": null,
@@ -4996,19 +5441,23 @@ var BancoSistemas = {
      },
      {
       "et": "Plan estadístico",
-      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+      "html": "<strong>Plan estadístico:</strong><br>Variable = operación continua; unidad = pasa/no pasa. Tipo de dato = atributo. n = 1 período de 72 h con registro continuo. Estadísticos = proporción de cumplimiento con IC binomial exacto. Regla de decisión = período completo sin alarmas no tratadas. Atípicos: no aplica a datos de atributo; toda exclusión se documenta y se conserva el registro original."
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Operación continua sin alarmas ni desviaciones no tratadas."
+      "html": "<strong>Criterio de aceptación:</strong><br>72 h de operación continua a demanda variable, sin alarmas no tratadas.<br>Calidad del vapor dentro de límite en cada muestreo del período.<br>Sin paradas no programadas ni desviaciones abiertas."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registro con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de operación"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>La duración en rojo se confirma con el plan de validación del sistema."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>Manual del fabricante del sistema."
+      "html": "<strong>Referencia:</strong><br>EN 285; HTM 2031; USP &lt;1231&gt;; EU GMP Anexo 1; EU GMP Anexo 15."
      }
     ],
     "tabla": null,
@@ -5133,22 +5582,31 @@ var BancoSistemas = {
      },
      {
       "et": "Procedimiento",
-      "html": "<strong>Procedimiento:</strong><br>\n  1) Verificar el certificado vigente de cada válvula<br>\n  2) Probar la apertura"
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Verificar el certificado vigente de cada válvula<br>\n  2) Probar la apertura<br>\n  3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = presión de apertura; unidad = bar. Tipo de dato = continua. n = 3 pruebas. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = media dentro de ±5 % del tarado. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable medida; toda exclusión se documenta y se conserva el dato original."
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Certificado vigente.<br>\n  Apertura conforme."
+      "html": "<strong>Criterio de aceptación:</strong><br>Certificado vigente de la válvula de seguridad y apertura a la presión de tarado ±<span class=\"por-confirmar\">5 %</span>.<br>Registro de prueba con presión, fecha y laboratorio.<br>Descarga sin obstrucción."
      },
      {
       "et": "Documentos entregables",
-      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro y certificados (anexo del informe)"
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro y certificados (anexo del informe)<br>\n  - Data cruda y reporte estadístico del ensayo"
+     },
+     {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>La tolerancia en rojo se confirma con el certificado del fabricante."
      },
      {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>Manual del fabricante del sistema."
+      "html": "<strong>Referencia:</strong><br>ISO 8573-1; ISO 8573-2/-3/-4/-6/-9; ISO 12500; EU GMP Anexo 1; 21 CFR 211.160(b)."
      }
     ],
     "tabla": null,
+    "analisis": "si",
     "familia": "aire-comprimido"
    },
    {
@@ -5164,22 +5622,31 @@ var BancoSistemas = {
      },
      {
       "et": "Procedimiento",
-      "html": "<strong>Procedimiento:</strong><br>\n  1) Accionar la parada de emergencia<br>\n  2) Verificar la despresurización a estado seguro"
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Accionar la parada de emergencia<br>\n  2) Verificar la despresurización a estado seguro<br>\n  3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = parada de emergencia; unidad = s. Tipo de dato = continua. n = 3 activaciones. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = despresurización ≤ 30 s en las 3. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable medida; toda exclusión se documenta y se conserva el dato original."
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Despresurización completa y estado seguro."
+      "html": "<strong>Criterio de aceptación:</strong><br>La parada de emergencia despresuriza el sistema en ≤ <span class=\"por-confirmar\">30 s</span> y lo deja en estado seguro.<br>Sin reinicio automático; rearme manual.<br>Evento registrado con hora y usuario."
      },
      {
       "et": "Documentos entregables",
-      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de la prueba (anexo del informe)"
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de la prueba (anexo del informe)<br>\n  - Data cruda y reporte estadístico del ensayo"
+     },
+     {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>El tiempo en rojo se confirma con el diseño y el procedimiento de emergencia."
      },
      {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>Manual del fabricante del sistema."
+      "html": "<strong>Referencia:</strong><br>ISO 8573-1; ISO 8573-2/-3/-4/-6/-9; ISO 12500; EU GMP Anexo 1; 21 CFR 211.160(b)."
      }
     ],
     "tabla": null,
+    "analisis": "si",
     "familia": "aire-comprimido"
    },
    {
@@ -5198,16 +5665,24 @@ var BancoSistemas = {
       "html": "<strong>Procedimiento:</strong><br>\n  1) Simular cada condición de protección<br>\n  2) Verificar la respuesta del interlock"
      },
      {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = actuación de interlocks; unidad = pasa/no pasa. Tipo de dato = atributo. n = 3 repeticiones por interlock. Estadísticos = proporción de cumplimiento con IC binomial exacto. Regla de decisión = cada interlock actúa en las 3. Atípicos: no aplica a datos de atributo; toda exclusión se documenta y se conserva el registro original."
+     },
+     {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Cada interlock actúa ante su condición."
+      "html": "<strong>Criterio de aceptación:</strong><br>Cada interlock actúa: alta temperatura, baja presión de aceite o refrigerante, sobrecarga del motor y alta presión.<br>La acción ocurre en ≤ <span class=\"por-confirmar\">5 s</span> y exige rearme manual.<br>Prueba registrada por interlock."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de interlocks simulados (anexo del informe)"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>El tiempo en rojo se confirma con el diseño del control."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>Manual del fabricante del sistema."
+      "html": "<strong>Referencia:</strong><br>ISO 8573-1; ISO 8573-2/-3/-4/-6/-9; ISO 12500; EU GMP Anexo 1; 21 CFR 211.160(b)."
      }
     ],
     "tabla": null,
@@ -5229,16 +5704,24 @@ var BancoSistemas = {
       "html": "<strong>Procedimiento:</strong><br>\n  1) Provocar punto de rocío alto, diferencial alto de filtros, baja presión, alta temperatura, falla de drenaje y falla del secador<br>\n  2) Verificar cada disparo y su acción"
      },
      {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = disparo y aviso de alarmas; unidad = pasa/no pasa. Tipo de dato = atributo. n = 3 repeticiones por alarma. Estadísticos = proporción de cumplimiento con IC binomial exacto. Regla de decisión = cada alarma dispara y notifica. Atípicos: no aplica a datos de atributo; toda exclusión se documenta y se conserva el registro original."
+     },
+     {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Cada alarma dispara y ejecuta su acción."
+      "html": "<strong>Criterio de aceptación:</strong><br>Cada alarma dispara y ejecuta su acción.<br>El aviso llega al responsable en ≤ <span class=\"por-confirmar\">5 min</span>.<br>Registro con fecha, hora, valor y usuario."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de alarmas y acciones (anexo del informe)"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>El tiempo de aviso en rojo depende del esquema de guardias."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>Manual del fabricante del sistema."
+      "html": "<strong>Referencia:</strong><br>ISO 8573-1; ISO 8573-2/-3/-4/-6/-9; ISO 12500; EU GMP Anexo 1; 21 CFR 211.160(b)."
      }
     ],
     "tabla": null,
@@ -5260,16 +5743,24 @@ var BancoSistemas = {
       "html": "<strong>Procedimiento:</strong><br>\n  1) Simular la falla del secador con el compresor en marcha<br>\n  2) Verificar alarma y aislamiento o inhibición de la entrega a puntos críticos"
      },
      {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = aislamiento por rocío alto; unidad = pasa/no pasa. Tipo de dato = atributo. n = 3 repeticiones. Estadísticos = proporción de cumplimiento con IC binomial exacto. Regla de decisión = aísla antes de superar el límite en las 3. Atípicos: no aplica a datos de atributo; toda exclusión se documenta y se conserva el registro original."
+     },
+     {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Ningún punto crítico recibe aire húmedo sin alarma y bloqueo."
+      "html": "<strong>Criterio de aceptación:</strong><br>El sistema alarma y aísla o inhibe la entrega de aire húmedo a los puntos críticos.<br>La acción ocurre antes de que el rocío supere el límite en el punto de uso.<br>Evento registrado con valor de rocío y hora."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de la prueba (anexo del informe)"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>Este interlock protege al producto: se prueba con el punto crítico conectado, no simulado."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>Manual del fabricante del sistema."
+      "html": "<strong>Referencia:</strong><br>ISO 8573-1; ISO 8573-2/-3/-4/-6/-9; ISO 12500; EU GMP Anexo 1; 21 CFR 211.160(b)."
      }
     ],
     "tabla": null,
@@ -5291,16 +5782,24 @@ var BancoSistemas = {
       "html": "<strong>Procedimiento:</strong><br>\n  1) Cortar la energía y verificar el estado seguro<br>\n  2) Restablecer con secuencia ordenada y verificar presión estable antes de entregar"
      },
      {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = reinicio seguro; unidad = pasa/no pasa. Tipo de dato = atributo. n = 3 cortes controlados. Estadísticos = proporción de cumplimiento con IC binomial exacto. Regla de decisión = las 3 recuperan sin entregar aire fuera de spec. Atípicos: no aplica a datos de atributo; toda exclusión se documenta y se conserva el registro original."
+     },
+     {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Reinicio ordenado con presión estable."
+      "html": "<strong>Criterio de aceptación:</strong><br>Ante corte de energía el sistema queda en estado seguro, sin retorno de aire.<br>Al reiniciar, la presión se restablece antes de entregar aire a producción.<br>Sin entrega de aire fuera de especificación al arrancar."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de la prueba (anexo del informe)"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>La secuencia de reinicio se verifica contra el procedimiento del sitio."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>Manual del fabricante del sistema."
+      "html": "<strong>Referencia:</strong><br>ISO 8573-1; ISO 8573-2/-3/-4/-6/-9; ISO 12500; EU GMP Anexo 1; 21 CFR 211.160(b)."
      }
     ],
     "tabla": null,
@@ -5319,22 +5818,31 @@ var BancoSistemas = {
      },
      {
       "et": "Procedimiento",
-      "html": "<strong>Procedimiento:</strong><br>\n  1) Simular la falla del equipo líder (si aplica)<br>\n  2) Verificar el cambio automático con registro de presión y rocío"
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Simular la falla del equipo líder (si aplica)<br>\n  2) Verificar el cambio automático con registro de presión y rocío<br>\n  3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = transferencia a respaldo; unidad = s, bar, °C. Tipo de dato = continua. n = 3 transferencias. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = rocío y presión dentro de límite en las 3. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable medida; toda exclusión se documenta y se conserva el dato original."
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Transferencia automática con variables dentro de lo definido en el protocolo aprobado (si aplica)."
+      "html": "<strong>Criterio de aceptación:</strong><br>El cambio automático entre compresores y entre torres del secador completa en ≤ <span class=\"por-confirmar\">60 s</span>.<br>Presión y punto de rocío se mantienen dentro de límite durante la transferencia.<br>Se registran tiempo, presión y rocío."
      },
      {
       "et": "Documentos entregables",
-      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de la transferencia (anexo del informe)"
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de la transferencia (anexo del informe)<br>\n  - Data cruda y reporte estadístico del ensayo"
+     },
+     {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>Si no hay respaldo, se declara No Aplica con aprobación previa."
      },
      {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>Manual del fabricante del sistema."
+      "html": "<strong>Referencia:</strong><br>ISO 8573-1; ISO 8573-2/-3/-4/-6/-9; ISO 12500; EU GMP Anexo 1; 21 CFR 211.160(b)."
      }
     ],
     "tabla": null,
+    "analisis": "si",
     "familia": "aire-comprimido"
    },
    {
@@ -5354,19 +5862,23 @@ var BancoSistemas = {
      },
      {
       "et": "Plan estadístico",
-      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+      "html": "<strong>Plan estadístico:</strong><br>Variable = caudal entregado; unidad = m³/h. Tipo de dato = continua. n = 3 lecturas por demanda. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = media dentro de ±10 % del diseño. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable medida; toda exclusión se documenta y se conserva el dato original."
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Caudal dentro de lo definido en el protocolo aprobado en ambas condiciones."
+      "html": "<strong>Criterio de aceptación:</strong><br>Caudal entregado a presión nominal y a máxima demanda dentro de ±<span class=\"por-confirmar\">10 %</span> del diseño.<br>Presión estable durante 30 min en cada demanda.<br>Sin caída de presión &gt; 0,3 bar en el punto de uso."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registro con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de capacidad"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>La tolerancia en rojo se confirma con la capacidad declarada del compresor."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>Manual del fabricante del sistema."
+      "html": "<strong>Referencia:</strong><br>ISO 8573-1; ISO 8573-2/-3/-4/-6/-9; ISO 12500; EU GMP Anexo 1; 21 CFR 211.160(b)."
      }
     ],
     "tabla": null,
@@ -5386,22 +5898,31 @@ var BancoSistemas = {
      },
      {
       "et": "Procedimiento",
-      "html": "<strong>Procedimiento:</strong><br>\n  1) Verificar la banda de carga y descarga o el variador<br>\n  2) Verificar ausencia de ciclado excesivo"
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Verificar la banda de carga y descarga o el variador<br>\n  2) Verificar ausencia de ciclado excesivo<br>\n  3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = ciclado del compresor; unidad = ciclos/h. Tipo de dato = continua. n = 1 registro de 60 min. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = ≤ 6 ciclos/h y presión en rango. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable medida; toda exclusión se documenta y se conserva el dato original."
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Control estable sin ciclado excesivo."
+      "html": "<strong>Criterio de aceptación:</strong><br>Banda de carga y descarga o control por variador dentro de los valores de diseño.<br>Sin ciclado &gt; <span class=\"por-confirmar\">6 ciclos/h</span> en demanda estable.<br>Presión dentro del rango durante el ciclado."
      },
      {
       "et": "Documentos entregables",
-      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de la prueba (anexo del informe)"
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de la prueba (anexo del informe)<br>\n  - Data cruda y reporte estadístico del ensayo"
+     },
+     {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>El límite de ciclado en rojo se confirma con el fabricante del compresor."
      },
      {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>Manual del fabricante del sistema."
+      "html": "<strong>Referencia:</strong><br>ISO 8573-1; ISO 8573-2/-3/-4/-6/-9; ISO 12500; EU GMP Anexo 1; 21 CFR 211.160(b)."
      }
     ],
     "tabla": null,
+    "analisis": "si",
     "familia": "aire-comprimido"
    },
    {
@@ -5421,19 +5942,23 @@ var BancoSistemas = {
      },
      {
       "et": "Plan estadístico",
-      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+      "html": "<strong>Plan estadístico:</strong><br>Variable = temperatura de entrada al secador; unidad = °C. Tipo de dato = continua. n = 3 lecturas por condición. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = media dentro del rango de diseño. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable medida; toda exclusión se documenta y se conserva el dato original."
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Dentro del rango de diseño del secador."
+      "html": "<strong>Criterio de aceptación:</strong><br>Temperatura de salida dentro del rango de diseño del secador.<br>Sin condensado arrastrado al secador.<br>Registro de temperatura por condición."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registro con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de temperatura"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>El rango en rojo se confirma con la hoja de datos del secador."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>Manual del fabricante del sistema."
+      "html": "<strong>Referencia:</strong><br>ISO 8573-1; ISO 8573-2/-3/-4/-6/-9; ISO 12500; EU GMP Anexo 1; 21 CFR 211.160(b)."
      }
     ],
     "tabla": null,
@@ -5456,16 +5981,24 @@ var BancoSistemas = {
       "html": "<strong>Procedimiento:</strong><br>\n  1) Probar cada drenaje del receptor, posenfriador y filtros"
      },
      {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = drenajes de condensado; unidad = pasa/no pasa. Tipo de dato = atributo. n = 100 % de drenajes. Estadísticos = proporción de cumplimiento con IC binomial exacto. Regla de decisión = todos descargan sin fuga. Atípicos: no aplica a datos de atributo; toda exclusión se documenta y se conserva el registro original."
+     },
+     {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Sin fuga de aire ni retención de agua."
+      "html": "<strong>Criterio de aceptación:</strong><br>Cada drenaje descarga condensado sin fuga de aire.<br>Sin retención de agua en receptor, posenfriador ni filtros.<br>Registro por drenaje."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registro por drenaje (anexo del informe)"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>Un drenaje con fuga de aire sostiene la humedad aguas abajo: se verifica uno por uno."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>Manual del fabricante del sistema."
+      "html": "<strong>Referencia:</strong><br>ISO 8573-1; ISO 8573-2/-3/-4/-6/-9; ISO 12500; EU GMP Anexo 1; 21 CFR 211.160(b)."
      }
     ],
     "tabla": null,
@@ -5488,19 +6021,23 @@ var BancoSistemas = {
      },
      {
       "et": "Plan estadístico",
-      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+      "html": "<strong>Plan estadístico:</strong><br>Variable = presión durante pico de demanda; unidad = bar. Tipo de dato = continua. n = 3 picos simulados. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = caída ≤ 0,5 bar en los 3. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable medida; toda exclusión se documenta y se conserva el dato original."
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Sin caída de presión ante picos.<br>\n  Drenaje efectivo."
+      "html": "<strong>Criterio de aceptación:</strong><br>Volumen del receptor suficiente para el pico de demanda sin caída &gt; <span class=\"por-confirmar\">0,5 bar</span>.<br>Drenaje desde el punto bajo y sin acumulación.<br>Registro de presión durante el pico."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registro con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis del receptor"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>La caída aceptable en rojo se confirma con el cálculo de la instalación."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>Manual del fabricante del sistema."
+      "html": "<strong>Referencia:</strong><br>ISO 8573-1; ISO 8573-2/-3/-4/-6/-9; ISO 12500; EU GMP Anexo 1; 21 CFR 211.160(b)."
      }
     ],
     "tabla": null,
@@ -5524,19 +6061,23 @@ var BancoSistemas = {
      },
      {
       "et": "Plan estadístico",
-      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+      "html": "<strong>Plan estadístico:</strong><br>Variable = punto de rocío a presión; unidad = °C. Tipo de dato = continua. n = 3 mediciones por demanda. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = cada medición dentro de la clase adoptada. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable medida; toda exclusión se documenta y se conserva el dato original."
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Dentro del límite del URS en ambas demandas."
+      "html": "<strong>Criterio de aceptación:</strong><br>Punto de rocío a presión dentro de la clase adoptada (<span class=\"por-confirmar\">clase 2: -40 °C</span>) en demanda nominal y máxima.<br>Medición aguas abajo del secador, con las condiciones de entrada reales.<br>Sin resultados fuera de la clase."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registro con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de rocío"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>La clase en rojo se confirma con la clasificación ISO 8573-1 de la URS."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>URS aprobada (rangos y criterios)."
+      "html": "<strong>Referencia:</strong><br>ISO 8573-1; ISO 8573-2/-3/-4/-6/-9; ISO 12500; EU GMP Anexo 1; 21 CFR 211.160(b)."
      }
     ],
     "tabla": null,
@@ -5560,19 +6101,23 @@ var BancoSistemas = {
      },
      {
       "et": "Plan estadístico",
-      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+      "html": "<strong>Plan estadístico:</strong><br>Variable = caudal de purga; unidad = % del nominal. Tipo de dato = continua. n = 3 ciclos. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = media ≤ 15 % del nominal. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable medida; toda exclusión se documenta y se conserva el dato original."
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Ciclo dentro de lo definido en el protocolo aprobado."
+      "html": "<strong>Criterio de aceptación:</strong><br>Tiempos y caudal de purga del secador según fabricante, sin sobrecalentamiento.<br>Consumo de purga ≤ <span class=\"por-confirmar\">15 %</span> del caudal nominal.<br>Registro de purga por ciclo."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registro con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de regeneración"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>El consumo de purga en rojo se confirma con la hoja de datos del secador."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>Manual del fabricante del sistema."
+      "html": "<strong>Referencia:</strong><br>ISO 8573-1; ISO 8573-2/-3/-4/-6/-9; ISO 12500; EU GMP Anexo 1; 21 CFR 211.160(b)."
      }
     ],
     "tabla": null,
@@ -5596,19 +6141,23 @@ var BancoSistemas = {
      },
      {
       "et": "Plan estadístico",
-      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+      "html": "<strong>Plan estadístico:</strong><br>Variable = rocío durante cambio de torre; unidad = °C. Tipo de dato = continua. n = 3 cambios. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = sin superar el límite en los 3. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable medida; toda exclusión se documenta y se conserva el dato original."
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Sin picos sobre el límite durante el cambio."
+      "html": "<strong>Criterio de aceptación:</strong><br>El punto de rocío no sube por encima del límite durante el cambio de torre.<br>Sin pico de humedad en el punto de uso.<br>Registro continuo durante la transferencia."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registro con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de conmutación"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>Se verifica con registro continuo; una lectura puntual puede no ver el pico."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>Manual del fabricante del sistema."
+      "html": "<strong>Referencia:</strong><br>ISO 8573-1; ISO 8573-2/-3/-4/-6/-9; ISO 12500; EU GMP Anexo 1; 21 CFR 211.160(b)."
      }
     ],
     "tabla": null,
@@ -5632,19 +6181,23 @@ var BancoSistemas = {
      },
      {
       "et": "Plan estadístico",
-      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+      "html": "<strong>Plan estadístico:</strong><br>Variable = umbral de cambio de torre; unidad = pasa/no pasa. Tipo de dato = atributo. n = 3 cambios. Estadísticos = proporción de cumplimiento con IC binomial exacto. Regla de decisión = respuesta dentro del retardo en los 3. Atípicos: no aplica a datos de atributo; toda exclusión se documenta y se conserva el registro original."
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Umbral y retardo dentro de lo definido en el protocolo aprobado."
+      "html": "<strong>Criterio de aceptación:</strong><br>Umbral y retardo del cambio de torre definidos y verificados.<br>La respuesta ocurre dentro del retardo configurado.<br>Registro del evento."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registro con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de alarma"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>El umbral se confirma con el fabricante del secador."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>Manual del fabricante del sistema."
+      "html": "<strong>Referencia:</strong><br>ISO 8573-1; ISO 8573-2/-3/-4/-6/-9; ISO 12500; EU GMP Anexo 1; 21 CFR 211.160(b)."
      }
     ],
     "tabla": null,
@@ -5668,19 +6221,23 @@ var BancoSistemas = {
      },
      {
       "et": "Plan estadístico",
-      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+      "html": "<strong>Plan estadístico:</strong><br>Variable = temperatura de evaporador; unidad = °C. Tipo de dato = continua. n = 3 lecturas por condición. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = media dentro del rango del fabricante. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable medida; toda exclusión se documenta y se conserva el dato original."
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Dentro de lo definido si aplica."
+      "html": "<strong>Criterio de aceptación:</strong><br>Temperatura de evaporador y drenaje del preenfriador dentro de rango, si existe.<br>Sin hielo ni arrastre de condensado.<br>Registro por condición."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registro con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis del secador"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>Aplica si hay preenfriador; si no, No Aplica con aprobación."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>Manual del fabricante del sistema."
+      "html": "<strong>Referencia:</strong><br>ISO 8573-1; ISO 8573-2/-3/-4/-6/-9; ISO 12500; EU GMP Anexo 1; 21 CFR 211.160(b)."
      }
     ],
     "tabla": null,
@@ -5704,19 +6261,23 @@ var BancoSistemas = {
      },
      {
       "et": "Plan estadístico",
-      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+      "html": "<strong>Plan estadístico:</strong><br>Variable = caída de presión por filtro; unidad = bar. Tipo de dato = continua. n = 3 lecturas por filtro. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = media dentro de la especificación. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable medida; toda exclusión se documenta y se conserva el dato original."
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Dentro de especificación con alarma al límite."
+      "html": "<strong>Criterio de aceptación:</strong><br>Caída de cada filtro nuevo dentro de la especificación del fabricante.<br>Alarma de filtro saturado configurada y activada al límite (<span class=\"por-confirmar\">ΔP de cambio</span>).<br>Registro por filtro, sin promediar etapas."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registro con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de filtros"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>El ΔP de cambio en rojo se toma del fabricante; no se fija por defecto."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>Manual del fabricante del sistema."
+      "html": "<strong>Referencia:</strong><br>ISO 8573-1; ISO 8573-2/-3/-4/-6/-9; ISO 12500; EU GMP Anexo 1; 21 CFR 211.160(b)."
      }
     ],
     "tabla": null,
@@ -5739,16 +6300,24 @@ var BancoSistemas = {
       "html": "<strong>Procedimiento:</strong><br>\n  1) Inspeccionar carcasas y drenajes"
      },
      {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = ausencia de fuga y condensado; unidad = pasa/no pasa. Tipo de dato = atributo. n = 100 % de filtros y separadores. Estadísticos = proporción de cumplimiento con IC binomial exacto. Regla de decisión = todos sin fuga ni acumulación. Atípicos: no aplica a datos de atributo; toda exclusión se documenta y se conserva el registro original."
+     },
+     {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Sin fuga ni acumulación."
+      "html": "<strong>Criterio de aceptación:</strong><br>Filtros y separadores sin fuga ni acumulación de condensado.<br>Purga operativa y sin aceite arrastrado.<br>Inspección del 100 % de los puntos."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de la inspección (anexo del informe)"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>Se inspecciona cada elemento; uno con condensado invalida la calidad aguas abajo."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>Manual del fabricante del sistema."
+      "html": "<strong>Referencia:</strong><br>ISO 8573-1; ISO 8573-2/-3/-4/-6/-9; ISO 12500; EU GMP Anexo 1; 21 CFR 211.160(b)."
      }
     ],
     "tabla": null,
@@ -5771,19 +6340,23 @@ var BancoSistemas = {
      },
      {
       "et": "Plan estadístico",
-      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+      "html": "<strong>Plan estadístico:</strong><br>Variable = concentración de aceite; unidad = mg/m³. Tipo de dato = analitico. n = 3 muestras por punto. Estadísticos = mediana, mínimo, máximo e IC 95 %; concentraciones en escala log10. Regla de decisión = cada muestra dentro de la clase adoptada. Atípicos = Grubbs solo si n ≥ 7 y sobre log10; toda exclusión se documenta y se conserva el dato original."
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Eliminación dentro de lo definido en el protocolo aprobado."
+      "html": "<strong>Criterio de aceptación:</strong><br>Eliminación de vapor de aceite aguas abajo del filtro de carbón verificada.<br>Concentración de aceite dentro de la clase adoptada (<span class=\"por-confirmar\">clase 1: ≤0,01 mg/m³</span>).<br>Medición con método ISO 8573-2 o -5."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registro con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de carbón"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>La clase de aceite en rojo se confirma con la URS; para aire de proceso suele ser clase 1."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>Manual del fabricante del sistema."
+      "html": "<strong>Referencia:</strong><br>ISO 8573-1; ISO 8573-2/-3/-4/-6/-9; ISO 12500; EU GMP Anexo 1; 21 CFR 211.160(b)."
      }
     ],
     "tabla": null,
@@ -5807,19 +6380,23 @@ var BancoSistemas = {
      },
      {
       "et": "Plan estadístico",
-      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+      "html": "<strong>Plan estadístico:</strong><br>Variable = integridad del filtro 0,2 µm; unidad = pasa/no pasa. Tipo de dato = atributo. n = 100 % de filtros críticos. Estadísticos = proporción de cumplimiento con IC binomial exacto. Regla de decisión = todos íntegros y en fecha. Atípicos: no aplica a datos de atributo; toda exclusión se documenta y se conserva el registro original."
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Integridad confirmada con caída dentro de lo definido en el protocolo aprobado."
+      "html": "<strong>Criterio de aceptación:</strong><br>Integridad y disposición de los filtros de 0,2 µm en puntos críticos verificadas.<br>Caída en servicio dentro del valor del fabricante.<br>Sin bypass ni filtro vencido."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registro con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de terminales"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>La integridad se verifica según el método del fabricante; no se asume por fecha de cambio."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>Manual del fabricante del sistema."
+      "html": "<strong>Referencia:</strong><br>ISO 8573-1; ISO 8573-2/-3/-4/-6/-9; ISO 12500; EU GMP Anexo 1; 21 CFR 211.160(b)."
      }
     ],
     "tabla": null,
@@ -5843,19 +6420,23 @@ var BancoSistemas = {
      },
      {
       "et": "Plan estadístico",
-      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+      "html": "<strong>Plan estadístico:</strong><br>Variable = retención de polvo de desecante; unidad = pasa/no pasa. Tipo de dato = atributo. n = 1 verificación por filtro. Estadísticos = proporción de cumplimiento con IC binomial exacto. Regla de decisión = sin partículas aguas abajo. Atípicos: no aplica a datos de atributo; toda exclusión se documenta y se conserva el registro original."
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Retención efectiva del polvo del desecante."
+      "html": "<strong>Criterio de aceptación:</strong><br>La filtración posterior al secador retiene el polvo del desecante.<br>Sin partículas visibles aguas abajo.<br>Registro de cambio y ΔP."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registro con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de posición"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>Si el secador es refrigerado, se declara No Aplica con aprobación."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>Manual del fabricante del sistema."
+      "html": "<strong>Referencia:</strong><br>ISO 8573-1; ISO 8573-2/-3/-4/-6/-9; ISO 12500; EU GMP Anexo 1; 21 CFR 211.160(b)."
      }
     ],
     "tabla": null,
@@ -5879,19 +6460,23 @@ var BancoSistemas = {
      },
      {
       "et": "Plan estadístico",
-      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+      "html": "<strong>Plan estadístico:</strong><br>Variable = caída de presión en la red; unidad = bar. Tipo de dato = continua. n = 3 mediciones con todos los usuarios. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = caída ≤ 10 % y presión mínima cumplida. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable medida; toda exclusión se documenta y se conserva el dato original."
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Caída dentro de lo definido en el protocolo aprobado."
+      "html": "<strong>Criterio de aceptación:</strong><br>Caída desde el receptor hasta el punto más lejano ≤ <span class=\"por-confirmar\">10 %</span> con todos los usuarios operando.<br>Presión en el punto más lejano ≥ la mínima del usuario.<br>Medición con demanda real, no simulada."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registro con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de distribución"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>La caída aceptable en rojo se confirma con el diseño de la red."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>Manual del fabricante del sistema."
+      "html": "<strong>Referencia:</strong><br>ISO 8573-1; ISO 8573-2/-3/-4/-6/-9; ISO 12500; EU GMP Anexo 1; 21 CFR 211.160(b)."
      }
     ],
     "tabla": null,
@@ -5914,16 +6499,24 @@ var BancoSistemas = {
       "html": "<strong>Procedimiento:</strong><br>\n  1) Recorrer las líneas y verificar pendiente y drenajes"
      },
      {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = retención de condensado; unidad = pasa/no pasa. Tipo de dato = atributo. n = 100 % de puntos bajos. Estadísticos = proporción de cumplimiento con IC binomial exacto. Regla de decisión = sin retención en ninguno. Atípicos: no aplica a datos de atributo; toda exclusión se documenta y se conserva el registro original."
+     },
+     {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Sin condensado retenido."
+      "html": "<strong>Criterio de aceptación:</strong><br>El condensado fluye a drenajes y no queda retenido en la red.<br>Sin bolsas ni tramos con contrapendiente.<br>Verificación en el 100 % de los puntos bajos."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de campo (anexo del informe)"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>La verificación se hace con el sistema en operación y después de una purga."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>Manual del fabricante del sistema."
+      "html": "<strong>Referencia:</strong><br>ISO 8573-1; ISO 8573-2/-3/-4/-6/-9; ISO 12500; EU GMP Anexo 1; 21 CFR 211.160(b)."
      }
     ],
     "tabla": null,
@@ -5942,22 +6535,31 @@ var BancoSistemas = {
      },
      {
       "et": "Procedimiento",
-      "html": "<strong>Procedimiento:</strong><br>\n  1) Medir ramales y puntos bajos contra su diámetro<br>\n  2) Verificar drenajes y filtros asociados"
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Medir ramales y puntos bajos contra su diámetro<br>\n  2) Verificar drenajes y filtros asociados<br>\n  3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = relación L/D; unidad = L/D. Tipo de dato = continua. n = 100 % de ramales. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = L/D ≤ 3 en todos. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable medida; toda exclusión se documenta y se conserva el dato original."
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Ramales conformes con drenaje y filtrado."
+      "html": "<strong>Criterio de aceptación:</strong><br>L/D ≤ <span class=\"por-confirmar\">3</span> en puntos de uso y válvulas.<br>Drenajes y filtros en ubicación correcta.<br>Medición del 100 % de los ramales."
      },
      {
       "et": "Documentos entregables",
-      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de campo (anexo del informe)"
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de campo (anexo del informe)<br>\n  - Data cruda y reporte estadístico del ensayo"
+     },
+     {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>El criterio 3D en rojo se adopta antes de medir."
      },
      {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>Manual del fabricante del sistema."
+      "html": "<strong>Referencia:</strong><br>ISO 8573-1; ISO 8573-2/-3/-4/-6/-9; ISO 12500; EU GMP Anexo 1; 21 CFR 211.160(b)."
      }
     ],
     "tabla": null,
+    "analisis": "si",
     "familia": "aire-comprimido"
    },
    {
@@ -5977,19 +6579,23 @@ var BancoSistemas = {
      },
      {
       "et": "Plan estadístico",
-      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+      "html": "<strong>Plan estadístico:</strong><br>Variable = caída de presión con sistema aislado; unidad = bar. Tipo de dato = continua. n = 3 pruebas. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = caída ≤ 0,1 bar en 5 min. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable medida; toda exclusión se documenta y se conserva el dato original."
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Fuga total dentro del máximo del URS."
+      "html": "<strong>Criterio de aceptación:</strong><br>Caída de presión con el sistema aislado dentro del criterio (<span class=\"por-confirmar\">≤ 0,1 bar en 5 min</span>).<br>Detección por ultrasonido sin fugas relevantes.<br>Registro de fugas y reparación."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registro con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de fugas"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>El criterio de caída en rojo se confirma con el volumen del sistema y la presión de prueba."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>URS aprobada (rangos y criterios)."
+      "html": "<strong>Referencia:</strong><br>ISO 8573-1; ISO 8573-2/-3/-4/-6/-9; ISO 12500; EU GMP Anexo 1; 21 CFR 211.160(b)."
      }
     ],
     "tabla": null,
@@ -6012,16 +6618,24 @@ var BancoSistemas = {
       "html": "<strong>Procedimiento:</strong><br>\n  1) Verificar rotulado y sentido de flujo<br>\n  2) Verificar ausencia de conexión cruzada con aire de planta o instrumentación<br>\n  3) Verificar acoples incompatibles con otros gases"
      },
      {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = identificación de líneas; unidad = pasa/no pasa. Tipo de dato = atributo. n = 100 % de líneas. Estadísticos = proporción de cumplimiento con IC binomial exacto. Regla de decisión = todas rotuladas y sin cruce. Atípicos: no aplica a datos de atributo; toda exclusión se documenta y se conserva el registro original."
+     },
+     {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Línea identificada sin cruzadas y con acoples dedicados."
+      "html": "<strong>Criterio de aceptación:</strong><br>Línea rotulada con sentido de flujo y clase de aire.<br>Sin conexión cruzada con aire sin calidad definida.<br>El 100 % de las líneas identificadas."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registro fotográfico y de verificación (anexo del informe)"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>Una conexión cruzada anula la calificación: se verifica contra el plano, no por inspección visual."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>Manual del fabricante del sistema."
+      "html": "<strong>Referencia:</strong><br>ISO 8573-1; ISO 8573-2/-3/-4/-6/-9; ISO 12500; EU GMP Anexo 1; 21 CFR 211.160(b)."
      }
     ],
     "tabla": null,
@@ -6040,22 +6654,31 @@ var BancoSistemas = {
      },
      {
       "et": "Procedimiento",
-      "html": "<strong>Procedimiento:</strong><br>\n  1) Verificar cada regulador y válvula de punto de uso (si aplica)<br>\n  2) Verificar ausencia de contaminación por desgaste"
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Verificar cada regulador y válvula de punto de uso (si aplica)<br>\n  2) Verificar ausencia de contaminación por desgaste<br>\n  3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = presión regulada; unidad = bar. Tipo de dato = continua. n = 3 lecturas por setpoint. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = media dentro de ±5 % del setpoint. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable medida; toda exclusión se documenta y se conserva el dato original."
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Control efectivo sin contaminación (si aplica)."
+      "html": "<strong>Criterio de aceptación:</strong><br>Control de presión dentro de ±<span class=\"por-confirmar\">5 %</span> del setpoint.<br>Sin contaminación por desgaste del regulador.<br>Registro por condición."
      },
      {
       "et": "Documentos entregables",
-      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de la prueba (anexo del informe)"
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de la prueba (anexo del informe)<br>\n  - Data cruda y reporte estadístico del ensayo"
+     },
+     {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>Aplica si hay reguladores en la red; si no, No Aplica con aprobación."
      },
      {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>Manual del fabricante del sistema."
+      "html": "<strong>Referencia:</strong><br>ISO 8573-1; ISO 8573-2/-3/-4/-6/-9; ISO 12500; EU GMP Anexo 1; 21 CFR 211.160(b)."
      }
     ],
     "tabla": null,
+    "analisis": "si",
     "familia": "aire-comprimido"
    },
    {
@@ -6074,16 +6697,24 @@ var BancoSistemas = {
       "html": "<strong>Procedimiento:</strong><br>\n  1) Purgar o soplar y verificar partículas, aceite y residuos, si no se cubrió en IQ<br>\n  2) Registrar el resultado"
      },
      {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = limpieza de la red; unidad = pasa/no pasa. Tipo de dato = atributo. n = 100 % de puntos nuevos. Estadísticos = proporción de cumplimiento con IC binomial exacto. Regla de decisión = todos limpios. Atípicos: no aplica a datos de atributo; toda exclusión se documenta y se conserva el registro original."
+     },
+     {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Tubería limpia según criterio si aplica."
+      "html": "<strong>Criterio de aceptación:</strong><br>Sin partículas, aceite ni residuos de soldadura tras purga o soplado.<br>Verificación en el 100 % de los puntos nuevos.<br>Registro de la purga ejecutada."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de limpieza (anexo del informe)"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>Si la instalación ya se purgó y verificó en IQ, se referencia el registro."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>Manual del fabricante del sistema."
+      "html": "<strong>Referencia:</strong><br>ISO 8573-1; ISO 8573-2/-3/-4/-6/-9; ISO 12500; EU GMP Anexo 1; 21 CFR 211.160(b)."
      }
     ],
     "tabla": null,
@@ -6106,19 +6737,23 @@ var BancoSistemas = {
      },
      {
       "et": "Plan estadístico",
-      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+      "html": "<strong>Plan estadístico:</strong><br>Variable = calidad de aire por parámetro; unidad = clase ISO. Tipo de dato = analitico. n = 3 muestras por punto. Estadísticos = mediana, mínimo, máximo e IC 95 %; concentraciones en escala log10. Regla de decisión = cada parámetro dentro de su clase. Atípicos = Grubbs solo si n ≥ 7 y sobre log10; toda exclusión se documenta y se conserva el dato original."
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Dentro de los límites del URS."
+      "html": "<strong>Criterio de aceptación:</strong><br>Rocío, partículas, aceite y vapor medidos a la salida del secador y tras los filtros finales.<br>Cada parámetro dentro de su clase ISO 8573-1 (<span class=\"por-confirmar\">clase adoptada</span>).<br>Sin promediar parámetros distintos."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registro con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de línea base"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>La clase en rojo sale de la URS; no se asume la misma para instrumentos y proceso."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>URS aprobada (rangos y criterios). ISO 8573 (aire comprimido: calidad y métodos; verifica la edición que adoptes)."
+      "html": "<strong>Referencia:</strong><br>ISO 8573-1; ISO 8573-2/-3/-4/-6/-9; ISO 12500; EU GMP Anexo 1; 21 CFR 211.160(b)."
      }
     ],
     "tabla": null,
@@ -6142,19 +6777,23 @@ var BancoSistemas = {
      },
      {
       "et": "Plan estadístico",
-      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+      "html": "<strong>Plan estadístico:</strong><br>Variable = gases traza; unidad = ppm. Tipo de dato = analitico. n = 3 muestras por punto. Estadísticos = mediana, mínimo, máximo e IC 95 %; concentraciones en escala log10. Regla de decisión = cada gas dentro del límite adoptado. Atípicos = Grubbs solo si n ≥ 7 y sobre log10; toda exclusión se documenta y se conserva el dato original."
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Dentro de los límites si aplica."
+      "html": "<strong>Criterio de aceptación:</strong><br>CO, CO2, SO2 y NOx dentro del límite adoptado, si el aire contacta producto y el URS lo exige.<br>Método ISO 8573-6 y laboratorio declarado.<br>Registro por punto."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registro con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de gases"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>Los límites de gases en rojo dependen del uso; se confirman con la URS y con ISO 8573-6."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>URS aprobada (rangos y criterios)."
+      "html": "<strong>Referencia:</strong><br>ISO 8573-1; ISO 8573-2/-3/-4/-6/-9; ISO 12500; EU GMP Anexo 1; 21 CFR 211.160(b)."
      }
     ],
     "tabla": null,
@@ -6178,19 +6817,23 @@ var BancoSistemas = {
      },
      {
       "et": "Plan estadístico",
-      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+      "html": "<strong>Plan estadístico:</strong><br>Variable = exactitud de sensores; unidad = bar y °C. Tipo de dato = continua. n = 3 comparaciones contra patrón. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = desviación dentro de la tolerancia del certificado. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable medida; toda exclusión se documenta y se conserva el dato original."
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Exactitud dentro de lo definido en el protocolo aprobado con alarma operativa."
+      "html": "<strong>Criterio de aceptación:</strong><br>Exactitud de presión y rocío frente a patrón dentro de la tolerancia del instrumento.<br>Registro continuo con alarma configurada.<br>Calibración vigente."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registro con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis del sensor"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>La tolerancia se toma del certificado; no se fija en el protocolo."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>Manual del fabricante del sistema."
+      "html": "<strong>Referencia:</strong><br>ISO 8573-1; ISO 8573-2/-3/-4/-6/-9; ISO 12500; EU GMP Anexo 1; 21 CFR 211.160(b)."
      }
     ],
     "tabla": null,
@@ -6214,19 +6857,23 @@ var BancoSistemas = {
      },
      {
       "et": "Plan estadístico",
-      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+      "html": "<strong>Plan estadístico:</strong><br>Variable = exactitud del contador de partículas; unidad = partículas/m³. Tipo de dato = analitico. n = 3 comparaciones. Estadísticos = mediana, mínimo, máximo e IC 95 %; concentraciones en escala log10. Regla de decisión = desviación dentro de la tolerancia. Atípicos = Grubbs solo si n ≥ 7 y sobre log10; toda exclusión se documenta y se conserva el dato original."
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Exactitud dentro de lo definido en el protocolo aprobado con alarmas operativas."
+      "html": "<strong>Criterio de aceptación:</strong><br>Exactitud del contador de partículas o sensores en línea y alarmas configuradas.<br>Comparación contra patrón o método de referencia.<br>Registro del resultado."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registro con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis en línea"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>Se usa el método de ISO 8573-4 para la comparación."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>Manual del fabricante del sistema."
+      "html": "<strong>Referencia:</strong><br>ISO 8573-1; ISO 8573-2/-3/-4/-6/-9; ISO 12500; EU GMP Anexo 1; 21 CFR 211.160(b)."
      }
     ],
     "tabla": null,
@@ -6250,19 +6897,23 @@ var BancoSistemas = {
      },
      {
       "et": "Plan estadístico",
-      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+      "html": "<strong>Plan estadístico:</strong><br>Variable = intervalo y marca de tiempo; unidad = min. Tipo de dato = continua. n = 1 verificación por registrador. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = intervalo ≤ 5 min y sin huecos. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable medida; toda exclusión se documenta y se conserva el dato original."
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Intervalo y marca exactos según lo definido."
+      "html": "<strong>Criterio de aceptación:</strong><br>Intervalo de registro ≤ <span class=\"por-confirmar\">5 min</span> y marca de tiempo sincronizada.<br>Sin huecos de registro.<br>Registro exportable y trazable."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registro con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de registro"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>El intervalo en rojo se confirma con la URS y el plan de monitoreo."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>Manual del fabricante del sistema."
+      "html": "<strong>Referencia:</strong><br>ISO 8573-1; ISO 8573-2/-3/-4/-6/-9; ISO 12500; EU GMP Anexo 1; 21 CFR 211.160(b)."
      }
     ],
     "tabla": null,
@@ -6282,22 +6933,31 @@ var BancoSistemas = {
      },
      {
       "et": "Procedimiento",
-      "html": "<strong>Procedimiento:</strong><br>\n  1) Verificar suministro eléctrico y agua de enfriamiento si el compresor es refrigerado por agua<br>\n  2) Verificar ventilación, temperatura y admisión libre de escape, solventes y vapores"
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Verificar suministro eléctrico y agua de enfriamiento si el compresor es refrigerado por agua<br>\n  2) Verificar ventilación, temperatura y admisión libre de escape, solventes y vapores<br>\n  3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = condiciones de admisión; unidad = °C y m³/h. Tipo de dato = continua. n = 3 lecturas por condición. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = media dentro del rango del fabricante. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable medida; toda exclusión se documenta y se conserva el dato original."
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Servicios en rango con admisión limpia."
+      "html": "<strong>Criterio de aceptación:</strong><br>Caudal y temperatura del compresor en rango operativo.<br>Ventilación y admisión de la sala suficientes para el caudal aspirado.<br>Registro de condiciones ambientales."
      },
      {
       "et": "Documentos entregables",
-      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de servicios (anexo del informe)"
+      "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de servicios (anexo del informe)<br>\n  - Data cruda y reporte estadístico del ensayo"
+     },
+     {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>La calidad del aire aspirado condiciona todo el tratamiento; se mide, no se asume."
      },
      {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>Manual del fabricante del sistema."
+      "html": "<strong>Referencia:</strong><br>ISO 8573-1; ISO 8573-2/-3/-4/-6/-9; ISO 12500; EU GMP Anexo 1; 21 CFR 211.160(b)."
      }
     ],
     "tabla": null,
+    "analisis": "si",
     "familia": "aire-comprimido"
    },
    {
@@ -6316,16 +6976,24 @@ var BancoSistemas = {
       "html": "<strong>Procedimiento:</strong><br>\n  1) Verificar espacio y admisión de la sala"
      },
      {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = condiciones de instalación; unidad = pasa/no pasa. Tipo de dato = atributo. n = 1 verificación. Estadísticos = proporción de cumplimiento con IC binomial exacto. Regla de decisión = cumple el manual del fabricante. Atípicos: no aplica a datos de atributo; toda exclusión se documenta y se conserva el registro original."
+     },
+     {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Condiciones dentro de lo definido en el protocolo aprobado."
+      "html": "<strong>Criterio de aceptación:</strong><br>Espacio y condiciones de admisión del compresor según el manual.<br>Sin recirculación de aire caliente ni contaminantes cercanos.<br>Registro de la ubicación y distancia."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de la verificación (anexo del informe)"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>La recirculación de aire caliente reduce la capacidad y sube el rocío; se verifica en campo."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>Manual del fabricante del sistema."
+      "html": "<strong>Referencia:</strong><br>ISO 8573-1; ISO 8573-2/-3/-4/-6/-9; ISO 12500; EU GMP Anexo 1; 21 CFR 211.160(b)."
      }
     ],
     "tabla": null,
@@ -6348,19 +7016,23 @@ var BancoSistemas = {
      },
      {
       "et": "Plan estadístico",
-      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+      "html": "<strong>Plan estadístico:</strong><br>Variable = operación continua; unidad = pasa/no pasa. Tipo de dato = atributo. n = 1 período de 72 h. Estadísticos = proporción de cumplimiento con IC binomial exacto. Regla de decisión = período completo sin alarmas no tratadas. Atípicos: no aplica a datos de atributo; toda exclusión se documenta y se conserva el registro original."
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Operación continua sin alarmas no tratadas."
+      "html": "<strong>Criterio de aceptación:</strong><br>72 h de operación continua a demanda variable, sin alarmas no tratadas.<br>Calidad de aire dentro de clase en cada muestreo.<br>Sin paradas no programadas."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registro con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de operación"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>La duración en rojo se confirma con el plan de validación del sistema."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>Manual del fabricante del sistema."
+      "html": "<strong>Referencia:</strong><br>ISO 8573-1; ISO 8573-2/-3/-4/-6/-9; ISO 12500; EU GMP Anexo 1; 21 CFR 211.160(b)."
      }
     ],
     "tabla": null,
@@ -6384,19 +7056,23 @@ var BancoSistemas = {
      },
      {
       "et": "Plan estadístico",
-      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+      "html": "<strong>Plan estadístico:</strong><br>Variable = recuperación ante cambio de demanda; unidad = min. Tipo de dato = continua. n = 3 maniobras. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = recuperación dentro del criterio en las 3. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable medida; toda exclusión se documenta y se conserva el dato original."
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Recuperación y estabilidad dentro de lo definido en el protocolo aprobado."
+      "html": "<strong>Criterio de aceptación:</strong><br>Caída de presión y tiempo de recuperación ante cambio de demanda dentro del criterio.<br>Presión estable tras la recuperación.<br>Sin disparo de alarmas por la maniobra."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registro con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de demanda"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>El criterio de recuperación en rojo se confirma con el diseño del sistema."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>Manual del fabricante del sistema."
+      "html": "<strong>Referencia:</strong><br>ISO 8573-1; ISO 8573-2/-3/-4/-6/-9; ISO 12500; EU GMP Anexo 1; 21 CFR 211.160(b)."
      }
     ],
     "tabla": null,
@@ -7538,15 +8214,19 @@ var BancoSistemas = {
      },
      {
       "et": "Plan estadístico",
-      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+      "html": "<strong>Plan estadístico:</strong><br>Variable = conteo de partículas en operación; unidad = partículas/m³. Tipo de dato = continua. n = puntos según ISO 14644-1 por cuarto y día. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = cada punto cumple la clase del área. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable medida; toda exclusión se documenta y se conserva el dato original."
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Dentro del criterio definido para operación."
+      "html": "<strong>Criterio de aceptación:</strong><br>Conteo de 0,5 µm y 5 µm con los equipos en funcionamiento y el personal presente.<br>Clase obtenida igual o más limpia que la clase del área (<span class=\"por-confirmar\">clase del área</span>) en el 100 % de los puntos.<br>Puntos, volumen y número de muestras según ISO 14644-1."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registros de conteo con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis dinámico"
+     },
+     {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>La clase del área en rojo se toma de la URS; el personal y los equipos deben estar en operación normal, no simulada."
      },
      {
       "et": "Referencia",
@@ -7574,15 +8254,19 @@ var BancoSistemas = {
      },
      {
       "et": "Plan estadístico",
-      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+      "html": "<strong>Plan estadístico:</strong><br>Variable = cobertura de días y turnos; unidad = pasa/no pasa. Tipo de dato = atributo. n = 3 días por cuarto en turnos distintos. Estadísticos = proporción de cumplimiento con IC binomial exacto. Regla de decisión = cobertura completa registrada. Atípicos: no aplica a datos de atributo; toda exclusión de una repetición se documenta y se conserva el registro original."
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Cobertura completa o matriz justificada."
+      "html": "<strong>Criterio de aceptación:</strong><br>Cobertura de varios días y turnos por cada cuarto clasificado (<span class=\"por-confirmar\">≥ 3 días</span>) o matriz de cuartos equivalentes justificada.<br>Cada turno con registro propio, sin promediar turnos.<br>Justificación documentada de la equivalencia, si aplica."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Matriz con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de cobertura"
+     },
+     {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>La cantidad de días en rojo debe justificarse con el riesgo y la experiencia del área; no se copia de otra familia."
      },
      {
       "et": "Referencia",
@@ -7610,15 +8294,19 @@ var BancoSistemas = {
      },
      {
       "et": "Plan estadístico",
-      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+      "html": "<strong>Plan estadístico:</strong><br>Variable = criterios y límites definidos; unidad = pasa/no pasa. Tipo de dato = atributo. n = 1 revisión por cuarto. Estadísticos = proporción de cumplimiento con IC binomial exacto. Regla de decisión = criterios aprobados antes de la corrida. Atípicos: no aplica a datos de atributo; toda exclusión de una repetición se documenta y se conserva el registro original."
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Criterio previo cumplido y justificado."
+      "html": "<strong>Criterio de aceptación:</strong><br>Criterio de aceptación definido y aprobado antes de la ejecución, con justificación por análisis de riesgo para cuartos de alta generación.<br>Límite de alerta y de acción documentados por parámetro.<br>Sin cambios de criterio después de ver los datos."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Criterio y riesgo con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de polvo"
+     },
+     {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>Este ensayo define criterios: si el límite se ajusta al ver los resultados, el ensayo queda invalidado."
      },
      {
       "et": "Referencia",
@@ -7646,15 +8334,19 @@ var BancoSistemas = {
      },
      {
       "et": "Plan estadístico",
-      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+      "html": "<strong>Plan estadístico:</strong><br>Variable = recuento microbiológico por método; unidad = UFC. Tipo de dato = analitico. n = 1 muestra por punto y método. Estadísticos = mediana, mínimo, máximo e IC 95 %; concentraciones en escala log10. Regla de decisión = cada punto dentro del límite del área. Atípicos = Grubbs solo si n ≥ 7 y sobre log10; toda exclusión se documenta y se conserva el dato original."
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Dentro de los límites adoptados."
+      "html": "<strong>Criterio de aceptación:</strong><br>Aire activo y sedimentación medidos en cada punto crítico, con el método y el tiempo definidos.<br>Contacto y personal evaluados según el riesgo del área.<br>Resultados dentro del límite del área en el 100 % de los puntos."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registros con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis viable"
+     },
+     {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>Los límites microbiológicos se confirman con Calidad según la clase del área y la guía adoptada."
      },
      {
       "et": "Referencia",
@@ -7682,15 +8374,19 @@ var BancoSistemas = {
      },
      {
       "et": "Plan estadístico",
-      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+      "html": "<strong>Plan estadístico:</strong><br>Variable = duración y continuidad del PQ; unidad = días. Tipo de dato = atributo. n = 3 días consecutivos por cuarto. Estadísticos = proporción de cumplimiento con IC binomial exacto. Regla de decisión = período completo sin interrupciones. Atípicos: no aplica a datos de atributo; toda exclusión de una repetición se documenta y se conserva el registro original."
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Duración cumplida según lo definido."
+      "html": "<strong>Criterio de aceptación:</strong><br>Duración y frecuencia del PQ definidas y ejecutadas: varios días consecutivos por cuarto (<span class=\"por-confirmar\">≥ 3 días</span>) más monitoreo ampliado.<br>Sin interrupciones del monitoreo durante el período.<br>Registro completo, sin reconstrucción posterior."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registros con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de duración"
+     },
+     {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>La duración en rojo debe justificarse con el plan de validación del área; el registro se toma en el momento."
      },
      {
       "et": "Referencia",
@@ -7718,15 +8414,19 @@ var BancoSistemas = {
      },
      {
       "et": "Plan estadístico",
-      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+      "html": "<strong>Plan estadístico:</strong><br>Variable = resultados sobre el límite de alerta; unidad = pasa/no pasa. Tipo de dato = atributo. n = 100 % de los resultados del período. Estadísticos = proporción de cumplimiento con IC binomial exacto. Regla de decisión = cada aislamiento evaluado y documentado. Atípicos: no aplica a datos de atributo; toda exclusión de una repetición se documenta y se conserva el registro original."
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Aislamientos identificados con tendencia evaluada."
+      "html": "<strong>Criterio de aceptación:</strong><br>Aislamientos por encima del límite de alerta identificados y evaluados con tendencia.<br>Cada excursión con investigación, causa y acción documentadas.<br>Sin aislamientos repetidos sin acción correctiva."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registros con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de tendencia"
+     },
+     {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>Un resultado sobre el límite de alerta no es desviación, pero debe evaluarse; sobre el de acción sí exige investigación."
      },
      {
       "et": "Referencia",
@@ -7754,15 +8454,19 @@ var BancoSistemas = {
      },
      {
       "et": "Plan estadístico",
-      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+      "html": "<strong>Plan estadístico:</strong><br>Variable = límites de alerta y acción; unidad = pasa/no pasa. Tipo de dato = atributo. n = 1 definición por parámetro. Estadísticos = proporción de cumplimiento con IC binomial exacto. Regla de decisión = límites aprobados y dentro del reglamentario. Atípicos: no aplica a datos de atributo; toda exclusión de una repetición se documenta y se conserva el registro original."
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Límites ajustados con datos."
+      "html": "<strong>Criterio de aceptación:</strong><br>Límites de alerta y acción derivados de la guía adoptada y ajustados con los datos del PQ.<br>Ajuste documentado y aprobado, no automático.<br>Los límites ajustados no superan el límite reglamentario del área."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Documento de límites con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de límites"
+     },
+     {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>Ajustar un límite con los datos es legítimo solo si queda aprobado y justificado; nunca para que un resultado entre en cumplimiento."
      },
      {
       "et": "Referencia",
@@ -7790,15 +8494,19 @@ var BancoSistemas = {
      },
      {
       "et": "Plan estadístico",
-      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+      "html": "<strong>Plan estadístico:</strong><br>Variable = presión, temperatura y humedad; unidad = Pa, °C, % HR. Tipo de dato = continua. n = registro continuo ≥ 72 h por cuarto. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = todas las variables dentro del rango durante el período. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable medida; toda exclusión se documenta y se conserva el dato original."
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Registro continuo completo."
+      "html": "<strong>Criterio de aceptación:</strong><br>Presión diferencial, temperatura y humedad registradas en todos los cuartos durante un período representativo (<span class=\"por-confirmar\">≥ 72 h</span>).<br>Sin huecos de registro ni valores interpolados.<br>Cada cuarto con su propio registro y su límite."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registros con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis continuo"
+     },
+     {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>La duración en rojo debe justificarse con el plan de monitoreo; el período debe cubrir turnos y condiciones reales."
      },
      {
       "et": "Referencia",
@@ -7826,15 +8534,19 @@ var BancoSistemas = {
      },
      {
       "et": "Plan estadístico",
-      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+      "html": "<strong>Plan estadístico:</strong><br>Variable = excursiones del período; unidad = pasa/no pasa. Tipo de dato = atributo. n = 100 % de las excursiones. Estadísticos = proporción de cumplimiento con IC binomial exacto. Regla de decisión = todas investigadas y cerradas. Atípicos: no aplica a datos de atributo; toda exclusión de una repetición se documenta y se conserva el registro original."
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Sin excursiones abiertas al cierre."
+      "html": "<strong>Criterio de aceptación:</strong><br>Sin excursiones fuera de límite, o cada excursión investigada y cerrada.<br>Investigación con causa, impacto en producto y acción correctiva.<br>Excursiones repetidas tratadas como tendencia, no como eventos aislados."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de excursiones con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de excursiones"
+     },
+     {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>Una excursión cerrada sin causa asignable no se considera cerrada."
      },
      {
       "et": "Referencia",
@@ -7862,15 +8574,19 @@ var BancoSistemas = {
      },
      {
       "et": "Plan estadístico",
-      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+      "html": "<strong>Plan estadístico:</strong><br>Variable = presión y partículas durante maniobras; unidad = Pa y partículas/m³. Tipo de dato = continua. n = 3 maniobras por cuarto. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = sin pérdida de cascada ni de clase. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable medida; toda exclusión se documenta y se conserva el dato original."
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Cascada mantenida en operación real."
+      "html": "<strong>Criterio de aceptación:</strong><br>Efecto de la apertura de puertas, equipos de extracción y movimiento de materiales medido y registrado.<br>La clase y la cascada se mantienen dentro del límite durante la operación normal.<br>Sin reversión del flujo en ninguna condición evaluada."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registro con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de cascada"
+     },
+     {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>Se evalúan las condiciones reales de operación, no solo el reposo."
      },
      {
       "et": "Referencia",
@@ -7898,15 +8614,19 @@ var BancoSistemas = {
      },
      {
       "et": "Plan estadístico",
-      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+      "html": "<strong>Plan estadístico:</strong><br>Variable = recuperación tras maniobra incorrecta; unidad = s. Tipo de dato = continua. n = 3 maniobras por esclusa. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = recuperación dentro del límite. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable medida; toda exclusión se documenta y se conserva el dato original."
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Recuperación dentro de lo definido en el protocolo aprobado (si aplica)."
+      "html": "<strong>Criterio de aceptación:</strong><br>Aperturas simultáneas y secuencia incorrecta de esclusa evaluadas.<br>Tiempo de recuperación dentro del límite (<span class=\"por-confirmar\">≤ 2 min</span>) tras la maniobra.<br>Alarma o interlock activo cuando corresponde."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registro con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de retos"
+     },
+     {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>El tiempo en rojo se confirma con el diseño de la esclusa y la criticidad del área."
      },
      {
       "et": "Referencia",
@@ -7934,15 +8654,19 @@ var BancoSistemas = {
      },
      {
       "et": "Plan estadístico",
-      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+      "html": "<strong>Plan estadístico:</strong><br>Variable = presión y partículas en peor caso; unidad = Pa y partículas/m³. Tipo de dato = continua. n = 3 mediciones en la configuración peor caso. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = dentro del límite en las 3. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable medida; toda exclusión se documenta y se conserva el dato original."
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Presión y conteo dentro de lo definido en el protocolo aprobado en operación."
+      "html": "<strong>Criterio de aceptación:</strong><br>Equipos de mayor extracción o generación operando simultáneamente durante la medición.<br>Presión y conteo dentro del límite en el peor caso.<br>Registro de la configuración de equipos usada en la prueba."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registros con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de interacción"
+     },
+     {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>El peor caso se define antes de la prueba con el área usuaria; no se elige después de ver los resultados."
      },
      {
       "et": "Referencia",
@@ -7970,15 +8694,19 @@ var BancoSistemas = {
      },
      {
       "et": "Plan estadístico",
-      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+      "html": "<strong>Plan estadístico:</strong><br>Variable = patrón de flujo con humo; unidad = pasa/no pasa. Tipo de dato = atributo. n = 1 prueba por zona crítica. Estadísticos = proporción de cumplimiento con IC binomial exacto. Regla de decisión = sin zonas muertas ni reversión. Atípicos: no aplica a datos de atributo; toda exclusión de una repetición se documenta y se conserva el registro original."
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Flujo confirmado en operación (si aplica)."
+      "html": "<strong>Criterio de aceptación:</strong><br>Flujo de aire y visualización con humo en operación normal.<br>Sin zonas muertas ni turbulencias sobre la zona crítica.<br>Registro en video con fecha, cuarto y responsable."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registro con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de humo"
+     },
+     {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>Aplica en áreas críticas; si no, se declara No Aplica con aprobación."
      },
      {
       "et": "Referencia",
@@ -8006,15 +8734,19 @@ var BancoSistemas = {
      },
      {
       "et": "Plan estadístico",
-      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+      "html": "<strong>Plan estadístico:</strong><br>Variable = paso de trazador; unidad = pasa/no pasa. Tipo de dato = atributo. n = 1 prueba por frontera. Estadísticos = proporción de cumplimiento con IC binomial exacto. Regla de decisión = ninguna frontera muestra paso. Atípicos: no aplica a datos de atributo; toda exclusión de una repetición se documenta y se conserva el registro original."
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Sin paso a cuartos adyacentes (si aplica)."
+      "html": "<strong>Criterio de aceptación:</strong><br>Prueba con trazador o marcador: sin paso de polvo a cuartos adyacentes.<br>Sin fuga por puertas, sellos ni penetraciones.<br>Registro por frontera evaluada."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registro con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de contención"
+     },
+     {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>Aplica cuando hay áreas adyacentes de distinta clase; si no, No Aplica con aprobación."
      },
      {
       "et": "Referencia",
@@ -8042,15 +8774,19 @@ var BancoSistemas = {
      },
      {
       "et": "Plan estadístico",
-      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+      "html": "<strong>Plan estadístico:</strong><br>Variable = condición exterior durante el PQ; unidad = °C y % HR. Tipo de dato = continua. n = 1 registro por día de prueba. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = condición extrema cubierta o riesgo aprobado. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable medida; toda exclusión se documenta y se conserva el dato original."
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Carga cubierta o verificación posterior definida."
+      "html": "<strong>Criterio de aceptación:</strong><br>Verificación con las condiciones exteriores más exigentes (<span class=\"por-confirmar\">verano/invierno</span>) o definición documentada de verificación posterior y riesgo aceptado.<br>Si no se cubre la condición extrema, el riesgo queda evaluado y aprobado.<br>Registro de la condición exterior durante la prueba."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registro con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de peor caso"
+     },
+     {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>La estación y la temperatura exterior en rojo deben confirmarse con el clima del sitio; no se puede simular sin justificar."
      },
      {
       "et": "Referencia",
@@ -8078,15 +8814,19 @@ var BancoSistemas = {
      },
      {
       "et": "Plan estadístico",
-      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+      "html": "<strong>Plan estadístico:</strong><br>Variable = variables ambientales con carga completa; unidad = Pa, °C, % HR, partículas. Tipo de dato = continua. n = 3 mediciones con todos los equipos. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = todas las variables dentro del límite. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable medida; toda exclusión se documenta y se conserva el dato original."
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Desempeño dentro de lo definido en el protocolo aprobado (si aplica)."
+      "html": "<strong>Criterio de aceptación:</strong><br>Todos los equipos del área funcionando simultáneamente durante la medición.<br>Presión, temperatura, humedad y partículas dentro del límite en esa condición.<br>Configuración de equipos registrada y verificada en campo."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registro con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de ocupación"
+     },
+     {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>La carga simultánea es el peor caso operativo; si el área no la alcanza, se justifica la carga usada."
      },
      {
       "et": "Referencia",
@@ -8114,15 +8854,19 @@ var BancoSistemas = {
      },
      {
       "et": "Plan estadístico",
-      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+      "html": "<strong>Plan estadístico:</strong><br>Variable = recuperación tras falla de UMA; unidad = min. Tipo de dato = continua. n = 3 fallas controladas. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = recuperación dentro del límite en las 3. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable medida; toda exclusión se documenta y se conserva el dato original."
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Recuperación y reanudación según criterio (si aplica)."
+      "html": "<strong>Criterio de aceptación:</strong><br>Apagado o falla de la UMA con áreas ocupadas: tiempo de recuperación y reanudación medidos.<br>La cascada y la clase se recuperan dentro del límite definido (<span class=\"por-confirmar\">≤ 15 min</span>).<br>Alarma y respuesta del personal registradas."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registro con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de falla"
+     },
+     {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>El tiempo en rojo se confirma con el plan de contingencia del área; la prueba se hace con autorización y sin producto expuesto."
      },
      {
       "et": "Referencia",
@@ -8150,15 +8894,19 @@ var BancoSistemas = {
      },
      {
       "et": "Plan estadístico",
-      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+      "html": "<strong>Plan estadístico:</strong><br>Variable = disparo y aviso de alarmas; unidad = s. Tipo de dato = continua. n = 3 repeticiones por alarma. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = disparo dentro del retardo y aviso recibido. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable medida; toda exclusión se documenta y se conserva el dato original."
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Disparo en retardo con aviso recibido."
+      "html": "<strong>Criterio de aceptación:</strong><br>Las alarmas disparan dentro del retardo configurado y el aviso llega al responsable.<br>Prueba con personal y producción en operación normal.<br>Registro de hora de disparo, hora de aviso y receptor."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registro con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de alarmas"
+     },
+     {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>El retardo y el destinatario se confirman con el procedimiento de guardias y el BMS."
      },
      {
       "et": "Referencia",
@@ -8186,15 +8934,19 @@ var BancoSistemas = {
      },
      {
       "et": "Plan estadístico",
-      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+      "html": "<strong>Plan estadístico:</strong><br>Variable = respuesta a desviación simulada; unidad = pasa/no pasa. Tipo de dato = atributo. n = 1 simulacro por turno. Estadísticos = proporción de cumplimiento con IC binomial exacto. Regla de decisión = respuesta completa y documentada. Atípicos: no aplica a datos de atributo; toda exclusión de una repetición se documenta y se conserva el registro original."
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Excursión cerrada con impacto evaluado."
+      "html": "<strong>Criterio de aceptación:</strong><br>Detección de la desviación, aislamiento del área, evaluación de impacto en producto y acción correctiva documentados.<br>Producto afectado identificado y dispositionado.<br>Cierre con aprobación de Calidad."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registro con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de excursiones"
+     },
+     {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>Este ensayo evalúa la respuesta a una desviación simulada; debe quedar registrada como simulacro, no como desviación real."
      },
      {
       "et": "Referencia",
@@ -8222,15 +8974,19 @@ var BancoSistemas = {
      },
      {
       "et": "Plan estadístico",
-      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+      "html": "<strong>Plan estadístico:</strong><br>Variable = revisión integral del período; unidad = pasa/no pasa. Tipo de dato = atributo. n = 1 revisión del 100 % de los registros. Estadísticos = proporción de cumplimiento con IC binomial exacto. Regla de decisión = todos los parámetros revisados y conformes. Atípicos: no aplica a datos de atributo; toda exclusión de una repetición se documenta y se conserva el registro original."
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Revisión completa documentada."
+      "html": "<strong>Criterio de aceptación:</strong><br>Revisión final de partículas, microbiología, presión, temperatura y humedad, alarmas y excursiones.<br>Todos los parámetros dentro de límite o con excursión cerrada.<br>Informe con datos crudos anexos y trazabilidad por punto."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Compilado con data cruda y reporte<br>\n  - Data cruda y reporte estadístico de la revisión"
+     },
+     {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>La revisión final no reemplaza las mediciones: verifica que estén completas y coherentes."
      },
      {
       "et": "Referencia",
@@ -8258,15 +9014,19 @@ var BancoSistemas = {
      },
      {
       "et": "Plan estadístico",
-      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+      "html": "<strong>Plan estadístico:</strong><br>Variable = programa de monitoreo derivado; unidad = pasa/no pasa. Tipo de dato = atributo. n = 1 programa por área. Estadísticos = proporción de cumplimiento con IC binomial exacto. Regla de decisión = programa aprobado y en el SOP. Atípicos: no aplica a datos de atributo; toda exclusión de una repetición se documenta y se conserva el registro original."
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Programa en SOP vigente."
+      "html": "<strong>Criterio de aceptación:</strong><br>Programa de monitoreo de rutina derivado del PQ, con parámetros, frecuencia, límites y responsable.<br>Aprobado y cargado en el SOP del área.<br>Frecuencia no menor a la usada en el PQ sin justificación."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - SOP actualizado con data de respaldo<br>\n  - Data cruda y reporte estadístico de respaldo"
+     },
+     {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>El programa debe salir de los datos del PQ; copiarlo de otra área no es trazable."
      },
      {
       "et": "Referencia",
@@ -8294,15 +9054,19 @@ var BancoSistemas = {
      },
      {
       "et": "Plan estadístico",
-      "html": "<strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo."
+      "html": "<strong>Plan estadístico:</strong><br>Variable = frecuencia de recalificación; unidad = pasa/no pasa. Tipo de dato = atributo. n = 1 definición por área. Estadísticos = proporción de cumplimiento con IC binomial exacto. Regla de decisión = frecuencia aprobada y en el plan maestro. Atípicos: no aplica a datos de atributo; toda exclusión de una repetición se documenta y se conserva el registro original."
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Frecuencia y disparadores definidos."
+      "html": "<strong>Criterio de aceptación:</strong><br>Frecuencia de recalificación definida y justificada (<span class=\"por-confirmar\">anual o por evento</span>).<br>Cambios que disparan recalificación listados: obra, cambio de filtros, cambio de UMA, cambio de clasificación.<br>Registro en el plan maestro de validación."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Programa con data cruda y reporte<br>\n  - Data cruda y reporte estadístico de respaldo"
+     },
+     {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>La frecuencia en rojo debe confirmarse con el plan maestro; no se fija por costumbre."
      },
      {
       "et": "Referencia",
@@ -8449,15 +9213,19 @@ var BancoSistemas = {
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Cobertura diaria completa en la fase intensiva (de 2 a 4 semanas)."
+      "html": "<strong>Criterio de aceptación:</strong><br>Muestreo diario del condensado en el 100 % de los puntos de uso y en la salida del generador durante la fase intensiva (<span class=\"por-confirmar\">2-4 semanas</span>).<br>Sin días sin muestreo ni puntos omitidos.<br>Registro por punto y por día."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registros diarios con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis intensivo"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>La duración en rojo debe justificarse con el plan de validación del sistema."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>URS aprobada (rangos y criterios)."
+      "html": "<strong>Referencia:</strong><br>EN 285; HTM 2031; USP &lt;1231&gt;; EU GMP Anexo 1; EU GMP Anexo 15."
      }
     ],
     "tabla": null,
@@ -8485,15 +9253,19 @@ var BancoSistemas = {
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Dentro de los límites en ambas demandas."
+      "html": "<strong>Criterio de aceptación:</strong><br>Sequedad ≥ <span class=\"por-confirmar\">0,95</span>, gases no condensables ≤ <span class=\"por-confirmar\">3,5 mL/100 mL</span> y sobrecalentamiento ≤ <span class=\"por-confirmar\">25 K</span> en cada autoclave y punto crítico.<br>Medición en ambas demandas (nominal y máxima).<br>Sin promediar puntos."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registros con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de calidad"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>Los límites en rojo son de EN 285 y requieren adopción formal de Calidad."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>EN 285 (calidad del vapor y del condensado; verifica la edición que adoptes)."
+      "html": "<strong>Referencia:</strong><br>EN 285; HTM 2031; USP &lt;1231&gt;; EU GMP Anexo 1; EU GMP Anexo 15."
      }
     ],
     "tabla": null,
@@ -8521,15 +9293,19 @@ var BancoSistemas = {
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Sin uso no autorizado, o restricción con riesgo evaluado."
+      "html": "<strong>Criterio de aceptación:</strong><br>Sin uso de vapor para producto hasta cerrar esta fase, o uso restringido con riesgo evaluado y aprobado.<br>Producto afectado identificado si hubo uso restringido.<br>Autorización documentada por Calidad."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registro con data cruda y reporte<br>\n  - Data cruda y reporte estadístico de respaldo"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>Este criterio es de contención: si se autoriza uso, queda registrado y justificado antes, no después."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>Manual del fabricante del sistema."
+      "html": "<strong>Referencia:</strong><br>EN 285; HTM 2031; USP &lt;1231&gt;; EU GMP Anexo 1; EU GMP Anexo 15."
      }
     ],
     "tabla": null,
@@ -8557,15 +9333,19 @@ var BancoSistemas = {
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Cobertura total en la fase de demostración (de 2 a 4 semanas)."
+      "html": "<strong>Criterio de aceptación:</strong><br>Frecuencia reducida con rotación de puntos hasta cubrir el 100 % durante la fase de demostración (<span class=\"por-confirmar\">2-4 semanas</span>).<br>Cada punto muestreado al menos una vez.<br>Sin sustituir un punto por otro \"equivalente\" sin justificación."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registros con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de demostración"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>La duración y la frecuencia en rojo se confirman con el plan de validación."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>URS aprobada (rangos y criterios)."
+      "html": "<strong>Referencia:</strong><br>EN 285; HTM 2031; USP &lt;1231&gt;; EU GMP Anexo 1; EU GMP Anexo 15."
      }
     ],
     "tabla": null,
@@ -8593,15 +9373,19 @@ var BancoSistemas = {
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Sin excursiones abiertas al cierre."
+      "html": "<strong>Criterio de aceptación:</strong><br>Sin excursiones del límite de acción, o cada una investigada y cerrada.<br>Investigación con causa, impacto en producto y acción correctiva.<br>Excursiones repetidas tratadas como tendencia."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de excursiones con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de excursiones"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>Una excursión cerrada sin causa asignable no se considera cerrada."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>Manual del fabricante del sistema."
+      "html": "<strong>Referencia:</strong><br>EN 285; HTM 2031; USP &lt;1231&gt;; EU GMP Anexo 1; EU GMP Anexo 15."
      }
     ],
     "tabla": null,
@@ -8629,15 +9413,19 @@ var BancoSistemas = {
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Sin deriva."
+      "html": "<strong>Criterio de aceptación:</strong><br>Sin tendencia creciente hacia el límite durante el período.<br>Pendiente no significativa o, si es significativa, sin proyección de exceder el límite en el período de monitoreo.<br>Gráfico de control por parámetro."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Gráficos con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de tendencia"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>La ausencia de significancia no es prueba de estabilidad: se evalúa también la proyección."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>Manual del fabricante del sistema."
+      "html": "<strong>Referencia:</strong><br>EN 285; HTM 2031; USP &lt;1231&gt;; EU GMP Anexo 1; EU GMP Anexo 15."
      }
     ],
     "tabla": null,
@@ -8665,15 +9453,19 @@ var BancoSistemas = {
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Dentro de los límites adoptados."
+      "html": "<strong>Criterio de aceptación:</strong><br>Límites de la norma adoptada cumplidos en todas las fases del PQ.<br>Cada parámetro con su límite y su método.<br>Sin cambios de límite entre fases."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registros con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis del condensado"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>El límite debe estar aprobado antes de la primera muestra; cambiarlo después invalida la fase."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>EN 285 (calidad del vapor y del condensado; verifica la edición que adoptes)."
+      "html": "<strong>Referencia:</strong><br>EN 285; HTM 2031; USP &lt;1231&gt;; EU GMP Anexo 1; EU GMP Anexo 15."
      }
     ],
     "tabla": null,
@@ -8701,15 +9493,19 @@ var BancoSistemas = {
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Dentro del límite adoptado."
+      "html": "<strong>Criterio de aceptación:</strong><br>Endotoxinas ≤ <span class=\"por-confirmar\">0,25 UE/mL</span> en el condensado cuando el vapor contacta superficies estériles.<br>Sin resultados ≥ límite.<br>Método compendial declarado."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registros con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de endotoxinas"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>El límite en rojo es el de USP &lt;85&gt;/&lt;1231&gt; para WFI; su adopción para vapor debe aprobarse."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>URS aprobada (rangos y criterios)."
+      "html": "<strong>Referencia:</strong><br>EN 285; HTM 2031; USP &lt;1231&gt;; EU GMP Anexo 1; EU GMP Anexo 15."
      }
     ],
     "tabla": null,
@@ -8737,15 +9533,19 @@ var BancoSistemas = {
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Dentro del límite adoptado para el uso."
+      "html": "<strong>Criterio de aceptación:</strong><br>Recuento microbiológico dentro del límite del uso declarado.<br>Un condensado contaminado se investiga como posible biopelícula o ingreso desde la alimentación.<br>Registro por punto y fecha."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registros con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis microbiano"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>El límite microbiológico depende del uso del vapor; se confirma con Calidad."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>URS aprobada (rangos y criterios)."
+      "html": "<strong>Referencia:</strong><br>EN 285; HTM 2031; USP &lt;1231&gt;; EU GMP Anexo 1; EU GMP Anexo 15."
      }
     ],
     "tabla": null,
@@ -8773,15 +9573,19 @@ var BancoSistemas = {
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Dentro de la referencia adoptada."
+      "html": "<strong>Criterio de aceptación:</strong><br>Sequedad ≥ <span class=\"por-confirmar\">0,95</span> para cargas metálicas y ≥ <span class=\"por-confirmar\">0,90</span> para otras cargas.<br>Medición en el punto de uso, no solo en el generador.<br>Registro del método usado."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registros con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de sequedad"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>Los valores en rojo son la referencia habitual de EN 285; deben adoptarse formalmente."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>EN 285 (calidad del vapor y del condensado; verifica la edición que adoptes)."
+      "html": "<strong>Referencia:</strong><br>EN 285; HTM 2031; USP &lt;1231&gt;; EU GMP Anexo 1; EU GMP Anexo 15."
      }
     ],
     "tabla": null,
@@ -8809,15 +9613,19 @@ var BancoSistemas = {
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Dentro de la referencia adoptada."
+      "html": "<strong>Criterio de aceptación:</strong><br>Gases no condensables ≤ <span class=\"por-confirmar\">3,5 mL/100 mL</span> de condensado.<br>Medición con el método de la norma adoptada.<br>Sin resultados por encima del límite."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registros con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de gases"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>El límite en rojo es de EN 285; se confirma con el laboratorio que hace la prueba."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>EN 285 (calidad del vapor y del condensado; verifica la edición que adoptes)."
+      "html": "<strong>Referencia:</strong><br>EN 285; HTM 2031; USP &lt;1231&gt;; EU GMP Anexo 1; EU GMP Anexo 15."
      }
     ],
     "tabla": null,
@@ -8845,15 +9653,19 @@ var BancoSistemas = {
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Dentro de la referencia adoptada."
+      "html": "<strong>Criterio de aceptación:</strong><br>Sobrecalentamiento ≤ <span class=\"por-confirmar\">25 K</span> al expandir a presión atmosférica.<br>Medición en el punto de uso más desfavorable.<br>Registro de temperatura y presión en la medición."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registros con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de sobrecalentamiento"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>El límite en rojo es la referencia habitual; debe adoptarse antes de la primera muestra."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>EN 285 (calidad del vapor y del condensado; verifica la edición que adoptes)."
+      "html": "<strong>Referencia:</strong><br>EN 285; HTM 2031; USP &lt;1231&gt;; EU GMP Anexo 1; EU GMP Anexo 15."
      }
     ],
     "tabla": null,
@@ -8881,15 +9693,19 @@ var BancoSistemas = {
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Dentro de los límites adoptados."
+      "html": "<strong>Criterio de aceptación:</strong><br>Hierro, cadmio, plomo, cloruros, fosfatos y silicatos dentro de los límites de la norma adoptada.<br>Análisis completo del condensado en el punto de uso.<br>Laboratorio acreditado y método declarado."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Análisis completo con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis completo"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>Los límites por elemento en rojo salen de la tabla de la norma; no se fijan por defecto."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>URS aprobada (rangos y criterios)."
+      "html": "<strong>Referencia:</strong><br>EN 285; HTM 2031; USP &lt;1231&gt;; EU GMP Anexo 1; EU GMP Anexo 15."
      }
     ],
     "tabla": null,
@@ -8917,15 +9733,19 @@ var BancoSistemas = {
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Presión estable con calidad conforme (aquí suele aparecer el arrastre de gotas)."
+      "html": "<strong>Criterio de aceptación:</strong><br>Con todos los usuarios operando: presión estable en el punto más lejano y calidad dentro de límite.<br>Caída de presión dentro del diseño.<br>Registro simultáneo de presión y calidad."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registro con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de demanda"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>La prueba con todos los usuarios es la única que demuestra capacidad real; no se simula."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>Manual del fabricante del sistema."
+      "html": "<strong>Referencia:</strong><br>EN 285; HTM 2031; USP &lt;1231&gt;; EU GMP Anexo 1; EU GMP Anexo 15."
      }
     ],
     "tabla": null,
@@ -8953,15 +9773,19 @@ var BancoSistemas = {
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Especificación en el tiempo definido."
+      "html": "<strong>Criterio de aceptación:</strong><br>Tras fin de semana o mantenimiento, el vapor alcanza la especificación en ≤ <span class=\"por-confirmar\">30 min</span>.<br>Sin muestras fuera de límite después de ese tiempo.<br>Registro del tiempo hasta la primera muestra conforme."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registro con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de arranque"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>El tiempo en rojo se confirma con el procedimiento de arranque del sitio."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>Manual del fabricante del sistema."
+      "html": "<strong>Referencia:</strong><br>EN 285; HTM 2031; USP &lt;1231&gt;; EU GMP Anexo 1; EU GMP Anexo 15."
      }
     ],
     "tabla": null,
@@ -8989,15 +9813,19 @@ var BancoSistemas = {
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Estables dentro de lo definido en el protocolo aprobado."
+      "html": "<strong>Criterio de aceptación:</strong><br>Presión y temperatura en los puntos de uso dentro del rango del ciclo (<span class=\"por-confirmar\">3,0-3,5 bar / 134-138 °C</span>) durante ciclos reales.<br>Medición durante autoclave y SIP, no en reposo.<br>Registro por ciclo y por punto."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registros con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de estabilidad"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>El rango en rojo corresponde a vapor saturado para esterilización; debe confirmarse con el ciclo validado."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>Manual del fabricante del sistema."
+      "html": "<strong>Referencia:</strong><br>EN 285; HTM 2031; USP &lt;1231&gt;; EU GMP Anexo 1; EU GMP Anexo 15."
      }
     ],
     "tabla": null,
@@ -9025,15 +9853,19 @@ var BancoSistemas = {
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Sin humedad excesiva ni residuos (si aplica)."
+      "html": "<strong>Criterio de aceptación:</strong><br>Paquetes sin humedad excesiva, manchas ni residuos tras el ciclo.<br>Inspección visual del 100 % de los paquetes muestreados.<br>Registro fotográfico cuando hay hallazgo."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registro con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de carga"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>Aplica cuando el vapor contacta carga; si no, se declara No Aplica con aprobación."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>Manual del fabricante del sistema."
+      "html": "<strong>Referencia:</strong><br>EN 285; HTM 2031; USP &lt;1231&gt;; EU GMP Anexo 1; EU GMP Anexo 15."
      }
     ],
     "tabla": null,
@@ -9061,15 +9893,19 @@ var BancoSistemas = {
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Disparo en retardo con aviso recibido."
+      "html": "<strong>Criterio de aceptación:</strong><br>Las alarmas disparan dentro del retardo configurado y el aviso llega al responsable en ≤ <span class=\"por-confirmar\">5 min</span>.<br>Prueba con producción en operación.<br>Registro de hora de disparo y de recepción."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registro con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de alarmas"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>El tiempo en rojo depende del esquema de guardias; se confirma con Calidad."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>Manual del fabricante del sistema."
+      "html": "<strong>Referencia:</strong><br>EN 285; HTM 2031; USP &lt;1231&gt;; EU GMP Anexo 1; EU GMP Anexo 15."
      }
     ],
     "tabla": null,
@@ -9097,15 +9933,19 @@ var BancoSistemas = {
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Detección y recuperación dentro de lo definido en el protocolo aprobado."
+      "html": "<strong>Criterio de aceptación:</strong><br>Contaminación de la alimentación o purgador bloqueado: detección y recuperación en ≤ <span class=\"por-confirmar\">60 min</span>.<br>Sin producto afectado o producto identificado y dispositionado.<br>Registro del evento y de la respuesta."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registro con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de falla"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>El tiempo en rojo se confirma con el plan de contingencia del sistema."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>Manual del fabricante del sistema."
+      "html": "<strong>Referencia:</strong><br>EN 285; HTM 2031; USP &lt;1231&gt;; EU GMP Anexo 1; EU GMP Anexo 15."
      }
     ],
     "tabla": null,
@@ -9133,15 +9973,19 @@ var BancoSistemas = {
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Excursión cerrada con remuestreo."
+      "html": "<strong>Criterio de aceptación:</strong><br>Cada desviación: aislamiento del punto, investigación, acción correctiva y repetición del muestreo.<br>Sin liberar el punto sin muestra conforme posterior.<br>Cierre aprobado por Calidad."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registro con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de excursiones"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>La repetición del muestreo no borra el resultado original; ambos quedan registrados."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>Manual del fabricante del sistema."
+      "html": "<strong>Referencia:</strong><br>EN 285; HTM 2031; USP &lt;1231&gt;; EU GMP Anexo 1; EU GMP Anexo 15."
      }
     ],
     "tabla": null,
@@ -9169,15 +10013,19 @@ var BancoSistemas = {
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Programa cumplido."
+      "html": "<strong>Criterio de aceptación:</strong><br>Purgadores, filtros, válvulas de seguridad y calibraciones vigentes al cierre del PQ.<br>Registro de mantenimiento y calibración de cada elemento crítico.<br>Sin elementos vencidos al momento de la liberación."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registros con data cruda y reporte<br>\n  - Data cruda y reporte estadístico de respaldo"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>La vigencia se verifica al cierre, no al inicio del PQ."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>Manual del fabricante del sistema."
+      "html": "<strong>Referencia:</strong><br>EN 285; HTM 2031; USP &lt;1231&gt;; EU GMP Anexo 1; EU GMP Anexo 15."
      }
     ],
     "tabla": null,
@@ -9205,15 +10053,19 @@ var BancoSistemas = {
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Calidad conforme tras cada evento."
+      "html": "<strong>Criterio de aceptación:</strong><br>Efecto sobre la calidad tras cada evento (parada, mantenimiento, cambio de purgador) evaluado y documentado.<br>Muestreo posterior al evento dentro del tiempo definido.<br>Sin liberar sin evidencia de recuperación."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registros con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de eventos"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>Cada evento es una oportunidad de demostrar control; si no se muestrea, no se puede concluir."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>Manual del fabricante del sistema."
+      "html": "<strong>Referencia:</strong><br>EN 285; HTM 2031; USP &lt;1231&gt;; EU GMP Anexo 1; EU GMP Anexo 15."
      }
     ],
     "tabla": null,
@@ -9241,15 +10093,19 @@ var BancoSistemas = {
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Revisión completa documentada."
+      "html": "<strong>Criterio de aceptación:</strong><br>Revisión final de calidad, alarmas, excursiones y mantenimiento del período.<br>Todos los parámetros dentro de límite o con excursión cerrada.<br>Informe con datos crudos anexos."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Compilado con data cruda y reporte<br>\n  - Data cruda y reporte estadístico de la revisión"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>La revisión final no reemplaza las mediciones: verifica que estén completas."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>Manual del fabricante del sistema."
+      "html": "<strong>Referencia:</strong><br>EN 285; HTM 2031; USP &lt;1231&gt;; EU GMP Anexo 1; EU GMP Anexo 15."
      }
     ],
     "tabla": null,
@@ -9277,15 +10133,19 @@ var BancoSistemas = {
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  SOP actualizado y vigente."
+      "html": "<strong>Criterio de aceptación:</strong><br>Programa de monitoreo derivado del PQ: puntos, frecuencia, límites y responsable.<br>Aprobado y cargado en el SOP del sistema.<br>Frecuencia no menor a la del PQ sin justificación."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - SOP con data de respaldo<br>\n  - Data cruda y reporte estadístico de respaldo"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>El programa debe salir de los datos; copiarlo de otra planta no es trazable."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>Manual del fabricante del sistema."
+      "html": "<strong>Referencia:</strong><br>EN 285; HTM 2031; USP &lt;1231&gt;; EU GMP Anexo 1; EU GMP Anexo 15."
      }
     ],
     "tabla": null,
@@ -9313,15 +10173,19 @@ var BancoSistemas = {
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Frecuencia y disparadores definidos."
+      "html": "<strong>Criterio de aceptación:</strong><br>Frecuencia de recalificación definida y justificada (<span class=\"por-confirmar\">anual o por evento</span>).<br>Eventos que la disparan: obra, cambio de generador, cambio de purgadores, cambio de uso.<br>Registro en el plan maestro de validación."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Programa con data cruda y reporte<br>\n  - Data cruda y reporte estadístico de respaldo"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>La frecuencia en rojo se confirma con el plan maestro del sitio."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>Manual del fabricante del sistema."
+      "html": "<strong>Referencia:</strong><br>EN 285; HTM 2031; USP &lt;1231&gt;; EU GMP Anexo 1; EU GMP Anexo 15."
      }
     ],
     "tabla": null,
@@ -9454,15 +10318,19 @@ var BancoSistemas = {
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Cobertura total en la Fase 1 (de 2 a 4 semanas)."
+      "html": "<strong>Criterio de aceptación:</strong><br>Muestreo con frecuencia alta del punto de rocío continuo y de todos los puntos críticos durante la fase intensiva (<span class=\"por-confirmar\">2-4 semanas</span>).<br>Sin puntos omitidos ni días sin muestreo.<br>Registro por punto y por día."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registros con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis intensivo"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>La duración en rojo se justifica con el plan de validación del sistema."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>URS aprobada (rangos y criterios). ISO 8573 (aire comprimido: calidad y métodos; verifica la edición que adoptes)."
+      "html": "<strong>Referencia:</strong><br>ISO 8573-1; ISO 8573-2/-3/-4/-6/-9; ISO 12500; EU GMP Anexo 1; 21 CFR 211.160(b)."
      }
     ],
     "tabla": null,
@@ -9490,15 +10358,19 @@ var BancoSistemas = {
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Sin uso no autorizado, o restricción con riesgo evaluado."
+      "html": "<strong>Criterio de aceptación:</strong><br>Sin uso de aire en puntos críticos hasta cerrar la fase, o uso restringido con riesgo evaluado y aprobado.<br>Producto afectado identificado si hubo uso restringido.<br>Autorización documentada por Calidad."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registro con data cruda y reporte<br>\n  - Data cruda y reporte estadístico de respaldo"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>La restricción se decide antes de la corrida, no después de un resultado."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>Manual del fabricante del sistema."
+      "html": "<strong>Referencia:</strong><br>ISO 8573-1; ISO 8573-2/-3/-4/-6/-9; ISO 12500; EU GMP Anexo 1; 21 CFR 211.160(b)."
      }
     ],
     "tabla": null,
@@ -9526,15 +10398,19 @@ var BancoSistemas = {
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Parámetros confirmados con datos."
+      "html": "<strong>Criterio de aceptación:</strong><br>Presión, caudal, regeneración y mantenimiento dentro de los valores de diseño durante el período.<br>Registro continuo de presión y caudal.<br>Sin mantenimiento pendiente que afecte la calidad."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registro con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de parámetros"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>La regeneración del secador se verifica con registro, no con inspección visual."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>Manual del fabricante del sistema."
+      "html": "<strong>Referencia:</strong><br>ISO 8573-1; ISO 8573-2/-3/-4/-6/-9; ISO 12500; EU GMP Anexo 1; 21 CFR 211.160(b)."
      }
     ],
     "tabla": null,
@@ -9562,15 +10438,19 @@ var BancoSistemas = {
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Cobertura total en la Fase 2 (de 2 a 4 semanas)."
+      "html": "<strong>Criterio de aceptación:</strong><br>Frecuencia reducida con rotación de puntos hasta cubrir el 100 % en la fase de demostración (<span class=\"por-confirmar\">2-4 semanas</span>).<br>Cada punto muestreado al menos una vez.<br>Sin sustituir puntos sin justificación."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registros con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de demostración"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>La duración y frecuencia en rojo se confirman con el plan de validación."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>URS aprobada (rangos y criterios)."
+      "html": "<strong>Referencia:</strong><br>ISO 8573-1; ISO 8573-2/-3/-4/-6/-9; ISO 12500; EU GMP Anexo 1; 21 CFR 211.160(b)."
      }
     ],
     "tabla": null,
@@ -9598,15 +10478,19 @@ var BancoSistemas = {
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Sin excursiones abiertas al cierre."
+      "html": "<strong>Criterio de aceptación:</strong><br>Sin excursiones del límite de acción, o cada una investigada y cerrada.<br>Investigación con causa, impacto en producto y acción correctiva.<br>Excursiones repetidas tratadas como tendencia."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de excursiones con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de excursiones"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>Una excursión cerrada sin causa asignable no se considera cerrada."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>Manual del fabricante del sistema."
+      "html": "<strong>Referencia:</strong><br>ISO 8573-1; ISO 8573-2/-3/-4/-6/-9; ISO 12500; EU GMP Anexo 1; 21 CFR 211.160(b)."
      }
     ],
     "tabla": null,
@@ -9634,15 +10518,19 @@ var BancoSistemas = {
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Sin deriva."
+      "html": "<strong>Criterio de aceptación:</strong><br>Sin tendencia de rocío ni de caída de filtros hacia el límite.<br>Pendiente no significativa o sin proyección de exceder el límite en el período de monitoreo.<br>Gráfico de control por parámetro."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Gráficos con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de tendencia"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>La ausencia de significancia no prueba estabilidad: se evalúa la proyección."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>Manual del fabricante del sistema."
+      "html": "<strong>Referencia:</strong><br>ISO 8573-1; ISO 8573-2/-3/-4/-6/-9; ISO 12500; EU GMP Anexo 1; 21 CFR 211.160(b)."
      }
     ],
     "tabla": null,
@@ -9670,15 +10558,19 @@ var BancoSistemas = {
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Cobertura estacional completa (hasta 1 año)."
+      "html": "<strong>Criterio de aceptación:</strong><br>Confirmación a largo plazo con la frecuencia definida y cobertura de las cuatro estaciones (<span class=\"por-confirmar\">1 año</span>).<br>Cada estación con al menos un muestreo completo.<br>Registro por estación y punto."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registros con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de Fase 3"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>La cobertura anual en rojo depende del clima del sitio; se justifica o se declara la limitación."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>URS aprobada (rangos y criterios)."
+      "html": "<strong>Referencia:</strong><br>ISO 8573-1; ISO 8573-2/-3/-4/-6/-9; ISO 12500; EU GMP Anexo 1; 21 CFR 211.160(b)."
      }
     ],
     "tabla": null,
@@ -9706,15 +10598,19 @@ var BancoSistemas = {
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Límites ajustados con datos."
+      "html": "<strong>Criterio de aceptación:</strong><br>Límites de alerta ajustados con los datos acumulados y aprobados.<br>Ajuste documentado, no automático.<br>Los límites no superan la clase ISO adoptada."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Documento de límites con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de límites"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>Ajustar con datos es legítimo si queda aprobado; nunca para que un resultado entre en cumplimiento."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>Manual del fabricante del sistema."
+      "html": "<strong>Referencia:</strong><br>ISO 8573-1; ISO 8573-2/-3/-4/-6/-9; ISO 12500; EU GMP Anexo 1; 21 CFR 211.160(b)."
      }
     ],
     "tabla": null,
@@ -9742,15 +10638,19 @@ var BancoSistemas = {
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Frecuencias confirmadas."
+      "html": "<strong>Criterio de aceptación:</strong><br>Frecuencias de cambio de filtros, desecante y drenajes confirmadas con datos.<br>Sin cambios de elemento fuera de la frecuencia definida.<br>Registro de cada cambio."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registros con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de frecuencias"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>La frecuencia se confirma con la tendencia de ΔP y rocío, no por calendario."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>Manual del fabricante del sistema."
+      "html": "<strong>Referencia:</strong><br>ISO 8573-1; ISO 8573-2/-3/-4/-6/-9; ISO 12500; EU GMP Anexo 1; 21 CFR 211.160(b)."
      }
     ],
     "tabla": null,
@@ -9778,15 +10678,19 @@ var BancoSistemas = {
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Ambas lecturas dentro de lo definido en el protocolo aprobado."
+      "html": "<strong>Criterio de aceptación:</strong><br>Verificación en línea comparada con medición independiente.<br>Diferencia dentro de la tolerancia del instrumento.<br>Registro de ambas mediciones."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registros con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de rocío"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>La medición independiente es la que libera el punto; la en línea es la que monitorea."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>URS aprobada (rangos y criterios); ISO 8573-3 (medición de humedad)."
+      "html": "<strong>Referencia:</strong><br>ISO 8573-1; ISO 8573-2/-3/-4/-6/-9; ISO 12500; EU GMP Anexo 1; 21 CFR 211.160(b)."
      }
     ],
     "tabla": null,
@@ -9814,15 +10718,19 @@ var BancoSistemas = {
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Dentro de los límites adoptados."
+      "html": "<strong>Criterio de aceptación:</strong><br>Partículas por tamaños o por masa dentro de la clase adoptada (ISO 8573-4).<br>Medición en cada punto crítico.<br>Registro por punto."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registros con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de partículas"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>La clase de partículas depende del uso; se confirma con la URS."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>URS aprobada (rangos y criterios). ISO 8573 (aire comprimido: calidad y métodos; verifica la edición que adoptes)."
+      "html": "<strong>Referencia:</strong><br>ISO 8573-1; ISO 8573-2/-3/-4/-6/-9; ISO 12500; EU GMP Anexo 1; 21 CFR 211.160(b)."
      }
     ],
     "tabla": null,
@@ -9850,15 +10758,19 @@ var BancoSistemas = {
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Dentro de los límites adoptados."
+      "html": "<strong>Criterio de aceptación:</strong><br>Aceite en aerosol, líquido y vapor dentro de la clase adoptada (ISO 8573-2 y -5).<br>Medición en cada punto crítico.<br>Registro por punto y método."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registros con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de aceite"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>Un compresor lubricado puede cumplir partículas y fallar aceite: se miden ambos."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>URS aprobada (rangos y criterios). ISO 8573 (aire comprimido: calidad y métodos; verifica la edición que adoptes)."
+      "html": "<strong>Referencia:</strong><br>ISO 8573-1; ISO 8573-2/-3/-4/-6/-9; ISO 12500; EU GMP Anexo 1; 21 CFR 211.160(b)."
      }
     ],
     "tabla": null,
@@ -9886,15 +10798,19 @@ var BancoSistemas = {
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Dentro de los límites con aislamientos identificados."
+      "html": "<strong>Criterio de aceptación:</strong><br>Puntos con contacto directo dentro de la clase adoptada, con aislamiento de los resultados sobre alerta.<br>Identificación de cada aislamiento.<br>Registro por punto."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registros con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de viables"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>El contacto directo exige la clase más exigente; los puntos sin contacto se evalúan aparte."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>URS aprobada (rangos y criterios). ISO 8573 (aire comprimido: calidad y métodos; verifica la edición que adoptes)."
+      "html": "<strong>Referencia:</strong><br>ISO 8573-1; ISO 8573-2/-3/-4/-6/-9; ISO 12500; EU GMP Anexo 1; 21 CFR 211.160(b)."
      }
     ],
     "tabla": null,
@@ -9922,15 +10838,19 @@ var BancoSistemas = {
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Dentro de los límites adoptados."
+      "html": "<strong>Criterio de aceptación:</strong><br>CO, CO2, SO2 y NOx dentro del límite adoptado (ISO 8573-6), si el uso lo exige.<br>Método y laboratorio declarados.<br>Registro por punto."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registros con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de gases"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>Los límites se confirman con la URS y el uso del aire; no se copian de otra planta."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>URS aprobada (rangos y criterios)."
+      "html": "<strong>Referencia:</strong><br>ISO 8573-1; ISO 8573-2/-3/-4/-6/-9; ISO 12500; EU GMP Anexo 1; 21 CFR 211.160(b)."
      }
     ],
     "tabla": null,
@@ -9958,15 +10878,19 @@ var BancoSistemas = {
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Sin agua líquida fuera de lo previsto."
+      "html": "<strong>Criterio de aceptación:</strong><br>Sin acumulación de agua en puntos bajos y tras apagados (ISO 8573-9).<br>Verificación después de cada parada del período.<br>Registro por punto."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registros con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de agua"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>El agua retenida aparece después de apagar: se verifica en ese momento, no en régimen."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>URS aprobada (rangos y criterios); ISO 8573-9 (agua líquida)."
+      "html": "<strong>Referencia:</strong><br>ISO 8573-1; ISO 8573-2/-3/-4/-6/-9; ISO 12500; EU GMP Anexo 1; 21 CFR 211.160(b)."
      }
     ],
     "tabla": null,
@@ -9994,15 +10918,19 @@ var BancoSistemas = {
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Presión estable con calidad conforme."
+      "html": "<strong>Criterio de aceptación:</strong><br>Con todos los usuarios operando: presión estable en el punto más lejano y calidad dentro de clase.<br>Caída de presión dentro del diseño.<br>Registro simultáneo de presión y calidad."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registro con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de demanda"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>Es la única prueba que demuestra capacidad real; no se simula la demanda."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>Manual del fabricante del sistema."
+      "html": "<strong>Referencia:</strong><br>ISO 8573-1; ISO 8573-2/-3/-4/-6/-9; ISO 12500; EU GMP Anexo 1; 21 CFR 211.160(b)."
      }
     ],
     "tabla": null,
@@ -10030,15 +10958,19 @@ var BancoSistemas = {
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Carga cubierta o verificación posterior definida."
+      "html": "<strong>Criterio de aceptación:</strong><br>Verificación con temperatura y humedad exteriores más altas o definición documentada de verificación posterior y riesgo aceptado.<br>Si no se cubre la condición extrema, queda evaluada y aprobada.<br>Registro de la condición exterior."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registro con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de peor caso"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>La estación extrema en rojo depende del clima del sitio; se justifica la cobertura."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>Manual del fabricante del sistema."
+      "html": "<strong>Referencia:</strong><br>ISO 8573-1; ISO 8573-2/-3/-4/-6/-9; ISO 12500; EU GMP Anexo 1; 21 CFR 211.160(b)."
      }
     ],
     "tabla": null,
@@ -10066,15 +10998,19 @@ var BancoSistemas = {
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Sin pérdida de calidad ni presión en el cambio."
+      "html": "<strong>Criterio de aceptación:</strong><br>Calidad y presión durante y después del cambio de torre o compresor, con carga real.<br>Sin pico de rocío en el punto crítico.<br>Registro del evento."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registro con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de cambio"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>El cambio se prueba con carga real: en vacío no demuestra nada."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>Manual del fabricante del sistema."
+      "html": "<strong>Referencia:</strong><br>ISO 8573-1; ISO 8573-2/-3/-4/-6/-9; ISO 12500; EU GMP Anexo 1; 21 CFR 211.160(b)."
      }
     ],
     "tabla": null,
@@ -10102,15 +11038,19 @@ var BancoSistemas = {
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Cumplimiento en el tiempo definido."
+      "html": "<strong>Criterio de aceptación:</strong><br>Tiempo hasta que rocío y presión cumplen tras mantenimiento o purga, con purga previa de líneas.<br>Sin entrega de aire a producción antes de cumplir.<br>Registro del tiempo hasta la primera medición conforme."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registro con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de arranque"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>El tiempo en rojo se confirma con el procedimiento de arranque del sitio."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>Manual del fabricante del sistema."
+      "html": "<strong>Referencia:</strong><br>ISO 8573-1; ISO 8573-2/-3/-4/-6/-9; ISO 12500; EU GMP Anexo 1; 21 CFR 211.160(b)."
      }
     ],
     "tabla": null,
@@ -10138,15 +11078,19 @@ var BancoSistemas = {
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Ningún punto crítico recibe aire húmedo."
+      "html": "<strong>Criterio de aceptación:</strong><br>Detección, aislamiento de puntos críticos y recuperación ante falla del secador, sin aire húmedo en puntos críticos.<br>Producto afectado identificado.<br>Registro del evento y de la respuesta."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registro con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de falla"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>La falla simulada debe probar el aislamiento, no solo la alarma."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>Manual del fabricante del sistema."
+      "html": "<strong>Referencia:</strong><br>ISO 8573-1; ISO 8573-2/-3/-4/-6/-9; ISO 12500; EU GMP Anexo 1; 21 CFR 211.160(b)."
      }
     ],
     "tabla": null,
@@ -10174,15 +11118,19 @@ var BancoSistemas = {
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Calidad conforme para volver a servicio."
+      "html": "<strong>Criterio de aceptación:</strong><br>Calidad verificada tras cada evento (parada, mantenimiento, cambio de filtro) y tiempo antes de volver a servicio.<br>Sin liberar sin medición conforme.<br>Registro por evento."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registro con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de cambios"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>Cada evento es una oportunidad de demostrar control; sin muestreo no se puede concluir."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>Manual del fabricante del sistema."
+      "html": "<strong>Referencia:</strong><br>ISO 8573-1; ISO 8573-2/-3/-4/-6/-9; ISO 12500; EU GMP Anexo 1; 21 CFR 211.160(b)."
      }
     ],
     "tabla": null,
@@ -10210,15 +11158,19 @@ var BancoSistemas = {
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Sin afectación al producto (si aplica)."
+      "html": "<strong>Criterio de aceptación:</strong><br>Sin humedad, aceite ni partículas en el producto o superficie de contacto en usos críticos.<br>Verificación en el uso real, no en el punto de generación.<br>Registro por uso."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registro con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de efecto"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>La calidad en el punto de generación no garantiza la del punto de uso."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>Manual del fabricante del sistema."
+      "html": "<strong>Referencia:</strong><br>ISO 8573-1; ISO 8573-2/-3/-4/-6/-9; ISO 12500; EU GMP Anexo 1; 21 CFR 211.160(b)."
      }
     ],
     "tabla": null,
@@ -10246,15 +11198,19 @@ var BancoSistemas = {
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Disparo en retardo con aviso recibido."
+      "html": "<strong>Criterio de aceptación:</strong><br>Las alarmas disparan dentro del retardo y el aviso llega al responsable en ≤ <span class=\"por-confirmar\">5 min</span>.<br>Prueba con producción en operación.<br>Registro de hora de disparo y recepción."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registro con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de alarmas"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>El tiempo en rojo se confirma con el esquema de guardias."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>Manual del fabricante del sistema."
+      "html": "<strong>Referencia:</strong><br>ISO 8573-1; ISO 8573-2/-3/-4/-6/-9; ISO 12500; EU GMP Anexo 1; 21 CFR 211.160(b)."
      }
     ],
     "tabla": null,
@@ -10282,15 +11238,19 @@ var BancoSistemas = {
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Excursión cerrada con impacto evaluado."
+      "html": "<strong>Criterio de aceptación:</strong><br>Cada desviación: aislamiento, evaluación de impacto en lotes, acción correctiva y repetición del muestreo.<br>Lotes afectados identificados y dispositionados.<br>Cierre aprobado por Calidad."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registro con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de excursiones"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>La repetición del muestreo no borra el resultado original; ambos quedan registrados."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>Manual del fabricante del sistema."
+      "html": "<strong>Referencia:</strong><br>ISO 8573-1; ISO 8573-2/-3/-4/-6/-9; ISO 12500; EU GMP Anexo 1; 21 CFR 211.160(b)."
      }
     ],
     "tabla": null,
@@ -10318,15 +11278,19 @@ var BancoSistemas = {
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Programa cumplido."
+      "html": "<strong>Criterio de aceptación:</strong><br>Drenajes, filtros, desecante, fugas y calibraciones vigentes al cierre del PQ.<br>Registro de mantenimiento y calibración de cada elemento crítico.<br>Sin elementos vencidos al liberar."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registros con data cruda y reporte<br>\n  - Data cruda y reporte estadístico de respaldo"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>La vigencia se verifica al cierre, no al inicio."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>Manual del fabricante del sistema."
+      "html": "<strong>Referencia:</strong><br>ISO 8573-1; ISO 8573-2/-3/-4/-6/-9; ISO 12500; EU GMP Anexo 1; 21 CFR 211.160(b)."
      }
     ],
     "tabla": null,
@@ -10354,15 +11318,19 @@ var BancoSistemas = {
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Calidad conforme tras cada evento."
+      "html": "<strong>Criterio de aceptación:</strong><br>Efecto sobre la calidad tras cada evento evaluado y documentado.<br>Muestreo posterior dentro del tiempo definido.<br>Sin liberar sin evidencia de recuperación."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registros con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de eventos"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>Cada evento requiere su propia evidencia; no se extrapola de otro evento."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>Manual del fabricante del sistema."
+      "html": "<strong>Referencia:</strong><br>ISO 8573-1; ISO 8573-2/-3/-4/-6/-9; ISO 12500; EU GMP Anexo 1; 21 CFR 211.160(b)."
      }
     ],
     "tabla": null,
@@ -10390,15 +11358,19 @@ var BancoSistemas = {
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Revisión completa documentada."
+      "html": "<strong>Criterio de aceptación:</strong><br>Revisión final de rocío, caída de presión, alarmas, mantenimiento, excursiones y laboratorio.<br>Todos los parámetros dentro de clase o con excursión cerrada.<br>Informe con datos crudos anexos."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Compilado con data cruda y reporte<br>\n  - Data cruda y reporte estadístico de la revisión"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>La revisión final no reemplaza las mediciones."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>Manual del fabricante del sistema."
+      "html": "<strong>Referencia:</strong><br>ISO 8573-1; ISO 8573-2/-3/-4/-6/-9; ISO 12500; EU GMP Anexo 1; 21 CFR 211.160(b)."
      }
     ],
     "tabla": null,
@@ -10426,15 +11398,19 @@ var BancoSistemas = {
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  SOP actualizado y vigente."
+      "html": "<strong>Criterio de aceptación:</strong><br>Programa de monitoreo derivado del PQ: puntos, frecuencia, límites y responsable.<br>Aprobado y cargado en el SOP.<br>Frecuencia no menor a la del PQ sin justificación."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - SOP con data de respaldo<br>\n  - Data cruda y reporte estadístico de respaldo"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>El programa sale de los datos; copiarlo de otra planta no es trazable."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>Manual del fabricante del sistema."
+      "html": "<strong>Referencia:</strong><br>ISO 8573-1; ISO 8573-2/-3/-4/-6/-9; ISO 12500; EU GMP Anexo 1; 21 CFR 211.160(b)."
      }
     ],
     "tabla": null,

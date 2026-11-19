@@ -12,7 +12,7 @@
 
 <p><a href="../sistemas.html">← Sistemas</a></p>
 <h2>OQ — Aire comprimido (banco por familia)</h2>
-<p>Versión del banco: <span data-banco-version>SIS-OQ-AC 2026-10-15 v1</span></p>
+<p>Versión del banco: <span data-banco-version>SIS-OQ-AC 2026-11-18 v2</span></p>
 <p>Ensayos de Calificación de Operación específicos del aire comprimido (<span class="equipo">equipo</span>). Se filtran por familia (<code>data-familia="aire-comprimido"</code>) según la entidad elegida en el paso 1. Fuente: ENSAYOS.txt del usuario (aire comprimido).</p>
 
 <!-- ================= OQ ================= -->
@@ -59,31 +59,36 @@
 </div>
 
 
-<article data-bloque="3" id="art-SIS-OQ-AC-001" class="ensayo" data-id="SIS-OQ-AC-001" data-fase="OQ" data-cond="ambas" data-familia="aire-comprimido">
+<article data-analisis="si" data-bloque="3" id="art-SIS-OQ-AC-001" class="ensayo" data-id="SIS-OQ-AC-001" data-fase="OQ" data-cond="ambas" data-familia="aire-comprimido">
   <h3>SIS-OQ-AC-001 — Válvulas de seguridad de los receptores</h3>
   <p><strong>Objetivo:</strong><br>Verificar el certificado vigente y la prueba de apertura.</p>
   <p><strong>Procedimiento:</strong><br>
   1) Verificar el certificado vigente de cada válvula<br>
-  2) Probar la apertura</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Certificado vigente.<br>
-  Apertura conforme.</p>
+  2) Probar la apertura<br>
+  3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = presión de apertura; unidad = bar. Tipo de dato = continua. n = 3 pruebas. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = media dentro de ±5 % del tarado. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable medida; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Certificado vigente de la válvula de seguridad y apertura a la presión de tarado ±<span class="por-confirmar">5 %</span>.<br>Registro de prueba con presión, fecha y laboratorio.<br>Descarga sin obstrucción.</p>
   <p><strong>Documentos entregables:</strong><br>
-  - Registro y certificados (anexo del informe)</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante del sistema.</p>
+  - Registro y certificados (anexo del informe)<br>
+  - Data cruda y reporte estadístico del ensayo</p>
+  <p><strong>Nota:</strong><br>La tolerancia en rojo se confirma con el certificado del fabricante.</p>
+  <p><strong>Referencia:</strong><br>ISO 8573-1; ISO 8573-2/-3/-4/-6/-9; ISO 12500; EU GMP Anexo 1; 21 CFR 211.160(b).</p>
 </article>
 
-<article data-bloque="3" id="art-SIS-OQ-AC-002" class="ensayo" data-id="SIS-OQ-AC-002" data-fase="OQ" data-cond="ambas" data-familia="aire-comprimido">
+<article data-analisis="si" data-bloque="3" id="art-SIS-OQ-AC-002" class="ensayo" data-id="SIS-OQ-AC-002" data-fase="OQ" data-cond="ambas" data-familia="aire-comprimido">
   <h3>SIS-OQ-AC-002 — Parada de emergencia</h3>
   <p><strong>Objetivo:</strong><br>Verificar la parada de emergencia y la despresurización a estado seguro.</p>
   <p><strong>Procedimiento:</strong><br>
   1) Accionar la parada de emergencia<br>
-  2) Verificar la despresurización a estado seguro</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Despresurización completa y estado seguro.</p>
+  2) Verificar la despresurización a estado seguro<br>
+  3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = parada de emergencia; unidad = s. Tipo de dato = continua. n = 3 activaciones. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = despresurización ≤ 30 s en las 3. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable medida; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>La parada de emergencia despresuriza el sistema en ≤ <span class="por-confirmar">30 s</span> y lo deja en estado seguro.<br>Sin reinicio automático; rearme manual.<br>Evento registrado con hora y usuario.</p>
   <p><strong>Documentos entregables:</strong><br>
-  - Registro de la prueba (anexo del informe)</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante del sistema.</p>
+  - Registro de la prueba (anexo del informe)<br>
+  - Data cruda y reporte estadístico del ensayo</p>
+  <p><strong>Nota:</strong><br>El tiempo en rojo se confirma con el diseño y el procedimiento de emergencia.</p>
+  <p><strong>Referencia:</strong><br>ISO 8573-1; ISO 8573-2/-3/-4/-6/-9; ISO 12500; EU GMP Anexo 1; 21 CFR 211.160(b).</p>
 </article>
 
 <article data-bloque="3" id="art-SIS-OQ-AC-003" class="ensayo" data-id="SIS-OQ-AC-003" data-fase="OQ" data-cond="ambas" data-familia="aire-comprimido">
@@ -92,11 +97,12 @@
   <p><strong>Procedimiento:</strong><br>
   1) Simular cada condición de protección<br>
   2) Verificar la respuesta del interlock</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Cada interlock actúa ante su condición.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = actuación de interlocks; unidad = pasa/no pasa. Tipo de dato = atributo. n = 3 repeticiones por interlock. Estadísticos = proporción de cumplimiento con IC binomial exacto. Regla de decisión = cada interlock actúa en las 3. Atípicos: no aplica a datos de atributo; toda exclusión se documenta y se conserva el registro original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Cada interlock actúa: alta temperatura, baja presión de aceite o refrigerante, sobrecarga del motor y alta presión.<br>La acción ocurre en ≤ <span class="por-confirmar">5 s</span> y exige rearme manual.<br>Prueba registrada por interlock.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro de interlocks simulados (anexo del informe)</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante del sistema.</p>
+  <p><strong>Nota:</strong><br>El tiempo en rojo se confirma con el diseño del control.</p>
+  <p><strong>Referencia:</strong><br>ISO 8573-1; ISO 8573-2/-3/-4/-6/-9; ISO 12500; EU GMP Anexo 1; 21 CFR 211.160(b).</p>
 </article>
 
 <article data-bloque="3" id="art-SIS-OQ-AC-004" class="ensayo" data-id="SIS-OQ-AC-004" data-fase="OQ" data-cond="ambas" data-familia="aire-comprimido">
@@ -105,11 +111,12 @@
   <p><strong>Procedimiento:</strong><br>
   1) Provocar punto de rocío alto, diferencial alto de filtros, baja presión, alta temperatura, falla de drenaje y falla del secador<br>
   2) Verificar cada disparo y su acción</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Cada alarma dispara y ejecuta su acción.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = disparo y aviso de alarmas; unidad = pasa/no pasa. Tipo de dato = atributo. n = 3 repeticiones por alarma. Estadísticos = proporción de cumplimiento con IC binomial exacto. Regla de decisión = cada alarma dispara y notifica. Atípicos: no aplica a datos de atributo; toda exclusión se documenta y se conserva el registro original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Cada alarma dispara y ejecuta su acción.<br>El aviso llega al responsable en ≤ <span class="por-confirmar">5 min</span>.<br>Registro con fecha, hora, valor y usuario.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro de alarmas y acciones (anexo del informe)</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante del sistema.</p>
+  <p><strong>Nota:</strong><br>El tiempo de aviso en rojo depende del esquema de guardias.</p>
+  <p><strong>Referencia:</strong><br>ISO 8573-1; ISO 8573-2/-3/-4/-6/-9; ISO 12500; EU GMP Anexo 1; 21 CFR 211.160(b).</p>
 </article>
 
 <article data-bloque="3" id="art-SIS-OQ-AC-005" class="ensayo" data-id="SIS-OQ-AC-005" data-fase="OQ" data-cond="ambas" data-familia="aire-comprimido">
@@ -118,11 +125,12 @@
   <p><strong>Procedimiento:</strong><br>
   1) Simular la falla del secador con el compresor en marcha<br>
   2) Verificar alarma y aislamiento o inhibición de la entrega a puntos críticos</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Ningún punto crítico recibe aire húmedo sin alarma y bloqueo.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = aislamiento por rocío alto; unidad = pasa/no pasa. Tipo de dato = atributo. n = 3 repeticiones. Estadísticos = proporción de cumplimiento con IC binomial exacto. Regla de decisión = aísla antes de superar el límite en las 3. Atípicos: no aplica a datos de atributo; toda exclusión se documenta y se conserva el registro original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>El sistema alarma y aísla o inhibe la entrega de aire húmedo a los puntos críticos.<br>La acción ocurre antes de que el rocío supere el límite en el punto de uso.<br>Evento registrado con valor de rocío y hora.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro de la prueba (anexo del informe)</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante del sistema.</p>
+  <p><strong>Nota:</strong><br>Este interlock protege al producto: se prueba con el punto crítico conectado, no simulado.</p>
+  <p><strong>Referencia:</strong><br>ISO 8573-1; ISO 8573-2/-3/-4/-6/-9; ISO 12500; EU GMP Anexo 1; 21 CFR 211.160(b).</p>
 </article>
 
 <article data-bloque="3" id="art-SIS-OQ-AC-006" class="ensayo" data-id="SIS-OQ-AC-006" data-fase="OQ" data-cond="ambas" data-familia="aire-comprimido">
@@ -131,24 +139,28 @@
   <p><strong>Procedimiento:</strong><br>
   1) Cortar la energía y verificar el estado seguro<br>
   2) Restablecer con secuencia ordenada y verificar presión estable antes de entregar</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Reinicio ordenado con presión estable.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = reinicio seguro; unidad = pasa/no pasa. Tipo de dato = atributo. n = 3 cortes controlados. Estadísticos = proporción de cumplimiento con IC binomial exacto. Regla de decisión = las 3 recuperan sin entregar aire fuera de spec. Atípicos: no aplica a datos de atributo; toda exclusión se documenta y se conserva el registro original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Ante corte de energía el sistema queda en estado seguro, sin retorno de aire.<br>Al reiniciar, la presión se restablece antes de entregar aire a producción.<br>Sin entrega de aire fuera de especificación al arrancar.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro de la prueba (anexo del informe)</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante del sistema.</p>
+  <p><strong>Nota:</strong><br>La secuencia de reinicio se verifica contra el procedimiento del sitio.</p>
+  <p><strong>Referencia:</strong><br>ISO 8573-1; ISO 8573-2/-3/-4/-6/-9; ISO 12500; EU GMP Anexo 1; 21 CFR 211.160(b).</p>
 </article>
 
-<article data-bloque="3" id="art-SIS-OQ-AC-007" class="ensayo" data-id="SIS-OQ-AC-007" data-fase="OQ" data-cond="ambas" data-familia="aire-comprimido">
+<article data-analisis="si" data-bloque="3" id="art-SIS-OQ-AC-007" class="ensayo" data-id="SIS-OQ-AC-007" data-fase="OQ" data-cond="ambas" data-familia="aire-comprimido">
   <h3>SIS-OQ-AC-007 — Redundancia</h3>
   <p><strong>Objetivo:</strong><br>Verificar el cambio automático entre compresores y entre torres del secador, con registro de presión y punto de rocío (si aplica).</p>
   <p><strong>Procedimiento:</strong><br>
   1) Simular la falla del equipo líder (si aplica)<br>
-  2) Verificar el cambio automático con registro de presión y rocío</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Transferencia automática con variables dentro de lo definido en el protocolo aprobado (si aplica).</p>
+  2) Verificar el cambio automático con registro de presión y rocío<br>
+  3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = transferencia a respaldo; unidad = s, bar, °C. Tipo de dato = continua. n = 3 transferencias. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = rocío y presión dentro de límite en las 3. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable medida; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>El cambio automático entre compresores y entre torres del secador completa en ≤ <span class="por-confirmar">60 s</span>.<br>Presión y punto de rocío se mantienen dentro de límite durante la transferencia.<br>Se registran tiempo, presión y rocío.</p>
   <p><strong>Documentos entregables:</strong><br>
-  - Registro de la transferencia (anexo del informe)</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante del sistema.</p>
+  - Registro de la transferencia (anexo del informe)<br>
+  - Data cruda y reporte estadístico del ensayo</p>
+  <p><strong>Nota:</strong><br>Si no hay respaldo, se declara No Aplica con aprobación previa.</p>
+  <p><strong>Referencia:</strong><br>ISO 8573-1; ISO 8573-2/-3/-4/-6/-9; ISO 12500; EU GMP Anexo 1; 21 CFR 211.160(b).</p>
 </article>
 
 <article data-bloque="3" id="art-SIS-OQ-AC-008" class="ensayo" data-id="SIS-OQ-AC-008" data-fase="OQ" data-cond="ambas" data-familia="aire-comprimido" data-analisis="si">
@@ -158,26 +170,29 @@
   1) Medir el caudal entregado a presión nominal<br>
   2) Medir a máxima demanda declarada<br>
   3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Caudal dentro de lo definido en el protocolo aprobado en ambas condiciones.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = caudal entregado; unidad = m³/h. Tipo de dato = continua. n = 3 lecturas por demanda. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = media dentro de ±10 % del diseño. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable medida; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Caudal entregado a presión nominal y a máxima demanda dentro de ±<span class="por-confirmar">10 %</span> del diseño.<br>Presión estable durante 30 min en cada demanda.<br>Sin caída de presión > 0,3 bar en el punto de uso.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro con data cruda y reporte<br>
   - Data cruda y reporte estadístico del análisis de capacidad</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante del sistema.</p>
+  <p><strong>Nota:</strong><br>La tolerancia en rojo se confirma con la capacidad declarada del compresor.</p>
+  <p><strong>Referencia:</strong><br>ISO 8573-1; ISO 8573-2/-3/-4/-6/-9; ISO 12500; EU GMP Anexo 1; 21 CFR 211.160(b).</p>
 </article>
 
-<article data-bloque="3" id="art-SIS-OQ-AC-009" class="ensayo" data-id="SIS-OQ-AC-009" data-fase="OQ" data-cond="ambas" data-familia="aire-comprimido">
+<article data-analisis="si" data-bloque="3" id="art-SIS-OQ-AC-009" class="ensayo" data-id="SIS-OQ-AC-009" data-fase="OQ" data-cond="ambas" data-familia="aire-comprimido">
   <h3>SIS-OQ-AC-009 — Control de presión</h3>
   <p><strong>Objetivo:</strong><br>Verificar la banda de carga y descarga o el control por variador, sin ciclado excesivo.</p>
   <p><strong>Procedimiento:</strong><br>
   1) Verificar la banda de carga y descarga o el variador<br>
-  2) Verificar ausencia de ciclado excesivo</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Control estable sin ciclado excesivo.</p>
+  2) Verificar ausencia de ciclado excesivo<br>
+  3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = ciclado del compresor; unidad = ciclos/h. Tipo de dato = continua. n = 1 registro de 60 min. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = ≤ 6 ciclos/h y presión en rango. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable medida; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Banda de carga y descarga o control por variador dentro de los valores de diseño.<br>Sin ciclado > <span class="por-confirmar">6 ciclos/h</span> en demanda estable.<br>Presión dentro del rango durante el ciclado.</p>
   <p><strong>Documentos entregables:</strong><br>
-  - Registro de la prueba (anexo del informe)</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante del sistema.</p>
+  - Registro de la prueba (anexo del informe)<br>
+  - Data cruda y reporte estadístico del ensayo</p>
+  <p><strong>Nota:</strong><br>El límite de ciclado en rojo se confirma con el fabricante del compresor.</p>
+  <p><strong>Referencia:</strong><br>ISO 8573-1; ISO 8573-2/-3/-4/-6/-9; ISO 12500; EU GMP Anexo 1; 21 CFR 211.160(b).</p>
 </article>
 
 <article data-bloque="3" id="art-SIS-OQ-AC-010" class="ensayo" data-id="SIS-OQ-AC-010" data-fase="OQ" data-cond="ambas" data-familia="aire-comprimido" data-analisis="si">
@@ -186,13 +201,13 @@
   <p><strong>Procedimiento:</strong><br>
   1) Medir la temperatura de salida del posenfriador<br>
   2) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Dentro del rango de diseño del secador.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = temperatura de entrada al secador; unidad = °C. Tipo de dato = continua. n = 3 lecturas por condición. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = media dentro del rango de diseño. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable medida; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Temperatura de salida dentro del rango de diseño del secador.<br>Sin condensado arrastrado al secador.<br>Registro de temperatura por condición.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro con data cruda y reporte<br>
   - Data cruda y reporte estadístico del análisis de temperatura</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante del sistema.</p>
+  <p><strong>Nota:</strong><br>El rango en rojo se confirma con la hoja de datos del secador.</p>
+  <p><strong>Referencia:</strong><br>ISO 8573-1; ISO 8573-2/-3/-4/-6/-9; ISO 12500; EU GMP Anexo 1; 21 CFR 211.160(b).</p>
 </article>
 
 <article data-bloque="3" id="art-SIS-OQ-AC-011" class="ensayo" data-id="SIS-OQ-AC-011" data-fase="OQ" data-cond="ambas" data-familia="aire-comprimido">
@@ -200,11 +215,12 @@
   <p><strong>Objetivo:</strong><br>Verificar cada drenaje, sin fuga de aire ni retención de agua, en receptor, posenfriador y filtros.</p>
   <p><strong>Procedimiento:</strong><br>
   1) Probar cada drenaje del receptor, posenfriador y filtros</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Sin fuga de aire ni retención de agua.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = drenajes de condensado; unidad = pasa/no pasa. Tipo de dato = atributo. n = 100 % de drenajes. Estadísticos = proporción de cumplimiento con IC binomial exacto. Regla de decisión = todos descargan sin fuga. Atípicos: no aplica a datos de atributo; toda exclusión se documenta y se conserva el registro original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Cada drenaje descarga condensado sin fuga de aire.<br>Sin retención de agua en receptor, posenfriador ni filtros.<br>Registro por drenaje.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro por drenaje (anexo del informe)</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante del sistema.</p>
+  <p><strong>Nota:</strong><br>Un drenaje con fuga de aire sostiene la humedad aguas abajo: se verifica uno por uno.</p>
+  <p><strong>Referencia:</strong><br>ISO 8573-1; ISO 8573-2/-3/-4/-6/-9; ISO 12500; EU GMP Anexo 1; 21 CFR 211.160(b).</p>
 </article>
 
 <article data-bloque="3" id="art-SIS-OQ-AC-012" class="ensayo" data-id="SIS-OQ-AC-012" data-fase="OQ" data-cond="ambas" data-familia="aire-comprimido" data-analisis="si">
@@ -214,14 +230,13 @@
   1) Provocar picos de demanda y verificar que no cae la presión<br>
   2) Verificar el drenaje desde el punto bajo<br>
   3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Sin caída de presión ante picos.<br>
-  Drenaje efectivo.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = presión durante pico de demanda; unidad = bar. Tipo de dato = continua. n = 3 picos simulados. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = caída ≤ 0,5 bar en los 3. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable medida; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Volumen del receptor suficiente para el pico de demanda sin caída > <span class="por-confirmar">0,5 bar</span>.<br>Drenaje desde el punto bajo y sin acumulación.<br>Registro de presión durante el pico.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro con data cruda y reporte<br>
   - Data cruda y reporte estadístico del análisis del receptor</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante del sistema.</p>
+  <p><strong>Nota:</strong><br>La caída aceptable en rojo se confirma con el cálculo de la instalación.</p>
+  <p><strong>Referencia:</strong><br>ISO 8573-1; ISO 8573-2/-3/-4/-6/-9; ISO 12500; EU GMP Anexo 1; 21 CFR 211.160(b).</p>
 </article>
 
 <article data-bloque="3" id="art-SIS-OQ-AC-013" class="ensayo" data-id="SIS-OQ-AC-013" data-fase="OQ" data-cond="ambas" data-familia="aire-comprimido" data-analisis="si">
@@ -231,13 +246,13 @@
   1) Medir el rocío a demanda nominal y máxima con temperatura y humedad de entrada de diseño<br>
   2) Comparar contra un sensor de referencia calibrado<br>
   3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Dentro del límite del URS en ambas demandas.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = punto de rocío a presión; unidad = °C. Tipo de dato = continua. n = 3 mediciones por demanda. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = cada medición dentro de la clase adoptada. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable medida; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Punto de rocío a presión dentro de la clase adoptada (<span class="por-confirmar">clase 2: -40 °C</span>) en demanda nominal y máxima.<br>Medición aguas abajo del secador, con las condiciones de entrada reales.<br>Sin resultados fuera de la clase.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro con data cruda y reporte<br>
   - Data cruda y reporte estadístico del análisis de rocío</p>
-  <p><strong>Referencia:</strong><br>URS aprobada (rangos y criterios).</p>
+  <p><strong>Nota:</strong><br>La clase en rojo se confirma con la clasificación ISO 8573-1 de la URS.</p>
+  <p><strong>Referencia:</strong><br>ISO 8573-1; ISO 8573-2/-3/-4/-6/-9; ISO 12500; EU GMP Anexo 1; 21 CFR 211.160(b).</p>
 </article>
 
 <article data-bloque="3" id="art-SIS-OQ-AC-014" class="ensayo" data-id="SIS-OQ-AC-014" data-fase="OQ" data-cond="ambas" data-familia="aire-comprimido" data-analisis="si">
@@ -247,13 +262,13 @@
   1) Registrar tiempos y caudal de purga del ciclo<br>
   2) Verificar ausencia de sobrecalentamiento y consumo dentro del criterio<br>
   3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Ciclo dentro de lo definido en el protocolo aprobado.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = caudal de purga; unidad = % del nominal. Tipo de dato = continua. n = 3 ciclos. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = media ≤ 15 % del nominal. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable medida; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Tiempos y caudal de purga del secador según fabricante, sin sobrecalentamiento.<br>Consumo de purga ≤ <span class="por-confirmar">15 %</span> del caudal nominal.<br>Registro de purga por ciclo.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro con data cruda y reporte<br>
   - Data cruda y reporte estadístico del análisis de regeneración</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante del sistema.</p>
+  <p><strong>Nota:</strong><br>El consumo de purga en rojo se confirma con la hoja de datos del secador.</p>
+  <p><strong>Referencia:</strong><br>ISO 8573-1; ISO 8573-2/-3/-4/-6/-9; ISO 12500; EU GMP Anexo 1; 21 CFR 211.160(b).</p>
 </article>
 
 <article data-bloque="3" id="art-SIS-OQ-AC-015" class="ensayo" data-id="SIS-OQ-AC-015" data-fase="OQ" data-cond="ambas" data-familia="aire-comprimido" data-analisis="si">
@@ -262,13 +277,13 @@
   <p><strong>Procedimiento:</strong><br>
   1) Registrar el rocío en continuo durante la conmutación<br>
   2) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Sin picos sobre el límite durante el cambio.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = rocío durante cambio de torre; unidad = °C. Tipo de dato = continua. n = 3 cambios. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = sin superar el límite en los 3. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable medida; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>El punto de rocío no sube por encima del límite durante el cambio de torre.<br>Sin pico de humedad en el punto de uso.<br>Registro continuo durante la transferencia.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro con data cruda y reporte<br>
   - Data cruda y reporte estadístico del análisis de conmutación</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante del sistema.</p>
+  <p><strong>Nota:</strong><br>Se verifica con registro continuo; una lectura puntual puede no ver el pico.</p>
+  <p><strong>Referencia:</strong><br>ISO 8573-1; ISO 8573-2/-3/-4/-6/-9; ISO 12500; EU GMP Anexo 1; 21 CFR 211.160(b).</p>
 </article>
 
 <article data-bloque="3" id="art-SIS-OQ-AC-016" class="ensayo" data-id="SIS-OQ-AC-016" data-fase="OQ" data-cond="ambas" data-familia="aire-comprimido" data-analisis="si">
@@ -278,13 +293,13 @@
   1) Provocar el umbral y medir el retardo<br>
   2) Verificar la respuesta<br>
   3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Umbral y retardo dentro de lo definido en el protocolo aprobado.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = umbral de cambio de torre; unidad = pasa/no pasa. Tipo de dato = atributo. n = 3 cambios. Estadísticos = proporción de cumplimiento con IC binomial exacto. Regla de decisión = respuesta dentro del retardo en los 3. Atípicos: no aplica a datos de atributo; toda exclusión se documenta y se conserva el registro original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Umbral y retardo del cambio de torre definidos y verificados.<br>La respuesta ocurre dentro del retardo configurado.<br>Registro del evento.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro con data cruda y reporte<br>
   - Data cruda y reporte estadístico del análisis de alarma</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante del sistema.</p>
+  <p><strong>Nota:</strong><br>El umbral se confirma con el fabricante del secador.</p>
+  <p><strong>Referencia:</strong><br>ISO 8573-1; ISO 8573-2/-3/-4/-6/-9; ISO 12500; EU GMP Anexo 1; 21 CFR 211.160(b).</p>
 </article>
 
 <article data-bloque="3" id="art-SIS-OQ-AC-017" class="ensayo" data-id="SIS-OQ-AC-017" data-fase="OQ" data-cond="ambas" data-familia="aire-comprimido" data-analisis="si">
@@ -294,13 +309,13 @@
   1) Medir la temperatura del evaporador si hay secador refrigerativo previo<br>
   2) Verificar su drenaje<br>
   3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Dentro de lo definido si aplica.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = temperatura de evaporador; unidad = °C. Tipo de dato = continua. n = 3 lecturas por condición. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = media dentro del rango del fabricante. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable medida; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Temperatura de evaporador y drenaje del preenfriador dentro de rango, si existe.<br>Sin hielo ni arrastre de condensado.<br>Registro por condición.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro con data cruda y reporte<br>
   - Data cruda y reporte estadístico del análisis del secador</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante del sistema.</p>
+  <p><strong>Nota:</strong><br>Aplica si hay preenfriador; si no, No Aplica con aprobación.</p>
+  <p><strong>Referencia:</strong><br>ISO 8573-1; ISO 8573-2/-3/-4/-6/-9; ISO 12500; EU GMP Anexo 1; 21 CFR 211.160(b).</p>
 </article>
 
 <article data-bloque="3" id="art-SIS-OQ-AC-018" class="ensayo" data-id="SIS-OQ-AC-018" data-fase="OQ" data-cond="ambas" data-familia="aire-comprimido" data-analisis="si">
@@ -310,13 +325,13 @@
   1) Medir la caída de cada filtro nuevo contra la especificación del fabricante<br>
   2) Verificar la alarma al límite definido<br>
   3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Dentro de especificación con alarma al límite.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = caída de presión por filtro; unidad = bar. Tipo de dato = continua. n = 3 lecturas por filtro. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = media dentro de la especificación. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable medida; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Caída de cada filtro nuevo dentro de la especificación del fabricante.<br>Alarma de filtro saturado configurada y activada al límite (<span class="por-confirmar">ΔP de cambio</span>).<br>Registro por filtro, sin promediar etapas.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro con data cruda y reporte<br>
   - Data cruda y reporte estadístico del análisis de filtros</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante del sistema.</p>
+  <p><strong>Nota:</strong><br>El ΔP de cambio en rojo se toma del fabricante; no se fija por defecto.</p>
+  <p><strong>Referencia:</strong><br>ISO 8573-1; ISO 8573-2/-3/-4/-6/-9; ISO 12500; EU GMP Anexo 1; 21 CFR 211.160(b).</p>
 </article>
 
 <article data-bloque="3" id="art-SIS-OQ-AC-019" class="ensayo" data-id="SIS-OQ-AC-019" data-fase="OQ" data-cond="ambas" data-familia="aire-comprimido">
@@ -324,11 +339,12 @@
   <p><strong>Objetivo:</strong><br>Verificar ausencia de fuga y de acumulación de condensado.</p>
   <p><strong>Procedimiento:</strong><br>
   1) Inspeccionar carcasas y drenajes</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Sin fuga ni acumulación.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = ausencia de fuga y condensado; unidad = pasa/no pasa. Tipo de dato = atributo. n = 100 % de filtros y separadores. Estadísticos = proporción de cumplimiento con IC binomial exacto. Regla de decisión = todos sin fuga ni acumulación. Atípicos: no aplica a datos de atributo; toda exclusión se documenta y se conserva el registro original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Filtros y separadores sin fuga ni acumulación de condensado.<br>Purga operativa y sin aceite arrastrado.<br>Inspección del 100 % de los puntos.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro de la inspección (anexo del informe)</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante del sistema.</p>
+  <p><strong>Nota:</strong><br>Se inspecciona cada elemento; uno con condensado invalida la calidad aguas abajo.</p>
+  <p><strong>Referencia:</strong><br>ISO 8573-1; ISO 8573-2/-3/-4/-6/-9; ISO 12500; EU GMP Anexo 1; 21 CFR 211.160(b).</p>
 </article>
 
 <article data-bloque="3" id="art-SIS-OQ-AC-020" class="ensayo" data-id="SIS-OQ-AC-020" data-fase="OQ" data-cond="ambas" data-familia="aire-comprimido" data-analisis="si">
@@ -337,13 +353,13 @@
   <p><strong>Procedimiento:</strong><br>
   1) Medir el vapor de aceite aguas abajo del carbón<br>
   2) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Eliminación dentro de lo definido en el protocolo aprobado.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = concentración de aceite; unidad = mg/m³. Tipo de dato = analitico. n = 3 muestras por punto. Estadísticos = mediana, mínimo, máximo e IC 95 %; concentraciones en escala log10. Regla de decisión = cada muestra dentro de la clase adoptada. Atípicos = Grubbs solo si n ≥ 7 y sobre log10; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Eliminación de vapor de aceite aguas abajo del filtro de carbón verificada.<br>Concentración de aceite dentro de la clase adoptada (<span class="por-confirmar">clase 1: ≤0,01 mg/m³</span>).<br>Medición con método ISO 8573-2 o -5.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro con data cruda y reporte<br>
   - Data cruda y reporte estadístico del análisis de carbón</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante del sistema.</p>
+  <p><strong>Nota:</strong><br>La clase de aceite en rojo se confirma con la URS; para aire de proceso suele ser clase 1.</p>
+  <p><strong>Referencia:</strong><br>ISO 8573-1; ISO 8573-2/-3/-4/-6/-9; ISO 12500; EU GMP Anexo 1; 21 CFR 211.160(b).</p>
 </article>
 
 <article data-bloque="3" id="art-SIS-OQ-AC-021" class="ensayo" data-id="SIS-OQ-AC-021" data-fase="OQ" data-cond="ambas" data-familia="aire-comprimido" data-analisis="si">
@@ -353,13 +369,13 @@
   1) Probar la integridad por punto de burbuja, difusión o intrusión de agua<br>
   2) Verificar la disposición del filtro y la caída en servicio<br>
   3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Integridad confirmada con caída dentro de lo definido en el protocolo aprobado.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = integridad del filtro 0,2 µm; unidad = pasa/no pasa. Tipo de dato = atributo. n = 100 % de filtros críticos. Estadísticos = proporción de cumplimiento con IC binomial exacto. Regla de decisión = todos íntegros y en fecha. Atípicos: no aplica a datos de atributo; toda exclusión se documenta y se conserva el registro original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Integridad y disposición de los filtros de 0,2 µm en puntos críticos verificadas.<br>Caída en servicio dentro del valor del fabricante.<br>Sin bypass ni filtro vencido.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro con data cruda y reporte<br>
   - Data cruda y reporte estadístico del análisis de terminales</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante del sistema.</p>
+  <p><strong>Nota:</strong><br>La integridad se verifica según el método del fabricante; no se asume por fecha de cambio.</p>
+  <p><strong>Referencia:</strong><br>ISO 8573-1; ISO 8573-2/-3/-4/-6/-9; ISO 12500; EU GMP Anexo 1; 21 CFR 211.160(b).</p>
 </article>
 
 <article data-bloque="3" id="art-SIS-OQ-AC-022" class="ensayo" data-id="SIS-OQ-AC-022" data-fase="OQ" data-cond="ambas" data-familia="aire-comprimido" data-analisis="si">
@@ -369,13 +385,13 @@
   1) Verificar la posición de la filtración respecto al secador<br>
   2) Verificar la retención del polvo del desecante<br>
   3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Retención efectiva del polvo del desecante.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = retención de polvo de desecante; unidad = pasa/no pasa. Tipo de dato = atributo. n = 1 verificación por filtro. Estadísticos = proporción de cumplimiento con IC binomial exacto. Regla de decisión = sin partículas aguas abajo. Atípicos: no aplica a datos de atributo; toda exclusión se documenta y se conserva el registro original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>La filtración posterior al secador retiene el polvo del desecante.<br>Sin partículas visibles aguas abajo.<br>Registro de cambio y ΔP.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro con data cruda y reporte<br>
   - Data cruda y reporte estadístico del análisis de posición</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante del sistema.</p>
+  <p><strong>Nota:</strong><br>Si el secador es refrigerado, se declara No Aplica con aprobación.</p>
+  <p><strong>Referencia:</strong><br>ISO 8573-1; ISO 8573-2/-3/-4/-6/-9; ISO 12500; EU GMP Anexo 1; 21 CFR 211.160(b).</p>
 </article>
 
 <article data-bloque="3" id="art-SIS-OQ-AC-023" class="ensayo" data-id="SIS-OQ-AC-023" data-fase="OQ" data-cond="ambas" data-familia="aire-comprimido" data-analisis="si">
@@ -385,13 +401,13 @@
   1) Operar todos los usuarios a máxima demanda<br>
   2) Medir hasta el punto más lejano<br>
   3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Caída dentro de lo definido en el protocolo aprobado.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = caída de presión en la red; unidad = bar. Tipo de dato = continua. n = 3 mediciones con todos los usuarios. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = caída ≤ 10 % y presión mínima cumplida. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable medida; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Caída desde el receptor hasta el punto más lejano ≤ <span class="por-confirmar">10 %</span> con todos los usuarios operando.<br>Presión en el punto más lejano ≥ la mínima del usuario.<br>Medición con demanda real, no simulada.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro con data cruda y reporte<br>
   - Data cruda y reporte estadístico del análisis de distribución</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante del sistema.</p>
+  <p><strong>Nota:</strong><br>La caída aceptable en rojo se confirma con el diseño de la red.</p>
+  <p><strong>Referencia:</strong><br>ISO 8573-1; ISO 8573-2/-3/-4/-6/-9; ISO 12500; EU GMP Anexo 1; 21 CFR 211.160(b).</p>
 </article>
 
 <article data-bloque="3" id="art-SIS-OQ-AC-024" class="ensayo" data-id="SIS-OQ-AC-024" data-fase="OQ" data-cond="ambas" data-familia="aire-comprimido">
@@ -399,24 +415,28 @@
   <p><strong>Objetivo:</strong><br>Verificar que el condensado fluye a drenajes y no queda retenido.</p>
   <p><strong>Procedimiento:</strong><br>
   1) Recorrer las líneas y verificar pendiente y drenajes</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Sin condensado retenido.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = retención de condensado; unidad = pasa/no pasa. Tipo de dato = atributo. n = 100 % de puntos bajos. Estadísticos = proporción de cumplimiento con IC binomial exacto. Regla de decisión = sin retención en ninguno. Atípicos: no aplica a datos de atributo; toda exclusión se documenta y se conserva el registro original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>El condensado fluye a drenajes y no queda retenido en la red.<br>Sin bolsas ni tramos con contrapendiente.<br>Verificación en el 100 % de los puntos bajos.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro de campo (anexo del informe)</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante del sistema.</p>
+  <p><strong>Nota:</strong><br>La verificación se hace con el sistema en operación y después de una purga.</p>
+  <p><strong>Referencia:</strong><br>ISO 8573-1; ISO 8573-2/-3/-4/-6/-9; ISO 12500; EU GMP Anexo 1; 21 CFR 211.160(b).</p>
 </article>
 
-<article data-bloque="3" id="art-SIS-OQ-AC-025" class="ensayo" data-id="SIS-OQ-AC-025" data-fase="OQ" data-cond="ambas" data-familia="aire-comprimido">
+<article data-analisis="si" data-bloque="3" id="art-SIS-OQ-AC-025" class="ensayo" data-id="SIS-OQ-AC-025" data-fase="OQ" data-cond="ambas" data-familia="aire-comprimido">
   <h3>SIS-OQ-AC-025 — Ramales muertos y puntos bajos</h3>
   <p><strong>Objetivo:</strong><br>Verificar longitud respecto al diámetro, y ubicación de drenajes y filtros.</p>
   <p><strong>Procedimiento:</strong><br>
   1) Medir ramales y puntos bajos contra su diámetro<br>
-  2) Verificar drenajes y filtros asociados</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Ramales conformes con drenaje y filtrado.</p>
+  2) Verificar drenajes y filtros asociados<br>
+  3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = relación L/D; unidad = L/D. Tipo de dato = continua. n = 100 % de ramales. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = L/D ≤ 3 en todos. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable medida; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>L/D ≤ <span class="por-confirmar">3</span> en puntos de uso y válvulas.<br>Drenajes y filtros en ubicación correcta.<br>Medición del 100 % de los ramales.</p>
   <p><strong>Documentos entregables:</strong><br>
-  - Registro de campo (anexo del informe)</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante del sistema.</p>
+  - Registro de campo (anexo del informe)<br>
+  - Data cruda y reporte estadístico del ensayo</p>
+  <p><strong>Nota:</strong><br>El criterio 3D en rojo se adopta antes de medir.</p>
+  <p><strong>Referencia:</strong><br>ISO 8573-1; ISO 8573-2/-3/-4/-6/-9; ISO 12500; EU GMP Anexo 1; 21 CFR 211.160(b).</p>
 </article>
 
 <article data-bloque="3" id="art-SIS-OQ-AC-026" class="ensayo" data-id="SIS-OQ-AC-026" data-fase="OQ" data-cond="ambas" data-familia="aire-comprimido" data-analisis="si">
@@ -426,13 +446,13 @@
   1) Aislar el sistema y medir la caída de presión<br>
   2) Localizar fugas por ultrasonido<br>
   3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Fuga total dentro del máximo del URS.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = caída de presión con sistema aislado; unidad = bar. Tipo de dato = continua. n = 3 pruebas. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = caída ≤ 0,1 bar en 5 min. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable medida; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Caída de presión con el sistema aislado dentro del criterio (<span class="por-confirmar">≤ 0,1 bar en 5 min</span>).<br>Detección por ultrasonido sin fugas relevantes.<br>Registro de fugas y reparación.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro con data cruda y reporte<br>
   - Data cruda y reporte estadístico del análisis de fugas</p>
-  <p><strong>Referencia:</strong><br>URS aprobada (rangos y criterios).</p>
+  <p><strong>Nota:</strong><br>El criterio de caída en rojo se confirma con el volumen del sistema y la presión de prueba.</p>
+  <p><strong>Referencia:</strong><br>ISO 8573-1; ISO 8573-2/-3/-4/-6/-9; ISO 12500; EU GMP Anexo 1; 21 CFR 211.160(b).</p>
 </article>
 
 <article data-bloque="3" id="art-SIS-OQ-AC-027" class="ensayo" data-id="SIS-OQ-AC-027" data-fase="OQ" data-cond="ambas" data-familia="aire-comprimido">
@@ -442,24 +462,28 @@
   1) Verificar rotulado y sentido de flujo<br>
   2) Verificar ausencia de conexión cruzada con aire de planta o instrumentación<br>
   3) Verificar acoples incompatibles con otros gases</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Línea identificada sin cruzadas y con acoples dedicados.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = identificación de líneas; unidad = pasa/no pasa. Tipo de dato = atributo. n = 100 % de líneas. Estadísticos = proporción de cumplimiento con IC binomial exacto. Regla de decisión = todas rotuladas y sin cruce. Atípicos: no aplica a datos de atributo; toda exclusión se documenta y se conserva el registro original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Línea rotulada con sentido de flujo y clase de aire.<br>Sin conexión cruzada con aire sin calidad definida.<br>El 100 % de las líneas identificadas.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro fotográfico y de verificación (anexo del informe)</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante del sistema.</p>
+  <p><strong>Nota:</strong><br>Una conexión cruzada anula la calificación: se verifica contra el plano, no por inspección visual.</p>
+  <p><strong>Referencia:</strong><br>ISO 8573-1; ISO 8573-2/-3/-4/-6/-9; ISO 12500; EU GMP Anexo 1; 21 CFR 211.160(b).</p>
 </article>
 
-<article data-bloque="3" id="art-SIS-OQ-AC-028" class="ensayo" data-id="SIS-OQ-AC-028" data-fase="OQ" data-cond="ambas" data-familia="aire-comprimido">
+<article data-analisis="si" data-bloque="3" id="art-SIS-OQ-AC-028" class="ensayo" data-id="SIS-OQ-AC-028" data-fase="OQ" data-cond="ambas" data-familia="aire-comprimido">
   <h3>SIS-OQ-AC-028 — Reguladores de punto de uso</h3>
   <p><strong>Objetivo:</strong><br>Verificar control de presión y ausencia de contaminación por desgaste (si aplica).</p>
   <p><strong>Procedimiento:</strong><br>
   1) Verificar cada regulador y válvula de punto de uso (si aplica)<br>
-  2) Verificar ausencia de contaminación por desgaste</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Control efectivo sin contaminación (si aplica).</p>
+  2) Verificar ausencia de contaminación por desgaste<br>
+  3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = presión regulada; unidad = bar. Tipo de dato = continua. n = 3 lecturas por setpoint. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = media dentro de ±5 % del setpoint. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable medida; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Control de presión dentro de ±<span class="por-confirmar">5 %</span> del setpoint.<br>Sin contaminación por desgaste del regulador.<br>Registro por condición.</p>
   <p><strong>Documentos entregables:</strong><br>
-  - Registro de la prueba (anexo del informe)</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante del sistema.</p>
+  - Registro de la prueba (anexo del informe)<br>
+  - Data cruda y reporte estadístico del ensayo</p>
+  <p><strong>Nota:</strong><br>Aplica si hay reguladores en la red; si no, No Aplica con aprobación.</p>
+  <p><strong>Referencia:</strong><br>ISO 8573-1; ISO 8573-2/-3/-4/-6/-9; ISO 12500; EU GMP Anexo 1; 21 CFR 211.160(b).</p>
 </article>
 
 <article data-bloque="3" id="art-SIS-OQ-AC-029" class="ensayo" data-id="SIS-OQ-AC-029" data-fase="OQ" data-cond="ambas" data-familia="aire-comprimido">
@@ -468,11 +492,12 @@
   <p><strong>Procedimiento:</strong><br>
   1) Purgar o soplar y verificar partículas, aceite y residuos, si no se cubrió en IQ<br>
   2) Registrar el resultado</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Tubería limpia según criterio si aplica.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = limpieza de la red; unidad = pasa/no pasa. Tipo de dato = atributo. n = 100 % de puntos nuevos. Estadísticos = proporción de cumplimiento con IC binomial exacto. Regla de decisión = todos limpios. Atípicos: no aplica a datos de atributo; toda exclusión se documenta y se conserva el registro original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Sin partículas, aceite ni residuos de soldadura tras purga o soplado.<br>Verificación en el 100 % de los puntos nuevos.<br>Registro de la purga ejecutada.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro de limpieza (anexo del informe)</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante del sistema.</p>
+  <p><strong>Nota:</strong><br>Si la instalación ya se purgó y verificó en IQ, se referencia el registro.</p>
+  <p><strong>Referencia:</strong><br>ISO 8573-1; ISO 8573-2/-3/-4/-6/-9; ISO 12500; EU GMP Anexo 1; 21 CFR 211.160(b).</p>
 </article>
 
 <article data-bloque="3" id="art-SIS-OQ-AC-030" class="ensayo" data-id="SIS-OQ-AC-030" data-fase="OQ" data-cond="ambas" data-familia="aire-comprimido" data-analisis="si">
@@ -482,13 +507,13 @@
   1) Medir punto de rocío a presión<br>
   2) Medir partículas (ISO 8573-4) y aceite total, aerosol y vapor (ISO 8573-2 y 8573-5)<br>
   3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Dentro de los límites del URS.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = calidad de aire por parámetro; unidad = clase ISO. Tipo de dato = analitico. n = 3 muestras por punto. Estadísticos = mediana, mínimo, máximo e IC 95 %; concentraciones en escala log10. Regla de decisión = cada parámetro dentro de su clase. Atípicos = Grubbs solo si n ≥ 7 y sobre log10; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Rocío, partículas, aceite y vapor medidos a la salida del secador y tras los filtros finales.<br>Cada parámetro dentro de su clase ISO 8573-1 (<span class="por-confirmar">clase adoptada</span>).<br>Sin promediar parámetros distintos.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro con data cruda y reporte<br>
   - Data cruda y reporte estadístico del análisis de línea base</p>
-  <p><strong>Referencia:</strong><br>URS aprobada (rangos y criterios). ISO 8573 (aire comprimido: calidad y métodos; verifica la edición que adoptes).</p>
+  <p><strong>Nota:</strong><br>La clase en rojo sale de la URS; no se asume la misma para instrumentos y proceso.</p>
+  <p><strong>Referencia:</strong><br>ISO 8573-1; ISO 8573-2/-3/-4/-6/-9; ISO 12500; EU GMP Anexo 1; 21 CFR 211.160(b).</p>
 </article>
 
 <article data-bloque="3" id="art-SIS-OQ-AC-031" class="ensayo" data-id="SIS-OQ-AC-031" data-fase="OQ" data-cond="ambas" data-familia="aire-comprimido" data-analisis="si">
@@ -497,13 +522,13 @@
   <p><strong>Procedimiento:</strong><br>
   1) Medir los gases si hay contacto directo y el URS lo exige<br>
   2) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Dentro de los límites si aplica.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = gases traza; unidad = ppm. Tipo de dato = analitico. n = 3 muestras por punto. Estadísticos = mediana, mínimo, máximo e IC 95 %; concentraciones en escala log10. Regla de decisión = cada gas dentro del límite adoptado. Atípicos = Grubbs solo si n ≥ 7 y sobre log10; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>CO, CO2, SO2 y NOx dentro del límite adoptado, si el aire contacta producto y el URS lo exige.<br>Método ISO 8573-6 y laboratorio declarado.<br>Registro por punto.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro con data cruda y reporte<br>
   - Data cruda y reporte estadístico del análisis de gases</p>
-  <p><strong>Referencia:</strong><br>URS aprobada (rangos y criterios).</p>
+  <p><strong>Nota:</strong><br>Los límites de gases en rojo dependen del uso; se confirman con la URS y con ISO 8573-6.</p>
+  <p><strong>Referencia:</strong><br>ISO 8573-1; ISO 8573-2/-3/-4/-6/-9; ISO 12500; EU GMP Anexo 1; 21 CFR 211.160(b).</p>
 </article>
 
 <article data-bloque="3" id="art-SIS-OQ-AC-032" class="ensayo" data-id="SIS-OQ-AC-032" data-fase="OQ" data-cond="ambas" data-familia="aire-comprimido" data-analisis="si">
@@ -513,13 +538,13 @@
   1) Comparar el sensor contra su patrón<br>
   2) Verificar registro continuo y alarma<br>
   3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Exactitud dentro de lo definido en el protocolo aprobado con alarma operativa.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = exactitud de sensores; unidad = bar y °C. Tipo de dato = continua. n = 3 comparaciones contra patrón. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = desviación dentro de la tolerancia del certificado. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable medida; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Exactitud de presión y rocío frente a patrón dentro de la tolerancia del instrumento.<br>Registro continuo con alarma configurada.<br>Calibración vigente.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro con data cruda y reporte<br>
   - Data cruda y reporte estadístico del análisis del sensor</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante del sistema.</p>
+  <p><strong>Nota:</strong><br>La tolerancia se toma del certificado; no se fija en el protocolo.</p>
+  <p><strong>Referencia:</strong><br>ISO 8573-1; ISO 8573-2/-3/-4/-6/-9; ISO 12500; EU GMP Anexo 1; 21 CFR 211.160(b).</p>
 </article>
 
 <article data-bloque="3" id="art-SIS-OQ-AC-033" class="ensayo" data-id="SIS-OQ-AC-033" data-fase="OQ" data-cond="ambas" data-familia="aire-comprimido" data-analisis="si">
@@ -528,13 +553,13 @@
   <p><strong>Procedimiento:</strong><br>
   1) Comparar contra referencia y verificar alarmas<br>
   2) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Exactitud dentro de lo definido en el protocolo aprobado con alarmas operativas.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = exactitud del contador de partículas; unidad = partículas/m³. Tipo de dato = analitico. n = 3 comparaciones. Estadísticos = mediana, mínimo, máximo e IC 95 %; concentraciones en escala log10. Regla de decisión = desviación dentro de la tolerancia. Atípicos = Grubbs solo si n ≥ 7 y sobre log10; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Exactitud del contador de partículas o sensores en línea y alarmas configuradas.<br>Comparación contra patrón o método de referencia.<br>Registro del resultado.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro con data cruda y reporte<br>
   - Data cruda y reporte estadístico del análisis en línea</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante del sistema.</p>
+  <p><strong>Nota:</strong><br>Se usa el método de ISO 8573-4 para la comparación.</p>
+  <p><strong>Referencia:</strong><br>ISO 8573-1; ISO 8573-2/-3/-4/-6/-9; ISO 12500; EU GMP Anexo 1; 21 CFR 211.160(b).</p>
 </article>
 
 <article data-bloque="3" id="art-SIS-OQ-AC-034" class="ensayo" data-id="SIS-OQ-AC-034" data-fase="OQ" data-cond="ambas" data-familia="aire-comprimido" data-analisis="si">
@@ -544,26 +569,29 @@
   1) Verificar el intervalo de registro<br>
   2) Verificar fecha y hora<br>
   3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Intervalo y marca exactos según lo definido.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = intervalo y marca de tiempo; unidad = min. Tipo de dato = continua. n = 1 verificación por registrador. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = intervalo ≤ 5 min y sin huecos. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable medida; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Intervalo de registro ≤ <span class="por-confirmar">5 min</span> y marca de tiempo sincronizada.<br>Sin huecos de registro.<br>Registro exportable y trazable.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro con data cruda y reporte<br>
   - Data cruda y reporte estadístico del análisis de registro</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante del sistema.</p>
+  <p><strong>Nota:</strong><br>El intervalo en rojo se confirma con la URS y el plan de monitoreo.</p>
+  <p><strong>Referencia:</strong><br>ISO 8573-1; ISO 8573-2/-3/-4/-6/-9; ISO 12500; EU GMP Anexo 1; 21 CFR 211.160(b).</p>
 </article>
 
-<article data-bloque="3" id="art-SIS-OQ-AC-035" class="ensayo" data-id="SIS-OQ-AC-035" data-fase="OQ" data-cond="ambas" data-familia="aire-comprimido">
+<article data-analisis="si" data-bloque="3" id="art-SIS-OQ-AC-035" class="ensayo" data-id="SIS-OQ-AC-035" data-fase="OQ" data-cond="ambas" data-familia="aire-comprimido">
   <h3>SIS-OQ-AC-035 — Suministro eléctrico y enfriamiento</h3>
   <p><strong>Objetivo:</strong><br>Verificar caudal y temperatura en rango, y ventilación y admisión de la sala (el aire aspirado debe estar libre de contaminantes).</p>
   <p><strong>Procedimiento:</strong><br>
   1) Verificar suministro eléctrico y agua de enfriamiento si el compresor es refrigerado por agua<br>
-  2) Verificar ventilación, temperatura y admisión libre de escape, solventes y vapores</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Servicios en rango con admisión limpia.</p>
+  2) Verificar ventilación, temperatura y admisión libre de escape, solventes y vapores<br>
+  3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = condiciones de admisión; unidad = °C y m³/h. Tipo de dato = continua. n = 3 lecturas por condición. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = media dentro del rango del fabricante. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable medida; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Caudal y temperatura del compresor en rango operativo.<br>Ventilación y admisión de la sala suficientes para el caudal aspirado.<br>Registro de condiciones ambientales.</p>
   <p><strong>Documentos entregables:</strong><br>
-  - Registro de servicios (anexo del informe)</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante del sistema.</p>
+  - Registro de servicios (anexo del informe)<br>
+  - Data cruda y reporte estadístico del ensayo</p>
+  <p><strong>Nota:</strong><br>La calidad del aire aspirado condiciona todo el tratamiento; se mide, no se asume.</p>
+  <p><strong>Referencia:</strong><br>ISO 8573-1; ISO 8573-2/-3/-4/-6/-9; ISO 12500; EU GMP Anexo 1; 21 CFR 211.160(b).</p>
 </article>
 
 <article data-bloque="3" id="art-SIS-OQ-AC-036" class="ensayo" data-id="SIS-OQ-AC-036" data-fase="OQ" data-cond="ambas" data-familia="aire-comprimido">
@@ -571,11 +599,12 @@
   <p><strong>Objetivo:</strong><br>Verificar espacio y condiciones de admisión.</p>
   <p><strong>Procedimiento:</strong><br>
   1) Verificar espacio y admisión de la sala</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Condiciones dentro de lo definido en el protocolo aprobado.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = condiciones de instalación; unidad = pasa/no pasa. Tipo de dato = atributo. n = 1 verificación. Estadísticos = proporción de cumplimiento con IC binomial exacto. Regla de decisión = cumple el manual del fabricante. Atípicos: no aplica a datos de atributo; toda exclusión se documenta y se conserva el registro original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Espacio y condiciones de admisión del compresor según el manual.<br>Sin recirculación de aire caliente ni contaminantes cercanos.<br>Registro de la ubicación y distancia.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro de la verificación (anexo del informe)</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante del sistema.</p>
+  <p><strong>Nota:</strong><br>La recirculación de aire caliente reduce la capacidad y sube el rocío; se verifica en campo.</p>
+  <p><strong>Referencia:</strong><br>ISO 8573-1; ISO 8573-2/-3/-4/-6/-9; ISO 12500; EU GMP Anexo 1; 21 CFR 211.160(b).</p>
 </article>
 
 <article data-bloque="3" id="art-SIS-OQ-AC-037" class="ensayo" data-id="SIS-OQ-AC-037" data-fase="OQ" data-cond="ambas" data-familia="aire-comprimido" data-analisis="si">
@@ -585,13 +614,13 @@
   1) Operar 72 h (o el período definido) con demanda variable<br>
   2) Verificar presión estable, rocío en límite y sin alarmas<br>
   3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Operación continua sin alarmas no tratadas.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = operación continua; unidad = pasa/no pasa. Tipo de dato = atributo. n = 1 período de 72 h. Estadísticos = proporción de cumplimiento con IC binomial exacto. Regla de decisión = período completo sin alarmas no tratadas. Atípicos: no aplica a datos de atributo; toda exclusión se documenta y se conserva el registro original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>72 h de operación continua a demanda variable, sin alarmas no tratadas.<br>Calidad de aire dentro de clase en cada muestreo.<br>Sin paradas no programadas.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro con data cruda y reporte<br>
   - Data cruda y reporte estadístico del análisis de operación</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante del sistema.</p>
+  <p><strong>Nota:</strong><br>La duración en rojo se confirma con el plan de validación del sistema.</p>
+  <p><strong>Referencia:</strong><br>ISO 8573-1; ISO 8573-2/-3/-4/-6/-9; ISO 12500; EU GMP Anexo 1; 21 CFR 211.160(b).</p>
 </article>
 
 <article data-bloque="3" id="art-SIS-OQ-AC-038" class="ensayo" data-id="SIS-OQ-AC-038" data-fase="OQ" data-cond="ambas" data-familia="aire-comprimido" data-analisis="si">
@@ -600,13 +629,13 @@
   <p><strong>Procedimiento:</strong><br>
   1) Provocar el aumento brusco y medir caída y recuperación<br>
   2) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Recuperación y estabilidad dentro de lo definido en el protocolo aprobado.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = recuperación ante cambio de demanda; unidad = min. Tipo de dato = continua. n = 3 maniobras. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = recuperación dentro del criterio en las 3. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable medida; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Caída de presión y tiempo de recuperación ante cambio de demanda dentro del criterio.<br>Presión estable tras la recuperación.<br>Sin disparo de alarmas por la maniobra.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro con data cruda y reporte<br>
   - Data cruda y reporte estadístico del análisis de demanda</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante del sistema.</p>
+  <p><strong>Nota:</strong><br>El criterio de recuperación en rojo se confirma con el diseño del sistema.</p>
+  <p><strong>Referencia:</strong><br>ISO 8573-1; ISO 8573-2/-3/-4/-6/-9; ISO 12500; EU GMP Anexo 1; 21 CFR 211.160(b).</p>
 </article>
 
 <article data-bloque="4" id="art-SIS-OQ-AC-RES" class="ensayo" data-id="SIS-OQ-AC-RES" data-fase="OQ" data-cond="ambas" data-familia="aire-comprimido">

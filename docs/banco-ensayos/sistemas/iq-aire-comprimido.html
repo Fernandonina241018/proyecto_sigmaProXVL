@@ -12,7 +12,7 @@
 
 <p><a href="../sistemas.html">← Sistemas</a></p>
 <h2>IQ — Aire comprimido grado proceso (banco por familia, Nivel 3)</h2>
-<p>Versión del banco: <span data-banco-version>SIS-IQ-AC 2026-10-24 v1</span></p>
+<p>Versión del banco: <span data-banco-version>SIS-IQ-AC 2026-11-18 v2</span></p>
 <p>Ensayos de Calificación de Instalación específicos del sistema de aire comprimido. Se suman al IQ general y se filtran por familia (<code>data-familia="aire-comprimido"</code>) según la entidad elegida en el paso 1.</p>
 
 <!-- ================= IQ ================= -->
@@ -30,14 +30,12 @@
   5) Verificar conexión de salida de aire: diámetro, material, válvula de corte<br>
   6) Verificar drenaje de condensado del compresor<br>
   7) Registrar toda desviación como hallazgo con su disposición</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Compresor instalado conforme a especificaciones de diseño.<br>
-  Capacidad suficiente para la demanda del sistema de aire comprimido.<br>
-  Ubicación con ventilación adecuada y acceso para mantenimiento.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Compresor y equipo de generación instalados según plano, con accesos de mantenimiento y ventilación.<br>Aislamiento antivibratorio y anclaje sin tensión mecánica.<br>Separador de condensado y drenaje instalados y accesibles.<br>Admisión de aire en zona limpia, alejada de fuentes de contaminación.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro fotográfico del compresor y equipo de generación (anexo del informe)<br>
   - Ficha técnica y certificado del fabricante</p>
-  <p><strong>Referencia:</strong><br><span class="refnorma">ISO 8573-1 — Calidad del aire comprimido</span>; EU GMP Parte II.</p>
+  <p><strong>Nota:</strong><br>La ubicación de la admisión se verifica en campo: el aire aspirado define la calidad que el tratamiento debe corregir.</p>
+  <p><strong>Referencia:</strong><br>ISO 8573-1; ISO 8573-2/-3/-4/-6/-9; ISO 12500; EU GMP Anexo 1; 21 CFR 211.160(b).</p>
 </article>
 
 <article data-bloque="3" id="art-SIS-IQ-AC-002" class="ensayo" data-id="SIS-IQ-AC-002" data-fase="IQ" data-cond="ambas" data-familia="aire-comprimido">
@@ -50,14 +48,12 @@
   4) Verificar indicadores de diferencial de presión (si aplican)<br>
   5) Verificar válvulas de drenaje automático o manual en filtros<br>
   6) Registrar cada filtro en la tabla correspondiente</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Filtros instalados conforme al grado de filtración especificado.<br>
-  Certificados de fábrica trazables a número de serie.<br>
-  Sin vías de derivación ni daños en marcos y juntas.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Filtros de partículas, coalescentes y de carbón instalados en el orden del diseño.<br>Clase y caudal nominal iguales o mayores al diseño; certificado del fabricante disponible.<br>Indicadores de ΔP y purgas accesibles.<br>Sin bypass ni filtro omitido en la secuencia.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Certificados de fábrica de filtros<br>
   - Registro de filtros instalados (tipo/ubicación/serie/fecha de instalación)</p>
-  <p><strong>Referencia:</strong><br><span class="refnorma">ISO 8573-1 — Calidad del aire comprimido — Parte 1: Contaminantes y clases de pureza</span>; EU GMP Parte II.</p>
+  <p><strong>Nota:</strong><br>La secuencia de filtración se verifica contra el plano; un bypass abierto anula la calidad aguas abajo.</p>
+  <p><strong>Referencia:</strong><br>ISO 8573-1; ISO 8573-2/-3/-4/-6/-9; ISO 12500; EU GMP Anexo 1; 21 CFR 211.160(b).</p>
 </article>
 
 <article data-bloque="3" id="art-SIS-IQ-AC-003" class="ensayo" data-id="SIS-IQ-AC-003" data-fase="IQ" data-cond="ambas" data-familia="aire-comprimido">
@@ -70,15 +66,13 @@
   4) Verificar instrumento de medición de punto de rocío (higrómetro, sensor de humedad)<br>
   5) Verificar punto de rocío configurado contra especificación de diseño (ej. -40°C pdb)<br>
   6) Registrar configuración del secador y resultados iniciales</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Secador instalado y operativo.<br>
-  Punto de rocío configurado conforme a especificación de diseño.<br>
-  Instrumento de medición de punto de rocío instalado y con calibración vigente.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Secador instalado con capacidad y clase de punto de rocío conforme al diseño (<span class="por-confirmar">clase 2: -40 °C</span>).<br>Punto de muestreo de rocío instalado aguas abajo del secador.<br>Drenaje y purga conectados sin retención.<br>Filtro posterior al desecante instalado si el secador es de adsorción.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Descripción del sistema de secado instalado<br>
   - Registro de punto de rocío configurado y medido<br>
   - Certificado de calibración del sensor de humedad/punto de rocío</p>
-  <p><strong>Referencia:</strong><br><span class="refnorma">ISO 8573-1 — Calidad del aire comprimido</span>; manual del fabricante del secador.</p>
+  <p><strong>Nota:</strong><br>La clase de rocío en rojo se confirma con la clase ISO 8573-1 adoptada para el aire de proceso.</p>
+  <p><strong>Referencia:</strong><br>ISO 8573-1; ISO 8573-2/-3/-4/-6/-9; ISO 12500; EU GMP Anexo 1; 21 CFR 211.160(b).</p>
 </article>
 
 <article data-bloque="3" id="art-SIS-IQ-AC-004" class="ensayo" data-id="SIS-IQ-AC-004" data-fase="IQ" data-cond="ambas" data-familia="aire-comprimido">
@@ -91,15 +85,12 @@
   4) Verificar identificaciones de tuberías: contenido, dirección de flujo, número de línea<br>
   5) Verificar ausencia de puntos muertos en la red de distribución<br>
   6) Registrar toda desviación como hallazgo con su disposición</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Materiales conforme a especificación de diseño.<br>
-  Pendiente y drenaje adecuados hacia puntos de drenaje.<br>
-  Válvulas de purga en puntos bajos y finales de ramal.<br>
-  Sin puntos muertos.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Red en acero inoxidable o aluminio con certificados de material; sin cobre ni plástico no apto.<br>Pendiente ≥ <span class="por-confirmar">1 %</span> hacia los drenajes y sin bolsas.<br>Purgadores y drenajes en puntos bajos y al final de ramales.<br>Sellos compatibles y sin fugas visibles.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Matriz material-diseño-vs-instalado de la red de aire comprimido<br>
   - Registro fotográfico de válvulas de purga y drenaje (anexo del informe)</p>
-  <p><strong>Referencia:</strong><br><span class="refnorma">ISO 8573-1 — Calidad del aire comprimido</span>; EU GMP Parte II.</p>
+  <p><strong>Nota:</strong><br>La pendiente en rojo se confirma contra el isométrico; se verifica en campo.</p>
+  <p><strong>Referencia:</strong><br>ISO 8573-1; ISO 8573-2/-3/-4/-6/-9; ISO 12500; EU GMP Anexo 1; 21 CFR 211.160(b).</p>
 </article>
 
 <article data-bloque="3" id="art-SIS-IQ-AC-005" class="ensayo" data-id="SIS-IQ-AC-005" data-fase="IQ" data-cond="ambas" data-familia="aire-comprimido">
@@ -113,14 +104,12 @@
   5) Verificar filtros de punto de uso (si aplican)<br>
   6) Verificar identificaciones y etiquetas en cada punto de uso<br>
   7) Registrar cada punto de uso en la tabla correspondiente</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Puntos de uso con válvula de corte, regulador y purga.<br>
-  Identificaciones y etiquetas presentes.<br>
-  Puntos de uso accesibles para operación y mantenimiento.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Puntos de uso con válvula de corte, regulador y filtro final si el uso lo exige.<br>Conexión sanitaria e identificación contra plano.<br>Punto de muestreo accesible para calidad de aire.<br>Sin tramos ciegos > 3D en la conexión.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Listado de puntos de uso de aire comprimido (ubicación, tipo, válvula de corte, regulador, purga)<br>
   - Plano de distribución con puntos de uso marcados</p>
-  <p><strong>Referencia:</strong><br><span class="refnorma">ISO 8573-1 — Calidad del aire comprimido</span>; EU GMP Parte II.</p>
+  <p><strong>Nota:</strong><br>El criterio 3D en rojo debe adoptarse antes de medir; se registra por punto.</p>
+  <p><strong>Referencia:</strong><br>ISO 8573-1; ISO 8573-2/-3/-4/-6/-9; ISO 12500; EU GMP Anexo 1; 21 CFR 211.160(b).</p>
 </article>
 
 <article data-bloque="3" id="art-SIS-IQ-AC-006" class="ensayo" data-id="SIS-IQ-AC-006" data-fase="IQ" data-cond="ambas" data-familia="aire-comprimido">
@@ -133,15 +122,13 @@
   4) Verificar conexión al sistema de control/registro de datos<br>
   5) Verificar alarmas configuradas: límites de alta/baja presión, punto de rocío alto<br>
   6) Registrar cada instrumento en la tabla de instrumentos de medición</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  100% de instrumentos instalados en ubicación representativa.<br>
-  Etiqueta de calibración vigente por instrumento.<br>
-  Alarmas configuradas para límites de alta/baja y punto de rocío.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Manómetros, medidores de caudal y sensores de rocío instalados en ubicación representativa.<br>Calibración vigente (≤ <span class="por-confirmar">12 meses</span>) y trazable.<br>Rango adecuado a presión, caudal y punto de rocío de operación.<br>Identificación individual por instrumento.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Tabla de instrumentos de medición (modelo/serie/ubicación/certificado)<br>
   - Copias de certificados de calibración<br>
   - Captura de pantalla de alarmas configuradas</p>
-  <p><strong>Referencia:</strong><br><span class="refnorma">ISO/IEC 17025 — Competencia de laboratorios de ensayo y calibración</span>; EU GMP Anexo 15.</p>
+  <p><strong>Nota:</strong><br>El intervalo de calibración en rojo es el del programa metrológico del sitio.</p>
+  <p><strong>Referencia:</strong><br>ISO 8573-1; ISO 8573-2/-3/-4/-6/-9; ISO 12500; EU GMP Anexo 1; 21 CFR 211.160(b).</p>
 </article>
 
 <article data-bloque="3" id="art-SIS-IQ-AC-007" class="ensayo" data-id="SIS-IQ-AC-007" data-fase="IQ" data-cond="ambas" data-familia="aire-comprimido">
@@ -154,15 +141,13 @@
   4) Verificar integridad de datos: audit trail, acceso restringido (si aplica)<br>
   5) Verificar copias de seguridad y recuperación de datos<br>
   6) Registrar configuración del sistema de registro</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Sistema de registro operativo con parámetros críticos capturados (cuando el aire contacta producto).<br>
-  Audit trail activo y acceso restringido (cuando aplique 21 CFR Parte 11).<br>
-  Copias de seguridad definidas.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Registro de partículas, aceite, humedad y punto de rocío con trazabilidad por punto.<br>Audit trail activo y acceso restringido por rol.<br>Respaldo definido y restauración probada.<br>Retención ≥ <span class="por-confirmar">1 año</span> o la política del sitio.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Configuración del sistema de registro de calidad del aire<br>
   - Evidencia de audit trail activo (si aplica)<br>
   - Procedimiento de copias de seguridad</p>
-  <p><strong>Referencia:</strong><br><span class="refnorma">21 CFR Parte 11 — Registros electrónicos y firmas electrónicas</span>; ISO 8573-1.</p>
+  <p><strong>Nota:</strong><br>La retención en rojo se confirma con la política de registros; el respaldo se prueba.</p>
+  <p><strong>Referencia:</strong><br>ISO 8573-1; ISO 8573-2/-3/-4/-6/-9; ISO 12500; EU GMP Anexo 1; 21 CFR 211.160(b).</p>
 </article>
 
 <article data-bloque="4" id="art-SIS-IQ-AC-RES" class="ensayo" data-id="SIS-IQ-AC-RES" data-fase="IQ" data-cond="ambas" data-familia="aire-comprimido" data-resumen="IQ">

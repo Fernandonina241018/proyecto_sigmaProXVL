@@ -90,6 +90,36 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (StatAnalyzer Pro) co
 
 ## CAMBIOS RECIENTES
 
+### 2026-11-18 (316): Familia sistemas completa — IQ, OQ y PQ de los cuatro sistemas
+
+**Qué:** los 261 ensayos de sistemas (agua purificada, HVAC, vapor limpio y aire comprimido) quedan con el estándar del piloto.
+- **Criterio propio con valor, unidad, regla y fuente** en el 100 %: 181 con valor numérico (69 % de la familia) y 159 con valores propuestos en rojo.
+- **Plan estadístico por tipo de dato** en 233 ensayos; 202 llevan `data-analisis="si"`. Los 31 restantes son de atributo: su plan es proporción y 0 fallas, y el resultado se registra como C/NC, no como dataset.
+- **Sin «dentro de lo definido en el protocolo aprobado»** en ninguno de los 261.
+- **Referencias completas por familia:** USP `<1231>`/`<645>`/`<643>` para agua; ISO 14644-1/-3 y EU GMP Anexo 1 para HVAC; EN 285 y HTM 2031 para vapor; ISO 8573-1 a -9 para aire.
+- **Nota por ensayo** con el valor propuesto y su origen.
+
+**Estado medido:**
+```
+sistemas: 261 ensayos · 261 con criterio · 233 con plan · 181 con valor numérico
+global: 346/1392 criterios con valor (25 %, antes 235) · 322 clonados en 130 grupos (antes 369/149)
+--por-confirmar: 159 ensayos de sistemas
+```
+
+**Archivos afectados:**
+| Archivo | Cambio |
+|---------|--------|
+| `docs/banco-ensayos/sistemas/{iq,oq,pq}-{agua-purificada,hvac,vapor-limpio,aire-comprimido}.html` | 261 ensayos reescritos |
+| `js/core/banco-sistemas-data.js` | Regenerado (12 bancos v2) |
+| `docs/banco-ensayos/PROTOCOLO_MAESTRO.md` | Cifras actualizadas |
+| `js/core/plantilla-docx.js` | Sin aviso de portada (entrada 315) |
+
+**Verificación:**
+```
+npm run preflight → protocolo:check OK, urs-ar:check OK, Vitest 1196, backend 154, E2E 14
+banco:check → sistemas 261 ensayos, 233 con plan, 181 con valor numérico
+```
+
 ### 2026-11-18 (315): OQ de agua con estándar del PQ y sin aviso en portada
 
 **Qué:** se cierra el OQ de agua purificada con el mismo principio del PQ y se quita el aviso de portada.

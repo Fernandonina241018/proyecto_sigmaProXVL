@@ -12,7 +12,7 @@
 
 <p><a href="../sistemas.html">← Sistemas</a></p>
 <h2>OQ — HVAC (banco por familia)</h2>
-<p>Versión del banco: <span data-banco-version>SIS-OQ-HV 2026-10-14 v1</span></p>
+<p>Versión del banco: <span data-banco-version>SIS-OQ-HV 2026-11-18 v2</span></p>
 <p>Ensayos de Calificación de Operación específicos del HVAC (<span class="equipo">equipo</span>). Se filtran por familia (<code>data-familia="hvac"</code>) según la entidad elegida en el paso 1. Fuente: ENSAYOS.txt del usuario (HVAC).</p>
 
 <!-- ================= OQ ================= -->
@@ -65,11 +65,11 @@
   <p><strong>Procedimiento:</strong><br>
   1) Activar la alarma y verificar el cierre de cada damper cortafuego<br>
   2) Verificar el rearme según el diseño y la normativa local</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Cierre total ante la alarma.<br>
-  Rearme según diseño y normativa local.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = cierre del damper cortafuego; unidad = pasa/no pasa. Tipo de dato = atributo. n = 3 activaciones por damper. Estadísticos = proporción de cumplimiento con IC binomial exacto. Regla de decisión = las 3 activaciones deben cerrar completamente. Atípicos: no aplica a datos de atributo; toda exclusión de una repetición se documenta y se conserva el registro original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Cada damper cortafuego cierra al activar la alarma en ≤ <span class="por-confirmar">30 s</span> y el rearme es manual.<br>Cierre completo sin holgura y con indicador de posición visible.<br>Registro por damper, con identificación y ubicación.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro de la prueba (anexo del informe)</p>
+  <p><strong>Nota:</strong><br>El tiempo de cierre en rojo debe confirmarse contra la especificación del fabricante y el diseño de protección contra incendio.</p>
   <p><strong>Referencia:</strong><br>Manual del fabricante del sistema.</p>
 </article>
 
@@ -81,10 +81,11 @@
   2) Simular humidificador sin flujo y verificar el bloqueo<br>
   3) Simular condición anticongelante de serpentines y verificar la protección<br>
   4) Verificar la coordinación del ventilador de extracción frente al suministro</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Cada interlock actúa ante su condición.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = actuación de cada interlock; unidad = pasa/no pasa. Tipo de dato = atributo. n = 3 repeticiones por interlock. Estadísticos = proporción de cumplimiento con IC binomial exacto. Regla de decisión = cada interlock actúa en las 3 repeticiones. Atípicos: no aplica a datos de atributo; toda exclusión de una repetición se documenta y se conserva el registro original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Cada interlock actúa sobre su condición: calefacción sin flujo, humidificador sin flujo, protección anticongelante y presión diferencial.<br>La acción asociada ocurre en ≤ <span class="por-confirmar">5 s</span> y exige rearme manual cuando corresponde.<br>Prueba registrada por interlock, no por grupo.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro de interlocks simulados (anexo del informe)</p>
+  <p><strong>Nota:</strong><br>El tiempo de actuación en rojo se confirma contra el diseño del sistema de control.</p>
   <p><strong>Referencia:</strong><br>Manual del fabricante del sistema.</p>
 </article>
 
@@ -95,10 +96,11 @@
   1) Provocar presión diferencial fuera de rango y verificar disparo y acción<br>
   2) Provocar alta y baja temperatura y humedad relativa y verificar<br>
   3) Provocar diferencial de filtros, pérdida de flujo y falla de ventilador y verificar</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Cada alarma dispara y ejecuta su acción.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = disparo y notificación de alarmas; unidad = pasa/no pasa. Tipo de dato = atributo. n = 3 repeticiones por alarma. Estadísticos = proporción de cumplimiento con IC binomial exacto. Regla de decisión = cada alarma dispara y notifica en las 3 repeticiones. Atípicos: no aplica a datos de atributo; toda exclusión de una repetición se documenta y se conserva el registro original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Cada alarma dispara en BMS/SCADA y ejecuta la acción asociada.<br>El aviso llega al destinatario definido en ≤ <span class="por-confirmar">5 min</span>.<br>Se registran fecha, hora, valor, límite y usuario en el 100 % de las alarmas probadas.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro de alarmas y acciones (anexo del informe)</p>
+  <p><strong>Nota:</strong><br>El tiempo de aviso en rojo depende del esquema de guardias; debe confirmarse con Calidad y el área usuaria.</p>
   <p><strong>Referencia:</strong><br>Manual del fabricante del sistema.</p>
 </article>
 
@@ -109,24 +111,27 @@
   1) Cortar la energía y verificar el estado seguro<br>
   2) Restablecer y verificar el reinicio ordenado de ventiladores y extracción<br>
   3) Verificar el efecto sobre la cascada de presiones</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Estado seguro ante la falla.<br>
-  Reinicio ordenado con cascada recuperada.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = recuperación tras corte de energía; unidad = pasa/no pasa. Tipo de dato = atributo. n = 3 cortes controlados. Estadísticos = proporción de cumplimiento con IC binomial exacto. Regla de decisión = las 3 recuperaciones restablecen la cascada. Atípicos: no aplica a datos de atributo; toda exclusión de una repetición se documenta y se conserva el registro original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Ante corte de energía el sistema queda en estado seguro, sin retorno de aire ni pérdida de cascada.<br>Al reiniciar, los ventiladores arrancan en secuencia ordenada y la presión diferencial se restablece en ≤ <span class="por-confirmar">15 min</span>.<br>El evento queda registrado con hora y causa.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro de la prueba (anexo del informe)</p>
+  <p><strong>Nota:</strong><br>Los tiempos en rojo deben confirmarse contra el procedimiento de arranque y el diseño de la cascada.</p>
   <p><strong>Referencia:</strong><br>Manual del fabricante del sistema.</p>
 </article>
 
-<article data-bloque="3" id="art-SIS-OQ-HV-005" class="ensayo" data-id="SIS-OQ-HV-005" data-fase="OQ" data-cond="ambas" data-familia="hvac">
+<article data-analisis="si" data-bloque="3" id="art-SIS-OQ-HV-005" class="ensayo" data-id="SIS-OQ-HV-005" data-fase="OQ" data-cond="ambas" data-familia="hvac">
   <h3>SIS-OQ-HV-005 — Redundancia de ventiladores</h3>
   <p><strong>Objetivo:</strong><br>Verificar el cambio automático al ventilador de reserva, con registro del tiempo y de la presión durante la transferencia (si aplica).</p>
   <p><strong>Procedimiento:</strong><br>
   1) Simular la falla del ventilador principal (si aplica)<br>
-  2) Verificar el cambio automático y registrar tiempo y presión durante la transferencia</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Cambio automático con tiempo y presión dentro de lo definido en el protocolo aprobado (si aplica).</p>
+  2) Verificar el cambio automático y registrar tiempo y presión durante la transferencia<br>
+  3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = transferencia a ventilador de reserva; unidad = s y Pa. Tipo de dato = continua. n = 3 transferencias forzadas. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = presión dentro de ±10 % y tiempo ≤ 30 s en las 3. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable medida; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>El cambio al ventilador de reserva es automático en ≤ <span class="por-confirmar">30 s</span>.<br>La presión diferencial se mantiene dentro de ±<span class="por-confirmar">10 %</span> durante la transferencia.<br>Se registran tiempo, presión y alarma de ventilador detenido; 3 repeticiones.</p>
   <p><strong>Documentos entregables:</strong><br>
-  - Registro de la transferencia (anexo del informe)</p>
+  - Registro de la transferencia (anexo del informe)<br>
+  - Data cruda y reporte estadístico del ensayo</p>
+  <p><strong>Nota:</strong><br>El tiempo y la tolerancia en rojo se confirman contra el fabricante y la URS.</p>
   <p><strong>Referencia:</strong><br>Manual del fabricante del sistema.</p>
 </article>
 
@@ -137,38 +142,44 @@
   1) Medir el caudal de suministro, retorno y aire fresco<br>
   2) Registrar la relación frecuencia del ventilador vs. caudal<br>
   3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Caudales dentro de lo definido en el protocolo aprobado.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = caudal de suministro y retorno; unidad = m³/h. Tipo de dato = continua. n = 3 lecturas por condición. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = media dentro de ±10 % del diseño. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable medida; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Caudal de suministro, retorno y aire fresco dentro de ±<span class="por-confirmar">10 %</span> del diseño.<br>Relación frecuencia del ventilador vs. caudal lineal en el rango operativo.<br>3 lecturas por condición, con RSD ≤ 5 %.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro con data cruda y reporte<br>
   - Data cruda y reporte estadístico del análisis de caudales</p>
+  <p><strong>Nota:</strong><br>La tolerancia en rojo y los caudales de diseño deben confirmarse contra el balanceo aprobado.</p>
   <p><strong>Referencia:</strong><br>Manual del fabricante del sistema.</p>
 </article>
 
-<article data-bloque="3" id="art-SIS-OQ-HV-007" class="ensayo" data-id="SIS-OQ-HV-007" data-fase="OQ" data-cond="ambas" data-familia="hvac">
+<article data-analisis="si" data-bloque="3" id="art-SIS-OQ-HV-007" class="ensayo" data-id="SIS-OQ-HV-007" data-fase="OQ" data-cond="ambas" data-familia="hvac">
   <h3>SIS-OQ-HV-007 — Proporción de aire fresco y recirculación</h3>
   <p><strong>Objetivo:</strong><br>Verificar el ajuste y la repetibilidad de la proporción de aire fresco y recirculación.</p>
   <p><strong>Procedimiento:</strong><br>
   1) Ajustar la proporción y verificar el punto alcanzado<br>
-  2) Repetir y verificar repetibilidad</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Ajuste repetible según lo definido.</p>
+  2) Repetir y verificar repetibilidad<br>
+  3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = proporción de aire fresco; unidad = %. Tipo de dato = continua. n = 3 ajustes con 3 lecturas. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = cada ajuste dentro de ±5 % del valor. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable medida; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Proporción de aire fresco y recirculación ajustada al valor de diseño (<span class="por-confirmar">% de aire fresco</span>).<br>Repetibilidad de 3 ajustes dentro de ±5 % del valor ajustado.<br>Sin deriva ni oscilación de los dampers en régimen estable.</p>
   <p><strong>Documentos entregables:</strong><br>
-  - Registro de la prueba (anexo del informe)</p>
+  - Registro de la prueba (anexo del informe)<br>
+  - Data cruda y reporte estadístico del ensayo</p>
+  <p><strong>Nota:</strong><br>El porcentaje de aire fresco en rojo debe confirmarse con el diseño de balanceo y la clasificación del área.</p>
   <p><strong>Referencia:</strong><br>Manual del fabricante del sistema.</p>
 </article>
 
-<article data-bloque="3" id="art-SIS-OQ-HV-008" class="ensayo" data-id="SIS-OQ-HV-008" data-fase="OQ" data-cond="ambas" data-familia="hvac">
+<article data-analisis="si" data-bloque="3" id="art-SIS-OQ-HV-008" class="ensayo" data-id="SIS-OQ-HV-008" data-fase="OQ" data-cond="ambas" data-familia="hvac">
   <h3>SIS-OQ-HV-008 — Serpentines</h3>
   <p><strong>Objetivo:</strong><br>Verificar capacidad, control y respuesta de los serpentines de enfriamiento, calefacción y poscalentamiento.</p>
   <p><strong>Procedimiento:</strong><br>
   1) Verificar la capacidad de cada serpentín<br>
-  2) Verificar control y respuesta</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Capacidad y respuesta según lo definido.</p>
+  2) Verificar control y respuesta<br>
+  3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = temperatura de impulsión; unidad = °C. Tipo de dato = continua. n = 3 lecturas por condición de carga. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = media dentro de ±1 °C del setpoint. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable medida; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Capacidad de enfriamiento, calefacción y poscalentamiento suficiente para el ΔT de diseño a la carga nominal.<br>Control estable sin oscilación > <span class="por-confirmar">±1 °C</span> en 30 min.<br>Sin congelamiento del serpentín ni arrastre de condensado.</p>
   <p><strong>Documentos entregables:</strong><br>
-  - Registro de la prueba (anexo del informe)</p>
+  - Registro de la prueba (anexo del informe)<br>
+  - Data cruda y reporte estadístico del ensayo</p>
+  <p><strong>Nota:</strong><br>El ΔT y la tolerancia en rojo dependen del diseño térmico; se confirman con la URS.</p>
   <p><strong>Referencia:</strong><br>Manual del fabricante del sistema.</p>
 </article>
 
@@ -179,12 +190,12 @@
   1) Aplicar carga térmica y de humedad simulada (si aplica)<br>
   2) Medir la remoción y el punto de rocío<br>
   3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Remoción y punto de rocío dentro de lo definido en el protocolo aprobado (si aplica).</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = humedad relativa; unidad = % HR. Tipo de dato = continua. n = 3 lecturas por condición de carga. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = media dentro de ±5 % HR del setpoint. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable medida; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Capacidad de remoción de humedad suficiente para el punto de rocío de diseño.<br>Humedad relativa controlada dentro de ±<span class="por-confirmar">5 % HR</span> tras la carga simulada.<br>Sin condensado arrastrado ni crecimiento microbiológico en bandeja.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro con data cruda y reporte<br>
   - Data cruda y reporte estadístico del análisis de deshumidificación</p>
+  <p><strong>Nota:</strong><br>La tolerancia y el punto de rocío en rojo deben confirmarse con la URS del área.</p>
   <p><strong>Referencia:</strong><br>Manual del fabricante del sistema.</p>
 </article>
 
@@ -195,12 +206,12 @@
   1) Verificar la capacidad y el control (si aplica)<br>
   2) Verificar la calidad del agua o vapor<br>
   3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Capacidad y control dentro de lo definido en el protocolo aprobado (si aplica).</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = humedad relativa con humidificación; unidad = % HR. Tipo de dato = continua. n = 3 lecturas por condición. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = media dentro de ±5 % HR del setpoint. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable medida; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Humidificador con capacidad para el setpoint y control estable dentro de ±<span class="por-confirmar">5 % HR</span>.<br>Calidad del agua o vapor conforme a la referencia adoptada (purificada o limpio).<br>Sin aerosol ni gotas libres; drenaje y sello funcionales.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro con data cruda y reporte<br>
   - Data cruda y reporte estadístico del análisis del humidificador</p>
+  <p><strong>Nota:</strong><br>La fuente de agua o vapor y la tolerancia en rojo se confirman con la URS; el agua debe cumplir su propia especificación.</p>
   <p><strong>Referencia:</strong><br>Manual del fabricante del sistema.</p>
 </article>
 
@@ -211,12 +222,12 @@
   1) Medir la caída de presión inicial de prefiltros y finos<br>
   2) Verificar la alarma al límite definido<br>
   3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Alarma al límite definido.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = caída de presión por etapa de filtro; unidad = Pa. Tipo de dato = continua. n = 3 lecturas por etapa. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = media dentro del valor de diseño y alarma activa. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable medida; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Caída de presión inicial de prefiltros y filtros finos dentro del valor de diseño.<br>Alarma de filtro sucio configurada y activada al límite (<span class="por-confirmar">ΔP de cambio</span>).<br>Registro por etapa de filtración, sin promediar etapas.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro con data cruda y reporte<br>
   - Data cruda y reporte estadístico del análisis de filtros</p>
+  <p><strong>Nota:</strong><br>El ΔP de cambio en rojo se toma del fabricante y del balanceo; no se fija por defecto.</p>
   <p><strong>Referencia:</strong><br>Manual del fabricante del sistema.</p>
 </article>
 
@@ -226,10 +237,11 @@
   <p><strong>Procedimiento:</strong><br>
   1) Verificar la carrera de cada damper<br>
   2) Verificar hermeticidad y respuesta del actuador</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Carrera completa, cierre hermético y respuesta según lo definido.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = carrera y hermeticidad del damper; unidad = pasa/no pasa. Tipo de dato = atributo. n = 3 ciclos por damper. Estadísticos = proporción de cumplimiento con IC binomial exacto. Regla de decisión = los 3 ciclos cierran y abren completos. Atípicos: no aplica a datos de atributo; toda exclusión de una repetición se documenta y se conserva el registro original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Carrera completa de dampers y actuadores sin atascamiento, en ≤ <span class="por-confirmar">60 s</span>.<br>Fuga en posición cerrada ≤ <span class="por-confirmar">5 %</span> del caudal nominal.<br>Indicador de posición coherente con la orden del control.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro de la prueba (anexo del informe)</p>
+  <p><strong>Nota:</strong><br>La carrera y la fuga en rojo se confirman contra el fabricante del damper.</p>
   <p><strong>Referencia:</strong><br>Manual del fabricante del sistema.</p>
 </article>
 
@@ -239,12 +251,12 @@
   <p><strong>Procedimiento:</strong><br>
   1) Medir corriente, vibración y temperatura<br>
   2) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Valores dentro de lo definido en el protocolo aprobado.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = corriente y vibración del ventilador; unidad = A y mm/s. Tipo de dato = continua. n = 3 lecturas por condición. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = media dentro de ±10 % de la nominal y vibración en rango. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable medida; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Corriente del motor dentro del ±<span class="por-confirmar">10 %</span> de la nominal.<br>Vibración dentro del rango del fabricante y temperatura de rodamientos estable.<br>Sin ruido anormal ni recalentamiento en 30 min de operación.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro con data cruda y reporte<br>
   - Data cruda y reporte estadístico del análisis del ventilador</p>
+  <p><strong>Nota:</strong><br>Los límites en rojo se confirman contra la placa del motor y el fabricante del ventilador.</p>
   <p><strong>Referencia:</strong><br>Manual del fabricante del sistema.</p>
 </article>
 
@@ -255,12 +267,12 @@
   1) Aplicar el aerosol aguas arriba y escanear toda la superficie y el marco con fotómetro<br>
   2) Registrar la penetración local<br>
   3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  La penetración local no supera el límite definido (referencia habitual 0,01% de la concentración aguas arriba, verifica tu norma).</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = penetración del filtro HEPA; unidad = %. Tipo de dato = continua. n = escaneo del 100 % de la superficie. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = cada punto ≤ 0,01 % de penetración. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable medida; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Integridad del HEPA con aerosol de PAO y fotómetro: penetración ≤ <span class="por-confirmar">0,01 %</span>.<br>Escaneo del 100 % de la superficie del filtro, marco y junta, sin omitir el sello.<br>Registro de puntos con fuga y su reparación o reemplazo documentado.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro del escaneo con data cruda y reporte<br>
   - Data cruda y reporte estadístico del análisis de integridad</p>
+  <p><strong>Nota:</strong><br>El criterio de penetración en rojo corresponde a H13/H14; debe confirmarse con la clase del filtro instalado.</p>
   <p><strong>Referencia:</strong><br>Manual del fabricante del sistema.</p>
 </article>
 
@@ -271,12 +283,12 @@
   1) Medir la concentración aguas arriba en varios puntos<br>
   2) Verificar suficiencia y uniformidad<br>
   3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Concentración suficiente y uniforme, verificada y registrada.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = concentración de aerosol; unidad = µg/L. Tipo de dato = continua. n = 3 lecturas en la cara del filtro. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = cada lectura dentro del rango y uniforme. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable medida; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Concentración de aerosol suficiente y uniforme antes del filtro (<span class="por-confirmar">10-100 µg/L</span>).<br>Uniformidad verificada con 3 lecturas en la cara del filtro.<br>Concentración registrada antes y después de la prueba.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro con data cruda y reporte<br>
   - Data cruda y reporte estadístico del análisis del aerosol</p>
+  <p><strong>Nota:</strong><br>El rango de concentración en rojo se confirma con el fotómetro y el procedimiento de la norma adoptada.</p>
   <p><strong>Referencia:</strong><br>Manual del fabricante del sistema.</p>
 </article>
 
@@ -286,12 +298,12 @@
   <p><strong>Procedimiento:</strong><br>
   1) Inspeccionar y probar la hermeticidad de carcasa y marco, si no se cubrió en IQ<br>
   2) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Sin fugas en carcasa ni marco.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = hermeticidad de carcasa y marco; unidad = pasa/no pasa. Tipo de dato = atributo. n = inspección del 100 %. Estadísticos = proporción de cumplimiento con IC binomial exacto. Regla de decisión = todos los puntos sin fuga. Atípicos: no aplica a datos de atributo; toda exclusión de una repetición se documenta y se conserva el registro original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Carcasa y marco del HEPA sin fuga, verificados por inspección y prueba de presión o humo.<br>Sellos continuos, sin cortes ni aplastamiento.<br>Sin bypass entre etapas de filtración.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro con data cruda y reporte<br>
   - Data cruda y reporte estadístico del análisis de hermeticidad</p>
+  <p><strong>Nota:</strong><br>Si la hermeticidad ya se verificó en IQ, se referencia el registro en lugar de repetir la prueba.</p>
   <p><strong>Referencia:</strong><br>Manual del fabricante del sistema.</p>
 </article>
 
@@ -302,12 +314,12 @@
   1) Medir la velocidad en la cara del filtro (si aplica)<br>
   2) Verificar la uniformidad<br>
   3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Velocidad y uniformidad según lo definido (si aplica).</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = velocidad en la cara del filtro; unidad = m/s. Tipo de dato = continua. n = mínimo 3 puntos por filtro. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = media 0,45 m/s y cada punto dentro de ±20 %. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable medida; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Velocidad en la cara del filtro de <span class="por-confirmar">0,45 m/s ± 20 %</span> en flujo unidireccional.<br>Uniformidad dentro de ±20 % entre puntos de medición.<br>Medición con el filtro instalado y el sistema en operación normal.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro con data cruda y reporte<br>
   - Data cruda y reporte estadístico del análisis de velocidad</p>
+  <p><strong>Nota:</strong><br>La velocidad en rojo corresponde a ISO 14644-3 para flujo unidireccional; se confirma contra el diseño.</p>
   <p><strong>Referencia:</strong><br>Manual del fabricante del sistema.</p>
 </article>
 
@@ -318,12 +330,12 @@
   1) Medir el caudal por difusor o filtro terminal<br>
   2) Totalizar por cuarto y comparar contra el diseño<br>
   3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Caudales conformes al diseño.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = caudal por difusor y total del cuarto; unidad = m³/h. Tipo de dato = continua. n = 100 % de difusores, 3 lecturas cada uno. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = cada difusor y el total dentro de ±10 %. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable medida; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Caudal por difusor o filtro terminal dentro de ±<span class="por-confirmar">10 %</span> del diseño.<br>Caudal total del cuarto dentro de ±10 % del diseño.<br>El 100 % de los difusores medidos, no una muestra.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro con data cruda y reporte<br>
   - Data cruda y reporte estadístico del análisis de caudales</p>
+  <p><strong>Nota:</strong><br>La tolerancia en rojo se confirma con el balanceo aprobado; los caudales de diseño salen del plano as-built.</p>
   <p><strong>Referencia:</strong><br>Manual del fabricante del sistema. URS aprobada (rangos y criterios).</p>
 </article>
 
@@ -334,12 +346,12 @@
   1) Calcular los cambios de aire por hora por cuarto<br>
   2) Comparar contra el criterio del URS<br>
   3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Dentro del criterio del URS.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = renovaciones de aire por hora; unidad = 1/h. Tipo de dato = continua. n = cálculo sobre 3 mediciones de caudal. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = ACH ≥ mínimo del URS en todas las mediciones. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable medida; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>ACH calculadas con caudal medido y volumen as-built, ≥ el mínimo del URS (<span class="por-confirmar">valor del URS</span>).<br>Cálculo documentado y trazable a las mediciones de caudal.<br>Sin diferencia entre ACH de diseño y de operación > 10 %.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro con data cruda y reporte<br>
   - Data cruda y reporte estadístico del análisis de ACH</p>
+  <p><strong>Nota:</strong><br>El mínimo de ACH en rojo depende de la clase del área; se toma de la URS, no de una tabla genérica.</p>
   <p><strong>Referencia:</strong><br>URS aprobada (rangos y criterios).</p>
 </article>
 
@@ -349,12 +361,12 @@
   <p><strong>Procedimiento:</strong><br>
   1) Medir el diferencial entre cuartos adyacentes con puertas cerradas<br>
   2) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Diferencial según el URS (referencia habitual de 10 a 15 Pa entre clases distintas, o el valor del URS).</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = presión diferencial entre cuartos; unidad = Pa. Tipo de dato = continua. n = 3 lecturas por frontera. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = cada frontera ≥ 10 Pa con sentido correcto. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable medida; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Diferencial entre cuartos adyacentes ≥ <span class="por-confirmar">10 Pa</span> con todas las puertas cerradas.<br>Sentido del flujo de la zona más limpia a la menos limpia en el 100 % de las fronteras.<br>Medición estable durante 5 min por frontera.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro con data cruda y reporte<br>
   - Data cruda y reporte estadístico del análisis de cascada</p>
+  <p><strong>Nota:</strong><br>El mínimo de 10 Pa en rojo debe confirmarse con la guía adoptada (OMS/ISO) y la clasificación de las áreas.</p>
   <p><strong>Referencia:</strong><br>URS aprobada (rangos y criterios); OMS TRS 937 Anexo 2 (cascada de presiones).</p>
 </article>
 
@@ -365,12 +377,12 @@
   1) Verificar los interlocks de puertas de la esclusa (si aplica)<br>
   2) Medir el tiempo de recuperación y el diferencial con una puerta abierta y con la secuencia normal<br>
   3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Interlocks efectivos y recuperación dentro de lo definido en el protocolo aprobado (si aplica).</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = recuperación del diferencial tras abrir puertas; unidad = s. Tipo de dato = continua. n = 3 ciclos. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = recuperación ≤ 2 min en los 3 ciclos. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable medida; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Interlock de puertas activo: la apertura simultánea está impedida o señalizada.<br>Tiempo de recuperación del diferencial ≤ <span class="por-confirmar">2 min</span> tras cerrar la puerta.<br>Secuencia de esclusa verificada con 3 ciclos completos.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro con data cruda y reporte<br>
   - Data cruda y reporte estadístico del análisis de esclusas</p>
+  <p><strong>Nota:</strong><br>El tiempo de recuperación en rojo se confirma con el diseño de la esclusa y la clase del área.</p>
   <p><strong>Referencia:</strong><br>Manual del fabricante del sistema.</p>
 </article>
 
@@ -381,12 +393,12 @@
   1) Visualizar con humo en puertas, esclusas y pasamuros<br>
   2) Confirmar el sentido del flujo<br>
   3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Flujo de la zona más limpia a la menos limpia.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = dirección del flujo con humo; unidad = pasa/no pasa. Tipo de dato = atributo. n = 1 prueba por frontera. Estadísticos = proporción de cumplimiento con IC binomial exacto. Regla de decisión = todas las fronteras en sentido correcto. Atípicos: no aplica a datos de atributo; toda exclusión de una repetición se documenta y se conserva el registro original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Prueba de humo: el aire va de la zona más limpia a la menos limpia en el 100 % de las fronteras.<br>Sin reversión ni zonas de estancamiento visibles.<br>Video o registro fotográfico por frontera, con fecha y responsable.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro fotográfico y de observaciones con data cruda y reporte<br>
   - Data cruda y reporte estadístico del análisis de flujo</p>
+  <p><strong>Nota:</strong><br>El humo se genera con el sistema en operación normal; una frontera con reversión invalida el ensayo.</p>
   <p><strong>Referencia:</strong><br>Manual del fabricante del sistema.</p>
 </article>
 
@@ -397,12 +409,12 @@
   1) Medir el caudal de captura con los equipos en marcha (si aplica)<br>
   2) Verificar el efecto sobre la presión del cuarto<br>
   3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Captura efectiva sin invertir la cascada (si aplica).</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = caudal de captura; unidad = m³/h. Tipo de dato = continua. n = 3 lecturas por condición. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = media ≥ diseño y presión del cuarto dentro de ±10 %. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable medida; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Caudal de captura de la extracción ≥ el diseño y efecto sobre la presión del cuarto dentro de ±<span class="por-confirmar">10 %</span>.<br>Con los equipos de extracción en marcha, según el caso de uso real.<br>Sin retorno de aire contaminado al área clasificada.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro con data cruda y reporte<br>
   - Data cruda y reporte estadístico del análisis de extracción</p>
+  <p><strong>Nota:</strong><br>El caudal de captura en rojo se confirma con el diseño de la campana o extracción local.</p>
   <p><strong>Referencia:</strong><br>Manual del fabricante del sistema.</p>
 </article>
 
@@ -413,12 +425,12 @@
   1) Verificar exactitud y estabilidad de temperatura y humedad en cada cuarto<br>
   2) Cambiar el setpoint y medir el tiempo de respuesta<br>
   3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Exactitud y estabilidad dentro de lo definido en el protocolo aprobado en reposo.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = exactitud de temperatura y humedad; unidad = °C y % HR. Tipo de dato = continua. n = 3 comparaciones contra patrón. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = desviación dentro de ±0,5 °C y ±5 % HR. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable medida; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Exactitud de temperatura ≤ <span class="por-confirmar">±0,5 °C</span> y de humedad ≤ <span class="por-confirmar">±5 % HR</span> frente a patrón.<br>Estabilidad sin oscilación > ±1 °C en 30 min.<br>Tiempo de respuesta ante cambio de setpoint ≤ <span class="por-confirmar">5 min</span>, medido y registrado.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro con data cruda y reporte<br>
   - Data cruda y reporte estadístico del análisis ambiental</p>
+  <p><strong>Nota:</strong><br>Las tolerancias y el tiempo en rojo dependen del instrumento y de la URS; se confirman con el certificado.</p>
   <p><strong>Referencia:</strong><br>URS aprobada (rangos y criterios).</p>
 </article>
 
@@ -429,12 +441,12 @@
   1) Ubicar sensores en varios puntos de los cuartos críticos (si aplica)<br>
   2) Ejecutar el mapeo durante el tiempo justificado<br>
   3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Cobertura y duración según lo justificado (si aplica).</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = temperatura y humedad por punto; unidad = °C y % HR. Tipo de dato = continua. n = mínimo 5 puntos por cuarto, registro continuo. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = todos los puntos dentro del rango del área. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable medida; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Mapeo de temperatura y humedad en cuartos críticos con sensores en varios puntos, durante el tiempo justificado (<span class="por-confirmar">≥ 24 h</span>).<br>Cobertura de los puntos más desfavorables: esquinas, zonas de carga y cerca de equipos.<br>Registro continuo, sin interpolación de huecos.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro con data cruda y reporte<br>
   - Data cruda y reporte estadístico del análisis de mapeo</p>
+  <p><strong>Nota:</strong><br>La duración y la cantidad de puntos en rojo deben justificarse con el tamaño del cuarto y la criticidad.</p>
   <p><strong>Referencia:</strong><br>URS aprobada (rangos y criterios).</p>
 </article>
 
@@ -445,12 +457,12 @@
   1) Encender equipos o calentadores según lo definido (si aplica)<br>
   2) Verificar que se mantiene el rango<br>
   3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Rango mantenido con la carga simulada (si aplica).</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = temperatura bajo carga térmica; unidad = °C. Tipo de dato = continua. n = 3 lecturas por condición de carga. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = media dentro del rango y sin oscilación > ±1 °C. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable medida; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>El sistema mantiene temperatura y humedad dentro del rango ante la carga térmica simulada de diseño.<br>Sin oscilación > <span class="por-confirmar">±1 °C</span> ni deriva de humedad > 5 % durante la prueba.<br>Carga aplicada y registrada (kW y kW de humedad).</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro con data cruda y reporte<br>
   - Data cruda y reporte estadístico del análisis de carga</p>
+  <p><strong>Nota:</strong><br>La carga simulada y la tolerancia en rojo deben corresponder al peor caso de la URS.</p>
   <p><strong>Referencia:</strong><br>Manual del fabricante del sistema.</p>
 </article>
 
@@ -460,12 +472,12 @@
   <p><strong>Procedimiento:</strong><br>
   1) Medir ruido e iluminación si el URS lo exige<br>
   2) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Dentro de lo exigido por el URS, si aplica.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = nivel de ruido e iluminación; unidad = dB(A) y lux. Tipo de dato = continua. n = 3 lecturas por punto. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = media dentro del límite del URS. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable medida; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Ruido ≤ <span class="por-confirmar">65 dB(A)</span> en el área ocupada y en el retorno, si el URS lo exige.<br>Iluminación ≥ <span class="por-confirmar">300 lux</span> en áreas de trabajo, si aplica.<br>Medición con el sistema en operación normal y registro por punto.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro con data cruda y reporte<br>
   - Data cruda y reporte estadístico del análisis de ruido e iluminación</p>
+  <p><strong>Nota:</strong><br>Los valores en rojo deben confirmarse con la URS del área; si el URS no los exige, se declara No Aplica con aprobación.</p>
   <p><strong>Referencia:</strong><br>URS aprobada (rangos y criterios).</p>
 </article>
 
@@ -476,12 +488,12 @@
   1) Muestrear los puntos definidos con el volumen de ISO 14644-1, en cada cuarto clasificado<br>
   2) Comparar contra los límites<br>
   3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Límites conformes (referencia: ISO 8 = 3 520 000 e ISO 7 = 352 000 partículas por m3 en 0,5 µm; verifica contra tu edición de la norma).</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = conteo de partículas ≥ 0,5 µm; unidad = partículas/m³. Tipo de dato = continua. n = puntos y volumen según ISO 14644-1. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = cada punto cumple la clase del área. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable medida; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Conteo de partículas de 0,5 µm y 5 µm en reposo conforme a ISO 14644-1.<br>Clase obtenida igual o más limpia que la clase del área (<span class="por-confirmar">clase del área</span>).<br>Puntos, volumen y número de muestras según ISO 14644-1, con ubicación justificada.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registros de conteo con data cruda y reporte<br>
   - Data cruda y reporte estadístico del análisis de partículas</p>
+  <p><strong>Nota:</strong><br>La clase del área en rojo sale de la URS o del plano de clasificación; no se asume.</p>
   <p><strong>Referencia:</strong><br>URS aprobada (rangos y criterios). ISO 14644-1 (clasificación por partículas).</p>
 </article>
 
@@ -491,12 +503,12 @@
   <p><strong>Procedimiento:</strong><br>
   1) Generar partículas y medir el tiempo de recuperación de la clase<br>
   2) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Recuperación dentro de lo definido en el protocolo aprobado (referencia habitual de 15 a 20 min para reducir 100 veces).</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = recuperación de partículas; unidad = min. Tipo de dato = continua. n = 3 puntos por cuarto. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = recuperación ≤ 15 min en todos los puntos. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable medida; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Recuperación de la clase en ≤ <span class="por-confirmar">15 min</span> tras generar partículas, según ISO 14644-3.<br>Concentración final ≤ 1 % de la inicial en el 100 % de los puntos.<br>Registro del decaimiento y del punto más desfavorable.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro con data cruda y reporte<br>
   - Data cruda y reporte estadístico del análisis de recuperación</p>
+  <p><strong>Nota:</strong><br>El tiempo de recuperación en rojo depende de la clase y del diseño; se confirma con ISO 14644-3 y la URS.</p>
   <p><strong>Referencia:</strong><br>Manual del fabricante del sistema.</p>
 </article>
 
@@ -506,12 +518,12 @@
   <p><strong>Procedimiento:</strong><br>
   1) Aplicar trazador o conteo en el cuarto adyacente (si aplica)<br>
   2) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Sin paso entre cuartos (si aplica).</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = paso de trazador entre áreas; unidad = pasa/no pasa. Tipo de dato = atributo. n = 1 prueba por frontera. Estadísticos = proporción de cumplimiento con IC binomial exacto. Regla de decisión = ninguna frontera muestra paso. Atípicos: no aplica a datos de atributo; toda exclusión de una repetición se documenta y se conserva el registro original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Prueba con trazador o conteo en el cuarto adyacente: sin paso de partículas entre áreas.<br>Sin fuga a través de puertas, sellos ni penetraciones.<br>Registro por frontera y por punto de fuga detectado.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro con data cruda y reporte<br>
   - Data cruda y reporte estadístico del análisis de contención</p>
+  <p><strong>Nota:</strong><br>La prueba aplica cuando hay áreas de distinta clasificación; si no, se declara No Aplica con aprobación.</p>
   <p><strong>Referencia:</strong><br>Manual del fabricante del sistema.</p>
 </article>
 
@@ -522,12 +534,12 @@
   1) Medir velocidad y uniformidad en zona A (solo áreas estériles, si aplica)<br>
   2) Ejecutar estudios de humo con movimiento de operarios<br>
   3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Flujo unidireccional conforme (solo áreas estériles, si aplica).</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = velocidad del flujo unidireccional; unidad = m/s. Tipo de dato = continua. n = mínimo 5 puntos por zona. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = cada punto dentro de 0,45 m/s ± 20 %. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable medida; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Velocidad del flujo unidireccional en zona A de <span class="por-confirmar">0,45 m/s ± 20 %</span> y uniformidad en el 100 % de los puntos.<br>Estudios de humo sin turbulencias ni zonas muertas sobre la zona crítica.<br>Registro con video y mapa de puntos.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registros con data cruda y reporte<br>
   - Data cruda y reporte estadístico del análisis unidireccional</p>
+  <p><strong>Nota:</strong><br>Aplica solo a zonas de flujo unidireccional; el valor en rojo se confirma con ISO 14644-3 y la URS.</p>
   <p><strong>Referencia:</strong><br>URS aprobada (rangos y criterios). EU GMP Anexo 1 (áreas estériles, si aplica).</p>
 </article>
 
@@ -537,12 +549,12 @@
   <p><strong>Procedimiento:</strong><br>
   1) Medir el diferencial entre grados adyacentes (solo áreas estériles, si aplica)<br>
   2) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Diferencial según lo definido (solo áreas estériles, si aplica).</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = diferencial entre grados; unidad = Pa. Tipo de dato = continua. n = 3 lecturas por frontera. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = cada frontera ≥ 10 Pa. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable medida; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Diferencial entre grados adyacentes ≥ <span class="por-confirmar">10 Pa</span> en áreas estériles.<br>Sentido del flujo correcto en el 100 % de las fronteras.<br>Registro por frontera con puertas cerradas.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro con data cruda y reporte<br>
   - Data cruda y reporte estadístico del análisis de diferenciales</p>
+  <p><strong>Nota:</strong><br>Solo aplica a áreas estériles; el valor en rojo se confirma con el diseño de la cascada.</p>
   <p><strong>Referencia:</strong><br>URS aprobada (rangos y criterios).</p>
 </article>
 
@@ -552,12 +564,12 @@
   <p><strong>Procedimiento:</strong><br>
   1) Escanear la superficie completa y probar la hermeticidad del marco (solo áreas estériles, si aplica)<br>
   2) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Integridad y hermeticidad conformes (solo áreas estériles, si aplica).</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = penetración del HEPA; unidad = %. Tipo de dato = continua. n = escaneo del 100 %. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = cada punto ≤ 0,01 %. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable medida; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Integridad de HEPA en áreas estériles con escaneo del 100 % y penetración ≤ <span class="por-confirmar">0,01 %</span><br>Prueba de hermeticidad del marco y de la junta.<br>Registro de fugas y de su reparación o reemplazo.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro con data cruda y reporte<br>
   - Data cruda y reporte estadístico del análisis HEPA</p>
+  <p><strong>Nota:</strong><br>Si no hay áreas estériles, se declara No Aplica con aprobación previa.</p>
   <p><strong>Referencia:</strong><br>Manual del fabricante del sistema.</p>
 </article>
 
@@ -567,12 +579,12 @@
   <p><strong>Procedimiento:</strong><br>
   1) Muestrear viables en reposo y 5 µm en continuo (solo áreas estériles, si aplica)<br>
   2) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Dentro de los límites adoptados (solo áreas estériles, si aplica).</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = partículas viables; unidad = UFC/m³. Tipo de dato = analitico. n = 1 muestra por punto y por período. Estadísticos = mediana, mínimo, máximo e IC 95 %; concentraciones en escala log10. Regla de decisión = cada punto dentro del límite del área. Atípicos = Grubbs solo si n ≥ 7 y sobre log10; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Partículas viables en reposo dentro del límite del área (<span class="por-confirmar">UFC/m³ o placa</span>).<br>Partículas de 5 µm con muestreo continuo durante el período definido.<br>Método de muestreo y medio documentados; sin promediar puntos.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registros con data cruda y reporte<br>
   - Data cruda y reporte estadístico del análisis de viables</p>
+  <p><strong>Nota:</strong><br>El límite microbiológico en rojo depende de la clase del área y de la guía adoptada; se confirma con Calidad.</p>
   <p><strong>Referencia:</strong><br>URS aprobada (rangos y criterios).</p>
 </article>
 
@@ -583,12 +595,12 @@
   1) Comparar cada sensor contra su patrón<br>
   2) Verificar sus alarmas<br>
   3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Exactitud dentro de lo definido en el protocolo aprobado con alarmas operativas.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = exactitud de los sensores; unidad = Pa, °C, % HR. Tipo de dato = continua. n = 3 comparaciones contra patrón por sensor. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = desviación dentro de la tolerancia. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable medida; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Exactitud de presión ≤ <span class="por-confirmar">±2 Pa</span>, temperatura ≤ ±0,5 °C y humedad ≤ ±5 % HR frente a patrón.<br>Alarmas de los sensores configuradas y verificadas.<br>Calibración vigente de cada sensor usado en la prueba.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro con data cruda y reporte<br>
   - Data cruda y reporte estadístico del análisis de sensores</p>
+  <p><strong>Nota:</strong><br>Las tolerancias en rojo se confirman con los certificados de los instrumentos.</p>
   <p><strong>Referencia:</strong><br>Manual del fabricante del sistema.</p>
 </article>
 
@@ -599,12 +611,12 @@
   1) Verificar el intervalo de registro<br>
   2) Verificar la exactitud de fecha y hora<br>
   3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Intervalo y marca exactos según lo definido.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = intervalo y marca de tiempo del registro; unidad = min. Tipo de dato = continua. n = 1 verificación por registrador. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = intervalo ≤ 5 min y sin huecos. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable medida; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Intervalo de registro ≤ <span class="por-confirmar">5 min</span> y marca de tiempo sincronizada con la hora oficial.<br>Sin huecos de registro durante el período evaluado.<br>Registro exportable y trazable al usuario que lo generó.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro con data cruda y reporte<br>
   - Data cruda y reporte estadístico del análisis de registro</p>
+  <p><strong>Nota:</strong><br>El intervalo en rojo se confirma con la URS y el plan de monitoreo del área.</p>
   <p><strong>Referencia:</strong><br>Manual del fabricante del sistema.</p>
 </article>
 
@@ -613,10 +625,11 @@
   <p><strong>Objetivo:</strong><br>Verificar agua helada o refrigerante, vapor y electricidad en rango operativo.</p>
   <p><strong>Procedimiento:</strong><br>
   1) Verificar cada servicio en su rango operativo</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Servicios en rango operativo.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = disponibilidad y rango de servicios; unidad = pasa/no pasa. Tipo de dato = atributo. n = 1 verificación al inicio y al final. Estadísticos = proporción de cumplimiento con IC binomial exacto. Regla de decisión = ambos extremos dentro del rango. Atípicos: no aplica a datos de atributo; toda exclusión de una repetición se documenta y se conserva el registro original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Agua helada o refrigerante, vapor y electricidad disponibles en el rango operativo durante toda la prueba.<br>Sin caídas de suministro ni alarmas de servicio.<br>Parámetros de suministro registrados al inicio y al final.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro de servicios (anexo del informe)</p>
+  <p><strong>Nota:</strong><br>Los rangos operativos son los del diseño de servicios; se documentan, no se ajustan durante la prueba.</p>
   <p><strong>Referencia:</strong><br>Manual del fabricante del sistema.</p>
 </article>
 
@@ -625,10 +638,11 @@
   <p><strong>Objetivo:</strong><br>Verificar el aire comprimido para actuadores neumáticos (si aplica).</p>
   <p><strong>Procedimiento:</strong><br>
   1) Medir presión y calidad del aire de actuadores (si aplica)</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Dentro de lo definido (si aplica).</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = calidad del aire de instrumentos; unidad = clase ISO 8573-1. Tipo de dato = atributo. n = 3 muestras en el punto de uso. Estadísticos = proporción de cumplimiento con IC binomial exacto. Regla de decisión = las 3 muestras dentro de la clase adoptada. Atípicos: no aplica a datos de atributo; toda exclusión de una repetición se documenta y se conserva el registro original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Aire comprimido para actuadores conforme a ISO 8573-1 clase <span class="por-confirmar">1:4:1</span> o la adoptada.<br>Presión y caudal suficientes para la operación de todos los actuadores.<br>Sin agua ni aceite en el punto de uso.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro de la prueba (anexo del informe)</p>
+  <p><strong>Nota:</strong><br>La clase ISO en rojo debe confirmarse con la URS del aire de instrumentos; no se asume la misma que el aire de proceso.</p>
   <p><strong>Referencia:</strong><br>Manual del fabricante del sistema.</p>
 </article>
 

@@ -12,7 +12,7 @@
 
 <p><a href="../sistemas.html">← Sistemas</a></p>
 <h2>PQ — HVAC (banco por familia)</h2>
-<p>Versión del banco: <span data-banco-version>SIS-PQ-HV 2026-10-14 v1</span></p>
+<p>Versión del banco: <span data-banco-version>SIS-PQ-HV 2026-11-18 v2</span></p>
 <p>Ensayos de Calificación de Desempeño específicos del HVAC (<span class="equipo">equipo</span>). Se filtran por familia (<code>data-familia="hvac"</code>) según la entidad elegida en el paso 1. Fuente: ENSAYOS.txt del usuario (HVAC).</p>
 
 <!-- ================= PQ ================= -->
@@ -65,12 +65,12 @@
   <p><strong>Procedimiento:</strong><br>
   1) Muestrear en los mismos puntos del OQ y en los críticos cercanos a los equipos de mayor generación (tableteadora, granulador, mezclador, llenado)<br>
   2) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Dentro del criterio definido para operación.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = conteo de partículas en operación; unidad = partículas/m³. Tipo de dato = continua. n = puntos según ISO 14644-1 por cuarto y día. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = cada punto cumple la clase del área. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable medida; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Conteo de 0,5 µm y 5 µm con los equipos en funcionamiento y el personal presente.<br>Clase obtenida igual o más limpia que la clase del área (<span class="por-confirmar">clase del área</span>) en el 100 % de los puntos.<br>Puntos, volumen y número de muestras según ISO 14644-1.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registros de conteo con data cruda y reporte<br>
   - Data cruda y reporte estadístico del análisis dinámico</p>
+  <p><strong>Nota:</strong><br>La clase del área en rojo se toma de la URS; el personal y los equipos deben estar en operación normal, no simulada.</p>
   <p><strong>Referencia:</strong><br>URS aprobada (rangos y criterios). ISO 14644-1 (clasificación por partículas); ISO 14644-2 (monitoreo en operación).</p>
 </article>
 
@@ -80,12 +80,12 @@
   <p><strong>Procedimiento:</strong><br>
   1) Muestrear en varios días y turnos cada cuarto clasificado, o aplicar la matriz justificada<br>
   2) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Cobertura completa o matriz justificada.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = cobertura de días y turnos; unidad = pasa/no pasa. Tipo de dato = atributo. n = 3 días por cuarto en turnos distintos. Estadísticos = proporción de cumplimiento con IC binomial exacto. Regla de decisión = cobertura completa registrada. Atípicos: no aplica a datos de atributo; toda exclusión de una repetición se documenta y se conserva el registro original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Cobertura de varios días y turnos por cada cuarto clasificado (<span class="por-confirmar">≥ 3 días</span>) o matriz de cuartos equivalentes justificada.<br>Cada turno con registro propio, sin promediar turnos.<br>Justificación documentada de la equivalencia, si aplica.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Matriz con data cruda y reporte<br>
   - Data cruda y reporte estadístico del análisis de cobertura</p>
+  <p><strong>Nota:</strong><br>La cantidad de días en rojo debe justificarse con el riesgo y la experiencia del área; no se copia de otra familia.</p>
   <p><strong>Referencia:</strong><br>Manual del fabricante del sistema.</p>
 </article>
 
@@ -96,12 +96,12 @@
   1) Definir el criterio operativo y su justificación con análisis de riesgo antes de medir<br>
   2) Medir y comparar<br>
   3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Criterio previo cumplido y justificado.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = criterios y límites definidos; unidad = pasa/no pasa. Tipo de dato = atributo. n = 1 revisión por cuarto. Estadísticos = proporción de cumplimiento con IC binomial exacto. Regla de decisión = criterios aprobados antes de la corrida. Atípicos: no aplica a datos de atributo; toda exclusión de una repetición se documenta y se conserva el registro original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Criterio de aceptación definido y aprobado antes de la ejecución, con justificación por análisis de riesgo para cuartos de alta generación.<br>Límite de alerta y de acción documentados por parámetro.<br>Sin cambios de criterio después de ver los datos.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Criterio y riesgo con data cruda y reporte<br>
   - Data cruda y reporte estadístico del análisis de polvo</p>
+  <p><strong>Nota:</strong><br>Este ensayo define criterios: si el límite se ajusta al ver los resultados, el ensayo queda invalidado.</p>
   <p><strong>Referencia:</strong><br>Manual del fabricante del sistema.</p>
 </article>
 
@@ -111,12 +111,12 @@
   <p><strong>Procedimiento:</strong><br>
   1) Muestrear aire activo (UFC por m3), placas de sedimentación (UFC por placa y tiempo), contacto en superficies y equipos (UFC por 25 cm2) y personal<br>
   2) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Dentro de los límites adoptados.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = recuento microbiológico por método; unidad = UFC. Tipo de dato = analitico. n = 1 muestra por punto y método. Estadísticos = mediana, mínimo, máximo e IC 95 %; concentraciones en escala log10. Regla de decisión = cada punto dentro del límite del área. Atípicos = Grubbs solo si n ≥ 7 y sobre log10; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Aire activo y sedimentación medidos en cada punto crítico, con el método y el tiempo definidos.<br>Contacto y personal evaluados según el riesgo del área.<br>Resultados dentro del límite del área en el 100 % de los puntos.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registros con data cruda y reporte<br>
   - Data cruda y reporte estadístico del análisis viable</p>
+  <p><strong>Nota:</strong><br>Los límites microbiológicos se confirman con Calidad según la clase del área y la guía adoptada.</p>
   <p><strong>Referencia:</strong><br>URS aprobada (rangos y criterios).</p>
 </article>
 
@@ -127,12 +127,12 @@
   1) Ejecutar varios días consecutivos en cada cuarto según lo definido<br>
   2) Continuar con el período ampliado<br>
   3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Duración cumplida según lo definido.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = duración y continuidad del PQ; unidad = días. Tipo de dato = atributo. n = 3 días consecutivos por cuarto. Estadísticos = proporción de cumplimiento con IC binomial exacto. Regla de decisión = período completo sin interrupciones. Atípicos: no aplica a datos de atributo; toda exclusión de una repetición se documenta y se conserva el registro original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Duración y frecuencia del PQ definidas y ejecutadas: varios días consecutivos por cuarto (<span class="por-confirmar">≥ 3 días</span>) más monitoreo ampliado.<br>Sin interrupciones del monitoreo durante el período.<br>Registro completo, sin reconstrucción posterior.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registros con data cruda y reporte<br>
   - Data cruda y reporte estadístico del análisis de duración</p>
+  <p><strong>Nota:</strong><br>La duración en rojo debe justificarse con el plan de validación del área; el registro se toma en el momento.</p>
   <p><strong>Referencia:</strong><br>Manual del fabricante del sistema.</p>
 </article>
 
@@ -143,12 +143,12 @@
   1) Identificar cada aislamiento sobre el límite de alerta<br>
   2) Evaluar la tendencia<br>
   3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Aislamientos identificados con tendencia evaluada.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = resultados sobre el límite de alerta; unidad = pasa/no pasa. Tipo de dato = atributo. n = 100 % de los resultados del período. Estadísticos = proporción de cumplimiento con IC binomial exacto. Regla de decisión = cada aislamiento evaluado y documentado. Atípicos: no aplica a datos de atributo; toda exclusión de una repetición se documenta y se conserva el registro original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Aislamientos por encima del límite de alerta identificados y evaluados con tendencia.<br>Cada excursión con investigación, causa y acción documentadas.<br>Sin aislamientos repetidos sin acción correctiva.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registros con data cruda y reporte<br>
   - Data cruda y reporte estadístico del análisis de tendencia</p>
+  <p><strong>Nota:</strong><br>Un resultado sobre el límite de alerta no es desviación, pero debe evaluarse; sobre el de acción sí exige investigación.</p>
   <p><strong>Referencia:</strong><br>Manual del fabricante del sistema.</p>
 </article>
 
@@ -159,12 +159,12 @@
   1) Aplicar los límites iniciales de la guía que adoptes<br>
   2) Ajustarlos con los datos acumulados<br>
   3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Límites ajustados con datos.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = límites de alerta y acción; unidad = pasa/no pasa. Tipo de dato = atributo. n = 1 definición por parámetro. Estadísticos = proporción de cumplimiento con IC binomial exacto. Regla de decisión = límites aprobados y dentro del reglamentario. Atípicos: no aplica a datos de atributo; toda exclusión de una repetición se documenta y se conserva el registro original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Límites de alerta y acción derivados de la guía adoptada y ajustados con los datos del PQ.<br>Ajuste documentado y aprobado, no automático.<br>Los límites ajustados no superan el límite reglamentario del área.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Documento de límites con data cruda y reporte<br>
   - Data cruda y reporte estadístico del análisis de límites</p>
+  <p><strong>Nota:</strong><br>Ajustar un límite con los datos es legítimo solo si queda aprobado y justificado; nunca para que un resultado entre en cumplimiento.</p>
   <p><strong>Referencia:</strong><br>Manual del fabricante del sistema.</p>
 </article>
 
@@ -174,12 +174,12 @@
   <p><strong>Procedimiento:</strong><br>
   1) Registrar en continuo durante 2 a 4 semanas (o el período definido) con puertas en uso real<br>
   2) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Registro continuo completo.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = presión, temperatura y humedad; unidad = Pa, °C, % HR. Tipo de dato = continua. n = registro continuo ≥ 72 h por cuarto. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = todas las variables dentro del rango durante el período. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable medida; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Presión diferencial, temperatura y humedad registradas en todos los cuartos durante un período representativo (<span class="por-confirmar">≥ 72 h</span>).<br>Sin huecos de registro ni valores interpolados.<br>Cada cuarto con su propio registro y su límite.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registros con data cruda y reporte<br>
   - Data cruda y reporte estadístico del análisis continuo</p>
+  <p><strong>Nota:</strong><br>La duración en rojo debe justificarse con el plan de monitoreo; el período debe cubrir turnos y condiciones reales.</p>
   <p><strong>Referencia:</strong><br>Manual del fabricante del sistema.</p>
 </article>
 
@@ -190,12 +190,12 @@
   1) Revisar los límites en todo el período<br>
   2) Investigar y cerrar cada excursión<br>
   3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Sin excursiones abiertas al cierre.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = excursiones del período; unidad = pasa/no pasa. Tipo de dato = atributo. n = 100 % de las excursiones. Estadísticos = proporción de cumplimiento con IC binomial exacto. Regla de decisión = todas investigadas y cerradas. Atípicos: no aplica a datos de atributo; toda exclusión de una repetición se documenta y se conserva el registro original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Sin excursiones fuera de límite, o cada excursión investigada y cerrada.<br>Investigación con causa, impacto en producto y acción correctiva.<br>Excursiones repetidas tratadas como tendencia, no como eventos aislados.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro de excursiones con data cruda y reporte<br>
   - Data cruda y reporte estadístico del análisis de excursiones</p>
+  <p><strong>Nota:</strong><br>Una excursión cerrada sin causa asignable no se considera cerrada.</p>
   <p><strong>Referencia:</strong><br>Manual del fabricante del sistema.</p>
 </article>
 
@@ -205,12 +205,12 @@
   <p><strong>Procedimiento:</strong><br>
   1) Medir la cascada con puertas en uso, extracción en marcha y movimiento de materiales<br>
   2) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Cascada mantenida en operación real.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = presión y partículas durante maniobras; unidad = Pa y partículas/m³. Tipo de dato = continua. n = 3 maniobras por cuarto. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = sin pérdida de cascada ni de clase. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable medida; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Efecto de la apertura de puertas, equipos de extracción y movimiento de materiales medido y registrado.<br>La clase y la cascada se mantienen dentro del límite durante la operación normal.<br>Sin reversión del flujo en ninguna condición evaluada.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro con data cruda y reporte<br>
   - Data cruda y reporte estadístico del análisis de cascada</p>
+  <p><strong>Nota:</strong><br>Se evalúan las condiciones reales de operación, no solo el reposo.</p>
   <p><strong>Referencia:</strong><br>Manual del fabricante del sistema.</p>
 </article>
 
@@ -221,12 +221,12 @@
   1) Ejecutar aperturas simultáneas y secuencia incorrecta (si aplica)<br>
   2) Medir el tiempo de recuperación<br>
   3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Recuperación dentro de lo definido en el protocolo aprobado (si aplica).</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = recuperación tras maniobra incorrecta; unidad = s. Tipo de dato = continua. n = 3 maniobras por esclusa. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = recuperación dentro del límite. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable medida; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Aperturas simultáneas y secuencia incorrecta de esclusa evaluadas.<br>Tiempo de recuperación dentro del límite (<span class="por-confirmar">≤ 2 min</span>) tras la maniobra.<br>Alarma o interlock activo cuando corresponde.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro con data cruda y reporte<br>
   - Data cruda y reporte estadístico del análisis de retos</p>
+  <p><strong>Nota:</strong><br>El tiempo en rojo se confirma con el diseño de la esclusa y la criticidad del área.</p>
   <p><strong>Referencia:</strong><br>Manual del fabricante del sistema.</p>
 </article>
 
@@ -236,12 +236,12 @@
   <p><strong>Procedimiento:</strong><br>
   1) Operar los equipos definidos con medición de presión del cuarto y conteo<br>
   2) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Presión y conteo dentro de lo definido en el protocolo aprobado en operación.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = presión y partículas en peor caso; unidad = Pa y partículas/m³. Tipo de dato = continua. n = 3 mediciones en la configuración peor caso. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = dentro del límite en las 3. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable medida; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Equipos de mayor extracción o generación operando simultáneamente durante la medición.<br>Presión y conteo dentro del límite en el peor caso.<br>Registro de la configuración de equipos usada en la prueba.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registros con data cruda y reporte<br>
   - Data cruda y reporte estadístico del análisis de interacción</p>
+  <p><strong>Nota:</strong><br>El peor caso se define antes de la prueba con el área usuaria; no se elige después de ver los resultados.</p>
   <p><strong>Referencia:</strong><br>Manual del fabricante del sistema.</p>
 </article>
 
@@ -251,12 +251,12 @@
   <p><strong>Procedimiento:</strong><br>
   1) Visualizar con humo en operación (si aplica)<br>
   2) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Flujo confirmado en operación (si aplica).</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = patrón de flujo con humo; unidad = pasa/no pasa. Tipo de dato = atributo. n = 1 prueba por zona crítica. Estadísticos = proporción de cumplimiento con IC binomial exacto. Regla de decisión = sin zonas muertas ni reversión. Atípicos: no aplica a datos de atributo; toda exclusión de una repetición se documenta y se conserva el registro original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Flujo de aire y visualización con humo en operación normal.<br>Sin zonas muertas ni turbulencias sobre la zona crítica.<br>Registro en video con fecha, cuarto y responsable.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro con data cruda y reporte<br>
   - Data cruda y reporte estadístico del análisis de humo</p>
+  <p><strong>Nota:</strong><br>Aplica en áreas críticas; si no, se declara No Aplica con aprobación.</p>
   <p><strong>Referencia:</strong><br>Manual del fabricante del sistema.</p>
 </article>
 
@@ -267,12 +267,12 @@
   1) Aplicar trazador o producto marcador (si aplica)<br>
   2) Verificar ausencia de paso a adyacentes<br>
   3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Sin paso a cuartos adyacentes (si aplica).</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = paso de trazador; unidad = pasa/no pasa. Tipo de dato = atributo. n = 1 prueba por frontera. Estadísticos = proporción de cumplimiento con IC binomial exacto. Regla de decisión = ninguna frontera muestra paso. Atípicos: no aplica a datos de atributo; toda exclusión de una repetición se documenta y se conserva el registro original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Prueba con trazador o marcador: sin paso de polvo a cuartos adyacentes.<br>Sin fuga por puertas, sellos ni penetraciones.<br>Registro por frontera evaluada.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro con data cruda y reporte<br>
   - Data cruda y reporte estadístico del análisis de contención</p>
+  <p><strong>Nota:</strong><br>Aplica cuando hay áreas adyacentes de distinta clase; si no, No Aplica con aprobación.</p>
   <p><strong>Referencia:</strong><br>Manual del fabricante del sistema.</p>
 </article>
 
@@ -283,12 +283,12 @@
   1) Operar con mayor temperatura y punto de rocío exteriores si coinciden con el estudio<br>
   2) Si no, definir la verificación posterior y la evaluación de riesgo<br>
   3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Carga cubierta o verificación posterior definida.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = condición exterior durante el PQ; unidad = °C y % HR. Tipo de dato = continua. n = 1 registro por día de prueba. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = condición extrema cubierta o riesgo aprobado. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable medida; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Verificación con las condiciones exteriores más exigentes (<span class="por-confirmar">verano/invierno</span>) o definición documentada de verificación posterior y riesgo aceptado.<br>Si no se cubre la condición extrema, el riesgo queda evaluado y aprobado.<br>Registro de la condición exterior durante la prueba.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro con data cruda y reporte<br>
   - Data cruda y reporte estadístico del análisis de peor caso</p>
+  <p><strong>Nota:</strong><br>La estación y la temperatura exterior en rojo deben confirmarse con el clima del sitio; no se puede simular sin justificar.</p>
   <p><strong>Referencia:</strong><br>Manual del fabricante del sistema.</p>
 </article>
 
@@ -298,12 +298,12 @@
   <p><strong>Procedimiento:</strong><br>
   1) Operar con máxima ocupación y actividad con todos los equipos a la vez (si aplica)<br>
   2) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Desempeño dentro de lo definido en el protocolo aprobado (si aplica).</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = variables ambientales con carga completa; unidad = Pa, °C, % HR, partículas. Tipo de dato = continua. n = 3 mediciones con todos los equipos. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = todas las variables dentro del límite. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable medida; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Todos los equipos del área funcionando simultáneamente durante la medición.<br>Presión, temperatura, humedad y partículas dentro del límite en esa condición.<br>Configuración de equipos registrada y verificada en campo.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro con data cruda y reporte<br>
   - Data cruda y reporte estadístico del análisis de ocupación</p>
+  <p><strong>Nota:</strong><br>La carga simultánea es el peor caso operativo; si el área no la alcanza, se justifica la carga usada.</p>
   <p><strong>Referencia:</strong><br>Manual del fabricante del sistema.</p>
 </article>
 
@@ -314,12 +314,12 @@
   1) Apagar o simular la falla de la UMA con áreas ocupadas (si aplica)<br>
   2) Medir recuperación y reanudar la producción según criterio<br>
   3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Recuperación y reanudación según criterio (si aplica).</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = recuperación tras falla de UMA; unidad = min. Tipo de dato = continua. n = 3 fallas controladas. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = recuperación dentro del límite en las 3. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable medida; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Apagado o falla de la UMA con áreas ocupadas: tiempo de recuperación y reanudación medidos.<br>La cascada y la clase se recuperan dentro del límite definido (<span class="por-confirmar">≤ 15 min</span>).<br>Alarma y respuesta del personal registradas.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro con data cruda y reporte<br>
   - Data cruda y reporte estadístico del análisis de falla</p>
+  <p><strong>Nota:</strong><br>El tiempo en rojo se confirma con el plan de contingencia del área; la prueba se hace con autorización y sin producto expuesto.</p>
   <p><strong>Referencia:</strong><br>Manual del fabricante del sistema.</p>
 </article>
 
@@ -330,12 +330,12 @@
   1) Provocar alarmas en operación y medir el retardo<br>
   2) Verificar la recepción del aviso<br>
   3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Disparo en retardo con aviso recibido.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = disparo y aviso de alarmas; unidad = s. Tipo de dato = continua. n = 3 repeticiones por alarma. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = disparo dentro del retardo y aviso recibido. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable medida; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Las alarmas disparan dentro del retardo configurado y el aviso llega al responsable.<br>Prueba con personal y producción en operación normal.<br>Registro de hora de disparo, hora de aviso y receptor.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro con data cruda y reporte<br>
   - Data cruda y reporte estadístico del análisis de alarmas</p>
+  <p><strong>Nota:</strong><br>El retardo y el destinatario se confirman con el procedimiento de guardias y el BMS.</p>
   <p><strong>Referencia:</strong><br>Manual del fabricante del sistema.</p>
 </article>
 
@@ -346,12 +346,12 @@
   1) Detectar y aislar el área ante la excursión<br>
   2) Evaluar el impacto, aplicar correctiva y documentar<br>
   3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Excursión cerrada con impacto evaluado.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = respuesta a desviación simulada; unidad = pasa/no pasa. Tipo de dato = atributo. n = 1 simulacro por turno. Estadísticos = proporción de cumplimiento con IC binomial exacto. Regla de decisión = respuesta completa y documentada. Atípicos: no aplica a datos de atributo; toda exclusión de una repetición se documenta y se conserva el registro original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Detección de la desviación, aislamiento del área, evaluación de impacto en producto y acción correctiva documentados.<br>Producto afectado identificado y dispositionado.<br>Cierre con aprobación de Calidad.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro con data cruda y reporte<br>
   - Data cruda y reporte estadístico del análisis de excursiones</p>
+  <p><strong>Nota:</strong><br>Este ensayo evalúa la respuesta a una desviación simulada; debe quedar registrada como simulacro, no como desviación real.</p>
   <p><strong>Referencia:</strong><br>Manual del fabricante del sistema.</p>
 </article>
 
@@ -361,12 +361,12 @@
   <p><strong>Procedimiento:</strong><br>
   1) Compilar y revisar todos los registros del PQ<br>
   2) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Revisión completa documentada.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = revisión integral del período; unidad = pasa/no pasa. Tipo de dato = atributo. n = 1 revisión del 100 % de los registros. Estadísticos = proporción de cumplimiento con IC binomial exacto. Regla de decisión = todos los parámetros revisados y conformes. Atípicos: no aplica a datos de atributo; toda exclusión de una repetición se documenta y se conserva el registro original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Revisión final de partículas, microbiología, presión, temperatura y humedad, alarmas y excursiones.<br>Todos los parámetros dentro de límite o con excursión cerrada.<br>Informe con datos crudos anexos y trazabilidad por punto.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Compilado con data cruda y reporte<br>
   - Data cruda y reporte estadístico de la revisión</p>
+  <p><strong>Nota:</strong><br>La revisión final no reemplaza las mediciones: verifica que estén completas y coherentes.</p>
   <p><strong>Referencia:</strong><br>Manual del fabricante del sistema.</p>
 </article>
 
@@ -377,12 +377,12 @@
   1) Definir el programa de rutina desde los resultados<br>
   2) Incorporarlo al SOP<br>
   3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Programa en SOP vigente.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = programa de monitoreo derivado; unidad = pasa/no pasa. Tipo de dato = atributo. n = 1 programa por área. Estadísticos = proporción de cumplimiento con IC binomial exacto. Regla de decisión = programa aprobado y en el SOP. Atípicos: no aplica a datos de atributo; toda exclusión de una repetición se documenta y se conserva el registro original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Programa de monitoreo de rutina derivado del PQ, con parámetros, frecuencia, límites y responsable.<br>Aprobado y cargado en el SOP del área.<br>Frecuencia no menor a la usada en el PQ sin justificación.</p>
   <p><strong>Documentos entregables:</strong><br>
   - SOP actualizado con data de respaldo<br>
   - Data cruda y reporte estadístico de respaldo</p>
+  <p><strong>Nota:</strong><br>El programa debe salir de los datos del PQ; copiarlo de otra área no es trazable.</p>
   <p><strong>Referencia:</strong><br>Manual del fabricante del sistema.</p>
 </article>
 
@@ -393,12 +393,12 @@
   1) Aplicar la frecuencia habitual (conteo, HEPA, caudales y presiones cada 12 meses en Grado C y D y cada 6 meses en Grado A y B; verifica la guía que adoptes)<br>
   2) Verificar los disparadores: cambio de HEPA, ductos o cuartos, reparación mayor de la UMA, equipos que alteren la carga<br>
   3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Frecuencia y disparadores definidos.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = frecuencia de recalificación; unidad = pasa/no pasa. Tipo de dato = atributo. n = 1 definición por área. Estadísticos = proporción de cumplimiento con IC binomial exacto. Regla de decisión = frecuencia aprobada y en el plan maestro. Atípicos: no aplica a datos de atributo; toda exclusión de una repetición se documenta y se conserva el registro original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Frecuencia de recalificación definida y justificada (<span class="por-confirmar">anual o por evento</span>).<br>Cambios que disparan recalificación listados: obra, cambio de filtros, cambio de UMA, cambio de clasificación.<br>Registro en el plan maestro de validación.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Programa con data cruda y reporte<br>
   - Data cruda y reporte estadístico de respaldo</p>
+  <p><strong>Nota:</strong><br>La frecuencia en rojo debe confirmarse con el plan maestro; no se fija por costumbre.</p>
   <p><strong>Referencia:</strong><br>Manual del fabricante del sistema. EU GMP Anexo 1 (frecuencias, verifica la guía).</p>
 </article>
 

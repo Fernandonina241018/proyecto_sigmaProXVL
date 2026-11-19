@@ -12,7 +12,7 @@
 
 <p><a href="../sistemas.html">← Sistemas</a></p>
 <h2>OQ — Vapor limpio (banco por familia)</h2>
-<p>Versión del banco: <span data-banco-version>SIS-OQ-VL 2026-10-14 v1</span></p>
+<p>Versión del banco: <span data-banco-version>SIS-OQ-VL 2026-11-18 v2</span></p>
 <p>Ensayos de Calificación de Operación específicos del vapor limpio (<span class="equipo">equipo</span>). Se filtran por familia (<code>data-familia="vapor-limpio"</code>) según la entidad elegida en el paso 1. Fuente: ENSAYOS.txt del usuario (vapor limpio).</p>
 
 <!-- ================= OQ ================= -->
@@ -59,31 +59,36 @@
 </div>
 
 
-<article data-bloque="3" id="art-SIS-OQ-VL-001" class="ensayo" data-id="SIS-OQ-VL-001" data-fase="OQ" data-cond="ambas" data-familia="vapor-limpio">
+<article data-analisis="si" data-bloque="3" id="art-SIS-OQ-VL-001" class="ensayo" data-id="SIS-OQ-VL-001" data-fase="OQ" data-cond="ambas" data-familia="vapor-limpio">
   <h3>SIS-OQ-VL-001 — Válvulas de seguridad</h3>
   <p><strong>Objetivo:</strong><br>Verificar el certificado vigente y la prueba de apertura a la presión de tarado.</p>
   <p><strong>Procedimiento:</strong><br>
   1) Verificar el certificado vigente de cada válvula<br>
-  2) Probar la apertura a la presión de tarado</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Certificado vigente.<br>
-  Apertura a la presión de tarado.</p>
+  2) Probar la apertura a la presión de tarado<br>
+  3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = presión de apertura de la válvula; unidad = bar. Tipo de dato = continua. n = 3 pruebas de apertura. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = media dentro de ±5 % del tarado. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable medida; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Certificado vigente de la válvula de seguridad y apertura a la presión de tarado ±<span class="por-confirmar">5 %</span>.<br>Registro de la prueba con presión de apertura, fecha y laboratorio.<br>Sin fugas ni bloqueo en la descarga.</p>
   <p><strong>Documentos entregables:</strong><br>
-  - Registro y certificados (anexo del informe)</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante del sistema.</p>
+  - Registro y certificados (anexo del informe)<br>
+  - Data cruda y reporte estadístico del ensayo</p>
+  <p><strong>Nota:</strong><br>La tolerancia en rojo se confirma con el certificado del fabricante.</p>
+  <p><strong>Referencia:</strong><br>EN 285; HTM 2031; USP &lt;1231&gt;; EU GMP Anexo 1; EU GMP Anexo 15.</p>
 </article>
 
-<article data-bloque="3" id="art-SIS-OQ-VL-002" class="ensayo" data-id="SIS-OQ-VL-002" data-fase="OQ" data-cond="ambas" data-familia="vapor-limpio">
+<article data-analisis="si" data-bloque="3" id="art-SIS-OQ-VL-002" class="ensayo" data-id="SIS-OQ-VL-002" data-fase="OQ" data-cond="ambas" data-familia="vapor-limpio">
   <h3>SIS-OQ-VL-002 — Parada de emergencia</h3>
   <p><strong>Objetivo:</strong><br>Verificar la despresurización y el estado seguro ante parada de emergencia.</p>
   <p><strong>Procedimiento:</strong><br>
   1) Accionar la parada de emergencia<br>
-  2) Verificar despresurización y estado seguro</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Despresurización completa y estado seguro.</p>
+  2) Verificar despresurización y estado seguro<br>
+  3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = parada de emergencia; unidad = s. Tipo de dato = continua. n = 3 activaciones. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = despresurización en ≤ 30 s en las 3 repeticiones. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable medida; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>La parada de emergencia despresuriza el sistema y lo deja en estado seguro en ≤ <span class="por-confirmar">30 s</span>.<br>No hay reinicio automático; el rearme es manual.<br>El evento queda registrado con hora y usuario.</p>
   <p><strong>Documentos entregables:</strong><br>
-  - Registro de la prueba (anexo del informe)</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante del sistema.</p>
+  - Registro de la prueba (anexo del informe)<br>
+  - Data cruda y reporte estadístico del ensayo</p>
+  <p><strong>Nota:</strong><br>El tiempo en rojo se confirma con el diseño del sistema y el procedimiento de emergencia.</p>
+  <p><strong>Referencia:</strong><br>EN 285; HTM 2031; USP &lt;1231&gt;; EU GMP Anexo 1; EU GMP Anexo 15.</p>
 </article>
 
 <article data-bloque="3" id="art-SIS-OQ-VL-003" class="ensayo" data-id="SIS-OQ-VL-003" data-fase="OQ" data-cond="ambas" data-familia="vapor-limpio">
@@ -93,11 +98,12 @@
   1) Simular nivel mínimo y verificar calefacción inhibida<br>
   2) Simular sobrepresión y sobretemperatura y verificar la respuesta<br>
   3) Simular falta de agua de alimentación y verificar el bloqueo</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Cada interlock actúa ante su condición.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = actuación de interlocks; unidad = pasa/no pasa. Tipo de dato = atributo. n = 3 repeticiones por interlock. Estadísticos = proporción de cumplimiento con IC binomial exacto. Regla de decisión = cada interlock actúa en las 3. Atípicos: no aplica a datos de atributo; toda exclusión se documenta y se conserva el registro original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Cada interlock actúa: nivel mínimo con calefacción inhibida, sobrepresión, sobretemperatura y falta de agua de alimentación.<br>La acción ocurre en ≤ <span class="por-confirmar">5 s</span> y exige rearme manual.<br>Prueba registrada por interlock.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro de interlocks simulados (anexo del informe)</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante del sistema.</p>
+  <p><strong>Nota:</strong><br>El tiempo en rojo se confirma con el diseño del control.</p>
+  <p><strong>Referencia:</strong><br>EN 285; HTM 2031; USP &lt;1231&gt;; EU GMP Anexo 1; EU GMP Anexo 15.</p>
 </article>
 
 <article data-bloque="3" id="art-SIS-OQ-VL-004" class="ensayo" data-id="SIS-OQ-VL-004" data-fase="OQ" data-cond="ambas" data-familia="vapor-limpio">
@@ -107,12 +113,12 @@
   1) Provocar conductividad alta del condensado y verificar disparo y acción<br>
   2) Provocar presión alta o baja, nivel, falla de bomba de alimentación y falla de purgador, y verificar<br>
   3) Verificar el desvío de vapor fuera de especificación a drenaje</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Cada alarma dispara.<br>
-  El vapor fuera de especificación se desvía a drenaje.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = disparo y aviso de alarmas; unidad = pasa/no pasa. Tipo de dato = atributo. n = 3 repeticiones por alarma. Estadísticos = proporción de cumplimiento con IC binomial exacto. Regla de decisión = cada alarma dispara y notifica. Atípicos: no aplica a datos de atributo; toda exclusión se documenta y se conserva el registro original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Cada alarma dispara y ejecuta su acción.<br>El aviso llega al responsable en ≤ <span class="por-confirmar">5 min</span>.<br>Registro con fecha, hora, valor y usuario.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro de alarmas y acciones (anexo del informe)</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante del sistema.</p>
+  <p><strong>Nota:</strong><br>El tiempo de aviso en rojo depende del esquema de guardias.</p>
+  <p><strong>Referencia:</strong><br>EN 285; HTM 2031; USP &lt;1231&gt;; EU GMP Anexo 1; EU GMP Anexo 15.</p>
 </article>
 
 <article data-bloque="3" id="art-SIS-OQ-VL-005" class="ensayo" data-id="SIS-OQ-VL-005" data-fase="OQ" data-cond="ambas" data-familia="vapor-limpio">
@@ -122,25 +128,28 @@
   1) Cortar la energía y verificar el estado seguro<br>
   2) Restablecer y verificar que no hay arranque espontáneo<br>
   3) Verificar que no retorna condensado al generador</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Estado seguro sin arranque espontáneo.<br>
-  Sin retorno de condensado.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = estado tras corte de energía; unidad = pasa/no pasa. Tipo de dato = atributo. n = 3 cortes controlados. Estadísticos = proporción de cumplimiento con IC binomial exacto. Regla de decisión = las 3 quedan en estado seguro. Atípicos: no aplica a datos de atributo; toda exclusión se documenta y se conserva el registro original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Ante corte de energía el sistema queda en estado seguro, sin arranque espontáneo.<br>No hay retorno de condensado al generador.<br>El evento queda registrado.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro de la prueba (anexo del informe)</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante del sistema.</p>
+  <p><strong>Nota:</strong><br>La verificación se hace con corte controlado y autorización del área.</p>
+  <p><strong>Referencia:</strong><br>EN 285; HTM 2031; USP &lt;1231&gt;; EU GMP Anexo 1; EU GMP Anexo 15.</p>
 </article>
 
-<article data-bloque="3" id="art-SIS-OQ-VL-006" class="ensayo" data-id="SIS-OQ-VL-006" data-fase="OQ" data-cond="ambas" data-familia="vapor-limpio">
+<article data-analisis="si" data-bloque="3" id="art-SIS-OQ-VL-006" class="ensayo" data-id="SIS-OQ-VL-006" data-fase="OQ" data-cond="ambas" data-familia="vapor-limpio">
   <h3>SIS-OQ-VL-006 — Redundancia</h3>
   <p><strong>Objetivo:</strong><br>Verificar el cambio a la bomba o generador de reserva (si aplica).</p>
   <p><strong>Procedimiento:</strong><br>
   1) Simular la falla del equipo principal (si aplica)<br>
-  2) Verificar el cambio a la reserva</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Cambio efectivo a la reserva (si aplica).</p>
+  2) Verificar el cambio a la reserva<br>
+  3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = transferencia a respaldo; unidad = s y bar. Tipo de dato = continua. n = 3 transferencias. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = presión dentro de ±10 % y tiempo ≤ 60 s. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable medida; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>El cambio a bomba o generador de reserva es automático en ≤ <span class="por-confirmar">60 s</span>.<br>La presión de vapor se mantiene dentro de ±<span class="por-confirmar">10 %</span> durante la transferencia.<br>Se registran tiempo, presión y alarma.</p>
   <p><strong>Documentos entregables:</strong><br>
-  - Registro de la prueba (anexo del informe)</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante del sistema.</p>
+  - Registro de la prueba (anexo del informe)<br>
+  - Data cruda y reporte estadístico del ensayo</p>
+  <p><strong>Nota:</strong><br>Si no hay respaldo, se declara No Aplica con aprobación previa.</p>
+  <p><strong>Referencia:</strong><br>EN 285; HTM 2031; USP &lt;1231&gt;; EU GMP Anexo 1; EU GMP Anexo 15.</p>
 </article>
 
 <article data-bloque="3" id="art-SIS-OQ-VL-007" class="ensayo" data-id="SIS-OQ-VL-007" data-fase="OQ" data-cond="ambas" data-familia="vapor-limpio" data-analisis="si">
@@ -150,13 +159,13 @@
   1) Medir el caudal y la presión de alimentación de agua<br>
   2) Medir el caudal y la presión del vapor de calefacción<br>
   3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Alimentación dentro de lo definido en el protocolo aprobado.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = caudal y presión de alimentación; unidad = L/h y bar. Tipo de dato = continua. n = 3 lecturas por condición. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = media dentro de ±10 % del diseño. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable medida; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Caudal y presión de alimentación de agua dentro de ±<span class="por-confirmar">10 %</span> del diseño.<br>Presión de vapor de calefacción dentro del rango del generador.<br>Sin fluctuación > 5 % en 10 min.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro con data cruda y reporte<br>
   - Data cruda y reporte estadístico del análisis de alimentación</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante del sistema.</p>
+  <p><strong>Nota:</strong><br>Las tolerancias en rojo se confirman con la hoja de datos del generador.</p>
+  <p><strong>Referencia:</strong><br>EN 285; HTM 2031; USP &lt;1231&gt;; EU GMP Anexo 1; EU GMP Anexo 15.</p>
 </article>
 
 <article data-bloque="3" id="art-SIS-OQ-VL-008" class="ensayo" data-id="SIS-OQ-VL-008" data-fase="OQ" data-cond="ambas" data-familia="vapor-limpio" data-analisis="si">
@@ -166,13 +175,13 @@
   1) Operar a la demanda nominal y medir la producción con presión estable<br>
   2) Operar a la máxima declarada y verificar estabilidad<br>
   3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Producción conforme con presión estable en ambas demandas.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = producción de vapor; unidad = kg/h. Tipo de dato = continua. n = 3 lecturas por demanda. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = media dentro de ±10 % de la capacidad declarada. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable medida; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Producción de vapor a demanda nominal y máxima declarada dentro de ±<span class="por-confirmar">10 %</span>.<br>Presión de salida estable durante 30 min en cada demanda.<br>Sin arrastre de gotas visible en el separador.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro con data cruda y reporte<br>
   - Data cruda y reporte estadístico del análisis de capacidad</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante del sistema.</p>
+  <p><strong>Nota:</strong><br>La tolerancia en rojo se confirma con la capacidad declarada del generador.</p>
+  <p><strong>Referencia:</strong><br>EN 285; HTM 2031; USP &lt;1231&gt;; EU GMP Anexo 1; EU GMP Anexo 15.</p>
 </article>
 
 <article data-bloque="3" id="art-SIS-OQ-VL-009" class="ensayo" data-id="SIS-OQ-VL-009" data-fase="OQ" data-cond="ambas" data-familia="vapor-limpio" data-analisis="si">
@@ -182,13 +191,13 @@
   1) Provocar aumento brusco (por ejemplo apertura simultánea de varios usuarios)<br>
   2) Provocar la caída y medir el tiempo de recuperación y la estabilidad<br>
   3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Recuperación y estabilidad dentro de lo definido en el protocolo aprobado.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = recuperación ante cambio de demanda; unidad = min. Tipo de dato = continua. n = 3 maniobras. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = recuperación ≤ 5 min en las 3. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable medida; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Aumento brusco y caída de demanda: tiempo de recuperación ≤ <span class="por-confirmar">5 min</span>.<br>Presión estable dentro de ±10 % tras la recuperación.<br>Sin disparo de alarmas por la maniobra.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro con data cruda y reporte<br>
   - Data cruda y reporte estadístico del análisis de demanda</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante del sistema.</p>
+  <p><strong>Nota:</strong><br>El tiempo en rojo se confirma con el diseño del control de presión.</p>
+  <p><strong>Referencia:</strong><br>EN 285; HTM 2031; USP &lt;1231&gt;; EU GMP Anexo 1; EU GMP Anexo 15.</p>
 </article>
 
 <article data-bloque="3" id="art-SIS-OQ-VL-010" class="ensayo" data-id="SIS-OQ-VL-010" data-fase="OQ" data-cond="ambas" data-familia="vapor-limpio" data-analisis="si">
@@ -198,13 +207,13 @@
   1) Verificar el control de nivel<br>
   2) Verificar la secuencia y los tiempos de la purga continua o de fondo<br>
   3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Nivel controlado con purga según secuencia y tiempos.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = nivel y purga; unidad = pasa/no pasa. Tipo de dato = atributo. n = 3 ciclos de purga. Estadísticos = proporción de cumplimiento con IC binomial exacto. Regla de decisión = nivel estable y purga completa en los 3. Atípicos: no aplica a datos de atributo; toda exclusión se documenta y se conserva el registro original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Control de nivel mantiene el rango sin disparo de alarmas.<br>Purga continua o de fondo ejecutada con la secuencia y tiempos definidos (<span class="por-confirmar">tiempo de purga</span>).<br>Registro de cada purga con hora y duración.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro con data cruda y reporte<br>
   - Data cruda y reporte estadístico del análisis de nivel</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante del sistema.</p>
+  <p><strong>Nota:</strong><br>El tiempo de purga en rojo se toma del manual del generador.</p>
+  <p><strong>Referencia:</strong><br>EN 285; HTM 2031; USP &lt;1231&gt;; EU GMP Anexo 1; EU GMP Anexo 15.</p>
 </article>
 
 <article data-bloque="3" id="art-SIS-OQ-VL-011" class="ensayo" data-id="SIS-OQ-VL-011" data-fase="OQ" data-cond="ambas" data-familia="vapor-limpio" data-analisis="si">
@@ -214,13 +223,13 @@
   1) Verificar la caída de presión en el separador o trampa de arrastre<br>
   2) Verificar la eficiencia por el condensado<br>
   3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Separación efectiva según lo definido.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = caída de presión del separador; unidad = bar. Tipo de dato = continua. n = 3 lecturas por condición. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = media dentro del rango del fabricante. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable medida; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Separación de gotas verificada por caída de presión dentro del rango del fabricante y por sequedad del vapor.<br>Sin arrastre visible en la salida.<br>Registro de ΔP por separador.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro con data cruda y reporte<br>
   - Data cruda y reporte estadístico del análisis del separador</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante del sistema.</p>
+  <p><strong>Nota:</strong><br>La eficiencia de separación se confirma con la prueba de sequedad del ensayo 022, no por inspección visual.</p>
+  <p><strong>Referencia:</strong><br>EN 285; HTM 2031; USP &lt;1231&gt;; EU GMP Anexo 1; EU GMP Anexo 15.</p>
 </article>
 
 <article data-bloque="3" id="art-SIS-OQ-VL-012" class="ensayo" data-id="SIS-OQ-VL-012" data-fase="OQ" data-cond="ambas" data-familia="vapor-limpio" data-analisis="si">
@@ -229,13 +238,13 @@
   <p><strong>Procedimiento:</strong><br>
   1) Medir temperatura y presión de salida en el rango operativo<br>
   2) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Control exacto en el rango operativo.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = presión de salida; unidad = bar. Tipo de dato = continua. n = 3 lecturas por setpoint. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = media dentro de ±5 % del setpoint. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable medida; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Exactitud del control de presión ≤ <span class="por-confirmar">±5 %</span> del setpoint en el rango operativo.<br>Sin oscilación > 5 % en régimen estable.<br>Respuesta a cambio de setpoint ≤ 2 min.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro con data cruda y reporte<br>
   - Data cruda y reporte estadístico del análisis de salida</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante del sistema.</p>
+  <p><strong>Nota:</strong><br>Las tolerancias en rojo se confirman con el instrumento y el fabricante.</p>
+  <p><strong>Referencia:</strong><br>EN 285; HTM 2031; USP &lt;1231&gt;; EU GMP Anexo 1; EU GMP Anexo 15.</p>
 </article>
 
 <article data-bloque="3" id="art-SIS-OQ-VL-013" class="ensayo" data-id="SIS-OQ-VL-013" data-fase="OQ" data-cond="ambas" data-familia="vapor-limpio" data-analisis="si">
@@ -245,13 +254,13 @@
   1) Verificar el enfriamiento del condensado<br>
   2) Verificar su drenaje<br>
   3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Enfriamiento y drenaje efectivos.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = drenaje de condensado; unidad = min. Tipo de dato = continua. n = 3 paradas. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = drenaje completo en ≤ 5 min. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable medida; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Sistema de enfriamiento y drenaje del condensado opera sin acumulación.<br>Condensado drenado en ≤ <span class="por-confirmar">5 min</span> tras la parada.<br>Sin retorno de condensado al generador.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro con data cruda y reporte<br>
   - Data cruda y reporte estadístico del análisis de drenaje</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante del sistema.</p>
+  <p><strong>Nota:</strong><br>El tiempo en rojo se confirma con el diseño del drenaje.</p>
+  <p><strong>Referencia:</strong><br>EN 285; HTM 2031; USP &lt;1231&gt;; EU GMP Anexo 1; EU GMP Anexo 15.</p>
 </article>
 
 <article data-bloque="3" id="art-SIS-OQ-VL-014" class="ensayo" data-id="SIS-OQ-VL-014" data-fase="OQ" data-cond="ambas" data-familia="vapor-limpio">
@@ -260,12 +269,12 @@
   <p><strong>Procedimiento:</strong><br>
   1) Recorrer las líneas y verificar la pendiente en campo<br>
   2) Verificar que el condensado fluye hacia los purgadores</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Sin tramos con contrapendiente.<br>
-  Flujo hacia purgadores confirmado.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = pendiente de la red; unidad = pasa/no pasa. Tipo de dato = atributo. n = inspección del 100 % de tramos. Estadísticos = proporción de cumplimiento con IC binomial exacto. Regla de decisión = todos los tramos drenan. Atípicos: no aplica a datos de atributo; toda exclusión se documenta y se conserva el registro original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Condensado fluye hacia los purgadores en el 100 % de los tramos, sin contrapendiente.<br>Pendiente ≥ <span class="por-confirmar">1 %</span> verificada en campo.<br>Sin bolsas de condensado en puntos bajos.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro de campo (anexo del informe)</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante del sistema.</p>
+  <p><strong>Nota:</strong><br>La pendiente en rojo se confirma contra el isométrico aprobado.</p>
+  <p><strong>Referencia:</strong><br>EN 285; HTM 2031; USP &lt;1231&gt;; EU GMP Anexo 1; EU GMP Anexo 15.</p>
 </article>
 
 <article data-bloque="3" id="art-SIS-OQ-VL-015" class="ensayo" data-id="SIS-OQ-VL-015" data-fase="OQ" data-cond="ambas" data-familia="vapor-limpio">
@@ -274,38 +283,44 @@
   <p><strong>Procedimiento:</strong><br>
   1) Probar individualmente cada purgador: descarga de condensado sin fuga de vapor vivo<br>
   2) Verificar ubicación en puntos bajos y al final de ramales</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Cada purgador descarga sin fuga de vapor vivo.<br>
-  Ubicación conforme.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = funcionamiento de purgadores; unidad = pasa/no pasa. Tipo de dato = atributo. n = 100 % de los purgadores. Estadísticos = proporción de cumplimiento con IC binomial exacto. Regla de decisión = todos descargan y cierran. Atípicos: no aplica a datos de atributo; toda exclusión se documenta y se conserva el registro original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Cada purgador funciona: descarga condensado y cierra al vapor.<br>Ubicación en puntos bajos y final de ramales verificada.<br>Sin purgadores bloqueados, con fuga de vapor o invertidos.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro individual por purgador (anexo del informe)</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante del sistema.</p>
+  <p><strong>Nota:</strong><br>Se prueban todos los purgadores; uno bloqueado invalida el ensayo.</p>
+  <p><strong>Referencia:</strong><br>EN 285; HTM 2031; USP &lt;1231&gt;; EU GMP Anexo 1; EU GMP Anexo 15.</p>
 </article>
 
-<article data-bloque="3" id="art-SIS-OQ-VL-016" class="ensayo" data-id="SIS-OQ-VL-016" data-fase="OQ" data-cond="ambas" data-familia="vapor-limpio">
+<article data-analisis="si" data-bloque="3" id="art-SIS-OQ-VL-016" class="ensayo" data-id="SIS-OQ-VL-016" data-fase="OQ" data-cond="ambas" data-familia="vapor-limpio">
   <h3>SIS-OQ-VL-016 — Ramales muertos de vapor</h3>
   <p><strong>Objetivo:</strong><br>Verificar la longitud respecto al diámetro (regla de 3D) en puntos de uso y válvulas.</p>
   <p><strong>Procedimiento:</strong><br>
   1) Medir cada ramal y su diámetro en puntos de uso y válvulas<br>
-  2) Aplicar la regla de 3D o el criterio adoptado</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Dentro de la regla de 3D o del criterio adoptado.</p>
+  2) Aplicar la regla de 3D o el criterio adoptado<br>
+  3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = relación L/D; unidad = L/D. Tipo de dato = continua. n = medición del 100 % de ramales. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = L/D ≤ 3 en todos. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable medida; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>L/D ≤ <span class="por-confirmar">3</span> en puntos de uso y válvulas.<br>Medición del 100 % de los ramales, con diámetro interno real.<br>Sin tramos ciegos sin purga.</p>
   <p><strong>Documentos entregables:</strong><br>
-  - Registro de ramales (anexo del informe)</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante del sistema.</p>
+  - Registro de ramales (anexo del informe)<br>
+  - Data cruda y reporte estadístico del ensayo</p>
+  <p><strong>Nota:</strong><br>El criterio 3D en rojo debe adoptarse antes de medir.</p>
+  <p><strong>Referencia:</strong><br>EN 285; HTM 2031; USP &lt;1231&gt;; EU GMP Anexo 1; EU GMP Anexo 15.</p>
 </article>
 
-<article data-bloque="3" id="art-SIS-OQ-VL-017" class="ensayo" data-id="SIS-OQ-VL-017" data-fase="OQ" data-cond="ambas" data-familia="vapor-limpio">
+<article data-analisis="si" data-bloque="3" id="art-SIS-OQ-VL-017" class="ensayo" data-id="SIS-OQ-VL-017" data-fase="OQ" data-cond="ambas" data-familia="vapor-limpio">
   <h3>SIS-OQ-VL-017 — Caída de presión en distribución</h3>
   <p><strong>Objetivo:</strong><br>Verificar la caída de presión hasta el punto más lejano con todos los usuarios operando.</p>
   <p><strong>Procedimiento:</strong><br>
   1) Operar todos los usuarios a la vez<br>
-  2) Medir la presión en el punto más lejano</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Presión dentro de lo definido en el protocolo aprobado en el punto más lejano.</p>
+  2) Medir la presión en el punto más lejano<br>
+  3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = caída de presión; unidad = bar. Tipo de dato = continua. n = 3 mediciones con todos los usuarios. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = caída ≤ 10 % y presión mínima cumplida. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable medida; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Caída de presión hasta el punto más lejano ≤ <span class="por-confirmar">10 %</span> con todos los usuarios operando.<br>Presión en el punto más lejano ≥ la mínima requerida por el usuario.<br>Medición con la demanda real, no simulada.</p>
   <p><strong>Documentos entregables:</strong><br>
-  - Registro de la prueba (anexo del informe)</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante del sistema.</p>
+  - Registro de la prueba (anexo del informe)<br>
+  - Data cruda y reporte estadístico del ensayo</p>
+  <p><strong>Nota:</strong><br>La caída aceptable en rojo debe confirmarse contra el diseño de la red.</p>
+  <p><strong>Referencia:</strong><br>EN 285; HTM 2031; USP &lt;1231&gt;; EU GMP Anexo 1; EU GMP Anexo 15.</p>
 </article>
 
 <article data-bloque="3" id="art-SIS-OQ-VL-018" class="ensayo" data-id="SIS-OQ-VL-018" data-fase="OQ" data-cond="ambas" data-familia="vapor-limpio">
@@ -313,24 +328,28 @@
   <p><strong>Objetivo:</strong><br>Verificar la eliminación de aire en líneas y equipos, sin bolsas de gas.</p>
   <p><strong>Procedimiento:</strong><br>
   1) Arrancar y verificar el venteo de aire en líneas y equipos</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Sin bolsas de gas en el arranque.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = eliminación de aire; unidad = pasa/no pasa. Tipo de dato = atributo. n = 1 verificación por punto alto. Estadísticos = proporción de cumplimiento con IC binomial exacto. Regla de decisión = sin bolsas de gas. Atípicos: no aplica a datos de atributo; toda exclusión se documenta y se conserva el registro original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Sin bolsas de aire en líneas y equipos tras la purga.<br>Eliminación de aire verificada en los puntos altos.<br>Sin ruido de golpe de ariete al abrir válvulas.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro de la prueba (anexo del informe)</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante del sistema.</p>
+  <p><strong>Nota:</strong><br>La verificación se hace con el sistema en operación y los puntos altos purgados.</p>
+  <p><strong>Referencia:</strong><br>EN 285; HTM 2031; USP &lt;1231&gt;; EU GMP Anexo 1; EU GMP Anexo 15.</p>
 </article>
 
-<article data-bloque="3" id="art-SIS-OQ-VL-019" class="ensayo" data-id="SIS-OQ-VL-019" data-fase="OQ" data-cond="ambas" data-familia="vapor-limpio">
+<article data-analisis="si" data-bloque="3" id="art-SIS-OQ-VL-019" class="ensayo" data-id="SIS-OQ-VL-019" data-fase="OQ" data-cond="ambas" data-familia="vapor-limpio">
   <h3>SIS-OQ-VL-019 — Aislamiento térmico</h3>
   <p><strong>Objetivo:</strong><br>Verificar temperatura superficial segura y pérdida de calor dentro del criterio.</p>
   <p><strong>Procedimiento:</strong><br>
   1) Medir la temperatura superficial<br>
-  2) Verificar la pérdida de calor contra el criterio definido en el protocolo aprobado</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Superficie segura con pérdida dentro de lo definido en el protocolo aprobado.</p>
+  2) Verificar la pérdida de calor contra el criterio definido en el protocolo aprobado<br>
+  3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = temperatura superficial; unidad = °C. Tipo de dato = continua. n = 3 lecturas por tramo accesible. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = cada tramo ≤ 60 °C o aislado. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable medida; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Temperatura superficial de líneas accesibles ≤ <span class="por-confirmar">60 °C</span> o aislamiento que impida el contacto.<br>Pérdida de calor dentro del criterio de diseño.<br>Registro por tramo accesible.</p>
   <p><strong>Documentos entregables:</strong><br>
-  - Registro de la prueba (anexo del informe)</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante del sistema.</p>
+  - Registro de la prueba (anexo del informe)<br>
+  - Data cruda y reporte estadístico del ensayo</p>
+  <p><strong>Nota:</strong><br>El límite de temperatura en rojo debe confirmarse con seguridad industrial del sitio.</p>
+  <p><strong>Referencia:</strong><br>EN 285; HTM 2031; USP &lt;1231&gt;; EU GMP Anexo 1; EU GMP Anexo 15.</p>
 </article>
 
 <article data-bloque="3" id="art-SIS-OQ-VL-020" class="ensayo" data-id="SIS-OQ-VL-020" data-fase="OQ" data-cond="ambas" data-familia="vapor-limpio" data-analisis="si">
@@ -340,13 +359,13 @@
   1) Verificar el diseño sanitario de cada punto<br>
   2) Verificar el serpentín de enfriamiento, la válvula y la conexión estéril<br>
   3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Puntos sanitarios con enfriamiento efectivo.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = muestreo de vapor; unidad = pasa/no pasa. Tipo de dato = atributo. n = 1 verificación por punto. Estadísticos = proporción de cumplimiento con IC binomial exacto. Regla de decisión = todos los puntos con condensador y conexión sanitaria. Atípicos: no aplica a datos de atributo; toda exclusión se documenta y se conserva el registro original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Diseño sanitario del punto de muestreo: condensador con enfriamiento, válvula y conexión estéril.<br>Muestreo representativo, sin contaminación cruzada.<br>Tiempo de enfriamiento suficiente para la toma segura.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro con data cruda y reporte<br>
   - Data cruda y reporte estadístico del análisis de puntos</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante del sistema.</p>
+  <p><strong>Nota:</strong><br>El diseño del condensador se verifica contra el plano y el procedimiento de muestreo.</p>
+  <p><strong>Referencia:</strong><br>EN 285; HTM 2031; USP &lt;1231&gt;; EU GMP Anexo 1; EU GMP Anexo 15.</p>
 </article>
 
 <article data-bloque="3" id="art-SIS-OQ-VL-021" class="ensayo" data-id="SIS-OQ-VL-021" data-fase="OQ" data-cond="ambas" data-familia="vapor-limpio" data-analisis="si">
@@ -356,13 +375,13 @@
   1) Verificar cada reguladora y reductora y su presión aguas abajo (si aplica)<br>
   2) Verificar que no genera sobrecalentamiento excesivo<br>
   3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Presión aguas abajo controlada sin sobrecalentamiento excesivo (si aplica).</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = presión aguas abajo; unidad = bar. Tipo de dato = continua. n = 3 lecturas por setpoint. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = media dentro de ±5 % del setpoint. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable medida; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Presión aguas abajo de la válvula reductora dentro de ±<span class="por-confirmar">5 %</span> del setpoint.<br>Sin sobrecalentamiento excesivo (≤ 25 K) aguas abajo.<br>Sin ruido ni vibración anormal.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro con data cruda y reporte<br>
   - Data cruda y reporte estadístico del análisis de reductoras</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante del sistema.</p>
+  <p><strong>Nota:</strong><br>Aplica si hay reductora; si no, No Aplica con aprobación.</p>
+  <p><strong>Referencia:</strong><br>EN 285; HTM 2031; USP &lt;1231&gt;; EU GMP Anexo 1; EU GMP Anexo 15.</p>
 </article>
 
 <article data-bloque="3" id="art-SIS-OQ-VL-022" class="ensayo" data-id="SIS-OQ-VL-022" data-fase="OQ" data-cond="ambas" data-familia="vapor-limpio" data-analisis="si">
@@ -371,13 +390,13 @@
   <p><strong>Procedimiento:</strong><br>
   1) Medir sequedad, gases no condensables y sobrecalentamiento en un punto de referencia<br>
   2) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Dentro de los límites definidos en el protocolo aprobado.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = sequedad, gases no condensables y sobrecalentamiento; unidad = fracción, mL/100 mL, K. Tipo de dato = analitico. n = 3 muestras por condición. Estadísticos = mediana, mínimo, máximo e IC 95 %; concentraciones en escala log10. Regla de decisión = las 3 muestras dentro de los límites. Atípicos = Grubbs solo si n ≥ 7 y sobre log10; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Sequedad ≥ <span class="por-confirmar">0,95</span> en la salida del generador.<br>Gases no condensables ≤ <span class="por-confirmar">3,5 mL/100 mL</span> de condensado.<br>Sobrecalentamiento ≤ <span class="por-confirmar">25 K</span> al expandir a presión atmosférica.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro con data cruda y reporte<br>
   - Data cruda y reporte estadístico del análisis de calidad</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante del sistema. EN 285 (calidad del vapor y del condensado; verifica la edición que adoptes).</p>
+  <p><strong>Nota:</strong><br>Los límites en rojo son los de EN 285 y deben adoptarse formalmente antes de ejecutar.</p>
+  <p><strong>Referencia:</strong><br>EN 285; HTM 2031; USP &lt;1231&gt;; EU GMP Anexo 1; EU GMP Anexo 15.</p>
 </article>
 
 <article data-bloque="3" id="art-SIS-OQ-VL-023" class="ensayo" data-id="SIS-OQ-VL-023" data-fase="OQ" data-cond="ambas" data-familia="vapor-limpio" data-analisis="si">
@@ -387,26 +406,29 @@
   1) Arrancar y muestrear el condensado en el tiempo<br>
   2) Registrar el tiempo hasta alcanzar el límite (cuánto purgar antes de usar)<br>
   3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Límite alcanzado en el tiempo definido.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = tiempo hasta condensado conforme; unidad = min. Tipo de dato = continua. n = 3 arranques. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = primera muestra conforme ≤ 30 min. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable medida; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Tras la puesta en marcha, el condensado alcanza el límite en ≤ <span class="por-confirmar">30 min</span>.<br>Sin muestras fuera de límite después de ese tiempo.<br>Registro del tiempo hasta la primera muestra conforme.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro con data cruda y reporte<br>
   - Data cruda y reporte estadístico del análisis de arranque</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante del sistema.</p>
+  <p><strong>Nota:</strong><br>El tiempo en rojo se confirma con el procedimiento de arranque del sitio.</p>
+  <p><strong>Referencia:</strong><br>EN 285; HTM 2031; USP &lt;1231&gt;; EU GMP Anexo 1; EU GMP Anexo 15.</p>
 </article>
 
-<article data-bloque="3" id="art-SIS-OQ-VL-024" class="ensayo" data-id="SIS-OQ-VL-024" data-fase="OQ" data-cond="ambas" data-familia="vapor-limpio">
+<article data-analisis="si" data-bloque="3" id="art-SIS-OQ-VL-024" class="ensayo" data-id="SIS-OQ-VL-024" data-fase="OQ" data-cond="ambas" data-familia="vapor-limpio">
   <h3>SIS-OQ-VL-024 — Arranque tras paro prolongado</h3>
   <p><strong>Objetivo:</strong><br>Verificar purga, calentamiento de líneas y tiempo hasta vapor en especificación.</p>
   <p><strong>Procedimiento:</strong><br>
   1) Purgar y calentar las líneas tras el paro prolongado<br>
-  2) Medir el tiempo hasta vapor en especificación</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Tiempo dentro de lo definido en el protocolo aprobado.</p>
+  2) Medir el tiempo hasta vapor en especificación<br>
+  3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = tiempo hasta vapor en especificación; unidad = min. Tipo de dato = continua. n = 3 arranques por ramal. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = primera muestra conforme ≤ 30 min. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable medida; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Purga y calentamiento de líneas hasta vapor en especificación en ≤ <span class="por-confirmar">30 min</span>.<br>Sin condensado en el punto de uso al momento de la toma.<br>Registro del tiempo por ramal.</p>
   <p><strong>Documentos entregables:</strong><br>
-  - Registro del arranque (anexo del informe)</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante del sistema.</p>
+  - Registro del arranque (anexo del informe)<br>
+  - Data cruda y reporte estadístico del ensayo</p>
+  <p><strong>Nota:</strong><br>El tiempo en rojo se confirma con el diseño de la red y el procedimiento de arranque.</p>
+  <p><strong>Referencia:</strong><br>EN 285; HTM 2031; USP &lt;1231&gt;; EU GMP Anexo 1; EU GMP Anexo 15.</p>
 </article>
 
 <article data-bloque="3" id="art-SIS-OQ-VL-025" class="ensayo" data-id="SIS-OQ-VL-025" data-fase="OQ" data-cond="ambas" data-familia="vapor-limpio">
@@ -414,11 +436,12 @@
   <p><strong>Objetivo:</strong><br>Verificar que no hay acumulación en puntos bajos tras la purga.</p>
   <p><strong>Procedimiento:</strong><br>
   1) Purgar tras el paro y revisar puntos bajos</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Sin acumulación en puntos bajos.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = acumulación en puntos bajos; unidad = pasa/no pasa. Tipo de dato = atributo. n = 100 % de puntos bajos. Estadísticos = proporción de cumplimiento con IC binomial exacto. Regla de decisión = sin acumulación en ninguno. Atípicos: no aplica a datos de atributo; toda exclusión se documenta y se conserva el registro original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Sin acumulación de condensado en puntos bajos tras la purga.<br>Verificación en el 100 % de los puntos bajos identificados.<br>Sin ruido ni arrastre al abrir el punto de uso.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro de la purga (anexo del informe)</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante del sistema.</p>
+  <p><strong>Nota:</strong><br>La verificación se hace inmediatamente después de la purga, no horas después.</p>
+  <p><strong>Referencia:</strong><br>EN 285; HTM 2031; USP &lt;1231&gt;; EU GMP Anexo 1; EU GMP Anexo 15.</p>
 </article>
 
 <article data-bloque="3" id="art-SIS-OQ-VL-026" class="ensayo" data-id="SIS-OQ-VL-026" data-fase="OQ" data-cond="ambas" data-familia="vapor-limpio" data-analisis="si">
@@ -428,13 +451,13 @@
   1) Operar 72 h (o el período definido) a demanda variable<br>
   2) Verificar ausencia de alarmas y desviaciones<br>
   3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Operación continua sin alarmas ni desviaciones no tratadas.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = operación continua; unidad = pasa/no pasa. Tipo de dato = atributo. n = 1 período de 72 h con registro continuo. Estadísticos = proporción de cumplimiento con IC binomial exacto. Regla de decisión = período completo sin alarmas no tratadas. Atípicos: no aplica a datos de atributo; toda exclusión se documenta y se conserva el registro original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>72 h de operación continua a demanda variable, sin alarmas no tratadas.<br>Calidad del vapor dentro de límite en cada muestreo del período.<br>Sin paradas no programadas ni desviaciones abiertas.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro con data cruda y reporte<br>
   - Data cruda y reporte estadístico del análisis de operación</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante del sistema.</p>
+  <p><strong>Nota:</strong><br>La duración en rojo se confirma con el plan de validación del sistema.</p>
+  <p><strong>Referencia:</strong><br>EN 285; HTM 2031; USP &lt;1231&gt;; EU GMP Anexo 1; EU GMP Anexo 15.</p>
 </article>
 
 <article data-bloque="4" id="art-SIS-OQ-VL-RES" class="ensayo" data-id="SIS-OQ-VL-RES" data-fase="OQ" data-cond="ambas" data-familia="vapor-limpio">
