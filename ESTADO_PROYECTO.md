@@ -90,6 +90,35 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (StatAnalyzer Pro) co
 
 ## CAMBIOS RECIENTES
 
+### 2026-11-19 (325): Equipos lote 6b — sistema de cremas al vacío
+
+**Qué:** 64 ensayos (8 IQ, 36 OQ, 20 PQ) al estándar, y el lote 6 queda completo.
+- **Agitación:** velocidad ±2 %, corriente ±10 %, holgura de rasquetas ≤ 2 mm, sello sin fuga con barrera.
+- **Homogeneizador:** velocidad ±2 %, holgura rotor-estator 0,2-0,5 mm, parada segura, sumersión a volumen mínimo.
+- **Vacío:** ≤ 50 mbar, evacuación ≤ 15 min, fuga ≤ 1 mbar/min, estabilidad ≤ 10 %, ruptura con filtro íntegro.
+- **Térmico:** exactitud ±0,5 °C, uniformidad ±1 °C, sobreimpulso ≤ 2 °C.
+- **Producto:** D50 de gota, densidad tras desaireación, uniformidad de contenido RSD ≤ 2 %, estabilidad física, rendimiento ≥ 98 %, residuo ≤ 1 %.
+- **Planes específicos** en 14 ensayos con plan genérico; números en 6 criterios cualitativos.
+- `MIGRADAS` del contrato cubre dieciséis familias.
+
+**Estado medido:**
+```
+sistema-cremas-vacio: 64 ensayos · 53 con plan · 33 con valor numérico · 0 con plan pendiente
+global: 700/1392 criterios con valor (50 %) · 131 clonados en 59 grupos · 31 sin plan
+```
+
+**Archivos afectados:**
+| Archivo | Cambio |
+|---------|--------|
+| `docs/banco-ensayos/equipos/{iq,oq,pq}-sistema-cremas-vacio.html` | 64 ensayos reescritos |
+| `js/core/banco-equipos-data.js` | Regenerado |
+| `tests/bancos-contenido-equipos.test.js` | `MIGRADAS` ampliado |
+
+**Verificación:**
+```
+npm run preflight → protocolo:check OK, urs-ar:check OK, Vitest 1209, backend 154, E2E 14
+```
+
 ### 2026-11-19 (324): Equipos lote 6a — autoclave y cabinas
 
 **Qué:** 67 ensayos al estándar (43 autoclave + 12 cabina de flujo + 12 cabina de bioseguridad).

@@ -8,7 +8,7 @@ const require = createRequire(import.meta.url);
 const banco = require('../js/core/banco-equipos-data.js');
 
 // Familias migradas. Agregar el id de familia al migrarla.
-const MIGRADAS = new Set(['tableteadora', 'encapsuladora', 'granulador', 'recubridora', 'reactor', 'llenadora', 'llenadora-tubos', 'blistera', 'etiquetadora', 'detector-metales', 'horno-secado', 'horno-vacio', 'autoclave', 'cabina-flujo', 'cabina-bioseguridad']);
+const MIGRADAS = new Set(['tableteadora', 'encapsuladora', 'granulador', 'recubridora', 'reactor', 'llenadora', 'llenadora-tubos', 'blistera', 'etiquetadora', 'detector-metales', 'horno-secado', 'horno-vacio', 'autoclave', 'cabina-flujo', 'cabina-bioseguridad', 'sistema-cremas-vacio']);
 
 const ensayos = Object.entries(banco.fases)
   .flatMap(([fase, xs]) => xs.map((x) => ({ ...x, fase })))
