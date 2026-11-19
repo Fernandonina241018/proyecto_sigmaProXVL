@@ -138,3 +138,64 @@ describe('PQ cámaras de estabilidad (fuente ENSAYOS.txt)', () => {
     expect(txt).not.toContain('EST-OQ-001');
   });
 });
+
+describe('banco estabilidad: contrato de contenido', () => {
+  const ensayos = Object.values(banco.fases).flat()
+    .filter((e) => e.kind === 'ensayo' && (e.bloque === 2 || e.bloque === 3));
+  const sec = (e, prefijo) => (e.secciones || []).find((s) => String(s.et || '').startsWith(prefijo));
+  const texto = (e, prefijo) => {
+    const s = sec(e, prefijo);
+    return s ? String(s.html || '').replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim() : '';
+  };
+
+  it('el banco tiene 40 ensayos repartidos en las tres fases', () => {
+    expect(ensayos.length).toBe(40);
+    for (const fase of ['IQ', 'OQ', 'PQ']) {
+      const n = (banco.fases[fase] || [])
+        .filter((x) => x.kind === 'ensayo' && (x.bloque === 2 || x.bloque === 3)).length;
+      expect(n, fase).toBeGreaterThan(0);
+    }
+  });
+
+  it('todo ensayo tiene las cinco secciones del estándar', () => {
+    const faltan = [];
+    for (const e of ensayos) {
+      for (const prefijo of ['Objetivo', 'Procedimiento', 'Criterio', 'Documentos', 'Referencia']) {
+        if (!sec(e, prefijo)) faltan.push(`${e.id}: ${prefijo}`);
+      }
+    }
+    expect(faltan).toEqual([]);
+  });
+
+  it('todo ensayo con análisis tiene plan con variable y tamaño de muestra', () => {
+    const malos = ensayos
+      .filter((e) => e.analisis === 'si')
+      .filter((e) => {
+        const p = texto(e, 'Plan estadístico');
+        return !p || !/Variable =/.test(p) || !/n =/.test(p) || !/Regla de decisión =/.test(p);
+      })
+      .map((e) => e.id);
+    expect(malos).toEqual([]);
+  });
+
+  it('ningún criterio queda con texto vago ni límite delegado', () => {
+    const vagos = ensayos.filter((e) => /dentro de lo definido|pendiente de confirmaci[oó]n|seg[uú]n lo definido/i.test(texto(e, 'Criterio')));
+    expect(vagos.map((e) => e.id)).toEqual([]);
+  });
+
+  it('todo criterio con valor propuesto declara la nota de pendiente', () => {
+    const sinNota = ensayos
+      .filter((e) => /por-confirmar/.test(texto(e, 'Criterio')))
+      .filter((e) => !sec(e, 'Nota'))
+      .map((e) => e.id);
+    expect(sinNota).toEqual([]);
+  });
+
+  it('el criterio de temperatura y humedad cita su fuente normativa', () => {
+    const sinFuente = ensayos
+      .filter((e) => /°C|% HR/.test(texto(e, 'Criterio')))
+      .filter((e) => !/ICH|OMS|USP|Anexo/.test(texto(e, 'Referencia')))
+      .map((e) => e.id);
+    expect(sinFuente).toEqual([]);
+  });
+});

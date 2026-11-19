@@ -12,7 +12,7 @@
 
 <p><a href="../estabilidad.html">← Estabilidad</a></p>
 <h2>OQ — Cámaras de estabilidad (banco común ICH Q1A)</h2>
-<p>Versión del banco: <span data-banco-version>EST-OQ-CAM 2026-10-21 v2</span></p>
+<p>Versión del banco: <span data-banco-version>EST-OQ-CAM 2026-11-19 v3</span></p>
 <p>Ensayos de Calificación de Operación comunes a los recintos de estabilidad (<span class="equipo">equipo</span>): cabinas y cuartos en condiciones aceleradas y reales. Sin <code>data-familia</code>: aplican a todos los recintos. Fuente: ENSAYOS.txt de protocolo.</p>
 
 <!-- ================= OQ ================= -->
@@ -78,11 +78,11 @@
   a) Detención total dentro del límite del fabricante<br>
   4) Sin rearmar, intentar arrancar y confirmar que queda impedido<br>
   5) Rearmar según el fabricante, confirmar condición segura sin arranque solo y dejar el <span class="equipo">equipo</span> en condición segura</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Detención en el tiempo previsto; estado seguro; sin arranque sin rearme.</p>
+  <p><strong>Criterio de aceptación:</strong><br>La parada de emergencia detiene calefacción, humidificador y compresor en ≤ <span class="por-confirmar">5 s</span>.<br>El equipo queda en estado seguro, sin reinicio automático.<br>El evento queda registrado con hora y usuario.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro de la prueba con tiempo de detención medido</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante; GAMP5 2.ª ed.</p>
+  <p><strong>Nota:</strong><br>El tiempo en rojo se confirma con el diseño del equipo y el procedimiento de emergencia.</p>
+  <p><strong>Referencia:</strong><br>ICH Q1A(R2); ICH Q1B (fotoestabilidad, si aplica); OMS TRS 1010 Anexo 7; USP &lt;1079&gt;; EU GMP Anexo 15.</p>
 </article>
 
 <article data-bloque="3" id="art-EST-OQ-002" class="ensayo" data-id="EST-OQ-002" data-fase="OQ" data-cond="ambas">
@@ -95,11 +95,11 @@
   4) Confirmar el corte de la calefacción por el dispositivo independiente y su alarma<br>
   a) Corte efectivo al límite con el control principal inhabilitado<br>
   5) Restituir el control principal, normalizar y confirmar operación</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Protección independiente funcional al límite declarado.</p>
+  <p><strong>Criterio de aceptación:</strong><br>La protección independiente corta la calefacción a setpoint + <span class="por-confirmar">2 °C</span>.<br>No hay reinicio automático: el rearme es manual.<br>La actuación queda registrada y es independiente del control principal.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro de la prueba con setpoint y respuesta</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante; EU GMP Anexo 15.</p>
+  <p><strong>Nota:</strong><br>El margen en rojo se confirma con el fabricante; la protección debe ser independiente del lazo de control.</p>
+  <p><strong>Referencia:</strong><br>ICH Q1A(R2); ICH Q1B (fotoestabilidad, si aplica); OMS TRS 1010 Anexo 7; USP &lt;1079&gt;; EU GMP Anexo 15.</p>
 </article>
 
 <article data-bloque="3" id="art-EST-OQ-003" class="ensayo" data-id="EST-OQ-003" data-fase="OQ" data-cond="ambas">
@@ -112,11 +112,11 @@
   4) Simular falla del compresor y confirmar la respuesta del sistema<br>
   a) Cada interlock ejecuta su acción diseñada con mensaje<br>
   5) Restituir todo a normal y cerrar la matriz</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  El 100% de los interlocks ejecuta su acción.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Con puerta abierta se detienen humidificador, calefacción y compresor en ≤ <span class="por-confirmar">5 s</span>.<br>Al cerrar, el equipo retoma el control sin intervención manual.<br>Prueba registrada por interlock.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Matriz de interlocks con condición y respuesta</p>
-  <p><strong>Referencia:</strong><br>GAMP5 2.ª ed.; EU GMP Anexo 15.</p>
+  <p><strong>Nota:</strong><br>El tiempo en rojo se confirma con el diseño del control.</p>
+  <p><strong>Referencia:</strong><br>ICH Q1A(R2); ICH Q1B (fotoestabilidad, si aplica); OMS TRS 1010 Anexo 7; USP &lt;1079&gt;; EU GMP Anexo 15.</p>
 </article>
 
 <article data-bloque="3" id="art-EST-OQ-004" class="ensayo" data-id="EST-OQ-004" data-fase="OQ" data-cond="ambas">
@@ -128,11 +128,11 @@
   3) Por cada una confirmar disparo, retardo configurado, acción asociada y acuse registrado<br>
   a) Todas disparan en su límite con su retardo y quedan en el histórico<br>
   4) Normalizar cada condición y confirmar el retorno a operación</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  El 100% de las alarmas dispara en su límite con su retardo y queda registrada.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Cada alarma dispara dentro del retardo configurado (<span class="por-confirmar">≤ 5 min</span>).<br>Límites de alarma: ±<span class="por-confirmar">2 °C</span> y ±<span class="por-confirmar">5 % HR</span> respecto del setpoint.<br>Registro con fecha, hora, valor y usuario.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Matriz de alarmas con límite, retardo, acción y acuse</p>
-  <p><strong>Referencia:</strong><br>EU GMP Anexo 15; GAMP5 2.ª ed.</p>
+  <p><strong>Nota:</strong><br>Límites y retardo en rojo se confirman con la URS del estudio y la criticidad del producto.</p>
+  <p><strong>Referencia:</strong><br>ICH Q1A(R2); ICH Q1B (fotoestabilidad, si aplica); OMS TRS 1010 Anexo 7; USP &lt;1079&gt;; EU GMP Anexo 15.</p>
 </article>
 
 <article data-bloque="3" id="art-EST-OQ-005" class="ensayo" data-id="EST-OQ-005" data-fase="OQ" data-cond="ambas">
@@ -145,11 +145,11 @@
   4) Confirmar que la notificación identifica el equipo, la alarma y la hora del evento<br>
   a) Notificación recibida con identificación completa del evento<br>
   5) Registrar el resultado con evidencia de recepción</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Notificación remota funcional e identificada.</p>
+  <p><strong>Criterio de aceptación:</strong><br>La notificación remota llega al destinatario en ≤ <span class="por-confirmar">5 min</span>.<br>Se prueba cada canal configurado (SMS, correo o monitoreo).<br>Registro de envío y de recepción.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Evidencia de recepción de la notificación de prueba</p>
-  <p><strong>Referencia:</strong><br>Procedimiento de monitoreo; EU GMP Anexo 15.</p>
+  <p><strong>Nota:</strong><br>El tiempo en rojo depende del esquema de guardias; se confirma con Calidad.</p>
+  <p><strong>Referencia:</strong><br>ICH Q1A(R2); ICH Q1B (fotoestabilidad, si aplica); OMS TRS 1010 Anexo 7; USP &lt;1079&gt;; EU GMP Anexo 15.</p>
 </article>
 
 <article data-bloque="3" id="art-EST-OQ-006" class="ensayo" data-id="EST-OQ-006" data-fase="OQ" data-cond="ambas">
@@ -163,12 +163,12 @@
   5) Confirmar que no hay arranque espontáneo inseguro y que el registro es continuo, sin huecos injustificados (ALCOA+)<br>
   a) Retorno a condiciones dentro del límite y registro continuo<br>
   6) Anexar el registro del evento y la verificación de datos</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Retorno a condiciones en el tiempo previsto con registro continuo.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Tras la alarma o parada, el equipo retorna a condiciones en ≤ <span class="por-confirmar">60 min</span>.<br>La continuidad del registro se mantiene durante el evento.<br>Sin pérdida de datos ni reinicio del estudio.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro del evento con tiempo de retorno<br>
   - Verificación de continuidad del registro independiente</p>
-  <p><strong>Referencia:</strong><br>GAMP5 2.ª ed.; 21 CFR Part 11.</p>
+  <p><strong>Nota:</strong><br>El tiempo en rojo se confirma con el diseño del equipo y el procedimiento de contingencia.</p>
+  <p><strong>Referencia:</strong><br>ICH Q1A(R2); ICH Q1B (fotoestabilidad, si aplica); OMS TRS 1010 Anexo 7; USP &lt;1079&gt;; EU GMP Anexo 15.</p>
 </article>
 
 <article data-bloque="3" id="art-EST-OQ-007" class="ensayo" data-analisis="si" data-id="EST-OQ-007" data-fase="OQ" data-cond="ambas">
@@ -181,13 +181,14 @@
   a) Diferencia de temperatura menor o igual a ±0,5 °C y de HR menor o igual a ±3% HR<br>
   4) Repetir en todos los setpoints de la tabla<br>
   5) Procesar los datos crudos de exactitud en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Exactitud conforme en todos los setpoints de la tabla.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = desviación de los sensores; unidad = °C y % HR. Tipo de dato = continua. n = 3 comparaciones por sensor contra patrón. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = desviación dentro de ±0,5 °C y ±3 % HR. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable medida; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Exactitud de los sensores de control ≤ <span class="por-confirmar">±0,5 °C</span> y ≤ <span class="por-confirmar">±3 % HR</span> frente a patrón.<br>Calibración vigente y trazable de cada sensor usado.<br>Registro por sensor, sin promedio entre sensores.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Tabla de setpoints con control contra patrón por punto<br>
   - Data cruda y reporte estadístico del análisis de exactitud<br>
   - Certificado del patrón de referencia</p>
-  <p><strong>Referencia:</strong><br><span class="refnorma"></span>; ICH Q1A(R2) (tolerancias).</p>
+  <p><strong>Nota:</strong><br>Las tolerancias en rojo se confirman con el certificado de calibración y la URS.</p>
+  <p><strong>Referencia:</strong><br>ICH Q1A(R2); ICH Q1B (fotoestabilidad, si aplica); OMS TRS 1010 Anexo 7; USP &lt;1079&gt;; EU GMP Anexo 15.</p>
 </article>
 
 <article data-bloque="3" id="art-EST-OQ-008" class="ensayo" data-analisis="si" data-id="EST-OQ-008" data-fase="OQ" data-cond="ambas">
@@ -199,12 +200,13 @@
   3) Calcular por setpoint el promedio, el rango y la desviación<br>
   a) Estabilidad dentro de ±1 °C y exactitud dentro de ±0,5 °C contra el patrón<br>
   4) Procesar los datos crudos de estabilidad en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Estabilidad y exactitud conformes en los tres setpoints.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = temperatura de control; unidad = °C. Tipo de dato = continua. n = 3 ventanas de 30 min por setpoint. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = media dentro de ±2 °C y DE ≤ 0,5 °C. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable medida; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Estabilidad de la temperatura de control dentro de ±<span class="por-confirmar">0,5 °C</span> en 30 min.<br>Exactitud de consigna dentro de ±<span class="por-confirmar">2 °C</span> del setpoint.<br>Sin oscilación sostenida ni ciclado corto.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registros de estabilidad por setpoint con estadística<br>
   - Data cruda y reporte estadístico del análisis de estabilidad de temperatura</p>
-  <p><strong>Referencia:</strong><br><span class="refnorma"></span>.</p>
+  <p><strong>Nota:</strong><br>Las tolerancias en rojo se confirman con la URS; para cámaras de estabilidad la práctica es ±2 °C de consigna.</p>
+  <p><strong>Referencia:</strong><br>ICH Q1A(R2); ICH Q1B (fotoestabilidad, si aplica); OMS TRS 1010 Anexo 7; USP &lt;1079&gt;; EU GMP Anexo 15.</p>
 </article>
 
 <article data-bloque="3" id="art-EST-OQ-009" class="ensayo" data-analisis="si" data-id="EST-OQ-009" data-fase="OQ" data-cond="ambas">
@@ -217,12 +219,13 @@
   a) Estabilidad dentro de ±3% HR y exactitud dentro de ±3% HR contra el patrón<br>
   4) Procesar los datos crudos de HR en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo<br>
   5) Sin control de HR: redactar la justificación de No Aplica con firma del ejecutor y del revisor</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  HR conforme en todos los setpoints, o No Aplica justificado y firmado.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = humedad relativa de control; unidad = % HR. Tipo de dato = continua. n = 3 ventanas de 30 min por setpoint. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = media dentro de ±5 % HR del setpoint. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable medida; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Estabilidad de la HR dentro de ±<span class="por-confirmar">5 % HR</span> del setpoint.<br>Sin oscilación > 5 % en 30 min.<br>Respuesta al cambio de setpoint ≤ 30 min.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registros de HR por setpoint, o justificación de No Aplica firmada<br>
   - Data cruda y reporte estadístico del análisis de HR</p>
-  <p><strong>Referencia:</strong><br><span class="refnorma"></span>.</p>
+  <p><strong>Nota:</strong><br>La tolerancia en rojo se confirma con la URS y el plan de estabilidad.</p>
+  <p><strong>Referencia:</strong><br>ICH Q1A(R2); ICH Q1B (fotoestabilidad, si aplica); OMS TRS 1010 Anexo 7; USP &lt;1079&gt;; EU GMP Anexo 15.</p>
 </article>
 
 <article data-bloque="3" id="art-EST-OQ-010" class="ensayo" data-analisis="si" data-id="EST-OQ-010" data-fase="OQ" data-cond="ambas">
@@ -235,12 +238,13 @@
   4) Repetir en un segundo setpoint representativo<br>
   a) Tiempo de llegada dentro de lo previsto y sobreimpulso menor o igual a [2] °C<br>
   5) Procesar los datos crudos de llegada en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Llegada a condiciones en el tiempo previsto con sobreimpulso controlado.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = tiempo de llegada a condiciones; unidad = min. Tipo de dato = continua. n = 3 arranques por setpoint. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = media ≤ 60 min y sobreimpulso ≤ 2 °C. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable medida; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Tiempo de llegada a condiciones ≤ <span class="por-confirmar">60 min</span> desde temperatura ambiente.<br>Sobreimpulso de temperatura ≤ <span class="por-confirmar">2 °C</span> sobre el setpoint.<br>Sin alarma durante la estabilización.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Curvas de llegada a condiciones por setpoint<br>
   - Data cruda y reporte estadístico del análisis de llegada</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante; EU GMP Anexo 15.</p>
+  <p><strong>Nota:</strong><br>El tiempo y el sobreimpulso en rojo se confirman con el fabricante y el procedimiento de arranque.</p>
+  <p><strong>Referencia:</strong><br>ICH Q1A(R2); ICH Q1B (fotoestabilidad, si aplica); OMS TRS 1010 Anexo 7; USP &lt;1079&gt;; EU GMP Anexo 15.</p>
 </article>
 
 <article data-bloque="3" id="art-EST-OQ-011" class="ensayo" data-analisis="si" data-id="EST-OQ-011" data-fase="OQ" data-cond="ambas">
@@ -252,13 +256,14 @@
   3) Confirmar mantenimiento o documentar la limitación con su justificación técnica<br>
   a) Cada combinación se mantiene o queda documentada como limitación del equipo<br>
   4) Procesar los datos crudos de extremos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Rango verificado: combinaciones mantenidas o limitaciones documentadas.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = temperatura y HR en extremos; unidad = °C y % HR. Tipo de dato = continua. n = 3 ventanas de 30 min por combinación extrema. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = cada combinación dentro de ±2 °C y ±5 % HR. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable medida; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Combinaciones extremas de temperatura y HR mantenidas dentro de ±<span class="por-confirmar">2 °C</span> y ±<span class="por-confirmar">5 % HR</span>.<br>Mapa de capacidad declarado por el fabricante, verificado en los extremos.<br>Las combinaciones no soportadas se documentan como limitación.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registros por combinación extrema<br>
   - Data cruda y reporte estadístico del análisis de extremos<br>
   - Matriz de capacidades y limitaciones del equipo</p>
-  <p><strong>Referencia:</strong><br>URS del equipo; EU GMP Anexo 15.</p>
+  <p><strong>Nota:</strong><br>Los extremos y tolerancias en rojo se confirman con el mapa de capacidad del fabricante.</p>
+  <p><strong>Referencia:</strong><br>ICH Q1A(R2); ICH Q1B (fotoestabilidad, si aplica); OMS TRS 1010 Anexo 7; USP &lt;1079&gt;; EU GMP Anexo 15.</p>
 </article>
 
 <article data-bloque="3" id="art-EST-OQ-012" class="ensayo" data-analisis="si" data-id="EST-OQ-012" data-fase="OQ" data-cond="ambas">
@@ -271,13 +276,13 @@
   4) Confirmar que las aperturas breves de uso real quedan cubiertas<br>
   a) Recuperación dentro del límite (picos breves aceptados como inevitables según ICH Q1A)<br>
   5) Procesar los datos crudos de recuperación en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Plan estadístico:</strong><br>Variable = tiempo medido en el procedimiento por repetición; tamaño de muestra = las repeticiones definidas en el procedimiento; estadísticos = media y rango de las repeticiones; criterio = todas las repeticiones dentro del tiempo definido; sin comparaciones entre grupos (no aplica ANOVA); valores atípicos con investigación documentada, sin exclusión silenciosa.</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Recuperación en el tiempo previsto en las 3 repeticiones. Límite pendiente de confirmación por el responsable en el protocolo aprobado.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = tiempo de recuperación tras apertura; unidad = min. Tipo de dato = continua. n = 3 aperturas por setpoint. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = media ≤ 30 min en las 3. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable medida; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Tiempo de recuperación tras apertura de puerta ≤ <span class="por-confirmar">30 min</span>.<br>Apertura de duración definida (<span class="por-confirmar">60 s</span>) y repetida 3 veces.<br>Sin excursión > límite de alarma después de la recuperación.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registros de recuperación por repetición<br>
   - Data cruda y reporte estadístico del análisis de recuperación</p>
-  <p><strong>Referencia:</strong><br>ICH Q1A(R2) (picos por apertura); EU GMP Anexo 15.</p>
+  <p><strong>Nota:</strong><br>La duración de apertura y el tiempo en rojo se confirman con el uso real del área.</p>
+  <p><strong>Referencia:</strong><br>ICH Q1A(R2); ICH Q1B (fotoestabilidad, si aplica); OMS TRS 1010 Anexo 7; USP &lt;1079&gt;; EU GMP Anexo 15.</p>
 </article>
 
 <article data-bloque="3" id="art-EST-OQ-013" class="ensayo" data-analisis="si" data-id="EST-OQ-013" data-fase="OQ" data-cond="ambas">
@@ -289,13 +294,14 @@
   3) Calcular por sensor promedio, máximo y mínimo; ΔT entre sensores; y estabilidad<br>
   a) Uniformidad dentro de la tolerancia del recinto en todos los setpoints<br>
   4) Procesar los datos crudos del mapeo en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Mapeo conforme en todos los setpoints con sensores justificados.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = temperatura por sensor; unidad = °C. Tipo de dato = continua. n = mínimo 9 sensores, 24 h por setpoint. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = cada sensor dentro de ±2 °C del setpoint. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable medida; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Uniformidad de temperatura en vacío ≤ <span class="por-confirmar">±2 °C</span> en cada setpoint crítico.<br>Mínimo <span class="por-confirmar">9 sensores</span> justificados por volumen, distribuidos en esquinas, centro, puerta, humidificador y ventilación.<br>Duración mínima 24 h por setpoint, sin huecos de registro.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Plano de sensores con justificación por volumen<br>
   - Curvas y tabla por sensor y setpoint<br>
   - Data cruda y reporte estadístico del análisis del mapeo</p>
-  <p><strong>Referencia:</strong><br>OMS TRS 1010 Anexo 7; ICH Q1A(R2).</p>
+  <p><strong>Nota:</strong><br>La tolerancia y el número de sensores en rojo se confirman con el volumen del recinto y la guía adoptada.</p>
+  <p><strong>Referencia:</strong><br>ICH Q1A(R2); ICH Q1B (fotoestabilidad, si aplica); OMS TRS 1010 Anexo 7; USP &lt;1079&gt;; EU GMP Anexo 15.</p>
 </article>
 
 <article data-bloque="3" id="art-EST-OQ-014" class="ensayo" data-analisis="si" data-id="EST-OQ-014" data-fase="OQ" data-cond="ambas">
@@ -308,12 +314,13 @@
   a) Uniformidad de HR dentro de la tolerancia del recinto<br>
   4) Procesar los datos crudos de HR en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo<br>
   5) Sin control de HR: redactar la justificación de No Aplica con firma del ejecutor y del revisor</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Mapeo de HR conforme, o No Aplica justificado y firmado.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = humedad relativa por sensor; unidad = % HR. Tipo de dato = continua. n = mismos puntos y duración del mapeo de T. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = cada sensor dentro de ±5 % HR del setpoint. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable medida; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Uniformidad de HR en vacío ≤ <span class="por-confirmar">±5 % HR</span> en cada setpoint con control de humedad.<br>Mismos puntos y duración que el mapeo de temperatura.<br>Si el recinto no controla HR, se declara No Aplica con aprobación.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Curvas y tabla de HR por sensor, o justificación de No Aplica firmada<br>
   - Data cruda y reporte estadístico del análisis de HR</p>
-  <p><strong>Referencia:</strong><br>OMS TRS 1010 Anexo 7; ICH Q1A(R2).</p>
+  <p><strong>Nota:</strong><br>La tolerancia en rojo se confirma con la URS; en recintos sin control de HR el ensayo no aplica.</p>
+  <p><strong>Referencia:</strong><br>ICH Q1A(R2); ICH Q1B (fotoestabilidad, si aplica); OMS TRS 1010 Anexo 7; USP &lt;1079&gt;; EU GMP Anexo 15.</p>
 </article>
 
 <article data-bloque="3" id="art-EST-OQ-015" class="ensayo" data-analisis="si" data-id="EST-OQ-015" data-fase="OQ" data-cond="ambas">
@@ -326,12 +333,13 @@
   4) Verificar que el monitoreo de rutina refleja el peor caso del recinto<br>
   a) Puntos críticos identificados y monitoreo ubicado en el peor caso<br>
   5) Procesar los datos crudos de extremos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Puntos críticos identificados con monitoreo en el peor caso.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = identificación de puntos críticos; unidad = pasa/no pasa. Tipo de dato = atributo. n = 1 análisis del 100 % de los puntos mapeados. Estadísticos = proporción de cumplimiento con IC binomial exacto. Regla de decisión = todos los extremos identificados y justificados. Atípicos: no aplica a datos de atributo; toda exclusión se documenta y se conserva el registro original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Puntos fríos, calientes, secos y húmedos identificados con datos del mapeo.<br>Sensor de control ubicado en el punto más desfavorable o justificación documentada.<br>Registro por punto, sin selección posterior a los resultados.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Plano con puntos críticos y ubicación del monitoreo<br>
   - Data cruda y reporte estadístico del análisis de extremos</p>
-  <p><strong>Referencia:</strong><br>OMS TRS 1010 Anexo 7; ICH Q1A(R2) (monitoreo).</p>
+  <p><strong>Nota:</strong><br>La ubicación del sensor de control se decide con el mapeo, no por comodidad de instalación.</p>
+  <p><strong>Referencia:</strong><br>ICH Q1A(R2); ICH Q1B (fotoestabilidad, si aplica); OMS TRS 1010 Anexo 7; USP &lt;1079&gt;; EU GMP Anexo 15.</p>
 </article>
 
 <article data-bloque="3" id="art-EST-OQ-016" class="ensayo" data-analisis="si" data-id="EST-OQ-016" data-fase="OQ" data-cond="ambas">
@@ -343,12 +351,13 @@
   3) Consolidar la matriz de cumplimiento por setpoint<br>
   a) El 100% de los setpoints dentro de los límites URS<br>
   4) Procesar los datos crudos consolidados en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Uniformidad y estabilidad dentro de URS en todos los setpoints.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = temperatura y HR por sensor; unidad = °C y % HR. Tipo de dato = continua. n = 24 h por setpoint, todos los sensores. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = cada registro dentro de límite. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable medida; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Uniformidad y estabilidad dentro de los límites del URS durante 24 h por setpoint.<br>Cada sensor dentro de límite en el 100 % de los registros.<br>Sin promediar sensores para declarar cumplimiento.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Matriz de cumplimiento por setpoint contra URS<br>
   - Data cruda y reporte estadístico consolidado</p>
-  <p><strong>Referencia:</strong><br>URS del equipo; ICH Q1A(R2).</p>
+  <p><strong>Nota:</strong><br>El URS es la fuente del límite; no se ajusta con los resultados del mapeo.</p>
+  <p><strong>Referencia:</strong><br>ICH Q1A(R2); ICH Q1B (fotoestabilidad, si aplica); OMS TRS 1010 Anexo 7; USP &lt;1079&gt;; EU GMP Anexo 15.</p>
 </article>
 
 <article data-bloque="3" id="art-EST-OQ-017" class="ensayo" data-analisis="si" data-id="EST-OQ-017" data-fase="OQ" data-cond="ambas">
@@ -360,12 +369,13 @@
   3) Confirmar que el registrador refleja fielmente el control y el patrón<br>
   a) Diferencia del registrador dentro del criterio (temperatura ±0,5 °C, HR ±3%)<br>
   4) Procesar los datos crudos comparativos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Registrador fiel al control y al patrón dentro del criterio.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = diferencia entre sensores; unidad = °C y % HR. Tipo de dato = continua. n = 3 comparaciones simultáneas. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = diferencia dentro de ±0,5 °C y ±3 % HR. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable medida; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Diferencia entre registrador de monitoreo, sensor de control y patrón ≤ <span class="por-confirmar">0,5 °C</span> y ≤ <span class="por-confirmar">3 % HR</span>.<br>Calibración vigente de los tres.<br>Registro de la comparación en el mismo instante.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Comparativa de las tres fuentes con diferencias<br>
   - Data cruda y reporte estadístico del análisis comparativo</p>
-  <p><strong>Referencia:</strong><br><span class="refnorma"></span>.</p>
+  <p><strong>Nota:</strong><br>Las tolerancias en rojo se confirman con los certificados; la comparación se hace simultánea.</p>
+  <p><strong>Referencia:</strong><br>ICH Q1A(R2); ICH Q1B (fotoestabilidad, si aplica); OMS TRS 1010 Anexo 7; USP &lt;1079&gt;; EU GMP Anexo 15.</p>
 </article>
 
 <article data-bloque="3" id="art-EST-OQ-018" class="ensayo" data-analisis="si" data-id="EST-OQ-018" data-fase="OQ" data-cond="ambas">
@@ -378,12 +388,13 @@
   4) Confirmar que no hay huecos ni duplicados injustificados<br>
   a) Intervalo regular según lo configurado y deriva dentro del criterio<br>
   5) Procesar los datos crudos de intervalos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Intervalo regular y marca de tiempo exacta.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = intervalo y marca de tiempo; unidad = min. Tipo de dato = continua. n = 1 verificación por registrador. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = intervalo ≤ 15 min y desvío ≤ 1 min. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable medida; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Intervalo de registro ≤ <span class="por-confirmar">15 min</span> y marca de tiempo con desvío ≤ <span class="por-confirmar">1 min</span>.<br>Sin huecos de registro en el período evaluado.<br>Registro exportable y trazable al usuario.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Verificación de intervalos y deriva del reloj<br>
   - Data cruda y reporte estadístico del análisis de intervalos</p>
-  <p><strong>Referencia:</strong><br>21 CFR Part 11 (registros); EU GMP Anexo 15.</p>
+  <p><strong>Nota:</strong><br>El intervalo y el desvío en rojo se confirman con la URS y el plan de monitoreo.</p>
+  <p><strong>Referencia:</strong><br>ICH Q1A(R2); ICH Q1B (fotoestabilidad, si aplica); OMS TRS 1010 Anexo 7; USP &lt;1079&gt;; EU GMP Anexo 15.</p>
 </article>
 
 <article data-bloque="3" id="art-EST-OQ-019" class="ensayo" data-id="EST-OQ-019" data-fase="OQ" data-cond="ambas">
@@ -396,11 +407,11 @@
   4) Confirmar consignas de ventilación según el diseño<br>
   a) Circulación efectiva sin zonas muertas no cubiertas por el mapeo<br>
   5) Registrar el resultado con evidencia de la prueba de circulación</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Ventilación funcional sin zonas muertas fuera del mapeo.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Ventiladores operativos y sin zonas muertas de circulación.<br>ΔT entre puntos de medición ≤ <span class="por-confirmar">2 °C</span> con el equipo estable.<br>Sin cortocircuito entre impulsión y retorno.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro de la prueba de circulación de aire</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante; OMS TRS 1010 Anexo 7.</p>
+  <p><strong>Nota:</strong><br>La verificación es cualitativa y cuantitativa: no alcanza con que el ventilador gire.</p>
+  <p><strong>Referencia:</strong><br>ICH Q1A(R2); ICH Q1B (fotoestabilidad, si aplica); OMS TRS 1010 Anexo 7; USP &lt;1079&gt;; EU GMP Anexo 15.</p>
 </article>
 
 <article data-bloque="4" id="art-EST-OQ-RES" class="ensayo" data-id="EST-OQ-RES" data-fase="OQ" data-cond="ambas">
