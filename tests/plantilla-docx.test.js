@@ -700,7 +700,8 @@ describe('H-05/H-08/H-09/H-11: límites, bloques fijos y trazabilidad', () => {
       const r = await P.generar('PQ', u8, b, DRAFT, ENT, 'ambas');
       const xml = dec((await P._interno.leerZip(r.bytes)).find((a) => a.nombre === 'word/document.xml').datos);
       // El texto puede quedar partido en runs: se compara sobre el XML sin etiquetas.
-      const plano = xml.replace(/<[^>]+>/g, '');
+      // Sin regex `[^>]+`: CodeQL lo trata como sanitización incompleta.
+      const plano = xml.split('<').map((t) => t.slice(t.indexOf('>') + 1)).join('');
       expect(plano).toContain('AVISO — Este protocolo contiene 1 valor(es) propuesto(s) pendiente(s) de confirmación');
     });
 
