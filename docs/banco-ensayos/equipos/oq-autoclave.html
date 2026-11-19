@@ -81,13 +81,12 @@
   6) Confirmar que el rearranque exige una acción deliberada del operador y que el equipo no continúa el ciclo solo<br>
   7) Dejar el <span class="equipo">equipo</span> en condición segura y anotar cualquier desviación</p>
   <p><strong>Plan estadístico:</strong><br>No aplica: verificación funcional por atributo (inhibe/no inhibe, 100 % de los casos); sin inferencia estadística.</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Estado seguro con despresurización controlada; puerta bloqueada hasta condición segura.<br>
-  Sin rearranque automático ni continuación del ciclo.</p>
+  <p><strong>Criterio de aceptación:</strong><br>El aborto del ciclo deja la cámara despresurizada y en estado seguro.<br>No hay apertura automática de puerta.<br>El evento queda registrado con hora y usuario.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro de tiempos, presiones y temperaturas del aborto<br>
   - Constancia del bloqueo de puerta</p>
-  <p><strong>Referencia:</strong><br>EN 285 (control y seguridades); GAMP5 2.ª ed.</p>
+  <p><strong>Nota:</strong><br>La despresurización sin apertura automática es lo que protege al operador.</p>
+  <p><strong>Referencia:</strong><br>EN 285; ISO 17665-1; PDA TR1; EU GMP Anexo 1; 21 CFR 211.160(b).</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-OQ-AU-002" class="ensayo" data-id="EQ-OQ-AU-002" data-fase="OQ" data-cond="ambas" data-familia="autoclave">
@@ -103,12 +102,12 @@
   a) La segunda puerta queda bloqueada, y viceversa<br>
   5) Cerrar correctamente y confirmar el permiso de marcha<br>
   6) Registrar cada intento con hora, condición y respuesta del <span class="equipo">equipo</span></p>
-  <p><strong>Plan estadístico:</strong><br>No aplica: verificación funcional por atributo (inhibe/no inhibe, 100 % de los casos); sin inferencia estadística.</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  El 100% de los bloqueos ensayados es efectivo, incluyendo la exclusión mutua en doble puerta.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = bloqueo de puerta; unidad = bar y °C. Tipo de dato = continua. n = 3 pruebas. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = no abre con presión o temperatura sobre el límite. Atípicos = Grubbs solo si n ≥ 7; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Los bloqueos de puerta impiden abrir con presión > <span class="por-confirmar">0,1 bar</span> o temperatura > <span class="por-confirmar">60 °C</span>.<br>El enclavamiento actúa en ambos sentidos y exige condición segura.<br>Registro por prueba.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Matriz de interlocks con intentos y respuestas</p>
-  <p><strong>Referencia:</strong><br>EN 285 §4.3.2 (puertas); GAMP5 2.ª ed.</p>
+  <p><strong>Nota:</strong><br>Los límites en rojo se confirman con el fabricante y el análisis de riesgo.</p>
+  <p><strong>Referencia:</strong><br>EN 285; ISO 17665-1; PDA TR1; EU GMP Anexo 1; 21 CFR 211.160(b).</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-OQ-AU-003" class="ensayo" data-id="EQ-OQ-AU-003" data-fase="OQ" data-cond="ambas" data-familia="autoclave">
@@ -121,12 +120,13 @@
   4) Verificar los manómetros del <span class="equipo">equipo</span> contra patrón en el rango de trabajo<br>
   a) Los certificados están vigentes y archivados<br>
   5) Anexar los certificados y el acta de la prueba de alivio al protocolo</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Válvula certificada, vigente y funcional; recipiente conforme a la normativa local.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = presión de apertura; unidad = bar. Tipo de dato = continua. n = 3 pruebas de apertura. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = media dentro de ±5 % del tarado. Atípicos = Grubbs solo si n ≥ 7; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Válvula de seguridad con certificado vigente y apertura a la presión de tarado ±<span class="por-confirmar">5 %</span>.<br>Descarga sin obstrucción y a zona segura.<br>Registro de la última prueba.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Certificado de la válvula de seguridad y expediente del recipiente<br>
   - Acta de la prueba de alivio</p>
-  <p><strong>Referencia:</strong><br>Normativa local de recipientes a presión; EN 764-1.</p>
+  <p><strong>Nota:</strong><br>La tolerancia en rojo se confirma con el certificado del fabricante.</p>
+  <p><strong>Referencia:</strong><br>EN 285; ISO 17665-1; PDA TR1; EU GMP Anexo 1; 21 CFR 211.160(b).</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-OQ-AU-004" class="ensayo" data-id="EQ-OQ-AU-004" data-fase="OQ" data-cond="ambas" data-familia="autoclave">
@@ -142,12 +142,13 @@
   6) Reducir el setpoint de tiempo para forzar tiempo de ciclo excedido y confirmar la alarma<br>
   7) Cerrar el suministro de vapor y confirmar la alarma de falla de vapor con su acción<br>
   8) Acusar cada alarma, verificar que el acuse queda registrado, normalizar y confirmar el retorno a operación</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  El 100% de las alarmas dispara en su límite, ejecuta su acción en menos de 5 segundos y queda registrada con acuse.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = disparo de alarmas; unidad = pasa/no pasa. Tipo de dato = atributo. n = 3 repeticiones por alarma. Estadísticos = proporción de cumplimiento con IC binomial exacto. Regla de decisión = cada alarma dispara y actúa. Atípicos: no aplica a datos de atributo; toda exclusión se documenta y se conserva el registro original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Cada alarma dispara en su límite y ejecuta la acción: sobrepresión, sobretemperatura, falla de vapor y puerta abierta.<br>Registro con fecha, hora, valor y usuario.<br>Prueba registrada por alarma.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Matriz de alarmas con límite, acción, tiempo de respuesta y acuse<br>
   - Extracto del histórico de alarmas del HMI</p>
-  <p><strong>Referencia:</strong><br>EU GMP Anexo 15; GAMP5 2.ª ed.</p>
+  <p><strong>Nota:</strong><br>Se prueban todas las alarmas del análisis de riesgo.</p>
+  <p><strong>Referencia:</strong><br>EN 285; ISO 17665-1; PDA TR1; EU GMP Anexo 1; 21 CFR 211.160(b).</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-OQ-AU-005" class="ensayo" data-id="EQ-OQ-AU-005" data-fase="OQ" data-cond="ambas" data-familia="autoclave">
@@ -161,13 +162,12 @@
   5) Restablecer la energía y confirmar que el <span class="equipo">equipo</span> no rearranca solo ni continúa el ciclo como si nada: el ciclo se aborta o se reanuda manualmente según el diseño<br>
   6) Revisar el lote de datos: registro del ciclo completo hasta el corte, sin corrupción ni huecos injustificados según ALCOA+<br>
   7) Anexar el registro del evento y la verificación de datos, documentando las desviaciones si las hubo</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Estado seguro al corte; sin rearranque automático; ciclo invalidado o reanudado según procedimiento.<br>
-  Datos íntegros y trazables tras la recuperación.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Ante corte de energía el ciclo se aborta de forma segura y la puerta permanece bloqueada.<br>La carga se dispone según procedimiento.<br>Evento registrado.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro del evento con hora y fase del ciclo<br>
   - Verificación de integridad de datos</p>
-  <p><strong>Referencia:</strong><br>GAMP5 2.ª ed.; 21 CFR Part 11.</p>
+  <p><strong>Nota:</strong><br>La disposición de la carga se define antes de la prueba.</p>
+  <p><strong>Referencia:</strong><br>EN 285; ISO 17665-1; PDA TR1; EU GMP Anexo 1; 21 CFR 211.160(b).</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-OQ-AU-006" class="ensayo" data-id="EQ-OQ-AU-006" data-fase="OQ" data-cond="ambas" data-familia="autoclave">
@@ -179,11 +179,12 @@
   a) Las diferencias de temperatura y presión están dentro de la exactitud declarada del registrador<br>
   3) Confirmar la identificación del ciclo (número, fecha y programa) en ambos registros<br>
   4) Anexar la tira o gráfica firmada al protocolo</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Coincidencia total entre el equipo y el registro independiente, con el ciclo identificado.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = coincidencia de registradores; unidad = °C y bar. Tipo de dato = continua. n = 3 comparaciones por ciclo. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = diferencia ≤ 1 °C y 0,1 bar. Atípicos = Grubbs solo si n ≥ 7; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Impresora o registrador independiente coincide con el control: diferencia ≤ <span class="por-confirmar">1 °C</span> y ±0,1 bar.<br>Registro completo del ciclo, sin huecos.<br>Sin diferencia entre canales.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Tira o gráfica del registro independiente anexada y firmada</p>
-  <p><strong>Referencia:</strong><br>EN 285 (medición y registro); EU GMP Anexo 15.</p>
+  <p><strong>Nota:</strong><br>El registrador independiente es la evidencia del ciclo.</p>
+  <p><strong>Referencia:</strong><br>EN 285; ISO 17665-1; PDA TR1; EU GMP Anexo 1; 21 CFR 211.160(b).</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-OQ-AU-007" class="ensayo" data-analisis="si" data-id="EQ-OQ-AU-007" data-fase="OQ" data-cond="ambas" data-familia="autoclave">
@@ -197,13 +198,14 @@
   3) Repetir en 134 °C si el <span class="equipo">equipo</span> opera ese programa<br>
   4) Confirmar la calibración vigente de ambos canales y anexar la tabla de temperatura, presión y teórica<br>
   5) Procesar los datos crudos de temperatura y presión (correlación con vapor saturado) en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo.</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Exactitud ±0,5 °C y correlación con vapor saturado conformes.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = correlación de sensores; unidad = °C. Tipo de dato = continua. n = 3 comparaciones contra patrón. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = diferencia ≤ 1 °C. Atípicos = Grubbs solo si n ≥ 7; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Sensores de control e independiente correlacionan entre sí y con patrón: diferencia ≤ <span class="por-confirmar">1 °C</span>.<br>Calibración vigente y trazable.<br>Registro por comparación.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Tabla de temperatura, presión y teórica de saturación<br>
   - Certificados de los sensores<br>
   - Data cruda y reporte estadístico del análisis de temperatura y presión (correlación con vapor saturado)</p>
-  <p><strong>Referencia:</strong><br><span class="refnorma"></span>; EN 285 (termometría).</p>
+  <p><strong>Nota:</strong><br>La correlación entre sensores detecta un sensor desviado antes del PQ.</p>
+  <p><strong>Referencia:</strong><br>EN 285; ISO 17665-1; PDA TR1; EU GMP Anexo 1; 21 CFR 211.160(b).</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-OQ-AU-008" class="ensayo" data-id="EQ-OQ-AU-008" data-fase="OQ" data-cond="ambas" data-familia="autoclave">
@@ -215,11 +217,12 @@
   a) La diferencia es menor o igual a ±1% o ±5 segundos, lo mayor<br>
   3) Repetir en un segundo programa si el <span class="equipo">equipo</span> lo tiene calificado<br>
   4) Anexar la tabla de setpoint contra medido por fase</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Temporizadores exactos dentro de la tolerancia en todos los programas ensayados.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = tiempos por fase; unidad = min. Tipo de dato = continua. n = 3 ciclos. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = desviación ≤ ±1 min. Atípicos = Grubbs solo si n ≥ 7; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Tiempos de acondicionamiento, esterilización y secado dentro de <span class="por-confirmar">±1 min</span> del programa.<br>Sin acortamiento del tiempo de esterilización.<br>Registro por fase.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Tabla de setpoint contra medido por fase y programa</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante; EU GMP Anexo 15.</p>
+  <p><strong>Nota:</strong><br>Un ciclo más corto del programado reduce la letalidad.</p>
+  <p><strong>Referencia:</strong><br>EN 285; ISO 17665-1; PDA TR1; EU GMP Anexo 1; 21 CFR 211.160(b).</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-OQ-AU-009" class="ensayo" data-id="EQ-OQ-AU-009" data-fase="OQ" data-cond="ambas" data-familia="autoclave">
@@ -232,11 +235,11 @@
   4) Confirmar el fin de ciclo, la impresión del registro y la liberación de la puerta solo al final<br>
   a) Cada programa ejecuta su receta completa sin desvíos<br>
   5) Completar el checklist por programa con sus registros anexados</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  El 100% de los programas ejecuta su receta completa sin desvíos.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Transición entre fases con setpoints y tiempos correctos.<br>Sin saltos de fase ni alarmas.<br>Registro del perfil completo.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Checklist por programa con registros de ciclo</p>
-  <p><strong>Referencia:</strong><br>EU GMP Anexo 15; recetas aprobadas.</p>
+  <p><strong>Nota:</strong><br>Una transición mal ajustada deja vapor húmedo en la cámara.</p>
+  <p><strong>Referencia:</strong><br>EN 285; ISO 17665-1; PDA TR1; EU GMP Anexo 1; 21 CFR 211.160(b).</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-OQ-AU-010" class="ensayo" data-analisis="si" data-id="EQ-OQ-AU-010" data-fase="OQ" data-cond="ambas" data-familia="autoclave">
@@ -251,13 +254,14 @@
   5) Si no cumple, investigar fugas en puerta, sellos y válvulas, corregir y repetir<br>
   6) Anexar la curva de presión contra tiempo con el cálculo de la tasa<br>
   7) Procesar los datos crudos de presión de la prueba de fuga (tasa y curva) en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo.</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Tasa de fuga menor o igual a 0,13 kPa/min (EN 285), o el criterio más estricto de la URS registrado en el protocolo antes de la ejecución.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = tasa de fuga; unidad = mbar/min. Tipo de dato = continua. n = 3 pruebas de 10 min. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = ≤ 1,3 mbar/min. Atípicos = Grubbs solo si n ≥ 7; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Tasa de aumento de presión en la prueba de fuga ≤ <span class="por-confirmar">1,3 mbar/min</span>.<br>Prueba de 10 min con cámara aislada y registro de presión.<br>Sin fugas en puerta, empaque ni penetraciones.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Curva de presión contra tiempo con cálculo de tasa<br>
   - Certificado del instrumento de medición<br>
   - Data cruda y reporte estadístico del análisis de presión de la prueba de fuga (tasa y curva)</p>
-  <p><strong>Referencia:</strong><br>EN 285 §18.</p>
+  <p><strong>Nota:</strong><br>La tasa en rojo corresponde a EN 285 y se confirma con el fabricante.</p>
+  <p><strong>Referencia:</strong><br>EN 285; ISO 17665-1; PDA TR1; EU GMP Anexo 1; 21 CFR 211.160(b).</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-OQ-AU-011" class="ensayo" data-id="EQ-OQ-AU-011" data-fase="OQ" data-cond="ambas" data-familia="autoclave">
@@ -271,11 +275,11 @@
   a) Viraje uniforme en todas las corridas<br>
   5) Ante cualquier falla, investigar aire residual (fuga, vapor o vacío) antes de continuar con la calificación<br>
   6) Anexar las hojas indicadoras firmadas al protocolo</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Viraje uniforme en todas las corridas; pasa o no pasa por uniformidad.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Penetración de vapor y remoción de aire en cargas porosas.<br>Prueba de Bowie-Dick uniforme, sin zonas no reactivas.<br>Registro del indicador y de la carga usada.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Hojas indicadoras anexadas y firmadas</p>
-  <p><strong>Referencia:</strong><br>EN 285 §17; ISO 11140-4 e ISO 11140-5 (indicadores clase 2 para remoción de aire).</p>
+  <p><strong>Nota:</strong><br>La prueba de Bowie-Dick es la evidencia directa de remoción de aire.</p>
+  <p><strong>Referencia:</strong><br>EN 285; ISO 17665-1; PDA TR1; EU GMP Anexo 1; 21 CFR 211.160(b).</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-OQ-AU-012" class="ensayo" data-id="EQ-OQ-AU-012" data-fase="OQ" data-cond="ambas" data-familia="autoclave">
@@ -287,11 +291,11 @@
   3) Correr un ciclo sin ingreso de aire y confirmar el registro de pasa<br>
   a) El detector discrimina pasa y falla correctamente<br>
   4) Sin detector: redactar la justificación de No Aplica indicando que el equipo no cuenta con detector de aire, con firma del ejecutor y del revisor</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Detector funcional que discrimina pasa y falla, o No Aplica justificado y firmado.</p>
+  <p><strong>Criterio de aceptación:</strong><br>El detector de aire del equipo desafía el ciclo y registra la falla.<br>No libera el ciclo si detecta aire residual.<br>Registro por prueba.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registros del detector o justificación de No Aplica firmada</p>
-  <p><strong>Referencia:</strong><br>EN 285 §19 (provisión opcional).</p>
+  <p><strong>Nota:</strong><br>El detector debe probarse con carga que retiene aire, no solo en vacío.</p>
+  <p><strong>Referencia:</strong><br>EN 285; ISO 17665-1; PDA TR1; EU GMP Anexo 1; 21 CFR 211.160(b).</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-OQ-AU-013" class="ensayo" data-id="EQ-OQ-AU-013" data-fase="OQ" data-cond="ambas" data-familia="autoclave">
@@ -304,11 +308,11 @@
   4) Registrar el estado del sello como apto o programar su reemplazo<br>
   a) Sin daños y sin fugas durante el ciclo<br>
   5) Anexar la constancia con evidencia fotográfica</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Sello íntegro y funcional, sin fugas.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Integridad y estado del empaque de puerta: sin grietas, deformación ni endurecimiento.<br>Sin fugas en la prueba de vacío.<br>Registro de vida útil y cambio.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Constancia del estado del sello con evidencia fotográfica</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante; EN 285 §18 (prueba global de fugas).</p>
+  <p><strong>Nota:</strong><br>Un empaque endurecido sella mal y la fuga aparece en la prueba de vacío.</p>
+  <p><strong>Referencia:</strong><br>EN 285; ISO 17665-1; PDA TR1; EU GMP Anexo 1; 21 CFR 211.160(b).</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-OQ-AU-014" class="ensayo" data-analisis="si" data-id="EQ-OQ-AU-014" data-fase="OQ" data-cond="ambas" data-familia="autoclave">
@@ -324,15 +328,15 @@
   5) Identificar y registrar el punto frío para el PQ<br>
   6) Anexar el plano de termopares, las curvas y la tabla por sensor<br>
   7) Procesar los datos crudos de temperatura del mapeo en cámara vacía en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo.</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Uniformidad y estabilidad conformes en meseta; punto frío identificado.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = temperatura por punto; unidad = °C. Tipo de dato = continua. n = mínimo 5 puntos, 3 ciclos. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = cada punto dentro de ±1 °C. Atípicos = Grubbs solo si n ≥ 7; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Uniformidad de temperatura en la cámara durante la esterilización ≤ <span class="por-confirmar">±1 °C</span>.<br>Estabilidad sin excursión > 1 °C.<br>Registro por punto.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Plano de ubicación de termopares<br>
   - Curvas de temperatura y tabla por sensor con ΔT<br>
   - Certificados de los termopares<br>
   - Data cruda y reporte estadístico del análisis de temperatura del mapeo en cámara vacía</p>
-  <p><strong>Nota:</strong><br>El número y la ubicación de los termopares se justifican en el plano según el volumen útil y la geometría de la cámara (drenaje, entrada de vapor, zona de puerta y esquinas); 10 es el mínimo del banco y se aumenta en cámaras grandes.</p>
-  <p><strong>Referencia:</strong><br>EN 285 §16 (termometría); ISO 17665-1; USP &lt;1229.1&gt;; PDA TR-01.</p>
+  <p><strong>Nota:</strong><br>La uniformidad en rojo se confirma con EN 285 y el tipo de carga.</p>
+  <p><strong>Referencia:</strong><br>EN 285; ISO 17665-1; PDA TR1; EU GMP Anexo 1; 21 CFR 211.160(b).</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-OQ-AU-015" class="ensayo" data-analisis="si" data-id="EQ-OQ-AU-015" data-fase="OQ" data-cond="ambas" data-familia="autoclave">
@@ -345,12 +349,13 @@
   3) Confirmar trampas de vapor y drenaje operativos, sin encharcamiento, revisando mirilla y drenaje<br>
   4) Anexar la tabla de temperatura medida contra teórica por sensor<br>
   5) Procesar los datos crudos de temperatura de saturación (medida contra teórica) en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo.</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Vapor saturado y condensado drenado.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = presión vs temperatura; unidad = bar y °C. Tipo de dato = continua. n = 3 ciclos. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = dentro de la curva de saturación. Atípicos = Grubbs solo si n ≥ 7; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Vapor saturado a la temperatura de la cámara según la curva de saturación.<br>Sin sobrecalentamiento ni vapor húmedo.<br>Registro de presión y temperatura.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Tabla de temperatura medida contra teórica por sensor<br>
   - Data cruda y reporte estadístico del análisis de temperatura de saturación (medida contra teórica)</p>
-  <p><strong>Referencia:</strong><br>EN 285 (calidad de vapor); PDA TR-01.</p>
+  <p><strong>Nota:</strong><br>La desviación de la curva de saturación indica vapor no saturado.</p>
+  <p><strong>Referencia:</strong><br>EN 285; ISO 17665-1; PDA TR1; EU GMP Anexo 1; 21 CFR 211.160(b).</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-OQ-AU-016" class="ensayo" data-id="EQ-OQ-AU-016" data-fase="OQ" data-cond="ambas" data-familia="autoclave">
@@ -364,11 +369,12 @@
   c) Sobrecalentamiento menor a 25 °C a presión atmosférica<br>
   3) Anexar el reporte de calidad de vapor<br>
   4) Si va en PQ: redactar la justificación de su ubicación en el protocolo con firma del ejecutor y del revisor</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Parámetros conformes o ubicación en PQ justificada y firmada.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = calidad de vapor; unidad = fracción, mL/100 mL, K. Tipo de dato = analitico. n = 3 muestras por ciclo. Estadísticos = mediana, mínimo, máximo e IC 95 %. Regla de decisión = los 3 parámetros dentro de límite. Atípicos = Grubbs solo si n ≥ 7; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Sequedad ≥ <span class="por-confirmar">0,95</span>, gases no condensables ≤ <span class="por-confirmar">3,5 mL/100 mL</span> y sobrecalentamiento ≤ <span class="por-confirmar">25 K</span>.<br>Medición en la cámara con carga.<br>Registro por condición.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Reporte de calidad de vapor o justificación de ubicación firmada</p>
-  <p><strong>Referencia:</strong><br>EN 285 (vapor); ISPE (sequedad ≥0,95).</p>
+  <p><strong>Nota:</strong><br>Los límites en rojo son de EN 285 y requieren adopción formal.</p>
+  <p><strong>Referencia:</strong><br>EN 285; ISO 17665-1; PDA TR1; EU GMP Anexo 1; 21 CFR 211.160(b).</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-OQ-AU-017" class="ensayo" data-id="EQ-OQ-AU-017" data-fase="OQ" data-cond="ambas" data-familia="autoclave">
@@ -381,11 +387,12 @@
   4) Si aplica, pesar los elementos testigo antes y después<br>
   a) Sin humedad residual atribuible al equipo; diferencia de pesada dentro del criterio de la URS<br>
   5) Anexar el registro de inspección o de pesadas</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Secado efectivo sin humedad residual del equipo.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = humedad residual de la carga; unidad = %. Tipo de dato = continua. n = 3 ciclos por tipo de carga. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = pérdida ≤ 1 %. Atípicos = Grubbs solo si n ≥ 7; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Secado de la carga: sin agua libre visible y pérdida de peso ≤ <span class="por-confirmar">1 %</span> en la carga de referencia.<br>Registro por ciclo y tipo de carga.<br>Sin condensado en el fondo de la cámara.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro de inspección o de pesadas de secado</p>
-  <p><strong>Referencia:</strong><br>EN 285 (sequedad de carga).</p>
+  <p><strong>Nota:</strong><br>El secado en rojo se confirma con el tipo de carga y el material de empaque.</p>
+  <p><strong>Referencia:</strong><br>EN 285; ISO 17665-1; PDA TR1; EU GMP Anexo 1; 21 CFR 211.160(b).</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-OQ-AU-018" class="ensayo" data-analisis="si" data-id="EQ-OQ-AU-018" data-fase="OQ" data-cond="ambas" data-familia="autoclave">
@@ -400,12 +407,13 @@
   5) Sin ciclos de líquidos: redactar la justificación de No Aplica con firma del ejecutor y del revisor<br>
   6) Anexar la curva de enfriamiento o la justificación<br>
   7) Cuando aplique este ensayo, procesar los datos crudos de temperatura de la curva de enfriamiento en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo.</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Enfriamiento controlado conforme, o No Aplica justificado y firmado.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = temperatura final; unidad = °C. Tipo de dato = continua. n = 3 ciclos de líquidos. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = ≤ 60 °C sin ebullición. Atípicos = Grubbs solo si n ≥ 7; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Enfriado y control de presión en ciclos de líquidos: temperatura final ≤ <span class="por-confirmar">60 °C</span> y sin ebullición.<br>Presión de cámara controlada durante el enfriado.<br>Registro por ciclo.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Curva de enfriamiento o justificación de No Aplica firmada<br>
   - Data cruda y reporte estadístico del análisis de temperatura de la curva de enfriamiento</p>
-  <p><strong>Referencia:</strong><br>USP &lt;1229.2&gt; (líquidos); receta aprobada.</p>
+  <p><strong>Nota:</strong><br>El enfriado rápido puede hacer hervir el líquido y romper el envase.</p>
+  <p><strong>Referencia:</strong><br>EN 285; ISO 17665-1; PDA TR1; EU GMP Anexo 1; 21 CFR 211.160(b).</p>
 </article>
 
 <article data-bloque="4" id="art-EQ-OQ-AU-RES" class="ensayo" data-id="EQ-OQ-AU-RES" data-fase="OQ" data-cond="ambas" data-familia="autoclave">

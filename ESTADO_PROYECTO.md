@@ -90,6 +90,35 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (StatAnalyzer Pro) co
 
 ## CAMBIOS RECIENTES
 
+### 2026-11-19 (324): Equipos lote 6a — autoclave y cabinas
+
+**Qué:** 67 ensayos al estándar (43 autoclave + 12 cabina de flujo + 12 cabina de bioseguridad).
+- **Autoclave:** bloqueo de puerta con presión/temperatura, alivio ±5 %, fuga ≤ 1,3 mbar/min, uniformidad ±1 °C, sequedad ≥ 0,95, NCG ≤ 3,5 mL/100 mL, sobrecalentamiento ≤ 25 K, F0 ≥ 15 min, indicadores biológicos 0 positivos, secado ≤ 1 %.
+- **Cabina de flujo:** HEPA ≤ 0,01 %, 0,45 m/s ± 20 %, clase ISO 5, recuperación ≤ 15 min, UV con temporizador.
+- **Cabina de bioseguridad:** entrada ≥ 0,5 m/s, descendente 0,25-0,35 m/s, contención (KI-Discus) 0 partículas, recuperación ≤ 15 min, UV ≥ 40 µW/cm².
+- **Planes específicos** en 2 ensayos de autoclave con plan genérico.
+- `MIGRADAS` del contrato cubre quince familias.
+
+**Estado medido:**
+```
+autoclave:           43 · 26 con plan · 24 con valor
+cabina-flujo:        12 · 9 con plan · 6 con valor
+cabina-bioseguridad: 12 · 9 con plan · 7 con valor
+global: 668/1392 criterios con valor (48 %) · 134 clonados en 60 grupos · 32 sin plan
+```
+
+**Archivos afectados:**
+| Archivo | Cambio |
+|---------|--------|
+| `docs/banco-ensayos/equipos/{iq,oq,pq}-autoclave.html`, `{oq,pq}-cabina-{flujo,bioseguridad}.html` | 67 ensayos reescritos |
+| `js/core/banco-equipos-data.js` | Regenerado |
+| `tests/bancos-contenido-equipos.test.js` | `MIGRADAS` ampliado |
+
+**Verificación:**
+```
+npm run preflight → protocolo:check OK, urs-ar:check OK, Vitest 1209, backend 154, E2E 14
+```
+
 ### 2026-11-19 (323): Equipos lote 5 — detector de metales y hornos
 
 **Qué:** 116 ensayos más al estándar (40 detector + 39 horno de secado + 37 horno de vacío).
