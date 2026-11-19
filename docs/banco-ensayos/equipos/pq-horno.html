@@ -77,13 +77,14 @@
   3) Calcular por sonda promedio, máximo y mínimo; ΔT entre sondas y contra el control<br>
   a) Todos los sensores dentro de los límites del URS durante todo el estudio<br>
   4) Procesar los datos crudos del mapeo en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Mapeo conforme en todos los ciclos de rutina.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = temperatura con carga máxima; unidad = °C. Tipo de dato = continua. n = todos los puntos, 1 ciclo por setpoint. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = cada punto dentro de ±2 °C. Atípicos = Grubbs solo si n ≥ 7; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Mapeo con carga máxima en cada ciclo de rutina: uniformidad ≤ <span class="por-confirmar">±2 °C</span>.<br>Todos los puntos dentro de límite.<br>Registro por ciclo.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Plano de sensores con carga máxima<br>
   - Curvas y tabla por sonda y ciclo<br>
   - Data cruda y reporte estadístico del análisis del mapeo</p>
-  <p><strong>Referencia:</strong><br>OMS TRS 1010 Anexo 7; URS del equipo.</p>
+  <p><strong>Nota:</strong><br>La carga máxima es el peor caso de circulación.</p>
+  <p><strong>Referencia:</strong><br>EU GMP Anexo 15; FDA Guidance Process Validation; USP &lt;731&gt; (pérdida por secado); 21 CFR 211.160(b).</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-PQ-HO-002" class="ensayo" data-analisis="si" data-id="EQ-PQ-HO-002" data-fase="PQ" data-cond="ambas" data-familia="horno-secado">
@@ -96,12 +97,13 @@
   a) Dentro de límites aun con mayor oscilación, o limitación documentada<br>
   4) Procesar los datos crudos de carga mínima en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo<br>
   5) Sin cargas variables: redactar la justificación de No Aplica con firma del ejecutor y del revisor</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Carga mínima conforme o limitación documentada, o No Aplica justificado y firmado.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = temperatura con carga mínima; unidad = °C. Tipo de dato = continua. n = todos los puntos, 1 ciclo. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = cada punto dentro de ±2 °C. Atípicos = Grubbs solo si n ≥ 7; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Mapeo con carga mínima: con poca masa térmica el horno compensa distinto.<br>Uniformidad ≤ <span class="por-confirmar">±2 °C</span> con carga mínima.<br>Registro por ciclo.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Mapeo con carga mínima y comparativa, o justificación de No Aplica firmada<br>
   - Data cruda y reporte estadístico del análisis de carga mínima</p>
-  <p><strong>Referencia:</strong><br>URS del equipo; EU GMP Anexo 15 (rango).</p>
+  <p><strong>Nota:</strong><br>La carga mínima es el otro extremo del peor caso; omitirla deja la calificación incompleta.</p>
+  <p><strong>Referencia:</strong><br>EU GMP Anexo 15; FDA Guidance Process Validation; USP &lt;731&gt; (pérdida por secado); 21 CFR 211.160(b).</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-PQ-HO-003" class="ensayo" data-analisis="si" data-id="EQ-PQ-HO-003" data-fase="PQ" data-cond="ambas" data-familia="horno-secado">
@@ -114,12 +116,13 @@
   4) Reubicar el monitoreo si cambió el punto crítico y registrar la nueva posición<br>
   a) Punto frío con carga identificado con sensores en posiciones representativas<br>
   5) Procesar los datos crudos de extremos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Punto frío con carga identificado con monitoreo correcto.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = temperatura con carga por punto; unidad = °C. Tipo de dato = continua. n = mínimo 9 puntos por ciclo. Estadísticos = media, DE e IC 95 %. Regla de decisión = punto frío con carga identificado. Atípicos = Grubbs solo si n ≥ 7; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Punto frío con carga identificado y verificado.<br>Puede cambiar respecto del mapeo en vacío.<br>Registro por configuración.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Comparativa vacío contra carga con plano actualizado<br>
   - Data cruda y reporte estadístico del análisis de extremos</p>
-  <p><strong>Referencia:</strong><br>OMS TRS 1010 Anexo 7.</p>
+  <p><strong>Nota:</strong><br>La carga cambia la circulación: el punto frío en vacío no es el mismo con carga.</p>
+  <p><strong>Referencia:</strong><br>EU GMP Anexo 15; FDA Guidance Process Validation; USP &lt;731&gt; (pérdida por secado); 21 CFR 211.160(b).</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-PQ-HO-004" class="ensayo" data-analisis="si" data-id="EQ-PQ-HO-004" data-fase="PQ" data-cond="ambas" data-familia="horno-secado">
@@ -131,12 +134,13 @@
   3) Confirmar que el tiempo de mantenimiento programado cubre el equilibrio más la exposición requerida<br>
   a) Equilibrio dentro del límite y mantenimiento posterior completo<br>
   4) Procesar los datos crudos de equilibrio en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Equilibrio conocido y cubierto por el ciclo.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = tiempo de equilibrio; unidad = min. Tipo de dato = continua. n = 1 medición por ciclo. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = dentro del tiempo del ciclo. Atípicos = Grubbs solo si n ≥ 7; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Tiempo de equilibrio: el punto más lento alcanza el setpoint y se estabiliza.<br>Tiempo medido ≤ <span class="por-confirmar">valor del ciclo</span>.<br>Registro del punto más lento.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Tabla de tiempos de equilibrio por sonda<br>
   - Data cruda y reporte estadístico del análisis de equilibrio</p>
-  <p><strong>Referencia:</strong><br>EN 285 §equilibrio (concepto); receta aprobada.</p>
+  <p><strong>Nota:</strong><br>El tiempo del ciclo debe contarse desde que el punto más lento llega, no desde que arranca el horno.</p>
+  <p><strong>Referencia:</strong><br>EU GMP Anexo 15; FDA Guidance Process Validation; USP &lt;731&gt; (pérdida por secado); 21 CFR 211.160(b).</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-PQ-HO-005" class="ensayo" data-analisis="si" data-id="EQ-PQ-HO-005" data-fase="PQ" data-cond="ambas" data-familia="horno-secado">
@@ -149,12 +153,13 @@
   4) Confirmar meseta completa en el punto difícil de cada tipo<br>
   a) El punto difícil alcanza la banda y la mantiene toda la meseta<br>
   5) Procesar los datos crudos de penetración en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Penetración demostrada por tipo de carga.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = penetración de calor; unidad = °C. Tipo de dato = continua. n = 3 puntos por tipo de carga. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = alcanza setpoint en tiempo definido. Atípicos = Grubbs solo si n ≥ 7; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Penetración de calor en el punto más difícil de cada tipo de carga.<br>La temperatura interna alcanza el setpoint en el tiempo definido.<br>Registro por tipo de carga.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Tabla de penetración por tipo de carga con curvas<br>
   - Data cruda y reporte estadístico del análisis de penetración</p>
-  <p><strong>Referencia:</strong><br>PDA TR-01 (tipos de carga); receta aprobada.</p>
+  <p><strong>Nota:</strong><br>La penetración en el centro del producto es lo que realmente seca.</p>
+  <p><strong>Referencia:</strong><br>EU GMP Anexo 15; FDA Guidance Process Validation; USP &lt;731&gt; (pérdida por secado); 21 CFR 211.160(b).</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-PQ-HO-006" class="ensayo" data-analisis="si" data-id="EQ-PQ-HO-006" data-fase="PQ" data-cond="ambas" data-familia="horno-secado">
@@ -166,12 +171,13 @@
   3) Comparar contra el criterio mínimo del protocolo<br>
   a) Tiempo y equivalencia mayores o iguales al mínimo en todos los ciclos<br>
   4) Procesar los datos crudos de mantenimiento en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Punto lento con tiempo y equivalencia conformes.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = tiempo a temperatura del punto lento; unidad = min. Tipo de dato = continua. n = 1 registro por ciclo. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = ≥ tiempo de proceso. Atípicos = Grubbs solo si n ≥ 7; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>El punto más lento mantiene el tiempo a temperatura dentro del ciclo.<br>Tiempo acumulado ≥ <span class="por-confirmar">tiempo de proceso</span>.<br>Registro por ciclo.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Cálculo de tiempo y equivalencia en el punto frío<br>
   - Data cruda y reporte estadístico del análisis de mantenimiento</p>
-  <p><strong>Referencia:</strong><br>USP &lt;1229&gt; (concepto de letalidad); receta aprobada.</p>
+  <p><strong>Nota:</strong><br>Si el punto más lento no acumula el tiempo, el secado es incompleto.</p>
+  <p><strong>Referencia:</strong><br>EU GMP Anexo 15; FDA Guidance Process Validation; USP &lt;731&gt; (pérdida por secado); 21 CFR 211.160(b).</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-PQ-HO-007" class="ensayo" data-analisis="si" data-id="EQ-PQ-HO-007" data-fase="PQ" data-cond="ambas" data-familia="horno-secado">
@@ -183,12 +189,13 @@
   3) Ajustar el ciclo o el procedimiento si el conteo parte del control<br>
   a) El conteo parte del punto frío, o la diferencia está justificada y cubierta<br>
   4) Procesar los datos crudos comparativos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Conteo del ciclo anclado al punto frío.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = inicio del conteo del ciclo; unidad = min. Tipo de dato = continua. n = 1 registro por ciclo. Estadísticos = media, DE e IC 95 %. Regla de decisión = el conteo inicia al alcanzar el setpoint el punto lento. Atípicos = Grubbs solo si n ≥ 7; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>El temporizador del ciclo cuenta desde que el punto más lento alcanza temperatura.<br>Sin adelanto del conteo.<br>Registro del inicio real.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Comparativa control contra punto frío por ciclo<br>
   - Data cruda y reporte estadístico del análisis comparativo</p>
-  <p><strong>Referencia:</strong><br>OMS TRS 961 §6 (punto más frío); receta aprobada.</p>
+  <p><strong>Nota:</strong><br>Un temporizador que arranca antes acorta el proceso y deja humedad.</p>
+  <p><strong>Referencia:</strong><br>EU GMP Anexo 15; FDA Guidance Process Validation; USP &lt;731&gt; (pérdida por secado); 21 CFR 211.160(b).</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-PQ-HO-008" class="ensayo" data-analisis="si" data-id="EQ-PQ-HO-008" data-fase="PQ" data-cond="ambas" data-familia="horno-secado">
@@ -201,13 +208,14 @@
   a) Los 3 ciclos cumplen idénticos criterios por configuración<br>
   4) Procesar los datos crudos inter-ciclo en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo<br>
   5) Documentar desviaciones, alarmas o intervenciones</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Repetibilidad demostrada por configuración.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = repetibilidad entre ciclos; unidad = °C. Tipo de dato = continua. n = 3 ciclos por configuración. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = los 3 dentro de límite. Atípicos = Grubbs solo si n ≥ 7; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Repetibilidad en 3 ciclos consecutivos por configuración.<br>Uniformidad y tiempo dentro del límite en los 3.<br>Registro por ciclo.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Análisis de riesgo del número de ciclos<br>
   - Comparativa de los 3 ciclos por configuración<br>
   - Data cruda y reporte estadístico del análisis inter-ciclo</p>
-  <p><strong>Referencia:</strong><br>EU GMP Anexo 15 §§4.16–4.19.</p>
+  <p><strong>Nota:</strong><br>La repetibilidad es lo que demuestra que el proceso es controlado.</p>
+  <p><strong>Referencia:</strong><br>EU GMP Anexo 15; FDA Guidance Process Validation; USP &lt;731&gt; (pérdida por secado); 21 CFR 211.160(b).</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-PQ-HO-009" class="ensayo" data-analisis="si" data-id="EQ-PQ-HO-009" data-fase="PQ" data-cond="ambas" data-familia="horno-secado">
@@ -219,12 +227,13 @@
   a) Peor caso conforme en todo<br>
   3) Procesar los datos crudos del peor caso en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo<br>
   4) Sin peor caso diferenciable: redactar la justificación de No Aplica con firma del ejecutor y del revisor</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Peor caso conforme, o No Aplica justificado y firmado.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = desempeño en peor caso; unidad = °C. Tipo de dato = continua. n = 3 ciclos del peor caso. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = todos los parámetros dentro de límite. Atípicos = Grubbs solo si n ≥ 7; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Peor caso: carga más densa, húmeda o de mayor volumen.<br>Uniformidad, penetración y tiempo dentro de límite en el peor caso.<br>Registro de la condición usada.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Definición del peor caso con análisis de riesgo, o justificación de No Aplica firmada<br>
   - Data cruda y reporte estadístico del análisis del peor caso</p>
-  <p><strong>Referencia:</strong><br>EU GMP Anexo 15 (peor caso).</p>
+  <p><strong>Nota:</strong><br>El peor caso se define con datos del producto, no por intuición.</p>
+  <p><strong>Referencia:</strong><br>EU GMP Anexo 15; FDA Guidance Process Validation; USP &lt;731&gt; (pérdida por secado); 21 CFR 211.160(b).</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-PQ-HO-010" class="ensayo" data-analisis="si" data-id="EQ-PQ-HO-010" data-fase="PQ" data-cond="ambas" data-familia="horno-secado">
@@ -237,12 +246,13 @@
   a) Humedad dentro de especificación en todos los puntos<br>
   4) Procesar los datos crudos de humedad en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo<br>
   5) Si no aplica: redactar la justificación de No Aplica con firma del ejecutor y del revisor</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Humedad conforme, o No Aplica justificado y firmado.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = humedad residual; unidad = % LOD. Tipo de dato = analitico. n = 3 muestras por ciclo. Estadísticos = mediana, mínimo, máximo e IC 95 %. Regla de decisión = cada muestra dentro de especificación. Atípicos = Grubbs solo si n ≥ 7; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Humedad residual del producto secado dentro de especificación (<span class="por-confirmar">LOD ≤ valor del producto</span>).<br>Método de USP &lt;731&gt; o el declarado.<br>Registro por muestra.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Resultados de humedad por punto, o justificación de No Aplica firmada<br>
   - Data cruda y reporte estadístico del análisis de humedad</p>
-  <p><strong>Referencia:</strong><br>USP &lt;731&gt; (pérdida por secado); especificación del producto.</p>
+  <p><strong>Nota:</strong><br>El LOD en rojo se confirma con la especificación del producto.</p>
+  <p><strong>Referencia:</strong><br>EU GMP Anexo 15; FDA Guidance Process Validation; USP &lt;731&gt; (pérdida por secado); 21 CFR 211.160(b).</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-PQ-HO-011" class="ensayo" data-analisis="si" data-id="EQ-PQ-HO-011" data-fase="PQ" data-cond="ambas" data-familia="horno-secado">
@@ -255,12 +265,13 @@
   4) Ante hallazgos, evaluar impacto y documentar la disposición<br>
   a) Carga sin daño térmico en todos los ciclos<br>
   5) Procesar los datos crudos de estado en el módulo de análisis estadístico cuando aplique medición (por ejemplo conteo de unidades afectadas) y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Carga sin daño atribuible al ciclo.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = estado de la carga tras el ciclo; unidad = pasa/no pasa. Tipo de dato = atributo. n = 100 % de la muestra. Estadísticos = proporción de cumplimiento con IC binomial exacto. Regla de decisión = sin deformación ni daño térmico. Atípicos = Grubbs solo si n ≥ 7; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Carga sin deformación, daño térmico ni color alterado.<br>Inspección del 100 % de la muestra.<br>Registro fotográfico de hallazgos.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro del estado de la carga por ciclo<br>
   - Data cruda y reporte estadístico, si aplica medición</p>
-  <p><strong>Referencia:</strong><br>Especificación del producto; BMR.</p>
+  <p><strong>Nota:</strong><br>El daño térmico es irreversible y se detecta tarde.</p>
+  <p><strong>Referencia:</strong><br>EU GMP Anexo 15; FDA Guidance Process Validation; USP &lt;731&gt; (pérdida por secado); 21 CFR 211.160(b).</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-PQ-HO-012" class="ensayo" data-analisis="si" data-id="EQ-PQ-HO-012" data-fase="PQ" data-cond="ambas" data-familia="horno-secado">
@@ -274,12 +285,13 @@
   a) Valoración y degradación dentro de especificación<br>
   5) Si no aplica: redactar la justificación de No Aplica con firma del ejecutor y del revisor<br>
   6) Procesar los datos crudos analíticos en el módulo de análisis estadístico (cuando aplique) y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Conforme, o No Aplica justificado y firmado.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = valoración y degradación; unidad = %. Tipo de dato = analitico. n = 3 muestras por lote. Estadísticos = mediana, mínimo, máximo e IC 95 %. Regla de decisión = cada atributo en especificación. Atípicos = Grubbs solo si n ≥ 7; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Valoración y productos de degradación dentro de especificación cuando el producto lo requiere.<br>Método validado declarado.<br>Registro por lote.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Reportes analíticos por ciclo, o justificación de No Aplica firmada<br>
   - Data cruda y reporte estadístico del análisis de valoración</p>
-  <p><strong>Referencia:</strong><br>Especificación del producto; dossier del activo.</p>
+  <p><strong>Nota:</strong><br>El calor puede degradar el activo aunque el secado sea correcto.</p>
+  <p><strong>Referencia:</strong><br>EU GMP Anexo 15; FDA Guidance Process Validation; USP &lt;731&gt; (pérdida por secado); 21 CFR 211.160(b).</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-PQ-HO-013" class="ensayo" data-analisis="si" data-id="EQ-PQ-HO-013" data-fase="PQ" data-cond="ambas" data-familia="horno-secado">
@@ -290,12 +302,13 @@
   2) Calcular estabilidad (rango y SD) y listar alarmas ocurridas<br>
   a) Dentro de banda el 100% del tiempo, con cero alarmas no gestionadas<br>
   3) Procesar los datos crudos de estabilidad en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Meseta estable sin alarmas no gestionadas.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = temperatura durante el mantenimiento; unidad = °C. Tipo de dato = continua. n = registro continuo por ciclo. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = sin excursión > 2 °C. Atípicos = Grubbs solo si n ≥ 7; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Temperatura estable durante el mantenimiento del ciclo.<br>Sin excursión > <span class="por-confirmar">2 °C</span> del setpoint.<br>Registro continuo.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registros de temperatura en meseta por ciclo<br>
   - Data cruda y reporte estadístico del análisis de estabilidad</p>
-  <p><strong>Referencia:</strong><br>Receta aprobada; EU GMP Anexo 15.</p>
+  <p><strong>Nota:</strong><br>La excursión durante el mantenimiento es la que daña el producto.</p>
+  <p><strong>Referencia:</strong><br>EU GMP Anexo 15; FDA Guidance Process Validation; USP &lt;731&gt; (pérdida por secado); 21 CFR 211.160(b).</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-PQ-HO-014" class="ensayo" data-id="EQ-PQ-HO-014" data-fase="PQ" data-cond="ambas" data-familia="horno-secado">
@@ -307,11 +320,12 @@
   3) Confirmar registro en el histórico con hora<br>
   a) Disparo dentro del retardo con acuse y registro<br>
   4) Anexar la matriz de alarmas con tiempos medidos</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Alarmas funcionales con carga dentro del retardo.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = disparo de alarmas; unidad = min. Tipo de dato = continua. n = 3 repeticiones. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = disparo dentro del retardo. Atípicos = Grubbs solo si n ≥ 7; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Alarmas disparan dentro del retardo definido, con el ciclo en marcha.<br>Notificación al responsable verificada.<br>Registro por alarma.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Matriz de alarmas con tiempos y acuse</p>
-  <p><strong>Referencia:</strong><br>EU GMP Anexo 15; GAMP5 2.ª ed.</p>
+  <p><strong>Nota:</strong><br>La alarma debe probarse con carga y ciclo real, no en reposo.</p>
+  <p><strong>Referencia:</strong><br>EU GMP Anexo 15; FDA Guidance Process Validation; USP &lt;731&gt; (pérdida por secado); 21 CFR 211.160(b).</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-PQ-HO-015" class="ensayo" data-id="EQ-PQ-HO-015" data-fase="PQ" data-cond="ambas" data-familia="horno-secado">
@@ -324,11 +338,11 @@
   4) Documentar la disposición con firmas<br>
   a) Escenario cubierto con criterio de disposición aplicado<br>
   5) Sin requisito: redactar la justificación de No Aplica con firma del ejecutor y del revisor</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Falla caracterizada con criterio de disposición, o No Aplica justificado y firmado.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Comportamiento del ciclo y criterio de rechazo o repetición definidos ante una excursión.<br>Decisión documentada y aprobada.<br>Registro por evento.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro de la falla con disposición de la carga, o justificación de No Aplica firmada</p>
-  <p><strong>Referencia:</strong><br>GAMP5 2.ª ed.; procedimiento de excursiones.</p>
+  <p><strong>Nota:</strong><br>La decisión de rechazar o repetir se define antes, no después de ver el resultado.</p>
+  <p><strong>Referencia:</strong><br>EU GMP Anexo 15; FDA Guidance Process Validation; USP &lt;731&gt; (pérdida por secado); 21 CFR 211.160(b).</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-PQ-HO-016" class="ensayo" data-analisis="si" data-id="EQ-PQ-HO-016" data-fase="PQ" data-cond="ambas" data-familia="horno-secado">
@@ -340,12 +354,13 @@
   3) Confirmar que las tres cuentan la misma historia del proceso<br>
   a) Diferencias dentro del criterio (±0,5 °C)<br>
   4) Procesar los datos crudos comparativos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Las tres fuentes coinciden dentro del criterio.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = diferencia entre registradores; unidad = °C. Tipo de dato = continua. n = 1 comparación por ciclo. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = diferencia ≤ 1 °C. Atípicos = Grubbs solo si n ≥ 7; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Registrador independiente frente al control durante el ciclo: diferencia ≤ <span class="por-confirmar">1 °C</span>.<br>Calibración vigente.<br>Registro por ciclo.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Comparativa de las tres fuentes con diferencias<br>
   - Data cruda y reporte estadístico del análisis comparativo</p>
-  <p><strong>Referencia:</strong><br><span class="refnorma"></span>.</p>
+  <p><strong>Nota:</strong><br>El registrador independiente es la evidencia del ciclo.</p>
+  <p><strong>Referencia:</strong><br>EU GMP Anexo 15; FDA Guidance Process Validation; USP &lt;731&gt; (pérdida por secado); 21 CFR 211.160(b).</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-PQ-HO-017" class="ensayo" data-id="EQ-PQ-HO-017" data-fase="PQ" data-cond="ambas" data-familia="horno-secado">
@@ -358,11 +373,11 @@
   4) Confirmar revisión por el área ejecutora y por calidad<br>
   a) Registros completos, coherentes y cerrados<br>
   5) Anexar la lista de verificación de registros diligenciada</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Registros completos con alarmas cerradas y trazabilidad total.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Revisión de registros de cada ciclo: parámetros, alarmas y desviaciones.<br>El 100 % de los ciclos revisados y firmados.<br>Sin ciclos sin revisar.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Lista de verificación de registros diligenciada</p>
-  <p><strong>Referencia:</strong><br>21 CFR 211.180; EU GMP Anexo 15.</p>
+  <p><strong>Nota:</strong><br>Un ciclo sin revisar no es evidencia.</p>
+  <p><strong>Referencia:</strong><br>EU GMP Anexo 15; FDA Guidance Process Validation; USP &lt;731&gt; (pérdida por secado); 21 CFR 211.160(b).</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-PQ-HO-018" class="ensayo" data-id="EQ-PQ-HO-018" data-fase="PQ" data-cond="ambas" data-familia="horno-secado">
@@ -375,11 +390,11 @@
   4) Aprobar los criterios con calidad<br>
   a) Criterios de rutina definidos, trazables al PQ y en el SOP<br>
   5) Anexar la tabla de criterios con su trazabilidad al ensayo que los demostró</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Liberación de rutina definida y en el SOP.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Criterios de liberación de rutina derivados del PQ y cargados en el SOP.<br>Incluyen parámetros, límites y frecuencia de verificación.<br>Registro de aprobación.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Tabla de criterios de liberación con trazabilidad al PQ</p>
-  <p><strong>Referencia:</strong><br>EU GMP Anexo 15; SOP del equipo.</p>
+  <p><strong>Nota:</strong><br>El PQ no termina en el informe: define la rutina.</p>
+  <p><strong>Referencia:</strong><br>EU GMP Anexo 15; FDA Guidance Process Validation; USP &lt;731&gt; (pérdida por secado); 21 CFR 211.160(b).</p>
 </article>
 
 <article data-bloque="4" id="art-EQ-PQ-HO-RES" class="ensayo" data-id="EQ-PQ-HO-RES" data-fase="PQ" data-cond="ambas" data-familia="horno-secado">

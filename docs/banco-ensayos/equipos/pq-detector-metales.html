@@ -26,12 +26,11 @@
   1) Ejecutar el aprendizaje del producto según el procedimiento del fabricante<br>
   2) Pasar producto bueno sin piezas y registrar la señal de producto<br>
   3) Confirmar que la señal de producto no enmascara la detección de las piezas</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Producto bueno sin piezas no genera rechazo.<br>
-  La señal de producto queda caracterizada y documentada.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Caracterización de la señal del producto: el equipo aprende el producto sin metales y no lo rechaza.<br>Falsos rechazos ≤ <span class="por-confirmar">0,5 %</span> en la muestra de aprendizaje.<br>Registro de la caracterización.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro de aprendizaje y señal de producto (anexo del informe)</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante del detector de metales.</p>
+  <p><strong>Nota:</strong><br>El producto con efecto metálico propio (películas, cremas) puede enmascarar la detección.</p>
+  <p><strong>Referencia:</strong><br>21 CFR 211.125; EU GMP Anexo 15; ISO 22000 (referencia de detección); manual del fabricante; 21 CFR 211.160(b).</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-PQ-DM-002" class="ensayo" data-id="EQ-PQ-DM-002" data-fase="PQ" data-cond="ambas">
@@ -41,12 +40,12 @@
   1) Introducir cada pieza de prueba dentro del flujo de producto real<br>
   2) Verificar la detección y el rechazo de cada pieza en cada tamaño definido<br>
   3) Registrar los resultados por tipo de metal y tamaño</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Detección del 100% con producto real en todos los tamaños definidos.<br>
-  El criterio del PQ prevalece como sensibilidad de rutina.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = sensibilidad con producto; unidad = %. Tipo de dato = continua. n = 10 pasadas por tipo y tamaño. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = 100 % detectado. Atípicos = Grubbs solo si n ≥ 7; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Sensibilidad con producto real: las piezas de prueba se detectan dentro del producto o del envase.<br>100 % de detección por tipo y tamaño.<br>Registro por pasada.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro de sensibilidad con producto (anexo del informe)</p>
-  <p><strong>Referencia:</strong><br>Certificados de las piezas de prueba.</p>
+  <p><strong>Nota:</strong><br>La pieza suelta se detecta distinto que dentro del producto.</p>
+  <p><strong>Referencia:</strong><br>21 CFR 211.125; EU GMP Anexo 15; ISO 22000 (referencia de detección); manual del fabricante; 21 CFR 211.160(b).</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-PQ-DM-003" class="ensayo" data-id="EQ-PQ-DM-003" data-fase="PQ" data-cond="ambas">
@@ -56,12 +55,12 @@
   1) Definir el producto y las condiciones de peor caso (si aplica)<br>
   2) Introducir las piezas de prueba en ese producto y condiciones<br>
   3) Verificar la detección y el rechazo de cada pieza</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Detección del 100% en el peor caso definido.<br>
-  El peor caso queda documentado y justificado.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = detección en peor caso; unidad = %. Tipo de dato = continua. n = 10 pasadas en peor caso. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = 100 % detectado. Atípicos = Grubbs solo si n ≥ 7; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Peor caso: producto con mayor efecto sobre la señal (mayor densidad, envase metálico o húmedo).<br>Detección del 100 % en el peor caso.<br>Registro de la condición usada.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro del peor caso (anexo del informe)</p>
-  <p><strong>Referencia:</strong><br>Certificados de las piezas de prueba.</p>
+  <p><strong>Nota:</strong><br>El peor caso se define con datos del producto, no por intuición.</p>
+  <p><strong>Referencia:</strong><br>21 CFR 211.125; EU GMP Anexo 15; ISO 22000 (referencia de detección); manual del fabricante; 21 CFR 211.160(b).</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-PQ-DM-004" class="ensayo" data-id="EQ-PQ-DM-004" data-fase="PQ" data-cond="ambas" data-analisis="si">
@@ -72,13 +71,13 @@
   2) Introducir piezas de prueba dentro del flujo al inicio, en el medio, al fin y en momentos aleatorios<br>
   3) Registrar la detección y el rechazo de cada pieza con su momento<br>
   4) Procesar los datos crudos de detección en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  El 100% de las piezas introducidas se detecta y rechaza.<br>
-  Sin piezas no detectadas en ningún momento de la corrida.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = detección con producto real; unidad = %. Tipo de dato = continua. n = 3 series por lote. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = 100 % detectado y rechazado. Atípicos = Grubbs solo si n ≥ 7; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Corrida con producto real a velocidad nominal y piezas de prueba insertas.<br>Detección del 100 % y rechazo correcto.<br>Registro por corrida.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro de corrida con data cruda y reporte<br>
   - Data cruda y reporte estadístico del análisis de detección en corrida</p>
-  <p><strong>Referencia:</strong><br>Certificados de las piezas de prueba.</p>
+  <p><strong>Nota:</strong><br>Es la prueba que demuestra que el sistema funciona con el producto real.</p>
+  <p><strong>Referencia:</strong><br>21 CFR 211.125; EU GMP Anexo 15; ISO 22000 (referencia de detección); manual del fabricante; 21 CFR 211.160(b).</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-PQ-DM-005" class="ensayo" data-id="EQ-PQ-DM-005" data-fase="PQ" data-cond="ambas" data-analisis="si">
@@ -89,13 +88,13 @@
   2) Correr a velocidad máxima e introducir piezas de prueba<br>
   3) Registrar la detección en cada velocidad<br>
   4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Detección del 100% a velocidad mínima y máxima.<br>
-  Sin pérdida de sensibilidad en los extremos.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = detección en extremos; unidad = %. Tipo de dato = continua. n = 10 pasadas por extremo. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = 100 % detectado. Atípicos = Grubbs solo si n ≥ 7; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Detección a velocidad mínima y máxima del rango declarado.<br>100 % de detección en ambos extremos.<br>Registro por velocidad.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro por velocidad con data cruda y reporte<br>
   - Data cruda y reporte estadístico del análisis de velocidad con producto</p>
-  <p><strong>Referencia:</strong><br>Certificados de las piezas de prueba.</p>
+  <p><strong>Nota:</strong><br>El extremo máximo es el peor caso de tiempo de exposición.</p>
+  <p><strong>Referencia:</strong><br>21 CFR 211.125; EU GMP Anexo 15; ISO 22000 (referencia de detección); manual del fabricante; 21 CFR 211.160(b).</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-PQ-DM-006" class="ensayo" data-id="EQ-PQ-DM-006" data-fase="PQ" data-cond="ambas">
@@ -105,12 +104,12 @@
   1) Correr producto bueno sin piezas durante el período definido<br>
   2) Contar los rechazos de producto bueno contra el total procesado<br>
   3) Calcular la tasa de falsos rechazos</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  La tasa de falsos rechazos está dentro del límite definido.<br>
-  Sin causa asignable sin tratar.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = falsos rechazos; unidad = %. Tipo de dato = continua. n = muestra del lote. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = ≤ 0,5 %. Atípicos = Grubbs solo si n ≥ 7; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Tasa de falsos rechazos con producto bueno ≤ <span class="por-confirmar">0,5 %</span>.<br>Registro del total de unidades rechazadas sin metal.<br>Sin subir el umbral para reducirla sin justificación.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro de falsos rechazos (anexo del informe)</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante del detector de metales.</p>
+  <p><strong>Nota:</strong><br>Bajar la sensibilidad para reducir falsos rechazos es una causa clásica de pérdida de detección.</p>
+  <p><strong>Referencia:</strong><br>21 CFR 211.125; EU GMP Anexo 15; ISO 22000 (referencia de detección); manual del fabricante; 21 CFR 211.160(b).</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-PQ-DM-007" class="ensayo" data-id="EQ-PQ-DM-007" data-fase="PQ" data-cond="ambas">
@@ -120,12 +119,12 @@
   1) Correr durante la duración más larga prevista (si aplica)<br>
   2) Pasar piezas de prueba a intervalos definidos y registrar la detección<br>
   3) Registrar falsos rechazos durante la corrida</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Detección del 100% en todas las verificaciones intermedias.<br>
-  Sin deriva fuera de criterio.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = estabilidad en el lote; unidad = %. Tipo de dato = continua. n = 3 verificaciones por lote. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = sin deriva de detección. Atípicos = Grubbs solo si n ≥ 7; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Estabilidad durante la duración más larga prevista de un lote.<br>Sin deriva de sensibilidad ni aumento de falsos rechazos.<br>Registro al inicio, medio y final.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro de estabilidad del lote (anexo del informe)</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante del detector de metales.</p>
+  <p><strong>Nota:</strong><br>La deriva térmica puede aparecer recién al final del turno.</p>
+  <p><strong>Referencia:</strong><br>21 CFR 211.125; EU GMP Anexo 15; ISO 22000 (referencia de detección); manual del fabricante; 21 CFR 211.160(b).</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-PQ-DM-008" class="ensayo" data-id="EQ-PQ-DM-008" data-fase="PQ" data-cond="ambas">
@@ -135,12 +134,11 @@
   1) Provocar una detención controlada durante la corrida (si aplica evaluación)<br>
   2) Reanudar y verificar que el aprendizaje del producto se conserva<br>
   3) Pasar piezas de prueba y verificar la detección tras el reinicio</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  El aprendizaje se conserva tras la detención.<br>
-  Detección del 100% tras el reinicio.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Tras una detención, el equipo mantiene la sensibilidad y no requiere recalibración no registrada.<br>Verificación con pieza de prueba tras el reinicio.<br>Registro del evento.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro de paro y reinicio (anexo del informe)</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante del detector de metales.</p>
+  <p><strong>Nota:</strong><br>Un reinicio puede volver a ajustes por defecto y cambiar la sensibilidad.</p>
+  <p><strong>Referencia:</strong><br>21 CFR 211.125; EU GMP Anexo 15; ISO 22000 (referencia de detección); manual del fabricante; 21 CFR 211.160(b).</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-PQ-DM-009" class="ensayo" data-id="EQ-PQ-DM-009" data-fase="PQ" data-cond="ambas">
@@ -150,12 +148,11 @@
   1) Ejecutar el cambio de producto según el procedimiento<br>
   2) Ejecutar el reaprendizaje y registrar los nuevos parámetros<br>
   3) Verificar con piezas de prueba antes de arrancar la producción</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Reaprendizaje ejecutado y documentado.<br>
-  Verificación con piezas aprobada antes de arrancar.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Cambio de producto o formato: reaprendizaje y verificación con piezas de prueba.<br>Detección del 100 % tras el cambio.<br>Registro del cambio y de la verificación.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro de cambio y reaprendizaje (anexo del informe)</p>
-  <p><strong>Referencia:</strong><br>Procedimiento de cambio de producto.</p>
+  <p><strong>Nota:</strong><br>Un cambio de producto sin reaprendizaje deja el umbral del producto anterior.</p>
+  <p><strong>Referencia:</strong><br>21 CFR 211.125; EU GMP Anexo 15; ISO 22000 (referencia de detección); manual del fabricante; 21 CFR 211.160(b).</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-PQ-DM-010" class="ensayo" data-id="EQ-PQ-DM-010" data-fase="PQ" data-cond="ambas">
@@ -165,12 +162,11 @@
   1) Provocar rechazos controlados con producto real<br>
   2) Verificar que cada rechazo cae en el contenedor correcto<br>
   3) Verificar la confirmación del sistema por cada rechazo</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  El 100% de los rechazos cae en el contenedor correcto.<br>
-  Sin mezcla con producto bueno.</p>
+  <p><strong>Criterio de aceptación:</strong><br>El producto rechazado cae en el contenedor correcto y se identifica.<br>Sin mezcla con producto bueno.<br>Registro por lote.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro de rechazo con producto (anexo del informe)</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante del detector de metales.</p>
+  <p><strong>Nota:</strong><br>La mezcla de rechazo con producto bueno anula el control.</p>
+  <p><strong>Referencia:</strong><br>21 CFR 211.125; EU GMP Anexo 15; ISO 22000 (referencia de detección); manual del fabricante; 21 CFR 211.160(b).</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-PQ-DM-011" class="ensayo" data-id="EQ-PQ-DM-011" data-fase="PQ" data-cond="ambas">
@@ -180,12 +176,11 @@
   1) Llenar el contenedor al nivel de alarma y verificar la respuesta<br>
   2) Abrir el contenedor durante la marcha y verificar la alarma o parada<br>
   3) Retirar el contenedor (si aplica) y verificar la respuesta</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Cada condición genera su alarma o parada.<br>
-  Sin operación normal con el contenedor en falta.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Con el contenedor lleno, abierto o ausente, el equipo se detiene o alarma.<br>No sigue rechazando a un contenedor saturado.<br>Registro por prueba.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro del contenedor (anexo del informe)</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante del detector de metales.</p>
+  <p><strong>Nota:</strong><br>Si el contenedor está lleno, las piezas rechazadas vuelven al flujo.</p>
+  <p><strong>Referencia:</strong><br>21 CFR 211.125; EU GMP Anexo 15; ISO 22000 (referencia de detección); manual del fabricante; 21 CFR 211.160(b).</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-PQ-DM-012" class="ensayo" data-id="EQ-PQ-DM-012" data-fase="PQ" data-cond="ambas">
@@ -195,12 +190,11 @@
   1) Aplicar el procedimiento de reinspección al producto rechazado (si aplica)<br>
   2) Identificar el metal encontrado cuando sea posible<br>
   3) Registrar la decisión sobre el destino del lote</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Procedimiento aplicado y documentado.<br>
-  Destino del lote decidido y registrado.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Procedimiento de reinspección del producto rechazado definido y ejecutado.<br>El 100 % del rechazo reinspeccionado con el método aprobado.<br>Registro por lote.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro de reinspección (anexo del informe)</p>
-  <p><strong>Referencia:</strong><br>Procedimiento de manejo de rechazos.</p>
+  <p><strong>Nota:</strong><br>La reinspección con detector es aceptable solo si el método está validado.</p>
+  <p><strong>Referencia:</strong><br>21 CFR 211.125; EU GMP Anexo 15; ISO 22000 (referencia de detección); manual del fabricante; 21 CFR 211.160(b).</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-PQ-DM-013" class="ensayo" data-id="EQ-PQ-DM-013" data-fase="PQ" data-cond="ambas">
@@ -210,12 +204,12 @@
   1) Ejecutar la prueba de rutina al inicio, a intervalos definidos y al final de la producción<br>
   2) Registrar cada resultado<br>
   3) Verificar que el procedimiento define la retención o reinspección desde la última verificación correcta ante un fallo</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Pruebas de rutina ejecutadas y registradas.<br>
-  El procedimiento de retención ante fallo está definido y es aplicable.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = verificación de rutina; unidad = %. Tipo de dato = continua. n = inicio y fin de turno. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = 100 % detectado en ambas. Atípicos = Grubbs solo si n ≥ 7; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Prueba de rutina con piezas al inicio y al final de cada turno o lote.<br>Detección del 100 % en ambas verificaciones.<br>Registro por turno.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registros de pruebas de rutina (anexo del informe)</p>
-  <p><strong>Referencia:</strong><br>Procedimiento de verificación de rutina.</p>
+  <p><strong>Nota:</strong><br>La verificación al final detecta la deriva que ocurrió durante el turno.</p>
+  <p><strong>Referencia:</strong><br>21 CFR 211.125; EU GMP Anexo 15; ISO 22000 (referencia de detección); manual del fabricante; 21 CFR 211.160(b).</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-PQ-DM-014" class="ensayo" data-id="EQ-PQ-DM-014" data-fase="PQ" data-cond="ambas">
@@ -225,12 +219,11 @@
   1) Tras cada cambio, reparación o apagado, pasar las piezas de prueba<br>
   2) Verificar la detección del 100% antes de liberar la línea<br>
   3) Registrar cada evento y su verificación</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Verificación aprobada antes de cada liberación.<br>
-  Sin producción liberada sin prueba.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Verificación con piezas tras cambio, reparación o apagado prolongado.<br>Detección del 100 % y registro de la verificación.<br>Sin liberar producto sin verificar.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro de pruebas post-evento (anexo del informe)</p>
-  <p><strong>Referencia:</strong><br>Procedimiento de verificación de rutina.</p>
+  <p><strong>Nota:</strong><br>Un equipo reparado sin verificación es un riesgo de liberación.</p>
+  <p><strong>Referencia:</strong><br>21 CFR 211.125; EU GMP Anexo 15; ISO 22000 (referencia de detección); manual del fabricante; 21 CFR 211.160(b).</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-PQ-DM-015" class="ensayo" data-id="EQ-PQ-DM-015" data-fase="PQ" data-cond="ambas">
@@ -240,12 +233,11 @@
   1) Simular documentalmente un fallo de verificación<br>
   2) Aplicar el procedimiento: aislar el producto desde la última prueba aprobada<br>
   3) Verificar la reinspección definida y el registro de la decisión</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Producto afectado aislado y reinspeccionado.<br>
-  Decisión registrada conforme al procedimiento.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Ante un fallo de verificación, el procedimiento detiene la producción y define la reinspección del producto desde la última verificación conforme.<br>El 100 % del producto en ese intervalo se reinspecciona antes de liberar.<br>Registro del fallo y de la disposición.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro de aislamiento y reinspección (anexo del informe)</p>
-  <p><strong>Referencia:</strong><br>Procedimiento de manejo de fallos de verificación.</p>
+  <p><strong>Nota:</strong><br>El producto desde la última verificación conforme es sospechoso y debe reinspeccionarse.</p>
+  <p><strong>Referencia:</strong><br>21 CFR 211.125; EU GMP Anexo 15; ISO 22000 (referencia de detección); manual del fabricante; 21 CFR 211.160(b).</p>
 </article>
 
 <article data-bloque="6" id="art-EQ-PQ-DM-REF" class="ensayo tabla-info" data-id="EQ-PQ-DM-REF" data-fase="PQ" data-cond="ambas" data-familia="detector-metales">

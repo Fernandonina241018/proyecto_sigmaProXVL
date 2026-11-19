@@ -90,6 +90,35 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (StatAnalyzer Pro) co
 
 ## CAMBIOS RECIENTES
 
+### 2026-11-19 (323): Equipos lote 5 — detector de metales y hornos
+
+**Qué:** 116 ensayos más al estándar (40 detector + 39 horno de secado + 37 horno de vacío).
+- **Detector de metales:** sensibilidad Fe 1,0 / no Fe 1,2 / SS 1,5 mm (propuesta), 100 % de detección por tipo, posición, orientación y velocidad; falsos rechazos ≤ 0,5 %; umbral bloqueado; matriz de desafío preservada en DM-015.
+- **Horno de secado:** uniformidad ±2 °C, exactitud ±1 °C, sobreimpulso ≤ 5 °C, recuperación ≤ 10 min, punto frío identificado y temporizador que cuenta desde el punto lento, LOD según producto.
+- **Horno de vacío:** vacío ≤ 1 mbar, evacuación ≤ 30 min, fuga ≤ 1 mbar/h, uniformidad ±3 °C, estabilidad de vacío ≤ 10 %, solventes residuales según ICH Q3C, peso constante ≤ 0,5 %.
+- **Planes específicos** en 9 ensayos que conservaban el genérico.
+- `MIGRADAS` del contrato cubre doce familias.
+
+**Estado medido:**
+```
+detector-metales: 40 · 19 con plan · 22 con valor · 0 sin plan
+horno-secado:     39 · 24 con plan · 23 con valor
+horno-vacio:      37 · 24 con plan · 19 con valor
+global: 643/1392 criterios con valor (46 %) · 152 clonados en 67 grupos (antes 177/79) · 48 sin plan
+```
+
+**Archivos afectados:**
+| Archivo | Cambio |
+|---------|--------|
+| `docs/banco-ensayos/equipos/{iq,oq,pq}-{detector-metales,horno-secado,horno-vacio}.html` (horno de secado en `*-horno.html`) | 116 ensayos reescritos |
+| `js/core/banco-equipos-data.js` | Regenerado |
+| `tests/bancos-contenido-equipos.test.js` | `MIGRADAS` ampliado |
+
+**Verificación:**
+```
+npm run preflight → protocolo:check OK, urs-ar:check OK, Vitest 1209, backend 154, E2E 14
+```
+
 ### 2026-11-19 (322): Equipos lote 4 — blistera y etiquetadora
 
 **Qué:** 107 ensayos de empaque al estándar (52 blistera + 55 etiquetadora).
