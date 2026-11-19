@@ -27,12 +27,12 @@
   2) Medir el tiempo de detención de ambos<br>
   3) Verificar el estado seguro sin rearranque espontáneo<br>
   4) Restablecer y verificar el rearranque controlado</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Impulsor y chopper se detienen dentro del tiempo especificado.<br>
-  No existe rearranque espontáneo.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = parada de emergencia; unidad = s. Tipo de dato = continua. n = 3 activaciones. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = detención ≤ 2 s. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable medida; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>La parada de emergencia detiene impulsor y chopper en ≤ <span class="por-confirmar">2 s</span>.<br>Estado seguro, sin reinicio automático; rearme manual.<br>Evento registrado con hora y usuario.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro de parada de emergencia (anexo del informe)</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante del granulador.</p>
+  <p><strong>Nota:</strong><br>El tiempo en rojo se confirma con el fabricante y el análisis de riesgo.</p>
+  <p><strong>Referencia:</strong><br>EU GMP Anexo 15; ICH Q8(R2); USP &lt;711&gt;; 21 CFR 211.160(b); manual del fabricante.</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-OQ-GR-002" class="ensayo" data-id="EQ-OQ-GR-002" data-fase="OQ" data-cond="ambas">
@@ -43,12 +43,12 @@
   2) Con la cuba mal posicionada o sin bloquear, intentar arrancar: no debe permitirlo<br>
   3) Con la válvula de descarga abierta durante el proceso, verificar la acción del interlock<br>
   4) Registrar cada interlock con su respuesta</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Ningún interlock permite el giro en condición insegura.<br>
-  Ningún interlock puede puentearse sin herramienta o clave.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = interlocks de cuba y tapa; unidad = pasa/no pasa. Tipo de dato = atributo. n = 3 repeticiones por condición. Estadísticos = proporción de cumplimiento con IC binomial exacto. Regla de decisión = no gira en ninguna condición insegura. Atípicos: no aplica a datos de atributo; toda exclusión se documenta y se conserva el registro original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Ni impulsor ni chopper giran con tapa abierta, cuba mal posicionada o descarga abierta.<br>El rearme exige condición segura.<br>Prueba registrada por interlock.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Matriz de interlocks con respuesta verificada (anexo del informe)</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante del granulador.</p>
+  <p><strong>Nota:</strong><br>Un interlock puenteado es un hallazgo crítico: se verifica en cada condición, no en una.</p>
+  <p><strong>Referencia:</strong><br>EU GMP Anexo 15; ICH Q8(R2); USP &lt;711&gt;; 21 CFR 211.160(b); manual del fabricante.</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-OQ-GR-003" class="ensayo" data-id="EQ-OQ-GR-003" data-fase="OQ" data-cond="ambas">
@@ -60,12 +60,12 @@
   3) Simular alta temperatura (si aplica sensor) y verificar la alarma<br>
   4) Simular falla de aire de sello y sobrepresión de cuba (si aplican) y verificar cada alarma<br>
   5) Verificar el registro en el histórico</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Cada alarma dispara ante su condición y ejecuta su acción.<br>
-  Todas quedan registradas en el histórico.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = disparo de alarmas; unidad = pasa/no pasa. Tipo de dato = atributo. n = 3 repeticiones por alarma. Estadísticos = proporción de cumplimiento con IC binomial exacto. Regla de decisión = cada alarma dispara y actúa. Atípicos: no aplica a datos de atributo; toda exclusión se documenta y se conserva el registro original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Cada alarma dispara y ejecuta su acción: sobrecorriente, sobretemperatura, presión de aire baja y nivel bajo.<br>Registro con fecha, hora, valor y usuario.<br>Prueba registrada por alarma.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Matriz de alarmas con disparo y acción verificados (anexo del informe)</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante del granulador.</p>
+  <p><strong>Nota:</strong><br>Se prueban todas las alarmas del análisis de riesgo; una que no dispara invalida el ensayo.</p>
+  <p><strong>Referencia:</strong><br>EU GMP Anexo 15; ICH Q8(R2); USP &lt;711&gt;; 21 CFR 211.160(b); manual del fabricante.</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-OQ-GR-004" class="ensayo" data-id="EQ-OQ-GR-004" data-fase="OQ" data-cond="ambas">
@@ -75,12 +75,11 @@
   1) Con impulsor y chopper girando, interrumpir la energía<br>
   2) Verificar el estado seguro y la ausencia de arranque espontáneo al retornar<br>
   3) Verificar el rearranque manual controlado</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Estado seguro sin arranque espontáneo.<br>
-  Rearranque manual controlado.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Ante falla de energía queda en estado seguro, sin arranque espontáneo.<br>La masa en proceso se descarta o se evalúa según procedimiento.<br>Evento registrado.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro de falla y recuperación de energía (anexo del informe)</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante del granulador.</p>
+  <p><strong>Nota:</strong><br>La disposición de la masa se define antes de la prueba.</p>
+  <p><strong>Referencia:</strong><br>EU GMP Anexo 15; ICH Q8(R2); USP &lt;711&gt;; 21 CFR 211.160(b); manual del fabricante.</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-OQ-GR-005" class="ensayo" data-id="EQ-OQ-GR-005" data-fase="OQ" data-cond="ambas" data-analisis="si">
@@ -91,14 +90,13 @@
   2) Medir cada punto con un tacómetro independiente calibrado, por triplicado<br>
   3) Registrar la lectura del control y la del tacómetro<br>
   4) Procesar los datos crudos de velocidad en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  La velocidad indicada está dentro de tolerancia en los tres puntos.<br>
-  La repetibilidad cumple el criterio.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = velocidad del impulsor; unidad = rpm. Tipo de dato = continua. n = 3 lecturas por setpoint. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = desviación ≤ ±2 %. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable medida; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Velocidad del impulsor dentro de <span class="por-confirmar">±2 %</span> del setpoint en mínimo, nominal y máximo.<br>Sin oscilación > 2 % en 5 min.<br>Registro por velocidad.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro de velocidades con data cruda y reporte<br>
   - Data cruda y reporte estadístico del análisis de velocidad del impulsor</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante del granulador.</p>
+  <p><strong>Nota:</strong><br>La tolerancia en rojo se confirma con el fabricante; afecta el punto final.</p>
+  <p><strong>Referencia:</strong><br>EU GMP Anexo 15; ICH Q8(R2); USP &lt;711&gt;; 21 CFR 211.160(b); manual del fabricante.</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-OQ-GR-006" class="ensayo" data-id="EQ-OQ-GR-006" data-fase="OQ" data-cond="ambas" data-analisis="si">
@@ -108,14 +106,13 @@
   1) Ajustar la velocidad del chopper en mínimo, nominal y máximo (si aplica)<br>
   2) Medir cada punto con instrumento independiente, por triplicado<br>
   3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  La velocidad está dentro de tolerancia en los tres puntos.<br>
-  La repetibilidad cumple el criterio.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = velocidad del chopper; unidad = rpm. Tipo de dato = continua. n = 3 lecturas por setpoint. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = desviación ≤ ±2 %. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable medida; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Velocidad del chopper dentro de <span class="por-confirmar">±2 %</span> del setpoint.<br>Sin oscilación ni caída al cargar la cuba.<br>Registro por condición.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro con data cruda y reporte<br>
   - Data cruda y reporte estadístico del análisis de velocidad del chopper</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante del granulador.</p>
+  <p><strong>Nota:</strong><br>La tolerancia en rojo se confirma con el fabricante; el chopper define el tamaño de gránulo.</p>
+  <p><strong>Referencia:</strong><br>EU GMP Anexo 15; ICH Q8(R2); USP &lt;711&gt;; 21 CFR 211.160(b); manual del fabricante.</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-OQ-GR-007" class="ensayo" data-id="EQ-OQ-GR-007" data-fase="OQ" data-cond="ambas" data-analisis="si">
@@ -126,14 +123,13 @@
   2) Medir los tiempos de aceleración y desaceleración<br>
   3) Verificar ausencia de golpes o vibración anormal en las rampas<br>
   4) Procesar los datos crudos de tiempos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Sentidos de giro correctos con rampas dentro de lo especificado.<br>
-  Sin anomalías durante las rampas.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = tiempo de rampa de aceleración y desaceleración; unidad = s. Tipo de dato = continua. n = 3 rampas por velocidad. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = rampa dentro del tiempo del fabricante. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Sentido de giro correcto y rampas de aceleración/desaceleración dentro del tiempo del fabricante.<br>Sin golpe de masa al arrancar.<br>Registro por rampa.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro con data cruda y reporte<br>
   - Data cruda y reporte estadístico del análisis de rampas</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante del granulador.</p>
+  <p><strong>Nota:</strong><br>Una rampa demasiado rápida puede dañar el impulsor o el producto.</p>
+  <p><strong>Referencia:</strong><br>EU GMP Anexo 15; ICH Q8(R2); USP &lt;711&gt;; 21 CFR 211.160(b); manual del fabricante.</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-OQ-GR-008" class="ensayo" data-id="EQ-OQ-GR-008" data-fase="OQ" data-cond="ambas" data-analisis="si">
@@ -144,14 +140,13 @@
   2) Medir la holgura chopper-cuba en los puntos definidos<br>
   3) Comparar contra la especificación del fabricante<br>
   4) Procesar los datos crudos dimensionales en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Las holguras están dentro de especificación en todos los puntos.<br>
-  Sin roces ni desgaste anormal.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = holgura impulsor-cuba; unidad = mm. Tipo de dato = continua. n = mínimo 4 puntos por elemento. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = cada punto dentro de 1-2 mm. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable medida; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Holgura impulsor-cuba de <span class="por-confirmar">1-2 mm</span> y chopper-cuba según fabricante, medidas en varios puntos.<br>Sin contacto metal-metal ni marcas de roce.<br>Registro por punto de medición.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro dimensional con data cruda y reporte<br>
   - Data cruda y reporte estadístico del análisis de holguras</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante del granulador.</p>
+  <p><strong>Nota:</strong><br>La holgura en rojo se confirma con el certificado; una holgura excesiva deja material sin mezclar.</p>
+  <p><strong>Referencia:</strong><br>EU GMP Anexo 15; ICH Q8(R2); USP &lt;711&gt;; 21 CFR 211.160(b); manual del fabricante.</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-OQ-GR-009" class="ensayo" data-id="EQ-OQ-GR-009" data-fase="OQ" data-cond="ambas" data-analisis="si">
@@ -162,14 +157,13 @@
   2) Registrar con carga inerte a las velocidades de uso<br>
   3) Verificar la exactitud de la lectura frente a un patrón<br>
   4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  La lectura es exacta frente al patrón en vacío y con carga.<br>
-  La señal es estable y repetible.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = potencia o torque; unidad = kW o N·m. Tipo de dato = continua. n = 3 lecturas por condición. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = desviación ≤ ±5 %. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable medida; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Consumo de potencia o torque en vacío y con carga inerte dentro de <span class="por-confirmar">±5 %</span> del esperado.<br>Sin picos ni saltos al cambiar de velocidad.<br>Registro por condición.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registros de potencia con data cruda y reporte<br>
   - Data cruda y reporte estadístico del análisis de potencia o torque</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante del granulador.</p>
+  <p><strong>Nota:</strong><br>La tolerancia en rojo se confirma con el fabricante; es la base del punto final por potencia.</p>
+  <p><strong>Referencia:</strong><br>EU GMP Anexo 15; ICH Q8(R2); USP &lt;711&gt;; 21 CFR 211.160(b); manual del fabricante.</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-OQ-GR-010" class="ensayo" data-id="EQ-OQ-GR-010" data-fase="OQ" data-cond="ambas" data-analisis="si">
@@ -180,14 +174,13 @@
   2) Medir la temperatura del motor y reductor tras la estabilización<br>
   3) Comparar contra los límites del fabricante<br>
   4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Vibración, ruido y temperatura dentro de lo esperado.<br>
-  Sin puntos calientes ni ruidos anormales.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = vibración, ruido y temperatura; unidad = mm/s, dB(A), °C. Tipo de dato = continua. n = 3 lecturas por punto. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = cada valor dentro del límite. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable medida; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Vibración ≤ <span class="por-confirmar">4,5 mm/s</span>, ruido ≤ <span class="por-confirmar">80 dB(A)</span> y reductor ≤ <span class="por-confirmar">80 °C</span>.<br>Sin ruido anormal ni fuga de aceite.<br>Registro por punto.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro con data cruda y reporte<br>
   - Data cruda y reporte estadístico del análisis de vibración y temperatura</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante del granulador.</p>
+  <p><strong>Nota:</strong><br>Los límites en rojo se confirman con la clase de la máquina y la evaluación de exposición.</p>
+  <p><strong>Referencia:</strong><br>EU GMP Anexo 15; ICH Q8(R2); USP &lt;711&gt;; 21 CFR 211.160(b); manual del fabricante.</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-OQ-GR-011" class="ensayo" data-id="EQ-OQ-GR-011" data-fase="OQ" data-cond="ambas" data-analisis="si">
@@ -198,14 +191,13 @@
   2) Medir la presión del aire de sello y verificar que está en rango (si aplica)<br>
   3) Verificar el fluido de barrera si lo hay: nivel y conexiones<br>
   4) Procesar los datos crudos de presión en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Sin fugas en el sello del eje.<br>
-  La presión de aire de sello está en rango.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = estanqueidad del sello; unidad = bar. Tipo de dato = continua. n = 3 pruebas. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = sin fuga con presión en rango. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable medida; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Sello del eje sin fuga de producto ni de aire.<br>Presión de aire de sello dentro del rango del fabricante.<br>Registro de la prueba de estanqueidad.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro con data cruda y reporte<br>
   - Data cruda y reporte estadístico del análisis del sello</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante del granulador.</p>
+  <p><strong>Nota:</strong><br>Un sello con fuga contamina el producto y el área; se verifica con presión, no a ojo.</p>
+  <p><strong>Referencia:</strong><br>EU GMP Anexo 15; ICH Q8(R2); USP &lt;711&gt;; 21 CFR 211.160(b); manual del fabricante.</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-OQ-GR-012" class="ensayo" data-id="EQ-OQ-GR-012" data-fase="OQ" data-cond="ambas" data-analisis="si">
@@ -216,14 +208,13 @@
   2) Medir el caudal real con agua por método gravimétrico o volumétrico, por triplicado<br>
   3) Registrar el ajuste contra el caudal medido<br>
   4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  El caudal está dentro de tolerancia en todos los puntos.<br>
-  La repetibilidad cumple el criterio.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = caudal de aglutinante; unidad = mL/min. Tipo de dato = continua. n = 3 lecturas por setpoint. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = desviación ≤ ±5 %. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable medida; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Caudal de la bomba de aglutinante dentro de <span class="por-confirmar">±5 %</span> del setpoint en el rango de trabajo.<br>Sin pulsos ni aire en la línea.<br>Registro por caudal.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro de caudales con data cruda y reporte<br>
   - Data cruda y reporte estadístico del análisis de caudal</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante de la bomba.</p>
+  <p><strong>Nota:</strong><br>La tolerancia en rojo se confirma con el fabricante; el caudal define el punto final.</p>
+  <p><strong>Referencia:</strong><br>EU GMP Anexo 15; ICH Q8(R2); USP &lt;711&gt;; 21 CFR 211.160(b); manual del fabricante.</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-OQ-GR-013" class="ensayo" data-id="EQ-OQ-GR-013" data-fase="OQ" data-cond="ambas" data-analisis="si">
@@ -234,14 +225,13 @@
   2) Verificar el patrón de aspersión con agua sobre superficie de prueba<br>
   3) Verificar el punto de impacto sobre el lecho<br>
   4) Procesar los datos crudos de cobertura en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  El patrón de aspersión es uniforme y cubre el lecho.<br>
-  La posición corresponde al diseño.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = patrón de aspersión; unidad = pasa/no pasa. Tipo de dato = atributo. n = 1 verificación por boquilla. Estadísticos = proporción de cumplimiento con IC binomial exacto. Regla de decisión = patrón uniforme y sin goteo. Atípicos: no aplica a datos de atributo; toda exclusión se documenta y se conserva el registro original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Patrón de aspersión de la boquilla uniforme y dirigido al lecho, sin mojar paredes.<br>Posición y ángulo según el diseño.<br>Sin goteo al cerrar la válvula.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro con data cruda y reporte<br>
   - Data cruda y reporte estadístico del análisis de aspersión</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante del granulador.</p>
+  <p><strong>Nota:</strong><br>Un patrón que moja paredes genera zonas sin granulación; se verifica con prueba de aspersión.</p>
+  <p><strong>Referencia:</strong><br>EU GMP Anexo 15; ICH Q8(R2); USP &lt;711&gt;; 21 CFR 211.160(b); manual del fabricante.</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-OQ-GR-014" class="ensayo" data-id="EQ-OQ-GR-014" data-fase="OQ" data-cond="ambas" data-analisis="si">
@@ -252,14 +242,13 @@
   2) Registrar el caudal durante cada adición a intervalos definidos<br>
   3) Evaluar la estabilidad intra-adición y la repetibilidad entre corridas<br>
   4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  El caudal es estable durante la adición.<br>
-  La repetibilidad entre corridas cumple el criterio.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = repetibilidad del caudal; unidad = mL/min. Tipo de dato = continua. n = 3 corridas. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = desviación ≤ ±5 % entre corridas. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable medida; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Repetibilidad del caudal entre corridas dentro de <span class="por-confirmar">±5 %</span> y estabilidad durante la adición.<br>Sin deriva al aumentar la contrapresión.<br>Registro por corrida.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registros con data cruda y reporte<br>
   - Data cruda y reporte estadístico del análisis de repetibilidad de caudal</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante de la bomba.</p>
+  <p><strong>Nota:</strong><br>La repetibilidad en rojo se confirma con el fabricante; afecta la reproducibilidad del lote.</p>
+  <p><strong>Referencia:</strong><br>EU GMP Anexo 15; ICH Q8(R2); USP &lt;711&gt;; 21 CFR 211.160(b); manual del fabricante.</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-OQ-GR-015" class="ensayo" data-id="EQ-OQ-GR-015" data-fase="OQ" data-cond="ambas" data-analisis="si">
@@ -270,14 +259,13 @@
   2) Medir la presión real con instrumento independiente, por triplicado<br>
   3) Verificar estabilidad durante la aspersión<br>
   4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  La presión está dentro de tolerancia y es estable.<br>
-  La repetibilidad cumple el criterio.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = presión de atomización; unidad = bar. Tipo de dato = continua. n = 3 lecturas por condición. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = cada lectura dentro del rango. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable medida; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Presión de aire de atomización dentro del rango del fabricante (<span class="por-confirmar">1-2 bar</span>).<br>Sin fluctuación > 5 % durante la adición.<br>Registro de presión.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro con data cruda y reporte<br>
   - Data cruda y reporte estadístico del análisis de aire de atomización</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante del granulador.</p>
+  <p><strong>Nota:</strong><br>La presión en rojo se confirma con el fabricante de la boquilla; define el tamaño de gota.</p>
+  <p><strong>Referencia:</strong><br>EU GMP Anexo 15; ICH Q8(R2); USP &lt;711&gt;; 21 CFR 211.160(b); manual del fabricante.</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-OQ-GR-016" class="ensayo" data-id="EQ-OQ-GR-016" data-fase="OQ" data-cond="ambas" data-analisis="si">
@@ -288,14 +276,13 @@
   2) Registrar las curvas de calentamiento y enfriamiento a volumen mínimo y máximo<br>
   3) Calcular velocidades y estabilidad<br>
   4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Exactitud dentro de tolerancia a ambos volúmenes.<br>
-  Velocidades de calentamiento y enfriamiento según lo especificado.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = temperatura de camisa; unidad = °C. Tipo de dato = continua. n = 3 lecturas por setpoint. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = media dentro de ±2 °C. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable medida; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Temperatura de camisa dentro de <span class="por-confirmar">±2 °C</span> del setpoint.<br>Velocidad de respuesta y estabilidad sin oscilación.<br>Registro por condición.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Curvas con data cruda y reporte<br>
   - Data cruda y reporte estadístico del análisis térmico de camisa</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante del granulador.</p>
+  <p><strong>Nota:</strong><br>La tolerancia en rojo se confirma con el producto y el fabricante.</p>
+  <p><strong>Referencia:</strong><br>EU GMP Anexo 15; ICH Q8(R2); USP &lt;711&gt;; 21 CFR 211.160(b); manual del fabricante.</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-OQ-GR-017" class="ensayo" data-id="EQ-OQ-GR-017" data-fase="OQ" data-cond="ambas" data-analisis="si">
@@ -306,14 +293,13 @@
   2) Registrar el nivel alcanzable contra lo especificado<br>
   3) Aislar y ejecutar la prueba de fuga con registro a intervalos<br>
   4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  El nivel alcanzable cumple lo especificado.<br>
-  La fuga no supera el límite.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = estanqueidad y vacío; unidad = mbar. Tipo de dato = continua. n = 3 pruebas de 5 min. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = caída ≤ 5 %. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable medida; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Nivel de vacío o presión de cuba alcanzable según diseño, con estanqueidad verificada.<br>Sin caída > 5 % en 5 min con la cuba cerrada.<br>Registro de la prueba.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro con data cruda y reporte<br>
   - Data cruda y reporte estadístico del análisis de vacío o presión</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante del granulador.</p>
+  <p><strong>Nota:</strong><br>La caída admisible en rojo se confirma con el diseño y el fabricante.</p>
+  <p><strong>Referencia:</strong><br>EU GMP Anexo 15; ICH Q8(R2); USP &lt;711&gt;; 21 CFR 211.160(b); manual del fabricante.</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-OQ-GR-018" class="ensayo" data-id="EQ-OQ-GR-018" data-fase="OQ" data-cond="ambas" data-analisis="si">
@@ -324,14 +310,13 @@
   2) Medir el caudal real y registrar la lectura del sensor de O₂<br>
   3) Verificar que el O₂ baja al nivel especificado<br>
   4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  El caudal está dentro de tolerancia.<br>
-  El O₂ alcanza el nivel especificado.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = oxígeno residual; unidad = % O₂. Tipo de dato = continua. n = 3 lecturas por condición. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = cada lectura ≤ 2 % O₂. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable medida; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Inertización con nitrógeno: caudal y sensor de O₂ dentro del límite (<span class="por-confirmar">≤ 2 % O₂</span>).<br>Sin ingreso de aire por sellos o válvulas.<br>Registro por condición.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro con data cruda y reporte<br>
   - Data cruda y reporte estadístico del análisis de inertización</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante del granulador.</p>
+  <p><strong>Nota:</strong><br>El límite de O₂ en rojo depende del producto; se confirma con la evaluación de riesgo.</p>
+  <p><strong>Referencia:</strong><br>EU GMP Anexo 15; ICH Q8(R2); USP &lt;711&gt;; 21 CFR 211.160(b); manual del fabricante.</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-OQ-GR-019" class="ensayo" data-id="EQ-OQ-GR-019" data-fase="OQ" data-cond="ambas" data-analisis="si">
@@ -342,14 +327,13 @@
   2) Verificar el suministro de agua (presión y caudal si aplica)<br>
   3) Verificar el voltaje de alimentación en operación<br>
   4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Todos los suministros están dentro de su rango operativo.<br>
-  Sin caídas fuera de rango durante la operación.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = disponibilidad de servicios durante la prueba; unidad = pasa/no pasa. Tipo de dato = atributo. n = 1 verificación al inicio y al final. Estadísticos = proporción de cumplimiento con IC binomial exacto. Regla de decisión = ambos extremos dentro de rango. Atípicos: no aplica a datos de atributo; toda exclusión se documenta y se conserva el registro original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Aire comprimido, agua y electricidad dentro de rango durante la prueba.<br>Sin caídas de suministro ni alarmas de servicio.<br>Parámetros registrados al inicio y al final.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro con data cruda y reporte<br>
   - Data cruda y reporte estadístico del análisis de suministros</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante del granulador.</p>
+  <p><strong>Nota:</strong><br>Los rangos son los del diseño de servicios; se documentan, no se ajustan durante la prueba.</p>
+  <p><strong>Referencia:</strong><br>EU GMP Anexo 15; ICH Q8(R2); USP &lt;711&gt;; 21 CFR 211.160(b); manual del fabricante.</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-OQ-GR-020" class="ensayo" data-id="EQ-OQ-GR-020" data-fase="OQ" data-cond="ambas" data-analisis="si">
@@ -359,14 +343,13 @@
   1) Calibrar las celdas de carga con pesas patrón trazables en varios niveles (si aplican)<br>
   2) Registrar la indicación contra el patrón, por triplicado<br>
   3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  La indicación está dentro de tolerancia en todos los niveles.<br>
-  Las pesas cuentan con certificado vigente.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = exactitud de celdas de carga; unidad = kg. Tipo de dato = continua. n = 5 puntos de calibración. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = error ≤ ±0,5 %. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable medida; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Celdas de carga (si aplican) calibradas con pesas patrón en varios puntos, error ≤ <span class="por-confirmar">±0,5 %</span>.<br>Sin deriva por temperatura.<br>Registro por punto de calibración.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro de calibración con data cruda y reporte<br>
   - Data cruda y reporte estadístico del análisis de celdas de carga</p>
-  <p><strong>Referencia:</strong><br>Certificados de pesas patrón.</p>
+  <p><strong>Nota:</strong><br>La tolerancia en rojo se confirma con el certificado; la carga es la base del rendimiento.</p>
+  <p><strong>Referencia:</strong><br>EU GMP Anexo 15; ICH Q8(R2); USP &lt;711&gt;; 21 CFR 211.160(b); manual del fabricante.</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-OQ-GR-021" class="ensayo" data-id="EQ-OQ-GR-021" data-fase="OQ" data-cond="ambas" data-analisis="si">
@@ -377,14 +360,13 @@
   2) Verificar estanqueidad con la válvula cerrada<br>
   3) Descargar placebo y verificar ausencia de retención de material<br>
   4) Procesar los datos crudos de retención en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Apertura y cierre completos con estanqueidad.<br>
-  Sin retención de material fuera de criterio.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = estanqueidad de la válvula de descarga; unidad = pasa/no pasa. Tipo de dato = atributo. n = 3 ciclos de apertura y cierre. Estadísticos = proporción de cumplimiento con IC binomial exacto. Regla de decisión = sin fuga en los 3 ciclos. Atípicos: no aplica a datos de atributo; toda exclusión se documenta y se conserva el registro original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Válvula de descarga abre y cierra completa y sin fuga.<br>Sin retención de producto en la válvula.<br>Tiempo de apertura dentro del diseño.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro con data cruda y reporte<br>
   - Data cruda y reporte estadístico del análisis de descarga</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante del granulador.</p>
+  <p><strong>Nota:</strong><br>Una válvula que no cierra retiene masa y altera el rendimiento del lote.</p>
+  <p><strong>Referencia:</strong><br>EU GMP Anexo 15; ICH Q8(R2); USP &lt;711&gt;; 21 CFR 211.160(b); manual del fabricante.</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-OQ-GR-022" class="ensayo" data-id="EQ-OQ-GR-022" data-fase="OQ" data-cond="ambas" data-analisis="si">
@@ -395,14 +377,13 @@
   2) Verificar la malla instalada: tipo, número e integridad<br>
   3) Verificar el sentido de giro<br>
   4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Velocidad y sentido correctos con malla íntegra.<br>
-  La malla instalada corresponde a la especificada.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = distribución de tamaño tras molienda; unidad = µm. Tipo de dato = continua. n = 3 muestras por condición. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = distribución conforme a la malla instalada. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Molino o calibrador: velocidad, malla y rendimiento dentro del diseño.<br>Sin sobrecalentamiento ni obturación.<br>Distribución de tamaño coherente con la malla instalada.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro con data cruda y reporte<br>
   - Data cruda y reporte estadístico del análisis del molino</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante del granulador.</p>
+  <p><strong>Nota:</strong><br>La malla se identifica y registra; un cambio de malla altera el tamaño de gránulo.</p>
+  <p><strong>Referencia:</strong><br>EU GMP Anexo 15; ICH Q8(R2); USP &lt;711&gt;; 21 CFR 211.160(b); manual del fabricante.</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-OQ-GR-023" class="ensayo" data-id="EQ-OQ-GR-023" data-fase="OQ" data-cond="ambas" data-analisis="si">
@@ -414,14 +395,13 @@
   3) Verificar visualmente el movimiento del lecho y que el impulsor no quede descubierto<br>
   4) Registrar alarmas e intervenciones<br>
   5) Procesar los datos crudos de potencia en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Ambas corridas se completan sin alarmas ni desviaciones no justificadas.<br>
-  Movimiento del lecho adecuado con impulsor cubierto.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = uniformidad con placebo; unidad = pasa/no pasa. Tipo de dato = atributo. n = 3 corridas por volumen. Estadísticos = proporción de cumplimiento con IC binomial exacto. Regla de decisión = sin zonas muertas ni adherencia. Atípicos: no aplica a datos de atributo; toda exclusión se documenta y se conserva el registro original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Corrida con placebo al volumen mínimo y máximo: mezcla en seco uniforme y sin zonas muertas.<br>Sin material adherido a paredes ni al impulsor.<br>Registro por volumen.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registros de corrida con data cruda y reporte<br>
   - Data cruda y reporte estadístico del análisis de corrida con placebo</p>
-  <p><strong>Referencia:</strong><br>Especificación de operación del granulador.</p>
+  <p><strong>Nota:</strong><br>El volumen mínimo es el peor caso de mezcla; el máximo, el de carga.</p>
+  <p><strong>Referencia:</strong><br>EU GMP Anexo 15; ICH Q8(R2); USP &lt;711&gt;; 21 CFR 211.160(b); manual del fabricante.</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-OQ-GR-024" class="ensayo" data-id="EQ-OQ-GR-024" data-fase="OQ" data-cond="ambas" data-analisis="si">
@@ -432,14 +412,13 @@
   2) Repetir en corridas sucesivas<br>
   3) Comparar la forma y los valores entre corridas<br>
   4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  La señal responde a la adición de forma consistente.<br>
-  Los perfiles son repetibles entre corridas.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = perfil de potencia; unidad = kW. Tipo de dato = continua. n = 3 corridas con agua. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = perfil con la forma esperada y sin picos. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable medida; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Perfil de potencia responde a la adición de agua con la forma esperada.<br>Sin escalones ni picos anormales.<br>Registro continuo por corrida.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Perfiles de potencia con data cruda y reporte<br>
   - Data cruda y reporte estadístico del análisis de perfil de potencia</p>
-  <p><strong>Referencia:</strong><br>Especificación de operación del granulador.</p>
+  <p><strong>Nota:</strong><br>El perfil de potencia es la señal del punto final; se evalúa la forma, no solo el valor final.</p>
+  <p><strong>Referencia:</strong><br>EU GMP Anexo 15; ICH Q8(R2); USP &lt;711&gt;; 21 CFR 211.160(b); manual del fabricante.</p>
 </article>
 
 <article data-bloque="6" id="art-EQ-OQ-GR-REF" class="ensayo tabla-info" data-id="EQ-OQ-GR-REF" data-fase="OQ" data-cond="ambas" data-familia="granulador">
