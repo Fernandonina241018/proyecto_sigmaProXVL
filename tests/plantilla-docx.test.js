@@ -686,6 +686,25 @@ describe('H-05/H-08/H-09/H-11: límites, bloques fijos y trazabilidad', () => {
       expect(txt).toContain('SIS-PQ-AP-015 (aplica a WFI)');
     });
 
+    test('la portada declara los valores propuestos pendientes de confirmación', async () => {
+      const u8 = new Uint8Array(readFileSync(resolve(raiz, P.PLANTILLAS.PQ)));
+      const b = {
+        version: '', fases: { PQ: [{
+          kind: 'ensayo', id: 'EQ-PQ-XX-001', bloque: 3, cond: 'ambas', titulo: 'X',
+          secciones: [
+            { et: 'Objetivo', html: '<strong>Objetivo:</strong><br>Demostrar el desempeño del equipo.' },
+            { et: 'Criterio de aceptación', html: '<strong>Criterio de aceptación:</strong><br>Conductividad ≤ <span class="por-confirmar">1,3 µS/cm</span>.' },
+          ],
+        }] },
+      };
+      const r = await P.generar('PQ', u8, b, DRAFT, ENT, 'ambas');
+      const xml = dec((await P._interno.leerZip(r.bytes)).find((a) => a.nombre === 'word/document.xml').datos);
+      // El texto puede quedar partido en runs: se compara sobre el XML sin etiquetas.
+      // Sin regex `[^>]+`: CodeQL lo trata como sanitización incompleta.
+      const plano = xml.split('<').map((t) => t.slice(t.indexOf('>') + 1)).join('');
+      expect(plano).toContain('AVISO — Este protocolo contiene 1 valor(es) propuesto(s) pendiente(s) de confirmación');
+    });
+
     test('sin pendientes, la nota lo declara en vez de callar', () => {
       const ensayos = [{
         id: 'EQ-OQ-001', criticidad: 'Alta', instrumentos: 'Balanza calibrada',

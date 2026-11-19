@@ -45,6 +45,31 @@ const checks = {
 };
 
 const pct = (n, d) => (d ? Math.round((100 * n) / d) : 0);
+
+// Lista de confirmación del SME: qué valores están propuestos (rojo) y dónde.
+if (process.argv.includes('--por-confirmar')) {
+  const filas = [];
+  for (const [banco, B] of BANCOS) {
+    for (const e of Object.entries(B.fases || {})
+      .flatMap(([fase, xs]) => xs.map((x) => ({ ...x, fase })))
+      .filter((x) => x.kind === 'ensayo' && (x.bloque === 2 || x.bloque === 3))) {
+      const valores = [];
+      for (const sec of e.secciones || []) {
+        for (const m of String(sec.html || '')
+          .matchAll(/class="[^"]*por-confirmar[^"]*"[^>]*>([\s\S]*?)<\/span>/g)) {
+          valores.push(textoPlano(m[1]).trim());
+        }
+      }
+      if (valores.length) filas.push({ familia: `${banco}/${e.familia || e.fase}`, id: e.id, valores });
+    }
+  }
+  console.log(`banco:check --por-confirmar — ${filas.length} ensayos con valores propuestos\n`);
+  for (const f of filas.sort((a, b) => a.familia.localeCompare(b.familia))) {
+    console.log(`${f.familia} · ${f.id}`);
+    for (const v of f.valores) console.log('   - ' + v);
+  }
+  process.exit(0);
+}
 const filas = [];
 const fallas = Object.fromEntries(Object.keys(checks).map((k) => [k, 0]));
 let total = 0;
