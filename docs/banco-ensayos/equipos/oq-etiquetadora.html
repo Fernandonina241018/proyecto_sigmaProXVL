@@ -27,12 +27,12 @@
   2) Medir el tiempo de detención<br>
   3) Verificar el estado seguro sin rearranque espontáneo<br>
   4) Restablecer y verificar el rearranque controlado</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  La línea se detiene dentro del tiempo especificado.<br>
-  No existe rearranque espontáneo.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = parada de emergencia; unidad = s. Tipo de dato = continua. n = 3 activaciones. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = detención ≤ 2 s. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Cada parada de emergencia detiene la línea y la deja en estado seguro en ≤ <span class="por-confirmar">2 s</span>.<br>Rearme manual, sin reinicio automático.<br>Evento registrado con hora y usuario.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro de parada de emergencia (anexo del informe)</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante de la etiquetadora.</p>
+  <p><strong>Nota:</strong><br>El tiempo en rojo se confirma con el fabricante y el análisis de riesgo.</p>
+  <p><strong>Referencia:</strong><br>ISO/IEC 15416; ISO/IEC 15415; 21 CFR 211.122; 21 CFR 211.125; 21 CFR 211.130; EU GMP Anexo 15.</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-OQ-ET-002" class="ensayo" data-id="EQ-OQ-ET-002" data-fase="OQ" data-cond="ambas">
@@ -42,12 +42,12 @@
   1) Con cada guarda o puerta abierta, intentar operar: ninguna parte móvil debe funcionar<br>
   2) Verificar la protección del transportador y del cabezal de aplicación<br>
   3) Registrar cada interlock con su respuesta</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Ninguna parte móvil funciona con guardas abiertas.<br>
-  Protecciones instaladas y operativas.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = actuación de interlocks; unidad = s. Tipo de dato = continua. n = 3 repeticiones. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = detención ≤ 1 s. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Ninguna parte móvil funciona con guarda o puerta abierta: detención en ≤ <span class="por-confirmar">1 s</span>.<br>Rearme manual tras la condición segura.<br>Prueba registrada por interlock.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Matriz de interlocks con respuesta verificada (anexo del informe)</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante de la etiquetadora.</p>
+  <p><strong>Nota:</strong><br>Un interlock puenteado es un hallazgo crítico.</p>
+  <p><strong>Referencia:</strong><br>ISO/IEC 15416; ISO/IEC 15415; 21 CFR 211.122; 21 CFR 211.125; 21 CFR 211.130; EU GMP Anexo 15.</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-OQ-ET-003" class="ensayo" data-id="EQ-OQ-ET-003" data-fase="OQ" data-cond="ambas">
@@ -56,12 +56,12 @@
   <p><strong>Procedimiento:</strong><br>
   1) Simular cada condición de alarma aplicable y verificar disparo y acción<br>
   2) Verificar el registro de cada alarma en el histórico</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Cada alarma dispara ante su condición y ejecuta su acción.<br>
-  Todas quedan registradas en el histórico.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = disparo de alarmas; unidad = pasa/no pasa. Tipo de dato = atributo. n = 3 repeticiones por alarma. Estadísticos = proporción de cumplimiento con IC binomial exacto. Regla de decisión = cada alarma dispara y actúa. Atípicos: no aplica a datos de atributo; toda exclusión se documenta y se conserva el registro original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Cada alarma dispara y ejecuta su acción: fin de rollo, etiqueta ausente, error de impresión y rechazo lleno.<br>Registro con fecha, hora, valor y usuario.<br>Prueba registrada por alarma.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Matriz de alarmas con disparo y acción verificados (anexo del informe)</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante de la etiquetadora.</p>
+  <p><strong>Nota:</strong><br>Se prueban todas las alarmas del análisis de riesgo.</p>
+  <p><strong>Referencia:</strong><br>ISO/IEC 15416; ISO/IEC 15415; 21 CFR 211.122; 21 CFR 211.125; 21 CFR 211.130; EU GMP Anexo 15.</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-OQ-ET-004" class="ensayo" data-id="EQ-OQ-ET-004" data-fase="OQ" data-cond="ambas">
@@ -72,12 +72,11 @@
   2) Verificar el estado seguro y la ausencia de arranque espontáneo<br>
   3) Verificar el tratamiento definido para la etiqueta y el envase en proceso<br>
   4) Verificar el rearranque manual controlado</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Estado seguro sin arranque espontáneo.<br>
-  El material en proceso se trata según lo definido.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Ante falla de energía queda en estado seguro, sin arranque espontáneo.<br>El material en proceso se dispone según procedimiento.<br>Evento registrado.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro de falla y recuperación de energía (anexo del informe)</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante de la etiquetadora.</p>
+  <p><strong>Nota:</strong><br>La disposición del material se define antes de la prueba.</p>
+  <p><strong>Referencia:</strong><br>ISO/IEC 15416; ISO/IEC 15415; 21 CFR 211.122; 21 CFR 211.125; 21 CFR 211.130; EU GMP Anexo 15.</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-OQ-ET-005" class="ensayo" data-id="EQ-OQ-ET-005" data-fase="OQ" data-cond="ambas" data-analisis="si">
@@ -88,13 +87,13 @@
   2) Medir cada punto con un contador independiente, por triplicado<br>
   3) Registrar la lectura del control y la independiente<br>
   4) Procesar los datos crudos de velocidad en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  La velocidad indicada está dentro de tolerancia en los tres puntos.<br>
-  La repetibilidad cumple el criterio.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = velocidad de etiquetado; unidad = unidades/min. Tipo de dato = continua. n = 3 lecturas por setpoint. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = desviación ≤ ±2 %. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Velocidad (unidades/min) dentro de <span class="por-confirmar">±2 %</span> del setpoint en mínimo, nominal y máximo.<br>Sin oscilación > 2 % en 5 min.<br>Registro por velocidad.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro de velocidades con data cruda y reporte<br>
   - Data cruda y reporte estadístico del análisis de velocidad</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante de la etiquetadora.</p>
+  <p><strong>Nota:</strong><br>La tolerancia en rojo se confirma con el fabricante.</p>
+  <p><strong>Referencia:</strong><br>ISO/IEC 15416; ISO/IEC 15415; 21 CFR 211.122; 21 CFR 211.125; 21 CFR 211.130; EU GMP Anexo 15.</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-OQ-ET-006" class="ensayo" data-id="EQ-OQ-ET-006" data-fase="OQ" data-cond="ambas" data-analisis="si">
@@ -104,13 +103,13 @@
   1) Operar a cada velocidad de uso y verificar la secuencia sensor-dispensado-aplicación<br>
   2) Registrar desfaces o errores de sincronización<br>
   3) Procesar los datos crudos de sincronización en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Sincronización correcta a cada velocidad.<br>
-  Sin errores de secuencia fuera de criterio.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = desfase de sincronización; unidad = mm. Tipo de dato = continua. n = 100 unidades por velocidad. Estadísticos = media, DE e IC 95 %. Regla de decisión = desfase ≤ 0,5 mm. Atípicos = Grubbs solo si n ≥ 7; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Sincronización entre transportador, sensor de producto y aplicador: posición dentro de <span class="por-confirmar">±0,5 mm</span> a todas las velocidades.<br>Sin desfase acumulado al final de la corrida.<br>Registro por condición.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro de sincronización con data cruda y reporte<br>
   - Data cruda y reporte estadístico del análisis de sincronización</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante de la etiquetadora.</p>
+  <p><strong>Nota:</strong><br>El desfase de sincronización es la causa principal de etiquetas corridas.</p>
+  <p><strong>Referencia:</strong><br>ISO/IEC 15416; ISO/IEC 15415; 21 CFR 211.122; 21 CFR 211.125; 21 CFR 211.130; EU GMP Anexo 15.</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-OQ-ET-007" class="ensayo" data-id="EQ-OQ-ET-007" data-fase="OQ" data-cond="ambas">
@@ -120,12 +119,12 @@
   1) Operar la línea y observar la tensión y el avance de la cinta<br>
   2) Verificar ausencia de arrugas, tirones o roturas<br>
   3) Registrar los ajustes de tensión aprobados</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Avance estable sin arrugas ni roturas.<br>
-  Tensión dentro del rango aprobado.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = tensión de la cinta; unidad = N. Tipo de dato = continua. n = 3 lecturas por condición. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = desviación ≤ ±10 %. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Tensión y avance de la cinta estables dentro de ±<span class="por-confirmar">10 %</span>.<br>Sin rotura ni despegado del liner.<br>Registro por condición.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro de cinta de etiquetas (anexo del informe)</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante de la etiquetadora.</p>
+  <p><strong>Nota:</strong><br>La tensión inestable desplaza la etiqueta y rompe la cinta.</p>
+  <p><strong>Referencia:</strong><br>ISO/IEC 15416; ISO/IEC 15415; 21 CFR 211.122; 21 CFR 211.125; 21 CFR 211.130; EU GMP Anexo 15.</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-OQ-ET-008" class="ensayo" data-id="EQ-OQ-ET-008" data-fase="OQ" data-cond="ambas">
@@ -135,12 +134,11 @@
   1) Montar cada juego de piezas declarado y verificar alineación y ajuste<br>
   2) Registrar los parámetros de cada formato<br>
   3) Verificar la identificación de cada juego</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Cada formato monta con alineación y ajuste correctos.<br>
-  Parámetros registrados por formato.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Cada juego de piezas de formato se monta con alineación y ajuste según fabricante.<br>El 100 % de los formatos declarados verificados.<br>Registro de montaje.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro de cambio de formato (anexo del informe)</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante de la etiquetadora.</p>
+  <p><strong>Nota:</strong><br>Un formato desalineado produce etiquetas fuera de posición.</p>
+  <p><strong>Referencia:</strong><br>ISO/IEC 15416; ISO/IEC 15415; 21 CFR 211.122; 21 CFR 211.125; 21 CFR 211.130; EU GMP Anexo 15.</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-OQ-ET-009" class="ensayo" data-id="EQ-OQ-ET-009" data-fase="OQ" data-cond="ambas">
@@ -150,12 +148,11 @@
   1) Pasar envases de cada formato, incluidos transparentes o reflectantes (si aplican)<br>
   2) Verificar la detección a velocidad mínima, nominal y máxima<br>
   3) Registrar el resultado por formato y velocidad</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Detección del 100% en cada formato y velocidad.<br>
-  Sin envases no detectados.</p>
+  <p><strong>Criterio de aceptación:</strong><br>El sensor de producto detecta el 100 % de los envases de cada formato, incluidos los extremos.<br>Sin falsos positivos ni ausencias.<br>Registro por formato.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro del sensor de producto (anexo del informe)</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante de la etiquetadora.</p>
+  <p><strong>Nota:</strong><br>Un sensor que falla en el envase más pequeño deja unidades sin etiqueta.</p>
+  <p><strong>Referencia:</strong><br>ISO/IEC 15416; ISO/IEC 15415; 21 CFR 211.122; 21 CFR 211.125; 21 CFR 211.130; EU GMP Anexo 15.</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-OQ-ET-010" class="ensayo" data-id="EQ-OQ-ET-010" data-fase="OQ" data-cond="ambas">
@@ -165,12 +162,11 @@
   1) Pasar cada tipo de soporte declarado y verificar la detección del borde o marca<br>
   2) Simular etiqueta faltante y verificar la detección<br>
   3) Registrar el resultado por soporte</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Detección correcta en cada tipo de soporte.<br>
-  Etiqueta faltante siempre detectada.</p>
+  <p><strong>Criterio de aceptación:</strong><br>El sensor de etiqueta detecta el borde o la marca en el 100 % de las etiquetas.<br>Sin doble dispensado ni etiqueta sin aplicar.<br>Registro por serie.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro del sensor de etiqueta (anexo del informe)</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante de la etiquetadora.</p>
+  <p><strong>Nota:</strong><br>La detección del gap es lo que permite el dispensado exacto.</p>
+  <p><strong>Referencia:</strong><br>ISO/IEC 15416; ISO/IEC 15415; 21 CFR 211.122; 21 CFR 211.125; 21 CFR 211.130; EU GMP Anexo 15.</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-OQ-ET-011" class="ensayo" data-id="EQ-OQ-ET-011" data-fase="OQ" data-cond="ambas">
@@ -180,12 +176,11 @@
   1) Simular fin de rollo y verificar la detección y la acción (si aplica)<br>
   2) Pasar un empalme y verificar su detección (si aplica)<br>
   3) Registrar el resultado</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Fin de rollo y empalme detectados según lo configurado.<br>
-  Acción asociada correcta.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Detección de rollo agotado y de empalme probada, con alarma en ≤ <span class="por-confirmar">2 m</span> de cinta restante.<br>El empalme no genera etiquetas sin verificar.<br>Registro del evento.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro de detección de rollo y empalme (anexo del informe)</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante de la etiquetadora.</p>
+  <p><strong>Nota:</strong><br>Un empalme sin control produce una secuencia de etiquetas sin código.</p>
+  <p><strong>Referencia:</strong><br>ISO/IEC 15416; ISO/IEC 15415; 21 CFR 211.122; 21 CFR 211.125; 21 CFR 211.130; EU GMP Anexo 15.</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-OQ-ET-012" class="ensayo" data-id="EQ-OQ-ET-012" data-fase="OQ" data-cond="ambas">
@@ -195,12 +190,12 @@
   1) Etiquetar muestras a velocidad mínima, nominal y máxima<br>
   2) Medir altura, desplazamiento lateral y ángulo con instrumento calibrado<br>
   3) Comparar contra la tolerancia de la URS aprobada</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  La posición está dentro de la tolerancia de la URS a las tres velocidades.<br>
-  Sin unidades fuera de tolerancia fuera de criterio.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = posición de la etiqueta; unidad = mm y grados. Tipo de dato = continua. n = 30 unidades por condición. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = cada unidad dentro de ±1 mm y ±1°. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Posición de la etiqueta: altura y desplazamiento lateral dentro de <span class="por-confirmar">±1 mm</span> y rotación ±1°.<br>Medición en los extremos del envase.<br>Registro por medición.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro dimensional de posición (anexo del informe)</p>
-  <p><strong>Referencia:</strong><br>URS aprobada del equipo.</p>
+  <p><strong>Nota:</strong><br>La tolerancia en rojo se confirma con la especificación del producto y del cliente.</p>
+  <p><strong>Referencia:</strong><br>ISO/IEC 15416; ISO/IEC 15415; 21 CFR 211.122; 21 CFR 211.125; 21 CFR 211.130; EU GMP Anexo 15.</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-OQ-ET-013" class="ensayo" data-id="EQ-OQ-ET-013" data-fase="OQ" data-cond="ambas" data-analisis="si">
@@ -210,13 +205,13 @@
   1) Etiquetar al menos treinta unidades consecutivas por velocidad<br>
   2) Medir la posición de cada unidad y calcular media y dispersión<br>
   3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Posición dentro de tolerancia con dispersión controlada.<br>
-  Sin deriva durante las treinta unidades.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = repetibilidad de posición; unidad = mm. Tipo de dato = continua. n = 30 unidades. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = DE ≤ 0,3 mm. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Repetibilidad de la posición sobre al menos 30 unidades.<br>Desviación estándar de la posición ≤ <span class="por-confirmar">0,3 mm</span>.<br>Registro por serie.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro de repetibilidad con data cruda y reporte<br>
   - Data cruda y reporte estadístico del análisis de repetibilidad de posición</p>
-  <p><strong>Referencia:</strong><br>URS aprobada del equipo.</p>
+  <p><strong>Nota:</strong><br>La repetibilidad importa más que el valor medio para el rechazo automático.</p>
+  <p><strong>Referencia:</strong><br>ISO/IEC 15416; ISO/IEC 15415; 21 CFR 211.122; 21 CFR 211.125; 21 CFR 211.130; EU GMP Anexo 15.</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-OQ-ET-014" class="ensayo" data-id="EQ-OQ-ET-014" data-fase="OQ" data-cond="ambas">
@@ -226,12 +221,12 @@
   1) Inspeccionar visualmente las unidades etiquetadas a cada velocidad<br>
   2) Clasificar defectos de adhesión inmediata<br>
   3) Registrar por velocidad</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Sin defectos de adhesión inmediata fuera del nivel aceptado.<br>
-  Sin etiquetas torcidas.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = defectos de adhesión; unidad = %. Tipo de dato = atributo. n = 30 unidades por condición. Estadísticos = proporción de cumplimiento con IC binomial exacto. Regla de decisión = defectos dentro del nivel de aceptación. Atípicos: no aplica a datos de atributo; toda exclusión se documenta y se conserva el registro original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Adhesión inmediata sin burbujas, arrugas ni bordes levantados.<br>Inspección del 100 % de la muestra.<br>Registro fotográfico de defectos.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro de adhesión inmediata (anexo del informe)</p>
-  <p><strong>Referencia:</strong><br>Patrón de defectos aprobado.</p>
+  <p><strong>Nota:</strong><br>Una etiqueta con borde levantado se despega en el estuchado.</p>
+  <p><strong>Referencia:</strong><br>ISO/IEC 15416; ISO/IEC 15415; 21 CFR 211.122; 21 CFR 211.125; 21 CFR 211.130; EU GMP Anexo 15.</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-OQ-ET-015" class="ensayo" data-id="EQ-OQ-ET-015" data-fase="OQ" data-cond="ambas">
@@ -241,12 +236,11 @@
   1) Ajustar la presión y velocidad del rodillo o banda (si aplica)<br>
   2) Verificar repetibilidad del ajuste<br>
   3) Inspeccionar el alisado resultante</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Ajuste repetible dentro de rango.<br>
-  Alisado uniforme sin daño a la etiqueta.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Presión y velocidad del rodillo o banda de alisado dentro del rango del fabricante.<br>Sin marcar ni deformar la etiqueta.<br>Registro por condición.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro del rodillo o banda (anexo del informe)</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante de la etiquetadora.</p>
+  <p><strong>Nota:</strong><br>El alisado insuficiente deja burbujas que se ven como defecto.</p>
+  <p><strong>Referencia:</strong><br>ISO/IEC 15416; ISO/IEC 15415; 21 CFR 211.122; 21 CFR 211.125; 21 CFR 211.130; EU GMP Anexo 15.</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-OQ-ET-016" class="ensayo" data-id="EQ-OQ-ET-016" data-fase="OQ" data-cond="ambas" data-analisis="si">
@@ -257,13 +251,13 @@
   2) Medir la posición en cada formato, por triplicado<br>
   3) Verificar el comportamiento en el diámetro mínimo<br>
   4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Posición dentro de tolerancia en ambos extremos.<br>
-  Sin fallos sistemáticos en el diámetro mínimo.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = posición en formatos extremos; unidad = mm. Tipo de dato = continua. n = 30 unidades por formato. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = cada formato dentro de ±1 mm. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Formatos extremos etiquetados con posición dentro de <span class="por-confirmar">±1 mm</span>.<br>Sin diferencia fuera de tolerancia entre formatos.<br>Registro por formato.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro por formato con data cruda y reporte<br>
   - Data cruda y reporte estadístico del análisis de formatos extremos</p>
-  <p><strong>Referencia:</strong><br>URS aprobada del equipo.</p>
+  <p><strong>Nota:</strong><br>El envase extremo es el peor caso de curvatura y de sujeción.</p>
+  <p><strong>Referencia:</strong><br>ISO/IEC 15416; ISO/IEC 15415; 21 CFR 211.122; 21 CFR 211.125; 21 CFR 211.130; EU GMP Anexo 15.</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-OQ-ET-017" class="ensayo" data-id="EQ-OQ-ET-017" data-fase="OQ" data-cond="ambas">
@@ -273,12 +267,11 @@
   1) Etiquetar envases cilíndricos con etiqueta envolvente (si aplica)<br>
   2) Medir el solape y verificar el cierre<br>
   3) Inspeccionar bordes levantados o despegue</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Solape dentro de lo especificado con cierre completo.<br>
-  Sin bordes levantados.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Etiqueta envolvente: solape y cierre dentro de especificación.<br>Sin arrugas en la zona de solape.<br>Registro por medición.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro de etiqueta envolvente (anexo del informe)</p>
-  <p><strong>Referencia:</strong><br>Especificación de la etiqueta.</p>
+  <p><strong>Nota:</strong><br>Aplica si hay etiqueta envolvente; si no, No Aplica con aprobación.</p>
+  <p><strong>Referencia:</strong><br>ISO/IEC 15416; ISO/IEC 15415; 21 CFR 211.122; 21 CFR 211.125; 21 CFR 211.130; EU GMP Anexo 15.</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-OQ-ET-018" class="ensayo" data-id="EQ-OQ-ET-018" data-fase="OQ" data-cond="ambas">
@@ -288,12 +281,12 @@
   1) Programar los datos según la orden de prueba<br>
   2) Leer el código con lector independiente y comparar contra la orden<br>
   3) Registrar el resultado</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Coincidencia del 100% contra la orden.<br>
-  Sin caracteres omitidos o alterados.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = contenido del código; unidad = %. Tipo de dato = atributo. n = muestra por turno. Estadísticos = proporción de cumplimiento con IC binomial exacto. Regla de decisión = 100 % coincide con lo programado. Atípicos: no aplica a datos de atributo; toda exclusión se documenta y se conserva el registro original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Contenido codificado coincide con lo programado (lote, vencimiento, GTIN) en el 100 %.<br>Verificación por lectura o por OCR.<br>Registro por muestra.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro de contenido del código (anexo del informe)</p>
-  <p><strong>Referencia:</strong><br>Orden de acondicionamiento de prueba.</p>
+  <p><strong>Nota:</strong><br>Un código con contenido equivocado es un riesgo de trazabilidad mayor.</p>
+  <p><strong>Referencia:</strong><br>ISO/IEC 15416; ISO/IEC 15415; 21 CFR 211.122; 21 CFR 211.125; 21 CFR 211.130; EU GMP Anexo 15.</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-OQ-ET-019" class="ensayo" data-id="EQ-OQ-ET-019" data-fase="OQ" data-cond="ambas">
@@ -303,12 +296,12 @@
   1) Codificar a cada velocidad de uso<br>
   2) Evaluar legibilidad, contraste y posición contra el rango definido<br>
   3) Registrar por velocidad</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Código legible y bien posicionado a todas las velocidades.<br>
-  Contraste dentro del rango definido.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = calidad del código; unidad = grado. Tipo de dato = continua. n = 10 muestras por turno. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = grado ≥ B. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Legibilidad, contraste y posición del código dentro de especificación en cada unidad.<br>Grado de calidad según ISO/IEC 15416 o 15415 ≥ <span class="por-confirmar">B</span>.<br>Registro por muestra.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro de calidad del código (anexo del informe)</p>
-  <p><strong>Referencia:</strong><br>Orden de acondicionamiento de prueba.</p>
+  <p><strong>Nota:</strong><br>El grado mínimo en rojo se confirma con el cliente y la norma de simbología.</p>
+  <p><strong>Referencia:</strong><br>ISO/IEC 15416; ISO/IEC 15415; 21 CFR 211.122; 21 CFR 211.125; 21 CFR 211.130; EU GMP Anexo 15.</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-OQ-ET-020" class="ensayo" data-id="EQ-OQ-ET-020" data-fase="OQ" data-cond="ambas">
@@ -318,12 +311,12 @@
   1) Codificar un lote inicial<br>
   2) Cambiar los datos al lote siguiente<br>
   3) Verificar las primeras unidades del nuevo lote: sin restos del anterior</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Primera unidad del nuevo lote ya trae el código nuevo.<br>
-  Sin mezcla de códigos.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = cambio de lote; unidad = pasa/no pasa. Tipo de dato = atributo. n = 3 cambios. Estadísticos = proporción de cumplimiento con IC binomial exacto. Regla de decisión = sin residuos del lote anterior. Atípicos: no aplica a datos de atributo; toda exclusión se documenta y se conserva el registro original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Ante un cambio de datos de lote, 0 unidades con el lote anterior después del cambio.<br>El nuevo código se aplica desde la primera unidad.<br>Registro del cambio con verificación.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro de cambio de datos (anexo del informe)</p>
-  <p><strong>Referencia:</strong><br>Orden de acondicionamiento de prueba.</p>
+  <p><strong>Nota:</strong><br>El residuo de lote anterior en la línea es un riesgo de mezcla.</p>
+  <p><strong>Referencia:</strong><br>ISO/IEC 15416; ISO/IEC 15415; 21 CFR 211.122; 21 CFR 211.125; 21 CFR 211.130; EU GMP Anexo 15.</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-OQ-ET-021" class="ensayo" data-id="EQ-OQ-ET-021" data-fase="OQ" data-cond="ambas">
@@ -333,12 +326,11 @@
   1) Verificar el nivel de cinta o tinta del codificador (si aplica)<br>
   2) Simular agotamiento y verificar la alarma<br>
   3) Registrar la respuesta</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Nivel visible o monitoreado.<br>
-  Alarma de agotamiento operativa.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Consumibles del codificador (cinta o tinta) presentes y dentro de vida útil.<br>Sin impresión degradada al final del rollo.<br>Registro por consumible.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro del codificador (anexo del informe)</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante del codificador.</p>
+  <p><strong>Nota:</strong><br>La impresión se degrada antes de que el consumible se agote.</p>
+  <p><strong>Referencia:</strong><br>ISO/IEC 15416; ISO/IEC 15415; 21 CFR 211.122; 21 CFR 211.125; 21 CFR 211.130; EU GMP Anexo 15.</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-OQ-ET-022" class="ensayo" data-id="EQ-OQ-ET-022" data-fase="OQ" data-cond="ambas">
@@ -348,12 +340,12 @@
   1) Imprimir códigos de prueba (si aplica)<br>
   2) Medir el grado con verificador calibrado según la norma elegida<br>
   3) Registrar el grado obtenido</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Grado de calidad dentro del mínimo definido.<br>
-  Sin códigos ilegibles por el verificador.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = grado del código; unidad = grado. Tipo de dato = continua. n = 10 muestras por turno. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = grado dentro de especificación. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Código de barras o Datamatrix con grado de calidad dentro de especificación.<br>Verificación con lector calibrado.<br>Registro por muestra.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro de grado del código (anexo del informe)</p>
-  <p><strong>Referencia:</strong><br>Norma de verificación elegida.</p>
+  <p><strong>Nota:</strong><br>Un código que no lee en el punto de venta inutiliza el lote.</p>
+  <p><strong>Referencia:</strong><br>ISO/IEC 15416; ISO/IEC 15415; 21 CFR 211.122; 21 CFR 211.125; 21 CFR 211.130; EU GMP Anexo 15.</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-OQ-ET-023" class="ensayo" data-id="EQ-OQ-ET-023" data-fase="OQ" data-cond="ambas">
@@ -363,13 +355,12 @@
   1) Preparar muestras de desafío de cada tipo de defecto<br>
   2) Pasar cada muestra y verificar su detección y rechazo<br>
   3) Registrar el resultado por tipo de defecto</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  El 100% de las muestras de desafío se detecta y rechaza.<br>
-  Sin defectos no detectados.<br>
-  Matriz de desafío: número de unidades por condición definido en el protocolo aprobado; el 100 % de las unidades malas se rechaza y el 0 % de las unidades buenas se rechaza.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = detección de defectos; unidad = %. Tipo de dato = continua. n = 3 series de 100 por defecto. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = 100 % de defectuosos rechazados. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Sistema de visión con muestras de desafío: etiqueta ausente, torcida, con código ilegible y de otro producto.<br>Matriz de desafío: 100 % de las unidades malas se rechaza y el 0 % de las unidades buenas se rechaza.<br>Registro por tipo de defecto.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro del desafío de visión (anexo del informe)</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante del sistema de visión.</p>
+  <p><strong>Nota:</strong><br>El desafío se hace con defectos reales conocidos.</p>
+  <p><strong>Referencia:</strong><br>ISO/IEC 15416; ISO/IEC 15415; 21 CFR 211.122; 21 CFR 211.125; 21 CFR 211.130; EU GMP Anexo 15.</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-OQ-ET-024" class="ensayo" data-id="EQ-OQ-ET-024" data-fase="OQ" data-cond="ambas">
@@ -379,13 +370,12 @@
   1) Introducir una etiqueta de otro producto o lote en el rollo de prueba (si aplica)<br>
   2) Verificar su detección y rechazo<br>
   3) Registrar el resultado</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  La etiqueta equivocada se detecta y rechaza.<br>
-  Ninguna unidad con etiqueta equivocada pasa como buena.<br>
-  Matriz de desafío: número de unidades por condición definido en el protocolo aprobado; el 100 % de las unidades malas se rechaza y el 0 % de las unidades buenas se rechaza.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = detección de etiqueta ajena; unidad = %. Tipo de dato = continua. n = 3 series de 100. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = 100 % detectadas y rechazadas. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Una etiqueta de otro producto o lote en el rollo se detecta y se rechaza.<br>Matriz de desafío: 100 % de las unidades malas se rechaza y el 0 % de las unidades buenas se rechaza.<br>Registro por prueba.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro de etiqueta equivocada (anexo del informe)</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante del sistema de visión.</p>
+  <p><strong>Nota:</strong><br>La etiqueta equivocada es el error más grave de una etiquetadora.</p>
+  <p><strong>Referencia:</strong><br>ISO/IEC 15416; ISO/IEC 15415; 21 CFR 211.122; 21 CFR 211.125; 21 CFR 211.130; EU GMP Anexo 15.</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-OQ-ET-025" class="ensayo" data-id="EQ-OQ-ET-025" data-fase="OQ" data-cond="ambas">
@@ -395,13 +385,12 @@
   1) Inducir envases defectuosos de forma controlada a cada velocidad<br>
   2) Verificar el desvío de cada uno al rechazo<br>
   3) Verificar el conteo y la ausencia de malos en buenos</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  El 100% de los defectos inducidos se rechaza.<br>
-  Ningún malo llega al recipiente de buenos.<br>
-  Matriz de desafío: número de unidades por condición definido en el protocolo aprobado; el 100 % de las unidades malas se rechaza y el 0 % de las unidades buenas se rechaza.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = desvío de defectuosos; unidad = %. Tipo de dato = continua. n = 3 series de 100. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = 100 % desviados y conteo correcto. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Los envases defectuosos se desvían con conteo correcto (±1 unidad).<br>Matriz de desafío: 100 % de las unidades malas se rechaza y el 0 % de las unidades buenas se rechaza.<br>Registro por serie.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro de rechazo (anexo del informe)</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante de la etiquetadora.</p>
+  <p><strong>Nota:</strong><br>Se verifica con la bandeja de rechazo, no solo con el contador.</p>
+  <p><strong>Referencia:</strong><br>ISO/IEC 15416; ISO/IEC 15415; 21 CFR 211.122; 21 CFR 211.125; 21 CFR 211.130; EU GMP Anexo 15.</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-OQ-ET-026" class="ensayo" data-id="EQ-OQ-ET-026" data-fase="OQ" data-cond="ambas">
@@ -411,13 +400,12 @@
   1) Simular falla de la cámara<br>
   2) Simular pérdida de comunicación con la visión<br>
   3) Verificar que la línea se detiene o todo se rechaza</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Sin producto verificado como bueno durante la falla.<br>
-  Línea detenida o rechazo total.<br>
-  Matriz de desafío: número de unidades por condición definido en el protocolo aprobado; el 100 % de las unidades malas se rechaza y el 0 % de las unidades buenas se rechaza.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = falla de visión; unidad = pasa/no pasa. Tipo de dato = atributo. n = 3 fallas simuladas. Estadísticos = proporción de cumplimiento con IC binomial exacto. Regla de decisión = el equipo no libera producto sin verificar. Atípicos: no aplica a datos de atributo; toda exclusión se documenta y se conserva el registro original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Ante falla de la cámara o pérdida de comunicación, el equipo se detiene o rechaza, no sigue etiquetando ciego.<br>Matriz de desafío: 100 % de las unidades malas se rechaza y el 0 % de las unidades buenas se rechaza.<br>Registro del evento.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro de falla de visión (anexo del informe)</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante de la etiquetadora.</p>
+  <p><strong>Nota:</strong><br>Una etiquetadora que sigue sin visión libera producto sin verificar.</p>
+  <p><strong>Referencia:</strong><br>ISO/IEC 15416; ISO/IEC 15415; 21 CFR 211.122; 21 CFR 211.125; 21 CFR 211.130; EU GMP Anexo 15.</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-OQ-ET-027" class="ensayo" data-id="EQ-OQ-ET-027" data-fase="OQ" data-cond="ambas">
@@ -427,12 +415,11 @@
   1) Verificar el cierre o llave del contenedor<br>
   2) Abrir el contenedor y verificar la alarma<br>
   3) Llenar al nivel de alarma y verificar la respuesta</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Solo personal autorizado abre el contenedor.<br>
-  Apertura o llenado generan alarma.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Contenedor de rechazo con llave o cierre y alarma si se llena.<br>El acceso al rechazo está restringido y registrado.<br>Registro de apertura.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro del contenedor (anexo del informe)</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante de la etiquetadora.</p>
+  <p><strong>Nota:</strong><br>El rechazo accesible permite reintroducir producto defectuoso.</p>
+  <p><strong>Referencia:</strong><br>ISO/IEC 15416; ISO/IEC 15415; 21 CFR 211.122; 21 CFR 211.125; 21 CFR 211.130; EU GMP Anexo 15.</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-OQ-ET-028" class="ensayo" data-id="EQ-OQ-ET-028" data-fase="OQ" data-cond="ambas">
@@ -442,12 +429,11 @@
   1) Provocar rechazos controlados (si aplica sensor de confirmación)<br>
   2) Verificar la confirmación de cada uno<br>
   3) Bloquear el canal y verificar la alarma o parada</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Cada rechazo queda confirmado.<br>
-  La falta de confirmación alarma o detiene.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Confirmación del rechazo: el sensor verifica que la unidad salió de la línea.<br>Sin unidades rechazadas que sigan en el flujo.<br>Registro por evento.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro de confirmación (anexo del informe)</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante de la etiquetadora.</p>
+  <p><strong>Nota:</strong><br>Un rechazo sin confirmación deja la unidad defectuosa en el lote.</p>
+  <p><strong>Referencia:</strong><br>ISO/IEC 15416; ISO/IEC 15415; 21 CFR 211.122; 21 CFR 211.125; 21 CFR 211.130; EU GMP Anexo 15.</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-OQ-ET-029" class="ensayo" data-id="EQ-OQ-ET-029" data-fase="OQ" data-cond="ambas">
@@ -457,12 +443,12 @@
   1) Correr a velocidad mínima con la secuencia completa<br>
   2) Repetir a velocidad nominal y a velocidad máxima<br>
   3) Registrar alarmas e intervenciones</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  La secuencia completa opera a las tres velocidades.<br>
-  Sin alarmas ni desviaciones no justificadas.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = desempeño con placebo; unidad = pasa/no pasa. Tipo de dato = atributo. n = 3 velocidades con 100 unidades. Estadísticos = proporción de cumplimiento con IC binomial exacto. Regla de decisión = todos los atributos conformes. Atípicos: no aplica a datos de atributo; toda exclusión se documenta y se conserva el registro original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Corrida con envases vacíos o placebo y etiquetas de prueba a velocidad mínima, nominal y máxima.<br>Posición, adhesión y código conformes en cada velocidad.<br>Registro por velocidad.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro de corrida con placebo (anexo del informe)</p>
-  <p><strong>Referencia:</strong><br>Especificación de operación de la etiquetadora.</p>
+  <p><strong>Nota:</strong><br>Es la antesala del PQ; se corre con etiquetas reales.</p>
+  <p><strong>Referencia:</strong><br>ISO/IEC 15416; ISO/IEC 15415; 21 CFR 211.122; 21 CFR 211.125; 21 CFR 211.130; EU GMP Anexo 15.</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-OQ-ET-030" class="ensayo" data-id="EQ-OQ-ET-030" data-fase="OQ" data-cond="ambas" data-familia="etiquetadora">
@@ -474,12 +460,11 @@
   3) Verificar el significado de la firma electrónica (revisión/aprobación) y su manifestación (nombre, fecha, significado)<br>
   4) Ejecutar el respaldo de formatos y parámetros y verificar su restauración en un entorno de prueba o según procedimiento<br>
   5) Verificar la sincronización de fecha y hora con la red (si aplica)</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Roles y accesos corresponden a lo aprobado.<br>
-  La pista de auditoría registra usuario, fecha, hora y significado; el respaldo restaura correctamente.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Registros del HMI: audit trail activo, usuarios y roles únicos, sin borrado.<br>Cambios de receta y ajustes registrados con usuario y hora.<br>Respaldo de configuración probado.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro de roles, pista de auditoría y respaldo verificados (anexo del informe)</p>
-  <p><strong>Referencia:</strong><br>21 CFR Parte 11 (registros y firmas electrónicas).</p>
+  <p><strong>Nota:</strong><br>Aplica si hay HMI con registros electrónicos; si no, No Aplica.</p>
+  <p><strong>Referencia:</strong><br>ISO/IEC 15416; ISO/IEC 15415; 21 CFR 211.122; 21 CFR 211.125; 21 CFR 211.130; EU GMP Anexo 15.</p>
 </article>
 
 <article data-bloque="6" id="art-EQ-OQ-ET-REF" class="ensayo tabla-info" data-id="EQ-OQ-ET-REF" data-fase="OQ" data-cond="ambas" data-familia="etiquetadora">

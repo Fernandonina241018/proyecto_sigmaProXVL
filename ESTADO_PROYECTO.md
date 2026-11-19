@@ -90,6 +90,33 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (StatAnalyzer Pro) co
 
 ## CAMBIOS RECIENTES
 
+### 2026-11-19 (322): Equipos lote 4 — blistera y etiquetadora
+
+**Qué:** 107 ensayos de empaque al estándar (52 blistera + 55 etiquetadora).
+- **Blistera:** paso del film ±0,2 mm, temperatura de formado y sellado ±2 °C, presión ±5 %, dwell ±0,1 s, cavidades llenas ≥ 99,5 %, integridad 0 fugas, peel ASTM F88, troquel ±0,5 mm, barrera WVTR/OTR.
+- **Etiquetadora:** posición ±1 mm y ±1°, repetibilidad DE ≤ 0,3 mm, grado de código ≥ B, contenido 100 % contra la orden, conciliación con doble firma, rechazo con matriz de desafío.
+- **Frases de contrato preservadas:** matriz de desafío en BL-023/024 y ET-023/024/025/026; prospecto, doble firma, destruidos y 211.122 en BL-018 y ET-019.
+- `MIGRADAS` del contrato cubre las nueve familias migradas.
+
+**Estado medido:**
+```
+blistera:     52 ensayos · 41 con plan · 34 con valor numérico · 24 con valores propuestos
+etiquetadora: 55 ensayos · 31 con plan · 28 con valor numérico · 20 con valores propuestos
+global: 596/1392 criterios con valor (43 %) · 177 clonados en 79 grupos (antes 210/93) · 102 sin plan
+```
+
+**Archivos afectados:**
+| Archivo | Cambio |
+|---------|--------|
+| `docs/banco-ensayos/equipos/{iq,oq,pq}-{blistera,etiquetadora}.html` | 107 ensayos reescritos |
+| `js/core/banco-equipos-data.js` | Regenerado |
+| `tests/bancos-contenido-equipos.test.js` | `MIGRADAS` ampliado |
+
+**Verificación:**
+```
+npm run preflight → protocolo:check OK, urs-ar:check OK, Vitest 1209, backend 154, E2E 14
+```
+
 ### 2026-11-19 (321): Equipos lote 3 — llenadora y llenadora de tubos
 
 **Qué:** 122 ensayos más al estándar (58 llenadora + 64 llenadora-tubos).

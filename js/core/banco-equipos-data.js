@@ -3574,15 +3574,19 @@ var BancoEquipos = {
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  El diagrama de flujo corresponde con lo instalado en su revisión vigente.<br>\n  No existen componentes, líneas ni instrumentos sin identificar."
+      "html": "<strong>Criterio de aceptación:</strong><br>Diagrama de flujo (desbobinado, formado, llenado, sellado, troquelado, salida) coincide con el diseño aprobado.<br>El 100 % de las estaciones identificadas y accesibles.<br>Sin puntos de acumulación de retal ni producto.<br>Trazabilidad del material de empaque."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Diagrama de flujo verificado y firmado (anexo del informe)"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>La verificación es contra el plano y el layout aprobados; un cambio requiere control de cambios."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>Manual del fabricante de la blistera."
+      "html": "<strong>Referencia:</strong><br>ISO 11607-1/-2; ASTM F88; ASTM F1929; USP &lt;671&gt;; 21 CFR 211.122; 21 CFR 211.125; EU GMP Anexo 15."
      }
     ],
     "tabla": null,
@@ -3605,15 +3609,19 @@ var BancoEquipos = {
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Estaciones, moldes y troquel corresponden a lo especificado.<br>\n  Sin piezas dañadas, intercambiadas o sin identificar."
+      "html": "<strong>Criterio de aceptación:</strong><br>Estaciones de formado, sellado y troquelado instaladas con moldes y matrices del formato declarado.<br>Alineación y ajuste según el fabricante, sin piezas improvisadas.<br>El 100 % de los moldes identificados por formato.<br>Registro de montaje y ajuste."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Tabla de estaciones y moldes con certificados (anexo del informe)"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>Un molde mal montado deforma la cavidad y compromete el sello."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>Manual del fabricante de la blistera."
+      "html": "<strong>Referencia:</strong><br>ISO 11607-1/-2; ASTM F88; ASTM F1929; USP &lt;671&gt;; 21 CFR 211.122; 21 CFR 211.125; EU GMP Anexo 15."
      }
     ],
     "tabla": null,
@@ -3637,15 +3645,19 @@ var BancoEquipos = {
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Todos los componentes están instalados, identificados y conectados.<br>\n  Los instrumentos cuentan con calibración vigente."
+      "html": "<strong>Criterio de aceptación:</strong><br>Sistema de visión, codificador y desviador de rechazo instalados y calibrados.<br>El desviador no tiene bypass manual ni puede anularse sin registro.<br>Cámara con iluminación estable y lente limpia.<br>Registro de la última verificación del rechazo."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de visión, codificación y rechazo verificado (anexo del informe)"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>La calibración de la cámara se verifica con muestras patrón, no con la imagen en pantalla."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>Manual del fabricante de la blistera."
+      "html": "<strong>Referencia:</strong><br>ISO 11607-1/-2; ASTM F88; ASTM F1929; USP &lt;671&gt;; 21 CFR 211.122; 21 CFR 211.125; EU GMP Anexo 15."
      }
     ],
     "tabla": null,
@@ -3668,15 +3680,19 @@ var BancoEquipos = {
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Todas las utilidades están conectadas y en rango.<br>\n  Cada utilidad cuenta con su elemento de corte accesible."
+      "html": "<strong>Criterio de aceptación:</strong><br>Aire o vacío de formado, agua de enfriamiento y aire de sellado conectados según especificación.<br>Presión y caudal disponibles en el rango del fabricante.<br>Sin fugas ni condensado en las líneas.<br>Registro por utilidad."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Tabla de utilidades verificada (anexo del informe)"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>La falta de aire o vacío produce cavidades incompletas sin alarma si no se monitorea."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>Manual del fabricante de la blistera."
+      "html": "<strong>Referencia:</strong><br>ISO 11607-1/-2; ASTM F88; ASTM F1929; USP &lt;671&gt;; 21 CFR 211.122; 21 CFR 211.125; EU GMP Anexo 15."
      }
     ],
     "tabla": null,
@@ -3699,15 +3715,19 @@ var BancoEquipos = {
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Guardas, protección de dedos y paros instalados y operativos.<br>\n  La placa de datos corresponde a la especificación de compra."
+      "html": "<strong>Criterio de aceptación:</strong><br>Guardas con interruptores, protección de dedos y paros de emergencia instalados en los puntos del análisis de riesgo.<br>El 100 % de las guardas operativas; sin anulación posible.<br>Paros accesibles desde la posición del operador.<br>Registro por guarda."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de seguridades y placa de datos (anexo del informe)"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>La lista sale del análisis de riesgo, no de la costumbre de la planta."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>Manual del fabricante de la blistera."
+      "html": "<strong>Referencia:</strong><br>ISO 11607-1/-2; ASTM F88; ASTM F1929; USP &lt;671&gt;; 21 CFR 211.122; 21 CFR 211.125; EU GMP Anexo 15."
      }
     ],
     "tabla": null,
@@ -3886,15 +3906,19 @@ var BancoEquipos = {
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  El diagrama de flujo corresponde con lo instalado en su revisión vigente.<br>\n  No existen componentes, líneas ni instrumentos sin identificar."
+      "html": "<strong>Criterio de aceptación:</strong><br>Diagrama de flujo (transporte, dispensado, aplicación, verificación) coincide con el diseño aprobado.<br>El 100 % de los componentes identificados y accesibles.<br>Sin puntos donde la etiqueta pueda adherirse fuera del envase.<br>Trazabilidad de consumibles."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Diagrama de flujo verificado y firmado (anexo del informe)"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>La verificación es contra el layout aprobado; un cambio requiere control de cambios."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>Manual del fabricante de la etiquetadora."
+      "html": "<strong>Referencia:</strong><br>ISO/IEC 15416; ISO/IEC 15415; 21 CFR 211.122; 21 CFR 211.125; 21 CFR 211.130; EU GMP Anexo 15."
      }
     ],
     "tabla": null,
@@ -3917,15 +3941,19 @@ var BancoEquipos = {
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  El dispensador, el cabezal y las piezas corresponden a lo especificado.<br>\n  Sin piezas dañadas, intercambiadas o sin identificar."
+      "html": "<strong>Criterio de aceptación:</strong><br>Dispensador, cabezal de aplicación y piezas de formato del envase declarado instalados.<br>Alineación según fabricante, sin piezas improvisadas.<br>El 100 % de las piezas identificadas por formato.<br>Registro de montaje y ajuste."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Tabla de dispensador y formato con certificados (anexo del informe)"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>Un cabezal desalineado aplica la etiqueta torcida de forma sistemática."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>Manual del fabricante de la etiquetadora."
+      "html": "<strong>Referencia:</strong><br>ISO/IEC 15416; ISO/IEC 15415; 21 CFR 211.122; 21 CFR 211.125; 21 CFR 211.130; EU GMP Anexo 15."
      }
     ],
     "tabla": null,
@@ -3949,15 +3977,19 @@ var BancoEquipos = {
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Todos los componentes están instalados, identificados y conectados.<br>\n  Los instrumentos cuentan con calibración vigente."
+      "html": "<strong>Criterio de aceptación:</strong><br>Sensores de producto y etiqueta, codificador e impresora instalados y calibrados: el 100 % presente.<br>Cámara de visión con iluminación estable y lente limpia.<br>El desviador de rechazo no tiene bypass manual.<br>Registro de la última verificación."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de sensores, codificación, visión y rechazo verificado (anexo del informe)"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>La cámara se verifica con muestras patrón, no con la imagen en pantalla."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>Manual del fabricante de la etiquetadora."
+      "html": "<strong>Referencia:</strong><br>ISO/IEC 15416; ISO/IEC 15415; 21 CFR 211.122; 21 CFR 211.125; 21 CFR 211.130; EU GMP Anexo 15."
      }
     ],
     "tabla": null,
@@ -3980,15 +4012,19 @@ var BancoEquipos = {
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Todas las utilidades están conectadas y en rango.<br>\n  Cada utilidad cuenta con su elemento de corte accesible."
+      "html": "<strong>Criterio de aceptación:</strong><br>Aire comprimido del aplicador dentro de ±<span class=\"por-confirmar\">10 %</span> de la presión de diseño.<br>Energía del transportador dentro del rango del fabricante.<br>Sin fugas ni condensado en la línea de aire.<br>Registro por utilidad."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Tabla de utilidades verificada (anexo del informe)"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>La caída de presión del aire produce etiquetas mal aplicadas sin alarma."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>Manual del fabricante de la etiquetadora."
+      "html": "<strong>Referencia:</strong><br>ISO/IEC 15416; ISO/IEC 15415; 21 CFR 211.122; 21 CFR 211.125; 21 CFR 211.130; EU GMP Anexo 15."
      }
     ],
     "tabla": null,
@@ -4011,15 +4047,19 @@ var BancoEquipos = {
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Guardas y paros instalados y operativos.<br>\n  La placa de datos corresponde a la especificación de compra."
+      "html": "<strong>Criterio de aceptación:</strong><br>Guardas con interruptores y paros de emergencia en los puntos del análisis de riesgo.<br>El 100 % de las guardas operativas; sin anulación posible.<br>Paros accesibles desde la posición del operador.<br>Registro por guarda."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de seguridades y placa de datos (anexo del informe)"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>La lista sale del análisis de riesgo."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>Manual del fabricante de la etiquetadora."
+      "html": "<strong>Referencia:</strong><br>ISO/IEC 15416; ISO/IEC 15415; 21 CFR 211.122; 21 CFR 211.125; 21 CFR 211.130; EU GMP Anexo 15."
      }
     ],
     "tabla": null,
@@ -13567,16 +13607,24 @@ var BancoEquipos = {
       "html": "<strong>Procedimiento:</strong><br>\n  1) Con la línea en marcha sin producto, accionar la parada de emergencia<br>\n  2) Medir el tiempo de detención<br>\n  3) Verificar el estado seguro de las estaciones calientes<br>\n  4) Restablecer y verificar el rearranque controlado"
      },
      {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = parada de emergencia; unidad = s. Tipo de dato = continua. n = 3 activaciones. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = detención ≤ 2 s. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable; toda exclusión se documenta y se conserva el dato original."
+     },
+     {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  La línea se detiene dentro del tiempo especificado.<br>\n  Estaciones calientes en estado seguro sin rearranque espontáneo."
+      "html": "<strong>Criterio de aceptación:</strong><br>La parada de emergencia detiene la línea y deja las estaciones en estado seguro en ≤ <span class=\"por-confirmar\">2 s</span>.<br>Rearme manual, sin reinicio automático.<br>Evento registrado con hora y usuario."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de parada de emergencia (anexo del informe)"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>El tiempo en rojo se confirma con el fabricante y el análisis de riesgo."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>Manual del fabricante de la blistera."
+      "html": "<strong>Referencia:</strong><br>ISO 11607-1/-2; ASTM F88; ASTM F1929; USP &lt;671&gt;; 21 CFR 211.122; 21 CFR 211.125; EU GMP Anexo 15."
      }
     ],
     "tabla": null,
@@ -13598,16 +13646,24 @@ var BancoEquipos = {
       "html": "<strong>Procedimiento:</strong><br>\n  1) Con cada guarda o puerta abierta, intentar operar cada estación: no debe moverse<br>\n  2) Verificar la protección de dedos en la zona de sellado<br>\n  3) Registrar cada interlock con su respuesta"
      },
      {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = actuación de interlocks; unidad = s. Tipo de dato = continua. n = 3 repeticiones. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = detención ≤ 1 s. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable; toda exclusión se documenta y se conserva el dato original."
+     },
+     {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Ninguna estación se mueve con guardas abiertas.<br>\n  La protección de dedos está instalada y operativa."
+      "html": "<strong>Criterio de aceptación:</strong><br>Ninguna estación se mueve con guarda abierta o formato incompleto: detención en ≤ <span class=\"por-confirmar\">1 s</span>.<br>Rearme manual tras la condición segura.<br>Prueba registrada por interlock."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Matriz de interlocks con respuesta verificada (anexo del informe)"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>Un interlock puenteado es un hallazgo crítico."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>Manual del fabricante de la blistera."
+      "html": "<strong>Referencia:</strong><br>ISO 11607-1/-2; ASTM F88; ASTM F1929; USP &lt;671&gt;; 21 CFR 211.122; 21 CFR 211.125; EU GMP Anexo 15."
      }
     ],
     "tabla": null,
@@ -13629,16 +13685,24 @@ var BancoEquipos = {
       "html": "<strong>Procedimiento:</strong><br>\n  1) Simular cada condición de alarma aplicable y verificar disparo y acción<br>\n  2) Verificar el registro de cada alarma en el histórico"
      },
      {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = disparo de alarmas; unidad = pasa/no pasa. Tipo de dato = atributo. n = 3 repeticiones por alarma. Estadísticos = proporción de cumplimiento con IC binomial exacto. Regla de decisión = cada alarma dispara y actúa. Atípicos: no aplica a datos de atributo; toda exclusión se documenta y se conserva el registro original."
+     },
+     {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Cada alarma dispara ante su condición y ejecuta su acción.<br>\n  Todas quedan registradas en el histórico."
+      "html": "<strong>Criterio de aceptación:</strong><br>Cada alarma dispara y ejecuta su acción: fin de film, fin de producto, temperatura fuera de rango y presión baja.<br>Registro con fecha, hora, valor y usuario.<br>Prueba registrada por alarma."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Matriz de alarmas con disparo y acción verificados (anexo del informe)"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>Se prueban todas las alarmas del análisis de riesgo."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>Manual del fabricante de la blistera."
+      "html": "<strong>Referencia:</strong><br>ISO 11607-1/-2; ASTM F88; ASTM F1929; USP &lt;671&gt;; 21 CFR 211.122; 21 CFR 211.125; EU GMP Anexo 15."
      }
     ],
     "tabla": null,
@@ -13661,15 +13725,19 @@ var BancoEquipos = {
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Estado seguro sin arranque espontáneo.<br>\n  El material afectado se trata según lo definido."
+      "html": "<strong>Criterio de aceptación:</strong><br>Ante falla de energía queda en estado seguro, sin arranque espontáneo.<br>El material en proceso se descarta o evalúa según procedimiento.<br>Evento registrado."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de falla y recuperación de energía (anexo del informe)"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>La disposición del material se define antes de la prueba."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>Manual del fabricante de la blistera."
+      "html": "<strong>Referencia:</strong><br>ISO 11607-1/-2; ASTM F88; ASTM F1929; USP &lt;671&gt;; 21 CFR 211.122; 21 CFR 211.125; EU GMP Anexo 15."
      }
     ],
     "tabla": null,
@@ -13691,16 +13759,24 @@ var BancoEquipos = {
       "html": "<strong>Procedimiento:</strong><br>\n  1) Ajustar la velocidad mínima, nominal y máxima desde el control<br>\n  2) Medir cada punto con un contador independiente, por triplicado<br>\n  3) Registrar la lectura del control y la independiente<br>\n  4) Procesar los datos crudos de velocidad en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
      },
      {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = velocidad de la línea; unidad = ciclos/min. Tipo de dato = continua. n = 3 lecturas por setpoint. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = desviación ≤ ±2 %. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable; toda exclusión se documenta y se conserva el dato original."
+     },
+     {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  La velocidad indicada está dentro de tolerancia en los tres puntos.<br>\n  La repetibilidad cumple el criterio."
+      "html": "<strong>Criterio de aceptación:</strong><br>Velocidad (ciclos/min) dentro de <span class=\"por-confirmar\">±2 %</span> del setpoint en mínimo, nominal y máximo.<br>Sin oscilación &gt; 2 % en 5 min.<br>Registro por velocidad."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de velocidades con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de velocidad"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>La tolerancia en rojo se confirma con el fabricante; afecta el tiempo de sellado."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>Manual del fabricante de la blistera."
+      "html": "<strong>Referencia:</strong><br>ISO 11607-1/-2; ASTM F88; ASTM F1929; USP &lt;671&gt;; 21 CFR 211.122; 21 CFR 211.125; EU GMP Anexo 15."
      }
     ],
     "tabla": null,
@@ -13723,16 +13799,24 @@ var BancoEquipos = {
       "html": "<strong>Procedimiento:</strong><br>\n  1) Medir la longitud de paso del avance en ciclos sucesivos, por triplicado<br>\n  2) Verificar el registro entre formado, sellado e impresión<br>\n  3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
      },
      {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = longitud de paso; unidad = mm. Tipo de dato = continua. n = 10 mediciones por condición. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = paso ±0,2 mm y repetibilidad ±0,1 mm. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable; toda exclusión se documenta y se conserva el dato original."
+     },
+     {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  La longitud de paso está dentro de tolerancia con repetibilidad.<br>\n  El registro entre estaciones es correcto."
+      "html": "<strong>Criterio de aceptación:</strong><br>Longitud de paso del film dentro de <span class=\"por-confirmar\">±0,2 mm</span> y repetibilidad ±0,1 mm.<br>Sin deriva acumulada al final del rollo.<br>Registro por medición."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de avance con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de avance del film"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>El paso define la alineación de cavidades y el troquelado."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>Manual del fabricante de la blistera."
+      "html": "<strong>Referencia:</strong><br>ISO 11607-1/-2; ASTM F88; ASTM F1929; USP &lt;671&gt;; 21 CFR 211.122; 21 CFR 211.125; EU GMP Anexo 15."
      }
     ],
     "tabla": null,
@@ -13755,16 +13839,24 @@ var BancoEquipos = {
       "html": "<strong>Procedimiento:</strong><br>\n  1) Medir la tensión del film en desbobinado y avance (si aplica medición)<br>\n  2) Inspeccionar arrugas o desalineación durante la marcha<br>\n  3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
      },
      {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = tensión del film; unidad = N. Tipo de dato = continua. n = 3 lecturas por condición. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = desviación ≤ ±10 %. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable; toda exclusión se documenta y se conserva el dato original."
+     },
+     {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  La tensión es estable dentro de rango.<br>\n  Sin arrugas ni desalineación."
+      "html": "<strong>Criterio de aceptación:</strong><br>Tensión del film estable dentro de ±<span class=\"por-confirmar\">10 %</span> durante el desbobinado y el avance.<br>Sin arrugas ni estiramiento permanente.<br>Registro por condición."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registro con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de tensión del film"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>La tensión inestable produce arrugas y sellos canulados."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>Manual del fabricante de la blistera."
+      "html": "<strong>Referencia:</strong><br>ISO 11607-1/-2; ASTM F88; ASTM F1929; USP &lt;671&gt;; 21 CFR 211.122; 21 CFR 211.125; EU GMP Anexo 15."
      }
     ],
     "tabla": null,
@@ -13787,16 +13879,24 @@ var BancoEquipos = {
       "html": "<strong>Procedimiento:</strong><br>\n  1) Montar cada molde declarado y verificar su alineación<br>\n  2) Verificar el ajuste de formado, sellado y troquel por molde<br>\n  3) Registrar el tiempo de cambio si el procedimiento lo exige<br>\n  4) Procesar los datos crudos de alineación en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
      },
      {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = alineación y ajuste del molde; unidad = pasa/no pasa. Tipo de dato = atributo. n = 100 % de los moldes del formato. Estadísticos = proporción de cumplimiento con IC binomial exacto. Regla de decisión = todos alineados y ajustados. Atípicos = Grubbs solo si n ≥ 7; toda exclusión se documenta y se conserva el dato original."
+     },
+     {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Cada molde monta con alineación y ajuste correctos.<br>\n  Sin piezas intercambiadas."
+      "html": "<strong>Criterio de aceptación:</strong><br>Cada molde se monta con alineación y ajuste según fabricante; sin juego ni contacto indebido.<br>El 100 % de los moldes del formato verificados.<br>Registro de montaje."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de cambio de formato con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de cambio de formato"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>Un molde desalineado deforma la cavidad de forma sistemática."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>Manual del fabricante de la blistera."
+      "html": "<strong>Referencia:</strong><br>ISO 11607-1/-2; ASTM F88; ASTM F1929; USP &lt;671&gt;; 21 CFR 211.122; 21 CFR 211.125; EU GMP Anexo 15."
      }
     ],
     "tabla": null,
@@ -13819,16 +13919,24 @@ var BancoEquipos = {
       "html": "<strong>Procedimiento:</strong><br>\n  1) Ajustar la temperatura de formado en varios puntos del rango<br>\n  2) Medir con patrón de referencia en cada punto, por triplicado<br>\n  3) Medir la uniformidad sobre la placa de formado<br>\n  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
      },
      {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = temperatura de formado; unidad = °C. Tipo de dato = continua. n = 3 puntos por condición. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = cada punto dentro de ±2 °C. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable; toda exclusión se documenta y se conserva el dato original."
+     },
+     {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  La temperatura está dentro de tolerancia en todos los puntos.<br>\n  La uniformidad sobre la placa cumple el criterio."
+      "html": "<strong>Criterio de aceptación:</strong><br>Temperatura de formado dentro de <span class=\"por-confirmar\">±2 °C</span> del setpoint, medida con patrón.<br>Uniformidad en la placa de formado dentro de ±2 °C.<br>Registro por punto."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registro térmico con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de temperatura de formado"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>La tolerancia en rojo se confirma con el film y el fabricante."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>Manual del fabricante de la blistera."
+      "html": "<strong>Referencia:</strong><br>ISO 11607-1/-2; ASTM F88; ASTM F1929; USP &lt;671&gt;; 21 CFR 211.122; 21 CFR 211.125; EU GMP Anexo 15."
      }
     ],
     "tabla": null,
@@ -13851,16 +13959,24 @@ var BancoEquipos = {
       "html": "<strong>Procedimiento:</strong><br>\n  1) Ajustar la presión o vacío de formado en el rango de uso<br>\n  2) Medir con instrumento independiente, por triplicado<br>\n  3) Verificar estabilidad durante ciclos sucesivos<br>\n  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
      },
      {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = presión o vacío de formado; unidad = bar o mbar. Tipo de dato = continua. n = 3 lecturas por condición. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = desviación ≤ ±5 %. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable; toda exclusión se documenta y se conserva el dato original."
+     },
+     {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  La presión o vacío está dentro de tolerancia y es estable.<br>\n  La repetibilidad cumple el criterio."
+      "html": "<strong>Criterio de aceptación:</strong><br>Presión o vacío de formado dentro de ±<span class=\"por-confirmar\">5 %</span> del setpoint.<br>Sin caída al aumentar la velocidad.<br>Registro por condición."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registro con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de presión de formado"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>La presión baja deja cavidades incompletas sin que se vea a simple vista."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>Manual del fabricante de la blistera."
+      "html": "<strong>Referencia:</strong><br>ISO 11607-1/-2; ASTM F88; ASTM F1929; USP &lt;671&gt;; 21 CFR 211.122; 21 CFR 211.125; EU GMP Anexo 15."
      }
     ],
     "tabla": null,
@@ -13883,16 +13999,24 @@ var BancoEquipos = {
       "html": "<strong>Procedimiento:</strong><br>\n  1) Verificar el tiempo de formado programado contra el real<br>\n  2) Medir el caudal y la temperatura del agua de enfriamiento del molde (si aplica)<br>\n  3) Verificar que están en rango durante la operación<br>\n  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
      },
      {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = tiempo de formado y enfriamiento; unidad = s. Tipo de dato = continua. n = 3 ciclos por condición. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = dentro del rango del fabricante. Atípicos = Grubbs solo si n ≥ 7; toda exclusión se documenta y se conserva el dato original."
+     },
+     {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  El tiempo de formado corresponde al programado.<br>\n  Caudal y temperatura de enfriamiento en rango."
+      "html": "<strong>Criterio de aceptación:</strong><br>Tiempo de formado y enfriamiento del molde dentro del rango del fabricante.<br>Sin deformación al desmoldar.<br>Registro por condición."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registro con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de formado y enfriamiento"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>El enfriamiento insuficiente deforma la cavidad al abrir el molde."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>Manual del fabricante de la blistera."
+      "html": "<strong>Referencia:</strong><br>ISO 11607-1/-2; ASTM F88; ASTM F1929; USP &lt;671&gt;; 21 CFR 211.122; 21 CFR 211.125; EU GMP Anexo 15."
      }
     ],
     "tabla": null,
@@ -13915,16 +14039,24 @@ var BancoEquipos = {
       "html": "<strong>Procedimiento:</strong><br>\n  1) Formar cavidades a velocidad mínima, nominal y máxima<br>\n  2) Medir profundidad y espesor, con énfasis en esquinas<br>\n  3) Inspeccionar adelgazamiento y perforación<br>\n  4) Procesar los datos crudos dimensionales en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
      },
      {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = profundidad y espesor; unidad = mm. Tipo de dato = continua. n = 10 cavidades por condición. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = cada cavidad dentro de tolerancia. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable; toda exclusión se documenta y se conserva el dato original."
+     },
+     {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Profundidad y espesor dentro de especificación a las tres velocidades.<br>\n  Sin adelgazamiento ni perforación en esquinas."
+      "html": "<strong>Criterio de aceptación:</strong><br>Profundidad de cavidad dentro de <span class=\"por-confirmar\">±0,1 mm</span> y espesor de pared según especificación.<br>Medición en muestra de cada cavidad o en la muestra justificada.<br>Sin adelgazamiento local que comprometa la barrera."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registro dimensional con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis dimensional de cavidades"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>El espesor mínimo es lo que garantiza la barrera; el promedio no alcanza."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>Especificación del material de formado."
+      "html": "<strong>Referencia:</strong><br>ISO 11607-1/-2; ASTM F88; ASTM F1929; USP &lt;671&gt;; 21 CFR 211.122; 21 CFR 211.125; EU GMP Anexo 15."
      }
     ],
     "tabla": null,
@@ -13948,15 +14080,19 @@ var BancoEquipos = {
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  El alimentador opera dentro de sus ajustes sin dañar el producto.<br>\n  Sentido de giro correcto."
+      "html": "<strong>Criterio de aceptación:</strong><br>Alimentador (cepillos, canal vibratorio o rodillos) con velocidad y orientación correctas.<br>Sin atascos ni producto fuera de cavidad.<br>Registro por condición."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registro del alimentador (anexo del informe)"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>Un alimentador mal ajustado deja cavidades vacías y genera rechazo."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>Manual del fabricante de la blistera."
+      "html": "<strong>Referencia:</strong><br>ISO 11607-1/-2; ASTM F88; ASTM F1929; USP &lt;671&gt;; 21 CFR 211.122; 21 CFR 211.125; EU GMP Anexo 15."
      }
     ],
     "tabla": null,
@@ -13978,16 +14114,24 @@ var BancoEquipos = {
       "html": "<strong>Procedimiento:</strong><br>\n  1) Correr placebo a cada velocidad de uso<br>\n  2) Contar cavidades llenas, vacías y con doble llenado<br>\n  3) Calcular el porcentaje de llenado correcto por velocidad"
      },
      {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = llenado de cavidades; unidad = %. Tipo de dato = continua. n = 3 series de 500 blísteres. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = ≥ 99,5 % de cavidades llenas. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable; toda exclusión se documenta y se conserva el dato original."
+     },
+     {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  El porcentaje de cavidades llenas cumple el mínimo definido.<br>\n  Sin doble llenado fuera de criterio."
+      "html": "<strong>Criterio de aceptación:</strong><br>Llenado de cavidades ≥ <span class=\"por-confirmar\">99,5 %</span> con placebo.<br>Sin producto dañado por el alimentador.<br>Registro por serie."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de llenado por velocidad (anexo del informe)"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>La cavidad vacía es el defecto más frecuente en blisteras."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>Manual del fabricante de la blistera."
+      "html": "<strong>Referencia:</strong><br>ISO 11607-1/-2; ASTM F88; ASTM F1929; USP &lt;671&gt;; 21 CFR 211.122; 21 CFR 211.125; EU GMP Anexo 15."
      }
     ],
     "tabla": null,
@@ -14009,16 +14153,24 @@ var BancoEquipos = {
       "html": "<strong>Procedimiento:</strong><br>\n  1) Crear cavidades vacías a propósito como desafío (si aplica sensor)<br>\n  2) Verificar la detección de cada cavidad vacía o doble<br>\n  3) Verificar la acción asociada (rechazo o paro)"
      },
      {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = detección de cavidad vacía; unidad = %. Tipo de dato = continua. n = 3 series de 100 blísteres. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = 100 % de vacías detectadas. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable; toda exclusión se documenta y se conserva el dato original."
+     },
+     {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  El 100% de las cavidades desafío se detecta.<br>\n  La acción asociada ocurre correctamente."
+      "html": "<strong>Criterio de aceptación:</strong><br>El sensor de presencia detecta cavidad vacía y activa el rechazo.<br>Matriz de desafío: 100 % de las unidades malas se rechaza y el 0 % de las unidades buenas se rechaza.<br>Registro por prueba."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registro del desafío del sensor (anexo del informe)"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>La prueba se hace con cavidades vacías conocidas."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>Manual del fabricante de la blistera."
+      "html": "<strong>Referencia:</strong><br>ISO 11607-1/-2; ASTM F88; ASTM F1929; USP &lt;671&gt;; 21 CFR 211.122; 21 CFR 211.125; EU GMP Anexo 15."
      }
     ],
     "tabla": null,
@@ -14040,16 +14192,24 @@ var BancoEquipos = {
       "html": "<strong>Procedimiento:</strong><br>\n  1) Ajustar la temperatura de sellado en setpoint bajo, medio y alto<br>\n  2) Medir con patrón de referencia en cada punto, por triplicado<br>\n  3) Medir la uniformidad sobre la placa o el rodillo<br>\n  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
      },
      {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = temperatura de sellado; unidad = °C. Tipo de dato = continua. n = 5 puntos por condición. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = cada punto dentro de ±2 °C. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable; toda exclusión se documenta y se conserva el dato original."
+     },
+     {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  La temperatura está dentro de tolerancia en los tres setpoints.<br>\n  La uniformidad cumple el criterio."
+      "html": "<strong>Criterio de aceptación:</strong><br>Temperatura de sellado dentro de <span class=\"por-confirmar\">±2 °C</span> del setpoint en toda la placa.<br>Uniformidad entre puntos de sellado dentro de ±2 °C.<br>Registro por punto."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registro térmico con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de temperatura de sellado"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>La temperatura es el parámetro más crítico del sello; la uniformidad importa tanto como el valor."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>Manual del fabricante de la blistera."
+      "html": "<strong>Referencia:</strong><br>ISO 11607-1/-2; ASTM F88; ASTM F1929; USP &lt;671&gt;; 21 CFR 211.122; 21 CFR 211.125; EU GMP Anexo 15."
      }
     ],
     "tabla": null,
@@ -14072,16 +14232,24 @@ var BancoEquipos = {
       "html": "<strong>Procedimiento:</strong><br>\n  1) Ajustar la presión de sellado en el rango de uso<br>\n  2) Medir la presión resultante con instrumento independiente<br>\n  3) Ejecutar la prueba con papel sensible a presión sobre toda la superficie<br>\n  4) Identificar zonas de poco contacto<br>\n  5) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
      },
      {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = presión de sellado; unidad = bar. Tipo de dato = continua. n = 5 puntos por condición. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = desviación ≤ ±5 % en todos los puntos. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable; toda exclusión se documenta y se conserva el dato original."
+     },
+     {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  La presión está dentro de tolerancia.<br>\n  El papel sensible muestra contacto uniforme sin zonas frías."
+      "html": "<strong>Criterio de aceptación:</strong><br>Presión de sellado dentro de <span class=\"por-confirmar\">±5 %</span> del setpoint y distribuida uniformemente.<br>Sin zonas de menor presión.<br>Registro por punto."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registro y papel sensible con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de presión de sellado"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>Una placa desnivelada sella bien en un lado y mal en el otro."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>Manual del fabricante de la blistera."
+      "html": "<strong>Referencia:</strong><br>ISO 11607-1/-2; ASTM F88; ASTM F1929; USP &lt;671&gt;; 21 CFR 211.122; 21 CFR 211.125; EU GMP Anexo 15."
      }
     ],
     "tabla": null,
@@ -14104,16 +14272,24 @@ var BancoEquipos = {
       "html": "<strong>Procedimiento:</strong><br>\n  1) Medir el tiempo de contacto a velocidad mínima, nominal y máxima<br>\n  2) Establecer la relación dwell contra velocidad<br>\n  3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
      },
      {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = tiempo de contacto; unidad = s. Tipo de dato = continua. n = 3 lecturas por velocidad. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = desviación ≤ ±0,1 s. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable; toda exclusión se documenta y se conserva el dato original."
+     },
+     {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  El dwell corresponde a lo especificado a cada velocidad.<br>\n  La relación es consistente y reproducible."
+      "html": "<strong>Criterio de aceptación:</strong><br>Tiempo de contacto (dwell) dentro de <span class=\"por-confirmar\">±0,1 s</span> del setpoint a cada velocidad.<br>Sin reducción al aumentar la velocidad.<br>Registro por condición."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registro con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de dwell"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>El dwell cae si la velocidad sube sin ajustar el perfil; es causa de fuga."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>Manual del fabricante de la blistera."
+      "html": "<strong>Referencia:</strong><br>ISO 11607-1/-2; ASTM F88; ASTM F1929; USP &lt;671&gt;; 21 CFR 211.122; 21 CFR 211.125; EU GMP Anexo 15."
      }
     ],
     "tabla": null,
@@ -14137,15 +14313,19 @@ var BancoEquipos = {
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  La ventana de sellado queda definida y documentada.<br>\n  Los parámetros de rutina están dentro de la ventana."
+      "html": "<strong>Criterio de aceptación:</strong><br>Ventana de sellado definida: temperatura, presión y tiempo mínimos y máximos.<br>Cada combinación extrema produce sello íntegro.<br>Registro por combinación."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Diseño de experimentos y ventana definida (anexo del informe)"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>La ventana se define con el proveedor del film y se verifica en los extremos."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>ICH Q8 (desarrollo farmacéutico, si aplica)."
+      "html": "<strong>Referencia:</strong><br>ISO 11607-1/-2; ASTM F88; ASTM F1929; USP &lt;671&gt;; 21 CFR 211.122; 21 CFR 211.125; EU GMP Anexo 15."
      }
     ],
     "tabla": null,
@@ -14167,16 +14347,24 @@ var BancoEquipos = {
       "html": "<strong>Procedimiento:</strong><br>\n  1) Tomar muestras a velocidad mínima, nominal y máxima<br>\n  2) Definir en el protocolo aprobado el método de hermeticidad (azul de metileno o vacío, según USP &lt;1207&gt;) y aplicarlo<br>\n  3) Medir la resistencia al pelado con dinamómetro (si aplica)<br>\n  4) Registrar los resultados por velocidad"
      },
      {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = integridad del sello; unidad = pasa/no pasa. Tipo de dato = atributo. n = 10 blísteres por condición. Estadísticos = proporción de cumplimiento con IC binomial exacto. Regla de decisión = 0 fugas. Atípicos: no aplica a datos de atributo; toda exclusión se documenta y se conserva el registro original."
+     },
+     {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Sin fugas con el método definido en el protocolo aprobado.<br>\n  La resistencia al pelado cumple el criterio (si aplica)."
+      "html": "<strong>Criterio de aceptación:</strong><br>Integridad del sello: 0 fugas por azul de metileno o método equivalente.<br>Muestra en posiciones extremas del blíster.<br>Registro por muestra."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registros de integridad por velocidad (anexo del informe)"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>La prueba de fuga con colorante es el método directo de integridad."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>USP &lt;1207&gt; (integridad de empaque, si aplica)."
+      "html": "<strong>Referencia:</strong><br>ISO 11607-1/-2; ASTM F88; ASTM F1929; USP &lt;671&gt;; 21 CFR 211.122; 21 CFR 211.125; EU GMP Anexo 15."
      }
     ],
     "tabla": null,
@@ -14198,16 +14386,24 @@ var BancoEquipos = {
       "html": "<strong>Procedimiento:</strong><br>\n  1) Inspeccionar visualmente el sello de muestras a cada velocidad<br>\n  2) Clasificar defectos (arrugas, canales, quemaduras)<br>\n  3) Registrar por velocidad"
      },
      {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = aspecto del sello; unidad = pasa/no pasa. Tipo de dato = atributo. n = 30 blísteres por condición. Estadísticos = proporción de cumplimiento con IC binomial exacto. Regla de decisión = todos sin defectos. Atípicos: no aplica a datos de atributo; toda exclusión se documenta y se conserva el registro original."
+     },
+     {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Patrón de sello continuo en todas las velocidades.<br>\n  Sin arrugas, canales ni quemaduras."
+      "html": "<strong>Criterio de aceptación:</strong><br>Aspecto del sello: patrón continuo, sin arrugas, canales ni inclusiones.<br>Inspección visual del 100 % de la muestra.<br>Registro fotográfico de defectos."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de aspecto del sello (anexo del informe)"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>Un canal en el sello es una fuga potencial aunque la prueba de colorante pase en otra zona."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>Patrón de defectos aprobado."
+      "html": "<strong>Referencia:</strong><br>ISO 11607-1/-2; ASTM F88; ASTM F1929; USP &lt;671&gt;; 21 CFR 211.122; 21 CFR 211.125; EU GMP Anexo 15."
      }
     ],
     "tabla": null,
@@ -14229,16 +14425,24 @@ var BancoEquipos = {
       "html": "<strong>Procedimiento:</strong><br>\n  1) Verificar legibilidad, posición y contraste del lote y vencimiento a cada velocidad<br>\n  2) Registrar defectos de impresión<br>\n  3) Verificar contra la orden de acondicionamiento"
      },
      {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = legibilidad del código; unidad = %. Tipo de dato = atributo. n = muestra por turno. Estadísticos = proporción de cumplimiento con IC binomial exacto. Regla de decisión = 100 % legibles y correctos. Atípicos: no aplica a datos de atributo; toda exclusión se documenta y se conserva el registro original."
+     },
+     {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Lote y vencimiento legibles y bien posicionados a todas las velocidades.<br>\n  Sin omisiones ni borrosidad."
+      "html": "<strong>Criterio de aceptación:</strong><br>Impresión o grabado de lote y vencimiento legible en el 100 % de la muestra.<br>Contenido correcto verificado contra la orden.<br>Sin códigos borrosos ni incompletos."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de codificación (anexo del informe)"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>Un código ilegible inutiliza el lote."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>Orden de acondicionamiento del producto."
+      "html": "<strong>Referencia:</strong><br>ISO 11607-1/-2; ASTM F88; ASTM F1929; USP &lt;671&gt;; 21 CFR 211.122; 21 CFR 211.125; EU GMP Anexo 15."
      }
     ],
     "tabla": null,
@@ -14260,16 +14464,24 @@ var BancoEquipos = {
       "html": "<strong>Procedimiento:</strong><br>\n  1) Preparar muestras de desafío de cada tipo de defecto<br>\n  2) Pasar cada muestra y verificar su detección y rechazo<br>\n  3) Registrar el resultado por tipo de defecto"
      },
      {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = detección de defectos por visión; unidad = %. Tipo de dato = continua. n = 3 series de 100 por defecto. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = 100 % de defectuosos rechazados y 0 % de buenos. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable; toda exclusión se documenta y se conserva el dato original."
+     },
+     {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  El 100% de las muestras de desafío se detecta y rechaza.<br>\n  Sin defectos no detectados.<br>\n  Matriz de desafío: número de unidades por condición definido en el protocolo aprobado; el 100 % de las unidades malas se rechaza y el 0 % de las unidades buenas se rechaza."
+      "html": "<strong>Criterio de aceptación:</strong><br>Sistema de visión con muestras de desafío: cavidad vacía, producto partido, sello defectuoso y código ausente.<br>Matriz de desafío: 100 % de las unidades malas se rechaza y el 0 % de las unidades buenas se rechaza.<br>Registro por tipo de defecto."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registro del desafío de visión (anexo del informe)"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>El desafío se hace con defectos reales conocidos, no simulados por software."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>Manual del fabricante del sistema de visión."
+      "html": "<strong>Referencia:</strong><br>ISO 11607-1/-2; ASTM F88; ASTM F1929; USP &lt;671&gt;; 21 CFR 211.122; 21 CFR 211.125; EU GMP Anexo 15."
      }
     ],
     "tabla": null,
@@ -14291,16 +14503,24 @@ var BancoEquipos = {
       "html": "<strong>Procedimiento:</strong><br>\n  1) Inducir blísteres defectuosos de forma controlada<br>\n  2) Verificar el desvío de cada uno al rechazo<br>\n  3) Simular falla de la cámara y verificar el rechazo asociado<br>\n  4) Verificar el conteo y la ausencia de malos en buenos"
      },
      {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = desvío de defectuosos; unidad = %. Tipo de dato = continua. n = 3 series de 100. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = 100 % desviados y conteo correcto. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable; toda exclusión se documenta y se conserva el dato original."
+     },
+     {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  El 100% de los defectos inducidos se rechaza.<br>\n  Ningún malo llega al recipiente de buenos.<br>\n  Matriz de desafío: número de unidades por condición definido en el protocolo aprobado; el 100 % de las unidades malas se rechaza y el 0 % de las unidades buenas se rechaza."
+      "html": "<strong>Criterio de aceptación:</strong><br>Los blísteres defectuosos se desvían al rechazo, con conteo correcto (±1 unidad).<br>Matriz de desafío: 100 % de las unidades malas se rechaza y el 0 % de las unidades buenas se rechaza.<br>Registro por serie."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de rechazo (anexo del informe)"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>Se verifica con la bandeja de rechazo, no solo con el contador."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>Manual del fabricante de la blistera."
+      "html": "<strong>Referencia:</strong><br>ISO 11607-1/-2; ASTM F88; ASTM F1929; USP &lt;671&gt;; 21 CFR 211.122; 21 CFR 211.125; EU GMP Anexo 15."
      }
     ],
     "tabla": null,
@@ -14322,16 +14542,24 @@ var BancoEquipos = {
       "html": "<strong>Procedimiento:</strong><br>\n  1) Medir las dimensiones del blíster troquelado<br>\n  2) Inspeccionar el borde: limpio, sin rebabas ni delaminación<br>\n  3) Evaluar el desgaste del troquel (si aplica medición)"
      },
      {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = dimensiones del blíster; unidad = mm. Tipo de dato = continua. n = 10 blísteres por condición. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = cada dimensión dentro de ±0,5 mm. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable; toda exclusión se documenta y se conserva el dato original."
+     },
+     {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Dimensiones dentro de especificación.<br>\n  Borde limpio sin rebabas ni delaminación."
+      "html": "<strong>Criterio de aceptación:</strong><br>Troquelado: dimensiones dentro de <span class=\"por-confirmar\">±0,5 mm</span> y borde limpio sin rebabas.<br>Sin delaminación ni rotura del film.<br>Registro por medición."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de troquelado (anexo del informe)"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>Un borde con rebaba se abre en el estuchado."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>Especificación del blíster."
+      "html": "<strong>Referencia:</strong><br>ISO 11607-1/-2; ASTM F88; ASTM F1929; USP &lt;671&gt;; 21 CFR 211.122; 21 CFR 211.125; EU GMP Anexo 15."
      }
     ],
     "tabla": null,
@@ -14354,15 +14582,19 @@ var BancoEquipos = {
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Evacuación continua sin atascos.<br>\n  Sin interferencia con la operación."
+      "html": "<strong>Criterio de aceptación:</strong><br>Evacuación y recolección de retal sin obstrucción ni acumulación.<br>Sin retal en la línea de producto.<br>Registro de la verificación."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de evacuación de retal (anexo del informe)"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>El retal acumulado puede contaminar el producto o detener la línea."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>Manual del fabricante de la blistera."
+      "html": "<strong>Referencia:</strong><br>ISO 11607-1/-2; ASTM F88; ASTM F1929; USP &lt;671&gt;; 21 CFR 211.122; 21 CFR 211.125; EU GMP Anexo 15."
      }
     ],
     "tabla": null,
@@ -14384,16 +14616,24 @@ var BancoEquipos = {
       "html": "<strong>Procedimiento:</strong><br>\n  1) Correr placebo a velocidad mínima con la secuencia completa<br>\n  2) Repetir a velocidad nominal y a velocidad máxima<br>\n  3) Registrar alarmas e intervenciones<br>\n  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
      },
      {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = desempeño con placebo; unidad = pasa/no pasa. Tipo de dato = atributo. n = 3 velocidades con 100 blísteres. Estadísticos = proporción de cumplimiento con IC binomial exacto. Regla de decisión = todos los atributos conformes. Atípicos: no aplica a datos de atributo; toda exclusión se documenta y se conserva el registro original."
+     },
+     {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  La secuencia completa opera a las tres velocidades.<br>\n  Sin alarmas ni desviaciones no justificadas."
+      "html": "<strong>Criterio de aceptación:</strong><br>Corrida con placebo a velocidad mínima, nominal y máxima: cavidades llenas, sello íntegro y código legible.<br>Sin atascos ni rechazo anormal.<br>Registro por velocidad."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registros de corrida con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de corrida con placebo"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>Es la antesala del PQ; se corre con el film real."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>Especificación de operación de la blistera."
+      "html": "<strong>Referencia:</strong><br>ISO 11607-1/-2; ASTM F88; ASTM F1929; USP &lt;671&gt;; 21 CFR 211.122; 21 CFR 211.125; EU GMP Anexo 15."
      }
     ],
     "tabla": null,
@@ -14417,15 +14657,19 @@ var BancoEquipos = {
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Roles y accesos corresponden a lo aprobado.<br>\n  La pista de auditoría registra usuario, fecha, hora y significado; el respaldo restaura correctamente."
+      "html": "<strong>Criterio de aceptación:</strong><br>Registros del HMI: audit trail activo, usuarios y roles únicos, sin borrado.<br>Cambios de receta y ajustes registrados con usuario y hora.<br>Respaldo de configuración probado."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de roles, pista de auditoría y respaldo verificados (anexo del informe)"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>Aplica si hay HMI con registros electrónicos; si no, No Aplica con aprobación."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>21 CFR Parte 11 (registros y firmas electrónicas)."
+      "html": "<strong>Referencia:</strong><br>ISO 11607-1/-2; ASTM F88; ASTM F1929; USP &lt;671&gt;; 21 CFR 211.122; 21 CFR 211.125; EU GMP Anexo 15."
      }
     ],
     "tabla": null,
@@ -15183,16 +15427,24 @@ var BancoEquipos = {
       "html": "<strong>Procedimiento:</strong><br>\n  1) Con la línea en marcha sin producto, accionar la parada de emergencia<br>\n  2) Medir el tiempo de detención<br>\n  3) Verificar el estado seguro sin rearranque espontáneo<br>\n  4) Restablecer y verificar el rearranque controlado"
      },
      {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = parada de emergencia; unidad = s. Tipo de dato = continua. n = 3 activaciones. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = detención ≤ 2 s. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable; toda exclusión se documenta y se conserva el dato original."
+     },
+     {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  La línea se detiene dentro del tiempo especificado.<br>\n  No existe rearranque espontáneo."
+      "html": "<strong>Criterio de aceptación:</strong><br>Cada parada de emergencia detiene la línea y la deja en estado seguro en ≤ <span class=\"por-confirmar\">2 s</span>.<br>Rearme manual, sin reinicio automático.<br>Evento registrado con hora y usuario."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de parada de emergencia (anexo del informe)"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>El tiempo en rojo se confirma con el fabricante y el análisis de riesgo."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>Manual del fabricante de la etiquetadora."
+      "html": "<strong>Referencia:</strong><br>ISO/IEC 15416; ISO/IEC 15415; 21 CFR 211.122; 21 CFR 211.125; 21 CFR 211.130; EU GMP Anexo 15."
      }
     ],
     "tabla": null,
@@ -15214,16 +15466,24 @@ var BancoEquipos = {
       "html": "<strong>Procedimiento:</strong><br>\n  1) Con cada guarda o puerta abierta, intentar operar: ninguna parte móvil debe funcionar<br>\n  2) Verificar la protección del transportador y del cabezal de aplicación<br>\n  3) Registrar cada interlock con su respuesta"
      },
      {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = actuación de interlocks; unidad = s. Tipo de dato = continua. n = 3 repeticiones. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = detención ≤ 1 s. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable; toda exclusión se documenta y se conserva el dato original."
+     },
+     {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Ninguna parte móvil funciona con guardas abiertas.<br>\n  Protecciones instaladas y operativas."
+      "html": "<strong>Criterio de aceptación:</strong><br>Ninguna parte móvil funciona con guarda o puerta abierta: detención en ≤ <span class=\"por-confirmar\">1 s</span>.<br>Rearme manual tras la condición segura.<br>Prueba registrada por interlock."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Matriz de interlocks con respuesta verificada (anexo del informe)"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>Un interlock puenteado es un hallazgo crítico."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>Manual del fabricante de la etiquetadora."
+      "html": "<strong>Referencia:</strong><br>ISO/IEC 15416; ISO/IEC 15415; 21 CFR 211.122; 21 CFR 211.125; 21 CFR 211.130; EU GMP Anexo 15."
      }
     ],
     "tabla": null,
@@ -15245,16 +15505,24 @@ var BancoEquipos = {
       "html": "<strong>Procedimiento:</strong><br>\n  1) Simular cada condición de alarma aplicable y verificar disparo y acción<br>\n  2) Verificar el registro de cada alarma en el histórico"
      },
      {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = disparo de alarmas; unidad = pasa/no pasa. Tipo de dato = atributo. n = 3 repeticiones por alarma. Estadísticos = proporción de cumplimiento con IC binomial exacto. Regla de decisión = cada alarma dispara y actúa. Atípicos: no aplica a datos de atributo; toda exclusión se documenta y se conserva el registro original."
+     },
+     {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Cada alarma dispara ante su condición y ejecuta su acción.<br>\n  Todas quedan registradas en el histórico."
+      "html": "<strong>Criterio de aceptación:</strong><br>Cada alarma dispara y ejecuta su acción: fin de rollo, etiqueta ausente, error de impresión y rechazo lleno.<br>Registro con fecha, hora, valor y usuario.<br>Prueba registrada por alarma."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Matriz de alarmas con disparo y acción verificados (anexo del informe)"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>Se prueban todas las alarmas del análisis de riesgo."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>Manual del fabricante de la etiquetadora."
+      "html": "<strong>Referencia:</strong><br>ISO/IEC 15416; ISO/IEC 15415; 21 CFR 211.122; 21 CFR 211.125; 21 CFR 211.130; EU GMP Anexo 15."
      }
     ],
     "tabla": null,
@@ -15277,15 +15545,19 @@ var BancoEquipos = {
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Estado seguro sin arranque espontáneo.<br>\n  El material en proceso se trata según lo definido."
+      "html": "<strong>Criterio de aceptación:</strong><br>Ante falla de energía queda en estado seguro, sin arranque espontáneo.<br>El material en proceso se dispone según procedimiento.<br>Evento registrado."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de falla y recuperación de energía (anexo del informe)"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>La disposición del material se define antes de la prueba."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>Manual del fabricante de la etiquetadora."
+      "html": "<strong>Referencia:</strong><br>ISO/IEC 15416; ISO/IEC 15415; 21 CFR 211.122; 21 CFR 211.125; 21 CFR 211.130; EU GMP Anexo 15."
      }
     ],
     "tabla": null,
@@ -15307,16 +15579,24 @@ var BancoEquipos = {
       "html": "<strong>Procedimiento:</strong><br>\n  1) Ajustar la velocidad mínima, nominal y máxima desde el control<br>\n  2) Medir cada punto con un contador independiente, por triplicado<br>\n  3) Registrar la lectura del control y la independiente<br>\n  4) Procesar los datos crudos de velocidad en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
      },
      {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = velocidad de etiquetado; unidad = unidades/min. Tipo de dato = continua. n = 3 lecturas por setpoint. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = desviación ≤ ±2 %. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable; toda exclusión se documenta y se conserva el dato original."
+     },
+     {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  La velocidad indicada está dentro de tolerancia en los tres puntos.<br>\n  La repetibilidad cumple el criterio."
+      "html": "<strong>Criterio de aceptación:</strong><br>Velocidad (unidades/min) dentro de <span class=\"por-confirmar\">±2 %</span> del setpoint en mínimo, nominal y máximo.<br>Sin oscilación &gt; 2 % en 5 min.<br>Registro por velocidad."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de velocidades con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de velocidad"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>La tolerancia en rojo se confirma con el fabricante."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>Manual del fabricante de la etiquetadora."
+      "html": "<strong>Referencia:</strong><br>ISO/IEC 15416; ISO/IEC 15415; 21 CFR 211.122; 21 CFR 211.125; 21 CFR 211.130; EU GMP Anexo 15."
      }
     ],
     "tabla": null,
@@ -15339,16 +15619,24 @@ var BancoEquipos = {
       "html": "<strong>Procedimiento:</strong><br>\n  1) Operar a cada velocidad de uso y verificar la secuencia sensor-dispensado-aplicación<br>\n  2) Registrar desfaces o errores de sincronización<br>\n  3) Procesar los datos crudos de sincronización en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
      },
      {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = desfase de sincronización; unidad = mm. Tipo de dato = continua. n = 100 unidades por velocidad. Estadísticos = media, DE e IC 95 %. Regla de decisión = desfase ≤ 0,5 mm. Atípicos = Grubbs solo si n ≥ 7; toda exclusión se documenta y se conserva el dato original."
+     },
+     {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Sincronización correcta a cada velocidad.<br>\n  Sin errores de secuencia fuera de criterio."
+      "html": "<strong>Criterio de aceptación:</strong><br>Sincronización entre transportador, sensor de producto y aplicador: posición dentro de <span class=\"por-confirmar\">±0,5 mm</span> a todas las velocidades.<br>Sin desfase acumulado al final de la corrida.<br>Registro por condición."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de sincronización con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de sincronización"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>El desfase de sincronización es la causa principal de etiquetas corridas."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>Manual del fabricante de la etiquetadora."
+      "html": "<strong>Referencia:</strong><br>ISO/IEC 15416; ISO/IEC 15415; 21 CFR 211.122; 21 CFR 211.125; 21 CFR 211.130; EU GMP Anexo 15."
      }
     ],
     "tabla": null,
@@ -15371,16 +15659,24 @@ var BancoEquipos = {
       "html": "<strong>Procedimiento:</strong><br>\n  1) Operar la línea y observar la tensión y el avance de la cinta<br>\n  2) Verificar ausencia de arrugas, tirones o roturas<br>\n  3) Registrar los ajustes de tensión aprobados"
      },
      {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = tensión de la cinta; unidad = N. Tipo de dato = continua. n = 3 lecturas por condición. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = desviación ≤ ±10 %. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable; toda exclusión se documenta y se conserva el dato original."
+     },
+     {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Avance estable sin arrugas ni roturas.<br>\n  Tensión dentro del rango aprobado."
+      "html": "<strong>Criterio de aceptación:</strong><br>Tensión y avance de la cinta estables dentro de ±<span class=\"por-confirmar\">10 %</span>.<br>Sin rotura ni despegado del liner.<br>Registro por condición."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de cinta de etiquetas (anexo del informe)"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>La tensión inestable desplaza la etiqueta y rompe la cinta."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>Manual del fabricante de la etiquetadora."
+      "html": "<strong>Referencia:</strong><br>ISO/IEC 15416; ISO/IEC 15415; 21 CFR 211.122; 21 CFR 211.125; 21 CFR 211.130; EU GMP Anexo 15."
      }
     ],
     "tabla": null,
@@ -15403,15 +15699,19 @@ var BancoEquipos = {
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Cada formato monta con alineación y ajuste correctos.<br>\n  Parámetros registrados por formato."
+      "html": "<strong>Criterio de aceptación:</strong><br>Cada juego de piezas de formato se monta con alineación y ajuste según fabricante.<br>El 100 % de los formatos declarados verificados.<br>Registro de montaje."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de cambio de formato (anexo del informe)"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>Un formato desalineado produce etiquetas fuera de posición."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>Manual del fabricante de la etiquetadora."
+      "html": "<strong>Referencia:</strong><br>ISO/IEC 15416; ISO/IEC 15415; 21 CFR 211.122; 21 CFR 211.125; 21 CFR 211.130; EU GMP Anexo 15."
      }
     ],
     "tabla": null,
@@ -15434,15 +15734,19 @@ var BancoEquipos = {
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Detección del 100% en cada formato y velocidad.<br>\n  Sin envases no detectados."
+      "html": "<strong>Criterio de aceptación:</strong><br>El sensor de producto detecta el 100 % de los envases de cada formato, incluidos los extremos.<br>Sin falsos positivos ni ausencias.<br>Registro por formato."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registro del sensor de producto (anexo del informe)"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>Un sensor que falla en el envase más pequeño deja unidades sin etiqueta."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>Manual del fabricante de la etiquetadora."
+      "html": "<strong>Referencia:</strong><br>ISO/IEC 15416; ISO/IEC 15415; 21 CFR 211.122; 21 CFR 211.125; 21 CFR 211.130; EU GMP Anexo 15."
      }
     ],
     "tabla": null,
@@ -15465,15 +15769,19 @@ var BancoEquipos = {
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Detección correcta en cada tipo de soporte.<br>\n  Etiqueta faltante siempre detectada."
+      "html": "<strong>Criterio de aceptación:</strong><br>El sensor de etiqueta detecta el borde o la marca en el 100 % de las etiquetas.<br>Sin doble dispensado ni etiqueta sin aplicar.<br>Registro por serie."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registro del sensor de etiqueta (anexo del informe)"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>La detección del gap es lo que permite el dispensado exacto."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>Manual del fabricante de la etiquetadora."
+      "html": "<strong>Referencia:</strong><br>ISO/IEC 15416; ISO/IEC 15415; 21 CFR 211.122; 21 CFR 211.125; 21 CFR 211.130; EU GMP Anexo 15."
      }
     ],
     "tabla": null,
@@ -15496,15 +15804,19 @@ var BancoEquipos = {
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Fin de rollo y empalme detectados según lo configurado.<br>\n  Acción asociada correcta."
+      "html": "<strong>Criterio de aceptación:</strong><br>Detección de rollo agotado y de empalme probada, con alarma en ≤ <span class=\"por-confirmar\">2 m</span> de cinta restante.<br>El empalme no genera etiquetas sin verificar.<br>Registro del evento."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de detección de rollo y empalme (anexo del informe)"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>Un empalme sin control produce una secuencia de etiquetas sin código."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>Manual del fabricante de la etiquetadora."
+      "html": "<strong>Referencia:</strong><br>ISO/IEC 15416; ISO/IEC 15415; 21 CFR 211.122; 21 CFR 211.125; 21 CFR 211.130; EU GMP Anexo 15."
      }
     ],
     "tabla": null,
@@ -15526,16 +15838,24 @@ var BancoEquipos = {
       "html": "<strong>Procedimiento:</strong><br>\n  1) Etiquetar muestras a velocidad mínima, nominal y máxima<br>\n  2) Medir altura, desplazamiento lateral y ángulo con instrumento calibrado<br>\n  3) Comparar contra la tolerancia de la URS aprobada"
      },
      {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = posición de la etiqueta; unidad = mm y grados. Tipo de dato = continua. n = 30 unidades por condición. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = cada unidad dentro de ±1 mm y ±1°. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable; toda exclusión se documenta y se conserva el dato original."
+     },
+     {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  La posición está dentro de la tolerancia de la URS a las tres velocidades.<br>\n  Sin unidades fuera de tolerancia fuera de criterio."
+      "html": "<strong>Criterio de aceptación:</strong><br>Posición de la etiqueta: altura y desplazamiento lateral dentro de <span class=\"por-confirmar\">±1 mm</span> y rotación ±1°.<br>Medición en los extremos del envase.<br>Registro por medición."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registro dimensional de posición (anexo del informe)"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>La tolerancia en rojo se confirma con la especificación del producto y del cliente."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>URS aprobada del equipo."
+      "html": "<strong>Referencia:</strong><br>ISO/IEC 15416; ISO/IEC 15415; 21 CFR 211.122; 21 CFR 211.125; 21 CFR 211.130; EU GMP Anexo 15."
      }
     ],
     "tabla": null,
@@ -15557,16 +15877,24 @@ var BancoEquipos = {
       "html": "<strong>Procedimiento:</strong><br>\n  1) Etiquetar al menos treinta unidades consecutivas por velocidad<br>\n  2) Medir la posición de cada unidad y calcular media y dispersión<br>\n  3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
      },
      {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = repetibilidad de posición; unidad = mm. Tipo de dato = continua. n = 30 unidades. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = DE ≤ 0,3 mm. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable; toda exclusión se documenta y se conserva el dato original."
+     },
+     {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Posición dentro de tolerancia con dispersión controlada.<br>\n  Sin deriva durante las treinta unidades."
+      "html": "<strong>Criterio de aceptación:</strong><br>Repetibilidad de la posición sobre al menos 30 unidades.<br>Desviación estándar de la posición ≤ <span class=\"por-confirmar\">0,3 mm</span>.<br>Registro por serie."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de repetibilidad con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de repetibilidad de posición"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>La repetibilidad importa más que el valor medio para el rechazo automático."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>URS aprobada del equipo."
+      "html": "<strong>Referencia:</strong><br>ISO/IEC 15416; ISO/IEC 15415; 21 CFR 211.122; 21 CFR 211.125; 21 CFR 211.130; EU GMP Anexo 15."
      }
     ],
     "tabla": null,
@@ -15589,16 +15917,24 @@ var BancoEquipos = {
       "html": "<strong>Procedimiento:</strong><br>\n  1) Inspeccionar visualmente las unidades etiquetadas a cada velocidad<br>\n  2) Clasificar defectos de adhesión inmediata<br>\n  3) Registrar por velocidad"
      },
      {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = defectos de adhesión; unidad = %. Tipo de dato = atributo. n = 30 unidades por condición. Estadísticos = proporción de cumplimiento con IC binomial exacto. Regla de decisión = defectos dentro del nivel de aceptación. Atípicos: no aplica a datos de atributo; toda exclusión se documenta y se conserva el registro original."
+     },
+     {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Sin defectos de adhesión inmediata fuera del nivel aceptado.<br>\n  Sin etiquetas torcidas."
+      "html": "<strong>Criterio de aceptación:</strong><br>Adhesión inmediata sin burbujas, arrugas ni bordes levantados.<br>Inspección del 100 % de la muestra.<br>Registro fotográfico de defectos."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de adhesión inmediata (anexo del informe)"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>Una etiqueta con borde levantado se despega en el estuchado."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>Patrón de defectos aprobado."
+      "html": "<strong>Referencia:</strong><br>ISO/IEC 15416; ISO/IEC 15415; 21 CFR 211.122; 21 CFR 211.125; 21 CFR 211.130; EU GMP Anexo 15."
      }
     ],
     "tabla": null,
@@ -15621,15 +15957,19 @@ var BancoEquipos = {
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Ajuste repetible dentro de rango.<br>\n  Alisado uniforme sin daño a la etiqueta."
+      "html": "<strong>Criterio de aceptación:</strong><br>Presión y velocidad del rodillo o banda de alisado dentro del rango del fabricante.<br>Sin marcar ni deformar la etiqueta.<br>Registro por condición."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registro del rodillo o banda (anexo del informe)"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>El alisado insuficiente deja burbujas que se ven como defecto."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>Manual del fabricante de la etiquetadora."
+      "html": "<strong>Referencia:</strong><br>ISO/IEC 15416; ISO/IEC 15415; 21 CFR 211.122; 21 CFR 211.125; 21 CFR 211.130; EU GMP Anexo 15."
      }
     ],
     "tabla": null,
@@ -15651,16 +15991,24 @@ var BancoEquipos = {
       "html": "<strong>Procedimiento:</strong><br>\n  1) Etiquetar el envase más pequeño y el más grande declarados<br>\n  2) Medir la posición en cada formato, por triplicado<br>\n  3) Verificar el comportamiento en el diámetro mínimo<br>\n  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
      },
      {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = posición en formatos extremos; unidad = mm. Tipo de dato = continua. n = 30 unidades por formato. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = cada formato dentro de ±1 mm. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable; toda exclusión se documenta y se conserva el dato original."
+     },
+     {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Posición dentro de tolerancia en ambos extremos.<br>\n  Sin fallos sistemáticos en el diámetro mínimo."
+      "html": "<strong>Criterio de aceptación:</strong><br>Formatos extremos etiquetados con posición dentro de <span class=\"por-confirmar\">±1 mm</span>.<br>Sin diferencia fuera de tolerancia entre formatos.<br>Registro por formato."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registro por formato con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de formatos extremos"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>El envase extremo es el peor caso de curvatura y de sujeción."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>URS aprobada del equipo."
+      "html": "<strong>Referencia:</strong><br>ISO/IEC 15416; ISO/IEC 15415; 21 CFR 211.122; 21 CFR 211.125; 21 CFR 211.130; EU GMP Anexo 15."
      }
     ],
     "tabla": null,
@@ -15684,15 +16032,19 @@ var BancoEquipos = {
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Solape dentro de lo especificado con cierre completo.<br>\n  Sin bordes levantados."
+      "html": "<strong>Criterio de aceptación:</strong><br>Etiqueta envolvente: solape y cierre dentro de especificación.<br>Sin arrugas en la zona de solape.<br>Registro por medición."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de etiqueta envolvente (anexo del informe)"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>Aplica si hay etiqueta envolvente; si no, No Aplica con aprobación."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>Especificación de la etiqueta."
+      "html": "<strong>Referencia:</strong><br>ISO/IEC 15416; ISO/IEC 15415; 21 CFR 211.122; 21 CFR 211.125; 21 CFR 211.130; EU GMP Anexo 15."
      }
     ],
     "tabla": null,
@@ -15714,16 +16066,24 @@ var BancoEquipos = {
       "html": "<strong>Procedimiento:</strong><br>\n  1) Programar los datos según la orden de prueba<br>\n  2) Leer el código con lector independiente y comparar contra la orden<br>\n  3) Registrar el resultado"
      },
      {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = contenido del código; unidad = %. Tipo de dato = atributo. n = muestra por turno. Estadísticos = proporción de cumplimiento con IC binomial exacto. Regla de decisión = 100 % coincide con lo programado. Atípicos: no aplica a datos de atributo; toda exclusión se documenta y se conserva el registro original."
+     },
+     {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Coincidencia del 100% contra la orden.<br>\n  Sin caracteres omitidos o alterados."
+      "html": "<strong>Criterio de aceptación:</strong><br>Contenido codificado coincide con lo programado (lote, vencimiento, GTIN) en el 100 %.<br>Verificación por lectura o por OCR.<br>Registro por muestra."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de contenido del código (anexo del informe)"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>Un código con contenido equivocado es un riesgo de trazabilidad mayor."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>Orden de acondicionamiento de prueba."
+      "html": "<strong>Referencia:</strong><br>ISO/IEC 15416; ISO/IEC 15415; 21 CFR 211.122; 21 CFR 211.125; 21 CFR 211.130; EU GMP Anexo 15."
      }
     ],
     "tabla": null,
@@ -15745,16 +16105,24 @@ var BancoEquipos = {
       "html": "<strong>Procedimiento:</strong><br>\n  1) Codificar a cada velocidad de uso<br>\n  2) Evaluar legibilidad, contraste y posición contra el rango definido<br>\n  3) Registrar por velocidad"
      },
      {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = calidad del código; unidad = grado. Tipo de dato = continua. n = 10 muestras por turno. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = grado ≥ B. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable; toda exclusión se documenta y se conserva el dato original."
+     },
+     {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Código legible y bien posicionado a todas las velocidades.<br>\n  Contraste dentro del rango definido."
+      "html": "<strong>Criterio de aceptación:</strong><br>Legibilidad, contraste y posición del código dentro de especificación en cada unidad.<br>Grado de calidad según ISO/IEC 15416 o 15415 ≥ <span class=\"por-confirmar\">B</span>.<br>Registro por muestra."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de calidad del código (anexo del informe)"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>El grado mínimo en rojo se confirma con el cliente y la norma de simbología."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>Orden de acondicionamiento de prueba."
+      "html": "<strong>Referencia:</strong><br>ISO/IEC 15416; ISO/IEC 15415; 21 CFR 211.122; 21 CFR 211.125; 21 CFR 211.130; EU GMP Anexo 15."
      }
     ],
     "tabla": null,
@@ -15776,16 +16144,24 @@ var BancoEquipos = {
       "html": "<strong>Procedimiento:</strong><br>\n  1) Codificar un lote inicial<br>\n  2) Cambiar los datos al lote siguiente<br>\n  3) Verificar las primeras unidades del nuevo lote: sin restos del anterior"
      },
      {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = cambio de lote; unidad = pasa/no pasa. Tipo de dato = atributo. n = 3 cambios. Estadísticos = proporción de cumplimiento con IC binomial exacto. Regla de decisión = sin residuos del lote anterior. Atípicos: no aplica a datos de atributo; toda exclusión se documenta y se conserva el registro original."
+     },
+     {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Primera unidad del nuevo lote ya trae el código nuevo.<br>\n  Sin mezcla de códigos."
+      "html": "<strong>Criterio de aceptación:</strong><br>Ante un cambio de datos de lote, 0 unidades con el lote anterior después del cambio.<br>El nuevo código se aplica desde la primera unidad.<br>Registro del cambio con verificación."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de cambio de datos (anexo del informe)"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>El residuo de lote anterior en la línea es un riesgo de mezcla."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>Orden de acondicionamiento de prueba."
+      "html": "<strong>Referencia:</strong><br>ISO/IEC 15416; ISO/IEC 15415; 21 CFR 211.122; 21 CFR 211.125; 21 CFR 211.130; EU GMP Anexo 15."
      }
     ],
     "tabla": null,
@@ -15808,15 +16184,19 @@ var BancoEquipos = {
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Nivel visible o monitoreado.<br>\n  Alarma de agotamiento operativa."
+      "html": "<strong>Criterio de aceptación:</strong><br>Consumibles del codificador (cinta o tinta) presentes y dentro de vida útil.<br>Sin impresión degradada al final del rollo.<br>Registro por consumible."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registro del codificador (anexo del informe)"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>La impresión se degrada antes de que el consumible se agote."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>Manual del fabricante del codificador."
+      "html": "<strong>Referencia:</strong><br>ISO/IEC 15416; ISO/IEC 15415; 21 CFR 211.122; 21 CFR 211.125; 21 CFR 211.130; EU GMP Anexo 15."
      }
     ],
     "tabla": null,
@@ -15838,16 +16218,24 @@ var BancoEquipos = {
       "html": "<strong>Procedimiento:</strong><br>\n  1) Imprimir códigos de prueba (si aplica)<br>\n  2) Medir el grado con verificador calibrado según la norma elegida<br>\n  3) Registrar el grado obtenido"
      },
      {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = grado del código; unidad = grado. Tipo de dato = continua. n = 10 muestras por turno. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = grado dentro de especificación. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable; toda exclusión se documenta y se conserva el dato original."
+     },
+     {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Grado de calidad dentro del mínimo definido.<br>\n  Sin códigos ilegibles por el verificador."
+      "html": "<strong>Criterio de aceptación:</strong><br>Código de barras o Datamatrix con grado de calidad dentro de especificación.<br>Verificación con lector calibrado.<br>Registro por muestra."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de grado del código (anexo del informe)"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>Un código que no lee en el punto de venta inutiliza el lote."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>Norma de verificación elegida."
+      "html": "<strong>Referencia:</strong><br>ISO/IEC 15416; ISO/IEC 15415; 21 CFR 211.122; 21 CFR 211.125; 21 CFR 211.130; EU GMP Anexo 15."
      }
     ],
     "tabla": null,
@@ -15869,16 +16257,24 @@ var BancoEquipos = {
       "html": "<strong>Procedimiento:</strong><br>\n  1) Preparar muestras de desafío de cada tipo de defecto<br>\n  2) Pasar cada muestra y verificar su detección y rechazo<br>\n  3) Registrar el resultado por tipo de defecto"
      },
      {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = detección de defectos; unidad = %. Tipo de dato = continua. n = 3 series de 100 por defecto. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = 100 % de defectuosos rechazados. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable; toda exclusión se documenta y se conserva el dato original."
+     },
+     {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  El 100% de las muestras de desafío se detecta y rechaza.<br>\n  Sin defectos no detectados.<br>\n  Matriz de desafío: número de unidades por condición definido en el protocolo aprobado; el 100 % de las unidades malas se rechaza y el 0 % de las unidades buenas se rechaza."
+      "html": "<strong>Criterio de aceptación:</strong><br>Sistema de visión con muestras de desafío: etiqueta ausente, torcida, con código ilegible y de otro producto.<br>Matriz de desafío: 100 % de las unidades malas se rechaza y el 0 % de las unidades buenas se rechaza.<br>Registro por tipo de defecto."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registro del desafío de visión (anexo del informe)"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>El desafío se hace con defectos reales conocidos."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>Manual del fabricante del sistema de visión."
+      "html": "<strong>Referencia:</strong><br>ISO/IEC 15416; ISO/IEC 15415; 21 CFR 211.122; 21 CFR 211.125; 21 CFR 211.130; EU GMP Anexo 15."
      }
     ],
     "tabla": null,
@@ -15900,16 +16296,24 @@ var BancoEquipos = {
       "html": "<strong>Procedimiento:</strong><br>\n  1) Introducir una etiqueta de otro producto o lote en el rollo de prueba (si aplica)<br>\n  2) Verificar su detección y rechazo<br>\n  3) Registrar el resultado"
      },
      {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = detección de etiqueta ajena; unidad = %. Tipo de dato = continua. n = 3 series de 100. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = 100 % detectadas y rechazadas. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable; toda exclusión se documenta y se conserva el dato original."
+     },
+     {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  La etiqueta equivocada se detecta y rechaza.<br>\n  Ninguna unidad con etiqueta equivocada pasa como buena.<br>\n  Matriz de desafío: número de unidades por condición definido en el protocolo aprobado; el 100 % de las unidades malas se rechaza y el 0 % de las unidades buenas se rechaza."
+      "html": "<strong>Criterio de aceptación:</strong><br>Una etiqueta de otro producto o lote en el rollo se detecta y se rechaza.<br>Matriz de desafío: 100 % de las unidades malas se rechaza y el 0 % de las unidades buenas se rechaza.<br>Registro por prueba."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de etiqueta equivocada (anexo del informe)"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>La etiqueta equivocada es el error más grave de una etiquetadora."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>Manual del fabricante del sistema de visión."
+      "html": "<strong>Referencia:</strong><br>ISO/IEC 15416; ISO/IEC 15415; 21 CFR 211.122; 21 CFR 211.125; 21 CFR 211.130; EU GMP Anexo 15."
      }
     ],
     "tabla": null,
@@ -15931,16 +16335,24 @@ var BancoEquipos = {
       "html": "<strong>Procedimiento:</strong><br>\n  1) Inducir envases defectuosos de forma controlada a cada velocidad<br>\n  2) Verificar el desvío de cada uno al rechazo<br>\n  3) Verificar el conteo y la ausencia de malos en buenos"
      },
      {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = desvío de defectuosos; unidad = %. Tipo de dato = continua. n = 3 series de 100. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = 100 % desviados y conteo correcto. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable; toda exclusión se documenta y se conserva el dato original."
+     },
+     {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  El 100% de los defectos inducidos se rechaza.<br>\n  Ningún malo llega al recipiente de buenos.<br>\n  Matriz de desafío: número de unidades por condición definido en el protocolo aprobado; el 100 % de las unidades malas se rechaza y el 0 % de las unidades buenas se rechaza."
+      "html": "<strong>Criterio de aceptación:</strong><br>Los envases defectuosos se desvían con conteo correcto (±1 unidad).<br>Matriz de desafío: 100 % de las unidades malas se rechaza y el 0 % de las unidades buenas se rechaza.<br>Registro por serie."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de rechazo (anexo del informe)"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>Se verifica con la bandeja de rechazo, no solo con el contador."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>Manual del fabricante de la etiquetadora."
+      "html": "<strong>Referencia:</strong><br>ISO/IEC 15416; ISO/IEC 15415; 21 CFR 211.122; 21 CFR 211.125; 21 CFR 211.130; EU GMP Anexo 15."
      }
     ],
     "tabla": null,
@@ -15962,16 +16374,24 @@ var BancoEquipos = {
       "html": "<strong>Procedimiento:</strong><br>\n  1) Simular falla de la cámara<br>\n  2) Simular pérdida de comunicación con la visión<br>\n  3) Verificar que la línea se detiene o todo se rechaza"
      },
      {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = falla de visión; unidad = pasa/no pasa. Tipo de dato = atributo. n = 3 fallas simuladas. Estadísticos = proporción de cumplimiento con IC binomial exacto. Regla de decisión = el equipo no libera producto sin verificar. Atípicos: no aplica a datos de atributo; toda exclusión se documenta y se conserva el registro original."
+     },
+     {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Sin producto verificado como bueno durante la falla.<br>\n  Línea detenida o rechazo total.<br>\n  Matriz de desafío: número de unidades por condición definido en el protocolo aprobado; el 100 % de las unidades malas se rechaza y el 0 % de las unidades buenas se rechaza."
+      "html": "<strong>Criterio de aceptación:</strong><br>Ante falla de la cámara o pérdida de comunicación, el equipo se detiene o rechaza, no sigue etiquetando ciego.<br>Matriz de desafío: 100 % de las unidades malas se rechaza y el 0 % de las unidades buenas se rechaza.<br>Registro del evento."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de falla de visión (anexo del informe)"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>Una etiquetadora que sigue sin visión libera producto sin verificar."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>Manual del fabricante de la etiquetadora."
+      "html": "<strong>Referencia:</strong><br>ISO/IEC 15416; ISO/IEC 15415; 21 CFR 211.122; 21 CFR 211.125; 21 CFR 211.130; EU GMP Anexo 15."
      }
     ],
     "tabla": null,
@@ -15994,15 +16414,19 @@ var BancoEquipos = {
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Solo personal autorizado abre el contenedor.<br>\n  Apertura o llenado generan alarma."
+      "html": "<strong>Criterio de aceptación:</strong><br>Contenedor de rechazo con llave o cierre y alarma si se llena.<br>El acceso al rechazo está restringido y registrado.<br>Registro de apertura."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registro del contenedor (anexo del informe)"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>El rechazo accesible permite reintroducir producto defectuoso."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>Manual del fabricante de la etiquetadora."
+      "html": "<strong>Referencia:</strong><br>ISO/IEC 15416; ISO/IEC 15415; 21 CFR 211.122; 21 CFR 211.125; 21 CFR 211.130; EU GMP Anexo 15."
      }
     ],
     "tabla": null,
@@ -16025,15 +16449,19 @@ var BancoEquipos = {
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Cada rechazo queda confirmado.<br>\n  La falta de confirmación alarma o detiene."
+      "html": "<strong>Criterio de aceptación:</strong><br>Confirmación del rechazo: el sensor verifica que la unidad salió de la línea.<br>Sin unidades rechazadas que sigan en el flujo.<br>Registro por evento."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de confirmación (anexo del informe)"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>Un rechazo sin confirmación deja la unidad defectuosa en el lote."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>Manual del fabricante de la etiquetadora."
+      "html": "<strong>Referencia:</strong><br>ISO/IEC 15416; ISO/IEC 15415; 21 CFR 211.122; 21 CFR 211.125; 21 CFR 211.130; EU GMP Anexo 15."
      }
     ],
     "tabla": null,
@@ -16055,16 +16483,24 @@ var BancoEquipos = {
       "html": "<strong>Procedimiento:</strong><br>\n  1) Correr a velocidad mínima con la secuencia completa<br>\n  2) Repetir a velocidad nominal y a velocidad máxima<br>\n  3) Registrar alarmas e intervenciones"
      },
      {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = desempeño con placebo; unidad = pasa/no pasa. Tipo de dato = atributo. n = 3 velocidades con 100 unidades. Estadísticos = proporción de cumplimiento con IC binomial exacto. Regla de decisión = todos los atributos conformes. Atípicos: no aplica a datos de atributo; toda exclusión se documenta y se conserva el registro original."
+     },
+     {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  La secuencia completa opera a las tres velocidades.<br>\n  Sin alarmas ni desviaciones no justificadas."
+      "html": "<strong>Criterio de aceptación:</strong><br>Corrida con envases vacíos o placebo y etiquetas de prueba a velocidad mínima, nominal y máxima.<br>Posición, adhesión y código conformes en cada velocidad.<br>Registro por velocidad."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de corrida con placebo (anexo del informe)"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>Es la antesala del PQ; se corre con etiquetas reales."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>Especificación de operación de la etiquetadora."
+      "html": "<strong>Referencia:</strong><br>ISO/IEC 15416; ISO/IEC 15415; 21 CFR 211.122; 21 CFR 211.125; 21 CFR 211.130; EU GMP Anexo 15."
      }
     ],
     "tabla": null,
@@ -16087,15 +16523,19 @@ var BancoEquipos = {
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Roles y accesos corresponden a lo aprobado.<br>\n  La pista de auditoría registra usuario, fecha, hora y significado; el respaldo restaura correctamente."
+      "html": "<strong>Criterio de aceptación:</strong><br>Registros del HMI: audit trail activo, usuarios y roles únicos, sin borrado.<br>Cambios de receta y ajustes registrados con usuario y hora.<br>Respaldo de configuración probado."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de roles, pista de auditoría y respaldo verificados (anexo del informe)"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>Aplica si hay HMI con registros electrónicos; si no, No Aplica."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>21 CFR Parte 11 (registros y firmas electrónicas)."
+      "html": "<strong>Referencia:</strong><br>ISO/IEC 15416; ISO/IEC 15415; 21 CFR 211.122; 21 CFR 211.125; 21 CFR 211.130; EU GMP Anexo 15."
      }
     ],
     "tabla": null,
@@ -35933,16 +36373,24 @@ var BancoEquipos = {
       "html": "<strong>Procedimiento:</strong><br>\n  1) Justificar el número de lotes con el análisis de riesgo aprobado<br>\n  2) Fabricar tres lotes consecutivos a velocidad nominal registrando parámetros críticos<br>\n  3) Muestrear cada lote según el plan de muestreo aprobado<br>\n  4) Evaluar los atributos de calidad de cada lote contra especificación<br>\n  5) Procesar los datos crudos de los tres lotes en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
      },
      {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = atributos por lote; unidad = %, unidades. Tipo de dato = continua. n = 3 lotes con muestreo inicio/medio/fin. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = todos los atributos en especificación. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable; toda exclusión se documenta y se conserva el dato original."
+     },
+     {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Los tres lotes cumplen todos los atributos de calidad.<br>\n  La variabilidad entre lotes está dentro de lo esperado."
+      "html": "<strong>Criterio de aceptación:</strong><br>Tres lotes consecutivos a velocidad nominal con integridad, aspecto y código conformes.<br>Sin tendencia entre lotes.<br>Registro por lote."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registros de los tres lotes con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de lotes consecutivos"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>Los límites salen de la especificación del producto y del material de empaque."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>EU GMP Anexo 15; análisis de riesgo del proceso."
+      "html": "<strong>Referencia:</strong><br>ISO 11607-1/-2; ASTM F88; ASTM F1929; USP &lt;671&gt;; 21 CFR 211.122; 21 CFR 211.125; EU GMP Anexo 15."
      }
     ],
     "tabla": null,
@@ -35965,16 +36413,24 @@ var BancoEquipos = {
       "html": "<strong>Procedimiento:</strong><br>\n  1) Fabricar una corrida a velocidad mínima registrando atributos críticos<br>\n  2) Fabricar una corrida a velocidad máxima<br>\n  3) Muestrear inicio, medio y fin de cada corrida<br>\n  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
      },
      {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = atributos en extremos; unidad = %. Tipo de dato = continua. n = 3 réplicas por extremo. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = todos los atributos en especificación. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable; toda exclusión se documenta y se conserva el dato original."
+     },
+     {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Ambas corridas cumplen todos los atributos de calidad.<br>\n  Sellado íntegro a velocidad máxima."
+      "html": "<strong>Criterio de aceptación:</strong><br>Desempeño en los extremos de velocidad declarados.<br>A mayor velocidad aumenta el riesgo de sello débil; el extremo debe cumplir.<br>Registro por condición."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registros de corridas extremas con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de velocidades extremas"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>El extremo máximo es el peor caso de sellado."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>EU GMP Anexo 15."
+      "html": "<strong>Referencia:</strong><br>ISO 11607-1/-2; ASTM F88; ASTM F1929; USP &lt;671&gt;; 21 CFR 211.122; 21 CFR 211.125; EU GMP Anexo 15."
      }
     ],
     "tabla": null,
@@ -35997,16 +36453,24 @@ var BancoEquipos = {
       "html": "<strong>Procedimiento:</strong><br>\n  1) Definir y justificar el peor caso con el análisis de riesgo aprobado<br>\n  2) Fabricar el lote de peor caso registrando los parámetros críticos<br>\n  3) Muestrear según el plan de muestreo aprobado<br>\n  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
      },
      {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = atributos en peor caso; unidad = %. Tipo de dato = continua. n = 3 réplicas del peor caso. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = todos los atributos en especificación. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable; toda exclusión se documenta y se conserva el dato original."
+     },
+     {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  El lote de peor caso cumple todos los atributos de calidad.<br>\n  La justificación del peor caso está documentada y aprobada."
+      "html": "<strong>Criterio de aceptación:</strong><br>Peor caso definido: producto de forma más difícil y film de menor sellabilidad.<br>Integridad y aspecto conformes en el peor caso.<br>Registro de la condición usada."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Justificación del peor caso y registro del lote con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de peor caso"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>El peor caso se define con datos del producto y del film."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>Análisis de riesgo del proceso."
+      "html": "<strong>Referencia:</strong><br>ISO 11607-1/-2; ASTM F88; ASTM F1929; USP &lt;671&gt;; 21 CFR 211.122; 21 CFR 211.125; EU GMP Anexo 15."
      }
     ],
     "tabla": null,
@@ -36029,16 +36493,24 @@ var BancoEquipos = {
       "html": "<strong>Procedimiento:</strong><br>\n  1) Fabricar con un lote distinto de film o aluminio (si aplica)<br>\n  2) Evaluar formado, sellado e integridad contra los mismos criterios<br>\n  3) Comparar contra los lotes de rutina<br>\n  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
      },
      {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = desempeño con otro film; unidad = %. Tipo de dato = continua. n = 1 lote con film alternativo. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = atributos en especificación. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable; toda exclusión se documenta y se conserva el dato original."
+     },
+     {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  El desempeño con el lote distinto cumple los mismos criterios.<br>\n  Sin dependencia de un solo lote de material."
+      "html": "<strong>Criterio de aceptación:</strong><br>Lote de material de empaque distinto mantiene el desempeño.<br>Integridad y aspecto conformes con el film alternativo.<br>Registro por lote de material."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registro comparativo con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de lote de material distinto"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>Un cambio de proveedor de film puede cambiar la ventana de sellado."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>Especificación del material de empaque."
+      "html": "<strong>Referencia:</strong><br>ISO 11607-1/-2; ASTM F88; ASTM F1929; USP &lt;671&gt;; 21 CFR 211.122; 21 CFR 211.125; EU GMP Anexo 15."
      }
     ],
     "tabla": null,
@@ -36061,16 +36533,24 @@ var BancoEquipos = {
       "html": "<strong>Procedimiento:</strong><br>\n  1) Muestrear al inicio, medio y fin de cada corrida PQ<br>\n  2) Muestrear adicionalmente tras cada paro o ajuste<br>\n  3) Ejecutar la prueba de fuga en cada muestra<br>\n  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
      },
      {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = integridad; unidad = pasa/no pasa. Tipo de dato = atributo. n = muestra por lote. Estadísticos = proporción de cumplimiento con IC binomial exacto. Regla de decisión = 0 fugas. Atípicos: no aplica a datos de atributo; toda exclusión se documenta y se conserva el registro original."
+     },
+     {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Sin fugas en ninguna muestra de la corrida.<br>\n  Sin fugas tras paros o ajustes."
+      "html": "<strong>Criterio de aceptación:</strong><br>Integridad con azul de metileno o método equivalente: 0 fugas.<br>Muestra en posiciones extremas del blíster.<br>Registro por muestra."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registros de fuga con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de integridad"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>El método directo es el que demuestra la barrera."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>USP &lt;1207&gt; (integridad de empaque, si aplica)."
+      "html": "<strong>Referencia:</strong><br>ISO 11607-1/-2; ASTM F88; ASTM F1929; USP &lt;671&gt;; 21 CFR 211.122; 21 CFR 211.125; EU GMP Anexo 15."
      }
     ],
     "tabla": null,
@@ -36093,16 +36573,24 @@ var BancoEquipos = {
       "html": "<strong>Procedimiento:</strong><br>\n  1) Medir la resistencia al pelado en varias posiciones del blíster y entre carriles (si aplica)<br>\n  2) Calcular media, RSD y mínimo<br>\n  3) Comparar contra el criterio<br>\n  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
      },
      {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = resistencia del sello; unidad = N/15 mm. Tipo de dato = continua. n = 5 posiciones por lote. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = cada posición dentro de especificación. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable; toda exclusión se documenta y se conserva el dato original."
+     },
+     {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  La resistencia cumple el mínimo en todas las posiciones.<br>\n  El RSD entre posiciones cumple el criterio."
+      "html": "<strong>Criterio de aceptación:</strong><br>Resistencia del sello (peel) dentro de la especificación en varias posiciones.<br>Método ASTM F88 declarado.<br>Registro por medición."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Mediciones de peel con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de resistencia del sello"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>La resistencia en rojo se confirma con el material y el producto."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>Especificación del blíster."
+      "html": "<strong>Referencia:</strong><br>ISO 11607-1/-2; ASTM F88; ASTM F1929; USP &lt;671&gt;; 21 CFR 211.122; 21 CFR 211.125; EU GMP Anexo 15."
      }
     ],
     "tabla": null,
@@ -36125,16 +36613,24 @@ var BancoEquipos = {
       "html": "<strong>Procedimiento:</strong><br>\n  1) Inspeccionar visualmente sello y formado de las muestras de cada lote<br>\n  2) Clasificar defectos por tipo<br>\n  3) Registrar por lote y punto de muestreo"
      },
      {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = defectos de sello y formado; unidad = %. Tipo de dato = atributo. n = muestra por punto. Estadísticos = proporción de cumplimiento con IC binomial exacto. Regla de decisión = defectos dentro del nivel de aceptación. Atípicos: no aplica a datos de atributo; toda exclusión se documenta y se conserva el registro original."
+     },
+     {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Los defectos están dentro del nivel aceptado.<br>\n  Sin defectos críticos."
+      "html": "<strong>Criterio de aceptación:</strong><br>Aspecto del sello y del formado sin arrugas, canales ni delaminación.<br>Defectos ≤ <span class=\"por-confirmar\">AQL 2,5 %</span> o el nivel del producto.<br>Registro fotográfico."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de aspecto (anexo del informe)"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>El nivel de aceptación se define con Calidad y el producto."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>Patrón de defectos aprobado."
+      "html": "<strong>Referencia:</strong><br>ISO 11607-1/-2; ASTM F88; ASTM F1929; USP &lt;671&gt;; 21 CFR 211.122; 21 CFR 211.125; EU GMP Anexo 15."
      }
     ],
     "tabla": null,
@@ -36156,16 +36652,24 @@ var BancoEquipos = {
       "html": "<strong>Procedimiento:</strong><br>\n  1) Medir las dimensiones del blíster en la muestra de cada lote (si aplica)<br>\n  2) Comparar contra especificación<br>\n  3) Procesar los datos crudos dimensionales en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
      },
      {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = dimensiones; unidad = mm. Tipo de dato = continua. n = 10 blísteres por lote. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = cada dimensión dentro de ±0,5 mm. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable; toda exclusión se documenta y se conserva el dato original."
+     },
+     {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Las dimensiones están dentro de especificación.<br>\n  Sin deriva entre lotes."
+      "html": "<strong>Criterio de aceptación:</strong><br>Dimensiones del blíster y del troquel dentro de <span class=\"por-confirmar\">±0,5 mm</span>.<br>Muestra por lote con instrumento calibrado.<br>Registro por medición."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registro dimensional con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis dimensional"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>Las dimensiones fuera de rango afectan el estuchado automático."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>Especificación del blíster."
+      "html": "<strong>Referencia:</strong><br>ISO 11607-1/-2; ASTM F88; ASTM F1929; USP &lt;671&gt;; 21 CFR 211.122; 21 CFR 211.125; EU GMP Anexo 15."
      }
     ],
     "tabla": null,
@@ -36188,16 +36692,24 @@ var BancoEquipos = {
       "html": "<strong>Procedimiento:</strong><br>\n  1) Pasar las muestras de desafío (vacías y dobles) y verificar su detección y rechazo<br>\n  2) Registrar la tasa real de defectos durante la corrida<br>\n  3) Comparar contra lo esperado<br>\n  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
      },
      {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = detección y rechazo; unidad = %. Tipo de dato = continua. n = 3 series por lote. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = 100 % de defectuosos rechazados. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable; toda exclusión se documenta y se conserva el dato original."
+     },
+     {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  El 100% del desafío se detecta y rechaza.<br>\n  La tasa real está dentro de lo esperado."
+      "html": "<strong>Criterio de aceptación:</strong><br>El sistema de visión detecta y rechaza el 100 % de las cavidades vacías y defectuosas.<br>Matriz de desafío: 100 % de las unidades malas se rechaza y el 0 % de las unidades buenas se rechaza.<br>Registro por lote."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registro del desafío con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de detección"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>Se verifica con muestras de desafío preparadas antes de la corrida."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>Manual del fabricante del sistema de visión."
+      "html": "<strong>Referencia:</strong><br>ISO 11607-1/-2; ASTM F88; ASTM F1929; USP &lt;671&gt;; 21 CFR 211.122; 21 CFR 211.125; EU GMP Anexo 15."
      }
     ],
     "tabla": null,
@@ -36220,16 +36732,24 @@ var BancoEquipos = {
       "html": "<strong>Procedimiento:</strong><br>\n  1) Recoger muestras durante la corrida y contar tabletas partidas o dañadas<br>\n  2) Calcular el porcentaje contra el total<br>\n  3) Comparar contra el límite definido<br>\n  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
      },
      {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = producto dañado; unidad = %. Tipo de dato = atributo. n = muestra por punto. Estadísticos = proporción de cumplimiento con IC binomial exacto. Regla de decisión = defectos dentro del nivel. Atípicos: no aplica a datos de atributo; toda exclusión se documenta y se conserva el registro original."
+     },
+     {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  El porcentaje de rotas cumple el límite definido.<br>\n  Sin tendencia creciente durante la corrida."
+      "html": "<strong>Criterio de aceptación:</strong><br>Producto roto o dañado dentro del nivel de aceptación (<span class=\"por-confirmar\">AQL 2,5 %</span>).<br>Registro por lote y por causa.<br>Sin aumento al final de la corrida."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de rotas con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de producto dañado"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>El daño suele aumentar con el desgaste del alimentador."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>Especificación del producto."
+      "html": "<strong>Referencia:</strong><br>ISO 11607-1/-2; ASTM F88; ASTM F1929; USP &lt;671&gt;; 21 CFR 211.122; 21 CFR 211.125; EU GMP Anexo 15."
      }
     ],
     "tabla": null,
@@ -36252,16 +36772,24 @@ var BancoEquipos = {
       "html": "<strong>Procedimiento:</strong><br>\n  1) Registrar el producto cargado de cada lote<br>\n  2) Contar blísteres buenos, rechazos y producto recuperado<br>\n  3) Cerrar el balance de masa<br>\n  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
      },
      {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = balance de masa; unidad = %. Tipo de dato = continua. n = 1 balance por lote. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = rendimiento ≥ 98 %. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable; toda exclusión se documenta y se conserva el dato original."
+     },
+     {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  El rendimiento cumple el rango especificado.<br>\n  El balance de masa cierra dentro de tolerancia."
+      "html": "<strong>Criterio de aceptación:</strong><br>Balance de masa: producto cargado contra blísteres buenos ≥ <span class=\"por-confirmar\">98 %</span>.<br>Pérdidas explicadas y registradas.<br>Registro del balance."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Balances de masa con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de rendimiento"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>El rendimiento en rojo se confirma con el producto y el histórico."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>Protocolo de fabricación del producto."
+      "html": "<strong>Referencia:</strong><br>ISO 11607-1/-2; ASTM F88; ASTM F1929; USP &lt;671&gt;; 21 CFR 211.122; 21 CFR 211.125; EU GMP Anexo 15."
      }
     ],
     "tabla": null,
@@ -36284,16 +36812,24 @@ var BancoEquipos = {
       "html": "<strong>Procedimiento:</strong><br>\n  1) Verificar legibilidad en todas las muestras de cada lote<br>\n  2) Comparar contra la orden de acondicionamiento<br>\n  3) Registrar defectos de impresión"
      },
      {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = legibilidad del código; unidad = %. Tipo de dato = atributo. n = muestra por turno. Estadísticos = proporción de cumplimiento con IC binomial exacto. Regla de decisión = 100 % legibles y correctos. Atípicos: no aplica a datos de atributo; toda exclusión se documenta y se conserva el registro original."
+     },
+     {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Lote y vencimiento legibles en el 100% de la muestra.<br>\n  Sin omisiones ni borrosidad."
+      "html": "<strong>Criterio de aceptación:</strong><br>Lote y vencimiento legibles en el 100 % de las muestras.<br>Contenido correcto verificado contra la orden.<br>Registro por lote."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de legibilidad (anexo del informe)"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>Un código ilegible inutiliza el lote."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>Orden de acondicionamiento del producto."
+      "html": "<strong>Referencia:</strong><br>ISO 11607-1/-2; ASTM F88; ASTM F1929; USP &lt;671&gt;; 21 CFR 211.122; 21 CFR 211.125; EU GMP Anexo 15."
      }
     ],
     "tabla": null,
@@ -36316,15 +36852,19 @@ var BancoEquipos = {
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  La conciliación cierra dentro de tolerancia.<br>\n  Sin mezcla de lotes."
+      "html": "<strong>Criterio de aceptación:</strong><br>Conciliación de material impreso: recibido = usado + destruido + devuelto.<br>Doble firma de la conciliación.<br>Registro por lote."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de conciliación (anexo del informe)"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>La conciliación de material impreso es requisito de 21 CFR 211.122 y 211.125."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>Orden de acondicionamiento del producto."
+      "html": "<strong>Referencia:</strong><br>ISO 11607-1/-2; ASTM F88; ASTM F1929; USP &lt;671&gt;; 21 CFR 211.122; 21 CFR 211.125; EU GMP Anexo 15."
      }
     ],
     "tabla": null,
@@ -36346,16 +36886,24 @@ var BancoEquipos = {
       "html": "<strong>Procedimiento:</strong><br>\n  1) Durante la corrida PQ, registrar los rechazos del sistema<br>\n  2) Verificar una muestra de rechazadas: corresponden a defectos reales<br>\n  3) Estimar el porcentaje de falsos rechazos<br>\n  4) Verificar que las buenas no se desvían indebidamente"
      },
      {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = rechazo con producto; unidad = %. Tipo de dato = continua. n = 3 series por lote. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = 100 % de defectuosos rechazados. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable; toda exclusión se documenta y se conserva el dato original."
+     },
+     {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Las rechazadas corresponden a defectos reales.<br>\n  Los falsos rechazos están dentro de lo aceptable."
+      "html": "<strong>Criterio de aceptación:</strong><br>Con producto, el sistema de visión y el de presencia rechazan los defectos del desafío.<br>Matriz de desafío: 100 % de las unidades malas se rechaza y el 0 % de las unidades buenas se rechaza.<br>Registro por lote."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de rechazo con producto (anexo del informe)"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>Con producto real aparecen defectos que el placebo no reproduce."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>Manual del fabricante del sistema de visión."
+      "html": "<strong>Referencia:</strong><br>ISO 11607-1/-2; ASTM F88; ASTM F1929; USP &lt;671&gt;; 21 CFR 211.122; 21 CFR 211.125; EU GMP Anexo 15."
      }
     ],
     "tabla": null,
@@ -36377,16 +36925,24 @@ var BancoEquipos = {
       "html": "<strong>Procedimiento:</strong><br>\n  1) Provocar una detención controlada durante la corrida (si aplica evaluación)<br>\n  2) Identificar y descartar los blísteres del ciclo afectado<br>\n  3) Reanudar y verificar el retorno a especificación"
      },
      {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = reinicio tras detención; unidad = pasa/no pasa. Tipo de dato = atributo. n = 3 detenciones por lote. Estadísticos = proporción de cumplimiento con IC binomial exacto. Regla de decisión = unidades conformes tras el descarte. Atípicos: no aplica a datos de atributo; toda exclusión se documenta y se conserva el registro original."
+     },
+     {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Los blísteres afectados se descartan según lo definido.<br>\n  Tras la reanudación los atributos retornan a especificación."
+      "html": "<strong>Criterio de aceptación:</strong><br>Tras una detención con estaciones calientes, el primer blíster producido es conforme o se descarta.<br>Descarte definido antes de la corrida.<br>Registro por evento."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de paro y reanudación (anexo del informe)"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>El primer blíster tras una parada suele tener sello débil por sobrecalentamiento."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>Procedimiento de operación de la blistera."
+      "html": "<strong>Referencia:</strong><br>ISO 11607-1/-2; ASTM F88; ASTM F1929; USP &lt;671&gt;; 21 CFR 211.122; 21 CFR 211.125; EU GMP Anexo 15."
      }
     ],
     "tabla": null,
@@ -36408,16 +36964,24 @@ var BancoEquipos = {
       "html": "<strong>Procedimiento:</strong><br>\n  1) Registrar temperaturas, presión y velocidad a intervalos definidos durante la corrida<br>\n  2) Evaluar deriva y variabilidad<br>\n  3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
      },
      {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = temperatura y presión durante el lote; unidad = °C y bar. Tipo de dato = continua. n = registro continuo. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = deriva ≤ 2 °C y 5 %. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable; toda exclusión se documenta y se conserva el dato original."
+     },
+     {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Todos los parámetros se mantienen en banda sin deriva.<br>\n  La variabilidad cumple el criterio."
+      "html": "<strong>Criterio de aceptación:</strong><br>Temperatura de formado y sellado, presión y dwell estables durante la corrida.<br>Sin deriva &gt; 2 °C ni caída de presión &gt; 5 %.<br>Registro continuo."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Tendencias con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de estabilidad del proceso"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>La deriva de sellado es la causa más frecuente de fugas al final del lote."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>Protocolo de fabricación del producto."
+      "html": "<strong>Referencia:</strong><br>ISO 11607-1/-2; ASTM F88; ASTM F1929; USP &lt;671&gt;; 21 CFR 211.122; 21 CFR 211.125; EU GMP Anexo 15."
      }
     ],
     "tabla": null,
@@ -36440,16 +37004,24 @@ var BancoEquipos = {
       "html": "<strong>Procedimiento:</strong><br>\n  1) Operar de forma continua durante la duración más larga prevista (si aplica)<br>\n  2) Registrar parámetros críticos y atributos a intervalos definidos<br>\n  3) Evaluar la estabilidad de atributos en el tiempo<br>\n  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
      },
      {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = continuidad operativa; unidad = pasa/no pasa. Tipo de dato = atributo. n = 1 corrida de duración máxima. Estadísticos = proporción de cumplimiento con IC binomial exacto. Regla de decisión = sin alarmas no tratadas. Atípicos: no aplica a datos de atributo; toda exclusión se documenta y se conserva el registro original."
+     },
+     {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Los atributos se mantienen en especificación durante toda la duración.<br>\n  Sin deriva significativa."
+      "html": "<strong>Criterio de aceptación:</strong><br>Operación continua durante la duración más larga prevista del lote.<br>Sin alarmas no tratadas ni paradas no programadas.<br>Atributos estables al final."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registro con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de operación continua"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>La duración se toma del lote más largo previsto."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>Protocolo de fabricación del producto."
+      "html": "<strong>Referencia:</strong><br>ISO 11607-1/-2; ASTM F88; ASTM F1929; USP &lt;671&gt;; 21 CFR 211.122; 21 CFR 211.125; EU GMP Anexo 15."
      }
     ],
     "tabla": null,
@@ -36472,16 +37044,24 @@ var BancoEquipos = {
       "html": "<strong>Procedimiento:</strong><br>\n  1) Pasar los blísteres por el estuchador (si aplica)<br>\n  2) Registrar atascos y daños<br>\n  3) Verificar prospecto correcto, estuche correcto y ausencia de faltantes en cada unidad<br>\n  4) Ejecutar el despeje de línea con lista de verificación y doble firma antes y después del lote<br>\n  5) Conciliar materiales impresos (recibidos = aplicados + rechazados + sobrantes + destruidos) dentro del límite definido, con destrucción documentada de sobrantes<br>\n  6) Procesar los datos crudos de defectos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
      },
      {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = conciliación de prospectos y blísteres; unidad = unidades. Tipo de dato = atributo. n = 100 % del lote. Estadísticos = proporción de cumplimiento con IC binomial exacto. Regla de decisión = recibido = usado + destruido + devuelto. Atípicos = Grubbs solo si n ≥ 7; toda exclusión se documenta y se conserva el dato original."
+     },
+     {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Sin atascos que detengan la línea fuera de criterio.<br>\n  Sin daños a los blísteres por el estuchado.<br>\n  Prospecto y estuche correctos sin faltantes.<br>\n  Despeje con doble firma y conciliación dentro del límite con sobrantes destruidos."
+      "html": "<strong>Criterio de aceptación:</strong><br>Estuchado o empaque secundario: los blísteres ingresan completos, con prospecto y sin daño.<br>Conciliación de prospectos con doble firma; los sobrantes quedan destruidos y registrados.<br>Requisito 21 CFR 211.122 y 211.125."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registro con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de estuchado"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>La conciliación de prospectos se firma por dos personas; un sobrante sin destruir es un hallazgo crítico."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>Manual del fabricante del estuchador; 21 CFR 211.122, 211.125 y 211.130 (empaque, etiquetado y controles)."
+      "html": "<strong>Referencia:</strong><br>ISO 11607-1/-2; ASTM F88; ASTM F1929; USP &lt;671&gt;; 21 CFR 211.122; 21 CFR 211.125; EU GMP Anexo 15."
      }
     ],
     "tabla": null,
@@ -36504,16 +37084,24 @@ var BancoEquipos = {
       "html": "<strong>Procedimiento:</strong><br>\n  1) Referenciar el estudio de estabilidad aplicable al producto en blíster (si aplica)<br>\n  2) Verificar la especificación de barrera del material<br>\n  3) Procesar los datos de respaldo en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
      },
      {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = permeabilidad de la barrera (WVTR/OTR); unidad = g/m²·día. Tipo de dato = analitico. n = 3 muestras por lote. Estadísticos = mediana, mínimo, máximo e IC 95 %. Regla de decisión = dentro de la especificación del material. Atípicos = Grubbs solo si n ≥ 7; toda exclusión se documenta y se conserva el dato original."
+     },
+     {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  El estudio de estabilidad respalda la vida útil en el blíster.<br>\n  El material cumple la especificación de barrera."
+      "html": "<strong>Criterio de aceptación:</strong><br>La barrera del blíster cubre la protección requerida (WVTR u OTR según especificación).<br>Método declarado y muestra por lote.<br>Registro por medición."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Referencia al estudio con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de barrera"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>La barrera se confirma con el material y el estudio de estabilidad, no con la apariencia."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>Estudio de estabilidad del producto; especificación del material."
+      "html": "<strong>Referencia:</strong><br>ISO 11607-1/-2; ASTM F88; ASTM F1929; USP &lt;671&gt;; 21 CFR 211.122; 21 CFR 211.125; EU GMP Anexo 15."
      }
     ],
     "tabla": null,
@@ -37113,16 +37701,24 @@ var BancoEquipos = {
       "html": "<strong>Procedimiento:</strong><br>\n  1) Justificar el número de lotes con el análisis de riesgo aprobado<br>\n  2) Etiquetar tres lotes consecutivos a velocidad nominal registrando parámetros críticos<br>\n  3) Muestrear cada lote según el plan de muestreo aprobado<br>\n  4) Evaluar los atributos de calidad de cada lote contra especificación<br>\n  5) Procesar los datos crudos de los tres lotes en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
      },
      {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = atributos por lote; unidad = mm, grado. Tipo de dato = continua. n = 3 lotes con muestreo inicio/medio/fin. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = todos los atributos en especificación. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable; toda exclusión se documenta y se conserva el dato original."
+     },
+     {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Los tres lotes cumplen todos los atributos de calidad.<br>\n  La variabilidad entre lotes está dentro de lo esperado."
+      "html": "<strong>Criterio de aceptación:</strong><br>Tres (3) lotes consecutivos a velocidad nominal con posición, adhesión y código conformes.<br>Sin tendencia entre lotes.<br>Registro por lote."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registros de los tres lotes con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de lotes consecutivos"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>Los límites salen de la especificación del producto y del cliente."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>EU GMP Anexo 15; análisis de riesgo del proceso."
+      "html": "<strong>Referencia:</strong><br>ISO/IEC 15416; ISO/IEC 15415; 21 CFR 211.122; 21 CFR 211.125; 21 CFR 211.130; EU GMP Anexo 15."
      }
     ],
     "tabla": null,
@@ -37145,16 +37741,24 @@ var BancoEquipos = {
       "html": "<strong>Procedimiento:</strong><br>\n  1) Etiquetar una corrida a velocidad mínima registrando atributos críticos<br>\n  2) Etiquetar una corrida a velocidad máxima<br>\n  3) Muestrear inicio, medio y fin de cada corrida<br>\n  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
      },
      {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = atributos en extremos; unidad = mm. Tipo de dato = continua. n = 3 réplicas por extremo. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = todos los atributos en especificación. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable; toda exclusión se documenta y se conserva el dato original."
+     },
+     {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Ambas corridas cumplen todos los atributos de calidad.<br>\n  Sin desalineación ni arrugas fuera de criterio a velocidad máxima."
+      "html": "<strong>Criterio de aceptación:</strong><br>Desempeño en los extremos de velocidad: a mayor velocidad aumenta el error de posición.<br>Posición y adhesión conformes en ambos extremos.<br>Registro por condición."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registros de corridas extremas con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de velocidades extremas"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>El extremo máximo es el peor caso de aplicación."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>EU GMP Anexo 15."
+      "html": "<strong>Referencia:</strong><br>ISO/IEC 15416; ISO/IEC 15415; 21 CFR 211.122; 21 CFR 211.125; 21 CFR 211.130; EU GMP Anexo 15."
      }
     ],
     "tabla": null,
@@ -37177,16 +37781,24 @@ var BancoEquipos = {
       "html": "<strong>Procedimiento:</strong><br>\n  1) Definir y justificar el peor caso con el análisis de riesgo aprobado<br>\n  2) Etiquetar el lote de peor caso registrando los parámetros críticos<br>\n  3) Muestrear según el plan de muestreo aprobado<br>\n  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
      },
      {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = atributos en peor caso; unidad = mm. Tipo de dato = continua. n = 3 réplicas del peor caso. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = todos los atributos en especificación. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable; toda exclusión se documenta y se conserva el dato original."
+     },
+     {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  El lote de peor caso cumple todos los atributos de calidad.<br>\n  La justificación del peor caso está documentada y aprobada."
+      "html": "<strong>Criterio de aceptación:</strong><br>Peor caso definido: envase más pequeño o de menor superficie de etiqueta.<br>Posición y adhesión conformes en el peor caso.<br>Registro de la condición usada."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Justificación del peor caso y registro del lote con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de peor caso"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>El envase pequeño es el peor caso de sujeción y curvatura."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>Análisis de riesgo del proceso."
+      "html": "<strong>Referencia:</strong><br>ISO/IEC 15416; ISO/IEC 15415; 21 CFR 211.122; 21 CFR 211.125; 21 CFR 211.130; EU GMP Anexo 15."
      }
     ],
     "tabla": null,
@@ -37209,16 +37821,24 @@ var BancoEquipos = {
       "html": "<strong>Procedimiento:</strong><br>\n  1) Etiquetar con un lote distinto de etiquetas (si aplica)<br>\n  2) Evaluar aplicación y código contra los mismos criterios<br>\n  3) Comparar contra los lotes de rutina<br>\n  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
      },
      {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = desempeño con otro lote de etiquetas; unidad = mm. Tipo de dato = continua. n = 1 lote por proveedor. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = atributos en especificación. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable; toda exclusión se documenta y se conserva el dato original."
+     },
+     {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  El desempeño con el lote distinto cumple los mismos criterios.<br>\n  Sin dependencia de un solo lote de material."
+      "html": "<strong>Criterio de aceptación:</strong><br>Lotes de etiquetas distintos (si aplica) mantienen el desempeño.<br>Posición y adhesión conformes con cada lote de etiqueta.<br>Registro por lote de etiqueta."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registro comparativo con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de lote de material distinto"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>Un cambio de lote de etiqueta puede cambiar la adhesión."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>Especificación de la etiqueta."
+      "html": "<strong>Referencia:</strong><br>ISO/IEC 15416; ISO/IEC 15415; 21 CFR 211.122; 21 CFR 211.125; 21 CFR 211.130; EU GMP Anexo 15."
      }
     ],
     "tabla": null,
@@ -37241,16 +37861,24 @@ var BancoEquipos = {
       "html": "<strong>Procedimiento:</strong><br>\n  1) Muestrear al inicio, a la mitad y al final de cada corrida PQ<br>\n  2) Muestrear adicionalmente tras cada paro, empalme o ajuste<br>\n  3) Evaluar posición, alineación y adhesión por punto"
      },
      {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = posición por punto; unidad = mm. Tipo de dato = continua. n = 3 puntos por lote. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = cada punto dentro de ±1 mm. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable; toda exclusión se documenta y se conserva el dato original."
+     },
+     {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Todos los puntos cumplen dentro de especificación.<br>\n  Sin tendencia significativa entre puntos."
+      "html": "<strong>Criterio de aceptación:</strong><br>Posición, alineación y adhesión en 3 puntos por lote (inicio, medio y final).<br>Cada punto dentro de ±1 mm.<br>Registro por punto."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Plan de muestreo y resultados (anexo del informe)"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>La etiqueta se corre al final del rollo si la tensión no está controlada."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>Plan de muestreo aprobado."
+      "html": "<strong>Referencia:</strong><br>ISO/IEC 15416; ISO/IEC 15415; 21 CFR 211.122; 21 CFR 211.125; 21 CFR 211.130; EU GMP Anexo 15."
      }
     ],
     "tabla": null,
@@ -37273,15 +37901,19 @@ var BancoEquipos = {
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Sin levantamiento fuera del nivel aceptado.<br>\n  Adhesión conservada tras las condiciones definidas."
+      "html": "<strong>Criterio de aceptación:</strong><br>Adhesión en el tiempo si aplica: la etiqueta se mantiene adherida tras almacenamiento.<br>Sin bordes levantados ni desprendimiento.<br>Registro por condición."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de adhesión en el tiempo (anexo del informe)"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>Una etiqueta que se despega en el mercado es un defecto crítico."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>Especificación de la etiqueta."
+      "html": "<strong>Referencia:</strong><br>ISO/IEC 15416; ISO/IEC 15415; 21 CFR 211.122; 21 CFR 211.125; 21 CFR 211.130; EU GMP Anexo 15."
      }
     ],
     "tabla": null,
@@ -37303,16 +37935,24 @@ var BancoEquipos = {
       "html": "<strong>Procedimiento:</strong><br>\n  1) Inspeccionar visualmente las muestras de cada lote<br>\n  2) Clasificar defectos por tipo<br>\n  3) Registrar por lote y punto de muestreo"
      },
      {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = defectos de etiqueta; unidad = %. Tipo de dato = atributo. n = muestra por punto. Estadísticos = proporción de cumplimiento con IC binomial exacto. Regla de decisión = defectos dentro del nivel. Atípicos: no aplica a datos de atributo; toda exclusión se documenta y se conserva el registro original."
+     },
+     {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Los defectos están dentro del nivel aceptado.<br>\n  Sin defectos críticos."
+      "html": "<strong>Criterio de aceptación:</strong><br>Aspecto sin burbujas, arrugas, bordes levantados ni etiquetas superpuestas.<br>Defectos ≤ <span class=\"por-confirmar\">AQL 2,5 %</span> o el nivel del producto.<br>Registro fotográfico."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de aspecto (anexo del informe)"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>El nivel de aceptación se define con Calidad."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>Patrón de defectos aprobado."
+      "html": "<strong>Referencia:</strong><br>ISO/IEC 15416; ISO/IEC 15415; 21 CFR 211.122; 21 CFR 211.125; 21 CFR 211.130; EU GMP Anexo 15."
      }
     ],
     "tabla": null,
@@ -37334,16 +37974,24 @@ var BancoEquipos = {
       "html": "<strong>Procedimiento:</strong><br>\n  1) Leer cada código con lector y comparar contra la orden<br>\n  2) Inspeccionar manualmente la muestra de referencia<br>\n  3) Registrar coincidencias y desvíos"
      },
      {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = correspondencia del código; unidad = %. Tipo de dato = atributo. n = 100 % de las unidades del lote. Estadísticos = proporción de cumplimiento con IC binomial exacto. Regla de decisión = 100 % correctas. Atípicos: no aplica a datos de atributo; toda exclusión se documenta y se conserva el registro original."
+     },
+     {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Coincidencia del 100% contra la orden.<br>\n  Sin códigos omitidos o alterados."
+      "html": "<strong>Criterio de aceptación:</strong><br>El 100 % del código verificado contra la orden: lote, vencimiento y GTIN correctos.<br>Verificación por visión o lectura registrada.<br>Sin unidades con código de otro lote."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de verificación del código (anexo del informe)"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>Es el control más importante de la etiquetadora."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>Orden de acondicionamiento del producto."
+      "html": "<strong>Referencia:</strong><br>ISO/IEC 15416; ISO/IEC 15415; 21 CFR 211.122; 21 CFR 211.125; 21 CFR 211.130; EU GMP Anexo 15."
      }
     ],
     "tabla": null,
@@ -37365,16 +38013,24 @@ var BancoEquipos = {
       "html": "<strong>Procedimiento:</strong><br>\n  1) Evaluar legibilidad y contraste al inicio, medio y fin de la corrida<br>\n  2) Verificar el consumo de cinta o tinta durante la corrida<br>\n  3) Registrar el resultado"
      },
      {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = calidad del código; unidad = grado. Tipo de dato = continua. n = 10 muestras por punto. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = grado ≥ B. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable; toda exclusión se documenta y se conserva el dato original."
+     },
+     {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Código legible en toda la corrida.<br>\n  Sin degradación por consumo fuera de criterio."
+      "html": "<strong>Criterio de aceptación:</strong><br>Legibilidad y contraste del código en toda la corrida, grado ≥ <span class=\"por-confirmar\">B</span>.<br>Sin degradación al final del rollo.<br>Registro por punto."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de legibilidad (anexo del informe)"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>El grado en rojo se confirma con el cliente y la simbología."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>Orden de acondicionamiento del producto."
+      "html": "<strong>Referencia:</strong><br>ISO/IEC 15416; ISO/IEC 15415; 21 CFR 211.122; 21 CFR 211.125; 21 CFR 211.130; EU GMP Anexo 15."
      }
     ],
     "tabla": null,
@@ -37396,16 +38052,24 @@ var BancoEquipos = {
       "html": "<strong>Procedimiento:</strong><br>\n  1) Ejecutar el cambio de lote según el procedimiento (si aplica)<br>\n  2) Verificar primeras y últimas unidades sin mezcla<br>\n  3) Registrar la verificación por segunda persona o sistema"
      },
      {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = cambio de lote; unidad = pasa/no pasa. Tipo de dato = atributo. n = 3 cambios por lote. Estadísticos = proporción de cumplimiento con IC binomial exacto. Regla de decisión = sin residuo del lote anterior. Atípicos: no aplica a datos de atributo; toda exclusión se documenta y se conserva el registro original."
+     },
+     {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Sin mezcla de códigos en el cambio.<br>\n  Verificación independiente registrada."
+      "html": "<strong>Criterio de aceptación:</strong><br>Cambio de lote: primera y últimas unidades verificadas con el código correcto.<br>Sin residuo del lote anterior.<br>Registro del cambio."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de cambio de lote (anexo del informe)"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>El cambio de lote es el momento de mayor riesgo de mezcla."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>Orden de acondicionamiento del producto."
+      "html": "<strong>Referencia:</strong><br>ISO/IEC 15416; ISO/IEC 15415; 21 CFR 211.122; 21 CFR 211.125; 21 CFR 211.130; EU GMP Anexo 15."
      }
     ],
     "tabla": null,
@@ -37427,16 +38091,24 @@ var BancoEquipos = {
       "html": "<strong>Procedimiento:</strong><br>\n  1) Introducir unidades con etiqueta equivocada al arranque, en medio y tras un cambio<br>\n  2) Verificar su detección y rechazo<br>\n  3) Registrar el resultado por momento"
      },
      {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = rechazo de lote defectuoso; unidad = %. Tipo de dato = continua. n = 1 rollo con defectos conocidos. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = 100 % rechazado. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable; toda exclusión se documenta y se conserva el dato original."
+     },
+     {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  El 100% de las unidades equivocadas se rechaza.<br>\n  Ninguna pasa como buena."
+      "html": "<strong>Criterio de aceptación:</strong><br>La visión rechaza el 100 % de las unidades de un rollo o lote de etiquetas con defecto conocido.<br>Matriz de desafío: 100 % de las unidades malas se rechaza y el 0 % de las unidades buenas se rechaza.<br>Registro por lote."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registro del desafío mix-up (anexo del informe)"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>Se prepara un rollo con defectos conocidos antes de la corrida."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>Manual del fabricante del sistema de visión."
+      "html": "<strong>Referencia:</strong><br>ISO/IEC 15416; ISO/IEC 15415; 21 CFR 211.122; 21 CFR 211.125; 21 CFR 211.130; EU GMP Anexo 15."
      }
     ],
     "tabla": null,
@@ -37459,15 +38131,19 @@ var BancoEquipos = {
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Línea despejada sin restos del lote anterior.<br>\n  Verificación independiente registrada."
+      "html": "<strong>Criterio de aceptación:</strong><br>Despeje de línea: tras cada lote no quedan etiquetas, envases ni producto del anterior.<br>El 100 % de los componentes retirados y verificados.<br>Registro firmado por dos personas."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de despeje de línea (anexo del informe)"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>El despeje sin verificación independiente es riesgo de mezcla."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>Procedimiento de despeje de línea."
+      "html": "<strong>Referencia:</strong><br>ISO/IEC 15416; ISO/IEC 15415; 21 CFR 211.122; 21 CFR 211.125; 21 CFR 211.130; EU GMP Anexo 15."
      }
     ],
     "tabla": null,
@@ -37490,15 +38166,19 @@ var BancoEquipos = {
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  La conciliación cierra dentro del límite definido.<br>\n  Registro firmado."
+      "html": "<strong>Criterio de aceptación:</strong><br>Conciliación de etiquetas: recibidas = aplicadas + destruidas + devueltas, con diferencia ≤ <span class=\"por-confirmar\">0,1 %</span>.<br>Doble firma de la conciliación.<br>Registro por lote."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de conciliación firmado (anexo del informe)"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>La conciliación de etiquetas es requisito de 21 CFR 211.122 y 211.125."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>Orden de acondicionamiento del producto."
+      "html": "<strong>Referencia:</strong><br>ISO/IEC 15416; ISO/IEC 15415; 21 CFR 211.122; 21 CFR 211.125; 21 CFR 211.130; EU GMP Anexo 15."
      }
     ],
     "tabla": null,
@@ -37520,16 +38200,24 @@ var BancoEquipos = {
       "html": "<strong>Procedimiento:</strong><br>\n  1) Durante la corrida PQ, registrar los rechazos del sistema<br>\n  2) Verificar una muestra de rechazadas: corresponden a defectos reales<br>\n  3) Estimar el porcentaje de falsos rechazos"
      },
      {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = rechazo de desafío; unidad = %. Tipo de dato = continua. n = 3 series por lote. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = 100 % de defectuosos y ≤ 0,5 % de buenos. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable; toda exclusión se documenta y se conserva el dato original."
+     },
+     {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Todos los defectos del desafío se rechazan.<br>\n  Los falsos rechazos están dentro del límite definido."
+      "html": "<strong>Criterio de aceptación:</strong><br>Todos los defectos del desafío se rechazan y el porcentaje de buenas rechazadas es ≤ <span class=\"por-confirmar\">0,5 %</span>.<br>Registro por tipo de defecto.<br>Sin falsos rechazos que oculten un problema de ajuste."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de rechazo con producto (anexo del informe)"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>El porcentaje de falsos rechazos en rojo se confirma con el producto."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>Manual del fabricante del sistema de visión."
+      "html": "<strong>Referencia:</strong><br>ISO/IEC 15416; ISO/IEC 15415; 21 CFR 211.122; 21 CFR 211.125; 21 CFR 211.130; EU GMP Anexo 15."
      }
     ],
     "tabla": null,
@@ -37552,15 +38240,19 @@ var BancoEquipos = {
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Producto rechazado separado e identificado.<br>\n  Manejo conforme al SOP."
+      "html": "<strong>Criterio de aceptación:</strong><br>Producto rechazado separado, identificado y manejado según procedimiento.<br>Sin reingreso al lote sin aprobación.<br>Registro por lote."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de producto rechazado (anexo del informe)"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>El rechazo sin control puede volver al lote."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>SOP de manejo de rechazos."
+      "html": "<strong>Referencia:</strong><br>ISO/IEC 15416; ISO/IEC 15415; 21 CFR 211.122; 21 CFR 211.125; 21 CFR 211.130; EU GMP Anexo 15."
      }
     ],
     "tabla": null,
@@ -37582,16 +38274,24 @@ var BancoEquipos = {
       "html": "<strong>Procedimiento:</strong><br>\n  1) Operar de forma continua durante la duración más larga prevista (si aplica)<br>\n  2) Registrar parámetros críticos y atributos a intervalos definidos<br>\n  3) Evaluar la estabilidad de atributos en el tiempo<br>\n  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
      },
      {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = continuidad operativa; unidad = pasa/no pasa. Tipo de dato = atributo. n = 1 corrida de duración máxima. Estadísticos = proporción de cumplimiento con IC binomial exacto. Regla de decisión = sin alarmas no tratadas. Atípicos: no aplica a datos de atributo; toda exclusión se documenta y se conserva el registro original."
+     },
+     {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Los atributos se mantienen en especificación durante toda la duración.<br>\n  Sin deriva significativa."
+      "html": "<strong>Criterio de aceptación:</strong><br>Operación continua durante ≥ <span class=\"por-confirmar\">8 h</span> o la duración del lote más largo.<br>Sin alarmas no tratadas ni paradas no programadas.<br>Atributos estables al final."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registro con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de operación continua"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>La duración se toma del lote más largo previsto."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>Protocolo de fabricación del producto."
+      "html": "<strong>Referencia:</strong><br>ISO/IEC 15416; ISO/IEC 15415; 21 CFR 211.122; 21 CFR 211.125; 21 CFR 211.130; EU GMP Anexo 15."
      }
     ],
     "tabla": null,
@@ -37614,16 +38314,24 @@ var BancoEquipos = {
       "html": "<strong>Procedimiento:</strong><br>\n  1) Provocar un paro, un empalme y un reinicio controlados<br>\n  2) Verificar la recuperación de posición y código<br>\n  3) Verificar el rechazo o descarte de las unidades afectadas"
      },
      {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = conformidad tras evento; unidad = mm. Tipo de dato = continua. n = 3 eventos por lote. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = unidades conformes tras el descarte. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable; toda exclusión se documenta y se conserva el dato original."
+     },
+     {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Posición y código recuperados tras cada evento.<br>\n  Unidades afectadas rechazadas o descartadas."
+      "html": "<strong>Criterio de aceptación:</strong><br>Tras paros, empalmes de rollo y reinicios, la posición y el código son conformes.<br>Descarte definido tras cada evento.<br>Registro por evento."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de paros y reinicios (anexo del informe)"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>El empalme de rollo es el evento de mayor riesgo de etiqueta sin código."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>Procedimiento de operación de la etiquetadora."
+      "html": "<strong>Referencia:</strong><br>ISO/IEC 15416; ISO/IEC 15415; 21 CFR 211.122; 21 CFR 211.125; 21 CFR 211.130; EU GMP Anexo 15."
      }
     ],
     "tabla": null,
@@ -37645,16 +38353,24 @@ var BancoEquipos = {
       "html": "<strong>Procedimiento:</strong><br>\n  1) Ejecutar el cambio de formato según el procedimiento<br>\n  2) Verificar la primera unidad contra especificación<br>\n  3) Registrar la liberación de arranque<br>\n  4) Procesar los datos crudos de verificación en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
      },
      {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = pasos del cambio de formato ejecutados; unidad = pasa/no pasa. Tipo de dato = atributo. n = 100 % de los pasos. Estadísticos = media, DE e IC 95 %. Regla de decisión = todos ejecutados y verificados. Atípicos = Grubbs solo si n ≥ 7; toda exclusión se documenta y se conserva el dato original."
+     },
+     {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Primera unidad conforme antes de liberar.<br>\n  Liberación documentada y firmada."
+      "html": "<strong>Criterio de aceptación:</strong><br>Cambio de formato: procedimiento de ajuste, verificación y primeras unidades aprobadas.<br>El 100 % de los pasos del procedimiento ejecutados.<br>Registro por cambio."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de cambio de formato con data cruda y reporte<br>\n  - Data cruda y reporte estadístico del análisis de cambio de formato"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>Un formato sin verificación inicial libera unidades fuera de posición."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>Procedimiento de cambio de formato."
+      "html": "<strong>Referencia:</strong><br>ISO/IEC 15416; ISO/IEC 15415; 21 CFR 211.122; 21 CFR 211.125; 21 CFR 211.130; EU GMP Anexo 15."
      }
     ],
     "tabla": null,
@@ -37678,15 +38394,19 @@ var BancoEquipos = {
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Sin atascos que detengan la línea fuera de criterio.<br>\n  Sin daño a etiqueta ni código.<br>\n  Prospecto y estuche correctos sin faltantes.<br>\n  Despeje con doble firma y conciliación dentro del límite con sobrantes destruidos."
+      "html": "<strong>Criterio de aceptación:</strong><br>Las unidades etiquetadas pasan por el estuchado o encajado con prospecto.<br>Conciliación de prospectos con doble firma; los sobrantes quedan destruidos y registrados.<br>Requisito 21 CFR 211.122."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de aguas abajo (anexo del informe)"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>La conciliación de prospectos se firma por dos personas; un sobrante sin destruir es un hallazgo crítico."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>Manual del fabricante del estuchador; 21 CFR 211.122, 211.125 y 211.130 (empaque, etiquetado y controles)."
+      "html": "<strong>Referencia:</strong><br>ISO/IEC 15416; ISO/IEC 15415; 21 CFR 211.122; 21 CFR 211.125; 21 CFR 211.130; EU GMP Anexo 15."
      }
     ],
     "tabla": null,
@@ -37709,15 +38429,19 @@ var BancoEquipos = {
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Lectura y comunicación correctas con trazabilidad.<br>\n  Rechazadas correctamente excluidas."
+      "html": "<strong>Criterio de aceptación:</strong><br>Serialización y agregación, si aplica: lectura y comunicación correctas en el 100 % de las unidades.<br>Sin códigos duplicados ni no comunicados.<br>Registro por lote."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de serialización (anexo del informe)"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>Aplica si hay serialización; si no, No Aplica con aprobación."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>Manual del sistema de trazabilidad."
+      "html": "<strong>Referencia:</strong><br>ISO/IEC 15416; ISO/IEC 15415; 21 CFR 211.122; 21 CFR 211.125; 21 CFR 211.130; EU GMP Anexo 15."
      }
     ],
     "tabla": null,
