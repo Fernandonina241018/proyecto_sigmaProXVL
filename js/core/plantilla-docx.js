@@ -1878,24 +1878,6 @@ const PlantillaDocx = (() => {
       inf = parts.map(info);
     }
 
-    // ---- aviso de portada: valores propuestos sin confirmar ----
-    // Si el banco marca valores con `por-confirmar`, la portada lo declara con
-    // el número: un revisor no puede firmar sin verlo.
-    // Solo valores propuestos del propio ensayo: la nota de pendientes repite
-    // los mismos textos en rojo y no debe inflar el contador.
-    const nRojo = ensayos.reduce((acc, a) => acc + (a.secciones || [])
-      .filter((x) => !/^(pendientes|nota)/i.test(String(x.et || '')))
-      .map((x) => (String(x.html || '').match(/por-confirmar/g) || []).length)
-      .reduce((s, n) => s + n, 0), 0);
-    if (nRojo) {
-      const iTit = parts.findIndex((x) => x.tag === 'w:p' && /^CALIFICACI[ÓO]N DE/i.test(info(x).texto));
-      if (iTit >= 0) {
-        const aviso = 'AVISO — Este protocolo contiene ' + nRojo
-          + ' valor(es) propuesto(s) pendiente(s) de confirmación. No ejecutar ni firmar sin aprobación del responsable.';
-        parts.splice(iTit + 1, 0, { tag: 'w:p', xml: parrafo(parts[iTit].xml, [{ t: ROJO_INI + aviso + ROJO_FIN, b: true }]) });
-      }
-    }
-
     // ---- ensamblar ----
     let cuerpoXml = fijarTexto11(parts.map((x) => x.xml).join(''));
     const tipoEnt = String(d.tipo || '').trim() + ' ' + String((entidad && (entidad.nombre || entidad.id)) || '');

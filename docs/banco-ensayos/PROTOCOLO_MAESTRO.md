@@ -146,7 +146,6 @@ Todo ensayo de bloques 2-3 usa las mismas seis secciones, en este orden:
 - El rojo no es un criterio aprobado: el responsable debe confirmarlo o reemplazarlo antes de firmar. La nota al analista lista esos pendientes en rojo y el protocolo no se ejecuta hasta resolverlos.
 - Si un ensayo no declara criticidad o instrumentos, la cabecera del resultado también los muestra en rojo.
 - El generador conserva la marca solo para el texto: nunca deja marcadores de control en el DOCX.
-- **Portada:** si el protocolo tiene valores propuestos, la primera página lleva el aviso «Este protocolo contiene N valor(es) propuesto(s) pendiente(s) de confirmación. No ejecutar ni firmar sin aprobación del responsable», además del rojo en el criterio y de la nota final.
 - **Lista de confirmación:** `npm run banco:check -- --por-confirmar` imprime, por familia y ensayo, cada valor propuesto. Es la lista que firma el responsable; se genera desde el banco, no se mantiene a mano.
 
 ## 6. Criterios de aceptación

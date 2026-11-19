@@ -12,7 +12,7 @@
 
 <p><a href="../sistemas.html">← Sistemas</a></p>
 <h2>OQ — Sistema de agua purificada (banco por familia)</h2>
-<p>Versión del banco: <span data-banco-version>SIS-OQ-AP 2026-10-14 v1</span></p>
+<p>Versión del banco: <span data-banco-version>SIS-OQ-AP 2026-11-18 v2</span></p>
 <p>Ensayos de Calificación de Operación específicos del sistema de agua purificada y WFI (<span class="equipo">equipo</span>). Se filtran por familia (<code>data-familia="agua-purificada"</code>) según la entidad elegida en el paso 1. Fuente: ENSAYOS.txt del usuario (sistema de agua).</p>
 
 <!-- ================= OQ ================= -->
@@ -63,14 +63,16 @@
   <h3>SIS-OQ-AP-001 — Parada de emergencia</h3>
   <p><strong>Objetivo:</strong><br>Verificar la parada de emergencia del sistema de agua.</p>
   <p><strong>Procedimiento:</strong><br>
-  1) Identificar las paradas de emergencia del sistema<br>
-  2) Accionar la parada y verificar el estado seguro del sistema</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  La parada lleva el sistema a estado seguro.<br>
-  Se exige rearme manual según lo definido.</p>
+  1) Identificar cada parada de emergencia del sistema y su ubicación<br>
+  2) Accionar la parada y registrar el tiempo hasta el estado seguro<br>
+  3) Verificar cierre de alimentación, apertura de drenaje y ausencia de reinicio automático<br>
+  4) Repetir 3 veces y confirmar que el rearme es manual</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = estado del sistema tras la parada de emergencia; unidad = pasa/no pasa por repetición. Tipo de dato = atributo. n = 3 repeticiones por condición de parada. Estadísticos = proporción de cumplimiento con IC binomial exacto. Regla de decisión = las 3 repeticiones deben pasar; 1 falla invalida el ensayo. Atípicos: no aplica a datos de atributo; toda exclusión de una repetición se documenta y se conserva el registro original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>La parada detiene la alimentación y abre el drenaje en ≤ <span class="por-confirmar">5 s (tiempo de diseño)</span>.<br>El sistema queda en estado seguro y exige rearme manual; no reinicia solo.<br>El evento queda registrado con fecha, hora, usuario y causa.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro de la prueba (anexo del informe)</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante del sistema.</p>
+  <p><strong>Nota:</strong><br>El tiempo de respuesta en rojo es una propuesta de diseño: el responsable debe confirmarlo contra la especificación del fabricante antes de firmar.</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante del sistema; USP &lt;1231&gt;; ISPE Baseline Guide Vol. 4 (Water and Steam Systems); EU GMP Anexo 15; 21 CFR 211.160(b).</p>
 </article>
 
 <article data-bloque="3" id="art-SIS-OQ-AP-002" class="ensayo" data-id="SIS-OQ-AP-002" data-fase="OQ" data-cond="ambas" data-familia="agua-purificada">
@@ -80,11 +82,12 @@
   1) Simular nivel mínimo del tanque y verificar que la bomba no opera en seco<br>
   2) Simular alta temperatura y verificar la protección<br>
   3) Simular presión y caudal mínimos de la bomba y verificar la respuesta</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Cada interlock actúa ante su condición.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = actuación de cada interlock ante su condición; unidad = pasa/no pasa por repetición. Tipo de dato = atributo. n = 3 repeticiones por cada interlock. Estadísticos = proporción de cumplimiento con IC binomial exacto. Regla de decisión = cada interlock debe actuar en las 3 repeticiones. Atípicos: no aplica a datos de atributo; toda exclusión de una repetición se documenta y se conserva el registro original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Cada interlock actúa sobre su condición: nivel mínimo de tanque, alta temperatura, baja presión y bajo caudal de bomba.<br>La acción asociada (detener bomba o desviar a drenaje) ocurre en ≤ <span class="por-confirmar">5 s</span> desde la condición.<br>El rearme es manual y queda registrado por interlock.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro de interlocks simulados (anexo del informe)</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante del sistema.</p>
+  <p><strong>Nota:</strong><br>El tiempo de actuación en rojo debe confirmarse contra el diseño del sistema; cada interlock se prueba y se registra por separado.</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante del sistema; USP &lt;1231&gt;; ISPE Baseline Guide Vol. 4 (Water and Steam Systems); EU GMP Anexo 15; 21 CFR 211.160(b).</p>
 </article>
 
 <article data-bloque="3" id="art-SIS-OQ-AP-003" class="ensayo" data-id="SIS-OQ-AP-003" data-fase="OQ" data-cond="ambas" data-familia="agua-purificada">
@@ -94,12 +97,12 @@
   1) Provocar conductividad alta y verificar disparo y acción<br>
   2) Provocar TOC alto, caudal bajo en el loops, diferencial de filtros, bajo nivel, cloro residual alto en la entrada de la RO y falla de UV, y verificar cada disparo<br>
   3) Verificar el desvío a drenaje del agua fuera de especificación</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Cada alarma dispara.<br>
-  El agua fuera de especificación se desvía a drenaje.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = disparo de alarma y acción asociada; unidad = pasa/no pasa por alarma. Tipo de dato = atributo. n = 3 repeticiones por alarma. Estadísticos = proporción de cumplimiento con IC binomial exacto. Regla de decisión = cada alarma debe disparar y ejecutar su acción en las 3 repeticiones. Atípicos: no aplica a datos de atributo; toda exclusión de una repetición se documenta y se conserva el registro original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Cada alarma dispara en HMI/SCADA y ejecuta su acción asociada.<br>El agua fuera de especificación se desvía a drenaje y se cierra la válvula de producto.<br>El registro conserva fecha, hora, valor, límite y usuario.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro de alarmas y acciones (anexo del informe)</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante del sistema.</p>
+  <p><strong>Nota:</strong><br>Se prueban todas las alarmas del sistema, no una muestra; la lista sale del análisis de riesgo del sistema.</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante del sistema; USP &lt;1231&gt;; ISPE Baseline Guide Vol. 4 (Water and Steam Systems); EU GMP Anexo 15; 21 CFR 211.160(b).</p>
 </article>
 
 <article data-bloque="3" id="art-SIS-OQ-AP-004" class="ensayo" data-id="SIS-OQ-AP-004" data-fase="OQ" data-cond="ambas" data-familia="agua-purificada">
@@ -109,25 +112,28 @@
   1) Cortar la energía y verificar el estado seguro<br>
   2) Restablecer y verificar la recirculación<br>
   3) Verificar que no hay estancamiento prolongado</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Estado seguro ante la falla.<br>
-  Recirculación al reiniciar sin estancamiento prolongado.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = estado tras corte de energía y recuperación; unidad = pasa/no pasa por condición. Tipo de dato = atributo. n = 3 cortes controlados. Estadísticos = proporción de cumplimiento con IC binomial exacto. Regla de decisión = las 3 repeticiones deben recuperar sin estancamiento. Atípicos: no aplica a datos de atributo; toda exclusión de una repetición se documenta y se conserva el registro original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Ante corte de energía el sistema queda en estado seguro, sin retorno de agua ni sifonaje.<br>Al reiniciar, la recirculación se restablece en ≤ <span class="por-confirmar">10 min</span> y no hay estancamiento > <span class="por-confirmar">30 min</span>.<br>El corte y la recuperación quedan registrados.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro de la prueba (anexo del informe)</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante del sistema.</p>
+  <p><strong>Nota:</strong><br>Los tiempos en rojo son propuestas: deben confirmarse contra el diseño y el procedimiento de arranque del sitio.</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante del sistema; USP &lt;1231&gt;; ISPE Baseline Guide Vol. 4 (Water and Steam Systems); EU GMP Anexo 15; 21 CFR 211.160(b).</p>
 </article>
 
 <article data-bloque="3" id="art-SIS-OQ-AP-005" class="ensayo" data-id="SIS-OQ-AP-005" data-fase="OQ" data-cond="ambas" data-familia="agua-purificada">
   <h3>SIS-OQ-AP-005 — Respaldo y redundancia</h3>
   <p><strong>Objetivo:</strong><br>Verificar la bomba de loops duplicada y el cambio automático (si aplica).</p>
   <p><strong>Procedimiento:</strong><br>
-  1) Simular la falla de la bomba principal (si aplica)<br>
-  2) Verificar el cambio automático a la bomba de respaldo</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  El cambio automático opera (si aplica).</p>
+  1) Registrar el punto de operación de la bomba principal (caudal y presión)<br>
+  2) Simular la falla de la bomba principal (si aplica) y medir el tiempo de transferencia<br>
+  3) Verificar que la presión del loop no cae por debajo del mínimo durante el cambio<br>
+  4) Confirmar la alarma de bomba detenida y repetir 3 veces</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = cambio automático a bomba de respaldo; unidad = pasa/no pasa por repetición. Tipo de dato = atributo. n = 3 cambios forzados. Estadísticos = proporción de cumplimiento con IC binomial exacto. Regla de decisión = el cambio debe completarse en las 3 repeticiones. Atípicos: no aplica a datos de atributo; toda exclusión de una repetición se documenta y se conserva el registro original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>El cambio a la bomba de respaldo es automático y completa en ≤ <span class="por-confirmar">30 s</span> sin caída de presión por debajo del mínimo del loop.<br>La alarma de bomba detenida queda registrada.<br>Si el sistema no tiene bomba duplicada, se declara No Aplica con aprobación previa de Calidad.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro de la prueba (anexo del informe)</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante del sistema.</p>
+  <p><strong>Nota:</strong><br>El tiempo de transferencia en rojo requiere confirmación del fabricante; la condición de No Aplica se decide antes de ejecutar, no durante la corrida.</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante del sistema; USP &lt;1231&gt;; ISPE Baseline Guide Vol. 4 (Water and Steam Systems); EU GMP Anexo 15; 21 CFR 211.160(b).</p>
 </article>
 
 <article data-bloque="3" id="art-SIS-OQ-AP-006" class="ensayo" data-id="SIS-OQ-AP-006" data-fase="OQ" data-cond="ambas" data-familia="agua-purificada" data-analisis="si">
@@ -137,14 +143,13 @@
   1) Medir el caudal y la caída de presión<br>
   2) Ejecutar el retrolavado y verificar secuencia y tiempos<br>
   3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Caudal y caída de presión dentro de lo definido en el protocolo aprobado.<br>
-  Retrolavado con secuencia y tiempos definidos.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = caída de presión del filtro multimedia; unidad = bar. Tipo de dato = continua. n = 3 lecturas al caudal de diseño y 3 ciclos de retrolavado. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = media e IC 95 % dentro del criterio. Atípicos = Grubbs solo si n ≥ 7 y sobre la escala de la variable medida; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>ΔP inicial ≤ <span class="por-confirmar">0,5 bar</span> al caudal de diseño y caudal ≥ 95 % del diseño.<br>Retrolavado con la secuencia y tiempos del fabricante; 3 ciclos sin arrastre de medio filtrante.<br>Sin bypass ni fuga interna.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro con data cruda y reporte<br>
   - Data cruda y reporte estadístico del análisis del filtro multimedia</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante del sistema.</p>
+  <p><strong>Nota:</strong><br>El ΔP de aceptación en rojo es una propuesta; debe confirmarse con la curva del fabricante para esta instalación.</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante del sistema; USP &lt;1231&gt;; ISPE Baseline Guide Vol. 4 (Water and Steam Systems); EU GMP Anexo 15; 21 CFR 211.160(b).</p>
 </article>
 
 <article data-bloque="3" id="art-SIS-OQ-AP-007" class="ensayo" data-id="SIS-OQ-AP-007" data-fase="OQ" data-cond="ambas" data-familia="agua-purificada" data-analisis="si">
@@ -154,14 +159,13 @@
   1) Ejecutar los ciclos de regeneración y registrarlos<br>
   2) Medir la dureza a la salida y el consumo de sal<br>
   3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Dureza a la salida dentro de lo definido en el protocolo aprobado.<br>
-  Ciclos y consumo según lo definido.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = dureza a la salida del ablandador; unidad = ppm como CaCO3. Tipo de dato = continua. n = 3 muestras por ciclo en 3 ciclos. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = cada muestra e IC 95 % deben cumplir el límite. Atípicos = Grubbs solo si n ≥ 7 y sobre la escala de la variable medida; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Dureza a la salida ≤ <span class="por-confirmar">1 ppm como CaCO3</span> durante los 3 ciclos evaluados.<br>Consumo de sal por regeneración dentro de ±5 % del especificado.<br>Sin fuga de resina al colector.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro con data cruda y reporte<br>
   - Data cruda y reporte estadístico del análisis del ablandador</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante del sistema.</p>
+  <p><strong>Nota:</strong><br>El límite de dureza en rojo es una propuesta típica de pretratamiento; debe adoptarse con la especificación del diseño.</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante del sistema; USP &lt;1231&gt;; ISPE Baseline Guide Vol. 4 (Water and Steam Systems); EU GMP Anexo 15; 21 CFR 211.160(b).</p>
 </article>
 
 <article data-bloque="3" id="art-SIS-OQ-AP-008" class="ensayo" data-id="SIS-OQ-AP-008" data-fase="OQ" data-cond="ambas" data-familia="agua-purificada" data-analisis="si">
@@ -172,14 +176,13 @@
   2) Ejecutar el retrolavado<br>
   3) Verificar el cloro residual a la salida<br>
   4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Cloro residual a la salida dentro de lo definido en el protocolo aprobado.<br>
-  Caudal y retrolavado según lo definido.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = cloro residual a la salida del carbón; unidad = ppm. Tipo de dato = continua. n = 3 muestras tras cada retrolavado. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = cada muestra debe cumplir; el promedio no compensa un valor alto. Atípicos = Grubbs solo si n ≥ 7 y sobre la escala de la variable medida; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Cloro residual a la salida ≤ <span class="por-confirmar">0,1 ppm</span> en el 100 % de las muestras.<br>ΔP ≤ <span class="por-confirmar">0,5 bar</span> y caudal ≥ 95 % del diseño.<br>Sin agotamiento del lecho evidenciado por aumento de cloro entre muestras.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro con data cruda y reporte<br>
   - Data cruda y reporte estadístico del análisis del carbón activado</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante del sistema.</p>
+  <p><strong>Nota:</strong><br>El cloro residual es crítico para proteger las membranas de RO; el límite en rojo debe confirmarse con la especificación de la membrana.</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante del sistema; USP &lt;1231&gt;; ISPE Baseline Guide Vol. 4 (Water and Steam Systems); EU GMP Anexo 15; 21 CFR 211.160(b).</p>
 </article>
 
 <article data-bloque="3" id="art-SIS-OQ-AP-009" class="ensayo" data-id="SIS-OQ-AP-009" data-fase="OQ" data-cond="ambas" data-familia="agua-purificada" data-analisis="si">
@@ -189,14 +192,13 @@
   1) Verificar la exactitud de las bombas dosificadoras de antiscalante o bisulfito (si aplica)<br>
   2) Verificar la alarma de nivel de químico<br>
   3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Exactitud dentro de lo definido en el protocolo aprobado.<br>
-  Alarma de nivel operativa (si aplica).</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = caudal de dosificación por bomba; unidad = mL/min o L/h. Tipo de dato = continua. n = 3 puntos de ajuste (20/50/100 %) con 3 repeticiones cada uno. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = desviación media ≤ ±5 % del caudal ajustado en cada punto. Atípicos = Grubbs solo si n ≥ 7 y sobre la escala de la variable medida; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Cada bomba dosificadora entrega su caudal con desviación ≤ <span class="por-confirmar">±5 %</span> en los 3 puntos de ajuste.<br>La alarma de nivel de químico es operativa y queda registrada.<br>Sin goteo, aireación ni sifonaje en la línea de dosificación.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro con data cruda y reporte<br>
   - Data cruda y reporte estadístico del análisis de dosificación</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante del sistema.</p>
+  <p><strong>Nota:</strong><br>La tolerancia de dosificación en rojo debe confirmarse con el fabricante de la bomba y el procedimiento de preparación de químicos.</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante del sistema; USP &lt;1231&gt;; ISPE Baseline Guide Vol. 4 (Water and Steam Systems); EU GMP Anexo 15; 21 CFR 211.160(b).</p>
 </article>
 
 <article data-bloque="3" id="art-SIS-OQ-AP-010" class="ensayo" data-id="SIS-OQ-AP-010" data-fase="OQ" data-cond="ambas" data-familia="agua-purificada" data-analisis="si">
@@ -206,13 +208,13 @@
   1) Medir la caída de presión<br>
   2) Verificar el estado de los cartuchos<br>
   3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Caída de presión dentro de lo definido en el protocolo aprobado.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = caída de presión en filtros de cartucho; unidad = bar. Tipo de dato = continua. n = 3 lecturas al caudal de diseño. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = media e IC 95 % dentro del criterio. Atípicos = Grubbs solo si n ≥ 7 y sobre la escala de la variable medida; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>ΔP inicial ≤ <span class="por-confirmar">0,3 bar</span> al caudal de diseño y cambio de cartucho a <span class="por-confirmar">1,0 bar</span>.<br>Sin bypass ni paso directo.<br>Cartuchos íntegros, sin daño ni canalización.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro con data cruda y reporte<br>
   - Data cruda y reporte estadístico del análisis de cartuchos</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante del sistema.</p>
+  <p><strong>Nota:</strong><br>Los valores de ΔP en rojo son propuestas; el criterio de cambio debe salir del fabricante y del histórico del sitio.</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante del sistema; USP &lt;1231&gt;; ISPE Baseline Guide Vol. 4 (Water and Steam Systems); EU GMP Anexo 15; 21 CFR 211.160(b).</p>
 </article>
 
 <article data-bloque="3" id="art-SIS-OQ-AP-011" class="ensayo" data-id="SIS-OQ-AP-011" data-fase="OQ" data-cond="ambas" data-familia="agua-purificada" data-analisis="si">
@@ -222,13 +224,13 @@
   1) Medir caudales de permeado, rechazo y recirculación<br>
   2) Calcular la relación de recuperación<br>
   3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Relación de recuperación dentro del criterio definido.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = caudales de permeado, rechazo y recirculación; unidad = L/h. Tipo de dato = continua. n = 3 lecturas estabilizadas por condición. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = medias dentro de ±5 % del diseño y recuperación dentro del rango. Atípicos = Grubbs solo si n ≥ 7 y sobre la escala de la variable medida; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Caudales dentro de ±5 % del diseño y recuperación de <span class="por-confirmar">60-75 %</span> según diseño.<br>Relación de rechazo y recirculación dentro del rango del fabricante.<br>Sin fluctuación > 5 % durante 10 min de operación estable.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro con data cruda y reporte<br>
   - Data cruda y reporte estadístico del análisis de caudales</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante del sistema.</p>
+  <p><strong>Nota:</strong><br>El rango de recuperación en rojo depende del diseño de membranas; must confirmarse contra la hoja de datos del sistema.</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante del sistema; USP &lt;1231&gt;; ISPE Baseline Guide Vol. 4 (Water and Steam Systems); EU GMP Anexo 15; 21 CFR 211.160(b).</p>
 </article>
 
 <article data-bloque="3" id="art-SIS-OQ-AP-012" class="ensayo" data-id="SIS-OQ-AP-012" data-fase="OQ" data-cond="ambas" data-familia="agua-purificada" data-analisis="si">
@@ -238,13 +240,13 @@
   1) Medir la presión de la bomba de alta presión<br>
   2) Medir las presiones por etapa<br>
   3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Presiones dentro de lo definido en el protocolo aprobado.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = presión de alimentación por etapa de RO; unidad = bar. Tipo de dato = continua. n = 3 lecturas por etapa y condición. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = media dentro de ±5 % del setpoint; ΔP por etapa dentro del límite. Atípicos = Grubbs solo si n ≥ 7 y sobre la escala de la variable medida; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Presión de alta presión dentro de ±5 % del setpoint de diseño.<br>ΔP por etapa ≤ <span class="por-confirmar">1 bar</span>.<br>Sin fluctuación > 5 % en 10 min ni golpe de ariete al arrancar.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro con data cruda y reporte<br>
   - Data cruda y reporte estadístico del análisis de presiones</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante del sistema.</p>
+  <p><strong>Nota:</strong><br>El ΔP por etapa en rojo debe confirmarse con la hoja de datos de los elementos de membrana.</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante del sistema; USP &lt;1231&gt;; ISPE Baseline Guide Vol. 4 (Water and Steam Systems); EU GMP Anexo 15; 21 CFR 211.160(b).</p>
 </article>
 
 <article data-bloque="3" id="art-SIS-OQ-AP-013" class="ensayo" data-id="SIS-OQ-AP-013" data-fase="OQ" data-cond="ambas" data-familia="agua-purificada" data-analisis="si">
@@ -254,13 +256,13 @@
   1) Medir la conductividad del permeado a las condiciones de diseño<br>
   2) Calcular el rechazo de sales<br>
   3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Rechazo de sales dentro de lo definido en el protocolo aprobado.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = conductividad del permeado y rechazo de sales; unidad = µS/cm a 25 °C y %. Tipo de dato = continua. n = 3 muestras por condición. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = cada muestra dentro del criterio; RSD ≤ 5 %. Atípicos = Grubbs solo si n ≥ 7 y sobre la escala de la variable medida; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Rechazo de sales ≥ <span class="por-confirmar">95 %</span> calculado con la conductividad de alimentación y permeado.<br>Conductividad de permeado ≤ <span class="por-confirmar">10 µS/cm</span> a 25 °C.<br>RSD de las 3 lecturas ≤ 5 %.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro con data cruda y reporte<br>
   - Data cruda y reporte estadístico del análisis del permeado</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante del sistema.</p>
+  <p><strong>Nota:</strong><br>Rechazo y conductividad en rojo son valores de diseño: deben confirmarse contra la especificación de las membranas instaladas.</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante del sistema; USP &lt;1231&gt;; ISPE Baseline Guide Vol. 4 (Water and Steam Systems); EU GMP Anexo 15; 21 CFR 211.160(b).</p>
 </article>
 
 <article data-bloque="3" id="art-SIS-OQ-AP-014" class="ensayo" data-id="SIS-OQ-AP-014" data-fase="OQ" data-cond="ambas" data-familia="agua-purificada" data-analisis="si">
@@ -270,13 +272,13 @@
   1) Operar el segundo paso (si aplica)<br>
   2) Medir la conductividad resultante<br>
   3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Conductividad resultante dentro de lo definido en el protocolo aprobado (si aplica).</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = conductividad a la salida del segundo paso; unidad = µS/cm a 25 °C. Tipo de dato = continua. n = 3 muestras por condición. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = cada muestra debe cumplir el límite. Atípicos = Grubbs solo si n ≥ 7 y sobre la escala de la variable medida; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Conductividad ≤ <span class="por-confirmar">1,3 µS/cm a 25 °C</span> (USP &lt;645&gt;, etapa 1) a la salida del segundo paso.<br>Sin deriva entre las 3 muestras.<br>Si el sistema no tiene segundo paso, se declara No Aplica con aprobación previa.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro con data cruda y reporte<br>
   - Data cruda y reporte estadístico del análisis del segundo paso</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante del sistema.</p>
+  <p><strong>Nota:</strong><br>El límite de 1,3 µS/cm corresponde a USP &lt;645&gt; estágio 1 y queda pendiente de adopción por el responsable.</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante del sistema; USP &lt;1231&gt;; ISPE Baseline Guide Vol. 4 (Water and Steam Systems); EU GMP Anexo 15; 21 CFR 211.160(b).</p>
 </article>
 
 <article data-bloque="3" id="art-SIS-OQ-AP-015" class="ensayo" data-id="SIS-OQ-AP-015" data-fase="OQ" data-cond="ambas" data-familia="agua-purificada" data-analisis="si">
@@ -287,14 +289,13 @@
   2) Registrar ciclo, temperaturas, concentraciones y tiempos<br>
   3) Verificar el enjuague completo<br>
   4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Parámetros dentro de lo definido en el protocolo aprobado.<br>
-  Enjuague completo verificado.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = temperatura y tiempo de sanitización, o concentración y tiempo químico; unidad = °C, min o ppm. Tipo de dato = analitico. n = 3 ciclos completos con registro por punto. Estadísticos = mediana, mínimo, máximo e IC 95 %; concentraciones en escala log10. Regla de decisión = todos los ciclos deben alcanzar el parámetro y el tiempo. Atípicos = Grubbs solo si n ≥ 7 y sobre la escala log10; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Sanitización térmica: <span class="por-confirmar">80 °C durante ≥ 60 min</span> en la etapa de calor.<br>Sanitización química: concentración y tiempo del fabricante, documentados.<br>Enjuague final con conductividad ≤ 1,3 µS/cm y ausencia del sanitizante.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro con data cruda y reporte<br>
   - Data cruda y reporte estadístico del análisis de sanitización</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante del sistema.</p>
+  <p><strong>Nota:</strong><br>Temperatura, tiempo y concentración en rojo son propuestas; el responsable debe adoptar el ciclo del fabricante y del procedimiento de sanitización.</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante del sistema; USP &lt;1231&gt;; ISPE Baseline Guide Vol. 4 (Water and Steam Systems); EU GMP Anexo 15; 21 CFR 211.160(b).</p>
 </article>
 
 <article data-bloque="3" id="art-SIS-OQ-AP-016" class="ensayo" data-id="SIS-OQ-AP-016" data-fase="OQ" data-cond="ambas" data-familia="agua-purificada">
@@ -304,25 +305,28 @@
   1) Verificar sensores y control de nivel<br>
   2) Provocar nivel alto y bajo y verificar sus alarmas<br>
   3) Verificar el control de reposición</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Alarmas de nivel alto y bajo operativas.<br>
-  Reposición automática según lo definido.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = nivel y control de reposición del tanque; unidad = pasa/no pasa por ciclo. Tipo de dato = atributo. n = 3 ciclos de llenado y vaciado. Estadísticos = proporción de cumplimiento con IC binomial exacto. Regla de decisión = las 3 repeticiones deben pasar. Atípicos: no aplica a datos de atributo; toda exclusión de una repetición se documenta y se conserva el registro original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Alarmas de nivel alto y bajo operativas y registradas.<br>Reposición automática sin desborde ni entrada de aire sin filtrar.<br>Sensores de nivel calibrados contra patrón.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro de la prueba (anexo del informe)</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante del sistema.</p>
+  <p><strong>Nota:</strong><br>Se prueban los 3 ciclos completos; una alarma que no dispara invalida el ensayo aunque el nivel se controle por otro medio.</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante del sistema; USP &lt;1231&gt;; ISPE Baseline Guide Vol. 4 (Water and Steam Systems); EU GMP Anexo 15; 21 CFR 211.160(b).</p>
 </article>
 
 <article data-bloque="3" id="art-SIS-OQ-AP-017" class="ensayo" data-id="SIS-OQ-AP-017" data-fase="OQ" data-cond="ambas" data-familia="agua-purificada">
   <h3>SIS-OQ-AP-017 — Filtro de venteo hidrofóbico</h3>
   <p><strong>Objetivo:</strong><br>Verificar la integridad del filtro de venteo hidrofóbico de 0,2 µm.</p>
   <p><strong>Procedimiento:</strong><br>
-  1) Ejecutar la prueba de integridad del filtro de venteo<br>
-  2) Registrar el resultado</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Integridad confirmada según el criterio del fabricante.</p>
+  1) Registrar número de parte, lote y horas de servicio del cartucho<br>
+  2) Ejecutar la prueba de integridad (bubble point o difusión) según el fabricante<br>
+  3) Comparar el resultado con el valor de aceptación del certificado<br>
+  4) Verificar ausencia de humedad, daño y sello vencido; repetir 3 pruebas</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = integridad del filtro de venteo hidrofóbico; unidad = pasa/no pasa. Tipo de dato = atributo. n = 3 pruebas de integridad. Estadísticos = proporción de cumplimiento con IC binomial exacto. Regla de decisión = las 3 pruebas deben pasar con el criterio del fabricante. Atípicos: no aplica a datos de atributo; toda exclusión de una repetición se documenta y se conserva el registro original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Integridad del filtro de 0,2 µm confirmada con la prueba del fabricante (bubble point o difusión) y el valor de aceptación documentado (<span class="por-confirmar">valor del fabricante</span>).<br>Sin humedad, daño ni sello vencido.<br>Cartucho dentro de su vida útil declarada.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro de integridad (anexo del informe)</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante del sistema.</p>
+  <p><strong>Nota:</strong><br>El valor de aceptación en rojo debe tomarse del certificado del fabricante; no se puede fijar por defecto sin ese dato.</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante del sistema; USP &lt;1231&gt;; ISPE Baseline Guide Vol. 4 (Water and Steam Systems); EU GMP Anexo 15; 21 CFR 211.160(b).</p>
 </article>
 
 <article data-bloque="3" id="art-SIS-OQ-AP-018" class="ensayo" data-id="SIS-OQ-AP-018" data-fase="OQ" data-cond="ambas" data-familia="agua-purificada" data-analisis="si">
@@ -332,13 +336,13 @@
   1) Operar la bola de aspersión (si aplica)<br>
   2) Verificar cobertura y medir el caudal<br>
   3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Cobertura completa y caudal dentro de lo definido en el protocolo aprobado (si aplica).</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = cobertura y caudal de la bola de aspersión; unidad = pasa/no pasa y m³/h. Tipo de dato = continua. n = 1 ensayo de cobertura y 3 lecturas de caudal. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = cobertura completa sin zonas secas y caudal ≥ mínimo del fabricante. Atípicos = Grubbs solo si n ≥ 7 y sobre la escala de la variable medida; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Cobertura completa de la superficie interior del tanque, sin zonas secas, con ensayo de cobertura documentado.<br>Caudal y presión ≥ el mínimo del fabricante (<span class="por-confirmar">valor del fabricante</span>).<br>Boquilla sin obstrucción ni desgaste.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro con data cruda y reporte<br>
   - Data cruda y reporte estadístico del análisis de aspersión</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante del sistema.</p>
+  <p><strong>Nota:</strong><br>El caudal mínimo en rojo depende del modelo de bola de aspersión; se toma del catálogo y se registra el número de parte.</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante del sistema; USP &lt;1231&gt;; ISPE Baseline Guide Vol. 4 (Water and Steam Systems); EU GMP Anexo 15; 21 CFR 211.160(b).</p>
 </article>
 
 <article data-bloque="3" id="art-SIS-OQ-AP-019" class="ensayo" data-id="SIS-OQ-AP-019" data-fase="OQ" data-cond="ambas" data-familia="agua-purificada" data-analisis="si">
@@ -348,13 +352,13 @@
   1) Registrar la temperatura del tanque en operación (si aplica)<br>
   2) Verificar control y estabilidad<br>
   3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Temperatura controlada y estable según lo definido (si aplica).</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = temperatura del tanque; unidad = °C. Tipo de dato = continua. n = registro continuo de 60 min con 3 verificaciones manuales. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = media dentro de ±2 °C del setpoint y sin excursiones. Atípicos = Grubbs solo si n ≥ 7 y sobre la escala de la variable medida; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Temperatura dentro de ±2 °C del setpoint (<span class="por-confirmar">setpoint de diseño</span>) durante 60 min.<br>Registro continuo sin excursiones no registradas.<br>Sensor de temperatura calibrado contra patrón.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro con data cruda y reporte<br>
   - Data cruda y reporte estadístico del análisis de temperatura</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante del sistema.</p>
+  <p><strong>Nota:</strong><br>El setpoint en rojo depende de la estrategia de control microbiológico del sitio (agua fría o loop caliente).</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante del sistema; USP &lt;1231&gt;; ISPE Baseline Guide Vol. 4 (Water and Steam Systems); EU GMP Anexo 15; 21 CFR 211.160(b).</p>
 </article>
 
 <article data-bloque="3" id="art-SIS-OQ-AP-020" class="ensayo" data-id="SIS-OQ-AP-020" data-fase="OQ" data-cond="ambas" data-familia="agua-purificada" data-analisis="si">
@@ -364,13 +368,13 @@
   1) Medir caudal y presión en el rango operativo<br>
   2) Verificar la velocidad del variador<br>
   3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Caudal, presión y velocidad en rango operativo.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = caudal, presión y velocidad de la bomba del loop; unidad = m³/h, bar, Hz. Tipo de dato = continua. n = 3 lecturas por punto de operación. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = media dentro de ±5 % del diseño. Atípicos = Grubbs solo si n ≥ 7 y sobre la escala de la variable medida; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Caudal ≥ 95 % del diseño y presión de descarga dentro de ±5 % del setpoint.<br>La VFD responde al setpoint sin oscilación.<br>Sin cavitación, ruido anormal ni fuga en el sello.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro con data cruda y reporte<br>
   - Data cruda y reporte estadístico del análisis de la bomba</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante del sistema.</p>
+  <p><strong>Nota:</strong><br>El punto de operación de diseño debe tomarse de la curva de la bomba instalada y de la URS del sistema.</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante del sistema; USP &lt;1231&gt;; ISPE Baseline Guide Vol. 4 (Water and Steam Systems); EU GMP Anexo 15; 21 CFR 211.160(b).</p>
 </article>
 
 <article data-bloque="3" id="art-SIS-OQ-AP-021" class="ensayo" data-id="SIS-OQ-AP-021" data-fase="OQ" data-cond="ambas" data-familia="agua-purificada" data-analisis="si">
@@ -378,15 +382,15 @@
   <p><strong>Objetivo:</strong><br>Verificar el caudal en el retorno y la velocidad mínima definida en el URS, con todos los puntos de uso abiertos.</p>
   <p><strong>Procedimiento:</strong><br>
   1) Medir el caudal en el retorno<br>
-  2) Abrir todos los puntos de uso y verificar que la velocidad no baja del mínimo (práctica habitual: al menos 1 m/s con régimen turbulento)<br>
+  2) Abrir todos los puntos de uso y verificar que la velocidad no baja del mínimo (mínimo del URS; régimen turbulento)<br>
   3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Velocidad igual o mayor al mínimo del URS con todos los puntos abiertos.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = velocidad del agua en el loop; unidad = m/s. Tipo de dato = continua. n = 3 mediciones de caudal con todos los puntos de uso abiertos. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = velocidad calculada ≥ mínimo adoptado en todas las mediciones. Atípicos = Grubbs solo si n ≥ 7 y sobre la escala de la variable medida; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Velocidad ≥ <span class="por-confirmar">1,5 m/s (mínimo del URS)</span> con todos los puntos de uso abiertos.<br>Cálculo documentado con caudal medido y diámetro interno real.<br>Sin tramos en régimen laminar en la distribución.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro con data cruda y reporte<br>
   - Data cruda y reporte estadístico del análisis de velocidad</p>
-  <p><strong>Referencia:</strong><br>URS aprobada (rangos y criterios).</p>
+  <p><strong>Nota:</strong><br>El mínimo en rojo debe adoptarse desde la URS; el cálculo usa el diámetro interno real, no el nominal.</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante del sistema; USP &lt;1231&gt;; ISPE Baseline Guide Vol. 4 (Water and Steam Systems); EU GMP Anexo 15; 21 CFR 211.160(b).</p>
 </article>
 
 <article data-bloque="3" id="art-SIS-OQ-AP-022" class="ensayo" data-id="SIS-OQ-AP-022" data-fase="OQ" data-cond="ambas" data-familia="agua-purificada" data-analisis="si">
@@ -396,13 +400,13 @@
   1) Medir la presión en la red y en el retorno<br>
   2) Medir la presión en el punto más lejano<br>
   3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Presión positiva en toda la red incluido el retorno.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = presión en la red y en el retorno; unidad = bar. Tipo de dato = continua. n = 3 lecturas por punto, incluido el más desfavorable. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = presión positiva en el 100 % de los puntos. Atípicos = Grubbs solo si n ≥ 7 y sobre la escala de la variable medida; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Presión positiva en todos los puntos, incluido el más desfavorable y el retorno (≥ <span class="por-confirmar">0,5 bar</span>).<br>Sin zonas en depresión ni riesgo de ingreso de contaminante.<br>Manómetros calibrados y con rango adecuado.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro con data cruda y reporte<br>
   - Data cruda y reporte estadístico del análisis de presión</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante del sistema.</p>
+  <p><strong>Nota:</strong><br>El mínimo de presión en rojo debe confirmarse contra el diseño hidráulico y la altura del punto más desfavorable.</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante del sistema; USP &lt;1231&gt;; ISPE Baseline Guide Vol. 4 (Water and Steam Systems); EU GMP Anexo 15; 21 CFR 211.160(b).</p>
 </article>
 
 <article data-bloque="3" id="art-SIS-OQ-AP-023" class="ensayo" data-id="SIS-OQ-AP-023" data-fase="OQ" data-cond="ambas" data-familia="agua-purificada" data-analisis="si">
@@ -413,14 +417,13 @@
   2) Verificar la vida útil de la lámpara y su alarma<br>
   3) Calibrar el sensor si es de 254 nm para desinfección<br>
   4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Intensidad dentro de lo definido en el protocolo aprobado.<br>
-  Alarma operativa; sensor calibrado si es de 254 nm.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = dosis UV o intensidad de lámpara; unidad = mJ/cm² o %. Tipo de dato = analitico. n = 3 lecturas con lámpara nueva y al final de vida útil. Estadísticos = mediana, mínimo, máximo e IC 95 %; concentraciones en escala log10. Regla de decisión = cada lectura debe cumplir la dosis o intensidad mínima. Atípicos = Grubbs solo si n ≥ 7 y sobre la escala log10; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Dosis ≥ <span class="por-confirmar">30 mJ/cm² a 254 nm</span> o intensidad ≥ 70 % con alarma operativa.<br>Lámpara dentro de su vida útil declarada; horas registradas.<br>Sensor UV calibrado contra referencia.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro con data cruda y reporte<br>
   - Data cruda y reporte estadístico del análisis UV</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante del sistema.</p>
+  <p><strong>Nota:</strong><br>La dosis en rojo es una propuesta de diseño para desinfección; debe confirmarse con el fabricante del equipo UV y el fabricante de la lámpara.</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante del sistema; USP &lt;1231&gt;; ISPE Baseline Guide Vol. 4 (Water and Steam Systems); EU GMP Anexo 15; 21 CFR 211.160(b).</p>
 </article>
 
 <article data-bloque="3" id="art-SIS-OQ-AP-024" class="ensayo" data-id="SIS-OQ-AP-024" data-fase="OQ" data-cond="ambas" data-familia="agua-purificada" data-analisis="si">
@@ -431,13 +434,13 @@
   2) Verificar la destrucción previa a los puntos de uso<br>
   3) Verificar la ausencia en el agua usada<br>
   4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Destrucción previa efectiva y ausencia en el agua usada (si se usa).</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = ozono en el loop y en el agua de uso; unidad = ppm. Tipo de dato = analitico. n = 3 muestras en el loop y 3 en puntos de uso. Estadísticos = mediana, mínimo, máximo e IC 95 %; concentraciones en escala log10. Regla de decisión = ozono en el loop ≥ mínimo y en el agua de uso ≤ máximo. Atípicos = Grubbs solo si n ≥ 7 y sobre la escala log10; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Ozono en el loop ≥ <span class="por-confirmar">0,05 ppm</span> durante la sanitización.<br>Destrucción previa a los puntos de uso efectiva: ≤ <span class="por-confirmar">0,05 ppm</span> en el agua de uso.<br>Sin ozono detectable en el agua destinada a producto.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro con data cruda y reporte<br>
   - Data cruda y reporte estadístico del análisis de ozono</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante del sistema.</p>
+  <p><strong>Nota:</strong><br>Los límites de ozono en rojo son propuestas operativas; deben adoptarse con el fabricante del generador y del destructor UV.</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante del sistema; USP &lt;1231&gt;; ISPE Baseline Guide Vol. 4 (Water and Steam Systems); EU GMP Anexo 15; 21 CFR 211.160(b).</p>
 </article>
 
 <article data-bloque="3" id="art-SIS-OQ-AP-025" class="ensayo" data-id="SIS-OQ-AP-025" data-fase="OQ" data-cond="ambas" data-familia="agua-purificada" data-analisis="si">
@@ -447,13 +450,13 @@
   1) Verificar el control de temperatura del intercambiador (si aplica)<br>
   2) Verificar la barrera de doble pared o la presión diferencial<br>
   3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Control efectivo y barrera íntegra (si aplica).</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = temperatura de salida del intercambiador; unidad = °C. Tipo de dato = continua. n = 3 lecturas por condición. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = media dentro de ±2 °C del setpoint. Atípicos = Grubbs solo si n ≥ 7 y sobre la escala de la variable medida; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Temperatura de salida dentro de ±2 °C del setpoint (<span class="por-confirmar">setpoint de diseño</span>).<br>Barrera de doble pared o presión diferencial verificada, si aplica.<br>Sin mezcla cruzada entre servicio y producto.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro con data cruda y reporte<br>
   - Data cruda y reporte estadístico del análisis del intercambiador</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante del sistema.</p>
+  <p><strong>Nota:</strong><br>El setpoint y el tipo de barrera dependen del diseño; se confirman antes de ejecutar el ensayo.</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante del sistema; USP &lt;1231&gt;; ISPE Baseline Guide Vol. 4 (Water and Steam Systems); EU GMP Anexo 15; 21 CFR 211.160(b).</p>
 </article>
 
 <article data-bloque="3" id="art-SIS-OQ-AP-026" class="ensayo" data-id="SIS-OQ-AP-026" data-fase="OQ" data-cond="ambas" data-familia="agua-purificada" data-analisis="si">
@@ -463,13 +466,13 @@
   1) Drenar el loops y verificar el drenaje completo en campo<br>
   2) Verificar que no queda agua retenida<br>
   3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Drenaje completo sin agua retenida.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = pendiente y drenaje del loop; unidad = pasa/no pasa por tramo. Tipo de dato = atributo. n = inspección del 100 % de los tramos y 1 prueba de drenaje. Estadísticos = proporción de cumplimiento con IC binomial exacto. Regla de decisión = todos los tramos deben cumplir. Atípicos: no aplica a datos de atributo; toda exclusión de una repetición se documenta y se conserva el registro original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Pendiente ≥ <span class="por-confirmar">1 %</span> hacia el punto de drenaje en el 100 % de los tramos.<br>Drenaje completo sin agua retenida en 15 min.<br>Sin bolsas ni contrapendientes.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro con data cruda y reporte<br>
   - Data cruda y reporte estadístico del análisis de drenabilidad</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante del sistema.</p>
+  <p><strong>Nota:</strong><br>La pendiente mínima en rojo debe confirmarse contra el plano isométrico aprobado; se verifica en campo, no solo en plano.</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante del sistema; USP &lt;1231&gt;; ISPE Baseline Guide Vol. 4 (Water and Steam Systems); EU GMP Anexo 15; 21 CFR 211.160(b).</p>
 </article>
 
 <article data-bloque="3" id="art-SIS-OQ-AP-027" class="ensayo" data-id="SIS-OQ-AP-027" data-fase="OQ" data-cond="ambas" data-familia="agua-purificada" data-analisis="si">
@@ -479,39 +482,45 @@
   1) Medir cada ramal y su diámetro y aplicar la regla de 3D o el criterio adoptado<br>
   2) Revisar válvulas de diafragma y de punto de uso<br>
   3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Ramales dentro de la regla de 3D o del criterio adoptado.<br>
-  Válvulas sanitarias y operativas.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = relación longitud/diámetro de cada ramal; unidad = L/D. Tipo de dato = continua. n = medición del 100 % de los ramales. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = L/D ≤ 3 en todos los ramales. Atípicos = Grubbs solo si n ≥ 7 y sobre la escala de la variable medida; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>L/D ≤ <span class="por-confirmar">3</span> en cada ramal (criterio adoptado).<br>Válvulas sanitarias de diafragma operativas y sin puntos muertos.<br>Medición registrada por ramal, con diámetro interno real.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro con data cruda y reporte<br>
   - Data cruda y reporte estadístico del análisis de ramales</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante del sistema; ISPE Baseline Guide Vol. 4 (ramales y distribución).</p>
+  <p><strong>Nota:</strong><br>La regla 3D es una propuesta; si el sitio adopta otra (p. ej. 2D), debe declararse antes de medir.</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante del sistema; USP &lt;1231&gt;; ISPE Baseline Guide Vol. 4 (Water and Steam Systems); EU GMP Anexo 15; 21 CFR 211.160(b).</p>
 </article>
 
 <article data-bloque="3" id="art-SIS-OQ-AP-028" class="ensayo" data-id="SIS-OQ-AP-028" data-fase="OQ" data-cond="ambas" data-familia="agua-purificada">
   <h3>SIS-OQ-AP-028 — Sanitización del loops</h3>
   <p><strong>Objetivo:</strong><br>Verificar que todos los puntos, incluidos los de uso y el retorno, alcancen la temperatura o la concentración y el tiempo definidos.</p>
   <p><strong>Procedimiento:</strong><br>
-  1) Ejecutar la sanitización térmica con agua caliente (típicamente 80 °C) o vapor limpio, o con ozono o peróxido, según aplique<br>
-  2) Verificar temperatura o concentración y tiempo en todos los puntos incluidos uso y retorno</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Todos los puntos alcanzan lo definido.</p>
+  1) Ejecutar la sanitización térmica (80 °C) o química según el procedimiento aprobado<br>
+  2) Registrar temperatura o concentración y tiempo en cada punto, incluido el retorno<br>
+  3) Identificar con datos el punto más frío o de menor concentración<br>
+  4) Repetir 3 ciclos y comparar el punto más desfavorable contra el criterio</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = temperatura o concentración y tiempo de sanitización por punto; unidad = °C, min o ppm. Tipo de dato = analitico. n = registro por punto en 3 ciclos. Estadísticos = mediana, mínimo, máximo e IC 95 %; concentraciones en escala log10. Regla de decisión = todos los puntos deben alcanzar el parámetro en los 3 ciclos. Atípicos = Grubbs solo si n ≥ 7 y sobre la escala log10; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Todos los puntos, incluido el retorno y el más frío, alcanzan <span class="por-confirmar">80 °C durante ≥ 60 min</span> o la concentración/tiempo químico definido.<br>Registro por punto, no solo en el sensor de referencia.<br>Sin puntos que no alcancen la condición.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro de la sanitización (anexo del informe)</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante del sistema.</p>
+  <p><strong>Nota:</strong><br>La condición en rojo debe adoptarse del procedimiento de sanitización del sitio; el punto más frío se identifica con datos, no por suposición.</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante del sistema; USP &lt;1231&gt;; ISPE Baseline Guide Vol. 4 (Water and Steam Systems); EU GMP Anexo 15; 21 CFR 211.160(b).</p>
 </article>
 
 <article data-bloque="3" id="art-SIS-OQ-AP-029" class="ensayo" data-id="SIS-OQ-AP-029" data-fase="OQ" data-cond="ambas" data-familia="agua-purificada">
   <h3>SIS-OQ-AP-029 — Enjuague posterior a sanitización</h3>
   <p><strong>Objetivo:</strong><br>Verificar la ausencia de residuos del sanitizante.</p>
   <p><strong>Procedimiento:</strong><br>
-  1) Medir conductividad o prueba específica del sanitizante tras el enjuague</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Ausencia de residuos según el criterio definido.</p>
+  1) Tomar muestra en cada punto representativo tras el enjuague<br>
+  2) Medir conductividad, TOC y ausencia del sanitizante por el método específico<br>
+  3) Repetir hasta obtener 3 muestras consecutivas conformes<br>
+  4) Liberar el sistema solo con las 3 muestras conformes registradas</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = residuos del sanitizante tras el enjuague; unidad = µS/cm, ppb y ausencia. Tipo de dato = analitico. n = 3 muestras consecutivas por punto representativo. Estadísticos = mediana, mínimo, máximo e IC 95 %; concentraciones en escala log10. Regla de decisión = las 3 muestras deben cumplir. Atípicos = Grubbs solo si n ≥ 7 y sobre la escala log10; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Conductividad ≤ <span class="por-confirmar">1,3 µS/cm</span> y TOC ≤ <span class="por-confirmar">500 ppb</span> tras el enjuague.<br>Ausencia del sanitizante por el método específico del químico usado.<br>3 muestras consecutivas conformes antes de liberar el sistema.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro del enjuague (anexo del informe)</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante del sistema.</p>
+  <p><strong>Nota:</strong><br>Los límites en rojo corresponden a USP &lt;645&gt; y &lt;643&gt; y quedan pendientes de adopción; el método de ausencia depende del sanitizante.</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante del sistema; USP &lt;1231&gt;; ISPE Baseline Guide Vol. 4 (Water and Steam Systems); EU GMP Anexo 15; 21 CFR 211.160(b).</p>
 </article>
 
 <article data-bloque="3" id="art-SIS-OQ-AP-030" class="ensayo" data-id="SIS-OQ-AP-030" data-fase="OQ" data-cond="ambas" data-familia="agua-purificada" data-analisis="si">
@@ -522,29 +531,30 @@
   2) Verificar el factor de respuesta y la correlación del TOC con el laboratorio<br>
   3) Verificar las alarmas<br>
   4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Exactitud dentro de lo definido en el protocolo aprobado.<br>
-  Alarmas operativas.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = exactitud de conductividad y TOC en línea; unidad = µS/cm y ppb. Tipo de dato = continua. n = 3 comparaciones contra patrón o laboratorio por rango. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = desviación media dentro de la tolerancia en cada rango. Atípicos = Grubbs solo si n ≥ 7 y sobre la escala de la variable medida; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Exactitud ≤ ±2 % de la lectura para conductividad y ≤ ±5 % para TOC (<span class="por-confirmar">tolerancias de diseño</span>) contra patrón o laboratorio.<br>Alarmas operativas en el límite de acción.<br>Tiempo de respuesta ≤ 60 s.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro con data cruda y reporte<br>
   - Data cruda y reporte estadístico del análisis en línea</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante del sistema.</p>
+  <p><strong>Nota:</strong><br>Las tolerancias en rojo deben confirmarse con las especificaciones de los instrumentos instalados y su certificado.</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante del sistema; USP &lt;1231&gt;; ISPE Baseline Guide Vol. 4 (Water and Steam Systems); EU GMP Anexo 15; 21 CFR 211.160(b).</p>
 </article>
 
 <article data-bloque="3" id="art-SIS-OQ-AP-031" class="ensayo" data-id="SIS-OQ-AP-031" data-fase="OQ" data-cond="ambas" data-familia="agua-purificada" data-analisis="si">
   <h3>SIS-OQ-AP-031 — Temperatura en el loops</h3>
   <p><strong>Objetivo:</strong><br>Verificar sensores y registro de temperatura en el loops (si aplica).</p>
   <p><strong>Procedimiento:</strong><br>
-  1) Verificar sensores y registro de temperatura (si aplica)<br>
-  2) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Registro exacto según lo definido (si aplica).</p>
+  1) Verificar calibración vigente de los sensores de temperatura del loop<br>
+  2) Registrar temperatura continua durante 60 min y comparar con 3 lecturas manuales<br>
+  3) Revisar que no haya huecos de registro ni excursiones no registradas<br>
+  4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = temperatura del loop; unidad = °C. Tipo de dato = continua. n = registro continuo de 60 min con 3 verificaciones manuales. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = media dentro de ±2 °C y sin excursiones. Atípicos = Grubbs solo si n ≥ 7 y sobre la escala de la variable medida; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Registro continuo de temperatura dentro de ±2 °C del setpoint (<span class="por-confirmar">setpoint de diseño</span>) durante 60 min.<br>Sensores calibrados contra patrón.<br>Sin excursiones no registradas ni huecos de registro.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro con data cruda y reporte<br>
   - Data cruda y reporte estadístico del análisis de temperatura</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante del sistema.</p>
+  <p><strong>Nota:</strong><br>El setpoint en rojo depende de la estrategia del sitio; se confirma antes de la corrida.</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante del sistema; USP &lt;1231&gt;; ISPE Baseline Guide Vol. 4 (Water and Steam Systems); EU GMP Anexo 15; 21 CFR 211.160(b).</p>
 </article>
 
 <article data-bloque="3" id="art-SIS-OQ-AP-032" class="ensayo" data-id="SIS-OQ-AP-032" data-fase="OQ" data-cond="ambas" data-familia="agua-purificada" data-analisis="si">
@@ -554,27 +564,29 @@
   1) Verificar identificación y accesibilidad de cada punto<br>
   2) Verificar diseño sanitario, drenaje previo y válvulas<br>
   3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Puntos identificados, accesibles y sanitarios.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = condición de cada punto de muestreo; unidad = pasa/no pasa por punto. Tipo de dato = atributo. n = inspección del 100 % de los puntos. Estadísticos = proporción de cumplimiento con IC binomial exacto. Regla de decisión = todos los puntos deben cumplir. Atípicos: no aplica a datos de atributo; toda exclusión de una repetición se documenta y se conserva el registro original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Cada punto identificado, accesible y con diseño sanitario.<br>Drenaje previo y válvula de muestreo operativa en el 100 % de los puntos.<br>Listado completo contra plano, sin puntos sin identificar.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro con data cruda y reporte<br>
   - Data cruda y reporte estadístico del análisis de puntos</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante del sistema.</p>
+  <p><strong>Nota:</strong><br>Se revisan todos los puntos; un punto inaccesible o sin drenaje invalida el ensayo aunque el resto cumpla.</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante del sistema; USP &lt;1231&gt;; ISPE Baseline Guide Vol. 4 (Water and Steam Systems); EU GMP Anexo 15; 21 CFR 211.160(b).</p>
 </article>
 
 <article data-bloque="3" id="art-SIS-OQ-AP-033" class="ensayo" data-id="SIS-OQ-AP-033" data-fase="OQ" data-cond="ambas" data-familia="agua-purificada">
   <h3>SIS-OQ-AP-033 — Operación continua del sistema</h3>
   <p><strong>Objetivo:</strong><br>Verificar la operación continua del sistema completo durante el período de prueba, con agua de producto dentro de los límites.</p>
   <p><strong>Procedimiento:</strong><br>
-  1) Operar el sistema completo durante 72 h (o el período definido en el protocolo aprobado)<br>
-  2) Verificar conductividad dentro de los límites, sin alarmas ni desviaciones</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Agua dentro de los límites durante todo el período.<br>
-  Sin alarmas ni desviaciones no tratadas.</p>
+  1) Operar el sistema completo durante el período definido (72 h propuestas)<br>
+  2) Registrar conductividad y TOC en cada intervalo definido, sin resúmenes<br>
+  3) Registrar cada alarma y desviación con su tratamiento<br>
+  4) Verificar que no haya paradas no programadas ni estancamiento</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = operación continua del sistema; unidad = pasa/no pasa por registro y variables continuas. Tipo de dato = continua. n = 72 h continuas con registro cada 15 min. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = sin alarmas no tratadas y todas las variables dentro de límite. Atípicos = Grubbs solo si n ≥ 7 y sobre la escala de la variable medida; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>72 h de operación continua (<span class="por-confirmar">período de diseño</span>) sin alarmas no tratadas ni desviaciones abiertas.<br>Conductividad y TOC dentro de límite en cada registro.<br>Sin paradas no programadas ni estancamiento.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro de la operación (anexo del informe)</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante del sistema.</p>
+  <p><strong>Nota:</strong><br>La duración en rojo debe confirmarse con el plan de validación del sistema; el período se registra completo, sin resúmenes.</p>
+  <p><strong>Referencia:</strong><br>Manual del fabricante del sistema; USP &lt;1231&gt;; ISPE Baseline Guide Vol. 4 (Water and Steam Systems); EU GMP Anexo 15; 21 CFR 211.160(b).</p>
 </article>
 
 <article data-bloque="4" id="art-SIS-OQ-AP-RES" class="ensayo" data-id="SIS-OQ-AP-RES" data-fase="OQ" data-cond="ambas" data-familia="agua-purificada">
