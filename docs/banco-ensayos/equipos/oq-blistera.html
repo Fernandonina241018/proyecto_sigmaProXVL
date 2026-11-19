@@ -27,12 +27,12 @@
   2) Medir el tiempo de detención<br>
   3) Verificar el estado seguro de las estaciones calientes<br>
   4) Restablecer y verificar el rearranque controlado</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  La línea se detiene dentro del tiempo especificado.<br>
-  Estaciones calientes en estado seguro sin rearranque espontáneo.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = parada de emergencia; unidad = s. Tipo de dato = continua. n = 3 activaciones. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = detención ≤ 2 s. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>La parada de emergencia detiene la línea y deja las estaciones en estado seguro en ≤ <span class="por-confirmar">2 s</span>.<br>Rearme manual, sin reinicio automático.<br>Evento registrado con hora y usuario.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro de parada de emergencia (anexo del informe)</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante de la blistera.</p>
+  <p><strong>Nota:</strong><br>El tiempo en rojo se confirma con el fabricante y el análisis de riesgo.</p>
+  <p><strong>Referencia:</strong><br>ISO 11607-1/-2; ASTM F88; ASTM F1929; USP &lt;671&gt;; 21 CFR 211.122; 21 CFR 211.125; EU GMP Anexo 15.</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-OQ-BL-002" class="ensayo" data-id="EQ-OQ-BL-002" data-fase="OQ" data-cond="ambas">
@@ -42,12 +42,12 @@
   1) Con cada guarda o puerta abierta, intentar operar cada estación: no debe moverse<br>
   2) Verificar la protección de dedos en la zona de sellado<br>
   3) Registrar cada interlock con su respuesta</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Ninguna estación se mueve con guardas abiertas.<br>
-  La protección de dedos está instalada y operativa.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = actuación de interlocks; unidad = s. Tipo de dato = continua. n = 3 repeticiones. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = detención ≤ 1 s. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Ninguna estación se mueve con guarda abierta o formato incompleto: detención en ≤ <span class="por-confirmar">1 s</span>.<br>Rearme manual tras la condición segura.<br>Prueba registrada por interlock.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Matriz de interlocks con respuesta verificada (anexo del informe)</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante de la blistera.</p>
+  <p><strong>Nota:</strong><br>Un interlock puenteado es un hallazgo crítico.</p>
+  <p><strong>Referencia:</strong><br>ISO 11607-1/-2; ASTM F88; ASTM F1929; USP &lt;671&gt;; 21 CFR 211.122; 21 CFR 211.125; EU GMP Anexo 15.</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-OQ-BL-003" class="ensayo" data-id="EQ-OQ-BL-003" data-fase="OQ" data-cond="ambas">
@@ -56,12 +56,12 @@
   <p><strong>Procedimiento:</strong><br>
   1) Simular cada condición de alarma aplicable y verificar disparo y acción<br>
   2) Verificar el registro de cada alarma en el histórico</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Cada alarma dispara ante su condición y ejecuta su acción.<br>
-  Todas quedan registradas en el histórico.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = disparo de alarmas; unidad = pasa/no pasa. Tipo de dato = atributo. n = 3 repeticiones por alarma. Estadísticos = proporción de cumplimiento con IC binomial exacto. Regla de decisión = cada alarma dispara y actúa. Atípicos: no aplica a datos de atributo; toda exclusión se documenta y se conserva el registro original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Cada alarma dispara y ejecuta su acción: fin de film, fin de producto, temperatura fuera de rango y presión baja.<br>Registro con fecha, hora, valor y usuario.<br>Prueba registrada por alarma.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Matriz de alarmas con disparo y acción verificados (anexo del informe)</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante de la blistera.</p>
+  <p><strong>Nota:</strong><br>Se prueban todas las alarmas del análisis de riesgo.</p>
+  <p><strong>Referencia:</strong><br>ISO 11607-1/-2; ASTM F88; ASTM F1929; USP &lt;671&gt;; 21 CFR 211.122; 21 CFR 211.125; EU GMP Anexo 15.</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-OQ-BL-004" class="ensayo" data-id="EQ-OQ-BL-004" data-fase="OQ" data-cond="ambas">
@@ -72,12 +72,11 @@
   2) Verificar el estado seguro y la ausencia de arranque espontáneo<br>
   3) Verificar el tratamiento definido para el material en estaciones calientes<br>
   4) Verificar el rearranque manual controlado</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Estado seguro sin arranque espontáneo.<br>
-  El material afectado se trata según lo definido.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Ante falla de energía queda en estado seguro, sin arranque espontáneo.<br>El material en proceso se descarta o evalúa según procedimiento.<br>Evento registrado.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro de falla y recuperación de energía (anexo del informe)</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante de la blistera.</p>
+  <p><strong>Nota:</strong><br>La disposición del material se define antes de la prueba.</p>
+  <p><strong>Referencia:</strong><br>ISO 11607-1/-2; ASTM F88; ASTM F1929; USP &lt;671&gt;; 21 CFR 211.122; 21 CFR 211.125; EU GMP Anexo 15.</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-OQ-BL-005" class="ensayo" data-id="EQ-OQ-BL-005" data-fase="OQ" data-cond="ambas" data-analisis="si">
@@ -88,13 +87,13 @@
   2) Medir cada punto con un contador independiente, por triplicado<br>
   3) Registrar la lectura del control y la independiente<br>
   4) Procesar los datos crudos de velocidad en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  La velocidad indicada está dentro de tolerancia en los tres puntos.<br>
-  La repetibilidad cumple el criterio.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = velocidad de la línea; unidad = ciclos/min. Tipo de dato = continua. n = 3 lecturas por setpoint. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = desviación ≤ ±2 %. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Velocidad (ciclos/min) dentro de <span class="por-confirmar">±2 %</span> del setpoint en mínimo, nominal y máximo.<br>Sin oscilación > 2 % en 5 min.<br>Registro por velocidad.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro de velocidades con data cruda y reporte<br>
   - Data cruda y reporte estadístico del análisis de velocidad</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante de la blistera.</p>
+  <p><strong>Nota:</strong><br>La tolerancia en rojo se confirma con el fabricante; afecta el tiempo de sellado.</p>
+  <p><strong>Referencia:</strong><br>ISO 11607-1/-2; ASTM F88; ASTM F1929; USP &lt;671&gt;; 21 CFR 211.122; 21 CFR 211.125; EU GMP Anexo 15.</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-OQ-BL-006" class="ensayo" data-id="EQ-OQ-BL-006" data-fase="OQ" data-cond="ambas" data-analisis="si">
@@ -104,13 +103,13 @@
   1) Medir la longitud de paso del avance en ciclos sucesivos, por triplicado<br>
   2) Verificar el registro entre formado, sellado e impresión<br>
   3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  La longitud de paso está dentro de tolerancia con repetibilidad.<br>
-  El registro entre estaciones es correcto.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = longitud de paso; unidad = mm. Tipo de dato = continua. n = 10 mediciones por condición. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = paso ±0,2 mm y repetibilidad ±0,1 mm. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Longitud de paso del film dentro de <span class="por-confirmar">±0,2 mm</span> y repetibilidad ±0,1 mm.<br>Sin deriva acumulada al final del rollo.<br>Registro por medición.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro de avance con data cruda y reporte<br>
   - Data cruda y reporte estadístico del análisis de avance del film</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante de la blistera.</p>
+  <p><strong>Nota:</strong><br>El paso define la alineación de cavidades y el troquelado.</p>
+  <p><strong>Referencia:</strong><br>ISO 11607-1/-2; ASTM F88; ASTM F1929; USP &lt;671&gt;; 21 CFR 211.122; 21 CFR 211.125; EU GMP Anexo 15.</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-OQ-BL-007" class="ensayo" data-id="EQ-OQ-BL-007" data-fase="OQ" data-cond="ambas" data-analisis="si">
@@ -120,13 +119,13 @@
   1) Medir la tensión del film en desbobinado y avance (si aplica medición)<br>
   2) Inspeccionar arrugas o desalineación durante la marcha<br>
   3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  La tensión es estable dentro de rango.<br>
-  Sin arrugas ni desalineación.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = tensión del film; unidad = N. Tipo de dato = continua. n = 3 lecturas por condición. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = desviación ≤ ±10 %. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Tensión del film estable dentro de ±<span class="por-confirmar">10 %</span> durante el desbobinado y el avance.<br>Sin arrugas ni estiramiento permanente.<br>Registro por condición.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro con data cruda y reporte<br>
   - Data cruda y reporte estadístico del análisis de tensión del film</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante de la blistera.</p>
+  <p><strong>Nota:</strong><br>La tensión inestable produce arrugas y sellos canulados.</p>
+  <p><strong>Referencia:</strong><br>ISO 11607-1/-2; ASTM F88; ASTM F1929; USP &lt;671&gt;; 21 CFR 211.122; 21 CFR 211.125; EU GMP Anexo 15.</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-OQ-BL-008" class="ensayo" data-id="EQ-OQ-BL-008" data-fase="OQ" data-cond="ambas" data-analisis="si">
@@ -137,13 +136,13 @@
   2) Verificar el ajuste de formado, sellado y troquel por molde<br>
   3) Registrar el tiempo de cambio si el procedimiento lo exige<br>
   4) Procesar los datos crudos de alineación en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Cada molde monta con alineación y ajuste correctos.<br>
-  Sin piezas intercambiadas.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = alineación y ajuste del molde; unidad = pasa/no pasa. Tipo de dato = atributo. n = 100 % de los moldes del formato. Estadísticos = proporción de cumplimiento con IC binomial exacto. Regla de decisión = todos alineados y ajustados. Atípicos = Grubbs solo si n ≥ 7; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Cada molde se monta con alineación y ajuste según fabricante; sin juego ni contacto indebido.<br>El 100 % de los moldes del formato verificados.<br>Registro de montaje.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro de cambio de formato con data cruda y reporte<br>
   - Data cruda y reporte estadístico del análisis de cambio de formato</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante de la blistera.</p>
+  <p><strong>Nota:</strong><br>Un molde desalineado deforma la cavidad de forma sistemática.</p>
+  <p><strong>Referencia:</strong><br>ISO 11607-1/-2; ASTM F88; ASTM F1929; USP &lt;671&gt;; 21 CFR 211.122; 21 CFR 211.125; EU GMP Anexo 15.</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-OQ-BL-009" class="ensayo" data-id="EQ-OQ-BL-009" data-fase="OQ" data-cond="ambas" data-analisis="si">
@@ -154,13 +153,13 @@
   2) Medir con patrón de referencia en cada punto, por triplicado<br>
   3) Medir la uniformidad sobre la placa de formado<br>
   4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  La temperatura está dentro de tolerancia en todos los puntos.<br>
-  La uniformidad sobre la placa cumple el criterio.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = temperatura de formado; unidad = °C. Tipo de dato = continua. n = 3 puntos por condición. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = cada punto dentro de ±2 °C. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Temperatura de formado dentro de <span class="por-confirmar">±2 °C</span> del setpoint, medida con patrón.<br>Uniformidad en la placa de formado dentro de ±2 °C.<br>Registro por punto.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro térmico con data cruda y reporte<br>
   - Data cruda y reporte estadístico del análisis de temperatura de formado</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante de la blistera.</p>
+  <p><strong>Nota:</strong><br>La tolerancia en rojo se confirma con el film y el fabricante.</p>
+  <p><strong>Referencia:</strong><br>ISO 11607-1/-2; ASTM F88; ASTM F1929; USP &lt;671&gt;; 21 CFR 211.122; 21 CFR 211.125; EU GMP Anexo 15.</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-OQ-BL-010" class="ensayo" data-id="EQ-OQ-BL-010" data-fase="OQ" data-cond="ambas" data-analisis="si">
@@ -171,13 +170,13 @@
   2) Medir con instrumento independiente, por triplicado<br>
   3) Verificar estabilidad durante ciclos sucesivos<br>
   4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  La presión o vacío está dentro de tolerancia y es estable.<br>
-  La repetibilidad cumple el criterio.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = presión o vacío de formado; unidad = bar o mbar. Tipo de dato = continua. n = 3 lecturas por condición. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = desviación ≤ ±5 %. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Presión o vacío de formado dentro de ±<span class="por-confirmar">5 %</span> del setpoint.<br>Sin caída al aumentar la velocidad.<br>Registro por condición.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro con data cruda y reporte<br>
   - Data cruda y reporte estadístico del análisis de presión de formado</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante de la blistera.</p>
+  <p><strong>Nota:</strong><br>La presión baja deja cavidades incompletas sin que se vea a simple vista.</p>
+  <p><strong>Referencia:</strong><br>ISO 11607-1/-2; ASTM F88; ASTM F1929; USP &lt;671&gt;; 21 CFR 211.122; 21 CFR 211.125; EU GMP Anexo 15.</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-OQ-BL-011" class="ensayo" data-id="EQ-OQ-BL-011" data-fase="OQ" data-cond="ambas" data-analisis="si">
@@ -188,13 +187,13 @@
   2) Medir el caudal y la temperatura del agua de enfriamiento del molde (si aplica)<br>
   3) Verificar que están en rango durante la operación<br>
   4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  El tiempo de formado corresponde al programado.<br>
-  Caudal y temperatura de enfriamiento en rango.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = tiempo de formado y enfriamiento; unidad = s. Tipo de dato = continua. n = 3 ciclos por condición. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = dentro del rango del fabricante. Atípicos = Grubbs solo si n ≥ 7; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Tiempo de formado y enfriamiento del molde dentro del rango del fabricante.<br>Sin deformación al desmoldar.<br>Registro por condición.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro con data cruda y reporte<br>
   - Data cruda y reporte estadístico del análisis de formado y enfriamiento</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante de la blistera.</p>
+  <p><strong>Nota:</strong><br>El enfriamiento insuficiente deforma la cavidad al abrir el molde.</p>
+  <p><strong>Referencia:</strong><br>ISO 11607-1/-2; ASTM F88; ASTM F1929; USP &lt;671&gt;; 21 CFR 211.122; 21 CFR 211.125; EU GMP Anexo 15.</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-OQ-BL-012" class="ensayo" data-id="EQ-OQ-BL-012" data-fase="OQ" data-cond="ambas" data-analisis="si">
@@ -205,13 +204,13 @@
   2) Medir profundidad y espesor, con énfasis en esquinas<br>
   3) Inspeccionar adelgazamiento y perforación<br>
   4) Procesar los datos crudos dimensionales en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Profundidad y espesor dentro de especificación a las tres velocidades.<br>
-  Sin adelgazamiento ni perforación en esquinas.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = profundidad y espesor; unidad = mm. Tipo de dato = continua. n = 10 cavidades por condición. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = cada cavidad dentro de tolerancia. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Profundidad de cavidad dentro de <span class="por-confirmar">±0,1 mm</span> y espesor de pared según especificación.<br>Medición en muestra de cada cavidad o en la muestra justificada.<br>Sin adelgazamiento local que comprometa la barrera.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro dimensional con data cruda y reporte<br>
   - Data cruda y reporte estadístico del análisis dimensional de cavidades</p>
-  <p><strong>Referencia:</strong><br>Especificación del material de formado.</p>
+  <p><strong>Nota:</strong><br>El espesor mínimo es lo que garantiza la barrera; el promedio no alcanza.</p>
+  <p><strong>Referencia:</strong><br>ISO 11607-1/-2; ASTM F88; ASTM F1929; USP &lt;671&gt;; 21 CFR 211.122; 21 CFR 211.125; EU GMP Anexo 15.</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-OQ-BL-013" class="ensayo" data-id="EQ-OQ-BL-013" data-fase="OQ" data-cond="ambas">
@@ -221,12 +220,11 @@
   1) Operar el alimentador en sus ajustes de uso (si aplica)<br>
   2) Verificar velocidad, amplitud de vibración y sentido de giro<br>
   3) Verificar ausencia de daño al producto en la alimentación</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  El alimentador opera dentro de sus ajustes sin dañar el producto.<br>
-  Sentido de giro correcto.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Alimentador (cepillos, canal vibratorio o rodillos) con velocidad y orientación correctas.<br>Sin atascos ni producto fuera de cavidad.<br>Registro por condición.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro del alimentador (anexo del informe)</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante de la blistera.</p>
+  <p><strong>Nota:</strong><br>Un alimentador mal ajustado deja cavidades vacías y genera rechazo.</p>
+  <p><strong>Referencia:</strong><br>ISO 11607-1/-2; ASTM F88; ASTM F1929; USP &lt;671&gt;; 21 CFR 211.122; 21 CFR 211.125; EU GMP Anexo 15.</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-OQ-BL-014" class="ensayo" data-id="EQ-OQ-BL-014" data-fase="OQ" data-cond="ambas">
@@ -236,12 +234,12 @@
   1) Correr placebo a cada velocidad de uso<br>
   2) Contar cavidades llenas, vacías y con doble llenado<br>
   3) Calcular el porcentaje de llenado correcto por velocidad</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  El porcentaje de cavidades llenas cumple el mínimo definido.<br>
-  Sin doble llenado fuera de criterio.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = llenado de cavidades; unidad = %. Tipo de dato = continua. n = 3 series de 500 blísteres. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = ≥ 99,5 % de cavidades llenas. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Llenado de cavidades ≥ <span class="por-confirmar">99,5 %</span> con placebo.<br>Sin producto dañado por el alimentador.<br>Registro por serie.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro de llenado por velocidad (anexo del informe)</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante de la blistera.</p>
+  <p><strong>Nota:</strong><br>La cavidad vacía es el defecto más frecuente en blisteras.</p>
+  <p><strong>Referencia:</strong><br>ISO 11607-1/-2; ASTM F88; ASTM F1929; USP &lt;671&gt;; 21 CFR 211.122; 21 CFR 211.125; EU GMP Anexo 15.</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-OQ-BL-015" class="ensayo" data-id="EQ-OQ-BL-015" data-fase="OQ" data-cond="ambas">
@@ -251,12 +249,12 @@
   1) Crear cavidades vacías a propósito como desafío (si aplica sensor)<br>
   2) Verificar la detección de cada cavidad vacía o doble<br>
   3) Verificar la acción asociada (rechazo o paro)</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  El 100% de las cavidades desafío se detecta.<br>
-  La acción asociada ocurre correctamente.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = detección de cavidad vacía; unidad = %. Tipo de dato = continua. n = 3 series de 100 blísteres. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = 100 % de vacías detectadas. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>El sensor de presencia detecta cavidad vacía y activa el rechazo.<br>Matriz de desafío: 100 % de las unidades malas se rechaza y el 0 % de las unidades buenas se rechaza.<br>Registro por prueba.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro del desafío del sensor (anexo del informe)</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante de la blistera.</p>
+  <p><strong>Nota:</strong><br>La prueba se hace con cavidades vacías conocidas.</p>
+  <p><strong>Referencia:</strong><br>ISO 11607-1/-2; ASTM F88; ASTM F1929; USP &lt;671&gt;; 21 CFR 211.122; 21 CFR 211.125; EU GMP Anexo 15.</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-OQ-BL-016" class="ensayo" data-id="EQ-OQ-BL-016" data-fase="OQ" data-cond="ambas" data-analisis="si">
@@ -267,13 +265,13 @@
   2) Medir con patrón de referencia en cada punto, por triplicado<br>
   3) Medir la uniformidad sobre la placa o el rodillo<br>
   4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  La temperatura está dentro de tolerancia en los tres setpoints.<br>
-  La uniformidad cumple el criterio.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = temperatura de sellado; unidad = °C. Tipo de dato = continua. n = 5 puntos por condición. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = cada punto dentro de ±2 °C. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Temperatura de sellado dentro de <span class="por-confirmar">±2 °C</span> del setpoint en toda la placa.<br>Uniformidad entre puntos de sellado dentro de ±2 °C.<br>Registro por punto.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro térmico con data cruda y reporte<br>
   - Data cruda y reporte estadístico del análisis de temperatura de sellado</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante de la blistera.</p>
+  <p><strong>Nota:</strong><br>La temperatura es el parámetro más crítico del sello; la uniformidad importa tanto como el valor.</p>
+  <p><strong>Referencia:</strong><br>ISO 11607-1/-2; ASTM F88; ASTM F1929; USP &lt;671&gt;; 21 CFR 211.122; 21 CFR 211.125; EU GMP Anexo 15.</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-OQ-BL-017" class="ensayo" data-id="EQ-OQ-BL-017" data-fase="OQ" data-cond="ambas" data-analisis="si">
@@ -285,13 +283,13 @@
   3) Ejecutar la prueba con papel sensible a presión sobre toda la superficie<br>
   4) Identificar zonas de poco contacto<br>
   5) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  La presión está dentro de tolerancia.<br>
-  El papel sensible muestra contacto uniforme sin zonas frías.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = presión de sellado; unidad = bar. Tipo de dato = continua. n = 5 puntos por condición. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = desviación ≤ ±5 % en todos los puntos. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Presión de sellado dentro de <span class="por-confirmar">±5 %</span> del setpoint y distribuida uniformemente.<br>Sin zonas de menor presión.<br>Registro por punto.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro y papel sensible con data cruda y reporte<br>
   - Data cruda y reporte estadístico del análisis de presión de sellado</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante de la blistera.</p>
+  <p><strong>Nota:</strong><br>Una placa desnivelada sella bien en un lado y mal en el otro.</p>
+  <p><strong>Referencia:</strong><br>ISO 11607-1/-2; ASTM F88; ASTM F1929; USP &lt;671&gt;; 21 CFR 211.122; 21 CFR 211.125; EU GMP Anexo 15.</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-OQ-BL-018" class="ensayo" data-id="EQ-OQ-BL-018" data-fase="OQ" data-cond="ambas" data-analisis="si">
@@ -301,13 +299,13 @@
   1) Medir el tiempo de contacto a velocidad mínima, nominal y máxima<br>
   2) Establecer la relación dwell contra velocidad<br>
   3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  El dwell corresponde a lo especificado a cada velocidad.<br>
-  La relación es consistente y reproducible.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = tiempo de contacto; unidad = s. Tipo de dato = continua. n = 3 lecturas por velocidad. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = desviación ≤ ±0,1 s. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Tiempo de contacto (dwell) dentro de <span class="por-confirmar">±0,1 s</span> del setpoint a cada velocidad.<br>Sin reducción al aumentar la velocidad.<br>Registro por condición.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro con data cruda y reporte<br>
   - Data cruda y reporte estadístico del análisis de dwell</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante de la blistera.</p>
+  <p><strong>Nota:</strong><br>El dwell cae si la velocidad sube sin ajustar el perfil; es causa de fuga.</p>
+  <p><strong>Referencia:</strong><br>ISO 11607-1/-2; ASTM F88; ASTM F1929; USP &lt;671&gt;; 21 CFR 211.122; 21 CFR 211.125; EU GMP Anexo 15.</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-OQ-BL-019" class="ensayo" data-id="EQ-OQ-BL-019" data-fase="OQ" data-cond="ambas">
@@ -318,12 +316,11 @@
   2) Ejecutar las corridas del diseño evaluando integridad del sello<br>
   3) Delimitar la ventana con resultado aceptable<br>
   4) Fijar los parámetros de rutina dentro de la ventana</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  La ventana de sellado queda definida y documentada.<br>
-  Los parámetros de rutina están dentro de la ventana.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Ventana de sellado definida: temperatura, presión y tiempo mínimos y máximos.<br>Cada combinación extrema produce sello íntegro.<br>Registro por combinación.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Diseño de experimentos y ventana definida (anexo del informe)</p>
-  <p><strong>Referencia:</strong><br>ICH Q8 (desarrollo farmacéutico, si aplica).</p>
+  <p><strong>Nota:</strong><br>La ventana se define con el proveedor del film y se verifica en los extremos.</p>
+  <p><strong>Referencia:</strong><br>ISO 11607-1/-2; ASTM F88; ASTM F1929; USP &lt;671&gt;; 21 CFR 211.122; 21 CFR 211.125; EU GMP Anexo 15.</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-OQ-BL-020" class="ensayo" data-id="EQ-OQ-BL-020" data-fase="OQ" data-cond="ambas">
@@ -334,12 +331,12 @@
   2) Definir en el protocolo aprobado el método de hermeticidad (azul de metileno o vacío, según USP &lt;1207&gt;) y aplicarlo<br>
   3) Medir la resistencia al pelado con dinamómetro (si aplica)<br>
   4) Registrar los resultados por velocidad</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Sin fugas con el método definido en el protocolo aprobado.<br>
-  La resistencia al pelado cumple el criterio (si aplica).</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = integridad del sello; unidad = pasa/no pasa. Tipo de dato = atributo. n = 10 blísteres por condición. Estadísticos = proporción de cumplimiento con IC binomial exacto. Regla de decisión = 0 fugas. Atípicos: no aplica a datos de atributo; toda exclusión se documenta y se conserva el registro original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Integridad del sello: 0 fugas por azul de metileno o método equivalente.<br>Muestra en posiciones extremas del blíster.<br>Registro por muestra.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registros de integridad por velocidad (anexo del informe)</p>
-  <p><strong>Referencia:</strong><br>USP &lt;1207&gt; (integridad de empaque, si aplica).</p>
+  <p><strong>Nota:</strong><br>La prueba de fuga con colorante es el método directo de integridad.</p>
+  <p><strong>Referencia:</strong><br>ISO 11607-1/-2; ASTM F88; ASTM F1929; USP &lt;671&gt;; 21 CFR 211.122; 21 CFR 211.125; EU GMP Anexo 15.</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-OQ-BL-021" class="ensayo" data-id="EQ-OQ-BL-021" data-fase="OQ" data-cond="ambas">
@@ -349,12 +346,12 @@
   1) Inspeccionar visualmente el sello de muestras a cada velocidad<br>
   2) Clasificar defectos (arrugas, canales, quemaduras)<br>
   3) Registrar por velocidad</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Patrón de sello continuo en todas las velocidades.<br>
-  Sin arrugas, canales ni quemaduras.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = aspecto del sello; unidad = pasa/no pasa. Tipo de dato = atributo. n = 30 blísteres por condición. Estadísticos = proporción de cumplimiento con IC binomial exacto. Regla de decisión = todos sin defectos. Atípicos: no aplica a datos de atributo; toda exclusión se documenta y se conserva el registro original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Aspecto del sello: patrón continuo, sin arrugas, canales ni inclusiones.<br>Inspección visual del 100 % de la muestra.<br>Registro fotográfico de defectos.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro de aspecto del sello (anexo del informe)</p>
-  <p><strong>Referencia:</strong><br>Patrón de defectos aprobado.</p>
+  <p><strong>Nota:</strong><br>Un canal en el sello es una fuga potencial aunque la prueba de colorante pase en otra zona.</p>
+  <p><strong>Referencia:</strong><br>ISO 11607-1/-2; ASTM F88; ASTM F1929; USP &lt;671&gt;; 21 CFR 211.122; 21 CFR 211.125; EU GMP Anexo 15.</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-OQ-BL-022" class="ensayo" data-id="EQ-OQ-BL-022" data-fase="OQ" data-cond="ambas">
@@ -364,12 +361,12 @@
   1) Verificar legibilidad, posición y contraste del lote y vencimiento a cada velocidad<br>
   2) Registrar defectos de impresión<br>
   3) Verificar contra la orden de acondicionamiento</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Lote y vencimiento legibles y bien posicionados a todas las velocidades.<br>
-  Sin omisiones ni borrosidad.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = legibilidad del código; unidad = %. Tipo de dato = atributo. n = muestra por turno. Estadísticos = proporción de cumplimiento con IC binomial exacto. Regla de decisión = 100 % legibles y correctos. Atípicos: no aplica a datos de atributo; toda exclusión se documenta y se conserva el registro original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Impresión o grabado de lote y vencimiento legible en el 100 % de la muestra.<br>Contenido correcto verificado contra la orden.<br>Sin códigos borrosos ni incompletos.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro de codificación (anexo del informe)</p>
-  <p><strong>Referencia:</strong><br>Orden de acondicionamiento del producto.</p>
+  <p><strong>Nota:</strong><br>Un código ilegible inutiliza el lote.</p>
+  <p><strong>Referencia:</strong><br>ISO 11607-1/-2; ASTM F88; ASTM F1929; USP &lt;671&gt;; 21 CFR 211.122; 21 CFR 211.125; EU GMP Anexo 15.</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-OQ-BL-023" class="ensayo" data-id="EQ-OQ-BL-023" data-fase="OQ" data-cond="ambas">
@@ -379,13 +376,12 @@
   1) Preparar muestras de desafío de cada tipo de defecto<br>
   2) Pasar cada muestra y verificar su detección y rechazo<br>
   3) Registrar el resultado por tipo de defecto</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  El 100% de las muestras de desafío se detecta y rechaza.<br>
-  Sin defectos no detectados.<br>
-  Matriz de desafío: número de unidades por condición definido en el protocolo aprobado; el 100 % de las unidades malas se rechaza y el 0 % de las unidades buenas se rechaza.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = detección de defectos por visión; unidad = %. Tipo de dato = continua. n = 3 series de 100 por defecto. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = 100 % de defectuosos rechazados y 0 % de buenos. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Sistema de visión con muestras de desafío: cavidad vacía, producto partido, sello defectuoso y código ausente.<br>Matriz de desafío: 100 % de las unidades malas se rechaza y el 0 % de las unidades buenas se rechaza.<br>Registro por tipo de defecto.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro del desafío de visión (anexo del informe)</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante del sistema de visión.</p>
+  <p><strong>Nota:</strong><br>El desafío se hace con defectos reales conocidos, no simulados por software.</p>
+  <p><strong>Referencia:</strong><br>ISO 11607-1/-2; ASTM F88; ASTM F1929; USP &lt;671&gt;; 21 CFR 211.122; 21 CFR 211.125; EU GMP Anexo 15.</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-OQ-BL-024" class="ensayo" data-id="EQ-OQ-BL-024" data-fase="OQ" data-cond="ambas">
@@ -396,13 +392,12 @@
   2) Verificar el desvío de cada uno al rechazo<br>
   3) Simular falla de la cámara y verificar el rechazo asociado<br>
   4) Verificar el conteo y la ausencia de malos en buenos</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  El 100% de los defectos inducidos se rechaza.<br>
-  Ningún malo llega al recipiente de buenos.<br>
-  Matriz de desafío: número de unidades por condición definido en el protocolo aprobado; el 100 % de las unidades malas se rechaza y el 0 % de las unidades buenas se rechaza.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = desvío de defectuosos; unidad = %. Tipo de dato = continua. n = 3 series de 100. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = 100 % desviados y conteo correcto. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Los blísteres defectuosos se desvían al rechazo, con conteo correcto (±1 unidad).<br>Matriz de desafío: 100 % de las unidades malas se rechaza y el 0 % de las unidades buenas se rechaza.<br>Registro por serie.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro de rechazo (anexo del informe)</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante de la blistera.</p>
+  <p><strong>Nota:</strong><br>Se verifica con la bandeja de rechazo, no solo con el contador.</p>
+  <p><strong>Referencia:</strong><br>ISO 11607-1/-2; ASTM F88; ASTM F1929; USP &lt;671&gt;; 21 CFR 211.122; 21 CFR 211.125; EU GMP Anexo 15.</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-OQ-BL-025" class="ensayo" data-id="EQ-OQ-BL-025" data-fase="OQ" data-cond="ambas">
@@ -412,12 +407,12 @@
   1) Medir las dimensiones del blíster troquelado<br>
   2) Inspeccionar el borde: limpio, sin rebabas ni delaminación<br>
   3) Evaluar el desgaste del troquel (si aplica medición)</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Dimensiones dentro de especificación.<br>
-  Borde limpio sin rebabas ni delaminación.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = dimensiones del blíster; unidad = mm. Tipo de dato = continua. n = 10 blísteres por condición. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = cada dimensión dentro de ±0,5 mm. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Troquelado: dimensiones dentro de <span class="por-confirmar">±0,5 mm</span> y borde limpio sin rebabas.<br>Sin delaminación ni rotura del film.<br>Registro por medición.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro de troquelado (anexo del informe)</p>
-  <p><strong>Referencia:</strong><br>Especificación del blíster.</p>
+  <p><strong>Nota:</strong><br>Un borde con rebaba se abre en el estuchado.</p>
+  <p><strong>Referencia:</strong><br>ISO 11607-1/-2; ASTM F88; ASTM F1929; USP &lt;671&gt;; 21 CFR 211.122; 21 CFR 211.125; EU GMP Anexo 15.</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-OQ-BL-026" class="ensayo" data-id="EQ-OQ-BL-026" data-fase="OQ" data-cond="ambas">
@@ -427,12 +422,11 @@
   1) Operar la línea y verificar la evacuación continua del retal<br>
   2) Verificar el enrollado o recolección sin atascos<br>
   3) Verificar que el retal no interfiere con la línea</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Evacuación continua sin atascos.<br>
-  Sin interferencia con la operación.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Evacuación y recolección de retal sin obstrucción ni acumulación.<br>Sin retal en la línea de producto.<br>Registro de la verificación.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro de evacuación de retal (anexo del informe)</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante de la blistera.</p>
+  <p><strong>Nota:</strong><br>El retal acumulado puede contaminar el producto o detener la línea.</p>
+  <p><strong>Referencia:</strong><br>ISO 11607-1/-2; ASTM F88; ASTM F1929; USP &lt;671&gt;; 21 CFR 211.122; 21 CFR 211.125; EU GMP Anexo 15.</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-OQ-BL-027" class="ensayo" data-id="EQ-OQ-BL-027" data-fase="OQ" data-cond="ambas" data-analisis="si">
@@ -443,13 +437,13 @@
   2) Repetir a velocidad nominal y a velocidad máxima<br>
   3) Registrar alarmas e intervenciones<br>
   4) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  La secuencia completa opera a las tres velocidades.<br>
-  Sin alarmas ni desviaciones no justificadas.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = desempeño con placebo; unidad = pasa/no pasa. Tipo de dato = atributo. n = 3 velocidades con 100 blísteres. Estadísticos = proporción de cumplimiento con IC binomial exacto. Regla de decisión = todos los atributos conformes. Atípicos: no aplica a datos de atributo; toda exclusión se documenta y se conserva el registro original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Corrida con placebo a velocidad mínima, nominal y máxima: cavidades llenas, sello íntegro y código legible.<br>Sin atascos ni rechazo anormal.<br>Registro por velocidad.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registros de corrida con data cruda y reporte<br>
   - Data cruda y reporte estadístico del análisis de corrida con placebo</p>
-  <p><strong>Referencia:</strong><br>Especificación de operación de la blistera.</p>
+  <p><strong>Nota:</strong><br>Es la antesala del PQ; se corre con el film real.</p>
+  <p><strong>Referencia:</strong><br>ISO 11607-1/-2; ASTM F88; ASTM F1929; USP &lt;671&gt;; 21 CFR 211.122; 21 CFR 211.125; EU GMP Anexo 15.</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-OQ-BL-028" class="ensayo" data-id="EQ-OQ-BL-028" data-fase="OQ" data-cond="ambas" data-familia="blistera">
@@ -461,12 +455,11 @@
   3) Verificar el significado de la firma electrónica (revisión/aprobación) y su manifestación (nombre, fecha, significado)<br>
   4) Ejecutar el respaldo de formatos y parámetros y verificar su restauración en un entorno de prueba o según procedimiento<br>
   5) Verificar la sincronización de fecha y hora con la red (si aplica)</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Roles y accesos corresponden a lo aprobado.<br>
-  La pista de auditoría registra usuario, fecha, hora y significado; el respaldo restaura correctamente.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Registros del HMI: audit trail activo, usuarios y roles únicos, sin borrado.<br>Cambios de receta y ajustes registrados con usuario y hora.<br>Respaldo de configuración probado.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro de roles, pista de auditoría y respaldo verificados (anexo del informe)</p>
-  <p><strong>Referencia:</strong><br>21 CFR Parte 11 (registros y firmas electrónicas).</p>
+  <p><strong>Nota:</strong><br>Aplica si hay HMI con registros electrónicos; si no, No Aplica con aprobación.</p>
+  <p><strong>Referencia:</strong><br>ISO 11607-1/-2; ASTM F88; ASTM F1929; USP &lt;671&gt;; 21 CFR 211.122; 21 CFR 211.125; EU GMP Anexo 15.</p>
 </article>
 
 <article data-bloque="6" id="art-EQ-OQ-BL-REF" class="ensayo tabla-info" data-id="EQ-OQ-BL-REF" data-fase="OQ" data-cond="ambas" data-familia="blistera">
