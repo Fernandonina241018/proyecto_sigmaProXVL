@@ -76,12 +76,11 @@
   1) Encender el instrumento y registrar la versión de software<br>
   2) Esperar el tiempo de calentamiento y verificar la estabilidad de la fuente<br>
   3) Verificar el resultado de la autoprueba</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  La autoprueba finaliza sin error.<br>
-  La fuente alcanza la estabilidad en el tiempo definido por el fabricante.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Encendido, estabilización de la fuente y autoprueba sin error.<br>Tiempo de estabilización según fabricante.<br>Registro del estado.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro de encendido, fuente y autoprueba</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante; URS aprobada.</p>
+  <p><strong>Nota:</strong><br>La fuente inestable desplaza las bandas.</p>
+  <p><strong>Referencia:</strong><br>ISO/IEC 17025; USP &lt;41&gt;; USP &lt;791&gt;; 21 CFR 211.160(b).</p>
   </article>
 
   <article data-bloque="3" id="art-EQ-OQ-IR-002" class="ensayo" data-id="EQ-OQ-IR-002" data-fase="OQ" data-cond="ambas" data-familia="espectrofotometro-ir" data-analisis="si">
@@ -92,13 +91,13 @@
   2) Registrar el número de onda del máximo de cada banda<br>
   3) Calcular la diferencia respecto del valor certificado<br>
   4) Procesar los datos crudos de este ensayo en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia</p>
-  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o condiciones con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  La diferencia en cada banda está dentro del criterio de la URS aprobada.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = exactitud de número de onda; unidad = cm⁻¹. Tipo de dato = continua. n = 3 bandas de referencia. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = desviación ≤ ±1 cm⁻¹. Atípicos: no aplica a datos de atributo cuando el tipo es atributo; en variable continua, Grubbs solo si n ≥ 7. Toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Número de onda de las bandas de referencia dentro de ±<span class="por-confirmar">1 cm⁻¹</span>.<br>Película de poliestireno u otro estándar trazable.<br>Registro por banda.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro de exactitud de número de onda por banda<br>
   - Data cruda y reporte estadístico del análisis correspondiente</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante; URS aprobada; certificado del patrón.</p>
+  <p><strong>Nota:</strong><br>La tolerancia en rojo se confirma con USP &lt;197&gt; y el fabricante.</p>
+  <p><strong>Referencia:</strong><br>ISO/IEC 17025; USP &lt;41&gt;; USP &lt;791&gt;; 21 CFR 211.160(b).</p>
   </article>
 
   <article data-bloque="3" id="art-EQ-OQ-IR-003" class="ensayo" data-id="EQ-OQ-IR-003" data-fase="OQ" data-cond="ambas" data-familia="espectrofotometro-ir" data-analisis="si">
@@ -109,13 +108,13 @@
   2) Registrar el número de onda de la banda de referencia en cada medición<br>
   3) Calcular la desviación estándar y el rango<br>
   4) Procesar los datos crudos de este ensayo en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia</p>
-  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o condiciones con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  La repetibilidad está dentro del criterio de la URS aprobada.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = repetibilidad de banda; unidad = cm⁻¹. Tipo de dato = continua. n = 3 espectros. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = desviación ≤ ±0,1 cm⁻¹. Atípicos: no aplica a datos de atributo cuando el tipo es atributo; en variable continua, Grubbs solo si n ≥ 7. Toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Repetibilidad de la posición de banda ±<span class="por-confirmar">0,1 cm⁻¹</span> entre espectros.<br>Misma muestra, misma preparación.<br>Registro por espectro.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro de repetibilidad por medición<br>
   - Data cruda y reporte estadístico del análisis correspondiente</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante; URS aprobada.</p>
+  <p><strong>Nota:</strong><br>La tolerancia en rojo se confirma con el fabricante.</p>
+  <p><strong>Referencia:</strong><br>ISO/IEC 17025; USP &lt;41&gt;; USP &lt;791&gt;; 21 CFR 211.160(b).</p>
   </article>
 
   <article data-bloque="3" id="art-EQ-OQ-IR-004" class="ensayo" data-id="EQ-OQ-IR-004" data-fase="OQ" data-cond="ambas" data-familia="espectrofotometro-ir" data-analisis="si">
@@ -126,13 +125,13 @@
   2) Calcular la separación de las bandas de resolución<br>
   3) Registrar la relación señal-ruido en la zona definida<br>
   4) Procesar los datos crudos de este ensayo en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia</p>
-  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o condiciones con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  La resolución y la relación señal-ruido están dentro de los límites de la URS aprobada.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = resolución espectral y relación señal-ruido; unidad = cm⁻¹ y relación. Tipo de dato = continua. n = 3 mediciones. Estadísticos = media, DE e IC 95 %. Regla de decisión = resolución ≤ 2 cm⁻¹ y S/R ≥ 100:1. Atípicos: Grubbs solo si n ≥ 7; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Resolución espectral ≤ <span class="por-confirmar">2 cm⁻¹</span> y relación señal-ruido ≥ <span class="por-confirmar">100:1</span>.<br>Resolución verificada con la banda de referencia.<br>Registro de la prueba.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro de resolución y señal-ruido<br>
   - Data cruda y reporte estadístico del análisis correspondiente</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante; URS aprobada.</p>
+  <p><strong>Nota:</strong><br>Una resolución menor cambia la identificación de la muestra.</p>
+  <p><strong>Referencia:</strong><br>ISO/IEC 17025; USP &lt;41&gt;; USP &lt;791&gt;; 21 CFR 211.160(b).</p>
   </article>
 
   <article data-bloque="3" id="art-EQ-OQ-IR-005" class="ensayo" data-id="EQ-OQ-IR-005" data-fase="OQ" data-cond="ambas" data-familia="espectrofotometro-ir" data-analisis="si">
@@ -143,14 +142,13 @@
   2) Calcular la deriva y el ruido<br>
   3) Verificar la purga y el tiempo de estabilización según el manual<br>
   4) Procesar los datos crudos de este ensayo en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia</p>
-  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o condiciones con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  La deriva y el ruido están dentro del criterio de la URS aprobada.<br>
-  La purga alcanza la condición de operación en el tiempo definido.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = estabilidad de la línea base; unidad = A. Tipo de dato = continua. n = 3 mediciones de 10 min. Estadísticos = media, DE e IC 95 %. Regla de decisión = deriva ≤ 0,01 A y sin bandas de agua/CO₂. Atípicos: Grubbs solo si n ≥ 7; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Estabilidad de la línea base ≤ <span class="por-confirmar">0,01 A</span> y ausencia de bandas de CO₂ y agua tras la purga.<br>Registro antes y después de la purga.<br>Sin deriva durante 10 min.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro de línea base, deriva y purga<br>
   - Data cruda y reporte estadístico del análisis correspondiente</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante; URS aprobada.</p>
+  <p><strong>Nota:</strong><br>Una purga deficiente mete bandas de agua y CO₂ en el espectro.</p>
+  <p><strong>Referencia:</strong><br>ISO/IEC 17025; USP &lt;41&gt;; USP &lt;791&gt;; 21 CFR 211.160(b).</p>
   </article>
 
   <article data-bloque="3" id="art-EQ-OQ-IR-006" class="ensayo" data-id="EQ-OQ-IR-006" data-fase="OQ" data-cond="ambas" data-familia="espectrofotometro-ir">
@@ -160,12 +158,11 @@
   1) Verificar el montaje y la limpieza del accesorio según el manual<br>
   2) Registrar un espectro de referencia y verificar la reproducibilidad de la huella<br>
   3) Verificar el registro de fecha, hora y usuario y la transferencia o impresión si aplica</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  El accesorio devuelve espectros reproducibles dentro del criterio aprobado.<br>
-  Los registros son trazables y no modificables por el usuario operativo (si aplica).</p>
+  <p><strong>Criterio de aceptación:</strong><br>Accesorio instalado, limpio y con registro del estado.<br>Sin residuos de muestra anterior.<br>Registro por accesorio.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro del accesorio y control de datos</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante; 21 CFR Part 11 / EU GMP Anexo 11 (si aplica).</p>
+  <p><strong>Nota:</strong><br>Un accesorio sucio contamina la muestra y el espectro.</p>
+  <p><strong>Referencia:</strong><br>ISO/IEC 17025; USP &lt;41&gt;; USP &lt;791&gt;; 21 CFR 211.160(b).</p>
   </article>
 
   <article data-bloque="4" id="art-EQ-OQ-IR-RES" class="ensayo" data-id="EQ-OQ-IR-RES" data-fase="OQ" data-cond="ambas" data-familia="espectrofotometro-ir">

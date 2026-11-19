@@ -76,12 +76,11 @@
   1) Encender el equipo y registrar la versión de software<br>
   2) Verificar el enclavamiento de la tapa y el estado del rotor<br>
   3) Verificar el resultado de la autoprueba</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  La autoprueba finaliza sin error.<br>
-  El equipo no permite operar con la tapa abierta.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Encendido, detección de tapa cerrada y autoprueba sin error.<br>Sin giro con tapa abierta: 0 casos en <span class="por-confirmar">10 intentos</span>.<br>Registro del estado.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro de encendido, tapa y autoprueba</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante; URS aprobada.</p>
+  <p><strong>Nota:</strong><br>Girar con tapa abierta es un riesgo grave.</p>
+  <p><strong>Referencia:</strong><br>ISO/IEC 17025; USP &lt;41&gt;; USP &lt;791&gt;; 21 CFR 211.160(b).</p>
   </article>
 
   <article data-bloque="3" id="art-EQ-OQ-CE-002" class="ensayo" data-id="EQ-OQ-CE-002" data-fase="OQ" data-cond="ambas" data-familia="centrifuga" data-analisis="si">
@@ -92,13 +91,13 @@
   2) Medir la velocidad con tacómetro patrón en al menos tres repeticiones<br>
   3) Calcular la RCF con el radio declarado y compararla con la consigna<br>
   4) Procesar los datos crudos de este ensayo en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia</p>
-  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o condiciones con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  La velocidad y la RCF están dentro de las tolerancias de la URS aprobada.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = velocidad y RCF; unidad = rpm y ×g. Tipo de dato = continua. n = 3 consignas. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = desviación ≤ ±2 %. Atípicos: no aplica a datos de atributo cuando el tipo es atributo; en variable continua, Grubbs solo si n ≥ 7. Toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Velocidad y RCF dentro de ±<span class="por-confirmar">2 %</span> de la consigna.<br>Medición con tacómetro o método del fabricante.<br>Registro por consigna.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro de velocidad y RCF por consigna<br>
   - Data cruda y reporte estadístico del análisis correspondiente</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante; URS aprobada.</p>
+  <p><strong>Nota:</strong><br>La tolerancia en rojo se confirma con el fabricante y el método.</p>
+  <p><strong>Referencia:</strong><br>ISO/IEC 17025; USP &lt;41&gt;; USP &lt;791&gt;; 21 CFR 211.160(b).</p>
   </article>
 
   <article data-bloque="3" id="art-EQ-OQ-CE-003" class="ensayo" data-id="EQ-OQ-CE-003" data-fase="OQ" data-cond="ambas" data-familia="centrifuga" data-analisis="si">
@@ -109,13 +108,13 @@
   2) Verificar la rampa de aceleración y la de frenado configuradas<br>
   3) Registrar el tiempo real y la respuesta del rotor<br>
   4) Procesar los datos crudos de este ensayo en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia</p>
-  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o condiciones con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  El tiempo y las rampas están dentro del criterio de la URS aprobada.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = temporizador y rampas; unidad = s. Tipo de dato = continua. n = 3 pruebas. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = temporizador ≤ ±5 s. Atípicos: no aplica a datos de atributo cuando el tipo es atributo; en variable continua, Grubbs solo si n ≥ 7. Toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Temporizador dentro de ±<span class="por-confirmar">5 s</span> y rampas de aceleración y frenado según diseño.<br>Registro por condición.<br>Sin frenado brusco.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro de temporizador y rampas<br>
   - Data cruda y reporte estadístico del análisis correspondiente</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante; URS aprobada.</p>
+  <p><strong>Nota:</strong><br>Un frenado brusco resuspende el pellet y arruina la separación.</p>
+  <p><strong>Referencia:</strong><br>ISO/IEC 17025; USP &lt;41&gt;; USP &lt;791&gt;; 21 CFR 211.160(b).</p>
   </article>
 
   <article data-bloque="3" id="art-EQ-OQ-CE-004" class="ensayo" data-id="EQ-OQ-CE-004" data-fase="OQ" data-cond="ambas" data-familia="centrifuga">
@@ -125,12 +124,11 @@
   1) Verificar la carga equilibrada según el manual y el estado del rotor<br>
   2) Registrar el nivel de vibración en la operación definida<br>
   3) Verificar la ausencia de ruidos o alarmas anormales</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  La vibración está dentro del criterio del fabricante.<br>
-  El rotor está en buen estado y sin fisuras ni corrosión.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Balanceo de la carga, vibración ≤ <span class="por-confirmar">4,5 mm/s</span> y estado de rotores dentro de rango.<br>Carga balanceada por pares opuestos.<br>Registro de la prueba.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro de balanceo, vibración y estado del rotor</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante.</p>
+  <p><strong>Nota:</strong><br>Una carga desbalanceada daña el rotor y la separación.</p>
+  <p><strong>Referencia:</strong><br>ISO/IEC 17025; USP &lt;41&gt;; USP &lt;791&gt;; 21 CFR 211.160(b).</p>
   </article>
 
   <article data-bloque="3" id="art-EQ-OQ-CE-005" class="ensayo" data-id="EQ-OQ-CE-005" data-fase="OQ" data-cond="ambas" data-familia="centrifuga">
@@ -140,12 +138,11 @@
   1) Intentar abrir la tapa durante la operación y verificar el bloqueo<br>
   2) Accionar el freno y medir el tiempo de detención<br>
   3) Registrar la recuperación y la apertura normal al detenerse</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  La tapa permanece bloqueada hasta la detención completa.<br>
-  El freno detiene el rotor en el tiempo definido por el fabricante.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Enclavamiento de tapa y freno funcionan: la tapa no abre hasta que el rotor baja de <span class="por-confirmar">50 rpm</span>.<br>Registro por prueba.<br>Sin apertura forzada posible.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro de enclavamiento y freno</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante.</p>
+  <p><strong>Nota:</strong><br>Abrir antes de la parada total es un riesgo de exposición.</p>
+  <p><strong>Referencia:</strong><br>ISO/IEC 17025; USP &lt;41&gt;; USP &lt;791&gt;; 21 CFR 211.160(b).</p>
   </article>
 
   <article data-bloque="3" id="art-EQ-OQ-CE-006" class="ensayo" data-id="EQ-OQ-CE-006" data-fase="OQ" data-cond="ambas" data-familia="centrifuga">
@@ -155,12 +152,11 @@
   1) Provocar las alarmas disponibles y registrar el disparo<br>
   2) Cortar la energía durante la operación y verificar el estado seguro<br>
   3) Verificar el registro de fecha, hora y usuario y la transferencia o impresión si aplica</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Las alarmas actúan según el manual del fabricante.<br>
-  Ante el corte, el equipo queda en estado seguro y se recupera sin pérdida de registros.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Alarmas y comportamiento ante corte de energía según diseño.<br>El rotor se detiene de forma segura.<br>Registro del evento.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro de alarmas, corte de energía y datos</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante; 21 CFR Part 11 / EU GMP Anexo 11 (si aplica).</p>
+  <p><strong>Nota:</strong><br>Un corte con tapa bloqueada y muestra biológica es un riesgo.</p>
+  <p><strong>Referencia:</strong><br>ISO/IEC 17025; USP &lt;41&gt;; USP &lt;791&gt;; 21 CFR 211.160(b).</p>
   </article>
 
   <article data-bloque="4" id="art-EQ-OQ-CE-RES" class="ensayo" data-id="EQ-OQ-CE-RES" data-fase="OQ" data-cond="ambas" data-familia="centrifuga">
