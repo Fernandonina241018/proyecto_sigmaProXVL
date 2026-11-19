@@ -1,7 +1,7 @@
 // Generado por scripts/extraer-banco.mjs sistemas — NO EDITAR A MANO.
-// Fuente: docs/banco-ensayos/sistemas/iq-agua-purificada.html + docs/banco-ensayos/sistemas/iq-hvac.html + docs/banco-ensayos/sistemas/iq-vapor-limpio.html + docs/banco-ensayos/sistemas/iq-aire-comprimido.html + docs/banco-ensayos/sistemas/oq-agua-purificada.html + docs/banco-ensayos/sistemas/pq-agua-purificada.html + docs/banco-ensayos/sistemas/oq-hvac.html + docs/banco-ensayos/sistemas/pq-hvac.html + docs/banco-ensayos/sistemas/oq-vapor-limpio.html + docs/banco-ensayos/sistemas/pq-vapor-limpio.html + docs/banco-ensayos/sistemas/oq-aire-comprimido.html + docs/banco-ensayos/sistemas/pq-aire-comprimido.html (versión: SIS-IQ-AP 2026-10-24 v1 + SIS-IQ-HV 2026-10-24 v1 + SIS-IQ-VL 2026-10-24 v1 + SIS-IQ-AC 2026-10-24 v1 + SIS-OQ-AP 2026-11-18 v2 + SIS-PQ-AP 2026-11-18 v2 + SIS-OQ-HV 2026-10-14 v1 + SIS-PQ-HV 2026-10-14 v1 + SIS-OQ-VL 2026-10-14 v1 + SIS-PQ-VL 2026-10-14 v1 + SIS-OQ-AC 2026-10-15 v1 + SIS-PQ-AC 2026-10-15 v1).
+// Fuente: docs/banco-ensayos/sistemas/iq-agua-purificada.html + docs/banco-ensayos/sistemas/iq-hvac.html + docs/banco-ensayos/sistemas/iq-vapor-limpio.html + docs/banco-ensayos/sistemas/iq-aire-comprimido.html + docs/banco-ensayos/sistemas/oq-agua-purificada.html + docs/banco-ensayos/sistemas/pq-agua-purificada.html + docs/banco-ensayos/sistemas/oq-hvac.html + docs/banco-ensayos/sistemas/pq-hvac.html + docs/banco-ensayos/sistemas/oq-vapor-limpio.html + docs/banco-ensayos/sistemas/pq-vapor-limpio.html + docs/banco-ensayos/sistemas/oq-aire-comprimido.html + docs/banco-ensayos/sistemas/pq-aire-comprimido.html (versión: SIS-IQ-AP 2026-11-18 v2 + SIS-IQ-HV 2026-10-24 v1 + SIS-IQ-VL 2026-10-24 v1 + SIS-IQ-AC 2026-10-24 v1 + SIS-OQ-AP 2026-11-18 v2 + SIS-PQ-AP 2026-11-18 v2 + SIS-OQ-HV 2026-10-14 v1 + SIS-PQ-HV 2026-10-14 v1 + SIS-OQ-VL 2026-10-14 v1 + SIS-PQ-VL 2026-10-14 v1 + SIS-OQ-AC 2026-10-15 v1 + SIS-PQ-AC 2026-10-15 v1).
 var BancoSistemas = {
- "version": "SIS-IQ-AP 2026-10-24 v1 + SIS-IQ-HV 2026-10-24 v1 + SIS-IQ-VL 2026-10-24 v1 + SIS-IQ-AC 2026-10-24 v1 + SIS-OQ-AP 2026-11-18 v2 + SIS-PQ-AP 2026-11-18 v2 + SIS-OQ-HV 2026-10-14 v1 + SIS-PQ-HV 2026-10-14 v1 + SIS-OQ-VL 2026-10-14 v1 + SIS-PQ-VL 2026-10-14 v1 + SIS-OQ-AC 2026-10-15 v1 + SIS-PQ-AC 2026-10-15 v1",
+ "version": "SIS-IQ-AP 2026-11-18 v2 + SIS-IQ-HV 2026-10-24 v1 + SIS-IQ-VL 2026-10-24 v1 + SIS-IQ-AC 2026-10-24 v1 + SIS-OQ-AP 2026-11-18 v2 + SIS-PQ-AP 2026-11-18 v2 + SIS-OQ-HV 2026-10-14 v1 + SIS-PQ-HV 2026-10-14 v1 + SIS-OQ-VL 2026-10-14 v1 + SIS-PQ-VL 2026-10-14 v1 + SIS-OQ-AC 2026-10-15 v1 + SIS-PQ-AC 2026-10-15 v1",
  "fases": {
   "IQ": [
    {
@@ -28,15 +28,19 @@ var BancoSistemas = {
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Materiales conforme a especificación de diseño.<br>\n  Sin puntos muertos en la red de distribución.<br>\n  Pendiente y drenaje adecuados."
+      "html": "<strong>Criterio de aceptación:</strong><br>Materiales de tuberías, válvulas y accesorios en acero inoxidable 316L o equivalente aprobado, con certificados de material disponibles.<br>Rugosidad interna Ra ≤ <span class=\"por-confirmar\">0,8 µm</span> (ASME BPE) en superficies de contacto.<br>Soldaduras sanitarias, sin puntos muertos (L/D ≤ 3) y pendiente ≥ 1 % hacia el drenaje.<br>Sin fugas visibles en uniones, válvulas ni accesorios."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Matriz material-diseño-vs-instalado<br>\n  - Registro fotográfico de tuberías y uniones (anexo del informe)"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>La rugosidad y la pendiente en rojo deben confirmarse contra la especificación de diseño y el plano isométrico aprobado."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br><span class=\"refnorma\">USP &lt;1231&gt; — Agua para usos farmacéuticos</span>; EU GMP Parte II."
+      "html": "<strong>Referencia:</strong><br>USP &lt;1231&gt;; ASME BPE; ISPE Baseline Guide Vol. 4 (Water and Steam Systems); EU GMP Anexo 15."
      }
     ],
     "tabla": null,
@@ -59,15 +63,19 @@ var BancoSistemas = {
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Puntos de uso instalados en ubicación correcta según plano.<br>\n  Válvulas de purga y drenaje en cada punto de uso.<br>\n  Identificaciones y etiquetas presentes."
+      "html": "<strong>Criterio de aceptación:</strong><br>El 100 % de los puntos de uso y tomas de muestra coincide con el plano isométrico aprobado.<br>Cada punto tiene válvula sanitaria de diafragma y drenaje previo al muestreo.<br>Identificación completa: contenido, dirección de flujo y número de línea.<br>Altura y accesibilidad permiten muestrear sin riesgo de contaminación."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Listado de puntos de uso (ubicación, tipo, válvula de purga)<br>\n  - Plano de distribución con puntos de uso marcados"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>Los puntos que no coincidan con el plano se registran como desviación; no se reimplan sin control de cambios."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br><span class=\"refnorma\">USP &lt;1231&gt; — Agua para usos farmacéuticos</span>; PDA TR-64."
+      "html": "<strong>Referencia:</strong><br>USP &lt;1231&gt;; PDA TR-64; ISPE Baseline Guide Vol. 4; EU GMP Anexo 15."
      }
     ],
     "tabla": null,
@@ -90,15 +98,19 @@ var BancoSistemas = {
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Sistema de sanitización instalado y operativo.<br>\n  Parámetros de sanitización definidos y documentados.<br>\n  Procedimiento escrito y aprobado disponible."
+      "html": "<strong>Criterio de aceptación:</strong><br>Método de sanitización instalado y declarado: agua caliente ≥ <span class=\"por-confirmar\">80 °C</span>, ozono o desinfectante químico aprobado.<br>Capacidad del sistema verificada para alcanzar la condición en todos los puntos, incluido el retorno.<br>Instrumentos de control (temperatura, ozono, concentración) instalados y calibrados.<br>Procedimiento de sanitización escrito y aprobado, disponible para el ejecutor."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Descripción del sistema de sanitización instalado<br>\n  - Procedimiento de sanitización aprobado<br>\n  - Registro de parámetros de sanitización"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>La temperatura en rojo debe adoptarse del procedimiento de sanitización del sitio; el IQ verifica que el sistema pueda alcanzarla, no la ejecuta."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br><span class=\"refnorma\">USP &lt;1231&gt; — Agua para usos farmacéuticos</span>; EU GMP Parte II."
+      "html": "<strong>Referencia:</strong><br>USP &lt;1231&gt;; ISPE Baseline Guide Vol. 4; EU GMP Anexo 15; 21 CFR 211.67."
      }
     ],
     "tabla": null,
@@ -121,15 +133,19 @@ var BancoSistemas = {
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Caída de presión dentro del criterio definido en el procedimiento de prueba.<br>\n  Sin fugas visibles en uniones, válvulas ni accesorios.<br>\n  Prueba documentada con resultados registrados."
+      "html": "<strong>Criterio de aceptación:</strong><br>Prueba de estanqueidad a <span class=\"por-confirmar\">1,5 × presión de operación</span> durante 30 min, o a la presión de diseño documentada.<br>Caída de presión ≤ <span class=\"por-confirmar\">5 %</span> del valor inicial y sin fugas visibles.<br>Registro con presión inicial y final, hora, instrumento y responsable.<br>Sin deformación ni movimiento de soportes durante la prueba."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Registro de prueba de estanqueidad (presión inicial/final, duración)<br>\n  - Reporte de fugas detectadas y medidas correctivas (si aplica)"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>La presión de prueba y la caída aceptable en rojo dependen del diseño hidráulico; se confirman antes de ejecutar."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br><span class=\"refnorma\">EU GMP Parte II — Requisitos para agua purificada</span>; manual del fabricante del sistema."
+      "html": "<strong>Referencia:</strong><br>ASME BPE; EU GMP Anexo 15; 21 CFR 211.63."
      }
     ],
     "tabla": null,
@@ -152,15 +168,19 @@ var BancoSistemas = {
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  100% de instrumentos instalados en ubicación representativa.<br>\n  Etiqueta de calibración vigente por instrumento.<br>\n  Alarmas configuradas para límites de alerta y acción."
+      "html": "<strong>Criterio de aceptación:</strong><br>El 100 % de los instrumentos en línea (conductividad, TOC, temperatura, flujo) está instalado en ubicación representativa del agua usada.<br>Certificado de calibración vigente (≤ <span class=\"por-confirmar\">12 meses</span>) y trazable a patrón nacional.<br>Alarmas configuradas en el límite de alerta y de acción (<span class=\"por-confirmar\">1,3 µS/cm</span> y <span class=\"por-confirmar\">500 ppb</span>).<br>Identificación del instrumento y de su punto de instalación en el plano."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Tabla de instrumentos en línea (modelo/serie/ubicación/certificado)<br>\n  - Copias de certificados de calibración<br>\n  - Captura de pantalla de alarmas configuradas"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>Los límites en rojo corresponden a USP &lt;645&gt; y &lt;643&gt;; la vigencia de calibración es la del programa del sitio y debe confirmarse."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br><span class=\"refnorma\">ISO/IEC 17025 — Competencia de laboratorios de ensayo y calibración</span>; USP &lt;1231&gt;."
+      "html": "<strong>Referencia:</strong><br>USP &lt;645&gt;; USP &lt;643&gt;; ISO/IEC 17025; 21 CFR 211.160(b)."
      }
     ],
     "tabla": null,
@@ -183,15 +203,19 @@ var BancoSistemas = {
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Válvulas operan correctamente sin fugas.<br>\n  Sin puntos muertos en la configuración de válvulas.<br>\n  Válvulas de drenaje en puntos bajos instaladas."
+      "html": "<strong>Criterio de aceptación:</strong><br>Válvulas sanitarias de diafragma, sin cavidades ni sellos que retengan agua.<br>L/D ≤ <span class=\"por-confirmar\">3</span> en cada ramal; sin bolsas ni contrapendientes.<br>Válvulas de drenaje en los puntos bajos y en el retorno.<br>El 100 % de las válvulas inspeccionadas contra plano, con operación verificada y sin fugas."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Tabla de válvulas (tipo/ubicación/función/estatus)<br>\n  - Registro fotográfico de válvulas críticas (anexo del informe)"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>El criterio L/D en rojo debe adoptarse antes de medir (2D o 3D); se registra la medición real por ramal."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br><span class=\"refnorma\">USP &lt;1231&gt; — Agua para usos farmacéuticos</span>; manual del fabricante del sistema."
+      "html": "<strong>Referencia:</strong><br>ASME BPE; ISPE Baseline Guide Vol. 4; USP &lt;1231&gt;."
      }
     ],
     "tabla": null,
@@ -214,15 +238,19 @@ var BancoSistemas = {
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>\n  Sistema de registro operativo con parámetros críticos capturados.<br>\n  Audit trail activo y acceso restringido.<br>\n  Copias de seguridad definidas y probadas."
+      "html": "<strong>Criterio de aceptación:</strong><br>Registro automático de los parámetros críticos: conductividad, TOC, temperatura y flujo.<br>Audit trail activo con usuario único, fecha, hora y valor anterior y nuevo; sin posibilidad de borrado.<br>Respaldo definido y restauración probada al menos una vez.<br>Acceso restringido por rol y retención de registros ≥ <span class=\"por-confirmar\">1 año</span> o la política del sitio."
      },
      {
       "et": "Documentos entregables",
       "html": "<strong>Documentos entregables:</strong><br>\n  - Configuración del sistema de registro de datos<br>\n  - Evidencia de audit trail activo<br>\n  - Procedimiento de copias de seguridad"
      },
      {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>La retención en rojo debe confirmarse con la política de registros; el respaldo se prueba, no se declara."
+     },
+     {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br><span class=\"refnorma\">21 CFR Parte 11 — Registros electrónicos y firmas electrónicas</span>; EU GMP Anexo 11."
+      "html": "<strong>Referencia:</strong><br>21 CFR Parte 11; EU GMP Anexo 11; ALCOA+; 21 CFR 211.180."
      }
     ],
     "tabla": null,
