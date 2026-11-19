@@ -82,14 +82,13 @@
   6) Rearmar la parada según el procedimiento del fabricante y confirmar que el <span class="equipo">equipo</span> queda en condición segura sin arrancar solo<br>
   7) Repetir los pasos 3) a 6) por cada parada de emergencia del <span class="equipo">equipo</span><br>
   8) Dejar el <span class="equipo">equipo</span> en condición segura y anotar cualquier desviación</p>
-  <p><strong>Plan estadístico:</strong><br>No aplica: verificación funcional por atributo (detiene/no detiene, 100 % de los casos); sin inferencia estadística.</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Todas las paradas detienen el bombeo, la dosificación, el tapado y la banda dentro del tiempo aprobado.<br>
-  Sin rearme manual el arranque es imposible y el estado queda señalizado en el HMI.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = parada de emergencia; unidad = s. Tipo de dato = continua. n = 3 activaciones. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = detención ≤ 2 s. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Cada parada de emergencia detiene bombeo, dosificación y cierre en ≤ <span class="por-confirmar">2 s</span>.<br>Estado seguro, sin reinicio automático; rearme manual.<br>Evento registrado con hora y usuario.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Tabla de paradas de emergencia con ubicación y tiempos medidos<br>
   - Registro de mensajes del HMI por cada prueba</p>
-  <p><strong>Referencia:</strong><br>EU GMP Anexo 15; GAMP5 2.ª ed. (challenge de funciones de seguridad); manual del fabricante.</p>
+  <p><strong>Nota:</strong><br>El tiempo en rojo se confirma con el fabricante y el análisis de riesgo.</p>
+  <p><strong>Referencia:</strong><br>EU GMP Anexo 1; EU GMP Anexo 15; USP &lt;1&gt;; USP &lt;71&gt;; 21 CFR 211.94; 21 CFR 211.160(b).</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-OQ-LL-002" class="ensayo" data-id="EQ-OQ-LL-002" data-fase="OQ" data-cond="ambas" data-familia="llenadora">
@@ -104,13 +103,12 @@
   6) Simular contenedor de rechazo lleno o abierto; confirmar inhibición o paro según diseño<br>
   7) Simular presión de aire baja; confirmar paro o inhibición según diseño<br>
   8) Restituir todas las condiciones a normal, confirmar marcha permitida y cerrar la matriz con hora y respuesta de cada prueba</p>
-  <p><strong>Plan estadístico:</strong><br>No aplica: verificación funcional por atributo (inhibe/no inhibe, 100 % de los casos); sin inferencia estadística.</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  El 100 % de los interlocks ensayados inhibe el arranque o detiene la marcha con mensaje en el HMI.<br>
-  Ninguna condición insegura permite dosificar ni mover la banda.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = actuación de interlocks; unidad = s. Tipo de dato = continua. n = 3 repeticiones. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = detención ≤ 1 s. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>El equipo no arranca o se detiene con guarda abierta o formato incompleto, en ≤ <span class="por-confirmar">1 s</span>.<br>Rearme manual tras la condición segura.<br>Prueba registrada por interlock.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Matriz de interlocks con condición provocada, respuesta del equipo y mensaje del HMI</p>
-  <p><strong>Referencia:</strong><br>GAMP5 2.ª ed.; EU GMP Anexo 15; manual del fabricante.</p>
+  <p><strong>Nota:</strong><br>Un interlock puenteado es un hallazgo crítico.</p>
+  <p><strong>Referencia:</strong><br>EU GMP Anexo 1; EU GMP Anexo 15; USP &lt;1&gt;; USP &lt;71&gt;; 21 CFR 211.94; 21 CFR 211.160(b).</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-OQ-LL-003" class="ensayo" data-id="EQ-OQ-LL-003" data-fase="OQ" data-cond="ambas" data-familia="llenadora">
@@ -122,13 +120,12 @@
   3) Medir el tiempo entre la condición y el disparo, y verificar la acción asociada<br>
   4) Verificar el registro en el histórico del equipo con fecha, hora, usuario y texto de la alarma (si aplica 21 CFR Parte 11)<br>
   5) Restablecer cada condición y confirmar que la alarma se reconoce y se borra solo después de corregida</p>
-  <p><strong>Plan estadístico:</strong><br>No aplica: verificación funcional por atributo (dispara/no dispara, 100 % de los casos); sin inferencia estadística.</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  El 100 % de las alarmas dispara ante su condición dentro del retardo aprobado y ejecuta su acción.<br>
-  Todas quedan registradas y solo se reconocen después de corregida la condición.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = disparo de alarmas; unidad = pasa/no pasa. Tipo de dato = atributo. n = 3 repeticiones por alarma. Estadísticos = proporción de cumplimiento con IC binomial exacto. Regla de decisión = cada alarma dispara y actúa. Atípicos: no aplica a datos de atributo; toda exclusión se documenta y se conserva el registro original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Cada alarma dispara dentro de su retardo y ejecuta la acción.<br>Registro con fecha, hora, valor y usuario.<br>Prueba registrada por alarma.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Matriz de alarmas con consigna, retardo, acción y registro</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante; URS aprobada; 21 CFR Parte 11 (si aplica).</p>
+  <p><strong>Nota:</strong><br>Se prueban todas las alarmas del análisis de riesgo.</p>
+  <p><strong>Referencia:</strong><br>EU GMP Anexo 1; EU GMP Anexo 15; USP &lt;1&gt;; USP &lt;71&gt;; 21 CFR 211.94; 21 CFR 211.160(b).</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-OQ-LL-004" class="ensayo" data-id="EQ-OQ-LL-004" data-fase="OQ" data-cond="ambas" data-familia="llenadora">
@@ -143,13 +140,11 @@
   6) Ejecutar un paro controlado y comparar con el paro por falla<br>
   7) Registrar el tiempo de detención y las condiciones observadas</p>
   <p><strong>Plan estadístico:</strong><br>No aplica: verificación funcional por atributo (estado seguro/no seguro, 100 % de los casos); sin inferencia estadística.</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Ante la pérdida de energía no hay derrame ni llenado parcial sobre la banda y el equipo queda en estado seguro.<br>
-  Al restablecer la energía no existe arranque automático.<br>
-  Los parámetros y formatos se conservan según el diseño aprobado.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Ante pérdida de energía queda en estado seguro, sin reinicio automático.<br>El producto en línea se dispone según procedimiento.<br>Evento registrado.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro de falla y recuperación de energía con parámetros y tiempos</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante; GAMP5 2.ª ed.; EU GMP Anexo 15.</p>
+  <p><strong>Nota:</strong><br>La disposición del producto se define antes de la prueba.</p>
+  <p><strong>Referencia:</strong><br>EU GMP Anexo 1; EU GMP Anexo 15; USP &lt;1&gt;; USP &lt;71&gt;; 21 CFR 211.94; 21 CFR 211.160(b).</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-OQ-LL-005" class="ensayo" data-id="EQ-OQ-LL-005" data-fase="OQ" data-cond="ambas" data-familia="llenadora">
@@ -164,13 +159,12 @@
   6) Verificar la sincronización del reloj del equipo con la hora patrón<br>
   7) Verificar la integridad de los registros exportados o impresos y su coincidencia con el histórico</p>
   <p><strong>Plan estadístico:</strong><br>No aplica: verificación funcional por atributo (permite/rechaza, 100 % de los casos); sin inferencia estadística.</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Solo los usuarios autorizados acceden a cada función y todo cambio queda trazado con usuario, fecha y hora.<br>
-  Los registros son íntegros y coinciden con el histórico del equipo.</p>
+  <p><strong>Criterio de aceptación:</strong><br>El control restringe acceso por usuario y rol: sin cuentas compartidas.<br>Audit trail activo con usuario, fecha y valor anterior/nuevo.<br>Sin posibilidad de borrado por el operador.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Matriz de usuarios y roles verificada<br>
   - Muestra del registro de auditoría con los cambios ejecutados</p>
-  <p><strong>Referencia:</strong><br>21 CFR Parte 11; GAMP5 2.ª ed.; URS aprobada.</p>
+  <p><strong>Nota:</strong><br>El control de acceso es requisito de Parte 11, no una preferencia.</p>
+  <p><strong>Referencia:</strong><br>EU GMP Anexo 1; EU GMP Anexo 15; USP &lt;1&gt;; USP &lt;71&gt;; 21 CFR 211.94; 21 CFR 211.160(b).</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-OQ-LL-006" class="ensayo" data-id="EQ-OQ-LL-006" data-fase="OQ" data-cond="ambas" data-familia="llenadora">
@@ -182,15 +176,13 @@
   3) Comparar el rango y la exactitud de cada instrumento con el rango de proceso de la URS<br>
   4) Registrar en la tabla: instrumento, fabricante, modelo, serie, código interno, rango, exactitud, última calibración y vencimiento<br>
   5) Recopilar los certificados de calibración para el anexo del informe</p>
-  <p><strong>Plan estadístico:</strong><br>No aplica: verificación documental y funcional sin muestreo inferencial.</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Todos los instrumentos críticos tienen calibración vigente que cubre la ejecución del OQ.<br>
-  El rango y la exactitud son adecuados para el rango de proceso aprobado.<br>
-  Los certificados están disponibles y anexados.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = exactitud de instrumentos; unidad = según magnitud. Tipo de dato = continua. n = 3 comparaciones contra patrón. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = desviación dentro de la tolerancia del certificado. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Instrumentos críticos identificados, calibrados (≤ <span class="por-confirmar">12 meses</span>) y trazables.<br>Rango adecuado al valor de operación y de alarma.<br>Registro por instrumento.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Tabla de instrumentos críticos del OQ completada<br>
   - Copias de los certificados de calibración</p>
-  <p><strong>Referencia:</strong><br>EU GMP Anexo 15; ISPE Baseline Guide Vol. 5; manual del fabricante.</p>
+  <p><strong>Nota:</strong><br>La vigencia en rojo es la del programa metrológico del sitio.</p>
+  <p><strong>Referencia:</strong><br>EU GMP Anexo 1; EU GMP Anexo 15; USP &lt;1&gt;; USP &lt;71&gt;; 21 CFR 211.94; 21 CFR 211.160(b).</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-OQ-LL-007" class="ensayo" data-id="EQ-OQ-LL-007" data-fase="OQ" data-cond="ambas" data-familia="llenadora" data-analisis="si">
@@ -203,15 +195,13 @@
   4) Pesar cada envase lleno y el envase vacío correspondiente, y convertir la masa a volumen con la densidad a la temperatura registrada<br>
   5) Calcular el error respecto del volumen objetivo en cada punto<br>
   6) Procesar los datos crudos de volumen en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Plan estadístico:</strong><br>Variable = volumen llenado (mL) convertido desde la masa con la densidad a la temperatura registrada; tamaño de muestra = mínimo 10 envases por punto (mínimo, nominal y máximo); estadísticos = media, desviación estándar, RSD, error absoluto y relativo frente al objetivo e intervalo de confianza al 95 % de la media por punto; criterio = la media y cada réplica dentro de la tolerancia de la URS; sin ANOVA (cada punto se evalúa contra su propio objetivo); valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa.</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  La media de cada punto está dentro de la tolerancia de exactitud de la URS.<br>
-  Cada envase individual está dentro del límite individual aprobado.<br>
-  No existen valores atípicos sin investigación documentada.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = volumen llenado; unidad = mL. Tipo de dato = continua. n = 10 envases por punto y boquilla. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = cada envase dentro de ±1 %. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Volumen llenado dentro de <span class="por-confirmar">±1 %</span> del objetivo en mínimo, nominal y máximo.<br>Medición gravimétrica con balanza calibrada.<br>Registro por punto y por boquilla.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro de pesos y volúmenes con data cruda y reporte<br>
   - Data cruda y reporte estadístico de la exactitud de volumen de llenado</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante; URS aprobada (volumen objetivo y tolerancias).</p>
+  <p><strong>Nota:</strong><br>La tolerancia en rojo se confirma con la especificación del producto.</p>
+  <p><strong>Referencia:</strong><br>EU GMP Anexo 1; EU GMP Anexo 15; USP &lt;1&gt;; USP &lt;71&gt;; 21 CFR 211.94; 21 CFR 211.160(b).</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-OQ-LL-008" class="ensayo" data-id="EQ-OQ-LL-008" data-fase="OQ" data-cond="ambas" data-familia="llenadora" data-analisis="si">
@@ -223,15 +213,13 @@
   3) Pesar cada envase y convertir la masa a volumen con la densidad a la temperatura registrada<br>
   4) Calcular media, desviación estándar y RSD por boquilla, y la diferencia máxima entre medias de boquillas<br>
   5) Procesar los datos crudos de volumen por boquilla en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Plan estadístico:</strong><br>Variable = volumen llenado (mL) por boquilla; tamaño de muestra = mínimo 10 envases por boquilla y todas las boquillas instaladas; estadísticos = media, desviación estándar y RSD por boquilla, y diferencia entre la media máxima y la mínima; comparación entre boquillas con ANOVA de un factor (boquilla) cuando el protocolo aprobado lo defina, con verificación de supuestos; criterio = RSD y diferencia entre boquillas dentro de la URS; valores atípicos = prueba de Grubbs con investigación documentada, sin exclusión silenciosa.</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  El RSD de cada boquilla cumple el límite de repetibilidad de la URS.<br>
-  La diferencia entre la media de la boquilla máxima y la mínima cumple el límite de uniformidad de la URS.<br>
-  Todas las boquillas instaladas quedan evaluadas.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = repetibilidad del llenado; unidad = mL. Tipo de dato = continua. n = 10 envases por boquilla. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = RSD ≤ 1 %. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Repetibilidad en una misma boquilla y entre boquillas: RSD ≤ <span class="por-confirmar">1 %</span>.<br>Sin diferencia entre boquillas > 1 %.<br>Registro por boquilla.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro de volúmenes por boquilla con data cruda y reporte<br>
   - Data cruda y reporte estadístico de repetibilidad y uniformidad entre boquillas</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante; URS aprobada (límites de repetibilidad y uniformidad).</p>
+  <p><strong>Nota:</strong><br>El RSD en rojo se confirma con el producto y la capacidad del equipo.</p>
+  <p><strong>Referencia:</strong><br>EU GMP Anexo 1; EU GMP Anexo 15; USP &lt;1&gt;; USP &lt;71&gt;; 21 CFR 211.94; 21 CFR 211.160(b).</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-OQ-LL-009" class="ensayo" data-id="EQ-OQ-LL-009" data-fase="OQ" data-cond="ambas" data-familia="llenadora" data-analisis="si">
@@ -244,15 +232,13 @@
   4) Pesar cada envase y convertir la masa a volumen con la densidad a la temperatura registrada<br>
   5) Calcular la tendencia del volumen contra el tiempo de corrida<br>
   6) Procesar los datos crudos de volumen y tiempo en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Plan estadístico:</strong><br>Variable = volumen llenado (mL) frente al tiempo de corrida; tamaño de muestra = mínimo 10 envases en al menos 3 muestreos distribuidos en la corrida; estadísticos = media y RSD por muestreo, y regresión lineal del volumen contra el tiempo (pendiente e intervalo de confianza al 95 %); criterio = la pendiente no evidencia deriva fuera de la tolerancia de la URS y cada muestreo cumple la exactitud; sin ANOVA; valores atípicos = prueba de Grubbs con investigación documentada.</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  La media de cada muestreo cumple la tolerancia de exactitud de la URS.<br>
-  No existe deriva estadísticamente significativa ni cambio de tendencia dentro de la corrida.<br>
-  Las condiciones registradas se mantienen dentro del rango aprobado.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = estabilidad del volumen; unidad = mL. Tipo de dato = continua. n = registro cada 15 min durante 4 h. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = deriva ≤ 1 %. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Volumen estable durante la corrida: sin deriva > <span class="por-confirmar">1 %</span> entre inicio y final.<br>Registro por intervalos definidos.<br>Sin tendencia creciente ni decreciente.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro de muestreos con hora, condiciones y data cruda<br>
   - Data cruda y reporte estadístico de estabilidad de la corrida</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante; URS aprobada.</p>
+  <p><strong>Nota:</strong><br>La deriva puede deberse a temperatura o a desgaste de la bomba.</p>
+  <p><strong>Referencia:</strong><br>EU GMP Anexo 1; EU GMP Anexo 15; USP &lt;1&gt;; USP &lt;71&gt;; 21 CFR 211.94; 21 CFR 211.160(b).</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-OQ-LL-010" class="ensayo" data-id="EQ-OQ-LL-010" data-fase="OQ" data-cond="ambas" data-familia="llenadora" data-analisis="si">
@@ -264,15 +250,13 @@
   3) Registrar la velocidad indicada por el control y la medida en cada punto<br>
   4) Verificar que la velocidad se mantiene estable durante el intervalo de medición<br>
   5) Procesar los datos crudos de velocidad en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Plan estadístico:</strong><br>Variable = velocidad real (envases por minuto o rpm) frente a la indicada; tamaño de muestra = 3 réplicas por punto (mínimo, nominal y máximo); estadísticos = media, desviación estándar y RSD por punto, y error relativo entre la velocidad medida y la indicada; criterio = error y repetibilidad dentro de la tolerancia de la URS; sin ANOVA (cada punto se evalúa contra su consigna); valores atípicos con investigación documentada.</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  La velocidad medida está dentro de la tolerancia de la URS en los tres puntos.<br>
-  La repetibilidad cumple el criterio en cada punto.<br>
-  No existe diferencia entre la velocidad indicada y la real fuera de tolerancia.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = velocidad de llenado; unidad = envases/min. Tipo de dato = continua. n = 3 lecturas por condición. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = desviación ≤ ±2 %. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Velocidad de llenado indicada por el control dentro de ±<span class="por-confirmar">2 %</span> de la real.<br>Sin diferencia entre formatos.<br>Registro por condición.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro de velocidades con data cruda y reporte<br>
   - Data cruda y reporte estadístico del análisis de velocidad</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante; URS aprobada.</p>
+  <p><strong>Nota:</strong><br>La velocidad mal medida altera el tiempo de exposición y la espuma.</p>
+  <p><strong>Referencia:</strong><br>EU GMP Anexo 1; EU GMP Anexo 15; USP &lt;1&gt;; USP &lt;71&gt;; 21 CFR 211.94; 21 CFR 211.160(b).</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-OQ-LL-011" class="ensayo" data-id="EQ-OQ-LL-011" data-fase="OQ" data-cond="ambas" data-familia="llenadora" data-analisis="si">
@@ -285,15 +269,13 @@
   4) Pesar cada envase y convertir la masa a volumen con la densidad a la temperatura registrada<br>
   5) Verificar que no hay obstrucción, cavitación ni pérdida de cebado del sistema en ningún nivel<br>
   6) Procesar los datos crudos de volumen y viscosidad en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Plan estadístico:</strong><br>Variable = volumen llenado (mL) por nivel de viscosidad; tamaño de muestra = mínimo 10 envases por nivel y al menos 3 niveles; estadísticos = media, desviación estándar y RSD por nivel, y error frente al volumen objetivo; comparación entre niveles con ANOVA de un factor (viscosidad) cuando el protocolo aprobado lo defina, con verificación de supuestos e identificación de la causa; criterio = exactitud y repetibilidad dentro de la URS en todos los niveles; valores atípicos = prueba de Grubbs con investigación documentada.</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  La exactitud y la repetibilidad cumplen la URS en los tres niveles de viscosidad.<br>
-  No existe obstrucción, cavitación ni pérdida de cebado.<br>
-  La temperatura registrada se mantiene dentro del rango aprobado.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = exactitud de dosificación; unidad = mL. Tipo de dato = continua. n = 3 puntos con 10 repeticiones. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = desviación ≤ ±1 %. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Exactitud y repetibilidad de la dosificación dentro de <span class="por-confirmar">±1 %</span> en el rango.<br>Sin histéresis entre subida y bajada.<br>Registro por punto.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro de viscosidad, temperatura y pesos con data cruda<br>
   - Data cruda y reporte estadístico del desafío de viscosidad</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante; URS aprobada (rango de viscosidad y tolerancias).</p>
+  <p><strong>Nota:</strong><br>La tolerancia en rojo se confirma con el producto.</p>
+  <p><strong>Referencia:</strong><br>EU GMP Anexo 1; EU GMP Anexo 15; USP &lt;1&gt;; USP &lt;71&gt;; 21 CFR 211.94; 21 CFR 211.160(b).</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-OQ-LL-012" class="ensayo" data-id="EQ-OQ-LL-012" data-fase="OQ" data-cond="ambas" data-familia="llenadora">
@@ -307,14 +289,12 @@
   3) Repetir la prueba con 10 envases consecutivos ausentes en una misma estación<br>
   4) Verificar que el sensor detecta el envase en la posición correcta y que no hay falsos positivos con envases presentes<br>
   5) Restablecer la condición normal y confirmar la reanudación sin intervención no documentada</p>
-  <p><strong>Plan estadístico:</strong><br>No aplica: verificación funcional por atributo (dosifica/no dosifica, 100 % de los casos ensayados); sin inferencia estadística.</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  El 100 % de los casos sin envase queda sin dosificar y sin derrame.<br>
-  El evento queda registrado o el envase se rechaza según el diseño.<br>
-  No existen falsos positivos con envases presentes.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = llenado sin envase; unidad = pasa/no pasa. Tipo de dato = atributo. n = 100 ciclos. Estadísticos = proporción de cumplimiento con IC binomial exacto. Regla de decisión = 0 llenados sin envase. Atípicos: no aplica a datos de atributo; toda exclusión se documenta y se conserva el registro original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>No dosifica sin envase en la estación: 0 llenados sin envase en 100 ciclos.<br>El sensor detecta envase mal posicionado.<br>Registro por prueba.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Matriz de casos con estación, acción ejecutada y respuesta del equipo</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante; GAMP5 2.ª ed.; URS aprobada.</p>
+  <p><strong>Nota:</strong><br>Un llenado sin envase derrama producto y contamina la línea.</p>
+  <p><strong>Referencia:</strong><br>EU GMP Anexo 1; EU GMP Anexo 15; USP &lt;1&gt;; USP &lt;71&gt;; 21 CFR 211.94; 21 CFR 211.160(b).</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-OQ-LL-013" class="ensayo" data-id="EQ-OQ-LL-013" data-fase="OQ" data-cond="ambas" data-familia="llenadora">
@@ -327,14 +307,12 @@
   4) Inspeccionar el exterior del envase y la banda en busca de producto<br>
   5) Verificar el funcionamiento de la bandeja o recipiente de goteo (si aplica) y su vaciado<br>
   6) Registrar el número de ciclos con goteo y la ubicación</p>
-  <p><strong>Plan estadístico:</strong><br>No aplica: verificación funcional por atributo (gotea/no gotea, 100 % de los ciclos); sin inferencia estadística.</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  No hay goteo que alcance el envase, la banda o la zona de tapado en los 30 ciclos.<br>
-  El corte de llenado no deja producto en el exterior del envase.<br>
-  La bandeja de goteo, si aplica, recoge y evacua correctamente.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = goteo tras el corte; unidad = pasa/no pasa. Tipo de dato = atributo. n = 100 ciclos. Estadísticos = proporción de cumplimiento con IC binomial exacto. Regla de decisión = sin goteo en los 100. Atípicos: no aplica a datos de atributo; toda exclusión se documenta y se conserva el registro original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Corte de llenado limpio, sin goteo ni hilo, en 100 ciclos.<br>Sin producto en el exterior del envase ni en la boquilla.<br>Registro visual y por peso.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro de ciclos con observación de goteo por boquilla</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante; URS aprobada.</p>
+  <p><strong>Nota:</strong><br>El goteo genera sellos contaminados y rechazo.</p>
+  <p><strong>Referencia:</strong><br>EU GMP Anexo 1; EU GMP Anexo 15; USP &lt;1&gt;; USP &lt;71&gt;; 21 CFR 211.94; 21 CFR 211.160(b).</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-OQ-LL-014" class="ensayo" data-id="EQ-OQ-LL-014" data-fase="OQ" data-cond="ambas" data-familia="llenadora">
@@ -347,14 +325,12 @@
   4) Revisar 100 envases consecutivos por velocidad y registrar desplazamientos, derrames o envases sin llenar<br>
   5) Ajustar el parámetro de sincronización solo si el procedimiento lo autoriza y registrar el cambio<br>
   6) Restablecer el ajuste aprobado y confirmar la reproducibilidad</p>
-  <p><strong>Plan estadístico:</strong><br>No aplica: verificación funcional por atributo (sincronizado/no sincronizado, 100 % de los envases revisados); sin inferencia estadística.</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  El tiempo de respuesta está dentro de la ventana aprobada en ambas velocidades.<br>
-  El 100 % de los envases revisados se llena centrado y sin derrame.<br>
-  Cualquier ajuste queda autorizado y registrado.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = tiempo de respuesta; unidad = ms. Tipo de dato = continua. n = 10 repeticiones. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = desviación ≤ ±10 ms. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Detección de envase y tiempo de respuesta del control dentro de <span class="por-confirmar">±10 ms</span>.<br>Sin llenados desfasados ni dobles.<br>Registro por prueba.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro de tiempos de respuesta y revisión de envases por velocidad</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante; GAMP5 2.ª ed.; URS aprobada.</p>
+  <p><strong>Nota:</strong><br>Un desfase de milisegundos desplaza el llenado fuera del envase.</p>
+  <p><strong>Referencia:</strong><br>EU GMP Anexo 1; EU GMP Anexo 15; USP &lt;1&gt;; USP &lt;71&gt;; 21 CFR 211.94; 21 CFR 211.160(b).</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-OQ-LL-015" class="ensayo" data-id="EQ-OQ-LL-015" data-fase="OQ" data-cond="ambas" data-familia="llenadora" data-analisis="si">
@@ -367,15 +343,13 @@
   4) Verificar que no hay entrada de aire, espuma ni vórtice en el rango de operación<br>
   5) Registrar nivel y volumen de alimentación durante un periodo de corrida continua<br>
   6) Procesar los datos crudos de nivel y volumen en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Plan estadístico:</strong><br>Variable = nivel o volumen en el tanque (unidad del instrumento) frente a la medición independiente; tamaño de muestra = 3 réplicas por punto (mínimo, nominal y máximo) y serie continua durante la corrida; estadísticos = media, desviación estándar, error absoluto y relativo por punto, y rango de variación durante la corrida; criterio = error y variación dentro de la URS; sin ANOVA; valores atípicos con investigación documentada.</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  La indicación de nivel corresponde a la medición independiente dentro de la tolerancia de la URS.<br>
-  El nivel se mantiene dentro del rango aprobado durante la corrida.<br>
-  La alarma de nivel bajo actúa antes de afectar la dosificación y no hay entrada de aire ni vórtice.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = presión de alimentación; unidad = bar. Tipo de dato = continua. n = 3 lecturas por condición. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = desviación ≤ ±5 %. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Nivel del tanque y alimentación mantienen presión estable dentro de ±<span class="por-confirmar">5 %</span>.<br>Sin fluctuación que afecte el volumen.<br>Registro por condición.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro de niveles y alimentación con data cruda y reporte<br>
   - Data cruda y reporte estadístico del análisis de nivel</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante; URS aprobada.</p>
+  <p><strong>Nota:</strong><br>La presión inestable es una causa directa de variación de volumen.</p>
+  <p><strong>Referencia:</strong><br>EU GMP Anexo 1; EU GMP Anexo 15; USP &lt;1&gt;; USP &lt;71&gt;; 21 CFR 211.94; 21 CFR 211.160(b).</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-OQ-LL-016" class="ensayo" data-id="EQ-OQ-LL-016" data-fase="OQ" data-cond="ambas" data-familia="llenadora" data-analisis="si">
@@ -388,15 +362,13 @@
   4) Inspeccionar sellos, empaques y conexiones durante la operación y después de cada punto, sin desmontar el sistema<br>
   5) Verificar la repetibilidad del bombeo en cada punto y la ausencia de pulsaciones o cavitación<br>
   6) Procesar los datos crudos de presión y caudal en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Plan estadístico:</strong><br>Variable = presión (bar) y caudal (L/min o mL/min) por punto; tamaño de muestra = 3 réplicas por punto (mínimo, nominal y máximo); estadísticos = media, desviación estándar y RSD por punto, y error frente a la consigna; criterio = presión y caudal dentro de la URS y RSD dentro del límite aprobado; sin ANOVA (cada punto se evalúa contra su consigna); valores atípicos con investigación documentada.</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  La presión y el caudal están dentro del rango de la URS en los tres puntos.<br>
-  La repetibilidad cumple el límite aprobado.<br>
-  No existen fugas en sellos, empaques ni conexiones.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = presión y caudal de bombeo; unidad = bar y L/h. Tipo de dato = continua. n = 3 lecturas por condición. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = desviación ≤ ±5 %. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Presión y caudal de bombeo estables y repetibles dentro de <span class="por-confirmar">±5 %</span>.<br>Sin pulsos ni cavitación.<br>Registro por condición.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro de presión, caudal y temperatura con data cruda<br>
   - Data cruda y reporte estadístico del análisis de bombeo</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante; URS aprobada.</p>
+  <p><strong>Nota:</strong><br>La tolerancia en rojo se confirma con el fabricante de la bomba.</p>
+  <p><strong>Referencia:</strong><br>EU GMP Anexo 1; EU GMP Anexo 15; USP &lt;1&gt;; USP &lt;71&gt;; 21 CFR 211.94; 21 CFR 211.160(b).</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-OQ-LL-017" class="ensayo" data-id="EQ-OQ-LL-017" data-fase="OQ" data-cond="ambas" data-familia="llenadora">
@@ -409,15 +381,13 @@
   4) Verificar los campos del registro de producción: lote, fecha, hora, operador, formato, volumen y conteos<br>
   5) Verificar que el contador no se duplica ni se pierde al cambiar de turno o al reiniciar la pantalla<br>
   6) Verificar la integridad del registro impreso o exportado contra el histórico</p>
-  <p><strong>Plan estadístico:</strong><br>No aplica: verificación funcional por atributo (cuenta/no cuenta, 100 % de los 100 envases); sin inferencia estadística.</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  El conteo del equipo coincide exactamente con el conteo manual.<br>
-  Los rechazos se cuentan por separado y coinciden con los generados.<br>
-  Los registros están completos, firmados y coinciden con el histórico.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = exactitud del conteo; unidad = %. Tipo de dato = continua. n = 3 series de 1.000 envases. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = error ≤ ±0,1 %. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Conteo de envases llenados y rechazados exacto (error ≤ <span class="por-confirmar">±0,1 %</span>).<br>Sin doble conteo ni omisión.<br>Registro por serie.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro de conteo manual y del equipo<br>
   - Muestra del registro de producción y del histórico</p>
-  <p><strong>Referencia:</strong><br>21 CFR Parte 11 (si aplica); EU GMP Anexo 15; manual del fabricante.</p>
+  <p><strong>Nota:</strong><br>El conteo alimenta el balance de masa y el rechazo.</p>
+  <p><strong>Referencia:</strong><br>EU GMP Anexo 1; EU GMP Anexo 15; USP &lt;1&gt;; USP &lt;71&gt;; 21 CFR 211.94; 21 CFR 211.160(b).</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-OQ-LL-018" class="ensayo" data-id="EQ-OQ-LL-018" data-fase="OQ" data-cond="ambas" data-familia="llenadora">
@@ -431,14 +401,12 @@
   5) Llenar un envase de primera pieza y verificar volumen, centrado y tapado<br>
   6) Registrar el cambio con usuario, fecha, hora y parámetros, y volver al formato original verificando la restitución</p>
   <p><strong>Plan estadístico:</strong><br>No aplica: verificación funcional y documental del cambio de formato; sin muestreo inferencial.</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Las partes instaladas y los parámetros cargados corresponden al formato declarado.<br>
-  No quedan parámetros del formato anterior y el control bloquea el arranque con parámetros incompletos.<br>
-  El cambio queda registrado y la primera pieza cumple los criterios.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Cambio de formato instala las partes correctas y carga la receta del formato.<br>El 100 % de las partes verificadas antes de arrancar.<br>Registro de cambio con verificación.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro de cambio de formato con parámetros antes y después<br>
   - Verificación de primera pieza</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante; URS aprobada; procedimiento interno de cambio de formato.</p>
+  <p><strong>Nota:</strong><br>Una receta equivocada llena con parámetros de otro formato.</p>
+  <p><strong>Referencia:</strong><br>EU GMP Anexo 1; EU GMP Anexo 15; USP &lt;1&gt;; USP &lt;71&gt;; 21 CFR 211.94; 21 CFR 211.160(b).</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-OQ-LL-019" class="ensayo" data-id="EQ-OQ-LL-019" data-fase="OQ" data-cond="ambas" data-familia="llenadora" data-analisis="si">
@@ -453,16 +421,13 @@
   6) Si aplica, verificar la integridad del cierre según USP &lt;671&gt; con la muestra definida en el protocolo<br>
   7) Procesar los datos crudos de peso y torque en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo<br>
   8) Si el equipo no cuenta con control de peso en línea o cierre, declarar No Aplica con justificación firmada y pasar al siguiente ensayo</p>
-  <p><strong>Plan estadístico:</strong><br>Variable = peso del envase (g) y torque de cierre (unidad del instrumento); tamaño de muestra = mínimo 10 envases por nivel de peso (bajo, nominal y alto) y mínimo 10 envases para torque; estadísticos = media, desviación estándar y RSD por nivel, y proporción de rechazos correctos; criterio = peso y torque dentro de la URS y 100 % de rechazo de los envases fuera de límite; sin ANOVA; valores atípicos con investigación documentada.</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  El 100 % de los envases fuera de límite se rechaza y el 100 % de los envases dentro de límite se acepta.<br>
-  El peso y el torque cumplen la URS.<br>
-  El cierre está completo y sin daño en la muestra revisada.<br>
-  O bien, No Aplica justificado y firmado.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = selectividad del rechazo; unidad = %. Tipo de dato = continua. n = 3 series de 100 envases. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = 100 % malas rechazadas y 0 buenas rechazadas. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>El control de peso en línea rechaza los envases fuera de límites (<span class="por-confirmar">±2 %</span>).<br>Ninguna unidad buena se rechaza por error.<br>Matriz de desafío: 100 % de las unidades malas se rechaza y el 0 % de las unidades buenas se rechaza.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro de pesos, rechazos y torque con data cruda<br>
   - Data cruda y reporte estadístico del control de peso y cierre</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante; URS aprobada; USP &lt;671&gt; (si aplica).</p>
+  <p><strong>Nota:</strong><br>La prueba se hace con unidades defectuosas conocidas, no simuladas.</p>
+  <p><strong>Referencia:</strong><br>EU GMP Anexo 1; EU GMP Anexo 15; USP &lt;1&gt;; USP &lt;71&gt;; 21 CFR 211.94; 21 CFR 211.160(b).</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-OQ-LL-020" class="ensayo" data-id="EQ-OQ-LL-020" data-fase="OQ" data-cond="ambas" data-familia="llenadora">
@@ -478,15 +443,12 @@
   7) Registrar cualquier desviación y su disposición<br>
   8) Si el equipo no cuenta con ciclo de limpieza o drenaje, declarar No Aplica con justificación firmada y pasar al siguiente ensayo</p>
   <p><strong>Plan estadístico:</strong><br>No aplica: verificación funcional y fisicoquímica del enjuague según el criterio aprobado; sin muestreo inferencial.</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Los parámetros del ciclo de limpieza están dentro del rango aprobado.<br>
-  No queda residuo visible ni puntos muertos sin drenaje.<br>
-  El enjuague final cumple el criterio aprobado y el sistema drena por completo.<br>
-  O bien, No Aplica justificado y firmado.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Ciclo de limpieza alcanza el 100 % de las superficies en contacto (prueba de cobertura).<br>Sin zonas sombra en boquillas, válvulas ni líneas.<br>Registro con riboflavina o equivalente.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro del ciclo de limpieza con parámetros<br>
   - Resultados del enjuague final e inspección visual</p>
-  <p><strong>Referencia:</strong><br>EU GMP Anexo 15; procedimiento de limpieza validado; manual del fabricante.</p>
+  <p><strong>Nota:</strong><br>Una zona sin cobertura es un hallazgo de limpieza, no un detalle.</p>
+  <p><strong>Referencia:</strong><br>EU GMP Anexo 1; EU GMP Anexo 15; USP &lt;1&gt;; USP &lt;71&gt;; 21 CFR 211.94; 21 CFR 211.160(b).</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-OQ-LL-021" class="ensayo" data-id="EQ-OQ-LL-021" data-fase="OQ" data-cond="ambas" data-familia="llenadora" data-analisis="si">
@@ -500,16 +462,13 @@
   5) Registrar la temperatura del producto y de la camisa en cada punto<br>
   6) Procesar los datos crudos de temperatura en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo<br>
   7) Si el equipo no cuenta con control de temperatura de producto o camisa, declarar No Aplica con justificación firmada y pasar al siguiente ensayo</p>
-  <p><strong>Plan estadístico:</strong><br>Variable = temperatura (°C) medida con patrón frente a la indicada; tamaño de muestra = 3 réplicas por punto (mínimo, nominal y máximo) y serie continua durante la corrida; estadísticos = media, desviación estándar y error por punto, y variación máxima entre puntos de medición; criterio = error y homogeneidad dentro de la URS; sin ANOVA; valores atípicos con investigación documentada.</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  La temperatura medida corresponde a la indicada dentro de la tolerancia de la URS en los tres puntos.<br>
-  La homogeneidad y la estabilidad cumplen el criterio aprobado.<br>
-  La alarma de desviación actúa según el diseño.<br>
-  O bien, No Aplica justificado y firmado.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = temperatura del producto; unidad = °C. Tipo de dato = continua. n = 3 ventanas por condición. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = media dentro de ±2 °C. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Temperatura del producto o camisa dentro de ±<span class="por-confirmar">2 °C</span> del setpoint.<br>Sin oscilación > 2 °C durante la corrida.<br>Registro continuo.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro de temperaturas con data cruda y reporte<br>
   - Data cruda y reporte estadístico del análisis de temperatura</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante; URS aprobada.</p>
+  <p><strong>Nota:</strong><br>La temperatura afecta viscosidad y volumen llenado.</p>
+  <p><strong>Referencia:</strong><br>EU GMP Anexo 1; EU GMP Anexo 15; USP &lt;1&gt;; USP &lt;71&gt;; 21 CFR 211.94; 21 CFR 211.160(b).</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-OQ-LL-022" class="ensayo" data-id="EQ-OQ-LL-022" data-fase="OQ" data-cond="ambas" data-familia="llenadora" data-analisis="si">
@@ -523,15 +482,13 @@
   5) Registrar la presión diferencial entre locales durante el muestreo<br>
   6) Comparar cada resultado contra los límites de alerta y acción y registrar las tendencias<br>
   7) Procesar los datos crudos de monitoreo ambiental en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Plan estadístico:</strong><br>Variable = conteo de partículas (partículas/m³) y unidades formadoras de colonia (UFC) por punto y muestreo; tamaño de muestra = el definido en el plan de monitoreo ambiental aprobado; estadísticos = media, máximo y tendencia por punto, con comparación contra límites de alerta y acción; criterio = el 100 % de los puntos dentro del límite de acción del Anexo 1 y de la URS, sin tendencia creciente; sin ANOVA; resultados fuera de límite con investigación documentada.</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  El 100 % de los puntos muestreados está dentro del límite de acción del Anexo 1 y de la URS.<br>
-  No existe tendencia creciente ni resultados fuera de límite sin investigación.<br>
-  La presión diferencial se mantiene en el sentido correcto.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = conformidad del monitoreo ambiental; unidad = pasa/no pasa. Tipo de dato = atributo. n = puntos del plan por corrida. Estadísticos = proporción de cumplimiento con IC binomial exacto. Regla de decisión = todos los puntos dentro del límite. Atípicos: no aplica a datos de atributo; toda exclusión se documenta y se conserva el registro original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Monitoreo ambiental (partículas, viables, presión) operativo y con alarmas.<br>Puntos y frecuencias según el plan del área.<br>Registro por punto.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro de monitoreo ambiental por punto y muestreo con data cruda<br>
   - Data cruda y reporte estadístico del monitoreo ambiental</p>
-  <p><strong>Referencia:</strong><br>EU GMP Anexo 1; ISO 14644-1/2; URS aprobada; plan de monitoreo ambiental.</p>
+  <p><strong>Nota:</strong><br>El monitoreo debe estar activo durante el llenado, no solo en reposo.</p>
+  <p><strong>Referencia:</strong><br>EU GMP Anexo 1; EU GMP Anexo 15; USP &lt;1&gt;; USP &lt;71&gt;; 21 CFR 211.94; 21 CFR 211.160(b).</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-OQ-LL-023" class="ensayo" data-id="EQ-OQ-LL-023" data-fase="OQ" data-cond="ambas" data-familia="llenadora">
@@ -545,14 +502,12 @@
   5) Verificar la primera barrera de aire y la ausencia de aire no filtrado<br>
   6) Registrar los hallazgos y las acciones correctivas</p>
   <p><strong>Plan estadístico:</strong><br>No aplica: verificación funcional por atributo (flujo protegido/no protegido) en cada intervención; sin inferencia estadística.</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  El flujo de aire protege la zona crítica en reposo y en operación.<br>
-  Las intervenciones simuladas no rompen la primera barrera de aire.<br>
-  No existe turbulencia ni aire no filtrado sobre el producto expuesto.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Flujo de aire protege la zona crítica: presión positiva y velocidad dentro del diseño.<br>Sin interferencia de operadores ni equipos.<br>Registro por punto.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Video del estudio de humo por condición e intervención<br>
   - Registro de hallazgos y acciones</p>
-  <p><strong>Referencia:</strong><br>EU GMP Anexo 1; ISO 14644-3; URS aprobada.</p>
+  <p><strong>Nota:</strong><br>La protección se verifica con el operador en su posición real.</p>
+  <p><strong>Referencia:</strong><br>EU GMP Anexo 1; EU GMP Anexo 15; USP &lt;1&gt;; USP &lt;71&gt;; 21 CFR 211.94; 21 CFR 211.160(b).</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-OQ-LL-024" class="ensayo" data-id="EQ-OQ-LL-024" data-fase="OQ" data-cond="ambas" data-familia="llenadora">
@@ -566,14 +521,12 @@
   5) Verificar que no existe bypass ni conexión que evite el filtro o el ciclo SIP<br>
   6) Registrar cualquier desviación y su disposición</p>
   <p><strong>Plan estadístico:</strong><br>No aplica: verificación funcional por atributo (íntegro/no íntegro, cumple/no cumple) con medición directa; sin inferencia estadística.</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  La integridad del filtro cumple el límite del fabricante antes y después de la operación.<br>
-  El ciclo SIP cumple los parámetros de la URS.<br>
-  No existe bypass del filtro ni del ciclo.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Integridad de filtros esterilizantes antes y después del llenado (bubble point o difusión).<br>Sin bypass ni filtro vencido.<br>Registro por filtro y por lote.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro de integridad antes y después<br>
   - Registro del ciclo SIP con parámetros</p>
-  <p><strong>Referencia:</strong><br>PDA TR 26; EU GMP Anexo 1; URS aprobada.</p>
+  <p><strong>Nota:</strong><br>La integridad post-uso es la que demuestra que la filtración fue efectiva.</p>
+  <p><strong>Referencia:</strong><br>EU GMP Anexo 1; EU GMP Anexo 15; USP &lt;1&gt;; USP &lt;71&gt;; 21 CFR 211.94; 21 CFR 211.160(b).</p>
 </article>
 
 <article data-bloque="4" id="art-EQ-OQ-LL-RES" class="ensayo" data-id="EQ-OQ-LL-RES" data-fase="OQ" data-cond="ambas" data-familia="llenadora">
