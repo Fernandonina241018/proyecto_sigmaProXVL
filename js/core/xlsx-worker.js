@@ -7,6 +7,8 @@
 // mantener paridad si cualquiera de las dos cambia.
 // SheetJS pinnned a la misma versión que indexx.html (0.18.5).
 // ════════════════════════════════════════════════════════════════
+// shortcut: importScripts no admite SRI; para cerrarlo hay que vendorizar xlsx
+// o cargarlo en el hilo principal (que sí usa integrity en indexx.html).
 var XLSX_CDN = 'https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js';
 try {
   importScripts(XLSX_CDN);

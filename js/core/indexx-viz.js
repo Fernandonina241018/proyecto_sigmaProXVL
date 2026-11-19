@@ -1657,11 +1657,13 @@ function vizToggleFS() {
 
 // ══ DESCARGA DE GALERÍA ═════════════════════════════════════════════════
 // Carga librerías externas bajo demanda
-function _V_loadScript(url) {
+// integrity (SRI) obligatorio para scripts de CDN: auditoría ZAP 2026-11-18.
+function _V_loadScript(url, integrity) {
   return new Promise(function(resolve, reject) {
     if (document.querySelector('script[src="' + url + '"]')) return resolve();
     var s = document.createElement('script');
     s.src = url;
+    if (integrity) { s.integrity = integrity; s.crossOrigin = 'anonymous'; }
     s.onload = resolve;
     s.onerror = function() { reject(new Error('Failed to load ' + url)); };
     document.head.appendChild(s);
@@ -1687,7 +1689,8 @@ async function vizDownloadGalleryZip() {
   showToast('Generando ZIP...', 0);
 
   try {
-    await _V_loadScript('https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js');
+    await _V_loadScript('https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js',
+      'sha384-+mbV2IY1Zk/X1p/nWllGySJSUN8uMs+gUAN10Or95UBH0fpj6GfKgPmgC5EXieXG');
     var zip = new JSZip();
     var count = 0;
     for (var g of _V.gallery) {
@@ -1721,7 +1724,8 @@ async function vizDownloadGalleryPDF() {
   showToast('Generando PDF...', 0);
 
   try {
-    await _V_loadScript('https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js');
+    await _V_loadScript('https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js',
+      'sha384-JcnsjUPPylna1s1fvi1u12X5qjY5OL56iySh75FdtrwhO/SWXgMjoVqcKyIIWOLk');
     var pdf = new jspdf.jsPDF({ orientation: 'landscape', unit: 'px', format: [800, 480] });
     var count = 0;
     for (var i = 0; i < _V.gallery.length; i++) {

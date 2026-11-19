@@ -36,6 +36,7 @@ const jwt     = require('jsonwebtoken');
 const cookieParser = require('cookie-parser');
 const rateLimit = require('express-rate-limit');
 const { ipKeyGenerator } = rateLimit;
+const { perfilPublico } = require('./me-profile');
 const helmet  = require('helmet');
 const compression = require('compression');
 // otplib v13 eliminó `authenticator`: API funcional + verificación explícita.
@@ -886,6 +887,10 @@ app.get('/api/val/v1/reports', requireAuth, requireAdmin, async (req, res) => {
 
 // GET /api/me — restaura sesión desde cookie httpOnly
 app.get('/api/me', requireAuth, async (req, res) => {
+    // shortcut: el token también viaja en el body porque el frontend lo guarda
+    // para el header Authorization cuando el navegador bloquea cookies de
+    // terceros (GitHub Pages → Fly.io). Quitarlo exige sesión cookie-only con
+    // CSP en enforce; mientras tanto el httpOnly de la cookie no alcanza.
     const token = jwt.sign(
         { id: req.user.id, username: req.user.username, role: req.user.role },
         process.env.JWT_SECRET,
@@ -894,7 +899,7 @@ app.get('/api/me', requireAuth, async (req, res) => {
     try {
         const user = await db.getUserByUsername(req.user.username);
         if (user) {
-            const { password_hash, password_temp, ...profile } = user;
+            const profile = perfilPublico(user);
             const has2FA = await db.has2FAEnabled(req.user.username);
             return res.json({ ok: true, username: req.user.username, role: req.user.role, token, profile, has2FA });
         }
