@@ -90,6 +90,33 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (StatAnalyzer Pro) co
 
 ## CAMBIOS RECIENTES
 
+### 2026-11-19 (319): Equipos lote 1 — encapsuladora y granulador
+
+**Qué:** dos familias más al estándar (49 + 45 = 94 ensayos).
+- **Encapsuladora:** orientación y separación ≥ 99 %, longitud de cierre ±0,2 mm, RSD de llenado ≤ 2 %, balanza en línea ±0,5 %, rendimiento ≥ 98 %, matriz de desafío preservada en EN-019/EN-013.
+- **Granulador:** holgura impulsor-cuba 1-2 mm, velocidad ±2 %, potencia/torque ±5 %, aglutinante ±5 %, camisa ±2 °C, O₂ ≤ 2 %, índice de Carr ≤ 15 %, tamaño y humedad en especificación.
+- **Planes específicos** en los 7 ensayos que conservaban el plan genérico (EN-022 y seis de granulador).
+- `MIGRADAS` del contrato de equipos ahora incluye tableteadora, encapsuladora y granulador.
+
+**Estado medido:**
+```
+encapsuladora: 49 ensayos · 41 con plan · 33 con valor numérico · 24 con valores propuestos
+granulador:    45 ensayos · 39 con plan · 25 con valor numérico · 17 con valores propuestos
+global: 460/1392 criterios con valor (33 %, antes 407) · 258 clonados en 111 grupos (antes 277/113)
+```
+
+**Archivos afectados:**
+| Archivo | Cambio |
+|---------|--------|
+| `docs/banco-ensayos/equipos/{iq,oq,pq}-{encapsuladora,granulador}.html` | 94 ensayos reescritos |
+| `js/core/banco-equipos-data.js` | Regenerado |
+| `tests/bancos-contenido-equipos.test.js` | `MIGRADAS` ampliado |
+
+**Verificación:**
+```
+npm run preflight → protocolo:check OK, urs-ar:check OK, Vitest 1209, backend 154, E2E 14
+```
+
 ### 2026-11-19 (318): Equipos — piloto tableteadora + contrato de contenido
 
 **Qué:** arranca la migración de equipos con la familia piloto completa (51 ensayos: 5 IQ, 27 OQ, 19 PQ).
