@@ -90,6 +90,38 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (StatAnalyzer Pro) co
 
 ## CAMBIOS RECIENTES
 
+### 2026-11-18 (315): OQ de agua con estándar del PQ y sin aviso en portada
+
+**Qué:** se cierra el OQ de agua purificada con el mismo principio del PQ y se quita el aviso de portada.
+- **Aviso de portada eliminado:** el «contiene N valores propuestos» quedaba mal ubicado en la primera página. El rojo en el criterio y la nota al analista siguen declarando los pendientes; `banco:check --por-confirmar` sigue dando la lista.
+- **OQ agua (33 ensayos, `SIS-OQ-AP-001` a `033`):** plan estadístico por tipo de dato (continua, atributo, analítico), criterio propio con valor, unidad, regla y fuente, y nota con el valor propuesto. Ninguno conserva «dentro de lo definido en el protocolo aprobado».
+- **9 planes de atributo** sin Grubbs (la prueba no aplica a pasa/no pasa).
+- **7 procedimientos** ampliados a 3-4 pasos (001, 005, 017, 028, 029, 031, 033), igual que el piso del PQ.
+- **Velocidad del loop** alineada al URS: 1,5 m/s, como en el PQ.
+- Banco versionado como `SIS-OQ-AP 2026-11-18 v2` y regenerado.
+
+**Estado medido:**
+```
+OQ agua: 33 ensayos · 33 con plan · 30 con criterio numérico · 29 con valores propuestos
+global: 235/1392 criterios con valor (17 %, antes 207) · 369 clonados en 149 grupos
+--por-confirmar: 47 ensayos de agua (18 PQ + 29 OQ)
+```
+
+**Archivos afectados:**
+| Archivo | Cambio |
+|---------|--------|
+| `docs/banco-ensayos/sistemas/oq-agua-purificada.html` | 33 ensayos reescritos |
+| `js/core/banco-sistemas-data.js` | Regenerado (OQ v2) |
+| `js/core/plantilla-docx.js` | Aviso de portada eliminado |
+| `tests/plantilla-docx.test.js` | Test del aviso eliminado |
+| `docs/banco-ensayos/PROTOCOLO_MAESTRO.md` | §5.5 sin el aviso de portada |
+
+**Verificación:**
+```
+npm run preflight → protocolo:check OK, urs-ar:check OK, Vitest 1196, backend 154, E2E 14
+extraer-banco.mjs sistemas → 285 artículos, 285 IDs únicos
+```
+
 ### 2026-11-18 (314): Seguridad — secretos en /api/me y SRI en scripts de CDN
 
 **Qué:** se cierra el hallazgo Alto de la auditoría ZAP (2026-11-18).
