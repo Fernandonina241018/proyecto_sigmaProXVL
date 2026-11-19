@@ -1,6 +1,6 @@
 # Protocolo maestro IQ/OQ/PQ — equipos
 
-**Versión:** 1.3 · 2026-11-18
+**Versión:** 1.4 · 2026-11-19
 **Alcance:** protocolos IQ/OQ/PQ de equipos de producción y laboratorio, e instrumentos analíticos tipo L con protocolo OQ.
 **Objetivo:** una estructura única para todos los documentos, sin depender de la familia.
 
@@ -118,7 +118,7 @@ Todo ensayo de bloques 2-3 usa las mismas seis secciones, en este orden:
 | Documentos entregables | La evidencia que queda en el expediente |
 | Referencia | Norma o URS con versión; «manual del fabricante» solo no basta |
 
-**El esqueleto se comparte; el criterio no.** Cada ensayo aporta a la calificación de forma distinta, así que su criterio debe ser propio: valor, unidad, regla de decisión y fuente. Un criterio idéntico al de otra familia es un hallazgo salvo que la justificación del ensayo explique por qué el riesgo es el mismo. Hoy hay **322 ensayos en 130 grupos clonados** (el peor: 8 ensayos de familias distintas) y **346 de 1392 criterios contienen un número**.
+**El esqueleto se comparte; el criterio no.** Cada ensayo aporta a la calificación de forma distinta, así que su criterio debe ser propio: valor, unidad, regla de decisión y fuente. Un criterio idéntico al de otra familia es un hallazgo salvo que la justificación del ensayo explique por qué el riesgo es el mismo. Hoy hay **322 ensayos en 130 grupos clonados** (el peor: 8 ensayos de familias distintas) y **347 de 1392 criterios contienen un número**.
 
 **Plan por tipo de dato** (el plan genérico «variable = la magnitud medida» no se acepta):
 
@@ -139,6 +139,8 @@ Todo ensayo de bloques 2-3 usa las mismas seis secciones, en este orden:
 **Verificación:** `npm run banco:check` reporta, por familia, secciones ausentes, criterios sin valor numérico y grupos de criterios clonados.
 
 **Piloto agua PQ (23 ensayos):** `SIS-PQ-AP-001` a `023` quedan con plan por tipo de dato (continua, recuento, atributo, analítico) y criterio propio con valor numérico; ninguno comparte texto con otro ensayo del piloto. Los límites que dependen de la farmacopea adoptada salen marcados en rojo (ver §5.5).
+
+**Almacenes (6 ensayos de datos):** `ALM-OQ-003/004/005/006` y `ALM-PQ-003/004` quedan con plan por tipo de dato (continua: T, HR, iluminancia, tiempos de recuperación/transferencia) y criterio numérico individual. Los setpoints de T/HR de la entidad (marcados en rojo sobre `<span class="rango">`), el %RSD ≤ 5 %, el tiempo de recuperación < 30 min y el de transferencia < 60 s son referencias de OMS TRS 1010 Anexo 7 / PDA TR-64 / USP `<1079.4>` y quedan `por-confirmar`. Los ensayos de atributo (DQ/IQ) conservan criterio C/NC con fuente; el «pendiente de confirmación» vago se eliminó.
 
 ### 5.5 Pendientes en rojo
 

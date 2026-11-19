@@ -5,6 +5,7 @@
 <style>
   body { font-family: Tahoma, sans-serif; font-size: 11pt; }
   strong { text-transform: uppercase; }
+  .por-confirmar { color: #C00000; font-weight: bold; }
 </style>
 <title>Banco de Ensayos — Almacenes</title>
 </head>
@@ -12,6 +13,7 @@
 
 <p><a href="index.html">← Índice</a></p>
 <h2>Almacenes — Banco compartido</h2>
+<p>Versión del banco: <span data-banco-version>ALM 2026-11-19 v2</span></p>
 
 <div class="plantilla-entidad">
 <p><strong>PLANTILLA — DATOS DE LA ENTIDAD A CALIFICAR</strong> (se replica en las 4 portadas)</p>
@@ -687,7 +689,7 @@
   4) Definir ubicación estratégica en plano: esquinas (arriba/abajo), centro, puerta, zonas junto a difusores y puntos fríos conocidos<br>
   5) Asignar N° de sensor a cada punto y registrar en plano de ubicación</p>
   <p><strong>Criterio de aceptación:</strong><br>
-  Número de sensores calculado y ubicado según norma; cobertura completa de zonas críticas (esquinas, centro, puerta, puntos de riesgo).</p>
+  Número de sensores calculado y ubicado según ISPE Good Practice Guide: Cold Chain Management y OMS TRS 1010 Anexo 7; cobertura completa de zonas críticas (esquinas, centro, puerta, puntos de riesgo).</p>
   <p><strong>Documentos entregables:</strong><br>
   - Hoja de cálculo de número de sensores (firmada)<br>
   - Plano de ubicación de sensores con numeración<br>
@@ -709,8 +711,12 @@
      c) Normalidad de la distribución (Shapiro-Wilk)<br>
   5) Identificar punto frío y punto caliente del<span class="equipo">almacén</span><br>
   6) Procesar los datos crudos de temperatura y humedad relativa del mapeo en vacío en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo.</p>
+  <p><strong>Plan estadístico:</strong><br>Variables continuas: temperatura (°C) y humedad relativa (%HR) por punto. n = todos los registros del mapeo (1 lectura cada 5 min durante ≥ 7 días) por punto. Por punto: media, DE, RSD, mínimo, máximo e IC 95 %; MKT (temperatura cinética media, Haynes/Arrhenius) por punto y global; normalidad con Shapiro-Wilk; uniformidad = diferencia entre el máximo y el mínimo entre puntos. Sin exclusión de datos sin investigación documentada.</p>
   <p><strong>Criterio de aceptación:</strong><br>
-  100% de lecturas dentro de <span class="rango">15–25 °C / HR &lt; 65 %</span>; MKT dentro de rango; puntos frío/caliente identificados y documentados.</p>
+  100 % de las lecturas dentro del setpoint de la entidad <span class="por-confirmar"><span class="rango">15–25 °C / HR &lt; 65 %</span></span>.<br>
+  MKT dentro del setpoint de la entidad en el 100 % de los puntos.<br>
+  %RSD entre puntos ≤ <span class="por-confirmar">5 %</span>.<br>
+  Punto frío y punto caliente identificados y documentados.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registros crudos de los sensores (archivo + respaldo)<br>
   - Gráficos de tendencia por punto<br>
@@ -718,10 +724,10 @@
   - Informe de mapeo en vacío con puntos frío/caliente<br>
   - Data cruda y reporte estadístico del análisis de temperatura y humedad relativa del mapeo en vacío</p>
   <p><strong>Nota:</strong><br>
-  El punto frío identificado aquí es donde se colocan los indicadores/termopares de los desafíos PQ (excursión y corte energético).</p>
+  El punto frío identificado aquí es donde se colocan los indicadores/termopares de los desafíos PQ (excursión y corte energético). El setpoint de T/HR y el %RSD en rojo son referencias de diseño y quedan pendientes de confirmación contra la URS del producto antes de firmar el protocolo.</p>
   <p><strong>Referencia:</strong><br>OMS TRS 1010 Anexo 7; PDA TR-64.</p>
 </article>
-<article data-bloque="3" id="art-ALM-OQ-004" class="ensayo" data-id="ALM-OQ-004" data-fase="OQ" data-cond="est">
+<article data-bloque="3" id="art-ALM-OQ-004" class="ensayo" data-analisis="si" data-id="ALM-OQ-004" data-fase="OQ" data-cond="est">
   <h3>ALM-OQ-004 — Prueba de niveles de iluminación en los <span class="equipo-pl">almacenes</span></h3>
   <p><strong>Objetivo:</strong><br>Demostrar que los niveles de iluminación en los <span class="equipo-pl">almacenes</span> cumplen con el nivel mínimo definido en el protocolo.</p>
   <p><strong>Procedimiento:</strong><br>
@@ -729,18 +735,22 @@
   2) Definir grilla de puntos: pasillos, zonas de picking, recepción/despacho y frente a estanterías (mínimo 1 punto cada 10 m²)<br>
   3) Medir a 1 m del piso, con todas las luminarias encendidas y puertas cerradas<br>
   4) Repetir en turno nocturno si opera 24 h (solo luz artificial)<br>
-  5) Registrar cada punto en plano con su lectura en lux</p>
+  5) Registrar cada punto en plano con su lectura en lux<br>
+  6) Procesar los datos crudos de iluminación en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable continua: iluminancia (lux) por punto de la grilla. n = todos los puntos medidos (mínimo 1 punto cada 10 m²). Por punto y turno: media, DE, mínimo, máximo e IC 95 %; proporción de puntos ≥ límite con IC 95 % binomial exacto.</p>
   <p><strong>Criterio de aceptación:</strong><br>
-  100% de puntos ≥ nivel mínimo del protocolo (referencia usual: 200 lux en áreas de trabajo); uniformidad sin zonas oscuras en rutas de personal.</p>
+  100 % de los puntos con iluminancia ≥ <span class="por-confirmar">200 lux</span> en áreas de trabajo.<br>
+  0 zonas oscuras en rutas de personal y pasillos.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Plano de puntos de medición con lecturas<br>
   - Certificado de calibración del luxómetro<br>
-  - Informe de iluminación con puntos no conformes (si aplica) y acciones</p>
+  - Informe de iluminación con puntos no conformes (si aplica) y acciones<br>
+  - Data cruda y reporte estadístico del análisis de iluminación</p>
   <p><strong>Nota:</strong><br>
-  Luminarias fundidas o puntos bajo el mínimo se corrigen y se re-mide solo el punto afectado, documentando la re-medición.</p>
+  Luminarias fundidas o puntos bajo el mínimo se corrigen y se re-mide solo el punto afectado, documentando la re-medición. El nivel mínimo en rojo es una referencia (IESNA) y queda pendiente de confirmación por el responsable antes de firmar el protocolo.</p>
   <p><strong>Referencia:</strong><br>OMS TRS 1010 Anexo 7; PDA TR-64; IESNA (niveles recomendados).</p>
 </article>
-<article data-bloque="3" id="art-ALM-OQ-005" class="ensayo" data-id="ALM-OQ-005" data-fase="OQ" data-cond="dina">
+<article data-bloque="3" id="art-ALM-OQ-005" class="ensayo" data-analisis="si" data-id="ALM-OQ-005" data-fase="OQ" data-cond="dina">
   <h3>ALM-OQ-005 — Prueba de excursión (apertura de puertas)</h3>
   <p><strong>Objetivo:</strong><br>Demostrar control de temperatura con carga real y recuperación ante apertura de puertas.</p>
   <p><strong>Procedimiento:</strong><br>
@@ -748,18 +758,23 @@
   2) Estabilizar y registrar línea base 24 h en <span class="rango">15–25 °C / HR &lt; 65 %</span><br>
   3) Excursión programada: abrir puerta principal 5 min (cronometrados)<br>
   4) Medir tiempo de recuperación al rango desde el cierre<br>
-  5) Verificar activación de alarma y registro continuo durante la excursión</p>
+  5) Verificar activación de alarma y registro continuo durante la excursión<br>
+  6) Procesar los datos crudos de temperatura de la excursión en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo.</p>
+  <p><strong>Plan estadístico:</strong><br>Variables continuas: temperatura (°C) y tiempo de recuperación (min). n = todos los registros de la excursión (línea base 24 h + excursión + recuperación). Tiempo de recuperación = intervalo desde el cierre de la puerta hasta el retorno al setpoint. Por punto: media, DE, mínimo, máximo e IC 95 %; comparación pre/excursión/post; alarma registrada como atributo (sí/no).</p>
   <p><strong>Criterio de aceptación:</strong><br>
-  Rango mantenido con carga; recuperación &lt; 30 min; alarma de excursión operativa y registrada. Límite pendiente de confirmación por el responsable en el protocolo aprobado.</p>
+  Temperatura mantenida dentro del setpoint de la entidad <span class="por-confirmar"><span class="rango">15–25 °C / HR &lt; 65 %</span></span> durante la línea base.<br>
+  Tiempo de recuperación al setpoint &lt; <span class="por-confirmar">30 min</span> desde el cierre de la puerta.<br>
+  Alarma de excursión operativa y registrada en el 100 % de los eventos.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro de la excursión (gráfico antes/durante/después)<br>
   - Tiempo de recuperación calculado<br>
-  - Evidencia de alarma (pantallazo/registro del sistema)</p>
+  - Evidencia de alarma (pantallazo/registro del sistema)<br>
+  - Data cruda y reporte estadístico del análisis de la excursión</p>
   <p><strong>Nota:</strong><br>
-  Si la recuperación supera 30 min, se investiga causa (infiltración, potencia, sellos) y se repite tras la corrección.</p>
+  Si la recuperación supera el límite, se investiga causa (infiltración, potencia, sellos) y se repite tras la corrección. El setpoint de T/HR y el tiempo de recuperación en rojo son referencias (OMS TRS 1010 Anexo 7 / PDA TR-64) y quedan pendientes de confirmación por el responsable antes de firmar el protocolo.</p>
   <p><strong>Referencia:</strong><br>OMS TRS 1010 Anexo 7; PDA TR-64.</p>
 </article>
-<article data-bloque="3" id="art-ALM-OQ-006" class="ensayo" data-id="ALM-OQ-006" data-fase="OQ" data-cond="est">
+<article data-bloque="3" id="art-ALM-OQ-006" class="ensayo" data-analisis="si" data-id="ALM-OQ-006" data-fase="OQ" data-cond="est">
   <h3>ALM-OQ-006 — Prueba de corte energético</h3>
   <p><strong>Objetivo:</strong><br>Demostrar que ante un corte de energía el<span class="equipo">almacén</span> mantiene el rango o activa respaldo/alarma según lo previsto.</p>
   <p><strong>Procedimiento:</strong><br>
@@ -767,16 +782,22 @@
   2) Registrar deriva de T°/HR y tiempo fuera de <span class="rango">15–25 °C / HR &lt; 65 %</span><br>
   3) Verificar arranque automático de respaldo (UPS/grupo electrógeno) y tiempo de transferencia<br>
   4) Verificar alarma inmediata por corte<br>
-  5) Restablecer energía y medir tiempo de recuperación al rango</p>
+  5) Restablecer energía y medir tiempo de recuperación al rango<br>
+  6) Procesar los datos crudos de temperatura y humedad relativa del corte en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo.</p>
+  <p><strong>Plan estadístico:</strong><br>Variables continuas: temperatura (°C), humedad relativa (%HR), tiempo de transferencia (s) y tiempo de recuperación (min). n = todos los registros del evento de corte. Deriva térmica por punto: media, DE, mínimo, máximo e IC 95 %; tiempo de transferencia del respaldo y tiempo de recuperación como valores puntuales medidos; alarma como atributo (sí/no).</p>
   <p><strong>Criterio de aceptación:</strong><br>
-  Respaldo operativo &lt; 60 s; alarma inmediata; recuperación al rango &lt; 30 min tras restablecer; producto evaluado según procedimiento de excursiones.</p>
+  Temperatura y HR mantenidas dentro del setpoint de la entidad <span class="por-confirmar"><span class="rango">15–25 °C / HR &lt; 65 %</span></span> durante el corte o con respaldo activo.<br>
+  Arranque del respaldo en &lt; <span class="por-confirmar">60 s</span>.<br>
+  Recuperación al setpoint &lt; <span class="por-confirmar">30 min</span> tras restablecer la energía.<br>
+  Alarma inmediata y registrada en el 100 % de los eventos.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro de deriva térmica durante el corte<br>
   - Tiempos de transferencia y recuperación<br>
   - Evidencia de alarma y de arranque del respaldo<br>
-  - Evaluación de producto expuesto (si aplica)</p>
+  - Evaluación de producto expuesto (si aplica)<br>
+  - Data cruda y reporte estadístico del análisis del corte energético</p>
   <p><strong>Nota:</strong><br>
-  Coordinar con mantenimiento y seguridad: la simulación nunca se hace con producto crítico sin aprobación de calidad.</p>
+  Coordinar con mantenimiento y seguridad: la simulación nunca se hace con producto crítico sin aprobación de calidad. El setpoint de T/HR y los tiempos de transferencia y recuperación en rojo son referencias (OMS TRS 1010 Anexo 7) y quedan pendientes de confirmación por el responsable antes de firmar el protocolo.</p>
   <p><strong>Referencia:</strong><br>OMS TRS 1010 Anexo 7; GDP.</p>
 </article>
 <article data-bloque="2" id="art-ALM-OQ-007" class="ensayo" data-id="ALM-OQ-007" data-fase="OQ" data-cond="ambas">
@@ -978,7 +999,7 @@
   4) Completar con producto real o simulado hasta V carga calculado<br>
   5) Verificar ubicación según flujo de aire y zonas críticas (ver plano <a href="#art-ALM-OQ-002" data-goto="ALM-OQ-002">ALM-OQ-002</a>)</p>
   <p><strong>Criterio de aceptación:</strong><br>
-  Volumen óptimo calculado y ubicado según norma; % ocupación real dentro de ±5% del objetivo; cobertura completa de zonas críticas.</p>
+  Volumen óptimo calculado y ubicado según OMS TRS 1010 Anexo 7; % ocupación real dentro de ±5 % del objetivo; cobertura completa de zonas críticas.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Hoja de cálculo de volumen (firmada)<br>
   - Plano de ocupación con distribución de carga<br>
@@ -997,15 +1018,20 @@
   4) Ejecutar excursión programada (puerta 5 min) y medir recuperación a <span class="rango">15–25 °C / HR &lt; 65 %</span><br>
   5) Analizar: promedio, SD, %RSD, mín/máx por punto, MKT, normalidad; comparar contra mapeo en vacío (<a href="#art-ALM-OQ-003" data-goto="ALM-OQ-003">ALM-OQ-003</a>)<br>
   6) Procesar los datos crudos de temperatura y humedad relativa del mapeo con carga media en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo.</p>
+  <p><strong>Plan estadístico:</strong><br>Variables continuas: temperatura (°C) y humedad relativa (%HR) por punto. n = todos los registros del mapeo con carga media (1 lectura cada 5 min durante ≥ 7 días) por punto. Por punto: media, DE, RSD, mínimo, máximo e IC 95 %; MKT por punto y global; normalidad con Shapiro-Wilk; comparación contra el mapeo en vacío (ALM-OQ-003) con prueba t o Mann-Whitney; tiempo de recuperación de la excursión programada.</p>
   <p><strong>Criterio de aceptación:</strong><br>
-  100% de lecturas dentro de rango; recuperación &lt; 30 min; alarma operativa; sin puntos nuevos fuera de rango vs. vacío.</p>
+  100 % de las lecturas dentro del setpoint de la entidad <span class="por-confirmar"><span class="rango">15–25 °C / HR &lt; 65 %</span></span>.<br>
+  MKT dentro del setpoint de la entidad en el 100 % de los puntos.<br>
+  %RSD entre puntos ≤ <span class="por-confirmar">5 %</span>.<br>
+  Tiempo de recuperación &lt; <span class="por-confirmar">30 min</span>; alarma operativa.<br>
+  Sin puntos nuevos fuera de rango respecto del mapeo en vacío.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registros crudos + gráficos por punto<br>
   - Tabla comparativa vacío vs. carga media<br>
   - Informe de mapeo con carga media<br>
   - Data cruda y reporte estadístico del análisis de temperatura y humedad relativa del mapeo con carga media</p>
   <p><strong>Nota:</strong><br>
-  Se utilizan el número de sensores calculado en el ensayo <a href="#art-ALM-OQ-002" data-goto="ALM-OQ-002">ALM-OQ-002</a>. El mapeo se realiza en carga media para representar el funcionamiento típico del<span class="equipo">almacén</span>.</p>
+  Se utilizan el número de sensores calculado en el ensayo <a href="#art-ALM-OQ-002" data-goto="ALM-OQ-002">ALM-OQ-002</a>. El mapeo se realiza en carga media para representar el funcionamiento típico del<span class="equipo">almacén</span>. El setpoint de T/HR, el %RSD y el tiempo de recuperación en rojo son referencias (OMS TRS 1010 Anexo 7 / PDA TR-64) y quedan pendientes de confirmación por el responsable antes de firmar el protocolo.</p>
   <p><strong>Referencia:</strong><br>OMS TRS 1010 Anexo 7; PDA TR-64.</p>
 </article>
 <article data-bloque="3" id="art-ALM-PQ-004" class="ensayo" data-analisis="si" data-id="ALM-PQ-004" data-fase="PQ" data-cond="ambas">
@@ -1018,15 +1044,20 @@
   4) Ejecutar excursión programada (puerta 5 min) y medir recuperación a <span class="rango">15–25 °C / HR &lt; 65 %</span><br>
   5) Analizar: promedio, SD, %RSD, mín/máx por punto, MKT, normalidad; comparar contra vacío y carga media<br>
   6) Procesar los datos crudos de temperatura y humedad relativa del mapeo con carga máxima en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo.</p>
+  <p><strong>Plan estadístico:</strong><br>Variables continuas: temperatura (°C) y humedad relativa (%HR) por punto. n = todos los registros del mapeo con carga máxima (1 lectura cada 5 min durante ≥ 7 días) por punto. Por punto: media, DE, RSD, mínimo, máximo e IC 95 %; MKT por punto y global; normalidad con Shapiro-Wilk; comparación contra el mapeo en vacío (ALM-OQ-003) y el de carga media (ALM-PQ-003) con ANOVA o Kruskal-Wallis; tiempo de recuperación de la excursión programada.</p>
   <p><strong>Criterio de aceptación:</strong><br>
-  100% de lecturas dentro de rango; recuperación &lt; 30 min; alarma operativa; desempeño documentado en peor caso.</p>
+  100 % de las lecturas dentro del setpoint de la entidad <span class="por-confirmar"><span class="rango">15–25 °C / HR &lt; 65 %</span></span>.<br>
+  MKT dentro del setpoint de la entidad en el 100 % de los puntos.<br>
+  %RSD entre puntos ≤ <span class="por-confirmar">5 %</span>.<br>
+  Tiempo de recuperación &lt; <span class="por-confirmar">30 min</span>; alarma operativa.<br>
+  Desempeño documentado en el peor caso de ocupación.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registros crudos + gráficos por punto<br>
   - Tabla comparativa vacío / media / máxima<br>
   - Informe de mapeo en peor caso<br>
   - Data cruda y reporte estadístico del análisis de temperatura y humedad relativa del mapeo con carga máxima</p>
   <p><strong>Nota:</strong><br>
-  Se utilizan el número de sensores calculado en el ensayo <a href="#art-ALM-OQ-002" data-goto="ALM-OQ-002">ALM-OQ-002</a>. El mapeo se realiza en carga máxima para representar el peor caso de funcionamiento del<span class="equipo">almacén</span>.</p>
+  Se utilizan el número de sensores calculado en el ensayo <a href="#art-ALM-OQ-002" data-goto="ALM-OQ-002">ALM-OQ-002</a>. El mapeo se realiza en carga máxima para representar el peor caso de funcionamiento del<span class="equipo">almacén</span>. El setpoint de T/HR, el %RSD y el tiempo de recuperación en rojo son referencias (OMS TRS 1010 Anexo 7 / PDA TR-64) y quedan pendientes de confirmación por el responsable antes de firmar el protocolo.</p>
   <p><strong>Referencia:</strong><br>OMS TRS 1010 Anexo 7; PDA TR-64.</p>
 </article>
 <article data-bloque="2" id="art-ALM-PQ-005" class="ensayo" data-id="ALM-PQ-005" data-fase="PQ" data-cond="ambas">
