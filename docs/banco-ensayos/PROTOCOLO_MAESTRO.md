@@ -118,7 +118,7 @@ Todo ensayo de bloques 2-3 usa las mismas seis secciones, en este orden:
 | Documentos entregables | La evidencia que queda en el expediente |
 | Referencia | Norma o URS con versión; «manual del fabricante» solo no basta |
 
-**El esqueleto se comparte; el criterio no.** Cada ensayo aporta a la calificación de forma distinta, así que su criterio debe ser propio: valor, unidad, regla de decisión y fuente. Un criterio idéntico al de otra familia es un hallazgo salvo que la justificación del ensayo explique por qué el riesgo es el mismo. Hoy hay **377 ensayos en 152 grupos clonados** (el peor: 8 ensayos de familias distintas) y solo **187 de 1392 criterios contienen un número**.
+**El esqueleto se comparte; el criterio no.** Cada ensayo aporta a la calificación de forma distinta, así que su criterio debe ser propio: valor, unidad, regla de decisión y fuente. Un criterio idéntico al de otra familia es un hallazgo salvo que la justificación del ensayo explique por qué el riesgo es el mismo. Hoy hay **322 ensayos en 130 grupos clonados** (el peor: 8 ensayos de familias distintas) y **346 de 1392 criterios contienen un número**.
 
 **Plan por tipo de dato** (el plan genérico «variable = la magnitud medida» no se acepta):
 
