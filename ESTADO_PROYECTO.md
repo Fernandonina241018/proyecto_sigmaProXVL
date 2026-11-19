@@ -90,6 +90,33 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (StatAnalyzer Pro) co
 
 ## CAMBIOS RECIENTES
 
+### 2026-11-19 (320): Equipos lote 2 — recubridora y reactor
+
+**Qué:** 97 ensayos más al estándar (48 recubridora + 49 reactor).
+- **Recubridora:** velocidad de bombo ±2 %, caudal de spray ±5 %, atomización 1,5-3 bar, presión diferencial -0,5 a -1,5 mbar, aumento de peso ±2 %, uniformidad individual ±10 %, color ΔE ≤ 2, humedad ±2 %, eficiencia ≥ 90 %, rendimiento ≥ 98 %.
+- **Reactor:** hermeticidad 1,5× presión de diseño con caída ≤ 5 %, velocidad ±2 %, temperatura ±0,5 °C y uniformidad ±1 °C, volumen/peso ±0,5 %, alivio ±5 %, heel ≤ 1 %, rendimiento ≥ 98 %, CIP con riboflavina.
+- **Plan específico** para EQ-IQ-RC-007 (prueba de hermeticidad), que tenía `data-analisis` sin plan.
+- `MIGRADAS` del contrato incluye recubridora y reactor.
+
+**Estado medido:**
+```
+recubridora: 48 ensayos · 39 con plan · 31 con valor numérico · 29 con valores propuestos
+reactor:     49 ensayos · 31 con plan · 24 con valor numérico · 18 con valores propuestos
+global: 518/1392 criterios con valor (37 %) · 224 clonados en 100 grupos (antes 258/111) · 138 sin plan (antes 161)
+```
+
+**Archivos afectados:**
+| Archivo | Cambio |
+|---------|--------|
+| `docs/banco-ensayos/equipos/{iq,oq,pq}-{recubridora,reactor}.html` | 97 ensayos reescritos |
+| `js/core/banco-equipos-data.js` | Regenerado |
+| `tests/bancos-contenido-equipos.test.js` | `MIGRADAS` ampliado |
+
+**Verificación:**
+```
+npm run preflight → protocolo:check OK, urs-ar:check OK, Vitest 1209, backend 154, E2E 14
+```
+
 ### 2026-11-19 (319): Equipos lote 1 — encapsuladora y granulador
 
 **Qué:** dos familias más al estándar (49 + 45 = 94 ensayos).
