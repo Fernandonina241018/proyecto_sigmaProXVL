@@ -855,7 +855,7 @@ const PlantillaDocx = (() => {
   // Genera el documento con los datos del borrador (schema) y deja las
   // secciones técnicas 7.1–7.8 para completar después. No usa banco DQ.
   // ---------------------------------------------------------------
-  async function generarDQScaffold(plantillaU8, draft, entidad) {
+  async function generarDQScaffold(plantillaU8, draft, entidad, ensayosDQ) {
     const d = draft || {};
     const nombre = String(d.descripcion || '').trim() || (entidad && entidad.nombre) || 'EQUIPO';
     const marca = String(d.marca || '').trim() || 'N/A';
@@ -945,8 +945,48 @@ const PlantillaDocx = (() => {
       }
     }
 
+    // Almacenes conserva su contenido DQ: se anexa al documento base con el
+    // formato de la plantilla, en vez de generar un documento aparte.
+    if (Array.isArray(ensayosDQ) && ensayosDQ.length) {
+      const dp = archivos.find((a) => a.nombre === 'word/document.xml');
+      if (dp) {
+        const run = (t, bold) => '<w:r><w:rPr><w:rFonts w:ascii="Tahoma" w:hAnsi="Tahoma" w:cs="Tahoma"/>'
+          + (bold ? '<w:b/>' : '') + '<w:sz w:val="22"/><w:szCs w:val="22"/></w:rPr>'
+          + '<w:t xml:space="preserve">' + esc(String(t || '')) + '</w:t></w:r>';
+        const par = (t, bold) => '<w:p><w:pPr><w:spacing w:after="80"/></w:pPr>' + run(t, bold) + '</w:p>';
+        // Sin regex de etiquetas: CodeQL lo trata como sanitización incompleta.
+        const soloTexto = (html) => {
+          const s0 = String(html || '').replace(/<br\s*\/?>/gi, '\n').replace(/&nbsp;/g, ' ');
+          let out = '';
+          for (let i = 0; i < s0.length;) {
+            const a = s0.indexOf('<', i);
+            if (a < 0) { out += s0.slice(i); break; }
+            out += s0.slice(i, a);
+            const b = s0.indexOf('>', a);
+            if (b < 0) break;
+            i = b + 1;
+          }
+          return out.split('\n').map((l) => l.replace(/\s+/g, ' ').trim()).filter(Boolean);
+        };
+        let anexo = par('ANEXO — ENSAYOS DE DISEÑO', true);
+        for (const e of ensayosDQ) {
+          anexo += par(e.id + ' — ' + String(e.titulo || '').replace(new RegExp('^' + e.id + ' — '), ''), true);
+          for (const sec of e.secciones || []) {
+            for (const linea of soloTexto(sec.html)) anexo += par(linea, false);
+          }
+        }
+        let dx = dec(dp.datos);
+        const fB = dx.lastIndexOf('</w:body>');
+        dx = dx.slice(0, fB) + anexo + dx.slice(fB);
+        dp.datos = enc(dx);
+      }
+    }
+
     const bytes = await escribirZip(archivos);
-    return { bytes, avisos: ['DQ generado como documento base; complete las secciones técnicas antes de ejecutar.'] };
+    const aviso = Array.isArray(ensayosDQ) && ensayosDQ.length
+      ? 'DQ generado desde la plantilla con los ensayos de diseño del banco; complete los datos de sitio antes de aprobar.'
+      : 'DQ generado como documento base; complete las secciones técnicas antes de ejecutar.';
+    return { bytes, avisos: [aviso] };
   }
 
   // ---------------------------------------------------------------
@@ -1960,11 +2000,11 @@ const PlantillaDocx = (() => {
     return r;
   }
 
-  async function descargarDQ(draft, entidad, onBeforeDownload) {
+  async function descargarDQ(draft, entidad, onBeforeDownload, ensayosDQ) {
     const resp = await fetch(PLANTILLAS.DQ, { cache: 'no-store' });
     if (!resp.ok) throw new Error('No se encontró la plantilla ' + PLANTILLAS.DQ + ' (' + resp.status + ').');
     const u8 = new Uint8Array(await resp.arrayBuffer());
-    const r = await generarDQScaffold(u8, draft, entidad);
+    const r = await generarDQScaffold(u8, draft, entidad, ensayosDQ);
     const filename = nombreArchivo('DQ', draft, entidad);
     if (typeof onBeforeDownload === 'function') await onBeforeDownload({ bytes: r.bytes, filename: filename, fase: 'DQ' });
     const blob = new Blob([r.bytes], { type: MIME_DOCX });

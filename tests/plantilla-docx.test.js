@@ -686,6 +686,17 @@ describe('H-05/H-08/H-09/H-11: límites, bloques fijos y trazabilidad', () => {
       expect(txt).toContain('SIS-PQ-AP-015 (aplica a WFI)');
     });
 
+    test('el DQ de almacenes usa la plantilla y anexa sus ensayos', async () => {
+      const u8 = new Uint8Array(readFileSync(resolve(raiz, P.PLANTILLAS.DQ)));
+      const ensayosDQ = (banco.fases.DQ || []).filter((x) => x.kind === 'ensayo');
+      expect(ensayosDQ.length).toBeGreaterThan(0);
+      const r = await P.generarDQScaffold(u8, DRAFT, ENT, ensayosDQ);
+      const xml = dec((await P._interno.leerZip(r.bytes)).find((a) => a.nombre === 'word/document.xml').datos);
+      expect(xml).toMatch(/CALIFICACIÓN DE DISEÑO/i);
+      expect(xml).toContain('ANEXO — ENSAYOS DE DISEÑO');
+      expect(xml).toContain(ensayosDQ[0].id);
+    });
+
     test('sin pendientes, la nota lo declara en vez de callar', () => {
       const ensayos = [{
         id: 'EQ-OQ-001', criticidad: 'Alta', instrumentos: 'Balanza calibrada',

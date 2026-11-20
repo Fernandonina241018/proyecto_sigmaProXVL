@@ -90,6 +90,26 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (StatAnalyzer Pro) co
 
 ## CAMBIOS RECIENTES
 
+### 2026-11-19 (329): DQ de almacenes con el formato de la plantilla
+
+**Qué:** el DQ de almacenes salía con el generador legado (documento propio, sin la plantilla). Ahora usa la **plantilla DQ** como equipos, estabilidad y sistemas, y conserva su contenido.
+- **`PlantillaDocx.descargarDQ()`** acepta los ensayos DQ del banco.
+- **`generarDQScaffold()`** anexa al final del documento, con letra Tahoma 11, un bloque «ANEXO — ENSAYOS DE DISEÑO» con objetivo, procedimiento, criterio, entregables y referencia de cada ensayo.
+- **`indexx-validaciones.js`** usa siempre `descargarDQ` para DQ; para almacenes pasa los ensayos `ALM-DQ-*` del banco.
+- Test nuevo: el DOCX contiene «CALIFICACIÓN DE DISEÑO», el anexo y el ID del ensayo.
+
+**Archivos afectados:**
+| Archivo | Cambio |
+|---------|--------|
+| `js/core/plantilla-docx.js` | `descargarDQ(..., ensayosDQ)` y anexo en el scaffold |
+| `js/core/indexx-validaciones.js` | DQ de almacenes por plantilla + ensayos del banco |
+| `tests/plantilla-docx.test.js` | Test del DQ de almacenes |
+
+**Verificación:**
+```
+npm run preflight → protocolo:check OK, urs-ar:check OK, Vitest 1210, backend 154, E2E 14
+```
+
 ### 2026-11-19 (328): Equipos lote 8b — cámaras, secadores y comunes (equipos completo)
 
 **Qué:** 117 ensayos más y con esto **los 1.064 ensayos de equipos quedan migrados**.
