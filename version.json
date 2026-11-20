@@ -1,1 +1,1 @@
-{"v":"0c2f2d9","t":"2026-11-20T23:24:42Z","m":"feat(banco): instrumentos por ensayo en almacenes (#338)","b":["8 ensayos de medicion declaran termohigrometro, luxometro,","cronometro, registrador o cinta metrica.","Documentales quedan vacios; sensores T/H solo en OQ/PQ.","3 tests nuevos."]}
+{"v":"adeba37","t":"2026-11-20T23:37:10Z","m":"feat(banco): instrumentos por ensayo en estabilidad (#340)","b":["30 ensayos declaran termometro, termohigrometro, cronometro o","registrador.","HR usa termohigrometro; continuidad de registro usa registrador.","3 tests nuevos."]}
