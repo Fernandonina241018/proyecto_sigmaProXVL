@@ -90,6 +90,34 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (StatAnalyzer Pro) co
 
 ## CAMBIOS RECIENTES
 
+### 2026-11-19 (327): Equipos lote 8a — lecho fluido, mezclador, liofilizador y túnel
+
+**Qué:** 108 ensayos al estándar.
+- **Lecho fluido (35):** caudal ±5 %, temperatura ±2 °C, ΔP de filtro ≤ 0,5 bar, uniformidad de lecho ±2 °C, humedad por ubicación, rendimiento ≥ 98 %.
+- **Mezclador (32):** velocidad ±2 %, temporizador ±1 %, frenado ≤ 2 s, uniformidad RSD ≤ 5 %, media 95-105 %, hold time, rendimiento ≥ 98 %.
+- **Liofilizador (21):** vacío ≤ 0,1 mbar, fuga ≤ 0,05 mbar/min, estantes ±1 °C, rampas ±1 °C/min, humedad residual ≤ 1 %, integridad de cierre.
+- **Túnel (20):** velocidad ±2 %, zonas ±5 °C, uniformidad ±5 °C, reducción de endotoxina ≥ 3 log.
+- **Planes específicos** en 6 ensayos con plan genérico y números en 20 criterios cualitativos.
+- `MIGRADAS` del contrato cubre 37 familias.
+
+**Estado medido:**
+```
+lecho-fluido 35 · mezclador 32 · liofilizador 21 · túnel 20
+global: 833/1392 criterios con valor (60 %) · 106 clonados en 50 grupos · 2 sin plan
+```
+
+**Archivos afectados:**
+| Archivo | Cambio |
+|---------|--------|
+| `docs/banco-ensayos/equipos/{iq,oq,pq}-{lecho-fluido,mezclador,liofilizador,tunel-despirogenizacion}.html` | 108 ensayos reescritos |
+| `js/core/banco-equipos-data.js` | Regenerado |
+| `tests/bancos-contenido-equipos.test.js` | `MIGRADAS` ampliado |
+
+**Verificación:**
+```
+npm run preflight → protocolo:check OK, urs-ar:check OK, Vitest 1209, backend 154, E2E 14
+```
+
 ### 2026-11-19 (326): Equipos lote 7 — instrumentos tipo L
 
 **Qué:** 121 ensayos de 17 familias de instrumentos analíticos al estándar (todos OQ).

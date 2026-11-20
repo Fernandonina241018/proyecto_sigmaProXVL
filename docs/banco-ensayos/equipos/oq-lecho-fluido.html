@@ -82,13 +82,13 @@
   6) Rearmar la parada según el procedimiento del fabricante y confirmar que el <span class="equipo">equipo</span> queda en condición segura sin arrancar solo<br>
   7) Repetir los pasos 3) a 6) por cada parada de emergencia del <span class="equipo">equipo</span><br>
   8) Dejar el <span class="equipo">equipo</span> en condición segura y anotar cualquier desviación</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Todas las paradas detienen el ventilador y la calefacción en 3 segundos o menos.<br>
-  Sin rearme manual el arranque es imposible y el estado queda señalizado en el HMI.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = parada de emergencia; unidad = s. Tipo de dato = continua. n = 3 activaciones. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = detención ≤ 2 s. Atípicos = Grubbs solo si n ≥ 7; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Cada parada de emergencia detiene calefacción, ventilador y descarga en ≤ <span class="por-confirmar">2 s</span>.<br>Estado seguro, sin reinicio automático.<br>Evento registrado.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Tabla de paradas de emergencia con ubicación y tiempos medidos<br>
   - Registro de mensajes del HMI por cada prueba</p>
-  <p><strong>Referencia:</strong><br>EU GMP Anexo 15; GAMP5 2.ª ed. (challenge de funciones de seguridad).</p>
+  <p><strong>Nota:</strong><br>El tiempo en rojo se confirma con el fabricante y el análisis de riesgo.</p>
+  <p><strong>Referencia:</strong><br>EU GMP Anexo 15; ICH Q8(R2); USP &lt;711&gt;; 21 CFR 211.160(b); manual del fabricante.</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-OQ-LF-002" class="ensayo" data-id="EQ-OQ-LF-002" data-fase="OQ" data-cond="ambas" data-familia="lecho-fluido">
@@ -107,13 +107,12 @@
   6) Con el ventilador detenido, demandar calefacción y confirmar que la calefacción no energiza<br>
   7) Arrancar en condición normal, abrir la puerta durante la marcha y confirmar la detención del ciclo<br>
   8) Restituir todas las condiciones a normal, confirmar marcha permitida y cerrar la matriz con hora y respuesta de cada prueba</p>
-  <p><strong>Plan estadístico:</strong><br>No aplica: verificación funcional por atributo (inhibe/no inhibe, 100 % de los casos); sin inferencia estadística.</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  El 100% de los interlocks ensayados inhibe el arranque o detiene la marcha con mensaje en el HMI.<br>
-  La calefacción no energiza sin ventilador en marcha.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = actuación de interlocks; unidad = s. Tipo de dato = continua. n = 3 repeticiones. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = detención ≤ 1 s. Atípicos = Grubbs solo si n ≥ 7; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>El equipo no arranca o se detiene con cámara abierta o filtro mal instalado, en ≤ <span class="por-confirmar">1 s</span>.<br>Rearme manual.<br>Prueba registrada por interlock.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Matriz de interlocks con condición provocada, respuesta del equipo y mensaje del HMI</p>
-  <p><strong>Referencia:</strong><br>GAMP5 2.ª ed.; EU GMP Anexo 15.</p>
+  <p><strong>Nota:</strong><br>Un interlock puenteado es un hallazgo crítico.</p>
+  <p><strong>Referencia:</strong><br>EU GMP Anexo 15; ICH Q8(R2); USP &lt;711&gt;; 21 CFR 211.160(b); manual del fabricante.</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-OQ-LF-003" class="ensayo" data-id="EQ-OQ-LF-003" data-fase="OQ" data-cond="ambas" data-familia="lecho-fluido">
@@ -129,12 +128,13 @@
   6) Bajar la consigna de flujo bajo el mínimo y confirmar la alarma con inhibición de la calefacción<br>
   7) Acusar cada alarma, verificar que el acuse queda registrado, normalizar la condición y confirmar el retorno a operación<br>
   8) Verificar en el histórico y el audit trail que las alarmas quedaron registradas con fecha, hora y acuse, y devolver los setpoints a sus valores aprobados</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  El 100% de las alarmas dispara en su límite, ejecuta su acción en menos de 5 segundos y queda registrada con acuse.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = disparo de alarmas; unidad = pasa/no pasa. Tipo de dato = atributo. n = 3 repeticiones por alarma. Estadísticos = proporción de cumplimiento con IC binomial exacto. Regla de decisión = cada alarma dispara y actúa. Atípicos: no aplica a datos de atributo; toda exclusión se documenta y se conserva el registro original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Cada alarma dispara en su límite y ejecuta la acción.<br>Registro con fecha, hora, valor y usuario.<br>Prueba registrada por alarma.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Matriz de alarmas con límite, acción, tiempo de respuesta y acuse<br>
   - Extracto del histórico de alarmas del HMI</p>
-  <p><strong>Referencia:</strong><br><span class="refnorma"></span> (sensores asociados).</p>
+  <p><strong>Nota:</strong><br>Se prueban todas las alarmas del análisis de riesgo.</p>
+  <p><strong>Referencia:</strong><br>EU GMP Anexo 15; ICH Q8(R2); USP &lt;711&gt;; 21 CFR 211.160(b); manual del fabricante.</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-OQ-LF-004" class="ensayo" data-id="EQ-OQ-LF-004" data-fase="OQ" data-cond="ambas" data-familia="lecho-fluido">
@@ -149,13 +149,12 @@
   6) Rearrancar manualmente y confirmar la operación normal del ciclo<br>
   7) Revisar el lote de datos: receta, registros de proceso, audit trail y alarmas, confirmando continuidad sin corrupción ni huecos injustificados según ALCOA+<br>
   8) Anexar el registro del evento y la verificación de datos al protocolo, documentando las desviaciones si las hubo</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Al corte el equipo queda en estado seguro; no hay rearranque automático.<br>
-  Los datos del proceso están íntegros y trazables tras la recuperación.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Ante corte de energía queda en estado seguro, sin arranque espontáneo.<br>El producto en proceso se dispone según procedimiento.<br>Evento registrado.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro del evento de corte y recuperación con horas<br>
   - Verificación de integridad de datos (receta, registros, audit trail)</p>
-  <p><strong>Referencia:</strong><br>GAMP5 2.ª ed.; EU GMP Anexo 15; 21 CFR Part 11 (datos).</p>
+  <p><strong>Nota:</strong><br>La disposición del producto se define antes de la prueba.</p>
+  <p><strong>Referencia:</strong><br>EU GMP Anexo 15; ICH Q8(R2); USP &lt;711&gt;; 21 CFR 211.160(b); manual del fabricante.</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-OQ-LF-005" class="ensayo" data-analisis="si" data-id="EQ-OQ-LF-005" data-fase="OQ" data-cond="ambas" data-familia="lecho-fluido">
@@ -172,15 +171,15 @@
   7) Graficar la curva frecuencia contra caudal y confirmar que es monótona creciente y que los 3 puntos están dentro de la especificación del fabricante ±5%<br>
   8) Archivar la curva como referencia para la PQ<br>
   9) Procesar los datos crudos de caudal de aire y curva del ventilador en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo.</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Los caudales mínimo, nominal y máximo están dentro de la especificación del fabricante ±5% con RSD ≤5%.<br>
-  La curva frecuencia contra caudal queda documentada.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = caudal de aire; unidad = m³/h. Tipo de dato = continua. n = 3 lecturas por setpoint. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = desviación ≤ ±5 %. Atípicos = Grubbs solo si n ≥ 7; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Caudal de aire dentro de ±<span class="por-confirmar">5 %</span> del setpoint en mínimo, nominal y máximo.<br>Fluidización uniforme sin canalizaciones.<br>Registro por condición.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Tabla de frecuencia contra caudal con promedios y RSD<br>
   - Gráfica de la curva del ventilador<br>
   - Certificado del instrumento de medición<br>
   - Data cruda y reporte estadístico del análisis de caudal de aire y curva del ventilador</p>
-  <p><strong>Referencia:</strong><br>Especificación del fabricante; EU GMP Anexo 15.</p>
+  <p><strong>Nota:</strong><br>La tolerancia en rojo se confirma con el fabricante.</p>
+  <p><strong>Referencia:</strong><br>EU GMP Anexo 15; ICH Q8(R2); USP &lt;711&gt;; 21 CFR 211.160(b); manual del fabricante.</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-OQ-LF-006" class="ensayo" data-analisis="si" data-id="EQ-OQ-LF-006" data-fase="OQ" data-cond="ambas" data-familia="lecho-fluido">
@@ -196,15 +195,15 @@
   5) Desde el setpoint bajo estable, cambiar al setpoint alto y medir con cronómetro el tiempo hasta que el patrón esté dentro de ±1 °C del nuevo setpoint, registrando la curva de temperatura contra tiempo<br>
   6) Devolver el setpoint al valor de reposo aprobado y anexar los gráficos y la tabla de exactitud<br>
   7) Procesar los datos crudos de temperatura del aire de entrada en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo.</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Exactitud ±0,5 °C en los tres setpoints; estabilidad ±1 °C durante 30 minutos.<br>
-  Tiempo de respuesta menor o igual al declarado por el fabricante (registrar el valor y su fuente antes de iniciar).</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = temperatura de entrada; unidad = °C. Tipo de dato = continua. n = 3 ventanas por setpoint. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = desviación ≤ ±2 °C. Atípicos = Grubbs solo si n ≥ 7; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Temperatura de aire de entrada dentro de ±<span class="por-confirmar">2 °C</span> del setpoint, estable y con respuesta ≤ 2 min.<br>Registro por condición.<br>Sin sobreimpulso > 5 °C.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Tabla de exactitud equipo contra patrón en 3 setpoints<br>
   - Gráficos de temperatura contra tiempo y de tiempo de respuesta<br>
   - Certificado del sensor patrón<br>
   - Data cruda y reporte estadístico del análisis de temperatura del aire de entrada</p>
-  <p><strong>Referencia:</strong><br><span class="refnorma"></span>.</p>
+  <p><strong>Nota:</strong><br>Las tolerancias en rojo se confirman con la URS y el fabricante.</p>
+  <p><strong>Referencia:</strong><br>EU GMP Anexo 15; ICH Q8(R2); USP &lt;711&gt;; 21 CFR 211.160(b); manual del fabricante.</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-OQ-LF-007" class="ensayo" data-analisis="si" data-id="EQ-OQ-LF-007" data-fase="OQ" data-cond="ambas" data-familia="lecho-fluido">
@@ -219,13 +218,13 @@
   5) Provocar una desviación cambiando el setpoint ±10%, confirmar la alarma de desviación de humedad y normalizar verificando el retorno<br>
   6) Con sistema: anexar el registro de humedad contra tiempo; sin sistema: redactar la justificación de No Aplica indicando que el equipo no cuenta con deshumidificación y que el parámetro no existe en el diseño, con firma del ejecutor y del revisor<br>
   7) Cuando aplique este ensayo, procesar los datos crudos de humedad del aire de entrada en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo.</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Con sistema: estabilidad ±3% HR y alarma de desviación operativa.<br>
-  Sin sistema: No Aplica justificado y firmado.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = humedad del aire; unidad = % HR o °C rocío. Tipo de dato = continua. n = 3 lecturas por condición. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = cada lectura dentro del rango. Atípicos = Grubbs solo si n ≥ 7; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Humedad o punto de rocío del aire dentro del rango del proceso (<span class="por-confirmar">valor de la URS</span>).<br>Sin condensación en conductos.<br>Registro por condición.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro de humedad contra tiempo o justificación de No Aplica firmada<br>
   - Data cruda y reporte estadístico del análisis de humedad del aire de entrada</p>
-  <p><strong>Referencia:</strong><br>Especificación del fabricante; EU GMP Anexo 15.</p>
+  <p><strong>Nota:</strong><br>El rango en rojo depende del producto; no se asume.</p>
+  <p><strong>Referencia:</strong><br>EU GMP Anexo 15; ICH Q8(R2); USP &lt;711&gt;; 21 CFR 211.160(b); manual del fabricante.</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-OQ-LF-008" class="ensayo" data-id="EQ-OQ-LF-008" data-fase="OQ" data-cond="ambas" data-familia="lecho-fluido">
@@ -239,12 +238,13 @@
   4) Simular la pérdida del diferencial según el diseño y confirmar la alarma correspondiente<br>
   5) Normalizar, confirmar el retorno del ΔP y el silencio de la alarma<br>
   6) Anexar la tabla de ΔP por condición con el instrumento utilizado y su certificado</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  ΔP dentro de la especificación en marcha nominal, con recuperación tras apertura y alarma operativa.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = presión diferencial; unidad = mbar. Tipo de dato = continua. n = 3 lecturas por condición. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = cada lectura dentro del rango. Atípicos = Grubbs solo si n ≥ 7; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Presión diferencial de cámara ligeramente negativa (<span class="por-confirmar">-0,5 a -2 mbar</span>).<br>Sin escape de polvo al área.<br>Registro por condición.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Tabla de ΔP por condición (nominal, apertura, pérdida simulada)<br>
   - Certificado del manómetro diferencial</p>
-  <p><strong>Referencia:</strong><br>EU GMP Anexo 15; OMS TRS 1010 Anexo 7 (contención).</p>
+  <p><strong>Nota:</strong><br>El rango en rojo se confirma con el diseño y la evaluación de exposición.</p>
+  <p><strong>Referencia:</strong><br>EU GMP Anexo 15; ICH Q8(R2); USP &lt;711&gt;; 21 CFR 211.160(b); manual del fabricante.</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-OQ-LF-009" class="ensayo" data-id="EQ-OQ-LF-009" data-fase="OQ" data-cond="ambas" data-familia="lecho-fluido">
@@ -259,12 +259,12 @@
   5) Medir el ΔP de los filtros antes y después del sacudido y confirmar su recuperación tras cada ciclo<br>
   6) Observar el lecho durante el sacudido y confirmar que la fluidización no se interrumpe de forma anormal<br>
   7) Dejar el modo automático o de reposo según el procedimiento y anexar la tabla de tiempos medidos</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Secuencia igual al diseño; tiempos ±10% del setpoint; el ΔP se recupera tras el sacudido.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Secuencia, tiempos e intervalos del sacudido según el fabricante.<br>ΔP del filtro se mantiene dentro del rango tras el ciclo.<br>Registro de la secuencia.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Tabla de secuencia y tiempos medidos por válvula<br>
   - Registros de ΔP antes y después del sacudido</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante; EU GMP Anexo 15.</p>
+  <p><strong>Nota:</strong><br>Un sacudido mal ajustado satura la manga y reduce el caudal.</p>
+  <p><strong>Referencia:</strong><br>EU GMP Anexo 15; ICH Q8(R2); USP &lt;711&gt;; 21 CFR 211.160(b); manual del fabricante.</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-OQ-LF-010" class="ensayo" data-id="EQ-OQ-LF-010" data-fase="OQ" data-cond="ambas" data-familia="lecho-fluido">
@@ -279,12 +279,13 @@
   5) Sangrar hasta quedar bajo la presión mínima y confirmar la alarma de baja presión de sellado<br>
   6) Re-inflar a la presión de trabajo y confirmar el permiso de marcha<br>
   7) Anexar el registro de retención y dejar constancia del estado del gasket (apto o reporte de reemplazo)</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Retención de presión dentro del límite; sin sellado no hay marcha; alarma de baja presión operativa.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = estanqueidad del gasket; unidad = bar. Tipo de dato = continua. n = 3 pruebas de 5 min. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = sin caída de presión. Atípicos = Grubbs solo si n ≥ 7; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Sellado del contenedor con gasket inflable: sin fuga a la presión de prueba (<span class="por-confirmar">valor del fabricante</span>).<br>Presión estable durante 5 min.<br>Registro de la prueba.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro de retención de presión con hora y lecturas<br>
   - Constancia del estado del gasket</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante; GAMP5 2.ª ed. (interlock).</p>
+  <p><strong>Nota:</strong><br>El gasket en rojo se confirma con el certificado del fabricante.</p>
+  <p><strong>Referencia:</strong><br>EU GMP Anexo 15; ICH Q8(R2); USP &lt;711&gt;; 21 CFR 211.160(b); manual del fabricante.</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-OQ-LF-011" class="ensayo" data-id="EQ-OQ-LF-011" data-fase="OQ" data-cond="ambas" data-familia="lecho-fluido">
@@ -300,11 +301,11 @@
   5) Caso 4: con el <span class="equipo">equipo</span> en marcha nominal sin producto, simular el desbloqueo según lo permita el diseño sin riesgo y confirmar la detención o inhibición inmediata<br>
   6) Registrar cada caso con hora, acción ejecutada y respuesta del <span class="equipo">equipo</span><br>
   7) Dejar el contenedor bloqueado o según indique el procedimiento de reposo, y cerrar la matriz con firma</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  La marcha solo se permite con el contenedor posicionado y bloqueado; el desbloqueo en marcha detiene o inhibe.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Posicionamiento y bloqueo mecánico del contenedor verificados.<br>Sin movimiento con el equipo en marcha.<br>Registro de la verificación.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Matriz de los 4 casos con hora, acción y respuesta del equipo</p>
-  <p><strong>Referencia:</strong><br>GAMP5 2.ª ed.; EU GMP Anexo 15.</p>
+  <p><strong>Nota:</strong><br>Un contenedor mal bloqueado puede desplazarse y romper el sello.</p>
+  <p><strong>Referencia:</strong><br>EU GMP Anexo 15; ICH Q8(R2); USP &lt;711&gt;; 21 CFR 211.160(b); manual del fabricante.</p>
 </article>
 
 <article data-bloque="4" id="art-EQ-OQ-LF-RES" class="ensayo" data-id="EQ-OQ-LF-RES" data-fase="OQ" data-cond="ambas" data-familia="lecho-fluido">
