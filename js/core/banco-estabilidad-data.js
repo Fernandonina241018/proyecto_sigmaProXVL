@@ -106,7 +106,8 @@ var BancoEstabilidad = {
       "html": "<strong>Referencia:</strong><br>ICH Q1A(R2); ICH Q1B (fotoestabilidad, si aplica); OMS TRS 1010 Anexo 7; USP &lt;1079&gt;; EU GMP Anexo 15."
      }
     ],
-    "tabla": null
+    "tabla": null,
+    "instrumentos": "Registrador de datos calibrado"
    },
    {
     "kind": "resumen",
@@ -247,7 +248,8 @@ var BancoEstabilidad = {
       "html": "<strong>Referencia:</strong><br>ICH Q1A(R2); ICH Q1B (fotoestabilidad, si aplica); OMS TRS 1010 Anexo 7; USP &lt;1079&gt;; EU GMP Anexo 15."
      }
     ],
-    "tabla": null
+    "tabla": null,
+    "instrumentos": "Cronómetro calibrado"
    },
    {
     "kind": "ensayo",
@@ -315,7 +317,8 @@ var BancoEstabilidad = {
       "html": "<strong>Referencia:</strong><br>ICH Q1A(R2); ICH Q1B (fotoestabilidad, si aplica); OMS TRS 1010 Anexo 7; USP &lt;1079&gt;; EU GMP Anexo 15."
      }
     ],
-    "tabla": null
+    "tabla": null,
+    "instrumentos": "Cronómetro calibrado"
    },
    {
     "kind": "ensayo",
@@ -383,7 +386,8 @@ var BancoEstabilidad = {
       "html": "<strong>Referencia:</strong><br>ICH Q1A(R2); ICH Q1B (fotoestabilidad, si aplica); OMS TRS 1010 Anexo 7; USP &lt;1079&gt;; EU GMP Anexo 15."
      }
     ],
-    "tabla": null
+    "tabla": null,
+    "instrumentos": "Cronómetro calibrado"
    },
    {
     "kind": "ensayo",
@@ -417,7 +421,8 @@ var BancoEstabilidad = {
       "html": "<strong>Referencia:</strong><br>ICH Q1A(R2); ICH Q1B (fotoestabilidad, si aplica); OMS TRS 1010 Anexo 7; USP &lt;1079&gt;; EU GMP Anexo 15."
      }
     ],
-    "tabla": null
+    "tabla": null,
+    "instrumentos": "Registrador de datos calibrado"
    },
    {
     "kind": "ensayo",
@@ -456,6 +461,7 @@ var BancoEstabilidad = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Termómetro/termopar calibrado; Termohigrómetro calibrado",
     "analisis": "si"
    },
    {
@@ -495,6 +501,7 @@ var BancoEstabilidad = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Termómetro/termopar calibrado",
     "analisis": "si"
    },
    {
@@ -534,6 +541,7 @@ var BancoEstabilidad = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Termohigrómetro calibrado",
     "analisis": "si"
    },
    {
@@ -573,6 +581,7 @@ var BancoEstabilidad = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Cronómetro calibrado",
     "analisis": "si"
    },
    {
@@ -612,6 +621,7 @@ var BancoEstabilidad = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Termómetro/termopar calibrado; Termohigrómetro calibrado",
     "analisis": "si"
    },
    {
@@ -651,6 +661,7 @@ var BancoEstabilidad = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Cronómetro calibrado",
     "analisis": "si"
    },
    {
@@ -690,6 +701,7 @@ var BancoEstabilidad = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Termómetro/termopar calibrado",
     "analisis": "si"
    },
    {
@@ -729,6 +741,7 @@ var BancoEstabilidad = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Termohigrómetro calibrado",
     "analisis": "si"
    },
    {
@@ -807,6 +820,7 @@ var BancoEstabilidad = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Termómetro/termopar calibrado; Termohigrómetro calibrado",
     "analisis": "si"
    },
    {
@@ -846,6 +860,7 @@ var BancoEstabilidad = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Registrador de datos calibrado; Termómetro/termopar calibrado; Termohigrómetro calibrado",
     "analisis": "si"
    },
    {
@@ -885,6 +900,7 @@ var BancoEstabilidad = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Registrador de datos calibrado",
     "analisis": "si"
    },
    {
@@ -1002,7 +1018,8 @@ var BancoEstabilidad = {
        "VIGENTE"
       ]
      ]
-    }
+    },
+    "instrumentos": "Registrador de datos calibrado"
    },
    {
     "kind": "div",
@@ -1085,6 +1102,7 @@ var BancoEstabilidad = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Termómetro/termopar calibrado",
     "analisis": "si"
    },
    {
@@ -1124,6 +1142,7 @@ var BancoEstabilidad = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Termohigrómetro calibrado",
     "analisis": "si"
    },
    {
@@ -1163,6 +1182,7 @@ var BancoEstabilidad = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Cronómetro calibrado",
     "analisis": "si"
    },
    {
@@ -1202,6 +1222,7 @@ var BancoEstabilidad = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Termómetro/termopar calibrado",
     "analisis": "si"
    },
    {
@@ -1280,6 +1301,7 @@ var BancoEstabilidad = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Termómetro/termopar calibrado; Termohigrómetro calibrado",
     "analisis": "si"
    },
    {
@@ -1319,6 +1341,7 @@ var BancoEstabilidad = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Cronómetro calibrado",
     "analisis": "si"
    },
    {
@@ -1358,6 +1381,7 @@ var BancoEstabilidad = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Cronómetro calibrado",
     "analisis": "si"
    },
    {
@@ -1397,6 +1421,7 @@ var BancoEstabilidad = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Cronómetro calibrado",
     "analisis": "si"
    },
    {
@@ -1436,6 +1461,7 @@ var BancoEstabilidad = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Cronómetro calibrado",
     "analisis": "si"
    },
    {
@@ -1514,6 +1540,7 @@ var BancoEstabilidad = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Termómetro/termopar calibrado; Termohigrómetro calibrado",
     "analisis": "si"
    },
    {
@@ -1553,6 +1580,7 @@ var BancoEstabilidad = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Termómetro/termopar calibrado",
     "analisis": "si"
    },
    {
@@ -1587,7 +1615,8 @@ var BancoEstabilidad = {
       "html": "<strong>Referencia:</strong><br>ICH Q1A(R2); ICH Q1B (fotoestabilidad, si aplica); OMS TRS 1010 Anexo 7; USP &lt;1079&gt;; EU GMP Anexo 15."
      }
     ],
-    "tabla": null
+    "tabla": null,
+    "instrumentos": "Registrador de datos calibrado"
    },
    {
     "kind": "ensayo",
@@ -1733,6 +1762,7 @@ var BancoEstabilidad = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Cronómetro calibrado",
     "analisis": "si"
    },
    {
@@ -1772,6 +1802,7 @@ var BancoEstabilidad = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Cronómetro calibrado",
     "analisis": "si"
    },
    {

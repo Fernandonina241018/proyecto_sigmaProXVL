@@ -199,3 +199,33 @@ describe('banco estabilidad: contrato de contenido', () => {
     expect(sinFuente).toEqual([]);
   });
 });
+
+describe('estabilidad: instrumentos por ensayo', () => {
+  const ensayos = Object.entries(banco.fases).flatMap(([fase, xs]) => xs.map((x) => ({ ...x, fase })))
+    .filter((e) => e.kind === 'ensayo' && (e.bloque === 2 || e.bloque === 3));
+
+  it('los ensayos de medición declaran el instrumento', () => {
+    const esperado = {
+      'EST-OQ-013': /term[oó]metro|termopar/i,
+      'EST-OQ-014': /termohigr[oó]metro/i,
+      'EST-PQ-001': /term[oó]metro|termopar/i,
+      'EST-PQ-014': /registrador/i,
+    };
+    for (const [id, re] of Object.entries(esperado)) {
+      const e = ensayos.find((x) => x.id === id);
+      expect(String(e && e.instrumentos), id).toMatch(re);
+    }
+  });
+
+  it('el IQ documental de estanterías queda sin instrumento', () => {
+    const e = ensayos.find((x) => x.id === 'EST-IQ-001');
+    expect(String((e && e.instrumentos) || '').trim()).toBe('');
+  });
+
+  it('no inventa IDs ni certificados', () => {
+    const conIds = ensayos
+      .filter((e) => /certificado\s*(n[o°]|no\.)|n[o°]\s*de\s*serie/i.test(String(e.instrumentos || '')))
+      .map((e) => e.id);
+    expect(conIds).toEqual([]);
+  });
+});

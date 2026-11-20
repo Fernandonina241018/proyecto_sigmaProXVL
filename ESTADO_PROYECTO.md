@@ -90,6 +90,32 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (StatAnalyzer Pro) co
 
 ## CAMBIOS RECIENTES
 
+### 2026-11-20 (335): Instrumentos por ensayo en estabilidad (cierre de los cuatro bancos)
+
+**Qué:** se aplica el criterio a los 40 ensayos de estabilidad. Con esto los cuatro bancos tienen instrumentos declarados donde hay medición.
+- **30/40 con instrumento**: termómetro/termopar y termohigrómetro para mapeo y control, cronómetro para tiempos de recuperación y alarmas, registrador de datos para continuidad de registro.
+- **Reglas específicas:** HR → termohigrómetro (no higrómetro de punto de rocío, que es de aire comprimido); «intervalo de registro / continuidad» → registrador de datos; `tiempo` solo en OQ/PQ.
+- **Falsos positivos corregidos:** «CO₂» de un extintor ya no asigna analizador de gases; IQ de estanterías queda vacío.
+- Test nuevo en `tests/banco-estabilidad.test.js` (3 pruebas).
+
+**Estado medido:**
+```
+estabilidad: 30/40 con instrumento
+global: falta instrumentos 706/1427 (49 %, antes 736)
+```
+
+**Archivos afectados:**
+| Archivo | Cambio |
+|---------|--------|
+| `docs/banco-ensayos/estabilidad/{iq,oq,pq}-camaras.html` | `data-instrumentos` en 30 ensayos |
+| `js/core/banco-estabilidad-data.js` | Regenerado |
+| `tests/banco-estabilidad.test.js` | 3 pruebas de instrumentos |
+
+**Verificación:**
+```
+npm run preflight → protocolo:check OK, urs-ar:check OK, Vitest 1233, backend 154, E2E 14
+```
+
 ### 2026-11-20 (334): Instrumentos por ensayo en almacenes
 
 **Qué:** se aplica el criterio a los 27 ensayos de almacenes: nombre genérico en el banco, ID y certificado a cargo del analista.
