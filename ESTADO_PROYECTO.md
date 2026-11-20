@@ -90,6 +90,32 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (StatAnalyzer Pro) co
 
 ## CAMBIOS RECIENTES
 
+### 2026-11-20 (333): Instrumentos por ensayo en sistemas
+
+**Qué:** se aplica el criterio de equipos a los 261 ensayos de sistemas: el banco declara el **nombre genérico** del instrumento y el analista carga ID, serie y certificado.
+- **126/261 (48 %)** con instrumento; **93/102 planes continuos o analíticos (91 %)**.
+- Reglas específicas del dominio: fotómetro de integridad HEPA (PAO), contador de partículas, higrómetro de punto de rocío, analizador de TOC, LAL, analizador de ozono y de gases.
+- **Ajustes por contexto:** en agua y vapor, `m/s` se mide con caudalímetro (no anemómetro); ΔP usa manómetro diferencial y no manómetro simple.
+- Los ensayos documentales o de atributo quedan sin instrumento.
+
+**Estado medido:**
+```
+sistemas: 261 ensayos · 126 con instrumento (48 %) · 93/102 medibles (91 %)
+global: falta instrumentos 744/1427 (52 %, antes 870)
+```
+
+**Archivos afectados:**
+| Archivo | Cambio |
+|---------|--------|
+| `docs/banco-ensayos/sistemas/{iq,oq,pq}-*.html` | `data-instrumentos` en 126 ensayos |
+| `js/core/banco-sistemas-data.js` | Regenerado |
+| `tests/bancos-sistemas.test.js` | 3 pruebas de instrumentos |
+
+**Verificación:**
+```
+npm run preflight → protocolo:check OK, urs-ar:check OK, Vitest 1227, backend 154, E2E 14
+```
+
 ### 2026-11-19 (332): Instrumentos por ensayo en equipos (nombre genérico, ID del analista)
 
 **Qué:** 557 de los 1.099 ensayos de equipos declaran ahora el **nombre** del instrumento que el ensayo ya exige.

@@ -44,6 +44,7 @@ var BancoSistemas = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Analizador de gases calibrado",
     "familia": "agua-purificada"
    },
    {
@@ -114,6 +115,7 @@ var BancoSistemas = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Analizador de ozono calibrado",
     "familia": "agua-purificada"
    },
    {
@@ -149,6 +151,7 @@ var BancoSistemas = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Manómetro calibrado",
     "familia": "agua-purificada"
    },
    {
@@ -450,6 +453,7 @@ var BancoSistemas = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Manómetro diferencial calibrado",
     "familia": "hvac"
    },
    {
@@ -520,6 +524,7 @@ var BancoSistemas = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Manómetro diferencial calibrado",
     "familia": "hvac"
    },
    {
@@ -590,6 +595,7 @@ var BancoSistemas = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Higrómetro de punto de rocío calibrado; Manómetro calibrado",
     "familia": "hvac"
    },
    {
@@ -716,6 +722,7 @@ var BancoSistemas = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Analizador de gases calibrado",
     "familia": "vapor-limpio"
    },
    {
@@ -751,6 +758,7 @@ var BancoSistemas = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Analizador de gases calibrado",
     "familia": "vapor-limpio"
    },
    {
@@ -856,6 +864,7 @@ var BancoSistemas = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Manómetro calibrado",
     "familia": "vapor-limpio"
    },
    {
@@ -1087,6 +1096,7 @@ var BancoSistemas = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Manómetro diferencial calibrado",
     "familia": "aire-comprimido"
    },
    {
@@ -1122,6 +1132,7 @@ var BancoSistemas = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Higrómetro de punto de rocío calibrado",
     "familia": "aire-comprimido"
    },
    {
@@ -1157,6 +1168,7 @@ var BancoSistemas = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Analizador de gases calibrado",
     "familia": "aire-comprimido"
    },
    {
@@ -1227,6 +1239,7 @@ var BancoSistemas = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Higrómetro de punto de rocío calibrado; Manómetro calibrado",
     "familia": "aire-comprimido"
    },
    {
@@ -1262,6 +1275,7 @@ var BancoSistemas = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Higrómetro de punto de rocío calibrado",
     "familia": "aire-comprimido"
    },
    {
@@ -1617,6 +1631,7 @@ var BancoSistemas = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Manómetro diferencial calibrado",
     "analisis": "si",
     "familia": "agua-purificada"
    },
@@ -1657,6 +1672,7 @@ var BancoSistemas = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Analizador de gases calibrado",
     "analisis": "si",
     "familia": "agua-purificada"
    },
@@ -1697,6 +1713,7 @@ var BancoSistemas = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Analizador de gases calibrado; Manómetro diferencial calibrado",
     "analisis": "si",
     "familia": "agua-purificada"
    },
@@ -1737,6 +1754,7 @@ var BancoSistemas = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Caudalímetro calibrado",
     "analisis": "si",
     "familia": "agua-purificada"
    },
@@ -1777,6 +1795,7 @@ var BancoSistemas = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Manómetro diferencial calibrado",
     "analisis": "si",
     "familia": "agua-purificada"
    },
@@ -1817,6 +1836,7 @@ var BancoSistemas = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Caudalímetro calibrado",
     "analisis": "si",
     "familia": "agua-purificada"
    },
@@ -1857,6 +1877,7 @@ var BancoSistemas = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Manómetro diferencial calibrado",
     "analisis": "si",
     "familia": "agua-purificada"
    },
@@ -1897,6 +1918,7 @@ var BancoSistemas = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Termómetro/termopar calibrado; Conductivímetro calibrado",
     "analisis": "si",
     "familia": "agua-purificada"
    },
@@ -1937,6 +1959,7 @@ var BancoSistemas = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Termómetro/termopar calibrado; Conductivímetro calibrado",
     "analisis": "si",
     "familia": "agua-purificada"
    },
@@ -1977,6 +2000,7 @@ var BancoSistemas = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Termómetro/termopar calibrado; Analizador de gases calibrado",
     "analisis": "si",
     "familia": "agua-purificada"
    },
@@ -2095,6 +2119,7 @@ var BancoSistemas = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Caudalímetro calibrado",
     "analisis": "si",
     "familia": "agua-purificada"
    },
@@ -2135,6 +2160,7 @@ var BancoSistemas = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Termómetro/termopar calibrado",
     "analisis": "si",
     "familia": "agua-purificada"
    },
@@ -2175,6 +2201,7 @@ var BancoSistemas = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Manómetro calibrado; Caudalímetro calibrado",
     "analisis": "si",
     "familia": "agua-purificada"
    },
@@ -2215,6 +2242,7 @@ var BancoSistemas = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Caudalímetro calibrado",
     "analisis": "si",
     "familia": "agua-purificada"
    },
@@ -2255,6 +2283,7 @@ var BancoSistemas = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Manómetro calibrado",
     "analisis": "si",
     "familia": "agua-purificada"
    },
@@ -2335,6 +2364,7 @@ var BancoSistemas = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Analizador de ozono calibrado; Analizador de gases calibrado",
     "analisis": "si",
     "familia": "agua-purificada"
    },
@@ -2375,6 +2405,7 @@ var BancoSistemas = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Termómetro/termopar calibrado; Manómetro diferencial calibrado",
     "analisis": "si",
     "familia": "agua-purificada"
    },
@@ -2495,6 +2526,7 @@ var BancoSistemas = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Termómetro/termopar calibrado; Analizador de gases calibrado",
     "analisis": "si",
     "familia": "agua-purificada"
    },
@@ -2535,6 +2567,7 @@ var BancoSistemas = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Conductivímetro calibrado; Analizador de TOC calibrado",
     "analisis": "si",
     "familia": "agua-purificada"
    },
@@ -2575,6 +2608,7 @@ var BancoSistemas = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Conductivímetro calibrado; Analizador de TOC calibrado",
     "analisis": "si",
     "familia": "agua-purificada"
    },
@@ -2615,6 +2649,7 @@ var BancoSistemas = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Termómetro/termopar calibrado",
     "analisis": "si",
     "familia": "agua-purificada"
    },
@@ -2884,6 +2919,7 @@ var BancoSistemas = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Manómetro diferencial calibrado",
     "familia": "hvac"
    },
    {
@@ -2923,6 +2959,7 @@ var BancoSistemas = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Manómetro diferencial calibrado",
     "familia": "hvac"
    },
    {
@@ -2962,6 +2999,7 @@ var BancoSistemas = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Manómetro diferencial calibrado",
     "familia": "hvac"
    },
    {
@@ -3001,6 +3039,7 @@ var BancoSistemas = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Manómetro diferencial calibrado",
     "analisis": "si",
     "familia": "hvac"
    },
@@ -3041,6 +3080,7 @@ var BancoSistemas = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Caudalímetro calibrado",
     "analisis": "si",
     "familia": "hvac"
    },
@@ -3121,6 +3161,7 @@ var BancoSistemas = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Termómetro/termopar calibrado",
     "analisis": "si",
     "familia": "hvac"
    },
@@ -3161,6 +3202,7 @@ var BancoSistemas = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Higrómetro de punto de rocío calibrado",
     "analisis": "si",
     "familia": "hvac"
    },
@@ -3201,6 +3243,7 @@ var BancoSistemas = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Higrómetro de punto de rocío calibrado",
     "analisis": "si",
     "familia": "hvac"
    },
@@ -3241,6 +3284,7 @@ var BancoSistemas = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Manómetro diferencial calibrado",
     "analisis": "si",
     "familia": "hvac"
    },
@@ -3320,6 +3364,7 @@ var BancoSistemas = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Calibre calibrado",
     "analisis": "si",
     "familia": "hvac"
    },
@@ -3360,6 +3405,7 @@ var BancoSistemas = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Fotómetro de integridad HEPA calibrado",
     "analisis": "si",
     "familia": "hvac"
    },
@@ -3400,6 +3446,7 @@ var BancoSistemas = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Fotómetro de integridad HEPA calibrado",
     "analisis": "si",
     "familia": "hvac"
    },
@@ -3480,6 +3527,7 @@ var BancoSistemas = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Anemómetro calibrado",
     "analisis": "si",
     "familia": "hvac"
    },
@@ -3520,6 +3568,7 @@ var BancoSistemas = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Caudalímetro calibrado",
     "analisis": "si",
     "familia": "hvac"
    },
@@ -3600,6 +3649,7 @@ var BancoSistemas = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Manómetro diferencial calibrado",
     "analisis": "si",
     "familia": "hvac"
    },
@@ -3640,6 +3690,7 @@ var BancoSistemas = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Cronómetro calibrado",
     "analisis": "si",
     "familia": "hvac"
    },
@@ -3720,6 +3771,7 @@ var BancoSistemas = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Caudalímetro calibrado",
     "analisis": "si",
     "familia": "hvac"
    },
@@ -3760,6 +3812,7 @@ var BancoSistemas = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Termómetro/termopar calibrado; Higrómetro de punto de rocío calibrado",
     "analisis": "si",
     "familia": "hvac"
    },
@@ -3800,6 +3853,7 @@ var BancoSistemas = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Termómetro/termopar calibrado; Higrómetro de punto de rocío calibrado",
     "analisis": "si",
     "familia": "hvac"
    },
@@ -3840,6 +3894,7 @@ var BancoSistemas = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Termómetro/termopar calibrado",
     "analisis": "si",
     "familia": "hvac"
    },
@@ -3880,6 +3935,7 @@ var BancoSistemas = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Luxómetro calibrado; Sonómetro calibrado",
     "analisis": "si",
     "familia": "hvac"
    },
@@ -3920,6 +3976,7 @@ var BancoSistemas = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Contador de partículas calibrado",
     "analisis": "si",
     "familia": "hvac"
    },
@@ -3960,6 +4017,7 @@ var BancoSistemas = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Cronómetro calibrado",
     "analisis": "si",
     "familia": "hvac"
    },
@@ -4040,6 +4098,7 @@ var BancoSistemas = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Anemómetro calibrado",
     "analisis": "si",
     "familia": "hvac"
    },
@@ -4080,6 +4139,7 @@ var BancoSistemas = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Manómetro calibrado",
     "analisis": "si",
     "familia": "hvac"
    },
@@ -4120,6 +4180,7 @@ var BancoSistemas = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Fotómetro de integridad HEPA calibrado",
     "analisis": "si",
     "familia": "hvac"
    },
@@ -4160,6 +4221,7 @@ var BancoSistemas = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Incubadora calibrada",
     "analisis": "si",
     "familia": "hvac"
    },
@@ -4200,6 +4262,7 @@ var BancoSistemas = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Termómetro/termopar calibrado; Higrómetro de punto de rocío calibrado; Manómetro calibrado",
     "analisis": "si",
     "familia": "hvac"
    },
@@ -4240,6 +4303,7 @@ var BancoSistemas = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Cronómetro calibrado",
     "analisis": "si",
     "familia": "hvac"
    },
@@ -4468,6 +4532,7 @@ var BancoSistemas = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Manómetro calibrado",
     "analisis": "si",
     "familia": "vapor-limpio"
    },
@@ -4508,6 +4573,7 @@ var BancoSistemas = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Cronómetro calibrado",
     "analisis": "si",
     "familia": "vapor-limpio"
    },
@@ -4665,6 +4731,7 @@ var BancoSistemas = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Manómetro calibrado",
     "analisis": "si",
     "familia": "vapor-limpio"
    },
@@ -4705,6 +4772,7 @@ var BancoSistemas = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Manómetro calibrado; Caudalímetro calibrado",
     "analisis": "si",
     "familia": "vapor-limpio"
    },
@@ -4745,6 +4813,7 @@ var BancoSistemas = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Balanza calibrada",
     "analisis": "si",
     "familia": "vapor-limpio"
    },
@@ -4785,6 +4854,7 @@ var BancoSistemas = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Cronómetro calibrado",
     "analisis": "si",
     "familia": "vapor-limpio"
    },
@@ -4865,6 +4935,7 @@ var BancoSistemas = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Manómetro diferencial calibrado",
     "analisis": "si",
     "familia": "vapor-limpio"
    },
@@ -4905,6 +4976,7 @@ var BancoSistemas = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Manómetro calibrado",
     "analisis": "si",
     "familia": "vapor-limpio"
    },
@@ -4945,6 +5017,7 @@ var BancoSistemas = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Cronómetro calibrado",
     "analisis": "si",
     "familia": "vapor-limpio"
    },
@@ -5103,6 +5176,7 @@ var BancoSistemas = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Manómetro calibrado",
     "analisis": "si",
     "familia": "vapor-limpio"
    },
@@ -5182,6 +5256,7 @@ var BancoSistemas = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Termómetro/termopar calibrado",
     "analisis": "si",
     "familia": "vapor-limpio"
    },
@@ -5262,6 +5337,7 @@ var BancoSistemas = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Manómetro calibrado",
     "analisis": "si",
     "familia": "vapor-limpio"
    },
@@ -5302,6 +5378,7 @@ var BancoSistemas = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Termómetro/termopar calibrado",
     "analisis": "si",
     "familia": "vapor-limpio"
    },
@@ -5342,6 +5419,7 @@ var BancoSistemas = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Cronómetro calibrado",
     "analisis": "si",
     "familia": "vapor-limpio"
    },
@@ -5382,6 +5460,7 @@ var BancoSistemas = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Cronómetro calibrado",
     "analisis": "si",
     "familia": "vapor-limpio"
    },
@@ -5606,6 +5685,7 @@ var BancoSistemas = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Manómetro calibrado",
     "analisis": "si",
     "familia": "aire-comprimido"
    },
@@ -5646,6 +5726,7 @@ var BancoSistemas = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Cronómetro calibrado",
     "analisis": "si",
     "familia": "aire-comprimido"
    },
@@ -5725,6 +5806,7 @@ var BancoSistemas = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Higrómetro de punto de rocío calibrado",
     "familia": "aire-comprimido"
    },
    {
@@ -5842,6 +5924,7 @@ var BancoSistemas = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Higrómetro de punto de rocío calibrado; Termómetro/termopar calibrado; Manómetro calibrado",
     "analisis": "si",
     "familia": "aire-comprimido"
    },
@@ -5882,6 +5965,7 @@ var BancoSistemas = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Caudalímetro calibrado",
     "analisis": "si",
     "familia": "aire-comprimido"
    },
@@ -5962,6 +6046,7 @@ var BancoSistemas = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Termómetro/termopar calibrado",
     "analisis": "si",
     "familia": "aire-comprimido"
    },
@@ -6041,6 +6126,7 @@ var BancoSistemas = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Manómetro calibrado",
     "analisis": "si",
     "familia": "aire-comprimido"
    },
@@ -6081,6 +6167,7 @@ var BancoSistemas = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Higrómetro de punto de rocío calibrado; Termómetro/termopar calibrado",
     "analisis": "si",
     "familia": "aire-comprimido"
    },
@@ -6161,6 +6248,7 @@ var BancoSistemas = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Higrómetro de punto de rocío calibrado; Termómetro/termopar calibrado",
     "analisis": "si",
     "familia": "aire-comprimido"
    },
@@ -6201,6 +6289,7 @@ var BancoSistemas = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Higrómetro de punto de rocío calibrado",
     "analisis": "si",
     "familia": "aire-comprimido"
    },
@@ -6241,6 +6330,7 @@ var BancoSistemas = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Termómetro/termopar calibrado",
     "analisis": "si",
     "familia": "aire-comprimido"
    },
@@ -6281,6 +6371,7 @@ var BancoSistemas = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Manómetro diferencial calibrado",
     "analisis": "si",
     "familia": "aire-comprimido"
    },
@@ -6360,6 +6451,7 @@ var BancoSistemas = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Balanza calibrada",
     "analisis": "si",
     "familia": "aire-comprimido"
    },
@@ -6440,6 +6532,7 @@ var BancoSistemas = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Manómetro diferencial calibrado",
     "analisis": "si",
     "familia": "aire-comprimido"
    },
@@ -6480,6 +6573,7 @@ var BancoSistemas = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Manómetro calibrado",
     "analisis": "si",
     "familia": "aire-comprimido"
    },
@@ -6599,6 +6693,7 @@ var BancoSistemas = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Manómetro calibrado",
     "analisis": "si",
     "familia": "aire-comprimido"
    },
@@ -6678,6 +6773,7 @@ var BancoSistemas = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Manómetro calibrado",
     "analisis": "si",
     "familia": "aire-comprimido"
    },
@@ -6757,6 +6853,7 @@ var BancoSistemas = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Higrómetro de punto de rocío calibrado",
     "analisis": "si",
     "familia": "aire-comprimido"
    },
@@ -6797,6 +6894,7 @@ var BancoSistemas = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Analizador de gases calibrado",
     "analisis": "si",
     "familia": "aire-comprimido"
    },
@@ -6837,6 +6935,7 @@ var BancoSistemas = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Termómetro/termopar calibrado; Manómetro calibrado",
     "analisis": "si",
     "familia": "aire-comprimido"
    },
@@ -6877,6 +6976,7 @@ var BancoSistemas = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Contador de partículas calibrado",
     "analisis": "si",
     "familia": "aire-comprimido"
    },
@@ -6917,6 +7017,7 @@ var BancoSistemas = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Cronómetro calibrado",
     "analisis": "si",
     "familia": "aire-comprimido"
    },
@@ -6957,6 +7058,7 @@ var BancoSistemas = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Termómetro/termopar calibrado; Caudalímetro calibrado",
     "analisis": "si",
     "familia": "aire-comprimido"
    },
@@ -7076,6 +7178,7 @@ var BancoSistemas = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Cronómetro calibrado",
     "analisis": "si",
     "familia": "aire-comprimido"
    },
@@ -7147,6 +7250,7 @@ var BancoSistemas = {
       ]
      ]
     },
+    "instrumentos": "Higrómetro de punto de rocío calibrado",
     "familia": "aire-comprimido"
    },
    {
@@ -7647,6 +7751,7 @@ var BancoSistemas = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Manómetro diferencial calibrado",
     "analisis": "si",
     "familia": "agua-purificada"
    },
@@ -7727,6 +7832,7 @@ var BancoSistemas = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Incubadora calibrada",
     "analisis": "si",
     "familia": "agua-purificada"
    },
@@ -7767,6 +7873,7 @@ var BancoSistemas = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Lector de endotoxinas (LAL) calibrado",
     "aplica": "WFI",
     "analisis": "si",
     "familia": "agua-purificada"
@@ -7968,6 +8075,7 @@ var BancoSistemas = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Incubadora calibrada",
     "analisis": "si",
     "familia": "agua-purificada"
    },
@@ -8084,6 +8192,7 @@ var BancoSistemas = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Incubadora calibrada",
     "analisis": "si",
     "familia": "agua-purificada"
    },
@@ -8234,6 +8343,7 @@ var BancoSistemas = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Contador de partículas calibrado",
     "analisis": "si",
     "familia": "hvac"
    },
@@ -8354,6 +8464,7 @@ var BancoSistemas = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Incubadora calibrada",
     "analisis": "si",
     "familia": "hvac"
    },
@@ -8514,6 +8625,7 @@ var BancoSistemas = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Termómetro/termopar calibrado; Higrómetro de punto de rocío calibrado; Manómetro diferencial calibrado",
     "analisis": "si",
     "familia": "hvac"
    },
@@ -8594,6 +8706,7 @@ var BancoSistemas = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Manómetro calibrado; Contador de partículas calibrado",
     "analisis": "si",
     "familia": "hvac"
    },
@@ -8634,6 +8747,7 @@ var BancoSistemas = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Cronómetro calibrado",
     "analisis": "si",
     "familia": "hvac"
    },
@@ -8674,6 +8788,7 @@ var BancoSistemas = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Manómetro calibrado; Contador de partículas calibrado",
     "analisis": "si",
     "familia": "hvac"
    },
@@ -8794,6 +8909,7 @@ var BancoSistemas = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Higrómetro de punto de rocío calibrado; Termómetro/termopar calibrado",
     "analisis": "si",
     "familia": "hvac"
    },
@@ -8834,6 +8950,7 @@ var BancoSistemas = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Termómetro/termopar calibrado; Higrómetro de punto de rocío calibrado; Manómetro calibrado",
     "analisis": "si",
     "familia": "hvac"
    },
@@ -8874,6 +8991,7 @@ var BancoSistemas = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Cronómetro calibrado",
     "analisis": "si",
     "familia": "hvac"
    },
@@ -8914,6 +9032,7 @@ var BancoSistemas = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Cronómetro calibrado",
     "analisis": "si",
     "familia": "hvac"
    },
@@ -9509,6 +9628,7 @@ var BancoSistemas = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Lector de endotoxinas (LAL) calibrado",
     "analisis": "si",
     "familia": "vapor-limpio"
    },
@@ -9549,6 +9669,7 @@ var BancoSistemas = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Incubadora calibrada",
     "analisis": "si",
     "familia": "vapor-limpio"
    },
@@ -10334,6 +10455,7 @@ var BancoSistemas = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Higrómetro de punto de rocío calibrado; Incubadora calibrada",
     "analisis": "si",
     "familia": "aire-comprimido"
    },
@@ -10534,6 +10656,7 @@ var BancoSistemas = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Higrómetro de punto de rocío calibrado",
     "analisis": "si",
     "familia": "aire-comprimido"
    },
@@ -10654,6 +10777,7 @@ var BancoSistemas = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Manómetro diferencial calibrado",
     "analisis": "si",
     "familia": "aire-comprimido"
    },
@@ -10694,6 +10818,7 @@ var BancoSistemas = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Higrómetro de punto de rocío calibrado",
     "analisis": "si",
     "familia": "aire-comprimido"
    },
@@ -10814,6 +10939,7 @@ var BancoSistemas = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Incubadora calibrada",
     "analisis": "si",
     "familia": "aire-comprimido"
    },
@@ -10854,6 +10980,7 @@ var BancoSistemas = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Analizador de gases calibrado",
     "analisis": "si",
     "familia": "aire-comprimido"
    },
@@ -11485,6 +11612,7 @@ var BancoSistemas = {
       ]
      ]
     },
+    "instrumentos": "Higrómetro de punto de rocío calibrado",
     "familia": "aire-comprimido"
    },
    {
