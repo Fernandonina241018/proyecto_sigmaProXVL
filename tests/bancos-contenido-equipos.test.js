@@ -104,3 +104,34 @@ describe('rugosidad de superficies en contacto', () => {
     }
   });
 });
+
+describe('instrumentos declarados como guía', () => {
+  const todos = Object.entries(banco.fases).flatMap(([fase, xs]) => xs.map((x) => ({ ...x, fase })))
+    .filter((e) => e.kind === 'ensayo');
+
+  it('los ensayos de medición traen el nombre del instrumento', () => {
+    const esperado = {
+      'EQ-OQ-TB-014': /celda de carga/i,
+      'EQ-OQ-LL-008': /volum[eé]trico/i,
+      'EQ-OQ-LT-026': /torqu[ií]metro/i,
+      'EQ-OQ-AU-014': /term[oó]metro|termopar/i,
+      'EQ-IQ-012': /rugos[ií]metro/i,
+    };
+    for (const [id, re] of Object.entries(esperado)) {
+      const e = todos.find((x) => x.id === id);
+      expect(String(e && e.instrumentos), id).toMatch(re);
+    }
+  });
+
+  it('el banco no inventa IDs ni números de certificado', () => {
+    const conIds = todos
+      .filter((e) => /certificado\s*(n[o°]|no\.)|n[o°]\s*de\s*serie|\bSN[- ]?\d/i.test(String(e.instrumentos || '')))
+      .map((e) => e.id);
+    expect(conIds).toEqual([]);
+  });
+
+  it('la cobertura de instrumentos no retrocede', () => {
+    const con = todos.filter((e) => String(e.instrumentos || '').trim()).length;
+    expect(con / todos.length).toBeGreaterThanOrEqual(0.45);
+  });
+});

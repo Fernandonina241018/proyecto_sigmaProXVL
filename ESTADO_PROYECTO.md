@@ -90,6 +90,34 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (StatAnalyzer Pro) co
 
 ## CAMBIOS RECIENTES
 
+### 2026-11-19 (332): Instrumentos por ensayo en equipos (nombre genérico, ID del analista)
+
+**Qué:** 557 de los 1.099 ensayos de equipos declaran ahora el **nombre** del instrumento que el ensayo ya exige.
+- **Fuente de la inferencia:** mención explícita en el procedimiento (termopar, manómetro, cronómetro, balanza, tacómetro, rugosímetro, torquímetro…) o la unidad del plan estadístico (°C, mg, rpm, mL, N·cm, cm⁻¹, Pa, A…).
+- **No se inventan IDs:** el campo lleva solo el nombre genérico («Balanza calibrada», «Calibrador calibrado»); ID, serie y certificado los carga el analista en la tabla del protocolo.
+- **Documentales:** los ensayos visuales o documentales quedan **sin instrumento** (decisión del usuario) y aparecen en `banco:check` como pendientes.
+- **Sin falsos positivos conocidos:** se excluyeron «calibre de conductores» y «base de pesaje» que asignaban calibre/balanza por error; `Cp` (capacidad) ya no se confunde con `cP` (viscosidad).
+- **Convención documentada** en el protocolo maestro §5.6.
+
+**Estado medido:**
+```
+equipos: 557/1099 con instrumento declarado (51 %) · 472/630 planes continuos (75 %)
+global: falta instrumentos 870/1427 (61 %)
+```
+
+**Archivos afectados:**
+| Archivo | Cambio |
+|---------|--------|
+| `docs/banco-ensayos/equipos-comun.html` y `docs/banco-ensayos/equipos/*.html` | `data-instrumentos` en 557 ensayos |
+| `js/core/banco-equipos-data.js` | Regenerado |
+| `docs/banco-ensayos/PROTOCOLO_MAESTRO.md` | §5.6 |
+| `tests/bancos-contenido-equipos.test.js` | 3 pruebas de instrumentos |
+
+**Verificación:**
+```
+npm run preflight → protocolo:check OK, urs-ar:check OK, Vitest 1224, backend 154, E2E 14
+```
+
 ### 2026-11-19 (331): Rugosidad de superficies en contacto — plan, instrumento y trazabilidad
 
 **Qué:** se corrige el ensayo común de rugosidad (`EQ-IQ-012`) y se conectan las familias que solo citaban Ra.
