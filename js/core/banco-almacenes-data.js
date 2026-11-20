@@ -1060,7 +1060,8 @@ var BancoAlmacenes = {
       "html": "<strong>Referencia:</strong><br>OMS TRS 1010 Anexo 7; PDA TR-64; ISPE Good Practice Guide: Cold Chain Management."
      }
     ],
-    "tabla": null
+    "tabla": null,
+    "instrumentos": "Termohigrómetro calibrado"
    },
    {
     "kind": "ensayo",
@@ -1099,6 +1100,7 @@ var BancoAlmacenes = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Termohigrómetro calibrado; Termómetro/registrador calibrado",
     "analisis": "si"
    },
    {
@@ -1138,6 +1140,7 @@ var BancoAlmacenes = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Luxómetro calibrado",
     "analisis": "si"
    },
    {
@@ -1177,6 +1180,7 @@ var BancoAlmacenes = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Termohigrómetro calibrado; Cronómetro calibrado",
     "analisis": "si"
    },
    {
@@ -1216,6 +1220,7 @@ var BancoAlmacenes = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Termohigrómetro calibrado; Cronómetro calibrado",
     "analisis": "si"
    },
    {
@@ -1613,7 +1618,8 @@ var BancoAlmacenes = {
       "html": "<strong>Referencia:</strong><br>OMS TRS 1010 Anexo 7; PDA TR-64."
      }
     ],
-    "tabla": null
+    "tabla": null,
+    "instrumentos": "Cinta métrica calibrada"
    },
    {
     "kind": "ensayo",
@@ -1652,6 +1658,7 @@ var BancoAlmacenes = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Termohigrómetro calibrado; Termómetro/registrador calibrado",
     "analisis": "si"
    },
    {
@@ -1691,6 +1698,7 @@ var BancoAlmacenes = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Termohigrómetro calibrado; Termómetro/registrador calibrado",
     "analisis": "si"
    },
    {
