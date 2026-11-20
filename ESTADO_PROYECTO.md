@@ -90,6 +90,26 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (StatAnalyzer Pro) co
 
 ## CAMBIOS RECIENTES
 
+### 2026-11-20 (336): Nueva familia «Procesos» con combobox de formas farmacéuticas
+
+**Qué:** se crea la categoría `procesos` en el área de Validaciones. El combobox lista las **formas farmacéuticas**; queda **vacío** hasta que se carguen los ensayos de cada forma.
+- **CATS:** entrada `procesos` (🧪, «Formas farmacéuticas»), visible en el panel y en Banco.
+- **ENTIDADES.procesos:** `[]` — una entrada por forma farmacéutica cuando lleguen los ensayos.
+- **Paso 1:** título «Seleccione la forma farmacéutica», placeholder propio y aviso «Sin formas farmacéuticas cargadas»; sin opciones no se puede avanzar (no hay entidad ficticia).
+- **Generador:** la categoría aún no está en `GEN_CATS`; muestra «Generador disponible próximamente» hasta que exista banco. No se inventan ensayos ni fases.
+- `getSchema('procesos')` devuelve solo los campos comunes (6); los específicos se definirán con los ensayos.
+
+**Archivos afectados:**
+| Archivo | Cambio |
+|---------|--------|
+| `js/core/indexx-validaciones.js` | `CATS` + `ENTIDADES.procesos` + combobox/labels |
+| `tests/validaciones-panel.test.js` | 6 categorías; prueba del combobox vacío |
+
+**Verificación:**
+```
+npm run preflight → protocolo:check OK, urs-ar:check OK, Vitest 1234, backend 154, E2E 14
+```
+
 ### 2026-11-20 (335): Instrumentos por ensayo en estabilidad (cierre de los cuatro bancos)
 
 **Qué:** se aplica el criterio a los 40 ensayos de estabilidad. Con esto los cuatro bancos tienen instrumentos declarados donde hay medición.

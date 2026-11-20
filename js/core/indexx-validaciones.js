@@ -12,6 +12,7 @@ const Validaciones = (() => {
     { id: 'equipos', nombre: 'Equipos', icono: '🔧', desc: 'Producción y laboratorio' },
     { id: 'sistemas', nombre: 'Sistemas', icono: '🏭', desc: 'HVAC · agua · vapor' },
     { id: 'estabilidad', nombre: 'Estabilidad', icono: '🌡️', desc: 'Cámaras · ICH Q1A' },
+    { id: 'procesos', nombre: 'Procesos', icono: '🧪', desc: 'Formas farmacéuticas' },
     { id: 'software', nombre: 'Software', icono: '💾', desc: 'CSV / GAMP 5' },
   ];
 
@@ -85,6 +86,9 @@ const Validaciones = (() => {
       { id: 'incubadora-22-27', nombre: 'Incubadora (22–27 °C)', tipo: 'Q' },
       { id: 'incubadora-38-42', nombre: 'Incubadora (38–42 °C)', tipo: 'Q' },
     ],
+    // Procesos: el combobox lista las formas farmacéuticas. Vacío hasta que
+    // se carguen los ensayos de cada forma (una entrada por forma).
+    procesos: [],
     software: [
       { id: 'software-gxp', nombre: 'Sistema computarizado GxP' },
       { id: 'lims', nombre: 'LIMS' },
@@ -1191,12 +1195,16 @@ const Validaciones = (() => {
     return cfg;
   }
 
-  function paso1Html(ents) {
+  function paso1Html(ents, catId) {
+    const esProc = catId === 'procesos';
+    const opciones = ents.length
+      ? ents.map((e, i) => '<button type="button" class="v7-ent v7-ent-opt" id="v7-ent-opt-' + i + '" role="option" aria-selected="false" data-ent="' + esc(e.id) + '">' + esc(e.nombre) + '</button>').join('')
+        + '<div class="v7-ent-empty" hidden>Sin coincidencias</div>'
+      : '<div class="v7-ent-empty">' + (esProc ? 'Sin formas farmacéuticas cargadas' : 'Sin coincidencias') + '</div>';
     return '<div class="v7-combo">'
-      + '<input type="text" class="v7-ent-input" placeholder="Escriba para buscar la entidad…" autocomplete="off" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="v7-ents-list" aria-label="Buscar entidad">'
+      + '<input type="text" class="v7-ent-input" placeholder="' + (esProc ? 'Seleccione la forma farmacéutica…' : 'Escriba para buscar la entidad…') + '" autocomplete="off" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="v7-ents-list" aria-label="' + (esProc ? 'Buscar forma farmacéutica' : 'Buscar entidad') + '">'
       + '<div class="v7-ent-list" id="v7-ents-list" role="listbox" hidden>'
-      + ents.map((e, i) => '<button type="button" class="v7-ent v7-ent-opt" id="v7-ent-opt-' + i + '" role="option" aria-selected="false" data-ent="' + esc(e.id) + '">' + esc(e.nombre) + '</button>').join('')
-      + '<div class="v7-ent-empty" hidden>Sin coincidencias</div>'
+      + opciones
       + '</div></div>';
   }
 
@@ -1207,13 +1215,15 @@ const Validaciones = (() => {
     const comun = SCHEMAS._comun || [];
     const espec = SCHEMAS[catId] || [];
     const conGen = GEN_CATS.indexOf(catId) >= 0;
+    const esProc = catId === 'procesos';
     return '<div class="v7-view v7-form-flow">'
       + '<div class="v7-crumb"><a href="#/banco" target="_self">Banco</a> <span>›</span> ' + esc(cat.nombre) + '</div>'
       + '<h1>' + esc(cat.nombre) + ' · Planilla de datos</h1>'
       + '<p class="sub">Cargue los datos de la entidad. No se muestran ensayos: el protocolo se genera después con estos datos.</p>'
       + '<div class="v7-step" data-step="1">'
-      + '<div class="gt">1 · Seleccione la entidad</div>'
-      + paso1Html(ents)
+      + '<div class="gt">1 · ' + (esProc ? 'Seleccione la forma farmacéutica' : 'Seleccione la entidad') + '</div>'
+      + paso1Html(ents, catId)
+      + (esProc && !ents.length ? '<p class="sub">Aún no hay formas farmacéuticas cargadas. Se agregarán junto con los ensayos de cada forma.</p>' : '')
       + '</div>'
       + '<div class="v7-step" data-step="2" hidden>'
       + '<div class="gt">2 · Datos de la entidad</div>'

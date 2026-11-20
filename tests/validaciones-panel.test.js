@@ -94,11 +94,12 @@ describe('Validaciones V7', () => {
     expect(html).toContain('aria-live="polite"');
   });
 
-  test('5 categorías SIN enlaces a docs (flujo ciego)', () => {
-    expect(Validaciones.CATS.length).toBe(5);
+  test('6 categorías SIN enlaces a docs (flujo ciego)', () => {
+    expect(Validaciones.CATS.length).toBe(6);
     for (const c of Validaciones.CATS) {
       expect(c.href).toBeUndefined();
-      expect(Validaciones.getEntidades(c.id).length).toBeGreaterThan(0);
+      // procesos arranca vacío: las formas farmacéuticas se cargan con sus ensayos.
+      if (c.id !== 'procesos') expect(Validaciones.getEntidades(c.id).length).toBeGreaterThan(0);
       expect(Validaciones.getSchema(c.id).length).toBeGreaterThanOrEqual(6);
     }
     // <base target="_blank"> en indexx.html: los enlaces in-app deben forzar _self
@@ -108,6 +109,14 @@ describe('Validaciones V7', () => {
     // Las categorías siguen sin enlazar a docs; el enlace a docs vive solo
     // en la vista Documentación (Fase 4).
     expect(catLine).not.toContain('docs/');
+  });
+
+  test('procesos: combobox de formas farmacéuticas vacío', () => {
+    expect(Validaciones.getEntidades('procesos')).toEqual([]);
+    const html = Validaciones.viewEntidad('procesos');
+    expect(html).toContain('Seleccione la forma farmacéutica');
+    expect(html).toContain('Sin formas farmacéuticas cargadas');
+    expect(html).not.toContain('data-ent=');
   });
 
   test('ruta de entidad válida y desconocida cae a banco', () => {
