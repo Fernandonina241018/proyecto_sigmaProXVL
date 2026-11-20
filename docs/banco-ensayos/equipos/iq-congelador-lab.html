@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<style>
+  body { font-family: Tahoma, sans-serif; font-size: 11pt; }
+  strong { text-transform: uppercase; }
+</style>
+<title>Banco de Ensayos IQ — Congelador de Laboratorio</title>
+</head>
+<body>
+
+<p><a href="../equipos.html">← Equipos e Instrumentos</a></p>
+<h2>IQ — Congelador de Laboratorio (banco por familia, Nivel 3)</h2>
+<p>Versión del banco: <span data-banco-version>EQ-IQ-CG 2026-11-19 v1</span></p>
+<p>Ensayos de Calificación de Instalación específicos de congelador de laboratorio. Se suman al núcleo común (EQ-IQ-001…EQ-IQ-023) y se filtran por familia (<code>data-familia="congelador-lab"</code>) según la entidad elegida en el paso 1.</p>
+
+<!-- ================= IQ ================= -->
+<section id="fase-iq" data-familia="congelador-lab">
+<h2>IQ — Ensayos</h2>
+
+<article data-bloque="3" id="art-EQ-IQ-CG-001" class="ensayo" data-id="EQ-IQ-CG-001" data-fase="IQ" data-cond="ambas" data-familia="congelador-lab">
+  <h3>EQ-IQ-CG-001 — Unidad, aislamiento y ventilación</h3>
+  <p><strong>Objetivo:</strong><br>Verificar que la unidad y el aislamiento están instalados con ventilación suficiente.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Verificar ubicación y espacio de ventilación<br>
+  2) Verificar espesor y continuidad del aislamiento<br>
+  3) Verificar condensador limpio y accesible<br>
+  4) Registrar la instalación</p>
+  <p><strong>Criterio de aceptación:</strong><br>Espacio de ventilación ≥ <span class="por-confirmar">10 cm</span>.<br>Aislamiento continuo, sin zonas sin aislar.<br>Condensador limpio y accesible.<br>Sin recirculación de aire caliente.</p>
+  <p><strong>Documentos entregables:</strong><br>- Registro de instalación y aislamiento</p>
+  <p><strong>Nota:</strong><br>El aislamiento define la autonomía ante un corte; se inspecciona, no se supone.</p>
+  <p><strong>Referencia:</strong><br>ICH Q1A(R2); WHO TRS 1010; USP &lt;1079&gt;; EU GMP Anexo 15.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-IQ-CG-002" class="ensayo" data-id="EQ-IQ-CG-002" data-fase="IQ" data-cond="ambas" data-familia="congelador-lab">
+  <h3>EQ-IQ-CG-002 — Circuito de refrigerante y baja temperatura</h3>
+  <p><strong>Objetivo:</strong><br>Verificar el circuito de refrigerante y la capacidad para alcanzar la temperatura de diseño.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Verificar placa y tipo de refrigerante<br>
+  2) Verificar ausencia de fugas<br>
+  3) Verificar capacidad del compresor según fabricante<br>
+  4) Registrar la verificación</p>
+  <p><strong>Criterio de aceptación:</strong><br>Refrigerante identificado en placa.<br>Sin fugas en uniones ni válvulas.<br>Capacidad declarada para la temperatura de diseño (<span class="por-confirmar">−20 a −25 °C</span>).<br>Registro de la verificación.</p>
+  <p><strong>Documentos entregables:</strong><br>- Registro de refrigerante y capacidad</p>
+  <p><strong>Nota:</strong><br>El rango en rojo se confirma con el material almacenado y el fabricante.</p>
+  <p><strong>Referencia:</strong><br>ICH Q1A(R2); WHO TRS 1010; USP &lt;1079&gt;; EU GMP Anexo 15.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-IQ-CG-003" class="ensayo" data-id="EQ-IQ-CG-003" data-fase="IQ" data-cond="ambas" data-familia="congelador-lab">
+  <h3>EQ-IQ-CG-003 — Puerta, empaques y resistencia de puerta</h3>
+  <p><strong>Objetivo:</strong><br>Verificar que la puerta, los empaques y la resistencia de deshielo están instalados y operativos.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Verificar cierre y alineación<br>
+  2) Verificar empaque continuo y flexible a baja temperatura<br>
+  3) Verificar resistencia de puerta y drenaje de deshielo<br>
+  4) Registrar la verificación</p>
+  <p><strong>Criterio de aceptación:</strong><br>Puerta cierra sin luz visible.<br>Empaque flexible y continuo.<br>Resistencia de puerta operativa.<br>Drenaje de deshielo libre.</p>
+  <p><strong>Documentos entregables:</strong><br>- Registro de inspección de puerta</p>
+  <p><strong>Nota:</strong><br>Un empaque rígido a baja temperatura no sella y genera escarcha.</p>
+  <p><strong>Referencia:</strong><br>ICH Q1A(R2); WHO TRS 1010; USP &lt;1079&gt;; EU GMP Anexo 15.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-IQ-CG-004" class="ensayo" data-id="EQ-IQ-CG-004" data-fase="IQ" data-cond="ambas" data-familia="congelador-lab">
+  <h3>EQ-IQ-CG-004 — Sensores, registrador y alarmas</h3>
+  <p><strong>Objetivo:</strong><br>Verificar sensores, registrador independiente y alarmas de temperatura.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Verificar ubicación y calibración de sensores<br>
+  2) Verificar registrador y descarga<br>
+  3) Verificar alarmas de alta y baja<br>
+  4) Registrar por instrumento</p>
+  <p><strong>Criterio de aceptación:</strong><br>Sensores en la posición representativa y calibrados ≤ <span class="por-confirmar">12 meses</span>.<br>Registrador independiente operativo.<br>Alarmas de alta y baja configuradas.<br>Registro por instrumento.</p>
+  <p><strong>Documentos entregables:</strong><br>- Certificados y configuración de alarmas</p>
+  <p><strong>Nota:</strong><br>La calibración en rojo es la del programa metrológico; a −20 °C el error del sensor pesa más.</p>
+  <p><strong>Referencia:</strong><br>ICH Q1A(R2); WHO TRS 1010; USP &lt;1079&gt;; EU GMP Anexo 15.</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-IQ-CG-005" class="ensayo" data-id="EQ-IQ-CG-005" data-fase="IQ" data-cond="ambas" data-familia="congelador-lab">
+  <h3>EQ-IQ-CG-005 — Respaldo, acceso y salida de emergencia</h3>
+  <p><strong>Objetivo:</strong><br>Verificar respaldo de energía, control de acceso y salida de emergencia si aplica.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Verificar respaldo o autonomía<br>
+  2) Verificar control de acceso<br>
+  3) Verificar alarma de puerta abierta<br>
+  4) Registrar cada elemento</p>
+  <p><strong>Criterio de aceptación:</strong><br>Respaldo o autonomía ≥ <span class="por-confirmar">30 min</span>.<br>Acceso restringido al personal autorizado.<br>Alarma de puerta abierta operativa.<br>Registro por elemento.</p>
+  <p><strong>Documentos entregables:</strong><br>- Registro de respaldo y acceso</p>
+  <p><strong>Nota:</strong><br>La autonomía en rojo se confirma con el material y el plan de contingencia.</p>
+  <p><strong>Referencia:</strong><br>ICH Q1A(R2); WHO TRS 1010; USP &lt;1079&gt;; EU GMP Anexo 15.</p>
+</article>
+
+</section>
+
+<p><a href="../equipos.html">← Equipos e Instrumentos</a></p>
+</body>
+</html>
