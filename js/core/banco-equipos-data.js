@@ -1047,6 +1047,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Manómetro calibrado",
     "familia": "autoclave"
    },
    {
@@ -1157,6 +1158,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Rugosímetro calibrado",
     "analisis": "si",
     "familia": "autoclave"
    },
@@ -1193,6 +1195,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Termómetro/termopar calibrado",
     "familia": "autoclave"
    },
    {
@@ -1371,6 +1374,7 @@ var BancoEquipos = {
     ],
     "tabla": null,
     "tablaModelo": "COMPONENTES CRÍTICOS TÚNEL",
+    "instrumentos": "Termómetro/termopar calibrado",
     "familia": "tunel-despirogenizacion"
    },
    {
@@ -1445,6 +1449,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Rugosímetro calibrado",
     "analisis": "si",
     "familia": "tunel-despirogenizacion"
    },
@@ -1481,6 +1486,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Termómetro/termopar calibrado",
     "familia": "tunel-despirogenizacion"
    },
    {
@@ -1552,6 +1558,7 @@ var BancoEquipos = {
     ],
     "tabla": null,
     "tablaModelo": "UTILIDADES LIOFILIZADOR",
+    "instrumentos": "Calibre calibrado",
     "familia": "liofilizador"
    },
    {
@@ -1767,6 +1774,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Rugosímetro calibrado",
     "analisis": "si",
     "familia": "liofilizador"
    },
@@ -1803,6 +1811,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Termómetro/termopar calibrado",
     "familia": "liofilizador"
    },
    {
@@ -1909,6 +1918,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Manómetro calibrado",
     "familia": "reactor"
    },
    {
@@ -2054,6 +2064,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Manómetro calibrado",
     "analisis": "si",
     "familia": "reactor"
    },
@@ -2090,6 +2101,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Rugosímetro calibrado",
     "familia": "reactor"
    },
    {
@@ -2161,6 +2173,7 @@ var BancoEquipos = {
     ],
     "tabla": null,
     "tablaModelo": "UTILIDADES HORNO VACÍO",
+    "instrumentos": "Calibre calibrado",
     "familia": "horno-vacio"
    },
    {
@@ -2267,6 +2280,7 @@ var BancoEquipos = {
     ],
     "tabla": null,
     "tablaModelo": "COMPONENTES CRÍTICOS HORNO VACÍO",
+    "instrumentos": "Vacuómetro calibrado",
     "familia": "horno-vacio"
    },
    {
@@ -2341,6 +2355,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Vacuómetro/manómetro calibrado",
     "analisis": "si",
     "familia": "horno-vacio"
    },
@@ -2377,6 +2392,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Termómetro/termopar calibrado",
     "familia": "horno-vacio"
    },
    {
@@ -2448,6 +2464,7 @@ var BancoEquipos = {
     ],
     "tabla": null,
     "tablaModelo": "UTILIDADES LLENADORA",
+    "instrumentos": "Calibre calibrado",
     "familia": "llenadora"
    },
    {
@@ -2483,6 +2500,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Rugosímetro calibrado",
     "familia": "llenadora"
    },
    {
@@ -2519,6 +2537,7 @@ var BancoEquipos = {
     ],
     "tabla": null,
     "tablaModelo": "COMPONENTES CRÍTICOS LLENADORA",
+    "instrumentos": "Calibre calibrado",
     "familia": "llenadora"
    },
    {
@@ -2859,6 +2878,7 @@ var BancoEquipos = {
     ],
     "tabla": null,
     "tablaModelo": "UTILIDADES LECHO FLUIDO",
+    "instrumentos": "Calibre calibrado",
     "familia": "lecho-fluido"
    },
    {
@@ -3040,6 +3060,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Rugosímetro calibrado",
     "analisis": "si",
     "familia": "lecho-fluido"
    },
@@ -3076,6 +3097,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Termómetro/termopar calibrado",
     "familia": "lecho-fluido"
    },
    {
@@ -3358,6 +3380,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Balanza calibrada",
     "familia": "encapsuladora"
    },
    {
@@ -3499,6 +3522,7 @@ var BancoEquipos = {
     ],
     "tabla": null,
     "tablaModelo": "CUBA E IMPULSOR",
+    "instrumentos": "Rugosímetro calibrado",
     "familia": "granulador"
    },
    {
@@ -3675,6 +3699,7 @@ var BancoEquipos = {
     ],
     "tabla": null,
     "tablaModelo": "BOMBO Y PISTOLAS",
+    "instrumentos": "Rugosímetro calibrado",
     "familia": "recubridora"
    },
    {
@@ -4625,6 +4650,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Calibre calibrado",
     "familia": "horno-secado"
    },
    {
@@ -4801,6 +4827,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Manómetro calibrado; Vacuómetro calibrado",
     "familia": "sistema-cremas-vacio"
    },
    {
@@ -4911,6 +4938,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Rugosímetro calibrado",
     "analisis": "si",
     "familia": "sistema-cremas-vacio"
    },
@@ -5857,6 +5885,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Rugosímetro calibrado",
     "familia": "cabina-flujo"
    },
    {
@@ -5962,6 +5991,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Manómetro calibrado",
     "familia": "cabina-flujo"
    },
    {
@@ -6247,7 +6277,8 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
-    "tablaModelo": "INSTRUMENTOS DE MEDICIÓN"
+    "tablaModelo": "INSTRUMENTOS DE MEDICIÓN",
+    "instrumentos": "Higrómetro calibrado; Termómetro/termopar calibrado; Manómetro calibrado"
    },
    {
     "kind": "div",
@@ -6328,6 +6359,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Cronómetro calibrado",
     "familia": "llenadora"
    },
    {
@@ -6367,6 +6399,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Cronómetro calibrado",
     "familia": "llenadora"
    },
    {
@@ -6523,6 +6556,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Celda de carga calibrada",
     "familia": "llenadora"
    },
    {
@@ -6562,6 +6596,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Balanza calibrada; Material volumétrico calibrado",
     "analisis": "si",
     "familia": "llenadora"
    },
@@ -6602,6 +6637,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Material volumétrico calibrado",
     "analisis": "si",
     "familia": "llenadora"
    },
@@ -6642,6 +6678,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Material volumétrico calibrado",
     "analisis": "si",
     "familia": "llenadora"
    },
@@ -6682,6 +6719,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Tacómetro calibrado",
     "analisis": "si",
     "familia": "llenadora"
    },
@@ -6722,6 +6760,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Material volumétrico calibrado",
     "analisis": "si",
     "familia": "llenadora"
    },
@@ -6840,6 +6879,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Cronómetro calibrado",
     "familia": "llenadora"
    },
    {
@@ -6879,6 +6919,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Caudalímetro calibrado; Manómetro calibrado",
     "analisis": "si",
     "familia": "llenadora"
    },
@@ -6919,6 +6960,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Manómetro calibrado; Caudalímetro calibrado",
     "analisis": "si",
     "familia": "llenadora"
    },
@@ -7116,6 +7158,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Termómetro/termopar calibrado",
     "analisis": "si",
     "familia": "llenadora"
    },
@@ -7403,6 +7446,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Cronómetro calibrado",
     "familia": "llenadora-tubos"
    },
    {
@@ -7442,6 +7486,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Cronómetro calibrado",
     "familia": "llenadora-tubos"
    },
    {
@@ -7598,6 +7643,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Celda de carga calibrada",
     "familia": "llenadora-tubos"
    },
    {
@@ -7637,6 +7683,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Balanza calibrada",
     "analisis": "si",
     "familia": "llenadora-tubos"
    },
@@ -7677,6 +7724,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Balanza calibrada",
     "analisis": "si",
     "familia": "llenadora-tubos"
    },
@@ -7717,6 +7765,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Balanza calibrada",
     "analisis": "si",
     "familia": "llenadora-tubos"
    },
@@ -7757,6 +7806,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Tacómetro calibrado",
     "analisis": "si",
     "familia": "llenadora-tubos"
    },
@@ -7797,6 +7847,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Balanza calibrada",
     "analisis": "si",
     "familia": "llenadora-tubos"
    },
@@ -7993,6 +8044,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Termómetro/termopar calibrado",
     "analisis": "si",
     "familia": "llenadora-tubos"
    },
@@ -8033,6 +8085,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Manómetro calibrado",
     "familia": "llenadora-tubos"
    },
    {
@@ -8072,6 +8125,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Termómetro/termopar calibrado; Manómetro calibrado",
     "analisis": "si",
     "familia": "llenadora-tubos"
    },
@@ -8386,6 +8440,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Torquímetro calibrado",
     "familia": "llenadora-tubos"
    },
    {
@@ -8425,6 +8480,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Analizador de O₂ calibrado",
     "familia": "llenadora-tubos"
    },
    {
@@ -8595,6 +8651,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Cronómetro calibrado",
     "familia": "reactor"
    },
    {
@@ -8634,6 +8691,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Cronómetro calibrado",
     "familia": "reactor"
    },
    {
@@ -8712,6 +8770,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Manómetro calibrado",
     "familia": "reactor"
    },
    {
@@ -8786,6 +8845,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Tacómetro calibrado",
     "analisis": "si",
     "familia": "reactor"
    },
@@ -8826,6 +8886,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Cronómetro calibrado",
     "familia": "reactor"
    },
    {
@@ -8865,6 +8926,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Multímetro calibrado",
     "familia": "reactor"
    },
    {
@@ -8904,6 +8966,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Calibre calibrado; Sonómetro calibrado; Multímetro calibrado",
     "familia": "reactor"
    },
    {
@@ -8978,6 +9041,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Tacómetro calibrado",
     "analisis": "si",
     "familia": "reactor"
    },
@@ -9018,6 +9082,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Termómetro/termopar calibrado",
     "analisis": "si",
     "familia": "reactor"
    },
@@ -9058,6 +9123,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Termómetro/termopar calibrado",
     "analisis": "si",
     "familia": "reactor"
    },
@@ -9098,6 +9164,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Termómetro/termopar calibrado",
     "analisis": "si",
     "familia": "reactor"
    },
@@ -9138,6 +9205,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Termómetro/termopar calibrado",
     "analisis": "si",
     "familia": "reactor"
    },
@@ -9178,6 +9246,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Termómetro/termopar calibrado; Manómetro calibrado",
     "analisis": "si",
     "familia": "reactor"
    },
@@ -9218,6 +9287,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Balanza calibrada",
     "analisis": "si",
     "familia": "reactor"
    },
@@ -9258,6 +9328,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Balanza calibrada",
     "analisis": "si",
     "familia": "reactor"
    },
@@ -9668,6 +9739,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Cronómetro calibrado",
     "familia": "sistema-cremas-vacio"
    },
    {
@@ -9707,6 +9779,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Cronómetro calibrado",
     "familia": "sistema-cremas-vacio"
    },
    {
@@ -9785,6 +9858,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Manómetro calibrado",
     "familia": "sistema-cremas-vacio"
    },
    {
@@ -9859,6 +9933,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Tacómetro calibrado",
     "analisis": "si",
     "familia": "sistema-cremas-vacio"
    },
@@ -9899,6 +9974,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Cronómetro calibrado",
     "familia": "sistema-cremas-vacio"
    },
    {
@@ -9938,6 +10014,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Calibre calibrado",
     "familia": "sistema-cremas-vacio"
    },
    {
@@ -9977,6 +10054,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Multímetro calibrado",
     "analisis": "si",
     "familia": "sistema-cremas-vacio"
    },
@@ -10017,6 +10095,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Manómetro calibrado",
     "familia": "sistema-cremas-vacio"
    },
    {
@@ -10056,6 +10135,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Tacómetro calibrado",
     "analisis": "si",
     "familia": "sistema-cremas-vacio"
    },
@@ -10096,6 +10176,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Cronómetro calibrado",
     "familia": "sistema-cremas-vacio"
    },
    {
@@ -10135,6 +10216,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Calibre calibrado",
     "familia": "sistema-cremas-vacio"
    },
    {
@@ -10174,6 +10256,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Termómetro/termopar calibrado",
     "analisis": "si",
     "familia": "sistema-cremas-vacio"
    },
@@ -10254,6 +10337,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Caudalímetro calibrado",
     "analisis": "si",
     "familia": "sistema-cremas-vacio"
    },
@@ -10294,6 +10378,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Vacuómetro/manómetro calibrado",
     "analisis": "si",
     "familia": "sistema-cremas-vacio"
    },
@@ -10334,6 +10419,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Vacuómetro/manómetro calibrado",
     "analisis": "si",
     "familia": "sistema-cremas-vacio"
    },
@@ -10374,6 +10460,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Vacuómetro/manómetro calibrado",
     "analisis": "si",
     "familia": "sistema-cremas-vacio"
    },
@@ -10414,6 +10501,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Vacuómetro/manómetro calibrado",
     "analisis": "si",
     "familia": "sistema-cremas-vacio"
    },
@@ -10494,6 +10582,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Vacuómetro/manómetro calibrado",
     "analisis": "si",
     "familia": "sistema-cremas-vacio"
    },
@@ -10534,6 +10623,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Termómetro/termopar calibrado",
     "analisis": "si",
     "familia": "sistema-cremas-vacio"
    },
@@ -10574,6 +10664,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Termómetro/termopar calibrado",
     "analisis": "si",
     "familia": "sistema-cremas-vacio"
    },
@@ -10614,6 +10705,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Termómetro/termopar calibrado",
     "analisis": "si",
     "familia": "sistema-cremas-vacio"
    },
@@ -10654,6 +10746,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Termómetro/termopar calibrado",
     "analisis": "si",
     "familia": "sistema-cremas-vacio"
    },
@@ -10694,6 +10787,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Termómetro/termopar calibrado",
     "analisis": "si",
     "familia": "sistema-cremas-vacio"
    },
@@ -10734,6 +10828,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Termómetro/termopar calibrado; Manómetro calibrado",
     "analisis": "si",
     "familia": "sistema-cremas-vacio"
    },
@@ -10774,6 +10869,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Balanza calibrada",
     "analisis": "si",
     "familia": "sistema-cremas-vacio"
    },
@@ -10854,6 +10950,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Balanza calibrada",
     "analisis": "si",
     "familia": "sistema-cremas-vacio"
    },
@@ -10894,6 +10991,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Balanza calibrada",
     "analisis": "si",
     "familia": "sistema-cremas-vacio"
    },
@@ -10974,6 +11072,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Caudalímetro calibrado",
     "analisis": "si",
     "familia": "sistema-cremas-vacio"
    },
@@ -11144,6 +11243,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Cronómetro calibrado",
     "familia": "tableteadora"
    },
    {
@@ -11183,6 +11283,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Cronómetro calibrado",
     "familia": "tableteadora"
    },
    {
@@ -11335,6 +11436,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Tacómetro calibrado",
     "analisis": "si",
     "familia": "tableteadora"
    },
@@ -11375,6 +11477,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Tacómetro calibrado",
     "analisis": "si",
     "familia": "tableteadora"
    },
@@ -11415,6 +11518,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Calibre calibrado",
     "familia": "tableteadora"
    },
    {
@@ -11454,6 +11558,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Calibre calibrado",
     "analisis": "si",
     "familia": "tableteadora"
    },
@@ -11494,6 +11599,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Calibre calibrado",
     "familia": "tableteadora"
    },
    {
@@ -11533,6 +11639,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Multímetro calibrado",
     "familia": "tableteadora"
    },
    {
@@ -11572,6 +11679,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Termómetro/termopar calibrado; Calibre calibrado; Sonómetro calibrado",
     "familia": "tableteadora"
    },
    {
@@ -11646,6 +11754,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Celda de carga calibrada",
     "analisis": "si",
     "familia": "tableteadora"
    },
@@ -11686,6 +11795,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Celda de carga calibrada",
     "analisis": "si",
     "familia": "tableteadora"
    },
@@ -11726,6 +11836,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Celda de carga calibrada",
     "analisis": "si",
     "familia": "tableteadora"
    },
@@ -11766,6 +11877,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Celda de carga calibrada",
     "analisis": "si",
     "familia": "tableteadora"
    },
@@ -11806,6 +11918,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Cronómetro calibrado",
     "analisis": "si",
     "familia": "tableteadora"
    },
@@ -11886,6 +11999,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Balanza calibrada",
     "analisis": "si",
     "familia": "tableteadora"
    },
@@ -11966,6 +12080,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Vacuómetro/manómetro calibrado; Caudalímetro calibrado",
     "analisis": "si",
     "familia": "tableteadora"
    },
@@ -12080,6 +12195,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Balanza calibrada; Calibre calibrado",
     "analisis": "si",
     "familia": "tableteadora"
    },
@@ -12120,6 +12236,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Cronómetro calibrado",
     "analisis": "si",
     "familia": "tableteadora"
    },
@@ -12250,6 +12367,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Cronómetro calibrado",
     "familia": "encapsuladora"
    },
    {
@@ -12289,6 +12407,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Cronómetro calibrado",
     "familia": "encapsuladora"
    },
    {
@@ -12402,6 +12521,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Cronómetro calibrado",
     "analisis": "si",
     "familia": "encapsuladora"
    },
@@ -12442,6 +12562,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Multímetro calibrado",
     "familia": "encapsuladora"
    },
    {
@@ -12481,6 +12602,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Termómetro/termopar calibrado; Calibre calibrado; Sonómetro calibrado",
     "familia": "encapsuladora"
    },
    {
@@ -12595,6 +12717,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Vacuómetro/manómetro calibrado",
     "analisis": "si",
     "familia": "encapsuladora"
    },
@@ -12635,6 +12758,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Calibre calibrado",
     "analisis": "si",
     "familia": "encapsuladora"
    },
@@ -12675,6 +12799,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Manómetro calibrado",
     "analisis": "si",
     "familia": "encapsuladora"
    },
@@ -12715,6 +12840,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Tacómetro calibrado",
     "analisis": "si",
     "familia": "encapsuladora"
    },
@@ -12795,6 +12921,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Celda de carga calibrada",
     "analisis": "si",
     "familia": "encapsuladora"
    },
@@ -12835,6 +12962,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Balanza calibrada",
     "analisis": "si",
     "familia": "encapsuladora"
    },
@@ -12875,6 +13003,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Balanza calibrada",
     "analisis": "si",
     "familia": "encapsuladora"
    },
@@ -12915,6 +13044,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Balanza calibrada",
     "analisis": "si",
     "familia": "encapsuladora"
    },
@@ -12995,6 +13125,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Cronómetro calibrado",
     "analisis": "si",
     "familia": "encapsuladora"
    },
@@ -13035,6 +13166,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Vacuómetro/manómetro calibrado; Caudalímetro calibrado",
     "analisis": "si",
     "familia": "encapsuladora"
    },
@@ -13155,6 +13287,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Balanza calibrada; Calibre calibrado",
     "analisis": "si",
     "familia": "encapsuladora"
    },
@@ -13195,6 +13328,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Cronómetro calibrado",
     "analisis": "si",
     "familia": "encapsuladora"
    },
@@ -13325,6 +13459,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Cronómetro calibrado",
     "familia": "granulador"
    },
    {
@@ -13477,6 +13612,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Tacómetro calibrado",
     "analisis": "si",
     "familia": "granulador"
    },
@@ -13517,6 +13653,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Tacómetro calibrado",
     "analisis": "si",
     "familia": "granulador"
    },
@@ -13557,6 +13694,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Cronómetro calibrado",
     "analisis": "si",
     "familia": "granulador"
    },
@@ -13597,6 +13735,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Calibre calibrado",
     "analisis": "si",
     "familia": "granulador"
    },
@@ -13637,6 +13776,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Torquímetro calibrado; Analizador de potencia calibrado",
     "analisis": "si",
     "familia": "granulador"
    },
@@ -13677,6 +13817,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Termómetro/termopar calibrado; Calibre calibrado; Sonómetro calibrado",
     "analisis": "si",
     "familia": "granulador"
    },
@@ -13717,6 +13858,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Manómetro calibrado",
     "analisis": "si",
     "familia": "granulador"
    },
@@ -13757,6 +13899,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Caudalímetro calibrado; Material volumétrico calibrado",
     "analisis": "si",
     "familia": "granulador"
    },
@@ -13837,6 +13980,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Caudalímetro calibrado; Material volumétrico calibrado",
     "analisis": "si",
     "familia": "granulador"
    },
@@ -13877,6 +14021,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Manómetro calibrado",
     "analisis": "si",
     "familia": "granulador"
    },
@@ -13917,6 +14062,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Termómetro/termopar calibrado",
     "analisis": "si",
     "familia": "granulador"
    },
@@ -13957,6 +14103,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Vacuómetro/manómetro calibrado",
     "analisis": "si",
     "familia": "granulador"
    },
@@ -13997,6 +14144,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Analizador de O₂ calibrado",
     "analisis": "si",
     "familia": "granulador"
    },
@@ -14077,6 +14225,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Balanza calibrada",
     "analisis": "si",
     "familia": "granulador"
    },
@@ -14157,6 +14306,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Calibre calibrado",
     "analisis": "si",
     "familia": "granulador"
    },
@@ -14237,6 +14387,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Analizador de potencia calibrado",
     "analisis": "si",
     "familia": "granulador"
    },
@@ -14332,6 +14483,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Cronómetro calibrado",
     "familia": "recubridora"
    },
    {
@@ -14371,6 +14523,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Cronómetro calibrado",
     "familia": "recubridora"
    },
    {
@@ -14484,6 +14637,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Tacómetro calibrado",
     "analisis": "si",
     "familia": "recubridora"
    },
@@ -14524,6 +14678,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Cronómetro calibrado",
     "analisis": "si",
     "familia": "recubridora"
    },
@@ -14564,6 +14719,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Multímetro calibrado",
     "familia": "recubridora"
    },
    {
@@ -14603,6 +14759,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Calibre calibrado; Sonómetro calibrado; Multímetro calibrado",
     "familia": "recubridora"
    },
    {
@@ -14642,6 +14799,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Caudalímetro calibrado",
     "analisis": "si",
     "familia": "recubridora"
    },
@@ -14682,6 +14840,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Termómetro/termopar calibrado",
     "analisis": "si",
     "familia": "recubridora"
    },
@@ -14722,6 +14881,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Termómetro/termopar calibrado; Termohigrómetro calibrado",
     "analisis": "si",
     "familia": "recubridora"
    },
@@ -14762,6 +14922,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Vacuómetro/manómetro calibrado",
     "analisis": "si",
     "familia": "recubridora"
    },
@@ -14837,6 +14998,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Caudalímetro calibrado; Balanza calibrada",
     "analisis": "si",
     "familia": "recubridora"
    },
@@ -14877,6 +15039,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Manómetro calibrado",
     "analisis": "si",
     "familia": "recubridora"
    },
@@ -14957,6 +15120,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Calibre calibrado",
     "analisis": "si",
     "familia": "recubridora"
    },
@@ -15072,6 +15236,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Caudalímetro calibrado; Balanza calibrada",
     "analisis": "si",
     "familia": "recubridora"
    },
@@ -15112,6 +15277,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Termómetro/termopar calibrado",
     "analisis": "si",
     "familia": "recubridora"
    },
@@ -15152,6 +15318,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Termómetro/termopar calibrado",
     "analisis": "si",
     "familia": "recubridora"
    },
@@ -15192,6 +15359,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Caudalímetro calibrado; Balanza calibrada",
     "analisis": "si",
     "familia": "recubridora"
    },
@@ -15362,6 +15530,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Cronómetro calibrado",
     "familia": "blistera"
    },
    {
@@ -15401,6 +15570,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Cronómetro calibrado",
     "familia": "blistera"
    },
    {
@@ -15514,6 +15684,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Tacómetro calibrado",
     "analisis": "si",
     "familia": "blistera"
    },
@@ -15554,6 +15725,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Calibre calibrado",
     "analisis": "si",
     "familia": "blistera"
    },
@@ -15594,6 +15766,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Celda de carga calibrada",
     "analisis": "si",
     "familia": "blistera"
    },
@@ -15674,6 +15847,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Termómetro/termopar calibrado",
     "analisis": "si",
     "familia": "blistera"
    },
@@ -15714,6 +15888,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Vacuómetro/manómetro calibrado; Manómetro calibrado",
     "analisis": "si",
     "familia": "blistera"
    },
@@ -15754,6 +15929,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Cronómetro calibrado",
     "analisis": "si",
     "familia": "blistera"
    },
@@ -15794,6 +15970,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Calibre calibrado",
     "analisis": "si",
     "familia": "blistera"
    },
@@ -15947,6 +16124,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Termómetro/termopar calibrado",
     "analisis": "si",
     "familia": "blistera"
    },
@@ -15987,6 +16165,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Manómetro calibrado",
     "analisis": "si",
     "familia": "blistera"
    },
@@ -16027,6 +16206,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Cronómetro calibrado",
     "analisis": "si",
     "familia": "blistera"
    },
@@ -16297,6 +16477,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Calibre calibrado",
     "familia": "blistera"
    },
    {
@@ -16501,6 +16682,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Cronómetro calibrado",
     "familia": "detector-metales"
    },
    {
@@ -16684,6 +16866,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Calibre calibrado",
     "analisis": "si",
     "familia": "detector-metales"
    },
@@ -17072,6 +17255,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Manómetro calibrado",
     "familia": "detector-metales"
    },
    {
@@ -17310,6 +17494,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Cronómetro calibrado",
     "familia": "etiquetadora"
    },
    {
@@ -17349,6 +17534,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Cronómetro calibrado",
     "familia": "etiquetadora"
    },
    {
@@ -17502,6 +17688,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Calibre calibrado",
     "analisis": "si",
     "familia": "etiquetadora"
    },
@@ -17542,6 +17729,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Celda de carga calibrada",
     "familia": "etiquetadora"
    },
    {
@@ -17721,6 +17909,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Calibre calibrado",
     "familia": "etiquetadora"
    },
    {
@@ -17760,6 +17949,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Calibre calibrado",
     "analisis": "si",
     "familia": "etiquetadora"
    },
@@ -17874,6 +18064,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Calibre calibrado",
     "analisis": "si",
     "familia": "etiquetadora"
    },
@@ -18537,6 +18728,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Cronómetro calibrado",
     "familia": "lecho-fluido"
    },
    {
@@ -18576,6 +18768,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Cronómetro calibrado",
     "familia": "lecho-fluido"
    },
    {
@@ -18615,6 +18808,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Cronómetro calibrado",
     "familia": "lecho-fluido"
    },
    {
@@ -18689,6 +18883,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Anemómetro calibrado; Caudalímetro calibrado",
     "analisis": "si",
     "familia": "lecho-fluido"
    },
@@ -18729,6 +18924,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Cronómetro calibrado; Termómetro/termopar calibrado",
     "analisis": "si",
     "familia": "lecho-fluido"
    },
@@ -18769,6 +18965,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Higrómetro calibrado; Termómetro/termopar calibrado; Termohigrómetro calibrado",
     "analisis": "si",
     "familia": "lecho-fluido"
    },
@@ -18809,6 +19006,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Manómetro diferencial calibrado; Manómetro calibrado; Vacuómetro/manómetro calibrado",
     "familia": "lecho-fluido"
    },
    {
@@ -18844,6 +19042,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Cronómetro calibrado",
     "familia": "lecho-fluido"
    },
    {
@@ -18883,6 +19082,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Manómetro calibrado",
     "familia": "lecho-fluido"
    },
    {
@@ -19081,6 +19281,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Cronómetro calibrado",
     "familia": "autoclave"
    },
    {
@@ -19120,6 +19321,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Termómetro/termopar calibrado; Manómetro calibrado",
     "familia": "autoclave"
    },
    {
@@ -19159,6 +19361,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Manómetro calibrado",
     "familia": "autoclave"
    },
    {
@@ -19198,6 +19401,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Cronómetro calibrado",
     "familia": "autoclave"
    },
    {
@@ -19272,6 +19476,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Termómetro/termopar calibrado; Manómetro calibrado",
     "familia": "autoclave"
    },
    {
@@ -19311,6 +19516,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Termómetro/termopar calibrado",
     "analisis": "si",
     "familia": "autoclave"
    },
@@ -19351,6 +19557,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Cronómetro calibrado",
     "familia": "autoclave"
    },
    {
@@ -19425,6 +19632,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Vacuómetro/manómetro calibrado",
     "analisis": "si",
     "familia": "autoclave"
    },
@@ -19570,6 +19778,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Termómetro/termopar calibrado",
     "analisis": "si",
     "familia": "autoclave"
    },
@@ -19610,6 +19819,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Termómetro/termopar calibrado; Manómetro calibrado",
     "analisis": "si",
     "familia": "autoclave"
    },
@@ -19650,6 +19860,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Termómetro/termopar calibrado; Material volumétrico calibrado",
     "familia": "autoclave"
    },
    {
@@ -19728,6 +19939,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Termómetro/termopar calibrado",
     "analisis": "si",
     "familia": "autoclave"
    },
@@ -19902,6 +20114,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Cronómetro calibrado",
     "familia": "mezclador"
    },
    {
@@ -19941,6 +20154,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Cronómetro calibrado",
     "familia": "mezclador"
    },
    {
@@ -19980,6 +20194,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Cronómetro calibrado",
     "familia": "mezclador"
    },
    {
@@ -20054,6 +20269,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Cronómetro calibrado",
     "familia": "mezclador"
    },
    {
@@ -20093,6 +20309,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Tacómetro calibrado",
     "analisis": "si",
     "familia": "mezclador"
    },
@@ -20133,6 +20350,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Cronómetro calibrado; Tacómetro calibrado",
     "analisis": "si",
     "familia": "mezclador"
    },
@@ -20169,6 +20387,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Cronómetro calibrado",
     "familia": "mezclador"
    },
    {
@@ -20208,6 +20427,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Calibre calibrado",
     "familia": "mezclador"
    },
    {
@@ -20423,6 +20643,7 @@ var BancoEquipos = {
       ]
      ]
     },
+    "instrumentos": "Cronómetro calibrado; Tacómetro calibrado",
     "familia": "mezclador"
    },
    {
@@ -20511,6 +20732,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Cronómetro calibrado",
     "familia": "horno-secado"
    },
    {
@@ -20550,6 +20772,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Termómetro/termopar calibrado",
     "familia": "horno-secado"
    },
    {
@@ -20589,6 +20812,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Cronómetro calibrado",
     "familia": "horno-secado"
    },
    {
@@ -20628,6 +20852,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Cronómetro calibrado",
     "familia": "horno-secado"
    },
    {
@@ -20702,6 +20927,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Termómetro/termopar calibrado",
     "analisis": "si",
     "familia": "horno-secado"
    },
@@ -20742,6 +20968,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Termómetro/termopar calibrado",
     "analisis": "si",
     "familia": "horno-secado"
    },
@@ -20782,6 +21009,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Cronómetro calibrado; Termómetro/termopar calibrado",
     "analisis": "si",
     "familia": "horno-secado"
    },
@@ -20822,6 +21050,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Cronómetro calibrado",
     "analisis": "si",
     "familia": "horno-secado"
    },
@@ -20862,6 +21091,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Cronómetro calibrado",
     "analisis": "si",
     "familia": "horno-secado"
    },
@@ -20902,6 +21132,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Termómetro/termopar calibrado",
     "analisis": "si",
     "familia": "horno-secado"
    },
@@ -20942,6 +21173,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Cronómetro calibrado",
     "analisis": "si",
     "familia": "horno-secado"
    },
@@ -20982,6 +21214,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Termómetro/termopar calibrado",
     "analisis": "si",
     "familia": "horno-secado"
    },
@@ -21022,6 +21255,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Termómetro/termopar calibrado",
     "analisis": "si",
     "familia": "horno-secado"
    },
@@ -21062,6 +21296,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Termómetro/termopar calibrado",
     "analisis": "si",
     "familia": "horno-secado"
    },
@@ -21102,6 +21337,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Cronómetro calibrado",
     "analisis": "si",
     "familia": "horno-secado"
    },
@@ -21266,6 +21502,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Cronómetro calibrado",
     "familia": "horno-vacio"
    },
    {
@@ -21305,6 +21542,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Termómetro/termopar calibrado",
     "familia": "horno-vacio"
    },
    {
@@ -21344,6 +21582,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Cronómetro calibrado",
     "familia": "horno-vacio"
    },
    {
@@ -21453,6 +21692,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Vacuómetro/manómetro calibrado",
     "analisis": "si",
     "familia": "horno-vacio"
    },
@@ -21493,6 +21733,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Manómetro calibrado; Vacuómetro/manómetro calibrado",
     "analisis": "si",
     "familia": "horno-vacio"
    },
@@ -21533,6 +21774,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Vacuómetro/manómetro calibrado",
     "analisis": "si",
     "familia": "horno-vacio"
    },
@@ -21573,6 +21815,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Vacuómetro/manómetro calibrado",
     "analisis": "si",
     "familia": "horno-vacio"
    },
@@ -21688,6 +21931,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Termómetro/termopar calibrado",
     "analisis": "si",
     "familia": "horno-vacio"
    },
@@ -21728,6 +21972,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Termómetro/termopar calibrado",
     "analisis": "si",
     "familia": "horno-vacio"
    },
@@ -21768,6 +22013,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Cronómetro calibrado",
     "analisis": "si",
     "familia": "horno-vacio"
    },
@@ -21808,6 +22054,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Cronómetro calibrado",
     "analisis": "si",
     "familia": "horno-vacio"
    },
@@ -21848,6 +22095,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Termómetro/termopar calibrado",
     "analisis": "si",
     "familia": "horno-vacio"
    },
@@ -21888,6 +22136,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Cronómetro calibrado",
     "analisis": "si",
     "familia": "horno-vacio"
    },
@@ -21928,6 +22177,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Termómetro/termopar calibrado",
     "analisis": "si",
     "familia": "horno-vacio"
    },
@@ -22078,6 +22328,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Termómetro/termopar calibrado",
     "familia": "refrigerador-lab"
    },
    {
@@ -22156,6 +22407,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Cronómetro calibrado",
     "familia": "refrigerador-lab"
    },
    {
@@ -22234,6 +22486,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Cronómetro calibrado",
     "familia": "refrigerador-lab"
    },
    {
@@ -22308,6 +22561,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Termómetro/termopar calibrado",
     "analisis": "si",
     "familia": "refrigerador-lab"
    },
@@ -22348,6 +22602,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Termómetro/termopar calibrado",
     "analisis": "si",
     "familia": "refrigerador-lab"
    },
@@ -22388,6 +22643,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Cronómetro calibrado",
     "analisis": "si",
     "familia": "refrigerador-lab"
    },
@@ -22428,6 +22684,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Cronómetro calibrado",
     "analisis": "si",
     "familia": "refrigerador-lab"
    },
@@ -22468,6 +22725,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Termómetro/termopar calibrado",
     "analisis": "si",
     "familia": "refrigerador-lab"
    },
@@ -22508,6 +22766,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Termómetro/termopar calibrado",
     "analisis": "si",
     "familia": "refrigerador-lab"
    },
@@ -22588,6 +22847,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Cronómetro calibrado",
     "analisis": "si",
     "familia": "refrigerador-lab"
    },
@@ -22628,6 +22888,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Termómetro/termopar calibrado",
     "analisis": "si",
     "familia": "refrigerador-lab"
    },
@@ -22668,6 +22929,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Termómetro/termopar calibrado",
     "analisis": "si",
     "familia": "refrigerador-lab"
    },
@@ -22708,6 +22970,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Termómetro/termopar calibrado",
     "familia": "refrigerador-lab"
    },
    {
@@ -22747,6 +23010,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Cronómetro calibrado",
     "familia": "refrigerador-lab"
    },
    {
@@ -22916,6 +23180,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Termómetro/termopar calibrado",
     "familia": "congelador-lab"
    },
    {
@@ -22994,6 +23259,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Cronómetro calibrado",
     "familia": "congelador-lab"
    },
    {
@@ -23072,6 +23338,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Cronómetro calibrado",
     "familia": "congelador-lab"
    },
    {
@@ -23146,6 +23413,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Termómetro/termopar calibrado",
     "analisis": "si",
     "familia": "congelador-lab"
    },
@@ -23186,6 +23454,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Termómetro/termopar calibrado",
     "analisis": "si",
     "familia": "congelador-lab"
    },
@@ -23226,6 +23495,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Cronómetro calibrado",
     "analisis": "si",
     "familia": "congelador-lab"
    },
@@ -23266,6 +23536,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Cronómetro calibrado",
     "analisis": "si",
     "familia": "congelador-lab"
    },
@@ -23306,6 +23577,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Termómetro/termopar calibrado",
     "analisis": "si",
     "familia": "congelador-lab"
    },
@@ -23346,6 +23618,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Termómetro/termopar calibrado",
     "analisis": "si",
     "familia": "congelador-lab"
    },
@@ -23426,6 +23699,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Cronómetro calibrado",
     "analisis": "si",
     "familia": "congelador-lab"
    },
@@ -23466,6 +23740,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Termómetro/termopar calibrado",
     "analisis": "si",
     "familia": "congelador-lab"
    },
@@ -23506,6 +23781,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Termómetro/termopar calibrado",
     "analisis": "si",
     "familia": "congelador-lab"
    },
@@ -23546,6 +23822,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Termómetro/termopar calibrado",
     "familia": "congelador-lab"
    },
    {
@@ -23585,6 +23862,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Cronómetro calibrado",
     "familia": "congelador-lab"
    },
    {
@@ -23764,6 +24042,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Balanza calibrada",
     "familia": "balanza"
    },
    {
@@ -23873,6 +24152,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Balanza calibrada",
     "familia": "balanza"
    },
    {
@@ -23912,6 +24192,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Balanza calibrada",
     "analisis": "si",
     "familia": "balanza"
    },
@@ -23952,6 +24233,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Balanza calibrada",
     "analisis": "si",
     "familia": "balanza"
    },
@@ -23992,6 +24274,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Balanza calibrada",
     "analisis": "si",
     "familia": "balanza"
    },
@@ -24032,6 +24315,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Balanza calibrada",
     "analisis": "si",
     "familia": "balanza"
    },
@@ -24152,6 +24436,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Balanza calibrada",
     "analisis": "si",
     "familia": "balanza"
    },
@@ -24188,6 +24473,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Balanza calibrada",
     "familia": "balanza"
    },
    {
@@ -24223,6 +24509,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Balanza calibrada",
     "familia": "balanza"
    },
    {
@@ -24285,6 +24572,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Balanza calibrada",
     "familia": "balanza"
    },
    {
@@ -24343,6 +24631,7 @@ var BancoEquipos = {
       ]
      ]
     },
+    "instrumentos": "Balanza calibrada",
     "familia": "balanza"
    },
    {
@@ -24427,6 +24716,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Viscosímetro calibrado",
     "familia": "viscosimetro"
    },
    {
@@ -24540,6 +24830,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Tacómetro calibrado",
     "analisis": "si",
     "familia": "viscosimetro"
    },
@@ -24620,6 +24911,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Viscosímetro calibrado",
     "analisis": "si",
     "familia": "viscosimetro"
    },
@@ -24660,6 +24952,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Viscosímetro calibrado",
     "analisis": "si",
     "familia": "viscosimetro"
    },
@@ -24700,6 +24993,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Viscosímetro calibrado",
     "analisis": "si",
     "familia": "viscosimetro"
    },
@@ -24744,6 +25038,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Viscosímetro calibrado",
     "analisis": "si",
     "familia": "viscosimetro"
    },
@@ -24784,6 +25079,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Viscosímetro calibrado; Termómetro/termopar calibrado",
     "analisis": "si",
     "familia": "viscosimetro"
    },
@@ -24824,6 +25120,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Viscosímetro calibrado",
     "analisis": "si",
     "familia": "viscosimetro"
    },
@@ -24895,6 +25192,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Viscosímetro calibrado",
     "familia": "viscosimetro"
    },
    {
@@ -24930,6 +25228,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Viscosímetro calibrado",
     "familia": "viscosimetro"
    },
    {
@@ -24965,6 +25264,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Viscosímetro calibrado",
     "familia": "viscosimetro"
    },
    {
@@ -25062,6 +25362,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Viscosímetro calibrado",
     "familia": "viscosimetro"
    },
    {
@@ -25130,6 +25431,7 @@ var BancoEquipos = {
       ]
      ]
     },
+    "instrumentos": "Viscosímetro calibrado",
     "familia": "viscosimetro"
    },
    {
@@ -25204,6 +25506,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Vacuómetro/manómetro calibrado",
     "analisis": "si",
     "familia": "liofilizador"
    },
@@ -25244,6 +25547,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Termómetro/termopar calibrado",
     "analisis": "si",
     "familia": "liofilizador"
    },
@@ -25284,6 +25588,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Termómetro/termopar calibrado",
     "analisis": "si",
     "familia": "liofilizador"
    },
@@ -25324,6 +25629,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Vacuómetro/manómetro calibrado",
     "analisis": "si",
     "familia": "liofilizador"
    },
@@ -25364,6 +25670,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Termómetro/termopar calibrado",
     "analisis": "si",
     "familia": "liofilizador"
    },
@@ -25549,6 +25856,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Cronómetro calibrado; Calibre calibrado",
     "analisis": "si",
     "familia": "tunel-despirogenizacion"
    },
@@ -25589,6 +25897,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Termómetro/termopar calibrado",
     "analisis": "si",
     "familia": "tunel-despirogenizacion"
    },
@@ -25629,6 +25938,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Termómetro/termopar calibrado",
     "analisis": "si",
     "familia": "tunel-despirogenizacion"
    },
@@ -25669,6 +25979,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Manómetro calibrado",
     "analisis": "si",
     "familia": "tunel-despirogenizacion"
    },
@@ -25889,6 +26200,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Anemómetro calibrado; Termómetro/termopar calibrado",
     "analisis": "si",
     "familia": "secador-bandejas"
    },
@@ -25929,6 +26241,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Termómetro/termopar calibrado",
     "analisis": "si",
     "familia": "secador-bandejas"
    },
@@ -25969,6 +26282,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Termohigrómetro calibrado; Caudalímetro calibrado",
     "analisis": "si",
     "familia": "secador-bandejas"
    },
@@ -26229,6 +26543,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Tacómetro calibrado",
     "analisis": "si",
     "familia": "secador-tambor"
    },
@@ -26269,6 +26584,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Termómetro/termopar calibrado",
     "analisis": "si",
     "familia": "secador-tambor"
    },
@@ -26309,6 +26625,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Vacuómetro/manómetro calibrado",
     "analisis": "si",
     "familia": "secador-tambor"
    },
@@ -26349,6 +26666,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Calibre calibrado",
     "familia": "secador-tambor"
    },
    {
@@ -26608,6 +26926,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Anemómetro calibrado",
     "analisis": "si",
     "familia": "cabina-flujo"
    },
@@ -26687,6 +27006,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Contador de partículas calibrado",
     "analisis": "si",
     "familia": "cabina-flujo"
    },
@@ -26947,6 +27267,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Anemómetro calibrado",
     "analisis": "si",
     "familia": "cabina-bioseguridad"
    },
@@ -26987,6 +27308,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Manómetro calibrado",
     "analisis": "si",
     "familia": "cabina-bioseguridad"
    },
@@ -27335,6 +27657,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "pHmetro calibrado",
     "analisis": "si",
     "familia": "phmetro"
    },
@@ -27375,6 +27698,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "pHmetro calibrado",
     "analisis": "si",
     "familia": "phmetro"
    },
@@ -27415,6 +27739,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "pHmetro calibrado",
     "analisis": "si",
     "familia": "phmetro"
    },
@@ -27649,6 +27974,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Espectrofotómetro calibrado",
     "analisis": "si",
     "familia": "espectrofotometro"
    },
@@ -27689,6 +28015,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Multímetro calibrado",
     "analisis": "si",
     "familia": "espectrofotometro"
    },
@@ -27729,6 +28056,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Multímetro calibrado",
     "analisis": "si",
     "familia": "espectrofotometro"
    },
@@ -27769,6 +28097,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Multímetro calibrado",
     "analisis": "si",
     "familia": "espectrofotometro"
    },
@@ -27880,6 +28209,7 @@ var BancoEquipos = {
       ]
      ]
     },
+    "instrumentos": "Espectrofotómetro calibrado",
     "familia": "espectrofotometro"
    },
    {
@@ -28003,6 +28333,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Espectrofotómetro IR calibrado",
     "analisis": "si",
     "familia": "espectrofotometro-ir"
    },
@@ -28043,6 +28374,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Espectrofotómetro IR calibrado",
     "analisis": "si",
     "familia": "espectrofotometro-ir"
    },
@@ -28083,6 +28415,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Espectrofotómetro IR calibrado",
     "analisis": "si",
     "familia": "espectrofotometro-ir"
    },
@@ -28123,6 +28456,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Multímetro calibrado",
     "analisis": "si",
     "familia": "espectrofotometro-ir"
    },
@@ -28234,6 +28568,7 @@ var BancoEquipos = {
       ]
      ]
     },
+    "instrumentos": "Espectrofotómetro calibrado",
     "familia": "espectrofotometro-ir"
    },
    {
@@ -28711,6 +29046,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Caudalímetro calibrado; Material volumétrico calibrado",
     "analisis": "si",
     "familia": "hplc"
    },
@@ -28751,6 +29087,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Termómetro/termopar calibrado",
     "analisis": "si",
     "familia": "hplc"
    },
@@ -29065,6 +29402,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Termómetro/termopar calibrado; Caudalímetro calibrado; Material volumétrico calibrado",
     "analisis": "si",
     "familia": "gc"
    },
@@ -29105,6 +29443,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Termómetro/termopar calibrado",
     "analisis": "si",
     "familia": "gc"
    },
@@ -29419,6 +29758,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Termómetro/termopar calibrado",
     "analisis": "si",
     "familia": "disolutor"
    },
@@ -29459,6 +29799,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Tacómetro calibrado",
     "analisis": "si",
     "familia": "disolutor"
    },
@@ -29499,6 +29840,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Calibre calibrado",
     "familia": "disolutor"
    },
    {
@@ -29538,6 +29880,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Cronómetro calibrado; Calibre calibrado",
     "analisis": "si",
     "familia": "disolutor"
    },
@@ -29772,6 +30115,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Termómetro/termopar calibrado",
     "analisis": "si",
     "familia": "desintegrador"
    },
@@ -29812,6 +30156,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Cronómetro calibrado; Tacómetro calibrado; Calibre calibrado",
     "analisis": "si",
     "familia": "desintegrador"
    },
@@ -29852,6 +30197,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Cronómetro calibrado",
     "analisis": "si",
     "familia": "desintegrador"
    },
@@ -30121,6 +30467,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Tacómetro calibrado",
     "analisis": "si",
     "familia": "friabilometro"
    },
@@ -30161,6 +30508,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Cronómetro calibrado",
     "analisis": "si",
     "familia": "friabilometro"
    },
@@ -30431,6 +30779,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Durómetro calibrado",
     "familia": "durometro"
    },
    {
@@ -30470,6 +30819,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Celda de carga calibrada",
     "analisis": "si",
     "familia": "durometro"
    },
@@ -30510,6 +30860,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Celda de carga calibrada",
     "analisis": "si",
     "familia": "durometro"
    },
@@ -30550,6 +30901,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Celda de carga calibrada",
     "analisis": "si",
     "familia": "durometro"
    },
@@ -30621,6 +30973,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Durómetro calibrado",
     "familia": "durometro"
    },
    {
@@ -30696,6 +31049,7 @@ var BancoEquipos = {
       ]
      ]
     },
+    "instrumentos": "Durómetro calibrado",
     "familia": "durometro"
    },
    {
@@ -30819,6 +31173,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Balanza calibrada; Material volumétrico calibrado; Densímetro calibrado",
     "analisis": "si",
     "familia": "karl-fischer"
    },
@@ -30899,6 +31254,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Caudalímetro calibrado",
     "analisis": "si",
     "familia": "karl-fischer"
    },
@@ -31213,6 +31569,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Analizador de TOC calibrado",
     "analisis": "si",
     "familia": "toc"
    },
@@ -31253,6 +31610,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Analizador de TOC calibrado",
     "analisis": "si",
     "familia": "toc"
    },
@@ -31293,6 +31651,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Analizador de TOC calibrado",
     "analisis": "si",
     "familia": "toc"
    },
@@ -31527,6 +31886,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Termómetro/termopar calibrado",
     "analisis": "si",
     "familia": "incubadora"
    },
@@ -31567,6 +31927,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Termómetro/termopar calibrado",
     "analisis": "si",
     "familia": "incubadora"
    },
@@ -31607,6 +31968,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Termómetro/termopar calibrado",
     "analisis": "si",
     "familia": "incubadora"
    },
@@ -31682,6 +32044,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Termómetro/termopar calibrado",
     "analisis": "si",
     "familia": "incubadora"
    },
@@ -31881,6 +32244,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Tacómetro calibrado; Balanza calibrada",
     "analisis": "si",
     "familia": "centrifuga"
    },
@@ -31921,6 +32285,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Cronómetro calibrado",
     "analisis": "si",
     "familia": "centrifuga"
    },
@@ -32225,6 +32590,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Termómetro/termopar calibrado",
     "analisis": "si",
     "familia": "termometro"
    },
@@ -32265,6 +32631,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Termómetro/termopar calibrado",
     "analisis": "si",
     "familia": "termometro"
    },
@@ -32305,6 +32672,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Cronómetro calibrado",
     "analisis": "si",
     "familia": "termometro"
    },
@@ -32345,6 +32713,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Cronómetro calibrado",
     "analisis": "si",
     "familia": "termometro"
    },
@@ -32538,7 +32907,8 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
-    "tablaModelo": "INSTRUMENTOS DE MEDICIÓN"
+    "tablaModelo": "INSTRUMENTOS DE MEDICIÓN",
+    "instrumentos": "Termómetro/termopar calibrado; Manómetro calibrado; Cronómetro calibrado"
    },
    {
     "kind": "div",
@@ -32619,6 +32989,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Material volumétrico calibrado; Incubadora calibrada",
     "analisis": "si",
     "familia": "llenadora"
    },
@@ -32659,6 +33030,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Material volumétrico calibrado",
     "analisis": "si",
     "familia": "llenadora"
    },
@@ -32699,6 +33071,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Material volumétrico calibrado",
     "analisis": "si",
     "familia": "llenadora"
    },
@@ -32739,6 +33112,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Material volumétrico calibrado",
     "analisis": "si",
     "familia": "llenadora"
    },
@@ -32779,6 +33153,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Balanza calibrada",
     "analisis": "si",
     "familia": "llenadora"
    },
@@ -32819,6 +33194,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Material volumétrico calibrado",
     "analisis": "si",
     "familia": "llenadora"
    },
@@ -32899,6 +33275,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Termómetro/termopar calibrado; Balanza calibrada; Viscosímetro calibrado",
     "analisis": "si",
     "familia": "llenadora"
    },
@@ -32978,6 +33355,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Material volumétrico calibrado",
     "familia": "llenadora"
    },
    {
@@ -33017,6 +33395,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Material volumétrico calibrado",
     "analisis": "si",
     "familia": "llenadora"
    },
@@ -33057,6 +33436,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Caudalímetro calibrado",
     "analisis": "si",
     "familia": "llenadora"
    },
@@ -33136,6 +33516,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Torquímetro calibrado",
     "analisis": "si",
     "familia": "llenadora"
    },
@@ -33216,6 +33597,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Balanza calibrada",
     "analisis": "si",
     "familia": "llenadora"
    },
@@ -33256,6 +33638,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Analizador de gases calibrado",
     "familia": "llenadora"
    },
    {
@@ -33295,6 +33678,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Material volumétrico calibrado; Incubadora calibrada",
     "familia": "llenadora"
    },
    {
@@ -33373,6 +33757,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Contador de partículas calibrado; Incubadora calibrada",
     "analisis": "si",
     "familia": "llenadora"
    },
@@ -33413,6 +33798,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Contador de partículas calibrado; Material volumétrico calibrado; Incubadora calibrada",
     "analisis": "si",
     "familia": "llenadora"
    },
@@ -33453,6 +33839,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Cronómetro calibrado",
     "analisis": "si",
     "familia": "llenadora"
    },
@@ -33666,6 +34053,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Balanza calibrada",
     "analisis": "si",
     "familia": "llenadora-tubos"
    },
@@ -33706,6 +34094,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Balanza calibrada",
     "analisis": "si",
     "familia": "llenadora-tubos"
    },
@@ -33746,6 +34135,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Balanza calibrada",
     "analisis": "si",
     "familia": "llenadora-tubos"
    },
@@ -33786,6 +34176,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Balanza calibrada",
     "analisis": "si",
     "familia": "llenadora-tubos"
    },
@@ -33826,6 +34217,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Balanza calibrada",
     "analisis": "si",
     "familia": "llenadora-tubos"
    },
@@ -33866,6 +34258,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Balanza calibrada",
     "analisis": "si",
     "familia": "llenadora-tubos"
    },
@@ -33946,6 +34339,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Termómetro/termopar calibrado; Balanza calibrada; Viscosímetro calibrado",
     "analisis": "si",
     "familia": "llenadora-tubos"
    },
@@ -34026,6 +34420,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Material volumétrico calibrado",
     "analisis": "si",
     "familia": "llenadora-tubos"
    },
@@ -34105,6 +34500,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Manómetro calibrado",
     "analisis": "si",
     "familia": "llenadora-tubos"
    },
@@ -34145,6 +34541,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Manómetro calibrado",
     "analisis": "si",
     "familia": "llenadora-tubos"
    },
@@ -34185,6 +34582,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Calibre calibrado",
     "familia": "llenadora-tubos"
    },
    {
@@ -34302,6 +34700,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Cronómetro calibrado",
     "analisis": "si",
     "familia": "llenadora-tubos"
    },
@@ -34342,6 +34741,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Balanza calibrada",
     "familia": "llenadora-tubos"
    },
    {
@@ -34381,6 +34781,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Balanza calibrada",
     "analisis": "si",
     "familia": "llenadora-tubos"
    },
@@ -34539,6 +34940,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Torquímetro calibrado",
     "analisis": "si",
     "familia": "llenadora-tubos"
    },
@@ -34579,6 +34981,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Analizador de O₂ calibrado",
     "analisis": "si",
     "familia": "llenadora-tubos"
    },
@@ -34619,6 +35022,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Analizador de gases calibrado; Incubadora calibrada",
     "familia": "llenadora-tubos"
    },
    {
@@ -34658,6 +35062,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Material volumétrico calibrado; Incubadora calibrada",
     "familia": "llenadora-tubos"
    },
    {
@@ -34697,6 +35102,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Manómetro calibrado",
     "analisis": "si",
     "familia": "llenadora-tubos"
    },
@@ -34816,6 +35222,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Calibre calibrado",
     "analisis": "si",
     "familia": "llenadora-tubos"
    },
@@ -34973,6 +35380,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Cronómetro calibrado",
     "analisis": "si",
     "familia": "llenadora-tubos"
    },
@@ -35204,6 +35612,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Balanza calibrada; pHmetro calibrado; Viscosímetro calibrado",
     "analisis": "si",
     "familia": "reactor"
    },
@@ -35324,6 +35733,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Cronómetro calibrado",
     "analisis": "si",
     "familia": "reactor"
    },
@@ -35404,6 +35814,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Calibre calibrado",
     "analisis": "si",
     "familia": "reactor"
    },
@@ -35444,6 +35855,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Balanza calibrada; pHmetro calibrado; Viscosímetro calibrado",
     "analisis": "si",
     "familia": "reactor"
    },
@@ -35484,6 +35896,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Termómetro/termopar calibrado",
     "analisis": "si",
     "familia": "reactor"
    },
@@ -35644,6 +36057,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Balanza calibrada; Material volumétrico calibrado; Densímetro calibrado",
     "analisis": "si",
     "familia": "reactor"
    },
@@ -35684,6 +36098,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Manómetro calibrado",
     "analisis": "si",
     "familia": "reactor"
    },
@@ -35724,6 +36139,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Material volumétrico calibrado; Incubadora calibrada",
     "familia": "reactor"
    },
    {
@@ -35818,6 +36234,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Balanza calibrada; pHmetro calibrado; Viscosímetro calibrado",
     "analisis": "si",
     "familia": "sistema-cremas-vacio"
    },
@@ -35858,6 +36275,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "pHmetro calibrado; Viscosímetro calibrado",
     "analisis": "si",
     "familia": "sistema-cremas-vacio"
    },
@@ -35898,6 +36316,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Viscosímetro calibrado; Calibre calibrado",
     "analisis": "si",
     "familia": "sistema-cremas-vacio"
    },
@@ -35938,6 +36357,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Termómetro/termopar calibrado",
     "analisis": "si",
     "familia": "sistema-cremas-vacio"
    },
@@ -35978,6 +36398,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Calibre calibrado",
     "analisis": "si",
     "familia": "sistema-cremas-vacio"
    },
@@ -36018,6 +36439,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Balanza calibrada; Material volumétrico calibrado; Densímetro calibrado",
     "analisis": "si",
     "familia": "sistema-cremas-vacio"
    },
@@ -36058,6 +36480,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Termómetro/termopar calibrado",
     "analisis": "si",
     "familia": "sistema-cremas-vacio"
    },
@@ -36138,6 +36561,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "pHmetro calibrado; Viscosímetro calibrado",
     "analisis": "si",
     "familia": "sistema-cremas-vacio"
    },
@@ -36218,6 +36642,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Balanza calibrada; pHmetro calibrado; Viscosímetro calibrado",
     "analisis": "si",
     "familia": "sistema-cremas-vacio"
    },
@@ -36298,6 +36723,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Material volumétrico calibrado; Incubadora calibrada",
     "analisis": "si",
     "familia": "sistema-cremas-vacio"
    },
@@ -36338,6 +36764,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Termómetro/termopar calibrado; Vacuómetro/manómetro calibrado; Tacómetro calibrado",
     "familia": "sistema-cremas-vacio"
    },
    {
@@ -36491,6 +36918,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Caudalímetro calibrado; Balanza calibrada",
     "analisis": "si",
     "familia": "sistema-cremas-vacio"
    },
@@ -36661,6 +37089,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Balanza calibrada; Calibre calibrado",
     "analisis": "si",
     "familia": "tableteadora"
    },
@@ -36701,6 +37130,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Balanza calibrada; Calibre calibrado",
     "analisis": "si",
     "familia": "tableteadora"
    },
@@ -36741,6 +37171,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Balanza calibrada; Calibre calibrado",
     "analisis": "si",
     "familia": "tableteadora"
    },
@@ -36821,6 +37252,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Balanza calibrada; Calibre calibrado",
     "analisis": "si",
     "familia": "tableteadora"
    },
@@ -36981,6 +37413,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Balanza calibrada",
     "analisis": "si",
     "familia": "tableteadora"
    },
@@ -37021,6 +37454,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Celda de carga calibrada",
     "analisis": "si",
     "familia": "tableteadora"
    },
@@ -37061,6 +37495,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Balanza calibrada",
     "analisis": "si",
     "familia": "tableteadora"
    },
@@ -37381,6 +37816,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Balanza calibrada; Calibre calibrado",
     "analisis": "si",
     "familia": "tableteadora"
    },
@@ -37476,6 +37912,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Balanza calibrada; Calibre calibrado",
     "analisis": "si",
     "familia": "encapsuladora"
    },
@@ -37516,6 +37953,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Balanza calibrada; Calibre calibrado",
     "analisis": "si",
     "familia": "encapsuladora"
    },
@@ -37556,6 +37994,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Balanza calibrada; Calibre calibrado",
     "analisis": "si",
     "familia": "encapsuladora"
    },
@@ -37636,6 +38075,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Balanza calibrada",
     "analisis": "si",
     "familia": "encapsuladora"
    },
@@ -37716,6 +38156,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Calibre calibrado",
     "analisis": "si",
     "familia": "encapsuladora"
    },
@@ -37796,6 +38237,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Balanza calibrada",
     "analisis": "si",
     "familia": "encapsuladora"
    },
@@ -37836,6 +38278,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Balanza calibrada",
     "analisis": "si",
     "familia": "encapsuladora"
    },
@@ -38156,6 +38599,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Balanza calibrada; Calibre calibrado",
     "analisis": "si",
     "familia": "encapsuladora"
    },
@@ -38251,6 +38695,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Balanza calibrada; Calibre calibrado; Material volumétrico calibrado",
     "analisis": "si",
     "familia": "granulador"
    },
@@ -38291,6 +38736,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Balanza calibrada; Calibre calibrado; Material volumétrico calibrado",
     "analisis": "si",
     "familia": "granulador"
    },
@@ -38331,6 +38777,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Balanza calibrada; Calibre calibrado; Material volumétrico calibrado",
     "analisis": "si",
     "familia": "granulador"
    },
@@ -38371,6 +38818,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Analizador de potencia calibrado",
     "analisis": "si",
     "familia": "granulador"
    },
@@ -38411,6 +38859,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Material volumétrico calibrado",
     "analisis": "si",
     "familia": "granulador"
    },
@@ -38451,6 +38900,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Analizador de potencia calibrado",
     "analisis": "si",
     "familia": "granulador"
    },
@@ -38491,6 +38941,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Termómetro/termopar calibrado",
     "analisis": "si",
     "familia": "granulador"
    },
@@ -38531,6 +38982,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Balanza calibrada; Calibre calibrado; Material volumétrico calibrado",
     "analisis": "si",
     "familia": "granulador"
    },
@@ -38611,6 +39063,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Balanza calibrada; Calibre calibrado; Material volumétrico calibrado",
     "analisis": "si",
     "familia": "granulador"
    },
@@ -38811,6 +39264,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Calibre calibrado",
     "analisis": "si",
     "familia": "granulador"
    },
@@ -38946,6 +39400,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Colorímetro calibrado",
     "analisis": "si",
     "familia": "recubridora"
    },
@@ -38986,6 +39441,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Colorímetro calibrado",
     "analisis": "si",
     "familia": "recubridora"
    },
@@ -39026,6 +39482,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Colorímetro calibrado",
     "analisis": "si",
     "familia": "recubridora"
    },
@@ -39106,6 +39563,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Balanza calibrada",
     "analisis": "si",
     "familia": "recubridora"
    },
@@ -39146,6 +39604,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Colorímetro calibrado",
     "analisis": "si",
     "familia": "recubridora"
    },
@@ -39186,6 +39645,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Colorímetro calibrado",
     "analisis": "si",
     "familia": "recubridora"
    },
@@ -39425,6 +39885,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Termómetro/termopar calibrado",
     "analisis": "si",
     "familia": "recubridora"
    },
@@ -39465,6 +39926,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Caudalímetro calibrado; Balanza calibrada",
     "analisis": "si",
     "familia": "recubridora"
    },
@@ -39545,6 +40007,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Termómetro/termopar calibrado",
     "analisis": "si",
     "familia": "recubridora"
    },
@@ -39585,6 +40048,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Viscosímetro calibrado",
     "analisis": "si",
     "familia": "recubridora"
    },
@@ -39920,6 +40384,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Calibre calibrado",
     "analisis": "si",
     "familia": "blistera"
    },
@@ -39999,6 +40464,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Calibre calibrado",
     "analisis": "si",
     "familia": "blistera"
    },
@@ -40311,6 +40777,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Termómetro/termopar calibrado; Manómetro calibrado",
     "analisis": "si",
     "familia": "blistera"
    },
@@ -40431,6 +40898,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Balanza calibrada",
     "analisis": "si",
     "familia": "blistera"
    },
@@ -41136,6 +41604,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Calibre calibrado",
     "analisis": "si",
     "familia": "etiquetadora"
    },
@@ -41176,6 +41645,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Calibre calibrado",
     "analisis": "si",
     "familia": "etiquetadora"
    },
@@ -41216,6 +41686,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Calibre calibrado",
     "analisis": "si",
     "familia": "etiquetadora"
    },
@@ -41256,6 +41727,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Calibre calibrado",
     "analisis": "si",
     "familia": "etiquetadora"
    },
@@ -41296,6 +41768,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Calibre calibrado",
     "familia": "etiquetadora"
    },
    {
@@ -41749,6 +42222,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Calibre calibrado",
     "familia": "etiquetadora"
    },
    {
@@ -41995,6 +42469,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Balanza calibrada; Calibre calibrado; Material volumétrico calibrado",
     "familia": "lecho-fluido"
    },
    {
@@ -42034,6 +42509,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Balanza de humedad calibrada",
     "familia": "lecho-fluido"
    },
    {
@@ -42073,6 +42549,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Balanza de humedad calibrada",
     "familia": "lecho-fluido"
    },
    {
@@ -42112,6 +42589,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Balanza calibrada; Balanza de humedad calibrada",
     "analisis": "si",
     "familia": "lecho-fluido"
    },
@@ -42152,6 +42630,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Balanza de humedad calibrada",
     "analisis": "si",
     "familia": "lecho-fluido"
    },
@@ -42192,6 +42671,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Balanza calibrada; Calibre calibrado; Material volumétrico calibrado",
     "analisis": "si",
     "familia": "lecho-fluido"
    },
@@ -42337,6 +42817,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Vacuómetro/manómetro calibrado",
     "familia": "lecho-fluido"
    },
    {
@@ -42416,6 +42897,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Termómetro/termopar calibrado",
     "analisis": "si",
     "familia": "lecho-fluido"
    },
@@ -42456,6 +42938,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Termómetro/termopar calibrado",
     "analisis": "si",
     "familia": "lecho-fluido"
    },
@@ -42531,6 +43014,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Balanza de humedad calibrada",
     "analisis": "si",
     "familia": "lecho-fluido"
    },
@@ -42735,6 +43219,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Termómetro/termopar calibrado",
     "analisis": "si",
     "familia": "autoclave"
    },
@@ -42775,6 +43260,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Cronómetro calibrado",
     "analisis": "si",
     "familia": "autoclave"
    },
@@ -42815,6 +43301,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Termómetro/termopar calibrado",
     "familia": "autoclave"
    },
    {
@@ -42854,6 +43341,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Termómetro/termopar calibrado",
     "analisis": "si",
     "familia": "autoclave"
    },
@@ -42894,6 +43382,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Cronómetro calibrado",
     "analisis": "si",
     "familia": "autoclave"
    },
@@ -42969,6 +43458,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Incubadora calibrada",
     "familia": "autoclave"
    },
    {
@@ -43008,6 +43498,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Termómetro/termopar calibrado",
     "analisis": "si",
     "familia": "autoclave"
    },
@@ -43048,6 +43539,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Termómetro/termopar calibrado",
     "analisis": "si",
     "familia": "autoclave"
    },
@@ -43088,6 +43580,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Termómetro/termopar calibrado",
     "analisis": "si",
     "familia": "autoclave"
    },
@@ -43128,6 +43621,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Cronómetro calibrado",
     "analisis": "si",
     "familia": "autoclave"
    },
@@ -43203,6 +43697,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Termómetro/termopar calibrado; Manómetro calibrado",
     "analisis": "si",
     "familia": "autoclave"
    },
@@ -43243,6 +43738,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Vacuómetro/manómetro calibrado",
     "analisis": "si",
     "familia": "autoclave"
    },
@@ -43283,6 +43779,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Cronómetro calibrado",
     "familia": "autoclave"
    },
    {
@@ -43585,6 +44082,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Tacómetro calibrado",
     "analisis": "si",
     "familia": "mezclador"
    },
@@ -43945,6 +44443,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Balanza calibrada; Material volumétrico calibrado; Densímetro calibrado",
     "analisis": "si",
     "familia": "mezclador"
    },
@@ -43985,6 +44484,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Calibre calibrado",
     "analisis": "si",
     "familia": "mezclador"
    },
@@ -44229,6 +44729,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Termómetro/termopar calibrado",
     "analisis": "si",
     "familia": "horno-secado"
    },
@@ -44269,6 +44770,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Termómetro/termopar calibrado",
     "analisis": "si",
     "familia": "horno-secado"
    },
@@ -44309,6 +44811,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Termómetro/termopar calibrado",
     "analisis": "si",
     "familia": "horno-secado"
    },
@@ -44349,6 +44852,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Cronómetro calibrado",
     "analisis": "si",
     "familia": "horno-secado"
    },
@@ -44389,6 +44893,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Termómetro/termopar calibrado",
     "analisis": "si",
     "familia": "horno-secado"
    },
@@ -44429,6 +44934,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Cronómetro calibrado",
     "analisis": "si",
     "familia": "horno-secado"
    },
@@ -44469,6 +44975,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Cronómetro calibrado",
     "analisis": "si",
     "familia": "horno-secado"
    },
@@ -44509,6 +45016,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Termómetro/termopar calibrado",
     "analisis": "si",
     "familia": "horno-secado"
    },
@@ -44549,6 +45057,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Termómetro/termopar calibrado",
     "analisis": "si",
     "familia": "horno-secado"
    },
@@ -44589,6 +45098,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Balanza de humedad calibrada",
     "analisis": "si",
     "familia": "horno-secado"
    },
@@ -44709,6 +45219,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Termómetro/termopar calibrado",
     "analisis": "si",
     "familia": "horno-secado"
    },
@@ -44749,6 +45260,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Cronómetro calibrado",
     "familia": "horno-secado"
    },
    {
@@ -44823,6 +45335,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Termómetro/termopar calibrado",
     "analisis": "si",
     "familia": "horno-secado"
    },
@@ -45062,6 +45575,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Balanza de humedad calibrada",
     "analisis": "si",
     "familia": "horno-vacio"
    },
@@ -45102,6 +45616,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Balanza de humedad calibrada",
     "analisis": "si",
     "familia": "horno-vacio"
    },
@@ -45142,6 +45657,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Balanza de humedad calibrada",
     "analisis": "si",
     "familia": "horno-vacio"
    },
@@ -45182,6 +45698,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Balanza de humedad calibrada",
     "analisis": "si",
     "familia": "horno-vacio"
    },
@@ -45222,6 +45739,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Balanza calibrada",
     "analisis": "si",
     "familia": "horno-vacio"
    },
@@ -45262,6 +45780,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Termómetro/termopar calibrado",
     "analisis": "si",
     "familia": "horno-vacio"
    },
@@ -45302,6 +45821,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Termómetro/termopar calibrado",
     "analisis": "si",
     "familia": "horno-vacio"
    },
@@ -45342,6 +45862,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Vacuómetro/manómetro calibrado",
     "analisis": "si",
     "familia": "horno-vacio"
    },
@@ -45382,6 +45903,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Balanza de humedad calibrada",
     "analisis": "si",
     "familia": "horno-vacio"
    },
@@ -45462,6 +45984,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Analizador de gases calibrado",
     "familia": "horno-vacio"
    },
    {
@@ -45621,6 +46144,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Termómetro/termopar calibrado",
     "analisis": "si",
     "familia": "refrigerador-lab"
    },
@@ -45661,6 +46185,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Termómetro/termopar calibrado",
     "analisis": "si",
     "familia": "refrigerador-lab"
    },
@@ -45741,6 +46266,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Termómetro/termopar calibrado",
     "analisis": "si",
     "familia": "refrigerador-lab"
    },
@@ -45781,6 +46307,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Cronómetro calibrado",
     "analisis": "si",
     "familia": "refrigerador-lab"
    },
@@ -45821,6 +46348,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Cronómetro calibrado",
     "analisis": "si",
     "familia": "refrigerador-lab"
    },
@@ -45861,6 +46389,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Cronómetro calibrado",
     "analisis": "si",
     "familia": "refrigerador-lab"
    },
@@ -45901,6 +46430,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Termómetro/termopar calibrado",
     "analisis": "si",
     "familia": "refrigerador-lab"
    },
@@ -45981,6 +46511,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Termómetro/termopar calibrado",
     "analisis": "si",
     "familia": "refrigerador-lab"
    },
@@ -46021,6 +46552,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Termómetro/termopar calibrado",
     "analisis": "si",
     "familia": "refrigerador-lab"
    },
@@ -46061,6 +46593,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Cronómetro calibrado",
     "familia": "refrigerador-lab"
    },
    {
@@ -46139,6 +46672,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Cronómetro calibrado",
     "familia": "refrigerador-lab"
    },
    {
@@ -46178,6 +46712,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Termómetro/termopar calibrado",
     "analisis": "si",
     "familia": "refrigerador-lab"
    },
@@ -46348,6 +46883,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Termómetro/termopar calibrado",
     "analisis": "si",
     "familia": "congelador-lab"
    },
@@ -46388,6 +46924,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Termómetro/termopar calibrado",
     "analisis": "si",
     "familia": "congelador-lab"
    },
@@ -46468,6 +47005,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Termómetro/termopar calibrado",
     "analisis": "si",
     "familia": "congelador-lab"
    },
@@ -46508,6 +47046,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Cronómetro calibrado",
     "analisis": "si",
     "familia": "congelador-lab"
    },
@@ -46548,6 +47087,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Cronómetro calibrado",
     "analisis": "si",
     "familia": "congelador-lab"
    },
@@ -46588,6 +47128,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Cronómetro calibrado",
     "analisis": "si",
     "familia": "congelador-lab"
    },
@@ -46628,6 +47169,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Termómetro/termopar calibrado",
     "analisis": "si",
     "familia": "congelador-lab"
    },
@@ -46708,6 +47250,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Termómetro/termopar calibrado",
     "analisis": "si",
     "familia": "congelador-lab"
    },
@@ -46748,6 +47291,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Termómetro/termopar calibrado",
     "analisis": "si",
     "familia": "congelador-lab"
    },
@@ -46788,6 +47332,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Cronómetro calibrado",
     "familia": "congelador-lab"
    },
    {
@@ -46866,6 +47411,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Cronómetro calibrado",
     "familia": "congelador-lab"
    },
    {
@@ -46905,6 +47451,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Termómetro/termopar calibrado",
     "analisis": "si",
     "familia": "congelador-lab"
    },
@@ -47075,6 +47622,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Termómetro/termopar calibrado",
     "analisis": "si",
     "familia": "liofilizador"
    },
@@ -47115,6 +47663,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Termómetro/termopar calibrado",
     "analisis": "si",
     "familia": "liofilizador"
    },
@@ -47459,6 +48008,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Termómetro/termopar calibrado",
     "analisis": "si",
     "familia": "tunel-despirogenizacion"
    },
@@ -47499,6 +48049,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Cronómetro calibrado",
     "analisis": "si",
     "familia": "tunel-despirogenizacion"
    },
@@ -47758,6 +48309,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Balanza de humedad calibrada",
     "analisis": "si",
     "familia": "secador-bandejas"
    },
@@ -47798,6 +48350,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Balanza de humedad calibrada",
     "analisis": "si",
     "familia": "secador-bandejas"
    },
@@ -47838,6 +48391,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Balanza calibrada",
     "analisis": "si",
     "familia": "secador-bandejas"
    },
@@ -47878,6 +48432,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Balanza de humedad calibrada",
     "analisis": "si",
     "familia": "secador-bandejas"
    },
@@ -48098,6 +48653,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Balanza de humedad calibrada",
     "analisis": "si",
     "familia": "secador-tambor"
    },
@@ -48138,6 +48694,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Balanza de humedad calibrada",
     "analisis": "si",
     "familia": "secador-tambor"
    },
@@ -48178,6 +48735,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Balanza calibrada",
     "analisis": "si",
     "familia": "secador-tambor"
    },
@@ -48218,6 +48776,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Balanza de humedad calibrada",
     "analisis": "si",
     "familia": "secador-tambor"
    },
@@ -48438,6 +48997,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Contador de partículas calibrado",
     "analisis": "si",
     "familia": "cabina-flujo"
    },
@@ -48478,6 +49038,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Cronómetro calibrado",
     "analisis": "si",
     "familia": "cabina-flujo"
    },
@@ -48782,6 +49343,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Contador de partículas calibrado",
     "analisis": "si",
     "familia": "cabina-bioseguridad"
    },
@@ -48822,6 +49384,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Contador de partículas calibrado",
     "analisis": "si",
     "familia": "cabina-bioseguridad"
    },
@@ -48862,6 +49425,7 @@ var BancoEquipos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Cronómetro calibrado",
     "analisis": "si",
     "familia": "cabina-bioseguridad"
    },

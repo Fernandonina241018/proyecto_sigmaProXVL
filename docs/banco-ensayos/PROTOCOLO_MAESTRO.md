@@ -150,6 +150,13 @@ Todo ensayo de bloques 2-3 usa las mismas seis secciones, en este orden:
 - El generador conserva la marca solo para el texto: nunca deja marcadores de control en el DOCX.
 - **Lista de confirmación:** `npm run banco:check -- --por-confirmar` imprime, por familia y ensayo, cada valor propuesto. Es la lista que firma el responsable; se genera desde el banco, no se mantiene a mano.
 
+### 5.6 Instrumentos por ensayo — nombre en el banco, ID en el protocolo
+
+- El banco declara en `data-instrumentos` el **nombre genérico** del instrumento que el ensayo ya exige: se toma de una mención explícita del procedimiento o de la unidad del plan estadístico (ej. °C → termómetro/termopar; mg → balanza; rpm → tacómetro).
+- El **ID, número de serie y certificado** los completa el analista en la tabla de instrumentos del protocolo (bloque 2). El banco no inventa identificadores.
+- Los ensayos **documentales o visuales** (diagrama de flujo, guardas, certificados, revisión de registros) quedan sin instrumento: no se rellena con un nombre genérico.
+- Si el ensayo mide y el instrumento no se puede inferir con seguridad, se deja vacío y aparece en `banco:check` como «falta instrumentos» para que el SME lo complete.
+
 ## 6. Criterios de aceptación
 
 - [x] Las 18 familias con protocolo tienen bloques 6 y 8 (9 prioritarias + 9 backfill).
