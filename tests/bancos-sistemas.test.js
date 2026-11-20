@@ -94,3 +94,36 @@ describe('banco de sistemas: contrato', () => {
     expect(hits.map((x) => x.id)).toEqual([]);
   });
 });
+
+describe('sistemas: instrumentos declarados como guía', () => {
+  const ensayos = Object.entries(B.fases).flatMap(([fase, xs]) => xs.map((x) => ({ ...x, fase })))
+    .filter((e) => e.kind === 'ensayo' && (e.bloque === 2 || e.bloque === 3));
+  const sec = (e, pre) => (e.secciones || []).find((s) => String(s.et || '').startsWith(pre)) || {};
+  const medibles = ensayos.filter((e) => /Tipo de dato = (continua|analitico)/.test(String(sec(e, 'Plan estadístico').html || '')));
+
+  it('los ensayos medibles declaran el instrumento (≥ 85 %)', () => {
+    const con = medibles.filter((e) => String(e.instrumentos || '').trim()).length;
+    expect(con / medibles.length).toBeGreaterThanOrEqual(0.85);
+  });
+
+  it('casos conocidos traen el instrumento correcto', () => {
+    const esperado = {
+      'SIS-OQ-HV-014': /fot[oó]metro/i,
+      'SIS-PQ-HV-001': /contador de part[ií]culas/i,
+      'SIS-PQ-AP-015': /LAL|endotoxinas/i,
+      'SIS-OQ-AP-021': /caudal[ií]metro/i,
+      'SIS-OQ-AC-013': /punto de roc[ií]o/i,
+    };
+    for (const [id, re] of Object.entries(esperado)) {
+      const e = ensayos.find((x) => x.id === id);
+      expect(String(e && e.instrumentos), id).toMatch(re);
+    }
+  });
+
+  it('no inventa IDs ni certificados en el campo', () => {
+    const conIds = ensayos
+      .filter((e) => /certificado\s*(n[o°]|no\.)|n[o°]\s*de\s*serie/i.test(String(e.instrumentos || '')))
+      .map((e) => e.id);
+    expect(conIds).toEqual([]);
+  });
+});
