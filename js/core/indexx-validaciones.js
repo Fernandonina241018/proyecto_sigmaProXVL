@@ -1742,10 +1742,13 @@ const Validaciones = (() => {
         for (let i = 0; i < sel.fases.length; i++) {
           const f = sel.fases[i];
           setGenMsg('Generando ' + f + '… (' + (i + 1) + '/' + sel.fases.length + ')', true);
-          // DQ de equipos/estabilidad/sistemas: scaffold desde la plantilla DQ
-          // con los datos del borrador. Almacenes conserva su DQ con contenido.
-          if (f === 'DQ' && catId !== 'almacenes' && typeof PlantillaDocx !== 'undefined' && PlantillaDocx.descargarDQ) {
-            const rDQ = await PlantillaDocx.descargarDQ(draft, ent, registrar);
+          // DQ: siempre desde la plantilla DQ. Almacenes anexa los ensayos de
+          // diseño del banco para no perder su contenido.
+          if (f === 'DQ' && typeof PlantillaDocx !== 'undefined' && PlantillaDocx.descargarDQ) {
+            const ensayosDQ = catId === 'almacenes' && typeof BancoAlmacenes !== 'undefined'
+              ? ((BancoAlmacenes.fases || {}).DQ || []).filter((x) => x.kind === 'ensayo')
+              : null;
+            const rDQ = await PlantillaDocx.descargarDQ(draft, ent, registrar, ensayosDQ);
             if (rDQ && rDQ.avisos && rDQ.avisos.length) setGenMsg('[' + f + '] ' + rDQ.avisos[0], true);
           } else if (typeof PlantillaDocx !== 'undefined' && PlantillaDocx.soporta(f)) {
             if (typeof window !== 'undefined' && (typeof DecompressionStream === 'undefined' || typeof CompressionStream === 'undefined')) {
