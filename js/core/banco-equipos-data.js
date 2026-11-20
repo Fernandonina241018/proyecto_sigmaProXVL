@@ -1,7 +1,7 @@
 // Generado por scripts/extraer-banco.mjs equipos — NO EDITAR A MANO.
-// Fuente: docs/banco-ensayos/equipos-comun.html + docs/banco-ensayos/equipos/oq-comun.html + docs/banco-ensayos/equipos/pq-comun.html + docs/banco-ensayos/equipos/iq-autoclave.html + docs/banco-ensayos/equipos/iq-tunel-despirogenizacion.html + docs/banco-ensayos/equipos/iq-liofilizador.html + docs/banco-ensayos/equipos/iq-reactor.html + docs/banco-ensayos/equipos/iq-horno-vacio.html + docs/banco-ensayos/equipos/iq-llenadora.html + docs/banco-ensayos/equipos/oq-llenadora.html + docs/banco-ensayos/equipos/oq-llenadora-tubos.html + docs/banco-ensayos/equipos/pq-llenadora.html + docs/banco-ensayos/equipos/pq-llenadora-tubos.html + docs/banco-ensayos/equipos/iq-lecho-fluido.html + docs/banco-ensayos/equipos/iq-tableteadora.html + docs/banco-ensayos/equipos/iq-encapsuladora.html + docs/banco-ensayos/equipos/iq-granulador.html + docs/banco-ensayos/equipos/iq-recubridora.html + docs/banco-ensayos/equipos/iq-blistera.html + docs/banco-ensayos/equipos/iq-detector-metales.html + docs/banco-ensayos/equipos/iq-etiquetadora.html + docs/banco-ensayos/equipos/iq-mezclador.html + docs/banco-ensayos/equipos/iq-horno-secado.html + docs/banco-ensayos/equipos/iq-sistema-cremas-vacio.html + docs/banco-ensayos/equipos/oq-reactor.html + docs/banco-ensayos/equipos/pq-reactor.html + docs/banco-ensayos/equipos/oq-sistema-cremas-vacio.html + docs/banco-ensayos/equipos/pq-sistema-cremas-vacio.html + docs/banco-ensayos/equipos/oq-tableteadora.html + docs/banco-ensayos/equipos/pq-tableteadora.html + docs/banco-ensayos/equipos/oq-encapsuladora.html + docs/banco-ensayos/equipos/pq-encapsuladora.html + docs/banco-ensayos/equipos/oq-granulador.html + docs/banco-ensayos/equipos/pq-granulador.html + docs/banco-ensayos/equipos/oq-recubridora.html + docs/banco-ensayos/equipos/pq-recubridora.html + docs/banco-ensayos/equipos/oq-blistera.html + docs/banco-ensayos/equipos/pq-blistera.html + docs/banco-ensayos/equipos/oq-detector-metales.html + docs/banco-ensayos/equipos/pq-detector-metales.html + docs/banco-ensayos/equipos/oq-etiquetadora.html + docs/banco-ensayos/equipos/pq-etiquetadora.html + docs/banco-ensayos/equipos/oq-lecho-fluido.html + docs/banco-ensayos/equipos/oq-autoclave.html + docs/banco-ensayos/equipos/oq-mezclador.html + docs/banco-ensayos/equipos/oq-horno.html + docs/banco-ensayos/equipos/pq-lecho-fluido.html + docs/banco-ensayos/equipos/pq-autoclave.html + docs/banco-ensayos/equipos/pq-mezclador.html + docs/banco-ensayos/equipos/pq-horno.html + docs/banco-ensayos/equipos/pq-horno-vacio.html + docs/banco-ensayos/equipos/oq-horno-vacio.html + docs/banco-ensayos/equipos/oq-refrigerador-lab.html + docs/banco-ensayos/equipos/pq-refrigerador-lab.html + docs/banco-ensayos/equipos/oq-congelador-lab.html + docs/banco-ensayos/equipos/pq-congelador-lab.html + docs/banco-ensayos/equipos/oq-balanza.html + docs/banco-ensayos/equipos/oq-viscosimetro.html + docs/banco-ensayos/equipos/oq-liofilizador.html + docs/banco-ensayos/equipos/pq-liofilizador.html + docs/banco-ensayos/equipos/oq-tunel-despirogenizacion.html + docs/banco-ensayos/equipos/pq-tunel-despirogenizacion.html + docs/banco-ensayos/equipos/oq-secador-bandejas.html + docs/banco-ensayos/equipos/pq-secador-bandejas.html + docs/banco-ensayos/equipos/oq-secador-tambor.html + docs/banco-ensayos/equipos/pq-secador-tambor.html + docs/banco-ensayos/equipos/oq-cabina-flujo.html + docs/banco-ensayos/equipos/pq-cabina-flujo.html + docs/banco-ensayos/equipos/oq-cabina-bioseguridad.html + docs/banco-ensayos/equipos/pq-cabina-bioseguridad.html + docs/banco-ensayos/equipos/oq-phmetro.html + docs/banco-ensayos/equipos/oq-espectrofotometro.html + docs/banco-ensayos/equipos/oq-espectrofotometro-ir.html + docs/banco-ensayos/equipos/oq-espectrometro.html + docs/banco-ensayos/equipos/oq-hplc.html + docs/banco-ensayos/equipos/oq-gc.html + docs/banco-ensayos/equipos/oq-disolutor.html + docs/banco-ensayos/equipos/oq-desintegrador.html + docs/banco-ensayos/equipos/oq-friabilometro.html + docs/banco-ensayos/equipos/oq-durometro.html + docs/banco-ensayos/equipos/oq-karl-fischer.html + docs/banco-ensayos/equipos/oq-toc.html + docs/banco-ensayos/equipos/oq-incubadora.html + docs/banco-ensayos/equipos/oq-centrifuga.html + docs/banco-ensayos/equipos/oq-termometro.html (versión: EQ-COMUN 2026-11-04 v4 + EQ-OQ-COM 2026-11-04 v3 + EQ-PQ-COM 2026-11-04 v3 + EQ-IQ-AU 2026-10-07 v1 + EQ-IQ-TD 2026-10-07 v1 + EQ-IQ-LI 2026-10-07 v1 + EQ-IQ-RC 2026-10-21 v2 + EQ-IQ-VA 2026-10-21 v2 + EQ-IQ-LL 2026-10-29 v3 + EQ-OQ-LL 2026-10-29 v2 + EQ-OQ-LT 2026-10-29 v2 + EQ-PQ-LL 2026-10-29 v2 + EQ-PQ-LT 2026-10-29 v4 + EQ-IQ-LF 2026-10-07 v1 + EQ-IQ-TB 2026-10-08 v1 + EQ-IQ-EN 2026-10-08 v1 + EQ-IQ-GR 2026-10-08 v1 + EQ-IQ-RB 2026-10-09 v1 + EQ-IQ-BL 2026-10-09 v1 + EQ-IQ-DM 2026-10-11 v1 + EQ-IQ-ET 2026-10-11 v1 + EQ-IQ-MZ 2026-10-11 v1 + EQ-IQ-HO 2026-10-11 v1 + EQ-IQ-UC 2026-10-21 v2 + EQ-OQ-RC 2026-10-07 v1 + EQ-PQ-RC 2026-10-07 v1 + EQ-OQ-UC 2026-10-12 v1 + EQ-PQ-UC 2026-10-12 v1 + EQ-OQ-TB 2026-10-08 v1 + EQ-PQ-TB 2026-10-08 v1 + EQ-OQ-EN 2026-10-08 v1 + EQ-PQ-EN 2026-10-08 v1 + EQ-OQ-GR 2026-10-08 v1 + EQ-PQ-GR 2026-10-08 v1 + EQ-OQ-RB 2026-10-09 v1 + EQ-PQ-RB 2026-10-09 v1 + EQ-OQ-BL 2026-10-09 v1 + EQ-PQ-BL 2026-10-09 v1 + EQ-OQ-DM 2026-10-11 v1 + EQ-PQ-DM 2026-10-11 v1 + EQ-OQ-ET 2026-10-11 v1 + EQ-PQ-ET 2026-10-11 v1 + EQ-OQ-LF 2026-10-21 v3 + EQ-OQ-AU 2026-10-21 v3 + EQ-OQ-MZ 2026-10-21 v3 + EQ-OQ-HO 2026-10-21 v2 + EQ-PQ-LF 2026-10-21 v3 + EQ-PQ-AU 2026-10-21 v3 + EQ-PQ-MZ 2026-10-21 v3 + EQ-PQ-HO 2026-10-21 v2 + EQ-PQ-VA 2026-10-21 v2 + EQ-OQ-VA 2026-10-21 v2 + EQ-OQ-RF 2026-10-14 v1 + EQ-PQ-RF 2026-11-06 v2 + EQ-OQ-CG 2026-10-14 v1 + EQ-PQ-CG 2026-11-06 v2 + EQ-OQ-BA 2026-10-22 v1 + EQ-OQ-VS 2026-11-06 v1 + EQ-OQ-LI 2026-11-08 v1 + EQ-PQ-LI 2026-11-08 v1 + EQ-OQ-TD 2026-11-08 v1 + EQ-PQ-TD 2026-11-08 v1 + EQ-OQ-SB 2026-11-08 v1 + EQ-PQ-SB 2026-11-08 v1 + EQ-OQ-ST 2026-11-08 v1 + EQ-PQ-ST 2026-11-08 v1 + EQ-OQ-CF 2026-11-08 v1 + EQ-PQ-CF 2026-11-08 v1 + EQ-OQ-CB 2026-11-08 v1 + EQ-PQ-CB 2026-11-08 v1 + EQ-OQ-PH 2026-11-08 v1 + EQ-OQ-UV 2026-11-08 v1 + EQ-OQ-IR 2026-11-08 v1 + EQ-OQ-ES 2026-11-08 v1 + EQ-OQ-HL 2026-11-08 v1 + EQ-OQ-GC 2026-11-08 v1 + EQ-OQ-DS 2026-11-08 v1 + EQ-OQ-DI 2026-11-08 v1 + EQ-OQ-FR 2026-11-08 v1 + EQ-OQ-DU 2026-11-08 v1 + EQ-OQ-KF 2026-11-08 v1 + EQ-OQ-TO 2026-11-08 v1 + EQ-OQ-IN 2026-11-08 v1 + EQ-OQ-CE 2026-11-08 v1 + EQ-OQ-TE 2026-11-08 v1).
+// Fuente: docs/banco-ensayos/equipos-comun.html + docs/banco-ensayos/equipos/oq-comun.html + docs/banco-ensayos/equipos/pq-comun.html + docs/banco-ensayos/equipos/iq-autoclave.html + docs/banco-ensayos/equipos/iq-tunel-despirogenizacion.html + docs/banco-ensayos/equipos/iq-liofilizador.html + docs/banco-ensayos/equipos/iq-reactor.html + docs/banco-ensayos/equipos/iq-horno-vacio.html + docs/banco-ensayos/equipos/iq-llenadora.html + docs/banco-ensayos/equipos/oq-llenadora.html + docs/banco-ensayos/equipos/oq-llenadora-tubos.html + docs/banco-ensayos/equipos/pq-llenadora.html + docs/banco-ensayos/equipos/pq-llenadora-tubos.html + docs/banco-ensayos/equipos/iq-lecho-fluido.html + docs/banco-ensayos/equipos/iq-tableteadora.html + docs/banco-ensayos/equipos/iq-encapsuladora.html + docs/banco-ensayos/equipos/iq-granulador.html + docs/banco-ensayos/equipos/iq-recubridora.html + docs/banco-ensayos/equipos/iq-blistera.html + docs/banco-ensayos/equipos/iq-detector-metales.html + docs/banco-ensayos/equipos/iq-etiquetadora.html + docs/banco-ensayos/equipos/iq-mezclador.html + docs/banco-ensayos/equipos/iq-horno-secado.html + docs/banco-ensayos/equipos/iq-sistema-cremas-vacio.html + docs/banco-ensayos/equipos/iq-llenadora-tubos.html + docs/banco-ensayos/equipos/iq-secador-bandejas.html + docs/banco-ensayos/equipos/iq-secador-tambor.html + docs/banco-ensayos/equipos/iq-refrigerador-lab.html + docs/banco-ensayos/equipos/iq-congelador-lab.html + docs/banco-ensayos/equipos/iq-cabina-flujo.html + docs/banco-ensayos/equipos/iq-cabina-bioseguridad.html + docs/banco-ensayos/equipos/oq-reactor.html + docs/banco-ensayos/equipos/pq-reactor.html + docs/banco-ensayos/equipos/oq-sistema-cremas-vacio.html + docs/banco-ensayos/equipos/pq-sistema-cremas-vacio.html + docs/banco-ensayos/equipos/oq-tableteadora.html + docs/banco-ensayos/equipos/pq-tableteadora.html + docs/banco-ensayos/equipos/oq-encapsuladora.html + docs/banco-ensayos/equipos/pq-encapsuladora.html + docs/banco-ensayos/equipos/oq-granulador.html + docs/banco-ensayos/equipos/pq-granulador.html + docs/banco-ensayos/equipos/oq-recubridora.html + docs/banco-ensayos/equipos/pq-recubridora.html + docs/banco-ensayos/equipos/oq-blistera.html + docs/banco-ensayos/equipos/pq-blistera.html + docs/banco-ensayos/equipos/oq-detector-metales.html + docs/banco-ensayos/equipos/pq-detector-metales.html + docs/banco-ensayos/equipos/oq-etiquetadora.html + docs/banco-ensayos/equipos/pq-etiquetadora.html + docs/banco-ensayos/equipos/oq-lecho-fluido.html + docs/banco-ensayos/equipos/oq-autoclave.html + docs/banco-ensayos/equipos/oq-mezclador.html + docs/banco-ensayos/equipos/oq-horno.html + docs/banco-ensayos/equipos/pq-lecho-fluido.html + docs/banco-ensayos/equipos/pq-autoclave.html + docs/banco-ensayos/equipos/pq-mezclador.html + docs/banco-ensayos/equipos/pq-horno.html + docs/banco-ensayos/equipos/pq-horno-vacio.html + docs/banco-ensayos/equipos/oq-horno-vacio.html + docs/banco-ensayos/equipos/oq-refrigerador-lab.html + docs/banco-ensayos/equipos/pq-refrigerador-lab.html + docs/banco-ensayos/equipos/oq-congelador-lab.html + docs/banco-ensayos/equipos/pq-congelador-lab.html + docs/banco-ensayos/equipos/oq-balanza.html + docs/banco-ensayos/equipos/oq-viscosimetro.html + docs/banco-ensayos/equipos/oq-liofilizador.html + docs/banco-ensayos/equipos/pq-liofilizador.html + docs/banco-ensayos/equipos/oq-tunel-despirogenizacion.html + docs/banco-ensayos/equipos/pq-tunel-despirogenizacion.html + docs/banco-ensayos/equipos/oq-secador-bandejas.html + docs/banco-ensayos/equipos/pq-secador-bandejas.html + docs/banco-ensayos/equipos/oq-secador-tambor.html + docs/banco-ensayos/equipos/pq-secador-tambor.html + docs/banco-ensayos/equipos/oq-cabina-flujo.html + docs/banco-ensayos/equipos/pq-cabina-flujo.html + docs/banco-ensayos/equipos/oq-cabina-bioseguridad.html + docs/banco-ensayos/equipos/pq-cabina-bioseguridad.html + docs/banco-ensayos/equipos/oq-phmetro.html + docs/banco-ensayos/equipos/oq-espectrofotometro.html + docs/banco-ensayos/equipos/oq-espectrofotometro-ir.html + docs/banco-ensayos/equipos/oq-espectrometro.html + docs/banco-ensayos/equipos/oq-hplc.html + docs/banco-ensayos/equipos/oq-gc.html + docs/banco-ensayos/equipos/oq-disolutor.html + docs/banco-ensayos/equipos/oq-desintegrador.html + docs/banco-ensayos/equipos/oq-friabilometro.html + docs/banco-ensayos/equipos/oq-durometro.html + docs/banco-ensayos/equipos/oq-karl-fischer.html + docs/banco-ensayos/equipos/oq-toc.html + docs/banco-ensayos/equipos/oq-incubadora.html + docs/banco-ensayos/equipos/oq-centrifuga.html + docs/banco-ensayos/equipos/oq-termometro.html (versión: EQ-COMUN 2026-11-04 v4 + EQ-OQ-COM 2026-11-04 v3 + EQ-PQ-COM 2026-11-04 v3 + EQ-IQ-AU 2026-10-07 v1 + EQ-IQ-TD 2026-10-07 v1 + EQ-IQ-LI 2026-10-07 v1 + EQ-IQ-RC 2026-10-21 v2 + EQ-IQ-VA 2026-10-21 v2 + EQ-IQ-LL 2026-10-29 v3 + EQ-OQ-LL 2026-10-29 v2 + EQ-OQ-LT 2026-10-29 v2 + EQ-PQ-LL 2026-10-29 v2 + EQ-PQ-LT 2026-10-29 v4 + EQ-IQ-LF 2026-10-07 v1 + EQ-IQ-TB 2026-10-08 v1 + EQ-IQ-EN 2026-10-08 v1 + EQ-IQ-GR 2026-10-08 v1 + EQ-IQ-RB 2026-10-09 v1 + EQ-IQ-BL 2026-10-09 v1 + EQ-IQ-DM 2026-10-11 v1 + EQ-IQ-ET 2026-10-11 v1 + EQ-IQ-MZ 2026-10-11 v1 + EQ-IQ-HO 2026-10-11 v1 + EQ-IQ-UC 2026-10-21 v2 + EQ-IQ-LT 2026-11-19 v1 + EQ-IQ-SB 2026-11-19 v1 + EQ-IQ-ST 2026-11-19 v1 + EQ-IQ-RF 2026-11-19 v1 + EQ-IQ-CG 2026-11-19 v1 + EQ-IQ-CF 2026-11-19 v1 + EQ-IQ-CB 2026-11-19 v1 + EQ-OQ-RC 2026-10-07 v1 + EQ-PQ-RC 2026-10-07 v1 + EQ-OQ-UC 2026-10-12 v1 + EQ-PQ-UC 2026-10-12 v1 + EQ-OQ-TB 2026-10-08 v1 + EQ-PQ-TB 2026-10-08 v1 + EQ-OQ-EN 2026-10-08 v1 + EQ-PQ-EN 2026-10-08 v1 + EQ-OQ-GR 2026-10-08 v1 + EQ-PQ-GR 2026-10-08 v1 + EQ-OQ-RB 2026-10-09 v1 + EQ-PQ-RB 2026-10-09 v1 + EQ-OQ-BL 2026-10-09 v1 + EQ-PQ-BL 2026-10-09 v1 + EQ-OQ-DM 2026-10-11 v1 + EQ-PQ-DM 2026-10-11 v1 + EQ-OQ-ET 2026-10-11 v1 + EQ-PQ-ET 2026-10-11 v1 + EQ-OQ-LF 2026-10-21 v3 + EQ-OQ-AU 2026-10-21 v3 + EQ-OQ-MZ 2026-10-21 v3 + EQ-OQ-HO 2026-10-21 v2 + EQ-PQ-LF 2026-10-21 v3 + EQ-PQ-AU 2026-10-21 v3 + EQ-PQ-MZ 2026-10-21 v3 + EQ-PQ-HO 2026-10-21 v2 + EQ-PQ-VA 2026-10-21 v2 + EQ-OQ-VA 2026-10-21 v2 + EQ-OQ-RF 2026-10-14 v1 + EQ-PQ-RF 2026-11-06 v2 + EQ-OQ-CG 2026-10-14 v1 + EQ-PQ-CG 2026-11-06 v2 + EQ-OQ-BA 2026-10-22 v1 + EQ-OQ-VS 2026-11-06 v1 + EQ-OQ-LI 2026-11-08 v1 + EQ-PQ-LI 2026-11-08 v1 + EQ-OQ-TD 2026-11-08 v1 + EQ-PQ-TD 2026-11-08 v1 + EQ-OQ-SB 2026-11-08 v1 + EQ-PQ-SB 2026-11-08 v1 + EQ-OQ-ST 2026-11-08 v1 + EQ-PQ-ST 2026-11-08 v1 + EQ-OQ-CF 2026-11-08 v1 + EQ-PQ-CF 2026-11-08 v1 + EQ-OQ-CB 2026-11-08 v1 + EQ-PQ-CB 2026-11-08 v1 + EQ-OQ-PH 2026-11-08 v1 + EQ-OQ-UV 2026-11-08 v1 + EQ-OQ-IR 2026-11-08 v1 + EQ-OQ-ES 2026-11-08 v1 + EQ-OQ-HL 2026-11-08 v1 + EQ-OQ-GC 2026-11-08 v1 + EQ-OQ-DS 2026-11-08 v1 + EQ-OQ-DI 2026-11-08 v1 + EQ-OQ-FR 2026-11-08 v1 + EQ-OQ-DU 2026-11-08 v1 + EQ-OQ-KF 2026-11-08 v1 + EQ-OQ-TO 2026-11-08 v1 + EQ-OQ-IN 2026-11-08 v1 + EQ-OQ-CE 2026-11-08 v1 + EQ-OQ-TE 2026-11-08 v1).
 var BancoEquipos = {
- "version": "EQ-COMUN 2026-11-04 v4 + EQ-OQ-COM 2026-11-04 v3 + EQ-PQ-COM 2026-11-04 v3 + EQ-IQ-AU 2026-10-07 v1 + EQ-IQ-TD 2026-10-07 v1 + EQ-IQ-LI 2026-10-07 v1 + EQ-IQ-RC 2026-10-21 v2 + EQ-IQ-VA 2026-10-21 v2 + EQ-IQ-LL 2026-10-29 v3 + EQ-OQ-LL 2026-10-29 v2 + EQ-OQ-LT 2026-10-29 v2 + EQ-PQ-LL 2026-10-29 v2 + EQ-PQ-LT 2026-10-29 v4 + EQ-IQ-LF 2026-10-07 v1 + EQ-IQ-TB 2026-10-08 v1 + EQ-IQ-EN 2026-10-08 v1 + EQ-IQ-GR 2026-10-08 v1 + EQ-IQ-RB 2026-10-09 v1 + EQ-IQ-BL 2026-10-09 v1 + EQ-IQ-DM 2026-10-11 v1 + EQ-IQ-ET 2026-10-11 v1 + EQ-IQ-MZ 2026-10-11 v1 + EQ-IQ-HO 2026-10-11 v1 + EQ-IQ-UC 2026-10-21 v2 + EQ-OQ-RC 2026-10-07 v1 + EQ-PQ-RC 2026-10-07 v1 + EQ-OQ-UC 2026-10-12 v1 + EQ-PQ-UC 2026-10-12 v1 + EQ-OQ-TB 2026-10-08 v1 + EQ-PQ-TB 2026-10-08 v1 + EQ-OQ-EN 2026-10-08 v1 + EQ-PQ-EN 2026-10-08 v1 + EQ-OQ-GR 2026-10-08 v1 + EQ-PQ-GR 2026-10-08 v1 + EQ-OQ-RB 2026-10-09 v1 + EQ-PQ-RB 2026-10-09 v1 + EQ-OQ-BL 2026-10-09 v1 + EQ-PQ-BL 2026-10-09 v1 + EQ-OQ-DM 2026-10-11 v1 + EQ-PQ-DM 2026-10-11 v1 + EQ-OQ-ET 2026-10-11 v1 + EQ-PQ-ET 2026-10-11 v1 + EQ-OQ-LF 2026-10-21 v3 + EQ-OQ-AU 2026-10-21 v3 + EQ-OQ-MZ 2026-10-21 v3 + EQ-OQ-HO 2026-10-21 v2 + EQ-PQ-LF 2026-10-21 v3 + EQ-PQ-AU 2026-10-21 v3 + EQ-PQ-MZ 2026-10-21 v3 + EQ-PQ-HO 2026-10-21 v2 + EQ-PQ-VA 2026-10-21 v2 + EQ-OQ-VA 2026-10-21 v2 + EQ-OQ-RF 2026-10-14 v1 + EQ-PQ-RF 2026-11-06 v2 + EQ-OQ-CG 2026-10-14 v1 + EQ-PQ-CG 2026-11-06 v2 + EQ-OQ-BA 2026-10-22 v1 + EQ-OQ-VS 2026-11-06 v1 + EQ-OQ-LI 2026-11-08 v1 + EQ-PQ-LI 2026-11-08 v1 + EQ-OQ-TD 2026-11-08 v1 + EQ-PQ-TD 2026-11-08 v1 + EQ-OQ-SB 2026-11-08 v1 + EQ-PQ-SB 2026-11-08 v1 + EQ-OQ-ST 2026-11-08 v1 + EQ-PQ-ST 2026-11-08 v1 + EQ-OQ-CF 2026-11-08 v1 + EQ-PQ-CF 2026-11-08 v1 + EQ-OQ-CB 2026-11-08 v1 + EQ-PQ-CB 2026-11-08 v1 + EQ-OQ-PH 2026-11-08 v1 + EQ-OQ-UV 2026-11-08 v1 + EQ-OQ-IR 2026-11-08 v1 + EQ-OQ-ES 2026-11-08 v1 + EQ-OQ-HL 2026-11-08 v1 + EQ-OQ-GC 2026-11-08 v1 + EQ-OQ-DS 2026-11-08 v1 + EQ-OQ-DI 2026-11-08 v1 + EQ-OQ-FR 2026-11-08 v1 + EQ-OQ-DU 2026-11-08 v1 + EQ-OQ-KF 2026-11-08 v1 + EQ-OQ-TO 2026-11-08 v1 + EQ-OQ-IN 2026-11-08 v1 + EQ-OQ-CE 2026-11-08 v1 + EQ-OQ-TE 2026-11-08 v1",
+ "version": "EQ-COMUN 2026-11-04 v4 + EQ-OQ-COM 2026-11-04 v3 + EQ-PQ-COM 2026-11-04 v3 + EQ-IQ-AU 2026-10-07 v1 + EQ-IQ-TD 2026-10-07 v1 + EQ-IQ-LI 2026-10-07 v1 + EQ-IQ-RC 2026-10-21 v2 + EQ-IQ-VA 2026-10-21 v2 + EQ-IQ-LL 2026-10-29 v3 + EQ-OQ-LL 2026-10-29 v2 + EQ-OQ-LT 2026-10-29 v2 + EQ-PQ-LL 2026-10-29 v2 + EQ-PQ-LT 2026-10-29 v4 + EQ-IQ-LF 2026-10-07 v1 + EQ-IQ-TB 2026-10-08 v1 + EQ-IQ-EN 2026-10-08 v1 + EQ-IQ-GR 2026-10-08 v1 + EQ-IQ-RB 2026-10-09 v1 + EQ-IQ-BL 2026-10-09 v1 + EQ-IQ-DM 2026-10-11 v1 + EQ-IQ-ET 2026-10-11 v1 + EQ-IQ-MZ 2026-10-11 v1 + EQ-IQ-HO 2026-10-11 v1 + EQ-IQ-UC 2026-10-21 v2 + EQ-IQ-LT 2026-11-19 v1 + EQ-IQ-SB 2026-11-19 v1 + EQ-IQ-ST 2026-11-19 v1 + EQ-IQ-RF 2026-11-19 v1 + EQ-IQ-CG 2026-11-19 v1 + EQ-IQ-CF 2026-11-19 v1 + EQ-IQ-CB 2026-11-19 v1 + EQ-OQ-RC 2026-10-07 v1 + EQ-PQ-RC 2026-10-07 v1 + EQ-OQ-UC 2026-10-12 v1 + EQ-PQ-UC 2026-10-12 v1 + EQ-OQ-TB 2026-10-08 v1 + EQ-PQ-TB 2026-10-08 v1 + EQ-OQ-EN 2026-10-08 v1 + EQ-PQ-EN 2026-10-08 v1 + EQ-OQ-GR 2026-10-08 v1 + EQ-PQ-GR 2026-10-08 v1 + EQ-OQ-RB 2026-10-09 v1 + EQ-PQ-RB 2026-10-09 v1 + EQ-OQ-BL 2026-10-09 v1 + EQ-PQ-BL 2026-10-09 v1 + EQ-OQ-DM 2026-10-11 v1 + EQ-PQ-DM 2026-10-11 v1 + EQ-OQ-ET 2026-10-11 v1 + EQ-PQ-ET 2026-10-11 v1 + EQ-OQ-LF 2026-10-21 v3 + EQ-OQ-AU 2026-10-21 v3 + EQ-OQ-MZ 2026-10-21 v3 + EQ-OQ-HO 2026-10-21 v2 + EQ-PQ-LF 2026-10-21 v3 + EQ-PQ-AU 2026-10-21 v3 + EQ-PQ-MZ 2026-10-21 v3 + EQ-PQ-HO 2026-10-21 v2 + EQ-PQ-VA 2026-10-21 v2 + EQ-OQ-VA 2026-10-21 v2 + EQ-OQ-RF 2026-10-14 v1 + EQ-PQ-RF 2026-11-06 v2 + EQ-OQ-CG 2026-10-14 v1 + EQ-PQ-CG 2026-11-06 v2 + EQ-OQ-BA 2026-10-22 v1 + EQ-OQ-VS 2026-11-06 v1 + EQ-OQ-LI 2026-11-08 v1 + EQ-PQ-LI 2026-11-08 v1 + EQ-OQ-TD 2026-11-08 v1 + EQ-PQ-TD 2026-11-08 v1 + EQ-OQ-SB 2026-11-08 v1 + EQ-PQ-SB 2026-11-08 v1 + EQ-OQ-ST 2026-11-08 v1 + EQ-PQ-ST 2026-11-08 v1 + EQ-OQ-CF 2026-11-08 v1 + EQ-PQ-CF 2026-11-08 v1 + EQ-OQ-CB 2026-11-08 v1 + EQ-PQ-CB 2026-11-08 v1 + EQ-OQ-PH 2026-11-08 v1 + EQ-OQ-UV 2026-11-08 v1 + EQ-OQ-IR 2026-11-08 v1 + EQ-OQ-ES 2026-11-08 v1 + EQ-OQ-HL 2026-11-08 v1 + EQ-OQ-GC 2026-11-08 v1 + EQ-OQ-DS 2026-11-08 v1 + EQ-OQ-DI 2026-11-08 v1 + EQ-OQ-FR 2026-11-08 v1 + EQ-OQ-DU 2026-11-08 v1 + EQ-OQ-KF 2026-11-08 v1 + EQ-OQ-TO 2026-11-08 v1 + EQ-OQ-IN 2026-11-08 v1 + EQ-OQ-CE 2026-11-08 v1 + EQ-OQ-TE 2026-11-08 v1",
  "fases": {
   "DQ": [],
   "IQ": [
@@ -4947,6 +4947,1231 @@ var BancoEquipos = {
     ],
     "tabla": null,
     "familia": "sistema-cremas-vacio"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-IQ-LT-001",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-IQ-LT-001 — Diagrama de flujo y recorrido del tubo",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que el recorrido del tubo (alimentación, llenado, sellado, corte y codificado) coincide con el diseño aprobado."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Obtener la revisión vigente del layout y del diagrama de flujo<br>\n  2) Recorrer la línea identificando alimentador, estación de llenado, sellado, corte y salida<br>\n  3) Confirmar posición de sensores y guías contra el plano<br>\n  4) Registrar desviaciones con su disposición"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>El recorrido coincide con el layout aprobado.<br>El 100 % de los componentes identificados y accesibles.<br>Sin tramos donde el tubo pueda desalinearse.<br>Trazabilidad de las piezas de contacto."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>- Layout verificado y firmado (anexo del informe)"
+     },
+     {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>La verificación es contra el layout aprobado; un cambio de recorrido requiere control de cambios."
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>EU GMP Anexo 1; EU GMP Anexo 15; 21 CFR 211.94; 21 CFR 211.160(b)."
+     }
+    ],
+    "tabla": null,
+    "familia": "llenadora-tubos"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-IQ-LT-002",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-IQ-LT-002 — Conexiones de utilidades",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que el aire comprimido, la energía y la extracción están conectados según especificación."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Verificar presión de aire en el punto de uso<br>\n  2) Verificar alimentación eléctrica y puesta a tierra<br>\n  3) Verificar extracción y ausencia de fugas<br>\n  4) Registrar cada utilidad con su valo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>Aire comprimido dentro de ±<span class=\"por-confirmar\">10 %</span> de la presión de diseño.<br>Alimentación eléctrica y puesta a tierra verificadas.<br>Extracción operativa y sin fugas.<br>El 100 % de las utilidades registradas."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>- Registro de utilidades con valores medidos"
+     },
+     {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>La presión de diseño y su tolerancia se confirman con el fabricante del equipo."
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>EU GMP Anexo 1; EU GMP Anexo 15; 21 CFR 211.94; 21 CFR 211.160(b)."
+     }
+    ],
+    "tabla": null,
+    "familia": "llenadora-tubos"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-IQ-LT-003",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-IQ-LT-003 — Estación de sellado y mordazas",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que las mordazas de sellado y el sistema de presión están instalados y alineados según especificación."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Verificar montaje y alineación de mordazas<br>\n  2) Medir paralelismo y juego de cierre<br>\n  3) Verificar recorrido del actuador y ausencia de contacto indebido<br>\n  4) Registrar la medición por mordaza"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>Mordazas alineadas con paralelismo ≤ <span class=\"por-confirmar\">0,1 mm</span> y sin juego.<br>Recorrido del actuador completo y sin atascos.<br>Sin contacto metal-metal al cerrar.<br>Registro por mordaza."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>- Registro de alineación de mordazas"
+     },
+     {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>La tolerancia de paralelismo se confirma con el fabricante; afecta la integridad del sello."
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>EU GMP Anexo 1; EU GMP Anexo 15; 21 CFR 211.94; 21 CFR 211.160(b)."
+     }
+    ],
+    "tabla": null,
+    "familia": "llenadora-tubos"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-IQ-LT-004",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-IQ-LT-004 — Sistema de codificado e impresión",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que el codificador, su sensor y la posición de impresión están instalados según el diseño."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Verificar montaje del cabezal y su distancia al tubo<br>\n  2) Verificar sensor de tubo y de marca<br>\n  3) Verificar conexión y configuración de la impresora<br>\n  4) Registrar la posición de impresión"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>Cabezal a la distancia del fabricante (<span class=\"por-confirmar\">≤ 2 mm</span>).<br>Sensor de tubo y de marca instalados y detectando.<br>Impresora conectada y con configuración cargada.<br>Posición de impresión dentro de ±1 mm del diseño."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>- Registro de instalación del codificador"
+     },
+     {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>La distancia y la posición en rojo se confirman con el fabricante; definen la legibilidad."
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>EU GMP Anexo 1; EU GMP Anexo 15; 21 CFR 211.94; 21 CFR 211.160(b)."
+     }
+    ],
+    "tabla": null,
+    "familia": "llenadora-tubos"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-IQ-LT-005",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-IQ-LT-005 — Guardas, puertas y paros de emergencia",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que las guardas, el enclavamiento de puertas y los paros de emergencia están instalados y operativos."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Identificar los puntos de riesgo del análisis de riesgo<br>\n  2) Verificar guardas e interruptores<br>\n  3) Verificar paros de emergencia y su accesibilidad<br>\n  4) Registrar cada guarda y paro"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>El 100 % de las guardas del análisis de riesgo instaladas.<br>Interruptores operativos y sin anulación posible.<br>Paros accesibles desde la posición del operador.<br>Registro por guarda y por paro."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>- Checklist de guardas y paros firmado"
+     },
+     {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>La lista de guardas sale del análisis de riesgo, no de la costumbre de la planta."
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>EU GMP Anexo 1; EU GMP Anexo 15; 21 CFR 211.94; 21 CFR 211.160(b)."
+     }
+    ],
+    "tabla": null,
+    "familia": "llenadora-tubos"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-IQ-SB-001",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-IQ-SB-001 — Cámara, bandejas y carros",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que la cámara, las bandejas y los carros están instalados y distribuidos según el diseño."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Verificar dimensiones y estado de la cámara<br>\n  2) Verificar número y separación de bandejas<br>\n  3) Verificar carros y guías sin deformación<br>\n  4) Registrar la distribución"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>Cámara sin grietas ni corrosión.<br>Bandejas niveladas y con separación que permita circulación (≥ <span class=\"por-confirmar\">5 cm</span>).<br>El 100 % de los carros y guías en posición.<br>Sin obstrucción de difusores ni retorno."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>- Plano de carga con distribución de bandejas"
+     },
+     {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>La separación mínima en rojo se confirma con el fabricante; define la uniformidad del secado."
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>EU GMP Anexo 15; USP &lt;731&gt;; 21 CFR 211.160(b); manual del fabricante."
+     }
+    ],
+    "tabla": null,
+    "familia": "secador-bandejas"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-IQ-SB-002",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-IQ-SB-002 — Calefacción, ventilador y renovación de aire",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que el sistema de calefacción, el ventilador y la renovación de aire están instalados según especificación."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Verificar resistencia o intercambiador y su aislamiento<br>\n  2) Verificar ventilador y sentido de giro<br>\n  3) Verificar compuerta de renovación y extracción<br>\n  4) Registrar cada componente"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>Calefacción instalada con aislamiento íntegro.<br>Ventilador operativo y con sentido de giro correcto.<br>Renovación de aire con compuerta operable.<br>Sin fugas en conductos."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>- Registro de instalación de calefacción y ventilación"
+     },
+     {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>Un ventilador invertido seca de forma despareja sin dar alarma."
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>EU GMP Anexo 15; USP &lt;731&gt;; 21 CFR 211.160(b); manual del fabricante."
+     }
+    ],
+    "tabla": null,
+    "familia": "secador-bandejas"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-IQ-SB-003",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-IQ-SB-003 — Sensores de temperatura y humedad",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que los sensores de temperatura y humedad están instalados en las posiciones representativas del diseño."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Verificar ubicación de cada sensor contra plano<br>\n  2) Verificar identificación y calibración vigente<br>\n  3) Verificar el cableado y la lectura en el control<br>\n  4) Registrar por senso"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>Sensores en la posición del diseño (cámara y producto).<br>Calibración vigente ≤ <span class=\"por-confirmar\">12 meses</span> y trazable.<br>El 100 % de los sensores leyendo en el control.<br>Registro por sensor."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>- Plano de sensores y certificados de calibración"
+     },
+     {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>La vigencia en rojo es la del programa metrológico; un sensor en el punto favorable oculta el secado real."
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>EU GMP Anexo 15; USP &lt;731&gt;; 21 CFR 211.160(b); manual del fabricante."
+     }
+    ],
+    "tabla": null,
+    "familia": "secador-bandejas"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-IQ-SB-004",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-IQ-SB-004 — Filtros de aire y extracción",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que los filtros de aire y la extracción están instalados y accesibles."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Verificar filtros y su clase<br>\n  2) Verificar sellos y ausencia de bypass<br>\n  3) Verificar extracción y ausencia de retorno al área<br>\n  4) Registrar por filtro"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>Filtros de la clase del diseño instalados y sellados.<br>Sin bypass entre etapas.<br>Extracción operativa, sin retorno al área.<br>Acceso a filtros para cambio."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>- Registro de filtros con clase y fecha"
+     },
+     {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>Un filtro sin sello deja pasar polvo y finos al área."
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>EU GMP Anexo 15; USP &lt;731&gt;; 21 CFR 211.160(b); manual del fabricante."
+     }
+    ],
+    "tabla": null,
+    "familia": "secador-bandejas"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-IQ-SB-005",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-IQ-SB-005 — Guardas, puerta y paros",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que la puerta, su enclavamiento, las guardas y los paros de emergencia están instalados y operativos."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Verificar puerta y sello<br>\n  2) Verificar interruptor de puerta y paros<br>\n  3) Verificar guardas en puntos de riesgo<br>\n  4) Registrar cada elemento"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>Puerta con sello íntegro y cierre uniforme.<br>El 100 % de las guardas y paros operativos.<br>La apertura de puerta detiene la calefacción si corresponde.<br>Registro por elemento."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>- Checklist de seguridad firmado"
+     },
+     {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>La lista sale del análisis de riesgo del equipo."
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>EU GMP Anexo 15; USP &lt;731&gt;; 21 CFR 211.160(b); manual del fabricante."
+     }
+    ],
+    "tabla": null,
+    "familia": "secador-bandejas"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-IQ-ST-001",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-IQ-ST-001 — Tambor, cuchilla y soportes",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que el tambor, la cuchilla de descarga y los soportes están instalados según especificación."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Verificar montaje y nivelación del tambor<br>\n  2) Medir separación cuchilla-tambor<br>\n  3) Verificar soportes y rodamientos<br>\n  4) Registrar la medición"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>Tambor nivelado y sin deformación.<br>Separación cuchilla-tambor ≤ <span class=\"por-confirmar\">1 mm</span> sin contacto.<br>Soportes y rodamientos sin juego anormal.<br>Registro por punto de medición."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>- Registro de alineación y separación de cuchilla"
+     },
+     {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>La separación en rojo se confirma con el fabricante; un contacto raya el tambor."
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>EU GMP Anexo 15; USP &lt;731&gt;; 21 CFR 211.160(b); manual del fabricante."
+     }
+    ],
+    "tabla": null,
+    "familia": "secador-tambor"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-IQ-ST-002",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-IQ-ST-002 — Calefacción y aislamiento",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que el sistema de calefacción (vapor o eléctrico) y el aislamiento están instalados según diseño."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Verificar entrada de vapor o resistencia<br>\n  2) Verificar trampa de condensado y drenaje<br>\n  3) Verificar aislamiento térmico continuo<br>\n  4) Registrar cada componente"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>Calefacción instalada y sin fugas.<br>Trampa y drenaje operativos.<br>Aislamiento continuo, sin tramos descubiertos accesibles.<br>Sin condensado retenido."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>- Registro de instalación térmica"
+     },
+     {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>Un drenaje obstruido genera golpe de ariete y secado desparejo."
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>EU GMP Anexo 15; USP &lt;731&gt;; 21 CFR 211.160(b); manual del fabricante."
+     }
+    ],
+    "tabla": null,
+    "familia": "secador-tambor"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-IQ-ST-003",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-IQ-ST-003 — Vacío o presión y sello rotativo",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que el sistema de vacío o presión y el sello rotativo están instalados y sin fugas."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Verificar conexión de vacío o presión<br>\n  2) Verificar sello rotativo y su presión de barrera<br>\n  3) Verificar instrumentos de vacío o presión<br>\n  4) Registrar la prueba"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>Conexión de vacío o presión sin fugas.<br>Sello rotativo con presión de barrera disponible.<br>Instrumentos instalados y calibrados.<br>Registro de la prueba de estanqueidad."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>- Registro de estanqueidad del sello"
+     },
+     {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>Un sello sin barrera contamina el producto o pierde vacío."
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>EU GMP Anexo 15; USP &lt;731&gt;; 21 CFR 211.160(b); manual del fabricante."
+     }
+    ],
+    "tabla": null,
+    "familia": "secador-tambor"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-IQ-ST-004",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-IQ-ST-004 — Control y sensores",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que el controlador y los sensores de temperatura, vacío y velocidad están instalados y calibrados."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Verificar controlador y recetas cargadas<br>\n  2) Verificar sensores y su ubicación<br>\n  3) Verificar calibración vigente<br>\n  4) Registrar por instrumento"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>Controlador con recetas y alarmas configuradas.<br>El 100 % de los sensores instalados en posición.<br>Calibración vigente ≤ <span class=\"por-confirmar\">12 meses</span>.<br>Registro por instrumento."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>- Lista de instrumentos con certificados"
+     },
+     {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>La vigencia en rojo es la del programa metrológico del sitio."
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>EU GMP Anexo 15; USP &lt;731&gt;; 21 CFR 211.160(b); manual del fabricante."
+     }
+    ],
+    "tabla": null,
+    "familia": "secador-tambor"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-IQ-ST-005",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-IQ-ST-005 — Guardas, transmisión y paros",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que la transmisión, las guardas y los paros de emergencia están instalados y operativos."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Verificar guardas de transmisión y tambor<br>\n  2) Verificar paros de emergencia<br>\n  3) Verificar enclavamiento de puerta o carcasa<br>\n  4) Registrar cada elemento"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>El 100 % de las guardas del análisis de riesgo instaladas.<br>Paros accesibles y operativos.<br>La apertura de carcasa detiene el tambor.<br>Registro por elemento."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>- Checklist de seguridad firmado"
+     },
+     {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>La lista sale del análisis de riesgo del equipo."
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>EU GMP Anexo 15; USP &lt;731&gt;; 21 CFR 211.160(b); manual del fabricante."
+     }
+    ],
+    "tabla": null,
+    "familia": "secador-tambor"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-IQ-RF-001",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-IQ-RF-001 — Unidad, condensador y evaporador",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que la unidad, el condensador y el evaporador están instalados con ventilación suficiente."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Verificar ubicación y espacio de ventilación<br>\n  2) Verificar condensador limpio y accesible<br>\n  3) Verificar evaporador y ventiladores internos<br>\n  4) Registrar la instalación"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>Espacio de ventilación ≥ <span class=\"por-confirmar\">10 cm</span> en todos los lados.<br>Condensador limpio y accesible para mantenimiento.<br>Evaporador y ventiladores sin obstrucción.<br>Sin recirculación de aire caliente."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>- Registro de instalación y ventilación"
+     },
+     {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>La distancia en rojo se confirma con el fabricante; sin ventilación el equipo no alcanza el rango."
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>ICH Q1A(R2); WHO TRS 1010; USP &lt;1079&gt;; EU GMP Anexo 15."
+     }
+    ],
+    "tabla": null,
+    "familia": "refrigerador-lab"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-IQ-RF-002",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-IQ-RF-002 — Circuito de refrigerante",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que el circuito de refrigerante está cerrado, identificado y sin fugas."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Verificar placa y tipo de refrigerante<br>\n  2) Verificar ausencia de fugas en uniones<br>\n  3) Verificar presión o carga según fabricante<br>\n  4) Registrar la verificación"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>Refrigerante identificado en placa.<br>Sin fugas visibles en uniones ni válvulas.<br>Carga o presión dentro del valor del fabricante.<br>Registro de la verificación."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>- Registro de refrigerante y prueba de fugas"
+     },
+     {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>El tipo y la carga se confirman con la placa; no se recarga a ciegas."
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>ICH Q1A(R2); WHO TRS 1010; USP &lt;1079&gt;; EU GMP Anexo 15."
+     }
+    ],
+    "tabla": null,
+    "familia": "refrigerador-lab"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-IQ-RF-003",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-IQ-RF-003 — Puerta, empaques y drenaje",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que la puerta, sus empaques y el drenaje de condensado están instalados y en buen estado."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Verificar cierre y alineación de puerta<br>\n  2) Verificar empaque continuo y sin endurecimiento<br>\n  3) Verificar drenaje y bandeja de condensado<br>\n  4) Registrar la verificación"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>Puerta cierra uniforme y sin luz visible.<br>Empaque continuo, sin cortes ni endurecimiento.<br>Drenaje libre y sin retención.<br>Registro por puerta."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>- Registro de inspección de puerta y drenaje"
+     },
+     {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>Un empaque endurecido sella mal y produce excursiones."
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>ICH Q1A(R2); WHO TRS 1010; USP &lt;1079&gt;; EU GMP Anexo 15."
+     }
+    ],
+    "tabla": null,
+    "familia": "refrigerador-lab"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-IQ-RF-004",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-IQ-RF-004 — Sensores y registrador independiente",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que el sensor de control y el registrador independiente están instalados y calibrados."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Verificar ubicación de cada sensor<br>\n  2) Verificar calibración vigente<br>\n  3) Verificar registrador independiente y su descarga<br>\n  4) Registrar por instrumento"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>Sensor de control en el punto representativo.<br>Calibración vigente ≤ <span class=\"por-confirmar\">12 meses</span>.<br>Registrador independiente operativo y con descarga.<br>Registro por instrumento."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>- Certificados y ubicación de sensores"
+     },
+     {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>El registrador independiente es la evidencia del almacenamiento."
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>ICH Q1A(R2); WHO TRS 1010; USP &lt;1079&gt;; EU GMP Anexo 15."
+     }
+    ],
+    "tabla": null,
+    "familia": "refrigerador-lab"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-IQ-RF-005",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-IQ-RF-005 — Alarmas, respaldo y acceso",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que las alarmas, el respaldo de energía y el control de acceso están instalados y configurados."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Verificar alarmas de alta y baja temperatura<br>\n  2) Verificar notificación remota<br>\n  3) Verificar respaldo o autonomía<br>\n  4) Verificar control de acceso"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>Alarmas de alta y baja instaladas y con retardo configurado.<br>Notificación remota operativa.<br>Respaldo o autonomía disponible (≥ <span class=\"por-confirmar\">30 min</span>).<br>Acceso restringido al personal autorizado."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>- Registro de configuración de alarmas y acceso"
+     },
+     {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>La autonomía en rojo se confirma con el material y el plan de contingencia."
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>ICH Q1A(R2); WHO TRS 1010; USP &lt;1079&gt;; EU GMP Anexo 15."
+     }
+    ],
+    "tabla": null,
+    "familia": "refrigerador-lab"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-IQ-CG-001",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-IQ-CG-001 — Unidad, aislamiento y ventilación",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que la unidad y el aislamiento están instalados con ventilación suficiente."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Verificar ubicación y espacio de ventilación<br>\n  2) Verificar espesor y continuidad del aislamiento<br>\n  3) Verificar condensador limpio y accesible<br>\n  4) Registrar la instalación"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>Espacio de ventilación ≥ <span class=\"por-confirmar\">10 cm</span>.<br>Aislamiento continuo, sin zonas sin aislar.<br>Condensador limpio y accesible.<br>Sin recirculación de aire caliente."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>- Registro de instalación y aislamiento"
+     },
+     {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>El aislamiento define la autonomía ante un corte; se inspecciona, no se supone."
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>ICH Q1A(R2); WHO TRS 1010; USP &lt;1079&gt;; EU GMP Anexo 15."
+     }
+    ],
+    "tabla": null,
+    "familia": "congelador-lab"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-IQ-CG-002",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-IQ-CG-002 — Circuito de refrigerante y baja temperatura",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar el circuito de refrigerante y la capacidad para alcanzar la temperatura de diseño."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Verificar placa y tipo de refrigerante<br>\n  2) Verificar ausencia de fugas<br>\n  3) Verificar capacidad del compresor según fabricante<br>\n  4) Registrar la verificación"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>Refrigerante identificado en placa.<br>Sin fugas en uniones ni válvulas.<br>Capacidad declarada para la temperatura de diseño (<span class=\"por-confirmar\">−20 a −25 °C</span>).<br>Registro de la verificación."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>- Registro de refrigerante y capacidad"
+     },
+     {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>El rango en rojo se confirma con el material almacenado y el fabricante."
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>ICH Q1A(R2); WHO TRS 1010; USP &lt;1079&gt;; EU GMP Anexo 15."
+     }
+    ],
+    "tabla": null,
+    "familia": "congelador-lab"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-IQ-CG-003",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-IQ-CG-003 — Puerta, empaques y resistencia de puerta",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que la puerta, los empaques y la resistencia de deshielo están instalados y operativos."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Verificar cierre y alineación<br>\n  2) Verificar empaque continuo y flexible a baja temperatura<br>\n  3) Verificar resistencia de puerta y drenaje de deshielo<br>\n  4) Registrar la verificación"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>Puerta cierra sin luz visible.<br>Empaque flexible y continuo.<br>Resistencia de puerta operativa.<br>Drenaje de deshielo libre."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>- Registro de inspección de puerta"
+     },
+     {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>Un empaque rígido a baja temperatura no sella y genera escarcha."
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>ICH Q1A(R2); WHO TRS 1010; USP &lt;1079&gt;; EU GMP Anexo 15."
+     }
+    ],
+    "tabla": null,
+    "familia": "congelador-lab"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-IQ-CG-004",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-IQ-CG-004 — Sensores, registrador y alarmas",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar sensores, registrador independiente y alarmas de temperatura."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Verificar ubicación y calibración de sensores<br>\n  2) Verificar registrador y descarga<br>\n  3) Verificar alarmas de alta y baja<br>\n  4) Registrar por instrumento"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>Sensores en la posición representativa y calibrados ≤ <span class=\"por-confirmar\">12 meses</span>.<br>Registrador independiente operativo.<br>Alarmas de alta y baja configuradas.<br>Registro por instrumento."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>- Certificados y configuración de alarmas"
+     },
+     {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>La calibración en rojo es la del programa metrológico; a −20 °C el error del sensor pesa más."
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>ICH Q1A(R2); WHO TRS 1010; USP &lt;1079&gt;; EU GMP Anexo 15."
+     }
+    ],
+    "tabla": null,
+    "familia": "congelador-lab"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-IQ-CG-005",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-IQ-CG-005 — Respaldo, acceso y salida de emergencia",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar respaldo de energía, control de acceso y salida de emergencia si aplica."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Verificar respaldo o autonomía<br>\n  2) Verificar control de acceso<br>\n  3) Verificar alarma de puerta abierta<br>\n  4) Registrar cada elemento"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>Respaldo o autonomía ≥ <span class=\"por-confirmar\">30 min</span>.<br>Acceso restringido al personal autorizado.<br>Alarma de puerta abierta operativa.<br>Registro por elemento."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>- Registro de respaldo y acceso"
+     },
+     {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>La autonomía en rojo se confirma con el material y el plan de contingencia."
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>ICH Q1A(R2); WHO TRS 1010; USP &lt;1079&gt;; EU GMP Anexo 15."
+     }
+    ],
+    "tabla": null,
+    "familia": "congelador-lab"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-IQ-CF-001",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-IQ-CF-001 — Estructura, superficie de trabajo y nivelación",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que la estructura, la superficie de trabajo y la nivelación cumplen el diseño."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Verificar estructura y paneles<br>\n  2) Verificar superficie de trabajo y acabado<br>\n  3) Verificar nivelación<br>\n  4) Registrar la verificación"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>Estructura sin golpes ni filtraciones.<br>Superficie de trabajo lisa y sin grietas, Ra ≤ <span class=\"por-confirmar\">0,8 µm</span>.<br>Nivelada dentro de 0,5 mm/m.<br>Sin tornillos ni uniones que retengan partículas."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>- Registro de inspección estructural"
+     },
+     {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>El acabado en rojo se confirma con el fabricante; una superficie porosa no se limpia."
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>ISO 14644-1; ISO 14644-3; EU GMP Anexo 1; 21 CFR 211.42(c)."
+     }
+    ],
+    "tabla": null,
+    "familia": "cabina-flujo"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-IQ-CF-002",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-IQ-CF-002 — Filtro HEPA y prefiltro",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que el filtro HEPA y el prefiltro están instalados, sellados y con la clase correcta."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Verificar clase y número de parte del HEPA<br>\n  2) Verificar sello continuo y sin bypass<br>\n  3) Verificar prefiltro y su acceso<br>\n  4) Registrar por filtro"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>HEPA de la clase del diseño (<span class=\"por-confirmar\">H14</span>) con certificado.<br>Sello continuo y sin bypass.<br>Prefiltro instalado y accesible.<br>Registro por filtro."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>- Certificado del HEPA y registro de instalación"
+     },
+     {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>La clase en rojo se confirma con la URS del área; un sello con bypass anula el filtro."
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>ISO 14644-1; ISO 14644-3; EU GMP Anexo 1; 21 CFR 211.42(c)."
+     }
+    ],
+    "tabla": null,
+    "familia": "cabina-flujo"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-IQ-CF-003",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-IQ-CF-003 — Ventilador, plenum y accesos",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que el ventilador, el plenum y los accesos de mantenimiento están instalados."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Verificar ventilador y su montaje<br>\n  2) Verificar plenum sin fugas<br>\n  3) Verificar accesos para mantenimiento<br>\n  4) Registrar la verificación"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>Ventilador montado y sin vibración anormal.<br>Plenum sin fugas internas.<br>Accesos accesibles sin desmontar la cabina.<br>Sin obstrucción del retorno."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>- Registro de instalación del ventilador"
+     },
+     {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>Una fuga en el plenum cambia la velocidad del plano de trabajo."
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>ISO 14644-1; ISO 14644-3; EU GMP Anexo 1; 21 CFR 211.42(c)."
+     }
+    ],
+    "tabla": null,
+    "familia": "cabina-flujo"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-IQ-CF-004",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-IQ-CF-004 — Instrumentos y alarma de presión diferencial",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que el manómetro o sensor de presión diferencial y su alarma están instalados y calibrados."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Verificar instrumento y su ubicación<br>\n  2) Verificar calibración vigente<br>\n  3) Verificar alarma configurada<br>\n  4) Registrar por instrumento"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>Instrumento instalado en el punto representativo.<br>Calibración vigente ≤ <span class=\"por-confirmar\">12 meses</span>.<br>Alarma configurada y operativa.<br>Registro por instrumento."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>- Certificado y configuración de alarma"
+     },
+     {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>La vigencia en rojo es la del programa metrológico del sitio."
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>ISO 14644-1; ISO 14644-3; EU GMP Anexo 1; 21 CFR 211.42(c)."
+     }
+    ],
+    "tabla": null,
+    "familia": "cabina-flujo"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-IQ-CF-005",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-IQ-CF-005 — Luz UV y tomas eléctricas",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar la instalación de la luz UV, su temporizador y las tomas eléctricas protegidas."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Verificar lámpara UV y temporizador<br>\n  2) Verificar horas de uso y estado<br>\n  3) Verificar tomas internas y su protección<br>\n  4) Registrar la verificación"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>Luz UV instalada con temporizador operativo.<br>Horas de uso registradas.<br>Tomas internas con protección y sin chispa.<br>Registro por elemento."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>- Registro de UV y tomas"
+     },
+     {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>La UV es complementaria: no reemplaza la limpieza ni el flujo."
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>ISO 14644-1; ISO 14644-3; EU GMP Anexo 1; 21 CFR 211.42(c)."
+     }
+    ],
+    "tabla": null,
+    "familia": "cabina-flujo"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-IQ-CB-001",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-IQ-CB-001 — Estructura, vidrio y sellos",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que la estructura, el vidrio frontal y los sellos están instalados según el diseño."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Verificar estructura y paneles<br>\n  2) Verificar vidrio frontal y su recorrido<br>\n  3) Verificar sellos y juntas<br>\n  4) Registrar la verificación"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>Estructura sin golpes ni filtraciones.<br>Vidrio frontal con recorrido completo y sin holgura.<br>Sellos continuos y flexibles.<br>Sin uniones que retengan partículas."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>- Registro de inspección estructural"
+     },
+     {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>Un vidrio mal posicionado rompe la contención sin que se note."
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>NSF/ANSI 49; EN 12469; ISO 14644-3; EU GMP Anexo 1."
+     }
+    ],
+    "tabla": null,
+    "familia": "cabina-bioseguridad"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-IQ-CB-002",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-IQ-CB-002 — HEPA de suministro y escape",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que los filtros HEPA de suministro y escape están instalados, sellados y con la clase correcta."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Verificar clase y número de parte de cada HEPA<br>\n  2) Verificar sello continuo y sin bypass<br>\n  3) Verificar acceso para prueba de integridad<br>\n  4) Registrar por filtro"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>HEPA de suministro y escape de la clase del diseño (<span class=\"por-confirmar\">H14</span>) con certificado.<br>Sello continuo y sin bypass.<br>Acceso para escaneo de integridad.<br>Registro por filtro."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>- Certificados y registro de instalación"
+     },
+     {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>La clase en rojo se confirma con la UNS del modelo; el escape puede requerir HEPA dedicado."
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>NSF/ANSI 49; EN 12469; ISO 14644-3; EU GMP Anexo 1."
+     }
+    ],
+    "tabla": null,
+    "familia": "cabina-bioseguridad"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-IQ-CB-003",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-IQ-CB-003 — Ventilador, balance y escape",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar el ventilador, el balance de flujo y la conexión de escape cuando aplica."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Verificar ventilador y montaje<br>\n  2) Verificar conexión de escape o recirculación<br>\n  3) Verificar ausencia de fugas en el plenum<br>\n  4) Registrar la verificación"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>Ventilador montado y sin vibración anormal.<br>Escape conectado según diseño o recirculación con HEPA.<br>Plenum sin fugas.<br>Sin obstrucción de la descarga."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>- Registro de instalación de ventilación y escape"
+     },
+     {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>Una cabina clase II con escape mal conectado no contiene el aerosol."
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>NSF/ANSI 49; EN 12469; ISO 14644-3; EU GMP Anexo 1."
+     }
+    ],
+    "tabla": null,
+    "familia": "cabina-bioseguridad"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-IQ-CB-004",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-IQ-CB-004 — Sensores y alarmas de flujo",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que los sensores y las alarmas de flujo y de vidrio están instalados y configurados."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Verificar sensor de flujo o presión<br>\n  2) Verificar alarma de flujo y de vidrio<br>\n  3) Verificar calibración<br>\n  4) Registrar por instrumento"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>Sensor de flujo o presión instalado y calibrado ≤ <span class=\"por-confirmar\">12 meses</span>.<br>Alarma de flujo y de vidrio configuradas.<br>El 100 % de las alarmas probadas.<br>Registro por instrumento."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>- Certificado y configuración de alarmas"
+     },
+     {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>La calibración en rojo es la del programa metrológico; una alarma que no actúa deja operar sin contención."
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>NSF/ANSI 49; EN 12469; ISO 14644-3; EU GMP Anexo 1."
+     }
+    ],
+    "tabla": null,
+    "familia": "cabina-bioseguridad"
+   },
+   {
+    "kind": "ensayo",
+    "id": "EQ-IQ-CB-005",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "EQ-IQ-CB-005 — Luz UV, tomas y certificación",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar luz UV, tomas eléctricas protegidas y la documentación de certificación del equipo."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Verificar lámpara UV y temporizador<br>\n  2) Verificar tomas internas y su protección<br>\n  3) Verificar certificado de tipo del fabricante<br>\n  4) Registrar la verificación"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>UV instalada con temporizador operativo e intensidad ≥ <span class=\"por-confirmar\">40 µW/cm²</span>.<br>Tomas internas protegidas.<br>Certificado de tipo (NSF 49 o EN 12469) disponible.<br>Registro por elemento."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>- Certificado de tipo y registro de UV/tomas"
+     },
+     {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>El certificado de tipo y la intensidad en rojo se confirman con el fabricante."
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>NSF/ANSI 49; EN 12469; ISO 14644-3; EU GMP Anexo 1."
+     }
+    ],
+    "tabla": null,
+    "familia": "cabina-bioseguridad"
    }
   ],
   "OQ": [

@@ -48,6 +48,7 @@ describe('banco de equipos: contrato', () => {
     ['IQ', 'horno-vacio', 8], // Nivel 3 (2026-10-07)
     ['IQ', 'llenadora', 11], // Nivel 3 + addendum estéril (2026-10-29)
     ['OQ', 'llenadora', 24], // ENSAYOS.txt usuario + addendum estéril (2026-10-29)
+    ['IQ', 'llenadora-tubos', 5],
     ['OQ', 'llenadora-tubos', 28], // ENSAYOS.txt usuario (2026-10-29)
     ['PQ', 'llenadora-tubos', 36], // ENSAYOS.txt usuario + P0/P1/P2 (2026-10-29)
     ['PQ', 'llenadora', 23], // ENSAYOS.txt usuario + addendum estéril (2026-10-29)
@@ -84,8 +85,10 @@ describe('banco de equipos: contrato', () => {
     ['PQ', 'detector-metales', 15], // ENSAYOS.txt usuario (2026-10-11)
     ['OQ', 'etiquetadora', 30], // ENSAYOS.txt usuario (2026-10-11)
     ['PQ', 'etiquetadora', 20], // ENSAYOS.txt usuario (2026-10-11)
+    ['IQ', 'refrigerador-lab', 5],
     ['OQ', 'refrigerador-lab', 19], // ENSAYOS.txt neveras (2026-10-14)
     ['PQ', 'refrigerador-lab', 16], // ENSAYOS.txt neveras + repetibilidad y revisión de registros (2026-11-06)
+    ['IQ', 'congelador-lab', 5],
     ['OQ', 'congelador-lab', 19], // ENSAYOS.txt neveras (2026-10-14)
     ['PQ', 'congelador-lab', 16], // ENSAYOS.txt neveras + repetibilidad y revisión de registros (2026-11-06)
     ['PQ', 'lecho-fluido', 16],
@@ -97,12 +100,16 @@ describe('banco de equipos: contrato', () => {
     ['PQ', 'liofilizador', 6],
     ['OQ', 'tunel-despirogenizacion', 6],
     ['PQ', 'tunel-despirogenizacion', 6],
+    ['IQ', 'secador-bandejas', 5],
     ['OQ', 'secador-bandejas', 6],
     ['PQ', 'secador-bandejas', 6],
+    ['IQ', 'secador-tambor', 5],
     ['OQ', 'secador-tambor', 6],
     ['PQ', 'secador-tambor', 6],
+    ['IQ', 'cabina-flujo', 5],
     ['OQ', 'cabina-flujo', 6],
     ['PQ', 'cabina-flujo', 6],
+    ['IQ', 'cabina-bioseguridad', 5],
     ['OQ', 'cabina-bioseguridad', 6],
     ['PQ', 'cabina-bioseguridad', 6],
     ['OQ', 'phmetro', 6],

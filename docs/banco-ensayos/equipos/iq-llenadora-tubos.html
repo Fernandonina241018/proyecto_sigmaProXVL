@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<style>
+  body { font-family: Tahoma, sans-serif; font-size: 11pt; }
+  strong { text-transform: uppercase; }
+</style>
+<title>Banco de Ensayos IQ — Llenadora de Tubos</title>
+</head>
+<body>
+
+<p><a href="../equipos.html">← Equipos e Instrumentos</a></p>
+<h2>IQ — Llenadora de Tubos (banco por familia, Nivel 3)</h2>
+<p>Versión del banco: <span data-banco-version>EQ-IQ-LT 2026-11-19 v1</span></p>
+<p>Ensayos de Calificación de Instalación específicos de llenadora de tubos. Se suman al núcleo común (EQ-IQ-001…EQ-IQ-023) y se filtran por familia (<code>data-familia="llenadora-tubos"</code>) según la entidad elegida en el paso 1.</p>
+
+<!-- ================= IQ ================= -->
+<section id="fase-iq" data-familia="llenadora-tubos">
+<h2>IQ — Ensayos</h2>
+
+<article data-bloque="3" id="art-EQ-IQ-LT-001" class="ensayo" data-id="EQ-IQ-LT-001" data-fase="IQ" data-cond="ambas" data-familia="llenadora-tubos">
+  <h3>EQ-IQ-LT-001 — Diagrama de flujo y recorrido del tubo</h3>
+  <p><strong>Objetivo:</strong><br>Verificar que el recorrido del tubo (alimentación, llenado, sellado, corte y codificado) coincide con el diseño aprobado.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Obtener la revisión vigente del layout y del diagrama de flujo<br>
+  2) Recorrer la línea identificando alimentador, estación de llenado, sellado, corte y salida<br>
+  3) Confirmar posición de sensores y guías contra el plano<br>
+  4) Registrar desviaciones con su disposición</p>
+  <p><strong>Criterio de aceptación:</strong><br>El recorrido coincide con el layout aprobado.<br>El 100 % de los componentes identificados y accesibles.<br>Sin tramos donde el tubo pueda desalinearse.<br>Trazabilidad de las piezas de contacto.</p>
+  <p><strong>Documentos entregables:</strong><br>- Layout verificado y firmado (anexo del informe)</p>
+  <p><strong>Nota:</strong><br>La verificación es contra el layout aprobado; un cambio de recorrido requiere control de cambios.</p>
+  <p><strong>Referencia:</strong><br>EU GMP Anexo 1; EU GMP Anexo 15; 21 CFR 211.94; 21 CFR 211.160(b).</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-IQ-LT-002" class="ensayo" data-id="EQ-IQ-LT-002" data-fase="IQ" data-cond="ambas" data-familia="llenadora-tubos">
+  <h3>EQ-IQ-LT-002 — Conexiones de utilidades</h3>
+  <p><strong>Objetivo:</strong><br>Verificar que el aire comprimido, la energía y la extracción están conectados según especificación.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Verificar presión de aire en el punto de uso<br>
+  2) Verificar alimentación eléctrica y puesta a tierra<br>
+  3) Verificar extracción y ausencia de fugas<br>
+  4) Registrar cada utilidad con su valo</p>
+  <p><strong>Criterio de aceptación:</strong><br>Aire comprimido dentro de ±<span class="por-confirmar">10 %</span> de la presión de diseño.<br>Alimentación eléctrica y puesta a tierra verificadas.<br>Extracción operativa y sin fugas.<br>El 100 % de las utilidades registradas.</p>
+  <p><strong>Documentos entregables:</strong><br>- Registro de utilidades con valores medidos</p>
+  <p><strong>Nota:</strong><br>La presión de diseño y su tolerancia se confirman con el fabricante del equipo.</p>
+  <p><strong>Referencia:</strong><br>EU GMP Anexo 1; EU GMP Anexo 15; 21 CFR 211.94; 21 CFR 211.160(b).</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-IQ-LT-003" class="ensayo" data-id="EQ-IQ-LT-003" data-fase="IQ" data-cond="ambas" data-familia="llenadora-tubos">
+  <h3>EQ-IQ-LT-003 — Estación de sellado y mordazas</h3>
+  <p><strong>Objetivo:</strong><br>Verificar que las mordazas de sellado y el sistema de presión están instalados y alineados según especificación.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Verificar montaje y alineación de mordazas<br>
+  2) Medir paralelismo y juego de cierre<br>
+  3) Verificar recorrido del actuador y ausencia de contacto indebido<br>
+  4) Registrar la medición por mordaza</p>
+  <p><strong>Criterio de aceptación:</strong><br>Mordazas alineadas con paralelismo ≤ <span class="por-confirmar">0,1 mm</span> y sin juego.<br>Recorrido del actuador completo y sin atascos.<br>Sin contacto metal-metal al cerrar.<br>Registro por mordaza.</p>
+  <p><strong>Documentos entregables:</strong><br>- Registro de alineación de mordazas</p>
+  <p><strong>Nota:</strong><br>La tolerancia de paralelismo se confirma con el fabricante; afecta la integridad del sello.</p>
+  <p><strong>Referencia:</strong><br>EU GMP Anexo 1; EU GMP Anexo 15; 21 CFR 211.94; 21 CFR 211.160(b).</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-IQ-LT-004" class="ensayo" data-id="EQ-IQ-LT-004" data-fase="IQ" data-cond="ambas" data-familia="llenadora-tubos">
+  <h3>EQ-IQ-LT-004 — Sistema de codificado e impresión</h3>
+  <p><strong>Objetivo:</strong><br>Verificar que el codificador, su sensor y la posición de impresión están instalados según el diseño.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Verificar montaje del cabezal y su distancia al tubo<br>
+  2) Verificar sensor de tubo y de marca<br>
+  3) Verificar conexión y configuración de la impresora<br>
+  4) Registrar la posición de impresión</p>
+  <p><strong>Criterio de aceptación:</strong><br>Cabezal a la distancia del fabricante (<span class="por-confirmar">≤ 2 mm</span>).<br>Sensor de tubo y de marca instalados y detectando.<br>Impresora conectada y con configuración cargada.<br>Posición de impresión dentro de ±1 mm del diseño.</p>
+  <p><strong>Documentos entregables:</strong><br>- Registro de instalación del codificador</p>
+  <p><strong>Nota:</strong><br>La distancia y la posición en rojo se confirman con el fabricante; definen la legibilidad.</p>
+  <p><strong>Referencia:</strong><br>EU GMP Anexo 1; EU GMP Anexo 15; 21 CFR 211.94; 21 CFR 211.160(b).</p>
+</article>
+
+<article data-bloque="3" id="art-EQ-IQ-LT-005" class="ensayo" data-id="EQ-IQ-LT-005" data-fase="IQ" data-cond="ambas" data-familia="llenadora-tubos">
+  <h3>EQ-IQ-LT-005 — Guardas, puertas y paros de emergencia</h3>
+  <p><strong>Objetivo:</strong><br>Verificar que las guardas, el enclavamiento de puertas y los paros de emergencia están instalados y operativos.</p>
+  <p><strong>Procedimiento:</strong><br>
+  1) Identificar los puntos de riesgo del análisis de riesgo<br>
+  2) Verificar guardas e interruptores<br>
+  3) Verificar paros de emergencia y su accesibilidad<br>
+  4) Registrar cada guarda y paro</p>
+  <p><strong>Criterio de aceptación:</strong><br>El 100 % de las guardas del análisis de riesgo instaladas.<br>Interruptores operativos y sin anulación posible.<br>Paros accesibles desde la posición del operador.<br>Registro por guarda y por paro.</p>
+  <p><strong>Documentos entregables:</strong><br>- Checklist de guardas y paros firmado</p>
+  <p><strong>Nota:</strong><br>La lista de guardas sale del análisis de riesgo, no de la costumbre de la planta.</p>
+  <p><strong>Referencia:</strong><br>EU GMP Anexo 1; EU GMP Anexo 15; 21 CFR 211.94; 21 CFR 211.160(b).</p>
+</article>
+
+</section>
+
+<p><a href="../equipos.html">← Equipos e Instrumentos</a></p>
+</body>
+</html>

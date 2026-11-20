@@ -90,6 +90,37 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (StatAnalyzer Pro) co
 
 ## CAMBIOS RECIENTES
 
+### 2026-11-19 (330): IQ específicos de los 7 equipos que solo tenían el común
+
+**Qué:** se cierran las 7 familias sin IQ propio (antes generaban solo con el IQ común genérico).
+- **Llenadora de tubos (LT):** recorrido, utilidades, mordazas (paralelismo ≤ 0,1 mm), codificador (≤ 2 mm) y guardas.
+- **Secador de bandejas (SB):** cámara/bandejas (separación ≥ 5 cm), calefacción/ventilación, sensores ≤ 12 meses, filtros y seguridad.
+- **Secador de tambor (ST):** tambor/cuchilla (≤ 1 mm), calefacción y drenaje, sello rotativo, control y guardas.
+- **Refrigerador (RF):** ventilación ≥ 10 cm, refrigerante, puerta/empaque/drenaje, sensores y registrador, alarmas y autonomía ≥ 30 min.
+- **Congelador (CG):** aislamiento, capacidad a −20/−25 °C, empaque flexible, registrador y respaldo.
+- **Cabina de flujo (CF):** estructura y Ra ≤ 0,8 µm, HEPA H14, plenum, ΔP y UV.
+- **Cabina de bioseguridad (CB):** vidrio y sellos, HEPA suministro/escape, balance y escape, alarmas y certificado de tipo (NSF 49/EN 12469).
+- **35 ensayos nuevos** (5 por familia), todos con criterio con valor, nota y referencia.
+
+**Estado medido:**
+```
+equipos: 41/41 entidades con IQ específico · 1099 ensayos en el banco
+global: 927/1427 criterios con valor (65 %) · 0 sin plan
+```
+
+**Archivos afectados:**
+| Archivo | Cambio |
+|---------|--------|
+| `docs/banco-ensayos/equipos/iq-{llenadora-tubos,secador-bandejas,secador-tambor,refrigerador-lab,congelador-lab,cabina-flujo,cabina-bioseguridad}.html` | **NUEVOS** — 35 ensayos |
+| `scripts/extraer-banco.mjs` | 7 fuentes IQ agregadas |
+| `js/core/banco-equipos-data.js` | Regenerado |
+| `tests/bancos-contrato.test.js` | Conteos IQ por familia |
+
+**Verificación:**
+```
+npm run preflight → protocolo:check OK, urs-ar:check OK, Vitest 1217, backend 154, E2E 14
+```
+
 ### 2026-11-19 (329): DQ de almacenes con el formato de la plantilla
 
 **Qué:** el DQ de almacenes salía con el generador legado (documento propio, sin la plantilla). Ahora usa la **plantilla DQ** como equipos, estabilidad y sistemas, y conserva su contenido.
