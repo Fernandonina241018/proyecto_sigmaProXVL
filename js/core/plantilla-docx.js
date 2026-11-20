@@ -954,9 +954,20 @@ const PlantillaDocx = (() => {
           + (bold ? '<w:b/>' : '') + '<w:sz w:val="22"/><w:szCs w:val="22"/></w:rPr>'
           + '<w:t xml:space="preserve">' + esc(String(t || '')) + '</w:t></w:r>';
         const par = (t, bold) => '<w:p><w:pPr><w:spacing w:after="80"/></w:pPr>' + run(t, bold) + '</w:p>';
-        const soloTexto = (html) => String(html || '')
-          .replace(/<br\s*\/?>/gi, '\n').replace(/<[^>]+>/g, '').replace(/&nbsp;/g, ' ')
-          .split('\n').map((l) => l.replace(/\s+/g, ' ').trim()).filter(Boolean);
+        // Sin regex de etiquetas: CodeQL lo trata como sanitización incompleta.
+        const soloTexto = (html) => {
+          const s0 = String(html || '').replace(/<br\s*\/?>/gi, '\n').replace(/&nbsp;/g, ' ');
+          let out = '';
+          for (let i = 0; i < s0.length;) {
+            const a = s0.indexOf('<', i);
+            if (a < 0) { out += s0.slice(i); break; }
+            out += s0.slice(i, a);
+            const b = s0.indexOf('>', a);
+            if (b < 0) break;
+            i = b + 1;
+          }
+          return out.split('\n').map((l) => l.replace(/\s+/g, ' ').trim()).filter(Boolean);
+        };
         let anexo = par('ANEXO — ENSAYOS DE DISEÑO', true);
         for (const e of ensayosDQ) {
           anexo += par(e.id + ' — ' + String(e.titulo || '').replace(new RegExp('^' + e.id + ' — '), ''), true);
