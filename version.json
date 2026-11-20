@@ -1,1 +1,1 @@
-{"v":"4838df5","t":"2026-11-20T01:51:10Z","m":"feat(banco): IQ especificos de llenadora-tubos, secadores y camaras (#330)","b":["7 familias que solo tenian IQ comun ahora tienen IQ propio.","35 ensayos con criterio, nota y referencia.","Extractor y conteos del contrato actualizados."]}
+{"v":"b7503af","t":"2026-11-20T02:05:18Z","m":"fix(banco): rugosidad con plan continuo, instrumento y trazabilidad (#332)","b":["Nota y fuente ASME BPE; certificado de material no certifica Ra.","Reactor, granulador, recubridora y cabina remiten a IQ-012.","Tests de regresion."]}
