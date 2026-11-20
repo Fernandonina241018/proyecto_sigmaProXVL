@@ -8,7 +8,7 @@ const require = createRequire(import.meta.url);
 const banco = require('../js/core/banco-equipos-data.js');
 
 // Familias migradas. Agregar el id de familia al migrarla.
-const MIGRADAS = new Set(['tableteadora', 'encapsuladora', 'granulador', 'recubridora', 'reactor', 'llenadora', 'llenadora-tubos', 'blistera', 'etiquetadora', 'detector-metales', 'horno-secado', 'horno-vacio', 'autoclave', 'cabina-flujo', 'cabina-bioseguridad', 'sistema-cremas-vacio', 'viscosimetro', 'balanza', 'phmetro', 'espectrofotometro', 'espectrofotometro-ir', 'espectrometro', 'hplc', 'gc', 'disolutor', 'desintegrador', 'friabilometro', 'durometro', 'karl-fischer', 'toc', 'incubadora', 'centrifuga', 'termometro']);
+const MIGRADAS = new Set(['tableteadora', 'encapsuladora', 'granulador', 'recubridora', 'reactor', 'llenadora', 'llenadora-tubos', 'blistera', 'etiquetadora', 'detector-metales', 'horno-secado', 'horno-vacio', 'autoclave', 'cabina-flujo', 'cabina-bioseguridad', 'sistema-cremas-vacio', 'viscosimetro', 'balanza', 'phmetro', 'espectrofotometro', 'espectrofotometro-ir', 'espectrometro', 'hplc', 'gc', 'disolutor', 'desintegrador', 'friabilometro', 'durometro', 'karl-fischer', 'toc', 'incubadora', 'centrifuga', 'termometro', 'lecho-fluido', 'mezclador', 'liofilizador', 'tunel-despirogenizacion']);
 
 const ensayos = Object.entries(banco.fases)
   .flatMap(([fase, xs]) => xs.map((x) => ({ ...x, fase })))
