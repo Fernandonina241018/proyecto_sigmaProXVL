@@ -90,6 +90,34 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (StatAnalyzer Pro) co
 
 ## CAMBIOS RECIENTES
 
+### 2026-11-19 (331): Rugosidad de superficies en contacto — plan, instrumento y trazabilidad
+
+**Qué:** se corrige el ensayo común de rugosidad (`EQ-IQ-012`) y se conectan las familias que solo citaban Ra.
+- **Plan estadístico:** era «atributo / pasa-no pasa»; Ra es variable continua. Ahora: n = 3 por punto, media, DE, RSD e IC 95 %, regla media ≤ 0,8 µm.
+- **Instrumento declarado:** `data-instrumentos="Rugosímetro calibrado — registrar ID y certificado en la tabla de instrumentos del protocolo"`.
+- **Referencia colgante:** se elimina «IT-VAL-0014» (no existe en el repo) y se mide «con el rugosímetro calibrado, por triplicado».
+- **Nota y fuente:** el Ra ≤ 0,8 µm es propuesta de ASME BPE; se confirma con el acabado del fabricante y la medición, no con el certificado de material.
+- **Familias que citaban Ra sin medir** (reactor, granulador, recubridora, cabina de flujo): la nota remite explícitamente a `EQ-IQ-012`.
+- **Tests nuevos:** instrumento declarado, plan continuo, sin IT-VAL-0014, ASME BPE y remisión a IQ-012 en las cuatro familias.
+
+**Estado medido:**
+```
+global: 927/1427 criterios con valor (65 %) · instrumentos declarados 1/1427 (resto pendiente de Calidad)
+```
+
+**Archivos afectados:**
+| Archivo | Cambio |
+|---------|--------|
+| `docs/banco-ensayos/equipos-comun.html` | `EQ-IQ-012`: plan, instrumento, nota y referencia |
+| `docs/banco-ensayos/equipos/iq-{reactor,granulador,recubridora,cabina-flujo}.html` | Nota con remisión a IQ-012 |
+| `js/core/banco-equipos-data.js` | Regenerado |
+| `tests/bancos-contenido-equipos.test.js` | 4 pruebas de rugosidad |
+
+**Verificación:**
+```
+npm run preflight → protocolo:check OK, urs-ar:check OK, Vitest 1221, backend 154, E2E 14
+```
+
 ### 2026-11-19 (330): IQ específicos de los 7 equipos que solo tenían el común
 
 **Qué:** se cierran las 7 familias sin IQ propio (antes generaban solo con el IQ común genérico).

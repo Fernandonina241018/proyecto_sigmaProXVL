@@ -74,3 +74,33 @@ describe('equipos migrados: contrato de contenido', () => {
     expect(sinFuente).toEqual([]);
   });
 });
+
+describe('rugosidad de superficies en contacto', () => {
+  const todos = Object.entries(banco.fases).flatMap(([fase, xs]) => xs.map((x) => ({ ...x, fase })))
+    .filter((e) => e.kind === 'ensayo');
+  const rug = todos.find((e) => e.id === 'EQ-IQ-012');
+
+  it('el ensayo común de rugosidad existe y declara el instrumento', () => {
+    expect(rug).toBeTruthy();
+    expect(String(rug.instrumentos || '')).toMatch(/rugos[ií]metro/i);
+  });
+
+  it('el plan de rugosidad es de variable continua (no atributo)', () => {
+    const plan = texto(rug, 'Plan estadístico');
+    expect(plan).toMatch(/Tipo de dato = continua/);
+    expect(plan).toMatch(/n = 3/);
+    expect(plan).toMatch(/µm/);
+  });
+
+  it('no cita el instructivo inexistente y sí ASME BPE', () => {
+    expect(texto(rug, 'Procedimiento')).not.toMatch(/IT-VAL-0014/);
+    expect(texto(rug, 'Referencia')).toMatch(/ASME BPE/);
+  });
+
+  it('las familias que citan Ra remiten a EQ-IQ-012', () => {
+    for (const id of ['EQ-IQ-RC-008', 'EQ-IQ-GR-002', 'EQ-IQ-RB-002', 'EQ-IQ-CF-001']) {
+      const e = todos.find((x) => x.id === id);
+      expect(texto(e, 'Nota'), id).toMatch(/EQ-IQ-012/);
+    }
+  });
+});

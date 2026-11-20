@@ -545,11 +545,11 @@ var BancoEquipos = {
      },
      {
       "et": "Procedimiento",
-      "html": "<strong>Procedimiento:</strong><br>\n  1) Identificar las superficies en contacto directo con el producto que requieren verificación<br>\n  2) Confirmar que las superficies están limpias, secas y libres de residuos<br>\n  3) Verificar que el rugosímetro cuenta con certificado de calibración vigente<br>\n  4) Medir la rugosidad (Ra) en los puntos definidos, según el instructivo vigente (IT-VAL-0014)<br>\n  5) Registrar el valor de cada punto en la tabla correspondiente<br>\n  6) Procesar los datos crudos de rugosidad (Ra) en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
+      "html": "<strong>Procedimiento:</strong><br>\n  1) Identificar las superficies en contacto directo con el producto que requieren verificación<br>\n  2) Confirmar que las superficies están limpias, secas y libres de residuos<br>\n  3) Verificar que el rugosímetro cuenta con certificado de calibración vigente<br>\n  4) Medir la rugosidad (Ra) en los puntos definidos con el rugosímetro calibrado, por triplicado<br>\n  5) Registrar el valor de cada punto en la tabla correspondiente<br>\n  6) Procesar los datos crudos de rugosidad (Ra) en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo"
      },
      {
       "et": "Plan estadístico",
-      "html": "<strong>Plan estadístico:</strong><br>Variable = acabado y material de superficies de contacto; unidad = pasa/no pasa. Tipo de dato = atributo. n = 100 % de las superficies. Estadísticos = proporción de cumplimiento con IC binomial exacto. Regla de decisión = todas conformes y con Ra ≤ 0,8 µm. Atípicos: no aplica a datos de atributo; toda exclusión se documenta y se conserva el registro original."
+      "html": "<strong>Plan estadístico:</strong><br>Variable = rugosidad media (Ra); unidad = µm. Tipo de dato = continua. n = 3 mediciones por punto, en el 100 % de los puntos del mapa. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = media de las 3 mediciones ≤ 0,8 µm en cada punto. Atípicos = Grubbs solo si n ≥ 7; toda exclusión se documenta y se conserva el dato original."
      },
      {
       "et": "Criterio de aceptación",
@@ -561,15 +561,16 @@ var BancoEquipos = {
      },
      {
       "et": "Nota",
-      "html": "<strong>Nota:</strong><br>El acabado en rojo se confirma con el certificado del material."
+      "html": "<strong>Nota:</strong><br>El valor Ra ≤ 0,8 µm es una propuesta basada en ASME BPE; se confirma contra el acabado declarado por el fabricante y la medición con rugosímetro, no contra el certificado de material."
      },
      {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br><span class=\"refnorma\">EU GMP Anexo 15 — Calificación y validación</span>; 21 CFR 211.160(b); ISO/IEC 17025."
+      "html": "<strong>Referencia:</strong><br>ASME BPE; EU GMP Anexo 15; 21 CFR 211.160(b); ISO/IEC 17025."
      }
     ],
     "tabla": null,
     "tablaModelo": "RUGOSIDAD",
+    "instrumentos": "Rugosímetro calibrado — registrar ID y certificado en la tabla de instrumentos del protocolo",
     "analisis": "si"
    },
    {
@@ -2081,7 +2082,7 @@ var BancoEquipos = {
      },
      {
       "et": "Nota",
-      "html": "<strong>Nota:</strong><br>El acabado y los materiales en rojo se confirman con el certificado y el diseño sanitario."
+      "html": "<strong>Nota:</strong><br>El acabado y los materiales en rojo se confirman con el certificado y el diseño sanitario. La rugosidad (Ra) no se mide en este ensayo: se verifica con rugosímetro calibrado en EQ-IQ-012."
      },
      {
       "et": "Referencia",
@@ -3489,7 +3490,7 @@ var BancoEquipos = {
      },
      {
       "et": "Nota",
-      "html": "<strong>Nota:</strong><br>Las holguras y el acabado en rojo se confirman con el certificado del fabricante."
+      "html": "<strong>Nota:</strong><br>Las holguras y el acabado en rojo se confirman con el certificado del fabricante. La rugosidad (Ra) no se mide en este ensayo: se verifica con rugosímetro calibrado en EQ-IQ-012."
      },
      {
       "et": "Referencia",
@@ -3665,7 +3666,7 @@ var BancoEquipos = {
      },
      {
       "et": "Nota",
-      "html": "<strong>Nota:</strong><br>La cantidad y posición de pistolas se confirman con el diseño; una pistola fuera de posición genera zonas sin recubrir."
+      "html": "<strong>Nota:</strong><br>La cantidad y posición de pistolas se confirman con el diseño; una pistola fuera de posición genera zonas sin recubrir. La rugosidad (Ra) no se mide en este ensayo: se verifica con rugosímetro calibrado en EQ-IQ-012."
      },
      {
       "et": "Referencia",
@@ -5848,7 +5849,7 @@ var BancoEquipos = {
      },
      {
       "et": "Nota",
-      "html": "<strong>Nota:</strong><br>El acabado en rojo se confirma con el fabricante; una superficie porosa no se limpia."
+      "html": "<strong>Nota:</strong><br>El acabado en rojo se confirma con el fabricante; una superficie porosa no se limpia. La rugosidad (Ra) no se mide en este ensayo: se verifica con rugosímetro calibrado en EQ-IQ-012."
      },
      {
       "et": "Referencia",

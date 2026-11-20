@@ -362,23 +362,23 @@
   <p><strong>Referencia:</strong><br><span class="refnorma">EU GMP Anexo 15 — Calificación y validación</span>; 21 CFR 211.160(b); ISO/IEC 17025.</p>
 </article>
 
-<article data-bloque="3" id="art-EQ-IQ-012" class="ensayo" data-analisis="si" data-id="EQ-IQ-012" data-fase="IQ" data-cond="ambas" data-tabla-modelo="RUGOSIDAD">
+<article data-bloque="3" id="art-EQ-IQ-012" class="ensayo" data-analisis="si" data-id="EQ-IQ-012" data-fase="IQ" data-cond="ambas" data-tabla-modelo="RUGOSIDAD" data-instrumentos="Rugosímetro calibrado — registrar ID y certificado en la tabla de instrumentos del protocolo">
   <h3>EQ-IQ-012 — Verificación de rugosidad en superficies en contacto con el producto (si aplica)</h3>
   <p><strong>Objetivo:</strong><br>Verificar que las superficies del <span class="equipo">equipo</span> en contacto directo con el producto cumplen con la rugosidad superficial especificada, garantizando su limpiabilidad.</p>
   <p><strong>Procedimiento:</strong><br>
   1) Identificar las superficies en contacto directo con el producto que requieren verificación<br>
   2) Confirmar que las superficies están limpias, secas y libres de residuos<br>
   3) Verificar que el rugosímetro cuenta con certificado de calibración vigente<br>
-  4) Medir la rugosidad (Ra) en los puntos definidos, según el instructivo vigente (IT-VAL-0014)<br>
+  4) Medir la rugosidad (Ra) en los puntos definidos con el rugosímetro calibrado, por triplicado<br>
   5) Registrar el valor de cada punto en la tabla correspondiente<br>
   6) Procesar los datos crudos de rugosidad (Ra) en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Plan estadístico:</strong><br>Variable = acabado y material de superficies de contacto; unidad = pasa/no pasa. Tipo de dato = atributo. n = 100 % de las superficies. Estadísticos = proporción de cumplimiento con IC binomial exacto. Regla de decisión = todas conformes y con Ra ≤ 0,8 µm. Atípicos: no aplica a datos de atributo; toda exclusión se documenta y se conserva el registro original.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = rugosidad media (Ra); unidad = µm. Tipo de dato = continua. n = 3 mediciones por punto, en el 100 % de los puntos del mapa. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = media de las 3 mediciones ≤ 0,8 µm en cada punto. Atípicos = Grubbs solo si n ≥ 7; toda exclusión se documenta y se conserva el dato original.</p>
   <p><strong>Criterio de aceptación:</strong><br>Superficies en contacto directo con producto: material conforme y Ra ≤ <span class="por-confirmar">0,8 µm</span>.<br>Sin grietas, porosidad ni corrosión.<br>Registro de inspección.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Tabla de rugosidad completada<br>
   - Data cruda y reporte estadístico del análisis de rugosidad (Ra)</p>
-  <p><strong>Nota:</strong><br>El acabado en rojo se confirma con el certificado del material.</p>
-  <p><strong>Referencia:</strong><br><span class="refnorma">EU GMP Anexo 15 — Calificación y validación</span>; 21 CFR 211.160(b); ISO/IEC 17025.</p>
+  <p><strong>Nota:</strong><br>El valor Ra ≤ 0,8 µm es una propuesta basada en ASME BPE; se confirma contra el acabado declarado por el fabricante y la medición con rugosímetro, no contra el certificado de material.</p>
+  <p><strong>Referencia:</strong><br>ASME BPE; EU GMP Anexo 15; 21 CFR 211.160(b); ISO/IEC 17025.</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-IQ-013" class="ensayo" data-id="EQ-IQ-013" data-fase="IQ" data-cond="ambas">
