@@ -90,6 +90,32 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (StatAnalyzer Pro) co
 
 ## CAMBIOS RECIENTES
 
+### 2026-11-20 (334): Instrumentos por ensayo en almacenes
+
+**Qué:** se aplica el criterio a los 27 ensayos de almacenes: nombre genérico en el banco, ID y certificado a cargo del analista.
+- **8/27 con instrumento**, todos de medición: OQ-002 (sensores), OQ-003/005/006 (mapeo, carga, corte), OQ-004 (luxómetro), PQ-002 (cinta métrica), PQ-003/004 (mapeo con carga).
+- **Instrumentos:** termohigrómetro calibrado, termómetro/registrador (MKT), luxómetro, cronómetro (recuperación) y cinta métrica (volumen/ocupación).
+- **Documentales sin instrumento:** IQ de legajo, planos, procedimientos, desviaciones y cierres (decisión del usuario).
+- **Ajuste de falsos positivos:** «sensores T/H» solo se interpreta como termohigrómetro en OQ/PQ; en DQ/IQ queda vacío.
+
+**Estado medido:**
+```
+almacenes: 8/27 con instrumento · documentales vacíos
+global: falta instrumentos 736/1427 (52 %)
+```
+
+**Archivos afectados:**
+| Archivo | Cambio |
+|---------|--------|
+| `docs/banco-ensayos/almacenes.html` | `data-instrumentos` en 8 ensayos |
+| `js/core/banco-almacenes-data.js` | Regenerado |
+| `tests/banco-almacenes-instrumentos.test.js` | **NUEVO** — 3 pruebas |
+
+**Verificación:**
+```
+npm run preflight → protocolo:check OK, urs-ar:check OK, Vitest 1230, backend 154, E2E 14
+```
+
 ### 2026-11-20 (333): Instrumentos por ensayo en sistemas
 
 **Qué:** se aplica el criterio de equipos a los 261 ensayos de sistemas: el banco declara el **nombre genérico** del instrumento y el analista carga ID, serie y certificado.
