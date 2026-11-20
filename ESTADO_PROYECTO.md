@@ -90,6 +90,35 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (StatAnalyzer Pro) co
 
 ## CAMBIOS RECIENTES
 
+### 2026-11-19 (328): Equipos lote 8b — cámaras, secadores y comunes (equipos completo)
+
+**Qué:** 117 ensayos más y con esto **los 1.064 ensayos de equipos quedan migrados**.
+- **Refrigerador (35) y congelador (35):** alarmas ±2/±3 °C con retardo ≤ 15 min, notificación ≤ 5 min, autonomía ≥ 30 min, sensor ±0,5 °C, oscilación ±1 °C, recuperación ≤ 15 min, descongelación ≤ 2 °C, mapeo ≥ 9 puntos y ≥ 72 h, producto en amortiguador.
+- **Secador de bandejas (12):** ΔT entre bandejas ±2 °C, humedad final por posición ±1 %, repetibilidad en 3 lotes.
+- **Secador de tambor (12):** velocidad ±2 %, superficie ±2 °C, fuga ≤ 1 mbar/min, cuchilla ≤ 1 mm, humedad ±1 %, rendimiento ≥ 98 %.
+- **Comunes (23):** documentación, instrumentos ≤ 12 meses, nivel ≤ 0,5 mm/m, Ra ≤ 0,8 µm, utilidades, software, seguridad y prerrequisitos de OQ/PQ.
+- **Se restauró `refnorma`** en los comunes: el generador inyecta la referencia por tipo (USP `<1058>` para L) y el banco no la escribe.
+- `MIGRADAS` cubre 41 familias + comunes.
+
+**Estado medido:**
+```
+equipos: 1064/1064 ensayos migrados · 0 sin plan
+global: 903/1392 criterios con valor (65 %) · 107 clonados en 52 grupos
+```
+
+**Archivos afectados:**
+| Archivo | Cambio |
+|---------|--------|
+| `docs/banco-ensayos/equipos/{oq,pq}-{refrigerador-lab,congelador-lab,secador-bandejas,secador-tambor}.html` | 94 ensayos reescritos |
+| `docs/banco-ensayos/equipos-comun.html`, `equipos/{oq,pq}-comun.html` | 23 ensayos + `refnorma` |
+| `js/core/banco-equipos-data.js` | Regenerado |
+| `tests/bancos-contenido-equipos.test.js` | `MIGRADAS` + comunes |
+
+**Verificación:**
+```
+npm run preflight → protocolo:check OK, urs-ar:check OK, Vitest 1209, backend 154, E2E 14
+```
+
 ### 2026-11-19 (327): Equipos lote 8a — lecho fluido, mezclador, liofilizador y túnel
 
 **Qué:** 108 ensayos al estándar.

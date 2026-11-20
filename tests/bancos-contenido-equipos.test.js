@@ -8,11 +8,13 @@ const require = createRequire(import.meta.url);
 const banco = require('../js/core/banco-equipos-data.js');
 
 // Familias migradas. Agregar el id de familia al migrarla.
-const MIGRADAS = new Set(['tableteadora', 'encapsuladora', 'granulador', 'recubridora', 'reactor', 'llenadora', 'llenadora-tubos', 'blistera', 'etiquetadora', 'detector-metales', 'horno-secado', 'horno-vacio', 'autoclave', 'cabina-flujo', 'cabina-bioseguridad', 'sistema-cremas-vacio', 'viscosimetro', 'balanza', 'phmetro', 'espectrofotometro', 'espectrofotometro-ir', 'espectrometro', 'hplc', 'gc', 'disolutor', 'desintegrador', 'friabilometro', 'durometro', 'karl-fischer', 'toc', 'incubadora', 'centrifuga', 'termometro', 'lecho-fluido', 'mezclador', 'liofilizador', 'tunel-despirogenizacion']);
+const MIGRAR_COMUNES = true;
+const MIGRADAS = new Set(['tableteadora', 'encapsuladora', 'granulador', 'recubridora', 'reactor', 'llenadora', 'llenadora-tubos', 'blistera', 'etiquetadora', 'detector-metales', 'horno-secado', 'horno-vacio', 'autoclave', 'cabina-flujo', 'cabina-bioseguridad', 'sistema-cremas-vacio', 'viscosimetro', 'balanza', 'phmetro', 'espectrofotometro', 'espectrofotometro-ir', 'espectrometro', 'hplc', 'gc', 'disolutor', 'desintegrador', 'friabilometro', 'durometro', 'karl-fischer', 'toc', 'incubadora', 'centrifuga', 'termometro', 'lecho-fluido', 'mezclador', 'liofilizador', 'tunel-despirogenizacion', 'refrigerador-lab', 'congelador-lab', 'secador-bandejas', 'secador-tambor']);
 
 const ensayos = Object.entries(banco.fases)
   .flatMap(([fase, xs]) => xs.map((x) => ({ ...x, fase })))
-  .filter((e) => e.kind === 'ensayo' && (e.bloque === 2 || e.bloque === 3) && MIGRADAS.has(e.familia));
+  .filter((e) => e.kind === 'ensayo' && (e.bloque === 2 || e.bloque === 3)
+    && (MIGRADAS.has(e.familia) || (MIGRAR_COMUNES && !e.familia)));
 
 const sec = (e, prefijo) => (e.secciones || []).find((s) => String(s.et || '').startsWith(prefijo));
 const texto = (e, prefijo) => {
