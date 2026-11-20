@@ -66,12 +66,12 @@
   1) Llevar la cámara al límite de alarma alta definido en el protocolo aprobado y verificar el disparo<br>
   2) Repetir en el límite de alarma baja y verificar el disparo<br>
   3) Medir el retardo de cada disparo contra el retardo definido en el protocolo aprobado</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Cada alarma dispara en su límite definido.<br>
-  El retardo medido está dentro de lo definido.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = límites y retardo de alarma; unidad = °C y min. Tipo de dato = continua. n = 3 repeticiones. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = disparo dentro del retardo. Atípicos = Grubbs solo si n ≥ 7; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Alarmas de alta y baja temperatura configuradas en los límites del rango 2–8 °C (+2 y −2).<br>Disparo dentro del retardo configurado (<span class="por-confirmar">≤ 15 min</span>).<br>Registro por alarma.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro de disparos y retardos de alarma (anexo del informe)</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante del equipo.</p>
+  <p><strong>Nota:</strong><br>El retardo y los límites en rojo se confirman con la URS del material almacenado.</p>
+  <p><strong>Referencia:</strong><br>ICH Q1A(R2); WHO TRS 1010; USP &lt;1079&gt;; EU GMP Anexo 15.</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-OQ-RF-002" class="ensayo" data-id="EQ-OQ-RF-002" data-fase="OQ" data-cond="ambas" data-familia="refrigerador-lab">
@@ -81,12 +81,12 @@
   1) Simular puerta abierta y verificar su alarma<br>
   2) Simular falla de sensor y verificar su alarma (si aplica)<br>
   3) Simular corte de energía y verificar su alarma y la batería de respaldo (si aplica)</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Cada condición simulada genera su alarma.<br>
-  La batería de respaldo sostiene la alarma (si aplica).</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = alarma por condición; unidad = pasa/no pasa. Tipo de dato = atributo. n = 1 prueba por condición. Estadísticos = proporción de cumplimiento con IC binomial exacto. Regla de decisión = cada condición genera alarma. Atípicos: no aplica a datos de atributo; toda exclusión se documenta y se conserva el registro original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Cada condición anormal (puerta abierta, falla de compresor, falla de ventilador) genera su alarma.<br>El 100 % de las condiciones probadas.<br>Registro por condición.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro de alarmas simuladas (anexo del informe)</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante del equipo.</p>
+  <p><strong>Nota:</strong><br>Se prueban todas las condiciones del análisis de riesgo.</p>
+  <p><strong>Referencia:</strong><br>ICH Q1A(R2); WHO TRS 1010; USP &lt;1079&gt;; EU GMP Anexo 15.</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-OQ-RF-003" class="ensayo" data-id="EQ-OQ-RF-003" data-fase="OQ" data-cond="ambas" data-familia="refrigerador-lab">
@@ -95,11 +95,12 @@
   <p><strong>Procedimiento:</strong><br>
   1) Provocar una alarma y verificar su recepción por SMS, correo o sistema de monitoreo (si aplica)<br>
   2) Registrar destinatario, vía y tiempo de llegada</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  La notificación llega al destinatario definido por la vía definida (si aplica).</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = tiempo de notificación; unidad = min. Tipo de dato = continua. n = 3 repeticiones. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = ≤ 5 min. Atípicos = Grubbs solo si n ≥ 7; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>La alarma llega al responsable por la vía remota en ≤ <span class="por-confirmar">5 min</span>.<br>Se prueba cada canal configurado.<br>Registro de envío y recepción.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro de notificaciones con destinatario y tiempo (anexo del informe)</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante del equipo.</p>
+  <p><strong>Nota:</strong><br>El tiempo en rojo depende del esquema de guardias.</p>
+  <p><strong>Referencia:</strong><br>ICH Q1A(R2); WHO TRS 1010; USP &lt;1079&gt;; EU GMP Anexo 15.</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-OQ-RF-004" class="ensayo" data-id="EQ-OQ-RF-004" data-fase="OQ" data-cond="ambas" data-familia="refrigerador-lab">
@@ -108,11 +109,12 @@
   <p><strong>Procedimiento:</strong><br>
   1) Simular la falla del controlador principal según el procedimiento del fabricante<br>
   2) Provocar una condición de alarma y verificar que la alarma independiente actúa</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  La alarma independiente actúa sin el controlador principal.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = alarma independiente; unidad = pasa/no pasa. Tipo de dato = atributo. n = 3 pruebas sin red. Estadísticos = proporción de cumplimiento con IC binomial exacto. Regla de decisión = alarma activa en las 3. Atípicos: no aplica a datos de atributo; toda exclusión se documenta y se conserva el registro original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>La alarma independiente sigue funcionando sin energía de la red o con el control principal caído.<br>Batería o respaldo operativo.<br>Registro de la prueba.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro de la prueba de independencia (anexo del informe)</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante del equipo.</p>
+  <p><strong>Nota:</strong><br>Una alarma que depende de la misma energía no protege el material.</p>
+  <p><strong>Referencia:</strong><br>ICH Q1A(R2); WHO TRS 1010; USP &lt;1079&gt;; EU GMP Anexo 15.</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-OQ-RF-005" class="ensayo" data-id="EQ-OQ-RF-005" data-fase="OQ" data-cond="ambas" data-familia="refrigerador-lab">
@@ -122,12 +124,12 @@
   1) Cortar la energía con la cámara vacía y registrar el tiempo que mantiene el rango<br>
   2) Restablecer la energía y medir el tiempo de recuperación hasta el rango<br>
   3) Verificar el arranque correcto sin intervención</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Tiempos registrados contra lo definido en el protocolo aprobado.<br>
-  Arranque correcto sin intervención.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = autonomía sin energía; unidad = min. Tipo de dato = continua. n = 3 cortes con carga. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = ≥ 30 min. Atípicos = Grubbs solo si n ≥ 7; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Sin energía, la unidad mantiene el rango ≥ <span class="por-confirmar">30 min</span>.<br>Medición con carga representativa.<br>Registro del tiempo hasta salir del rango.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro de tiempos de mantenimiento y recuperación (anexo del informe)</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante del equipo.</p>
+  <p><strong>Nota:</strong><br>La autonomía en rojo se confirma con el material y el plan de contingencia.</p>
+  <p><strong>Referencia:</strong><br>ICH Q1A(R2); WHO TRS 1010; USP &lt;1079&gt;; EU GMP Anexo 15.</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-OQ-RF-006" class="ensayo" data-id="EQ-OQ-RF-006" data-fase="OQ" data-cond="ambas" data-familia="refrigerador-lab">
@@ -136,11 +138,11 @@
   <p><strong>Procedimiento:</strong><br>
   1) Intentar la apertura sin credencial y verificar el bloqueo (si aplica)<br>
   2) Verificar la apertura con credencial autorizada</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Solo el personal autorizado logra el acceso (si aplica).</p>
+  <p><strong>Criterio de aceptación:</strong><br>El acceso está restringido al personal autorizado, con registro de apertura.<br>Sin llaves ni claves compartidas.<br>Registro de accesos.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro de la prueba de acceso (anexo del informe)</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante del equipo.</p>
+  <p><strong>Nota:</strong><br>El acceso no controlado es una causa frecuente de excursión.</p>
+  <p><strong>Referencia:</strong><br>ICH Q1A(R2); WHO TRS 1010; USP &lt;1079&gt;; EU GMP Anexo 15.</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-OQ-RF-007" class="ensayo" data-id="EQ-OQ-RF-007" data-fase="OQ" data-cond="ambas" data-familia="refrigerador-lab" data-analisis="si">
@@ -150,13 +152,13 @@
   1) Comparar la lectura del sensor de control contra el patrón en cada setpoint de la tabla<br>
   2) Registrar las diferencias por setpoint<br>
   3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  La diferencia está dentro del criterio definido en el protocolo aprobado en cada setpoint.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = exactitud del sensor; unidad = °C. Tipo de dato = continua. n = 3 comparaciones contra patrón. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = desviación ≤ ±0,5 °C. Atípicos = Grubbs solo si n ≥ 7; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Exactitud del sensor de control ≤ <span class="por-confirmar">±0,5 °C</span> frente a patrón trazable.<br>Calibración vigente.<br>Registro por comparación.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro de exactitud por setpoint con data cruda y reporte<br>
   - Data cruda y reporte estadístico del análisis de exactitud</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante del equipo. URS aprobada (rangos y criterios).</p>
+  <p><strong>Nota:</strong><br>La tolerancia en rojo se confirma con el certificado.</p>
+  <p><strong>Referencia:</strong><br>ICH Q1A(R2); WHO TRS 1010; USP &lt;1079&gt;; EU GMP Anexo 15.</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-OQ-RF-008" class="ensayo" data-id="EQ-OQ-RF-008" data-fase="OQ" data-cond="ambas" data-familia="refrigerador-lab" data-analisis="si">
@@ -166,13 +168,13 @@
   1) Registrar la oscilación del ciclo del compresor en cada setpoint<br>
   2) Verificar que la histéresis mantiene la cámara dentro del rango<br>
   3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  La oscilación está dentro del rango en cada setpoint.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = oscilación de temperatura; unidad = °C. Tipo de dato = continua. n = registro de 2 h. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = amplitud ≤ ±1 °C. Atípicos = Grubbs solo si n ≥ 7; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Oscilación por histéresis del compresor ≤ <span class="por-confirmar">±1 °C</span>.<br>Sin ciclado corto ni deriva.<br>Registro continuo durante 2 h.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro de histéresis por setpoint con data cruda y reporte<br>
   - Data cruda y reporte estadístico del análisis de estabilidad del control</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante del equipo. URS aprobada (rangos y criterios).</p>
+  <p><strong>Nota:</strong><br>Una oscilación grande reduce la vida útil del material aunque el promedio cumpla.</p>
+  <p><strong>Referencia:</strong><br>ICH Q1A(R2); WHO TRS 1010; USP &lt;1079&gt;; EU GMP Anexo 15.</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-OQ-RF-009" class="ensayo" data-id="EQ-OQ-RF-009" data-fase="OQ" data-cond="ambas" data-familia="refrigerador-lab" data-analisis="si">
@@ -182,13 +184,13 @@
   1) Partir de temperatura ambiente y medir el tiempo hasta alcanzar el setpoint<br>
   2) Registrar el sobreimpulso máximo alcanzado<br>
   3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Tiempo y sobreimpulso dentro de lo definido en el protocolo aprobado.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = tiempo de enfriamiento; unidad = h. Tipo de dato = continua. n = 3 arranques. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = ≤ 2 h. Atípicos = Grubbs solo si n ≥ 7; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Tiempo de enfriamiento desde temperatura ambiente hasta el rango ≤ <span class="por-confirmar">2 h</span>.<br>Con carga representativa.<br>Registro del perfil.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro de enfriamiento con data cruda y reporte<br>
   - Data cruda y reporte estadístico del análisis de enfriamiento</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante del equipo. URS aprobada (rangos y criterios).</p>
+  <p><strong>Nota:</strong><br>El tiempo en rojo se confirma con el fabricante y la carga.</p>
+  <p><strong>Referencia:</strong><br>ICH Q1A(R2); WHO TRS 1010; USP &lt;1079&gt;; EU GMP Anexo 15.</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-OQ-RF-010" class="ensayo" data-id="EQ-OQ-RF-010" data-fase="OQ" data-cond="ambas" data-familia="refrigerador-lab" data-analisis="si">
@@ -198,13 +200,13 @@
   1) Abrir la puerta por la duración definida según el uso real<br>
   2) Medir el tiempo de retorno de la cámara al rango<br>
   3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Plan estadístico:</strong><br>Variable = tiempo medido en el procedimiento por repetición; tamaño de muestra = las repeticiones definidas en el procedimiento; estadísticos = media y rango de las repeticiones; criterio = todas las repeticiones dentro del tiempo definido; sin comparaciones entre grupos (no aplica ANOVA); valores atípicos con investigación documentada, sin exclusión silenciosa.</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  La cámara retorna al rango dentro del tiempo definido en el protocolo aprobado.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = recuperación tras apertura; unidad = min. Tipo de dato = continua. n = 3 aperturas. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = ≤ 15 min. Atípicos = Grubbs solo si n ≥ 7; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Retorno al rango tras apertura de puerta ≤ <span class="por-confirmar">15 min</span>.<br>Apertura de duración definida y repetida 3 veces.<br>Registro de la recuperación.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro de recuperación con data cruda y reporte<br>
   - Data cruda y reporte estadístico del análisis de recuperación</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante del equipo.</p>
+  <p><strong>Nota:</strong><br>El tiempo en rojo se confirma con el uso real del área.</p>
+  <p><strong>Referencia:</strong><br>ICH Q1A(R2); WHO TRS 1010; USP &lt;1079&gt;; EU GMP Anexo 15.</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-OQ-RF-011" class="ensayo" data-id="EQ-OQ-RF-011" data-fase="OQ" data-cond="ambas" data-familia="refrigerador-lab" data-analisis="si">
@@ -214,14 +216,13 @@
   1) Registrar la temperatura de cámara durante el ciclo de descongelación<br>
   2) Medir el tiempo de recuperación hasta el rango<br>
   3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Efecto y recuperación dentro de lo definido en el protocolo aprobado.<br>
-  En congeladores de descongelación automática este es el ensayo más crítico.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = temperatura durante descongelación; unidad = °C. Tipo de dato = continua. n = 2 ciclos completos. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = excursión ≤ 2 °C. Atípicos = Grubbs solo si n ≥ 7; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>El ciclo de descongelación no produce excursión > <span class="por-confirmar">2 °C</span> ni salida del rango.<br>Registro durante 2 ciclos completos.<br>Sin alarma no justificada.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro del ciclo con data cruda y reporte<br>
   - Data cruda y reporte estadístico del análisis de descongelación</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante del equipo.</p>
+  <p><strong>Nota:</strong><br>La descongelación es la causa más común de excursión nocturna.</p>
+  <p><strong>Referencia:</strong><br>ICH Q1A(R2); WHO TRS 1010; USP &lt;1079&gt;; EU GMP Anexo 15.</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-OQ-RF-012" class="ensayo" data-id="EQ-OQ-RF-012" data-fase="OQ" data-cond="ambas" data-familia="refrigerador-lab" data-analisis="si">
@@ -231,14 +232,13 @@
   1) Verificar los ventiladores en operación<br>
   2) Confirmar la ausencia de zonas sin flujo (si aplica)<br>
   3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Ventiladores operativos.<br>
-  Sin zonas sin flujo (si aplica).</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = uniformidad de temperatura sin flujo; unidad = °C. Tipo de dato = continua. n = mínimo 9 puntos. Estadísticos = media, DE e IC 95 %. Regla de decisión = sin zona sin flujo dentro del rango. Atípicos: Grubbs solo si n ≥ 7; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Ventiladores operativos y sin zonas sin flujo.<br>Uniformidad dentro del rango con la cámara vacía.<br>Registro por punto.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro de circulación con data cruda y reporte<br>
   - Data cruda y reporte estadístico del análisis de circulación</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante del equipo.</p>
+  <p><strong>Nota:</strong><br>Una zona sin flujo genera un punto caliente que el sensor de control no ve.</p>
+  <p><strong>Referencia:</strong><br>ICH Q1A(R2); WHO TRS 1010; USP &lt;1079&gt;; EU GMP Anexo 15.</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-OQ-RF-013" class="ensayo" data-id="EQ-OQ-RF-013" data-fase="OQ" data-cond="ambas" data-familia="refrigerador-lab" data-analisis="si">
@@ -248,14 +248,13 @@
   1) Ubicar sensores en los niveles y en las esquinas, cerca de la puerta, de la salida de aire y del evaporador<br>
   2) Justificar el número de sensores por el volumen en el protocolo aprobado<br>
   3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  La distribución cubre niveles, esquinas, puerta, salida de aire y evaporador.<br>
-  El número de sensores está justificado por el volumen.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = cobertura del mapeo; unidad = puntos. Tipo de dato = atributo. n = mínimo 9 puntos. Estadísticos = proporción de cumplimiento con IC binomial exacto. Regla de decisión = cobertura de niveles, esquinas y puerta. Atípicos: no aplica a datos de atributo; toda exclusión se documenta y se conserva el registro original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Sensores de mapeo en niveles, esquinas, centro y puerta: mínimo <span class="por-confirmar">9 puntos</span>.<br>Distribución justificada por volumen.<br>Registro del plano de sensores.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Plano de sensores con data cruda y reporte<br>
   - Data cruda y reporte estadístico del análisis de distribución</p>
-  <p><strong>Referencia:</strong><br>URS aprobada (rangos y criterios).</p>
+  <p><strong>Nota:</strong><br>El mínimo de puntos en rojo se confirma con el volumen y la guía adoptada.</p>
+  <p><strong>Referencia:</strong><br>ICH Q1A(R2); WHO TRS 1010; USP &lt;1079&gt;; EU GMP Anexo 15.</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-OQ-RF-014" class="ensayo" data-id="EQ-OQ-RF-014" data-fase="OQ" data-cond="ambas" data-familia="refrigerador-lab" data-analisis="si">
@@ -265,13 +264,13 @@
   1) Operar la unidad estable por la duración definida y justificada por setpoint (mínimo habitual 24 h)<br>
   2) Registrar el estudio completo<br>
   3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  La duración cumple lo definido y justificado por setpoint.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = duración del mapeo; unidad = h. Tipo de dato = continua. n = 1 mapeo por setpoint. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = ≥ 72 h con descongelación. Atípicos = Grubbs solo si n ≥ 7; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Duración del mapeo por setpoint ≥ <span class="por-confirmar">72 h</span>, justificada y sin huecos.<br>Incluye un ciclo de descongelación.<br>Registro completo.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro del estudio con data cruda y reporte<br>
   - Data cruda y reporte estadístico del análisis de duración</p>
-  <p><strong>Referencia:</strong><br>URS aprobada (rangos y criterios).</p>
+  <p><strong>Nota:</strong><br>La duración en rojo se confirma con el uso y la guía; debe cubrir descongelación.</p>
+  <p><strong>Referencia:</strong><br>ICH Q1A(R2); WHO TRS 1010; USP &lt;1079&gt;; EU GMP Anexo 15.</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-OQ-RF-015" class="ensayo" data-id="EQ-OQ-RF-015" data-fase="OQ" data-cond="ambas" data-familia="refrigerador-lab" data-analisis="si">
@@ -281,14 +280,13 @@
   1) Identificar el punto frío y el punto caliente de la cámara<br>
   2) Verificar que el sensor de monitoreo está en una posición representativa<br>
   3) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Puntos frío y caliente identificados.<br>
-  Sensor de monitoreo en posición representativa.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = puntos críticos del mapeo; unidad = °C. Tipo de dato = continua. n = mínimo 9 puntos. Estadísticos = media, DE e IC 95 %. Regla de decisión = punto frío y caliente identificados. Atípicos: Grubbs solo si n ≥ 7; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Punto frío y caliente identificados con datos.<br>Sensor de control ubicado en el punto crítico o justificación documentada.<br>Registro por punto.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro de puntos con data cruda y reporte<br>
   - Data cruda y reporte estadístico del análisis de puntos</p>
-  <p><strong>Referencia:</strong><br>URS aprobada (rangos y criterios).</p>
+  <p><strong>Nota:</strong><br>Ubicar el control lejos del punto crítico deja excursiones sin detectar.</p>
+  <p><strong>Referencia:</strong><br>ICH Q1A(R2); WHO TRS 1010; USP &lt;1079&gt;; EU GMP Anexo 15.</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-OQ-RF-016" class="ensayo" data-id="EQ-OQ-RF-016" data-fase="OQ" data-cond="ambas" data-familia="refrigerador-lab" data-analisis="si">
@@ -297,13 +295,13 @@
   <p><strong>Procedimiento:</strong><br>
   1) Revisar todos los registros del estudio por sensor y setpoint<br>
   2) Procesar los datos crudos en el módulo de análisis estadístico y anexar la data cruda y el reporte generado como evidencia de este ensayo</p>
-  <p><strong>Plan estadístico:</strong><br>Variable = la magnitud medida en este ensayo según el procedimiento; tamaño de muestra = las réplicas y puntos definidos en el procedimiento (mínimo por triplicado); estadísticos = media, desviación estándar y RSD, con intervalo de confianza al 95 % cuando aplique; comparaciones entre lotes, puntos o velocidades con ANOVA cuando aplique; tendencia = regresión de la variable contra tiempo o secuencia, sin pendiente estadísticamente significativa; valores atípicos = prueba de Grubbs con investigación y justificación documentada, sin exclusión silenciosa; criterio = el especificado en el criterio de aceptación de este ensayo.</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Todos los sensores dentro del rango del URS durante todo el estudio.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = temperatura por sensor; unidad = °C. Tipo de dato = continua. n = 100 % de los registros. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = cada registro dentro del rango. Atípicos = Grubbs solo si n ≥ 7; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Todos los sensores dentro del rango 2–8 °C durante el período estable.<br>El 100 % de los registros, sin promediar.<br>Registro por sensor.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro del estudio con data cruda y reporte<br>
   - Data cruda y reporte estadístico del análisis del mapeo en vacío</p>
-  <p><strong>Referencia:</strong><br>URS aprobada (rangos y criterios).</p>
+  <p><strong>Nota:</strong><br>Promediar sensores oculta el punto que sale de rango.</p>
+  <p><strong>Referencia:</strong><br>ICH Q1A(R2); WHO TRS 1010; USP &lt;1079&gt;; EU GMP Anexo 15.</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-OQ-RF-017" class="ensayo" data-id="EQ-OQ-RF-017" data-fase="OQ" data-cond="ambas" data-familia="refrigerador-lab">
@@ -312,11 +310,12 @@
   <p><strong>Procedimiento:</strong><br>
   1) Comparar en simultáneo el registrador independiente, el sensor de control y el patrón<br>
   2) Registrar las diferencias</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  La diferencia está dentro del criterio definido en el protocolo aprobado.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = diferencia entre registradores; unidad = °C. Tipo de dato = continua. n = 3 comparaciones simultáneas. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = ≤ 0,5 °C. Atípicos = Grubbs solo si n ≥ 7; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Diferencia entre registrador independiente, control y patrón ≤ <span class="por-confirmar">0,5 °C</span>.<br>Comparación simultánea y calibración vigente.<br>Registro por comparación.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro comparativo (anexo del informe)</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante del equipo.</p>
+  <p><strong>Nota:</strong><br>El registrador independiente es la evidencia del almacenamiento.</p>
+  <p><strong>Referencia:</strong><br>ICH Q1A(R2); WHO TRS 1010; USP &lt;1079&gt;; EU GMP Anexo 15.</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-OQ-RF-018" class="ensayo" data-id="EQ-OQ-RF-018" data-fase="OQ" data-cond="ambas" data-familia="refrigerador-lab">
@@ -325,11 +324,12 @@
   <p><strong>Procedimiento:</strong><br>
   1) Verificar el intervalo de registro contra lo definido<br>
   2) Verificar la exactitud de fecha y hora contra un patrón</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Intervalo y marca de tiempo exactos según lo definido.</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = intervalo y marca de tiempo; unidad = min. Tipo de dato = continua. n = 1 verificación. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = ≤ 15 min y desvío ≤ 1 min. Atípicos = Grubbs solo si n ≥ 7; toda exclusión se documenta y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Intervalo de registro ≤ <span class="por-confirmar">15 min</span> y marca de tiempo con desvío ≤ <span class="por-confirmar">1 min</span>.<br>Sin huecos.<br>Registro exportable.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro de la verificación (anexo del informe)</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante del equipo.</p>
+  <p><strong>Nota:</strong><br>Los valores en rojo se confirman con la URS del material.</p>
+  <p><strong>Referencia:</strong><br>ICH Q1A(R2); WHO TRS 1010; USP &lt;1079&gt;; EU GMP Anexo 15.</p>
 </article>
 
 <article data-bloque="3" id="art-EQ-OQ-RF-019" class="ensayo" data-id="EQ-OQ-RF-019" data-fase="OQ" data-cond="ambas" data-familia="refrigerador-lab">
@@ -338,11 +338,11 @@
   <p><strong>Procedimiento:</strong><br>
   1) Verificar el respaldo de los registros según el procedimiento (si aplica)<br>
   2) Verificar los controles de integridad de datos (si aplica)</p>
-  <p><strong>Criterio de aceptación:</strong><br>
-  Respaldo disponible e íntegro (si aplica).</p>
+  <p><strong>Criterio de aceptación:</strong><br>Registros íntegros, respaldados y recuperables.<br>Restauración probada una vez.<br>Sin posibilidad de borrado.</p>
   <p><strong>Documentos entregables:</strong><br>
   - Registro de respaldo verificado (anexo del informe)</p>
-  <p><strong>Referencia:</strong><br>Manual del fabricante del equipo.</p>
+  <p><strong>Nota:</strong><br>Un registro que se pierde no protege al material ni al paciente.</p>
+  <p><strong>Referencia:</strong><br>ICH Q1A(R2); WHO TRS 1010; USP &lt;1079&gt;; EU GMP Anexo 15.</p>
 </article>
 
 <article data-bloque="4" id="art-EQ-OQ-RF-RES" class="ensayo" data-id="EQ-OQ-RF-RES" data-fase="OQ" data-cond="ambas" data-familia="refrigerador-lab">
