@@ -1022,6 +1022,14 @@ const PlantillaDocx = (() => {
     { fam: 'lecho-fluido', clave: 'lf_deltaT', id: 'EQ-PQ-LF-013', token: '3', parametro: 'ΔT máximo entre sondas', valor: '3', unidad: '°C', fuente: 'banco de ensayos', version: 'EQ-PQ-LF 2026-10-05 v2', estado: 'provisional — confirmar contra URS' },
     { fam: 'mezclador', clave: 'pqmz_rendimiento', id: 'EQ-PQ-MZ-014', token: '98', parametro: 'Rendimiento mínimo', valor: '98', unidad: '%', fuente: 'banco de ensayos', version: 'EQ-PQ-MZ 2026-10-05 v2', estado: 'provisional — confirmar contra URS' },
     { fam: 'estabilidad', clave: 'est_sobreimpulso', id: 'EST-OQ-010', token: '2', parametro: 'Sobreimpulso máximo', valor: '2', unidad: '°C', fuente: 'banco de ensayos', version: 'EST-OQ-CAM 2026-10-06 v1', estado: 'provisional — confirmar contra URS' },
+    // Procesos PQ: tamaño de lote, número de lotes y % de muestreo por etapa.
+    // Son propuestas: el responsable los confirma antes de generar.
+    { fam: 'procesos', clave: 'lotes_ppq', id: 'PRO-PQ-GEN-011', token: 'lotes_ppq', parametro: 'Número de lotes PPQ', valor: '3', unidad: 'lotes', fuente: 'FDA 2011 / EU GMP Anexo 15', version: 'propuesta', estado: 'provisional — confirmar por riesgo' },
+    { fam: 'procesos', clave: 'tamano_lote', id: 'PRO-PQ-GEN-011', token: 'tamano_lote', parametro: 'Tamaño de lote', valor: '________', unidad: 'unidades', fuente: 'registro maestro de lote', version: 'propuesta', estado: 'provisional — confirmar' },
+    { fam: 'comprimidos', clave: 'porcentaje_mezcla', id: 'PRO-PQ-CMP-014', token: 'porcentaje_mezcla', parametro: 'Muestreo de mezcla/granulación', valor: '0,1', unidad: '% del lote', fuente: 'plan de muestreo aprobado', version: 'propuesta', estado: 'provisional — confirmar' },
+    { fam: 'comprimidos', clave: 'porcentaje_compresion', id: 'PRO-PQ-CMP-014', token: 'porcentaje_compresion', parametro: 'Muestreo de compresión', valor: '0,05', unidad: '% del lote', fuente: 'plan de muestreo aprobado', version: 'propuesta', estado: 'provisional — confirmar' },
+    { fam: 'comprimidos', clave: 'porcentaje_recubrimiento', id: 'PRO-PQ-CMP-014', token: 'porcentaje_recubrimiento', parametro: 'Muestreo de recubrimiento', valor: '0,05', unidad: '% del lote', fuente: 'plan de muestreo aprobado', version: 'propuesta', estado: 'provisional — confirmar' },
+    { fam: 'comprimidos', clave: 'porcentaje_empaque', id: 'PRO-PQ-CMP-014', token: 'porcentaje_empaque', parametro: 'Muestreo de empaque', valor: '0,01', unidad: '% del lote', fuente: 'plan de muestreo aprobado', version: 'propuesta', estado: 'provisional — confirmar' },
   ];
 
   function limitesDe(id) {

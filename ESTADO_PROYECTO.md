@@ -93,9 +93,10 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (StatAnalyzer Pro) co
 ### 2026-11-20 (338): Procesos PQ · banco común + comprimidos y plantilla sin rótulos de equipo
 
 **Qué:** se crea el banco de procesos con tres niveles —común global, grupo sólidos y forma comprimidos—, más el subtipo en el paso 2. Se habilita el generador solo en **PQ** y se adapta la plantilla para que no hable de equipo.
-- **Común (11):** requisitos previos, descripción/aspecto, identificación, valoración, impurezas orgánicas/inorgánicas, disolventes residuales, microbiología, estabilidad, envase/cierre y etiquetado.
+- **Común (12):** requisitos previos, plan de lotes y muestreo, descripción/aspecto, identificación, valoración, impurezas orgánicas/inorgánicas, disolventes residuales, microbiología, estabilidad, envase/cierre y etiquetado.
 - **Grupo sólidos (2):** contenido de agua y uniformidad de unidades de dosificación.
-- **Comprimidos (10):** dimensiones, peso, dureza, friabilidad, desintegración, disolución y cuatro ensayos de subtipo (recubierto, liberación modificada y efervescente).
+- **Comprimidos (11):** dimensiones, peso, dureza, friabilidad, desintegración, disolución, muestreo en proceso y cuatro ensayos de subtipo (recubierto, liberación modificada y efervescente).
+- **Muestreo:** `PRO-PQ-GEN-011` define tamaño de lote, número de lotes PPQ y cadena de custodia; `PRO-PQ-CMP-014` expresa el muestreo por etapa como % del lote (mezcla, compresión, recubrimiento, empaque) con mínimos por punto. Los valores son campos obligatorios del paso 2, marcados en rojo.
 - **Herencia:** `familia` = forma o grupo (`comprimidos` o `solidos`); `data-subtipo` solo entra si coincide con el paso 2. Un sólido no recibe ensayos de líquidos.
 - **Plantilla:** se usa la PQ y se reemplazan los rótulos fijos de equipo por proceso (descripción, uso previsto, alcance e imagen). No se toca el texto de los ensayos ni «equipos e instrumentos».
 - **Referencias verificadas en la red** (2026-11-20): FDA 2011, EU GMP Anexo 15, ICH Q8/Q9/Q10, Q1A(R2), Q3B(R2), Q3C(R9), Q3D(R2), USP <701> (revisión oficial 2026-10-01), <711>, <905>, <1216>, <921>, <731>, <467>, <61>/<62>, <671>, <1092>, 21 CFR 211.94/110/122/125/130. Se documentan en `docs/banco-ensayos/procesos/REFERENCIAS.md`.
@@ -103,16 +104,16 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (StatAnalyzer Pro) co
 
 **Estado medido:**
 ```
-banco: procesos 23 ensayos · 11 comunes · 2 sólidos · 10 comprimidos
-global: 1450 ensayos · falta instrumentos 711 (49 %) · criterio numérico 950 (66 %)
+banco: procesos 25 ensayos · 12 comunes · 2 sólidos · 11 comprimidos
+global: 1452 ensayos · falta instrumentos 713 (49 %) · criterio numérico 952 (66 %)
 ```
 
 **Archivos afectados:**
 | Archivo | Cambio |
 |---------|--------|
-| `docs/banco-ensayos/procesos/pq-comun.html` | **NUEVO** — 11 ensayos comunes + referencias + anexos |
+| `docs/banco-ensayos/procesos/pq-comun.html` | **NUEVO** — 12 ensayos comunes + referencias + anexos |
 | `docs/banco-ensayos/procesos/pq-solidos.html` | **NUEVO** — 2 ensayos de grupo |
-| `docs/banco-ensayos/procesos/pq-comprimidos.html` | **NUEVO** — 10 ensayos de forma y subtipo |
+| `docs/banco-ensayos/procesos/pq-comprimidos.html` | **NUEVO** — 11 ensayos de forma, muestreo y subtipo |
 | `docs/banco-ensayos/procesos/REFERENCIAS.md` | **NUEVO** — fuentes verificadas |
 | `js/core/banco-procesos-data.js` | **NUEVO** — generado por el extractor |
 | `js/core/indexx-validaciones.js` | Entidad, schema, GEN_CATS/GEN_FASES, conteos y manifiesto |
@@ -120,12 +121,12 @@ global: 1450 ensayos · falta instrumentos 711 (49 %) · criterio numérico 950 
 | `scripts/extraer-banco.mjs` | Categoría `procesos` y `data-subtipo` |
 | `scripts/validar-banco-contenido.mjs` | Incluye el banco de procesos |
 | `indexx.html` | Carga diferida del banco de procesos |
-| `tests/banco-procesos.test.js` | **NUEVO** — 15 pruebas de estructura, herencia y contenido |
+| `tests/banco-procesos.test.js` | **NUEVO** — 18 pruebas de estructura, herencia, muestreo y contenido |
 | `tests/validaciones-panel.test.js`, `tests/lazy-load.test.js` | Comprimidos y grupo de validaciones |
 
 **Verificación:**
 ```
-npm run preflight → protocolo:check OK, urs-ar:check OK, Vitest 1250, backend 154, E2E 14
+npm run preflight → protocolo:check OK, urs-ar:check OK, Vitest 1253, backend 154, E2E 14
 ```
 
 ### 2026-11-20 (337): Procesos · selector grupo → forma farmacéutica
