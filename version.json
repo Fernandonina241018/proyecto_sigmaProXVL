@@ -1,1 +1,1 @@
-{"v":"7afec8a","t":"2026-11-21T12:47:00Z","m":"feat(procesos): dimensiones y calibre de capsulas (#360)","b":["PRO-PQ-CAP-005 con longitud, diametro y espesor de pared.","Calibre obligatorio en el paso 2.","Tolerancias y calibre en rojo hasta confirmacion."]}
+{"v":"61e2fc0","t":"2026-11-21T15:41:10Z","m":"feat(procesos): granulados y polvos en solidos (#362)","b":["Entidades granulados y polvos con grupo solidos.","Fluidez, tamano de particula, dispersibilidad y reconstruccion.","Subtipos granulado/polvo/polvo para reconstitución.","Referencias USP 1174/786/921/731."]}
