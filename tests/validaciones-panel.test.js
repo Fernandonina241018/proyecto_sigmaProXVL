@@ -119,6 +119,26 @@ describe('Validaciones V7', () => {
     expect(html).not.toContain('data-ent=');
   });
 
+  test('procesos: grupo → forma (combobox filtrado)', () => {
+    expect(Validaciones.GRUPOS_PROCESOS.map((g) => g.id)).toEqual(['solidos', 'semisolidos', 'liquidos']);
+    const vacio = Validaciones.viewEntidad('procesos');
+    expect(vacio).toContain('class="v7-grupo"');
+    expect(vacio).toContain('<option value="solidos">Sólidos</option>');
+    expect(vacio).toContain('<option value="semisolidos">Semisólidos</option>');
+    expect(vacio).toContain('<option value="liquidos">Líquidos</option>');
+    // La forma no se puede elegir hasta que haya grupo.
+    expect(vacio).toMatch(/class="v7-ent-input"[^>]*disabled/);
+
+    Validaciones.ENTIDADES.procesos.push({ id: 'comprimidos', nombre: 'Comprimidos', grupo: 'solidos' });
+    try {
+      const html = Validaciones.viewEntidad('procesos');
+      expect(html).toContain('data-ent="comprimidos"');
+      expect(html).toContain('data-grupo="solidos"');
+    } finally {
+      Validaciones.ENTIDADES.procesos.pop();
+    }
+  });
+
   test('ruta de entidad válida y desconocida cae a banco', () => {
     expect(Validaciones.parseRoute('#/entidad/almacenes')).toBe('entidad/almacenes');
     expect(Validaciones.parseRoute('#/entidad/no-existe')).toBe('banco');

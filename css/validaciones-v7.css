@@ -577,6 +577,9 @@
 
 /* ----- paso 1: combobox con buscador ----- */
 #validaciones-app .v7-combo { max-width: 560px; position: relative; }
+/* Procesos: el grupo va arriba y el combo de formas debajo. */
+#validaciones-app .v7-field-proc { max-width: 320px; margin-bottom: 10px; }
+#validaciones-app .v7-ent-input:disabled { opacity: 0.55; cursor: not-allowed; }
 #validaciones-app .v7-ent-list {
   position: absolute;
   top: calc(100% + 6px);
