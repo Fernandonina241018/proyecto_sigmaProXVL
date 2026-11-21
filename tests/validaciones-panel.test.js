@@ -98,8 +98,8 @@ describe('Validaciones V7', () => {
     expect(Validaciones.CATS.length).toBe(6);
     for (const c of Validaciones.CATS) {
       expect(c.href).toBeUndefined();
-      // procesos arranca vacío: las formas farmacéuticas se cargan con sus ensayos.
-      if (c.id !== 'procesos') expect(Validaciones.getEntidades(c.id).length).toBeGreaterThan(0);
+      // procesos tiene comprimidos; las demás formas se cargan con sus ensayos.
+      expect(Validaciones.getEntidades(c.id).length).toBeGreaterThan(0);
       expect(Validaciones.getSchema(c.id).length).toBeGreaterThanOrEqual(6);
     }
     // <base target="_blank"> en indexx.html: los enlaces in-app deben forzar _self
@@ -111,12 +111,14 @@ describe('Validaciones V7', () => {
     expect(catLine).not.toContain('docs/');
   });
 
-  test('procesos: combobox de formas farmacéuticas vacío', () => {
-    expect(Validaciones.getEntidades('procesos')).toEqual([]);
+  test('procesos: comprimidos en el grupo sólidos', () => {
+    expect(Validaciones.getEntidades('procesos').map((e) => e.id)).toEqual(['comprimidos']);
     const html = Validaciones.viewEntidad('procesos');
     expect(html).toContain('Seleccione la forma farmacéutica');
-    expect(html).toContain('Sin formas farmacéuticas cargadas');
-    expect(html).not.toContain('data-ent=');
+    expect(html).toContain('data-ent="comprimidos"');
+    expect(html).toContain('data-grupo="solidos"');
+    expect(Validaciones.getSchema('procesos').map((f) => f.k)).toContain('subtipo');
+    expect(Validaciones.getSchema('procesos').find((f) => f.k === 'subtipo').opciones).toContain('Liberación modificada');
   });
 
   test('procesos: grupo → forma (combobox filtrado)', () => {
@@ -129,10 +131,10 @@ describe('Validaciones V7', () => {
     // La forma no se puede elegir hasta que haya grupo.
     expect(vacio).toMatch(/class="v7-ent-input"[^>]*disabled/);
 
-    Validaciones.ENTIDADES.procesos.push({ id: 'comprimidos', nombre: 'Comprimidos', grupo: 'solidos' });
+    Validaciones.ENTIDADES.procesos.push({ id: 'capsulas', nombre: 'Cápsulas', grupo: 'solidos' });
     try {
       const html = Validaciones.viewEntidad('procesos');
-      expect(html).toContain('data-ent="comprimidos"');
+      expect(html).toContain('data-ent="capsulas"');
       expect(html).toContain('data-grupo="solidos"');
     } finally {
       Validaciones.ENTIDADES.procesos.pop();

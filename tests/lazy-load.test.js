@@ -53,6 +53,7 @@ const DIFERIDOS = [
   'js/core/banco-equipos-data.js',
   'js/core/banco-estabilidad-data.js',
   'js/core/banco-sistemas-data.js',
+  'js/core/banco-procesos-data.js',
   'js/core/generador-docx.js',
   'js/core/plantilla-docx.js',
   'js/pages/ml.js',
@@ -117,8 +118,9 @@ describe('cargador bajo demanda (D2)', () => {
     const antes = requests.length;
     await win.__sigmaLoadGroup('validaciones');
     const pedidos = requests.slice(antes);
-    expect(pedidos).toHaveLength(6);
+    expect(pedidos).toHaveLength(7);
     expect(pedidos).toContain('js/core/banco-equipos-data.js?v=abc123');
+    expect(pedidos).toContain('js/core/banco-procesos-data.js?v=abc123');
     expect(pedidos).toContain('js/core/plantilla-docx.js?v=abc123');
   });
 

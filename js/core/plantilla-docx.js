@@ -19,6 +19,14 @@ const PlantillaDocx = (() => {
     PQ: 'docs/plantillas/PQ-1-400AAAA.docx',
     DQ: 'docs/plantillas/DQ-1-400AAAA.docx',
   };
+  // Procesos usa la plantilla PQ y reemplaza los rótulos de equipo por proceso.
+  // Si Calidad entrega una plantilla propia, se cambia solo esta ruta.
+  const PLANTILLAS_CAT = {
+    procesos: { PQ: 'docs/plantillas/PQ-1-400AAAA.docx' },
+  };
+  function plantilla(fase, cat) {
+    return (PLANTILLAS_CAT[cat] && PLANTILLAS_CAT[cat][fase]) || PLANTILLAS[fase];
+  }
   const COND_TXT = { est: 'estática', dina: 'dinámica', ambas: 'estática y dinámica' };
   const MESES = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'];
   const MIME_DOCX = 'application/vnd.openxmlformats-officedocument.wordprocessingml.document';
@@ -858,8 +866,8 @@ const PlantillaDocx = (() => {
   async function generarDQScaffold(plantillaU8, draft, entidad, ensayosDQ) {
     const d = draft || {};
     const nombre = String(d.descripcion || '').trim() || (entidad && entidad.nombre) || 'EQUIPO';
-    const marca = String(d.marca || '').trim() || 'N/A';
-    const modelo = String(d.modelo || '').trim() || 'N/A';
+    const marca = String(d.marca || d.producto || '').trim() || 'N/A';
+    const modelo = String(d.modelo || d.concentracion || '').trim() || 'N/A';
     const area = String(d.area || d.ubicacion || '').trim() || '—';
     const codigo = String(d.codigo || '').trim() || '—';
     const version = String(d.versionProtocolo || '').trim() || '01';
@@ -1041,10 +1049,11 @@ const PlantillaDocx = (() => {
   }
 
   // Parámetros de una familia/entidad para el Paso 2 (orden del banco).
-  function parametrosFamilia(famId) {
+  function parametrosFamilia(famId, grupoId) {
     const fam = String(famId || '').trim();
+    const grupo = String(grupoId || '').trim();
     const vistos = {};
-    return LIMITES.filter((l) => l.fam === fam && !vistos[l.clave] && (vistos[l.clave] = true))
+    return LIMITES.filter((l) => (l.fam === fam || (grupo && l.fam === grupo)) && !vistos[l.clave] && (vistos[l.clave] = true))
       .map((l) => ({ clave: l.clave, label: l.parametro, unidad: l.unidad, defecto: l.valor }));
   }
 
@@ -1100,23 +1109,34 @@ const PlantillaDocx = (() => {
     return { sinEntrada, provisionales };
   }
 
+  // Un ensayo aplica si su `familia` es la forma o su grupo, y si su
+  // `subtipo` coincide con el elegido en el paso 2. Sin entidad (tests)
+  // entran todos, como antes.
+  function aplicaEnsayo(i, entId, grupo, draft) {
+    if (!i) return false;
+    if (i.familia && entId && i.familia !== entId && i.familia !== grupo) return false;
+    const sub = String((draft && draft.subtipo) || '').trim();
+    if (i.subtipo && i.subtipo !== sub) return false;
+    return true;
+  }
+
   // Resumen de pendientes para el Paso 3 (misma selección que generar()).
   // Con borrador, los valores confirmados salen de pendientes.
-  function limitesResumen(fase, catId, entId, cond, draft) {
+  function limitesResumen(fase, catId, entId, cond, draft, grupo) {
     try {
       const b = mezclarComun(banco(catId), fase, catId);
       const items = ((b.fases && b.fases[fase]) || []).filter((i) => i.id && (i.bloque === 2 || i.bloque === 3)
-        && pasaCondicion(i.cond, cond || 'ambas') && (!i.familia || !entId || i.familia === entId));
+        && pasaCondicion(i.cond, cond || 'ambas') && aplicaEnsayo(i, entId, grupo, draft));
       return limitesPendientes(aplicarLimites(items, draft));
     } catch (e) { return { sinEntrada: [], provisionales: [] }; }
   }
 
   // Parámetros sin valor en el borrador (bloquean la descarga, mejora #1/#2).
-  function paramsFaltantes(fase, catId, entId, cond, draft) {
+  function paramsFaltantes(fase, catId, entId, cond, draft, grupo) {
     try {
       const b = mezclarComun(banco(catId), fase, catId);
       const items = ((b.fases && b.fases[fase]) || []).filter((i) => i.id && (i.bloque === 2 || i.bloque === 3)
-        && pasaCondicion(i.cond, cond || 'ambas') && (!i.familia || !entId || i.familia === entId));
+        && pasaCondicion(i.cond, cond || 'ambas') && aplicaEnsayo(i, entId, grupo, draft));
       const d = draft || {};
       const falt = [];
       items.forEach((it) => {
@@ -1279,7 +1299,8 @@ const PlantillaDocx = (() => {
     const rango = [];
     subs.filter((s) => s.tipo === 'ensayo').forEach((s) => { for (let i = s.ini; i < s.fin; i++) rango.push(i); });
     const busca = (f) => { const i = rango.find(f); return i == null ? null : parts[i].xml; };
-    T.h2 = parts[subs.find((s) => s.tipo === 'ensayo').ini].xml;
+    const primerEnsayo = subs.find((s) => s.tipo === 'ensayo');
+    T.h2 = primerEnsayo ? parts[primerEnsayo.ini].xml : '';
     T.objetivo = busca((i) => inf[i].ilvl === 2 && /^Objetivo:/.test(inf[i].texto));
     T.etiqueta = busca((i) => inf[i].ilvl === 2 && /^Procedimiento:?$/.test(inf[i].texto));
     T.paso = busca((i) => inf[i].ilvl === 3 && inf[i].numId === mainNum && inf[i].texto);
@@ -1445,15 +1466,16 @@ const PlantillaDocx = (() => {
     // elegida coincide (entidad.id); sin familia = común a todas. Sin entidad
     // (tests) entran todos.
     const entId = String((entidad && entidad.id) || '').trim();
+    const esProceso = !!(entidad && String(entidad.grupo || '').trim());
     const ensayosTodos = items.filter((i) => i.id && (i.bloque === 2 || i.bloque === 3) && i.kind !== 'tabla' && pasaCondicion(i.cond, filtro)
-      && (!i.familia || !entId || i.familia === entId));
+      && aplicaEnsayo(i, entId, entidad && entidad.grupo, d));
     const artReq = ensayosTodos.find((a) => /requisitos previos/i.test(a.titulo || ''));
     // H-05: los valores "[n]" se sustituyen desde la tabla de límites (trazables).
     // H-08/H-11: bloques fijos de desviaciones e informe al final (fuera del resumen).
     const ensayosFiltrados = aplicarLimites(ensayosTodos.filter((a) => a !== artReq), d);
     const ensayos = ensayosFiltrados.concat(bloquesFijos(fase, ensayosFiltrados));
     const ctx = contexto(d, entidad, filtro, ensayosTodos);
-    if (!ctx.rango) avisos.push('Sin rango de temperatura/HR en el borrador: se imprime el rango del banco.');
+    if (!ctx.rango && !esProceso) avisos.push('Sin rango de temperatura/HR en el borrador: se imprime el rango del banco.');
     if (!ensayos.length) avisos.push('El banco no tiene ensayos ' + fase + ' para la condición seleccionada.');
     // La referencia normativa depende del tipo de equipo (M/Q/L). Si la entidad
     // no lo declara y el banco usa la marca refnorma, se avisa: evita que un
@@ -1700,8 +1722,8 @@ const PlantillaDocx = (() => {
     for (let i = 0; i < iPrimerH1; i++) {
       let x = parts[i].xml;
       if (nombre) x = reemplazarTexto(x, 'NOMBRE DEL EQUIPO', nombre.toUpperCase()).xml;
-      x = reemplazarTexto(x, 'MARCA', String(d.marca || 'N/A'), 'MARCA:').xml;
-      x = reemplazarTexto(x, 'MODELO', String(d.modelo || 'N/A'), 'MODELO:').xml;
+      x = reemplazarTexto(x, 'MARCA', String(d.marca || d.producto || 'N/A'), 'MARCA:').xml;
+      x = reemplazarTexto(x, 'MODELO', String(d.modelo || d.concentracion || 'N/A'), 'MODELO:').xml;
       const area = String(d.area || d.ubicacion || '').trim();
       if (area) x = reemplazarTexto(x, 'ÁREA', area, 'ÁREA:').xml;
       if (codigo) x = reemplazarTexto(x, 'CÓDIGO', codigo, 'CÓDIGO:').xml;
@@ -1729,7 +1751,7 @@ const PlantillaDocx = (() => {
       const iT2 = iUso >= 0 ? inf.findIndex((x, i) => i > iUso && x.tag === 'w:p' && sinEsp(x.texto) === 'Texto') : -1;
       if (iT2 >= 0 && d.usoPrevisto) parts[iT2] = { tag: 'w:p', xml: textoParrafo(parts[iT2].xml, String(d.usoPrevisto)) };
       else avisos.push('Sin uso previsto en el borrador: la sección 6 conserva "Texto" en USO.');
-      avisos.push('La imagen de la entidad no se inserta automáticamente ("Imagen del equipo").');
+      avisos.push('La imagen de la entidad no se inserta automáticamente ("' + (esProceso ? 'Diagrama de flujo del proceso' : 'Imagen del equipo') + '").');
     }
 
     // ---- responsabilidad del gerente: título dinámico según la gerencia del revisor (T2) ----
@@ -1752,7 +1774,7 @@ const PlantillaDocx = (() => {
     // ---- referencias y anexos del banco ----
     const iRef = inf.findIndex((x) => x.estilo === 'Heading1' && /^REFERENCIAS/.test(sinEsp(x.texto).toUpperCase()));
     const refArt = items.find((i) => i.bloque === 6 && i.tabla && pasaCondicion(i.cond, filtro)
-      && (!i.familia || !entId || i.familia === entId));
+      && aplicaEnsayo(i, entId, entidad && entidad.grupo, d));
     const nRef = H1s.length ? inf.filter((x, i) => x.estilo === 'Heading1' && i <= iRef).length : 9;
     if (iRef >= 0 && refArt && parts[iRef + 1] && parts[iRef + 1].tag === 'w:tbl') {
       const vacio = (s) => !String(s || '').replace(/[_\s—-]/g, '');
@@ -1781,7 +1803,7 @@ const PlantillaDocx = (() => {
       avisos.push('Referencias de ' + refsEnsayo.length + ' ensayo(s) sin tabla de referencias en el modelo; se conservan en cada ensayo.');
     }
     const iAnx = inf.findIndex((x) => x.estilo === 'Heading1' && /^ANEXOS/.test(sinEsp(x.texto).toUpperCase()));
-    const anxDiv = items.find((i) => !i.id && i.bloque === 8 && (!i.familia || !entId || i.familia === entId));
+    const anxDiv = items.find((i) => !i.id && i.bloque === 8 && aplicaEnsayo(i, entId, entidad && entidad.grupo, d));
     if (iAnx >= 0 && anxDiv && parts[iAnx + 1] && parts[iAnx + 1].tag === 'w:tbl') {
       // H-05/H-09: al anexo se suman los límites aplicados y la trazabilidad URS–riesgo.
       const anx = lineas(congelar(anxDiv.html, ctx)).filter((l) => !/^ANEXOS$/i.test(l))
@@ -1962,6 +1984,7 @@ const PlantillaDocx = (() => {
       if (cat === 'equipos' && typeof BancoEquipos !== 'undefined') return BancoEquipos;
       if (cat === 'estabilidad' && typeof BancoEstabilidad !== 'undefined') return BancoEstabilidad;
       if (cat === 'sistemas' && typeof BancoSistemas !== 'undefined') return BancoSistemas;
+      if (cat === 'procesos' && typeof BancoProcesos !== 'undefined') return BancoProcesos;
       if (typeof BancoAlmacenes !== 'undefined') return BancoAlmacenes;
       if (typeof GeneradorDocx !== 'undefined' && GeneradorDocx.banco) return GeneradorDocx.banco();
     } catch (e) { /* sigue */ }
@@ -1983,11 +2006,57 @@ const PlantillaDocx = (() => {
     return prefijo + codigo.slice(0, 40) + ' ' + equipo + '.docx';
   }
 
+  // Rótulos fijos de la plantilla PQ que hablan de equipo. Se reemplazan en
+  // el .docx generado para procesos; no se toca el banco ni el texto de los
+  // ensayos. «equipos e instrumentos» se conserva: ahí el equipo es real.
+  const REEMPLAZOS_PROCESO = [
+    ['Definición y Características del Equipo', 'Definición y Características del Proceso'],
+    ['Características del Equipo', 'Características del Proceso'],
+    ['Descripcion del Equipo', 'Descripción del Proceso'],
+    ['DESCRIPCIÓN DEL EQUIPO Y REQUISITOS PREVIOS A LA CALIFICACIÓN', 'DESCRIPCIÓN DEL PROCESO Y REQUISITOS PREVIOS A LA CALIFICACIÓN'],
+    ['DESCRIPCION Y USO PREVISTO DEL EQUIPO', 'DESCRIPCIÓN Y USO PREVISTO DEL PROCESO'],
+    ['Imagen del equipo', 'Diagrama de flujo del proceso'],
+    ['Calificación de Desempeño del equipo', 'Calificación de Desempeño del Proceso'],
+    ['desempeño del equipo', 'desempeño del proceso'],
+    ['que el equipo cumple', 'que el proceso cumple'],
+    ['equipo objeto del ensayo', 'proceso objeto del ensayo'],
+    ['si el equipo entrega datos digitales', 'si el sistema entrega datos digitales'],
+    ['calificación de este equipo', 'calificación de este proceso'],
+    ['del equipo.', 'del proceso.'],
+    ['que el equipo seleccionado', 'que el proceso seleccionado'],
+    ['audit trail del equipo', 'audit trail del proceso'],
+    ['datos del equipo', 'datos del proceso'],
+    ['liberación del equipo', 'liberación del proceso'],
+    ['liberación o no liberación del equipo', 'liberación o no liberación del proceso'],
+    ['Identificar el equipo: marca, modelo, código interno, número de serie y ubicación', 'Identificar el proceso: producto, concentración, código, lote y línea'],
+    ['trazables a la persona, fecha y equipo', 'trazables a la persona, fecha y proceso'],
+    ['URS/AR del sistema o equipo', 'URS/AR del proceso'],
+    ['MARCA:', 'PRODUCTO:'],
+    ['MODELO:', 'CONCENTRACIÓN:'],
+    ['Esta calificación aplica a', 'Este protocolo aplica a'],
+    ['CALIFICACIÓN DE DESEMPEÑO', 'CALIFICACIÓN DE DESEMPEÑO DEL PROCESO'],
+  ];
+
+  async function adaptarProceso(u8) {
+    const archivos = await leerZip(u8);
+    for (const f of archivos) {
+      if (!/^word\/(?:document|header\d*|footer\d*)\.xml$/i.test(f.nombre)) continue;
+      let xml = dec(f.datos);
+      for (const par of REEMPLAZOS_PROCESO) {
+        const r = reemplazarTexto(xml, par[0], par[1]);
+        xml = r.xml;
+      }
+      f.datos = enc(xml);
+    }
+    return escribirZip(archivos);
+  }
+
   async function descargar(fase, draft, entidad, filtroCond, cat, onBeforeDownload) {
-    const resp = await fetch(PLANTILLAS[fase], { cache: 'no-store' });
-    if (!resp.ok) throw new Error('No se encontró la plantilla ' + PLANTILLAS[fase] + ' (' + resp.status + ').');
+    const resp = await fetch(plantilla(fase, cat), { cache: 'no-store' });
+    if (!resp.ok) throw new Error('No se encontró la plantilla ' + plantilla(fase, cat) + ' (' + resp.status + ').');
     const u8 = new Uint8Array(await resp.arrayBuffer());
     const r = await generar(fase, u8, mezclarComun(banco(cat), fase, cat), draft, entidad, filtroCond);
+    if (cat === 'procesos') r.bytes = await adaptarProceso(r.bytes);
     const filename = nombreArchivo(fase, draft, entidad);
     if (typeof onBeforeDownload === 'function') await onBeforeDownload({ bytes: r.bytes, filename: filename, fase: fase });
     const blob = new Blob([r.bytes], { type: MIME_DOCX });
@@ -2037,7 +2106,7 @@ const PlantillaDocx = (() => {
   }
 
   return {
-    FASES, PLANTILLAS, OPC, SALTO_PAGINA, SALTO_H1, SALTO_H2, SALTO_TABLA, REFS_NORMATIVAS, refNormativa, soporta, configurar, generar, descargar, banco, mezclarComun, generarDQScaffold, descargarDQ, nombreArchivo,
+    FASES, PLANTILLAS, PLANTILLAS_CAT, OPC, SALTO_PAGINA, SALTO_H1, SALTO_H2, SALTO_TABLA, REFS_NORMATIVAS, refNormativa, soporta, configurar, generar, descargar, banco, mezclarComun, generarDQScaffold, descargarDQ, nombreArchivo, aplicaEnsayo, adaptarProceso,
     LIMITES, limitesDe, aplicarLimites, limitesPendientes, limitesResumen, paramsFaltantes, parametrosFamilia, bloquesFijos, rtmLineas,
     _interno: { leerZip, escribirZip, hijos, texto, reemplazarEnParrafo, congelar, lineas, parrafo, estructura, puntosVerificacion, puntosTabla, cabeceraResultado, fechaTexto, crc32, llenarFirmas, fijarTahoma11, fijarTexto11, quitarHumedad, debeSaltar, debeSaltarH1, debeSaltarH2, debeSaltarTabla, saltoPrevio, generoDe, ajustarArticulos },
   };

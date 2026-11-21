@@ -95,8 +95,10 @@ const Validaciones = (() => {
       { id: 'incubadora-38-42', nombre: 'Incubadora (38–42 °C)', tipo: 'Q' },
     ],
     // Procesos: una entrada por forma farmacéutica, con `grupo` (solidos,
-    // semisolidos, liquidos). Vacío hasta que se carguen los ensayos.
-    procesos: [],
+    // semisolidos, liquidos). El subtipo se elige en el paso 2.
+    procesos: [
+      { id: 'comprimidos', nombre: 'Comprimidos', grupo: 'solidos' },
+    ],
     software: [
       { id: 'software-gxp', nombre: 'Sistema computarizado GxP' },
       { id: 'lims', nombre: 'LIMS' },
@@ -219,6 +221,25 @@ const Validaciones = (() => {
     estabilidad: [
       ..._ident,
       ..._fabricante,
+      ..._protocolo,
+    ],
+    procesos: [
+      ..._ident,
+      { k: 'producto', label: 'Producto', tipo: 'text', req: true },
+      { k: 'concentracion', label: 'Concentración / potencia', tipo: 'text', req: true },
+      {
+        k: 'subtipo',
+        label: 'Subtipo de la forma',
+        tipo: 'select',
+        req: true,
+        opciones: [
+          'Convencional', 'Recubierto', 'Liberación modificada', 'Efervescente',
+          'Masticable', 'Sublingual', 'Bucal', 'Acción prolongada',
+        ],
+      },
+      { k: 'especificacionCodigo', label: 'Especificación (código)', tipo: 'text', req: true },
+      { k: 'especificacionVersion', label: 'Especificación (versión)', tipo: 'text', req: true },
+      { k: 'usoPrevisto', label: 'Uso previsto del producto', tipo: 'text', req: true },
       ..._protocolo,
     ],
     equipos: [
@@ -364,6 +385,7 @@ const Validaciones = (() => {
       ['equipos', typeof BancoEquipos !== 'undefined' ? BancoEquipos : null],
       ['estabilidad', typeof BancoEstabilidad !== 'undefined' ? BancoEstabilidad : null],
       ['sistemas', typeof BancoSistemas !== 'undefined' ? BancoSistemas : null],
+      ['procesos', typeof BancoProcesos !== 'undefined' ? BancoProcesos : null],
     ];
     const total = { total: 0, fases: { DQ: 0, IQ: 0, OQ: 0, PQ: 0 }, categorias: {} };
     let cargados = 0;
@@ -800,9 +822,9 @@ const Validaciones = (() => {
   }
 
   const FASES_GEN = ['DQ', 'IQ', 'OQ', 'PQ'];
-  const GEN_CATS = ['almacenes', 'equipos', 'estabilidad', 'sistemas'];
+  const GEN_CATS = ['almacenes', 'equipos', 'estabilidad', 'sistemas', 'procesos'];
   // Fases con generador por categoría (equipos: IQ común + OQ/PQ por familia).
-  const GEN_FASES = { almacenes: FASES_GEN.slice(), equipos: ['DQ', 'IQ', 'OQ', 'PQ'], estabilidad: ['DQ', 'IQ', 'OQ', 'PQ'], sistemas: ['DQ', 'IQ', 'OQ', 'PQ'] };
+  const GEN_FASES = { almacenes: FASES_GEN.slice(), equipos: ['DQ', 'IQ', 'OQ', 'PQ'], estabilidad: ['DQ', 'IQ', 'OQ', 'PQ'], sistemas: ['DQ', 'IQ', 'OQ', 'PQ'], procesos: ['PQ'] };
 
   // Gerencias sugeridas para el Revisor Gerente (T2). El campo acepta texto libre.
   const AREAS_GERENCIA = ['Gerente Validaciones', 'Gerente Gestión de Calidad', 'Gerente Sr. Producción',
@@ -1111,6 +1133,15 @@ const Validaciones = (() => {
   // (no se genera); 'no-cargado' = el banco no está disponible (tampoco
   // se genera: antes fallaba abierto devolviendo true).
   function estadoBancoFam(fase, catId, entId) {
+    if (catId === 'procesos') {
+      try {
+        if (typeof BancoProcesos !== 'undefined' && BancoProcesos && BancoProcesos.fases) {
+          const items = (BancoProcesos.fases[fase] || []).filter((i) => i.id && (i.bloque === 2 || i.bloque === 3));
+          return items.length ? 'ok' : 'sin-banco';
+        }
+      } catch (e) {}
+      return 'no-cargado';
+    }
     if (catId !== 'equipos' || (fase !== 'OQ' && fase !== 'PQ')) return 'ok';
     try {
       if (typeof BancoEquipos !== 'undefined' && BancoEquipos && BancoEquipos.fases) {
@@ -1126,11 +1157,29 @@ const Validaciones = (() => {
     return estadoBancoFam(fase, catId, entId) === 'ok';
   }
 
-  function contarGen(fase, cond, catId, entId) {
+  function pasaCondicionProceso(i, cond) {
+    return cond === 'ambas' || i.cond === 'ambas' || i.cond === cond;
+  }
+
+  function aplicaProceso(i, entId, grupo, sub) {
+    if (i.familia && entId && i.familia !== entId && i.familia !== grupo) return false;
+    const s = String(sub || '').trim();
+    if (i.subtipo && i.subtipo !== s) return false;
+    return true;
+  }
+
+  function contarGen(fase, cond, catId, entId, sub) {
     try {
       // DQ es un documento base desde la plantilla (sin banco de ensayos);
       // almacenes conserva su DQ con contenido.
       if (fase === 'DQ' && catId !== 'almacenes') return null;
+      if (catId === 'procesos') {
+        if (typeof BancoProcesos === 'undefined' || !BancoProcesos || !BancoProcesos.fases) return null;
+        const ent = getEntidades(catId).filter((x) => x.id === entId)[0];
+        const grupo = String((ent && ent.grupo) || '').trim();
+        return (BancoProcesos.fases[fase] || []).filter((i) => i.id && (i.bloque === 2 || i.bloque === 3)
+          && pasaCondicionProceso(i, cond || 'ambas') && aplicaProceso(i, entId, grupo, sub)).length;
+      }
       // Equipos/estabilidad/sistemas: mismo criterio que generar() — bloques 2-3, condición y familia/entidad.
       const BB = catId === 'estabilidad'
         ? (typeof BancoEstabilidad !== 'undefined' ? BancoEstabilidad : null)
@@ -1337,10 +1386,10 @@ const Validaciones = (() => {
     }
   }
 
-  function faltantesParametrosBanco(fase, catId, entId, cond, draft) {
+  function faltantesParametrosBanco(fase, catId, entId, cond, draft, grupo) {
     try {
       if (typeof PlantillaDocx === 'undefined' || !PlantillaDocx.paramsFaltantes) return [];
-      return PlantillaDocx.paramsFaltantes(fase, catId, entId, cond, draft) || [];
+      return PlantillaDocx.paramsFaltantes(fase, catId, entId, cond, draft, grupo) || [];
     } catch (e) {
       try { if (typeof Logger !== 'undefined' && Logger.logError) Logger.logError('paramsFaltantes ' + fase + ': ' + e.message); } catch (_) {}
       return null;
@@ -1436,7 +1485,7 @@ const Validaciones = (() => {
       if (!conGen) return [];
       if (typeof PlantillaDocx === 'undefined' || !PlantillaDocx.parametrosFamilia) return [];
       const fam = catId === 'estabilidad' ? 'estabilidad' : entActual;
-      try { return PlantillaDocx.parametrosFamilia(fam) || []; } catch (e) { return []; }
+      try { return PlantillaDocx.parametrosFamilia(fam, entidadObj().grupo) || []; } catch (e) { return []; }
     }
 
     function schemaTotal() {
@@ -1641,12 +1690,12 @@ const Validaciones = (() => {
         let vista = null;
         try { vista = recoger(); } catch (e) { vista = null; }
         const parts = sel.fases.map((f) => {
-          const n = contarGen(f, sel.cond, catId, entActual);
+          const n = contarGen(f, sel.cond, catId, entActual, (vista && vista.subtipo) || '');
           let extra = '';
           // H-05: rotula límites provisionales o sin tabla (nunca silencioso).
           if (typeof PlantillaDocx !== 'undefined' && PlantillaDocx.limitesResumen) {
             try {
-              const pend = PlantillaDocx.limitesResumen(f, catId, entActual, sel.cond, vista);
+              const pend = PlantillaDocx.limitesResumen(f, catId, entActual, sel.cond, vista, entidadObj().grupo);
               if ((pend.sinEntrada || []).length) extra += ' · ⛔ ' + pend.sinEntrada.length + ' límite(s) sin tabla';
               else if ((pend.provisionales || []).length) extra += ' · ⚠ ' + pend.provisionales.length + ' límite(s) provisional(es)';
             } catch (e) {}
@@ -1736,7 +1785,7 @@ const Validaciones = (() => {
           const falt = [];
           let errorParams = false;
           sel.fases.forEach((f) => {
-            const p = faltantesParametrosBanco(f, catId, entActual, sel.cond, draft);
+            const p = faltantesParametrosBanco(f, catId, entActual, sel.cond, draft, entidadObj().grupo);
             if (p === null) errorParams = true;
             else p.forEach((x) => falt.push(x));
           });
