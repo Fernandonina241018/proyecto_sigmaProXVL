@@ -110,6 +110,60 @@ const Validaciones = (() => {
     ],
   };
 
+  // Tren de equipos por grupo: solo equipos de producción (tipo M), agrupados
+  // por etapa. El orden de las etapas es el orden del proceso; el usuario elige
+  // qué equipos de cada etapa participan. Los analíticos van en la tabla de
+  // instrumentos del ensayo, no en el tren.
+  const TREN_EQUIPOS = {
+    // Por forma: cada forma ve solo los equipos de su proceso.
+    comprimidos: [
+      { etapa: 'Mezcla', ids: ['mezclador'] },
+      { etapa: 'Granulación / secado', ids: ['granulador', 'lecho-fluido', 'secador-bandejas', 'secador-tambor', 'horno-secado', 'horno-vacio'] },
+      { etapa: 'Compresión', ids: ['tableteadora'] },
+      { etapa: 'Recubrimiento', ids: ['recubridora'] },
+      { etapa: 'Empaque', ids: ['blistera', 'etiquetadora', 'detector-metales'] },
+    ],
+    capsulas: [
+      { etapa: 'Mezcla', ids: ['mezclador'] },
+      { etapa: 'Granulación / secado', ids: ['granulador', 'lecho-fluido', 'secador-bandejas', 'secador-tambor', 'horno-secado', 'horno-vacio'] },
+      { etapa: 'Encapsulación', ids: ['encapsuladora'] },
+      { etapa: 'Empaque', ids: ['blistera', 'etiquetadora', 'detector-metales'] },
+    ],
+    granulados: [
+      { etapa: 'Mezcla', ids: ['mezclador'] },
+      { etapa: 'Granulación / secado', ids: ['granulador', 'lecho-fluido', 'secador-bandejas', 'secador-tambor', 'horno-secado', 'horno-vacio'] },
+      { etapa: 'Empaque', ids: ['etiquetadora', 'detector-metales'] },
+    ],
+    polvos: [
+      { etapa: 'Mezcla', ids: ['mezclador'] },
+      { etapa: 'Secado', ids: ['horno-secado', 'horno-vacio'] },
+      { etapa: 'Empaque', ids: ['etiquetadora', 'detector-metales'] },
+    ],
+    // Fallback por grupo para formas futuras que todavía no tengan mapa propio.
+    solidos: [
+      { etapa: 'Mezcla', ids: ['mezclador'] },
+      { etapa: 'Granulación / secado', ids: ['granulador', 'lecho-fluido', 'secador-bandejas', 'secador-tambor', 'horno-secado', 'horno-vacio'] },
+      { etapa: 'Compresión', ids: ['tableteadora'] },
+      { etapa: 'Encapsulación', ids: ['encapsuladora'] },
+      { etapa: 'Recubrimiento', ids: ['recubridora'] },
+      { etapa: 'Empaque', ids: ['blistera', 'etiquetadora', 'detector-metales'] },
+    ],
+    semisolidos: [
+      { etapa: 'Mezcla / fusión', ids: ['mezclador', 'sistema-cremas-vacio'] },
+      { etapa: 'Homogeneización', ids: ['sistema-cremas-vacio'] },
+      { etapa: 'Llenado', ids: ['llenadora', 'llenadora-tubos'] },
+      { etapa: 'Empaque', ids: ['etiquetadora', 'detector-metales'] },
+    ],
+    liquidos: [
+      { etapa: 'Preparación', ids: ['reactor', 'mezclador'] },
+      { etapa: 'Llenado', ids: ['llenadora', 'llenadora-tubos'] },
+      { etapa: 'Llenado aséptico', ids: ['cabina-flujo', 'cabina-bioseguridad'] },
+      { etapa: 'Esterilización', ids: ['autoclave', 'tunel-despirogenizacion'] },
+      { etapa: 'Liofilización', ids: ['liofilizador'] },
+      { etapa: 'Empaque', ids: ['etiquetadora', 'detector-metales'] },
+    ],
+  };
+
   // Bloques de campos compartidos: una sola definición evita que las
   // categorías se desincronicen (antes estaban copiados hasta 5 veces).
   const _ident = [
@@ -1277,6 +1331,32 @@ const Validaciones = (() => {
       + '</div></div>';
   }
 
+  function equipoPorId(id) {
+    const list = getEntidades('equipos');
+    for (let i = 0; i < list.length; i++) {
+      if (list[i].id === id) return list[i];
+    }
+    return null;
+  }
+
+  function trenHtml(forma, grupo) {
+    const f = String(forma || '').trim();
+    const g = String(grupo || '').trim();
+    const etapas = TREN_EQUIPOS[f] || TREN_EQUIPOS[g] || [{
+      etapa: 'Equipos de producción',
+      ids: getEntidades('equipos').filter(function (e) { return e.tipo === 'M'; }).map(function (e) { return e.id; }),
+    }];
+    if (!etapas.length) return '<p class="sub">No hay equipos de producción configurados.</p>';
+    return etapas.map(function (et) {
+      const opts = et.ids.map(function (id) {
+        const e = equipoPorId(id);
+        if (!e) return '';
+        return '<label class="v7-check"><input type="checkbox" data-tren="' + esc(id) + '"><span>' + esc(e.nombre) + ' (' + esc(id) + ')</span></label>';
+      }).join('');
+      return '<fieldset class="v7-tren-etapa"><legend>' + esc(et.etapa) + '</legend>' + opts + '</fieldset>';
+    }).join('') + '<div class="v7-tren-resumen" role="status"></div>';
+  }
+
   function viewEntidad(catId) {
     const cat = catById(catId);
     if (!cat) return viewBanco();
@@ -1303,6 +1383,7 @@ const Validaciones = (() => {
       + '<fieldset class="v7-fs"><legend>' + esc(cat.nombre) + ' · Datos específicos</legend><div class="v7-grid">'
       + espec.map((f) => fieldHtml(f, '')).join('')
       + '</div></fieldset>'
+      + (catId === 'procesos' ? '<fieldset class="v7-fs"><legend>Tren de equipos (solo producción)</legend><div class="v7-tren" data-grupo=""></div></fieldset>' : '')
       + (conGen ? firmantesHtml() : '')
       + '<div class="v7-form-actions">'
       + '<span class="v7-form-msg" role="status" aria-live="polite"></span>'
@@ -1454,8 +1535,41 @@ const Validaciones = (() => {
       }
     }
 
+    function equipoNombre(id) {
+      const e = equipoPorId(id);
+      return e ? e.nombre : id;
+    }
+
+    function trenSeleccionado() {
+      return Array.prototype.slice.call(form.querySelectorAll('[data-tren]:checked'))
+        .map(function (el) { return el.getAttribute('data-tren'); });
+    }
+
+    function pintarResumenTren() {
+      const box = form.querySelector('.v7-tren-resumen');
+      if (!box) return;
+      const sel = trenSeleccionado();
+      box.textContent = sel.length
+        ? 'Tren seleccionado: ' + sel.map(function (id) { return equipoNombre(id) + ' (' + id + ')'; }).join(' → ')
+        : 'Seleccione al menos un equipo del tren.';
+    }
+
+    function pintarTren(forma, grupo) {
+      const box = form.querySelector('.v7-tren');
+      if (!box) return;
+      box.dataset.grupo = grupo || '';
+      box.dataset.forma = forma || '';
+      box.innerHTML = trenHtml(forma, grupo);
+      pintarResumenTren();
+    }
+
     function validarErrores() {
-      return validarDatos(schemaTotal(), recoger());
+      const data = recoger();
+      const errores = validarDatos(schemaTotal(), data);
+      if (catId === 'procesos' && (!data.trenEquipos || !data.trenEquipos.length)) {
+        errores.push('Seleccione al menos un equipo del tren');
+      }
+      return errores;
     }
 
     function recoger() {
@@ -1466,6 +1580,11 @@ const Validaciones = (() => {
         if (f.tipo === 'file') { if (el.files && el.files[0]) data[f.k] = el.files[0].name; return; }
         data[f.k] = String(el.value || '');
       });
+      const tren = trenSeleccionado();
+      data.trenEquipos = tren;
+      data.param_tren_equipos = tren.length
+        ? tren.map(function (id) { return equipoNombre(id) + ' (' + id + ')'; }).join(' → ')
+        : '';
       data._entidad = entActual;
       data._cat = catId;
       return data;
@@ -1480,6 +1599,25 @@ const Validaciones = (() => {
           if (el && el._flatpickr) el._flatpickr.setDate(el.value || null);
         } catch (e) {}
       });
+      const tren = Array.isArray(data.trenEquipos) ? data.trenEquipos : [];
+      form.querySelectorAll('[data-tren]').forEach(function (el) {
+        el.checked = tren.indexOf(el.getAttribute('data-tren')) >= 0;
+      });
+      // Borradores viejos guardaban el tren como texto: no se pierde en silencio.
+      const legacy = (!tren.length && String(data.param_tren_equipos || '').trim()) ? String(data.param_tren_equipos).trim() : '';
+      const box = form.querySelector('.v7-tren');
+      let nota = form.querySelector('.v7-tren-legacy');
+      if (legacy && box) {
+        if (!nota && box.parentNode && box.parentNode.insertBefore && document.createElement) {
+          nota = document.createElement('p');
+          nota.className = 'v7-tren-legacy sub';
+          box.parentNode.insertBefore(nota, box.nextSibling);
+        }
+        if (nota) nota.textContent = 'Tren anterior (texto): ' + legacy + '. Vuelva a seleccionar los equipos.';
+      } else if (nota && nota.remove) {
+        nota.remove();
+      }
+      pintarResumenTren();
     }
 
     // ---- Parámetros de límites por entidad (mejora #1, H-05) ----
@@ -1494,7 +1632,7 @@ const Validaciones = (() => {
     }
 
     function schemaTotal() {
-      const extra = famParams().map((p) => ({
+      const extra = famParams().filter(function (p) { return p.clave !== 'tren_equipos'; }).map((p) => ({
         k: 'param_' + p.clave,
         label: p.label + ' (' + p.unidad + ')',
         tipo: 'text',
@@ -1505,7 +1643,7 @@ const Validaciones = (() => {
 
     function pintarParametros(draft) {
       let box = form.querySelector('.v7-params');
-      const ps = famParams();
+      const ps = famParams().filter(function (p) { return p.clave !== 'tren_equipos'; });
       if (!ps.length) { if (box) box.hidden = true; return; }
       if (!box && form.insertAdjacentHTML) {
         const acts = form.querySelector('.v7-form-actions');
@@ -1935,7 +2073,9 @@ const Validaciones = (() => {
       setMsg('Cargando borrador…', true);
       const draft = await cargarBorrador(entId, catId);
       if (token !== cargaToken) return false;
+      const entSel = getEntidades(catId).filter((x) => x.id === entId)[0];
       entActual = entId;
+      pintarTren(entSel && entSel.id, entSel && entSel.grupo);
       pintarParametros(draft);
       cargar(draft);
       aplicarCondicionesAlmacen(draft);
@@ -2100,6 +2240,14 @@ const Validaciones = (() => {
     if (form.addEventListener) {
       form.addEventListener('submit', function (e) { e.preventDefault(); });
       form.addEventListener('input', function () { setMsg(''); pintarEstado(); });
+      form.addEventListener('change', function (e) {
+        const t = e && e.target;
+        if (t && t.getAttribute && t.getAttribute('data-tren') !== null) {
+          pintarResumenTren();
+          setMsg('');
+          pintarEstado();
+        }
+      });
       // Edición manual de la descripción: se respeta ante cambios de entidad
       form.addEventListener('input', function (e) {
         const t = e && e.target;
@@ -2364,7 +2512,7 @@ const Validaciones = (() => {
   try { init(); } catch (e) {}
 
   return {
-    CATS, ROUTES, DOCS, ENTIDADES, GRUPOS_PROCESOS, SCHEMAS, FASES_GEN, GEN_FASES, AREAS_GERENCIA, parseRoute, catById, getSchema, getEntidades,
+    CATS, ROUTES, DOCS, ENTIDADES, GRUPOS_PROCESOS, TREN_EQUIPOS, SCHEMAS, FASES_GEN, GEN_FASES, AREAS_GERENCIA, parseRoute, catById, getSchema, getEntidades, trenHtml,
     entidadPorNombre, datosAlmacen, sinTablaPreaprobada, faltantesParametrosBanco, estadoIntegridad,
     puestoGerente, areaDesdeCargo, firmantesHtml, saveDraft, loadDraft, cargarBorrador, guardarBorrador, validarDatos, saveGen, loadGen, viewEntidad, show, hide, apply, currentArea, render, contarGen, tieneBancoFam, estadoBancoFam, resolverDescripcion, mejorarFecha, manifest, viewProtocolos,
     viewDocumentacion, viewReportes, viewConfiguracion, viewAyuda, viewCalendario, chartHtml, reportHtml, calendarHtml, cargarResumen, cargarCalendario, cargarReportes, bindConfiguracion,

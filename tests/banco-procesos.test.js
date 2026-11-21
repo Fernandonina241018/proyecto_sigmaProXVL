@@ -235,6 +235,7 @@ describe('muestreo PQ: tamaño de lote y porcentaje por etapa', () => {
     const xml = new TextDecoder().decode(files.find((f) => f.nombre === 'word/document.xml').datos);
     expect(xml).toContain('100000');
     expect(xml).toContain('0,2');
+    expect(xml).toContain('Mezclador');
   });
 });
 

@@ -120,6 +120,7 @@ describe('Validaciones V7', () => {
     expect(html).toContain('data-ent="granulados"');
     expect(html).toContain('data-ent="polvos"');
     expect(html).toContain('data-grupo="solidos"');
+    expect(html).toContain('v7-tren');
     expect(Validaciones.getSchema('procesos').map((f) => f.k)).toContain('subtipo');
     expect(Validaciones.getSchema('procesos').find((f) => f.k === 'subtipo').opciones).toContain('Liberación modificada');
   });
@@ -142,6 +143,50 @@ describe('Validaciones V7', () => {
     } finally {
       Validaciones.ENTIDADES.procesos.pop();
     }
+  });
+
+  test('tren de equipos: checklist por etapa en todos los grupos', () => {
+    for (const g of Validaciones.GRUPOS_PROCESOS.map((x) => x.id)) {
+      const etapas = Validaciones.TREN_EQUIPOS[g];
+      expect(Array.isArray(etapas), g).toBe(true);
+      expect(etapas.length, g).toBeGreaterThan(0);
+      for (const et of etapas) {
+        for (const id of et.ids) {
+          const e = Validaciones.getEntidades('equipos').find((x) => x.id === id);
+          expect(e, id).toBeTruthy();
+          expect(e.tipo, id).toBe('M');
+        }
+      }
+      const html = Validaciones.trenHtml(g);
+      expect(html, g).toContain('data-tren=');
+      expect(html, g).toContain('v7-tren-resumen');
+    }
+    expect(Validaciones.trenHtml('solidos')).not.toContain('data-tren="hplc"');
+  });
+
+  test('tren de equipos: cada forma ve solo sus equipos', () => {
+    const formas = ['comprimidos', 'capsulas', 'granulados', 'polvos'];
+    for (const forma of formas) {
+      for (const et of Validaciones.TREN_EQUIPOS[forma]) {
+        for (const id of et.ids) {
+          const e = Validaciones.getEntidades('equipos').find((x) => x.id === id);
+          expect(e, forma + '/' + id).toBeTruthy();
+          expect(e.tipo, forma + '/' + id).toBe('M');
+        }
+      }
+    }
+    const prohibidos = {
+      comprimidos: ['encapsuladora'],
+      capsulas: ['tableteadora', 'recubridora'],
+      granulados: ['tableteadora', 'encapsuladora', 'recubridora'],
+      polvos: ['tableteadora', 'encapsuladora', 'recubridora', 'granulador'],
+    };
+    for (const [forma, ids] of Object.entries(prohibidos)) {
+      const html = Validaciones.trenHtml(forma, 'solidos');
+      for (const id of ids) expect(html, forma + '/' + id).not.toContain('data-tren="' + id + '"');
+    }
+    expect(Validaciones.trenHtml('comprimidos', 'solidos')).toContain('data-tren="tableteadora"');
+    expect(Validaciones.trenHtml('capsulas', 'solidos')).toContain('data-tren="encapsuladora"');
   });
 
   test('ruta de entidad válida y desconocida cae a banco', () => {

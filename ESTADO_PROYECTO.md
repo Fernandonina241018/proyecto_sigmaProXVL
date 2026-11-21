@@ -90,6 +90,32 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (StatAnalyzer Pro) co
 
 ## CAMBIOS RECIENTES
 
+### 2026-11-21 (345): Tren de equipos por forma farmacéutica
+
+**Qué:** el campo «Tren de equipos» deja de ser un texto libre y pasa a ser un checklist por etapa, con equipos filtrados según la forma.
+- **Comprimidos:** mezcla, granulación/secado, compresión, recubrimiento y empaque.
+- **Cápsulas:** mezcla, granulación/secado, encapsulación y empaque.
+- **Granulados:** mezcla, granulación/secado y empaque.
+- **Polvos:** mezcla, secado y empaque.
+- **Semisólidos y líquidos:** mapas de respaldo listos para las formas futuras.
+- **UI:** checkboxes agrupados por etapa, resumen en orden de proceso (nombre + ID) y validación de al menos un equipo.
+- **Generación:** `[tren_equipos]` se llena con la lista seleccionada; el bloque de parámetros ya no muestra el input de texto.
+- **Borradores viejos:** si solo tienen el texto anterior, se muestra como «Tren anterior» y se pide reseleccionar; no se pierde en silencio.
+- **Alcance:** solo equipos de producción (`tipo M`); los analíticos siguen en la tabla de instrumentos del ensayo.
+
+**Archivos afectados:**
+| Archivo | Cambio |
+|---------|--------|
+| `js/core/indexx-validaciones.js` | `TREN_EQUIPOS` por forma/grupo, render, resumen, validación y persistencia |
+| `css/validaciones-v7.css` | Estilos del checklist y resumen |
+| `tests/validaciones-panel.test.js` | **54 pruebas** (tren por forma y grupo) |
+| `tests/banco-procesos.test.js` | Verifica la inyección de `tren_equipos` en el `.docx` |
+
+**Verificación:**
+```
+npm run preflight → protocolo:check OK, urs-ar:check OK, Vitest 1266, backend 154, E2E 14
+```
+
 ### 2026-11-21 (344): Formas sólidas · granulados y polvos
 
 **Qué:** se agregan **Granulados** y **Polvos** al grupo sólidos, con los ensayos que faltaban para completar el listado.
