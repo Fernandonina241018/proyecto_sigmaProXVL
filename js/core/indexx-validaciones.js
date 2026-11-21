@@ -16,6 +16,14 @@ const Validaciones = (() => {
     { id: 'software', nombre: 'Software', icono: '💾', desc: 'CSV / GAMP 5' },
   ];
 
+  // Grupos de la familia Procesos: el combobox elige primero el grupo y
+  // después la forma farmacéutica (las formas llevan `grupo`).
+  const GRUPOS_PROCESOS = [
+    { id: 'solidos', nombre: 'Sólidos' },
+    { id: 'semisolidos', nombre: 'Semisólidos' },
+    { id: 'liquidos', nombre: 'Líquidos' },
+  ];
+
   // Entidades calificables por categoría (el usuario nunca ve ensayos, solo esto).
   // `tipo` clasifica el equipo y de ahí se deriva la referencia normativa que
   // se imprime en el protocolo (ver REFS_NORMATIVAS):
@@ -86,8 +94,8 @@ const Validaciones = (() => {
       { id: 'incubadora-22-27', nombre: 'Incubadora (22–27 °C)', tipo: 'Q' },
       { id: 'incubadora-38-42', nombre: 'Incubadora (38–42 °C)', tipo: 'Q' },
     ],
-    // Procesos: el combobox lista las formas farmacéuticas. Vacío hasta que
-    // se carguen los ensayos de cada forma (una entrada por forma).
+    // Procesos: una entrada por forma farmacéutica, con `grupo` (solidos,
+    // semisolidos, liquidos). Vacío hasta que se carguen los ensayos.
     procesos: [],
     software: [
       { id: 'software-gxp', nombre: 'Sistema computarizado GxP' },
@@ -1198,11 +1206,19 @@ const Validaciones = (() => {
   function paso1Html(ents, catId) {
     const esProc = catId === 'procesos';
     const opciones = ents.length
-      ? ents.map((e, i) => '<button type="button" class="v7-ent v7-ent-opt" id="v7-ent-opt-' + i + '" role="option" aria-selected="false" data-ent="' + esc(e.id) + '">' + esc(e.nombre) + '</button>').join('')
+      ? ents.map((e, i) => '<button type="button" class="v7-ent v7-ent-opt" id="v7-ent-opt-' + i + '" role="option" aria-selected="false" data-ent="' + esc(e.id) + '"'
+        + (e.grupo ? ' data-grupo="' + esc(e.grupo) + '"' : '') + '>' + esc(e.nombre) + '</button>').join('')
         + '<div class="v7-ent-empty" hidden>Sin coincidencias</div>'
       : '<div class="v7-ent-empty">' + (esProc ? 'Sin formas farmacéuticas cargadas' : 'Sin coincidencias') + '</div>';
-    return '<div class="v7-combo">'
-      + '<input type="text" class="v7-ent-input" placeholder="' + (esProc ? 'Seleccione la forma farmacéutica…' : 'Escriba para buscar la entidad…') + '" autocomplete="off" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="v7-ents-list" aria-label="' + (esProc ? 'Buscar forma farmacéutica' : 'Buscar entidad') + '">'
+    const grupo = esProc
+      ? '<label class="v7-field v7-field-proc"><span>Grupo</span>'
+        + '<select class="v7-grupo"><option value="">— Seleccione el grupo —</option>'
+        + GRUPOS_PROCESOS.map((g) => '<option value="' + esc(g.id) + '">' + esc(g.nombre) + '</option>').join('')
+        + '</select></label>'
+      : '';
+    return grupo + '<div class="v7-combo">'
+      + '<input type="text" class="v7-ent-input" placeholder="' + (esProc ? 'Seleccione la forma farmacéutica…' : 'Escriba para buscar la entidad…') + '" autocomplete="off" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="v7-ents-list" aria-label="' + (esProc ? 'Buscar forma farmacéutica' : 'Buscar entidad') + '"'
+      + (esProc ? ' disabled' : '') + '>'
       + '<div class="v7-ent-list" id="v7-ents-list" role="listbox" hidden>'
       + opciones
       + '</div></div>';
@@ -1351,6 +1367,9 @@ const Validaciones = (() => {
     const form = main.querySelector('.v7-dataform');
     if (!step2 || !form) return;
     const conGen = GEN_CATS.indexOf(catId) >= 0;
+    const esProc = catId === 'procesos';
+    const grupoSel = main.querySelector('.v7-grupo');
+    let grupoActual = '';
     let entActual = null;
     const msg = form.querySelector('.v7-form-msg');
     try {
@@ -1843,6 +1862,11 @@ const Validaciones = (() => {
       if (combo) {
         const ent = getEntidades(catId).filter((x) => x.id === entId)[0];
         if (ent) combo.value = ent.nombre;
+        if (esProc && ent && ent.grupo) {
+          grupoActual = ent.grupo;
+          if (grupoSel) grupoSel.value = ent.grupo;
+          combo.disabled = false;
+        }
       }
       cerrarCombo();
       const token = ++cargaToken;
@@ -1935,7 +1959,9 @@ const Validaciones = (() => {
         const q = String(filtro || '').trim().toLowerCase();
         let n = 0;
         opciones().forEach(function (b) {
-          const ok = !q || String(b.textContent || '').toLowerCase().indexOf(q) >= 0;
+          // En procesos solo se listan las formas del grupo elegido.
+          const enGrupo = !esProc || b.getAttribute('data-grupo') === grupoActual;
+          const ok = enGrupo && (!q || String(b.textContent || '').toLowerCase().indexOf(q) >= 0);
           b.hidden = !ok;
           if (ok) n++;
         });
@@ -1946,6 +1972,32 @@ const Validaciones = (() => {
         const vs = visibles();
         marcar(q && vs.length ? vs[0] : null);
       };
+      // Resuelve el texto escrito solo dentro del grupo elegido (procesos).
+      const buscarEscrito = function () {
+        const found = entidadPorNombre(catId, comboInput.value);
+        if (!found) return null;
+        return (!esProc || !grupoActual || found.grupo === grupoActual) ? found : null;
+      };
+      if (grupoSel) {
+        grupoSel.addEventListener('change', function () {
+          grupoActual = grupoSel.value;
+          comboInput.disabled = !grupoActual;
+          comboInput.value = '';
+          entActual = null;
+          step2.hidden = true;
+          if (step3) step3.hidden = true;
+          opciones().forEach(function (b) {
+            b.classList.remove('sel');
+            b.setAttribute('aria-selected', 'false');
+          });
+          const empty = comboList ? comboList.querySelector('.v7-ent-empty') : null;
+          const g = GRUPOS_PROCESOS.filter(function (x) { return x.id === grupoActual; })[0];
+          if (empty) empty.textContent = g ? 'Sin formas cargadas en ' + g.nombre : 'Sin formas farmacéuticas cargadas';
+          if (!grupoActual) { cerrarCombo(); setMsg('Seleccione el grupo.', false); return; }
+          abrir('');
+          setMsg('Seleccione la forma farmacéutica de ' + g.nombre + '.', false);
+        });
+      }
       let comboPicking = false;
       if (comboList) comboList.addEventListener('mousedown', function () { comboPicking = true; });
       comboInput.addEventListener('focus', function () { abrir(''); });
@@ -1967,7 +2019,7 @@ const Validaciones = (() => {
             e.preventDefault();
             activo.click();
           } else {
-            const found = entidadPorNombre(catId, comboInput.value);
+            const found = buscarEscrito();
             if (found) { e.preventDefault(); elegirEntidad(found.id); }
           }
         } else if (e.key === 'Escape') {
@@ -1976,12 +2028,12 @@ const Validaciones = (() => {
       });
       comboInput.addEventListener('change', function () {
         if (comboPicking) { comboPicking = false; return; }
-        const found = entidadPorNombre(catId, comboInput.value);
+        const found = buscarEscrito();
         if (found) { elegirEntidad(found.id); return; }
         const vs = visibles();
         if (vs.length === 1) {
           const unica = entidadPorNombre(catId, vs[0].textContent);
-          if (unica) { elegirEntidad(unica.id); return; }
+          if (unica && (!esProc || !grupoActual || unica.grupo === grupoActual)) { elegirEntidad(unica.id); return; }
         }
         setMsg('Escriba y seleccione una entidad de la lista.', false);
         cerrarCombo();
@@ -2256,7 +2308,7 @@ const Validaciones = (() => {
   try { init(); } catch (e) {}
 
   return {
-    CATS, ROUTES, DOCS, ENTIDADES, SCHEMAS, FASES_GEN, GEN_FASES, AREAS_GERENCIA, parseRoute, catById, getSchema, getEntidades,
+    CATS, ROUTES, DOCS, ENTIDADES, GRUPOS_PROCESOS, SCHEMAS, FASES_GEN, GEN_FASES, AREAS_GERENCIA, parseRoute, catById, getSchema, getEntidades,
     entidadPorNombre, datosAlmacen, sinTablaPreaprobada, faltantesParametrosBanco, estadoIntegridad,
     puestoGerente, areaDesdeCargo, firmantesHtml, saveDraft, loadDraft, cargarBorrador, guardarBorrador, validarDatos, saveGen, loadGen, viewEntidad, show, hide, apply, currentArea, render, contarGen, tieneBancoFam, estadoBancoFam, resolverDescripcion, mejorarFecha, manifest, viewProtocolos,
     viewDocumentacion, viewReportes, viewConfiguracion, viewAyuda, viewCalendario, chartHtml, reportHtml, calendarHtml, cargarResumen, cargarCalendario, cargarReportes, bindConfiguracion,

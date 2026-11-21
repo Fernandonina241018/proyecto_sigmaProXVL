@@ -90,6 +90,27 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (StatAnalyzer Pro) co
 
 ## CAMBIOS RECIENTES
 
+### 2026-11-20 (337): Procesos · selector grupo → forma farmacéutica
+
+**Qué:** el combobox de `procesos` pasa a dos pasos: primero el **grupo** (Sólidos · Semisólidos · Líquidos) y después la **forma farmacéutica** filtrada a ese grupo.
+- **Modelo:** `GRUPOS_PROCESOS` fijo con los tres grupos; cada forma de `ENTIDADES.procesos` lleva `grupo` y mantiene su `id` como clave de borrador.
+- **UI:** el combo de formas arranca deshabilitado; al elegir grupo se habilita, se limpia la selección previa y solo lista las formas del grupo.
+- **Sin formas:** el mensaje dice «Sin formas cargadas en {grupo}».
+- **Búsqueda escrita:** solo resuelve formas del grupo activo (no salta a otro grupo).
+- **Generador:** sigue sin habilitarse para `procesos` hasta que exista banco.
+
+**Archivos afectados:**
+| Archivo | Cambio |
+|---------|--------|
+| `js/core/indexx-validaciones.js` | `GRUPOS_PROCESOS`, `data-grupo`, filtro por grupo, sincronización al elegir forma |
+| `css/validaciones-v7.css` | Ancho del selector de grupo y estado deshabilitado |
+| `tests/validaciones-panel.test.js` | Prueba de los tres grupos y del `data-grupo` |
+
+**Verificación:**
+```
+npm run preflight → protocolo:check OK, urs-ar:check OK, Vitest 1235, backend 154, E2E 14
+```
+
 ### 2026-11-20 (336): Nueva familia «Procesos» con combobox de formas farmacéuticas
 
 **Qué:** se crea la categoría `procesos` en el área de Validaciones. El combobox lista las **formas farmacéuticas**; queda **vacío** hasta que se carguen los ensayos de cada forma.
