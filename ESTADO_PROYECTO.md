@@ -90,6 +90,36 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (StatAnalyzer Pro) co
 
 ## CAMBIOS RECIENTES
 
+### 2026-11-21 (339): PQ de procesos · cierre del P0 (CPP/IPC, rendimiento, capabilidad y CPV)
+
+**Qué:** se completa el bloque P0 que faltaba para que la PQ demuestre control del proceso, no solo conformidad del producto.
+- **Proceso y matriz:** `PRO-PQ-GEN-012` describe el proceso, el diagrama de flujo y la matriz CQA–CPP–IPC con riesgo.
+- **CPP/IPC por etapa:** `PRO-PQ-CMP-015` granulación/secado, `016` compresión, `017` recubrimiento y `018` empaque, con rangos propuestos en rojo y límites/frecuencia de IPC.
+- **Rendimiento y hold times:** `PRO-PQ-GEN-013` con rendimiento mínimo, reconciliación de materiales y tiempo máximo de espera.
+- **Capabilidad y cierre:** `PRO-PQ-GEN-014` con Cpk/Ppk, criterios de lote inválido, lotes adicionales y plan de verificación continua (Stage 3).
+- **Paso 2:** se agregan lote mínimo/máximo, tren de equipos, peor caso, rendimiento mínimo, hold time, Cpk/Ppk mínimo y código del plan CPV; todos obligatorios y en rojo (`v7-params-proc`).
+- **Decisión:** los rangos de CPP y los límites de IPC son propuestas en rojo; no se inventan como definitivos. La FDA no fija un Cpk universal ni un número de lotes; Calidad los confirma por riesgo.
+
+**Estado medido:**
+```
+banco: procesos 33 ensayos · 15 comunes · 3 sólidos · 15 comprimidos
+global: 1460 ensayos · falta instrumentos 716 (49 %) · criterio numérico 960 (66 %)
+```
+
+**Archivos afectados:**
+| Archivo | Cambio |
+|---------|--------|
+| `docs/banco-ensayos/procesos/pq-comun.html` | **+3** ensayos P0 comunes |
+| `docs/banco-ensayos/procesos/pq-comprimidos.html` | **+4** ensayos P0 de CPP/IPC |
+| `js/core/banco-procesos-data.js` | Regenerado |
+| `js/core/plantilla-docx.js` | 8 parámetros nuevos del paso 2 |
+| `tests/banco-procesos.test.js` | **21 pruebas** (P0 incluido) |
+
+**Verificación:**
+```
+npm run preflight → protocolo:check OK, urs-ar:check OK, Vitest 1256, backend 154, E2E 14
+```
+
 ### 2026-11-20 (338): Procesos PQ · banco común + comprimidos y plantilla sin rótulos de equipo
 
 **Qué:** se crea el banco de procesos con tres niveles —común global, grupo sólidos y forma comprimidos—, más el subtipo en el paso 2. Se habilita el generador solo en **PQ** y se adapta la plantilla para que no hable de equipo.

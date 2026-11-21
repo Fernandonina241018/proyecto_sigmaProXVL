@@ -453,6 +453,114 @@ var BancoProcesos = {
     "tabla": null
    },
    {
+    "kind": "ensayo",
+    "id": "PRO-PQ-GEN-012",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "PRO-PQ-GEN-012 — Proceso, diagrama de flujo y matriz CQA-CPP-IPC",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Documentar el proceso por etapas, su diagrama de flujo y la matriz que vincula cada atributo crítico de calidad (CQA) con los parámetros críticos de proceso (CPP) y los controles en proceso (IPC), con el análisis de riesgo que justifica la criticidad."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>1) Describir el proceso por etapas: recepción y dispensación, mezcla, granulación, secado, compresión, recubrimiento y empaque; declarar el rango de lote [tamano_lote_min] a [tamano_lote_max], el tren de equipos [tren_equipos] y la condición de peor caso [peor_caso]<br>2) Anexar el diagrama de flujo con entradas, salidas, CPP e IPC de cada etapa<br>3) Listar los CQA del producto: valoración, impurezas, disolución, uniformidad, agua, microbiología y atributos físicos<br>4) Vincular cada CQA con al menos un CPP y un IPC; asignar criticidad con matriz S/P/D o FMEA y registrar la justificación<br>5) Verificar que cada CPP tiene rango aprobado y cada IPC tiene límite y frecuencia<br>6) Aprobar la matriz y el diagrama antes de ejecutar los lotes PPQ<br>7) Anexar la matriz firmada, el diagrama y el análisis de riesgo"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>100 % de los CQA críticos con al menos un CPP y un IPC vinculados.<br>100 % de los CPP con rango aprobado y fuente documentada.<br>Criticidad y justificación aprobadas por Calidad antes de la ejecución.<br>Diagrama de flujo y matriz firmados y versionados."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>- Diagrama de flujo del proceso versionado<br>- Matriz CQA-CPP-IPC con criticidad y justificación<br>- Análisis de riesgo del proceso aprobado"
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>FDA — Process Validation (2011), Stage 1 y 2; ICH Q8(R2); ICH Q9(R1); ICH Q10; 21 CFR 211.110."
+     }
+    ],
+    "tabla": null
+   },
+   {
+    "kind": "ensayo",
+    "id": "PRO-PQ-GEN-013",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "PRO-PQ-GEN-013 — Rendimiento, balance de materiales y tiempos de espera",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que el proceso rinde lo esperado, que el balance de materiales cierra y que los tiempos de espera entre etapas no degradan el producto."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>1) Registrar peso o cantidad teórica y real en cada etapa y calcular el rendimiento porcentual<br>2) Reconciliar material cargado, recuperado, rechazado y muestreado; calcular la diferencia porcentual<br>3) Definir el tiempo máximo de espera [hold_time_max] para mezcla, gránulos, núcleos, comprimidos recubiertos y granel antes del empaque<br>4) Mantener una muestra en el tiempo máximo de espera y analizar los atributos críticos antes y después<br>5) Anexar los registros de rendimiento, reconciliación y hold time, con la conclusión de aptitud"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = rendimiento, diferencia de reconciliación y cambio de atributos; unidad = %. Tipo de dato = continua. n = 3 lotes PPQ y 3 réplicas por etapa de hold time. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = rendimiento ≥ [yield_min] %, diferencia de reconciliación ≤ 1,0 % y cambio de atributos dentro de la especificación tras el hold time. Atípicos = Grubbs solo si n ≥ 7; toda exclusión se justifica."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>Rendimiento por etapa ≥ <span class=\"por-confirmar\">[yield_min] %</span>.<br>Diferencia de reconciliación ≤ <span class=\"por-confirmar\">1,0 %</span>.<br>Hold time ≤ <span class=\"por-confirmar\">[hold_time_max] h</span> sin cambio significativo de atributos.<br>100 % de los lotes con balance de materiales cerrado y aprobado."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>- Registro de rendimiento por etapa y lote<br>- Balance de materiales y reconciliación<br>- Estudio de hold time con resultados antes/después"
+     },
+     {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>El rendimiento mínimo, la tolerancia de reconciliación y el hold time en rojo son propuestas; se confirman con el desarrollo del proceso, el registro maestro y el riesgo del producto."
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>21 CFR 211.103 — Cálculo del rendimiento; 21 CFR 211.111 — Límites de tiempo de producción; 21 CFR 211.110; FDA — Process Validation (2011)."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si"
+   },
+   {
+    "kind": "ensayo",
+    "id": "PRO-PQ-GEN-014",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "PRO-PQ-GEN-014 — Capabilidad, lotes inválidos y verificación continua",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Demostrar que el proceso es capaz, definir qué invalida un lote PPQ y establecer el plan de verificación continua (Stage 3) que mantiene el estado de control después de la validación."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>1) Calcular Cpk/Ppk de peso, dureza, valoración y disolución por lote y para el conjunto de lotes<br>2) Evaluar los componentes de varianza entre lotes y dentro del lote con ANOVA o modelo mixto<br>3) Definir los criterios de lote inválido: CPP fuera de rango no justificado, IPC fuera de límite, fallo de un CQA o error de muestreo<br>4) Definir la investigación, la CAPA y el número de lotes adicionales antes de repetir la PQ<br>5) Aprobar el plan de verificación continua [cpv_plan] con variables, frecuencia, límites de alerta/acción y revisión anual<br>6) Anexar el reporte de capabilidad, los criterios de invalidez y el plan CPV"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = Cpk/Ppk y componentes de varianza; unidad = índice y %. Tipo de dato = continua. n = 3 lotes PPQ con 10 a 30 resultados por atributo. Estadísticos = media, DE, Cpk/Ppk, ANOVA de componentes de varianza e IC 95 %. Regla de decisión = Cpk/Ppk ≥ [capability_min] y ningún lote inválido sin investigación. Atípicos = Grubbs solo si n ≥ 7; toda exclusión se justifica."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>Cpk/Ppk ≥ <span class=\"por-confirmar\">[capability_min]</span> en los atributos críticos.<br>100 % de los lotes con CPP e IPC dentro de rango.<br>Cero lotes inválidos sin investigación y CAPA aprobada.<br>Plan CPV [cpv_plan] aprobado antes del cierre de la PQ."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>- Reporte de capabilidad y componentes de varianza<br>- Criterios de lote inválido y registro de lotes adicionales<br>- Plan de verificación continua aprobado"
+     },
+     {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>El Cpk/Ppk mínimo y el número de lotes adicionales en rojo son propuestas; se confirman con el riesgo del proceso y la política de Calidad. La FDA no fija un Cpk universal."
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>FDA — Process Validation (2011), Stage 3; ICH Q10; ICH Q9(R1); 21 CFR 211.180; 21 CFR 211.192."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si"
+   },
+   {
     "kind": "tabla",
     "id": "PRO-PQ-REF",
     "bloque": 6,
@@ -922,6 +1030,170 @@ var BancoProcesos = {
      }
     ],
     "tabla": null,
+    "familia": "comprimidos"
+   },
+   {
+    "kind": "ensayo",
+    "id": "PRO-PQ-CMP-015",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "PRO-PQ-CMP-015 — Granulación y secado: CPP e IPC",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Controlar la granulación y el secado dentro de los rangos aprobados y detectar desviaciones de humedad, tamaño o uniformidad antes de comprimir."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>1) CPP de mezcla/granulación: tiempo, velocidad de impulsor y chopper, tasa y cantidad de ligante; rangos propuestos en rojo (tiempo 5–15 min, impulsor 100–300 rpm, chopper 500–1500 rpm)<br>2) CPP de secado: temperatura de entrada 40–70 °C, flujo de aire y punto final por LOD o potencia; rangos propuestos en rojo<br>3) IPC: LOD 1,0–3,0 % (rojo), tamaño de partícula o densidad aparente según desarrollo, uniformidad de mezcla por PRO-PQ-SOL-003 y rendimiento<br>4) Frecuencia: LOD cada 15 min al final del secado; mezcla al final; 3 réplicas por punto<br>5) Registrar CPP cada 5 min y las alarmas; detener y desviar si sale de rango<br>6) Anexar registros, curvas y data cruda"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = LOD, tamaño de partícula, densidad y RSD de mezcla; unidad = % y µm. Tipo de dato = continua. n = 3 réplicas por punto y 3 puntos por lote. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = LOD 1,0–3,0 %, RSD de mezcla ≤ 5,0 % y CPP dentro de rango. Atípicos = Grubbs solo si n ≥ 7; se investiga antes de excluir."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>100 % de los CPP dentro del rango aprobado durante el lote.<br>LOD final entre <span class=\"por-confirmar\">1,0 % y 3,0 %</span>.<br>RSD de mezcla ≤ <span class=\"por-confirmar\">5,0 %</span>.<br>Cero desviaciones de CPP o IPC sin investigación."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>- Registro de CPP por etapa y curvas de secado<br>- Resultados de LOD, tamaño/densidad y mezcla<br>- Data cruda y reporte estadístico"
+     },
+     {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>Los rangos de tiempo, velocidad, temperatura y LOD son propuestas; se confirman con el desarrollo del proceso y el registro maestro. El tamaño de partícula solo se exige si el desarrollo lo define como crítico."
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>21 CFR 211.110; FDA — Process Validation (2011); ICH Q8(R2); ICH Q9(R1)."
+     }
+    ],
+    "tabla": null,
+    "instrumentos": "Balanza de humedad calibrada; Registrador de datos del granulador calibrado",
+    "analisis": "si",
+    "familia": "comprimidos"
+   },
+   {
+    "kind": "ensayo",
+    "id": "PRO-PQ-CMP-016",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "PRO-PQ-CMP-016 — Compresión: CPP e IPC",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Controlar la fuerza, la velocidad y la alimentación de la compresora y detectar desviaciones de peso, dureza y espesor durante la compresión."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>1) CPP: fuerza de compresión 5–15 kN, velocidad de turreta 20–40 rpm, velocidad de alimentación 20–60 rpm, precompresión y fuerza de eyección; rangos propuestos en rojo<br>2) IPC: peso ±5,0 %, dureza 6–10 kp, espesor ±5,0 %, friabilidad ≤ 1,0 % y aspecto 100 % conforme; límites propuestos en rojo<br>3) Frecuencia: inicio, cada 30 min y final; 10 comprimidos por punto<br>4) Registrar CPP de forma continua y detener la compresión si sale de rango<br>5) Anexar registros, tabla de IPC y data cruda"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = peso, dureza, espesor y friabilidad; unidad = mg, kp, mm y %. Tipo de dato = continua. n = 10 comprimidos por punto y 3 puntos por lote. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = cada IPC dentro de su límite y CPP dentro de rango. Atípicos = Grubbs solo si n ≥ 7; se investiga la causa."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>100 % de los CPP dentro del rango aprobado.<br>Peso y espesor dentro de <span class=\"por-confirmar\">±5,0 %</span>; dureza <span class=\"por-confirmar\">6–10 kp</span>; friabilidad ≤ <span class=\"por-confirmar\">1,0 %</span>.<br>100 % de los puntos de muestreo recolectados.<br>Cero desviaciones de CPP o IPC sin investigación."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>- Registro continuo de fuerza, velocidad y alimentación<br>- Tabla de IPC por punto y lote<br>- Data cruda y reporte estadístico"
+     },
+     {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>Los rangos de fuerza, velocidad y los límites de IPC son propuestas; se confirman con el estudio de compresión y la especificación del producto."
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>21 CFR 211.110; USP &lt;905&gt;; USP &lt;1216&gt;; USP &lt;701&gt;; FDA — Process Validation (2011)."
+     }
+    ],
+    "tabla": null,
+    "instrumentos": "Durómetro calibrado; Balanza analítica calibrada; Calibrador digital calibrado",
+    "analisis": "si",
+    "familia": "comprimidos"
+   },
+   {
+    "kind": "ensayo",
+    "id": "PRO-PQ-CMP-017",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "PRO-PQ-CMP-017 — Recubrimiento: CPP e IPC",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Controlar la temperatura, la pulverización, la presión y la velocidad del recubrimiento y verificar la ganancia e integridad de la película."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>1) CPP: temperatura de entrada 40–60 °C, temperatura de salida 35–45 °C, tasa de pulverización 20–60 g/min, presión de atomización 1,5–3,0 bar, velocidad del tambor 10–20 rpm y flujo de aire; rangos propuestos en rojo<br>2) IPC: ganancia de peso 2,0–4,0 %, integridad 100 %, aspecto y LOD; límites propuestos en rojo<br>3) Frecuencia: inicio, medio y final; 10 comprimidos por punto<br>4) Registrar CPP de forma continua y detener si sale de rango<br>5) Anexar registros, ganancia de peso e integridad"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = ganancia de peso, integridad y LOD; unidad = % y pasa/no pasa. Tipo de dato = continua y atributo. n = 10 comprimidos por punto y 3 puntos por lote. Estadísticos = media, DE, RSD (%) y proporción con IC binomial. Regla de decisión = ganancia 2,0–4,0 %, integridad 100 % y CPP dentro de rango. Atípicos = Grubbs solo si n ≥ 7; se investiga la causa."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>100 % de los CPP dentro del rango aprobado.<br>Ganancia de recubrimiento entre <span class=\"por-confirmar\">2,0 % y 4,0 %</span>.<br>Integridad del recubrimiento 100 %.<br>Cero comprimidos con núcleo expuesto o descascarado."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>- Registro de temperatura, spray, presión y velocidad<br>- Ganancia de peso e integridad por punto<br>- Data cruda y reporte estadístico"
+     },
+     {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>Los rangos de temperatura, spray, presión y ganancia son propuestas; se confirman con el desarrollo del recubrimiento y la especificación del producto."
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>21 CFR 211.110; USP &lt;711&gt; — Disolución (recubrimiento funcional); ICH Q8(R2); FDA — Process Validation (2011)."
+     }
+    ],
+    "tabla": null,
+    "instrumentos": "Termómetro/termopar calibrado; Balanza analítica calibrada; Manómetro calibrado",
+    "analisis": "si",
+    "familia": "comprimidos"
+   },
+   {
+    "kind": "ensayo",
+    "id": "PRO-PQ-CMP-018",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "PRO-PQ-CMP-018 — Empaque: CPP e IPC",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Controlar los parámetros de sellado y verificar la integridad, alineación y aspecto del empaque primario."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>1) CPP: temperatura de sellado 120–180 °C, presión 3–6 bar, tiempo de dwell 0,5–2,0 s, velocidad 20–60 golpes/min y alineación; rangos propuestos en rojo<br>2) IPC: integridad de sellado 100 %, alineación, aspecto y peso; límites propuestos en rojo<br>3) Frecuencia: inicio, medio y final; 30 unidades para integridad y 10 para aspecto<br>4) Registrar CPP de forma continua y detener si sale de rango<br>5) Anexar registros, resultados de integridad y muestras"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = integridad de sellado, alineación y peso; unidad = pasa/no pasa y g. Tipo de dato = atributo y continua. n = 30 unidades para integridad y 10 para aspecto por punto. Estadísticos = proporción con IC binomial y media/DE del peso. Regla de decisión = 100 % de sellos íntegros, cero desalineaciones y CPP dentro de rango. Atípicos: se investiga la unidad; no se descarta sin causa."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>100 % de los envases con sellado íntegro.<br>Cero envases desalineados o con defecto crítico.<br>100 % de los CPP dentro del rango aprobado.<br>100 % de los puntos de muestreo recolectados."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>- Registro de temperatura, presión, dwell y velocidad<br>- Resultados de integridad, alineación y aspecto<br>- Data cruda y reporte estadístico"
+     },
+     {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>Los rangos de sellado y los límites de IPC son propuestas; se confirman con la validación del empaque y la especificación del material."
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>21 CFR 211.110; USP &lt;671&gt;; 21 CFR 211.94; FDA — Process Validation (2011)."
+     }
+    ],
+    "tabla": null,
+    "instrumentos": "Termómetro/termopar calibrado; Manómetro calibrado; Cronómetro calibrado",
+    "analisis": "si",
     "familia": "comprimidos"
    },
    {

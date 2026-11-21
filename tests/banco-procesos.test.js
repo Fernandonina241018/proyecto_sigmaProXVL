@@ -22,16 +22,16 @@ const texto = (e, prefijo) => {
 describe('banco de procesos: estructura', () => {
   it('solo tiene PQ y arranca con comprimidos', () => {
     expect(Object.keys(B.fases)).toEqual(['PQ']);
-    expect(ensayos.length).toBe(26);
+    expect(ensayos.length).toBe(33);
   });
 
   it('reparte común, grupo y forma sin duplicar IDs', () => {
     const comunes = ensayos.filter((e) => !e.familia);
     const solidos = ensayos.filter((e) => e.familia === 'solidos');
     const comprimidos = ensayos.filter((e) => e.familia === 'comprimidos');
-    expect(comunes.length).toBe(12);
+    expect(comunes.length).toBe(15);
     expect(solidos.length).toBe(3);
-    expect(comprimidos.length).toBe(11);
+    expect(comprimidos.length).toBe(15);
     expect(new Set(ensayos.map((e) => e.id)).size).toBe(ensayos.length);
   });
 
@@ -165,6 +165,10 @@ describe('muestreo PQ: tamaño de lote y porcentaje por etapa', () => {
       param_lotes_ppq: '3', param_tamano_lote: '100000',
       param_porcentaje_mezcla: '0,2', param_porcentaje_compresion: '0,1',
       param_porcentaje_recubrimiento: '0,1', param_porcentaje_empaque: '0,02',
+      param_tamano_lote_min: '50000', param_tamano_lote_max: '200000',
+      param_tren_equipos: 'Mezclador, granulador, compresora, recubridora, blíster',
+      param_peor_caso: 'Lote máximo y velocidad máxima', param_yield_min: '95',
+      param_hold_time_max: '72', param_capability_min: '1,33', param_cpv_plan: 'CPV-001 v01',
     };
     expect(P.paramsFaltantes('PQ', 'procesos', 'comprimidos', 'ambas', draft, 'solidos')).toEqual([]);
   });
@@ -179,6 +183,10 @@ describe('muestreo PQ: tamaño de lote y porcentaje por etapa', () => {
       param_lotes_ppq: '3', param_tamano_lote: '100000',
       param_porcentaje_mezcla: '0,2', param_porcentaje_compresion: '0,1',
       param_porcentaje_recubrimiento: '0,1', param_porcentaje_empaque: '0,02',
+      param_tamano_lote_min: '50000', param_tamano_lote_max: '200000',
+      param_tren_equipos: 'Mezclador, granulador, compresora, recubridora, blíster',
+      param_peor_caso: 'Lote máximo y velocidad máxima', param_yield_min: '95',
+      param_hold_time_max: '72', param_capability_min: '1,33', param_cpv_plan: 'CPV-001 v01',
     };
     const ent = { id: 'comprimidos', nombre: 'Comprimidos', grupo: 'solidos' };
     const r = await P.generar('PQ', u8, B, draft, ent, 'ambas');
@@ -188,5 +196,21 @@ describe('muestreo PQ: tamaño de lote y porcentaje por etapa', () => {
     const xml = new TextDecoder().decode(files.find((f) => f.nombre === 'word/document.xml').datos);
     expect(xml).toContain('100000');
     expect(xml).toContain('0,2');
+  });
+});
+
+describe('PQ P0: proceso, CPP/IPC, rendimiento y CPV', () => {
+  const p0 = ['PRO-PQ-GEN-012', 'PRO-PQ-GEN-013', 'PRO-PQ-GEN-014', 'PRO-PQ-CMP-015', 'PRO-PQ-CMP-016', 'PRO-PQ-CMP-017', 'PRO-PQ-CMP-018'];
+
+  it('los siete ensayos P0 están en el banco', () => {
+    for (const id of p0) expect(ensayos.some((e) => e.id === id), id).toBe(true);
+  });
+
+  it('el paso 2 pide lote mínimo/máximo, tren, peor caso, rendimiento, hold y CPV', () => {
+    const claves = P.parametrosFamilia('comprimidos', 'procesos').map((p) => p.clave);
+    expect(claves).toEqual(expect.arrayContaining([
+      'tamano_lote_min', 'tamano_lote_max', 'tren_equipos', 'peor_caso',
+      'yield_min', 'hold_time_max', 'capability_min', 'cpv_plan',
+    ]));
   });
 });

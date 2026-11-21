@@ -32,6 +32,8 @@ Laboratorios Sued; el banco cita capítulo y título, no una edición no verific
 | ICH Q3C(R9) — *Residual Solvents* (2024-01-24) | Límites de disolventes | https://database.ich.org/sites/default/files/ICH_Q3C(R9)_Guideline_MinorRevision_2024_2024_Approved.pdf |
 | ICH Q3D(R2) — *Elemental Impurities* (2022-04-26) | PDE de elementos | https://database.ich.org/sites/default/files/Q3D-R2_Guideline_Step4_2022_0308.pdf |
 | 21 CFR 211.94 | Envase y cierre | https://www.ecfr.gov/current/title-21/chapter-I/subchapter-C/part-211/subpart-D/section-211.94 |
+| 21 CFR 211.103 / 211.111 | Rendimiento, reconciliación y límites de tiempo de producción | https://www.ecfr.gov/current/title-21/chapter-I/subchapter-C/part-211/subpart-D |
+| 21 CFR 211.180 / 211.192 | Registros, investigación de fallos y CPV | https://www.ecfr.gov/current/title-21/chapter-I/subchapter-C/part-211/subpart-J |
 | 21 CFR 211.122 / 211.125 / 211.130 | Etiquetado y empaquetado | https://www.ecfr.gov/current/title-21/chapter-I/subchapter-C/part-211/subpart-G |
 
 ## Uniformidad de mezcla (blend uniformity)
@@ -62,3 +64,10 @@ Laboratorios Sued; el banco cita capítulo y título, no una edición no verific
   convectivo), 3 réplicas por ubicación y criterios propuestos (RSD ≤ 5,0 %,
   medias por ubicación 90,0–110,0 %, individuales 75,0–125,0 %) que quedan en
   rojo hasta que Calidad los confirme con el plan y el riesgo del producto.
+- **CPP/IPC:** los rangos de granulación, compresión, recubrimiento y empaque
+  son propuestas de ejemplo; no hay límites compendiales para ellos. El
+  protocolo los imprime en rojo y el responsable los confirma con el desarrollo
+  del proceso y la especificación del producto.
+- **Cpk/Ppk:** no existe un mínimo universal exigido por la FDA. El 1,33 del
+  banco es una propuesta de política interna; Calidad lo confirma o lo cambia
+  según el riesgo y el historial del proceso.
