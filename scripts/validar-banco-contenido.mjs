@@ -11,6 +11,7 @@ const BANCOS = [
   ['sistemas', require('../js/core/banco-sistemas-data.js')],
   ['almacenes', require('../js/core/banco-almacenes-data.js')],
   ['estabilidad', require('../js/core/banco-estabilidad-data.js')],
+  ['procesos', require('../js/core/banco-procesos-data.js')],
 ];
 const strict = process.argv.includes('--strict');
 

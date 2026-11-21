@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<style>
+  body { font-family: Tahoma, sans-serif; font-size: 11pt; }
+  strong { text-transform: uppercase; }
+</style>
+<title>Banco de Ensayos PQ — Comprimidos</title>
+</head>
+<body>
+
+<p><a href="../index.html">← Banco de ensayos</a></p>
+<h2>Banco de Ensayos PQ — Comprimidos</h2>
+<p>Versión del banco: <span data-banco-version>PRO-PQ 2026-11-20 v1</span></p>
+<p>Ensayos de la forma <code>comprimidos</code> (<code>data-familia="comprimidos"</code>) y de sus subtipos (<code>data-subtipo</code>).</p>
+
+<section id="fase-pq">
+<h2>PQ — Ensayos de proceso</h2>
+
+<article data-bloque="3" id="art-PRO-PQ-CMP-001" class="ensayo" data-id="PRO-PQ-CMP-001" data-fase="PQ" data-cond="ambas" data-familia="comprimidos" data-instrumentos="Calibrador digital calibrado" data-analisis="si">
+  <h3>PRO-PQ-CMP-001 — Dimensiones del comprimido</h3>
+  <p><strong>Objetivo:</strong><br>Verificar espesor, diámetro y forma de los comprimidos del lote PPQ contra la especificación, para confirmar la reproducibilidad de la compresión.</p>
+  <p><strong>Procedimiento:</strong><br>1) Tomar 10 comprimidos al azar del lote PPQ<br>2) Medir espesor y diámetro con calibrador digital, sin deformar el comprimido<br>3) Registrar cada medida y la forma observada<br>4) Calcular media, desviación y rango<br>5) Anexar la tabla de medidas y la verificación de calibración del calibrador</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = espesor y diámetro; unidad = mm. Tipo de dato = continua. n = 10 comprimidos. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = cada medida dentro de la especificación y RSD ≤ 2,0 %. Atípicos = Grubbs solo si n ≥ 7; se investiga la causa antes de excluir.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Espesor y diámetro dentro de <span class="por-confirmar">±5,0 %</span> del valor nominal.<br>RSD de espesor y diámetro ≤ 2,0 %.<br>Forma y bordes conformes a la descripción aprobada.</p>
+  <p><strong>Documentos entregables:</strong><br>- Tabla de medidas por comprimido<br>- Cálculo de media, DE y RSD<br>- Data cruda y reporte estadístico</p>
+  <p><strong>Nota:</strong><br>El ±5,0 % es un valor de ejemplo; se confirma contra la especificación del producto y el diseño del comprimido.</p>
+  <p><strong>Referencia:</strong><br>Especificación del producto; USP &lt;1&gt; — Inyecciones y formas farmacéuticas (descripción); 21 CFR 211.110.</p>
+</article>
+<article data-bloque="3" id="art-PRO-PQ-CMP-002" class="ensayo" data-id="PRO-PQ-CMP-002" data-fase="PQ" data-cond="ambas" data-familia="comprimidos" data-instrumentos="Balanza analítica calibrada" data-analisis="si">
+  <h3>PRO-PQ-CMP-002 — Peso promedio y variación de peso</h3>
+  <p><strong>Objetivo:</strong><br>Asegurar la uniformidad de masa de los comprimidos del lote PPQ y detectar desviaciones de la compresión que puedan afectar la dosis.</p>
+  <p><strong>Procedimiento:</strong><br>1) Pesar individualmente 20 comprimidos al azar<br>2) Calcular el peso promedio y la desviación estándar<br>3) Calcular el porcentaje de desviación respecto del peso nominal<br>4) Identificar unidades fuera del intervalo y evaluar la causa<br>5) Anexar pesadas y cálculo estadístico</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = peso individual; unidad = mg. Tipo de dato = continua. n = 20 comprimidos. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = media dentro de ±5,0 % del nominal, RSD ≤ 3,0 % y ninguna unidad fuera de ±10,0 %. Atípicos = Grubbs solo si n ≥ 7; toda exclusión se justifica.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Peso promedio dentro de <span class="por-confirmar">±5,0 %</span> del peso nominal.<br>RSD ≤ 3,0 %.<br>Ninguna unidad fuera de <span class="por-confirmar">±10,0 %</span> del promedio.</p>
+  <p><strong>Documentos entregables:</strong><br>- Pesadas individuales<br>- Cálculo de media, DE y RSD<br>- Data cruda y reporte estadístico</p>
+  <p><strong>Nota:</strong><br>Los límites son ilustrativos; se confirman contra la especificación y USP &lt;905&gt;. La variación de peso no sustituye la uniformidad de contenido cuando la dosis es baja.</p>
+  <p><strong>Referencia:</strong><br>USP &lt;905&gt; — Uniformidad de unidades de dosificación; especificación del producto; 21 CFR 211.110.</p>
+</article>
+<article data-bloque="3" id="art-PRO-PQ-CMP-003" class="ensayo" data-id="PRO-PQ-CMP-003" data-fase="PQ" data-cond="ambas" data-familia="comprimidos" data-instrumentos="Durómetro calibrado" data-analisis="si">
+  <h3>PRO-PQ-CMP-003 — Dureza y resistencia mecánica</h3>
+  <p><strong>Objetivo:</strong><br>Evaluar la resistencia mecánica de los comprimidos del lote PPQ para confirmar que soportan manejo, empaque y transporte sin romperse.</p>
+  <p><strong>Procedimiento:</strong><br>1) Tomar 10 comprimidos al azar y acondicionarlos según el método<br>2) Medir la fuerza de ruptura en el durómetro, en la misma orientación<br>3) Registrar cada valor y la unidad (kp o N)<br>4) Calcular media, DE y RSD<br>5) Anexar la calibración del durómetro y la tabla de resultados</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = fuerza de ruptura; unidad = kp o N. Tipo de dato = continua. n = 10 comprimidos. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = cada valor dentro de 6–10 kp y RSD ≤ 10,0 %. Atípicos = Grubbs solo si n ≥ 7; se investiga la causa antes de excluir.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Dureza entre <span class="por-confirmar">6 y 10 kp</span>.<br>RSD ≤ 10,0 %.<br>Ningún comprimido roto antes de alcanzar el límite inferior.</p>
+  <p><strong>Documentos entregables:</strong><br>- Tabla de dureza por comprimido<br>- Cálculo de media, DE y RSD<br>- Data cruda y reporte estadístico</p>
+  <p><strong>Nota:</strong><br>El intervalo 6–10 kp es ilustrativo y depende del diseño del comprimido; se confirma contra la especificación y el estudio de compresión.</p>
+  <p><strong>Referencia:</strong><br>Especificación del producto; USP &lt;1216&gt; — Friabilidad (como referencia de robustez); 21 CFR 211.110.</p>
+</article>
+<article data-bloque="3" id="art-PRO-PQ-CMP-004" class="ensayo" data-id="PRO-PQ-CMP-004" data-fase="PQ" data-cond="ambas" data-familia="comprimidos" data-instrumentos="Friabilímetro calibrado; Balanza analítica calibrada" data-analisis="si">
+  <h3>PRO-PQ-CMP-004 — Friabilidad</h3>
+  <p><strong>Objetivo:</strong><br>Evaluar la resistencia de los comprimidos a la abrasión y al manejo, midiendo la pérdida de masa después de la rotación en el friabilímetro.</p>
+  <p><strong>Procedimiento:</strong><br>1) Pesar el conjunto de comprimidos antes de la prueba (aproximadamente 6,5 g o 10 unidades)<br>2) Colocar en el tambor del friabilímetro y girar a 25 rpm durante 4 min<br>3) Retirar, limpiar el polvo y pesar de nuevo<br>4) Calcular la pérdida de masa porcentual<br>5) Repetir dos veces si el resultado es dudoso o supera el límite, y reportar la media de las tres</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = pérdida de masa; unidad = %. Tipo de dato = continua. n = 1 corrida de 10 comprimidos; 3 corridas si el resultado es dudoso. Estadísticos = media y DE de las corridas. Regla de decisión = pérdida ≤ 1,0 % en la corrida única o media ≤ 1,0 % en tres. Atípicos: se repite la prueba; no se descarta la corrida original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Pérdida de masa ≤ <span class="por-confirmar">1,0 %</span>.<br>Sin comprimidos rotos, astillados o agrietados después de la prueba.<br>Tambor y velocidad conformes a USP &lt;1216&gt;.</p>
+  <p><strong>Documentos entregables:</strong><br>- Pesada inicial y final<br>- Cálculo de pérdida porcentual<br>- Data cruda y reporte de la prueba</p>
+  <p><strong>Nota:</strong><br>El 1,0 % es el criterio armonizado de USP &lt;1216&gt; para la mayoría de los productos; se confirma contra la especificación.</p>
+  <p><strong>Referencia:</strong><br>USP &lt;1216&gt; — Friabilidad de comprimidos; especificación del producto; 21 CFR 211.110.</p>
+</article>
+<article data-bloque="3" id="art-PRO-PQ-CMP-005" class="ensayo" data-id="PRO-PQ-CMP-005" data-fase="PQ" data-cond="ambas" data-familia="comprimidos" data-instrumentos="Desintegrador calibrado; Termómetro/termopar calibrado" data-analisis="si">
+  <h3>PRO-PQ-CMP-005 — Desintegración</h3>
+  <p><strong>Objetivo:</strong><br>Verificar que los comprimidos del lote PPQ se desintegran dentro del tiempo especificado en el medio y la temperatura definidos.</p>
+  <p><strong>Procedimiento:</strong><br>1) Verificar que el desintegrador cumple las dimensiones y la velocidad de USP &lt;701&gt;<br>2) Colocar 6 comprimidos en los tubos, con disco si la monografía lo exige<br>3) Operar con agua o el medio especificado a 37 ± 2 °C<br>4) Registrar el tiempo de desintegración de cada unidad<br>5) Si fallan 1 o 2, repetir con 12 unidades adicionales y evaluar 18</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = tiempo de desintegración; unidad = min. Tipo de dato = continua. n = 6 unidades; 18 si hay retesteo. Estadísticos = tiempo máximo y proporción que cumple. Regla de decisión = las 6 unidades desintegran dentro del límite; en retesteo, al menos 16 de 18. Atípicos: se aplica el criterio de retesteo de USP &lt;701&gt;.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Desintegración ≤ <span class="por-confirmar">15 min</span> para comprimidos no recubiertos.<br>≤ <span class="por-confirmar">30 min</span> para comprimidos recubiertos, salvo especificación distinta.<br>Las 6 unidades desintegran; en retesteo, al menos 16 de 18.</p>
+  <p><strong>Documentos entregables:</strong><br>- Registro de tiempo por unidad<br>- Verificación de temperatura y medio<br>- Data cruda y reporte de la prueba</p>
+  <p><strong>Nota:</strong><br>Los tiempos en rojo se confirman contra la monografía y la forma (no recubierto, recubierto, liberación modificada).</p>
+  <p><strong>Referencia:</strong><br>USP &lt;701&gt; — Desintegración (revisión armonizada oficial desde 2026-10-01); monografía del producto.</p>
+</article>
+<article data-bloque="3" id="art-PRO-PQ-CMP-006" class="ensayo" data-id="PRO-PQ-CMP-006" data-fase="PQ" data-cond="ambas" data-familia="comprimidos" data-instrumentos="Disolutor calibrado; HPLC con detector UV o espectrofotómetro UV-Vis calibrado" data-analisis="si">
+  <h3>PRO-PQ-CMP-006 — Disolución</h3>
+  <p><strong>Objetivo:</strong><br>Evaluar la liberación del principio activo de los comprimidos del lote PPQ en las condiciones farmacopeicas, como indicador de desempeño del producto.</p>
+  <p><strong>Procedimiento:</strong><br>1) Verificar el aparato, el medio, el volumen y la velocidad especificados en la monografía<br>2) Colocar 6 comprimidos en el disolutor y muestrear al tiempo definido<br>3) Filtrar y analizar por HPLC o UV-Vis contra estándar<br>4) Calcular el porcentaje liberado por unidad y la media<br>5) Anexar cromatogramas, condiciones y data cruda</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = porcentaje liberado; unidad = %. Tipo de dato = continua. n = 6 unidades; 12 si se requiere retesteo. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = media ≥ Q y ninguna unidad < Q − 15 % en el primer estadio. Atípicos: se aplica el criterio de estadios de USP &lt;711&gt;.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Liberación media ≥ <span class="por-confirmar">80 %</span> en <span class="por-confirmar">30 min</span>.<br>Ninguna unidad < Q − 15 % en el primer estadio.<br>Condiciones de aparato y medio según la monografía.</p>
+  <p><strong>Documentos entregables:</strong><br>- Condiciones del disolutor y curva de calibración<br>- Resultados por unidad y media<br>- Data cruda y reporte estadístico</p>
+  <p><strong>Nota:</strong><br>Q = 80 % en 30 min es el ejemplo del archivo; se confirma contra la monografía y la especificación del producto.</p>
+  <p><strong>Referencia:</strong><br>USP &lt;711&gt; — Disolución; USP &lt;1092&gt; — Desarrollo y validación del método de disolución; monografía del producto.</p>
+</article>
+<article data-bloque="3" id="art-PRO-PQ-CMP-010" class="ensayo" data-id="PRO-PQ-CMP-010" data-fase="PQ" data-cond="ambas" data-familia="comprimidos" data-subtipo="Recubierto" data-instrumentos="Balanza analítica calibrada" data-analisis="si">
+  <h3>PRO-PQ-CMP-010 — Contenido de recubrimiento</h3>
+  <p><strong>Objetivo:</strong><br>Verificar que el recubrimiento aplicado al lote PPQ alcanza el contenido y la uniformidad especificados, para asegurar protección y desempeño.</p>
+  <p><strong>Procedimiento:</strong><br>1) Pesar 10 comprimidos nucleares antes del recubrimiento y 10 recubiertos del mismo lote<br>2) Calcular la ganancia de peso por unidad y la media<br>3) Verificar la uniformidad visual del recubrimiento<br>4) Comparar contra la especificación del producto<br>5) Anexar pesadas y registro del proceso de recubrimiento</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = ganancia de peso por recubrimiento; unidad = % y mg. Tipo de dato = continua. n = 10 unidades. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = ganancia dentro de 2,0–4,0 % y RSD ≤ 5,0 %. Atípicos = Grubbs solo si n ≥ 7; se investiga la causa.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Ganancia de peso por recubrimiento entre <span class="por-confirmar">2,0 % y 4,0 %</span>.<br>RSD ≤ 5,0 %.<br>Recubrimiento uniforme, sin zonas descubiertas ni acumulaciones.</p>
+  <p><strong>Documentos entregables:</strong><br>- Pesadas antes y después del recubrimiento<br>- Cálculo de ganancia y RSD<br>- Data cruda y reporte estadístico</p>
+  <p><strong>Nota:</strong><br>La ganancia 2,0–4,0 % es ilustrativa; se confirma contra la fórmula maestra y la especificación del producto.</p>
+  <p><strong>Referencia:</strong><br>Especificación del producto; USP &lt;711&gt; — Disolución (cuando el recubrimiento es funcional); 21 CFR 211.110.</p>
+</article>
+<article data-bloque="3" id="art-PRO-PQ-CMP-011" class="ensayo" data-id="PRO-PQ-CMP-011" data-fase="PQ" data-cond="ambas" data-familia="comprimidos" data-subtipo="Recubierto" data-analisis="si">
+  <h3>PRO-PQ-CMP-011 — Integridad del recubrimiento</h3>
+  <p><strong>Objetivo:</strong><br>Confirmar que el recubrimiento del lote PPQ está íntegro y protege el núcleo, sin grietas, descascarado ni zonas expuestas.</p>
+  <p><strong>Procedimiento:</strong><br>1) Tomar 20 comprimidos recubiertos al azar<br>2) Inspeccionar con luz blanca y aumento 10× si es necesario<br>3) Clasificar grietas, descascarado, picaduras, zonas descubiertas y acumulaciones<br>4) Registrar el número de unidades afectadas por tipo<br>5) Anexar fotografías y la evaluación por segunda persona</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = integridad visual; unidad = pasa/no pasa. Tipo de dato = atributo. n = 20 unidades. Estadísticos = proporción de defectos con IC binomial exacto del 95 %. Regla de decisión = cero unidades con núcleo expuesto y ≤ 1 unidad con defecto menor. Atípicos: no aplica; toda unidad excluida se documenta.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Cero unidades con núcleo expuesto o descascarado.<br>≤ <span class="por-confirmar">1 de 20</span> unidades con defecto menor.<br>Recubrimiento continuo en ambas caras y en el borde.</p>
+  <p><strong>Documentos entregables:</strong><br>- Registro de inspección por unidad<br>- Fotografías de defectos<br>- Data cruda y reporte de atributo</p>
+  <p><strong>Nota:</strong><br>El 1 de 20 es ilustrativo; se confirma contra la especificación y la criticidad del recubrimiento para el producto.</p>
+  <p><strong>Referencia:</strong><br>Especificación del producto; USP &lt;711&gt; — Disolución (recubrimiento funcional); 21 CFR 211.110.</p>
+</article>
+<article data-bloque="3" id="art-PRO-PQ-CMP-012" class="ensayo" data-id="PRO-PQ-CMP-012" data-fase="PQ" data-cond="ambas" data-familia="comprimidos" data-subtipo="Liberación modificada" data-instrumentos="Disolutor calibrado; HPLC con detector UV o espectrofotómetro UV-Vis calibrado" data-analisis="si">
+  <h3>PRO-PQ-CMP-012 — Perfil de disolución para liberación modificada</h3>
+  <p><strong>Objetivo:</strong><br>Caracterizar el perfil de liberación del principio activo del lote PPQ en varios tiempos, para demostrar que la forma de liberación modificada cumple el diseño.</p>
+  <p><strong>Procedimiento:</strong><br>1) Verificar el aparato, los medios y los tiempos del perfil aprobado (por ejemplo 1, 2, 4 y 8 h)<br>2) Colocar 12 unidades y muestrear en cada tiempo<br>3) Analizar cada muestra por HPLC o UV-Vis<br>4) Calcular el porcentaje acumulado liberado por unidad y la media<br>5) Comparar el perfil contra la especificación y el perfil de referencia</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = porcentaje acumulado liberado; unidad = %. Tipo de dato = continua. n = 12 unidades por tiempo. Estadísticos = media, DE, RSD (%) e IC 95 % por tiempo. Regla de decisión = cada tiempo dentro del intervalo aprobado y RSD ≤ 10 % en los tiempos tempranos. Atípicos: se aplica el criterio de estadios de USP &lt;711&gt;.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Perfil dentro de los intervalos aprobados en cada tiempo: <span class="por-confirmar">1 h, 2 h, 4 h y 8 h</span>.<br>RSD ≤ 10 % en los tiempos tempranos.<br>Sin liberación súbita (dose dumping) fuera del diseño.</p>
+  <p><strong>Documentos entregables:</strong><br>- Condiciones del disolutor y curva de calibración<br>- Perfil por unidad y media por tiempo<br>- Data cruda y reporte estadístico</p>
+  <p><strong>Nota:</strong><br>Los tiempos y los intervalos en rojo se confirman contra la especificación del producto y el estudio de liberación.</p>
+  <p><strong>Referencia:</strong><br>USP &lt;711&gt; — Disolución; USP &lt;1092&gt; — Desarrollo y validación; ICH Q1A(R2) — Estabilidad.</p>
+</article>
+<article data-bloque="3" id="art-PRO-PQ-CMP-013" class="ensayo" data-id="PRO-PQ-CMP-013" data-fase="PQ" data-cond="ambas" data-familia="comprimidos" data-subtipo="Efervescente" data-instrumentos="Cronómetro calibrado; pH-metro calibrado; Balanza analítica calibrada" data-analisis="si">
+  <h3>PRO-PQ-CMP-013 — Tiempo de efervescencia y pH de la solución</h3>
+  <p><strong>Objetivo:</strong><br>Verificar que los comprimidos efervescentes del lote PPQ se disgregan en el tiempo especificado y que la solución resultante cumple el pH aprobado.</p>
+  <p><strong>Procedimiento:</strong><br>1) Colocar un comprimido en un vaso con agua a la temperatura especificada<br>2) Medir con cronómetro el tiempo hasta que cesa la evolución de gas y no quedan aglomerados<br>3) Repetir con 6 unidades<br>4) Medir el pH de la solución con pH-metro calibrado<br>5) Anexar tiempos, pH y condiciones del agua</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = tiempo de efervescencia y pH; unidad = min y unidades de pH. Tipo de dato = continua. n = 6 unidades. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = tiempo ≤ 5 min y pH dentro del intervalo aprobado. Atípicos: se repite la unidad; se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Tiempo de efervescencia ≤ <span class="por-confirmar">5 min</span>.<br>pH de la solución dentro de <span class="por-confirmar">3,0–6,0</span> o el intervalo aprobado.<br>Sin aglomerados ni residuo visible al final de la prueba.</p>
+  <p><strong>Documentos entregables:</strong><br>- Tiempo por unidad y pH de la solución<br>- Condiciones del agua y calibración del pH-metro<br>- Data cruda y reporte estadístico</p>
+  <p><strong>Nota:</strong><br>El pH 3,0–6,0 es un valor de ejemplo; se confirma contra la especificación del producto. El tiempo de 5 min sigue el criterio de efervescentes de USP &lt;701&gt;.</p>
+  <p><strong>Referencia:</strong><br>USP &lt;701&gt; — Desintegración (criterio para comprimidos efervescentes); monografía del producto.</p>
+</article>
+
+
+</section>
+
+</body>
+</html>

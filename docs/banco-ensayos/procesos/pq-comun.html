@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<style>
+  body { font-family: Tahoma, sans-serif; font-size: 11pt; }
+  strong { text-transform: uppercase; }
+</style>
+<title>Banco de Ensayos PQ — Procesos (común)</title>
+</head>
+<body>
+
+<p><a href="../index.html">← Banco de ensayos</a></p>
+<h2>Banco de Ensayos PQ — Procesos (común)</h2>
+<p>Versión del banco: <span data-banco-version>PRO-PQ 2026-11-20 v1</span></p>
+<p>Ensayos comunes a todos los procesos: sin <code>data-familia</code>, aplican a cualquier forma farmacéutica. Los específicos viven en los archivos de grupo y forma.</p>
+
+<section id="fase-pq">
+<h2>PQ — Ensayos de proceso</h2>
+
+<article data-bloque="3" id="art-PRO-PQ-GEN-000" class="ensayo" data-id="PRO-PQ-GEN-000" data-fase="PQ" data-cond="ambas">
+  <h3>PRO-PQ-GEN-000 — Requisitos previos a la PQ</h3>
+  <p><strong>Objetivo:</strong><br>Confirmar que el proceso, los equipos, los materiales, el personal y la documentación están listos antes de iniciar los lotes de PQ, para que una falla de ejecución no se confunda con una falla del proceso.</p>
+  <p><strong>Procedimiento:</strong><br>1) Verificar que la URS, el análisis de riesgo y la especificación del producto están aprobados y vigentes<br>2) Confirmar que los equipos de la línea tienen IQ y OQ vigentes y que los instrumentos están calibrados<br>3) Verificar que el registro maestro de lote, la fórmula y las instrucciones de proceso están aprobados<br>4) Confirmar que materias primas y materiales de envase están liberados y que el personal está entrenado<br>5) Revisar que no hay desviaciones críticas abiertas que afecten la PQ<br>6) Anexar la lista de verificación firmada por ejecutor y revisor</p>
+  <p><strong>Criterio de aceptación:</strong><br>100 % de los requisitos previos verificados y documentados.<br>Cero desviaciones críticas abiertas que afecten la PQ.<br>Equipos con IQ/OQ vigentes e instrumentos con calibración vigente.</p>
+  <p><strong>Documentos entregables:</strong><br>- Lista de verificación de requisitos previos firmada<br>- Evidencia de IQ/OQ, calibraciones y liberación de materiales<br>- Registro maestro de lote aprobado</p>
+  <p><strong>Referencia:</strong><br>FDA — Process Validation: General Principles and Practices (2011), Stage 2; EU GMP Anexo 15; 21 CFR 211.100.</p>
+</article>
+<article data-bloque="3" id="art-PRO-PQ-GEN-001" class="ensayo" data-id="PRO-PQ-GEN-001" data-fase="PQ" data-cond="ambas" data-analisis="si">
+  <h3>PRO-PQ-GEN-001 — Descripción y aspecto</h3>
+  <p><strong>Objetivo:</strong><br>Verificar los atributos organolépticos y físicos de la forma terminada: color, forma, olor, textura, homogeneidad, defectos visibles, marcas, ranuras y recubrimiento, para confirmar que el lote es representativo del producto aprobado.</p>
+  <p><strong>Procedimiento:</strong><br>1) Tomar una muestra representativa del lote PPQ según el plan de muestreo aprobado<br>2) Inspeccionar cada unidad con luz blanca difusa y fondo mate, sin aumentar<br>3) Registrar color, forma, olor, textura, marcas y ranuras contra la descripción aprobada<br>4) Clasificar defectos: crítico (fisura, mancha, decoloración, contaminación), mayor (borde roto, recubrimiento incompleto) y menor (variación leve de tono)<br>5) Fotografiar la muestra y anexar la imagen al registro</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = defecto visual; unidad = pasa/no pasa. Tipo de dato = atributo. n = 20 unidades por lote PPQ. Estadísticos = proporción de defectos con IC binomial exacto del 95 %. Regla de decisión = cero defectos críticos y proporción de defectos menores ≤ 2,0 %. Atípicos: no aplica a atributo; toda unidad excluida se documenta y se conserva la original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Ninguna unidad con defecto crítico.<br>Defectos menores ≤ <span class="por-confirmar">2,0 %</span> de las 20 unidades.<br>Color, forma, olor y marcas coinciden con la descripción aprobada.</p>
+  <p><strong>Documentos entregables:</strong><br>- Registro de inspección visual por unidad<br>- Fotografía de la muestra<br>- Data cruda y reporte del análisis de atributo</p>
+  <p><strong>Nota:</strong><br>El 2,0 % es un valor de ejemplo; se confirma contra la especificación del producto y la monografía aplicable.</p>
+  <p><strong>Referencia:</strong><br>Especificación del producto aprobada; monografía del producto (USP o Ph. Eur.); 21 CFR 211.110(c).</p>
+</article>
+<article data-bloque="3" id="art-PRO-PQ-GEN-002" class="ensayo" data-id="PRO-PQ-GEN-002" data-fase="PQ" data-cond="ambas" data-instrumentos="HPLC con detector UV o espectrofotómetro UV-Vis calibrado" data-analisis="si">
+  <h3>PRO-PQ-GEN-002 — Identificación del principio activo</h3>
+  <p><strong>Objetivo:</strong><br>Confirmar la presencia del principio activo en la forma terminada mediante un método cromatográfico o espectrofotométrico, según la monografía del producto.</p>
+  <p><strong>Procedimiento:</strong><br>1) Preparar la muestra y el estándar de referencia según el método validado<br>2) Inyectar el estándar y la muestra por duplicado en el sistema HPLC o leer el espectro UV-Vis<br>3) Comparar tiempo de retención y espectro de la muestra contra el estándar<br>4) Calcular la diferencia de tiempo de retención y la similitud espectral<br>5) Anexar cromatogramas o espectros y la data cruda del sistema</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = tiempo de retención y similitud espectral; unidad = min y %. Tipo de dato = analítico. n = 2 inyecciones de muestra y 2 del estándar. Estadísticos = media y diferencia absoluta; RSD de inyecciones ≤ 2,0 %. Regla de decisión = diferencia de retención ≤ 2,0 % y espectro coincidente. Atípicos: se repite la preparación; no se descarta la inyección original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Tiempo de retención de la muestra dentro de <span class="por-confirmar">±2,0 %</span> del estándar.<br>Espectro UV-Vis coincidente con el estándar en los máximos de absorción.<br>RSD de inyecciones ≤ 2,0 %.</p>
+  <p><strong>Documentos entregables:</strong><br>- Cromatogramas o espectros de muestra y estándar<br>- Cálculo de retención y similitud<br>- Data cruda y reporte del análisis</p>
+  <p><strong>Nota:</strong><br>La tolerancia de retención es un valor de ejemplo; se confirma con el método validado y la monografía.</p>
+  <p><strong>Referencia:</strong><br>USP &lt;621&gt; — Cromatografía; USP &lt;197&gt; — Pruebas de identificación espectrofotométrica; monografía del producto.</p>
+</article>
+<article data-bloque="3" id="art-PRO-PQ-GEN-003" class="ensayo" data-id="PRO-PQ-GEN-003" data-fase="PQ" data-cond="ambas" data-instrumentos="HPLC con detector UV calibrado; Balanza analítica calibrada" data-analisis="si">
+  <h3>PRO-PQ-GEN-003 — Valoración y contenido del principio activo</h3>
+  <p><strong>Objetivo:</strong><br>Cuantificar el principio activo respecto de la cantidad declarada en el lote PPQ, para confirmar que el proceso entrega la potencia prevista.</p>
+  <p><strong>Procedimiento:</strong><br>1) Preparar por triplicado la muestra y el estándar según el método validado<br>2) Inyectar en HPLC y calcular el área o la relación de áreas<br>3) Calcular el porcentaje de la cantidad declarada por unidad y por lote<br>4) Comparar contra la especificación aprobada<br>5) Anexar cromatogramas, pesadas y datos crudos</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = porcentaje de la cantidad declarada; unidad = %. Tipo de dato = continua. n = 3 preparaciones por lote PPQ. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = media dentro de 95,0–105,0 % y RSD ≤ 2,0 %. Atípicos = Grubbs solo si n ≥ 7; con n = 3 toda exclusión se justifica y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Contenido medio entre <span class="por-confirmar">95,0 % y 105,0 %</span> de la cantidad declarada.<br>RSD de las tres preparaciones ≤ 2,0 %.<br>Cada resultado individual dentro de 90,0–110,0 % (por-confirmar).</p>
+  <p><strong>Documentos entregables:</strong><br>- Cromatogramas y cálculos por preparación<br>- Tabla de pesadas y diluciones<br>- Data cruda y reporte estadístico</p>
+  <p><strong>Nota:</strong><br>Los límites 95,0–105,0 % y 90,0–110,0 % son ilustrativos; se confirman contra la especificación del producto y la monografía.</p>
+  <p><strong>Referencia:</strong><br>USP &lt;621&gt; — Cromatografía; ICH Q6A — Especificaciones; monografía del producto.</p>
+</article>
+<article data-bloque="3" id="art-PRO-PQ-GEN-004" class="ensayo" data-id="PRO-PQ-GEN-004" data-fase="PQ" data-cond="ambas" data-instrumentos="HPLC con detector UV calibrado" data-analisis="si">
+  <h3>PRO-PQ-GEN-004 — Impurezas orgánicas y productos de degradación</h3>
+  <p><strong>Objetivo:</strong><br>Controlar los productos de degradación y las impurezas orgánicas del lote PPQ, para confirmar que el proceso y el envase no generan degradantes por encima de los límites aprobados.</p>
+  <p><strong>Procedimiento:</strong><br>1) Preparar muestra y estándar de impurezas según el método validado<br>2) Inyectar en HPLC y registrar todos los picos, incluidos los no identificados<br>3) Calcular cada impureza individual, la suma y el total de impurezas<br>4) Comparar contra los límites de la especificación y de ICH Q3B(R2)<br>5) Anexar cromatogramas y la integración completa</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = porcentaje de impureza; unidad = %. Tipo de dato = analítico. n = 3 preparaciones por lote. Estadísticos = media, DE y suma; RSD ≤ 5,0 % para impurezas ≥ 0,10 %. Regla de decisión = cada impureza ≤ 0,20 %, total ≤ 1,0 % y ninguna impureza no identificada > 0,10 %. Atípicos: se investiga el pico; no se descarta sin identificación.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Cada impureza no identificada ≤ <span class="por-confirmar">0,20 %</span>.<br>Total de impurezas ≤ <span class="por-confirmar">1,0 %</span>.<br>Ninguna impureza por encima del umbral de identificación de ICH Q3B(R2).</p>
+  <p><strong>Documentos entregables:</strong><br>- Cromatogramas con integración de todos los picos<br>- Tabla de impurezas individuales y total<br>- Data cruda y reporte estadístico</p>
+  <p><strong>Nota:</strong><br>Los límites 0,20 % y 1,0 % son ilustrativos; se confirman contra la especificación y el umbral de ICH Q3B(R2) para la dosis máxima diaria.</p>
+  <p><strong>Referencia:</strong><br>ICH Q3B(R2) — Impurezas en nuevos productos; USP &lt;621&gt;; monografía del producto.</p>
+</article>
+<article data-bloque="3" id="art-PRO-PQ-GEN-005" class="ensayo" data-id="PRO-PQ-GEN-005" data-fase="PQ" data-cond="ambas" data-instrumentos="ICP-MS o ICP-OES calibrado" data-analisis="si">
+  <h3>PRO-PQ-GEN-005 — Impurezas inorgánicas y elementos traza</h3>
+  <p><strong>Objetivo:</strong><br>Verificar que las impurezas elementales del lote PPQ no superan los límites de exposición permitidos, considerando materias primas, agua, equipos y envase.</p>
+  <p><strong>Procedimiento:</strong><br>1) Preparar la muestra por digestión ácida validada, con blanco y duplicado<br>2) Analizar por ICP-MS o ICP-OES con curva de calibración y control de recuperación<br>3) Calcular la concentración de cada elemento y la exposición diaria según la dosis máxima<br>4) Comparar contra los PDE de ICH Q3D(R2) para la ruta oral<br>5) Anexar curva, blancos, recuperaciones y data cruda</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = concentración del elemento; unidad = µg/g y µg/día. Tipo de dato = analítico. n = 2 preparaciones por lote y 1 blanco. Estadísticos = media, DE y recuperación (80–120 %). Regla de decisión = exposición ≤ PDE de ICH Q3D(R2). Atípicos: se repite la digestión; no se descarta el resultado original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Pb ≤ <span class="por-confirmar">5 µg/día</span>; Cd ≤ <span class="por-confirmar">2 µg/día</span>; As ≤ <span class="por-confirmar">15 µg/día</span>; Hg ≤ <span class="por-confirmar">3 µg/día</span>.<br>Recuperación de cada elemento entre 80 % y 120 %.<br>La suma de aportes no supera el PDE de la ruta oral.</p>
+  <p><strong>Documentos entregables:</strong><br>- Curva de calibración y blancos<br>- Recuperaciones por elemento<br>- Data cruda y reporte de exposición diaria</p>
+  <p><strong>Nota:</strong><br>Los PDE en rojo se toman de ICH Q3D(R2) y se confirman contra la dosis máxima diaria y la ruta de administración del producto.</p>
+  <p><strong>Referencia:</strong><br>ICH Q3D(R2) — Impurezas elementales; USP &lt;232&gt; y &lt;233&gt;; 21 CFR 211.160.</p>
+</article>
+<article data-bloque="3" id="art-PRO-PQ-GEN-006" class="ensayo" data-id="PRO-PQ-GEN-006" data-fase="PQ" data-cond="ambas" data-instrumentos="Cromatógrafo de gases con headspace calibrado" data-analisis="si" data-aplica="solo si se usan disolventes orgánicos en la fabricación o limpieza">
+  <h3>PRO-PQ-GEN-006 — Residuos de disolventes</h3>
+  <p><strong>Objetivo:</strong><br>Verificar que los disolventes residuales del proceso no superan los límites de ICH Q3C(R9) y la especificación del producto.</p>
+  <p><strong>Procedimiento:</strong><br>1) Identificar los disolventes usados en la síntesis, granulación, recubrimiento o limpieza<br>2) Preparar la muestra por headspace según el método validado<br>3) Analizar por GC con estándar interno y curva de calibración<br>4) Calcular ppm y exposición diaria por disolvente<br>5) Anexar cromatogramas y la justificación de los disolventes incluidos</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = concentración de disolvente; unidad = ppm. Tipo de dato = analítico. n = 2 preparaciones por lote. Estadísticos = media, DE y recuperación (80–120 %). Regla de decisión = cada disolvente ≤ límite de ICH Q3C(R9). Atípicos: se repite la preparación; se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Disolventes Clase 1 ≤ límite de ICH Q3C(R9).<br>Clase 2 ≤ PDEconvertido a ppm para la dosis máxima.<br>Clase 3 ≤ <span class="por-confirmar">5 000 ppm</span> o ≤ 0,5 % por pérdida por secado.</p>
+  <p><strong>Documentos entregables:</strong><br>- Lista de disolventes y su clase<br>- Cromatogramas y cálculos de ppm<br>- Data cruda y reporte de exposición</p>
+  <p><strong>Nota:</strong><br>El límite de Clase 3 y la conversión a ppm se confirman con ICH Q3C(R9) y la dosis máxima diaria; si no se usan disolventes, se registra No Aplica con aprobación.</p>
+  <p><strong>Referencia:</strong><br>ICH Q3C(R9) — Disolventes residuales; USP &lt;467&gt;; USP &lt;731&gt;.</p>
+</article>
+<article data-bloque="3" id="art-PRO-PQ-GEN-007" class="ensayo" data-id="PRO-PQ-GEN-007" data-fase="PQ" data-cond="ambas" data-instrumentos="Incubadora calibrada; Cabina de flujo laminar; Balanza analítica calibrada" data-analisis="si">
+  <h3>PRO-PQ-GEN-007 — Calidad microbiológica</h3>
+  <p><strong>Objetivo:</strong><br>Controlar la carga microbiana y la ausencia de microorganismos especificados en el lote PPQ, según la categoría del producto oral no estéril.</p>
+  <p><strong>Procedimiento:</strong><br>1) Tomar la muestra de forma aséptica y homogeneizar según USP &lt;61&gt;<br>2) Sembrar para recuento total aerobio y levaduras/hongos<br>3) Incubar a la temperatura y tiempo del método<br>4) Sembrar para E. coli, S. aureus, P. aeruginosa y Salmonella según USP &lt;62&gt;<br>5) Anexar placas, diluciones y data cruda</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = UFC/g y ausencia/presencia; unidad = log10 UFC/g. Tipo de dato = recuento microbiológico. n = 2 muestras por lote. Estadísticos = media geométrica y log10; IC 95 % cuando n ≥ 3. Regla de decisión = recuentos ≤ límite y ausencia de especificados. Atípicos: Grubbs solo sobre log10 y con n ≥ 7.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Recuento total aerobio ≤ <span class="por-confirmar">10³ UFC/g</span>.<br>Levaduras y hongos ≤ <span class="por-confirmar">10² UFC/g</span>.<br>Ausencia de E. coli, S. aureus, P. aeruginosa y Salmonella en 1 g.</p>
+  <p><strong>Documentos entregables:</strong><br>- Registro de siembra, diluciones e incubación<br>- Lectura de placas y pruebas confirmatorias<br>- Data cruda y reporte microbiológico</p>
+  <p><strong>Nota:</strong><br>Los recuentos en rojo se confirman contra la categoría microbiológica del producto (USP &lt;1111&gt;) y la monografía.</p>
+  <p><strong>Referencia:</strong><br>USP &lt;61&gt; y &lt;62&gt; — Examen microbiológico; USP &lt;1111&gt;; 21 CFR 211.113.</p>
+</article>
+<article data-bloque="3" id="art-PRO-PQ-GEN-008" class="ensayo" data-id="PRO-PQ-GEN-008" data-fase="PQ" data-cond="ambas">
+  <h3>PRO-PQ-GEN-008 — Estabilidad del producto y atribución de vida útil</h3>
+  <p><strong>Objetivo:</strong><br>Confirmar que el producto mantiene sus atributos durante la vida útil propuesta, con estudios acelerados y de larga duración en el envase comercial.</p>
+  <p><strong>Procedimiento:</strong><br>1) Verificar que los lotes PPQ ingresaron al plan de estabilidad con el envase y la orientación comercial<br>2) Revisar los puntos de tiempo, condiciones y métodos del protocolo ICH Q1A(R2)<br>3) Confirmar que cada punto tiene resultados completos y dentro de especificación<br>4) Evaluar tendencias y cambios significativos según ICH Q1A(R2)<br>5) Anexar el protocolo, los resultados y la conclusión de vida útil</p>
+  <p><strong>Criterio de aceptación:</strong><br>Sin cambio significativo en valoración, impurezas, disolución y atributos físicos durante <span class="por-confirmar">12 meses</span> de larga duración.<br>Perfil de degradación consistente con el producto aprobado.<br>Vida útil propuesta sustentada por los datos disponibles.</p>
+  <p><strong>Documentos entregables:</strong><br>- Protocolo de estabilidad y cronograma<br>- Resultados por punto de tiempo<br>- Conclusión de vida útil y anexos</p>
+  <p><strong>Nota:</strong><br>Los 12 meses y las condiciones se confirman contra ICH Q1A(R2), la zona climática y el plan de estabilidad aprobado.</p>
+  <p><strong>Referencia:</strong><br>ICH Q1A(R2) — Estabilidad; ICH Q1B — Fotoestabilidad; 21 CFR 211.166.</p>
+</article>
+<article data-bloque="3" id="art-PRO-PQ-GEN-009" class="ensayo" data-id="PRO-PQ-GEN-009" data-fase="PQ" data-cond="ambas" data-instrumentos="Balanza analítica calibrada" data-analisis="si">
+  <h3>PRO-PQ-GEN-009 — Envase, cierre y protección del producto</h3>
+  <p><strong>Objetivo:</strong><br>Verificar que el envase y cierre del lote PPQ protegen el producto y cumplen las pruebas funcionales aplicables al sistema de empaque.</p>
+  <p><strong>Procedimiento:</strong><br>1) Identificar el sistema de envase y cierre aprobado: blíster, frasco, aluminio-aluminio u otro<br>2) Verificar integridad de sellado y ausencia de fugas en la muestra del lote<br>3) Ejecutar la prueba de permeación o transmisión aplicable según USP &lt;671&gt;<br>4) Revisar la compatibilidad y la ausencia de interacción con el producto<br>5) Anexar especificaciones, resultados y certificados del proveedor</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = integridad y tasa de permeación; unidad = pasa/no pasa y g/día. Tipo de dato = atributo y continua. n = 15 envases por lote para permeación; 30 para integridad. Estadísticos = proporción con IC binomial y media de permeación. Regla de decisión = cero fugas y permeación dentro de la especificación. Atípicos: se investiga el envase; no se descarta sin causa.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Cero fugas en el 100 % de los envases examinados.<br>Permeación dentro del límite del sistema aprobado (USP &lt;671&gt;).<br>Sin interacción visible ni cambio de atributos del producto.</p>
+  <p><strong>Documentos entregables:</strong><br>- Resultados de integridad y permeación<br>- Especificación del envase y certificados<br>- Data cruda y reporte del análisis</p>
+  <p><strong>Nota:</strong><br>El límite de permeación depende del material y del producto; se confirma con USP &lt;671&gt; y la especificación del envase.</p>
+  <p><strong>Referencia:</strong><br>USP &lt;671&gt; — Containers: Performance Testing; 21 CFR 211.94; 21 CFR 211.122.</p>
+</article>
+<article data-bloque="3" id="art-PRO-PQ-GEN-010" class="ensayo" data-id="PRO-PQ-GEN-010" data-fase="PQ" data-cond="ambas">
+  <h3>PRO-PQ-GEN-010 — Etiquetado y control de materiales</h3>
+  <p><strong>Objetivo:</strong><br>Confirmar que el etiquetado del lote PPQ coincide con el material aprobado y que no hubo mezclas ni errores de identificación.</p>
+  <p><strong>Procedimiento:</strong><br>1) Comparar la etiqueta impresa contra el original aprobado y la orden de empaque<br>2) Verificar nombre, concentración, lote, vencimiento, condiciones de almacenamiento y advertencias<br>3) Revisar la conciliación de etiquetas emitidas, usadas y destruidas<br>4) Verificar la limpieza de línea y la separación de productos<br>5) Anexar la etiqueta aprobada, la muestra y el registro de conciliación</p>
+  <p><strong>Criterio de aceptación:</strong><br>100 % de las etiquetas emitidas coinciden con el material aprobado.<br>Conciliación de etiquetas sin diferencias no justificadas.<br>Cero mezclas o errores de identificación en el lote.</p>
+  <p><strong>Documentos entregables:</strong><br>- Etiqueta aprobada y muestra del lote<br>- Registro de conciliación y limpieza de línea<br>- Evidencia de revisión por segunda persona</p>
+  <p><strong>Referencia:</strong><br>21 CFR 201; 21 CFR 211.122; 21 CFR 211.125; 21 CFR 211.130.</p>
+</article>
+
+<article data-bloque="6" id="art-PRO-PQ-REF" class="ensayo tabla-info" data-id="PRO-PQ-REF" data-fase="PQ" data-cond="ambas">
+  <h3>PRO-PQ-REF — Referencias del PQ de procesos</h3>
+  <table>
+    <tr><th>SECCIÓN</th><th>TÍTULO</th><th>ESTADO</th></tr>
+    <tr><td>6.1</td><td>FDA — Process Validation: General Principles and Practices (2011), Stage 2 PPQ</td><td>VIGENTE</td></tr>
+    <tr><td>6.2</td><td>EU GMP Anexo 15 — Cualificación y validación de procesos (2015)</td><td>VIGENTE</td></tr>
+    <tr><td>6.3</td><td>ICH Q8(R2), Q9(R1) y Q10 — Desarrollo, riesgo y sistema de calidad</td><td>VIGENTE</td></tr>
+    <tr><td>6.4</td><td>21 CFR 211.110 — Control de procesos e impurezas en proceso</td><td>VIGENTE</td></tr>
+    <tr><td>6.5</td><td>USP &lt;701&gt; (revisión oficial 2026-10-01), &lt;711&gt;, &lt;905&gt; y &lt;1216&gt;</td><td>VIGENTE</td></tr>
+    <tr><td>6.6</td><td>ICH Q1A(R2) — Estabilidad; ICH Q3B(R2) — Impurezas de degradación</td><td>VIGENTE</td></tr>
+    <tr><td>6.7</td><td>ICH Q3C(R9) — Disolventes residuales; ICH Q3D(R2) — Impurezas elementales</td><td>VIGENTE</td></tr>
+    <tr><td>6.8</td><td>USP &lt;467&gt;, &lt;921&gt;, &lt;731&gt;, &lt;61&gt;, &lt;62&gt;, &lt;671&gt; y &lt;1092&gt;</td><td>VIGENTE</td></tr>
+    <tr><td>6.9</td><td>21 CFR 211.94, 211.122, 211.125 y 211.130 — Envase y etiquetado</td><td>VIGENTE</td></tr>
+  </table>
+</article>
+<div class="anexos" data-bloque="8">
+<p><strong>ANEXOS:</strong></p>
+<table>
+<tr><th>SECCIÓN</th><th>TÍTULO</th></tr>
+<tr><td>8.1</td><td>Anexo A — Registros de lotes PPQ, muestreos y resultados por ensayo</td></tr>
+<tr><td>8.2</td><td>Anexo B — Certificados de instrumentos, columnas y estándares</td></tr>
+<tr><td>8.3</td><td>Anexo C — Data cruda, reportes estadísticos y trazabilidad de límites</td></tr>
+</table>
+</div>
+
+</section>
+
+</body>
+</html>

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<style>
+  body { font-family: Tahoma, sans-serif; font-size: 11pt; }
+  strong { text-transform: uppercase; }
+</style>
+<title>Banco de Ensayos PQ — Sólidos</title>
+</head>
+<body>
+
+<p><a href="../index.html">← Banco de ensayos</a></p>
+<h2>Banco de Ensayos PQ — Sólidos</h2>
+<p>Versión del banco: <span data-banco-version>PRO-PQ 2026-11-20 v1</span></p>
+<p>Ensayos del grupo <code>solidos</code> (<code>data-familia="solidos"</code>): aplican a comprimidos, cápsulas, granulados y polvos.</p>
+
+<section id="fase-pq">
+<h2>PQ — Ensayos de proceso</h2>
+
+<article data-bloque="3" id="art-PRO-PQ-SOL-001" class="ensayo" data-id="PRO-PQ-SOL-001" data-fase="PQ" data-cond="ambas" data-familia="solidos" data-instrumentos="Karl Fischer calibrado; Balanza analítica calibrada" data-analisis="si">
+  <h3>PRO-PQ-SOL-001 — Contenido de agua en la forma sólida</h3>
+  <p><strong>Objetivo:</strong><br>Determinar el contenido de agua de la forma sólida del lote PPQ y confirmar que el proceso de secado o granulación entrega el nivel previsto.</p>
+  <p><strong>Procedimiento:</strong><br>1) Tomar la muestra del lote PPQ y mantenerla en recipiente cerrado hasta el análisis<br>2) Pesar la muestra y determinar agua por Karl Fischer o pérdida por secado, según la monografía<br>3) Calcular el porcentaje de agua sobre la muestra tal cual<br>4) Comparar contra la especificación del producto<br>5) Anexar pesadas, consumo de reactivo y data cruda</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = contenido de agua; unidad = %. Tipo de dato = continua. n = 3 determinaciones por lote. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = media ≤ 5,0 % y RSD ≤ 5,0 %. Atípicos = Grubbs solo si n ≥ 7; con n = 3 se repite la determinación y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Contenido de agua ≤ <span class="por-confirmar">5,0 %</span>.<br>RSD de las tres determinaciones ≤ 5,0 %.<br>Método y temperatura de secado según la monografía del producto.</p>
+  <p><strong>Documentos entregables:</strong><br>- Pesadas y consumo de reactivo<br>- Cálculo de porcentaje de agua<br>- Data cruda y reporte estadístico</p>
+  <p><strong>Nota:</strong><br>El 5,0 % es ilustrativo; se confirma contra la especificación del producto y la monografía. Para productos higroscópicos se justifica un límite más estricto.</p>
+  <p><strong>Referencia:</strong><br>USP &lt;921&gt; — Determinación de agua; USP &lt;731&gt; — Pérdida por secado; monografía del producto.</p>
+</article>
+<article data-bloque="3" id="art-PRO-PQ-SOL-002" class="ensayo" data-id="PRO-PQ-SOL-002" data-fase="PQ" data-cond="ambas" data-familia="solidos" data-instrumentos="Balanza analítica calibrada; HPLC con detector UV calibrado" data-analisis="si">
+  <h3>PRO-PQ-SOL-002 — Uniformidad de unidades de dosificación</h3>
+  <p><strong>Objetivo:</strong><br>Demostrar que las unidades de dosificación del lote PPQ contienen una cantidad uniforme del principio activo, por variación de peso o por uniformidad de contenido según la monografía.</p>
+  <p><strong>Procedimiento:</strong><br>1) Seleccionar 10 unidades al azar del lote PPQ<br>2) Pesar individualmente cada unidad y calcular el peso medio<br>3) Si la monografía exige uniformidad de contenido, analizar cada unidad por HPLC<br>4) Calcular el valor de aceptación (AV) y comparar contra USP &lt;905&gt;<br>5) Anexar pesadas, cromatogramas y cálculo del AV</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = masa o contenido por unidad; unidad = mg o %. Tipo de dato = continua. n = 10 unidades, ampliable a 30 según USP &lt;905&gt;. Estadísticos = media, DE y valor de aceptación (AV). Regla de decisión = AV ≤ 15,0 y ninguna unidad fuera de 85,0–115,0 %. Atípicos: se aplica el criterio de retesteo de USP &lt;905&gt;, no se descartan unidades.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Valor de aceptación (AV) ≤ <span class="por-confirmar">15,0</span>.<br>Ninguna unidad fuera de <span class="por-confirmar">85,0–115,0 %</span>.<br>RSD de peso ≤ 6,0 % cuando se usa variación de peso.</p>
+  <p><strong>Documentos entregables:</strong><br>- Pesadas individuales y cálculo de AV<br>- Cromatogramas si aplica uniformidad de contenido<br>- Data cruda y reporte estadístico</p>
+  <p><strong>Nota:</strong><br>El AV y el intervalo se confirman contra USP &lt;905&gt; y la monografía; la elección entre peso y contenido depende de la dosis y del producto.</p>
+  <p><strong>Referencia:</strong><br>USP &lt;905&gt; — Uniformidad de unidades de dosificación; monografía del producto; 21 CFR 211.110.</p>
+</article>
+
+
+</section>
+
+</body>
+</html>
