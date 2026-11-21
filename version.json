@@ -1,1 +1,1 @@
-{"v":"e22e2ab","t":"2026-11-21T04:06:28Z","m":"feat(procesos): capsulas en solidos (#358)","b":["Entidad capsulas con herencia de agua, uniformidad y mezcla.","Desintegracion, disolucion, integridad y liberacion modificada.","Subtipos capsula dura/blanda en el paso 2.","Referencias USP 701/711/724/905/921/731."]}
+{"v":"7afec8a","t":"2026-11-21T12:47:00Z","m":"feat(procesos): dimensiones y calibre de capsulas (#360)","b":["PRO-PQ-CAP-005 con longitud, diametro y espesor de pared.","Calibre obligatorio en el paso 2.","Tolerancias y calibre en rojo hasta confirmacion."]}
