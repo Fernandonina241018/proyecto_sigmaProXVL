@@ -1043,6 +1043,10 @@ const PlantillaDocx = (() => {
     { fam: 'procesos', clave: 'area_temp_max', id: 'PRO-PQ-GEN-016', token: 'area_temp_max', parametro: 'Temperatura máxima del área', valor: '25', unidad: '°C', fuente: 'diseño del área', version: 'propuesta', estado: 'provisional — confirmar' },
     { fam: 'procesos', clave: 'area_hr_max', id: 'PRO-PQ-GEN-016', token: 'area_hr_max', parametro: 'Humedad relativa máxima del área', valor: '65', unidad: '% HR', fuente: 'diseño del área', version: 'propuesta', estado: 'provisional — confirmar' },
     { fam: 'comprimidos', clave: 'metal_sensibilidad', id: 'PRO-PQ-CMP-019', token: 'metal_sensibilidad', parametro: 'Sensibilidad del detector de metales', valor: '1,5', unidad: 'mm', fuente: 'validación del detector', version: 'propuesta', estado: 'provisional — confirmar' },
+    { fam: 'procesos', clave: 'limpieza_protocolo', id: 'PRO-PQ-GEN-017', token: 'limpieza_protocolo', parametro: 'Protocolo de limpieza', valor: '________', unidad: 'código/versión', fuente: 'protocolo aprobado', version: 'propuesta', estado: 'provisional — confirmar' },
+    { fam: 'procesos', clave: 'transporte_protocolo', id: 'PRO-PQ-GEN-018', token: 'transporte_protocolo', parametro: 'Protocolo de transporte', valor: '________', unidad: 'código/versión', fuente: 'protocolo aprobado', version: 'propuesta', estado: 'provisional — confirmar' },
+    { fam: 'procesos', clave: 'escala_justificacion', id: 'PRO-PQ-GEN-019', token: 'escala_justificacion', parametro: 'Justificación del cambio de escala', valor: '________', unidad: 'condición', fuente: 'change control', version: 'propuesta', estado: 'provisional — confirmar' },
+    { fam: 'procesos', clave: 'recalificacion_frecuencia', id: 'PRO-PQ-GEN-020', token: 'recalificacion_frecuencia', parametro: 'Frecuencia de recalificación', valor: '36', unidad: 'meses', fuente: 'política de Calidad', version: 'propuesta', estado: 'provisional — confirmar' },
   ];
 
   function limitesDe(id) {

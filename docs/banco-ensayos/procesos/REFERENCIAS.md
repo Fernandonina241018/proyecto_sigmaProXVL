@@ -33,6 +33,8 @@ Laboratorios Sued; el banco cita capítulo y título, no una edición no verific
 | ICH Q3D(R2) — *Elemental Impurities* (2022-04-26) | PDE de elementos | https://database.ich.org/sites/default/files/Q3D-R2_Guideline_Step4_2022_0308.pdf |
 | 21 CFR 211.94 | Envase y cierre | https://www.ecfr.gov/current/title-21/chapter-I/subchapter-C/part-211/subpart-D/section-211.94 |
 | 21 CFR 211.103 / 211.111 | Rendimiento, reconciliación y límites de tiempo de producción | https://www.ecfr.gov/current/title-21/chapter-I/subchapter-C/part-211/subpart-D |
+| 21 CFR 211.67 | Limpieza y mantenimiento de equipos | https://www.ecfr.gov/current/title-21/chapter-I/subchapter-C/part-211/subpart-D |
+| 21 CFR 211.142 / 211.150 | Almacenamiento y distribución | https://www.ecfr.gov/current/title-21/chapter-I/subchapter-C/part-211/subpart-H |
 | 21 CFR 211.46 / 211.84 | Ventilación del área y control de materias primas | https://www.ecfr.gov/current/title-21/chapter-I/subchapter-C/part-211/subpart-C |
 | 21 CFR 211.180 / 211.192 | Registros, investigación de fallos y CPV | https://www.ecfr.gov/current/title-21/chapter-I/subchapter-C/part-211/subpart-J |
 | 21 CFR 211.122 / 211.125 / 211.130 | Etiquetado y empaquetado | https://www.ecfr.gov/current/title-21/chapter-I/subchapter-C/part-211/subpart-G |
@@ -81,3 +83,13 @@ Laboratorios Sued; el banco cita capítulo y título, no una edición no verific
 - **Metales:** el desafío con patrones se hace sobre la matriz del producto y
   presupone el OQ del detector. La sensibilidad y la tasa de rechazo falso son
   propuestas a confirmar con el fabricante y la validación del equipo.
+- **Limpieza:** la validación de limpieza se ejecuta en su propio protocolo
+  (MACO, hisopos/enjuague, recuperación). El PQ solo verifica que esté aprobada,
+  ejecutada y vigente para el producto y el tren de equipos.
+- **Transporte:** el estudio de transporte/distribución se ejecuta en su propio
+  protocolo (rutas, T/HR, vibración, integridad). El PQ verifica su estado y sus
+  conclusiones; no lo reemplaza.
+- **Scale-up:** un cambio de escala es un change control con bracketing o peor
+  caso; el PQ verifica comparabilidad, no lo aprueba por sí solo.
+- **Recalificación:** la frecuencia y los disparadores se definen por riesgo;
+  la recalificación no reemplaza el CPV ni la revisión anual.
