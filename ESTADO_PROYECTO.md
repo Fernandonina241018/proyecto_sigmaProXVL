@@ -90,6 +90,37 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (StatAnalyzer Pro) co
 
 ## CAMBIOS RECIENTES
 
+### 2026-11-21 (342): Formas sólidas · cápsulas
+
+**Qué:** se agrega la forma **Cápsulas** al grupo sólidos, con sus ensayos propios y herencia del grupo.
+- **Entidad:** `capsulas` (`grupo: solidos`); hereda agua (`SOL-001`), uniformidad (`SOL-002`) y uniformidad de mezcla (`SOL-003`).
+- **Ensayos propios:** `PRO-PQ-CAP-001` desintegración, `CAP-002` disolución, `CAP-003` integridad de la cápsula y `CAP-004` disolución de liberación modificada (subtipo).
+- **Criterios propios:** los límites de cápsulas no copian los de comprimidos; la desintegración distingue dura/blanda y la integridad evalúa grietas, fugas y separación.
+- **Subtipos:** se agregan `Cápsula dura` y `Cápsula blanda` a la lista del paso 2; `Liberación modificada` sigue disponible para `CAP-004`.
+- **Referencias:** USP <701>, <711>, <724>, <905>, <921>/<731> y especificación del producto.
+
+**Estado medido:**
+```
+banco: procesos 44 ensayos · 21 comunes · 3 sólidos · 16 comprimidos · 4 cápsulas
+global: 1471 ensayos · falta instrumentos 720 (49 %) · criterio numérico 971 (66 %)
+```
+
+**Archivos afectados:**
+| Archivo | Cambio |
+|---------|--------|
+| `docs/banco-ensayos/procesos/pq-capsulas.html` | **NUEVO** — 4 ensayos |
+| `docs/banco-ensayos/procesos/REFERENCIAS.md` | Sección de cápsulas |
+| `js/core/banco-procesos-data.js` | Regenerado |
+| `js/core/indexx-validaciones.js` | Entidad `capsulas` y subtipos |
+| `scripts/extraer-banco.mjs` | Incluye `pq-capsulas.html` |
+| `tests/banco-procesos.test.js` | **27 pruebas** (cápsulas incluido) |
+| `tests/validaciones-panel.test.js` | Comprimidos + cápsulas en el combobox |
+
+**Verificación:**
+```
+npm run preflight → protocolo:check OK, urs-ar:check OK, Vitest 1262, backend 154, E2E 14
+```
+
 ### 2026-11-21 (341): PQ de procesos · cierre del P2 (ciclo de vida)
 
 **Qué:** se agrega el bloque P2 que conecta la PQ con los programas de ciclo de vida, sin duplicarlos dentro del protocolo.

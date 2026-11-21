@@ -98,6 +98,7 @@ const Validaciones = (() => {
     // semisolidos, liquidos). El subtipo se elige en el paso 2.
     procesos: [
       { id: 'comprimidos', nombre: 'Comprimidos', grupo: 'solidos' },
+      { id: 'capsulas', nombre: 'Cápsulas', grupo: 'solidos' },
     ],
     software: [
       { id: 'software-gxp', nombre: 'Sistema computarizado GxP' },
@@ -235,6 +236,7 @@ const Validaciones = (() => {
         opciones: [
           'Convencional', 'Recubierto', 'Liberación modificada', 'Efervescente',
           'Masticable', 'Sublingual', 'Bucal', 'Acción prolongada',
+          'Cápsula dura', 'Cápsula blanda',
         ],
       },
       { k: 'especificacionCodigo', label: 'Especificación (código)', tipo: 'text', req: true },

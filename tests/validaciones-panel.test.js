@@ -112,10 +112,11 @@ describe('Validaciones V7', () => {
   });
 
   test('procesos: comprimidos en el grupo sólidos', () => {
-    expect(Validaciones.getEntidades('procesos').map((e) => e.id)).toEqual(['comprimidos']);
+    expect(Validaciones.getEntidades('procesos').map((e) => e.id)).toEqual(['comprimidos', 'capsulas']);
     const html = Validaciones.viewEntidad('procesos');
     expect(html).toContain('Seleccione la forma farmacéutica');
     expect(html).toContain('data-ent="comprimidos"');
+    expect(html).toContain('data-ent="capsulas"');
     expect(html).toContain('data-grupo="solidos"');
     expect(Validaciones.getSchema('procesos').map((f) => f.k)).toContain('subtipo');
     expect(Validaciones.getSchema('procesos').find((f) => f.k === 'subtipo').opciones).toContain('Liberación modificada');
@@ -131,10 +132,10 @@ describe('Validaciones V7', () => {
     // La forma no se puede elegir hasta que haya grupo.
     expect(vacio).toMatch(/class="v7-ent-input"[^>]*disabled/);
 
-    Validaciones.ENTIDADES.procesos.push({ id: 'capsulas', nombre: 'Cápsulas', grupo: 'solidos' });
+    Validaciones.ENTIDADES.procesos.push({ id: 'granulados', nombre: 'Granulados', grupo: 'solidos' });
     try {
       const html = Validaciones.viewEntidad('procesos');
-      expect(html).toContain('data-ent="capsulas"');
+      expect(html).toContain('data-ent="granulados"');
       expect(html).toContain('data-grupo="solidos"');
     } finally {
       Validaciones.ENTIDADES.procesos.pop();

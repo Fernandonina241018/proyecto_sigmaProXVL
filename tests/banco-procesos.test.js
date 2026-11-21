@@ -22,23 +22,31 @@ const texto = (e, prefijo) => {
 describe('banco de procesos: estructura', () => {
   it('solo tiene PQ y arranca con comprimidos', () => {
     expect(Object.keys(B.fases)).toEqual(['PQ']);
-    expect(ensayos.length).toBe(40);
+    expect(ensayos.length).toBe(44);
+  });
+
+  it('cápsulas tiene sus ensayos propios y hereda el grupo sólidos', () => {
+    const ids = ensayos.filter((e) => e.familia === 'capsulas').map((e) => e.id);
+    expect(ids).toEqual(['PRO-PQ-CAP-001', 'PRO-PQ-CAP-002', 'PRO-PQ-CAP-003', 'PRO-PQ-CAP-004']);
+    expect(ensayos.filter((e) => e.familia === 'capsulas' && e.subtipo).map((e) => e.id)).toEqual(['PRO-PQ-CAP-004']);
   });
 
   it('reparte común, grupo y forma sin duplicar IDs', () => {
     const comunes = ensayos.filter((e) => !e.familia);
     const solidos = ensayos.filter((e) => e.familia === 'solidos');
     const comprimidos = ensayos.filter((e) => e.familia === 'comprimidos');
+    const capsulas = ensayos.filter((e) => e.familia === 'capsulas');
     expect(comunes.length).toBe(21);
     expect(solidos.length).toBe(3);
     expect(comprimidos.length).toBe(16);
+    expect(capsulas.length).toBe(4);
     expect(new Set(ensayos.map((e) => e.id)).size).toBe(ensayos.length);
   });
 
   it('los subtipos se declaran solo donde aplican', () => {
     const porSubtipo = {};
     for (const e of ensayos.filter((x) => x.subtipo)) porSubtipo[e.subtipo] = (porSubtipo[e.subtipo] || 0) + 1;
-    expect(porSubtipo).toEqual({ Recubierto: 2, 'Liberación modificada': 1, Efervescente: 1 });
+    expect(porSubtipo).toEqual({ Recubierto: 2, 'Liberación modificada': 2, Efervescente: 1 });
     expect(ensayos.filter((e) => e.subtipo && !e.familia).length).toBe(0);
   });
 
