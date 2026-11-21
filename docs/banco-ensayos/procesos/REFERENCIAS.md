@@ -39,9 +39,18 @@ Laboratorios Sued; el banco cita capítulo y título, no una edición no verific
 | 21 CFR 211.180 / 211.192 | Registros, investigación de fallos y CPV | https://www.ecfr.gov/current/title-21/chapter-I/subchapter-C/part-211/subpart-J |
 | 21 CFR 211.122 / 211.125 / 211.130 | Etiquetado y empaquetado | https://www.ecfr.gov/current/title-21/chapter-I/subchapter-C/part-211/subpart-G |
 
-## Uniformidad de mezcla (blend uniformity)
+## Cápsulas
 
-| Referencia | Uso | Fuente verificada |
+| Referencia | Uso en el banco | Fuente verificada |
+|---|---|---|
+| USP \<701\> — *Disintegration* | Desintegración de cápsulas | https://www.usp.org/harmonization-standards/pdg/general-methods/disintegration |
+| USP \<711\> — *Dissolution* | Disolución de cápsulas | https://www.usp.org/ (capítulo vigente) |
+| USP \<724\> — *Drug Release* | Cápsulas de liberación modificada | https://www.usp.org/ (capítulo vigente) |
+| USP \<905\> — *Uniformity of Dosage Units* | Uniformidad de masa o contenido | https://www.usp.org/sites/default/files/usp/document/harmonization/excipients/m99694.pdf |
+| USP \<921\> / \<731\> | Contenido de agua / pérdida por desecación | https://www.usp.org/ (capítulos vigentes) |
+| Especificación del producto | Integridad de la cápsula (grietas, fugas, separación) | Documento aprobado del producto |
+
+## Uniformidad de mezcla (blend uniformity)| Referencia | Uso | Fuente verificada |
 |---|---|---|
 | 21 CFR 211.110 | Exige demostrar la adecuación de la mezcla; no fija límite numérico | https://www.ecfr.gov/current/title-21/chapter-I/subchapter-C/part-211/subpart-F/section-211.110 |
 | FDA — *Questions and Answers on CGMP* (retiro del borrador de 2003) | El borrador de muestreo estratificado fue retirado en 2013; no se cita como vigente | https://www.fda.gov/drugs/guidances-drugs/questions-and-answers-current-good-manufacturing-practice-regulations-production-and-process |
@@ -93,3 +102,6 @@ Laboratorios Sued; el banco cita capítulo y título, no una edición no verific
   caso; el PQ verifica comparabilidad, no lo aprueba por sí solo.
 - **Recalificación:** la frecuencia y los disparadores se definen por riesgo;
   la recalificación no reemplaza el CPV ni la revisión anual.
+- **Cápsulas:** la integridad visual y el tiempo de desintegración dependen del
+  tipo de cápsula (dura, blanda, HPMC); no se copian los límites de comprimidos.
+  El agua y la uniformidad se heredan del grupo sólidos.

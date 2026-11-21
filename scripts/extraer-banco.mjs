@@ -40,7 +40,7 @@ const BANCOS = {
   // se cablea al banco para que el generador pueda emitir la fase IQ.
   sistemas: { src: ['sistemas/iq-agua-purificada.html', 'sistemas/iq-hvac.html', 'sistemas/iq-vapor-limpio.html', 'sistemas/iq-aire-comprimido.html', 'sistemas/oq-agua-purificada.html', 'sistemas/pq-agua-purificada.html', 'sistemas/oq-hvac.html', 'sistemas/pq-hvac.html', 'sistemas/oq-vapor-limpio.html', 'sistemas/pq-vapor-limpio.html', 'sistemas/oq-aire-comprimido.html', 'sistemas/pq-aire-comprimido.html'], dst: 'banco-sistemas-data.js', global: 'BancoSistemas' },
   // procesos: común global + grupo + forma. Solo PQ por ahora.
-  procesos: { src: ['procesos/pq-comun.html', 'procesos/pq-solidos.html', 'procesos/pq-comprimidos.html'], dst: 'banco-procesos-data.js', global: 'BancoProcesos' },
+  procesos: { src: ['procesos/pq-comun.html', 'procesos/pq-solidos.html', 'procesos/pq-comprimidos.html', 'procesos/pq-capsulas.html'], dst: 'banco-procesos-data.js', global: 'BancoProcesos' },
 };
 const cat = process.argv[2] && !process.argv[2].startsWith('--') ? process.argv[2] : 'equipos';
 const ESTRICTO = process.argv.includes('--estricto');

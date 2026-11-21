@@ -1,7 +1,7 @@
 // Generado por scripts/extraer-banco.mjs procesos — NO EDITAR A MANO.
-// Fuente: docs/banco-ensayos/procesos/pq-comun.html + docs/banco-ensayos/procesos/pq-solidos.html + docs/banco-ensayos/procesos/pq-comprimidos.html (versión: PRO-PQ 2026-11-20 v1 + PRO-PQ 2026-11-20 v1 + PRO-PQ 2026-11-20 v1).
+// Fuente: docs/banco-ensayos/procesos/pq-comun.html + docs/banco-ensayos/procesos/pq-solidos.html + docs/banco-ensayos/procesos/pq-comprimidos.html + docs/banco-ensayos/procesos/pq-capsulas.html (versión: PRO-PQ 2026-11-20 v1 + PRO-PQ 2026-11-20 v1 + PRO-PQ 2026-11-20 v1 + PRO-PQ 2026-11-20 v1).
 var BancoProcesos = {
- "version": "PRO-PQ 2026-11-20 v1 + PRO-PQ 2026-11-20 v1 + PRO-PQ 2026-11-20 v1",
+ "version": "PRO-PQ 2026-11-20 v1 + PRO-PQ 2026-11-20 v1 + PRO-PQ 2026-11-20 v1 + PRO-PQ 2026-11-20 v1",
  "fases": {
   "PQ": [
    {
@@ -1199,7 +1199,7 @@ var BancoProcesos = {
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>Liberación media ≥ <span class=\"por-confirmar\">80 %</span> en <span class=\"por-confirmar\">30 min</span>.<br>Ninguna unidad &lt; Q − 15 % en el primer estadio.<br>Condiciones de aparato y medio según la monografía."
+      "html": "<strong>Criterio de aceptación:</strong><br>Liberación media ≥ <span class=\"por-confirmar\">80 %</span> en <span class=\"por-confirmar\">30 min</span> para cápsulas duras; ≥ <span class=\"por-confirmar\">75 %</span> en <span class=\"por-confirmar\">45 min</span> para cápsulas blandas.<br>Ninguna cápsula &lt; Q − 15 % en el primer estadio.<br>Sin residuo de cubierta adherido a la canastilla o al vaso."
      },
      {
       "et": "Documentos entregables",
@@ -1625,6 +1625,170 @@ var BancoProcesos = {
     "subtipo": "Efervescente",
     "analisis": "si",
     "familia": "comprimidos"
+   },
+   {
+    "kind": "ensayo",
+    "id": "PRO-PQ-CAP-001",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "PRO-PQ-CAP-001 — Desintegración de cápsulas",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que las cápsulas del lote PPQ se desintegran dentro del tiempo especificado en el medio y la temperatura definidos por la monografía."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>1) Verificar que el desintegrador cumple dimensiones y velocidad de USP &lt;701&gt;<br>2) Colocar 6 cápsulas en los tubos, con disco si la monografía lo exige<br>3) Operar con agua o el medio especificado a 37 ± 2 °C<br>4) Registrar el tiempo de desintegración de cada unidad<br>5) Si fallan 1 o 2, repetir con 12 unidades adicionales y evaluar 18"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = tiempo de desintegración; unidad = min. Tipo de dato = continua. n = 6 unidades; 18 si hay retesteo. Estadísticos = tiempo máximo y proporción que cumple. Regla de decisión = las 6 cápsulas desintegran dentro del límite; en retesteo, al menos 16 de 18. Atípicos: se aplica el criterio de retesteo de USP &lt;701&gt;."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>Desintegración ≤ <span class=\"por-confirmar\">30 min</span> para cápsulas duras, salvo especificación distinta.<br>≤ <span class=\"por-confirmar\">30 min</span> para cápsulas blandas o el límite de la monografía.<br>Las 6 unidades desintegran; en retesteo, al menos 16 de 18."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>- Registro de tiempo por unidad<br>- Verificación de temperatura y medio<br>- Data cruda y reporte de la prueba"
+     },
+     {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>El tiempo en rojo se confirma contra la monografía y el tipo de cápsula; no se generaliza el límite de comprimidos."
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>USP &lt;701&gt; — Desintegración (revisión armonizada oficial desde 2026-10-01); monografía del producto."
+     }
+    ],
+    "tabla": null,
+    "instrumentos": "Desintegrador calibrado; Termómetro/termopar calibrado",
+    "analisis": "si",
+    "familia": "capsulas"
+   },
+   {
+    "kind": "ensayo",
+    "id": "PRO-PQ-CAP-002",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "PRO-PQ-CAP-002 — Disolución de cápsulas",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Evaluar la liberación del principio activo de las cápsulas del lote PPQ en las condiciones farmacopeicas, como indicador de desempeño del producto."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>1) Verificar aparato, medio, volumen y velocidad de la monografía<br>2) Colocar 6 cápsulas en el disolutor y muestrear al tiempo definido<br>3) Filtrar y analizar por HPLC o UV-Vis contra estándar<br>4) Calcular el porcentaje liberado por unidad y la media<br>5) Anexar cromatogramas, condiciones y data cruda"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = porcentaje liberado; unidad = %. Tipo de dato = continua. n = 6 unidades; 12 si se requiere retesteo. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = media ≥ Q y ninguna unidad &lt; Q − 15 % en el primer estadio. Atípicos: se aplica el criterio de estadios de USP &lt;711&gt;."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>Liberación media ≥ <span class=\"por-confirmar\">80 %</span> en <span class=\"por-confirmar\">30 min</span>.<br>Ninguna unidad &lt; Q − 15 % en el primer estadio.<br>Condiciones de aparato y medio según la monografía."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>- Condiciones del disolutor y curva de calibración<br>- Resultados por unidad y media<br>- Data cruda y reporte estadístico"
+     },
+     {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>Q = 80 % en 30 min es un ejemplo; se confirma contra la monografía y la especificación del producto. Para cápsulas de liberación modificada se usa el perfil de PRO-PQ-CAP-004."
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>USP &lt;711&gt; — Disolución; USP &lt;1092&gt; — Desarrollo y validación; monografía del producto."
+     }
+    ],
+    "tabla": null,
+    "instrumentos": "Disolutor calibrado; HPLC con detector UV o espectrofotómetro UV-Vis calibrado",
+    "analisis": "si",
+    "familia": "capsulas"
+   },
+   {
+    "kind": "ensayo",
+    "id": "PRO-PQ-CAP-003",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "PRO-PQ-CAP-003 — Integridad de la cápsula",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Confirmar que las cápsulas del lote PPQ están cerradas, sin grietas, abolladuras, fugas, deformación ni separación de la tapa y el cuerpo."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>1) Tomar 20 cápsulas al azar del lote PPQ<br>2) Inspeccionar con luz blanca difusa y aumento 10× si es necesario<br>3) Clasificar grietas, separación, fugas, deformación, abolladuras y contaminación<br>4) Registrar el número de unidades afectadas por tipo<br>5) Fotografiar y revisar por segunda persona"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = integridad visual; unidad = pasa/no pasa. Tipo de dato = atributo. n = 20 unidades. Estadísticos = proporción de defectos con IC binomial exacto del 95 %. Regla de decisión = cero unidades abiertas, agrietadas o con fuga y ≤ 1 unidad con defecto menor. Atípicos: no aplica; toda unidad excluida se documenta."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>Cero cápsulas abiertas, agrietadas, con fuga o separadas.<br>≤ <span class=\"por-confirmar\">1 de 20</span> unidades con defecto menor.<br>100 % de las cápsulas cerradas y con el sello intacto."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>- Registro de inspección por unidad<br>- Fotografías de defectos<br>- Data cruda y reporte de atributo"
+     },
+     {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>El 1 de 20 es ilustrativo; se confirma contra la especificación y la criticidad de la integridad para el producto."
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Especificación del producto; 21 CFR 211.110; USP &lt;701&gt; — Desintegración (como referencia de integridad)."
+     }
+    ],
+    "tabla": null,
+    "analisis": "si",
+    "familia": "capsulas"
+   },
+   {
+    "kind": "ensayo",
+    "id": "PRO-PQ-CAP-004",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "PRO-PQ-CAP-004 — Disolución de cápsulas de liberación modificada",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Caracterizar el perfil de liberación de las cápsulas de liberación modificada del lote PPQ en varios tiempos, para demostrar que cumplen el diseño."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>1) Verificar aparato, medios y tiempos del perfil aprobado (por ejemplo 1, 2, 4 y 8 h)<br>2) Colocar 12 unidades y muestrear en cada tiempo<br>3) Analizar cada muestra por HPLC o UV-Vis<br>4) Calcular el porcentaje acumulado liberado por unidad y la media<br>5) Comparar el perfil contra la especificación y el perfil de referencia"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = porcentaje acumulado liberado; unidad = %. Tipo de dato = continua. n = 12 unidades por tiempo. Estadísticos = media, DE, RSD (%) e IC 95 % por tiempo. Regla de decisión = cada tiempo dentro del intervalo aprobado y RSD ≤ 10 % en los tiempos tempranos. Atípicos: se aplica el criterio de estadios de USP &lt;711&gt;."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>Perfil dentro de los intervalos aprobados en cada tiempo: <span class=\"por-confirmar\">1 h, 2 h, 4 h y 8 h</span>.<br>Sin ruptura de la cubierta ni liberación súbita.<br>Tiempo de latencia (lag time) dentro del intervalo aprobado.<br>RSD ≤ 10 % en los tiempos tempranos."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>- Condiciones del disolutor y curva de calibración<br>- Perfil por unidad y media por tiempo<br>- Data cruda y reporte estadístico"
+     },
+     {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>Los tiempos y los intervalos en rojo se confirman contra la especificación del producto y el estudio de liberación. Aplica solo si el subtipo es liberación modificada."
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>USP &lt;711&gt; — Disolución; USP &lt;724&gt; — Drug Release; USP &lt;1092&gt;; ICH Q1A(R2)."
+     }
+    ],
+    "tabla": null,
+    "instrumentos": "Disolutor calibrado; HPLC con detector UV o espectrofotómetro UV-Vis calibrado",
+    "subtipo": "Liberación modificada",
+    "analisis": "si",
+    "familia": "capsulas"
    }
   ]
  }
