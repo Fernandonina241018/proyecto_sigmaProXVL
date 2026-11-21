@@ -1789,6 +1789,47 @@ var BancoProcesos = {
     "subtipo": "Liberación modificada",
     "analisis": "si",
     "familia": "capsulas"
+   },
+   {
+    "kind": "ensayo",
+    "id": "PRO-PQ-CAP-005",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "PRO-PQ-CAP-005 — Dimensiones y calibre de la cápsula",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que la cápsula corresponde al calibre aprobado y que su longitud, diámetro y espesor de pared están dentro de la especificación del producto y del proveedor."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>1) Identificar el calibre aprobado [calibre_capsula] y el certificado del proveedor<br>2) Tomar 20 cápsulas al azar del lote PPQ<br>3) Medir longitud total, diámetro del cuerpo y de la tapa, y espesor de pared con calibrador digital, sin deformar la cápsula<br>4) Comparar cada medida contra la especificación y el certificado; calcular media, DE y RSD<br>5) Verificar el cierre y el encaje de tapa y cuerpo; anexar tabla de medidas y certificado"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = longitud, diámetro y espesor de pared; unidad = mm. Tipo de dato = continua. n = 20 cápsulas por lote. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = cada medida dentro de la tolerancia, RSD ≤ 2,0 % y calibre igual al aprobado. Atípicos = Grubbs solo si n ≥ 7; toda exclusión se justifica."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>Calibre de la cápsula igual a <span class=\"por-confirmar\">[calibre_capsula]</span>.<br>Longitud y diámetro dentro de <span class=\"por-confirmar\">±5,0 %</span> del nominal.<br>RSD de longitud y diámetro ≤ <span class=\"por-confirmar\">2,0 %</span>.<br>100 % de las cápsulas cerradas y con encaje tapa-cuerpo conforme."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>- Tabla de medidas por cápsula<br>- Certificado del proveedor y comparación con el calibre<br>- Data cruda y reporte estadístico"
+     },
+     {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>El calibre y las tolerancias en rojo son propuestas; se confirman con la especificación del producto y el certificado del proveedor. El calibre no se infiere de la longitud."
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>Especificación del producto; certificado del proveedor de cápsulas; 21 CFR 211.110; USP &lt;701&gt; — Desintegración (referencia de integridad)."
+     }
+    ],
+    "tabla": null,
+    "instrumentos": "Calibrador digital calibrado",
+    "analisis": "si",
+    "familia": "capsulas"
    }
   ]
  }

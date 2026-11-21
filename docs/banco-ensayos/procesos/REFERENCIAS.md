@@ -49,6 +49,7 @@ Laboratorios Sued; el banco cita capítulo y título, no una edición no verific
 | USP \<905\> — *Uniformity of Dosage Units* | Uniformidad de masa o contenido | https://www.usp.org/sites/default/files/usp/document/harmonization/excipients/m99694.pdf |
 | USP \<921\> / \<731\> | Contenido de agua / pérdida por desecación | https://www.usp.org/ (capítulos vigentes) |
 | Especificación del producto | Integridad de la cápsula (grietas, fugas, separación) | Documento aprobado del producto |
+| Especificación del producto / certificado del proveedor | Dimensiones y calibre de la cápsula (longitud, diámetro, espesor de pared) | Documento aprobado del producto |
 
 ## Uniformidad de mezcla (blend uniformity)| Referencia | Uso | Fuente verificada |
 |---|---|---|
@@ -105,3 +106,6 @@ Laboratorios Sued; el banco cita capítulo y título, no una edición no verific
 - **Cápsulas:** la integridad visual y el tiempo de desintegración dependen del
   tipo de cápsula (dura, blanda, HPMC); no se copian los límites de comprimidos.
   El agua y la uniformidad se heredan del grupo sólidos.
+- **Calibre:** se declara en el paso 2 y se contrasta con el certificado del
+  proveedor; no se infiere de la longitud medida. Las tolerancias dimensionales
+  son producto-específicas y quedan en rojo hasta confirmación.

@@ -90,6 +90,34 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (StatAnalyzer Pro) co
 
 ## CAMBIOS RECIENTES
 
+### 2026-11-21 (343): Cápsulas · dimensiones y calibre
+
+**Qué:** se agrega el ensayo de dimensiones y calibre que faltaba en cápsulas.
+- **`PRO-PQ-CAP-005`:** verifica calibre aprobado, longitud total, diámetro de cuerpo y tapa, y espesor de pared, con 20 cápsulas por lote.
+- **Paso 2:** se agrega el campo obligatorio `Calibre de la cápsula`; no se infiere de la longitud medida.
+- **Criterios en rojo:** calibre aprobado, tolerancia dimensional ±5,0 %, RSD ≤ 2,0 % y encaje tapa-cuerpo 100 %.
+- **Referencias:** especificación del producto, certificado del proveedor y 21 CFR 211.110; no se copian tolerancias de comprimidos.
+
+**Estado medido:**
+```
+banco: procesos 45 ensayos · 21 comunes · 3 sólidos · 16 comprimidos · 5 cápsulas
+global: 1472 ensayos · falta instrumentos 720 (49 %) · criterio numérico 972 (66 %)
+```
+
+**Archivos afectados:**
+| Archivo | Cambio |
+|---------|--------|
+| `docs/banco-ensayos/procesos/pq-capsulas.html` | **+1** ensayo de dimensiones/calibre |
+| `docs/banco-ensayos/procesos/REFERENCIAS.md` | Referencia de dimensiones y calibre |
+| `js/core/banco-procesos-data.js` | Regenerado |
+| `js/core/plantilla-docx.js` | Campo `calibre_capsula` |
+| `tests/banco-procesos.test.js` | **28 pruebas** (calibre incluido) |
+
+**Verificación:**
+```
+npm run preflight → protocolo:check OK, urs-ar:check OK, Vitest 1263, backend 154, E2E 14
+```
+
 ### 2026-11-21 (342): Formas sólidas · cápsulas
 
 **Qué:** se agrega la forma **Cápsulas** al grupo sólidos, con sus ensayos propios y herencia del grupo.
