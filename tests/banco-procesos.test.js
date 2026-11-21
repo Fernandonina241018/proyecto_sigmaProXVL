@@ -22,13 +22,20 @@ const texto = (e, prefijo) => {
 describe('banco de procesos: estructura', () => {
   it('solo tiene PQ y arranca con comprimidos', () => {
     expect(Object.keys(B.fases)).toEqual(['PQ']);
-    expect(ensayos.length).toBe(44);
+    expect(ensayos.length).toBe(45);
   });
 
   it('cápsulas tiene sus ensayos propios y hereda el grupo sólidos', () => {
     const ids = ensayos.filter((e) => e.familia === 'capsulas').map((e) => e.id);
-    expect(ids).toEqual(['PRO-PQ-CAP-001', 'PRO-PQ-CAP-002', 'PRO-PQ-CAP-003', 'PRO-PQ-CAP-004']);
+    expect(ids).toEqual(['PRO-PQ-CAP-001', 'PRO-PQ-CAP-002', 'PRO-PQ-CAP-003', 'PRO-PQ-CAP-004', 'PRO-PQ-CAP-005']);
     expect(ensayos.filter((e) => e.familia === 'capsulas' && e.subtipo).map((e) => e.id)).toEqual(['PRO-PQ-CAP-004']);
+  });
+
+  it('el paso 2 pide el calibre de la cápsula', () => {
+    const claves = P.parametrosFamilia('capsulas', 'procesos').map((p) => p.clave);
+    expect(claves).toContain('calibre_capsula');
+    const falt = P.paramsFaltantes('PQ', 'procesos', 'capsulas', 'ambas', {}, 'solidos').map((f) => f.clave);
+    expect(falt).toContain('calibre_capsula');
   });
 
   it('reparte común, grupo y forma sin duplicar IDs', () => {
@@ -39,7 +46,7 @@ describe('banco de procesos: estructura', () => {
     expect(comunes.length).toBe(21);
     expect(solidos.length).toBe(3);
     expect(comprimidos.length).toBe(16);
-    expect(capsulas.length).toBe(4);
+    expect(capsulas.length).toBe(5);
     expect(new Set(ensayos.map((e) => e.id)).size).toBe(ensayos.length);
   });
 
