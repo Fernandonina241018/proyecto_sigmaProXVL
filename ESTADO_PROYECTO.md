@@ -90,6 +90,37 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (StatAnalyzer Pro) co
 
 ## CAMBIOS RECIENTES
 
+### 2026-11-21 (340): PQ de procesos · cierre del P1 (materias primas, ambiente y metales)
+
+**Qué:** se agrega el bloque P1 de robustez y control ambiental del PQ.
+- **Materias primas:** `PRO-PQ-GEN-015` evalúa CMA (tamaño de partícula, humedad, proveedor) en los extremos o por bracketing, con matriz CMA–CPP–CQA.
+- **Ambiente y almacenamiento intermedio:** `PRO-PQ-GEN-016` monitorea T/HR durante el lote y prueba la peor condición de humedad/tiempo sobre LOD, aspecto y microbiología.
+- **Metales y cuerpos extraños:** `PRO-PQ-CMP-019` desafía el detector con patrones ferrosos, no ferrosos y acero inoxidable en la matriz del producto.
+- **Empaque:** `PRO-PQ-CMP-018` vincula temperatura, presión y dwell con la integridad/permeabilidad de `PRO-PQ-GEN-009`.
+- **CPV:** `PRO-PQ-GEN-014` incorpora cartas de control al plan de verificación continua.
+- **Paso 2:** se agregan CMA de materias primas, T mínima/máxima y HR máxima del área, y sensibilidad del detector; todos obligatorios y en rojo.
+
+**Estado medido:**
+```
+banco: procesos 36 ensayos · 17 comunes · 3 sólidos · 16 comprimidos
+global: 1463 ensayos · falta instrumentos 716 (49 %) · criterio numérico 963 (66 %)
+```
+
+**Archivos afectados:**
+| Archivo | Cambio |
+|---------|--------|
+| `docs/banco-ensayos/procesos/pq-comun.html` | **+2** ensayos P1 comunes |
+| `docs/banco-ensayos/procesos/pq-comprimidos.html` | **+1** ensayo P1 de metales |
+| `docs/banco-ensayos/procesos/REFERENCIAS.md` | 21 CFR 211.46/211.84 y notas P1 |
+| `js/core/banco-procesos-data.js` | Regenerado |
+| `js/core/plantilla-docx.js` | 5 parámetros nuevos del paso 2 |
+| `tests/banco-procesos.test.js` | **24 pruebas** (P1 incluido) |
+
+**Verificación:**
+```
+npm run preflight → protocolo:check OK, urs-ar:check OK, Vitest 1259, backend 154, E2E 14
+```
+
 ### 2026-11-21 (339): PQ de procesos · cierre del P0 (CPP/IPC, rendimiento, capabilidad y CPV)
 
 **Qué:** se completa el bloque P0 que faltaba para que la PQ demuestre control del proceso, no solo conformidad del producto.

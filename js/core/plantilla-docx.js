@@ -1038,6 +1038,11 @@ const PlantillaDocx = (() => {
     { fam: 'procesos', clave: 'hold_time_max', id: 'PRO-PQ-GEN-013', token: 'hold_time_max', parametro: 'Tiempo máximo de espera', valor: '72', unidad: 'h', fuente: 'estudio de hold time', version: 'propuesta', estado: 'provisional — confirmar' },
     { fam: 'procesos', clave: 'capability_min', id: 'PRO-PQ-GEN-014', token: 'capability_min', parametro: 'Cpk/Ppk mínimo', valor: '1,33', unidad: 'índice', fuente: 'política de Calidad', version: 'propuesta', estado: 'provisional — confirmar' },
     { fam: 'procesos', clave: 'cpv_plan', id: 'PRO-PQ-GEN-014', token: 'cpv_plan', parametro: 'Plan de verificación continua', valor: '________', unidad: 'código/versión', fuente: 'plan CPV aprobado', version: 'propuesta', estado: 'provisional — confirmar' },
+    { fam: 'procesos', clave: 'cma_primas', id: 'PRO-PQ-GEN-015', token: 'cma_primas', parametro: 'Atributos críticos de materias primas', valor: '________', unidad: 'atributos/rangos', fuente: 'desarrollo y certificados', version: 'propuesta', estado: 'provisional — confirmar' },
+    { fam: 'procesos', clave: 'area_temp_min', id: 'PRO-PQ-GEN-016', token: 'area_temp_min', parametro: 'Temperatura mínima del área', valor: '15', unidad: '°C', fuente: 'diseño del área', version: 'propuesta', estado: 'provisional — confirmar' },
+    { fam: 'procesos', clave: 'area_temp_max', id: 'PRO-PQ-GEN-016', token: 'area_temp_max', parametro: 'Temperatura máxima del área', valor: '25', unidad: '°C', fuente: 'diseño del área', version: 'propuesta', estado: 'provisional — confirmar' },
+    { fam: 'procesos', clave: 'area_hr_max', id: 'PRO-PQ-GEN-016', token: 'area_hr_max', parametro: 'Humedad relativa máxima del área', valor: '65', unidad: '% HR', fuente: 'diseño del área', version: 'propuesta', estado: 'provisional — confirmar' },
+    { fam: 'comprimidos', clave: 'metal_sensibilidad', id: 'PRO-PQ-CMP-019', token: 'metal_sensibilidad', parametro: 'Sensibilidad del detector de metales', valor: '1,5', unidad: 'mm', fuente: 'validación del detector', version: 'propuesta', estado: 'provisional — confirmar' },
   ];
 
   function limitesDe(id) {

@@ -22,16 +22,16 @@ const texto = (e, prefijo) => {
 describe('banco de procesos: estructura', () => {
   it('solo tiene PQ y arranca con comprimidos', () => {
     expect(Object.keys(B.fases)).toEqual(['PQ']);
-    expect(ensayos.length).toBe(33);
+    expect(ensayos.length).toBe(36);
   });
 
   it('reparte común, grupo y forma sin duplicar IDs', () => {
     const comunes = ensayos.filter((e) => !e.familia);
     const solidos = ensayos.filter((e) => e.familia === 'solidos');
     const comprimidos = ensayos.filter((e) => e.familia === 'comprimidos');
-    expect(comunes.length).toBe(15);
+    expect(comunes.length).toBe(17);
     expect(solidos.length).toBe(3);
-    expect(comprimidos.length).toBe(15);
+    expect(comprimidos.length).toBe(16);
     expect(new Set(ensayos.map((e) => e.id)).size).toBe(ensayos.length);
   });
 
@@ -169,6 +169,9 @@ describe('muestreo PQ: tamaño de lote y porcentaje por etapa', () => {
       param_tren_equipos: 'Mezclador, granulador, compresora, recubridora, blíster',
       param_peor_caso: 'Lote máximo y velocidad máxima', param_yield_min: '95',
       param_hold_time_max: '72', param_capability_min: '1,33', param_cpv_plan: 'CPV-001 v01',
+      param_cma_primas: 'API D50 20-60 µm; humedad excipiente ≤ 3 %',
+      param_area_temp_min: '15', param_area_temp_max: '25', param_area_hr_max: '65',
+      param_metal_sensibilidad: '1,5',
     };
     expect(P.paramsFaltantes('PQ', 'procesos', 'comprimidos', 'ambas', draft, 'solidos')).toEqual([]);
   });
@@ -187,6 +190,9 @@ describe('muestreo PQ: tamaño de lote y porcentaje por etapa', () => {
       param_tren_equipos: 'Mezclador, granulador, compresora, recubridora, blíster',
       param_peor_caso: 'Lote máximo y velocidad máxima', param_yield_min: '95',
       param_hold_time_max: '72', param_capability_min: '1,33', param_cpv_plan: 'CPV-001 v01',
+      param_cma_primas: 'API D50 20-60 µm; humedad excipiente ≤ 3 %',
+      param_area_temp_min: '15', param_area_temp_max: '25', param_area_hr_max: '65',
+      param_metal_sensibilidad: '1,5',
     };
     const ent = { id: 'comprimidos', nombre: 'Comprimidos', grupo: 'solidos' };
     const r = await P.generar('PQ', u8, B, draft, ent, 'ambas');
@@ -212,5 +218,29 @@ describe('PQ P0: proceso, CPP/IPC, rendimiento y CPV', () => {
       'tamano_lote_min', 'tamano_lote_max', 'tren_equipos', 'peor_caso',
       'yield_min', 'hold_time_max', 'capability_min', 'cpv_plan',
     ]));
+  });
+});
+
+
+describe('PQ P1: materias primas, ambiente y metales', () => {
+  const p1 = ['PRO-PQ-GEN-015', 'PRO-PQ-GEN-016', 'PRO-PQ-CMP-019'];
+
+  it('los ensayos P1 están en el banco', () => {
+    for (const id of p1) expect(ensayos.some((e) => e.id === id), id).toBe(true);
+  });
+
+  it('el paso 2 pide CMA, T/HR del área y sensibilidad del detector', () => {
+    const claves = P.parametrosFamilia('comprimidos', 'procesos').map((p) => p.clave);
+    expect(claves).toEqual(expect.arrayContaining([
+      'cma_primas', 'area_temp_min', 'area_temp_max', 'area_hr_max', 'metal_sensibilidad',
+    ]));
+  });
+
+  it('metales es de comprimidos; materias primas y ambiente son comunes', () => {
+    const metales = { familia: 'comprimidos' };
+    const ambiente = { familia: undefined };
+    expect(P.aplicaEnsayo(metales, 'comprimidos', 'solidos', {})).toBe(true);
+    expect(P.aplicaEnsayo(metales, 'jarabes', 'liquidos', {})).toBe(false);
+    expect(P.aplicaEnsayo(ambiente, 'jarabes', 'liquidos', {})).toBe(true);
   });
 });
