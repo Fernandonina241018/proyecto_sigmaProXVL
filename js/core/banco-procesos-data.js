@@ -604,6 +604,47 @@ var BancoProcesos = {
    },
    {
     "kind": "ensayo",
+    "id": "PRO-PQ-SOL-003",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "PRO-PQ-SOL-003 — Uniformidad de mezcla (blend uniformity)",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Demostrar que la mezcla de polvos es homogénea antes de la compresión o encapsulación, evaluando la variabilidad entre ubicaciones y dentro de cada ubicación."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>1) Definir el plan de muestreo con el número de ubicaciones y réplicas: mínimo 10 ubicaciones para mezclador de volteo y al menos 20 para mezclador convectivo, con 3 réplicas por ubicación<br>2) Muestrear la mezcla al final del tiempo de mezcla, antes de descargar, con dispositivo que no segregue el lecho<br>3) Analizar cada réplica por HPLC o UV-Vis con método validado y calcular el porcentaje respecto del objetivo<br>4) Calcular media, DE, RSD y la media por ubicación; evaluar el efecto de ubicación con ANOVA o modelo mixto<br>5) Anexar el plan, los resultados por ubicación y la data cruda"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = porcentaje del principio activo respecto del objetivo; unidad = %. Tipo de dato = continua. n = 10 ubicaciones × 3 réplicas (30 muestras); 20 ubicaciones × 3 réplicas en mezclador convectivo. Estadísticos = media, DE, RSD (%) e IC 95 %; comparación de medias por ubicación con ANOVA o modelo mixto. Regla de decisión = RSD ≤ 5,0 %, cada media por ubicación dentro de 90,0–110,0 % y ningún individual fuera de 75,0–125,0 %. Atípicos = Grubbs solo si n ≥ 7 y sobre la variable medida; toda exclusión se justifica y se conserva el dato original."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>RSD de todos los resultados ≤ <span class=\"por-confirmar\">5,0 %</span>.<br>Cada media por ubicación dentro de <span class=\"por-confirmar\">90,0–110,0 %</span> del objetivo.<br>Ningún resultado individual fuera de <span class=\"por-confirmar\">75,0–125,0 %</span> del objetivo.<br>Sin diferencia significativa entre ubicaciones (p &gt; 0,05) o diferencia explicada y aceptada por riesgo."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>- Plan de muestreo de mezcla con ubicaciones y réplicas<br>- Resultados por ubicación y análisis estadístico<br>- Data cruda y evaluación del efecto de ubicación"
+     },
+     {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>Los criterios son propuestas: la FDA retiró en 2013 el borrador de muestreo estratificado de 2003 y no fija límites numéricos. Se confirman con el plan de muestreo aprobado, el enfoque ISPE/PQRI y el riesgo del producto. USP &lt;905&gt; aplica a unidades terminadas, no al blend."
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>21 CFR 211.110; FDA — Questions and Answers on CGMP (retiro del borrador de 2003); ISPE BUCU; PQRI — Stratified Sampling of Blend and Dosage Units; ICH Q9(R1); USP &lt;905&gt; (unidades terminadas)."
+     }
+    ],
+    "tabla": null,
+    "instrumentos": "HPLC con detector UV o espectrofotómetro UV-Vis calibrado; Balanza analítica calibrada",
+    "analisis": "si",
+    "familia": "solidos"
+   },
+   {
+    "kind": "ensayo",
     "id": "PRO-PQ-CMP-001",
     "bloque": 3,
     "cond": "ambas",
@@ -861,7 +902,7 @@ var BancoProcesos = {
      },
      {
       "et": "Procedimiento",
-      "html": "<strong>Procedimiento:</strong><br>1) Mezcla/granulación: muestrear 3 ubicaciones (superior, medio, inferior) × 3 réplicas al final de la mezcla; aplicar [porcentaje_mezcla] % del lote y enviar a uniformidad de mezcla y valoración<br>2) Compresión: muestrear al inicio, medio y final, cada 30 min; 10 comprimidos por punto; aplicar [porcentaje_compresion] % del lote; enviar a peso, dureza y dimensiones<br>3) Recubrimiento: muestrear al inicio, medio y final; 10 comprimidos por punto; aplicar [porcentaje_recubrimiento] % del lote; enviar a contenido e integridad del recubrimiento<br>4) Empaque: muestrear al inicio, medio y final; 10 unidades por punto; aplicar [porcentaje_empaque] % del lote; enviar a envase y etiquetado<br>5) Registrar lote, etapa, punto, hora, operador y peso o volumen; entregar con cadena de custodia"
+      "html": "<strong>Procedimiento:</strong><br>1) Mezcla/granulación: muestrear 3 ubicaciones (superior, medio, inferior) × 3 réplicas al final de la mezcla; aplicar [porcentaje_mezcla] % del lote y enviar a PRO-PQ-SOL-003 (uniformidad de mezcla) y valoración<br>2) Compresión: muestrear al inicio, medio y final, cada 30 min; 10 comprimidos por punto; aplicar [porcentaje_compresion] % del lote; enviar a peso, dureza y dimensiones<br>3) Recubrimiento: muestrear al inicio, medio y final; 10 comprimidos por punto; aplicar [porcentaje_recubrimiento] % del lote; enviar a contenido e integridad del recubrimiento<br>4) Empaque: muestrear al inicio, medio y final; 10 unidades por punto; aplicar [porcentaje_empaque] % del lote; enviar a envase y etiquetado<br>5) Registrar lote, etapa, punto, hora, operador y peso o volumen; entregar con cadena de custodia"
      },
      {
       "et": "Criterio de aceptación",

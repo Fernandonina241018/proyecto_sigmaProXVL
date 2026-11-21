@@ -34,6 +34,16 @@ Laboratorios Sued; el banco cita capítulo y título, no una edición no verific
 | 21 CFR 211.94 | Envase y cierre | https://www.ecfr.gov/current/title-21/chapter-I/subchapter-C/part-211/subpart-D/section-211.94 |
 | 21 CFR 211.122 / 211.125 / 211.130 | Etiquetado y empaquetado | https://www.ecfr.gov/current/title-21/chapter-I/subchapter-C/part-211/subpart-G |
 
+## Uniformidad de mezcla (blend uniformity)
+
+| Referencia | Uso | Fuente verificada |
+|---|---|---|
+| 21 CFR 211.110 | Exige demostrar la adecuación de la mezcla; no fija límite numérico | https://www.ecfr.gov/current/title-21/chapter-I/subchapter-C/part-211/subpart-F/section-211.110 |
+| FDA — *Questions and Answers on CGMP* (retiro del borrador de 2003) | El borrador de muestreo estratificado fue retirado en 2013; no se cita como vigente | https://www.fda.gov/drugs/guidances-drugs/questions-and-answers-current-good-manufacturing-practice-regulations-production-and-process |
+| ISPE — *Blend Uniformity and Content Uniformity (BUCU)* | Enfoque por riesgo y variabilidad entre/dentro de ubicación | https://ispe.org/initiatives/blend-uniformity-content-uniformity/faqs |
+| PQRI — *Stratified Sampling of Blend and Dosage Units* | 10–15 ubicaciones para mezclador de volteo y ≥ 20 para convectivo | https://pqri.org/wp-content/uploads/2015/08/pdf/011003rec.pdf |
+| USP \<905\> | Aplica a unidades terminadas, **no** al blend | https://www.usp.org/sites/default/files/usp/document/harmonization/excipients/m99694.pdf |
+
 ## Notas de aplicación
 
 - **Número de lotes PPQ:** la FDA 2011 no fija un número; exige justificación
@@ -47,3 +57,8 @@ Laboratorios Sued; el banco cita capítulo y título, no una edición no verific
 - **USP \<1058\> no aplica:** es calificación de instrumentos analíticos, no de
   procesos. El banco de procesos no la cita y la plantilla la reemplaza por la
   tabla de referencias del banco.
+- **Uniformidad de mezcla:** la FDA retiró en 2013 el borrador de muestreo
+  estratificado de 2003. El banco usa 10–15 ubicaciones (≥ 20 en mezclador
+  convectivo), 3 réplicas por ubicación y criterios propuestos (RSD ≤ 5,0 %,
+  medias por ubicación 90,0–110,0 %, individuales 75,0–125,0 %) que quedan en
+  rojo hasta que Calidad los confirme con el plan y el riesgo del producto.

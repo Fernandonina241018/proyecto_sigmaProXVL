@@ -22,7 +22,7 @@ const texto = (e, prefijo) => {
 describe('banco de procesos: estructura', () => {
   it('solo tiene PQ y arranca con comprimidos', () => {
     expect(Object.keys(B.fases)).toEqual(['PQ']);
-    expect(ensayos.length).toBe(25);
+    expect(ensayos.length).toBe(26);
   });
 
   it('reparte común, grupo y forma sin duplicar IDs', () => {
@@ -30,7 +30,7 @@ describe('banco de procesos: estructura', () => {
     const solidos = ensayos.filter((e) => e.familia === 'solidos');
     const comprimidos = ensayos.filter((e) => e.familia === 'comprimidos');
     expect(comunes.length).toBe(12);
-    expect(solidos.length).toBe(2);
+    expect(solidos.length).toBe(3);
     expect(comprimidos.length).toBe(11);
     expect(new Set(ensayos.map((e) => e.id)).size).toBe(ensayos.length);
   });
@@ -66,6 +66,13 @@ describe('banco de procesos: herencia por familia, grupo y subtipo', () => {
   it('el grupo sólidos no se filtra a líquidos', () => {
     expect(P.aplicaEnsayo(solido, comprimidos.id, comprimidos.grupo, {})).toBe(true);
     expect(P.aplicaEnsayo(solido, jarabe.id, jarabe.grupo, {})).toBe(false);
+  });
+
+  it('uniformidad de mezcla es de grupo, no de una forma', () => {
+    const mezcla = { id: 'PRO-PQ-SOL-003', familia: 'solidos' };
+    expect(P.aplicaEnsayo(mezcla, 'comprimidos', 'solidos', {})).toBe(true);
+    expect(P.aplicaEnsayo(mezcla, 'capsulas', 'solidos', {})).toBe(true);
+    expect(P.aplicaEnsayo(mezcla, 'jarabes', 'liquidos', {})).toBe(false);
   });
 
   it('la forma solo entra en su propia forma', () => {
