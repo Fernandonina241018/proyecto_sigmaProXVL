@@ -22,7 +22,7 @@ const texto = (e, prefijo) => {
 describe('banco de procesos: estructura', () => {
   it('solo tiene PQ y arranca con comprimidos', () => {
     expect(Object.keys(B.fases)).toEqual(['PQ']);
-    expect(ensayos.length).toBe(52);
+    expect(ensayos.length).toBe(55);
   });
 
   it('cápsulas tiene sus ensayos propios y hereda el grupo sólidos', () => {
@@ -51,7 +51,7 @@ describe('banco de procesos: estructura', () => {
     const capsulas = ensayos.filter((e) => e.familia === 'capsulas');
     const granulados = ensayos.filter((e) => e.familia === 'granulados');
     const polvos = ensayos.filter((e) => e.familia === 'polvos');
-    expect(comunes.length).toBe(21);
+    expect(comunes.length).toBe(24);
     expect(solidos.length).toBe(3);
     expect(comprimidos.length).toBe(16);
     expect(capsulas.length).toBe(5);
@@ -201,6 +201,9 @@ describe('muestreo PQ: tamaño de lote y porcentaje por etapa', () => {
       param_transporte_protocolo: 'TRA-001 v01',
       param_escala_justificacion: 'Bracketing escala piloto/comercial',
       param_recalificacion_frecuencia: '36',
+      param_proveedores_protocolo: 'PROV-001 v01', param_proveedores_criticos: 'API-1, Excipiente-1, Envase-1',
+      param_almacen_areas: 'MP, envase, granel, terminado', param_almacen_protocolo: 'ALM-001 v01', param_almacen_mapeo: 'MAP-001 v01',
+      param_sistemas_apoyo: 'HVAC, agua purificada, aire comprimido', param_salas_limpias: 'Sala A clase D', param_sistemas_protocolo: 'SIS-001 v01',
     };
     expect(P.paramsFaltantes('PQ', 'procesos', 'comprimidos', 'ambas', draft, 'solidos')).toEqual([]);
   });
@@ -226,6 +229,10 @@ describe('muestreo PQ: tamaño de lote y porcentaje por etapa', () => {
       param_transporte_protocolo: 'TRA-001 v01',
       param_escala_justificacion: 'Bracketing escala piloto/comercial',
       param_recalificacion_frecuencia: '36',
+      metodoCodigo: 'MV-001', metodoVersion: '01',
+      param_proveedores_protocolo: 'PROV-001 v01', param_proveedores_criticos: 'API-1, Excipiente-1, Envase-1',
+      param_almacen_areas: 'MP, envase, granel, terminado', param_almacen_protocolo: 'ALM-001 v01', param_almacen_mapeo: 'MAP-001 v01',
+      param_sistemas_apoyo: 'HVAC, agua purificada, aire comprimido', param_salas_limpias: 'Sala A clase D', param_sistemas_protocolo: 'SIS-001 v01',
     };
     const ent = { id: 'comprimidos', nombre: 'Comprimidos', grupo: 'solidos' };
     const r = await P.generar('PQ', u8, B, draft, ent, 'ambas');
@@ -235,6 +242,10 @@ describe('muestreo PQ: tamaño de lote y porcentaje por etapa', () => {
     const xml = new TextDecoder().decode(files.find((f) => f.nombre === 'word/document.xml').datos);
     expect(xml).toContain('100000');
     expect(xml).toContain('0,2');
+    expect(xml).toContain('Mezclador');
+    expect(xml).toContain('MV-001');
+    expect(xml).toContain('PROV-001');
+    expect(xml).toContain('HVAC');
   });
 });
 
@@ -290,6 +301,24 @@ describe('PQ P2: ciclo de vida', () => {
     const claves = P.parametrosFamilia('comprimidos', 'procesos').map((p) => p.clave);
     expect(claves).toEqual(expect.arrayContaining([
       'limpieza_protocolo', 'transporte_protocolo', 'escala_justificacion', 'recalificacion_frecuencia',
+    ]));
+  });
+});
+
+
+describe('PQ prerrequisitos: proveedores, almacenes y sistemas', () => {
+  const ids = ['PRO-PQ-GEN-021', 'PRO-PQ-GEN-022', 'PRO-PQ-GEN-023'];
+
+  it('los ensayos de prerrequisitos están en el banco común', () => {
+    for (const id of ids) expect(ensayos.some((e) => e.id === id), id).toBe(true);
+  });
+
+  it('el paso 2 pide proveedores, áreas/mapeo y sistemas/salas', () => {
+    const claves = P.parametrosFamilia('comprimidos', 'procesos').map((p) => p.clave);
+    expect(claves).toEqual(expect.arrayContaining([
+      'proveedores_protocolo', 'proveedores_criticos',
+      'almacen_areas', 'almacen_protocolo', 'almacen_mapeo',
+      'sistemas_apoyo', 'salas_limpias', 'sistemas_protocolo',
     ]));
   });
 });

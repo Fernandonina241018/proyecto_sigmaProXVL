@@ -645,6 +645,11 @@ const PlantillaDocx = (() => {
       cond: COND_TXT[filtro] || COND_TXT.ambas,
       lista: (articulos || []).map((a) => a.id).join(', '),
       refnorma: refNormativa(entidad),
+      metodo: (function () {
+        const c = String(d.metodoCodigo || '').trim();
+        const v = String(d.metodoVersion || '').trim();
+        return c ? c + (v ? ' v' + v : '') : '______';
+      })(),
     };
   }
 
@@ -661,6 +666,7 @@ const PlantillaDocx = (() => {
     s = s.replace(reClase('cond'), pon(ctx.cond));
     s = s.replace(reClase('lista-resumen'), pon(ctx.lista));
     s = s.replace(reClase('refnorma'), (m, off, str) => (ctx.refnorma ? pon(ctx.refnorma)(m, off, str) : m.replace(/<[^>]+>/g, '')));
+    s = s.replace(reClase('metodo'), pon(ctx.metodo || '______'));
     s = s.replace(/<img[^>]*>/g, '');
     return s;
   }
@@ -1038,6 +1044,14 @@ const PlantillaDocx = (() => {
     { fam: 'procesos', clave: 'hold_time_max', id: 'PRO-PQ-GEN-013', token: 'hold_time_max', parametro: 'Tiempo máximo de espera', valor: '72', unidad: 'h', fuente: 'estudio de hold time', version: 'propuesta', estado: 'provisional — confirmar' },
     { fam: 'procesos', clave: 'capability_min', id: 'PRO-PQ-GEN-014', token: 'capability_min', parametro: 'Cpk/Ppk mínimo', valor: '1,33', unidad: 'índice', fuente: 'política de Calidad', version: 'propuesta', estado: 'provisional — confirmar' },
     { fam: 'procesos', clave: 'cpv_plan', id: 'PRO-PQ-GEN-014', token: 'cpv_plan', parametro: 'Plan de verificación continua', valor: '________', unidad: 'código/versión', fuente: 'plan CPV aprobado', version: 'propuesta', estado: 'provisional — confirmar' },
+    { fam: 'procesos', clave: 'proveedores_protocolo', id: 'PRO-PQ-GEN-021', token: 'proveedores_protocolo', parametro: 'Programa de calificación de proveedores', valor: '________', unidad: 'código/versión', fuente: 'programa aprobado', version: 'propuesta', estado: 'provisional — confirmar' },
+    { fam: 'procesos', clave: 'proveedores_criticos', id: 'PRO-PQ-GEN-021', token: 'proveedores_criticos', parametro: 'Proveedores críticos aprobados', valor: '________', unidad: 'lista', fuente: 'lista de proveedores aprobados', version: 'propuesta', estado: 'provisional — confirmar' },
+    { fam: 'procesos', clave: 'almacen_areas', id: 'PRO-PQ-GEN-022', token: 'almacen_areas', parametro: 'Áreas de almacenamiento', valor: '________', unidad: 'lista', fuente: 'plano de áreas', version: 'propuesta', estado: 'provisional — confirmar' },
+    { fam: 'procesos', clave: 'almacen_protocolo', id: 'PRO-PQ-GEN-022', token: 'almacen_protocolo', parametro: 'Calificación de áreas de almacenamiento', valor: '________', unidad: 'código/versión', fuente: 'protocolo aprobado', version: 'propuesta', estado: 'provisional — confirmar' },
+    { fam: 'procesos', clave: 'almacen_mapeo', id: 'PRO-PQ-GEN-022', token: 'almacen_mapeo', parametro: 'Mapeo T/HR de áreas de almacenamiento', valor: '________', unidad: 'código/versión', fuente: 'informe de mapeo', version: 'propuesta', estado: 'provisional — confirmar' },
+    { fam: 'procesos', clave: 'sistemas_apoyo', id: 'PRO-PQ-GEN-023', token: 'sistemas_apoyo', parametro: 'Sistemas de apoyo crítico', valor: '________', unidad: 'lista', fuente: 'inventario de sistemas', version: 'propuesta', estado: 'provisional — confirmar' },
+    { fam: 'procesos', clave: 'salas_limpias', id: 'PRO-PQ-GEN-023', token: 'salas_limpias', parametro: 'Salas limpias', valor: '________', unidad: 'lista/clase', fuente: 'plano y clasificación', version: 'propuesta', estado: 'provisional — confirmar' },
+    { fam: 'procesos', clave: 'sistemas_protocolo', id: 'PRO-PQ-GEN-023', token: 'sistemas_protocolo', parametro: 'Calificación de sistemas y salas limpias', valor: '________', unidad: 'código/versión', fuente: 'protocolo aprobado', version: 'propuesta', estado: 'provisional — confirmar' },
     { fam: 'procesos', clave: 'cma_primas', id: 'PRO-PQ-GEN-015', token: 'cma_primas', parametro: 'Atributos críticos de materias primas', valor: '________', unidad: 'atributos/rangos', fuente: 'desarrollo y certificados', version: 'propuesta', estado: 'provisional — confirmar' },
     { fam: 'procesos', clave: 'area_temp_min', id: 'PRO-PQ-GEN-016', token: 'area_temp_min', parametro: 'Temperatura mínima del área', valor: '15', unidad: '°C', fuente: 'diseño del área', version: 'propuesta', estado: 'provisional — confirmar' },
     { fam: 'procesos', clave: 'area_temp_max', id: 'PRO-PQ-GEN-016', token: 'area_temp_max', parametro: 'Temperatura máxima del área', valor: '25', unidad: '°C', fuente: 'diseño del área', version: 'propuesta', estado: 'provisional — confirmar' },
