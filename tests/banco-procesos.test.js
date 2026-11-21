@@ -22,13 +22,19 @@ const texto = (e, prefijo) => {
 describe('banco de procesos: estructura', () => {
   it('solo tiene PQ y arranca con comprimidos', () => {
     expect(Object.keys(B.fases)).toEqual(['PQ']);
-    expect(ensayos.length).toBe(45);
+    expect(ensayos.length).toBe(52);
   });
 
   it('cápsulas tiene sus ensayos propios y hereda el grupo sólidos', () => {
     const ids = ensayos.filter((e) => e.familia === 'capsulas').map((e) => e.id);
     expect(ids).toEqual(['PRO-PQ-CAP-001', 'PRO-PQ-CAP-002', 'PRO-PQ-CAP-003', 'PRO-PQ-CAP-004', 'PRO-PQ-CAP-005']);
     expect(ensayos.filter((e) => e.familia === 'capsulas' && e.subtipo).map((e) => e.id)).toEqual(['PRO-PQ-CAP-004']);
+  });
+
+  it('granulados y polvos tienen sus ensayos propios', () => {
+    expect(ensayos.filter((e) => e.familia === 'granulados').map((e) => e.id)).toEqual(['PRO-PQ-GRA-001', 'PRO-PQ-GRA-002', 'PRO-PQ-GRA-003']);
+    expect(ensayos.filter((e) => e.familia === 'polvos').map((e) => e.id)).toEqual(['PRO-PQ-POL-001', 'PRO-PQ-POL-002', 'PRO-PQ-POL-003', 'PRO-PQ-POL-004']);
+    expect(ensayos.filter((e) => e.familia === 'polvos' && e.subtipo).map((e) => e.id)).toEqual(['PRO-PQ-POL-004']);
   });
 
   it('el paso 2 pide el calibre de la cápsula', () => {
@@ -43,17 +49,21 @@ describe('banco de procesos: estructura', () => {
     const solidos = ensayos.filter((e) => e.familia === 'solidos');
     const comprimidos = ensayos.filter((e) => e.familia === 'comprimidos');
     const capsulas = ensayos.filter((e) => e.familia === 'capsulas');
+    const granulados = ensayos.filter((e) => e.familia === 'granulados');
+    const polvos = ensayos.filter((e) => e.familia === 'polvos');
     expect(comunes.length).toBe(21);
     expect(solidos.length).toBe(3);
     expect(comprimidos.length).toBe(16);
     expect(capsulas.length).toBe(5);
+    expect(granulados.length).toBe(3);
+    expect(polvos.length).toBe(4);
     expect(new Set(ensayos.map((e) => e.id)).size).toBe(ensayos.length);
   });
 
   it('los subtipos se declaran solo donde aplican', () => {
     const porSubtipo = {};
     for (const e of ensayos.filter((x) => x.subtipo)) porSubtipo[e.subtipo] = (porSubtipo[e.subtipo] || 0) + 1;
-    expect(porSubtipo).toEqual({ Recubierto: 2, 'Liberación modificada': 2, Efervescente: 1 });
+    expect(porSubtipo).toEqual({ Recubierto: 2, 'Liberación modificada': 2, Efervescente: 1, 'Polvo para reconstitución': 1 });
     expect(ensayos.filter((e) => e.subtipo && !e.familia).length).toBe(0);
   });
 

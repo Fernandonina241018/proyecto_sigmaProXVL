@@ -1,7 +1,7 @@
 // Generado por scripts/extraer-banco.mjs procesos — NO EDITAR A MANO.
-// Fuente: docs/banco-ensayos/procesos/pq-comun.html + docs/banco-ensayos/procesos/pq-solidos.html + docs/banco-ensayos/procesos/pq-comprimidos.html + docs/banco-ensayos/procesos/pq-capsulas.html (versión: PRO-PQ 2026-11-20 v1 + PRO-PQ 2026-11-20 v1 + PRO-PQ 2026-11-20 v1 + PRO-PQ 2026-11-20 v1).
+// Fuente: docs/banco-ensayos/procesos/pq-comun.html + docs/banco-ensayos/procesos/pq-solidos.html + docs/banco-ensayos/procesos/pq-comprimidos.html + docs/banco-ensayos/procesos/pq-capsulas.html + docs/banco-ensayos/procesos/pq-granulados-polvos.html (versión: PRO-PQ 2026-11-20 v1 + PRO-PQ 2026-11-20 v1 + PRO-PQ 2026-11-20 v1 + PRO-PQ 2026-11-20 v1 + PRO-PQ 2026-11-20 v1).
 var BancoProcesos = {
- "version": "PRO-PQ 2026-11-20 v1 + PRO-PQ 2026-11-20 v1 + PRO-PQ 2026-11-20 v1 + PRO-PQ 2026-11-20 v1",
+ "version": "PRO-PQ 2026-11-20 v1 + PRO-PQ 2026-11-20 v1 + PRO-PQ 2026-11-20 v1 + PRO-PQ 2026-11-20 v1 + PRO-PQ 2026-11-20 v1",
  "fases": {
   "PQ": [
    {
@@ -920,7 +920,7 @@ var BancoProcesos = {
      },
      {
       "et": "Nota",
-      "html": "<strong>Nota:</strong><br>El AV y el intervalo se confirman contra USP &lt;905&gt; y la monografía; la elección entre peso y contenido depende de la dosis y del producto."
+      "html": "<strong>Nota:</strong><br>El AV y el intervalo se confirman contra USP &lt;905&gt; y la monografía; la elección entre peso y contenido depende de la dosis y del producto. Para granel (granulados o polvos), la homogeneidad se evalúa con PRO-PQ-SOL-003."
      },
      {
       "et": "Referencia",
@@ -1830,6 +1830,294 @@ var BancoProcesos = {
     "instrumentos": "Calibrador digital calibrado",
     "analisis": "si",
     "familia": "capsulas"
+   },
+   {
+    "kind": "ensayo",
+    "id": "PRO-PQ-GRA-001",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "PRO-PQ-GRA-001 — Fluidez de granulados",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Evaluar la fluidez del granulado del lote PPQ para confirmar que alimenta de forma uniforme la compresora o encapsuladora y no segrega."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>1) Acondicionar la muestra a la humedad del área y determinar densidad aparente y compactada<br>2) Medir el ángulo de reposo con embudo y altura fijos, por triplicado<br>3) Calcular el índice de Carr y el índice de Hausner<br>4) Evaluar segregación visual y homogeneidad de la muestra<br>5) Anexar la tabla de resultados y la verificación de calibración"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = ángulo de reposo, densidad aparente/compactada, índice de Carr y Hausner; unidad = grados, g/mL e índice. Tipo de dato = continua. n = 3 determinaciones por lote. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = ángulo ≤ 30°, Carr ≤ 20 % y Hausner ≤ 1,25. Atípicos = Grubbs solo si n ≥ 7; se repite la determinación y se conserva el dato original."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>Ángulo de reposo ≤ <span class=\"por-confirmar\">30°</span>.<br>Índice de Carr ≤ <span class=\"por-confirmar\">20 %</span> e índice de Hausner ≤ <span class=\"por-confirmar\">1,25</span>.<br>Sin segregación visible ni grumos en la muestra."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>- Tabla de fluidez por determinación<br>- Densidad aparente y compactada<br>- Data cruda y reporte estadístico"
+     },
+     {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>Los límites de fluidez en rojo son propuestas; se confirman con el desarrollo, el equipo de compresión/encapsulación y el riesgo del producto."
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>USP &lt;1174&gt; — Powder Flow; 21 CFR 211.110; especificación del producto."
+     }
+    ],
+    "tabla": null,
+    "instrumentos": "Analizador de fluidez calibrado; Balanza analítica calibrada",
+    "analisis": "si",
+    "familia": "granulados"
+   },
+   {
+    "kind": "ensayo",
+    "id": "PRO-PQ-GRA-002",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "PRO-PQ-GRA-002 — Tamaño de partícula de granulados",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar la distribución de tamaño de partícula del granulado y confirmar que está dentro del intervalo que asegura flujo y compresión reproducibles."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>1) Cuartear la muestra y secarla según el método<br>2) Analizar por tamizado en cascada o difracción láser<br>3) Calcular D10, D50, D90 y el porcentaje retenido en cada tamiz<br>4) Comparar contra el intervalo aprobado y evaluar finos<br>5) Anexar la curva de distribución y la data cruda"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = tamaño de partícula; unidad = mm o µm. Tipo de dato = continua. n = 3 determinaciones por lote. Estadísticos = D10, D50, D90, media, DE y RSD. Regla de decisión = D50 dentro del intervalo y finos ≤ 10 %. Atípicos = se repite el análisis; no se descarta la muestra original."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>D50 dentro de <span class=\"por-confirmar\">0,25–2,0 mm</span>.<br>Finos (&lt; 0,25 mm) ≤ <span class=\"por-confirmar\">10 %</span>.<br>D90 dentro del intervalo aprobado para el proceso."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>- Curva de distribución por tamiz<br>- D10/D50/D90 y porcentaje de finos<br>- Data cruda y reporte estadístico"
+     },
+     {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>El intervalo y el límite de finos en rojo son propuestas; se confirman con el desarrollo del granulado y el equipo de compresión."
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>USP &lt;786&gt; — Particle Size Distribution; 21 CFR 211.110; especificación del producto."
+     }
+    ],
+    "tabla": null,
+    "instrumentos": "Juego de tamices calibrado; Analizador de partículas calibrado",
+    "analisis": "si",
+    "familia": "granulados"
+   },
+   {
+    "kind": "ensayo",
+    "id": "PRO-PQ-GRA-003",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "PRO-PQ-GRA-003 — Dispersibilidad y solubilidad de granulados",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que el granulado se dispersa o disuelve en el medio y tiempo especificados, sin grumos ni residuo apreciable, cuando el producto se administra como dispersión o solución."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>1) Pesar la cantidad de granulado equivalente a una dosis y añadirla al volumen de agua especificado<br>2) Agitar a la velocidad y temperatura definidas y medir el tiempo hasta dispersión completa<br>3) Filtrar o tamizar el residuo y pesarlo<br>4) Evaluar visualmente grumos, sedimento y uniformidad de la dispersión<br>5) Anexar el registro y el residuo"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = tiempo de dispersión y residuo; unidad = min y %. Tipo de dato = continua. n = 3 determinaciones por lote. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = tiempo ≤ 2 min y residuo ≤ 1,0 %. Atípicos = se repite la determinación; se conserva el dato original."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>Tiempo de dispersión ≤ <span class=\"por-confirmar\">2 min</span>.<br>Residuo retenido ≤ <span class=\"por-confirmar\">1,0 %</span>.<br>Sin grumos ni sedimento visible después de agitar."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>- Registro de tiempo y condiciones<br>- Peso del residuo y observación visual<br>- Data cruda y reporte estadístico"
+     },
+     {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>El tiempo y el residuo en rojo son propuestas; se confirman con la forma de administración y la especificación del producto."
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>21 CFR 211.110; especificación del producto; USP &lt;1174&gt; — Powder Flow (referencia de dispersión)."
+     }
+    ],
+    "tabla": null,
+    "instrumentos": "Agitador calibrado; Cronómetro calibrado; Balanza analítica calibrada",
+    "analisis": "si",
+    "familia": "granulados"
+   },
+   {
+    "kind": "ensayo",
+    "id": "PRO-PQ-POL-001",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "PRO-PQ-POL-001 — Fluidez de polvos",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Evaluar la fluidez del polvo del lote PPQ para confirmar que se dosifica y mezcla de forma uniforme y no segrega durante el proceso."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>1) Acondicionar la muestra a la humedad del área y determinar densidad aparente y compactada<br>2) Medir el ángulo de reposo con embudo y altura fijos, por triplicado<br>3) Calcular el índice de Carr y el índice de Hausner<br>4) Evaluar la tendencia a la cohesión y la segregación visual<br>5) Anexar la tabla de resultados y la verificación de calibración"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = ángulo de reposo, densidad aparente/compactada, índice de Carr y Hausner; unidad = grados, g/mL e índice. Tipo de dato = continua. n = 3 determinaciones por lote. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = ángulo ≤ 35°, Carr ≤ 25 % y Hausner ≤ 1,35. Atípicos = Grubbs solo si n ≥ 7; se repite la determinación y se conserva el dato original."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>Ángulo de reposo ≤ <span class=\"por-confirmar\">35°</span>.<br>Índice de Carr ≤ <span class=\"por-confirmar\">25 %</span> e índice de Hausner ≤ <span class=\"por-confirmar\">1,35</span>.<br>Sin segregación ni apelmazamiento visible."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>- Tabla de fluidez por determinación<br>- Densidad aparente y compactada<br>- Data cruda y reporte estadístico"
+     },
+     {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>Los límites de fluidez en rojo son propuestas; se confirman con el desarrollo, el sistema de dosificación y el riesgo del producto."
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>USP &lt;1174&gt; — Powder Flow; 21 CFR 211.110; especificación del producto."
+     }
+    ],
+    "tabla": null,
+    "instrumentos": "Analizador de fluidez calibrado; Balanza analítica calibrada",
+    "analisis": "si",
+    "familia": "polvos"
+   },
+   {
+    "kind": "ensayo",
+    "id": "PRO-PQ-POL-002",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "PRO-PQ-POL-002 — Tamaño de partícula de polvos",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar la distribución de tamaño de partícula del polvo y confirmar que cumple el intervalo que asegura mezcla, flujo y reconstitución reproducibles."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>1) Cuartear la muestra y secarla según el método<br>2) Analizar por tamizado en cascada o difracción láser<br>3) Calcular D10, D50, D90 y el porcentaje de finos<br>4) Comparar contra el intervalo aprobado y evaluar el riesgo de segregación<br>5) Anexar la curva de distribución y la data cruda"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = tamaño de partícula; unidad = µm. Tipo de dato = continua. n = 3 determinaciones por lote. Estadísticos = D10, D50, D90, media, DE y RSD. Regla de decisión = D90 ≤ 500 µm y finos ≤ 20 %. Atípicos = se repite el análisis; no se descarta la muestra original."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>D90 ≤ <span class=\"por-confirmar\">500 µm</span>.<br>Finos (&lt; 50 µm) ≤ <span class=\"por-confirmar\">20 %</span>.<br>D50 dentro del intervalo aprobado para el proceso."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>- Curva de distribución por tamiz<br>- D10/D50/D90 y porcentaje de finos<br>- Data cruda y reporte estadístico"
+     },
+     {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>El D90 y el límite de finos en rojo son propuestas; se confirman con el desarrollo del polvo y el sistema de dosificación."
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>USP &lt;786&gt; — Particle Size Distribution; 21 CFR 211.110; especificación del producto."
+     }
+    ],
+    "tabla": null,
+    "instrumentos": "Juego de tamices calibrado; Analizador de partículas calibrado",
+    "analisis": "si",
+    "familia": "polvos"
+   },
+   {
+    "kind": "ensayo",
+    "id": "PRO-PQ-POL-003",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "PRO-PQ-POL-003 — Dispersibilidad y solubilidad de polvos",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que el polvo se dispersa o disuelve en el medio y tiempo especificados, sin grumos ni residuo apreciable, cuando el producto se administra como dispersión o solución."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>1) Pesar la cantidad de polvo equivalente a una dosis y añadirla al volumen de agua especificado<br>2) Agitar a la velocidad y temperatura definidas y medir el tiempo hasta dispersión completa<br>3) Filtrar o tamizar el residuo y pesarlo<br>4) Evaluar visualmente grumos, sedimento y uniformidad de la dispersión<br>5) Anexar el registro y el residuo"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = tiempo de dispersión y residuo; unidad = min y %. Tipo de dato = continua. n = 3 determinaciones por lote. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = tiempo ≤ 3 min y residuo ≤ 1,0 %. Atípicos = se repite la determinación; se conserva el dato original."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>Tiempo de dispersión ≤ <span class=\"por-confirmar\">3 min</span>.<br>Residuo retenido ≤ <span class=\"por-confirmar\">1,0 %</span>.<br>Sin grumos ni sedimento visible después de agitar."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>- Registro de tiempo y condiciones<br>- Peso del residuo y observación visual<br>- Data cruda y reporte estadístico"
+     },
+     {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>El tiempo y el residuo en rojo son propuestas; se confirman con la forma de administración y la especificación del producto."
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>21 CFR 211.110; especificación del producto; USP &lt;1174&gt; — Powder Flow (referencia de dispersión)."
+     }
+    ],
+    "tabla": null,
+    "instrumentos": "Agitador calibrado; Cronómetro calibrado; Balanza analítica calibrada",
+    "analisis": "si",
+    "familia": "polvos"
+   },
+   {
+    "kind": "ensayo",
+    "id": "PRO-PQ-POL-004",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "PRO-PQ-POL-004 — Tiempo de reconstitución de polvos",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que el polvo para reconstitución se dispersa en el volumen y tiempo especificados y forma una suspensión uniforme, sin grumos ni sedimento persistente."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>1) Añadir el volumen de agua especificado a la cantidad de polvo de una dosis<br>2) Agitar o invertir según las instrucciones del producto y medir el tiempo hasta reconstitución completa<br>3) Evaluar grumos, espuma, sedimento y uniformidad de la suspensión<br>4) Dejar reposar el tiempo definido y verificar la redispersión<br>5) Anexar el registro y las observaciones"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = tiempo de reconstitución y uniformidad; unidad = min y pasa/no pasa. Tipo de dato = continua y atributo. n = 3 reconstrucciones por lote. Estadísticos = media, DE, RSD (%) y proporción con IC binomial. Regla de decisión = tiempo ≤ 2 min y suspensión uniforme sin grumos. Atípicos = se repite la reconstitución; se conserva el registro original."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>Tiempo de reconstitución ≤ <span class=\"por-confirmar\">2 min</span>.<br>Suspensión uniforme, sin grumos ni sedimento persistente.<br>Redispersión completa tras el tiempo de reposo definido."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>- Registro de tiempo y volumen<br>- Observación de grumos, espuma y sedimento<br>- Data cruda y reporte estadístico"
+     },
+     {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>El tiempo en rojo es una propuesta; se confirma con las instrucciones de uso, el volumen y la especificación del producto. Aplica solo al subtipo Polvo para reconstitución."
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>21 CFR 211.110; especificación del producto; instrucciones de uso aprobadas."
+     }
+    ],
+    "tabla": null,
+    "instrumentos": "Cronómetro calibrado; Agitador calibrado",
+    "subtipo": "Polvo para reconstitución",
+    "analisis": "si",
+    "familia": "polvos"
    }
   ]
  }

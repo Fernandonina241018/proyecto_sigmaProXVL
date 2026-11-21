@@ -51,6 +51,16 @@ Laboratorios Sued; el banco cita capítulo y título, no una edición no verific
 | Especificación del producto | Integridad de la cápsula (grietas, fugas, separación) | Documento aprobado del producto |
 | Especificación del producto / certificado del proveedor | Dimensiones y calibre de la cápsula (longitud, diámetro, espesor de pared) | Documento aprobado del producto |
 
+## Granulados y polvos
+
+| Referencia | Uso en el banco | Fuente verificada |
+|---|---|---|
+| USP \<1174\> — *Powder Flow* | Fluidez, ángulo de reposo, Carr/Hausner | https://www.usp.org/ (capítulo vigente) |
+| USP \<786\> — *Particle Size Distribution* | Tamaño de partícula por tamizado o láser | https://www.usp.org/ (capítulo vigente) |
+| USP \<921\> / \<731\> | Contenido de agua / pérdida por secado | https://www.usp.org/ (capítulos vigentes) |
+| Especificación del producto | Dispersibilidad, solubilidad y tiempo de reconstitución | Documento aprobado del producto |
+| 21 CFR 211.110 | Controles en proceso de granulados y polvos | https://www.ecfr.gov/current/title-21/chapter-I/subchapter-C/part-211/subpart-F/section-211.110 |
+
 ## Uniformidad de mezcla (blend uniformity)| Referencia | Uso | Fuente verificada |
 |---|---|---|
 | 21 CFR 211.110 | Exige demostrar la adecuación de la mezcla; no fija límite numérico | https://www.ecfr.gov/current/title-21/chapter-I/subchapter-C/part-211/subpart-F/section-211.110 |
@@ -109,3 +119,7 @@ Laboratorios Sued; el banco cita capítulo y título, no una edición no verific
 - **Calibre:** se declara en el paso 2 y se contrasta con el certificado del
   proveedor; no se infiere de la longitud medida. Las tolerancias dimensionales
   son producto-específicas y quedan en rojo hasta confirmación.
+- **Granulados y polvos:** la fluidez y el tamaño de partícula dependen del
+  proceso y del equipo de dosificación; los límites son propuestas. `SOL-002`
+  aplica a unidades de dosificación (sachets, frascos) y `SOL-003` a la
+  homogeneidad del granel.
