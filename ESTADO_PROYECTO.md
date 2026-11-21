@@ -90,6 +90,38 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (StatAnalyzer Pro) co
 
 ## CAMBIOS RECIENTES
 
+### 2026-11-21 (344): Formas sólidas · granulados y polvos
+
+**Qué:** se agregan **Granulados** y **Polvos** al grupo sólidos, con los ensayos que faltaban para completar el listado.
+- **Entidades:** `granulados` y `polvos` (`grupo: solidos`).
+- **Granulados:** `PRO-PQ-GRA-001` fluidez, `GRA-002` tamaño de partícula y `GRA-003` dispersibilidad/solubilidad.
+- **Polvos:** `PRO-PQ-POL-001` fluidez, `POL-002` tamaño de partícula, `POL-003` dispersibilidad/solubilidad y `POL-004` tiempo de reconstitución (subtipo `Polvo para reconstitución`).
+- **Herencia:** agua (`SOL-001`), uniformidad (`SOL-002`, para unidades) y mezcla (`SOL-003`, para granel).
+- **Subtipos:** se agregan `Granulado`, `Polvo` y `Polvo para reconstitución`.
+- **Referencias:** USP <1174> Powder Flow, USP <786> Particle Size, USP <921>/<731> y especificación del producto.
+
+**Estado medido:**
+```
+banco: procesos 52 ensayos · 21 comunes · 3 sólidos · 16 comprimidos · 5 cápsulas · 3 granulados · 4 polvos
+global: 1479 ensayos · falta instrumentos 720 (49 %) · criterio numérico 979 (66 %)
+```
+
+**Archivos afectados:**
+| Archivo | Cambio |
+|---------|--------|
+| `docs/banco-ensayos/procesos/pq-granulados-polvos.html` | **NUEVO** — 7 ensayos |
+| `docs/banco-ensayos/procesos/REFERENCIAS.md` | Sección de granulados/polvos |
+| `js/core/banco-procesos-data.js` | Regenerado |
+| `js/core/indexx-validaciones.js` | Entidades y subtipos |
+| `scripts/extraer-banco.mjs` | Incluye el archivo nuevo |
+| `tests/banco-procesos.test.js` | **29 pruebas** (granulados/polvos incluido) |
+| `tests/validaciones-panel.test.js` | Cuatro formas sólidas en el combobox |
+
+**Verificación:**
+```
+npm run preflight → protocolo:check OK, urs-ar:check OK, Vitest 1264, backend 154, E2E 14
+```
+
 ### 2026-11-21 (343): Cápsulas · dimensiones y calibre
 
 **Qué:** se agrega el ensayo de dimensiones y calibre que faltaba en cápsulas.

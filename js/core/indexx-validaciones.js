@@ -99,6 +99,8 @@ const Validaciones = (() => {
     procesos: [
       { id: 'comprimidos', nombre: 'Comprimidos', grupo: 'solidos' },
       { id: 'capsulas', nombre: 'Cápsulas', grupo: 'solidos' },
+      { id: 'granulados', nombre: 'Granulados', grupo: 'solidos' },
+      { id: 'polvos', nombre: 'Polvos', grupo: 'solidos' },
     ],
     software: [
       { id: 'software-gxp', nombre: 'Sistema computarizado GxP' },
@@ -236,7 +238,7 @@ const Validaciones = (() => {
         opciones: [
           'Convencional', 'Recubierto', 'Liberación modificada', 'Efervescente',
           'Masticable', 'Sublingual', 'Bucal', 'Acción prolongada',
-          'Cápsula dura', 'Cápsula blanda',
+          'Cápsula dura', 'Cápsula blanda', 'Granulado', 'Polvo', 'Polvo para reconstitución',
         ],
       },
       { k: 'especificacionCodigo', label: 'Especificación (código)', tipo: 'text', req: true },
