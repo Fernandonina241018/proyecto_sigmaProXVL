@@ -534,7 +534,7 @@ var BancoProcesos = {
      },
      {
       "et": "Procedimiento",
-      "html": "<strong>Procedimiento:</strong><br>1) Calcular Cpk/Ppk de peso, dureza, valoración y disolución por lote y para el conjunto de lotes<br>2) Evaluar los componentes de varianza entre lotes y dentro del lote con ANOVA o modelo mixto<br>3) Definir los criterios de lote inválido: CPP fuera de rango no justificado, IPC fuera de límite, fallo de un CQA o error de muestreo<br>4) Definir la investigación, la CAPA y el número de lotes adicionales antes de repetir la PQ<br>5) Aprobar el plan de verificación continua [cpv_plan] con variables, frecuencia, límites de alerta/acción y revisión anual<br>6) Anexar el reporte de capabilidad, los criterios de invalidez y el plan CPV"
+      "html": "<strong>Procedimiento:</strong><br>1) Calcular Cpk/Ppk de peso, dureza, valoración y disolución por lote y para el conjunto de lotes<br>2) Evaluar los componentes de varianza entre lotes y dentro del lote con ANOVA o modelo mixto<br>3) Definir los criterios de lote inválido: CPP fuera de rango no justificado, IPC fuera de límite, fallo de un CQA o error de muestreo<br>4) Definir la investigación, la CAPA y el número de lotes adicionales antes de repetir la PQ<br>5) Aprobar el plan de verificación continua [cpv_plan] con variables, frecuencia, cartas de control, límites de alerta/acción y revisión anual<br>6) Anexar el reporte de capabilidad, los criterios de invalidez y el plan CPV"
      },
      {
       "et": "Plan estadístico",
@@ -558,6 +558,86 @@ var BancoProcesos = {
      }
     ],
     "tabla": null,
+    "analisis": "si"
+   },
+   {
+    "kind": "ensayo",
+    "id": "PRO-PQ-GEN-015",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "PRO-PQ-GEN-015 — Variabilidad de materias primas y robustez del proceso",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Demostrar que el proceso tolera la variabilidad de las materias primas críticas (tamaño de partícula del API, humedad de excipientes, cambio de proveedor o lote) sin salir de los CPP, IPC y CQA aprobados."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>1) Identificar los atributos críticos de material (CMA) y sus rangos: [cma_primas]<br>2) Seleccionar lotes en los extremos del rango o aplicar bracketing justificado<br>3) Ejecutar los lotes de desafío, o evaluar los lotes PPQ que contengan CMA en los extremos, manteniendo el resto de condiciones controladas<br>4) Comparar CPP, IPC y CQA contra los lotes con material nominal; evaluar si hubo ajustes de proceso<br>5) Anexar la matriz CMA-CPP-CQA, los certificados de materia prima y los resultados"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = CMA, CPP y CQA; unidad = µm, % y % de especificación. Tipo de dato = continua. n = 3 lotes por extremo o bracketing justificado. Estadísticos = media, DE, RSD (%) e IC 95 %; comparación entre extremos con ANOVA o modelo mixto. Regla de decisión = CQA dentro de especificación y CPP dentro de rango en ambos extremos. Atípicos = Grubbs solo si n ≥ 7; toda exclusión se justifica."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>100 % de los CQA dentro de especificación en los lotes con CMA extrema.<br>100 % de los CPP dentro del rango aprobado, sin ajustes no justificados.<br>Matriz CMA-CPP-CQA completa y aprobada.<br>Cambio de proveedor o de lote evaluado antes de usarlo en la PQ."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>- Matriz CMA-CPP-CQA<br>- Certificados y resultados de materias primas<br>- Resultados comparativos de los lotes de desafío"
+     },
+     {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>Los CMA y sus rangos en rojo son propuestas; se confirman con el desarrollo, los certificados del proveedor y el análisis de riesgo. No se acepta un cambio de proveedor sin evaluación."
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>FDA — Process Validation (2011), Stage 1; ICH Q8(R2); ICH Q9(R1); 21 CFR 211.84; 21 CFR 211.110."
+     }
+    ],
+    "tabla": null,
+    "instrumentos": "Analizador de partículas calibrado; Balanza de humedad calibrada",
+    "analisis": "si"
+   },
+   {
+    "kind": "ensayo",
+    "id": "PRO-PQ-GEN-016",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "PRO-PQ-GEN-016 — Condiciones ambientales y almacenamiento intermedio",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que la temperatura y la humedad del área de manufactura y el almacenamiento intermedio no degradan el producto ni alteran los CPP/IPC."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>1) Monitorear temperatura y humedad relativa durante los lotes, en los puntos críticos: balanza, mezcla, compresión, recubrimiento y almacén intermedio<br>2) Registrar cada 15 minutos o de forma continua, con fecha, hora y ubicación<br>3) Comparar contra los rangos aprobados: [area_temp_min] a [area_temp_max] °C y ≤ [area_hr_max] % HR<br>4) Mantener una muestra en la condición de peor humedad y tiempo de almacenamiento intermedio y analizar LOD, aspecto y microbiología<br>5) Anexar registros, excursiones, investigación y conclusiones"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = temperatura, HR, LOD y recuento microbiano; unidad = °C, % HR, % y UFC/g. Tipo de dato = continua y recuento. n = registro continuo del lote y 3 réplicas de la muestra en peor caso. Estadísticos = mínimo, máximo, media y DE; log10 para microbiología. Regla de decisión = 100 % del tiempo dentro de rango y sin cambio de atributos tras el almacenamiento. Atípicos: toda excursión se investiga; no se descarta."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>100 % del tiempo de manufactura dentro de <span class=\"por-confirmar\">[area_temp_min]–[area_temp_max] °C</span> y <span class=\"por-confirmar\">≤ [area_hr_max] % HR</span>.<br>Sin cambio significativo de LOD, aspecto o microbiología tras el almacenamiento intermedio.<br>Cero excursiones sin investigación y disposición aprobada."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>- Registro continuo de T/HR por área y lote<br>- Estudio de peor humedad/tiempo con resultados<br>- Investigación de excursiones y disposición"
+     },
+     {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>Los rangos de T/HR en rojo son propuestas; se confirman con el diseño del área, el producto y el plan de almacenamiento intermedio. Si el área no controla HR, se justifica con datos."
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>21 CFR 211.46; 21 CFR 211.111; 21 CFR 211.110; ICH Q1A(R2) — Estabilidad; USP &lt;1111&gt;."
+     }
+    ],
+    "tabla": null,
+    "instrumentos": "Termohigrómetro calibrado",
     "analisis": "si"
    },
    {
@@ -1168,7 +1248,7 @@ var BancoProcesos = {
      },
      {
       "et": "Procedimiento",
-      "html": "<strong>Procedimiento:</strong><br>1) CPP: temperatura de sellado 120–180 °C, presión 3–6 bar, tiempo de dwell 0,5–2,0 s, velocidad 20–60 golpes/min y alineación; rangos propuestos en rojo<br>2) IPC: integridad de sellado 100 %, alineación, aspecto y peso; límites propuestos en rojo<br>3) Frecuencia: inicio, medio y final; 30 unidades para integridad y 10 para aspecto<br>4) Registrar CPP de forma continua y detener si sale de rango<br>5) Anexar registros, resultados de integridad y muestras"
+      "html": "<strong>Procedimiento:</strong><br>1) CPP: temperatura de sellado 120–180 °C, presión 3–6 bar, tiempo de dwell 0,5–2,0 s, velocidad 20–60 golpes/min y alineación; rangos propuestos en rojo<br>2) IPC: integridad de sellado 100 %, alineación, aspecto y peso; límites propuestos en rojo<br>3) Frecuencia: inicio, medio y final; 30 unidades para integridad y 10 para aspecto<br>4) Registrar CPP de forma continua y detener si sale de rango; vincular temperatura, presión y dwell con la integridad y la permeabilidad de PRO-PQ-GEN-009<br>5) Anexar registros, resultados de integridad y muestras"
      },
      {
       "et": "Plan estadístico",
@@ -1193,6 +1273,47 @@ var BancoProcesos = {
     ],
     "tabla": null,
     "instrumentos": "Termómetro/termopar calibrado; Manómetro calibrado; Cronómetro calibrado",
+    "analisis": "si",
+    "familia": "comprimidos"
+   },
+   {
+    "kind": "ensayo",
+    "id": "PRO-PQ-CMP-019",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "PRO-PQ-CMP-019 — Detección de metales y cuerpos extraños",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que el detector de metales rechaza cuerpos ferrosos, no ferrosos y de acero inoxidable en la matriz del producto, y que no libera producto contaminado."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>1) Usar patrones certificados de hierro, no ferroso y acero inoxidable de [metal_sensibilidad] mm<br>2) Pasar cada patrón al inicio, medio y final de la corrida, con 3 repeticiones por tipo y posición<br>3) Verificar el rechazo, la alarma y el registro del evento<br>4) Evaluar los rechazos falsos de producto bueno y registrar la tasa<br>5) Anexar certificados de los patrones, calibración del detector y registros de la prueba"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = rechazo del patrón; unidad = pasa/no pasa. Tipo de dato = atributo. n = 3 tipos × 3 posiciones × 3 repeticiones = 27 desafíos. Estadísticos = proporción de rechazo con IC binomial exacto. Regla de decisión = 100 % de rechazo de cada patrón y tasa de rechazo falso ≤ 0,1 %. Atípicos: no aplica a atributo; todo fallo se investiga."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>100 % de los patrones ferrosos, no ferrosos y de acero inoxidable rechazados.<br>Cero falsos negativos.<br>Tasa de rechazo falso de producto bueno ≤ <span class=\"por-confirmar\">0,1 %</span>.<br>Detector calibrado y verificado antes y después de la prueba."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>- Certificados de los patrones<br>- Registro de rechazo por tipo y posición<br>- Verificación de calibración y tasa de rechazo falso"
+     },
+     {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>El tamaño de patrón y la tasa de rechazo falso en rojo son propuestas; se confirman con la validación del detector, el fabricante y el riesgo del producto."
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>21 CFR 211.110; EU GMP Anexo 15; manual del fabricante del detector; ICH Q9(R1)."
+     }
+    ],
+    "tabla": null,
+    "instrumentos": "Detector de metales calibrado; Patrones certificados de prueba",
     "analisis": "si",
     "familia": "comprimidos"
    },

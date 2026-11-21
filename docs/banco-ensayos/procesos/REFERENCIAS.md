@@ -33,6 +33,7 @@ Laboratorios Sued; el banco cita capítulo y título, no una edición no verific
 | ICH Q3D(R2) — *Elemental Impurities* (2022-04-26) | PDE de elementos | https://database.ich.org/sites/default/files/Q3D-R2_Guideline_Step4_2022_0308.pdf |
 | 21 CFR 211.94 | Envase y cierre | https://www.ecfr.gov/current/title-21/chapter-I/subchapter-C/part-211/subpart-D/section-211.94 |
 | 21 CFR 211.103 / 211.111 | Rendimiento, reconciliación y límites de tiempo de producción | https://www.ecfr.gov/current/title-21/chapter-I/subchapter-C/part-211/subpart-D |
+| 21 CFR 211.46 / 211.84 | Ventilación del área y control de materias primas | https://www.ecfr.gov/current/title-21/chapter-I/subchapter-C/part-211/subpart-C |
 | 21 CFR 211.180 / 211.192 | Registros, investigación de fallos y CPV | https://www.ecfr.gov/current/title-21/chapter-I/subchapter-C/part-211/subpart-J |
 | 21 CFR 211.122 / 211.125 / 211.130 | Etiquetado y empaquetado | https://www.ecfr.gov/current/title-21/chapter-I/subchapter-C/part-211/subpart-G |
 
@@ -71,3 +72,12 @@ Laboratorios Sued; el banco cita capítulo y título, no una edición no verific
 - **Cpk/Ppk:** no existe un mínimo universal exigido por la FDA. El 1,33 del
   banco es una propuesta de política interna; Calidad lo confirma o lo cambia
   según el riesgo y el historial del proceso.
+- **Materias primas:** los CMA y sus rangos (tamaño de partícula, humedad,
+  proveedor) son propuestas; se confirman con el desarrollo y los certificados
+  del proveedor. Un cambio de proveedor no se acepta sin evaluación.
+- **Ambiente:** los rangos de T/HR del área son propuestas; se confirman con el
+  diseño del área y el producto. Si el área no controla HR, se justifica con
+  datos y no se inventa un control.
+- **Metales:** el desafío con patrones se hace sobre la matriz del producto y
+  presupone el OQ del detector. La sensibilidad y la tasa de rechazo falso son
+  propuestas a confirmar con el fabricante y la validación del equipo.
