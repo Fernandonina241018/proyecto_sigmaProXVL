@@ -36,6 +36,40 @@ var BancoProcesos = {
    },
    {
     "kind": "ensayo",
+    "id": "PRO-PQ-GEN-011",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "PRO-PQ-GEN-011 — Plan de lotes y muestreo de la PQ",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Definir, antes de ejecutar, el número de lotes PPQ y el plan de muestreo por etapa: tamaño de lote, puntos, momentos, tamaño de muestra absoluto o porcentaje del lote, destino analítico y cadena de custodia."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>1) Registrar el tamaño de lote [tamano_lote] y el número de lotes PPQ [lotes_ppq], con la justificación por riesgo y conocimiento del proceso<br>2) Identificar las etapas y puntos de muestreo (recepción, mezcla/granulación, compresión, recubrimiento, empaque) y asignar el porcentaje del lote o el n mínimo por etapa<br>3) Definir envase, rotulado, temperatura, tiempo máximo hasta el análisis y responsables de la muestra<br>4) Recolectar cada muestra en el punto y momento planificados, registrando lote, etapa, hora, operador y peso o volumen<br>5) Entregar al laboratorio con cadena de custodia; no sustituir ni completar muestras sin desviación aprobada antes del análisis<br>6) Anexar el plan aprobado, los registros de muestreo y las desviaciones"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>Tamaño de lote [tamano_lote] y [lotes_ppq] lotes PPQ aprobados antes de iniciar.<br>100 % de las muestras planificadas recolectadas, identificadas y trazables.<br>Cero sustituciones de muestra sin desviación aprobada antes del análisis.<br>El porcentaje de muestreo por etapa queda definido en el plan aprobado y es consistente con el tamaño de lote."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>- Plan de muestreo aprobado, con tamaño de lote y lotes PPQ<br>- Registros de muestreo por etapa y punto<br>- Cadena de custodia y desviaciones de muestreo"
+     },
+     {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>Tamaño de lote, número de lotes y porcentaje por etapa: <span class=\"por-confirmar\">confirmar con el registro maestro y el plan de muestreo aprobado</span>. La propuesta de tres lotes consecutivos se justifica por riesgo; la FDA 2011 no fija un número."
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>FDA — Process Validation: General Principles and Practices (2011), Stage 2; 21 CFR 211.110(a); EU GMP Anexo 15; ICH Q9(R1); ICH Q10."
+     }
+    ],
+    "tabla": null
+   },
+   {
+    "kind": "ensayo",
     "id": "PRO-PQ-GEN-001",
     "bloque": 3,
     "cond": "ambas",
@@ -812,6 +846,41 @@ var BancoProcesos = {
     "tabla": null,
     "instrumentos": "Disolutor calibrado; HPLC con detector UV o espectrofotómetro UV-Vis calibrado",
     "analisis": "si",
+    "familia": "comprimidos"
+   },
+   {
+    "kind": "ensayo",
+    "id": "PRO-PQ-CMP-014",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "PRO-PQ-CMP-014 — Muestreo en proceso de comprimidos",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Definir los puntos, momentos y tamaño de muestra del proceso de comprimidos, expresado como porcentaje del lote por etapa, para que la PQ cubra mezcla/granulación, compresión, recubrimiento y empaque."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>1) Mezcla/granulación: muestrear 3 ubicaciones (superior, medio, inferior) × 3 réplicas al final de la mezcla; aplicar [porcentaje_mezcla] % del lote y enviar a uniformidad de mezcla y valoración<br>2) Compresión: muestrear al inicio, medio y final, cada 30 min; 10 comprimidos por punto; aplicar [porcentaje_compresion] % del lote; enviar a peso, dureza y dimensiones<br>3) Recubrimiento: muestrear al inicio, medio y final; 10 comprimidos por punto; aplicar [porcentaje_recubrimiento] % del lote; enviar a contenido e integridad del recubrimiento<br>4) Empaque: muestrear al inicio, medio y final; 10 unidades por punto; aplicar [porcentaje_empaque] % del lote; enviar a envase y etiquetado<br>5) Registrar lote, etapa, punto, hora, operador y peso o volumen; entregar con cadena de custodia"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>100 % de las muestras planificadas recolectadas y trazables.<br>Mezcla: 3 ubicaciones × 3 réplicas; compresión y recubrimiento: 10 comprimidos por punto; empaque: 10 unidades por punto.<br>Porcentaje del lote por etapa: mezcla [porcentaje_mezcla] %, compresión [porcentaje_compresion] %, recubrimiento [porcentaje_recubrimiento] %, empaque [porcentaje_empaque] %.<br>Cero sustituciones sin desviación aprobada antes del análisis."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>- Tabla de muestreo por etapa, punto y momento<br>- Registros de muestreo y cadena de custodia<br>- Desviaciones de muestreo con disposición"
+     },
+     {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>Los porcentajes por etapa y el tamaño de lote son <span class=\"por-confirmar\">propuestas a confirmar</span> contra el plan de muestreo aprobado y el registro maestro; el mínimo de unidades por punto se mantiene aunque el porcentaje dé un número menor."
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>21 CFR 211.110(a); FDA — Process Validation (2011), Stage 2; EU GMP Anexo 15; USP &lt;905&gt;; USP &lt;711&gt;."
+     }
+    ],
+    "tabla": null,
     "familia": "comprimidos"
    },
    {

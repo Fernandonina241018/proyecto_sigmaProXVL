@@ -1485,7 +1485,8 @@ const Validaciones = (() => {
       if (!conGen) return [];
       if (typeof PlantillaDocx === 'undefined' || !PlantillaDocx.parametrosFamilia) return [];
       const fam = catId === 'estabilidad' ? 'estabilidad' : entActual;
-      try { return PlantillaDocx.parametrosFamilia(fam, entidadObj().grupo) || []; } catch (e) { return []; }
+      const grupo = catId === 'procesos' ? 'procesos' : entidadObj().grupo;
+      try { return PlantillaDocx.parametrosFamilia(fam, grupo) || []; } catch (e) { return []; }
     }
 
     function schemaTotal() {
@@ -1504,7 +1505,9 @@ const Validaciones = (() => {
       if (!ps.length) { if (box) box.hidden = true; return; }
       if (!box && form.insertAdjacentHTML) {
         const acts = form.querySelector('.v7-form-actions');
-        const html = '<fieldset class="v7-fs v7-params"><legend>Parámetros del banco (fuente: URS aprobada)</legend><div class="v7-grid"></div></fieldset>';
+        const html = catId === 'procesos'
+          ? '<fieldset class="v7-fs v7-params v7-params-proc"><legend>Parámetros del banco (fuente: plan y registro aprobados)</legend><div class="v7-grid"></div></fieldset>'
+          : '<fieldset class="v7-fs v7-params"><legend>Parámetros del banco (fuente: URS aprobada)</legend><div class="v7-grid"></div></fieldset>';
         if (acts && acts.insertAdjacentHTML) acts.insertAdjacentHTML('beforebegin', html);
         else form.insertAdjacentHTML('beforeend', html);
         box = form.querySelector('.v7-params');

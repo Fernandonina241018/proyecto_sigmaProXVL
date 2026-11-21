@@ -7,6 +7,7 @@ import { readFileSync } from 'fs';
 const require = createRequire(import.meta.url);
 const B = require('../js/core/banco-procesos-data.js');
 const P = require('../js/core/plantilla-docx.js');
+globalThis.BancoProcesos = B;
 
 const ensayos = Object.entries(B.fases || {})
   .flatMap(([fase, xs]) => xs.map((x) => ({ ...x, fase })))
@@ -21,16 +22,16 @@ const texto = (e, prefijo) => {
 describe('banco de procesos: estructura', () => {
   it('solo tiene PQ y arranca con comprimidos', () => {
     expect(Object.keys(B.fases)).toEqual(['PQ']);
-    expect(ensayos.length).toBe(23);
+    expect(ensayos.length).toBe(25);
   });
 
   it('reparte común, grupo y forma sin duplicar IDs', () => {
     const comunes = ensayos.filter((e) => !e.familia);
     const solidos = ensayos.filter((e) => e.familia === 'solidos');
     const comprimidos = ensayos.filter((e) => e.familia === 'comprimidos');
-    expect(comunes.length).toBe(11);
+    expect(comunes.length).toBe(12);
     expect(solidos.length).toBe(2);
-    expect(comprimidos.length).toBe(10);
+    expect(comprimidos.length).toBe(11);
     expect(new Set(ensayos.map((e) => e.id)).size).toBe(ensayos.length);
   });
 
@@ -139,5 +140,46 @@ describe('plantilla de proceso: sin rótulos de equipo', () => {
     expect(xml).not.toMatch(/Imagen del equipo/);
     expect(xml).toMatch(/DESCRIPCIÓN DEL PROCESO/);
     expect(xml).toMatch(/Diagrama de flujo del proceso/);
+  });
+});
+
+describe('muestreo PQ: tamaño de lote y porcentaje por etapa', () => {
+  const claves = ['lotes_ppq', 'tamano_lote', 'porcentaje_mezcla', 'porcentaje_compresion', 'porcentaje_recubrimiento', 'porcentaje_empaque'];
+
+  it('el paso 2 pide lotes, tamaño de lote y % por etapa', () => {
+    const ps = P.parametrosFamilia('comprimidos', 'procesos').map((p) => p.clave);
+    expect(ps).toEqual(expect.arrayContaining(claves));
+  });
+
+  it('bloquea la generación hasta completar los campos', () => {
+    const falt = P.paramsFaltantes('PQ', 'procesos', 'comprimidos', 'ambas', {}, 'solidos').map((f) => f.clave);
+    expect(falt).toEqual(expect.arrayContaining(claves));
+    const draft = {
+      param_lotes_ppq: '3', param_tamano_lote: '100000',
+      param_porcentaje_mezcla: '0,2', param_porcentaje_compresion: '0,1',
+      param_porcentaje_recubrimiento: '0,1', param_porcentaje_empaque: '0,02',
+    };
+    expect(P.paramsFaltantes('PQ', 'procesos', 'comprimidos', 'ambas', draft, 'solidos')).toEqual([]);
+  });
+
+  it('inyecta el tamaño de lote y el % por etapa en el protocolo', async () => {
+    const u8 = new Uint8Array(readFileSync('docs/plantillas/PQ-1-400AAAA.docx'));
+    const draft = {
+      descripcion: 'Comprimidos 500 mg', codigo: 'PV-CMP-001', fecha: '2026-11-20',
+      subtipo: 'Convencional', producto: 'Producto X', concentracion: '500 mg',
+      ubicacion: 'Línea 1', usoPrevisto: 'Tratamiento oral',
+      ursCodigo: 'URS-001', ursVersion: '01', riesgoCodigo: 'AR-001', riesgoVersion: '01',
+      param_lotes_ppq: '3', param_tamano_lote: '100000',
+      param_porcentaje_mezcla: '0,2', param_porcentaje_compresion: '0,1',
+      param_porcentaje_recubrimiento: '0,1', param_porcentaje_empaque: '0,02',
+    };
+    const ent = { id: 'comprimidos', nombre: 'Comprimidos', grupo: 'solidos' };
+    const r = await P.generar('PQ', u8, B, draft, ent, 'ambas');
+    expect(r.ensayos).toContain('PRO-PQ-GEN-011');
+    expect(r.ensayos).toContain('PRO-PQ-CMP-014');
+    const files = await P._interno.leerZip(r.bytes);
+    const xml = new TextDecoder().decode(files.find((f) => f.nombre === 'word/document.xml').datos);
+    expect(xml).toContain('100000');
+    expect(xml).toContain('0,2');
   });
 });
