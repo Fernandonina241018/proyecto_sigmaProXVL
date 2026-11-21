@@ -641,6 +641,148 @@ var BancoProcesos = {
     "analisis": "si"
    },
    {
+    "kind": "ensayo",
+    "id": "PRO-PQ-GEN-017",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "PRO-PQ-GEN-017 — Validación de limpieza y cambio de producto",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que la limpieza entre productos está validada para el tren de equipos y que el cambio de producto no deja residuos por encima del límite aprobado."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>1) Revisar el protocolo de limpieza [limpieza_protocolo], aprobado y vigente para el producto y el tren de equipos<br>2) Verificar el MACO, el límite de residuo, la recuperación del método y el peor caso: producto más adherente, peor solubilidad y mayor tiempo de espera<br>3) Confirmar que el muestreo por hisopo o enjuague y el método analítico están validados<br>4) Revisar los tres ciclos de limpieza consecutivos y los resultados en los puntos críticos<br>5) Anexar protocolo, resultados, certificados y conclusión de cambio de producto"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>100 % de los puntos críticos con residuo ≤ límite aprobado.<br>Tres ciclos de limpieza consecutivos conformes.<br>Recuperación del método ≥ <span class=\"por-confirmar\">70 %</span> o la justificada.<br>Cambio de producto aprobado por Calidad antes de la PQ."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>- Protocolo de limpieza y MACO<br>- Resultados de los tres ciclos y recuperación<br>- Conclusión de cambio de producto"
+     },
+     {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>La recuperación y el límite de residuo en rojo son propuestas; se confirman con el protocolo de limpieza, el MACO y el riesgo del producto. La limpieza se ejecuta en su propio protocolo; aquí se verifica su estado."
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>21 CFR 211.67; EU GMP Anexo 15; PIC/S PI 006-3; ICH Q9(R1)."
+     }
+    ],
+    "tabla": null
+   },
+   {
+    "kind": "ensayo",
+    "id": "PRO-PQ-GEN-018",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "PRO-PQ-GEN-018 — Transporte y distribución",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que el producto mantiene sus atributos durante el transporte y la distribución, incluido el peor caso de ruta, temperatura, humedad y vibración."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>1) Revisar el protocolo de transporte [transporte_protocolo]: rutas, duración, temperatura, humedad, vibración, impacto e integridad<br>2) Verificar la calibración y la colocación de los data loggers<br>3) Identificar y ejecutar el peor caso: ruta más larga, mayor temperatura y mayor vibración<br>4) Analizar el producto antes y después del transporte: aspecto, integridad, valoración, disolución y microbiología<br>5) Anexar protocolo, registros, resultados y conclusión"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = temperatura, humedad, vibración e integridad; unidad = °C, % HR, g y pasa/no pasa. Tipo de dato = continua y atributo. n = 3 rutas o 3 réplicas del peor caso. Estadísticos = mínimo, máximo, media y proporción con IC binomial. Regla de decisión = 100 % del tiempo dentro de rango y sin cambio de atributos. Atípicos: toda excursión se investiga; no se descarta."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>100 % del tiempo de transporte dentro de <span class=\"por-confirmar\">2–30 °C</span> y <span class=\"por-confirmar\">≤ 75 % HR</span>, o el rango aprobado.<br>Integridad del envase 100 %.<br>Sin cambio significativo de atributos tras el peor caso.<br>Protocolo de transporte aprobado y ejecutado."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>- Protocolo y rutas del estudio<br>- Registros de data loggers y vibración<br>- Resultados antes/después y conclusión"
+     },
+     {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>Los rangos de T/HR y las rutas en rojo son propuestas; se confirman con el estudio de transporte, el embalaje y el destino. El transporte se ejecuta en su propio protocolo; aquí se verifica su estado."
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>21 CFR 211.142; 21 CFR 211.150; EU GDP; USP &lt;1079&gt;; ICH Q1A(R2)."
+     }
+    ],
+    "tabla": null,
+    "instrumentos": "Data logger de temperatura y humedad calibrado",
+    "analisis": "si"
+   },
+   {
+    "kind": "ensayo",
+    "id": "PRO-PQ-GEN-019",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "PRO-PQ-GEN-019 — Scale-up y cambios de escala",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que un cambio de escala mantiene los CPP, IPC y CQA aprobados y que la justificación por bracketing o peor caso es válida."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>1) Describir el cambio de escala y su justificación: [escala_justificacion]<br>2) Identificar los CPP que cambian con la escala: tiempo de mezcla, fuerza, velocidad, flujo, tiempos de secado y recubrimiento<br>3) Ejecutar bracketing en la escala menor y mayor, o el peor caso justificado<br>4) Comparar CPP, IPC y CQA contra la escala ya validada y evaluar la comparabilidad<br>5) Anexar el change control, el protocolo y los resultados"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>100 % de los CQA dentro de especificación en las escalas evaluadas.<br>100 % de los CPP dentro del rango aprobado.<br>Sin diferencia no justificada entre escalas.<br>Change control aprobado antes de producir para comercial."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>- Change control y justificación de escala<br>- Protocolo de bracketing o peor caso<br>- Resultados comparativos y conclusión"
+     },
+     {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>La justificación de escala en rojo es una propuesta; se confirma con el desarrollo, el análisis de riesgo y el change control. No se acepta un cambio de escala sin comparabilidad."
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>FDA — Process Validation (2011); ICH Q8(R2); ICH Q9(R1); ICH Q10; 21 CFR 211.110."
+     }
+    ],
+    "tabla": null
+   },
+   {
+    "kind": "ensayo",
+    "id": "PRO-PQ-GEN-020",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "PRO-PQ-GEN-020 — Recalificación periódica y revisión anual",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Definir la frecuencia y los disparadores de recalificación del proceso, y verificar que el estado de control se mantiene después de la PQ."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>1) Definir la frecuencia de recalificación: [recalificacion_frecuencia]<br>2) Definir los disparadores: cambio de equipo, material, proceso o escala; desviación crítica; tendencia fuera de control; cambio de proveedor<br>3) Revisar el CPV, los cambios, las desviaciones, las CAPA, las quejas y la estabilidad del período<br>4) Definir el alcance de la recalificación: parámetros, lotes, muestreo y criterios<br>5) Aprobar el plan y anexar la revisión anual"
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>100 % de los disparadores evaluados y documentados.<br>Revisión anual completa y aprobada.<br>Plan de recalificación vigente con frecuencia ≤ <span class=\"por-confirmar\">[recalificacion_frecuencia]</span>.<br>Sin cambios no evaluados que afecten el proceso."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>- Plan de recalificación con frecuencia y disparadores<br>- Revisión anual de CPV, cambios y desviaciones<br>- Registro de reevaluación y conclusión"
+     },
+     {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>La frecuencia en rojo es una propuesta; se confirma con el riesgo, el historial del proceso y la política de Calidad. La recalificación no reemplaza el CPV."
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>FDA — Process Validation (2011), Stage 3; ICH Q10; 21 CFR 211.180; EU GMP Anexo 15."
+     }
+    ],
+    "tabla": null
+   },
+   {
     "kind": "tabla",
     "id": "PRO-PQ-REF",
     "bloque": 6,

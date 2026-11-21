@@ -22,14 +22,14 @@ const texto = (e, prefijo) => {
 describe('banco de procesos: estructura', () => {
   it('solo tiene PQ y arranca con comprimidos', () => {
     expect(Object.keys(B.fases)).toEqual(['PQ']);
-    expect(ensayos.length).toBe(36);
+    expect(ensayos.length).toBe(40);
   });
 
   it('reparte común, grupo y forma sin duplicar IDs', () => {
     const comunes = ensayos.filter((e) => !e.familia);
     const solidos = ensayos.filter((e) => e.familia === 'solidos');
     const comprimidos = ensayos.filter((e) => e.familia === 'comprimidos');
-    expect(comunes.length).toBe(17);
+    expect(comunes.length).toBe(21);
     expect(solidos.length).toBe(3);
     expect(comprimidos.length).toBe(16);
     expect(new Set(ensayos.map((e) => e.id)).size).toBe(ensayos.length);
@@ -172,6 +172,10 @@ describe('muestreo PQ: tamaño de lote y porcentaje por etapa', () => {
       param_cma_primas: 'API D50 20-60 µm; humedad excipiente ≤ 3 %',
       param_area_temp_min: '15', param_area_temp_max: '25', param_area_hr_max: '65',
       param_metal_sensibilidad: '1,5',
+      param_limpieza_protocolo: 'LIM-001 v01',
+      param_transporte_protocolo: 'TRA-001 v01',
+      param_escala_justificacion: 'Bracketing escala piloto/comercial',
+      param_recalificacion_frecuencia: '36',
     };
     expect(P.paramsFaltantes('PQ', 'procesos', 'comprimidos', 'ambas', draft, 'solidos')).toEqual([]);
   });
@@ -193,6 +197,10 @@ describe('muestreo PQ: tamaño de lote y porcentaje por etapa', () => {
       param_cma_primas: 'API D50 20-60 µm; humedad excipiente ≤ 3 %',
       param_area_temp_min: '15', param_area_temp_max: '25', param_area_hr_max: '65',
       param_metal_sensibilidad: '1,5',
+      param_limpieza_protocolo: 'LIM-001 v01',
+      param_transporte_protocolo: 'TRA-001 v01',
+      param_escala_justificacion: 'Bracketing escala piloto/comercial',
+      param_recalificacion_frecuencia: '36',
     };
     const ent = { id: 'comprimidos', nombre: 'Comprimidos', grupo: 'solidos' };
     const r = await P.generar('PQ', u8, B, draft, ent, 'ambas');
@@ -242,5 +250,21 @@ describe('PQ P1: materias primas, ambiente y metales', () => {
     expect(P.aplicaEnsayo(metales, 'comprimidos', 'solidos', {})).toBe(true);
     expect(P.aplicaEnsayo(metales, 'jarabes', 'liquidos', {})).toBe(false);
     expect(P.aplicaEnsayo(ambiente, 'jarabes', 'liquidos', {})).toBe(true);
+  });
+});
+
+
+describe('PQ P2: ciclo de vida', () => {
+  const p2 = ['PRO-PQ-GEN-017', 'PRO-PQ-GEN-018', 'PRO-PQ-GEN-019', 'PRO-PQ-GEN-020'];
+
+  it('los ensayos P2 están en el banco', () => {
+    for (const id of p2) expect(ensayos.some((e) => e.id === id), id).toBe(true);
+  });
+
+  it('el paso 2 pide protocolo de limpieza, transporte, escala y recalificación', () => {
+    const claves = P.parametrosFamilia('comprimidos', 'procesos').map((p) => p.clave);
+    expect(claves).toEqual(expect.arrayContaining([
+      'limpieza_protocolo', 'transporte_protocolo', 'escala_justificacion', 'recalificacion_frecuencia',
+    ]));
   });
 });

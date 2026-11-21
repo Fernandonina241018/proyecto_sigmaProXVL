@@ -90,6 +90,35 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (StatAnalyzer Pro) co
 
 ## CAMBIOS RECIENTES
 
+### 2026-11-21 (341): PQ de procesos · cierre del P2 (ciclo de vida)
+
+**Qué:** se agrega el bloque P2 que conecta la PQ con los programas de ciclo de vida, sin duplicarlos dentro del protocolo.
+- **Limpieza:** `PRO-PQ-GEN-017` verifica que la validación de limpieza y el cambio de producto estén aprobados y vigentes (MACO, recuperación, tres ciclos); no ejecuta la limpieza.
+- **Transporte:** `PRO-PQ-GEN-018` verifica el estudio de transporte/distribución (rutas, T/HR, vibración, integridad) y sus conclusiones; no lo reemplaza.
+- **Scale-up:** `PRO-PQ-GEN-019` verifica el change control, el bracketing y la comparabilidad de CPP/IPC/CQA entre escalas.
+- **Recalificación:** `PRO-PQ-GEN-020` define frecuencia, disparadores, alcance y revisión anual; no reemplaza el CPV.
+- **Paso 2:** protocolo de limpieza, protocolo de transporte, justificación de escala y frecuencia de recalificación; obligatorios y en rojo.
+
+**Estado medido:**
+```
+banco: procesos 40 ensayos · 21 comunes · 3 sólidos · 16 comprimidos
+global: 1467 ensayos · falta instrumentos 719 (49 %) · criterio numérico 967 (66 %)
+```
+
+**Archivos afectados:**
+| Archivo | Cambio |
+|---------|--------|
+| `docs/banco-ensayos/procesos/pq-comun.html` | **+4** ensayos P2 comunes |
+| `docs/banco-ensayos/procesos/REFERENCIAS.md` | 21 CFR 211.67/142/150 y notas P2 |
+| `js/core/banco-procesos-data.js` | Regenerado |
+| `js/core/plantilla-docx.js` | 4 parámetros nuevos del paso 2 |
+| `tests/banco-procesos.test.js` | **26 pruebas** (P2 incluido) |
+
+**Verificación:**
+```
+npm run preflight → protocolo:check OK, urs-ar:check OK, Vitest 1261, backend 154, E2E 14
+```
+
 ### 2026-11-21 (340): PQ de procesos · cierre del P1 (materias primas, ambiente y metales)
 
 **Qué:** se agrega el bloque P1 de robustez y control ambiental del PQ.
