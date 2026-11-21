@@ -51,6 +51,20 @@ Laboratorios Sued; el banco cita capítulo y título, no una edición no verific
 | Especificación del producto | Integridad de la cápsula (grietas, fugas, separación) | Documento aprobado del producto |
 | Especificación del producto / certificado del proveedor | Dimensiones y calibre de la cápsula (longitud, diámetro, espesor de pared) | Documento aprobado del producto |
 
+## Proveedores, almacenamiento y sistemas de apoyo
+
+| Referencia | Uso en el banco | Fuente verificada |
+|---|---|---|
+| 21 CFR 211.82 / 211.84 | Recepción, muestreo y aprobación de materias primas y envases | https://www.ecfr.gov/current/title-21/chapter-I/subchapter-C/part-211/subpart-E |
+| USP \<1083\> — *Supplier Qualification* | Calificación y aprobación de proveedores críticos | https://www.usp.org/ (capítulo vigente) |
+| ICH Q10 / EU GMP Capítulo 7 | Sistema de calidad y actividades externalizadas | https://www.ich.org/page/quality-guidelines |
+| 21 CFR 211.142 / 211.46 | Almacenamiento y ventilación de áreas | https://www.ecfr.gov/current/title-21/chapter-I/subchapter-C/part-211 |
+| USP \<1079\> / OMS TRS 1010 Anexo 7 | Buenas prácticas de almacenamiento y distribución; mapeo T/HR | https://www.usp.org/ (capítulo vigente) |
+| EU GMP Anexo 1 / Anexo 15 | Salas limpias, calificación y validación | https://health.ec.europa.eu/document/download/7c6c5b3c-4902-46ea-b7ab-7608682fb68d_en |
+| 21 CFR 211.42 / 211.46 | Diseño de instalaciones y HVAC | https://www.ecfr.gov/current/title-21/chapter-I/subchapter-C/part-211 |
+| ISO 14644 / USP \<1116\> | Clasificación y control microbiológico de salas limpias | https://www.iso.org/standard/53394.html |
+| USP \<1231\> | Agua para uso farmacéutico | https://www.usp.org/ (capítulo vigente) |
+
 ## Granulados y polvos
 
 | Referencia | Uso en el banco | Fuente verificada |
@@ -123,3 +137,12 @@ Laboratorios Sued; el banco cita capítulo y título, no una edición no verific
   proceso y del equipo de dosificación; los límites son propuestas. `SOL-002`
   aplica a unidades de dosificación (sachets, frascos) y `SOL-003` a la
   homogeneidad del granel.
+- **Proveedores:** la validación del proceso empieza en la recepción de la
+  materia prima. La PQ verifica que los proveedores críticos estén aprobados y
+  que cada lote tenga CoA, identidad y liberación; no reemplaza la auditoría de
+  proveedores.
+- **Almacenes:** el mapeo T/HR se ejecuta en el banco/protocolo de almacenes;
+  la PQ verifica que esté vigente y que cubra las áreas del proceso.
+- **Sistemas y salas limpias:** su calificación/validación se ejecuta en los
+  protocolos de sistemas y salas; la PQ verifica el estado, el monitoreo del
+  período y las excursiones.

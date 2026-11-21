@@ -297,6 +297,8 @@ const Validaciones = (() => {
       },
       { k: 'especificacionCodigo', label: 'Especificación (código)', tipo: 'text', req: true },
       { k: 'especificacionVersion', label: 'Especificación (versión)', tipo: 'text', req: true },
+      { k: 'metodoCodigo', label: 'Validación del método analítico (código)', tipo: 'text', req: true },
+      { k: 'metodoVersion', label: 'Validación del método analítico (versión)', tipo: 'text', req: true },
       { k: 'usoPrevisto', label: 'Uso previsto del producto', tipo: 'text', req: true },
       ..._protocolo,
     ],

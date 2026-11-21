@@ -122,6 +122,7 @@ describe('Validaciones V7', () => {
     expect(html).toContain('data-grupo="solidos"');
     expect(html).toContain('v7-tren');
     expect(Validaciones.getSchema('procesos').map((f) => f.k)).toContain('subtipo');
+    expect(Validaciones.getSchema('procesos').map((f) => f.k)).toEqual(expect.arrayContaining(['metodoCodigo', 'metodoVersion']));
     expect(Validaciones.getSchema('procesos').find((f) => f.k === 'subtipo').opciones).toContain('Liberación modificada');
   });
 

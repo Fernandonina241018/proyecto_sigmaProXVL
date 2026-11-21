@@ -90,6 +90,38 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (StatAnalyzer Pro) co
 
 ## CAMBIOS RECIENTES
 
+### 2026-11-21 (346): PQ · método analítico, proveedores, almacenes y sistemas de apoyo
+
+**Qué:** se completan los prerrequisitos que faltaban antes de la PQ: método analítico validado, proveedores, áreas de almacenamiento con mapeo y sistemas de apoyo/salas limpias.
+- **Método analítico:** se agregan `metodoCodigo` y `metodoVersion` al paso 2; `PRO-PQ-GEN-000` imprime el protocolo/versión del método validado.
+- **Proveedores:** `PRO-PQ-GEN-021` verifica el programa de calificación, la lista de proveedores críticos, CoA, identidad y liberación de cada lote; el proceso empieza en la recepción de la materia prima.
+- **Almacenes:** `PRO-PQ-GEN-022` verifica áreas, calificación y mapeo T/HR vigente, monitoreo y excursiones; el mapeo se ejecuta en el protocolo de almacenes.
+- **Sistemas y salas limpias:** `PRO-PQ-GEN-023` verifica HVAC, agua, vapor, aire comprimido, vacío y salas limpias, con monitoreo del período y CAPA.
+- **Paso 2:** programa de proveedores, proveedores críticos, áreas de almacén, protocolo/mapeo, sistemas de apoyo, salas limpias y protocolo de sistemas; obligatorios y en rojo.
+- **Referencias:** 21 CFR 211.82/84/42/46/142; USP <1083>, <1079>, <1116>, <1231>; ICH Q10; EU GMP Anexos 1 y 15; ISO 14644; OMS TRS 1010 Anexo 7.
+
+**Estado medido:**
+```
+banco: procesos 55 ensayos · 24 comunes · 3 sólidos · 16 comprimidos · 5 cápsulas · 3 granulados · 4 polvos
+global: 1482 ensayos · falta instrumentos 723 (49 %) · criterio numérico 982 (66 %)
+```
+
+**Archivos afectados:**
+| Archivo | Cambio |
+|---------|--------|
+| `docs/banco-ensayos/procesos/pq-comun.html` | **+3** ensayos (proveedores, almacenes, sistemas) |
+| `docs/banco-ensayos/procesos/REFERENCIAS.md` | Sección de proveedores, almacenes y sistemas |
+| `js/core/banco-procesos-data.js` | Regenerado |
+| `js/core/indexx-validaciones.js` | `metodoCodigo`/`metodoVersion` en el schema |
+| `js/core/plantilla-docx.js` | Contexto `metodo` y parámetros nuevos |
+| `tests/banco-procesos.test.js` | **31 pruebas** (prerrequisitos incluidos) |
+| `tests/validaciones-panel.test.js` | Schema de método analítico |
+
+**Verificación:**
+```
+npm run preflight → protocolo:check OK, urs-ar:check OK, Vitest 1268, backend 154, E2E 14
+```
+
 ### 2026-11-21 (345): Tren de equipos por forma farmacéutica
 
 **Qué:** el campo «Tren de equipos» deja de ser un texto libre y pasa a ser un checklist por etapa, con equipos filtrados según la forma.
