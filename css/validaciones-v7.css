@@ -420,6 +420,14 @@
   color: var(--v7-muted);
 }
 #validaciones-app .v7-field > span > b { color: var(--v7-accent); font-weight: 700; }
+/* Ayuda contextual bajo cada input: siempre visible y anunciada por aria-describedby. */
+#validaciones-app .v7-help {
+  display: block;
+  font-size: 11px;
+  line-height: 1.35;
+  color: var(--v7-muted);
+  margin-top: 2px;
+}
 /* preview de cómo saldrá la descripción en encabezado/portada */
 #validaciones-app .v7-desc-preview { font-size: 11px; color: var(--v7-muted); font-style: italic; }
 /* H-01: fases sin banco de familia (no se generan) */
