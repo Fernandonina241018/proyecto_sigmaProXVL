@@ -318,6 +318,41 @@ const Validaciones = (() => {
     ],
   };
 
+  // Ayuda contextual por campo. Se muestra siempre debajo del input y se
+  // anuncia con aria-describedby; los campos dinámicos `param_*` reciben una
+  // ayuda genérica del banco.
+  const AYUDAS = {
+    responsable: 'Se llena con el usuario logueado. Cambialo solo si el responsable real es otra persona.',
+    fecha: 'Fecha de emisión del protocolo; se imprime en la portada.',
+    ursCodigo: 'Código de la URS aprobada. Es obligatorio al generar el protocolo.',
+    ursVersion: 'Versión de la URS aprobada. Debe coincidir con el documento vigente.',
+    riesgoCodigo: 'Código del análisis de riesgo aprobado; se exige al generar.',
+    riesgoVersion: 'Versión del análisis de riesgo; debe coincidir con el documento vigente.',
+    descripcion: 'Nombre del equipo, sistema o proceso tal como debe salir en portada y registro.',
+    codigo: 'Código interno único; se usa en el nombre del archivo y en el registro del protocolo.',
+    ubicacion: 'Área, línea, edificio o sala donde está instalado. Se imprime en el alcance.',
+    marca: 'Marca del fabricante. Usá N/A solo si no aplica.',
+    modelo: 'Modelo del fabricante. Usá N/A solo si no aplica.',
+    controlCambios: 'Número de change control asociado. Dejalo vacío si no existe.',
+    versionProtocolo: 'Versión del protocolo. Por defecto 01; cambiala solo con control de cambios.',
+    tipo: 'Define el setpoint y los límites de temperatura y humedad del almacén.',
+    temperaturaMin: 'Límite inferior en °C. Debe coincidir con la URS y el diseño del área.',
+    temperaturaMax: 'Límite superior en °C. Debe coincidir con la URS y el diseño del área.',
+    humedadMax: 'Límite máximo en %HR. Dejalo vacío si el área no controla humedad.',
+    duracionEstudio: 'Duración total del mapeo o estudio. Incluí la unidad (h, días).',
+    intervaloRegistro: 'Cada cuánto registra el data logger. Incluí la unidad (min, h).',
+    cantidadDataLoggers: 'Número de data loggers usados. Mínimo 1; debe cubrir los puntos críticos.',
+    producto: 'Nombre del producto; no confundir con la forma farmacéutica.',
+    concentracion: 'Concentración o potencia declarada. Incluí la unidad (mg, %, mg/mL).',
+    subtipo: 'Subtipo de la forma elegida; determina qué ensayos específicos se generan.',
+    especificacionCodigo: 'Código de la especificación del producto aprobada.',
+    especificacionVersion: 'Versión de la especificación del producto aprobada.',
+    metodoCodigo: 'Código del protocolo de validación del método analítico; se imprime en requisitos previos.',
+    metodoVersion: 'Versión del protocolo de validación del método analítico.',
+    usoPrevisto: 'Indicación o uso previsto del producto; se imprime en la descripción del proceso.',
+    area: 'Área o línea que usa el sistema; se imprime en el alcance.',
+  };
+
   function getSchema(cat) {
     return (SCHEMAS._comun || []).concat(SCHEMAS[cat] || []);
   }
@@ -843,25 +878,32 @@ const Validaciones = (() => {
     const v = val == null ? '' : String(val);
     const req = f.req ? ' data-req="1"' : '';
     const auto = f.auto === 'login' ? ' readonly placeholder="Cargando usuario…"' : '';
+    const key = String(f.k || '').replace(/[^A-Za-z0-9_-]/g, '-');
+    const ayuda = f.ayuda || AYUDAS[f.k] || (String(f.k || '').indexOf('param_') === 0
+      ? 'Valor del banco: confirmá la unidad y la fuente antes de firmar.'
+      : '');
+    const helpId = ayuda ? 'v7-help-' + key : '';
+    const desc = ayuda ? ' aria-describedby="' + helpId + '"' : '';
+    const help = ayuda ? '<small class="v7-help" id="' + helpId + '">' + esc(ayuda) + '</small>' : '';
     const lab = '<label class="v7-field" data-f="' + f.k + '"><span>' + esc(f.label) + (f.auto === 'login' ? ' (automático)' : '') + (f.req ? ' <b>*</b>' : '') + '</span>';
     if (f.tipo === 'select') {
       const opts = ['<option value="">— Seleccione —</option>'].concat(
         (f.opciones || []).map((o) => '<option value="' + esc(o) + '"' + (o === v ? ' selected' : '') + '>' + esc(o) + '</option>')
       ).join('');
-      return lab + '<select data-k="' + f.k + '"' + req + auto + '>' + opts + '</select></label>';
+      return lab + '<select data-k="' + f.k + '"' + req + auto + desc + '>' + opts + '</select>' + help + '</label>';
     }
     if (f.tipo === 'date') {
-      return lab + '<input type="date" class="v7-fecha" data-k="' + f.k + '"' + req + auto + ' value="' + esc(v) + '"></label>';
+      return lab + '<input type="date" class="v7-fecha" data-k="' + f.k + '"' + req + auto + desc + ' value="' + esc(v) + '">' + help + '</label>';
     }    if (f.tipo === 'number') {
       const lim = (f.min != null ? ' min="' + f.min + '"' : '')
         + (f.max != null ? ' max="' + f.max + '"' : '')
         + (f.integer ? ' step="1"' : ' step="any"');
-      return lab + '<input type="number"' + lim + ' data-k="' + f.k + '"' + req + auto + ' value="' + esc(v) + '"></label>';
+      return lab + '<input type="number"' + lim + ' data-k="' + f.k + '"' + req + auto + desc + ' value="' + esc(v) + '">' + help + '</label>';
     }
     if (f.tipo === 'file') {
-      return lab + '<input type="file" accept="image/*" data-k="' + f.k + '"' + req + auto + '></label>';
+      return lab + '<input type="file" accept="image/*" data-k="' + f.k + '"' + req + auto + desc + '>' + help + '</label>';
     }
-    return lab + '<input type="text" data-k="' + f.k + '"' + req + auto + ' value="' + esc(v) + '"></label>';
+    return lab + '<input type="text" data-k="' + f.k + '"' + req + auto + desc + ' value="' + esc(v) + '">' + help + '</label>';
   }
 
   // Calendario flotante (flatpickr, CDN): muestra dd/Mmm/aaaa y guarda aaaa-mm-dd.
@@ -1385,7 +1427,7 @@ const Validaciones = (() => {
       + '<fieldset class="v7-fs"><legend>' + esc(cat.nombre) + ' · Datos específicos</legend><div class="v7-grid">'
       + espec.map((f) => fieldHtml(f, '')).join('')
       + '</div></fieldset>'
-      + (catId === 'procesos' ? '<fieldset class="v7-fs"><legend>Tren de equipos (solo producción)</legend><div class="v7-tren" data-grupo=""></div></fieldset>' : '')
+      + (catId === 'procesos' ? '<fieldset class="v7-fs"><legend>Tren de equipos (solo producción)</legend><p class="v7-help">Elija los equipos que participan. El orden lo da la etapa; los analíticos no van acá.</p><div class="v7-tren" data-grupo=""></div></fieldset>' : '')
       + (conGen ? firmantesHtml() : '')
       + '<div class="v7-form-actions">'
       + '<span class="v7-form-msg" role="status" aria-live="polite"></span>'

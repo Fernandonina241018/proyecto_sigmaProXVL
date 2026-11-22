@@ -90,6 +90,26 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (StatAnalyzer Pro) co
 
 ## CAMBIOS RECIENTES
 
+### 2026-11-21 (347): Ayuda contextual en cada input del schema
+
+**Qué:** cada campo del formulario de entidad muestra una ayuda breve y permanente debajo del input, accesible con `aria-describedby`.
+- **Cobertura:** comunes, almacenes, estabilidad, equipos, sistemas, procesos y software; los parámetros dinámicos `param_*` reciben ayuda genérica del banco.
+- **Contenido:** unidad, formato esperado, si es obligatorio, qué documento usar y qué pasa si se deja vacío. No reemplaza la URS ni la especificación.
+- **Tren de equipos:** se agrega una ayuda al bloque: elegir los equipos que participan, el orden lo da la etapa y los analíticos no van en el tren.
+- **Accesibilidad:** `aria-describedby` enlaza cada input con su ayuda; la ayuda es texto visible, no solo tooltip.
+
+**Archivos afectados:**
+| Archivo | Cambio |
+|---------|--------|
+| `js/core/indexx-validaciones.js` | Mapa `AYUDAS`, render de ayuda y `aria-describedby` |
+| `css/validaciones-v7.css` | Estilo `.v7-help` |
+| `tests/validaciones-panel.test.js` | **55 pruebas** (cobertura de ayuda en todas las categorías) |
+
+**Verificación:**
+```
+npm run preflight → protocolo:check OK, urs-ar:check OK, Vitest 1269, backend 154, E2E 14
+```
+
 ### 2026-11-21 (346): PQ · método analítico, proveedores, almacenes y sistemas de apoyo
 
 **Qué:** se completan los prerrequisitos que faltaban antes de la PQ: método analítico validado, proveedores, áreas de almacenamiento con mapeo y sistemas de apoyo/salas limpias.
