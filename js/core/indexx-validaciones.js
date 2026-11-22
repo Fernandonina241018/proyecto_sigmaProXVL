@@ -761,7 +761,7 @@ const Validaciones = (() => {
         + '<div class="cat-icon" aria-hidden="true" style="background:' + color + '20;color:' + color + '">' + c.icono + '</div>'
         + '<strong>' + esc(c.nombre) + '</strong><small>' + esc(detalle) + '</small></a>';
     }).join('');
-    return '<div class="v7-view"><div class="section-head"><h2>Resumen general</h2><span>¿Qué vas a calificar hoy? · Banco de ensayos · corte ' + esc(fechaCorte()) + '</span></div>'
+    return '<div class="v7-view"><div class="section-head"><h2>Resumen general</h2><span>¿Qué vas a validar hoy? · Banco de ensayos · corte ' + esc(fechaCorte()) + '</span></div>'
       + '<section class="kpis">'
       + cards.map(function (c) {
         return '<article class="kpi" style="' + c.s + '"><div class="kpi-top">' + c.t + ' <span class="kpi-icon" aria-hidden="true">' + c.i + '</span></div>'
@@ -2660,7 +2660,6 @@ const Validaciones = (() => {
           } catch (e) {}
         };
         window.__sigmaLoadGroup('validaciones').then(abrir, abrir);
-        try { if (typeof showToast === 'function') showToast('⏳ Cargando banco de ensayos…'); } catch (e) {}
         return true;
       }
     } catch (e) {}

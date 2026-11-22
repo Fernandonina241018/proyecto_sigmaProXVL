@@ -7,7 +7,7 @@
 #auth-overlay.auth-v2 {
   position: fixed;
   inset: 0;
-  z-index: 9999;
+  z-index: 100000; /* por encima de Validaciones (90000): el login siempre se ve */
   overflow: auto;
   align-items: stretch;
   justify-content: flex-start;
@@ -41,7 +41,7 @@
 #auth-overlay.auth-v2 [hidden]{display:none!important}
 #auth-overlay.auth-v2,#auth-overlay.auth-v2{min-height:100%}
 #auth-overlay.auth-v2{
-  margin:0;min-height:100vh;color:var(--text);
+  margin:0;min-height:100vh;min-height:100dvh;color:var(--text);
   font:14px/1.5 var(--font-body);
   background:
     radial-gradient(ellipse at 16% 10%,var(--bg-accent) 0,transparent 38%),
@@ -52,7 +52,7 @@
 #auth-overlay.auth-v2 .bg{position:fixed;inset:0;overflow:hidden;pointer-events:none;z-index:0}
 #auth-overlay.auth-v2 .bg span{position:absolute;color:var(--text);opacity:.10;font:700 22px ui-monospace,Consolas,monospace;animation:av2-float 12s ease-in-out infinite alternate}
 @keyframes av2-float{to{transform:translateY(-16px)}}
-#auth-overlay.auth-v2 .shell{position:relative;z-index:1;display:flex;flex-direction:column;min-height:100vh}
+#auth-overlay.auth-v2 .shell{position:relative;z-index:1;display:flex;flex-direction:column;min-height:100vh;min-height:100dvh}
 
 /* ── Topbar ── */
 #auth-overlay.auth-v2 .topbar{width:min(1060px,100%);margin:0 auto;padding:20px 24px;display:flex;align-items:center;justify-content:space-between;gap:14px}
@@ -245,9 +245,9 @@
 #auth-overlay.auth-v2 .pi-change li+li{margin-top:2px}
 #auth-overlay.auth-v2 .pi-meta{display:grid;gap:7px;margin:13px 0 0;padding-top:11px;border-top:1px solid var(--surface-2)}
 #auth-overlay.auth-v2 .pi-meta div{display:grid;grid-template-columns:70px 1fr;gap:8px;align-items:baseline}
-#auth-overlay.auth-v2 .pi-meta dt{font-size:7.5px;font-weight:850;letter-spacing:.1em;text-transform:uppercase;color:var(--text-muted)}
+#auth-overlay.auth-v2 .pi-meta dt{font-size:9.5px;font-weight:850;letter-spacing:.1em;text-transform:uppercase;color:var(--text-muted)}
 #auth-overlay.auth-v2 .pi-meta dd{margin:0;font-size:10.5px;color:var(--text);line-height:1.4}
-#auth-overlay.auth-v2 .pi-note{margin:12px 0 0;padding-top:9px;border-top:1px solid var(--surface-2);font-size:8.5px;color:var(--text-muted);line-height:1.4}
+#auth-overlay.auth-v2 .pi-note{margin:12px 0 0;padding-top:9px;border-top:1px solid var(--surface-2);font-size:10.5px;color:var(--text-muted);line-height:1.45}
 
 /* ── Cabecera de la tarjeta ── */
 #auth-overlay.auth-v2 .card-head{display:flex;align-items:center;gap:13px;margin-bottom:20px;padding-right:34px}

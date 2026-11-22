@@ -126,7 +126,7 @@ function updateDatasetOwnerBanner() {
     b.style.display = 'flex';
     b.innerHTML = '<span>📁 Espacio de datos: <b style="color:var(--text-primary)">' + escapeHtml(u) + '</b></span>'
       + '<span>' + n + ' hoja(s)</span>'
-      + '<span style="opacity:.6">· aislado por usuario</span>';
+      + '<span>· aislado por usuario</span>';
   } catch (e) {}
 }
 
@@ -292,16 +292,28 @@ function showPerfilModal() {
 
   function closePerfil() {
     document.removeEventListener('keydown', onKey);
+    document.removeEventListener('keydown', onTab);
     if (overlay.parentNode) overlay.remove();
   }
   function onKey(e) {
     if (e.key === 'Escape' && !document.querySelector('.perfil-passkeys-overlay')) closePerfil();
+  }
+  // El modal no es <dialog>: sin esto, Tab se escapaba al fondo.
+  function onTab(e) {
+    if (e.key !== 'Tab' || !overlay.isConnected) return;
+    var f = modal.querySelectorAll('button:not([disabled]), [href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])');
+    if (!f.length) return;
+    var first = f[0], last = f[f.length - 1], a = document.activeElement;
+    if (!modal.contains(a)) { e.preventDefault(); first.focus(); return; }
+    if (e.shiftKey && a === first) { e.preventDefault(); last.focus(); }
+    else if (!e.shiftKey && a === last) { e.preventDefault(); first.focus(); }
   }
 
   overlay.addEventListener('click', function (e) { if (e.target === overlay) closePerfil(); });
   var loadingClose = overlay.querySelector('.perfil-close');
   if (loadingClose) loadingClose.addEventListener('click', closePerfil);
   document.addEventListener('keydown', onKey);
+  document.addEventListener('keydown', onTab);
   if (loadingClose) setTimeout(function () { loadingClose.focus(); }, 30);
 
   var apiUrl = typeof API_URL !== 'undefined' ? API_URL : '';
@@ -315,9 +327,13 @@ function showPerfilModal() {
       var user = data.profile || { username: data.username, role: data.role };
       var host = String(apiUrl || '').replace(/^https?:\/\//, '').split('/')[0] || 'mismo origen';
       renderPerfil(modal, user, { host: host, onClose: closePerfil });
+      var foco = modal.querySelector('.perfil-close');
+      if (foco) foco.focus();
     })
     .catch(function () {
       renderPerfilSimple(modal, session, { host: 'sin conexión', onClose: closePerfil, fallback: true });
+      var foco = modal.querySelector('.perfil-close');
+      if (foco) foco.focus();
     });
 }
 
@@ -1170,11 +1186,11 @@ var rightPanels = {
       '<div style="padding:10px 16px;border-bottom:1px solid var(--border);flex-shrink:0;display:flex;align-items:center;gap:10px;background:var(--card-bg)">' +
         '<span style="font-size:16px">👁️</span>' +
         '<span style="font-size:14px;font-weight:600;color:var(--text-primary);flex:1">Vista Previa del Dataset</span>' +
-        '<span class="page-card-badge" id="datosRecordBadge" style="background:var(--item-bg);color:var(--text-faint)">Sin datos</span>' +
+        '<span class="page-card-badge" id="datosRecordBadge" style="background:var(--item-bg);color:var(--text-muted)">Sin datos</span>' +
         '<div style="display:flex;gap:6px">' +
           '<button class="btn btn-secondary" style="font-size:11px;padding:4px 10px" id="btnFilterRows">🔍 Filtrar</button>' +
-          '<button class="btn btn-primary" style="font-size:11px;padding:4px 10px" id="btnSendToTrabajo" title="Enviar a Hoja de Trabajo">📋 Trabajo</button>' +
-          '<button class="btn btn-primary" style="font-size:11px;padding:4px 10px" id="btnExport">↓ Exportar</button>' +
+          '<button class="btn btn-primary" style="font-size:12px;padding:4px 10px" id="btnSendToTrabajo" title="Enviar a Hoja de Trabajo">📋 Trabajo</button>' +
+          '<button class="btn btn-primary" style="font-size:12px;padding:4px 10px" id="btnExport">↓ Exportar</button>' +
         '</div>' +
       '</div>' +
       '<div id="datosFilterBar" style="display:none"></div>' +
@@ -1185,7 +1201,7 @@ var rightPanels = {
             '<tbody id="datosTableBody"></tbody>' +
           '</table>' +
         '</div>' +
-        '<div id="datosEmptyState" style="display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;padding:40px;color:var(--text-faint)">' +
+        '<div id="datosEmptyState" style="display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;padding:40px;color:var(--text-muted)">' +
           '<div style="font-size:36px">📭</div>' +
           '<div style="font-size:13px;color:var(--text-muted)">Sin datos cargados</div>' +
           '<div style="font-size:11px">Usa el panel izquierdo para cargar un archivo CSV, JSON o Excel</div>' +
