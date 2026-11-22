@@ -276,6 +276,25 @@ function mountPerfilNotch() {
 }
 window.mountPerfilNotch = mountPerfilNotch;
 
+// El modal no es <dialog>: si no atrapamos el Tab, se escapa al fondo.
+// Devuelve la función para soltarlo al cerrar.
+function trapFocus(container) {
+  function onTab(e) {
+    if (e.key !== 'Tab') return;
+    var own = container.closest('.modal-overlay') || container;
+    var all = document.querySelectorAll('.modal-overlay');
+    if (!own.isConnected || all[all.length - 1] !== own) return; // hay otro modal encima
+    var f = container.querySelectorAll('button:not([disabled]), [href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])');
+    if (!f.length) return;
+    var first = f[0], last = f[f.length - 1], a = document.activeElement;
+    if (!container.contains(a)) { e.preventDefault(); first.focus(); return; }
+    if (e.shiftKey && a === first) { e.preventDefault(); last.focus(); }
+    else if (!e.shiftKey && a === last) { e.preventDefault(); first.focus(); }
+  }
+  document.addEventListener('keydown', onTab);
+  return function () { document.removeEventListener('keydown', onTab); };
+}
+
 function showPerfilModal() {
   var session = typeof Auth !== 'undefined' ? Auth.getSession() : null;
   if (!session) return;
@@ -292,28 +311,18 @@ function showPerfilModal() {
 
   function closePerfil() {
     document.removeEventListener('keydown', onKey);
-    document.removeEventListener('keydown', onTab);
+    untrap();
     if (overlay.parentNode) overlay.remove();
   }
   function onKey(e) {
     if (e.key === 'Escape' && !document.querySelector('.perfil-passkeys-overlay')) closePerfil();
   }
-  // El modal no es <dialog>: sin esto, Tab se escapaba al fondo.
-  function onTab(e) {
-    if (e.key !== 'Tab' || !overlay.isConnected) return;
-    var f = modal.querySelectorAll('button:not([disabled]), [href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])');
-    if (!f.length) return;
-    var first = f[0], last = f[f.length - 1], a = document.activeElement;
-    if (!modal.contains(a)) { e.preventDefault(); first.focus(); return; }
-    if (e.shiftKey && a === first) { e.preventDefault(); last.focus(); }
-    else if (!e.shiftKey && a === last) { e.preventDefault(); first.focus(); }
-  }
+  var untrap = trapFocus(modal);
 
   overlay.addEventListener('click', function (e) { if (e.target === overlay) closePerfil(); });
   var loadingClose = overlay.querySelector('.perfil-close');
   if (loadingClose) loadingClose.addEventListener('click', closePerfil);
   document.addEventListener('keydown', onKey);
-  document.addEventListener('keydown', onTab);
   if (loadingClose) setTimeout(function () { loadingClose.focus(); }, 30);
 
   var apiUrl = typeof API_URL !== 'undefined' ? API_URL : '';
@@ -518,9 +527,11 @@ function showPasskeysModal() {
 
   function close() {
     document.removeEventListener('keydown', onKey);
+    untrap();
     if (overlay.parentNode) overlay.remove();
   }
   function onKey(e) { if (e.key === 'Escape') close(); }
+  var untrap = trapFocus(overlay.querySelector('.perfil-passkeys-box'));
 
   overlay.addEventListener('click', function (e) { if (e.target === overlay) close(); });
   var closeBtn = overlay.querySelector('.perfil-passkeys-head button');

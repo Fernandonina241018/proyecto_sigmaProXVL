@@ -495,7 +495,7 @@
   #auth-overlay.auth-v2 .topbar{padding:10px 24px}
   #auth-overlay.auth-v2 main{padding:4px 18px 10px}
   #auth-overlay.auth-v2 .card{
-    max-height:calc(100vh - 84px);overflow-y:auto;scrollbar-width:thin;scrollbar-color:var(--border) transparent;
+    max-height:calc(100dvh - 84px);overflow-y:auto;scrollbar-width:thin;scrollbar-color:var(--border) transparent;
     padding:20px 28px 14px;
   }
   #auth-overlay.auth-v2 .card-head{margin-bottom:15px}
