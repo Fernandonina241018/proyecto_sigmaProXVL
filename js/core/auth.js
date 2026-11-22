@@ -26,6 +26,7 @@ const Auth = (() => {
 
     let _sessionTimer=null, _warnTimer=null, _countdownTimer=null;
     let _attempts=0, _locked=false, _onLogin=null, _onLogout=null;
+    let _expiring=false;
 
     // ── Variante de login ───────────────────────────────────────────
     // v2 = login híbrido oficial (tarjeta recordada + QR + proyecto).
@@ -156,6 +157,7 @@ const Auth = (() => {
         };
         sessionStorage.setItem(CFG.SESSION_STORAGE_KEY, JSON.stringify(session));
         if(_token) sessionStorage.setItem('auth_token', _token);
+        _expiring=false;
         _scheduleTimers();
     }
     function _clearSession() {
@@ -236,7 +238,7 @@ const Auth = (() => {
         try { if (typeof AreaSelect !== 'undefined' && AreaSelect.clearArea) AreaSelect.clearArea(); } catch (e) {}
     }
 
-    function _expireSession() { _closeAllModals(); _salirDeValidaciones(); _clearSession(); showLogin('timeout'); if(_onLogout) _onLogout('timeout'); }
+    function _expireSession(reason='timeout') { _closeAllModals(); _salirDeValidaciones(); _clearSession(); showLogin(reason); if(_onLogout) _onLogout(reason); }
     function _checkExpiry() { const s=_getSession(); if(s && Date.now()>=s.expiresAt) _expireSession(); }
 
     // ── Intentos ──────────────────────────
@@ -274,7 +276,7 @@ const Auth = (() => {
     // shortcut: v1 sin CSS ni selección; borrar el renderer cuando se confirme que nadie usa ?login=v1.
     function _renderLoginModal(reason='') {
         document.getElementById('auth-overlay')?.remove();
-        const reasonMsg={timeout:'⏱ Tu sesión expiró por inactividad.',logout:'👋 Sesión cerrada correctamente.'}[reason]||'';
+        const reasonMsg={timeout:'⏱ Tu sesión expiró por inactividad.',expired:'⏱ Tu sesión expiró. Inicia sesión de nuevo.',logout:'👋 Sesión cerrada correctamente.'}[reason]||'';
         // Código del commit desplegado (sello automático en cada push, ver version.yml).
         const buildRev=((document.querySelector('meta[name="build-revision"]')||{}).content||'').trim();
         const buildRevHtml=buildRev?' · <strong style="color:#64748b" title="Build '+buildRev+'">'+buildRev+'</strong>':'';
@@ -705,7 +707,7 @@ const Auth = (() => {
             + '<div class="pi-change-commit"><code>' + (safeRev || 'local') + '</code> · ' + lastChange.title + '</div>'
             + '<ul>' + lastChange.items.map(function (x) { return '<li>' + x + '</li>'; }).join('') + '</ul>'
             + '</div>';
-        const reasonMsg = { timeout: '⏱ Tu sesión expiró por inactividad.', logout: '👋 Sesión cerrada correctamente.' }[reason] || '';
+        const reasonMsg = { timeout: '⏱ Tu sesión expiró por inactividad.', expired: '⏱ Tu sesión expiró. Inicia sesión de nuevo.', logout: '👋 Sesión cerrada correctamente.' }[reason] || '';
         const profile = _profileForRemembered();
         const hasCard = !!profile;
 
@@ -1880,6 +1882,13 @@ const Auth = (() => {
     }
 
     function keepAlive(){ _resetActivityTimer(); const w=document.getElementById('auth-timeout-warn'); if(w) w.style.opacity='0'; }
+    // 401 con code=AUTH_INVALID: el token ya no vale (8 h, secreto rotado o
+    // revocado). Una sola salida aunque haya varias peticiones en vuelo.
+    function expire(){
+        if(_expiring || !_getSession()) return;
+        _expiring=true;
+        _expireSession('expired');
+    }
     function getSession(){ return _isSessionValid()?_getSession():null; }
     function isAuthenticated(){ return _isSessionValid(); }
 
@@ -1954,7 +1963,7 @@ const Auth = (() => {
         return WebAuthn.eliminar(credentialId);
     }
 
-    return { init, showLogin, logout, keepAlive, getSession, isAuthenticated, getToken, get2FAStatus, setup2FA, enable2FA, disable2FA, passkeysDisponibles, registrarPasskey, listarPasskeys, eliminarPasskey, getArea, selectArea, getLoginVariant, setLoginVariant };
+    return { init, showLogin, logout, keepAlive, expire, getSession, isAuthenticated, getToken, get2FAStatus, setup2FA, enable2FA, disable2FA, passkeysDisponibles, registrarPasskey, listarPasskeys, eliminarPasskey, getArea, selectArea, getLoginVariant, setLoginVariant };
 
 })();
 

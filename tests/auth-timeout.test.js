@@ -78,6 +78,17 @@ describe('timeout por área', () => {
     expect(Auth.isAuthenticated()).toBeFalsy();
   });
 
+  test('expire(): el token muerto cierra la sesión una sola vez', () => {
+    vi.setSystemTime(new Date('2026-09-30T12:00:00'));
+    const { store, Auth } = loadAuth('validaciones');
+    store.auth_session = JSON.stringify({ username: 'a', role: 'admin', expiresAt: Date.now() + 60000 });
+    // El DOM mínimo no pinta el login v2; importa que la sesión se borre.
+    try { Auth.expire(); } catch (_e) {}
+    expect(store.auth_session).toBeUndefined();
+    try { Auth.expire(); } catch (_e) {} // segunda petición en vuelo: no-op
+    expect(store.auth_session).toBeUndefined();
+  });
+
   test('el aviso de expiración vive fuera del login y se muestra antes de expirar', () => {
     vi.setSystemTime(new Date('2026-09-30T12:00:00'));
     const { store, Auth, els } = loadAuth('estadistica');

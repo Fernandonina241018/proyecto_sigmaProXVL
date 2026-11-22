@@ -90,6 +90,17 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (StatAnalyzer Pro) co
 
 ## CAMBIOS RECIENTES
 
+### 2026-11-22 (355): Token muerto (JWT) devuelve al login
+
+**Qué:** el cliente nunca miraba los 401. Si el JWT de 8 h caducaba (o se rotaba el secreto, o el token se revocaba) con la sesión de cliente aún viva, la app quedaba abierta sin cargar nada y no volvía al login. Ahora:
+- **Backend:** los 401 del middleware `requireAuth` llevan `code: 'AUTH_INVALID'` (token requerido / inválido o expirado / revocado). Los 401 de credenciales (contraseña, TOTP, passkey) **no** llevan código.
+- **Frontend:** `fetchWithTimeout` clona la respuesta ante un 401 y, si trae `code === 'AUTH_INVALID'`, llama a `Auth.expire()`.
+- **Auth:** nuevo `expire()` público con flag `_expiring` (varias peticiones en vuelo → una sola salida) y motivo `'expired'`: “Tu sesión expiró. Inicia sesión de nuevo.”.
+
+**Archivos:** `backend/server.js` (4 respuestas), `js/core/utils.js`, `js/core/auth.js` (`expire`, motivo, reset en `_startSession`), `tests/auth-401.test.js` (nuevo), `tests/auth-timeout.test.js`, `e2e/session-invalid.spec.js` (nuevo).
+
+**Verificación:** `npm run preflight` OK (vitest 1281, backend 154, E2E 15). E2E real: token falso con sesión vigente → login visible, módulo retirado y `auth_token` borrado. Los 401 de credenciales no cierran sesión (test).
+
 ### 2026-11-22 (354): Cierre de auditoría — foco del modal de passkeys
 
 **Qué:** la trampa de foco del perfil (353) se extrajo a `trapFocus(container)` y ahora también envuelve el modal anidado de passkeys, que vive en `document.body`. Antes, al abrirlo, el Tab del perfil devolvía el foco al modal de debajo. El helper solo actúa si su overlay es el último `.modal-overlay` abierto. Además el panel del login pasa a `calc(100dvh - 84px)`.
