@@ -90,6 +90,31 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (StatAnalyzer Pro) co
 
 ## CAMBIOS RECIENTES
 
+### 2026-11-22 (352): Protocolos de proceso como validación, no calificación/PQ
+
+**Qué:** los documentos de proceso dejan de hablar de “calificación” y de “PQ”; pasan a **Protocolo de validación de procesos**.
+- **Plantilla:** se reemplazan los rótulos fijos de calificación por validación; el título de portada es **PROTOCOLO DE VALIDACIÓN DE PROCESOS**.
+- **UI:** el paso 3 muestra **Protocolo de validación** en lugar de PQ; el valor interno sigue siendo PQ.
+- **Archivo:** el `.docx` de proceso usa el prefijo **PROT-**.
+- **Banco:** se ajustan títulos y textos visibles: “lotes PPQ” → “lotes de validación”, “PQ” → “validación/protocolo”; los IDs internos `PRO-PQ-` se conservan para trazabilidad.
+- **Reportes:** la tabla y los recientes muestran “Protocolo de validación” para la categoría procesos.
+- **Referencias:** “Calificación de proveedores” → “Validación de proveedores”; “Recalificación” → “Revalidación”.
+
+**Archivos afectados:**
+| Archivo | Cambio |
+|---------|--------|
+| `js/core/plantilla-docx.js` | Reemplazos de calificación/PQ y prefijo PROT |
+| `js/core/indexx-validaciones.js` | `faseLabel` en UI y reportes |
+| `docs/banco-ensayos/procesos/*.html` | Títulos y textos visibles |
+| `js/core/banco-procesos-data.js` | Regenerado |
+| `tests/banco-procesos.test.js` | Sin “calificación” y con título de protocolo |
+| `tests/validaciones-panel.test.js` | Etiqueta “Protocolo de validación” |
+
+**Verificación:**
+```
+npm run preflight → protocolo:check OK, urs-ar:check OK, Vitest 1276, backend 154, E2E 14
+```
+
 ### 2026-11-22 (351): Tren adaptativo por tipo de granulación y ensayos seca/doble
 
 **Qué:** el tren de equipos ya no es fijo por forma: se adapta al tipo de granulación elegido en el paso 2.

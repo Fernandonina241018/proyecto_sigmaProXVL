@@ -126,6 +126,10 @@ describe('Validaciones V7', () => {
     expect(Validaciones.getSchema('procesos').map((f) => f.k)).toEqual(expect.arrayContaining(['metodoCodigo', 'metodoVersion']));
     expect(Validaciones.getSchema('procesos').find((f) => f.k === 'subtipo').opciones).toContain('Liberación modificada');
     expect(Validaciones.getSchema('procesos').find((f) => f.k === 'tipoGranulacion').opciones).toEqual(expect.arrayContaining(['Húmeda', 'Seca', 'Doble húmeda', 'Húmeda + seca', 'No aplica']));
+    expect(html).toContain('Protocolo de validación');
+    expect(html).toContain('value="PQ"');
+    expect(Validaciones.faseLabel('PQ', 'procesos')).toBe('Protocolo de validación');
+    expect(Validaciones.faseLabel('PQ', 'equipos')).toBe('PQ');
   });
 
   test('procesos: grupo → forma (combobox filtrado)', () => {
