@@ -430,8 +430,23 @@
 }
 /* Estado de completitud: requerido vacío = rojo; con valor = verde. */
 #validaciones-app .v7-field .v7-ctl { transition: border-color 0.15s, background 0.15s; }
-#validaciones-app .v7-field .v7-ctl.v7-invalid { border-color: #b00020; background: #fff5f5; }
-#validaciones-app .v7-field .v7-ctl.v7-valid { border-color: #1a7f37; background: #f3fbf5; }
+/* Fondo claro => texto oscuro: el tema es dark y el color heredado era claro. */
+#validaciones-app .v7-field .v7-ctl.v7-invalid {
+  border-color: #b00020;
+  background: #fff5f5;
+  color: #7f1d1d;
+  -webkit-text-fill-color: #7f1d1d;
+}
+#validaciones-app .v7-field .v7-ctl.v7-valid {
+  border-color: #1a7f37;
+  background: #f3fbf5;
+  color: #14532d;
+  -webkit-text-fill-color: #14532d;
+}
+#validaciones-app .v7-field .v7-ctl.v7-invalid::placeholder { color: #991b1b; opacity: 0.75; }
+#validaciones-app .v7-field .v7-ctl.v7-valid::placeholder { color: #4b5563; opacity: 0.75; }
+#validaciones-app .v7-field select.v7-invalid option,
+#validaciones-app .v7-field select.v7-valid option { color: #111827; background: #ffffff; }
 #validaciones-app .v7-tren.v7-invalid { border-color: #b00020; }
 #validaciones-app .v7-tren.v7-valid { border-color: #1a7f37; }
 /* preview de cómo saldrá la descripción en encabezado/portada */

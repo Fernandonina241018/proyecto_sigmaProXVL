@@ -90,6 +90,24 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (StatAnalyzer Pro) co
 
 ## CAMBIOS RECIENTES
 
+### 2026-11-22 (349): Fix contraste de inputs válidos/inválidos
+
+**Qué:** los inputs con fondo claro (`#f3fbf5` verde o `#fff5f5` rojo) heredaban el color de texto claro del tema dark, por lo que el valor se volvía ilegible.
+- **Fix:** `color` y `-webkit-text-fill-color` oscuros en `.v7-valid` y `.v7-invalid`.
+- **Placeholder:** color oscuro con opacidad controlada.
+- **Select:** opciones con texto oscuro y fondo blanco.
+- No se cambia la lógica de estado ni los helpers.
+
+**Archivos afectados:**
+| Archivo | Cambio |
+|---------|--------|
+| `css/validaciones-v7.css` | Contraste de inputs y opciones |
+
+**Verificación:**
+```
+npm run preflight → protocolo:check OK, urs-ar:check OK, Vitest 1274, backend 154, E2E 14
+```
+
 ### 2026-11-22 (348): Plan de muestreo por etapa y fórmula según parámetro
 
 **Qué:** se incorpora al banco el plan de muestreo por etapa del documento de referencia, con la fórmula que corresponde a cada tipo de parámetro.
