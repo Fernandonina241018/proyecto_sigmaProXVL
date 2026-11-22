@@ -160,3 +160,6 @@ Laboratorios Sued; el banco cita capítulo y título, no una edición no verific
   del tamaño del lote. El número de lotes PPQ y el número de muestras por etapa
   son decisiones distintas; tres lotes consecutivos no compensan un muestreo
   insuficiente.
+- **Granulación:** la húmeda usa granulador/lecho fluido; la seca usa
+  compactadora de rodillos y molino; la doble húmeda repite el ciclo con CPP/IPC
+  por ciclo. El tipo se elige en el paso 2 y cambia el tren y los ensayos.

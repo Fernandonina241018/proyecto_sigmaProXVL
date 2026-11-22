@@ -1081,6 +1081,132 @@ var BancoProcesos = {
    },
    {
     "kind": "ensayo",
+    "id": "PRO-PQ-CMP-015",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "PRO-PQ-CMP-015 — Granulación y secado: CPP e IPC",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Controlar la granulación y el secado dentro de los rangos aprobados y detectar desviaciones de humedad, tamaño o uniformidad antes de comprimir o encapsular."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>1) CPP de mezcla/granulación: tiempo, velocidad de impulsor y chopper, tasa y cantidad de ligante; rangos propuestos en rojo (tiempo 5–15 min, impulsor 100–300 rpm, chopper 500–1500 rpm)<br>2) CPP de secado: temperatura de entrada 40–70 °C, flujo de aire y punto final por LOD o potencia; rangos propuestos en rojo<br>3) IPC: LOD 1,0–3,0 % (rojo), tamaño de partícula o densidad aparente según desarrollo, uniformidad de mezcla por PRO-PQ-SOL-003 y rendimiento<br>4) Frecuencia: LOD cada 15 min al final del secado; mezcla al final; 3 réplicas por punto<br>5) Registrar CPP cada 5 min y las alarmas; detener y desviar si sale de rango<br>6) Anexar registros, curvas y data cruda"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = LOD, tamaño de partícula, densidad y RSD de mezcla; unidad = % y µm. Tipo de dato = continua. n = 3 réplicas por punto y 3 puntos por lote. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = LOD 1,0–3,0 %, RSD de mezcla ≤ 5,0 % y CPP dentro de rango. Atípicos = Grubbs solo si n ≥ 7; se investiga antes de excluir."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>100 % de los CPP dentro del rango aprobado durante el lote.<br>LOD final entre <span class=\"por-confirmar\">1,0 % y 3,0 %</span>.<br>RSD de mezcla ≤ <span class=\"por-confirmar\">5,0 %</span>.<br>Cero desviaciones de CPP o IPC sin investigación."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>- Registro de CPP por etapa y curvas de secado<br>- Resultados de LOD, tamaño/densidad y mezcla<br>- Data cruda y reporte estadístico"
+     },
+     {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>Los rangos de tiempo, velocidad, temperatura y LOD son propuestas; se confirman con el desarrollo del proceso y el registro maestro. El tamaño de partícula solo se exige si el desarrollo lo define como crítico."
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>21 CFR 211.110; FDA — Process Validation (2011); ICH Q8(R2); ICH Q9(R1)."
+     }
+    ],
+    "tabla": null,
+    "instrumentos": "Balanza de humedad calibrada; Registrador de datos del granulador calibrado",
+    "granulacion": "Húmeda,Doble húmeda,Húmeda + seca",
+    "analisis": "si",
+    "familia": "solidos"
+   },
+   {
+    "kind": "ensayo",
+    "id": "PRO-PQ-CMP-020",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "PRO-PQ-CMP-020 — Granulación seca por compactación de rodillos",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Controlar la compactación por rodillos y la molienda posterior, para obtener una cinta y un granulado con densidad, tamaño y flujo reproducibles antes de comprimir o encapsular."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>1) CPP: presión de rodillos, gap, velocidad de rodillos, velocidad del tornillo de alimentación y temperatura; rangos propuestos en rojo<br>2) IPC de cinta: densidad aparente 0,8–1,2 g/mL, espesor y aspecto; muestrear inicio, medio y final<br>3) Molienda/tamizado: D50 0,25–1,0 mm, finos ≤ 15 % y flujo por Carr ≤ 20 %<br>4) Registrar CPP de forma continua y detener si sale de rango<br>5) Anexar registros, densidad de cinta, granulometría y data cruda"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = densidad de cinta, D10/D50/D90, finos y fluidez; unidad = g/mL, mm y %. Tipo de dato = continua. n = 3 réplicas por punto y 3 puntos por lote. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = densidad 0,8–1,2 g/mL, D50 0,25–1,0 mm, finos ≤ 15 % y Carr ≤ 20 %. Atípicos = Grubbs solo si n ≥ 7; se investiga la causa."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>100 % de los CPP dentro del rango aprobado.<br>Densidad de cinta entre <span class=\"por-confirmar\">0,8 y 1,2 g/mL</span>.<br>D50 entre <span class=\"por-confirmar\">0,25 y 1,0 mm</span>; finos ≤ <span class=\"por-confirmar\">15 %</span>.<br>Flujo por índice de Carr ≤ <span class=\"por-confirmar\">20 %</span>."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>- Registro de presión, gap, velocidades y temperatura<br>- Densidad de cinta y granulometría<br>- Data cruda y reporte estadístico"
+     },
+     {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>Los rangos de compactación y granulometría en rojo son propuestas; se confirman con el desarrollo y el equipo. La granulación seca no usa ligante ni secado."
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>21 CFR 211.110; FDA — Process Validation (2011); ICH Q8(R2); USP &lt;1174&gt;; USP &lt;786&gt;."
+     }
+    ],
+    "tabla": null,
+    "instrumentos": "Analizador de densidad de cinta calibrado; Balanza analítica calibrada",
+    "granulacion": "Seca,Húmeda + seca",
+    "analisis": "si",
+    "familia": "solidos"
+   },
+   {
+    "kind": "ensayo",
+    "id": "PRO-PQ-CMP-021",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "PRO-PQ-CMP-021 — Doble granulación: dos ciclos",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Controlar dos ciclos de granulación húmeda y secado, con CPP e IPC propios por ciclo, para demostrar que la segunda granulación no degrada el producto ni pierde reproducibilidad."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>1) Ciclo 1: ejecutar mezcla, granulación húmeda y secado con los CPP de PRO-PQ-CMP-015; registrar LOD, tamaño y rendimiento<br>2) Definir y respetar el tiempo máximo de espera entre ciclos; almacenar el granulado intermedio en condiciones controladas<br>3) Ciclo 2: repetir granulación húmeda y secado con CPP propios; registrar los mismos IPC<br>4) Comparar ciclo 1 y ciclo 2: LOD, RSD de mezcla, granulometría, rendimiento y atributos del producto<br>5) Anexar registros por ciclo, balance de materiales y conclusión"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = LOD, RSD de mezcla, D50, rendimiento y atributos; unidad = %, µm y %. Tipo de dato = continua. n = 3 réplicas por punto, 3 puntos por ciclo y 2 ciclos. Estadísticos = media, DE, RSD (%) e IC 95 %; comparación entre ciclos con ANOVA o modelo mixto. Regla de decisión = cada ciclo dentro de CPP/IPC y sin diferencia no justificada entre ciclos. Atípicos = Grubbs solo si n ≥ 7; se investiga."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>100 % de los CPP de cada ciclo dentro del rango aprobado.<br>LOD final entre <span class=\"por-confirmar\">1,0 % y 3,0 %</span> en cada ciclo.<br>RSD de mezcla ≤ <span class=\"por-confirmar\">5,0 %</span> en cada ciclo.<br>Sin diferencia no justificada entre ciclo 1 y ciclo 2; rendimiento y hold time dentro de lo aprobado."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>- Registro de CPP e IPC del ciclo 1 y del ciclo 2<br>- Comparación entre ciclos y balance de materiales<br>- Data cruda y reporte estadístico"
+     },
+     {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>Los rangos y el hold time en rojo son propuestas; se confirman con el desarrollo y el registro maestro. La doble granulación no es dos veces el mismo ensayo sin separar los ciclos."
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>21 CFR 211.110; FDA — Process Validation (2011); ICH Q8(R2); ICH Q9(R1); USP &lt;1174&gt;; USP &lt;786&gt;."
+     }
+    ],
+    "tabla": null,
+    "instrumentos": "Balanza de humedad calibrada; Registrador de datos del granulador calibrado",
+    "granulacion": "Doble húmeda",
+    "analisis": "si",
+    "familia": "solidos"
+   },
+   {
+    "kind": "ensayo",
     "id": "PRO-PQ-CMP-001",
     "bloque": 3,
     "cond": "ambas",
@@ -1362,47 +1488,6 @@ var BancoProcesos = {
      }
     ],
     "tabla": null,
-    "familia": "comprimidos"
-   },
-   {
-    "kind": "ensayo",
-    "id": "PRO-PQ-CMP-015",
-    "bloque": 3,
-    "cond": "ambas",
-    "titulo": "PRO-PQ-CMP-015 — Granulación y secado: CPP e IPC",
-    "secciones": [
-     {
-      "et": "Objetivo",
-      "html": "<strong>Objetivo:</strong><br>Controlar la granulación y el secado dentro de los rangos aprobados y detectar desviaciones de humedad, tamaño o uniformidad antes de comprimir."
-     },
-     {
-      "et": "Procedimiento",
-      "html": "<strong>Procedimiento:</strong><br>1) CPP de mezcla/granulación: tiempo, velocidad de impulsor y chopper, tasa y cantidad de ligante; rangos propuestos en rojo (tiempo 5–15 min, impulsor 100–300 rpm, chopper 500–1500 rpm)<br>2) CPP de secado: temperatura de entrada 40–70 °C, flujo de aire y punto final por LOD o potencia; rangos propuestos en rojo<br>3) IPC: LOD 1,0–3,0 % (rojo), tamaño de partícula o densidad aparente según desarrollo, uniformidad de mezcla por PRO-PQ-SOL-003 y rendimiento<br>4) Frecuencia: LOD cada 15 min al final del secado; mezcla al final; 3 réplicas por punto<br>5) Registrar CPP cada 5 min y las alarmas; detener y desviar si sale de rango<br>6) Anexar registros, curvas y data cruda"
-     },
-     {
-      "et": "Plan estadístico",
-      "html": "<strong>Plan estadístico:</strong><br>Variable = LOD, tamaño de partícula, densidad y RSD de mezcla; unidad = % y µm. Tipo de dato = continua. n = 3 réplicas por punto y 3 puntos por lote. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = LOD 1,0–3,0 %, RSD de mezcla ≤ 5,0 % y CPP dentro de rango. Atípicos = Grubbs solo si n ≥ 7; se investiga antes de excluir."
-     },
-     {
-      "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>100 % de los CPP dentro del rango aprobado durante el lote.<br>LOD final entre <span class=\"por-confirmar\">1,0 % y 3,0 %</span>.<br>RSD de mezcla ≤ <span class=\"por-confirmar\">5,0 %</span>.<br>Cero desviaciones de CPP o IPC sin investigación."
-     },
-     {
-      "et": "Documentos entregables",
-      "html": "<strong>Documentos entregables:</strong><br>- Registro de CPP por etapa y curvas de secado<br>- Resultados de LOD, tamaño/densidad y mezcla<br>- Data cruda y reporte estadístico"
-     },
-     {
-      "et": "Nota",
-      "html": "<strong>Nota:</strong><br>Los rangos de tiempo, velocidad, temperatura y LOD son propuestas; se confirman con el desarrollo del proceso y el registro maestro. El tamaño de partícula solo se exige si el desarrollo lo define como crítico."
-     },
-     {
-      "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>21 CFR 211.110; FDA — Process Validation (2011); ICH Q8(R2); ICH Q9(R1)."
-     }
-    ],
-    "tabla": null,
-    "instrumentos": "Balanza de humedad calibrada; Registrador de datos del granulador calibrado",
-    "analisis": "si",
     "familia": "comprimidos"
    },
    {
