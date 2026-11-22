@@ -322,3 +322,14 @@ describe('PQ prerrequisitos: proveedores, almacenes y sistemas', () => {
     ]));
   });
 });
+
+describe('ayuda contextual en parámetros de la familia', () => {
+  it('cada parámetro de proceso trae ayuda con fuente', () => {
+    const ps = P.parametrosFamilia('comprimidos', 'procesos');
+    expect(ps.length).toBeGreaterThan(0);
+    expect(ps.every((p) => Boolean(p.ayuda))).toBe(true);
+    const mezcla = ps.find((p) => p.clave === 'porcentaje_mezcla');
+    expect(mezcla.ayuda).toMatch(/Muestreo de mezcla/);
+    expect(mezcla.ayuda).toMatch(/Fuente:/);
+  });
+});

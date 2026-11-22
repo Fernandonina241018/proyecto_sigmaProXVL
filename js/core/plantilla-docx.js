@@ -1094,7 +1094,14 @@ const PlantillaDocx = (() => {
     const grupo = String(grupoId || '').trim();
     const vistos = {};
     return LIMITES.filter((l) => (l.fam === fam || (grupo && l.fam === grupo)) && !vistos[l.clave] && (vistos[l.clave] = true))
-      .map((l) => ({ clave: l.clave, label: l.parametro, unidad: l.unidad, defecto: l.valor }));
+      .map((l) => ({
+        clave: l.clave,
+        label: l.parametro,
+        unidad: l.unidad,
+        defecto: l.valor,
+        ayuda: l.parametro + ' (' + l.unidad + '). Fuente: ' + l.fuente + '. '
+          + (/provisional|confirmar/i.test(l.estado || '') ? 'Confirmar antes de firmar.' : ''),
+      }));
   }
 
   // Sustituye "[token]" por el valor del borrador (aprobado con fuente URS)

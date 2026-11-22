@@ -318,6 +318,41 @@ const Validaciones = (() => {
     ],
   };
 
+  // Ayuda contextual por campo. Se muestra siempre debajo del input y se
+  // anuncia con aria-describedby; los campos dinámicos `param_*` reciben una
+  // ayuda genérica del banco.
+  const AYUDAS = {
+    responsable: 'Se llena con el usuario logueado. Cambialo solo si el responsable real es otra persona.',
+    fecha: 'Fecha de emisión del protocolo; se imprime en la portada.',
+    ursCodigo: 'Código de la URS aprobada. Es obligatorio al generar el protocolo.',
+    ursVersion: 'Versión de la URS aprobada. Debe coincidir con el documento vigente.',
+    riesgoCodigo: 'Código del análisis de riesgo aprobado; se exige al generar.',
+    riesgoVersion: 'Versión del análisis de riesgo; debe coincidir con el documento vigente.',
+    descripcion: 'Nombre del equipo, sistema o proceso tal como debe salir en portada y registro.',
+    codigo: 'Código interno único; se usa en el nombre del archivo y en el registro del protocolo.',
+    ubicacion: 'Área, línea, edificio o sala donde está instalado. Se imprime en el alcance.',
+    marca: 'Marca del fabricante. Usá N/A solo si no aplica.',
+    modelo: 'Modelo del fabricante. Usá N/A solo si no aplica.',
+    controlCambios: 'Número de change control asociado. Dejalo vacío si no existe.',
+    versionProtocolo: 'Versión del protocolo. Por defecto 01; cambiala solo con control de cambios.',
+    tipo: 'Define el setpoint y los límites de temperatura y humedad del almacén.',
+    temperaturaMin: 'Límite inferior en °C. Debe coincidir con la URS y el diseño del área.',
+    temperaturaMax: 'Límite superior en °C. Debe coincidir con la URS y el diseño del área.',
+    humedadMax: 'Límite máximo en %HR. Dejalo vacío si el área no controla humedad.',
+    duracionEstudio: 'Duración total del mapeo o estudio. Incluí la unidad (h, días).',
+    intervaloRegistro: 'Cada cuánto registra el data logger. Incluí la unidad (min, h).',
+    cantidadDataLoggers: 'Número de data loggers usados. Mínimo 1; debe cubrir los puntos críticos.',
+    producto: 'Nombre del producto; no confundir con la forma farmacéutica.',
+    concentracion: 'Concentración o potencia declarada. Incluí la unidad (mg, %, mg/mL).',
+    subtipo: 'Subtipo de la forma elegida; determina qué ensayos específicos se generan.',
+    especificacionCodigo: 'Código de la especificación del producto aprobada.',
+    especificacionVersion: 'Versión de la especificación del producto aprobada.',
+    metodoCodigo: 'Código del protocolo de validación del método analítico; se imprime en requisitos previos.',
+    metodoVersion: 'Versión del protocolo de validación del método analítico.',
+    usoPrevisto: 'Indicación o uso previsto del producto; se imprime en la descripción del proceso.',
+    area: 'Área o línea que usa el sistema; se imprime en el alcance.',
+  };
+
   function getSchema(cat) {
     return (SCHEMAS._comun || []).concat(SCHEMAS[cat] || []);
   }
@@ -839,29 +874,44 @@ const Validaciones = (() => {
       + '<div>Esta área estará en funcionamiento próximamente.</div></div></div>';
   }
 
+  // Estado visual de un input: requerido vacío = rojo, con valor = verde.
+  // Los opcionales vacíos quedan neutros para no marcar errores falsos.
+  function claseEstadoCampo(req, val) {
+    const v = String(val == null ? '' : val).trim();
+    if (req && !v) return 'v7-invalid';
+    return v ? 'v7-valid' : '';
+  }
+
   function fieldHtml(f, val) {
     const v = val == null ? '' : String(val);
     const req = f.req ? ' data-req="1"' : '';
     const auto = f.auto === 'login' ? ' readonly placeholder="Cargando usuario…"' : '';
+    const key = String(f.k || '').replace(/[^A-Za-z0-9_-]/g, '-');
+    const ayuda = f.ayuda || AYUDAS[f.k] || (String(f.k || '').indexOf('param_') === 0
+      ? 'Valor del banco: confirmá la unidad y la fuente antes de firmar.'
+      : '');
+    const helpId = ayuda ? 'v7-help-' + key : '';
+    const desc = ayuda ? ' aria-describedby="' + helpId + '"' : '';
+    const help = ayuda ? '<small class="v7-help" id="' + helpId + '">' + esc(ayuda) + '</small>' : '';
     const lab = '<label class="v7-field" data-f="' + f.k + '"><span>' + esc(f.label) + (f.auto === 'login' ? ' (automático)' : '') + (f.req ? ' <b>*</b>' : '') + '</span>';
     if (f.tipo === 'select') {
       const opts = ['<option value="">— Seleccione —</option>'].concat(
         (f.opciones || []).map((o) => '<option value="' + esc(o) + '"' + (o === v ? ' selected' : '') + '>' + esc(o) + '</option>')
       ).join('');
-      return lab + '<select data-k="' + f.k + '"' + req + auto + '>' + opts + '</select></label>';
+      return lab + '<select class="v7-ctl" enterkeyhint="next" data-k="' + f.k + '"' + req + auto + desc + '>' + opts + '</select>' + help + '</label>';
     }
     if (f.tipo === 'date') {
-      return lab + '<input type="date" class="v7-fecha" data-k="' + f.k + '"' + req + auto + ' value="' + esc(v) + '"></label>';
+      return lab + '<input type="date" class="v7-ctl v7-fecha" enterkeyhint="next" data-k="' + f.k + '"' + req + auto + desc + ' value="' + esc(v) + '">' + help + '</label>';
     }    if (f.tipo === 'number') {
       const lim = (f.min != null ? ' min="' + f.min + '"' : '')
         + (f.max != null ? ' max="' + f.max + '"' : '')
         + (f.integer ? ' step="1"' : ' step="any"');
-      return lab + '<input type="number"' + lim + ' data-k="' + f.k + '"' + req + auto + ' value="' + esc(v) + '"></label>';
+      return lab + '<input type="number"' + lim + ' inputmode="' + (f.integer ? 'numeric' : 'decimal') + '" enterkeyhint="next" class="v7-ctl" data-k="' + f.k + '"' + req + auto + desc + ' value="' + esc(v) + '">' + help + '</label>';
     }
     if (f.tipo === 'file') {
-      return lab + '<input type="file" accept="image/*" data-k="' + f.k + '"' + req + auto + '></label>';
+      return lab + '<input type="file" accept="image/*" class="v7-ctl" data-k="' + f.k + '"' + req + auto + desc + '>' + help + '</label>';
     }
-    return lab + '<input type="text" data-k="' + f.k + '"' + req + auto + ' value="' + esc(v) + '"></label>';
+    return lab + '<input type="text" class="v7-ctl" enterkeyhint="next" data-k="' + f.k + '"' + req + auto + desc + ' value="' + esc(v) + '">' + help + '</label>';
   }
 
   // Calendario flotante (flatpickr, CDN): muestra dd/Mmm/aaaa y guarda aaaa-mm-dd.
@@ -1385,7 +1435,7 @@ const Validaciones = (() => {
       + '<fieldset class="v7-fs"><legend>' + esc(cat.nombre) + ' · Datos específicos</legend><div class="v7-grid">'
       + espec.map((f) => fieldHtml(f, '')).join('')
       + '</div></fieldset>'
-      + (catId === 'procesos' ? '<fieldset class="v7-fs"><legend>Tren de equipos (solo producción)</legend><div class="v7-tren" data-grupo=""></div></fieldset>' : '')
+      + (catId === 'procesos' ? '<fieldset class="v7-fs"><legend>Tren de equipos (solo producción)</legend><p class="v7-help">Elija los equipos que participan. El orden lo da la etapa; los analíticos no van acá.</p><div class="v7-tren" data-grupo=""></div></fieldset>' : '')
       + (conGen ? firmantesHtml() : '')
       + '<div class="v7-form-actions">'
       + '<span class="v7-form-msg" role="status" aria-live="polite"></span>'
@@ -1563,6 +1613,28 @@ const Validaciones = (() => {
       box.dataset.forma = forma || '';
       box.innerHTML = trenHtml(forma, grupo);
       pintarResumenTren();
+      pintarEstadoCampos();
+    }
+
+    function pintarEstadoCampos() {
+      form.querySelectorAll('.v7-ctl').forEach(function (el) {
+        const clase = claseEstadoCampo(el.getAttribute('data-req') === '1', el.value);
+        el.classList.toggle('v7-invalid', clase === 'v7-invalid');
+        el.classList.toggle('v7-valid', clase === 'v7-valid');
+        if (el.setAttribute) el.setAttribute('aria-invalid', clase === 'v7-invalid' ? 'true' : 'false');
+      });
+      const tren = form.querySelector('.v7-tren');
+      if (tren) {
+        const sel = trenSeleccionado();
+        tren.classList.toggle('v7-invalid', !sel.length);
+        tren.classList.toggle('v7-valid', sel.length > 0);
+      }
+    }
+
+    function nombreCampo(el) {
+      const lab = el && el.closest ? el.closest('.v7-field') : null;
+      const span = lab ? lab.querySelector('span') : null;
+      return span ? String(span.textContent || '').replace(/\*/g, '').trim() : 'este campo';
     }
 
     function validarErrores() {
@@ -1596,6 +1668,7 @@ const Validaciones = (() => {
       schemaTotal().forEach((f) => {
         const el = form.querySelector('[data-k="' + f.k + '"]');
         if (el && f.tipo !== 'file' && data[f.k] != null) el.value = data[f.k];
+        if (el && el.setCustomValidity) el.setCustomValidity('');
         // El calendario flotante no se entera de value directo: sincronizar.
         try {
           if (el && el._flatpickr) el._flatpickr.setDate(el.value || null);
@@ -1620,6 +1693,7 @@ const Validaciones = (() => {
         nota.remove();
       }
       pintarResumenTren();
+      pintarEstadoCampos();
     }
 
     // ---- Parámetros de límites por entidad (mejora #1, H-05) ----
@@ -1639,6 +1713,7 @@ const Validaciones = (() => {
         label: p.label + ' (' + p.unidad + ')',
         tipo: 'text',
         req: true,
+        ayuda: p.ayuda,
       }));
       return schema.concat(extra);
     }
@@ -1663,8 +1738,9 @@ const Validaciones = (() => {
       grid.innerHTML = ps.map((p) => {
         const k = 'param_' + p.clave;
         const v = d[k] != null ? String(d[k]) : '';
-        return fieldHtml({ k, label: p.label + ' (' + p.unidad + ')', tipo: 'text', req: true }, v);
+        return fieldHtml({ k, label: p.label + ' (' + p.unidad + ')', tipo: 'text', req: true, ayuda: p.ayuda }, v);
       }).join('');
+      pintarEstadoCampos();
     }
 
     // ---- Firmantes (T0 automático + T2 con 2 combobox) ----
@@ -2241,11 +2317,52 @@ const Validaciones = (() => {
 
     if (form.addEventListener) {
       form.addEventListener('submit', function (e) { e.preventDefault(); });
-      form.addEventListener('input', function () { setMsg(''); pintarEstado(); });
+      form.addEventListener('input', function (e) { const t = e && e.target; if (t && t.setCustomValidity) t.setCustomValidity(''); setMsg(''); pintarEstadoCampos(); pintarEstado(); });
+      form.addEventListener('keydown', function (e) {
+        const t = e && e.target;
+        if (!t || t.type !== 'number' || e.ctrlKey || e.metaKey || e.altKey) return;
+        if (String(e.key || '').length !== 1) return;
+        if (!/[0-9.,-]/.test(e.key)) e.preventDefault();
+      });
+      form.addEventListener('paste', function (e) {
+        const t = e && e.target;
+        if (!t || t.type !== 'number') return;
+        const txt = (e.clipboardData && e.clipboardData.getData('text')) || '';
+        if (!/^\s*-?\d*([.,]\d*)?\s*$/.test(txt)) e.preventDefault();
+      });
+      // Enter: pasar al siguiente campo del formulario, sin enviar ni guardar.
+      form.addEventListener('keydown', function (e) {
+        if (e.key !== 'Enter' || e.shiftKey || e.ctrlKey || e.altKey || e.metaKey) return;
+        const t = e && e.target;
+        if (!t || !t.classList || !t.classList.contains('v7-ctl')) return;
+        if (t.tagName === 'TEXTAREA' || t.type === 'file' || t.type === 'checkbox' || t.type === 'radio') return;
+        const req = t.getAttribute('data-req') === '1';
+        const val = String(t.value || '').trim();
+        if (req && !val) {
+          e.preventDefault();
+          const nombre = nombreCampo(t);
+          const texto = 'Complete ' + nombre + ' antes de continuar.';
+          if (t.setCustomValidity) t.setCustomValidity(texto);
+          if (t.reportValidity) t.reportValidity();
+          pintarEstadoCampos();
+          setMsg(texto, false);
+          t.focus();
+          return;
+        }
+        const campos = Array.prototype.slice.call(form.querySelectorAll('.v7-ctl'))
+          .filter(function (el) { return !el.disabled && !el.readOnly && el.type !== 'hidden'; });
+        const i = campos.indexOf(t);
+        if (i < 0 || i >= campos.length - 1) return;
+        e.preventDefault();
+        if (t.setCustomValidity) t.setCustomValidity('');
+        setMsg('');
+        campos[i + 1].focus();
+      });
       form.addEventListener('change', function (e) {
         const t = e && e.target;
         if (t && t.getAttribute && t.getAttribute('data-tren') !== null) {
           pintarResumenTren();
+          pintarEstadoCampos();
           setMsg('');
           pintarEstado();
         }
@@ -2514,7 +2631,7 @@ const Validaciones = (() => {
   try { init(); } catch (e) {}
 
   return {
-    CATS, ROUTES, DOCS, ENTIDADES, GRUPOS_PROCESOS, TREN_EQUIPOS, SCHEMAS, FASES_GEN, GEN_FASES, AREAS_GERENCIA, parseRoute, catById, getSchema, getEntidades, trenHtml,
+    CATS, ROUTES, DOCS, ENTIDADES, GRUPOS_PROCESOS, TREN_EQUIPOS, SCHEMAS, FASES_GEN, GEN_FASES, AREAS_GERENCIA, parseRoute, catById, getSchema, getEntidades, trenHtml, claseEstadoCampo,
     entidadPorNombre, datosAlmacen, sinTablaPreaprobada, faltantesParametrosBanco, estadoIntegridad,
     puestoGerente, areaDesdeCargo, firmantesHtml, saveDraft, loadDraft, cargarBorrador, guardarBorrador, validarDatos, saveGen, loadGen, viewEntidad, show, hide, apply, currentArea, render, contarGen, tieneBancoFam, estadoBancoFam, resolverDescripcion, mejorarFecha, manifest, viewProtocolos,
     viewDocumentacion, viewReportes, viewConfiguracion, viewAyuda, viewCalendario, chartHtml, reportHtml, calendarHtml, cargarResumen, cargarCalendario, cargarReportes, bindConfiguracion,

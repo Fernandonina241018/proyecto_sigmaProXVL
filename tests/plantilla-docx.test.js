@@ -594,6 +594,15 @@ describe('Objetivo en su propia línea (etiqueta sola + texto debajo)', () => {
   });
 
   describe('parámetros por entidad H-05/#1', () => {
+  test('parametrosFamilia trae ayuda por parametro', () => {
+    const mz = P.parametrosFamilia('mezclador');
+    expect(mz.length).toBeGreaterThan(0);
+    expect(mz.every((p) => Boolean(p.ayuda))).toBe(true);
+    const err = mz.find((p) => p.clave === 'mz_err_vel');
+    expect(err.ayuda).toMatch(/Error de velocidad/);
+    expect(err.ayuda).toMatch(/Fuente:/);
+  });
+
   test('parametrosFamilia por familia con claves estables', () => {
     const mz = P.parametrosFamilia('mezclador').map((p) => p.clave);
     expect(mz).toContain('mz_err_vel');

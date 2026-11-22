@@ -90,6 +90,31 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (StatAnalyzer Pro) co
 
 ## CAMBIOS RECIENTES
 
+### 2026-11-21 (347): Ayuda contextual en cada input del schema
+
+**Qué:** cada campo del formulario de entidad muestra una ayuda breve y permanente debajo del input, accesible con `aria-describedby`. Los parámetros de cada familia también traen su ayuda específica (parámetro, unidad, fuente y estado).
+- **Cobertura:** comunes, almacenes, estabilidad, equipos, sistemas, procesos y software; los parámetros dinámicos `param_*` reciben ayuda de su propia familia.
+- **Contenido:** unidad, formato esperado, si es obligatorio, qué documento usar y qué pasa si se deja vacío. No reemplaza la URS ni la especificación.
+- **Tren de equipos:** se agrega una ayuda al bloque: elegir los equipos que participan, el orden lo da la etapa y los analíticos no van en el tren.
+- **Estado visual:** obligatorio vacío = borde/fondo rojo; con valor = verde; opcional vacío = neutro.
+- **Solo números:** los campos `number` usan `inputmode` y bloquean letras al tipear/pegar.
+- **Flujo con Enter:** Enter pasa al siguiente campo; si el campo actual es obligatorio y está vacío, no avanza y muestra el mensaje.
+- **Accesibilidad:** `aria-describedby`, `aria-invalid` y texto visible, no solo tooltip.
+
+**Archivos afectados:**
+| Archivo | Cambio |
+|---------|--------|
+| `js/core/indexx-validaciones.js` | `AYUDAS`, render, red/green, solo números y Enter |
+| `js/core/plantilla-docx.js` | Ayuda por parámetro de familia |
+| `css/validaciones-v7.css` | Estilos `.v7-help`, `.v7-invalid`, `.v7-valid` |
+| `tests/validaciones-panel.test.js` | **56 pruebas** (ayuda, estado, inputmode, Enter) |
+| `tests/plantilla-docx.test.js` | Ayuda en parámetros de familia |
+
+**Verificación:**
+```
+npm run preflight → protocolo:check OK, urs-ar:check OK, Vitest 1272, backend 154, E2E 14
+```
+
 ### 2026-11-21 (346): PQ · método analítico, proveedores, almacenes y sistemas de apoyo
 
 **Qué:** se completan los prerrequisitos que faltaban antes de la PQ: método analítico validado, proveedores, áreas de almacenamiento con mapeo y sistemas de apoyo/salas limpias.
