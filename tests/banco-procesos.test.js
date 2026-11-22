@@ -250,7 +250,7 @@ describe('muestreo PQ: tamaño de lote y porcentaje por etapa', () => {
     const r = await P.generar('PQ', u8, B, draft, ent, 'ambas');
     expect(r.ensayos).toContain('PRO-PQ-GEN-011');
     expect(r.ensayos).toContain('PRO-PQ-CMP-014');
-    const files = await P._interno.leerZip(r.bytes);
+    const files = await P._interno.leerZip(await P.adaptarProceso(r.bytes));
     const xml = new TextDecoder().decode(files.find((f) => f.nombre === 'word/document.xml').datos);
     expect(xml).toContain('100000');
     expect(xml).toContain('0,2');
@@ -258,6 +258,9 @@ describe('muestreo PQ: tamaño de lote y porcentaje por etapa', () => {
     expect(xml).toContain('MV-001');
     expect(xml).toContain('PROV-001');
     expect(xml).toContain('HVAC');
+    expect(xml).toContain('PROTOCOLO DE VALIDACIÓN DE PROCESOS');
+    expect(xml).not.toMatch(/calific/i);
+    expect(P.nombreArchivo('PQ', draft, ent, 'procesos')).toMatch(/^PROT-/);
   });
 });
 

@@ -1030,7 +1030,7 @@ const PlantillaDocx = (() => {
     { fam: 'estabilidad', clave: 'est_sobreimpulso', id: 'EST-OQ-010', token: '2', parametro: 'Sobreimpulso máximo', valor: '2', unidad: '°C', fuente: 'banco de ensayos', version: 'EST-OQ-CAM 2026-10-06 v1', estado: 'provisional — confirmar contra URS' },
     // Procesos PQ: tamaño de lote, número de lotes y % de muestreo por etapa.
     // Son propuestas: el responsable los confirma antes de generar.
-    { fam: 'procesos', clave: 'lotes_ppq', id: 'PRO-PQ-GEN-011', token: 'lotes_ppq', parametro: 'Número de lotes PPQ', valor: '3', unidad: 'lotes', fuente: 'FDA 2011 / EU GMP Anexo 15', version: 'propuesta', estado: 'provisional — confirmar por riesgo' },
+    { fam: 'procesos', clave: 'lotes_ppq', id: 'PRO-PQ-GEN-011', token: 'lotes_ppq', parametro: 'Número de lotes de validación', valor: '3', unidad: 'lotes', fuente: 'FDA 2011 / EU GMP Anexo 15', version: 'propuesta', estado: 'provisional — confirmar por riesgo' },
     { fam: 'procesos', clave: 'tamano_lote', id: 'PRO-PQ-GEN-011', token: 'tamano_lote', parametro: 'Tamaño de lote', valor: '________', unidad: 'unidades', fuente: 'registro maestro de lote', version: 'propuesta', estado: 'provisional — confirmar' },
     { fam: 'comprimidos', clave: 'porcentaje_mezcla', id: 'PRO-PQ-CMP-014', token: 'porcentaje_mezcla', parametro: 'Muestreo de mezcla/granulación', valor: '0,1', unidad: '% del lote', fuente: 'plan de muestreo aprobado', version: 'propuesta', estado: 'provisional — confirmar' },
     { fam: 'comprimidos', clave: 'porcentaje_compresion', id: 'PRO-PQ-CMP-014', token: 'porcentaje_compresion', parametro: 'Muestreo de compresión', valor: '0,05', unidad: '% del lote', fuente: 'plan de muestreo aprobado', version: 'propuesta', estado: 'provisional — confirmar' },
@@ -2046,12 +2046,14 @@ const PlantillaDocx = (() => {
   // Nombre de archivo: FASE-CÓDIGO EQUIPO.docx con el charset que acepta el
   // backend ([A-Za-z0-9._ -]). Sin esto, una entidad con tilde o "/" hace que
   // el registro responda 400 y el archivo no se descargue (fail-closed).
-  function nombreArchivo(fase, draft, entidad) {
+  function nombreArchivo(fase, draft, entidad, cat) {
     const limpio = (s) => String(s || '')
       .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
       .replace(/[^A-Za-z0-9._ -]+/g, ' ')
       .replace(/\s+/g, ' ').trim().toUpperCase();
-    const prefijo = String(fase || '').trim().toUpperCase() + '-';
+    const prefijo = (cat === 'procesos' && String(fase).toUpperCase() === 'PQ')
+      ? 'PROT-'
+      : String(fase || '').trim().toUpperCase() + '-';
     let codigo = limpio(draft && draft.codigo) || 'SIN-CODIGO';
     if (codigo.indexOf(prefijo) === 0 && codigo.length > prefijo.length) codigo = codigo.slice(prefijo.length);
     const equipo = (limpio(draft && draft.descripcion) || limpio(entidad && entidad.nombre) || limpio(entidad && entidad.id) || 'EQUIPO').slice(0, 120);
@@ -2065,15 +2067,20 @@ const PlantillaDocx = (() => {
     ['Definición y Características del Equipo', 'Definición y Características del Proceso'],
     ['Características del Equipo', 'Características del Proceso'],
     ['Descripcion del Equipo', 'Descripción del Proceso'],
-    ['DESCRIPCIÓN DEL EQUIPO Y REQUISITOS PREVIOS A LA CALIFICACIÓN', 'DESCRIPCIÓN DEL PROCESO Y REQUISITOS PREVIOS A LA CALIFICACIÓN'],
+    ['DESCRIPCIÓN DEL EQUIPO Y REQUISITOS PREVIOS A LA CALIFICACIÓN', 'DESCRIPCIÓN DEL PROCESO Y REQUISITOS PREVIOS A LA VALIDACIÓN'],
     ['DESCRIPCION Y USO PREVISTO DEL EQUIPO', 'DESCRIPCIÓN Y USO PREVISTO DEL PROCESO'],
     ['Imagen del equipo', 'Diagrama de flujo del proceso'],
-    ['Calificación de Desempeño del equipo', 'Calificación de Desempeño del Proceso'],
+    ['PROCEDIMIENTO DE CALIFICACIÓN DE DESEMPEÑO', 'PROCEDIMIENTO DE VALIDACIÓN DE PROCESOS'],
+    ['PROCEDIMIENTO DE CALIFICACION DE DESEMPEÑO', 'PROCEDIMIENTO DE VALIDACIÓN DE PROCESOS'],
+    ['CALIFICACION DE DESEMPEÑO', 'VALIDACIÓN DE PROCESOS'],
+    ['Calificacion de Desempeño', 'Validación de Procesos'],
+    ['Calificación de Desempeño del equipo', 'Validación de Procesos'],
+    ['CALIFICACIÓN DE DESEMPEÑO DEL PROCESO', 'PROTOCOLO DE VALIDACIÓN DE PROCESOS'],
     ['desempeño del equipo', 'desempeño del proceso'],
     ['que el equipo cumple', 'que el proceso cumple'],
     ['equipo objeto del ensayo', 'proceso objeto del ensayo'],
     ['si el equipo entrega datos digitales', 'si el sistema entrega datos digitales'],
-    ['calificación de este equipo', 'calificación de este proceso'],
+    ['calificación de este equipo', 'validación de este proceso'],
     ['del equipo.', 'del proceso.'],
     ['que el equipo seleccionado', 'que el proceso seleccionado'],
     ['audit trail del equipo', 'audit trail del proceso'],
@@ -2086,7 +2093,22 @@ const PlantillaDocx = (() => {
     ['MARCA:', 'PRODUCTO:'],
     ['MODELO:', 'CONCENTRACIÓN:'],
     ['Esta calificación aplica a', 'Este protocolo aplica a'],
-    ['CALIFICACIÓN DE DESEMPEÑO', 'CALIFICACIÓN DE DESEMPEÑO DEL PROCESO'],
+    ['CALIFICACIÓN DE DESEMPEÑO', 'PROTOCOLO DE VALIDACIÓN DE PROCESOS'],
+    ['informe final de la validación PQ', 'informe final de la validación del proceso'],
+    ['Recalificación', 'Revalidación'],
+    ['RECALIFICACIÓN', 'REVALIDACIÓN'],
+    ['recalificación', 'revalidación'],
+    ['Calificación', 'Validación'],
+    ['CALIFICACIÓN', 'VALIDACIÓN'],
+    ['calificación', 'validación'],
+    ['RECALIFICACION', 'REVALIDACION'],
+    ['Recalificacion', 'Revalidacion'],
+    ['recalificacion', 'revalidacion'],
+    ['CALIFICACION', 'VALIDACION'],
+    ['Calificacion', 'Validacion'],
+    ['calificacion', 'validacion'],
+    ['informe final de la validación PQ', 'informe final de la validación del proceso'],
+    ['validación PQ', 'validación del proceso'],
   ];
 
   async function adaptarProceso(u8) {
@@ -2109,7 +2131,7 @@ const PlantillaDocx = (() => {
     const u8 = new Uint8Array(await resp.arrayBuffer());
     const r = await generar(fase, u8, mezclarComun(banco(cat), fase, cat), draft, entidad, filtroCond);
     if (cat === 'procesos') r.bytes = await adaptarProceso(r.bytes);
-    const filename = nombreArchivo(fase, draft, entidad);
+    const filename = nombreArchivo(fase, draft, entidad, cat);
     if (typeof onBeforeDownload === 'function') await onBeforeDownload({ bytes: r.bytes, filename: filename, fase: fase });
     const blob = new Blob([r.bytes], { type: MIME_DOCX });
     const a = document.createElement('a');

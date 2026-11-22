@@ -9,19 +9,19 @@ var BancoProcesos = {
     "id": "PRO-PQ-GEN-000",
     "bloque": 3,
     "cond": "ambas",
-    "titulo": "PRO-PQ-GEN-000 — Requisitos previos a la PQ",
+    "titulo": "PRO-PQ-GEN-000 — Requisitos previos de la validación",
     "secciones": [
      {
       "et": "Objetivo",
-      "html": "<strong>Objetivo:</strong><br>Confirmar que el proceso, los equipos, los materiales, el personal y la documentación están listos antes de iniciar los lotes de PQ, para que una falla de ejecución no se confunda con una falla del proceso."
+      "html": "<strong>Objetivo:</strong><br>Confirmar que el proceso, los equipos, los materiales, el personal y la documentación están listos antes de iniciar los lotes de validación, para que una falla de ejecución no se confunda con una falla del proceso."
      },
      {
       "et": "Procedimiento",
-      "html": "<strong>Procedimiento:</strong><br>1) Verificar que la URS, el análisis de riesgo y la especificación del producto están aprobados y vigentes<br>2) Confirmar que los equipos de la línea tienen IQ y OQ vigentes, que los sistemas de apoyo crítico y las salas limpias están calificados y que los instrumentos están calibrados<br>3) Verificar que el registro maestro de lote, la fórmula y las instrucciones de proceso están aprobados<br>4) Confirmar que materias primas y materiales de envase están liberados, que los proveedores críticos están aprobados y que el personal está entrenado<br>5) Verificar que el método analítico está validado y que el protocolo <span class=\"metodo\">______</span> está aprobado y vigente<br>6) Revisar que no hay desviaciones críticas abiertas que afecten la PQ<br>7) Anexar la lista de verificación firmada por ejecutor y revisor"
+      "html": "<strong>Procedimiento:</strong><br>1) Verificar que la URS, el análisis de riesgo y la especificación del producto están aprobados y vigentes<br>2) Confirmar que los equipos de la línea tienen IQ y OQ vigentes, que los sistemas de apoyo crítico y las salas limpias están validados y que los instrumentos están calibrados<br>3) Verificar que el registro maestro de lote, la fórmula y las instrucciones de proceso están aprobados<br>4) Confirmar que materias primas y materiales de envase están liberados, que los proveedores críticos están aprobados y que el personal está entrenado<br>5) Verificar que el método analítico está validado y que el protocolo <span class=\"metodo\">______</span> está aprobado y vigente<br>6) Revisar que no hay desviaciones críticas abiertas que afecten la validación<br>7) Anexar la lista de verificación firmada por ejecutor y revisor"
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>100 % de los requisitos previos verificados y documentados.<br>Cero desviaciones críticas abiertas que afecten la PQ.<br>Equipos con IQ/OQ vigentes e instrumentos con calibración vigente.<br>Método analítico validado con protocolo <span class=\"metodo\">______</span> y versión vigentes."
+      "html": "<strong>Criterio de aceptación:</strong><br>100 % de los requisitos previos verificados y documentados.<br>Cero desviaciones críticas abiertas que afecten la validación.<br>Equipos con IQ/OQ vigentes e instrumentos con calibración vigente.<br>Método analítico validado con protocolo <span class=\"metodo\">______</span> y versión vigentes."
      },
      {
       "et": "Documentos entregables",
@@ -39,15 +39,15 @@ var BancoProcesos = {
     "id": "PRO-PQ-GEN-011",
     "bloque": 3,
     "cond": "ambas",
-    "titulo": "PRO-PQ-GEN-011 — Plan de lotes y muestreo de la PQ",
+    "titulo": "PRO-PQ-GEN-011 — Plan de lotes y muestreo del protocolo",
     "secciones": [
      {
       "et": "Objetivo",
-      "html": "<strong>Objetivo:</strong><br>Definir, antes de ejecutar, el número de lotes PPQ y el plan de muestreo por etapa: tamaño de lote, puntos, momentos, tamaño de muestra absoluto o porcentaje del lote, destino analítico y cadena de custodia."
+      "html": "<strong>Objetivo:</strong><br>Definir, antes de ejecutar, el número de lotes de validación y el plan de muestreo por etapa: tamaño de lote, puntos, momentos, tamaño de muestra absoluto o porcentaje del lote, destino analítico y cadena de custodia."
      },
      {
       "et": "Procedimiento",
-      "html": "<strong>Procedimiento:</strong><br>1) Registrar el tamaño de lote [tamano_lote] y el número de lotes PPQ [lotes_ppq], con la justificación por riesgo y conocimiento del proceso<br>2) Identificar las etapas y puntos de muestreo (recepción, mezcla/granulación, compresión, recubrimiento, empaque) y clasificar cada parámetro como variable continua, proporción o atributo<br>3) Elegir la fórmula del plan estadístico según el parámetro y la etapa; documentar z, σ o p, E, N y la justificación del n<br>4) Definir envase, rotulado, temperatura, tiempo máximo hasta el análisis y responsables de la muestra<br>5) Recolectar cada muestra en el punto y momento planificados, registrando lote, etapa, hora, operador y peso o volumen<br>6) Entregar al laboratorio con cadena de custodia; no sustituir ni completar muestras sin desviación aprobada antes del análisis<br>7) Anexar el plan aprobado, los cálculos, los registros de muestreo y las desviaciones"
+      "html": "<strong>Procedimiento:</strong><br>1) Registrar el tamaño de lote [tamano_lote] y el número de lotes de validación [lotes_ppq], con la justificación por riesgo y conocimiento del proceso<br>2) Identificar las etapas y puntos de muestreo (recepción, mezcla/granulación, compresión, recubrimiento, empaque) y clasificar cada parámetro como variable continua, proporción o atributo<br>3) Elegir la fórmula del plan estadístico según el parámetro y la etapa; documentar z, σ o p, E, N y la justificación del n<br>4) Definir envase, rotulado, temperatura, tiempo máximo hasta el análisis y responsables de la muestra<br>5) Recolectar cada muestra en el punto y momento planificados, registrando lote, etapa, hora, operador y peso o volumen<br>6) Entregar al laboratorio con cadena de custodia; no sustituir ni completar muestras sin desviación aprobada antes del análisis<br>7) Anexar el plan aprobado, los cálculos, los registros de muestreo y las desviaciones"
      },
      {
       "et": "Plan estadístico",
@@ -55,11 +55,11 @@ var BancoProcesos = {
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>Tamaño de lote [tamano_lote] y [lotes_ppq] lotes PPQ aprobados antes de iniciar.<br>100 % de las muestras planificadas recolectadas, identificadas y trazables.<br>Cero sustituciones de muestra sin desviación aprobada antes del análisis.<br>Fórmula, supuestos y justificación del n documentados para el 100 % de las etapas.<br>El n se calcula antes de ejecutar y no se cambia después de ver los datos."
+      "html": "<strong>Criterio de aceptación:</strong><br>Tamaño de lote [tamano_lote] y [lotes_ppq] lotes de validación aprobados antes de iniciar.<br>100 % de las muestras planificadas recolectadas, identificadas y trazables.<br>Cero sustituciones de muestra sin desviación aprobada antes del análisis.<br>Fórmula, supuestos y justificación del n documentados para el 100 % de las etapas.<br>El n se calcula antes de ejecutar y no se cambia después de ver los datos."
      },
      {
       "et": "Documentos entregables",
-      "html": "<strong>Documentos entregables:</strong><br>- Plan de muestreo aprobado, con tamaño de lote y lotes PPQ<br>- Cálculo de n y justificación por etapa<br>- Registros de muestreo por etapa y punto<br>- Cadena de custodia y desviaciones de muestreo"
+      "html": "<strong>Documentos entregables:</strong><br>- Plan de muestreo aprobado, con tamaño de lote y lotes de validación<br>- Cálculo de n y justificación por etapa<br>- Registros de muestreo por etapa y punto<br>- Cadena de custodia y desviaciones de muestreo"
      },
      {
       "et": "Nota",
@@ -85,11 +85,11 @@ var BancoProcesos = {
      },
      {
       "et": "Procedimiento",
-      "html": "<strong>Procedimiento:</strong><br>1) Tomar una muestra representativa del lote PPQ según el plan de muestreo aprobado<br>2) Inspeccionar cada unidad con luz blanca difusa y fondo mate, sin aumentar<br>3) Registrar color, forma, olor, textura, marcas y ranuras contra la descripción aprobada<br>4) Clasificar defectos: crítico (fisura, mancha, decoloración, contaminación), mayor (borde roto, recubrimiento incompleto) y menor (variación leve de tono)<br>5) Fotografiar la muestra y anexar la imagen al registro"
+      "html": "<strong>Procedimiento:</strong><br>1) Tomar una muestra representativa del lote de validación según el plan de muestreo aprobado<br>2) Inspeccionar cada unidad con luz blanca difusa y fondo mate, sin aumentar<br>3) Registrar color, forma, olor, textura, marcas y ranuras contra la descripción aprobada<br>4) Clasificar defectos: crítico (fisura, mancha, decoloración, contaminación), mayor (borde roto, recubrimiento incompleto) y menor (variación leve de tono)<br>5) Fotografiar la muestra y anexar la imagen al registro"
      },
      {
       "et": "Plan estadístico",
-      "html": "<strong>Plan estadístico:</strong><br>Variable = defecto visual; unidad = pasa/no pasa. Tipo de dato = atributo. n = 20 unidades por lote PPQ. Estadísticos = proporción de defectos con IC binomial exacto del 95 %. Regla de decisión = cero defectos críticos y proporción de defectos menores ≤ 2,0 %. Atípicos: no aplica a atributo; toda unidad excluida se documenta y se conserva la original."
+      "html": "<strong>Plan estadístico:</strong><br>Variable = defecto visual; unidad = pasa/no pasa. Tipo de dato = atributo. n = 20 unidades por lote de validación. Estadísticos = proporción de defectos con IC binomial exacto del 95 %. Regla de decisión = cero defectos críticos y proporción de defectos menores ≤ 2,0 %. Atípicos: no aplica a atributo; toda unidad excluida se documenta y se conserva la original."
      },
      {
       "et": "Criterio de aceptación",
@@ -160,7 +160,7 @@ var BancoProcesos = {
     "secciones": [
      {
       "et": "Objetivo",
-      "html": "<strong>Objetivo:</strong><br>Cuantificar el principio activo respecto de la cantidad declarada en el lote PPQ, para confirmar que el proceso entrega la potencia prevista."
+      "html": "<strong>Objetivo:</strong><br>Cuantificar el principio activo respecto de la cantidad declarada en el lote de validación, para confirmar que el proceso entrega la potencia prevista."
      },
      {
       "et": "Procedimiento",
@@ -168,7 +168,7 @@ var BancoProcesos = {
      },
      {
       "et": "Plan estadístico",
-      "html": "<strong>Plan estadístico:</strong><br>Variable = porcentaje de la cantidad declarada; unidad = %. Tipo de dato = continua. n = 3 preparaciones por lote PPQ. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = media dentro de 95,0–105,0 % y RSD ≤ 2,0 %. Atípicos = Grubbs solo si n ≥ 7; con n = 3 toda exclusión se justifica y se conserva el dato original."
+      "html": "<strong>Plan estadístico:</strong><br>Variable = porcentaje de la cantidad declarada; unidad = %. Tipo de dato = continua. n = 3 preparaciones por lote de validación. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = media dentro de 95,0–105,0 % y RSD ≤ 2,0 %. Atípicos = Grubbs solo si n ≥ 7; con n = 3 toda exclusión se justifica y se conserva el dato original."
      },
      {
       "et": "Criterio de aceptación",
@@ -200,7 +200,7 @@ var BancoProcesos = {
     "secciones": [
      {
       "et": "Objetivo",
-      "html": "<strong>Objetivo:</strong><br>Controlar los productos de degradación y las impurezas orgánicas del lote PPQ, para confirmar que el proceso y el envase no generan degradantes por encima de los límites aprobados."
+      "html": "<strong>Objetivo:</strong><br>Controlar los productos de degradación y las impurezas orgánicas del lote de validación, para confirmar que el proceso y el envase no generan degradantes por encima de los límites aprobados."
      },
      {
       "et": "Procedimiento",
@@ -240,7 +240,7 @@ var BancoProcesos = {
     "secciones": [
      {
       "et": "Objetivo",
-      "html": "<strong>Objetivo:</strong><br>Verificar que las impurezas elementales del lote PPQ no superan los límites de exposición permitidos, considerando materias primas, agua, equipos y envase."
+      "html": "<strong>Objetivo:</strong><br>Verificar que las impurezas elementales del lote de validación no superan los límites de exposición permitidos, considerando materias primas, agua, equipos y envase."
      },
      {
       "et": "Procedimiento",
@@ -321,7 +321,7 @@ var BancoProcesos = {
     "secciones": [
      {
       "et": "Objetivo",
-      "html": "<strong>Objetivo:</strong><br>Controlar la carga microbiana y la ausencia de microorganismos especificados en el lote PPQ, según la categoría del producto oral no estéril."
+      "html": "<strong>Objetivo:</strong><br>Controlar la carga microbiana y la ausencia de microorganismos especificados en el lote de validación, según la categoría del producto oral no estéril."
      },
      {
       "et": "Procedimiento",
@@ -365,7 +365,7 @@ var BancoProcesos = {
      },
      {
       "et": "Procedimiento",
-      "html": "<strong>Procedimiento:</strong><br>1) Verificar que los lotes PPQ ingresaron al plan de estabilidad con el envase y la orientación comercial<br>2) Revisar los puntos de tiempo, condiciones y métodos del protocolo ICH Q1A(R2)<br>3) Confirmar que cada punto tiene resultados completos y dentro de especificación<br>4) Evaluar tendencias y cambios significativos según ICH Q1A(R2)<br>5) Anexar el protocolo, los resultados y la conclusión de vida útil"
+      "html": "<strong>Procedimiento:</strong><br>1) Verificar que los lotes de validación ingresaron al plan de estabilidad con el envase y la orientación comercial<br>2) Revisar los puntos de tiempo, condiciones y métodos del protocolo ICH Q1A(R2)<br>3) Confirmar que cada punto tiene resultados completos y dentro de especificación<br>4) Evaluar tendencias y cambios significativos según ICH Q1A(R2)<br>5) Anexar el protocolo, los resultados y la conclusión de vida útil"
      },
      {
       "et": "Criterio de aceptación",
@@ -395,7 +395,7 @@ var BancoProcesos = {
     "secciones": [
      {
       "et": "Objetivo",
-      "html": "<strong>Objetivo:</strong><br>Verificar que el envase y cierre del lote PPQ protegen el producto y cumplen las pruebas funcionales aplicables al sistema de empaque."
+      "html": "<strong>Objetivo:</strong><br>Verificar que el envase y cierre del lote de validación protegen el producto y cumplen las pruebas funcionales aplicables al sistema de empaque."
      },
      {
       "et": "Procedimiento",
@@ -435,7 +435,7 @@ var BancoProcesos = {
     "secciones": [
      {
       "et": "Objetivo",
-      "html": "<strong>Objetivo:</strong><br>Confirmar que el etiquetado del lote PPQ coincide con el material aprobado y que no hubo mezclas ni errores de identificación."
+      "html": "<strong>Objetivo:</strong><br>Confirmar que el etiquetado del lote de validación coincide con el material aprobado y que no hubo mezclas ni errores de identificación."
      },
      {
       "et": "Procedimiento",
@@ -469,7 +469,7 @@ var BancoProcesos = {
      },
      {
       "et": "Procedimiento",
-      "html": "<strong>Procedimiento:</strong><br>1) Describir el proceso por etapas: recepción y dispensación, mezcla, granulación, secado, compresión, recubrimiento y empaque; declarar el rango de lote [tamano_lote_min] a [tamano_lote_max], el tren de equipos [tren_equipos] y la condición de peor caso [peor_caso]<br>2) Anexar el diagrama de flujo con entradas, salidas, CPP e IPC de cada etapa<br>3) Listar los CQA del producto: valoración, impurezas, disolución, uniformidad, agua, microbiología y atributos físicos<br>4) Vincular cada CQA con al menos un CPP y un IPC; asignar criticidad con matriz S/P/D o FMEA y registrar la justificación<br>5) Verificar que cada CPP tiene rango aprobado y cada IPC tiene límite y frecuencia<br>6) Aprobar la matriz y el diagrama antes de ejecutar los lotes PPQ<br>7) Anexar la matriz firmada, el diagrama y el análisis de riesgo"
+      "html": "<strong>Procedimiento:</strong><br>1) Describir el proceso por etapas: recepción y dispensación, mezcla, granulación, secado, compresión, recubrimiento y empaque; declarar el rango de lote [tamano_lote_min] a [tamano_lote_max], el tren de equipos [tren_equipos] y la condición de peor caso [peor_caso]<br>2) Anexar el diagrama de flujo con entradas, salidas, CPP e IPC de cada etapa<br>3) Listar los CQA del producto: valoración, impurezas, disolución, uniformidad, agua, microbiología y atributos físicos<br>4) Vincular cada CQA con al menos un CPP y un IPC; asignar criticidad con matriz S/P/D o FMEA y registrar la justificación<br>5) Verificar que cada CPP tiene rango aprobado y cada IPC tiene límite y frecuencia<br>6) Aprobar la matriz y el diagrama antes de ejecutar los lotes de validación<br>7) Anexar la matriz firmada, el diagrama y el análisis de riesgo"
      },
      {
       "et": "Criterio de aceptación",
@@ -503,7 +503,7 @@ var BancoProcesos = {
      },
      {
       "et": "Plan estadístico",
-      "html": "<strong>Plan estadístico:</strong><br>Variable = rendimiento, diferencia de reconciliación y cambio de atributos; unidad = %. Tipo de dato = continua. n = 3 lotes PPQ y 3 réplicas por etapa de hold time. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = rendimiento ≥ [yield_min] %, diferencia de reconciliación ≤ 1,0 % y cambio de atributos dentro de la especificación tras el hold time. Atípicos = Grubbs solo si n ≥ 7; toda exclusión se justifica."
+      "html": "<strong>Plan estadístico:</strong><br>Variable = rendimiento, diferencia de reconciliación y cambio de atributos; unidad = %. Tipo de dato = continua. n = 3 lotes de validación y 3 réplicas por etapa de hold time. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = rendimiento ≥ [yield_min] %, diferencia de reconciliación ≤ 1,0 % y cambio de atributos dentro de la especificación tras el hold time. Atípicos = Grubbs solo si n ≥ 7; toda exclusión se justifica."
      },
      {
       "et": "Criterio de aceptación",
@@ -534,19 +534,19 @@ var BancoProcesos = {
     "secciones": [
      {
       "et": "Objetivo",
-      "html": "<strong>Objetivo:</strong><br>Demostrar que el proceso es capaz, definir qué invalida un lote PPQ y establecer el plan de verificación continua (Stage 3) que mantiene el estado de control después de la validación."
+      "html": "<strong>Objetivo:</strong><br>Demostrar que el proceso es capaz, definir qué invalida un lote de validación y establecer el plan de verificación continua (Stage 3) que mantiene el estado de control después de la validación."
      },
      {
       "et": "Procedimiento",
-      "html": "<strong>Procedimiento:</strong><br>1) Calcular Cpk/Ppk de peso, dureza, valoración y disolución por lote y para el conjunto de lotes<br>2) Evaluar los componentes de varianza entre lotes y dentro del lote con ANOVA o modelo mixto<br>3) Definir los criterios de lote inválido: CPP fuera de rango no justificado, IPC fuera de límite, fallo de un CQA o error de muestreo<br>4) Definir la investigación, la CAPA y el número de lotes adicionales antes de repetir la PQ<br>5) Aprobar el plan de verificación continua [cpv_plan] con variables, frecuencia, cartas de control, límites de alerta/acción y revisión anual<br>6) Anexar el reporte de capabilidad, los criterios de invalidez y el plan CPV"
+      "html": "<strong>Procedimiento:</strong><br>1) Calcular Cpk/Ppk de peso, dureza, valoración y disolución por lote y para el conjunto de lotes<br>2) Evaluar los componentes de varianza entre lotes y dentro del lote con ANOVA o modelo mixto<br>3) Definir los criterios de lote inválido: CPP fuera de rango no justificado, IPC fuera de límite, fallo de un CQA o error de muestreo<br>4) Definir la investigación, la CAPA y el número de lotes adicionales antes de repetir la validación<br>5) Aprobar el plan de verificación continua [cpv_plan] con variables, frecuencia, cartas de control, límites de alerta/acción y revisión anual<br>6) Anexar el reporte de capabilidad, los criterios de invalidez y el plan CPV"
      },
      {
       "et": "Plan estadístico",
-      "html": "<strong>Plan estadístico:</strong><br>Variable = Cpk/Ppk y componentes de varianza; unidad = índice y %. Tipo de dato = continua. n = 3 lotes PPQ con 10 a 30 resultados por atributo. Estadísticos = media, DE, Cpk/Ppk, ANOVA de componentes de varianza e IC 95 %. Regla de decisión = Cpk/Ppk ≥ [capability_min] y ningún lote inválido sin investigación. Atípicos = Grubbs solo si n ≥ 7; toda exclusión se justifica."
+      "html": "<strong>Plan estadístico:</strong><br>Variable = Cpk/Ppk y componentes de varianza; unidad = índice y %. Tipo de dato = continua. n = 3 lotes de validación con 10 a 30 resultados por atributo. Estadísticos = media, DE, Cpk/Ppk, ANOVA de componentes de varianza e IC 95 %. Regla de decisión = Cpk/Ppk ≥ [capability_min] y ningún lote inválido sin investigación. Atípicos = Grubbs solo si n ≥ 7; toda exclusión se justifica."
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>Cpk/Ppk ≥ <span class=\"por-confirmar\">[capability_min]</span> en los atributos críticos.<br>100 % de los lotes con CPP e IPC dentro de rango.<br>Cero lotes inválidos sin investigación y CAPA aprobada.<br>Plan CPV [cpv_plan] aprobado antes del cierre de la PQ."
+      "html": "<strong>Criterio de aceptación:</strong><br>Cpk/Ppk ≥ <span class=\"por-confirmar\">[capability_min]</span> en los atributos críticos.<br>100 % de los lotes con CPP e IPC dentro de rango.<br>Cero lotes inválidos sin investigación y CAPA aprobada.<br>Plan CPV [cpv_plan] aprobado antes del cierre de la validación."
      },
      {
       "et": "Documentos entregables",
@@ -577,7 +577,7 @@ var BancoProcesos = {
      },
      {
       "et": "Procedimiento",
-      "html": "<strong>Procedimiento:</strong><br>1) Identificar los atributos críticos de material (CMA) y sus rangos: [cma_primas]<br>2) Seleccionar lotes en los extremos del rango o aplicar bracketing justificado<br>3) Ejecutar los lotes de desafío, o evaluar los lotes PPQ que contengan CMA en los extremos, manteniendo el resto de condiciones controladas<br>4) Comparar CPP, IPC y CQA contra los lotes con material nominal; evaluar si hubo ajustes de proceso<br>5) Anexar la matriz CMA-CPP-CQA, los certificados de materia prima y los resultados"
+      "html": "<strong>Procedimiento:</strong><br>1) Identificar los atributos críticos de material (CMA) y sus rangos: [cma_primas]<br>2) Seleccionar lotes en los extremos del rango o aplicar bracketing justificado<br>3) Ejecutar los lotes de desafío, o evaluar los lotes de validación que contengan CMA en los extremos, manteniendo el resto de condiciones controladas<br>4) Comparar CPP, IPC y CQA contra los lotes con material nominal; evaluar si hubo ajustes de proceso<br>5) Anexar la matriz CMA-CPP-CQA, los certificados de materia prima y los resultados"
      },
      {
       "et": "Plan estadístico",
@@ -585,7 +585,7 @@ var BancoProcesos = {
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>100 % de los CQA dentro de especificación en los lotes con CMA extrema.<br>100 % de los CPP dentro del rango aprobado, sin ajustes no justificados.<br>Matriz CMA-CPP-CQA completa y aprobada.<br>Cambio de proveedor o de lote evaluado antes de usarlo en la PQ."
+      "html": "<strong>Criterio de aceptación:</strong><br>100 % de los CQA dentro de especificación en los lotes con CMA extrema.<br>100 % de los CPP dentro del rango aprobado, sin ajustes no justificados.<br>Matriz CMA-CPP-CQA completa y aprobada.<br>Cambio de proveedor o de lote evaluado antes de usarlo en la validación."
      },
      {
       "et": "Documentos entregables",
@@ -661,7 +661,7 @@ var BancoProcesos = {
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>100 % de los puntos críticos con residuo ≤ límite aprobado.<br>Tres ciclos de limpieza consecutivos conformes.<br>Recuperación del método ≥ <span class=\"por-confirmar\">70 %</span> o la justificada.<br>Cambio de producto aprobado por Calidad antes de la PQ."
+      "html": "<strong>Criterio de aceptación:</strong><br>100 % de los puntos críticos con residuo ≤ límite aprobado.<br>Tres ciclos de limpieza consecutivos conformes.<br>Recuperación del método ≥ <span class=\"por-confirmar\">70 %</span> o la justificada.<br>Cambio de producto aprobado por Calidad antes de la validación."
      },
      {
       "et": "Documentos entregables",
@@ -757,27 +757,27 @@ var BancoProcesos = {
     "id": "PRO-PQ-GEN-020",
     "bloque": 3,
     "cond": "ambas",
-    "titulo": "PRO-PQ-GEN-020 — Recalificación periódica y revisión anual",
+    "titulo": "PRO-PQ-GEN-020 — Revalidación periódica y revisión anual",
     "secciones": [
      {
       "et": "Objetivo",
-      "html": "<strong>Objetivo:</strong><br>Definir la frecuencia y los disparadores de recalificación del proceso, y verificar que el estado de control se mantiene después de la PQ."
+      "html": "<strong>Objetivo:</strong><br>Definir la frecuencia y los disparadores de revalidación del proceso, y verificar que el estado de control se mantiene después de la validación."
      },
      {
       "et": "Procedimiento",
-      "html": "<strong>Procedimiento:</strong><br>1) Definir la frecuencia de recalificación: [recalificacion_frecuencia]<br>2) Definir los disparadores: cambio de equipo, material, proceso o escala; desviación crítica; tendencia fuera de control; cambio de proveedor<br>3) Revisar el CPV, los cambios, las desviaciones, las CAPA, las quejas y la estabilidad del período<br>4) Definir el alcance de la recalificación: parámetros, lotes, muestreo y criterios<br>5) Aprobar el plan y anexar la revisión anual"
+      "html": "<strong>Procedimiento:</strong><br>1) Definir la frecuencia de revalidación: [recalificacion_frecuencia]<br>2) Definir los disparadores: cambio de equipo, material, proceso o escala; desviación crítica; tendencia fuera de control; cambio de proveedor<br>3) Revisar el CPV, los cambios, las desviaciones, las CAPA, las quejas y la estabilidad del período<br>4) Definir el alcance de la revalidación: parámetros, lotes, muestreo y criterios<br>5) Aprobar el plan y anexar la revisión anual"
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>100 % de los disparadores evaluados y documentados.<br>Revisión anual completa y aprobada.<br>Plan de recalificación vigente con frecuencia ≤ <span class=\"por-confirmar\">[recalificacion_frecuencia]</span>.<br>Sin cambios no evaluados que afecten el proceso."
+      "html": "<strong>Criterio de aceptación:</strong><br>100 % de los disparadores evaluados y documentados.<br>Revisión anual completa y aprobada.<br>Plan de revalidación vigente con frecuencia ≤ <span class=\"por-confirmar\">[recalificacion_frecuencia]</span>.<br>Sin cambios no evaluados que afecten el proceso."
      },
      {
       "et": "Documentos entregables",
-      "html": "<strong>Documentos entregables:</strong><br>- Plan de recalificación con frecuencia y disparadores<br>- Revisión anual de CPV, cambios y desviaciones<br>- Registro de reevaluación y conclusión"
+      "html": "<strong>Documentos entregables:</strong><br>- Plan de revalidación con frecuencia y disparadores<br>- Revisión anual de CPV, cambios y desviaciones<br>- Registro de reevaluación y conclusión"
      },
      {
       "et": "Nota",
-      "html": "<strong>Nota:</strong><br>La frecuencia en rojo es una propuesta; se confirma con el riesgo, el historial del proceso y la política de Calidad. La recalificación no reemplaza el CPV."
+      "html": "<strong>Nota:</strong><br>La frecuencia en rojo es una propuesta; se confirma con el riesgo, el historial del proceso y la política de Calidad. La revalidación no reemplaza el CPV."
      },
      {
       "et": "Referencia",
@@ -791,19 +791,19 @@ var BancoProcesos = {
     "id": "PRO-PQ-GEN-021",
     "bloque": 3,
     "cond": "ambas",
-    "titulo": "PRO-PQ-GEN-021 — Calificación de proveedores y recepción de materias primas",
+    "titulo": "PRO-PQ-GEN-021 — Validación de proveedores y recepción de materias primas",
     "secciones": [
      {
       "et": "Objetivo",
-      "html": "<strong>Objetivo:</strong><br>Confirmar que la adquisición de materias primas y materiales de envase parte de proveedores calificados y que cada lote se recibe, muestrea y libera antes de iniciar la PQ."
+      "html": "<strong>Objetivo:</strong><br>Confirmar que la adquisición de materias primas y materiales de envase parte de proveedores validados y que cada lote se recibe, muestrea y libera antes de iniciar la validación."
      },
      {
       "et": "Procedimiento",
-      "html": "<strong>Procedimiento:</strong><br>1) Revisar el programa de calificación de proveedores [proveedores_protocolo], aprobado y vigente<br>2) Listar los proveedores críticos aprobados [proveedores_criticos]: API, excipientes y material de envase primario<br>3) Verificar auditoría o cuestionario, certificados, CoA e historial de calidad de cada proveedor<br>4) Verificar la recepción de cada lote: identidad, muestreo, cuarentena, CoA y liberación antes de la PQ<br>5) Evaluar cualquier cambio de proveedor mediante change control y reevaluación antes de usarlo<br>6) Anexar la lista de proveedores, los certificados y los registros de recepción"
+      "html": "<strong>Procedimiento:</strong><br>1) Revisar el programa de validación de proveedores [proveedores_protocolo], aprobado y vigente<br>2) Listar los proveedores críticos aprobados [proveedores_criticos]: API, excipientes y material de envase primario<br>3) Verificar auditoría o cuestionario, certificados, CoA e historial de calidad de cada proveedor<br>4) Verificar la recepción de cada lote: identidad, muestreo, cuarentena, CoA y liberación antes de la validación<br>5) Evaluar cualquier cambio de proveedor mediante change control y reevaluación antes de usarlo<br>6) Anexar la lista de proveedores, los certificados y los registros de recepción"
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>100 % de los proveedores críticos aprobados y vigentes.<br>Cero materias primas o envases de proveedor no aprobado.<br>100 % de los lotes con CoA, identidad y liberación antes de la PQ.<br>Cambio de proveedor aprobado antes de su uso."
+      "html": "<strong>Criterio de aceptación:</strong><br>100 % de los proveedores críticos aprobados y vigentes.<br>Cero materias primas o envases de proveedor no aprobado.<br>100 % de los lotes con CoA, identidad y liberación antes de la validación.<br>Cambio de proveedor aprobado antes de su uso."
      },
      {
       "et": "Documentos entregables",
@@ -829,15 +829,15 @@ var BancoProcesos = {
     "secciones": [
      {
       "et": "Objetivo",
-      "html": "<strong>Objetivo:</strong><br>Confirmar que cada área de almacenamiento que interviene en el proceso está calificada, con mapeo de temperatura y humedad vigente y monitoreo, y que sus condiciones coinciden con los requisitos de materias primas, intermedios y producto terminado."
+      "html": "<strong>Objetivo:</strong><br>Confirmar que cada área de almacenamiento que interviene en el proceso está validada, con mapeo de temperatura y humedad vigente y monitoreo, y que sus condiciones coinciden con los requisitos de materias primas, intermedios y producto terminado."
      },
      {
       "et": "Procedimiento",
-      "html": "<strong>Procedimiento:</strong><br>1) Listar las áreas y lo que se almacena en cada una [almacen_areas]: materias primas, material de envase, granel/intermedio, producto terminado y cuarentena<br>2) Verificar la calificación DQ/IQ/OQ/PQ del área y el protocolo [almacen_protocolo] aprobado y vigente<br>3) Revisar el mapeo T/HR [almacen_mapeo]: puntos, carga, estaciones, apertura de puertas y duración<br>4) Verificar monitoreo continuo, alarmas, data loggers calibrados y revisión de excursiones<br>5) Comparar la condición del área contra la especificación de almacenamiento de cada material y del producto<br>6) Anexar mapas, certificados, registros de monitoreo y conclusiones"
+      "html": "<strong>Procedimiento:</strong><br>1) Listar las áreas y lo que se almacena en cada una [almacen_areas]: materias primas, material de envase, granel/intermedio, producto terminado y cuarentena<br>2) Verificar la validación DQ/IQ/OQ/PQ del área y el protocolo [almacen_protocolo] aprobado y vigente<br>3) Revisar el mapeo T/HR [almacen_mapeo]: puntos, carga, estaciones, apertura de puertas y duración<br>4) Verificar monitoreo continuo, alarmas, data loggers calibrados y revisión de excursiones<br>5) Comparar la condición del área contra la especificación de almacenamiento de cada material y del producto<br>6) Anexar mapas, certificados, registros de monitoreo y conclusiones"
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>100 % de las áreas con calificación y mapeo vigentes.<br>100 % del tiempo de almacenamiento dentro del rango aprobado.<br>Cero excursiones sin investigación y disposición.<br>Monitoreo continuo con instrumentos calibrados y alarmas verificadas."
+      "html": "<strong>Criterio de aceptación:</strong><br>100 % de las áreas con validación y mapeo vigentes.<br>100 % del tiempo de almacenamiento dentro del rango aprobado.<br>Cero excursiones sin investigación y disposición.<br>Monitoreo continuo con instrumentos calibrados y alarmas verificadas."
      },
      {
       "et": "Documentos entregables",
@@ -863,23 +863,23 @@ var BancoProcesos = {
     "secciones": [
      {
       "et": "Objetivo",
-      "html": "<strong>Objetivo:</strong><br>Confirmar que los sistemas de apoyo crítico (HVAC, agua purificada/WFI, vapor limpio, aire comprimido y vacío) y las salas limpias están calificados o validados, monitoreados y vigentes durante los lotes PPQ."
+      "html": "<strong>Objetivo:</strong><br>Confirmar que los sistemas de apoyo crítico (HVAC, agua purificada/WFI, vapor limpio, aire comprimido y vacío) y las salas limpias están validados o validados, monitoreados y vigentes durante los lotes de validación."
      },
      {
       "et": "Procedimiento",
-      "html": "<strong>Procedimiento:</strong><br>1) Listar los sistemas de apoyo crítico [sistemas_apoyo] y las salas limpias [salas_limpias] que intervienen en el proceso<br>2) Verificar la calificación o validación DQ/IQ/OQ/PQ y el protocolo [sistemas_protocolo], aprobado y vigente<br>3) Revisar el monitoreo: T/HR, presión diferencial, cambios de aire, integridad HEPA, partículas, microbiología, conductividad/TOC del agua, punto de rocío y aceite del aire comprimido y calidad del vapor<br>4) Revisar los datos del período de los lotes PPQ y las excursiones con su investigación y CAPA<br>5) Verificar la clase de sala, el flujo de personal y material y la presión diferencial entre áreas<br>6) Anexar certificados, mapas, registros de monitoreo y conclusiones"
+      "html": "<strong>Procedimiento:</strong><br>1) Listar los sistemas de apoyo crítico [sistemas_apoyo] y las salas limpias [salas_limpias] que intervienen en el proceso<br>2) Verificar la validación del área o sistema (diseño, instalación, operación y desempeño) y el protocolo [sistemas_protocolo], aprobado y vigente<br>3) Revisar el monitoreo: T/HR, presión diferencial, cambios de aire, integridad HEPA, partículas, microbiología, conductividad/TOC del agua, punto de rocío y aceite del aire comprimido y calidad del vapor<br>4) Revisar los datos del período de los lotes de validación y las excursiones con su investigación y CAPA<br>5) Verificar la clase de sala, el flujo de personal y material y la presión diferencial entre áreas<br>6) Anexar certificados, mapas, registros de monitoreo y conclusiones"
      },
      {
       "et": "Criterio de aceptación",
-      "html": "<strong>Criterio de aceptación:</strong><br>100 % de los sistemas y salas con calificación o validación vigente.<br>100 % del monitoreo dentro de los límites aprobados durante la PQ.<br>Cero excursiones sin investigación y disposición.<br>Clase de sala y presión diferencial mantenidas según el diseño."
+      "html": "<strong>Criterio de aceptación:</strong><br>100 % de los sistemas y salas con validación vigente.<br>100 % del monitoreo dentro de los límites aprobados durante la validación.<br>Cero excursiones sin investigación y disposición.<br>Clase de sala y presión diferencial mantenidas según el diseño."
      },
      {
       "et": "Documentos entregables",
-      "html": "<strong>Documentos entregables:</strong><br>- Lista de sistemas y salas con su estado de calificación<br>- Protocolos, certificados y mapas<br>- Registros de monitoreo, excursiones y CAPA"
+      "html": "<strong>Documentos entregables:</strong><br>- Lista de sistemas y salas con su estado de validación<br>- Protocolos, certificados y mapas<br>- Registros de monitoreo, excursiones y CAPA"
      },
      {
       "et": "Nota",
-      "html": "<strong>Nota:</strong><br>La ejecución vive en los protocolos de sistemas y salas limpias; aquí se verifica que estén vigentes y que cubran el período de la PQ. Los códigos en rojo los confirma Calidad."
+      "html": "<strong>Nota:</strong><br>La ejecución vive en los protocolos de sistemas y salas limpias; aquí se verifica que estén vigentes y que cubran el período de la validación. Los códigos en rojo los confirma Calidad."
      },
      {
       "et": "Referencia",
@@ -893,7 +893,7 @@ var BancoProcesos = {
     "id": "PRO-PQ-REF",
     "bloque": 6,
     "cond": "ambas",
-    "titulo": "PRO-PQ-REF — Referencias del PQ de procesos",
+    "titulo": "PRO-PQ-REF — Referencias del protocolo de validación de procesos",
     "secciones": [],
     "tabla": {
      "headers": [
@@ -954,7 +954,7 @@ var BancoProcesos = {
     "kind": "div",
     "clase": "anexos",
     "bloque": 8,
-    "html": "<p><strong>ANEXOS:</strong></p>\n<table>\n<tbody><tr><th>SECCIÓN</th><th>TÍTULO</th></tr>\n<tr><td>8.1</td><td>Anexo A — Registros de lotes PPQ, muestreos y resultados por ensayo</td></tr>\n<tr><td>8.2</td><td>Anexo B — Certificados de instrumentos, columnas y estándares</td></tr>\n<tr><td>8.3</td><td>Anexo C — Data cruda, reportes estadísticos y trazabilidad de límites</td></tr>\n</tbody></table>"
+    "html": "<p><strong>ANEXOS:</strong></p>\n<table>\n<tbody><tr><th>SECCIÓN</th><th>TÍTULO</th></tr>\n<tr><td>8.1</td><td>Anexo A — Registros de lotes de validación, muestreos y resultados por ensayo</td></tr>\n<tr><td>8.2</td><td>Anexo B — Certificados de instrumentos, columnas y estándares</td></tr>\n<tr><td>8.3</td><td>Anexo C — Data cruda, reportes estadísticos y trazabilidad de límites</td></tr>\n</tbody></table>"
    },
    {
     "kind": "ensayo",
@@ -965,11 +965,11 @@ var BancoProcesos = {
     "secciones": [
      {
       "et": "Objetivo",
-      "html": "<strong>Objetivo:</strong><br>Determinar el contenido de agua de la forma sólida del lote PPQ y confirmar que el proceso de secado o granulación entrega el nivel previsto."
+      "html": "<strong>Objetivo:</strong><br>Determinar el contenido de agua de la forma sólida del lote de validación y confirmar que el proceso de secado o granulación entrega el nivel previsto."
      },
      {
       "et": "Procedimiento",
-      "html": "<strong>Procedimiento:</strong><br>1) Tomar la muestra del lote PPQ y mantenerla en recipiente cerrado hasta el análisis<br>2) Pesar la muestra y determinar agua por Karl Fischer o pérdida por secado, según la monografía<br>3) Calcular el porcentaje de agua sobre la muestra tal cual<br>4) Comparar contra la especificación del producto<br>5) Anexar pesadas, consumo de reactivo y data cruda"
+      "html": "<strong>Procedimiento:</strong><br>1) Tomar la muestra del lote de validación y mantenerla en recipiente cerrado hasta el análisis<br>2) Pesar la muestra y determinar agua por Karl Fischer o pérdida por secado, según la monografía<br>3) Calcular el porcentaje de agua sobre la muestra tal cual<br>4) Comparar contra la especificación del producto<br>5) Anexar pesadas, consumo de reactivo y data cruda"
      },
      {
       "et": "Plan estadístico",
@@ -1006,11 +1006,11 @@ var BancoProcesos = {
     "secciones": [
      {
       "et": "Objetivo",
-      "html": "<strong>Objetivo:</strong><br>Demostrar que las unidades de dosificación del lote PPQ contienen una cantidad uniforme del principio activo, por variación de peso o por uniformidad de contenido según la monografía."
+      "html": "<strong>Objetivo:</strong><br>Demostrar que las unidades de dosificación del lote de validación contienen una cantidad uniforme del principio activo, por variación de peso o por uniformidad de contenido según la monografía."
      },
      {
       "et": "Procedimiento",
-      "html": "<strong>Procedimiento:</strong><br>1) Seleccionar 10 unidades al azar del lote PPQ<br>2) Pesar individualmente cada unidad y calcular el peso medio<br>3) Si la monografía exige uniformidad de contenido, analizar cada unidad por HPLC<br>4) Calcular el valor de aceptación (AV) y comparar contra USP &lt;905&gt;<br>5) Anexar pesadas, cromatogramas y cálculo del AV"
+      "html": "<strong>Procedimiento:</strong><br>1) Seleccionar 10 unidades al azar del lote de validación<br>2) Pesar individualmente cada unidad y calcular el peso medio<br>3) Si la monografía exige uniformidad de contenido, analizar cada unidad por HPLC<br>4) Calcular el valor de aceptación (AV) y comparar contra USP &lt;905&gt;<br>5) Anexar pesadas, cromatogramas y cálculo del AV"
      },
      {
       "et": "Plan estadístico",
@@ -1214,11 +1214,11 @@ var BancoProcesos = {
     "secciones": [
      {
       "et": "Objetivo",
-      "html": "<strong>Objetivo:</strong><br>Verificar espesor, diámetro y forma de los comprimidos del lote PPQ contra la especificación, para confirmar la reproducibilidad de la compresión."
+      "html": "<strong>Objetivo:</strong><br>Verificar espesor, diámetro y forma de los comprimidos del lote de validación contra la especificación, para confirmar la reproducibilidad de la compresión."
      },
      {
       "et": "Procedimiento",
-      "html": "<strong>Procedimiento:</strong><br>1) Tomar 10 comprimidos al azar del lote PPQ<br>2) Medir espesor y diámetro con calibrador digital, sin deformar el comprimido<br>3) Registrar cada medida y la forma observada<br>4) Calcular media, desviación y rango<br>5) Anexar la tabla de medidas y la verificación de calibración del calibrador"
+      "html": "<strong>Procedimiento:</strong><br>1) Tomar 10 comprimidos al azar del lote de validación<br>2) Medir espesor y diámetro con calibrador digital, sin deformar el comprimido<br>3) Registrar cada medida y la forma observada<br>4) Calcular media, desviación y rango<br>5) Anexar la tabla de medidas y la verificación de calibración del calibrador"
      },
      {
       "et": "Plan estadístico",
@@ -1255,7 +1255,7 @@ var BancoProcesos = {
     "secciones": [
      {
       "et": "Objetivo",
-      "html": "<strong>Objetivo:</strong><br>Asegurar la uniformidad de masa de los comprimidos del lote PPQ y detectar desviaciones de la compresión que puedan afectar la dosis."
+      "html": "<strong>Objetivo:</strong><br>Asegurar la uniformidad de masa de los comprimidos del lote de validación y detectar desviaciones de la compresión que puedan afectar la dosis."
      },
      {
       "et": "Procedimiento",
@@ -1296,7 +1296,7 @@ var BancoProcesos = {
     "secciones": [
      {
       "et": "Objetivo",
-      "html": "<strong>Objetivo:</strong><br>Evaluar la resistencia mecánica de los comprimidos del lote PPQ para confirmar que soportan manejo, empaque y transporte sin romperse."
+      "html": "<strong>Objetivo:</strong><br>Evaluar la resistencia mecánica de los comprimidos del lote de validación para confirmar que soportan manejo, empaque y transporte sin romperse."
      },
      {
       "et": "Procedimiento",
@@ -1378,7 +1378,7 @@ var BancoProcesos = {
     "secciones": [
      {
       "et": "Objetivo",
-      "html": "<strong>Objetivo:</strong><br>Verificar que los comprimidos del lote PPQ se desintegran dentro del tiempo especificado en el medio y la temperatura definidos."
+      "html": "<strong>Objetivo:</strong><br>Verificar que los comprimidos del lote de validación se desintegran dentro del tiempo especificado en el medio y la temperatura definidos."
      },
      {
       "et": "Procedimiento",
@@ -1419,7 +1419,7 @@ var BancoProcesos = {
     "secciones": [
      {
       "et": "Objetivo",
-      "html": "<strong>Objetivo:</strong><br>Evaluar la liberación del principio activo de los comprimidos del lote PPQ en las condiciones farmacopeicas, como indicador de desempeño del producto."
+      "html": "<strong>Objetivo:</strong><br>Evaluar la liberación del principio activo de los comprimidos del lote de validación en las condiciones farmacopeicas, como indicador de desempeño del producto."
      },
      {
       "et": "Procedimiento",
@@ -1460,7 +1460,7 @@ var BancoProcesos = {
     "secciones": [
      {
       "et": "Objetivo",
-      "html": "<strong>Objetivo:</strong><br>Definir los puntos, momentos y tamaño de muestra del proceso de comprimidos, expresado como porcentaje del lote por etapa, para que la PQ cubra mezcla/granulación, compresión, recubrimiento y empaque."
+      "html": "<strong>Objetivo:</strong><br>Definir los puntos, momentos y tamaño de muestra del proceso de comprimidos, expresado como porcentaje del lote por etapa, para que la validación cubra mezcla/granulación, compresión, recubrimiento y empaque."
      },
      {
       "et": "Procedimiento",
@@ -1663,7 +1663,7 @@ var BancoProcesos = {
     "secciones": [
      {
       "et": "Objetivo",
-      "html": "<strong>Objetivo:</strong><br>Verificar que el recubrimiento aplicado al lote PPQ alcanza el contenido y la uniformidad especificados, para asegurar protección y desempeño."
+      "html": "<strong>Objetivo:</strong><br>Verificar que el recubrimiento aplicado al lote de validación alcanza el contenido y la uniformidad especificados, para asegurar protección y desempeño."
      },
      {
       "et": "Procedimiento",
@@ -1705,7 +1705,7 @@ var BancoProcesos = {
     "secciones": [
      {
       "et": "Objetivo",
-      "html": "<strong>Objetivo:</strong><br>Confirmar que el recubrimiento del lote PPQ está íntegro y protege el núcleo, sin grietas, descascarado ni zonas expuestas."
+      "html": "<strong>Objetivo:</strong><br>Confirmar que el recubrimiento del lote de validación está íntegro y protege el núcleo, sin grietas, descascarado ni zonas expuestas."
      },
      {
       "et": "Procedimiento",
@@ -1746,7 +1746,7 @@ var BancoProcesos = {
     "secciones": [
      {
       "et": "Objetivo",
-      "html": "<strong>Objetivo:</strong><br>Caracterizar el perfil de liberación del principio activo del lote PPQ en varios tiempos, para demostrar que la forma de liberación modificada cumple el diseño."
+      "html": "<strong>Objetivo:</strong><br>Caracterizar el perfil de liberación del principio activo del lote de validación en varios tiempos, para demostrar que la forma de liberación modificada cumple el diseño."
      },
      {
       "et": "Procedimiento",
@@ -1788,7 +1788,7 @@ var BancoProcesos = {
     "secciones": [
      {
       "et": "Objetivo",
-      "html": "<strong>Objetivo:</strong><br>Verificar que los comprimidos efervescentes del lote PPQ se disgregan en el tiempo especificado y que la solución resultante cumple el pH aprobado."
+      "html": "<strong>Objetivo:</strong><br>Verificar que los comprimidos efervescentes del lote de validación se disgregan en el tiempo especificado y que la solución resultante cumple el pH aprobado."
      },
      {
       "et": "Procedimiento",
@@ -1830,7 +1830,7 @@ var BancoProcesos = {
     "secciones": [
      {
       "et": "Objetivo",
-      "html": "<strong>Objetivo:</strong><br>Verificar que las cápsulas del lote PPQ se desintegran dentro del tiempo especificado en el medio y la temperatura definidos por la monografía."
+      "html": "<strong>Objetivo:</strong><br>Verificar que las cápsulas del lote de validación se desintegran dentro del tiempo especificado en el medio y la temperatura definidos por la monografía."
      },
      {
       "et": "Procedimiento",
@@ -1871,7 +1871,7 @@ var BancoProcesos = {
     "secciones": [
      {
       "et": "Objetivo",
-      "html": "<strong>Objetivo:</strong><br>Evaluar la liberación del principio activo de las cápsulas del lote PPQ en las condiciones farmacopeicas, como indicador de desempeño del producto."
+      "html": "<strong>Objetivo:</strong><br>Evaluar la liberación del principio activo de las cápsulas del lote de validación en las condiciones farmacopeicas, como indicador de desempeño del producto."
      },
      {
       "et": "Procedimiento",
@@ -1912,11 +1912,11 @@ var BancoProcesos = {
     "secciones": [
      {
       "et": "Objetivo",
-      "html": "<strong>Objetivo:</strong><br>Confirmar que las cápsulas del lote PPQ están cerradas, sin grietas, abolladuras, fugas, deformación ni separación de la tapa y el cuerpo."
+      "html": "<strong>Objetivo:</strong><br>Confirmar que las cápsulas del lote de validación están cerradas, sin grietas, abolladuras, fugas, deformación ni separación de la tapa y el cuerpo."
      },
      {
       "et": "Procedimiento",
-      "html": "<strong>Procedimiento:</strong><br>1) Tomar 20 cápsulas al azar del lote PPQ<br>2) Inspeccionar con luz blanca difusa y aumento 10× si es necesario<br>3) Clasificar grietas, separación, fugas, deformación, abolladuras y contaminación<br>4) Registrar el número de unidades afectadas por tipo<br>5) Fotografiar y revisar por segunda persona"
+      "html": "<strong>Procedimiento:</strong><br>1) Tomar 20 cápsulas al azar del lote de validación<br>2) Inspeccionar con luz blanca difusa y aumento 10× si es necesario<br>3) Clasificar grietas, separación, fugas, deformación, abolladuras y contaminación<br>4) Registrar el número de unidades afectadas por tipo<br>5) Fotografiar y revisar por segunda persona"
      },
      {
       "et": "Plan estadístico",
@@ -1952,7 +1952,7 @@ var BancoProcesos = {
     "secciones": [
      {
       "et": "Objetivo",
-      "html": "<strong>Objetivo:</strong><br>Caracterizar el perfil de liberación de las cápsulas de liberación modificada del lote PPQ en varios tiempos, para demostrar que cumplen el diseño."
+      "html": "<strong>Objetivo:</strong><br>Caracterizar el perfil de liberación de las cápsulas de liberación modificada del lote de validación en varios tiempos, para demostrar que cumplen el diseño."
      },
      {
       "et": "Procedimiento",
@@ -1998,7 +1998,7 @@ var BancoProcesos = {
      },
      {
       "et": "Procedimiento",
-      "html": "<strong>Procedimiento:</strong><br>1) Identificar el calibre aprobado [calibre_capsula] y el certificado del proveedor<br>2) Tomar 20 cápsulas al azar del lote PPQ<br>3) Medir longitud total, diámetro del cuerpo y de la tapa, y espesor de pared con calibrador digital, sin deformar la cápsula<br>4) Comparar cada medida contra la especificación y el certificado; calcular media, DE y RSD<br>5) Verificar el cierre y el encaje de tapa y cuerpo; anexar tabla de medidas y certificado"
+      "html": "<strong>Procedimiento:</strong><br>1) Identificar el calibre aprobado [calibre_capsula] y el certificado del proveedor<br>2) Tomar 20 cápsulas al azar del lote de validación<br>3) Medir longitud total, diámetro del cuerpo y de la tapa, y espesor de pared con calibrador digital, sin deformar la cápsula<br>4) Comparar cada medida contra la especificación y el certificado; calcular media, DE y RSD<br>5) Verificar el cierre y el encaje de tapa y cuerpo; anexar tabla de medidas y certificado"
      },
      {
       "et": "Plan estadístico",
@@ -2035,7 +2035,7 @@ var BancoProcesos = {
     "secciones": [
      {
       "et": "Objetivo",
-      "html": "<strong>Objetivo:</strong><br>Evaluar la fluidez del granulado del lote PPQ para confirmar que alimenta de forma uniforme la compresora o encapsuladora y no segrega."
+      "html": "<strong>Objetivo:</strong><br>Evaluar la fluidez del granulado del lote de validación para confirmar que alimenta de forma uniforme la compresora o encapsuladora y no segrega."
      },
      {
       "et": "Procedimiento",
@@ -2158,7 +2158,7 @@ var BancoProcesos = {
     "secciones": [
      {
       "et": "Objetivo",
-      "html": "<strong>Objetivo:</strong><br>Evaluar la fluidez del polvo del lote PPQ para confirmar que se dosifica y mezcla de forma uniforme y no segrega durante el proceso."
+      "html": "<strong>Objetivo:</strong><br>Evaluar la fluidez del polvo del lote de validación para confirmar que se dosifica y mezcla de forma uniforme y no segrega durante el proceso."
      },
      {
       "et": "Procedimiento",

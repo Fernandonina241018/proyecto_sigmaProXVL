@@ -708,7 +708,7 @@ const Validaciones = (() => {
     const rows = Array.isArray(list) ? list : [];
     if (!rows.length) return '<p class="sub" style="margin:0">Sin protocolos registrados.</p>';
     return '<div class="task-list">' + rows.map((p) => {
-      const titulo = (p.code || (p.phase + ' · ' + p.entity));
+      const titulo = (p.code || (faseLabel(p.phase, p.category) + ' · ' + p.entity));
       return '<div class="task"><i class="task-mark" aria-hidden="true"></i><div><strong>' + esc(titulo) + '</strong>'
         + '<small>' + esc(fechaCorta(p.created_at)) + ' · ' + esc(p.username || '—') + '</small></div></div>';
     }).join('') + '</div>';
@@ -968,6 +968,10 @@ const Validaciones = (() => {
   const GEN_CATS = ['almacenes', 'equipos', 'estabilidad', 'sistemas', 'procesos'];
   // Fases con generador por categoría (equipos: IQ común + OQ/PQ por familia).
   const GEN_FASES = { almacenes: FASES_GEN.slice(), equipos: ['DQ', 'IQ', 'OQ', 'PQ'], estabilidad: ['DQ', 'IQ', 'OQ', 'PQ'], sistemas: ['DQ', 'IQ', 'OQ', 'PQ'], procesos: ['PQ'] };
+  // Para procesos el documento se llama protocolo de validación, no PQ.
+  function faseLabel(fase, catId) {
+    return (catId === 'procesos' && fase === 'PQ') ? 'Protocolo de validación' : fase;
+  }
 
   // Gerencias sugeridas para el Revisor Gerente (T2). El campo acepta texto libre.
   const AREAS_GERENCIA = ['Gerente Validaciones', 'Gerente Gestión de Calidad', 'Gerente Sr. Producción',
@@ -1089,7 +1093,7 @@ const Validaciones = (() => {
       body.innerHTML = rows.map(function (p) {
         const fecha = String(p.created_at || '').slice(0, 16).replace('T', ' ');
         return '<tr><td>' + esc(fecha) + '</td><td>' + esc(p.category) + '</td><td>' + esc(p.entity) + '</td>'
-          + '<td>' + esc(p.phase) + '</td><td>' + esc(p.code || '—') + '</td><td>' + esc(p.version || '—') + '</td>'
+          + '<td>' + esc(faseLabel(p.phase, p.category)) + '</td><td>' + esc(p.code || '—') + '</td><td>' + esc(p.version || '—') + '</td>'
           + '<td>' + esc(p.username) + '</td><td class="val-hash" title="' + esc(p.sha256) + '">' + esc(String(p.sha256 || '').slice(0, 12)) + '…</td>'
           + '<td><button type="button" class="val-btn" data-download="' + esc(p.id) + '">Descargar</button></td></tr>';
       }).join('');
@@ -1357,7 +1361,7 @@ const Validaciones = (() => {
   function paso3Html(catId) {
     const fases = GEN_FASES[catId] || FASES_GEN.slice();
     return '<div class="v7-genrow">'
-      + fases.map((f) => '<label class="v7-check"><input type="checkbox" class="gen-fase" value="' + f + '" checked><span>' + f + '</span></label>').join('')
+      + fases.map((f) => '<label class="v7-check"><input type="checkbox" class="gen-fase" value="' + f + '" checked><span>' + esc(faseLabel(f, catId)) + '</span></label>').join('')
       + '<label class="v7-cond">Condición '
       + '<select class="gen-cond"><option value="ambas">Estática + dinámica</option>'
       + '<option value="est">Solo estática</option><option value="dina">Solo dinámica</option></select></label>'
@@ -1978,7 +1982,7 @@ const Validaciones = (() => {
               else if ((pend.provisionales || []).length) extra += ' · ⚠ ' + pend.provisionales.length + ' límite(s) provisional(es)';
             } catch (e) {}
           }
-          return f + (n == null ? '' : ' (' + n + ' ensayos)') + extra;
+          return faseLabel(f, catId) + (n == null ? '' : ' (' + n + ' ensayos)') + extra;
         });
         const todas = (GEN_FASES[catId] || FASES_GEN.slice());
         const sinBanco = todas.filter((f) => !tieneBancoFam(f, catId, entActual));
@@ -2097,7 +2101,7 @@ const Validaciones = (() => {
       try {
         for (let i = 0; i < sel.fases.length; i++) {
           const f = sel.fases[i];
-          setGenMsg('Generando ' + f + '… (' + (i + 1) + '/' + sel.fases.length + ')', true);
+          setGenMsg('Generando ' + faseLabel(f, catId) + '… (' + (i + 1) + '/' + sel.fases.length + ')', true);
           // DQ: siempre desde la plantilla DQ. Almacenes anexa los ensayos de
           // diseño del banco para no perder su contenido.
           if (f === 'DQ' && typeof PlantillaDocx !== 'undefined' && PlantillaDocx.descargarDQ) {
@@ -2691,7 +2695,7 @@ const Validaciones = (() => {
   try { init(); } catch (e) {}
 
   return {
-    CATS, ROUTES, DOCS, ENTIDADES, GRUPOS_PROCESOS, TREN_EQUIPOS, SCHEMAS, FASES_GEN, GEN_FASES, AREAS_GERENCIA, parseRoute, catById, getSchema, getEntidades, trenHtml, claseEstadoCampo,
+    CATS, ROUTES, DOCS, ENTIDADES, GRUPOS_PROCESOS, TREN_EQUIPOS, SCHEMAS, FASES_GEN, GEN_FASES, AREAS_GERENCIA, parseRoute, catById, getSchema, getEntidades, trenHtml, claseEstadoCampo, faseLabel,
     entidadPorNombre, datosAlmacen, sinTablaPreaprobada, faltantesParametrosBanco, estadoIntegridad,
     puestoGerente, areaDesdeCargo, firmantesHtml, saveDraft, loadDraft, cargarBorrador, guardarBorrador, validarDatos, saveGen, loadGen, viewEntidad, show, hide, apply, currentArea, render, contarGen, tieneBancoFam, estadoBancoFam, resolverDescripcion, mejorarFecha, manifest, viewProtocolos,
     viewDocumentacion, viewReportes, viewConfiguracion, viewAyuda, viewCalendario, chartHtml, reportHtml, calendarHtml, cargarResumen, cargarCalendario, cargarReportes, bindConfiguracion,
