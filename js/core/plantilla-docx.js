@@ -1164,6 +1164,11 @@ const PlantillaDocx = (() => {
     if (i.familia && entId && i.familia !== entId && i.familia !== grupo) return false;
     const sub = String((draft && draft.subtipo) || '').trim();
     if (i.subtipo && i.subtipo !== sub) return false;
+    const gran = String((draft && draft.tipoGranulacion) || '').trim();
+    if (i.granulacion && gran) {
+      const lista = String(i.granulacion).split(',').map((x) => x.trim()).filter(Boolean);
+      if (lista.indexOf(gran) < 0) return false;
+    }
     return true;
   }
 

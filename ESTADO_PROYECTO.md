@@ -90,6 +90,45 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (StatAnalyzer Pro) co
 
 ## CAMBIOS RECIENTES
 
+### 2026-11-22 (351): Tren adaptativo por tipo de granulación y ensayos seca/doble
+
+**Qué:** el tren de equipos ya no es fijo por forma: se adapta al tipo de granulación elegido en el paso 2.
+- **Nuevo campo `tipoGranulacion`:** Húmeda, Seca, Doble húmeda, Húmeda + seca, No aplica. Al cambiarlo se vuelve a pintar el checklist y se conservan los equipos comunes (mezcla, empaque).
+- **Húmeda:** mezclador, granulador, lecho fluido, secadores, compresión/encapsulación, recubrimiento y empaque.
+- **Seca:** mezclador, compactadora de rodillos, molino/tamiz, compresión/encapsulación, recubrimiento y empaque.
+- **Doble húmeda:** el mismo tren húmedo, con etapas rotuladas “2 ciclos”.
+- **Húmeda + seca:** suma granulación húmeda, secado, compactación y molienda.
+- **No aplica:** mezcla y compresión/encapsulación directa.
+- **Equipos nuevos:** `compactadora-rodillos` y `molino`, ambos tipo M.
+
+**Ensayos:**
+- `PRO-PQ-CMP-015` pasa al grupo sólidos y aplica a húmeda, doble húmeda y húmeda + seca.
+- **`PRO-PQ-CMP-020`** granulación seca: presión, gap, velocidad, densidad de cinta, molienda y granulometría.
+- **`PRO-PQ-CMP-021`** doble granulación: CPP/IPC por ciclo, hold time y comparación entre ciclos.
+
+**Estado medido:**
+```
+banco: procesos 57 ensayos · 24 comunes · 6 sólidos · 15 comprimidos · 5 cápsulas · 3 granulados · 4 polvos
+global: 1484 ensayos · falta instrumentos 723 (49 %) · criterio numérico 984 (66 %)
+```
+
+**Archivos afectados:**
+| Archivo | Cambio |
+|---------|--------|
+| `js/core/indexx-validaciones.js` | `tipoGranulacion`, tren por tipo, compactadora/molino, filtro |
+| `docs/banco-ensayos/procesos/pq-solidos.html` | CMP-020/021 y CMP-015 de grupo |
+| `docs/banco-ensayos/procesos/REFERENCIAS.md` | Nota de granulación |
+| `js/core/banco-procesos-data.js` | Regenerado |
+| `js/core/plantilla-docx.js` | Filtro por `data-granulacion` |
+| `scripts/extraer-banco.mjs` | `data-granulacion` |
+| `tests/banco-procesos.test.js` | **35 pruebas** (húmeda/seca/doble) |
+| `tests/validaciones-panel.test.js` | Tren adaptativo por tipo |
+
+**Verificación:**
+```
+npm run preflight → protocolo:check OK, urs-ar:check OK, Vitest 1276, backend 154, E2E 14
+```
+
 ### 2026-11-22 (350): Contraste por tema y cambio de tema desde el perfil
 
 **Qué:** se corrige el enfoque del fix anterior y se agrega el cambio de tema en el modal de perfil.

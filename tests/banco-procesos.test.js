@@ -22,7 +22,7 @@ const texto = (e, prefijo) => {
 describe('banco de procesos: estructura', () => {
   it('solo tiene PQ y arranca con comprimidos', () => {
     expect(Object.keys(B.fases)).toEqual(['PQ']);
-    expect(ensayos.length).toBe(55);
+    expect(ensayos.length).toBe(57);
   });
 
   it('cápsulas tiene sus ensayos propios y hereda el grupo sólidos', () => {
@@ -52,8 +52,8 @@ describe('banco de procesos: estructura', () => {
     const granulados = ensayos.filter((e) => e.familia === 'granulados');
     const polvos = ensayos.filter((e) => e.familia === 'polvos');
     expect(comunes.length).toBe(24);
-    expect(solidos.length).toBe(3);
-    expect(comprimidos.length).toBe(16);
+    expect(solidos.length).toBe(6);
+    expect(comprimidos.length).toBe(15);
     expect(capsulas.length).toBe(5);
     expect(granulados.length).toBe(3);
     expect(polvos.length).toBe(4);
@@ -65,6 +65,18 @@ describe('banco de procesos: estructura', () => {
     for (const e of ensayos.filter((x) => x.subtipo)) porSubtipo[e.subtipo] = (porSubtipo[e.subtipo] || 0) + 1;
     expect(porSubtipo).toEqual({ Recubierto: 2, 'Liberación modificada': 2, Efervescente: 1, 'Polvo para reconstitución': 1 });
     expect(ensayos.filter((e) => e.subtipo && !e.familia).length).toBe(0);
+  });
+
+  it('la granulación filtra húmeda, seca y doble', () => {
+    const humeda = { id: 'PRO-PQ-CMP-015', familia: 'solidos', granulacion: 'Húmeda,Doble húmeda,Húmeda + seca' };
+    const seca = { id: 'PRO-PQ-CMP-020', familia: 'solidos', granulacion: 'Seca,Húmeda + seca' };
+    const doble = { id: 'PRO-PQ-CMP-021', familia: 'solidos', granulacion: 'Doble húmeda' };
+    expect(P.aplicaEnsayo(humeda, 'comprimidos', 'solidos', { tipoGranulacion: 'Húmeda' })).toBe(true);
+    expect(P.aplicaEnsayo(humeda, 'comprimidos', 'solidos', { tipoGranulacion: 'Seca' })).toBe(false);
+    expect(P.aplicaEnsayo(seca, 'comprimidos', 'solidos', { tipoGranulacion: 'Seca' })).toBe(true);
+    expect(P.aplicaEnsayo(seca, 'comprimidos', 'solidos', { tipoGranulacion: 'Húmeda' })).toBe(false);
+    expect(P.aplicaEnsayo(doble, 'capsulas', 'solidos', { tipoGranulacion: 'Doble húmeda' })).toBe(true);
+    expect(P.aplicaEnsayo(doble, 'capsulas', 'solidos', { tipoGranulacion: 'Húmeda' })).toBe(false);
   });
 
   it('no cita USP <1058> ni inventa IDs de instrumentos', () => {

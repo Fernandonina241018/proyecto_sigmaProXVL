@@ -122,8 +122,10 @@ describe('Validaciones V7', () => {
     expect(html).toContain('data-grupo="solidos"');
     expect(html).toContain('v7-tren');
     expect(Validaciones.getSchema('procesos').map((f) => f.k)).toContain('subtipo');
+    expect(Validaciones.getSchema('procesos').map((f) => f.k)).toContain('tipoGranulacion');
     expect(Validaciones.getSchema('procesos').map((f) => f.k)).toEqual(expect.arrayContaining(['metodoCodigo', 'metodoVersion']));
     expect(Validaciones.getSchema('procesos').find((f) => f.k === 'subtipo').opciones).toContain('Liberación modificada');
+    expect(Validaciones.getSchema('procesos').find((f) => f.k === 'tipoGranulacion').opciones).toEqual(expect.arrayContaining(['Húmeda', 'Seca', 'Doble húmeda', 'Húmeda + seca', 'No aplica']));
   });
 
   test('procesos: grupo → forma (combobox filtrado)', () => {
@@ -165,29 +167,46 @@ describe('Validaciones V7', () => {
     expect(Validaciones.trenHtml('solidos')).not.toContain('data-tren="hplc"');
   });
 
-  test('tren de equipos: cada forma ve solo sus equipos', () => {
+  test('tren de equipos: cada forma y tipo ve solo sus equipos', () => {
     const formas = ['comprimidos', 'capsulas', 'granulados', 'polvos'];
     for (const forma of formas) {
-      for (const et of Validaciones.TREN_EQUIPOS[forma]) {
-        for (const id of et.ids) {
-          const e = Validaciones.getEntidades('equipos').find((x) => x.id === id);
-          expect(e, forma + '/' + id).toBeTruthy();
-          expect(e.tipo, forma + '/' + id).toBe('M');
+      const mapa = Validaciones.TREN_EQUIPOS[forma];
+      expect(mapa && typeof mapa === 'object' && !Array.isArray(mapa), forma).toBe(true);
+      for (const etapas of Object.values(mapa)) {
+        for (const et of etapas) {
+          for (const id of et.ids) {
+            const e = Validaciones.getEntidades('equipos').find((x) => x.id === id);
+            expect(e, forma + '/' + id).toBeTruthy();
+            expect(e.tipo, forma + '/' + id).toBe('M');
+          }
         }
       }
     }
-    const prohibidos = {
-      comprimidos: ['encapsuladora'],
-      capsulas: ['tableteadora', 'recubridora'],
-      granulados: ['tableteadora', 'encapsuladora', 'recubridora'],
-      polvos: ['tableteadora', 'encapsuladora', 'recubridora', 'granulador'],
-    };
-    for (const [forma, ids] of Object.entries(prohibidos)) {
-      const html = Validaciones.trenHtml(forma, 'solidos');
-      for (const id of ids) expect(html, forma + '/' + id).not.toContain('data-tren="' + id + '"');
-    }
-    expect(Validaciones.trenHtml('comprimidos', 'solidos')).toContain('data-tren="tableteadora"');
-    expect(Validaciones.trenHtml('capsulas', 'solidos')).toContain('data-tren="encapsuladora"');
+
+    const humeda = Validaciones.trenHtml('comprimidos', 'solidos', 'Húmeda');
+    expect(humeda).toContain('data-tren="lecho-fluido"');
+    expect(humeda).toContain('data-tren="tableteadora"');
+    expect(humeda).not.toContain('data-tren="compactadora-rodillos"');
+
+    const seca = Validaciones.trenHtml('comprimidos', 'solidos', 'Seca');
+    expect(seca).toContain('data-tren="compactadora-rodillos"');
+    expect(seca).toContain('data-tren="molino"');
+    expect(seca).not.toContain('data-tren="lecho-fluido"');
+
+    const doble = Validaciones.trenHtml('comprimidos', 'solidos', 'Doble húmeda');
+    expect(doble).toContain('data-tren="lecho-fluido"');
+    expect(doble).toContain('2 ciclos');
+    expect(doble).not.toContain('data-tren="compactadora-rodillos"');
+
+    const noAplica = Validaciones.trenHtml('comprimidos', 'solidos', 'No aplica');
+    expect(noAplica).toContain('data-tren="tableteadora"');
+    expect(noAplica).not.toContain('data-tren="granulador"');
+
+    expect(Validaciones.trenHtml('comprimidos', 'solidos')).toContain('Seleccione el tipo de granulación');
+
+    const caps = Validaciones.trenHtml('capsulas', 'solidos', 'Seca');
+    expect(caps).toContain('data-tren="encapsuladora"');
+    expect(caps).not.toContain('data-tren="tableteadora"');
   });
 
   test('cada input del schema trae ayuda contextual', () => {

@@ -42,6 +42,8 @@ const Validaciones = (() => {
       { id: 'encapsuladora', nombre: 'Encapsuladora / capsuladora', tipo: 'M' },
       { id: 'mezclador', nombre: 'Mezclador (V / bins)', tipo: 'M' },
       { id: 'granulador', nombre: 'Granulador', tipo: 'M' },
+      { id: 'compactadora-rodillos', nombre: 'Compactadora de rodillos', tipo: 'M' },
+      { id: 'molino', nombre: 'Molino / tamiz oscilante', tipo: 'M' },
       { id: 'lecho-fluido', nombre: 'Lecho fluido', tipo: 'M' },
       { id: 'llenadora', nombre: 'Llenadora de líquidos', tipo: 'M' },
       { id: 'llenadora-tubos', nombre: 'Llenadora y selladora de tubos', tipo: 'M' },
@@ -114,40 +116,54 @@ const Validaciones = (() => {
   // por etapa. El orden de las etapas es el orden del proceso; el usuario elige
   // qué equipos de cada etapa participan. Los analíticos van en la tabla de
   // instrumentos del ensayo, no en el tren.
+  const TREN_ETAPA = {
+    mezcla: { etapa: 'Mezcla', ids: ['mezclador'] },
+    granHumeda: { etapa: 'Granulación húmeda', ids: ['granulador', 'lecho-fluido'] },
+    granHumeda2: { etapa: 'Granulación húmeda (2 ciclos)', ids: ['granulador', 'lecho-fluido'] },
+    secado: { etapa: 'Secado', ids: ['secador-bandejas', 'secador-tambor', 'horno-secado', 'horno-vacio'] },
+    secado2: { etapa: 'Secado (2 ciclos)', ids: ['secador-bandejas', 'secador-tambor', 'horno-secado', 'horno-vacio'] },
+    compactacion: { etapa: 'Compactación por rodillos', ids: ['compactadora-rodillos'] },
+    molienda: { etapa: 'Molienda / tamizado', ids: ['molino'] },
+    compresion: { etapa: 'Compresión', ids: ['tableteadora'] },
+    encapsulacion: { etapa: 'Encapsulación', ids: ['encapsuladora'] },
+    recubrimiento: { etapa: 'Recubrimiento', ids: ['recubridora'] },
+    empaque: { etapa: 'Empaque', ids: ['blistera', 'etiquetadora', 'detector-metales'] },
+    empaqueSinBlister: { etapa: 'Empaque', ids: ['etiquetadora', 'detector-metales'] },
+  };
+
+  // Tren por forma y tipo de granulación. El tipo se elige en el paso 2 y
+  // vuelve a pintar el checklist: húmeda usa granulador/lecho fluido; seca usa
+  // compactadora y molino; doble reutiliza el mismo tren en dos ciclos.
   const TREN_EQUIPOS = {
-    // Por forma: cada forma ve solo los equipos de su proceso.
-    comprimidos: [
-      { etapa: 'Mezcla', ids: ['mezclador'] },
-      { etapa: 'Granulación / secado', ids: ['granulador', 'lecho-fluido', 'secador-bandejas', 'secador-tambor', 'horno-secado', 'horno-vacio'] },
-      { etapa: 'Compresión', ids: ['tableteadora'] },
-      { etapa: 'Recubrimiento', ids: ['recubridora'] },
-      { etapa: 'Empaque', ids: ['blistera', 'etiquetadora', 'detector-metales'] },
-    ],
-    capsulas: [
-      { etapa: 'Mezcla', ids: ['mezclador'] },
-      { etapa: 'Granulación / secado', ids: ['granulador', 'lecho-fluido', 'secador-bandejas', 'secador-tambor', 'horno-secado', 'horno-vacio'] },
-      { etapa: 'Encapsulación', ids: ['encapsuladora'] },
-      { etapa: 'Empaque', ids: ['blistera', 'etiquetadora', 'detector-metales'] },
-    ],
-    granulados: [
-      { etapa: 'Mezcla', ids: ['mezclador'] },
-      { etapa: 'Granulación / secado', ids: ['granulador', 'lecho-fluido', 'secador-bandejas', 'secador-tambor', 'horno-secado', 'horno-vacio'] },
-      { etapa: 'Empaque', ids: ['etiquetadora', 'detector-metales'] },
-    ],
-    polvos: [
-      { etapa: 'Mezcla', ids: ['mezclador'] },
-      { etapa: 'Secado', ids: ['horno-secado', 'horno-vacio'] },
-      { etapa: 'Empaque', ids: ['etiquetadora', 'detector-metales'] },
-    ],
-    // Fallback por grupo para formas futuras que todavía no tengan mapa propio.
-    solidos: [
-      { etapa: 'Mezcla', ids: ['mezclador'] },
-      { etapa: 'Granulación / secado', ids: ['granulador', 'lecho-fluido', 'secador-bandejas', 'secador-tambor', 'horno-secado', 'horno-vacio'] },
-      { etapa: 'Compresión', ids: ['tableteadora'] },
-      { etapa: 'Encapsulación', ids: ['encapsuladora'] },
-      { etapa: 'Recubrimiento', ids: ['recubridora'] },
-      { etapa: 'Empaque', ids: ['blistera', 'etiquetadora', 'detector-metales'] },
-    ],
+    comprimidos: {
+      'Húmeda': [TREN_ETAPA.mezcla, TREN_ETAPA.granHumeda, TREN_ETAPA.secado, TREN_ETAPA.compresion, TREN_ETAPA.recubrimiento, TREN_ETAPA.empaque],
+      'Seca': [TREN_ETAPA.mezcla, TREN_ETAPA.compactacion, TREN_ETAPA.molienda, TREN_ETAPA.compresion, TREN_ETAPA.recubrimiento, TREN_ETAPA.empaque],
+      'Doble húmeda': [TREN_ETAPA.mezcla, TREN_ETAPA.granHumeda2, TREN_ETAPA.secado2, TREN_ETAPA.compresion, TREN_ETAPA.recubrimiento, TREN_ETAPA.empaque],
+      'Húmeda + seca': [TREN_ETAPA.mezcla, TREN_ETAPA.granHumeda, TREN_ETAPA.secado, TREN_ETAPA.compactacion, TREN_ETAPA.molienda, TREN_ETAPA.compresion, TREN_ETAPA.recubrimiento, TREN_ETAPA.empaque],
+      'No aplica': [TREN_ETAPA.mezcla, TREN_ETAPA.compresion, TREN_ETAPA.recubrimiento, TREN_ETAPA.empaque],
+    },
+    capsulas: {
+      'Húmeda': [TREN_ETAPA.mezcla, TREN_ETAPA.granHumeda, TREN_ETAPA.secado, TREN_ETAPA.encapsulacion, TREN_ETAPA.empaque],
+      'Seca': [TREN_ETAPA.mezcla, TREN_ETAPA.compactacion, TREN_ETAPA.molienda, TREN_ETAPA.encapsulacion, TREN_ETAPA.empaque],
+      'Doble húmeda': [TREN_ETAPA.mezcla, TREN_ETAPA.granHumeda2, TREN_ETAPA.secado2, TREN_ETAPA.encapsulacion, TREN_ETAPA.empaque],
+      'Húmeda + seca': [TREN_ETAPA.mezcla, TREN_ETAPA.granHumeda, TREN_ETAPA.secado, TREN_ETAPA.compactacion, TREN_ETAPA.molienda, TREN_ETAPA.encapsulacion, TREN_ETAPA.empaque],
+      'No aplica': [TREN_ETAPA.mezcla, TREN_ETAPA.encapsulacion, TREN_ETAPA.empaque],
+    },
+    granulados: {
+      'Húmeda': [TREN_ETAPA.mezcla, TREN_ETAPA.granHumeda, TREN_ETAPA.secado, TREN_ETAPA.empaqueSinBlister],
+      'Seca': [TREN_ETAPA.mezcla, TREN_ETAPA.compactacion, TREN_ETAPA.molienda, TREN_ETAPA.empaqueSinBlister],
+      'Doble húmeda': [TREN_ETAPA.mezcla, TREN_ETAPA.granHumeda2, TREN_ETAPA.secado2, TREN_ETAPA.empaqueSinBlister],
+      'Húmeda + seca': [TREN_ETAPA.mezcla, TREN_ETAPA.granHumeda, TREN_ETAPA.secado, TREN_ETAPA.compactacion, TREN_ETAPA.molienda, TREN_ETAPA.empaqueSinBlister],
+      'No aplica': [TREN_ETAPA.mezcla, TREN_ETAPA.empaqueSinBlister],
+    },
+    polvos: {
+      'Húmeda': [TREN_ETAPA.mezcla, TREN_ETAPA.granHumeda, TREN_ETAPA.secado, TREN_ETAPA.empaqueSinBlister],
+      'Seca': [TREN_ETAPA.mezcla, TREN_ETAPA.compactacion, TREN_ETAPA.molienda, TREN_ETAPA.empaqueSinBlister],
+      'Doble húmeda': [TREN_ETAPA.mezcla, TREN_ETAPA.granHumeda2, TREN_ETAPA.secado2, TREN_ETAPA.empaqueSinBlister],
+      'Húmeda + seca': [TREN_ETAPA.mezcla, TREN_ETAPA.granHumeda, TREN_ETAPA.secado, TREN_ETAPA.compactacion, TREN_ETAPA.molienda, TREN_ETAPA.empaqueSinBlister],
+      'No aplica': [TREN_ETAPA.mezcla, TREN_ETAPA.empaqueSinBlister],
+    },
+    // Fallback para formas sin granulación y para formas futuras.
     semisolidos: [
       { etapa: 'Mezcla / fusión', ids: ['mezclador', 'sistema-cremas-vacio'] },
       { etapa: 'Homogeneización', ids: ['sistema-cremas-vacio'] },
@@ -161,6 +177,15 @@ const Validaciones = (() => {
       { etapa: 'Esterilización', ids: ['autoclave', 'tunel-despirogenizacion'] },
       { etapa: 'Liofilización', ids: ['liofilizador'] },
       { etapa: 'Empaque', ids: ['etiquetadora', 'detector-metales'] },
+    ],
+    solidos: [
+      { etapa: 'Mezcla', ids: ['mezclador'] },
+      { etapa: 'Granulación / secado', ids: ['granulador', 'lecho-fluido', 'secador-bandejas', 'secador-tambor', 'horno-secado', 'horno-vacio'] },
+      { etapa: 'Compactación / molienda', ids: ['compactadora-rodillos', 'molino'] },
+      { etapa: 'Compresión', ids: ['tableteadora'] },
+      { etapa: 'Encapsulación', ids: ['encapsuladora'] },
+      { etapa: 'Recubrimiento', ids: ['recubridora'] },
+      { etapa: 'Empaque', ids: ['blistera', 'etiquetadora', 'detector-metales'] },
     ],
   };
 
@@ -285,6 +310,13 @@ const Validaciones = (() => {
       { k: 'producto', label: 'Producto', tipo: 'text', req: true },
       { k: 'concentracion', label: 'Concentración / potencia', tipo: 'text', req: true },
       {
+        k: 'tipoGranulacion',
+        label: 'Tipo de granulación',
+        tipo: 'select',
+        req: true,
+        opciones: ['Húmeda', 'Seca', 'Doble húmeda', 'Húmeda + seca', 'No aplica'],
+      },
+      {
         k: 'subtipo',
         label: 'Subtipo de la forma',
         tipo: 'select',
@@ -345,6 +377,7 @@ const Validaciones = (() => {
     producto: 'Nombre del producto; no confundir con la forma farmacéutica.',
     concentracion: 'Concentración o potencia declarada. Incluí la unidad (mg, %, mg/mL).',
     subtipo: 'Subtipo de la forma elegida; determina qué ensayos específicos se generan.',
+    tipoGranulacion: 'Seleccione cómo se granula: húmeda, seca, doble húmeda o húmeda + seca. Cambia el tren de equipos y los ensayos de granulación.',
     especificacionCodigo: 'Código de la especificación del producto aprobada.',
     especificacionVersion: 'Versión de la especificación del producto aprobada.',
     metodoCodigo: 'Código del protocolo de validación del método analítico; se imprime en requisitos previos.',
@@ -1271,14 +1304,19 @@ const Validaciones = (() => {
     return cond === 'ambas' || i.cond === 'ambas' || i.cond === cond;
   }
 
-  function aplicaProceso(i, entId, grupo, sub) {
+  function aplicaProceso(i, entId, grupo, sub, tipoGran) {
     if (i.familia && entId && i.familia !== entId && i.familia !== grupo) return false;
     const s = String(sub || '').trim();
     if (i.subtipo && i.subtipo !== s) return false;
+    const g = String(tipoGran || '').trim();
+    if (i.granulacion && g) {
+      const lista = String(i.granulacion).split(',').map((x) => x.trim()).filter(Boolean);
+      if (lista.indexOf(g) < 0) return false;
+    }
     return true;
   }
 
-  function contarGen(fase, cond, catId, entId, sub) {
+  function contarGen(fase, cond, catId, entId, sub, tipoGran) {
     try {
       // DQ es un documento base desde la plantilla (sin banco de ensayos);
       // almacenes conserva su DQ con contenido.
@@ -1288,7 +1326,7 @@ const Validaciones = (() => {
         const ent = getEntidades(catId).filter((x) => x.id === entId)[0];
         const grupo = String((ent && ent.grupo) || '').trim();
         return (BancoProcesos.fases[fase] || []).filter((i) => i.id && (i.bloque === 2 || i.bloque === 3)
-          && pasaCondicionProceso(i, cond || 'ambas') && aplicaProceso(i, entId, grupo, sub)).length;
+          && pasaCondicionProceso(i, cond || 'ambas') && aplicaProceso(i, entId, grupo, sub, tipoGran)).length;
       }
       // Equipos/estabilidad/sistemas: mismo criterio que generar() — bloques 2-3, condición y familia/entidad.
       const BB = catId === 'estabilidad'
@@ -1391,13 +1429,23 @@ const Validaciones = (() => {
     return null;
   }
 
-  function trenHtml(forma, grupo) {
-    const f = String(forma || '').trim();
-    const g = String(grupo || '').trim();
-    const etapas = TREN_EQUIPOS[f] || TREN_EQUIPOS[g] || [{
+  function etapasTren(forma, grupo, tipo) {
+    const f = TREN_EQUIPOS[String(forma || '').trim()];
+    const t = String(tipo || '').trim();
+    if (Array.isArray(f)) return f;
+    if (f && typeof f === 'object') return t && f[t] ? f[t] : null;
+    const g = TREN_EQUIPOS[String(grupo || '').trim()];
+    if (Array.isArray(g)) return g;
+    if (g && typeof g === 'object') return t && g[t] ? g[t] : null;
+    return [{
       etapa: 'Equipos de producción',
       ids: getEntidades('equipos').filter(function (e) { return e.tipo === 'M'; }).map(function (e) { return e.id; }),
     }];
+  }
+
+  function trenHtml(forma, grupo, tipo) {
+    const etapas = etapasTren(forma, grupo, tipo);
+    if (!etapas) return '<p class="sub">Seleccione el tipo de granulación para ver el tren de equipos.</p>';
     if (!etapas.length) return '<p class="sub">No hay equipos de producción configurados.</p>';
     return etapas.map(function (et) {
       const opts = et.ids.map(function (id) {
@@ -1606,12 +1654,19 @@ const Validaciones = (() => {
         : 'Seleccione al menos un equipo del tren.';
     }
 
-    function pintarTren(forma, grupo) {
+    function pintarTren(forma, grupo, tipo) {
       const box = form.querySelector('.v7-tren');
       if (!box) return;
+      const prev = trenSeleccionado();
       box.dataset.grupo = grupo || '';
       box.dataset.forma = forma || '';
-      box.innerHTML = trenHtml(forma, grupo);
+      box.dataset.tipo = tipo || '';
+      box.innerHTML = trenHtml(forma, grupo, tipo);
+      // Conservar equipos comunes (mezcla, empaque) al cambiar el tipo.
+      prev.forEach(function (id) {
+        const el = box.querySelector('[data-tren="' + id + '"]');
+        if (el) el.checked = true;
+      });
       pintarResumenTren();
       pintarEstadoCampos();
     }
@@ -1913,7 +1968,7 @@ const Validaciones = (() => {
         let vista = null;
         try { vista = recoger(); } catch (e) { vista = null; }
         const parts = sel.fases.map((f) => {
-          const n = contarGen(f, sel.cond, catId, entActual, (vista && vista.subtipo) || '');
+          const n = contarGen(f, sel.cond, catId, entActual, (vista && vista.subtipo) || '', (vista && vista.tipoGranulacion) || '');
           let extra = '';
           // H-05: rotula límites provisionales o sin tabla (nunca silencioso).
           if (typeof PlantillaDocx !== 'undefined' && PlantillaDocx.limitesResumen) {
@@ -2153,7 +2208,8 @@ const Validaciones = (() => {
       if (token !== cargaToken) return false;
       const entSel = getEntidades(catId).filter((x) => x.id === entId)[0];
       entActual = entId;
-      pintarTren(entSel && entSel.id, entSel && entSel.grupo);
+      const tipoGran = String((draft && draft.tipoGranulacion) || '').trim();
+      pintarTren(entSel && entSel.id, entSel && entSel.grupo, tipoGran);
       pintarParametros(draft);
       cargar(draft);
       aplicarCondicionesAlmacen(draft);
@@ -2360,6 +2416,10 @@ const Validaciones = (() => {
       });
       form.addEventListener('change', function (e) {
         const t = e && e.target;
+        if (t && t.getAttribute && t.getAttribute('data-k') === 'tipoGranulacion') {
+          const ent = entidadObj();
+          pintarTren(ent.id, ent.grupo, String(t.value || ''));
+        }
         if (t && t.getAttribute && t.getAttribute('data-tren') !== null) {
           pintarResumenTren();
           pintarEstadoCampos();
