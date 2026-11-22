@@ -90,6 +90,31 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (StatAnalyzer Pro) co
 
 ## CAMBIOS RECIENTES
 
+### 2026-11-22 (348): Plan de muestreo por etapa y fórmula según parámetro
+
+**Qué:** se incorpora al banco el plan de muestreo por etapa del documento de referencia, con la fórmula que corresponde a cada tipo de parámetro.
+- **`PRO-PQ-GEN-011`:** agrega el plan estadístico con fórmula para media continua, proporción/atributo, corrección por población finita e intervalo de tolerancia; exige documentar z, σ/p, E, N y la justificación antes de ejecutar.
+- **`PRO-PQ-CMP-014`:** agrega la matriz por etapa: pesada, tamizado/molienda, mezclado, granulación húmeda, secado, compresión, recubrimiento y producto terminado, con la fórmula aplicable a cada atributo.
+- **Regla:** no hay un `n` universal ni “tres muestras por etapa”; el número de lotes y el número de muestras son decisiones distintas.
+- **Ejemplos:** el cálculo de humedad, mezcla, compresión y recubrimiento queda como ejemplo ilustrativo, no como límite.
+- **Referencias:** FDA 2011, 21 CFR 211.110, ICH Q9(R1) e ISO 16269-6 (intervalos de tolerancia).
+
+**Estado medido:** sin cambios de cantidad: 56 ensayos de proceso · total 1482 · criterio numérico 982 (66 %).
+
+**Archivos afectados:**
+| Archivo | Cambio |
+|---------|--------|
+| `docs/banco-ensayos/procesos/pq-comun.html` | Plan de muestreo con fórmulas |
+| `docs/banco-ensayos/procesos/pq-comprimidos.html` | Matriz de fórmula por etapa |
+| `docs/banco-ensayos/procesos/REFERENCIAS.md` | Sección de plan de muestreo e ISO 16269-6 |
+| `js/core/banco-procesos-data.js` | Regenerado |
+| `tests/banco-procesos.test.js` | **34 pruebas** (fórmulas por tipo y etapa) |
+
+**Verificación:**
+```
+npm run preflight → protocolo:check OK, urs-ar:check OK, Vitest 1274, backend 154, E2E 14
+```
+
 ### 2026-11-21 (347): Ayuda contextual en cada input del schema
 
 **Qué:** cada campo del formulario de entidad muestra una ayuda breve y permanente debajo del input, accesible con `aria-describedby`. Los parámetros de cada familia también traen su ayuda específica (parámetro, unidad, fuente y estado).

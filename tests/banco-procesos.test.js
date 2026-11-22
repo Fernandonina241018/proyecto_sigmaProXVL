@@ -333,3 +333,24 @@ describe('ayuda contextual en parámetros de la familia', () => {
     expect(mezcla.ayuda).toMatch(/Fuente:/);
   });
 });
+
+describe('plan de muestreo por etapa', () => {
+  it('GEN-011 indica la fórmula según el tipo de parámetro', () => {
+    const e = ensayos.find((x) => x.id === 'PRO-PQ-GEN-011');
+    const p = texto(e, 'Plan estadístico');
+    expect(p).toContain('n = (z · σ / E)²');
+    expect(p).toContain('n = z² · p(1 − p) / E²');
+    expect(p).toContain('n_aj = n / (1 + (n − 1) / N)');
+    expect(p).toContain('tolerancia');
+  });
+
+  it('CMP-014 indica la fórmula por etapa', () => {
+    const e = ensayos.find((x) => x.id === 'PRO-PQ-CMP-014');
+    const p = texto(e, 'Plan estadístico');
+    expect(p).toContain('Pesada');
+    expect(p).toContain('Mezclado');
+    expect(p).toContain('Compresión');
+    expect(p).toContain('Recubrimiento');
+    expect(p).toContain('Producto terminado');
+  });
+});
