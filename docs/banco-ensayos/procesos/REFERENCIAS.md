@@ -51,6 +51,15 @@ Laboratorios Sued; el banco cita capítulo y título, no una edición no verific
 | Especificación del producto | Integridad de la cápsula (grietas, fugas, separación) | Documento aprobado del producto |
 | Especificación del producto / certificado del proveedor | Dimensiones y calibre de la cápsula (longitud, diámetro, espesor de pared) | Documento aprobado del producto |
 
+## Plan de muestreo
+
+| Referencia | Uso en el banco | Fuente verificada |
+|---|---|---|
+| FDA — *Process Validation* (2011), Stage 2 | El protocolo define puntos, número de muestras y frecuencia; confianza dentro y entre lotes | https://www.fda.gov/files/drugs/published/Process-Validation--General-Principles-and-Practices.pdf |
+| 21 CFR 211.110(a) | Muestreo y controles en proceso | https://www.ecfr.gov/current/title-21/chapter-I/subchapter-C/part-211/subpart-F/section-211.110 |
+| ICH Q9(R1) | Muestreo basado en riesgo | https://www.ich.org/page/quality-guidelines |
+| ISO 16269-6 | Intervalos de tolerancia estadística | https://www.iso.org/standard/53568.html |
+
 ## Proveedores, almacenamiento y sistemas de apoyo
 
 | Referencia | Uso en el banco | Fuente verificada |
@@ -146,3 +155,8 @@ Laboratorios Sued; el banco cita capítulo y título, no una edición no verific
 - **Sistemas y salas limpias:** su calificación/validación se ejecuta en los
   protocolos de sistemas y salas; la PQ verifica el estado, el monitoreo del
   período y las excursiones.
+- **Plan de muestreo:** no hay un `n` universal. La fórmula depende del tipo de
+  parámetro (media, proporción o tolerancia), del margen de error, del riesgo y
+  del tamaño del lote. El número de lotes PPQ y el número de muestras por etapa
+  son decisiones distintas; tres lotes consecutivos no compensan un muestreo
+  insuficiente.
