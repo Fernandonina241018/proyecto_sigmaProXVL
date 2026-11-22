@@ -90,6 +90,14 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (StatAnalyzer Pro) co
 
 ## CAMBIOS RECIENTES
 
+### 2026-11-22 (354): Cierre de auditoría — foco del modal de passkeys
+
+**Qué:** la trampa de foco del perfil (353) se extrajo a `trapFocus(container)` y ahora también envuelve el modal anidado de passkeys, que vive en `document.body`. Antes, al abrirlo, el Tab del perfil devolvía el foco al modal de debajo. El helper solo actúa si su overlay es el último `.modal-overlay` abierto. Además el panel del login pasa a `calc(100dvh - 84px)`.
+
+**Archivos:** `js/core/indexx-ui.js` (helper + uso en perfil y passkeys), `css/core/auth-v2.css`.
+
+**Verificación:** 16 Tabs dentro del perfil y 14 dentro de passkeys, sin fugas; Escape cierra cada uno; `npm run preflight` OK.
+
 ### 2026-11-22 (353): Sesión vencida que no salía + accesibilidad visual (auditoría)
 
 **Qué:** dos bloques en un solo cambio.
