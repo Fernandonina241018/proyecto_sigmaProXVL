@@ -1,1 +1,1 @@
-{"v":"873bcdb","t":"2026-11-22T19:01:21Z","m":"fix(a11y): trampa de foco compartida y modal de passkeys (#380)","b":["trapFocus() reutilizable; solo actua si su overlay es el ultimo abierto","passkeys ya no devuelve el foco al modal de perfil","panel del login a 100dvh"]}
+{"v":"5d660a3","t":"2026-11-22T19:19:11Z","m":"fix(auth): un token muerto devuelve al login (#382)","b":["expire() con guarda _expiring y motivo 'expired'"]}
