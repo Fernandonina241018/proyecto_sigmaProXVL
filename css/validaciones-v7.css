@@ -428,6 +428,12 @@
   color: var(--v7-muted);
   margin-top: 2px;
 }
+/* Estado de completitud: requerido vacío = rojo; con valor = verde. */
+#validaciones-app .v7-field .v7-ctl { transition: border-color 0.15s, background 0.15s; }
+#validaciones-app .v7-field .v7-ctl.v7-invalid { border-color: #b00020; background: #fff5f5; }
+#validaciones-app .v7-field .v7-ctl.v7-valid { border-color: #1a7f37; background: #f3fbf5; }
+#validaciones-app .v7-tren.v7-invalid { border-color: #b00020; }
+#validaciones-app .v7-tren.v7-valid { border-color: #1a7f37; }
 /* preview de cómo saldrá la descripción en encabezado/portada */
 #validaciones-app .v7-desc-preview { font-size: 11px; color: var(--v7-muted); font-style: italic; }
 /* H-01: fases sin banco de familia (no se generan) */

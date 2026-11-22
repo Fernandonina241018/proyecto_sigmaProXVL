@@ -205,6 +205,22 @@ describe('Validaciones V7', () => {
     expect(alm).toContain('Límite inferior en °C');
   });
 
+  test('estado de input: vacío requerido rojo, lleno verde', () => {
+    expect(Validaciones.claseEstadoCampo(true, '')).toBe('v7-invalid');
+    expect(Validaciones.claseEstadoCampo(true, '   ')).toBe('v7-invalid');
+    expect(Validaciones.claseEstadoCampo(true, 'valor')).toBe('v7-valid');
+    expect(Validaciones.claseEstadoCampo(false, '')).toBe('');
+    expect(Validaciones.claseEstadoCampo(false, 'valor')).toBe('v7-valid');
+    const proc = Validaciones.viewEntidad('procesos');
+    expect(proc).toContain('v7-ctl');
+    expect(proc).toContain('data-req="1"');
+    expect(proc).toContain('enterkeyhint="next"');
+    const alm = Validaciones.viewEntidad('almacenes');
+    expect(alm).toContain('type="number"');
+    expect(alm).toContain('inputmode="decimal"');
+    expect(alm).toContain('inputmode="numeric"');
+  });
+
   test('ruta de entidad válida y desconocida cae a banco', () => {
     expect(Validaciones.parseRoute('#/entidad/almacenes')).toBe('entidad/almacenes');
     expect(Validaciones.parseRoute('#/entidad/no-existe')).toBe('banco');
@@ -226,7 +242,7 @@ describe('Validaciones V7', () => {
     expect(html).toContain('flatpickr.min.css');
     expect(html).toContain('flatpickr.min.js');
     expect(html).toContain('l10n/es.js');
-    expect(Validaciones.viewEntidad('equipos')).toContain('class="v7-fecha"');
+    expect(Validaciones.viewEntidad('equipos')).toContain('v7-fecha');
     const llamadas = [];
     globalThis.flatpickr = Object.assign(
       function (el, opts) { llamadas.push([el, opts]); },

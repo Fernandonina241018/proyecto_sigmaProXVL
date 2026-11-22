@@ -874,6 +874,14 @@ const Validaciones = (() => {
       + '<div>Esta área estará en funcionamiento próximamente.</div></div></div>';
   }
 
+  // Estado visual de un input: requerido vacío = rojo, con valor = verde.
+  // Los opcionales vacíos quedan neutros para no marcar errores falsos.
+  function claseEstadoCampo(req, val) {
+    const v = String(val == null ? '' : val).trim();
+    if (req && !v) return 'v7-invalid';
+    return v ? 'v7-valid' : '';
+  }
+
   function fieldHtml(f, val) {
     const v = val == null ? '' : String(val);
     const req = f.req ? ' data-req="1"' : '';
@@ -890,20 +898,20 @@ const Validaciones = (() => {
       const opts = ['<option value="">— Seleccione —</option>'].concat(
         (f.opciones || []).map((o) => '<option value="' + esc(o) + '"' + (o === v ? ' selected' : '') + '>' + esc(o) + '</option>')
       ).join('');
-      return lab + '<select data-k="' + f.k + '"' + req + auto + desc + '>' + opts + '</select>' + help + '</label>';
+      return lab + '<select class="v7-ctl" enterkeyhint="next" data-k="' + f.k + '"' + req + auto + desc + '>' + opts + '</select>' + help + '</label>';
     }
     if (f.tipo === 'date') {
-      return lab + '<input type="date" class="v7-fecha" data-k="' + f.k + '"' + req + auto + desc + ' value="' + esc(v) + '">' + help + '</label>';
+      return lab + '<input type="date" class="v7-ctl v7-fecha" enterkeyhint="next" data-k="' + f.k + '"' + req + auto + desc + ' value="' + esc(v) + '">' + help + '</label>';
     }    if (f.tipo === 'number') {
       const lim = (f.min != null ? ' min="' + f.min + '"' : '')
         + (f.max != null ? ' max="' + f.max + '"' : '')
         + (f.integer ? ' step="1"' : ' step="any"');
-      return lab + '<input type="number"' + lim + ' data-k="' + f.k + '"' + req + auto + desc + ' value="' + esc(v) + '">' + help + '</label>';
+      return lab + '<input type="number"' + lim + ' inputmode="' + (f.integer ? 'numeric' : 'decimal') + '" enterkeyhint="next" class="v7-ctl" data-k="' + f.k + '"' + req + auto + desc + ' value="' + esc(v) + '">' + help + '</label>';
     }
     if (f.tipo === 'file') {
-      return lab + '<input type="file" accept="image/*" data-k="' + f.k + '"' + req + auto + desc + '>' + help + '</label>';
+      return lab + '<input type="file" accept="image/*" class="v7-ctl" data-k="' + f.k + '"' + req + auto + desc + '>' + help + '</label>';
     }
-    return lab + '<input type="text" data-k="' + f.k + '"' + req + auto + desc + ' value="' + esc(v) + '">' + help + '</label>';
+    return lab + '<input type="text" class="v7-ctl" enterkeyhint="next" data-k="' + f.k + '"' + req + auto + desc + ' value="' + esc(v) + '">' + help + '</label>';
   }
 
   // Calendario flotante (flatpickr, CDN): muestra dd/Mmm/aaaa y guarda aaaa-mm-dd.
@@ -1605,6 +1613,28 @@ const Validaciones = (() => {
       box.dataset.forma = forma || '';
       box.innerHTML = trenHtml(forma, grupo);
       pintarResumenTren();
+      pintarEstadoCampos();
+    }
+
+    function pintarEstadoCampos() {
+      form.querySelectorAll('.v7-ctl').forEach(function (el) {
+        const clase = claseEstadoCampo(el.getAttribute('data-req') === '1', el.value);
+        el.classList.toggle('v7-invalid', clase === 'v7-invalid');
+        el.classList.toggle('v7-valid', clase === 'v7-valid');
+        if (el.setAttribute) el.setAttribute('aria-invalid', clase === 'v7-invalid' ? 'true' : 'false');
+      });
+      const tren = form.querySelector('.v7-tren');
+      if (tren) {
+        const sel = trenSeleccionado();
+        tren.classList.toggle('v7-invalid', !sel.length);
+        tren.classList.toggle('v7-valid', sel.length > 0);
+      }
+    }
+
+    function nombreCampo(el) {
+      const lab = el && el.closest ? el.closest('.v7-field') : null;
+      const span = lab ? lab.querySelector('span') : null;
+      return span ? String(span.textContent || '').replace(/\*/g, '').trim() : 'este campo';
     }
 
     function validarErrores() {
@@ -1638,6 +1668,7 @@ const Validaciones = (() => {
       schemaTotal().forEach((f) => {
         const el = form.querySelector('[data-k="' + f.k + '"]');
         if (el && f.tipo !== 'file' && data[f.k] != null) el.value = data[f.k];
+        if (el && el.setCustomValidity) el.setCustomValidity('');
         // El calendario flotante no se entera de value directo: sincronizar.
         try {
           if (el && el._flatpickr) el._flatpickr.setDate(el.value || null);
@@ -1662,6 +1693,7 @@ const Validaciones = (() => {
         nota.remove();
       }
       pintarResumenTren();
+      pintarEstadoCampos();
     }
 
     // ---- Parámetros de límites por entidad (mejora #1, H-05) ----
@@ -1681,6 +1713,7 @@ const Validaciones = (() => {
         label: p.label + ' (' + p.unidad + ')',
         tipo: 'text',
         req: true,
+        ayuda: p.ayuda,
       }));
       return schema.concat(extra);
     }
@@ -1705,8 +1738,9 @@ const Validaciones = (() => {
       grid.innerHTML = ps.map((p) => {
         const k = 'param_' + p.clave;
         const v = d[k] != null ? String(d[k]) : '';
-        return fieldHtml({ k, label: p.label + ' (' + p.unidad + ')', tipo: 'text', req: true }, v);
+        return fieldHtml({ k, label: p.label + ' (' + p.unidad + ')', tipo: 'text', req: true, ayuda: p.ayuda }, v);
       }).join('');
+      pintarEstadoCampos();
     }
 
     // ---- Firmantes (T0 automático + T2 con 2 combobox) ----
@@ -2283,11 +2317,52 @@ const Validaciones = (() => {
 
     if (form.addEventListener) {
       form.addEventListener('submit', function (e) { e.preventDefault(); });
-      form.addEventListener('input', function () { setMsg(''); pintarEstado(); });
+      form.addEventListener('input', function (e) { const t = e && e.target; if (t && t.setCustomValidity) t.setCustomValidity(''); setMsg(''); pintarEstadoCampos(); pintarEstado(); });
+      form.addEventListener('keydown', function (e) {
+        const t = e && e.target;
+        if (!t || t.type !== 'number' || e.ctrlKey || e.metaKey || e.altKey) return;
+        if (String(e.key || '').length !== 1) return;
+        if (!/[0-9.,-]/.test(e.key)) e.preventDefault();
+      });
+      form.addEventListener('paste', function (e) {
+        const t = e && e.target;
+        if (!t || t.type !== 'number') return;
+        const txt = (e.clipboardData && e.clipboardData.getData('text')) || '';
+        if (!/^\s*-?\d*([.,]\d*)?\s*$/.test(txt)) e.preventDefault();
+      });
+      // Enter: pasar al siguiente campo del formulario, sin enviar ni guardar.
+      form.addEventListener('keydown', function (e) {
+        if (e.key !== 'Enter' || e.shiftKey || e.ctrlKey || e.altKey || e.metaKey) return;
+        const t = e && e.target;
+        if (!t || !t.classList || !t.classList.contains('v7-ctl')) return;
+        if (t.tagName === 'TEXTAREA' || t.type === 'file' || t.type === 'checkbox' || t.type === 'radio') return;
+        const req = t.getAttribute('data-req') === '1';
+        const val = String(t.value || '').trim();
+        if (req && !val) {
+          e.preventDefault();
+          const nombre = nombreCampo(t);
+          const texto = 'Complete ' + nombre + ' antes de continuar.';
+          if (t.setCustomValidity) t.setCustomValidity(texto);
+          if (t.reportValidity) t.reportValidity();
+          pintarEstadoCampos();
+          setMsg(texto, false);
+          t.focus();
+          return;
+        }
+        const campos = Array.prototype.slice.call(form.querySelectorAll('.v7-ctl'))
+          .filter(function (el) { return !el.disabled && !el.readOnly && el.type !== 'hidden'; });
+        const i = campos.indexOf(t);
+        if (i < 0 || i >= campos.length - 1) return;
+        e.preventDefault();
+        if (t.setCustomValidity) t.setCustomValidity('');
+        setMsg('');
+        campos[i + 1].focus();
+      });
       form.addEventListener('change', function (e) {
         const t = e && e.target;
         if (t && t.getAttribute && t.getAttribute('data-tren') !== null) {
           pintarResumenTren();
+          pintarEstadoCampos();
           setMsg('');
           pintarEstado();
         }
@@ -2556,7 +2631,7 @@ const Validaciones = (() => {
   try { init(); } catch (e) {}
 
   return {
-    CATS, ROUTES, DOCS, ENTIDADES, GRUPOS_PROCESOS, TREN_EQUIPOS, SCHEMAS, FASES_GEN, GEN_FASES, AREAS_GERENCIA, parseRoute, catById, getSchema, getEntidades, trenHtml,
+    CATS, ROUTES, DOCS, ENTIDADES, GRUPOS_PROCESOS, TREN_EQUIPOS, SCHEMAS, FASES_GEN, GEN_FASES, AREAS_GERENCIA, parseRoute, catById, getSchema, getEntidades, trenHtml, claseEstadoCampo,
     entidadPorNombre, datosAlmacen, sinTablaPreaprobada, faltantesParametrosBanco, estadoIntegridad,
     puestoGerente, areaDesdeCargo, firmantesHtml, saveDraft, loadDraft, cargarBorrador, guardarBorrador, validarDatos, saveGen, loadGen, viewEntidad, show, hide, apply, currentArea, render, contarGen, tieneBancoFam, estadoBancoFam, resolverDescripcion, mejorarFecha, manifest, viewProtocolos,
     viewDocumentacion, viewReportes, viewConfiguracion, viewAyuda, viewCalendario, chartHtml, reportHtml, calendarHtml, cargarResumen, cargarCalendario, cargarReportes, bindConfiguracion,
