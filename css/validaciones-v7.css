@@ -425,28 +425,29 @@
   display: block;
   font-size: 11px;
   line-height: 1.35;
-  color: var(--v7-muted);
+  color: var(--v7-ink);
+  opacity: 0.72;
   margin-top: 2px;
 }
 /* Estado de completitud: requerido vacío = rojo; con valor = verde. */
 #validaciones-app .v7-field .v7-ctl { transition: border-color 0.15s, background 0.15s; }
-/* Fondo claro => texto oscuro: el tema es dark y el color heredado era claro. */
+/* El fondo sigue el tema: tinte oscuro/claro + borde de estado. Nunca blanco fijo. */
 #validaciones-app .v7-field .v7-ctl.v7-invalid {
-  border-color: #b00020;
-  background: #fff5f5;
-  color: #7f1d1d;
-  -webkit-text-fill-color: #7f1d1d;
+  border-color: var(--accent-error, #f85149);
+  background: rgba(248, 81, 73, 0.14);
+  color: var(--v7-ink);
+  -webkit-text-fill-color: var(--v7-ink);
 }
 #validaciones-app .v7-field .v7-ctl.v7-valid {
-  border-color: #1a7f37;
-  background: #f3fbf5;
-  color: #14532d;
-  -webkit-text-fill-color: #14532d;
+  border-color: var(--accent-alt, #3fb950);
+  background: rgba(63, 185, 80, 0.14);
+  color: var(--v7-ink);
+  -webkit-text-fill-color: var(--v7-ink);
 }
-#validaciones-app .v7-field .v7-ctl.v7-invalid::placeholder { color: #991b1b; opacity: 0.75; }
-#validaciones-app .v7-field .v7-ctl.v7-valid::placeholder { color: #4b5563; opacity: 0.75; }
+#validaciones-app .v7-field .v7-ctl.v7-invalid::placeholder,
+#validaciones-app .v7-field .v7-ctl.v7-valid::placeholder { color: var(--v7-muted); opacity: 0.85; }
 #validaciones-app .v7-field select.v7-invalid option,
-#validaciones-app .v7-field select.v7-valid option { color: #111827; background: #ffffff; }
+#validaciones-app .v7-field select.v7-valid option { color: var(--v7-ink); background: var(--v7-panel-2); }
 #validaciones-app .v7-tren.v7-invalid { border-color: #b00020; }
 #validaciones-app .v7-tren.v7-valid { border-color: #1a7f37; }
 /* preview de cómo saldrá la descripción en encabezado/portada */
@@ -501,9 +502,9 @@
   padding-top: 14px;
   border-top: 1px solid var(--v7-border);
 }
-#validaciones-app .v7-form-msg { font-size: 12px; color: var(--v7-muted); margin-right: auto; }
-#validaciones-app .v7-form-msg.ok { color: var(--v7-green); }
-#validaciones-app .v7-form-msg.err { color: var(--danger); }
+#validaciones-app .v7-form-msg { font-size: 12px; color: var(--v7-ink); opacity: 0.85; margin-right: auto; }
+#validaciones-app .v7-form-msg.ok { color: var(--accent-alt, #3fb950); opacity: 1; }
+#validaciones-app .v7-form-msg.err { color: var(--accent-error, #f85149); opacity: 1; }
 #validaciones-app .v7-btn-save,
 #validaciones-app .v7-btn-gen {
   font: inherit;
@@ -587,9 +588,9 @@
   margin-bottom: 4px;
 }
 #validaciones-app .v7-genresumen strong { color: var(--v7-accent); }
-#validaciones-app .v7-gen-msg { font-size: 12px; color: var(--v7-muted); margin-right: auto; }
-#validaciones-app .v7-gen-msg.ok { color: var(--v7-green); }
-#validaciones-app .v7-gen-msg.err { color: var(--danger); }
+#validaciones-app .v7-gen-msg { font-size: 12px; color: var(--v7-ink); opacity: 0.85; margin-right: auto; }
+#validaciones-app .v7-gen-msg.ok { color: var(--accent-alt, #3fb950); opacity: 1; }
+#validaciones-app .v7-gen-msg.err { color: var(--accent-error, #f85149); opacity: 1; }
 #validaciones-app .v7-btn-download {
   font: inherit;
   font-size: 13px;
