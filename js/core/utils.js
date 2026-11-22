@@ -198,6 +198,17 @@ function fetchWithTimeout(url, options, timeoutMs = 15000) {
     var controller = new AbortController();
     var timer = setTimeout(function() { controller.abort(); }, timeoutMs);
     return fetch(url, Object.assign({}, options, { signal: controller.signal }))
+        .then(function (res) {
+            // Token muerto (JWT de 8 h vencido, secreto rotado, revocado): el
+            // backend lo marca con code=AUTH_INVALID. Volver al login en vez de
+            // quedarse con la app abierta que no carga nada.
+            if (res.status === 401) {
+                res.clone().json().then(function (b) {
+                    if (b && b.code === 'AUTH_INVALID' && typeof Auth !== 'undefined' && Auth.expire) Auth.expire();
+                }).catch(function () {});
+            }
+            return res;
+        })
         .finally(function() { clearTimeout(timer); });
 }
 

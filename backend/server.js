@@ -458,26 +458,26 @@ function extractRawToken(req) {
 function requireAuth(req, res, next) {
     const token = extractRawToken(req);
     if (!token) {
-        return res.status(401).json({ error: 'Token requerido' });
+        return res.status(401).json({ error: 'Token requerido', code: 'AUTH_INVALID' });
     }
 
     // CSRF: no-GET debe usar Authorization header (no cookie)
     if (req.method !== 'GET' && req.method !== 'HEAD' && req.method !== 'OPTIONS') {
         const header = req.headers.authorization;
         if (!header?.startsWith('Bearer ')) {
-            return res.status(401).json({ error: 'Se requiere autenticación por header para esta operación' });
+            return res.status(401).json({ error: 'Se requiere autenticación por header para esta operación', code: 'AUTH_INVALID' });
         }
     }
     
     try {
         req.user = jwt.verify(token, process.env.JWT_SECRET, { issuer: 'sigmaproxvl', audience: 'sigmaproxvl-api' });
     } catch {
-        return res.status(401).json({ error: 'Token inválido o expirado' });
+        return res.status(401).json({ error: 'Token inválido o expirado', code: 'AUTH_INVALID' });
     }
 
     // Verificar si el token fue revocado
     db.isTokenBlacklisted(token).then(revoked => {
-        if (revoked) return res.status(401).json({ error: 'Token revocado — inicie sesión nuevamente' });
+        if (revoked) return res.status(401).json({ error: 'Token revocado — inicie sesión nuevamente', code: 'AUTH_INVALID' });
         req.rawToken = token;
         next();
     }).catch((err) => {
