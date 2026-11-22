@@ -183,6 +183,10 @@ const Auth = (() => {
 
     function _resetActivityTimer() {
         const s=_getSession(); if(!s) return;
+        // Pestaña congelada o equipo suspendido: el temporizador no corrió y la
+        // sesión ya venció. No revivirla (el JWT está muerto y la app queda
+        // abierta sin login hasta cerrar la pestaña).
+        if(Date.now()>=s.expiresAt){ _expireSession(); return; }
         s.expiresAt=Date.now()+_timeoutMs();
         sessionStorage.setItem(CFG.SESSION_STORAGE_KEY,JSON.stringify(s));
         _scheduleTimers();
@@ -225,17 +229,15 @@ const Auth = (() => {
 
     // Al expirar en Validaciones: salir del módulo (ocultar shell + limpiar
     // área) antes del login. Los borradores en sessionStorage se conservan.
+    // Sin condición de área: el shell de Validaciones vive en z-index 90000 y
+    // tapaba el login, así que se retira siempre al volver al login.
     function _salirDeValidaciones() {
-        try {
-            let enVal = false;
-            try { enVal = (typeof AreaSelect !== 'undefined' && AreaSelect.getArea) ? AreaSelect.getArea() === 'validaciones' : false; } catch (e) {}
-            if (!enVal) return;
-            try { if (typeof Validaciones !== 'undefined' && Validaciones.hide) Validaciones.hide(); } catch (e) {}
-            try { if (typeof AreaSelect !== 'undefined' && AreaSelect.clearArea) AreaSelect.clearArea(); } catch (e) {}
-        } catch (e) {}
+        try { if (typeof Validaciones !== 'undefined' && Validaciones.hide) Validaciones.hide(); } catch (e) {}
+        try { if (typeof AreaSelect !== 'undefined' && AreaSelect.clearArea) AreaSelect.clearArea(); } catch (e) {}
     }
 
     function _expireSession() { _closeAllModals(); _salirDeValidaciones(); _clearSession(); showLogin('timeout'); if(_onLogout) _onLogout('timeout'); }
+    function _checkExpiry() { const s=_getSession(); if(s && Date.now()>=s.expiresAt) _expireSession(); }
 
     // ── Intentos ──────────────────────────
     function _registerFailedAttempt() {
@@ -1815,6 +1817,7 @@ const Auth = (() => {
     // ── API pública ───────────────────────
     function showLogin(reason=''){
         _unregisterActivityListeners();
+        _salirDeValidaciones();
         const warn=document.getElementById('auth-timeout-warn'); if(warn) warn.style.opacity='0';
         if(_resolveLoginVariant()==='v2') _renderLoginModalV2(reason);
         else _renderLoginModal(reason);
@@ -1843,6 +1846,8 @@ const Auth = (() => {
                 window.addEventListener('sigma-area', function () { _resetActivityTimer(); });
             }
         } catch (e) {}
+        // Pestaña congelada: al volver, una sesión vencida se cierra ya.
+        try { document.addEventListener('visibilitychange', function () { if (!document.hidden) _checkExpiry(); }); } catch (e) {}
         if (session && session.mustChangePassword) {
             document.getElementById('auth-overlay')?.remove();
             _showForceChangePasswordModal(session);

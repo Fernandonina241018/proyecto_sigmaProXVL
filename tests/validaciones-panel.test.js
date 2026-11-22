@@ -391,7 +391,7 @@ describe('Validaciones V7', () => {
     expect(html).toContain('type="number"');
     expect(html).toContain('Guardar borrador');
     expect(html).not.toContain('docs/banco-ensayos');
-    expect(Validaciones.viewEntidad('no-existe')).toContain('vas a calificar');
+    expect(Validaciones.viewEntidad('no-existe')).toContain('vas a validar');
     // tipografía estilo iPhone solo en la planilla (no toca el .docx futuro)
     const css = readFileSync(join(__dirname, '..', 'css', 'validaciones-v7.css'), 'utf-8');
     expect(css).toContain('.v7-form-flow');
@@ -637,7 +637,7 @@ describe('Validaciones V7', () => {
     expect(mainEl.innerHTML).toMatch('En desarrollo');
     globalThis.Auth = { getSession: () => ({ username: 'a', role: 'admin' }), getArea: () => 'validaciones' };
     Validaciones.apply('validaciones');
-    expect(mainEl.innerHTML).toMatch('vas a calificar');
+    expect(mainEl.innerHTML).toMatch('vas a validar');
   });
 
   test('sin DOM falla seguro', () => {

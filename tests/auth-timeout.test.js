@@ -57,20 +57,31 @@ describe('timeout por área', () => {
   test('15 min en validaciones, 5 min en estadística', () => {
     vi.setSystemTime(new Date('2026-09-30T12:00:00'));
     const { store, Auth } = loadAuth('validaciones');
-    store.auth_session = JSON.stringify({ username: 'a', role: 'admin', expiresAt: 0 });
+    store.auth_session = JSON.stringify({ username: 'a', role: 'admin', expiresAt: new Date('2026-09-30T12:00:30').getTime() });
     Auth.keepAlive();
     expect(JSON.parse(store.auth_session).expiresAt).toBe(new Date('2026-09-30T12:15:00').getTime());
 
     const e2 = loadAuth('estadistica');
-    e2.store.auth_session = JSON.stringify({ username: 'a', role: 'admin', expiresAt: 0 });
+    e2.store.auth_session = JSON.stringify({ username: 'a', role: 'admin', expiresAt: new Date('2026-09-30T12:00:30').getTime() });
     e2.Auth.keepAlive();
     expect(JSON.parse(e2.store.auth_session).expiresAt).toBe(new Date('2026-09-30T12:05:00').getTime());
+  });
+
+  test('una sesión ya vencida no revive al volver a la pestaña', () => {
+    vi.setSystemTime(new Date('2026-09-30T12:00:00'));
+    const { store, Auth } = loadAuth('validaciones');
+    store.auth_session = JSON.stringify({ username: 'a', role: 'admin', expiresAt: Date.now() - 60000 });
+    // El DOM mínimo del test no puede pintar el login v2; lo que importa es
+    // que la sesión muerta se borre en vez de extenderse.
+    try { Auth.keepAlive(); } catch (_e) {}
+    expect(store.auth_session).toBeUndefined();
+    expect(Auth.isAuthenticated()).toBeFalsy();
   });
 
   test('el aviso de expiración vive fuera del login y se muestra antes de expirar', () => {
     vi.setSystemTime(new Date('2026-09-30T12:00:00'));
     const { store, Auth, els } = loadAuth('estadistica');
-    store.auth_session = JSON.stringify({ username: 'a', role: 'admin', expiresAt: 0 });
+    store.auth_session = JSON.stringify({ username: 'a', role: 'admin', expiresAt: new Date('2026-09-30T12:00:30').getTime() });
     Auth.keepAlive();
     expect(els['auth-timeout-warn']).toBeUndefined();
 

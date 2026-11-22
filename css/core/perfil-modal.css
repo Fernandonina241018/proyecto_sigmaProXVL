@@ -197,7 +197,7 @@
   cursor: pointer;
   transition: background .15s, color .15s;
 }
-.perfil-seg button[aria-selected="true"] { background: var(--accent); color: #fff; }
+.perfil-seg button[aria-selected="true"] { background: var(--accent-fill); color: #fff; }
 .perfil-seg button:disabled { opacity: .45; cursor: not-allowed; }
 .perfil-note {
   display: flex;
@@ -272,11 +272,11 @@
 .perfil-field span {
   display: block;
   margin-bottom: 2px;
-  font-size: 8.5px;
+  font-size: 10px;
   font-weight: 800;
   letter-spacing: .1em;
   text-transform: uppercase;
-  color: var(--text-faint);
+  color: var(--text-muted);
 }
 .perfil-field b {
   display: block;
@@ -321,8 +321,8 @@
   border-radius: 999px;
   border: 1px solid rgba(63, 185, 80, .3);
   background: rgba(63, 185, 80, .14);
-  color: var(--ok);
-  font-size: 9px;
+  color: var(--text-primary);
+  font-size: 10px;
   font-weight: 800;
 }
 .perfil-sec-btn {
@@ -354,8 +354,8 @@
   cursor: pointer;
 }
 .perfil-btn:hover { border-color: var(--accent); }
-.perfil-btn.primary { background: var(--accent); border-color: var(--accent); color: #fff; }
-.perfil-btn.primary:hover { background: var(--accent-hover); }
+.perfil-btn.primary { background: var(--accent-fill); border-color: var(--accent-fill); color: #fff; }
+.perfil-btn.primary:hover { background: var(--accent-fill-hover); }
 .perfil-logout {
   width: 100%;
   padding: 7px;
@@ -436,4 +436,8 @@
   .perfil-host { display: none; }
   .perfil-main { padding: 14px 16px; gap: 10px; }
   .perfil-duo { grid-template-columns: 1fr; gap: 10px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sigma-notch, .perfil-overlay, .perfil-overlay * { transition: none !important; animation: none !important; }
 }

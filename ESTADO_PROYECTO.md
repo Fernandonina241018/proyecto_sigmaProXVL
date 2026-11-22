@@ -90,6 +90,42 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (StatAnalyzer Pro) co
 
 ## CAMBIOS RECIENTES
 
+### 2026-11-22 (353): Sesión vencida que no salía + accesibilidad visual (auditoría)
+
+**Qué:** dos bloques en un solo cambio.
+
+**A. Bug “se agota el tiempo y no sale al login, ni con recarga dura”.** Tres causas encadenadas:
+- **Resurrección de sesión:** al volver a una pestaña congelada, el primer `mousemove` extendía una sesión ya vencida (`_resetActivityTimer` no comprobaba `expiresAt`). Ahora vence y llama a `_expireSession`.
+- **Login debajo del módulo:** `#validaciones-app` vive en `z-index:90000` y el login en `9999`; el login se pintaba pero quedaba tapado. Login a `100000`.
+- **Shell huérfano:** `Validaciones.init()` monta el módulo leyendo `sessionStorage` aunque no haya sesión; `_salirDeValidaciones` solo limpiaba si el área era `validaciones`. Ahora `showLogin()` retira siempre el shell y borra el área.
+- Extra: `visibilitychange` cierra una sesión vencida al volver a la pestaña.
+
+**B. Hallazgos de la auditoría visual (axe-core WCAG 2.1 AA: 0 violaciones en oscuro y claro).**
+- Semáforos del titlebar: eran `<button>` de 12 px sin nombre y sin acción → `<span aria-hidden>`.
+- Contraste: token `--accent-fill` (#1f6feb) para texto blanco pequeño (`.btn-primary`, badge, calendario, perfil); `--text-muted` en títulos de sección; sin `opacity` en el banner; `.today` y badges corregidos.
+- Tipografía mínima: 8,5 px → 10/10,5 px (nota legal y etiquetas de perfil), 10 px → 11 px (títulos de sección y badges).
+- Estado de campo obligatorio ya no va solo por color: texto “Falta este dato obligatorio” (`:has()`).
+- Modal de perfil: trampa de foco con Tab y foco devuelto al primer botón tras renderizar.
+- `prefers-reduced-motion` en validaciones y perfil; login a `100dvh`; buscador y enlaces a ≥24 px.
+- Wording: “¿Qué vas a calificar hoy?” → “¿Qué vas a validar hoy?”. Se elimina el toast verde de “Cargando banco de ensayos”.
+
+**Archivos afectados:**
+| Archivo | Cambio |
+|---------|--------|
+| `js/core/auth.js` | Guarda de expiración en `_resetActivityTimer`; `_salirDeValidaciones` sin condición de área y llamado desde `showLogin`; `_checkExpiry` + `visibilitychange` |
+| `css/core/auth-v2.css` | Login `z-index:100000`; `100dvh`; tamaños 7,5/8,5 px → 9,5/10,5 px |
+| `css/core/indexx.css` | Tokens `--accent-fill(-hover)`; `.btn-primary`, `.page-card-badge`, `.nav-section-title`; mínimos de 24 px |
+| `css/core/perfil-modal.css` | `.perfil-seg`/`.perfil-btn` con `--accent-fill`; etiquetas 10 px; `reduced-motion` |
+| `css/validaciones-v7.css` | Marcador “Falta este dato obligatorio”; `.mk2` con `--accent-fill`; `reduced-motion` |
+| `css/validaciones-dashboard.css` | `.calendar td.today` con `--accent-fill` |
+| `js/core/indexx-ui.js` | Trampa de foco del perfil; banner sin opacidad; botones 12 px; textos `--text-muted` |
+| `js/core/indexx-validaciones.js` | “vas a validar”; sin toast de carga |
+| `indexx.html` | Semáforos del titlebar como `<span aria-hidden>` |
+| `tests/auth-timeout.test.js` | Sesiones de prueba vigentes + caso de sesión vencida |
+| `tests/validaciones-panel.test.js` | “vas a validar” |
+
+**Verificación:** `npm run preflight` OK (vitest 1276, backend 154, E2E 14); axe-core 0 violaciones en login, dashboard, protocolo y perfil, en ambos temas.
+
 ### 2026-11-22 (352): Protocolos de proceso como validación, no calificación/PQ
 
 **Qué:** los documentos de proceso dejan de hablar de “calificación” y de “PQ”; pasan a **Protocolo de validación de procesos**.

@@ -693,3 +693,19 @@
   pointer-events: none;
 }
 #validaciones-app .v7-ent-input:focus { outline: none; border-color: var(--v7-accent); box-shadow: 0 0 0 3px var(--v7-accent-soft); }
+
+/* ===== Accesibilidad (auditoría visual 2026-11-22) ===== */
+/* El estado de completitud no puede ir solo por color (WCAG 1.4.1). */
+#validaciones-app .v7-field:has(.v7-ctl.v7-invalid)::after {
+  content: "Falta este dato obligatorio";
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--accent-error, #f85149);
+}
+#validaciones-app .v7-cal td.mk2 { background: var(--accent-fill); }
+@media (prefers-reduced-motion: reduce) {
+  #validaciones-app *, #validaciones-app *::before, #validaciones-app *::after {
+    transition: none !important;
+    animation: none !important;
+  }
+}
