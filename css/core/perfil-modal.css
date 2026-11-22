@@ -209,6 +209,58 @@
 }
 .perfil-note b { color: var(--text-primary); font-weight: 700; }
 
+/* ── Apariencia: cambio de tema desde el perfil ── */
+.perfil-theme {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  border: 1px solid var(--border);
+  border-radius: 13px;
+  background: var(--bg-secondary);
+  padding: 10px 12px;
+}
+.perfil-theme-copy { min-width: 0; }
+.perfil-theme-copy strong { display: block; font-size: 11px; color: var(--text-primary); }
+.perfil-theme-copy span { display: block; font-size: 10px; color: var(--text-muted); margin-top: 2px; }
+.perfil-theme-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  border: 1px solid var(--border);
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  border-radius: 999px;
+  padding: 5px 10px 5px 6px;
+  cursor: pointer;
+  font: inherit;
+  font-size: 10px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+.perfil-theme-toggle:hover { border-color: var(--accent); }
+.perfil-theme-track {
+  position: relative;
+  width: 34px;
+  height: 18px;
+  border-radius: 999px;
+  background: var(--border);
+  transition: background .15s ease;
+}
+.perfil-theme-track i {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 1px 2px rgba(0,0,0,.35);
+  transition: transform .15s ease;
+}
+.perfil-theme-toggle[aria-pressed="true"] .perfil-theme-track { background: var(--accent); }
+.perfil-theme-toggle[aria-pressed="true"] .perfil-theme-track i { transform: translateX(16px); }
+
 .perfil-fields { display: grid; grid-template-columns: 1fr 1fr; gap: 9px; }
 .perfil-field {
   min-width: 0;

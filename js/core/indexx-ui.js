@@ -341,6 +341,8 @@ function renderPerfil(box, u, opts) {
   var esAdmin = u.role === 'admin';
   var seleccion = areaActual;
   var host = opts.host || '';
+  var esClaro = false;
+  try { esClaro = document.documentElement.getAttribute('data-theme') === 'light'; } catch (e) {}
 
   function campo(label, value) {
     return '<div class="perfil-field"><span>' + escapeHtml(label) + '</span><b>' + escapeHtml(value || '—') + '</b></div>';
@@ -371,6 +373,16 @@ function renderPerfil(box, u, opts) {
             + '<button type="button" role="tab" data-perfil-module="validaciones" aria-selected="' + (seleccion === 'validaciones' ? 'true' : 'false') + '"' + (esAdmin ? '' : ' disabled title="Solo administradores"') + '>Validaciones</button>'
           + '</div>'
           + '<div class="perfil-note"><span>Cambia sin cerrar sesión</span><b data-perfil-current>' + (seleccion === 'validaciones' ? 'Validaciones' : 'Estadística') + '</b></div>'
+        + '</div>'
+      + '</section>'
+      + '<section>'
+        + '<p class="perfil-section-title">Apariencia</p>'
+        + '<div class="perfil-theme">'
+          + '<div class="perfil-theme-copy"><strong>Tema</strong><span>Claro u oscuro, sin salir del perfil.</span></div>'
+          + '<button type="button" class="perfil-theme-toggle" data-perfil-theme aria-pressed="' + (esClaro ? 'true' : 'false') + '" aria-label="Cambiar tema">'
+            + '<span class="perfil-theme-track" aria-hidden="true"><i></i></span>'
+            + '<b data-perfil-theme-label>' + (esClaro ? 'Claro' : 'Oscuro') + '</b>'
+          + '</button>'
         + '</div>'
       + '</section>'
       + '<section>'
@@ -422,6 +434,23 @@ function renderPerfil(box, u, opts) {
       if (b.disabled) return;
       setSeleccion(b.getAttribute('data-perfil-module'));
     });
+  });
+
+  var themeBtn = box.querySelector('[data-perfil-theme]');
+  if (themeBtn) themeBtn.addEventListener('click', function () {
+    var nuevoClaro = document.documentElement.getAttribute('data-theme') !== 'light';
+    try {
+      if (typeof window.__sigmaApplyTheme === 'function') {
+        window.__sigmaApplyTheme(nuevoClaro);
+      } else {
+        if (nuevoClaro) document.documentElement.setAttribute('data-theme', 'light');
+        else document.documentElement.removeAttribute('data-theme');
+        try { localStorage.setItem('theme', nuevoClaro ? 'light' : 'dark'); } catch (e) {}
+      }
+    } catch (e) {}
+    themeBtn.setAttribute('aria-pressed', nuevoClaro ? 'true' : 'false');
+    var label = themeBtn.querySelector('[data-perfil-theme-label]');
+    if (label) label.textContent = nuevoClaro ? 'Claro' : 'Oscuro';
   });
 
   var closeBtn = box.querySelector('.perfil-close');

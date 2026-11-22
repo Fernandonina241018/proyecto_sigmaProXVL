@@ -90,6 +90,27 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (StatAnalyzer Pro) co
 
 ## CAMBIOS RECIENTES
 
+### 2026-11-22 (350): Contraste por tema y cambio de tema desde el perfil
+
+**Qué:** se corrige el enfoque del fix anterior y se agrega el cambio de tema en el modal de perfil.
+- **Inputs:** se elimina el fondo blanco fijo. El estado válido/inválido usa un tinte translúcido sobre el fondo del tema y el texto queda con `--v7-ink`; se lee igual en claro y oscuro.
+- **Helper y avisos:** usan `--v7-ink` con opacidad controlada, en vez de un gris que se perdía en oscuro. Error y éxito usan los colores del tema.
+- **Perfil:** nueva sección **Apariencia** con switch Claro/Oscuro. Llama a `window.__sigmaApplyTheme` y actualiza `aria-pressed` y la etiqueta sin cerrar el modal.
+- **Select:** las opciones usan `--v7-ink` y `--v7-panel-2`, no blanco fijo.
+
+**Archivos afectados:**
+| Archivo | Cambio |
+|---------|--------|
+| `css/validaciones-v7.css` | Tintes de estado, helper y avisos por tema |
+| `css/core/perfil-modal.css` | Estilos del switch de tema |
+| `js/core/indexx-ui.js` | Sección Apariencia y listener del tema |
+| `tests/perfil-modal.test.js` | **10 pruebas** (incluye switch de tema) |
+
+**Verificación:**
+```
+npm run preflight → protocolo:check OK, urs-ar:check OK, Vitest 1275, backend 154, E2E 14
+```
+
 ### 2026-11-22 (349): Fix contraste de inputs válidos/inválidos
 
 **Qué:** los inputs con fondo claro (`#f3fbf5` verde o `#fff5f5` rojo) heredaban el color de texto claro del tema dark, por lo que el valor se volvía ilegible.

@@ -45,6 +45,14 @@ describe('Perfil compartido', () => {
     expect(css).toContain('.perfil-logout');
   });
 
+  test('cambia el tema claro/oscuro desde el perfil', () => {
+    expect(ui).toContain('data-perfil-theme');
+    expect(ui).toContain('__sigmaApplyTheme');
+    expect(css).toContain('.perfil-theme');
+    expect(css).toContain('.perfil-theme-toggle');
+    expect(html).toContain('__sigmaApplyTheme');
+  });
+
   test('el perfil queda por encima del shell de Validaciones', () => {
     expect(css).toMatch(/\.perfil-overlay\s*\{[^}]*z-index:\s*95000/s);
     expect(css).toMatch(/\.perfil-passkeys-overlay\s*\{[^}]*z-index:\s*96000/s);
