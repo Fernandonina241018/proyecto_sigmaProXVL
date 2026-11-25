@@ -2350,7 +2350,7 @@ var BancoProcesos = {
      },
      {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>21 CFR 211.110; FDA — Process Validation (2011); ICH Q8(R2); ICH Q9(R1); USP &lt;1721&gt; — Semisolid Drug Products."
+      "html": "<strong>Referencia:</strong><br>21 CFR 211.110; FDA — Process Validation (2011); ICH Q8(R2); ICH Q9(R1); USP &lt;1151&gt; — Pharmaceutical Dosage Forms."
      }
     ],
     "tabla": null,
@@ -2473,7 +2473,7 @@ var BancoProcesos = {
      },
      {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>USP &lt;1721&gt; — Semisolid Drug Products; ISO 13320 — Particle size analysis; ICH Q8(R2)."
+      "html": "<strong>Referencia:</strong><br>USP &lt;1151&gt; — Pharmaceutical Dosage Forms; ISO 13320 — Particle size analysis; ICH Q8(R2)."
      }
     ],
     "tabla": null,
@@ -2596,7 +2596,7 @@ var BancoProcesos = {
      },
      {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>USP &lt;1721&gt; — Semisolid Drug Products; monografía del producto; ICH Q8(R2)."
+      "html": "<strong>Referencia:</strong><br>USP &lt;3&gt; — Topical and Transdermal Drug Products: Product Quality Tests; monografía del producto; ICH Q8(R2)."
      }
     ],
     "tabla": null,
@@ -2637,7 +2637,7 @@ var BancoProcesos = {
      },
      {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>ICH Q1A(R2) — Stability Testing; USP &lt;1721&gt; — Semisolid Drug Products; monografía del producto."
+      "html": "<strong>Referencia:</strong><br>ICH Q1A(R2) — Stability Testing; USP &lt;3&gt; — Topical and Transdermal Drug Products: Product Quality Tests; monografía del producto."
      }
     ],
     "tabla": null,
@@ -2760,7 +2760,7 @@ var BancoProcesos = {
      },
      {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>USP &lt;1721&gt; — Semisolid Drug Products; monografía del producto; ICH Q8(R2)."
+      "html": "<strong>Referencia:</strong><br>USP &lt;3&gt; — Topical and Transdermal Drug Products: Product Quality Tests; monografía del producto; ICH Q8(R2)."
      }
     ],
     "tabla": null,
@@ -2842,7 +2842,7 @@ var BancoProcesos = {
      },
      {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>USP &lt;1721&gt; — Semisolid Drug Products; monografía del producto; ICH Q8(R2)."
+      "html": "<strong>Referencia:</strong><br>USP &lt;3&gt; — Topical and Transdermal Drug Products: Product Quality Tests; monografía del producto; ICH Q8(R2)."
      }
     ],
     "tabla": null,
@@ -2883,7 +2883,7 @@ var BancoProcesos = {
      },
      {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>USP &lt;1721&gt; — Semisolid Drug Products; ICH Q1A(R2); monografía del producto."
+      "html": "<strong>Referencia:</strong><br>USP &lt;3&gt; — Topical and Transdermal Drug Products: Product Quality Tests; ICH Q1A(R2); monografía del producto."
      }
     ],
     "tabla": null,
@@ -3334,7 +3334,7 @@ var BancoProcesos = {
      },
      {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>USP &lt;1174&gt; — Pharmaceutical Suspensions; monografía del producto; ICH Q8(R2)."
+      "html": "<strong>Referencia:</strong><br>USP &lt;1151&gt; — Pharmaceutical Dosage Forms; monografía del producto; ICH Q8(R2)."
      }
     ],
     "tabla": null,
@@ -3375,7 +3375,7 @@ var BancoProcesos = {
      },
      {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>USP &lt;1174&gt; — Pharmaceutical Suspensions; ICH Q1A(R2); monografía del producto."
+      "html": "<strong>Referencia:</strong><br>USP &lt;1151&gt; — Pharmaceutical Dosage Forms; ICH Q1A(R2); monografía del producto."
      }
     ],
     "tabla": null,
@@ -3416,7 +3416,7 @@ var BancoProcesos = {
      },
      {
       "et": "Referencia",
-      "html": "<strong>Referencia:</strong><br>USP &lt;1174&gt; — Pharmaceutical Suspensions; ISO 13320 — Particle size analysis; monografía del producto."
+      "html": "<strong>Referencia:</strong><br>USP &lt;1151&gt; — Pharmaceutical Dosage Forms; ISO 13320 — Particle size analysis; monografía del producto."
      }
     ],
     "tabla": null,

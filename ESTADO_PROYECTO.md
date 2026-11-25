@@ -105,6 +105,8 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (StatAnalyzer Pro) co
 
 **Supuestos confirmados por el plan:** sin jarabes y sin líquidos estériles en esta tanda; 3 ensayos por forma (no 6–8); criterios numéricos propuestos a confirmar por Calidad.
 
+**Corrección de citas (revisión del PR):** `<1721>` no es el capítulo de semisólidos — el de desempeño es `<1724>`; para homogeneidad/tamaño de partícula se cita `<1151>` y para calidad de cremas/pomadas/geles `<3>`. `<1174>` es *Powder Flow*, no suspensiones: esas citan `<1151>`. `REFERENCIAS.md` suma la sección «Semisólidos y líquidos no estériles» verificada el 2026-11-25. UI probada clic a clic: granulación oculta y deshabilitada, subtipos y tren correctos en cremas y soluciones.
+
 ### 2026-11-22 (355): Token muerto (JWT) devuelve al login
 
 **Qué:** el cliente nunca miraba los 401. Si el JWT de 8 h caducaba (o se rotaba el secreto, o el token se revocaba) con la sesión de cliente aún viva, la app quedaba abierta sin cargar nada y no volvía al login. Ahora:
