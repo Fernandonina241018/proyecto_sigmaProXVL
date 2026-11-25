@@ -1,1 +1,1 @@
-{"v":"5d660a3","t":"2026-11-22T19:19:11Z","m":"fix(auth): un token muerto devuelve al login (#382)","b":["expire() con guarda _expiring y motivo 'expired'"]}
+{"v":"2fdb75c","t":"2026-11-25T23:09:51Z","m":"feat(procesos): semisólidos y líquidos no estériles con 30 ensayos (#392)","b":["USP <1721> no es el capitulo de semisolidos: <1724> es desempeno; <1151>/<3> para homogeneidad y calidad","USP <1174> es Powder Flow: suspensiones citan <1151>","REFERENCIAS.md: seccion verificada 2026-11-25","Banco regenerado; UI verificada clic a clic"]}
