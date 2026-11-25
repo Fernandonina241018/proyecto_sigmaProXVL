@@ -103,6 +103,12 @@ const Validaciones = (() => {
       { id: 'capsulas', nombre: 'Cápsulas', grupo: 'solidos' },
       { id: 'granulados', nombre: 'Granulados', grupo: 'solidos' },
       { id: 'polvos', nombre: 'Polvos', grupo: 'solidos' },
+      { id: 'cremas', nombre: 'Cremas', grupo: 'semisolidos', subtipo: 'Crema' },
+      { id: 'pomadas', nombre: 'Pomadas', grupo: 'semisolidos', subtipo: 'Pomada' },
+      { id: 'geles', nombre: 'Geles', grupo: 'semisolidos', subtipo: 'Gel' },
+      { id: 'soluciones', nombre: 'Soluciones', grupo: 'liquidos', subtipo: 'Solución' },
+      { id: 'suspensiones', nombre: 'Suspensiones', grupo: 'liquidos', subtipo: 'Suspensión' },
+      { id: 'emulsiones', nombre: 'Emulsiones', grupo: 'liquidos', subtipo: 'Emulsión' },
     ],
     software: [
       { id: 'software-gxp', nombre: 'Sistema computarizado GxP' },
@@ -173,9 +179,6 @@ const Validaciones = (() => {
     liquidos: [
       { etapa: 'Preparación', ids: ['reactor', 'mezclador'] },
       { etapa: 'Llenado', ids: ['llenadora', 'llenadora-tubos'] },
-      { etapa: 'Llenado aséptico', ids: ['cabina-flujo', 'cabina-bioseguridad'] },
-      { etapa: 'Esterilización', ids: ['autoclave', 'tunel-despirogenizacion'] },
-      { etapa: 'Liofilización', ids: ['liofilizador'] },
       { etapa: 'Empaque', ids: ['etiquetadora', 'detector-metales'] },
     ],
     solidos: [
@@ -314,6 +317,7 @@ const Validaciones = (() => {
         label: 'Tipo de granulación',
         tipo: 'select',
         req: true,
+        grupos: ['solidos'],
         opciones: ['Húmeda', 'Seca', 'Doble húmeda', 'Húmeda + seca', 'No aplica'],
       },
       {
@@ -326,6 +330,10 @@ const Validaciones = (() => {
           'Masticable', 'Sublingual', 'Bucal', 'Acción prolongada',
           'Cápsula dura', 'Cápsula blanda', 'Granulado', 'Polvo', 'Polvo para reconstitución',
         ],
+        opcionesPorGrupo: {
+          semisolidos: ['Crema', 'Pomada', 'Gel'],
+          liquidos: ['Solución', 'Suspensión', 'Emulsión'],
+        },
       },
       { k: 'especificacionCodigo', label: 'Especificación (código)', tipo: 'text', req: true },
       { k: 'especificacionVersion', label: 'Especificación (versión)', tipo: 'text', req: true },
@@ -376,8 +384,8 @@ const Validaciones = (() => {
     cantidadDataLoggers: 'Número de data loggers usados. Mínimo 1; debe cubrir los puntos críticos.',
     producto: 'Nombre del producto; no confundir con la forma farmacéutica.',
     concentracion: 'Concentración o potencia declarada. Incluí la unidad (mg, %, mg/mL).',
-    subtipo: 'Subtipo de la forma elegida; determina qué ensayos específicos se generan.',
-    tipoGranulacion: 'Seleccione cómo se granula: húmeda, seca, doble húmeda o húmeda + seca. Cambia el tren de equipos y los ensayos de granulación.',
+    subtipo: 'Subtipo de la forma elegida; en semisólidos y líquidos es la forma (crema/pomada/gel; solución/suspensión/emulsión).',
+    tipoGranulacion: 'Solo aplica a sólidos: cómo se granula (húmeda, seca, doble húmeda o húmeda + seca). Cambia el tren de equipos y los ensayos de granulación.',
     especificacionCodigo: 'Código de la especificación del producto aprobada.',
     especificacionVersion: 'Versión de la especificación del producto aprobada.',
     metodoCodigo: 'Código del protocolo de validación del método analítico; se imprime en requisitos previos.',
@@ -926,7 +934,8 @@ const Validaciones = (() => {
     const helpId = ayuda ? 'v7-help-' + key : '';
     const desc = ayuda ? ' aria-describedby="' + helpId + '"' : '';
     const help = ayuda ? '<small class="v7-help" id="' + helpId + '">' + esc(ayuda) + '</small>' : '';
-    const lab = '<label class="v7-field" data-f="' + f.k + '"><span>' + esc(f.label) + (f.auto === 'login' ? ' (automático)' : '') + (f.req ? ' <b>*</b>' : '') + '</span>';
+    const grupos = f.grupos ? ' data-grupos="' + esc(f.grupos.join(',')) + '"' : '';
+    const lab = '<label class="v7-field"' + grupos + ' data-f="' + f.k + '"><span>' + esc(f.label) + (f.auto === 'login' ? ' (automático)' : '') + (f.req ? ' <b>*</b>' : '') + '</span>';
     if (f.tipo === 'select') {
       const opts = ['<option value="">— Seleccione —</option>'].concat(
         (f.opciones || []).map((o) => '<option value="' + esc(o) + '"' + (o === v ? ' selected' : '') + '>' + esc(o) + '</option>')
@@ -1767,6 +1776,10 @@ const Validaciones = (() => {
     }
 
     function schemaTotal() {
+      const grupo = String((entidadObj() || {}).grupo || '');
+      const base = schema.filter(function (f) {
+        return !f.grupos || !grupo || f.grupos.indexOf(grupo) >= 0;
+      });
       const extra = famParams().filter(function (p) { return p.clave !== 'tren_equipos'; }).map((p) => ({
         k: 'param_' + p.clave,
         label: p.label + ' (' + p.unidad + ')',
@@ -1774,7 +1787,29 @@ const Validaciones = (() => {
         req: true,
         ayuda: p.ayuda,
       }));
-      return schema.concat(extra);
+      return base.concat(extra);
+    }
+
+    // Oculta los campos que no aplican al grupo (p. ej. granulación en cremas)
+    // y cambia las opciones de subtipo (crema/pomada/gel; solución/…).
+    function aplicarGrupo(ent) {
+      const grupo = String((ent && ent.grupo) || '').trim();
+      form.querySelectorAll('.v7-field[data-grupos]').forEach(function (lab) {
+        const ok = String(lab.getAttribute('data-grupos') || '').split(',').indexOf(grupo) >= 0;
+        lab.hidden = !ok;
+        const ctl = lab.querySelector('.v7-ctl');
+        if (ctl) ctl.disabled = !ok;
+      });
+      const sub = form.querySelector('[data-k="subtipo"]');
+      const fSub = schema.filter(function (f) { return f.k === 'subtipo'; })[0];
+      if (!sub || !fSub) return;
+      const opts = ((fSub.opcionesPorGrupo || {})[grupo] || fSub.opciones || []);
+      const prev = String(sub.value || '');
+      sub.innerHTML = '<option value="">— Seleccione —</option>'
+        + opts.map(function (o) { return '<option value="' + esc(o) + '">' + esc(o) + '</option>'; }).join('');
+      sub.value = (ent && ent.subtipo && opts.indexOf(ent.subtipo) >= 0)
+        ? ent.subtipo
+        : (opts.indexOf(prev) >= 0 ? prev : '');
     }
 
     function pintarParametros(draft) {
@@ -2212,6 +2247,7 @@ const Validaciones = (() => {
       if (token !== cargaToken) return false;
       const entSel = getEntidades(catId).filter((x) => x.id === entId)[0];
       entActual = entId;
+      aplicarGrupo(entSel);
       const tipoGran = String((draft && draft.tipoGranulacion) || '').trim();
       pintarTren(entSel && entSel.id, entSel && entSel.grupo, tipoGran);
       pintarParametros(draft);

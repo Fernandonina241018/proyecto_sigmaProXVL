@@ -92,6 +92,28 @@ Laboratorios Sued; el banco cita capítulo y título, no una edición no verific
 | PQRI — *Stratified Sampling of Blend and Dosage Units* | 10–15 ubicaciones para mezclador de volteo y ≥ 20 para convectivo | https://pqri.org/wp-content/uploads/2015/08/pdf/011003rec.pdf |
 | USP \<905\> | Aplica a unidades terminadas, **no** al blend | https://www.usp.org/sites/default/files/usp/document/harmonization/excipients/m99694.pdf |
 
+## Semisólidos y líquidos no estériles
+
+Verificado en la red el **2026-11-25** antes de cargar estos ensayos.
+
+| Referencia | Uso en el banco | Fuente verificada |
+|---|---|---|
+| USP \<3\> — *Topical and Transdermal Drug Products—Product Quality Tests* | Calidad de cremas, pomadas y geles (aspecto, pH, viscosidad, uniformidad) | https://www.usp.org/ (capítulo vigente) |
+| USP \<1151\> — *Pharmaceutical Dosage Forms* | Definiciones y principios de cremas, geles, suspensiones y emulsiones | https://www.uspnf.com/sites/default/files/usp_pdf/EN/USPNF/pharmaceuticalDosageForms.pdf |
+| USP \<1724\> — *Semisolid Drug Products—Performance Tests* | IVRT/IVPT cuando el producto lo requiera; **no** se usa para homogeneidad de mezcla | https://doi.usp.org/USPNF/USPNF_M5695_02_01.html |
+| USP \<698\> — *Deliverable Volume* | Volumen entregable de líquidos orales | https://doi.usp.org/USPNF/USPNF_M99457_02_01.html |
+| USP \<912\> — *Viscosity—Rotational Methods* | Viscosidad de semisólidos | https://www.usp.org/ (capítulo vigente) |
+| USP \<791\> — *pH* | pH de semisólidos y líquidos | https://www.usp.org/ (capítulo vigente) |
+| USP \<741\> — *Melting Range or Temperature* (Class III) | Punto de gota de pomadas y bases oleosas | https://doi.usp.org/USPNF/USPNF_M99530_03_01.html |
+| USP \<661\> / \<671\> — Envase y cierre | Integridad y desempeño del envase | https://www.usp.org/ (capítulos vigentes) |
+| ICH Q6A | Especificaciones de productos nuevos | https://www.ich.org/page/quality-guidelines |
+| ISO 13320 / ISO 12185 / ISO 7027 | Tamaño de partícula / densidad / turbidez | https://www.iso.org/ |
+
+**Correcciones de citación (2026-11-25):**
+- `USP <1721>` no es el capítulo de semisólidos. El de desempeño es `USP <1724>`; para homogeneidad y tamaño de partícula se cita `USP <1151>`.
+- `USP <1174>` es *Powder Flow*, no suspensiones. Las suspensiones se describen en `USP <1151>`.
+- `USP <741>` (Class III) sí es la base del punto de gota de pomadas (FDA, *Physicochemical and Structural Characterization of Topical Drug Products*, 2026).
+
 ## Notas de aplicación
 
 - **Número de lotes PPQ:** la FDA 2011 no fija un número; exige justificación

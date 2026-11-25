@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<style>
+  body { font-family: Tahoma, sans-serif; font-size: 11pt; }
+  strong { text-transform: uppercase; }
+</style>
+<title>Banco de Ensayos PQ — Cremas</title>
+</head>
+<body>
+
+<p><a href="../index.html">← Banco de ensayos</a></p>
+<h2>Banco de Ensayos PQ — Cremas</h2>
+<p>Versión del banco: <span data-banco-version>PRO-PQ 2026-11-25 v1</span></p>
+<p>Ensayos de la forma <code>cremas</code> (<code>data-familia="cremas"</code>). Hereda los ensayos del grupo semisólidos.</p>
+
+<section id="fase-pq">
+<h2>Protocolo de validación — Ensayos de proceso</h2>
+
+<article data-bloque="3" id="art-PRO-PQ-CRE-001" class="ensayo" data-id="PRO-PQ-CRE-001" data-fase="PQ" data-cond="ambas" data-familia="cremas" data-instrumentos="Texturómetro calibrado; Cronómetro calibrado" data-analisis="si">
+  <h3>PRO-PQ-CRE-001 — Extensibilidad de la crema</h3>
+  <p><strong>Objetivo:</strong><br>Confirmar que la crema tiene una extensibilidad reproducible y adecuada para su aplicación, y que el proceso de mezcla y homogeneización no la altera entre lotes.</p>
+  <p><strong>Procedimiento:</strong><br>1) Acondicionar la muestra a 25 ± 0,5 °C durante 2 h<br>2) Colocar una cantidad definida sobre la placa del texturómetro y aplicar la carga de 1 kg durante 30 s<br>3) Medir el diámetro de extensión en dos ejes perpendiculares<br>4) Repetir en tres alícuotas independientes del lote<br>5) Anexar condiciones, diámetros y data cruda</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = diámetro de extensión; unidad = cm. Tipo de dato = continua. n = 3 alícuotas por lote. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = diámetro entre 5,0 y 8,0 cm con RSD ≤ 10,0 %. Atípicos = Grubbs solo si n ≥ 7; con n = 3 se repite la medición y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Diámetro de extensión entre <span class="por-confirmar">5,0 y 8,0 cm</span> a 1 kg durante 30 s.<br>RSD de las tres mediciones ≤ <span class="por-confirmar">10,0 %</span>.<br>Temperatura de ensayo 25 ± 0,5 °C.</p>
+  <p><strong>Documentos entregables:</strong><br>- Condiciones de carga y tiempo<br>- Diámetros por alícuota y RSD<br>- Data cruda y reporte estadístico</p>
+  <p><strong>Nota:</strong><br>El intervalo es una propuesta; se confirma con el desarrollo de la formulación y la percepción sensorial del producto. La carga y el tiempo se fijan en el método validado.</p>
+  <p><strong>Referencia:</strong><br>USP &lt;3&gt; — Topical and Transdermal Drug Products: Product Quality Tests; monografía del producto; ICH Q8(R2).</p>
+</article>
+<article data-bloque="3" id="art-PRO-PQ-CRE-002" class="ensayo" data-id="PRO-PQ-CRE-002" data-fase="PQ" data-cond="ambas" data-familia="cremas" data-instrumentos="Centrífuga calibrada; Balanza analítica calibrada" data-analisis="si">
+  <h3>PRO-PQ-CRE-002 — Separación de fases por centrifugación</h3>
+  <p><strong>Objetivo:</strong><br>Demostrar que la crema resiste la separación de fases bajo estrés mecánico y que la emulsión formada por el proceso es estable en el lote de validación.</p>
+  <p><strong>Procedimiento:</strong><br>1) Colocar una alícuota de crema en tubo graduado y centrifugar a 3000 rpm durante 30 min a 25 °C<br>2) Medir el volumen de fase separada (aceite o agua) en la superficie o el fondo<br>3) Repetir en tres alícuotas independientes del lote<br>4) Calcular el porcentaje de fase separada sobre el volumen inicial<br>5) Anexar condiciones, lecturas y data cruda</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = porcentaje de fase separada; unidad = %. Tipo de dato = continua. n = 3 alícuotas por lote. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = fase separada ≤ 1,0 % en cada alícuota y sin separación visible a simple vista. Atípicos = Grubbs solo si n ≥ 7; se investiga antes de excluir.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Fase separada ≤ <span class="por-confirmar">1,0 %</span> después de 3000 rpm durante 30 min a 25 °C.<br>Sin separación de fases visible a simple vista.<br>Sin cambios de color ni olor respecto del patrón.</p>
+  <p><strong>Documentos entregables:</strong><br>- Condiciones de centrifugación<br>- Volumen y porcentaje de fase separada<br>- Data cruda y reporte estadístico</p>
+  <p><strong>Nota:</strong><br>El límite y las condiciones son propuestas; se confirman con el desarrollo de la emulsión y el estudio de estabilidad acelerada del producto.</p>
+  <p><strong>Referencia:</strong><br>ICH Q1A(R2) — Stability Testing; USP &lt;3&gt; — Topical and Transdermal Drug Products: Product Quality Tests; monografía del producto.</p>
+</article>
+<article data-bloque="3" id="art-PRO-PQ-CRE-003" class="ensayo" data-id="PRO-PQ-CRE-003" data-fase="PQ" data-cond="ambas" data-familia="cremas" data-instrumentos="Cámara de ciclos térmicos calibrada; pH-metro calibrado; Viscosímetro rotacional calibrado" data-analisis="si">
+  <h3>PRO-PQ-CRE-003 — Estabilidad a ciclos de temperatura</h3>
+  <p><strong>Objetivo:</strong><br>Evaluar si la crema del lote de validación resiste ciclos de temperatura sin separación de fases ni cambios de pH o viscosidad que comprometan su calidad.</p>
+  <p><strong>Procedimiento:</strong><br>1) Someter tres alícuotas a tres ciclos de −5 °C durante 24 h y 40 °C durante 24 h<br>2) Al final de cada ciclo, acondicionar a 25 °C y evaluar aspecto, pH y viscosidad<br>3) Comparar los resultados con el valor inicial del lote<br>4) Registrar cualquier separación, cristalización o cambio de color<br>5) Anexar curvas, mediciones y data cruda</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = aspecto, pH y viscosidad después de cada ciclo; unidad = unidades de pH y mPa·s. Tipo de dato = continua y categórica. n = 3 alícuotas × 3 ciclos. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = sin separación de fases visible, pH dentro de ±0,3 unidades y viscosidad dentro de 80,0–120,0 % del valor inicial. Atípicos = Grubbs solo si n ≥ 7; se investiga antes de excluir.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Sin separación de fases ni cristalización visible en los tres ciclos.<br>pH dentro de <span class="por-confirmar">±0,3 unidades</span> del valor inicial.<br>Viscosidad dentro de <span class="por-confirmar">80,0–120,0 %</span> del valor inicial.</p>
+  <p><strong>Documentos entregables:</strong><br>- Registro de temperatura y duración de cada ciclo<br>- Aspecto, pH y viscosidad por ciclo<br>- Data cruda y reporte estadístico</p>
+  <p><strong>Nota:</strong><br>Los ciclos y límites son propuestas; se confirman con el estudio de estabilidad del producto y las condiciones climáticas de almacenamiento. No sustituye el estudio de estabilidad formal de ICH Q1A(R2).</p>
+  <p><strong>Referencia:</strong><br>ICH Q1A(R2) — Stability Testing; EU GMP Anexo 15; monografía del producto.</p>
+</article>
+
+</section>
+
+</body>
+</html>

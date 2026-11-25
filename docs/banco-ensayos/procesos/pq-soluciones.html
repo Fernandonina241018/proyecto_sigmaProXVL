@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<style>
+  body { font-family: Tahoma, sans-serif; font-size: 11pt; }
+  strong { text-transform: uppercase; }
+</style>
+<title>Banco de Ensayos PQ — Soluciones</title>
+</head>
+<body>
+
+<p><a href="../index.html">← Banco de ensayos</a></p>
+<h2>Banco de Ensayos PQ — Soluciones</h2>
+<p>Versión del banco: <span data-banco-version>PRO-PQ 2026-11-25 v1</span></p>
+<p>Ensayos de la forma <code>soluciones</code> (<code>data-familia="soluciones"</code>). Hereda los ensayos del grupo líquidos.</p>
+
+<section id="fase-pq">
+<h2>Protocolo de validación — Ensayos de proceso</h2>
+
+<article data-bloque="3" id="art-PRO-PQ-SLN-001" class="ensayo" data-id="PRO-PQ-SLN-001" data-fase="PQ" data-cond="ambas" data-familia="soluciones" data-instrumentos="Microscopio con analizador de imagen calibrado; Balanza analítica calibrada" data-analisis="si">
+  <h3>PRO-PQ-SLN-001 — Materia insoluble y particulado</h3>
+  <p><strong>Objetivo:</strong><br>Demostrar que la solución no contiene materia insoluble ni partículas visibles y que el proceso de disolución y filtrado entrega un producto limpio.</p>
+  <p><strong>Procedimiento:</strong><br>1) Filtrar un volumen definido de solución por membrana previamente pesada<br>2) Secar la membrana y pesar el residuo<br>3) Inspeccionar la membrana al microscopio y registrar partículas<br>4) Repetir en tres alícuotas independientes del lote<br>5) Anexar pesadas, imágenes y data cruda</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = residuo insoluble; unidad = mg/100 mL. Tipo de dato = continua. n = 3 alícuotas por lote. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = residuo ≤ 0,5 mg/100 mL y sin partículas visibles. Atípicos = Grubbs solo si n ≥ 7; se investiga antes de excluir.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Residuo insoluble ≤ <span class="por-confirmar">0,5 mg/100 mL</span>.<br>Sin partículas visibles a simple vista.<br>Sin cambio de color ni turbidez respecto del patrón.</p>
+  <p><strong>Documentos entregables:</strong><br>- Pesadas de membrana y residuo<br>- Imágenes microscópicas<br>- Data cruda y reporte estadístico</p>
+  <p><strong>Nota:</strong><br>El límite es una propuesta; se confirma con la especificación del producto y la monografía. Para soluciones con excipientes insolubles se define un límite específico.</p>
+  <p><strong>Referencia:</strong><br>ICH Q6A — Specifications; monografía del producto; 21 CFR 211.110.</p>
+</article>
+<article data-bloque="3" id="art-PRO-PQ-SLN-002" class="ensayo" data-id="PRO-PQ-SLN-002" data-fase="PQ" data-cond="ambas" data-familia="soluciones" data-instrumentos="Cámara de vacío calibrada; Solución colorante de inspección" data-analisis="si">
+  <h3>PRO-PQ-SLN-002 — Integridad del envase y cierre</h3>
+  <p><strong>Objetivo:</strong><br>Confirmar que el envase y el cierre de la solución conservan la integridad y no permiten ingreso de líquido ni pérdida de contenido.</p>
+  <p><strong>Procedimiento:</strong><br>1) Seleccionar 10 envases llenos y cerrados del lote de validación<br>2) Someterlos a vacío y sumergirlos en solución colorante según USP &lt;671&gt;<br>3) Registrar el ingreso de colorante y la pérdida de contenido<br>4) Repetir el ensayo en los envases sin defecto visible<br>5) Anexar condiciones, imágenes y data cruda</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = ingreso de colorante y pérdida de contenido; unidad = categórica y %. Tipo de dato = categórica y continua. n = 10 envases. Estadísticos = proporción de envases con defecto e IC 95 %. Regla de decisión = cero envases con ingreso de colorante, cero con pérdida y proporción de defectos ≤ 0 %. Atípicos = todo defecto se investiga; no se descarta ningún envase sin registro.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Cero envases con ingreso de colorante.<br>Cero envases con pérdida de contenido.<br>Integridad del cierre conforme a <span class="por-confirmar">USP &lt;671&gt;</span> para el envase del producto.</p>
+  <p><strong>Documentos entregables:</strong><br>- Condiciones de vacío y tiempo<br>- Registro de ingreso de colorante por envase<br>- Data cruda y reporte estadístico</p>
+  <p><strong>Nota:</strong><br>El método y la aceptación se confirman contra USP &lt;671&gt; y el sistema de envase del producto. Para envases multidosis se evalúa también el cierre después de cada apertura.</p>
+  <p><strong>Referencia:</strong><br>USP &lt;671&gt; — Containers—Performance Testing; USP &lt;661&gt; — Plastic Packaging Systems; monografía del producto.</p>
+</article>
+<article data-bloque="3" id="art-PRO-PQ-SLN-003" class="ensayo" data-id="PRO-PQ-SLN-003" data-fase="PQ" data-cond="ambas" data-familia="soluciones" data-instrumentos="HPLC con detector UV calibrado; Balanza analítica calibrada" data-analisis="si">
+  <h3>PRO-PQ-SLN-003 — Contenido por envase</h3>
+  <p><strong>Objetivo:</strong><br>Demostrar que cada envase de solución contiene la cantidad de principio activo declarada y que el llenado es uniforme.</p>
+  <p><strong>Procedimiento:</strong><br>1) Seleccionar 10 envases al azar del lote de validación<br>2) Medir el volumen entregable y analizar el contenido por HPLC<br>3) Calcular el contenido por envase como porcentaje de la cantidad etiquetada<br>4) Calcular media, DE y RSD<br>5) Anexar cromatogramas, volúmenes y data cruda</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = contenido por envase; unidad = %. Tipo de dato = continua. n = 10 envases. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = media dentro de 95,0–105,0 % de la cantidad etiquetada, ningún envase fuera de 90,0–110,0 % y RSD ≤ 3,0 %. Atípicos = Grubbs solo si n ≥ 7; no se descartan envases sin investigación.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Contenido medio dentro de <span class="por-confirmar">95,0–105,0 %</span> de la cantidad etiquetada.<br>Ningún envase fuera de <span class="por-confirmar">90,0–110,0 %</span>.<br>RSD del contenido ≤ <span class="por-confirmar">3,0 %</span>.</p>
+  <p><strong>Documentos entregables:</strong><br>- Contenido por envase y volumen<br>- Cálculo de media y RSD<br>- Data cruda y reporte estadístico</p>
+  <p><strong>Nota:</strong><br>Los límites son propuestas; se confirman con la especificación del producto y la monografía. El contenido por envase integra volumen entregable y concentración.</p>
+  <p><strong>Referencia:</strong><br>USP &lt;905&gt; — Uniformity of Dosage Units; 21 CFR 211.110; monografía del producto.</p>
+</article>
+
+</section>
+
+</body>
+</html>

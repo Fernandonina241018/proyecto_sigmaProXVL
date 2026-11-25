@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<style>
+  body { font-family: Tahoma, sans-serif; font-size: 11pt; }
+  strong { text-transform: uppercase; }
+</style>
+<title>Banco de Ensayos PQ — Geles</title>
+</head>
+<body>
+
+<p><a href="../index.html">← Banco de ensayos</a></p>
+<h2>Banco de Ensayos PQ — Geles</h2>
+<p>Versión del banco: <span data-banco-version>PRO-PQ 2026-11-25 v1</span></p>
+<p>Ensayos de la forma <code>geles</code> (<code>data-familia="geles"</code>). Hereda los ensayos del grupo semisólidos.</p>
+
+<section id="fase-pq">
+<h2>Protocolo de validación — Ensayos de proceso</h2>
+
+<article data-bloque="3" id="art-PRO-PQ-GEL-001" class="ensayo" data-id="PRO-PQ-GEL-001" data-fase="PQ" data-cond="ambas" data-familia="geles" data-instrumentos="Texturómetro calibrado; Baño termostático calibrado" data-analisis="si">
+  <h3>PRO-PQ-GEL-001 — Fuerza de gel y consistencia</h3>
+  <p><strong>Objetivo:</strong><br>Confirmar que el gel alcanza la fuerza y consistencia previstas y que el proceso de gelificación entrega un producto reproducible.</p>
+  <p><strong>Procedimiento:</strong><br>1) Acondicionar la muestra a 25 ± 0,5 °C durante 2 h<br>2) Penetrar la muestra con sonda cilíndrica a velocidad y profundidad definidas<br>3) Registrar la fuerza máxima (g) y la energía de penetración<br>4) Repetir en tres alícuotas independientes del lote<br>5) Anexar curvas fuerza–distancia y data cruda</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = fuerza máxima de penetración; unidad = g. Tipo de dato = continua. n = 3 alícuotas por lote. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = fuerza entre 20 y 60 g con RSD ≤ 10,0 %. Atípicos = Grubbs solo si n ≥ 7; con n = 3 se repite la medición y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Fuerza de gel entre <span class="por-confirmar">20 y 60 g</span>.<br>RSD de las tres mediciones ≤ <span class="por-confirmar">10,0 %</span>.<br>Temperatura de ensayo 25 ± 0,5 °C.</p>
+  <p><strong>Documentos entregables:</strong><br>- Curvas fuerza–distancia<br>- Fuerza por alícuota y RSD<br>- Data cruda y reporte estadístico</p>
+  <p><strong>Nota:</strong><br>El intervalo es una propuesta; se confirma con el desarrollo de la formulación y la sonda validada del método. La fuerza depende de la geometría de la sonda.</p>
+  <p><strong>Referencia:</strong><br>USP &lt;3&gt; — Topical and Transdermal Drug Products: Product Quality Tests; monografía del producto; ICH Q8(R2).</p>
+</article>
+<article data-bloque="3" id="art-PRO-PQ-GEL-002" class="ensayo" data-id="PRO-PQ-GEL-002" data-fase="PQ" data-cond="ambas" data-familia="geles" data-instrumentos="Centrífuga calibrada; Balanza analítica calibrada" data-analisis="si">
+  <h3>PRO-PQ-GEL-002 — Sinéresis</h3>
+  <p><strong>Objetivo:</strong><br>Demostrar que el gel retiene la fase líquida y no libera solvente por sinéresis bajo estrés mecánico.</p>
+  <p><strong>Procedimiento:</strong><br>1) Pesar una alícuota de gel en tubo graduado y centrifugar a 3000 rpm durante 30 min a 25 °C<br>2) Separar y pesar el líquido liberado<br>3) Calcular el porcentaje de líquido liberado sobre la masa inicial<br>4) Repetir en tres alícuotas independientes del lote<br>5) Anexar pesadas, condiciones y data cruda</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = líquido liberado por sinéresis; unidad = %. Tipo de dato = continua. n = 3 alícuotas por lote. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = líquido liberado ≤ 2,0 % y sin separación visible. Atípicos = Grubbs solo si n ≥ 7; se investiga antes de excluir.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Líquido liberado ≤ <span class="por-confirmar">2,0 %</span> después de 3000 rpm durante 30 min a 25 °C.<br>Sin separación visible de líquido en la superficie.<br>Sin cambio de color ni olor respecto del patrón.</p>
+  <p><strong>Documentos entregables:</strong><br>- Condiciones de centrifugación y pesadas<br>- Porcentaje de líquido liberado<br>- Data cruda y reporte estadístico</p>
+  <p><strong>Nota:</strong><br>El límite y las condiciones son propuestas; se confirman con el desarrollo del gel y el estudio de estabilidad del producto.</p>
+  <p><strong>Referencia:</strong><br>USP &lt;3&gt; — Topical and Transdermal Drug Products: Product Quality Tests; ICH Q1A(R2); monografía del producto.</p>
+</article>
+<article data-bloque="3" id="art-PRO-PQ-GEL-003" class="ensayo" data-id="PRO-PQ-GEL-003" data-fase="PQ" data-cond="ambas" data-familia="geles" data-instrumentos="HPLC con detector UV calibrado; Balanza analítica calibrada" data-analisis="si">
+  <h3>PRO-PQ-GEL-003 — Uniformidad de contenido</h3>
+  <p><strong>Objetivo:</strong><br>Demostrar que el principio activo está distribuido uniformemente en las unidades de gel del lote de validación.</p>
+  <p><strong>Procedimiento:</strong><br>1) Seleccionar 10 unidades al azar del lote de validación<br>2) Extraer la cantidad de muestra definida en la monografía y analizar el principio activo por HPLC<br>3) Calcular el contenido individual como porcentaje de la cantidad etiquetada<br>4) Calcular el valor de aceptación (AV) según USP &lt;905&gt;<br>5) Anexar pesadas, cromatogramas y cálculo del AV</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = contenido del principio activo por unidad; unidad = %. Tipo de dato = continua. n = 10 unidades. Estadísticos = media, DE y valor de aceptación (AV). Regla de decisión = AV ≤ 15,0, ninguna unidad fuera de 85,0–115,0 % y RSD ≤ 5,0 %. Atípicos: se aplica el criterio de retesteo de USP &lt;905&gt;; no se descartan unidades.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Valor de aceptación (AV) ≤ <span class="por-confirmar">15,0</span>.<br>Ninguna unidad fuera de <span class="por-confirmar">85,0–115,0 %</span>.<br>RSD del contenido ≤ <span class="por-confirmar">5,0 %</span>.</p>
+  <p><strong>Documentos entregables:</strong><br>- Contenido individual y cálculo del AV<br>- Cromatogramas y pesadas<br>- Data cruda y reporte estadístico</p>
+  <p><strong>Nota:</strong><br>El AV y el intervalo se confirman contra USP &lt;905&gt; y la monografía; la masa de muestra por unidad se define según la presentación del producto.</p>
+  <p><strong>Referencia:</strong><br>USP &lt;905&gt; — Uniformity of Dosage Units; monografía del producto; 21 CFR 211.110.</p>
+</article>
+
+</section>
+
+</body>
+</html>

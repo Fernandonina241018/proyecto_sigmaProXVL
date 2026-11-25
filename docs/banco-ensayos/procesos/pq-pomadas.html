@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<style>
+  body { font-family: Tahoma, sans-serif; font-size: 11pt; }
+  strong { text-transform: uppercase; }
+</style>
+<title>Banco de Ensayos PQ — Pomadas</title>
+</head>
+<body>
+
+<p><a href="../index.html">← Banco de ensayos</a></p>
+<h2>Banco de Ensayos PQ — Pomadas</h2>
+<p>Versión del banco: <span data-banco-version>PRO-PQ 2026-11-25 v1</span></p>
+<p>Ensayos de la forma <code>pomadas</code> (<code>data-familia="pomadas"</code>). Hereda los ensayos del grupo semisólidos.</p>
+
+<section id="fase-pq">
+<h2>Protocolo de validación — Ensayos de proceso</h2>
+
+<article data-bloque="3" id="art-PRO-PQ-POM-001" class="ensayo" data-id="PRO-PQ-POM-001" data-fase="PQ" data-cond="ambas" data-familia="pomadas" data-instrumentos="Aparato de punto de gota calibrado; Termómetro calibrado" data-analisis="si">
+  <h3>PRO-PQ-POM-001 — Punto de gota</h3>
+  <p><strong>Objetivo:</strong><br>Confirmar que la pomada tiene un punto de gota dentro del intervalo previsto y que la base y el proceso entregan un producto con comportamiento térmico reproducible.</p>
+  <p><strong>Procedimiento:</strong><br>1) Llenar el vaso del aparato con la pomada acondicionada, evitando burbujas<br>2) Calentar a velocidad controlada y registrar la temperatura de la primera gota<br>3) Repetir en tres determinaciones independientes del lote<br>4) Calcular media, DE y RSD<br>5) Anexar curva de calentamiento, lecturas y data cruda</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = punto de gota; unidad = °C. Tipo de dato = continua. n = 3 determinaciones por lote. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = punto de gota entre 45 y 60 °C con RSD ≤ 5,0 %. Atípicos = Grubbs solo si n ≥ 7; con n = 3 se repite la determinación y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Punto de gota entre <span class="por-confirmar">45 y 60 °C</span>.<br>RSD de las tres determinaciones ≤ <span class="por-confirmar">5,0 %</span>.<br>Velocidad de calentamiento según el método validado.</p>
+  <p><strong>Documentos entregables:</strong><br>- Curva de calentamiento y lecturas<br>- Cálculo de media y RSD<br>- Data cruda y reporte estadístico</p>
+  <p><strong>Nota:</strong><br>El intervalo es una propuesta; se confirma con el desarrollo de la base y la monografía del producto. Para bases con punto de gota bajo se define un método alternativo de consistencia.</p>
+  <p><strong>Referencia:</strong><br>USP &lt;741&gt; — Melting Range or Temperature; monografía del producto; ICH Q8(R2).</p>
+</article>
+<article data-bloque="3" id="art-PRO-PQ-POM-002" class="ensayo" data-id="PRO-PQ-POM-002" data-fase="PQ" data-cond="ambas" data-familia="pomadas" data-instrumentos="Penetrómetro de cono calibrado; Baño termostático calibrado" data-analisis="si">
+  <h3>PRO-PQ-POM-002 — Penetración con cono</h3>
+  <p><strong>Objetivo:</strong><br>Verificar que la consistencia de la pomada se mantiene dentro del intervalo aprobado y que el proceso de mezcla no altera su firmeza.</p>
+  <p><strong>Procedimiento:</strong><br>1) Acondicionar la muestra a 25 ± 0,5 °C durante 2 h<br>2) Enrasar la superficie del recipiente y dejar caer el cono durante 5 s<br>3) Leer la penetración en unidades de 0,1 mm<br>4) Repetir en tres puntos independientes de la misma muestra<br>5) Anexar condiciones, lecturas y data cruda</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = penetración con cono; unidad = 0,1 mm. Tipo de dato = continua. n = 3 puntos por lote. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = penetración entre 150 y 300 unidades con RSD ≤ 10,0 %. Atípicos = Grubbs solo si n ≥ 7; se investiga antes de excluir.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Penetración entre <span class="por-confirmar">150 y 300 unidades</span> (0,1 mm).<br>RSD de las tres lecturas ≤ <span class="por-confirmar">10,0 %</span>.<br>Temperatura de ensayo 25 ± 0,5 °C.</p>
+  <p><strong>Documentos entregables:</strong><br>- Condiciones de ensayo y lecturas<br>- Cálculo de media y RSD<br>- Data cruda y reporte estadístico</p>
+  <p><strong>Nota:</strong><br>El intervalo es una propuesta; se confirma con el desarrollo de la formulación y la monografía. La penetración se mide sobre muestra no perturbada.</p>
+  <p><strong>Referencia:</strong><br>USP &lt;3&gt; — Topical and Transdermal Drug Products: Product Quality Tests; monografía del producto; ICH Q8(R2).</p>
+</article>
+<article data-bloque="3" id="art-PRO-PQ-POM-003" class="ensayo" data-id="PRO-PQ-POM-003" data-fase="PQ" data-cond="ambas" data-familia="pomadas" data-instrumentos="HPLC con detector UV calibrado; Balanza analítica calibrada" data-analisis="si">
+  <h3>PRO-PQ-POM-003 — Uniformidad de contenido</h3>
+  <p><strong>Objetivo:</strong><br>Demostrar que el principio activo está distribuido uniformemente en las unidades de pomada del lote de validación.</p>
+  <p><strong>Procedimiento:</strong><br>1) Seleccionar 10 unidades al azar del lote de validación<br>2) Extraer la cantidad de muestra definida en la monografía y analizar el principio activo por HPLC<br>3) Calcular el contenido individual como porcentaje de la cantidad etiquetada<br>4) Calcular el valor de aceptación (AV) según USP &lt;905&gt;<br>5) Anexar pesadas, cromatogramas y cálculo del AV</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = contenido del principio activo por unidad; unidad = %. Tipo de dato = continua. n = 10 unidades. Estadísticos = media, DE y valor de aceptación (AV). Regla de decisión = AV ≤ 15,0, ninguna unidad fuera de 85,0–115,0 % y RSD ≤ 6,0 %. Atípicos: se aplica el criterio de retesteo de USP &lt;905&gt;; no se descartan unidades.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Valor de aceptación (AV) ≤ <span class="por-confirmar">15,0</span>.<br>Ninguna unidad fuera de <span class="por-confirmar">85,0–115,0 %</span>.<br>RSD del contenido ≤ <span class="por-confirmar">6,0 %</span>.</p>
+  <p><strong>Documentos entregables:</strong><br>- Contenido individual y cálculo del AV<br>- Cromatogramas y pesadas<br>- Data cruda y reporte estadístico</p>
+  <p><strong>Nota:</strong><br>El AV y el intervalo se confirman contra USP &lt;905&gt; y la monografía; la masa de muestra por unidad se define según la presentación del producto.</p>
+  <p><strong>Referencia:</strong><br>USP &lt;905&gt; — Uniformity of Dosage Units; monografía del producto; 21 CFR 211.110.</p>
+</article>
+
+</section>
+
+</body>
+</html>
