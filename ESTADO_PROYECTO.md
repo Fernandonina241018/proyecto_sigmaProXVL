@@ -90,6 +90,21 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (StatAnalyzer Pro) co
 
 ## CAMBIOS RECIENTES
 
+### 2026-11-25 (356): Procesos — semisólidos y líquidos no estériles (30 ensayos nuevos)
+
+**Qué:** se habilitan las formas que faltaban en el selector de Procesos. La UI ya tenía los grupos pero decía «Aún no hay formas farmacéuticas cargadas».
+- **UI:** nuevas formas `cremas`, `pomadas`, `geles` (semisólidos) y `soluciones`, `suspensiones`, `emulsiones` (líquidos). «Tipo de granulación» solo se muestra y exige en sólidos; el subtipo cambia de opciones por grupo (Crema/Pomada/Gel; Solución/Suspensión/Emulsión) y se autoselecciona con la forma.
+- **Tren de líquidos:** se quitan las etapas estériles (llenado aséptico, esterilización, liofilización); quedan preparación, llenado y empaque. Los inyectables/colirios quedan para un bloque propio.
+- **Banco:** 6 ensayos de grupo semisólidos (`SEM-001…006`), 6 de grupo líquidos (`LIQ-001…006`), 3 por forma (`CRE`, `POM`, `GEL`, `SLN`, `SUS`, `EMU`). Total **30** ensayos nuevos con plan estadístico, criterio numérico en rojo `por-confirmar`, nota y referencia.
+- **Sólidos:** se completan los 3 instrumentos que faltaban en `CMP-014`, `CMP-011` y `CAP-003`.
+- **Nota de alcance:** el plan hablaba de «36» ensayos, pero la lista enumerada suma 30 (12 de grupo + 18 por forma). Se implementó la lista enumerada; no se inventaron 6 ensayos extra.
+
+**Archivos:** `js/core/indexx-validaciones.js` (entidades, tren, esquema condicional por grupo), `docs/banco-ensayos/procesos/pq-semisolidos.html`, `pq-cremas.html`, `pq-pomadas.html`, `pq-geles.html`, `pq-liquidos.html`, `pq-soluciones.html`, `pq-suspensiones.html`, `pq-emulsiones.html` (nuevos), `pq-comprimidos.html`, `pq-capsulas.html` (instrumentos), `scripts/extraer-banco.mjs`, `js/core/banco-procesos-data.js` (regenerado), `tests/banco-procesos.test.js`, `tests/validaciones-panel.test.js`.
+
+**Verificación:** `npm run preflight` OK (vitest **1287**, backend **154**, E2E **15**); `banco:check` 1514 ensayos / 69 grupos (antes 1484/61), sin instrumentos ni criterios vacíos en las familias nuevas; extractor `--estricto` 88 artículos / 88 IDs únicos; `.docx` real de cremas contiene `SEM-001` y `CRE-001`, no `LIQ-001` ni `CMP-001`.
+
+**Supuestos confirmados por el plan:** sin jarabes y sin líquidos estériles en esta tanda; 3 ensayos por forma (no 6–8); criterios numéricos propuestos a confirmar por Calidad.
+
 ### 2026-11-22 (355): Token muerto (JWT) devuelve al login
 
 **Qué:** el cliente nunca miraba los 401. Si el JWT de 8 h caducaba (o se rotaba el secreto, o el token se revocaba) con la sesión de cliente aún viva, la app quedaba abierta sin cargar nada y no volvía al login. Ahora:

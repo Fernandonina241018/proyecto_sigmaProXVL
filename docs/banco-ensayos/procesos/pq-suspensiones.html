@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<style>
+  body { font-family: Tahoma, sans-serif; font-size: 11pt; }
+  strong { text-transform: uppercase; }
+</style>
+<title>Banco de Ensayos PQ — Suspensiones</title>
+</head>
+<body>
+
+<p><a href="../index.html">← Banco de ensayos</a></p>
+<h2>Banco de Ensayos PQ — Suspensiones</h2>
+<p>Versión del banco: <span data-banco-version>PRO-PQ 2026-11-25 v1</span></p>
+<p>Ensayos de la forma <code>suspensiones</code> (<code>data-familia="suspensiones"</code>). Hereda los ensayos del grupo líquidos.</p>
+
+<section id="fase-pq">
+<h2>Protocolo de validación — Ensayos de proceso</h2>
+
+<article data-bloque="3" id="art-PRO-PQ-SUS-001" class="ensayo" data-id="PRO-PQ-SUS-001" data-fase="PQ" data-cond="ambas" data-familia="suspensiones" data-instrumentos="Agitador mecánico calibrado; Cronómetro calibrado" data-analisis="si">
+  <h3>PRO-PQ-SUS-001 — Redispersión</h3>
+  <p><strong>Objetivo:</strong><br>Demostrar que la suspensión se redispersa de forma reproducible después del reposo y que el sedimento no se endurece en el envase.</p>
+  <p><strong>Procedimiento:</strong><br>1) Dejar reposar tres envases durante 24 h a 25 °C<br>2) Agitar por inversión a velocidad y ritmo definidos hasta redispersión completa<br>3) Registrar el número de inversiones necesarias y el aspecto final<br>4) Verificar la ausencia de sedimento adherido y de grumos<br>5) Anexar registro de inversiones e imágenes</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = número de inversiones para redispersar; unidad = inversiones. Tipo de dato = discreta. n = 3 envases por lote. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = ≤ 10 inversiones, sin sedimento adherido y sin grumos visibles. Atípicos = Grubbs solo si n ≥ 7; se investiga antes de excluir.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Redispersión en ≤ <span class="por-confirmar">10 inversiones</span>.<br>Sin sedimento adherido al fondo ni grumos visibles.<br>Aspecto homogéneo después de agitar.</p>
+  <p><strong>Documentos entregables:</strong><br>- Condiciones de reposo y agitación<br>- Número de inversiones por envase<br>- Data cruda y reporte estadístico</p>
+  <p><strong>Nota:</strong><br>El número de inversiones es una propuesta; se confirma con el desarrollo de la suspensión y la monografía. La redispersión se evalúa también al final de la vida útil.</p>
+  <p><strong>Referencia:</strong><br>USP &lt;1174&gt; — Pharmaceutical Suspensions; monografía del producto; ICH Q8(R2).</p>
+</article>
+<article data-bloque="3" id="art-PRO-PQ-SUS-002" class="ensayo" data-id="PRO-PQ-SUS-002" data-fase="PQ" data-cond="ambas" data-familia="suspensiones" data-instrumentos="Probeta graduada calibrada; Cronómetro calibrado" data-analisis="si">
+  <h3>PRO-PQ-SUS-002 — Velocidad de sedimentación</h3>
+  <p><strong>Objetivo:</strong><br>Confirmar que la suspensión mantiene una velocidad de sedimentación controlada y que el volumen de sedimento es reproducible.</p>
+  <p><strong>Procedimiento:</strong><br>1) Colocar la suspensión homogeneizada en tres probetas graduadas<br>2) Dejar reposar 24 h a 25 °C y registrar el volumen de sedimento<br>3) Calcular la relación de sedimentación (volumen de sedimento / volumen inicial)<br>4) Registrar la facilidad de redispersión al final del ensayo<br>5) Anexar lecturas, imágenes y data cruda</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = relación de sedimentación; unidad = %. Tipo de dato = continua. n = 3 probetas por lote. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = relación de sedimentación ≤ 10,0 % a las 24 h y redispersión en ≤ 10 inversiones. Atípicos = Grubbs solo si n ≥ 7; se investiga antes de excluir.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Relación de sedimentación ≤ <span class="por-confirmar">10,0 %</span> a las 24 h.<br>Redispersión en ≤ <span class="por-confirmar">10 inversiones</span>.<br>Sin fase separada ni cristales visibles.</p>
+  <p><strong>Documentos entregables:</strong><br>- Lecturas de volumen y tiempo<br>- Cálculo de la relación de sedimentación<br>- Data cruda y reporte estadístico</p>
+  <p><strong>Nota:</strong><br>Los límites son propuestas; se confirman con el desarrollo de la suspensión y la monografía. La sedimentación se evalúa a temperatura controlada.</p>
+  <p><strong>Referencia:</strong><br>USP &lt;1174&gt; — Pharmaceutical Suspensions; ICH Q1A(R2); monografía del producto.</p>
+</article>
+<article data-bloque="3" id="art-PRO-PQ-SUS-003" class="ensayo" data-id="PRO-PQ-SUS-003" data-fase="PQ" data-cond="ambas" data-familia="suspensiones" data-instrumentos="Analizador de partículas calibrado; Microscopio con analizador de imagen calibrado" data-analisis="si">
+  <h3>PRO-PQ-SUS-003 — Tamaño de partícula</h3>
+  <p><strong>Objetivo:</strong><br>Confirmar que la fase dispersa de la suspensión mantiene el tamaño de partícula previsto y que la molienda o homogeneización no genera aglomerados.</p>
+  <p><strong>Procedimiento:</strong><br>1) Redispersar la muestra según el método validado<br>2) Medir D10, D50 y D90 por difracción láser o microscopía<br>3) Repetir en tres preparaciones independientes del lote<br>4) Calcular media, DE y RSD de D90<br>5) Anexar histogramas, imágenes y data cruda</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = D90 de la fase dispersa; unidad = µm. Tipo de dato = continua. n = 3 preparaciones por lote. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = D90 ≤ 50 µm y RSD ≤ 10,0 %; D50 dentro del intervalo del desarrollo. Atípicos = Grubbs solo si n ≥ 7; se investiga antes de excluir.</p>
+  <p><strong>Criterio de aceptación:</strong><br>D90 ≤ <span class="por-confirmar">50 µm</span>.<br>RSD de D90 ≤ <span class="por-confirmar">10,0 %</span>.<br>D50 dentro del intervalo definido en el desarrollo.</p>
+  <p><strong>Documentos entregables:</strong><br>- Histogramas e imágenes<br>- D10, D50 y D90 por preparación<br>- Data cruda y reporte estadístico</p>
+  <p><strong>Nota:</strong><br>Los límites son propuestas; se confirman con el desarrollo de la suspensión y la especificación. El método debe discriminar aglomerados en el intervalo de trabajo.</p>
+  <p><strong>Referencia:</strong><br>USP &lt;1174&gt; — Pharmaceutical Suspensions; ISO 13320 — Particle size analysis; monografía del producto.</p>
+</article>
+
+</section>
+
+</body>
+</html>

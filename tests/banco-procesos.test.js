@@ -22,7 +22,21 @@ const texto = (e, prefijo) => {
 describe('banco de procesos: estructura', () => {
   it('solo tiene PQ y arranca con comprimidos', () => {
     expect(Object.keys(B.fases)).toEqual(['PQ']);
-    expect(ensayos.length).toBe(57);
+    expect(ensayos.length).toBe(87);
+  });
+
+  it('semisólidos y líquidos traen grupo y forma sin duplicar IDs', () => {
+    const semisolidos = ensayos.filter((e) => e.familia === 'semisolidos').map((e) => e.id);
+    expect(semisolidos).toEqual(['PRO-PQ-SEM-001', 'PRO-PQ-SEM-002', 'PRO-PQ-SEM-003', 'PRO-PQ-SEM-004', 'PRO-PQ-SEM-005', 'PRO-PQ-SEM-006']);
+    const liquidos = ensayos.filter((e) => e.familia === 'liquidos').map((e) => e.id);
+    expect(liquidos).toEqual(['PRO-PQ-LIQ-001', 'PRO-PQ-LIQ-002', 'PRO-PQ-LIQ-003', 'PRO-PQ-LIQ-004', 'PRO-PQ-LIQ-005', 'PRO-PQ-LIQ-006']);
+    expect(ensayos.filter((e) => e.familia === 'cremas').map((e) => e.id)).toEqual(['PRO-PQ-CRE-001', 'PRO-PQ-CRE-002', 'PRO-PQ-CRE-003']);
+    expect(ensayos.filter((e) => e.familia === 'pomadas').map((e) => e.id)).toEqual(['PRO-PQ-POM-001', 'PRO-PQ-POM-002', 'PRO-PQ-POM-003']);
+    expect(ensayos.filter((e) => e.familia === 'geles').map((e) => e.id)).toEqual(['PRO-PQ-GEL-001', 'PRO-PQ-GEL-002', 'PRO-PQ-GEL-003']);
+    expect(ensayos.filter((e) => e.familia === 'soluciones').map((e) => e.id)).toEqual(['PRO-PQ-SLN-001', 'PRO-PQ-SLN-002', 'PRO-PQ-SLN-003']);
+    expect(ensayos.filter((e) => e.familia === 'suspensiones').map((e) => e.id)).toEqual(['PRO-PQ-SUS-001', 'PRO-PQ-SUS-002', 'PRO-PQ-SUS-003']);
+    expect(ensayos.filter((e) => e.familia === 'emulsiones').map((e) => e.id)).toEqual(['PRO-PQ-EMU-001', 'PRO-PQ-EMU-002', 'PRO-PQ-EMU-003']);
+    expect(ensayos.filter((e) => ['semisolidos', 'liquidos', 'cremas', 'pomadas', 'geles', 'soluciones', 'suspensiones', 'emulsiones'].indexOf(e.familia) >= 0 && e.subtipo)).toEqual([]);
   });
 
   it('cápsulas tiene sus ensayos propios y hereda el grupo sólidos', () => {
@@ -51,12 +65,16 @@ describe('banco de procesos: estructura', () => {
     const capsulas = ensayos.filter((e) => e.familia === 'capsulas');
     const granulados = ensayos.filter((e) => e.familia === 'granulados');
     const polvos = ensayos.filter((e) => e.familia === 'polvos');
+    const semisolidos = ensayos.filter((e) => e.familia === 'semisolidos');
+    const liquidos = ensayos.filter((e) => e.familia === 'liquidos');
     expect(comunes.length).toBe(24);
     expect(solidos.length).toBe(6);
     expect(comprimidos.length).toBe(15);
     expect(capsulas.length).toBe(5);
     expect(granulados.length).toBe(3);
     expect(polvos.length).toBe(4);
+    expect(semisolidos.length).toBe(6);
+    expect(liquidos.length).toBe(6);
     expect(new Set(ensayos.map((e) => e.id)).size).toBe(ensayos.length);
   });
 
@@ -84,6 +102,13 @@ describe('banco de procesos: estructura', () => {
       expect(texto(e, 'Referencia')).not.toMatch(/1058/);
       expect(String(e.instrumentos || '')).not.toMatch(/certificado\s*(n[o°]|no\.)|n[o°]\s*de\s*serie/i);
     }
+  });
+
+  it('las formas nuevas declaran instrumentos y criterio numérico', () => {
+    const nuevas = ensayos.filter((e) => ['semisolidos', 'liquidos', 'cremas', 'pomadas', 'geles', 'soluciones', 'suspensiones', 'emulsiones'].indexOf(e.familia) >= 0);
+    expect(nuevas.length).toBe(30);
+    expect(nuevas.filter((e) => !e.instrumentos).map((e) => e.id)).toEqual([]);
+    expect(nuevas.filter((e) => !/\d/.test(texto(e, 'Criterio'))).map((e) => e.id)).toEqual([]);
   });
 });
 
@@ -120,6 +145,20 @@ describe('banco de procesos: herencia por familia, grupo y subtipo', () => {
   it('el subtipo exige coincidencia con el paso 2', () => {
     expect(P.aplicaEnsayo(recubierto, comprimidos.id, comprimidos.grupo, { subtipo: 'Recubierto' })).toBe(true);
     expect(P.aplicaEnsayo(recubierto, comprimidos.id, comprimidos.grupo, { subtipo: 'Convencional' })).toBe(false);
+  });
+
+  it('semisólidos y líquidos no se filtran entre grupos', () => {
+    const sem = { id: 'PRO-PQ-SEM-001', familia: 'semisolidos' };
+    const liq = { id: 'PRO-PQ-LIQ-001', familia: 'liquidos' };
+    expect(P.aplicaEnsayo(sem, 'cremas', 'semisolidos', {})).toBe(true);
+    expect(P.aplicaEnsayo(sem, 'soluciones', 'liquidos', {})).toBe(false);
+    expect(P.aplicaEnsayo(liq, 'soluciones', 'liquidos', {})).toBe(true);
+    expect(P.aplicaEnsayo(liq, 'cremas', 'semisolidos', {})).toBe(false);
+  });
+
+  it('sin granulación los ensayos comunes siguen entrando', () => {
+    expect(P.aplicaEnsayo(comun, 'cremas', 'semisolidos', { subtipo: 'Crema' })).toBe(true);
+    expect(P.aplicaEnsayo(comun, 'soluciones', 'liquidos', { subtipo: 'Solución' })).toBe(true);
   });
 });
 
@@ -261,6 +300,35 @@ describe('muestreo PQ: tamaño de lote y porcentaje por etapa', () => {
     expect(xml).toContain('PROTOCOLO DE VALIDACIÓN DE PROCESOS');
     expect(xml).not.toMatch(/calific/i);
     expect(P.nombreArchivo('PQ', draft, ent, 'procesos')).toMatch(/^PROT-/);
+  });
+});
+
+describe('protocolo de semisólidos y líquidos', () => {
+  const base = {
+    descripcion: 'Crema base', codigo: 'PV-CRE-001', fecha: '2026-11-25',
+    producto: 'Producto X', concentracion: '1 %', subtipo: 'Crema',
+    ubicacion: 'Línea 1', usoPrevisto: 'Uso tópico',
+    ursCodigo: 'URS-001', ursVersion: '01', riesgoCodigo: 'AR-001', riesgoVersion: '01',
+    metodoCodigo: 'MV-001', metodoVersion: '01',
+    param_lotes_ppq: '3', param_tamano_lote: '1000', param_tamano_lote_min: '500', param_tamano_lote_max: '2000',
+    param_tren_equipos: 'Mezclador, sistema de cremas, llenadora', param_peor_caso: 'Lote máximo',
+    param_yield_min: '95', param_hold_time_max: '72', param_capability_min: '1,33', param_cpv_plan: 'CPV-001 v01',
+    param_cma_primas: 'API conforme', param_area_temp_min: '15', param_area_temp_max: '25', param_area_hr_max: '65',
+    param_limpieza_protocolo: 'LIM-001 v01', param_transporte_protocolo: 'TRA-001 v01',
+    param_escala_justificacion: 'Bracketing', param_recalificacion_frecuencia: '36',
+    param_proveedores_protocolo: 'PROV-001 v01', param_proveedores_criticos: 'API-1',
+    param_almacen_areas: 'MP, granel', param_almacen_protocolo: 'ALM-001 v01', param_almacen_mapeo: 'MAP-001 v01',
+    param_sistemas_apoyo: 'HVAC, agua purificada', param_salas_limpias: 'Sala B', param_sistemas_protocolo: 'SIS-001 v01',
+  };
+
+  it('el protocolo de cremas toma el grupo y la forma, no los sólidos', async () => {
+    const u8 = new Uint8Array(readFileSync('docs/plantillas/PQ-1-400AAAA.docx'));
+    const ent = { id: 'cremas', nombre: 'Cremas', grupo: 'semisolidos' };
+    const r = await P.generar('PQ', u8, B, base, ent, 'ambas');
+    expect(r.ensayos).toContain('PRO-PQ-SEM-001');
+    expect(r.ensayos).toContain('PRO-PQ-CRE-001');
+    expect(r.ensayos).not.toContain('PRO-PQ-LIQ-001');
+    expect(r.ensayos).not.toContain('PRO-PQ-CMP-001');
   });
 });
 

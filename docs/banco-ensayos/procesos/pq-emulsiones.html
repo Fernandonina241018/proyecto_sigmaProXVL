@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<style>
+  body { font-family: Tahoma, sans-serif; font-size: 11pt; }
+  strong { text-transform: uppercase; }
+</style>
+<title>Banco de Ensayos PQ — Emulsiones</title>
+</head>
+<body>
+
+<p><a href="../index.html">← Banco de ensayos</a></p>
+<h2>Banco de Ensayos PQ — Emulsiones</h2>
+<p>Versión del banco: <span data-banco-version>PRO-PQ 2026-11-25 v1</span></p>
+<p>Ensayos de la forma <code>emulsiones</code> (<code>data-familia="emulsiones"</code>). Hereda los ensayos del grupo líquidos.</p>
+
+<section id="fase-pq">
+<h2>Protocolo de validación — Ensayos de proceso</h2>
+
+<article data-bloque="3" id="art-PRO-PQ-EMU-001" class="ensayo" data-id="PRO-PQ-EMU-001" data-fase="PQ" data-cond="ambas" data-familia="emulsiones" data-instrumentos="Probeta graduada calibrada; Baño termostático calibrado" data-analisis="si">
+  <h3>PRO-PQ-EMU-001 — Separación de fases en reposo</h3>
+  <p><strong>Objetivo:</strong><br>Demostrar que la emulsión mantiene la dispersión de fases durante el reposo y que el proceso de emulsificación entrega un producto estable.</p>
+  <p><strong>Procedimiento:</strong><br>1) Colocar la emulsión homogeneizada en tres probetas graduadas<br>2) Dejar reposar 24 h a 25 °C<br>3) Medir el volumen de fase separada en la superficie o el fondo<br>4) Calcular el porcentaje sobre el volumen inicial<br>5) Anexar lecturas, imágenes y data cruda</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = fase separada en reposo; unidad = %. Tipo de dato = continua. n = 3 probetas por lote. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = fase separada ≤ 1,0 % a las 24 h y sin separación visible. Atípicos = Grubbs solo si n ≥ 7; se investiga antes de excluir.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Fase separada ≤ <span class="por-confirmar">1,0 %</span> después de 24 h a 25 °C.<br>Sin separación visible ni cremado.<br>Sin cambio de color ni olor respecto del patrón.</p>
+  <p><strong>Documentos entregables:</strong><br>- Condiciones de reposo y lecturas<br>- Porcentaje de fase separada<br>- Data cruda y reporte estadístico</p>
+  <p><strong>Nota:</strong><br>El límite es una propuesta; se confirma con el desarrollo de la emulsión y el estudio de estabilidad del producto. No sustituye el estudio formal de ICH Q1A(R2).</p>
+  <p><strong>Referencia:</strong><br>ICH Q1A(R2) — Stability Testing; monografía del producto; ICH Q8(R2).</p>
+</article>
+<article data-bloque="3" id="art-PRO-PQ-EMU-002" class="ensayo" data-id="PRO-PQ-EMU-002" data-fase="PQ" data-cond="ambas" data-familia="emulsiones" data-instrumentos="Analizador de tamaño de gota calibrado; Microscopio con analizador de imagen calibrado" data-analisis="si">
+  <h3>PRO-PQ-EMU-002 — Tamaño de gota</h3>
+  <p><strong>Objetivo:</strong><br>Confirmar que la fase dispersa de la emulsión mantiene el tamaño de gota previsto y que el proceso de emulsificación es reproducible.</p>
+  <p><strong>Procedimiento:</strong><br>1) Tomar tres alícuotas independientes del lote homogeneizado<br>2) Medir D10, D50 y D90 por difracción láser o microscopía con análisis de imagen<br>3) Calcular media, DE y RSD de D90<br>4) Comparar contra el intervalo del desarrollo<br>5) Anexar histogramas, imágenes y data cruda</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = D90 de la fase dispersa; unidad = µm. Tipo de dato = continua. n = 3 alícuotas por lote. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = D90 ≤ 20 µm y RSD ≤ 10,0 %; D50 dentro del intervalo del desarrollo. Atípicos = Grubbs solo si n ≥ 7; se investiga antes de excluir.</p>
+  <p><strong>Criterio de aceptación:</strong><br>D90 ≤ <span class="por-confirmar">20 µm</span>.<br>RSD de D90 ≤ <span class="por-confirmar">10,0 %</span>.<br>D50 dentro del intervalo definido en el desarrollo.</p>
+  <p><strong>Documentos entregables:</strong><br>- Histogramas e imágenes<br>- D10, D50 y D90 por alícuota<br>- Data cruda y reporte estadístico</p>
+  <p><strong>Nota:</strong><br>Los límites son propuestas; se confirman con el desarrollo de la emulsión y la especificación. El método debe medir la fase dispersa sin coalescencia inducida por la preparación.</p>
+  <p><strong>Referencia:</strong><br>ISO 13320 — Particle size analysis; monografía del producto; ICH Q8(R2).</p>
+</article>
+<article data-bloque="3" id="art-PRO-PQ-EMU-003" class="ensayo" data-id="PRO-PQ-EMU-003" data-fase="PQ" data-cond="ambas" data-familia="emulsiones" data-instrumentos="Centrífuga calibrada; Balanza analítica calibrada" data-analisis="si">
+  <h3>PRO-PQ-EMU-003 — Estabilidad centrífuga</h3>
+  <p><strong>Objetivo:</strong><br>Evaluar la resistencia de la emulsión a la separación de fases bajo estrés centrífugo y confirmar la estabilidad del lote de validación.</p>
+  <p><strong>Procedimiento:</strong><br>1) Colocar una alícuota de emulsión en tubo graduado y centrifugar a 3000 rpm durante 30 min a 25 °C<br>2) Medir el volumen de fase separada en la superficie o el fondo<br>3) Calcular el porcentaje sobre el volumen inicial<br>4) Repetir en tres alícuotas independientes del lote<br>5) Anexar condiciones, lecturas y data cruda</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = fase separada por centrifugación; unidad = %. Tipo de dato = continua. n = 3 alícuotas por lote. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = fase separada ≤ 1,0 % y sin coalescencia visible. Atípicos = Grubbs solo si n ≥ 7; se investiga antes de excluir.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Fase separada ≤ <span class="por-confirmar">1,0 %</span> después de 3000 rpm durante 30 min a 25 °C.<br>Sin coalescencia ni cremado visible.<br>Sin cambio de color ni olor respecto del patrón.</p>
+  <p><strong>Documentos entregables:</strong><br>- Condiciones de centrifugación<br>- Volumen y porcentaje de fase separada<br>- Data cruda y reporte estadístico</p>
+  <p><strong>Nota:</strong><br>El límite y las condiciones son propuestas; se confirman con el desarrollo de la emulsión y el estudio de estabilidad acelerada del producto.</p>
+  <p><strong>Referencia:</strong><br>ICH Q1A(R2) — Stability Testing; monografía del producto; ICH Q8(R2).</p>
+</article>
+
+</section>
+
+</body>
+</html>

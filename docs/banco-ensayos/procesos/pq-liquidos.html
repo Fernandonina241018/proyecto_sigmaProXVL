@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<style>
+  body { font-family: Tahoma, sans-serif; font-size: 11pt; }
+  strong { text-transform: uppercase; }
+</style>
+<title>Banco de Ensayos PQ — Líquidos</title>
+</head>
+<body>
+
+<p><a href="../index.html">← Banco de ensayos</a></p>
+<h2>Banco de Ensayos PQ — Líquidos</h2>
+<p>Versión del banco: <span data-banco-version>PRO-PQ 2026-11-25 v1</span></p>
+<p>Ensayos del grupo <code>liquidos</code> (<code>data-familia="liquidos"</code>): aplican a soluciones, suspensiones y emulsiones no estériles.</p>
+
+<section id="fase-pq">
+<h2>Protocolo de validación — Ensayos de proceso</h2>
+
+<article data-bloque="3" id="art-PRO-PQ-LIQ-001" class="ensayo" data-id="PRO-PQ-LIQ-001" data-fase="PQ" data-cond="ambas" data-familia="liquidos" data-instrumentos="HPLC con detector UV o espectrofotómetro UV-Vis calibrado; Balanza analítica calibrada" data-analisis="si">
+  <h3>PRO-PQ-LIQ-001 — Homogeneidad del líquido</h3>
+  <p><strong>Objetivo:</strong><br>Demostrar que el principio activo está distribuido uniformemente en el líquido antes del llenado, comparando la parte superior, media e inferior del tanque.</p>
+  <p><strong>Procedimiento:</strong><br>1) Definir tres ubicaciones de muestreo: superior, media e inferior del tanque, con tres réplicas por ubicación<br>2) Muestrear al final de la preparación, antes del llenado, con dispositivo que no altere la muestra<br>3) Analizar cada réplica por HPLC o UV-Vis con método validado<br>4) Calcular media, DE y RSD por ubicación y global<br>5) Anexar el plan, los resultados y la data cruda</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = porcentaje del principio activo respecto de la cantidad etiquetada; unidad = %. Tipo de dato = continua. n = 3 ubicaciones × 3 réplicas = 9 muestras. Estadísticos = media, DE, RSD (%) e IC 95 %; comparación de medias por ubicación con ANOVA o modelo mixto. Regla de decisión = RSD global ≤ 5,0 %, cada media por ubicación dentro de 95,0–105,0 % y ningún individual fuera de 90,0–110,0 %. Atípicos = Grubbs solo si n ≥ 7; toda exclusión se justifica y se conserva el dato original.</p>
+  <p><strong>Criterio de aceptación:</strong><br>RSD de todos los resultados ≤ <span class="por-confirmar">5,0 %</span>.<br>Cada media por ubicación dentro de <span class="por-confirmar">95,0–105,0 %</span> de la cantidad etiquetada.<br>Ningún resultado individual fuera de <span class="por-confirmar">90,0–110,0 %</span>.<br>Sin diferencia significativa entre ubicaciones (p &gt; 0,05) o diferencia explicada y aceptada por riesgo.</p>
+  <p><strong>Documentos entregables:</strong><br>- Plan de muestreo con ubicaciones y réplicas<br>- Resultados por ubicación y análisis estadístico<br>- Data cruda y evaluación del efecto de ubicación</p>
+  <p><strong>Nota:</strong><br>Los límites son propuestas; se confirman con el desarrollo de la formulación y el plan de muestreo aprobado. En suspensiones, la homogeneidad se evalúa después de redispersar.</p>
+  <p><strong>Referencia:</strong><br>21 CFR 211.110; FDA — Process Validation (2011); ICH Q8(R2); monografía del producto.</p>
+</article>
+<article data-bloque="3" id="art-PRO-PQ-LIQ-002" class="ensayo" data-id="PRO-PQ-LIQ-002" data-fase="PQ" data-cond="ambas" data-familia="liquidos" data-instrumentos="pH-metro calibrado; Baño termostático calibrado" data-analisis="si">
+  <h3>PRO-PQ-LIQ-002 — pH del líquido</h3>
+  <p><strong>Objetivo:</strong><br>Verificar que el pH del líquido se mantiene dentro del intervalo aprobado y que la preparación no induce cambios ácido-base entre lotes.</p>
+  <p><strong>Procedimiento:</strong><br>1) Calibrar el pH-metro con patrones de pH 4,00, 7,00 y 10,00<br>2) Acondicionar la muestra a 25 ± 0,5 °C<br>3) Medir el pH en tres alícuotas independientes<br>4) Calcular media, DE y RSD<br>5) Anexar calibración, lecturas y data cruda</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = pH a 25 °C; unidad = unidades de pH. Tipo de dato = continua. n = 3 alícuotas por lote. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = cada lectura dentro de ±0,3 unidades del valor objetivo y RSD ≤ 1,0 %. Atípicos = Grubbs solo si n ≥ 7; se investiga antes de excluir.</p>
+  <p><strong>Criterio de aceptación:</strong><br>pH dentro de <span class="por-confirmar">±0,3 unidades</span> del valor objetivo del producto.<br>RSD de las tres lecturas ≤ <span class="por-confirmar">1,0 %</span>.<br>Medición a 25 ± 0,5 °C con calibración vigente.</p>
+  <p><strong>Documentos entregables:</strong><br>- Calibración del pH-metro y lecturas<br>- Cálculo de media y RSD<br>- Data cruda y reporte estadístico</p>
+  <p><strong>Nota:</strong><br>El intervalo es una propuesta; se confirma con la especificación del producto y la monografía del líquido.</p>
+  <p><strong>Referencia:</strong><br>USP &lt;791&gt; — pH; monografía del producto; ICH Q6A.</p>
+</article>
+<article data-bloque="3" id="art-PRO-PQ-LIQ-003" class="ensayo" data-id="PRO-PQ-LIQ-003" data-fase="PQ" data-cond="ambas" data-familia="liquidos" data-instrumentos="Densímetro digital calibrado; Baño termostático calibrado" data-analisis="si">
+  <h3>PRO-PQ-LIQ-003 — Densidad</h3>
+  <p><strong>Objetivo:</strong><br>Confirmar que la densidad del líquido se mantiene dentro del intervalo previsto y que la preparación entrega una composición reproducible.</p>
+  <p><strong>Procedimiento:</strong><br>1) Acondicionar la muestra a 25 ± 0,5 °C<br>2) Medir la densidad con densímetro digital o picnómetro calibrado<br>3) Repetir en tres alícuotas independientes del lote<br>4) Calcular media, DE y RSD<br>5) Anexar calibración, lecturas y data cruda</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = densidad a 25 °C; unidad = g/mL. Tipo de dato = continua. n = 3 alícuotas por lote. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = densidad dentro de 0,95–1,10 g/mL o ±2,0 % del valor de diseño, con RSD ≤ 0,5 %. Atípicos = Grubbs solo si n ≥ 7; se investiga antes de excluir.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Densidad dentro de <span class="por-confirmar">0,95–1,10 g/mL</span> a 25 °C.<br>Desviación ≤ <span class="por-confirmar">±2,0 %</span> del valor de diseño.<br>RSD de las tres mediciones ≤ <span class="por-confirmar">0,5 %</span>.</p>
+  <p><strong>Documentos entregables:</strong><br>- Calibración del densímetro y lecturas<br>- Cálculo de media y RSD<br>- Data cruda y reporte estadístico</p>
+  <p><strong>Nota:</strong><br>El intervalo es una propuesta; se confirma con la formulación y la especificación del producto. La densidad se informa siempre con la temperatura de medición.</p>
+  <p><strong>Referencia:</strong><br>ISO 12185 — Densidad de líquidos; monografía del producto; ICH Q6A.</p>
+</article>
+<article data-bloque="3" id="art-PRO-PQ-LIQ-004" class="ensayo" data-id="PRO-PQ-LIQ-004" data-fase="PQ" data-cond="ambas" data-familia="liquidos" data-instrumentos="Probeta graduada calibrada; Balanza analítica calibrada" data-analisis="si">
+  <h3>PRO-PQ-LIQ-004 — Volumen entregable</h3>
+  <p><strong>Objetivo:</strong><br>Demostrar que el llenado entrega el volumen declarado en cada envase y que el proceso mantiene la uniformidad de volumen.</p>
+  <p><strong>Procedimiento:</strong><br>1) Seleccionar 10 envases al azar del lote de validación<br>2) Determinar el volumen entregable según USP &lt;698&gt; (peso o volumetría)<br>3) Calcular el volumen individual y el promedio<br>4) Comparar contra el volumen etiquetado y calcular RSD<br>5) Anexar pesadas, temperaturas y data cruda</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = volumen entregable por envase; unidad = mL. Tipo de dato = continua. n = 10 envases. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = volumen medio ≥ 100,0 % del etiquetado, ningún envase &lt; 95,0 % y RSD ≤ 2,0 %. Atípicos = Grubbs solo si n ≥ 7; no se descartan envases sin investigación.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Volumen medio ≥ <span class="por-confirmar">100,0 %</span> del volumen etiquetado.<br>Ningún envase &lt; <span class="por-confirmar">95,0 %</span> del volumen etiquetado.<br>RSD del volumen entregable ≤ <span class="por-confirmar">2,0 %</span>.</p>
+  <p><strong>Documentos entregables:</strong><br>- Pesadas o lecturas volumétricas por envase<br>- Cálculo de media y RSD<br>- Data cruda y reporte estadístico</p>
+  <p><strong>Nota:</strong><br>Los límites son propuestas; se confirman con USP &lt;698&gt; y la monografía. La densidad del líquido se usa para convertir masa en volumen cuando aplica.</p>
+  <p><strong>Referencia:</strong><br>USP &lt;698&gt; — Deliverable Volume of Liquid Oral Dosage Forms; 21 CFR 211.110; monografía del producto.</p>
+</article>
+<article data-bloque="3" id="art-PRO-PQ-LIQ-005" class="ensayo" data-id="PRO-PQ-LIQ-005" data-fase="PQ" data-cond="ambas" data-familia="liquidos" data-instrumentos="Turbidímetro calibrado; Lámpara de inspección visual" data-analisis="si">
+  <h3>PRO-PQ-LIQ-005 — Aspecto y claridad</h3>
+  <p><strong>Objetivo:</strong><br>Confirmar que el líquido mantiene el aspecto y la claridad previstos y que el proceso no genera partículas, turbidez ni cambios de color.</p>
+  <p><strong>Procedimiento:</strong><br>1) Inspeccionar visualmente tres alícuotas contra un fondo negro y blanco<br>2) Medir la turbidez con turbidímetro calibrado<br>3) Registrar color, olor y presencia de partículas<br>4) Comparar contra el patrón de referencia del producto<br>5) Anexar lecturas, imágenes y data cruda</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = turbidez y aspecto; unidad = NTU y categórica. Tipo de dato = continua y categórica. n = 3 alícuotas por lote. Estadísticos = media, DE y RSD (%) de turbidez; frecuencia de defectos visuales. Regla de decisión = turbidez ≤ 10 NTU, sin partículas visibles y color/olor igual al patrón. Atípicos = Grubbs solo si n ≥ 7; se investiga antes de excluir.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Turbidez ≤ <span class="por-confirmar">10 NTU</span>.<br>Sin partículas visibles a simple vista.<br>Color y olor iguales al patrón de referencia del producto.</p>
+  <p><strong>Documentos entregables:</strong><br>- Lecturas de turbidez e inspección visual<br>- Comparación contra el patrón<br>- Data cruda y reporte estadístico</p>
+  <p><strong>Nota:</strong><br>El límite de turbidez es una propuesta; se confirma con la especificación del producto y la monografía. La inspección visual se realiza con iluminación y fondo definidos.</p>
+  <p><strong>Referencia:</strong><br>ISO 7027 — Turbidez; monografía del producto; ICH Q6A.</p>
+</article>
+<article data-bloque="3" id="art-PRO-PQ-LIQ-006" class="ensayo" data-id="PRO-PQ-LIQ-006" data-fase="PQ" data-cond="ambas" data-familia="liquidos" data-instrumentos="HPLC con detector UV calibrado; Balanza analítica calibrada" data-analisis="si">
+  <h3>PRO-PQ-LIQ-006 — Contenido de principio activo</h3>
+  <p><strong>Objetivo:</strong><br>Confirmar que el contenido del principio activo en el líquido del lote de validación cumple la cantidad etiquetada y que el proceso es reproducible.</p>
+  <p><strong>Procedimiento:</strong><br>1) Tomar tres alícuotas independientes del lote homogeneizado<br>2) Diluir según el método validado y analizar por HPLC<br>3) Calcular el contenido como porcentaje de la cantidad etiquetada<br>4) Calcular media, DE y RSD<br>5) Anexar cromatogramas, diluciones y data cruda</p>
+  <p><strong>Plan estadístico:</strong><br>Variable = contenido del principio activo; unidad = %. Tipo de dato = continua. n = 3 alícuotas por lote. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = media dentro de 95,0–105,0 % de la cantidad etiquetada y RSD ≤ 2,0 %. Atípicos = Grubbs solo si n ≥ 7; se investiga antes de excluir.</p>
+  <p><strong>Criterio de aceptación:</strong><br>Contenido medio dentro de <span class="por-confirmar">95,0–105,0 %</span> de la cantidad etiquetada.<br>RSD de las tres determinaciones ≤ <span class="por-confirmar">2,0 %</span>.<br>Método analítico validado y vigente.</p>
+  <p><strong>Documentos entregables:</strong><br>- Cromatogramas y diluciones<br>- Cálculo de contenido y RSD<br>- Data cruda y reporte estadístico</p>
+  <p><strong>Nota:</strong><br>El intervalo es una propuesta; se confirma con la especificación del producto y la monografía. La uniformidad por unidad se evalúa en el ensayo de contenido por envase de cada forma.</p>
+  <p><strong>Referencia:</strong><br>ICH Q6A — Specifications; USP &lt;905&gt; — Uniformity of Dosage Units; monografía del producto.</p>
+</article>
+
+</section>
+
+</body>
+</html>

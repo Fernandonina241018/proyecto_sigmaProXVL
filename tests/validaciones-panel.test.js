@@ -112,20 +112,32 @@ describe('Validaciones V7', () => {
   });
 
   test('procesos: comprimidos en el grupo sólidos', () => {
-    expect(Validaciones.getEntidades('procesos').map((e) => e.id)).toEqual(['comprimidos', 'capsulas', 'granulados', 'polvos']);
+    expect(Validaciones.getEntidades('procesos').map((e) => e.id)).toEqual([
+      'comprimidos', 'capsulas', 'granulados', 'polvos',
+      'cremas', 'pomadas', 'geles', 'soluciones', 'suspensiones', 'emulsiones',
+    ]);
     const html = Validaciones.viewEntidad('procesos');
     expect(html).toContain('Seleccione la forma farmacéutica');
     expect(html).toContain('data-ent="comprimidos"');
     expect(html).toContain('data-ent="capsulas"');
     expect(html).toContain('data-ent="granulados"');
     expect(html).toContain('data-ent="polvos"');
+    expect(html).toContain('data-ent="cremas"');
+    expect(html).toContain('data-ent="soluciones"');
     expect(html).toContain('data-grupo="solidos"');
+    expect(html).toContain('data-grupo="semisolidos"');
+    expect(html).toContain('data-grupo="liquidos"');
     expect(html).toContain('v7-tren');
     expect(Validaciones.getSchema('procesos').map((f) => f.k)).toContain('subtipo');
     expect(Validaciones.getSchema('procesos').map((f) => f.k)).toContain('tipoGranulacion');
     expect(Validaciones.getSchema('procesos').map((f) => f.k)).toEqual(expect.arrayContaining(['metodoCodigo', 'metodoVersion']));
     expect(Validaciones.getSchema('procesos').find((f) => f.k === 'subtipo').opciones).toContain('Liberación modificada');
+    expect(Validaciones.getSchema('procesos').find((f) => f.k === 'subtipo').opcionesPorGrupo).toEqual({
+      semisolidos: ['Crema', 'Pomada', 'Gel'],
+      liquidos: ['Solución', 'Suspensión', 'Emulsión'],
+    });
     expect(Validaciones.getSchema('procesos').find((f) => f.k === 'tipoGranulacion').opciones).toEqual(expect.arrayContaining(['Húmeda', 'Seca', 'Doble húmeda', 'Húmeda + seca', 'No aplica']));
+    expect(Validaciones.getSchema('procesos').find((f) => f.k === 'tipoGranulacion').grupos).toEqual(['solidos']);
     expect(html).toContain('Protocolo de validación');
     expect(html).toContain('value="PQ"');
     expect(Validaciones.faseLabel('PQ', 'procesos')).toBe('Protocolo de validación');
@@ -169,6 +181,9 @@ describe('Validaciones V7', () => {
       expect(html, g).toContain('v7-tren-resumen');
     }
     expect(Validaciones.trenHtml('solidos')).not.toContain('data-tren="hplc"');
+    expect(Validaciones.trenHtml('liquidos')).not.toContain('data-tren="autoclave"');
+    expect(Validaciones.trenHtml('liquidos')).not.toContain('data-tren="liofilizador"');
+    expect(Validaciones.trenHtml('semisolidos')).toContain('data-tren="sistema-cremas-vacio"');
   });
 
   test('tren de equipos: cada forma y tipo ve solo sus equipos', () => {

@@ -1,7 +1,7 @@
 // Generado por scripts/extraer-banco.mjs procesos — NO EDITAR A MANO.
-// Fuente: docs/banco-ensayos/procesos/pq-comun.html + docs/banco-ensayos/procesos/pq-solidos.html + docs/banco-ensayos/procesos/pq-comprimidos.html + docs/banco-ensayos/procesos/pq-capsulas.html + docs/banco-ensayos/procesos/pq-granulados-polvos.html (versión: PRO-PQ 2026-11-20 v1 + PRO-PQ 2026-11-20 v1 + PRO-PQ 2026-11-20 v1 + PRO-PQ 2026-11-20 v1 + PRO-PQ 2026-11-20 v1).
+// Fuente: docs/banco-ensayos/procesos/pq-comun.html + docs/banco-ensayos/procesos/pq-solidos.html + docs/banco-ensayos/procesos/pq-comprimidos.html + docs/banco-ensayos/procesos/pq-capsulas.html + docs/banco-ensayos/procesos/pq-granulados-polvos.html + docs/banco-ensayos/procesos/pq-semisolidos.html + docs/banco-ensayos/procesos/pq-cremas.html + docs/banco-ensayos/procesos/pq-pomadas.html + docs/banco-ensayos/procesos/pq-geles.html + docs/banco-ensayos/procesos/pq-liquidos.html + docs/banco-ensayos/procesos/pq-soluciones.html + docs/banco-ensayos/procesos/pq-suspensiones.html + docs/banco-ensayos/procesos/pq-emulsiones.html (versión: PRO-PQ 2026-11-20 v1 + PRO-PQ 2026-11-20 v1 + PRO-PQ 2026-11-20 v1 + PRO-PQ 2026-11-20 v1 + PRO-PQ 2026-11-20 v1 + PRO-PQ 2026-11-25 v1 + PRO-PQ 2026-11-25 v1 + PRO-PQ 2026-11-25 v1 + PRO-PQ 2026-11-25 v1 + PRO-PQ 2026-11-25 v1 + PRO-PQ 2026-11-25 v1 + PRO-PQ 2026-11-25 v1 + PRO-PQ 2026-11-25 v1).
 var BancoProcesos = {
- "version": "PRO-PQ 2026-11-20 v1 + PRO-PQ 2026-11-20 v1 + PRO-PQ 2026-11-20 v1 + PRO-PQ 2026-11-20 v1 + PRO-PQ 2026-11-20 v1",
+ "version": "PRO-PQ 2026-11-20 v1 + PRO-PQ 2026-11-20 v1 + PRO-PQ 2026-11-20 v1 + PRO-PQ 2026-11-20 v1 + PRO-PQ 2026-11-20 v1 + PRO-PQ 2026-11-25 v1 + PRO-PQ 2026-11-25 v1 + PRO-PQ 2026-11-25 v1 + PRO-PQ 2026-11-25 v1 + PRO-PQ 2026-11-25 v1 + PRO-PQ 2026-11-25 v1 + PRO-PQ 2026-11-25 v1 + PRO-PQ 2026-11-25 v1",
  "fases": {
   "PQ": [
    {
@@ -1488,6 +1488,7 @@ var BancoProcesos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Balanza analítica calibrada; Durómetro calibrado; Calibrador digital calibrado",
     "familia": "comprimidos"
    },
    {
@@ -1733,6 +1734,7 @@ var BancoProcesos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Balanza analítica calibrada; Microscopio estereoscópico calibrado",
     "subtipo": "Recubierto",
     "analisis": "si",
     "familia": "comprimidos"
@@ -1940,6 +1942,7 @@ var BancoProcesos = {
      }
     ],
     "tabla": null,
+    "instrumentos": "Balanza analítica calibrada; Microscopio estereoscópico calibrado",
     "analisis": "si",
     "familia": "capsulas"
    },
@@ -2313,6 +2316,1236 @@ var BancoProcesos = {
     "subtipo": "Polvo para reconstitución",
     "analisis": "si",
     "familia": "polvos"
+   },
+   {
+    "kind": "ensayo",
+    "id": "PRO-PQ-SEM-001",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "PRO-PQ-SEM-001 — Homogeneidad de la mezcla semisólida",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Demostrar que la mezcla semisólida es homogénea antes del llenado, comparando el contenido del principio activo en la superficie, el centro y el fondo del tanque."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>1) Definir tres ubicaciones de muestreo: superior, media e inferior del tanque, con tres réplicas por ubicación<br>2) Muestrear al final de la mezcla, antes de descargar, con dispositivo que no segregue la masa<br>3) Analizar cada réplica por HPLC o UV-Vis con método validado y expresar el resultado como porcentaje del objetivo<br>4) Calcular media, DE, RSD y la media por ubicación; evaluar el efecto de ubicación con ANOVA o modelo mixto<br>5) Anexar el plan, los resultados por ubicación y la data cruda"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = porcentaje del principio activo respecto del objetivo; unidad = %. Tipo de dato = continua. n = 3 ubicaciones × 3 réplicas = 9 muestras. Estadísticos = media, DE, RSD (%) e IC 95 %; comparación de medias por ubicación con ANOVA o modelo mixto. Regla de decisión = RSD ≤ 5,0 %, cada media por ubicación dentro de 90,0–110,0 % y ningún individual fuera de 75,0–125,0 %. Atípicos = Grubbs solo si n ≥ 7; toda exclusión se justifica y se conserva el dato original."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>RSD de todos los resultados ≤ <span class=\"por-confirmar\">5,0 %</span>.<br>Cada media por ubicación dentro de <span class=\"por-confirmar\">90,0–110,0 %</span> del objetivo.<br>Ningún resultado individual fuera de <span class=\"por-confirmar\">75,0–125,0 %</span> del objetivo.<br>Sin diferencia significativa entre ubicaciones (p &gt; 0,05) o diferencia explicada y aceptada por riesgo."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>- Plan de muestreo con ubicaciones y réplicas<br>- Resultados por ubicación y análisis estadístico<br>- Data cruda y evaluación del efecto de ubicación"
+     },
+     {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>Los límites son propuestas; se confirman con el desarrollo de la formulación, el plan de muestreo aprobado y el análisis de riesgo del producto."
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>21 CFR 211.110; FDA — Process Validation (2011); ICH Q8(R2); ICH Q9(R1); USP &lt;1721&gt; — Semisolid Drug Products."
+     }
+    ],
+    "tabla": null,
+    "instrumentos": "HPLC con detector UV o espectrofotómetro UV-Vis calibrado; Balanza analítica calibrada",
+    "analisis": "si",
+    "familia": "semisolidos"
+   },
+   {
+    "kind": "ensayo",
+    "id": "PRO-PQ-SEM-002",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "PRO-PQ-SEM-002 — Viscosidad y comportamiento reológico",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Confirmar que la viscosidad de la forma semisólida se mantiene dentro del rango de diseño y que el proceso entrega un producto con comportamiento reológico reproducible."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>1) Acondicionar la muestra a 25 ± 0,5 °C en baño termostático<br>2) Medir la viscosidad con husillo y velocidad definidos en el método validado, registrando el torque<br>3) Repetir la medición en tres alícuotas independientes del lote<br>4) Calcular media, DE y RSD; comparar contra el valor de diseño<br>5) Anexar curvas de barrido, condiciones y data cruda"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = viscosidad dinámica a 25 °C; unidad = mPa·s. Tipo de dato = continua. n = 3 alícuotas por lote. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = cada medición dentro de 80,0–120,0 % del valor de diseño, RSD ≤ 5,0 % y temperatura 25 ± 0,5 °C. Atípicos = Grubbs solo si n ≥ 7; con n = 3 se repite la medición y se conserva el dato original."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>Viscosidad dentro de <span class=\"por-confirmar\">80,0–120,0 %</span> del valor de diseño.<br>RSD de las tres mediciones ≤ <span class=\"por-confirmar\">5,0 %</span>.<br>Temperatura de medición 25 ± 0,5 °C."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>- Curvas de barrido y condiciones de medición<br>- Viscosidad por alícuota y cálculo de RSD<br>- Data cruda y reporte estadístico"
+     },
+     {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>El rango es una propuesta; se confirma con el desarrollo de la formulación y el método reológico validado del producto."
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>USP &lt;912&gt; — Viscosity—Rotational Methods; monografía del producto; ICH Q8(R2)."
+     }
+    ],
+    "tabla": null,
+    "instrumentos": "Viscosímetro rotacional calibrado; Baño termostático calibrado",
+    "analisis": "si",
+    "familia": "semisolidos"
+   },
+   {
+    "kind": "ensayo",
+    "id": "PRO-PQ-SEM-003",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "PRO-PQ-SEM-003 — pH de la forma semisólida",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que el pH de la forma semisólida se mantiene dentro del intervalo aprobado y que el proceso no induce cambios ácido-base entre lotes."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>1) Calibrar el pH-metro con patrones de pH 4,00, 7,00 y 10,00<br>2) Preparar la muestra según la monografía (dispersión o medición directa)<br>3) Medir el pH a 25 ± 0,5 °C en tres alícuotas independientes<br>4) Calcular media, DE y RSD<br>5) Anexar calibración, lecturas y data cruda"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = pH a 25 °C; unidad = unidades de pH. Tipo de dato = continua. n = 3 alícuotas por lote. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = cada lectura dentro de ±0,3 unidades del valor objetivo y RSD ≤ 1,0 %. Atípicos = Grubbs solo si n ≥ 7; se investiga antes de excluir."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>pH dentro de <span class=\"por-confirmar\">±0,3 unidades</span> del valor objetivo del producto.<br>RSD de las tres lecturas ≤ <span class=\"por-confirmar\">1,0 %</span>.<br>Medición a 25 ± 0,5 °C con calibración vigente."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>- Calibración del pH-metro y lecturas<br>- Cálculo de media y RSD<br>- Data cruda y reporte estadístico"
+     },
+     {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>El intervalo es una propuesta; se confirma con la especificación del producto y la monografía. Para productos con pH dependiente de la temperatura se registra también la temperatura de lectura."
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>USP &lt;791&gt; — pH; monografía del producto; ICH Q6A."
+     }
+    ],
+    "tabla": null,
+    "instrumentos": "pH-metro calibrado; Baño termostático calibrado",
+    "analisis": "si",
+    "familia": "semisolidos"
+   },
+   {
+    "kind": "ensayo",
+    "id": "PRO-PQ-SEM-004",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "PRO-PQ-SEM-004 — Tamaño de partícula de la fase dispersa",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Confirmar que la fase dispersa de la forma semisólida mantiene el tamaño de partícula previsto y que la homogeneización del proceso no genera aglomerados ni sobremolienda."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>1) Tomar muestras de la superficie y del fondo del lote de validación<br>2) Preparar la muestra sin alterar la fase dispersa, según el método validado<br>3) Medir D10, D50 y D90 por microscopía con análisis de imagen o difracción láser<br>4) Calcular media, DE y RSD de D90 en tres preparaciones independientes<br>5) Anexar imágenes, histogramas y data cruda"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = D90 de la fase dispersa; unidad = µm. Tipo de dato = continua. n = 3 preparaciones independientes por lote. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = D90 ≤ 50 µm y RSD ≤ 10,0 %; D50 dentro del intervalo del desarrollo. Atípicos = Grubbs solo si n ≥ 7; se investiga la causa antes de excluir."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>D90 ≤ <span class=\"por-confirmar\">50 µm</span>.<br>RSD de D90 ≤ <span class=\"por-confirmar\">10,0 %</span>.<br>D50 dentro del intervalo definido en el desarrollo de la formulación."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>- Imágenes y histogramas de tamaño<br>- D10, D50 y D90 por preparación<br>- Data cruda y reporte estadístico"
+     },
+     {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>Los límites son propuestas; se confirman con el desarrollo de la formulación y la especificación del producto. El método de medición debe estar validado para el intervalo de trabajo."
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>USP &lt;1721&gt; — Semisolid Drug Products; ISO 13320 — Particle size analysis; ICH Q8(R2)."
+     }
+    ],
+    "tabla": null,
+    "instrumentos": "Microscopio con analizador de imagen calibrado; Analizador de partículas calibrado",
+    "analisis": "si",
+    "familia": "semisolidos"
+   },
+   {
+    "kind": "ensayo",
+    "id": "PRO-PQ-SEM-005",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "PRO-PQ-SEM-005 — Pérdida por secado",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Determinar el contenido de agua o volátiles de la forma semisólida y confirmar que el proceso de preparación entrega el nivel previsto."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>1) Tomar la muestra del lote de validación y mantenerla en recipiente cerrado<br>2) Pesar la muestra y determinar la pérdida por secado o el agua por Karl Fischer, según la monografía<br>3) Calcular el porcentaje sobre la muestra tal cual<br>4) Repetir en tres determinaciones independientes y calcular media y RSD<br>5) Anexar pesadas, temperatura de secado y data cruda"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = pérdida por secado; unidad = %. Tipo de dato = continua. n = 3 determinaciones por lote. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = media ≤ 2,0 % y RSD ≤ 5,0 %. Atípicos = Grubbs solo si n ≥ 7; con n = 3 se repite la determinación y se conserva el dato original."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>Pérdida por secado ≤ <span class=\"por-confirmar\">2,0 %</span>.<br>RSD de las tres determinaciones ≤ <span class=\"por-confirmar\">5,0 %</span>.<br>Método y temperatura de secado según la monografía del producto."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>- Pesadas y temperatura de secado<br>- Cálculo de porcentaje y RSD<br>- Data cruda y reporte estadístico"
+     },
+     {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>El 2,0 % es ilustrativo; se confirma contra la especificación del producto y la monografía. Para productos higroscópicos se justifica un límite más estricto."
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>USP &lt;731&gt; — Loss on Drying; USP &lt;921&gt; — Water Determination; monografía del producto."
+     }
+    ],
+    "tabla": null,
+    "instrumentos": "Balanza de humedad calibrada; Balanza analítica calibrada",
+    "analisis": "si",
+    "familia": "semisolidos"
+   },
+   {
+    "kind": "ensayo",
+    "id": "PRO-PQ-SEM-006",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "PRO-PQ-SEM-006 — Uniformidad de llenado y peso neto",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Demostrar que el llenado de la forma semisólida entrega una cantidad uniforme por envase y que el peso neto cumple la cantidad etiquetada."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>1) Seleccionar 10 envases al azar del lote de validación<br>2) Pesar cada envase lleno, vaciarlo y pesar el envase vacío<br>3) Calcular el peso neto individual y el promedio<br>4) Comparar contra la cantidad etiquetada y calcular RSD<br>5) Anexar pesadas, tara y data cruda"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = peso neto por envase; unidad = g. Tipo de dato = continua. n = 10 envases. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = media dentro de 98,0–102,0 % de la cantidad etiquetada, ningún envase fuera de 95,0–105,0 % y RSD ≤ 2,0 %. Atípicos = Grubbs solo si n ≥ 7; no se descartan envases sin investigación."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>Peso neto medio dentro de <span class=\"por-confirmar\">98,0–102,0 %</span> de la cantidad etiquetada.<br>Ningún envase fuera de <span class=\"por-confirmar\">95,0–105,0 %</span>.<br>RSD del peso neto ≤ <span class=\"por-confirmar\">2,0 %</span>."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>- Pesadas individuales y tara<br>- Cálculo de media, intervalo y RSD<br>- Data cruda y reporte estadístico"
+     },
+     {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>Los límites son propuestas; se confirman con la especificación del producto y la monografía. La masa del envase vacío se determina en la misma balanza y sesión."
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>USP &lt;905&gt; — Uniformity of Dosage Units; 21 CFR 211.110; monografía del producto."
+     }
+    ],
+    "tabla": null,
+    "instrumentos": "Balanza analítica calibrada",
+    "analisis": "si",
+    "familia": "semisolidos"
+   },
+   {
+    "kind": "ensayo",
+    "id": "PRO-PQ-CRE-001",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "PRO-PQ-CRE-001 — Extensibilidad de la crema",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Confirmar que la crema tiene una extensibilidad reproducible y adecuada para su aplicación, y que el proceso de mezcla y homogeneización no la altera entre lotes."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>1) Acondicionar la muestra a 25 ± 0,5 °C durante 2 h<br>2) Colocar una cantidad definida sobre la placa del texturómetro y aplicar la carga de 1 kg durante 30 s<br>3) Medir el diámetro de extensión en dos ejes perpendiculares<br>4) Repetir en tres alícuotas independientes del lote<br>5) Anexar condiciones, diámetros y data cruda"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = diámetro de extensión; unidad = cm. Tipo de dato = continua. n = 3 alícuotas por lote. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = diámetro entre 5,0 y 8,0 cm con RSD ≤ 10,0 %. Atípicos = Grubbs solo si n ≥ 7; con n = 3 se repite la medición y se conserva el dato original."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>Diámetro de extensión entre <span class=\"por-confirmar\">5,0 y 8,0 cm</span> a 1 kg durante 30 s.<br>RSD de las tres mediciones ≤ <span class=\"por-confirmar\">10,0 %</span>.<br>Temperatura de ensayo 25 ± 0,5 °C."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>- Condiciones de carga y tiempo<br>- Diámetros por alícuota y RSD<br>- Data cruda y reporte estadístico"
+     },
+     {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>El intervalo es una propuesta; se confirma con el desarrollo de la formulación y la percepción sensorial del producto. La carga y el tiempo se fijan en el método validado."
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>USP &lt;1721&gt; — Semisolid Drug Products; monografía del producto; ICH Q8(R2)."
+     }
+    ],
+    "tabla": null,
+    "instrumentos": "Texturómetro calibrado; Cronómetro calibrado",
+    "analisis": "si",
+    "familia": "cremas"
+   },
+   {
+    "kind": "ensayo",
+    "id": "PRO-PQ-CRE-002",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "PRO-PQ-CRE-002 — Separación de fases por centrifugación",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Demostrar que la crema resiste la separación de fases bajo estrés mecánico y que la emulsión formada por el proceso es estable en el lote de validación."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>1) Colocar una alícuota de crema en tubo graduado y centrifugar a 3000 rpm durante 30 min a 25 °C<br>2) Medir el volumen de fase separada (aceite o agua) en la superficie o el fondo<br>3) Repetir en tres alícuotas independientes del lote<br>4) Calcular el porcentaje de fase separada sobre el volumen inicial<br>5) Anexar condiciones, lecturas y data cruda"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = porcentaje de fase separada; unidad = %. Tipo de dato = continua. n = 3 alícuotas por lote. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = fase separada ≤ 1,0 % en cada alícuota y sin separación visible a simple vista. Atípicos = Grubbs solo si n ≥ 7; se investiga antes de excluir."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>Fase separada ≤ <span class=\"por-confirmar\">1,0 %</span> después de 3000 rpm durante 30 min a 25 °C.<br>Sin separación de fases visible a simple vista.<br>Sin cambios de color ni olor respecto del patrón."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>- Condiciones de centrifugación<br>- Volumen y porcentaje de fase separada<br>- Data cruda y reporte estadístico"
+     },
+     {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>El límite y las condiciones son propuestas; se confirman con el desarrollo de la emulsión y el estudio de estabilidad acelerada del producto."
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>ICH Q1A(R2) — Stability Testing; USP &lt;1721&gt; — Semisolid Drug Products; monografía del producto."
+     }
+    ],
+    "tabla": null,
+    "instrumentos": "Centrífuga calibrada; Balanza analítica calibrada",
+    "analisis": "si",
+    "familia": "cremas"
+   },
+   {
+    "kind": "ensayo",
+    "id": "PRO-PQ-CRE-003",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "PRO-PQ-CRE-003 — Estabilidad a ciclos de temperatura",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Evaluar si la crema del lote de validación resiste ciclos de temperatura sin separación de fases ni cambios de pH o viscosidad que comprometan su calidad."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>1) Someter tres alícuotas a tres ciclos de −5 °C durante 24 h y 40 °C durante 24 h<br>2) Al final de cada ciclo, acondicionar a 25 °C y evaluar aspecto, pH y viscosidad<br>3) Comparar los resultados con el valor inicial del lote<br>4) Registrar cualquier separación, cristalización o cambio de color<br>5) Anexar curvas, mediciones y data cruda"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = aspecto, pH y viscosidad después de cada ciclo; unidad = unidades de pH y mPa·s. Tipo de dato = continua y categórica. n = 3 alícuotas × 3 ciclos. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = sin separación de fases visible, pH dentro de ±0,3 unidades y viscosidad dentro de 80,0–120,0 % del valor inicial. Atípicos = Grubbs solo si n ≥ 7; se investiga antes de excluir."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>Sin separación de fases ni cristalización visible en los tres ciclos.<br>pH dentro de <span class=\"por-confirmar\">±0,3 unidades</span> del valor inicial.<br>Viscosidad dentro de <span class=\"por-confirmar\">80,0–120,0 %</span> del valor inicial."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>- Registro de temperatura y duración de cada ciclo<br>- Aspecto, pH y viscosidad por ciclo<br>- Data cruda y reporte estadístico"
+     },
+     {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>Los ciclos y límites son propuestas; se confirman con el estudio de estabilidad del producto y las condiciones climáticas de almacenamiento. No sustituye el estudio de estabilidad formal de ICH Q1A(R2)."
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>ICH Q1A(R2) — Stability Testing; EU GMP Anexo 15; monografía del producto."
+     }
+    ],
+    "tabla": null,
+    "instrumentos": "Cámara de ciclos térmicos calibrada; pH-metro calibrado; Viscosímetro rotacional calibrado",
+    "analisis": "si",
+    "familia": "cremas"
+   },
+   {
+    "kind": "ensayo",
+    "id": "PRO-PQ-POM-001",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "PRO-PQ-POM-001 — Punto de gota",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Confirmar que la pomada tiene un punto de gota dentro del intervalo previsto y que la base y el proceso entregan un producto con comportamiento térmico reproducible."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>1) Llenar el vaso del aparato con la pomada acondicionada, evitando burbujas<br>2) Calentar a velocidad controlada y registrar la temperatura de la primera gota<br>3) Repetir en tres determinaciones independientes del lote<br>4) Calcular media, DE y RSD<br>5) Anexar curva de calentamiento, lecturas y data cruda"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = punto de gota; unidad = °C. Tipo de dato = continua. n = 3 determinaciones por lote. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = punto de gota entre 45 y 60 °C con RSD ≤ 5,0 %. Atípicos = Grubbs solo si n ≥ 7; con n = 3 se repite la determinación y se conserva el dato original."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>Punto de gota entre <span class=\"por-confirmar\">45 y 60 °C</span>.<br>RSD de las tres determinaciones ≤ <span class=\"por-confirmar\">5,0 %</span>.<br>Velocidad de calentamiento según el método validado."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>- Curva de calentamiento y lecturas<br>- Cálculo de media y RSD<br>- Data cruda y reporte estadístico"
+     },
+     {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>El intervalo es una propuesta; se confirma con el desarrollo de la base y la monografía del producto. Para bases con punto de gota bajo se define un método alternativo de consistencia."
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>USP &lt;741&gt; — Melting Range or Temperature; monografía del producto; ICH Q8(R2)."
+     }
+    ],
+    "tabla": null,
+    "instrumentos": "Aparato de punto de gota calibrado; Termómetro calibrado",
+    "analisis": "si",
+    "familia": "pomadas"
+   },
+   {
+    "kind": "ensayo",
+    "id": "PRO-PQ-POM-002",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "PRO-PQ-POM-002 — Penetración con cono",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que la consistencia de la pomada se mantiene dentro del intervalo aprobado y que el proceso de mezcla no altera su firmeza."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>1) Acondicionar la muestra a 25 ± 0,5 °C durante 2 h<br>2) Enrasar la superficie del recipiente y dejar caer el cono durante 5 s<br>3) Leer la penetración en unidades de 0,1 mm<br>4) Repetir en tres puntos independientes de la misma muestra<br>5) Anexar condiciones, lecturas y data cruda"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = penetración con cono; unidad = 0,1 mm. Tipo de dato = continua. n = 3 puntos por lote. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = penetración entre 150 y 300 unidades con RSD ≤ 10,0 %. Atípicos = Grubbs solo si n ≥ 7; se investiga antes de excluir."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>Penetración entre <span class=\"por-confirmar\">150 y 300 unidades</span> (0,1 mm).<br>RSD de las tres lecturas ≤ <span class=\"por-confirmar\">10,0 %</span>.<br>Temperatura de ensayo 25 ± 0,5 °C."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>- Condiciones de ensayo y lecturas<br>- Cálculo de media y RSD<br>- Data cruda y reporte estadístico"
+     },
+     {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>El intervalo es una propuesta; se confirma con el desarrollo de la formulación y la monografía. La penetración se mide sobre muestra no perturbada."
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>USP &lt;1721&gt; — Semisolid Drug Products; monografía del producto; ICH Q8(R2)."
+     }
+    ],
+    "tabla": null,
+    "instrumentos": "Penetrómetro de cono calibrado; Baño termostático calibrado",
+    "analisis": "si",
+    "familia": "pomadas"
+   },
+   {
+    "kind": "ensayo",
+    "id": "PRO-PQ-POM-003",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "PRO-PQ-POM-003 — Uniformidad de contenido",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Demostrar que el principio activo está distribuido uniformemente en las unidades de pomada del lote de validación."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>1) Seleccionar 10 unidades al azar del lote de validación<br>2) Extraer la cantidad de muestra definida en la monografía y analizar el principio activo por HPLC<br>3) Calcular el contenido individual como porcentaje de la cantidad etiquetada<br>4) Calcular el valor de aceptación (AV) según USP &lt;905&gt;<br>5) Anexar pesadas, cromatogramas y cálculo del AV"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = contenido del principio activo por unidad; unidad = %. Tipo de dato = continua. n = 10 unidades. Estadísticos = media, DE y valor de aceptación (AV). Regla de decisión = AV ≤ 15,0, ninguna unidad fuera de 85,0–115,0 % y RSD ≤ 6,0 %. Atípicos: se aplica el criterio de retesteo de USP &lt;905&gt;; no se descartan unidades."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>Valor de aceptación (AV) ≤ <span class=\"por-confirmar\">15,0</span>.<br>Ninguna unidad fuera de <span class=\"por-confirmar\">85,0–115,0 %</span>.<br>RSD del contenido ≤ <span class=\"por-confirmar\">6,0 %</span>."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>- Contenido individual y cálculo del AV<br>- Cromatogramas y pesadas<br>- Data cruda y reporte estadístico"
+     },
+     {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>El AV y el intervalo se confirman contra USP &lt;905&gt; y la monografía; la masa de muestra por unidad se define según la presentación del producto."
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>USP &lt;905&gt; — Uniformity of Dosage Units; monografía del producto; 21 CFR 211.110."
+     }
+    ],
+    "tabla": null,
+    "instrumentos": "HPLC con detector UV calibrado; Balanza analítica calibrada",
+    "analisis": "si",
+    "familia": "pomadas"
+   },
+   {
+    "kind": "ensayo",
+    "id": "PRO-PQ-GEL-001",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "PRO-PQ-GEL-001 — Fuerza de gel y consistencia",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Confirmar que el gel alcanza la fuerza y consistencia previstas y que el proceso de gelificación entrega un producto reproducible."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>1) Acondicionar la muestra a 25 ± 0,5 °C durante 2 h<br>2) Penetrar la muestra con sonda cilíndrica a velocidad y profundidad definidas<br>3) Registrar la fuerza máxima (g) y la energía de penetración<br>4) Repetir en tres alícuotas independientes del lote<br>5) Anexar curvas fuerza–distancia y data cruda"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = fuerza máxima de penetración; unidad = g. Tipo de dato = continua. n = 3 alícuotas por lote. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = fuerza entre 20 y 60 g con RSD ≤ 10,0 %. Atípicos = Grubbs solo si n ≥ 7; con n = 3 se repite la medición y se conserva el dato original."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>Fuerza de gel entre <span class=\"por-confirmar\">20 y 60 g</span>.<br>RSD de las tres mediciones ≤ <span class=\"por-confirmar\">10,0 %</span>.<br>Temperatura de ensayo 25 ± 0,5 °C."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>- Curvas fuerza–distancia<br>- Fuerza por alícuota y RSD<br>- Data cruda y reporte estadístico"
+     },
+     {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>El intervalo es una propuesta; se confirma con el desarrollo de la formulación y la sonda validada del método. La fuerza depende de la geometría de la sonda."
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>USP &lt;1721&gt; — Semisolid Drug Products; monografía del producto; ICH Q8(R2)."
+     }
+    ],
+    "tabla": null,
+    "instrumentos": "Texturómetro calibrado; Baño termostático calibrado",
+    "analisis": "si",
+    "familia": "geles"
+   },
+   {
+    "kind": "ensayo",
+    "id": "PRO-PQ-GEL-002",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "PRO-PQ-GEL-002 — Sinéresis",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Demostrar que el gel retiene la fase líquida y no libera solvente por sinéresis bajo estrés mecánico."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>1) Pesar una alícuota de gel en tubo graduado y centrifugar a 3000 rpm durante 30 min a 25 °C<br>2) Separar y pesar el líquido liberado<br>3) Calcular el porcentaje de líquido liberado sobre la masa inicial<br>4) Repetir en tres alícuotas independientes del lote<br>5) Anexar pesadas, condiciones y data cruda"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = líquido liberado por sinéresis; unidad = %. Tipo de dato = continua. n = 3 alícuotas por lote. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = líquido liberado ≤ 2,0 % y sin separación visible. Atípicos = Grubbs solo si n ≥ 7; se investiga antes de excluir."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>Líquido liberado ≤ <span class=\"por-confirmar\">2,0 %</span> después de 3000 rpm durante 30 min a 25 °C.<br>Sin separación visible de líquido en la superficie.<br>Sin cambio de color ni olor respecto del patrón."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>- Condiciones de centrifugación y pesadas<br>- Porcentaje de líquido liberado<br>- Data cruda y reporte estadístico"
+     },
+     {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>El límite y las condiciones son propuestas; se confirman con el desarrollo del gel y el estudio de estabilidad del producto."
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>USP &lt;1721&gt; — Semisolid Drug Products; ICH Q1A(R2); monografía del producto."
+     }
+    ],
+    "tabla": null,
+    "instrumentos": "Centrífuga calibrada; Balanza analítica calibrada",
+    "analisis": "si",
+    "familia": "geles"
+   },
+   {
+    "kind": "ensayo",
+    "id": "PRO-PQ-GEL-003",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "PRO-PQ-GEL-003 — Uniformidad de contenido",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Demostrar que el principio activo está distribuido uniformemente en las unidades de gel del lote de validación."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>1) Seleccionar 10 unidades al azar del lote de validación<br>2) Extraer la cantidad de muestra definida en la monografía y analizar el principio activo por HPLC<br>3) Calcular el contenido individual como porcentaje de la cantidad etiquetada<br>4) Calcular el valor de aceptación (AV) según USP &lt;905&gt;<br>5) Anexar pesadas, cromatogramas y cálculo del AV"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = contenido del principio activo por unidad; unidad = %. Tipo de dato = continua. n = 10 unidades. Estadísticos = media, DE y valor de aceptación (AV). Regla de decisión = AV ≤ 15,0, ninguna unidad fuera de 85,0–115,0 % y RSD ≤ 5,0 %. Atípicos: se aplica el criterio de retesteo de USP &lt;905&gt;; no se descartan unidades."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>Valor de aceptación (AV) ≤ <span class=\"por-confirmar\">15,0</span>.<br>Ninguna unidad fuera de <span class=\"por-confirmar\">85,0–115,0 %</span>.<br>RSD del contenido ≤ <span class=\"por-confirmar\">5,0 %</span>."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>- Contenido individual y cálculo del AV<br>- Cromatogramas y pesadas<br>- Data cruda y reporte estadístico"
+     },
+     {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>El AV y el intervalo se confirman contra USP &lt;905&gt; y la monografía; la masa de muestra por unidad se define según la presentación del producto."
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>USP &lt;905&gt; — Uniformity of Dosage Units; monografía del producto; 21 CFR 211.110."
+     }
+    ],
+    "tabla": null,
+    "instrumentos": "HPLC con detector UV calibrado; Balanza analítica calibrada",
+    "analisis": "si",
+    "familia": "geles"
+   },
+   {
+    "kind": "ensayo",
+    "id": "PRO-PQ-LIQ-001",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "PRO-PQ-LIQ-001 — Homogeneidad del líquido",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Demostrar que el principio activo está distribuido uniformemente en el líquido antes del llenado, comparando la parte superior, media e inferior del tanque."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>1) Definir tres ubicaciones de muestreo: superior, media e inferior del tanque, con tres réplicas por ubicación<br>2) Muestrear al final de la preparación, antes del llenado, con dispositivo que no altere la muestra<br>3) Analizar cada réplica por HPLC o UV-Vis con método validado<br>4) Calcular media, DE y RSD por ubicación y global<br>5) Anexar el plan, los resultados y la data cruda"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = porcentaje del principio activo respecto de la cantidad etiquetada; unidad = %. Tipo de dato = continua. n = 3 ubicaciones × 3 réplicas = 9 muestras. Estadísticos = media, DE, RSD (%) e IC 95 %; comparación de medias por ubicación con ANOVA o modelo mixto. Regla de decisión = RSD global ≤ 5,0 %, cada media por ubicación dentro de 95,0–105,0 % y ningún individual fuera de 90,0–110,0 %. Atípicos = Grubbs solo si n ≥ 7; toda exclusión se justifica y se conserva el dato original."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>RSD de todos los resultados ≤ <span class=\"por-confirmar\">5,0 %</span>.<br>Cada media por ubicación dentro de <span class=\"por-confirmar\">95,0–105,0 %</span> de la cantidad etiquetada.<br>Ningún resultado individual fuera de <span class=\"por-confirmar\">90,0–110,0 %</span>.<br>Sin diferencia significativa entre ubicaciones (p &gt; 0,05) o diferencia explicada y aceptada por riesgo."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>- Plan de muestreo con ubicaciones y réplicas<br>- Resultados por ubicación y análisis estadístico<br>- Data cruda y evaluación del efecto de ubicación"
+     },
+     {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>Los límites son propuestas; se confirman con el desarrollo de la formulación y el plan de muestreo aprobado. En suspensiones, la homogeneidad se evalúa después de redispersar."
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>21 CFR 211.110; FDA — Process Validation (2011); ICH Q8(R2); monografía del producto."
+     }
+    ],
+    "tabla": null,
+    "instrumentos": "HPLC con detector UV o espectrofotómetro UV-Vis calibrado; Balanza analítica calibrada",
+    "analisis": "si",
+    "familia": "liquidos"
+   },
+   {
+    "kind": "ensayo",
+    "id": "PRO-PQ-LIQ-002",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "PRO-PQ-LIQ-002 — pH del líquido",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Verificar que el pH del líquido se mantiene dentro del intervalo aprobado y que la preparación no induce cambios ácido-base entre lotes."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>1) Calibrar el pH-metro con patrones de pH 4,00, 7,00 y 10,00<br>2) Acondicionar la muestra a 25 ± 0,5 °C<br>3) Medir el pH en tres alícuotas independientes<br>4) Calcular media, DE y RSD<br>5) Anexar calibración, lecturas y data cruda"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = pH a 25 °C; unidad = unidades de pH. Tipo de dato = continua. n = 3 alícuotas por lote. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = cada lectura dentro de ±0,3 unidades del valor objetivo y RSD ≤ 1,0 %. Atípicos = Grubbs solo si n ≥ 7; se investiga antes de excluir."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>pH dentro de <span class=\"por-confirmar\">±0,3 unidades</span> del valor objetivo del producto.<br>RSD de las tres lecturas ≤ <span class=\"por-confirmar\">1,0 %</span>.<br>Medición a 25 ± 0,5 °C con calibración vigente."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>- Calibración del pH-metro y lecturas<br>- Cálculo de media y RSD<br>- Data cruda y reporte estadístico"
+     },
+     {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>El intervalo es una propuesta; se confirma con la especificación del producto y la monografía del líquido."
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>USP &lt;791&gt; — pH; monografía del producto; ICH Q6A."
+     }
+    ],
+    "tabla": null,
+    "instrumentos": "pH-metro calibrado; Baño termostático calibrado",
+    "analisis": "si",
+    "familia": "liquidos"
+   },
+   {
+    "kind": "ensayo",
+    "id": "PRO-PQ-LIQ-003",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "PRO-PQ-LIQ-003 — Densidad",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Confirmar que la densidad del líquido se mantiene dentro del intervalo previsto y que la preparación entrega una composición reproducible."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>1) Acondicionar la muestra a 25 ± 0,5 °C<br>2) Medir la densidad con densímetro digital o picnómetro calibrado<br>3) Repetir en tres alícuotas independientes del lote<br>4) Calcular media, DE y RSD<br>5) Anexar calibración, lecturas y data cruda"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = densidad a 25 °C; unidad = g/mL. Tipo de dato = continua. n = 3 alícuotas por lote. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = densidad dentro de 0,95–1,10 g/mL o ±2,0 % del valor de diseño, con RSD ≤ 0,5 %. Atípicos = Grubbs solo si n ≥ 7; se investiga antes de excluir."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>Densidad dentro de <span class=\"por-confirmar\">0,95–1,10 g/mL</span> a 25 °C.<br>Desviación ≤ <span class=\"por-confirmar\">±2,0 %</span> del valor de diseño.<br>RSD de las tres mediciones ≤ <span class=\"por-confirmar\">0,5 %</span>."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>- Calibración del densímetro y lecturas<br>- Cálculo de media y RSD<br>- Data cruda y reporte estadístico"
+     },
+     {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>El intervalo es una propuesta; se confirma con la formulación y la especificación del producto. La densidad se informa siempre con la temperatura de medición."
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>ISO 12185 — Densidad de líquidos; monografía del producto; ICH Q6A."
+     }
+    ],
+    "tabla": null,
+    "instrumentos": "Densímetro digital calibrado; Baño termostático calibrado",
+    "analisis": "si",
+    "familia": "liquidos"
+   },
+   {
+    "kind": "ensayo",
+    "id": "PRO-PQ-LIQ-004",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "PRO-PQ-LIQ-004 — Volumen entregable",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Demostrar que el llenado entrega el volumen declarado en cada envase y que el proceso mantiene la uniformidad de volumen."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>1) Seleccionar 10 envases al azar del lote de validación<br>2) Determinar el volumen entregable según USP &lt;698&gt; (peso o volumetría)<br>3) Calcular el volumen individual y el promedio<br>4) Comparar contra el volumen etiquetado y calcular RSD<br>5) Anexar pesadas, temperaturas y data cruda"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = volumen entregable por envase; unidad = mL. Tipo de dato = continua. n = 10 envases. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = volumen medio ≥ 100,0 % del etiquetado, ningún envase &lt; 95,0 % y RSD ≤ 2,0 %. Atípicos = Grubbs solo si n ≥ 7; no se descartan envases sin investigación."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>Volumen medio ≥ <span class=\"por-confirmar\">100,0 %</span> del volumen etiquetado.<br>Ningún envase &lt; <span class=\"por-confirmar\">95,0 %</span> del volumen etiquetado.<br>RSD del volumen entregable ≤ <span class=\"por-confirmar\">2,0 %</span>."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>- Pesadas o lecturas volumétricas por envase<br>- Cálculo de media y RSD<br>- Data cruda y reporte estadístico"
+     },
+     {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>Los límites son propuestas; se confirman con USP &lt;698&gt; y la monografía. La densidad del líquido se usa para convertir masa en volumen cuando aplica."
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>USP &lt;698&gt; — Deliverable Volume of Liquid Oral Dosage Forms; 21 CFR 211.110; monografía del producto."
+     }
+    ],
+    "tabla": null,
+    "instrumentos": "Probeta graduada calibrada; Balanza analítica calibrada",
+    "analisis": "si",
+    "familia": "liquidos"
+   },
+   {
+    "kind": "ensayo",
+    "id": "PRO-PQ-LIQ-005",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "PRO-PQ-LIQ-005 — Aspecto y claridad",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Confirmar que el líquido mantiene el aspecto y la claridad previstos y que el proceso no genera partículas, turbidez ni cambios de color."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>1) Inspeccionar visualmente tres alícuotas contra un fondo negro y blanco<br>2) Medir la turbidez con turbidímetro calibrado<br>3) Registrar color, olor y presencia de partículas<br>4) Comparar contra el patrón de referencia del producto<br>5) Anexar lecturas, imágenes y data cruda"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = turbidez y aspecto; unidad = NTU y categórica. Tipo de dato = continua y categórica. n = 3 alícuotas por lote. Estadísticos = media, DE y RSD (%) de turbidez; frecuencia de defectos visuales. Regla de decisión = turbidez ≤ 10 NTU, sin partículas visibles y color/olor igual al patrón. Atípicos = Grubbs solo si n ≥ 7; se investiga antes de excluir."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>Turbidez ≤ <span class=\"por-confirmar\">10 NTU</span>.<br>Sin partículas visibles a simple vista.<br>Color y olor iguales al patrón de referencia del producto."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>- Lecturas de turbidez e inspección visual<br>- Comparación contra el patrón<br>- Data cruda y reporte estadístico"
+     },
+     {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>El límite de turbidez es una propuesta; se confirma con la especificación del producto y la monografía. La inspección visual se realiza con iluminación y fondo definidos."
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>ISO 7027 — Turbidez; monografía del producto; ICH Q6A."
+     }
+    ],
+    "tabla": null,
+    "instrumentos": "Turbidímetro calibrado; Lámpara de inspección visual",
+    "analisis": "si",
+    "familia": "liquidos"
+   },
+   {
+    "kind": "ensayo",
+    "id": "PRO-PQ-LIQ-006",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "PRO-PQ-LIQ-006 — Contenido de principio activo",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Confirmar que el contenido del principio activo en el líquido del lote de validación cumple la cantidad etiquetada y que el proceso es reproducible."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>1) Tomar tres alícuotas independientes del lote homogeneizado<br>2) Diluir según el método validado y analizar por HPLC<br>3) Calcular el contenido como porcentaje de la cantidad etiquetada<br>4) Calcular media, DE y RSD<br>5) Anexar cromatogramas, diluciones y data cruda"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = contenido del principio activo; unidad = %. Tipo de dato = continua. n = 3 alícuotas por lote. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = media dentro de 95,0–105,0 % de la cantidad etiquetada y RSD ≤ 2,0 %. Atípicos = Grubbs solo si n ≥ 7; se investiga antes de excluir."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>Contenido medio dentro de <span class=\"por-confirmar\">95,0–105,0 %</span> de la cantidad etiquetada.<br>RSD de las tres determinaciones ≤ <span class=\"por-confirmar\">2,0 %</span>.<br>Método analítico validado y vigente."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>- Cromatogramas y diluciones<br>- Cálculo de contenido y RSD<br>- Data cruda y reporte estadístico"
+     },
+     {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>El intervalo es una propuesta; se confirma con la especificación del producto y la monografía. La uniformidad por unidad se evalúa en el ensayo de contenido por envase de cada forma."
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>ICH Q6A — Specifications; USP &lt;905&gt; — Uniformity of Dosage Units; monografía del producto."
+     }
+    ],
+    "tabla": null,
+    "instrumentos": "HPLC con detector UV calibrado; Balanza analítica calibrada",
+    "analisis": "si",
+    "familia": "liquidos"
+   },
+   {
+    "kind": "ensayo",
+    "id": "PRO-PQ-SLN-001",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "PRO-PQ-SLN-001 — Materia insoluble y particulado",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Demostrar que la solución no contiene materia insoluble ni partículas visibles y que el proceso de disolución y filtrado entrega un producto limpio."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>1) Filtrar un volumen definido de solución por membrana previamente pesada<br>2) Secar la membrana y pesar el residuo<br>3) Inspeccionar la membrana al microscopio y registrar partículas<br>4) Repetir en tres alícuotas independientes del lote<br>5) Anexar pesadas, imágenes y data cruda"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = residuo insoluble; unidad = mg/100 mL. Tipo de dato = continua. n = 3 alícuotas por lote. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = residuo ≤ 0,5 mg/100 mL y sin partículas visibles. Atípicos = Grubbs solo si n ≥ 7; se investiga antes de excluir."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>Residuo insoluble ≤ <span class=\"por-confirmar\">0,5 mg/100 mL</span>.<br>Sin partículas visibles a simple vista.<br>Sin cambio de color ni turbidez respecto del patrón."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>- Pesadas de membrana y residuo<br>- Imágenes microscópicas<br>- Data cruda y reporte estadístico"
+     },
+     {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>El límite es una propuesta; se confirma con la especificación del producto y la monografía. Para soluciones con excipientes insolubles se define un límite específico."
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>ICH Q6A — Specifications; monografía del producto; 21 CFR 211.110."
+     }
+    ],
+    "tabla": null,
+    "instrumentos": "Microscopio con analizador de imagen calibrado; Balanza analítica calibrada",
+    "analisis": "si",
+    "familia": "soluciones"
+   },
+   {
+    "kind": "ensayo",
+    "id": "PRO-PQ-SLN-002",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "PRO-PQ-SLN-002 — Integridad del envase y cierre",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Confirmar que el envase y el cierre de la solución conservan la integridad y no permiten ingreso de líquido ni pérdida de contenido."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>1) Seleccionar 10 envases llenos y cerrados del lote de validación<br>2) Someterlos a vacío y sumergirlos en solución colorante según USP &lt;671&gt;<br>3) Registrar el ingreso de colorante y la pérdida de contenido<br>4) Repetir el ensayo en los envases sin defecto visible<br>5) Anexar condiciones, imágenes y data cruda"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = ingreso de colorante y pérdida de contenido; unidad = categórica y %. Tipo de dato = categórica y continua. n = 10 envases. Estadísticos = proporción de envases con defecto e IC 95 %. Regla de decisión = cero envases con ingreso de colorante, cero con pérdida y proporción de defectos ≤ 0 %. Atípicos = todo defecto se investiga; no se descarta ningún envase sin registro."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>Cero envases con ingreso de colorante.<br>Cero envases con pérdida de contenido.<br>Integridad del cierre conforme a <span class=\"por-confirmar\">USP &lt;671&gt;</span> para el envase del producto."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>- Condiciones de vacío y tiempo<br>- Registro de ingreso de colorante por envase<br>- Data cruda y reporte estadístico"
+     },
+     {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>El método y la aceptación se confirman contra USP &lt;671&gt; y el sistema de envase del producto. Para envases multidosis se evalúa también el cierre después de cada apertura."
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>USP &lt;671&gt; — Containers—Performance Testing; USP &lt;661&gt; — Plastic Packaging Systems; monografía del producto."
+     }
+    ],
+    "tabla": null,
+    "instrumentos": "Cámara de vacío calibrada; Solución colorante de inspección",
+    "analisis": "si",
+    "familia": "soluciones"
+   },
+   {
+    "kind": "ensayo",
+    "id": "PRO-PQ-SLN-003",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "PRO-PQ-SLN-003 — Contenido por envase",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Demostrar que cada envase de solución contiene la cantidad de principio activo declarada y que el llenado es uniforme."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>1) Seleccionar 10 envases al azar del lote de validación<br>2) Medir el volumen entregable y analizar el contenido por HPLC<br>3) Calcular el contenido por envase como porcentaje de la cantidad etiquetada<br>4) Calcular media, DE y RSD<br>5) Anexar cromatogramas, volúmenes y data cruda"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = contenido por envase; unidad = %. Tipo de dato = continua. n = 10 envases. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = media dentro de 95,0–105,0 % de la cantidad etiquetada, ningún envase fuera de 90,0–110,0 % y RSD ≤ 3,0 %. Atípicos = Grubbs solo si n ≥ 7; no se descartan envases sin investigación."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>Contenido medio dentro de <span class=\"por-confirmar\">95,0–105,0 %</span> de la cantidad etiquetada.<br>Ningún envase fuera de <span class=\"por-confirmar\">90,0–110,0 %</span>.<br>RSD del contenido ≤ <span class=\"por-confirmar\">3,0 %</span>."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>- Contenido por envase y volumen<br>- Cálculo de media y RSD<br>- Data cruda y reporte estadístico"
+     },
+     {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>Los límites son propuestas; se confirman con la especificación del producto y la monografía. El contenido por envase integra volumen entregable y concentración."
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>USP &lt;905&gt; — Uniformity of Dosage Units; 21 CFR 211.110; monografía del producto."
+     }
+    ],
+    "tabla": null,
+    "instrumentos": "HPLC con detector UV calibrado; Balanza analítica calibrada",
+    "analisis": "si",
+    "familia": "soluciones"
+   },
+   {
+    "kind": "ensayo",
+    "id": "PRO-PQ-SUS-001",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "PRO-PQ-SUS-001 — Redispersión",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Demostrar que la suspensión se redispersa de forma reproducible después del reposo y que el sedimento no se endurece en el envase."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>1) Dejar reposar tres envases durante 24 h a 25 °C<br>2) Agitar por inversión a velocidad y ritmo definidos hasta redispersión completa<br>3) Registrar el número de inversiones necesarias y el aspecto final<br>4) Verificar la ausencia de sedimento adherido y de grumos<br>5) Anexar registro de inversiones e imágenes"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = número de inversiones para redispersar; unidad = inversiones. Tipo de dato = discreta. n = 3 envases por lote. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = ≤ 10 inversiones, sin sedimento adherido y sin grumos visibles. Atípicos = Grubbs solo si n ≥ 7; se investiga antes de excluir."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>Redispersión en ≤ <span class=\"por-confirmar\">10 inversiones</span>.<br>Sin sedimento adherido al fondo ni grumos visibles.<br>Aspecto homogéneo después de agitar."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>- Condiciones de reposo y agitación<br>- Número de inversiones por envase<br>- Data cruda y reporte estadístico"
+     },
+     {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>El número de inversiones es una propuesta; se confirma con el desarrollo de la suspensión y la monografía. La redispersión se evalúa también al final de la vida útil."
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>USP &lt;1174&gt; — Pharmaceutical Suspensions; monografía del producto; ICH Q8(R2)."
+     }
+    ],
+    "tabla": null,
+    "instrumentos": "Agitador mecánico calibrado; Cronómetro calibrado",
+    "analisis": "si",
+    "familia": "suspensiones"
+   },
+   {
+    "kind": "ensayo",
+    "id": "PRO-PQ-SUS-002",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "PRO-PQ-SUS-002 — Velocidad de sedimentación",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Confirmar que la suspensión mantiene una velocidad de sedimentación controlada y que el volumen de sedimento es reproducible."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>1) Colocar la suspensión homogeneizada en tres probetas graduadas<br>2) Dejar reposar 24 h a 25 °C y registrar el volumen de sedimento<br>3) Calcular la relación de sedimentación (volumen de sedimento / volumen inicial)<br>4) Registrar la facilidad de redispersión al final del ensayo<br>5) Anexar lecturas, imágenes y data cruda"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = relación de sedimentación; unidad = %. Tipo de dato = continua. n = 3 probetas por lote. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = relación de sedimentación ≤ 10,0 % a las 24 h y redispersión en ≤ 10 inversiones. Atípicos = Grubbs solo si n ≥ 7; se investiga antes de excluir."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>Relación de sedimentación ≤ <span class=\"por-confirmar\">10,0 %</span> a las 24 h.<br>Redispersión en ≤ <span class=\"por-confirmar\">10 inversiones</span>.<br>Sin fase separada ni cristales visibles."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>- Lecturas de volumen y tiempo<br>- Cálculo de la relación de sedimentación<br>- Data cruda y reporte estadístico"
+     },
+     {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>Los límites son propuestas; se confirman con el desarrollo de la suspensión y la monografía. La sedimentación se evalúa a temperatura controlada."
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>USP &lt;1174&gt; — Pharmaceutical Suspensions; ICH Q1A(R2); monografía del producto."
+     }
+    ],
+    "tabla": null,
+    "instrumentos": "Probeta graduada calibrada; Cronómetro calibrado",
+    "analisis": "si",
+    "familia": "suspensiones"
+   },
+   {
+    "kind": "ensayo",
+    "id": "PRO-PQ-SUS-003",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "PRO-PQ-SUS-003 — Tamaño de partícula",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Confirmar que la fase dispersa de la suspensión mantiene el tamaño de partícula previsto y que la molienda o homogeneización no genera aglomerados."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>1) Redispersar la muestra según el método validado<br>2) Medir D10, D50 y D90 por difracción láser o microscopía<br>3) Repetir en tres preparaciones independientes del lote<br>4) Calcular media, DE y RSD de D90<br>5) Anexar histogramas, imágenes y data cruda"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = D90 de la fase dispersa; unidad = µm. Tipo de dato = continua. n = 3 preparaciones por lote. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = D90 ≤ 50 µm y RSD ≤ 10,0 %; D50 dentro del intervalo del desarrollo. Atípicos = Grubbs solo si n ≥ 7; se investiga antes de excluir."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>D90 ≤ <span class=\"por-confirmar\">50 µm</span>.<br>RSD de D90 ≤ <span class=\"por-confirmar\">10,0 %</span>.<br>D50 dentro del intervalo definido en el desarrollo."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>- Histogramas e imágenes<br>- D10, D50 y D90 por preparación<br>- Data cruda y reporte estadístico"
+     },
+     {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>Los límites son propuestas; se confirman con el desarrollo de la suspensión y la especificación. El método debe discriminar aglomerados en el intervalo de trabajo."
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>USP &lt;1174&gt; — Pharmaceutical Suspensions; ISO 13320 — Particle size analysis; monografía del producto."
+     }
+    ],
+    "tabla": null,
+    "instrumentos": "Analizador de partículas calibrado; Microscopio con analizador de imagen calibrado",
+    "analisis": "si",
+    "familia": "suspensiones"
+   },
+   {
+    "kind": "ensayo",
+    "id": "PRO-PQ-EMU-001",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "PRO-PQ-EMU-001 — Separación de fases en reposo",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Demostrar que la emulsión mantiene la dispersión de fases durante el reposo y que el proceso de emulsificación entrega un producto estable."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>1) Colocar la emulsión homogeneizada en tres probetas graduadas<br>2) Dejar reposar 24 h a 25 °C<br>3) Medir el volumen de fase separada en la superficie o el fondo<br>4) Calcular el porcentaje sobre el volumen inicial<br>5) Anexar lecturas, imágenes y data cruda"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = fase separada en reposo; unidad = %. Tipo de dato = continua. n = 3 probetas por lote. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = fase separada ≤ 1,0 % a las 24 h y sin separación visible. Atípicos = Grubbs solo si n ≥ 7; se investiga antes de excluir."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>Fase separada ≤ <span class=\"por-confirmar\">1,0 %</span> después de 24 h a 25 °C.<br>Sin separación visible ni cremado.<br>Sin cambio de color ni olor respecto del patrón."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>- Condiciones de reposo y lecturas<br>- Porcentaje de fase separada<br>- Data cruda y reporte estadístico"
+     },
+     {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>El límite es una propuesta; se confirma con el desarrollo de la emulsión y el estudio de estabilidad del producto. No sustituye el estudio formal de ICH Q1A(R2)."
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>ICH Q1A(R2) — Stability Testing; monografía del producto; ICH Q8(R2)."
+     }
+    ],
+    "tabla": null,
+    "instrumentos": "Probeta graduada calibrada; Baño termostático calibrado",
+    "analisis": "si",
+    "familia": "emulsiones"
+   },
+   {
+    "kind": "ensayo",
+    "id": "PRO-PQ-EMU-002",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "PRO-PQ-EMU-002 — Tamaño de gota",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Confirmar que la fase dispersa de la emulsión mantiene el tamaño de gota previsto y que el proceso de emulsificación es reproducible."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>1) Tomar tres alícuotas independientes del lote homogeneizado<br>2) Medir D10, D50 y D90 por difracción láser o microscopía con análisis de imagen<br>3) Calcular media, DE y RSD de D90<br>4) Comparar contra el intervalo del desarrollo<br>5) Anexar histogramas, imágenes y data cruda"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = D90 de la fase dispersa; unidad = µm. Tipo de dato = continua. n = 3 alícuotas por lote. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = D90 ≤ 20 µm y RSD ≤ 10,0 %; D50 dentro del intervalo del desarrollo. Atípicos = Grubbs solo si n ≥ 7; se investiga antes de excluir."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>D90 ≤ <span class=\"por-confirmar\">20 µm</span>.<br>RSD de D90 ≤ <span class=\"por-confirmar\">10,0 %</span>.<br>D50 dentro del intervalo definido en el desarrollo."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>- Histogramas e imágenes<br>- D10, D50 y D90 por alícuota<br>- Data cruda y reporte estadístico"
+     },
+     {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>Los límites son propuestas; se confirman con el desarrollo de la emulsión y la especificación. El método debe medir la fase dispersa sin coalescencia inducida por la preparación."
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>ISO 13320 — Particle size analysis; monografía del producto; ICH Q8(R2)."
+     }
+    ],
+    "tabla": null,
+    "instrumentos": "Analizador de tamaño de gota calibrado; Microscopio con analizador de imagen calibrado",
+    "analisis": "si",
+    "familia": "emulsiones"
+   },
+   {
+    "kind": "ensayo",
+    "id": "PRO-PQ-EMU-003",
+    "bloque": 3,
+    "cond": "ambas",
+    "titulo": "PRO-PQ-EMU-003 — Estabilidad centrífuga",
+    "secciones": [
+     {
+      "et": "Objetivo",
+      "html": "<strong>Objetivo:</strong><br>Evaluar la resistencia de la emulsión a la separación de fases bajo estrés centrífugo y confirmar la estabilidad del lote de validación."
+     },
+     {
+      "et": "Procedimiento",
+      "html": "<strong>Procedimiento:</strong><br>1) Colocar una alícuota de emulsión en tubo graduado y centrifugar a 3000 rpm durante 30 min a 25 °C<br>2) Medir el volumen de fase separada en la superficie o el fondo<br>3) Calcular el porcentaje sobre el volumen inicial<br>4) Repetir en tres alícuotas independientes del lote<br>5) Anexar condiciones, lecturas y data cruda"
+     },
+     {
+      "et": "Plan estadístico",
+      "html": "<strong>Plan estadístico:</strong><br>Variable = fase separada por centrifugación; unidad = %. Tipo de dato = continua. n = 3 alícuotas por lote. Estadísticos = media, DE, RSD (%) e IC 95 %. Regla de decisión = fase separada ≤ 1,0 % y sin coalescencia visible. Atípicos = Grubbs solo si n ≥ 7; se investiga antes de excluir."
+     },
+     {
+      "et": "Criterio de aceptación",
+      "html": "<strong>Criterio de aceptación:</strong><br>Fase separada ≤ <span class=\"por-confirmar\">1,0 %</span> después de 3000 rpm durante 30 min a 25 °C.<br>Sin coalescencia ni cremado visible.<br>Sin cambio de color ni olor respecto del patrón."
+     },
+     {
+      "et": "Documentos entregables",
+      "html": "<strong>Documentos entregables:</strong><br>- Condiciones de centrifugación<br>- Volumen y porcentaje de fase separada<br>- Data cruda y reporte estadístico"
+     },
+     {
+      "et": "Nota",
+      "html": "<strong>Nota:</strong><br>El límite y las condiciones son propuestas; se confirman con el desarrollo de la emulsión y el estudio de estabilidad acelerada del producto."
+     },
+     {
+      "et": "Referencia",
+      "html": "<strong>Referencia:</strong><br>ICH Q1A(R2) — Stability Testing; monografía del producto; ICH Q8(R2)."
+     }
+    ],
+    "tabla": null,
+    "instrumentos": "Centrífuga calibrada; Balanza analítica calibrada",
+    "analisis": "si",
+    "familia": "emulsiones"
    }
   ]
  }
