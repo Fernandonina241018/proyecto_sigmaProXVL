@@ -703,6 +703,9 @@
   color: var(--accent-error, #f85149);
 }
 #validaciones-app .v7-cal td.mk2 { background: var(--accent-fill); }
+/* El atributo hidden debe ganar a los display de las clases: sin esto se
+   veían formas de otro grupo y campos que no aplican (p. ej. granulación). */
+#validaciones-app [hidden] { display: none !important; }
 @media (prefers-reduced-motion: reduce) {
   #validaciones-app *, #validaciones-app *::before, #validaciones-app *::after {
     transition: none !important;

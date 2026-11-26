@@ -90,6 +90,16 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (StatAnalyzer Pro) co
 
 ## CAMBIOS RECIENTES
 
+### 2026-11-25 (357): Procesos — el combobox mostraba formas de otro grupo
+
+**Qué:** al elegir «Sólidos», la lista seguía mostrando cremas, pomadas, geles, soluciones, suspensiones y emulsiones; al pulsarlas, el grupo cambiaba solo. El filtro por `data-grupo` ya existía en JS, pero el atributo `hidden` de cada opción lo pisaba la regla CSS `.v7-ent-opt { display: block }` (el `[hidden]` del navegador pierde frente a cualquier `display`). Lo mismo ocultaba mal «Tipo de granulación» en cremas: el `label` tenía `hidden` pero seguía visible.
+
+**Fix:** regla general `#validaciones-app [hidden] { display: none !important; }` (mismo patrón que usa el login). Una línea.
+
+**Test:** `e2e/procesos-formas.spec.js` mide altura real de las opciones (no el atributo) y comprueba: Sólidos → 4 formas; Semisólidos → 3; al volver a Sólidos no aparecen Cremas/Soluciones; granulación visible en comprimidos y oculta en cremas.
+
+**Verificación:** `npm run preflight` OK (vitest 1287, backend 154, E2E **16**).
+
 ### 2026-11-25 (356): Procesos — semisólidos y líquidos no estériles (30 ensayos nuevos)
 
 **Qué:** se habilitan las formas que faltaban en el selector de Procesos. La UI ya tenía los grupos pero decía «Aún no hay formas farmacéuticas cargadas».
