@@ -90,6 +90,19 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (StatAnalyzer Pro) co
 
 ## CAMBIOS RECIENTES
 
+### 2026-11-27 (360): P1-A — registro único de páginas
+
+**Qué:** se elimina la duplicación de metadatos de página en 9–10 lugares.
+- Nuevo `js/core/pages.js` con `SIGMA_PAGES`/`SIGMA_PAGE_GROUPS`: `id`, `label`, `title`, `icon`, `desc`, `group`, `roles`, `paneWidth`, `workflow`, `workflowName` y `lazyGroup`.
+- `indexx-ui.js` deriva `pageIcons`, `pageTitles`, `WORKFLOW`, `_SIGMA_PAGE_GROUP` y `paneMinWidthFor`; `buildSidebarNav()` genera la nav en `_bootUi()`.
+- `permisos.js` deriva `ALLOWED_PAGES` de `roles`; se retira la matriz duplicada.
+- La nav estática de `indexx.html` pasa a `<nav class="sidebar-nav">` vacío; `loadPage` escopa el activo a `.snav-card` porque el ribbon también usa `data-page`.
+- `lazy-load.test.js` valida `lazyGroup` en `pages.js`; nuevo `tests/pages-registry.test.js` cubre ids, metadatos, workflow, lazy y permisos.
+
+**Archivos:** `js/core/pages.js` (nuevo), `js/core/indexx-ui.js`, `js/core/permisos.js`, `js/core/indexx-boot.js`, `indexx.html`, `tests/pages-registry.test.js` (nuevo), `tests/lazy-load.test.js`, `docs/MAPA_DISENO.md`, `ESTADO_PROYECTO.md`.
+
+**Verificación:** `npm run preflight` OK (vitest **1290**, backend **154**, E2E **16**); E2E dirigidos datos-send/lazy/sign-flow **7/7**.
+
 ### 2026-11-26 (359): P0 accesibilidad — shell semántico, teclado y foco en modales
 
 **Qué:** segunda tanda de P0 (semántica, teclado y diálogos).

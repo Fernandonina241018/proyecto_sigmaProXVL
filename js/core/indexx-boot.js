@@ -3,9 +3,14 @@
 // ════════════════════════════════════════════════════════════════
 
 buildStatAnalysisMenu();
-if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', function() { _initIndexxApp(); initCommandPalette(); });
-} else {
+function _bootUi() {
+  if (typeof buildSidebarNav === 'function') buildSidebarNav();
+  if (typeof buildRibbonNavPopup === 'function') buildRibbonNavPopup();
   _initIndexxApp();
   initCommandPalette();
+}
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', _bootUi);
+} else {
+  _bootUi();
 }

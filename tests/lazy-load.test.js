@@ -128,8 +128,9 @@ describe('cargador bajo demanda (D2)', () => {
     const ui = readFileSync(join(raiz, 'js/core/indexx-ui.js'), 'utf-8');
     expect(ui).toContain('_SIGMA_PAGE_GROUP');
     expect(ui).toContain('__sigmaLoadGroup');
-    expect(ui).toContain("ml: 'ml'");
-    expect(ui).toContain("reportes: 'reportes'");
+    const pages = readFileSync(join(raiz, 'js/core/pages.js'), 'utf-8');
+    expect(pages).toContain("lazyGroup: 'ml'");
+    expect(pages).toContain("lazyGroup: 'reportes'");
 
     const analysis = readFileSync(join(raiz, 'js/core/indexx-analysis.js'), 'utf-8');
     expect(analysis).toContain("__sigmaLoadGroup('eda')");
