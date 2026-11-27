@@ -1640,18 +1640,6 @@ document.getElementById('sidebarBackdrop')?.addEventListener('click', function()
   this.classList.remove('show');
 });
 
-// ── Zoom ──
-var _zoomLevel = (function(){ try { return parseInt(localStorage.getItem('zoomLevel')) || 100; } catch(e){ return 100; } })();
-function applyZoom() {
-  document.body.style.zoom = _zoomLevel + '%';
-  var el = document.getElementById('zoomValue');
-  if (el) el.textContent = _zoomLevel;
-  try { localStorage.setItem('zoomLevel', _zoomLevel); } catch(e) {}
-}
-function zoomIn() { if (_zoomLevel < 200) { _zoomLevel = Math.min(200, _zoomLevel + 10); applyZoom(); } }
-function zoomOut() { if (_zoomLevel > 50) { _zoomLevel = Math.max(50, _zoomLevel - 10); applyZoom(); } }
-applyZoom();
-
 // ── Dropdown toggle for sidebar toolbar ──
 function toggleDropdown(btn) {
   var menu = btn.nextElementSibling;

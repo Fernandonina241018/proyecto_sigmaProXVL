@@ -21,6 +21,8 @@ module.exports = defineConfig({
   use: {
     baseURL: 'http://localhost:5510',
     headless: true,
+    // El tema por defecto del shell es oscuro; el test de tema emula light.
+    colorScheme: 'dark',
     screenshot: 'only-on-failure',
   },
   webServer: [
