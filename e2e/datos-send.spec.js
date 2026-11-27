@@ -82,5 +82,9 @@ test('cargar CSV y enviarlo a Hoja de Trabajo con el botón Trabajo', async ({ p
   await expect(dialog).toHaveCount(0);
   await expect(page.locator('[data-act="pegar"]')).toBeFocused();
 
+  // P1-D: el shell no debe desbordar horizontalmente en móvil.
+  await page.setViewportSize({ width: 390, height: 844 });
+  expect(await page.evaluate(() => document.documentElement.scrollWidth - window.innerWidth)).toBeLessThanOrEqual(1);
+
   expect(fatales).toEqual([]);
 });

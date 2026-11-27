@@ -90,6 +90,18 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (StatAnalyzer Pro) co
 
 ## CAMBIOS RECIENTES
 
+### 2026-11-27 (363): P1-D — mobile checks sin logins extra
+
+**Qué:** cierre del pendiente de E2E móvil sin tocar el rate limit de login.
+- `e2e/datos-send.spec.js`: a 390px verifica que el shell (Datos/Trabajo) no desborde horizontalmente (`scrollWidth` ≤ `innerWidth`).
+- `e2e/lazy-pages.spec.js`: ML a 390px y Dispositivos cargado en desktop y medido a 390px; reutiliza el login existente.
+- Decisión de legibilidad: 10px/10.5px se mantienen por densidad; 8/9px ya no existen en shell/perfil/ML.
+- `MAPA_DISENO.md` actualiza el pendiente móvil y documenta la decisión.
+
+**Archivos:** `e2e/datos-send.spec.js`, `e2e/lazy-pages.spec.js`, `docs/MAPA_DISENO.md`, `ESTADO_PROYECTO.md`.
+
+**Verificación:** `npm run preflight` OK (vitest **1293**, backend **154**, E2E **18**); E2E dirigidos datos/lazy **5/5**; sin logins nuevos.
+
 ### 2026-11-27 (362): P1-C — legibilidad, responsive y retiro del + de pestañas
 
 **Qué:** cierre de los pendientes visuales acotados.

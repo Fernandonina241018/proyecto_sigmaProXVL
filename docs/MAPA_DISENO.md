@@ -110,6 +110,7 @@ Estados iniciales: Trabajo solo "Hoja de Trabajo" colapsada; Reportes solo
 - Dispositivos: grilla de una columna por debajo de 600px; cards y huellas se ajustan.
 - ML: el dashboard apila `dp-grid`/sidebar en ≤1100, veredicto y stats en ≤760, y veredicto/factores/features en ≤520.
 - Tabs: retirado el `+` (`#tabNew`); creaba una pestaña “Untitled” sin página. Las pestañas se crean al navegar. Los botones “Nueva hoja” del spreadsheet no se tocaron: crean hoja con grilla.
+- E2E móvil: checks de overflow a 390px en Datos (`datos-send`) y ML/Dispositivos (`lazy-pages`), reutilizando logins existentes; no se agregaron intentos de login.
 
 ## 9. Módulos fuera del shell
 
@@ -131,8 +132,8 @@ Estados iniciales: Trabajo solo "Hoja de Trabajo" colapsada; Reportes solo
 ## 10. Pendiente (fases futuras)
 
 - Consolidación visual de componentes: `.viz-card`/`.side-card`, patrones de modal, tres navegaciones y emoji vs SVG.
-- Revisar si los labels de 10px/10.5px suben a 11px en el shell.
-- E2E móvil dedicado (hoy el límite de login 20/15m deja poco margen).
+- Decisión P1-C/P1-D: los labels de 10px/10.5px se mantienen por densidad; solo se eliminaron los 8/9px. Revisar si una futura escala sube el mínimo a 11px.
+- E2E móvil completo de firma/validaciones (los checks actuales cubren shell, ML y Dispositivos; el límite de login 20/15m sigue limitando una suite completa).
 - **F3 · EDA**: quitar gradiente del header, superficies `--surface-2`, iconos SVG.
 - **F4 · Modelo/ML**: sustituir hex por tokens, panel con `.side-card`, migrar `.viz-card` a alias de `.side-card` y normalizar radios/sombras.
 

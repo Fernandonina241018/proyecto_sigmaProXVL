@@ -67,6 +67,19 @@ test('ML se descarga bajo demanda y renderiza', async ({ page }) => {
   await page.click('.snav-card[data-page="ml"]');
   await expect(page.locator('#ml-dataset-select')).toBeVisible({ timeout: 25000 });
   expect(await page.evaluate(() => typeof MLManager !== 'undefined')).toBe(true);
+
+  // P1-D: ML y Dispositivos no desbordan a 390px (reutiliza este login).
+  await page.setViewportSize({ width: 390, height: 844 });
+  expect(await page.evaluate(() => document.documentElement.scrollWidth - window.innerWidth)).toBeLessThanOrEqual(1);
+
+  // Cargar Dispositivos en desktop (el sidebar móvil es off-canvas) y medir
+  // el layout ya renderizado a 390px.
+  await page.setViewportSize({ width: 1280, height: 800 });
+  await page.click('.snav-card[data-page="dispositivos"]');
+  await expect(page.locator('.dsp-card').first()).toBeVisible({ timeout: 15000 });
+  await page.setViewportSize({ width: 390, height: 844 });
+  expect(await page.evaluate(() => document.documentElement.scrollWidth - window.innerWidth)).toBeLessThanOrEqual(1);
+
   expect(fatales).toEqual([]);
 });
 
