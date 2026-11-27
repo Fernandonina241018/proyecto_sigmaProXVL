@@ -166,7 +166,7 @@ function showSettingsModal() {
     '</div>' +
     '</div>' +
     '<div style="margin-top:16px;padding-top:14px;border-top:1px solid var(--border);font-size:0.75rem;color:var(--text-faint)">' +
-    'Obsidian Vault · StatAnalyzer Pro 2.6</div>' +
+    'StatAnalyzer Pro 2.6</div>' +
     '<button class="btn btn-primary" style="margin-top:12px;width:100%;justify-content:center" onclick="this.closest(\'#settingsModal\').remove()">Cerrar</button></div>';
   document.body.appendChild(modal);
 }

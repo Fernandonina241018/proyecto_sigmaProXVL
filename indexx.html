@@ -49,11 +49,6 @@
 </defs></svg>
 
 <div class="titlebar">
-  <div class="titlebar-lights">
-    <span class="titlebar-btn close" aria-hidden="true"></span>
-    <span class="titlebar-btn min" aria-hidden="true"></span>
-    <span class="titlebar-btn max" aria-hidden="true"></span>
-  </div>
   <span class="titlebar-appname">StatAnalyzer Pro</span>
   <nav class="menubar" role="menubar">
     <div class="menu-item" data-menu="Proyecto" role="menuitem" tabindex="0">Proyecto
@@ -185,20 +180,8 @@
 
 <div class="app">
   <div class="ribbon">
-    <div class="ribbon-icon active" title="Files">
-      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3h8l2 3h8v15H3z"/></svg>
-    </div>
     <div class="ribbon-icon" onclick="openCommandPalette()" title="Comandos (Ctrl+K)">
       <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
-    </div>
-    <div class="ribbon-icon" title="Graph view">
-      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="5" cy="12" r="2"/><circle cx="19" cy="5" r="2"/><circle cx="19" cy="19" r="2"/><path d="m7 12 10-6m-10 6 10 6"/></svg>
-    </div>
-    <div class="ribbon-icon" title="Bookmarks">
-      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
-    </div>
-    <div class="ribbon-icon" title="Tags">
-      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>
     </div>
     <div class="ribbon-bottom">
       <div class="ribbon-icon" id="ribbonPopupBtn" title="Navegación">
@@ -246,7 +229,7 @@
       </section>
     </div>
     <div class="sidebar-footer">
-      <div class="vault-name">◎ Obsidian Vault</div>
+      <div class="vault-name">StatAnalyzer Pro</div>
       <div class="sidebar-footer-icons">
         <span class="footer-icon" id="themeToggle" title="Cambiar tema">🌙</span>
         <span class="footer-icon" onclick="showHelpModal()" title="Atajos y ayuda">?</span>
@@ -261,31 +244,15 @@
     <div class="tabbar" id="tabbar">
       <div class="tab-new" id="tabNew">+</div>
       <div class="tabbar-spacer"></div>
-      <div class="tabbar-end">
-        <span class="tabbar-end-icon">⌄</span>
-        <span class="tabbar-end-icon">⋯</span>
-      </div>
     </div>
 
     <div class="panes" id="panesContainer">
       <div class="pane" id="paneLeft">
         <div class="pane-header">
-          <div class="pane-nav"><span class="pane-nav-btn">‹</span><span class="pane-nav-btn">›</span></div>
-          <span class="pane-title" id="leftPaneTitle">Graph view</span>
-          <span class="pane-menu">⋯</span>
+          <span class="pane-title" id="leftPaneTitle">Panel</span>
         </div>
         <div class="pane-body" id="leftPaneBody">
-          <div class="graph-view">
-            <div class="graph-controls">
-              <div class="graph-ctrl-btn">
-                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
-              </div>
-            </div>
-            <div class="graph-node-wrap">
-              <div class="graph-node"></div>
-              <span class="graph-label">Untitled.canvas</span>
-            </div>
-          </div>
+          <div class="page-body"><div style="padding:20px;color:var(--text-faint);font-size:13px">Cargando panel…</div></div>
         </div>
       </div>
 
@@ -293,16 +260,10 @@
 
       <div class="pane" id="paneRight">
         <div class="pane-header">
-          <div class="pane-nav"><span class="pane-nav-btn">‹</span><span class="pane-nav-btn">›</span></div>
-          <span class="pane-title" id="rightPaneTitle">New tab</span>
-          <span class="pane-menu">⋯</span>
+          <span class="pane-title" id="rightPaneTitle">Sin pestaña</span>
         </div>
         <div class="pane-body" id="rightPaneBody">
-          <div class="newtab-body">
-            <span class="newtab-link">Create new note (Ctrl + N)</span>
-            <span class="newtab-link">Go to file (Ctrl + O)</span>
-            <span class="newtab-link">Close</span>
-          </div>
+          <div class="page-body"><div style="padding:20px;color:var(--text-faint);font-size:13px">Selecciona un módulo para comenzar.</div></div>
         </div>
       </div>
     </div>

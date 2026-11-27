@@ -78,9 +78,10 @@
     --danger-border: rgba(248,81,73,.35);
     --data-1: #2f81f7; --data-2: #39c5cf; --data-3: #3fb950; --data-4: #d29922; --data-5: #a371f7;
     --icon-stroke: 1.8;
+    --focus-ring: var(--accent);
   }
   html, body { height: 100%; overflow: hidden; }
-  body { font-family: var(--font-body); background: var(--bg-primary); color: var(--text-primary); display: flex; flex-direction: column; font-size: 13px; user-select: none; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; font-weight: 400; }
+  body { font-family: var(--font-body); background: var(--bg-primary); color: var(--text-primary); display: flex; flex-direction: column; font-size: 13px; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; font-weight: 400; }
   .titlebar { height: 26px; background: #1a1a1a; display: flex; align-items: stretch; border-bottom: 1px solid #111; flex-shrink: 0; }
   .titlebar-lights { display:flex; align-items:center; gap:6px; padding:0 12px; flex-shrink:0; }
   .titlebar-btn { width:12px; height:12px; border-radius:50%; border:none; cursor:pointer; }
@@ -231,7 +232,7 @@
   .snav-card:hover .snav-chev, .snav-card.active .snav-chev { opacity:.8; }
   .snav-card.active .snav-chev { color:var(--accent); }
   .snav-card .firma-nav-badge { margin-left:auto; }
-  .snav-card:focus-visible { outline:2px solid #b3a6ff; outline-offset:1px; }
+  .snav-card:focus-visible { outline:2px solid var(--focus-ring); outline-offset:1px; }
   [data-theme="light"] .snav-group { background:rgba(255,255,255,.72); border-color:rgba(20,22,40,.12);
     box-shadow:inset 0 1px 0 rgba(255,255,255,.8),0 8px 24px rgba(0,0,0,.1); }
   [data-theme="light"] .snav-card { background:rgba(255,255,255,.6); border-color:rgba(20,22,40,.1); }
@@ -1288,7 +1289,7 @@
 .firma-tab.act{color:var(--text-primary);padding:0 12px}
 .firma-tab.act i{transform:scale(1.15);filter:drop-shadow(0 0 6px rgba(170,150,255,.85))}
 .firma-tab.act .l{max-width:90px;opacity:1;margin-left:8px;font-weight:600}
-.firma-tab:focus-visible{outline:2px solid #b3a6ff;outline-offset:1px}
+.firma-tab:focus-visible{outline:2px solid var(--focus-ring);outline-offset:1px}
 /* Neutraliza reglas genéricas .fp-tabs (líneas ~1135-1137): sin cajas ni fondos
    por botón — solo icono + label sobre el vidrio de la píldora. */
 #firmaTabs.fp-tabs button{height:36px;border:0;border-radius:999px;background:transparent}
@@ -1492,7 +1493,7 @@ details.gl > summary.gl-sum{list-style:none;cursor:pointer;display:flex;align-it
 details.gl > summary.gl-sum::-webkit-details-marker{display:none}
 details.gl > summary.gl-sum::before{content:"▸";color:var(--text-faint);transition:transform .15s;flex:none}
 details.gl[open] > summary.gl-sum::before{transform:rotate(90deg)}
-details.gl > summary.gl-sum:focus-visible{outline:2px solid #b3a6ff;outline-offset:-2px}
+details.gl > summary.gl-sum:focus-visible{outline:2px solid var(--focus-ring);outline-offset:-2px}
 details.gl > .gl-body{padding:0 14px 14px}
 @media (prefers-reduced-motion:reduce){details.gl > summary.gl-sum::before{transition:none}}
 .datos .rr .x{width:26px;height:26px;display:flex;align-items:center;justify-content:center;color:var(--txt3);opacity:0;border-radius:50%}

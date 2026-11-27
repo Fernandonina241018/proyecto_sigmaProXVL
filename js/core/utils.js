@@ -34,6 +34,9 @@ function showToast(msg, isError = false) {
     const t = document.createElement('div');
     t.id = 'utils-toast';
     t.className = `datos-toast ${isError ? 'datos-toast-error' : 'datos-toast-ok'}`;
+    t.setAttribute('role', isError ? 'alert' : 'status');
+    t.setAttribute('aria-live', isError ? 'assertive' : 'polite');
+    t.setAttribute('aria-atomic', 'true');
     t.textContent = msg;
     document.body.appendChild(t);
     requestAnimationFrame(() => t.classList.add('datos-toast-visible'));

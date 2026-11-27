@@ -60,7 +60,7 @@ function showToolModal(cfg) {
     } else if (f.type === 'checkbox') {
       var chk = f.default ? ' checked' : '';
       ctrl = '<label style="display:flex;align-items:center;gap:8px;cursor:pointer">' +
-        '<input type="checkbox" id="tmf_' + f.id + '"' + chk + ' style="accent-color:#7c6af7;width:14px;height:14px">' +
+        '<input type="checkbox" id="tmf_' + f.id + '"' + chk + ' style="accent-color:var(--accent);width:14px;height:14px">' +
         '<span style="font-size:12px;color:#dcddde">' + tmEscape(f.checkLabel || '') + '</span></label>';
     }
     return '<div style="display:flex;flex-direction:column;gap:5px">' +
@@ -86,7 +86,7 @@ function showToolModal(cfg) {
     } else if (f.type === 'checkbox') {
       var chk = f.default ? ' checked' : '';
       ctrl = '<label style="display:flex;align-items:center;gap:8px;cursor:pointer;padding:4px 0">' +
-        '<input type="checkbox" id="tmf_' + f.id + '"' + chk + ' style="accent-color:#7c6af7;width:14px;height:14px">' +
+        '<input type="checkbox" id="tmf_' + f.id + '"' + chk + ' style="accent-color:var(--accent);width:14px;height:14px">' +
         '<span style="font-size:12px;color:#dcddde">' + tmEscape(f.checkLabel || f.label || '') + '</span></label>';
     }
     return '<div style="display:flex;flex-direction:column;gap:5px">' +
@@ -100,7 +100,7 @@ function showToolModal(cfg) {
     (fieldsHTML ? '<div style="display:flex;flex-direction:column;gap:10px">' + fieldsHTML + '</div>' : '') +
     '<div style="display:flex;gap:8px;justify-content:flex-end;padding-top:4px">' +
       '<button id="tmCancel" style="padding:6px 16px;border-radius:6px;border:none;cursor:pointer;font-size:12px;font-family:inherit;background:#3a3a3a;color:#888">Cancelar</button>' +
-      '<button id="tmApply" style="padding:6px 16px;border-radius:6px;border:none;cursor:pointer;font-size:12px;font-family:inherit;background:#7c6af7;color:#fff">Aplicar</button>' +
+      '<button id="tmApply" style="padding:6px 16px;border-radius:6px;border:none;cursor:pointer;font-size:12px;font-family:inherit;background:var(--accent);color:#fff">Aplicar</button>' +
     '</div>' +
   '</div>';
 
@@ -496,8 +496,8 @@ function renderCorrelationMatrix(result) {
     var cells = '<td style="background:#1e1e1e;padding:6px 10px;font-size:10px;color:#888;font-weight:500;border:1px solid #3a3a3a;white-space:nowrap;position:sticky;left:0;z-index:1;max-width:100px;overflow:hidden;text-overflow:ellipsis" title="' + tmEscape(result.cols[i]) + '">' + tmEscape(result.cols[i]) + '</td>';
     cells += row.map(function(v, j) {
       var display = i === j ? '1.000' : v.toFixed(3);
-      var bg = i === j ? 'rgba(124,106,247,.15)' : cellColor(v);
-      var tc = i === j ? '#7c6af7' : cellTextColor(v);
+      var bg = i === j ? 'var(--bg-accent)' : cellColor(v);
+      var tc = i === j ? 'var(--accent)' : cellTextColor(v);
       return '<td style="padding:6px 8px;text-align:center;font-size:11px;font-family:monospace;border:1px solid #3a3a3a;background:' + bg + ';color:' + tc + ';font-weight:' + (i === j ? '700' : '400') + '" title="' + tmEscape(result.cols[i]) + ' × ' + tmEscape(result.cols[j]) + '">' + display + '</td>';
     }).join('');
     return '<tr>' + cells + '</tr>';
@@ -516,7 +516,7 @@ function renderCorrelationMatrix(result) {
   var html = '<div style="display:flex;flex-direction:column;height:100%;background:#1e1e1e">' +
     '<div style="padding:10px 14px;border-bottom:1px solid #3a3a3a;flex-shrink:0;display:flex;align-items:center;gap:10px;background:#2d2d2d">' +
       '<span style="font-size:14px;font-weight:600;color:#dcddde;flex:1">🔗 Matriz de Correlación</span>' +
-      '<span style="font-size:10px;background:#7c6af7;color:#fff;padding:2px 8px;border-radius:10px">' + n + 'x' + n + '</span>' +
+      '<span style="font-size:10px;background:var(--accent);color:#fff;padding:2px 8px;border-radius:10px">' + n + 'x' + n + '</span>' +
     '</div>' +
     legend +
     '<div style="flex:1;overflow:auto;padding:12px">' +

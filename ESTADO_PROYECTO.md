@@ -90,6 +90,19 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (StatAnalyzer Pro) co
 
 ## CAMBIOS RECIENTES
 
+### 2026-11-26 (358): P0 diseño — marca azul, foco accesible y chrome muerto
+
+**Qué:** primera tanda de P0 (visual/coherencia).
+- Foco visible unificado en `--focus-ring` (alias de `--accent`): los 3 `#b3a6ff` del shell pasan a azul y el foco del tema claro cumple ≥3:1.
+- Marca alineada: `favicon.svg`, `icon-192/512`, `apple-touch-icon` y `favicon.ico` regenerados en azul; `theme-color` de `index.html` y acentos violetas de `ToolsManager` corregidos.
+- `user-select:none` retirado del `body`: resultados y tablas ya se pueden copiar; botones, filas y handles conservan su `none`.
+- Toasts con `role=status/alert`, `aria-live` y `aria-atomic`.
+- Chrome muerto eliminado: semáforos macOS, iconos Files/Graph/Bookmarks/Tags del ribbon, `⌄ ⋯` del tabbar, “Obsidian Vault”, “Graph view”, “New tab” y placeholders “Untitled.canvas”.
+
+**Archivos:** `css/core/indexx.css`, `indexx.html`, `index.html`, `favicon.svg`, `favicon-16/32/48.png`, `favicon.ico`, `icon-192/512.png`, `apple-touch-icon.png`, `js/core/utils.js`, `js/core/indexx-trabajo.js`, `js/managers/ToolsManager.js`, `docs/MAPA_DISENO.md`, `ESTADO_PROYECTO.md`.
+
+**Verificación:** `npm run preflight` OK (E2E 16); tests dirigidos 40/40 (perfil, lazy-load, SRI, viz batch, sidebar rail, trabajo).
+
 ### 2026-11-25 (357): Procesos — el combobox mostraba formas de otro grupo
 
 **Qué:** al elegir «Sólidos», la lista seguía mostrando cremas, pomadas, geles, soluciones, suspensiones y emulsiones; al pulsarlas, el grupo cambiaba solo. El filtro por `data-grupo` ya existía en JS, pero el atributo `hidden` de cada opción lo pisaba la regla CSS `.v7-ent-opt { display: block }` (el `[hidden]` del navegador pierde frente a cualquier `display`). Lo mismo ocultaba mal «Tipo de granulación» en cremas: el `label` tenía `hidden` pero seguía visible.
