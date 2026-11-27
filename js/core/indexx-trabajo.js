@@ -109,6 +109,7 @@ function showHelpModal() {
     '</ol></div>' +
     '<button class="btn btn-primary" style="margin-top:16px;width:100%;justify-content:center" onclick="this.closest(\'#helpModal\').remove()">Cerrar</button></div>';
   document.body.appendChild(modal);
+  if (typeof a11yModal === 'function') a11yModal(modal);
 }
 
 function showAboutModal() {
@@ -129,6 +130,7 @@ function showAboutModal() {
     '</div>' +
     '<button class="btn btn-primary" style="width:100%;justify-content:center" onclick="this.closest(\'#aboutModal\').remove()">Cerrar</button></div>';
   document.body.appendChild(modal);
+  if (typeof a11yModal === 'function') a11yModal(modal);
 }
 
 function showSettingsModal() {
@@ -169,6 +171,7 @@ function showSettingsModal() {
     'StatAnalyzer Pro 2.6</div>' +
     '<button class="btn btn-primary" style="margin-top:12px;width:100%;justify-content:center" onclick="this.closest(\'#settingsModal\').remove()">Cerrar</button></div>';
   document.body.appendChild(modal);
+  if (typeof a11yModal === 'function') a11yModal(modal);
 }
 function updateSettingsFontLabel() {
   var label = document.getElementById('settingsFontSizeLabel');
@@ -457,6 +460,8 @@ function getTrabajoCeldaActivaHTML() {
 // ── Límites (especificaciones) ──
 // Sidebar: modo Global (inputs) o Por columna (resumen + modal).
 // El modal por columna se virtualiza a partir de 40 columnas.
+var _limUntrap = null;
+var _limPrevFocus = null;
 var _limUI = {
   openName: null, query: '', numericOnly: true,
   hRow: 0, hOpen: 0, drag: false, raf: null, toastTimer: null,
@@ -1023,6 +1028,8 @@ function limitsOpenModal() {
   var modal = limitsEnsureModal();
   modal.classList.add('open');
   document.body.style.overflow = 'hidden';
+  _limPrevFocus = document.activeElement;
+  if (!_limUntrap && typeof trapFocus === 'function') _limUntrap = trapFocus(modal.querySelector('.lim-modal'));
   limitsMeasureHeights();
   var bodyEl = document.getElementById('limModalBody');
   if (bodyEl) bodyEl.scrollTop = 0;
@@ -1034,6 +1041,9 @@ function limitsCloseModal() {
   if (!modal) return;
   modal.classList.remove('open');
   document.body.style.overflow = '';
+  if (_limUntrap) { _limUntrap(); _limUntrap = null; }
+  try { if (_limPrevFocus && _limPrevFocus.focus) _limPrevFocus.focus(); } catch (e) {}
+  _limPrevFocus = null;
 }
 
 function limitsToggleRow(idx) {
@@ -1671,6 +1681,7 @@ function generateSampleData() {
   '</div>';
   modal.innerHTML = html;
   document.body.appendChild(modal);
+  if (typeof a11yModal === 'function') a11yModal(modal);
 
   var D = {
     normal: {
@@ -1979,6 +1990,7 @@ function ampliarDatos() {
     '<button class="btn btn-secondary" onclick="this.closest(\'#ampliarModal\').remove()">Cancelar</button>' +
     '<button class="btn btn-primary" id="ampliarBtn">Ampliar</button></div></div>';
   document.body.appendChild(modal);
+  if (typeof a11yModal === 'function') a11yModal(modal);
   document.getElementById('ampliarBtn').addEventListener('click', function() {
     var factor = parseInt(document.getElementById('ampliarFactor').value) || 2;
     var origRows = sheet.rows;

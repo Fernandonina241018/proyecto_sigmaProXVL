@@ -33,6 +33,7 @@ Regla: **no introducir hex nuevos**; si falta un color, se añade token.
 | `.acordeon-*` / `.ar-kpi-*` | `css/core/indexx.css:677+` | Resultados estadísticos |
 | `.fbandeja-*` | `css/core/indexx.css:1252+` | Bandeja de firmas |
 | `.rep-card` | `css/core/indexx.css` | Reportes (legacy) |
+| Diálogos | `a11yModal()` en `js/core/indexx-ui.js` | role/aria-modal, foco inicial, Tab atrapado, Escape y retorno |
 
 ### Anatomía de `.side-card`
 
@@ -78,7 +79,9 @@ Estados iniciales: Trabajo solo "Hoja de Trabajo" colapsada; Reportes solo
 - Texto de resultados y tablas seleccionable; los controles conservan `user-select:none`.
 - Toasts con `role=status/alert` y `aria-live`.
 - Chrome muerto retirado: semáforos macOS, iconos decorativos del ribbon, `⌄ ⋯` del tabbar, “Obsidian Vault” y placeholders.
-- Pendiente de P0 (PR2): semántica del shell (`main`/`nav`/`h1`, skip link, `aria-current`), teclado en tabs/dots/ribbon/footer y foco atrapado en modales.
+- Shell: `<aside>` + `<nav>` + `<main>`, títulos `h1/h2`, skip link a `#rightPaneTitle` y `aria-current` en nav/tabs.
+- Teclado: tabs (Enter/Espacio, Supr), dots del workflow, ribbon y footer; foco visible tokenizado.
+- Modales: `a11yModal()` (role dialog, aria-modal, nombre, foco inicial, Tab atrapado, Escape y retorno) en análisis, datos, viz, firma y ayuda/configuración; límites con trap manual.
 
 ## 6. Pendiente (fases futuras)
 

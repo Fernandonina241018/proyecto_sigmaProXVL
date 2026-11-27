@@ -368,6 +368,7 @@ function showPasteModal() {
   var modal = document.createElement('div'); modal.className = 'modal-overlay';
   modal.innerHTML = '<div class="modal-box"><div class="modal-title">Pegar datos</div><div style="font-size:11px;color:var(--text-faint)">Desde Excel, Google Sheets, etc. (tabulaciones o comas)</div><textarea id="pasteTA" style="min-height:200px;background:var(--bg-primary);border:1px solid var(--border);border-radius:6px;padding:10px;color:var(--text-primary);font-family:monospace;font-size:12px;resize:vertical;width:100%" placeholder="Encabezado1\tEncabezado2\nValor1\tValor2"></textarea><div class="modal-actions"><button class="btn btn-secondary" id="pasteCancel">Cancelar</button><button class="btn btn-primary" id="pasteConfirm">Cargar</button></div></div>';
   document.body.appendChild(modal);
+  if (typeof a11yModal === 'function') a11yModal(modal);
   document.getElementById('pasteCancel').addEventListener('click', function(){ modal.remove(); });
   document.getElementById('pasteConfirm').addEventListener('click', function(){
     var text = document.getElementById('pasteTA').value;
@@ -404,6 +405,7 @@ function showFilterModal() {
     '<div class="modal-row"><span class="modal-label">Valor</span><input id="fltVal" style="flex:1;background:var(--bg-primary);border:1px solid var(--border);border-radius:5px;color:var(--text-primary);font-size:12px;padding:5px 8px" placeholder="valor..."></div>' +
     '<div class="modal-actions"><button class="btn btn-secondary" id="fltCancel">Cancelar</button><button class="btn btn-primary" id="fltApply">Aplicar</button></div></div>';
   document.body.appendChild(modal);
+  if (typeof a11yModal === 'function') a11yModal(modal);
   document.getElementById('fltCancel').addEventListener('click', function(){ modal.remove(); });
   document.getElementById('fltApply').addEventListener('click', function(){
     var col = parseInt(document.getElementById('fltCol').value);
@@ -565,6 +567,7 @@ function showExportModal() {
     '<div class="modal-row" style="align-items:flex-start"><span class="modal-label" style="padding-top:4px">Columnas</span><div class="modal-cols" id="expCols">' + colChecks + '</div></div>' +
     '<div class="modal-actions"><button class="btn btn-secondary" id="expCancel">Cancelar</button><button class="btn btn-primary" id="expGo">Exportar</button></div></div>';
   document.body.appendChild(modal);
+  if (typeof a11yModal === 'function') a11yModal(modal);
   document.getElementById('expCancel').addEventListener('click', function(){ modal.remove(); });
   document.getElementById('expGo').addEventListener('click', function(){
     var fmt = document.getElementById('expFmt').value;

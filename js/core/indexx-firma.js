@@ -568,6 +568,7 @@ async function firmaPublishLoaded() {
     '<button id="fpub-ok" class="btn btn-primary">Publicar y firmar</button>' +
     '</div></div></div>';
   document.body.appendChild(overlay);
+  if (typeof a11yModal === 'function') a11yModal(overlay);
   var selR = overlay.querySelector('#fpub-reviewer');
   var selA = overlay.querySelector('#fpub-approver');
   try {
@@ -950,6 +951,7 @@ function firmaRequestPassword(role) {
   box.appendChild(content);
   overlay.appendChild(box);
   document.body.appendChild(overlay);
+  if (typeof a11yModal === 'function') a11yModal(overlay);
   pwInput.focus();
   pwInput.addEventListener('keydown', function(e){
     if (e.key === 'Enter') confirmBtn.click();
@@ -978,6 +980,7 @@ function firmaShowPostSignModal(session, role) {
       '<button id="fps-ok" class="btn btn-primary">Entendido</button>' +
       '</div></div></div>';
     document.body.appendChild(overlay);
+  if (typeof a11yModal === 'function') a11yModal(overlay);
     overlay.querySelector('#fps-ok').onclick = async function() {
       overlay.remove();
       try { await _firmaApiPost('/api/sign-sessions/' + session.id + '/dismiss', {}); } catch (e) { /* ya se oculta por elegibilidad; best-effort */ }
@@ -1179,6 +1182,7 @@ function firmaRequestReset(role) {
   box.appendChild(content);
   overlay.appendChild(box);
   document.body.appendChild(overlay);
+  if (typeof a11yModal === 'function') a11yModal(overlay);
   codeInput.focus();
   codeInput.addEventListener('keydown', function(e){
     if (e.key === 'Enter') pwInput.focus();
@@ -1657,6 +1661,7 @@ function firmaOpenBandejaModal() {
       '</footer>' +
     '</div>';
   document.body.appendChild(overlay);
+  if (typeof a11yModal === 'function') a11yModal(overlay);
   _firmaModalEl = overlay;
 
   overlay.querySelector('#firmaModalClose').onclick = _firmaModalClose;
@@ -2297,6 +2302,7 @@ function firmaDeleteComplete(id, name) {
   box.appendChild(content);
   overlay.appendChild(box);
   document.body.appendChild(overlay);
+  if (typeof a11yModal === 'function') a11yModal(overlay);
   var close = function() { overlay.remove(); };
   cancelBtn.onclick = close;
   overlay.onclick = function(e) { if (e.target === overlay) close(); };

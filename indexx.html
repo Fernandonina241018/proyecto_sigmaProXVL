@@ -48,6 +48,8 @@
   <symbol id="i-x" viewBox="0 0 24 24"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></symbol>
 </defs></svg>
 
+<a class="skip-link" href="#rightPaneTitle">Saltar al contenido</a>
+
 <div class="titlebar">
   <span class="titlebar-appname">StatAnalyzer Pro</span>
   <nav class="menubar" role="menubar">
@@ -180,16 +182,16 @@
 
 <div class="app">
   <div class="ribbon">
-    <div class="ribbon-icon" onclick="openCommandPalette()" title="Comandos (Ctrl+K)">
+    <div class="ribbon-icon" onclick="openCommandPalette()" title="Comandos (Ctrl+K)" role="button" tabindex="0" aria-label="Comandos">
       <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
     </div>
     <div class="ribbon-bottom">
-      <div class="ribbon-icon" id="ribbonPopupBtn" title="Navegación">
+      <div class="ribbon-icon" id="ribbonPopupBtn" title="Navegación" role="button" tabindex="0" aria-label="Navegación">
         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
           <circle cx="12" cy="5" r="1.5"/><circle cx="12" cy="12" r="1.5"/><circle cx="12" cy="19" r="1.5"/>
         </svg>
       </div>
-      <div class="ribbon-toggle" id="sidebarToggle" title="Toggle sidebar">
+      <div class="ribbon-toggle" id="sidebarToggle" title="Toggle sidebar" role="button" tabindex="0" aria-label="Mostrar u ocultar barra lateral">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
           <rect x="3" y="3" width="18" height="18" rx="2"/>
           <line x1="9" y1="3" x2="9" y2="21"/>
@@ -200,16 +202,16 @@
     <div class="ribbon-nav-popup" id="ribbonNavPopup"></div>
   </div>
 
-  <div class="sidebar" id="sidebar">
+  <aside class="sidebar" id="sidebar" aria-label="Navegación principal">
     <div class="sidebar-header">
       <div class="search-box">
         <span class="search-icon">
           <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
         </span>
-        <input type="text" id="sidebarSearch" placeholder="Comandos..." />
+        <input type="text" id="sidebarSearch" placeholder="Comandos..." aria-label="Buscar comandos" />
       </div>
     </div>
-    <div class="sidebar-nav">
+    <nav class="sidebar-nav" aria-label="Módulos">
       <section class="snav-group" aria-label="Módulos">
       <div class="nav-section-title">Módulos</div>
       <button type="button" class="snav-card" data-page="datos"><span class="nav-icon">📊</span><span class="snav-tx"><b>Datos</b><span>Carga CSV, Excel o JSON y gestiona tu dataset</span></span><span class="snav-chev">›</span></button>
@@ -227,29 +229,29 @@
       <button type="button" class="snav-card" data-page="usuarios"><span class="nav-icon">👥</span><span class="snav-tx"><b>Usuarios</b><span>Cuentas, roles y contraseñas</span></span><span class="snav-chev">›</span></button>
       <button type="button" class="snav-card" data-page="dispositivos"><span class="nav-icon">🖥️</span><span class="snav-tx"><b>Dispositivos</b><span>Sesiones y equipos confiables</span></span><span class="snav-chev">›</span></button>
       </section>
-    </div>
+    </nav>
     <div class="sidebar-footer">
       <div class="vault-name">StatAnalyzer Pro</div>
       <div class="sidebar-footer-icons">
-        <span class="footer-icon" id="themeToggle" title="Cambiar tema">🌙</span>
-        <span class="footer-icon" onclick="showHelpModal()" title="Atajos y ayuda">?</span>
-        <span class="footer-icon settings" onclick="showSettingsModal()" title="Configuración">⚙</span>
+        <span class="footer-icon" id="themeToggle" title="Cambiar tema" role="button" tabindex="0" aria-label="Cambiar tema">🌙</span>
+        <span class="footer-icon" onclick="showHelpModal()" title="Atajos y ayuda" role="button" tabindex="0" aria-label="Atajos y ayuda">?</span>
+        <span class="footer-icon settings" onclick="showSettingsModal()" title="Configuración" role="button" tabindex="0" aria-label="Configuración">⚙</span>
       </div>
     </div>
-  </div>
+  </aside>
 
   <div class="sidebar-backdrop" id="sidebarBackdrop"></div>
 
   <div class="content">
-    <div class="tabbar" id="tabbar">
-      <div class="tab-new" id="tabNew">+</div>
+    <div class="tabbar" id="tabbar" role="tablist" aria-label="Pestañas abiertas">
+      <div class="tab-new" id="tabNew" role="button" tabindex="0" aria-label="Nueva pestaña">+</div>
       <div class="tabbar-spacer"></div>
     </div>
 
-    <div class="panes" id="panesContainer">
+    <main class="panes" id="panesContainer">
       <div class="pane" id="paneLeft">
         <div class="pane-header">
-          <span class="pane-title" id="leftPaneTitle">Panel</span>
+          <h2 class="pane-title" id="leftPaneTitle">Panel</h2>
         </div>
         <div class="pane-body" id="leftPaneBody">
           <div class="page-body"><div style="padding:20px;color:var(--text-faint);font-size:13px">Cargando panel…</div></div>
@@ -260,13 +262,13 @@
 
       <div class="pane" id="paneRight">
         <div class="pane-header">
-          <span class="pane-title" id="rightPaneTitle">Sin pestaña</span>
+          <h1 class="pane-title" id="rightPaneTitle" tabindex="-1">Sin pestaña</h1>
         </div>
         <div class="pane-body" id="rightPaneBody">
           <div class="page-body"><div style="padding:20px;color:var(--text-faint);font-size:13px">Selecciona un módulo para comenzar.</div></div>
         </div>
       </div>
-    </div>
+    </main>
 
     <!-- ════════════════════════════════════════ -->
     <!-- BOTTOM NAVIGATION BAR                    -->
