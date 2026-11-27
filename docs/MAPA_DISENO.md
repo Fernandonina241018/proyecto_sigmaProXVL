@@ -1,11 +1,11 @@
 # Mapa de diseño — StatAnalyzer Pro
 
 Estado del sistema visual y reglas para que los módulos se vean iguales sin romper
-comportamientos. Última actualización: 2026-10-30 (F0–F2 del módulo estadístico).
+comportamientos. Última actualización: 2026-11-26 (P0 de marca y accesibilidad).
 
 ## 1. Tokens (fuente única)
 
-`css/core/indexx.css:3-82` (`:root`, tema oscuro) y `797+` (`[data-theme="light"]`).
+`css/core/indexx.css:3-83` (`:root`, tema oscuro) y `834+` (`[data-theme="light"]`).
 
 | Grupo | Tokens |
 |---|---|
@@ -18,6 +18,7 @@ comportamientos. Última actualización: 2026-10-30 (F0–F2 del módulo estadí
 | Espaciado | `--space-1 4`, `--space-2 8`, `--space-3 12`, `--space-4 16`, `--space-5 20` |
 | Sombras | `--shadow-sm`, `--shadow-md`, `--shadow-lg` |
 | Iconos | `--icon-stroke: 1.8` |
+| Foco | `--focus-ring` (alias de `--accent`, contraste ≥3:1 en ambos temas) |
 
 Regla: **no introducir hex nuevos**; si falta un color, se añade token.
 
@@ -48,7 +49,7 @@ Estados iniciales: Trabajo solo "Hoja de Trabajo" colapsada; Reportes solo
 
 ## 3. Reglas "sobrio"
 
-1. Un solo acento (violeta); degradados solo en el botón primario.
+1. Un solo acento (azul `#2f81f7` / `#0969da` en claro); degradados solo en el botón primario.
 2. Máximo dos niveles de sombra (`--shadow-sm`, `--shadow-md`).
 3. Radios de la escala (6/8/12/16/20).
 4. Títulos 13.5–14 px / 750; subtítulos 10.5 px.
@@ -71,7 +72,15 @@ Estados iniciales: Trabajo solo "Hoja de Trabajo" colapsada; Reportes solo
 `analisisExcludedTags`, `analisisLastResultList`, `analisisLastTest`,
 `analisisLastPVal`, `analisisLastDecision`, `analisisSelectedTestsScroll`.
 
-## 5. Pendiente (fases futuras)
+## 5. P0 aplicado (2026-11-26)
+
+- Marca: favicon/PWA en azul, `theme-color` alineado; foco unificado en `--focus-ring`.
+- Texto de resultados y tablas seleccionable; los controles conservan `user-select:none`.
+- Toasts con `role=status/alert` y `aria-live`.
+- Chrome muerto retirado: semáforos macOS, iconos decorativos del ribbon, `⌄ ⋯` del tabbar, “Obsidian Vault” y placeholders.
+- Pendiente de P0 (PR2): semántica del shell (`main`/`nav`/`h1`, skip link, `aria-current`), teclado en tabs/dots/ribbon/footer y foco atrapado en modales.
+
+## 6. Pendiente (fases futuras)
 
 - **F3 · EDA**: quitar gradiente del header, superficies `--surface-2`, iconos SVG.
 - **F4 · Modelo/ML**: sustituir hex por tokens, panel con `.side-card`, migrar
