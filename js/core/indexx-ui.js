@@ -10,6 +10,9 @@ var panesCont = document.getElementById('panesContainer');
 // Mínimos por página (fuente única: resizer + apertura).
 // Firmas bajo 400px y datos bajo 350px se distorsionan.
 function paneMinWidthFor(page) {
+  var p = (typeof SIGMA_PAGE_BY_ID !== 'undefined') ? SIGMA_PAGE_BY_ID[page] : null;
+  if (p && p.paneWidth) return p.paneWidth;
+  // Fallback para tests que cargan indexx-ui.js sin pages.js.
   if (page === 'trabajo') return 360;
   if (page === 'firmarReporte') return 400;
   if (page === 'datos') return 350;
@@ -1423,12 +1426,15 @@ var rightPanels = {
   dispositivos: function() { return '<div class="page-body"><div id="dsp-container"></div></div>'; }
 };
 
-var pageIcons  = { trabajo:'📋', datos:'📊', analisis:'🔬', visualizacion:'📈', reportes:'📄', firmarReporte:'✍️', ml:'🧠', auditoria:'📋', usuarios:'👥', 'modelo-estadistico':'🧠', dispositivos:'🖥️' };
-var pageTitles = { trabajo:'Hoja de Trabajo', datos:'Gestión de Datos', analisis:'Análisis Estadístico', visualizacion:'Visualización', reportes:'Reportes', firmarReporte:'Firmar Reporte', ml:'ML Analysis', auditoria:'Auditoría', usuarios:'Usuarios', 'modelo-estadistico':'Modelo Estadístico', dispositivos:'Dispositivos' };
-
-// Grupos de scripts que se cargan bajo demanda (definidos en indexx.html).
-// La página no se pinta hasta que su grupo terminó de descargarse.
-var _SIGMA_PAGE_GROUP = { ml: 'ml', reportes: 'reportes' };
+var _PAGES = (typeof SIGMA_PAGES !== 'undefined') ? SIGMA_PAGES : [];
+var pageIcons = {};
+var pageTitles = {};
+var _SIGMA_PAGE_GROUP = {};
+_PAGES.forEach(function(p) {
+  pageIcons[p.id] = p.icon;
+  pageTitles[p.id] = p.title;
+  if (p.lazyGroup) _SIGMA_PAGE_GROUP[p.id] = p.lazyGroup;
+});
 
 function loadPage(name, _retry) {
   try {
@@ -1464,7 +1470,7 @@ function loadPage(name, _retry) {
   }
   currentPage = name;
   document.querySelectorAll('.snav-card').forEach(function(n){ n.classList.remove('active'); n.removeAttribute('aria-current'); });
-  var navEl = document.querySelector('[data-page="' + name + '"]');
+  var navEl = document.querySelector('.snav-card[data-page="' + name + '"]');
   if (navEl) { navEl.classList.add('active'); navEl.setAttribute('aria-current', 'page'); }
   var pageTab = tabbar.querySelector('[data-page-tab="' + name + '"]');
   if (!pageTab) {
@@ -1549,11 +1555,49 @@ document.querySelector('.sidebar-nav')?.addEventListener('click', function(e) {
   if (item) loadPage(item.dataset.page);
 });
 
-// Sync sidebar nav icons from pageIcons map
-document.querySelectorAll('.snav-card[data-page] .nav-icon').forEach(function(el){
-  var page = el.closest('.snav-card').dataset.page;
-  if (page && pageIcons[page]) el.textContent = pageIcons[page];
-});
+// ── Sidebar nav (generada desde SIGMA_PAGES) ──
+function buildSidebarNav() {
+  var nav = document.querySelector('.sidebar-nav');
+  if (!nav || typeof SIGMA_PAGES === 'undefined') return;
+  nav.textContent = '';
+  var groups = (typeof SIGMA_PAGE_GROUPS !== 'undefined') ? SIGMA_PAGE_GROUPS : [];
+  groups.forEach(function(g) {
+    var section = document.createElement('section');
+    section.className = 'snav-group';
+    section.setAttribute('aria-label', g.label);
+    var title = document.createElement('div');
+    title.className = 'nav-section-title';
+    title.textContent = g.label;
+    section.appendChild(title);
+    SIGMA_PAGES.filter(function(p) { return p.group === g.id; }).forEach(function(p) {
+      var btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'snav-card';
+      btn.dataset.page = p.id;
+      var icon = document.createElement('span');
+      icon.className = 'nav-icon';
+      icon.setAttribute('aria-hidden', 'true');
+      icon.textContent = p.icon;
+      var tx = document.createElement('span');
+      tx.className = 'snav-tx';
+      var name = document.createElement('b');
+      name.textContent = p.label;
+      var desc = document.createElement('span');
+      desc.textContent = p.desc;
+      tx.appendChild(name);
+      tx.appendChild(desc);
+      var chev = document.createElement('span');
+      chev.className = 'snav-chev';
+      chev.setAttribute('aria-hidden', 'true');
+      chev.textContent = '›';
+      btn.appendChild(icon);
+      btn.appendChild(tx);
+      btn.appendChild(chev);
+      section.appendChild(btn);
+    });
+    nav.appendChild(section);
+  });
+}
 
 // ── Ribbon nav popup (collapsed sidebar) ──
 function buildRibbonNavPopup() {
@@ -1567,6 +1611,7 @@ function buildRibbonNavPopup() {
     var label = pageTitles[page] || page;
     var el = document.createElement('div');
     el.className = 'ribbon-nav-item' + (currentPage === page ? ' active' : '');
+    el.dataset.page = page;
     el.setAttribute('role', 'button');
     el.setAttribute('tabindex', '0');
     el.setAttribute('aria-label', label);
@@ -1581,15 +1626,13 @@ function buildRibbonNavPopup() {
 }
 
 function updateRibbonNavPopup() {
-  document.querySelectorAll('.ribbon-nav-item').forEach(function(el, i) {
-    var pages = Object.keys(pageIcons);
-    el.classList.toggle('active', pages[i] === currentPage);
-    if (pages[i] === currentPage) el.setAttribute('aria-current', 'page');
+  document.querySelectorAll('.ribbon-nav-item').forEach(function(el) {
+    var active = el.dataset.page === currentPage;
+    el.classList.toggle('active', active);
+    if (active) el.setAttribute('aria-current', 'page');
     else el.removeAttribute('aria-current');
   });
 }
-
-buildRibbonNavPopup();
 
 // ── Mobile sidebar backdrop close ──
 document.getElementById('sidebarBackdrop')?.addEventListener('click', function() {
@@ -1627,14 +1670,9 @@ document.addEventListener('click', function(e) {
 // ═══════════════════════════════════════
 // BOTTOM NAVIGATION BAR
 // ═══════════════════════════════════════
-const WORKFLOW = [
-  { id: 'datos',          icon: '📊', name: 'Datos' },
-  { id: 'trabajo',        icon: '📋', name: 'Hoja de Trabajo' },
-  { id: 'analisis',       icon: '🔬', name: 'Análisis' },
-  { id: 'visualizacion',  icon: '📈', name: 'Visualización' },
-  { id: 'reportes',       icon: '📄', name: 'Reportes' },
-  { id: 'firmarReporte',  icon: '✍️', name: 'Firmar Reporte' },
-];
+const WORKFLOW = _PAGES.filter(function(p) { return p.workflow; }).map(function(p) {
+  return { id: p.id, icon: p.icon, name: p.workflowName || p.label };
+});
 
 const workflowIds = WORKFLOW.map(p => p.id);
 

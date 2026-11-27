@@ -2,25 +2,19 @@
 // permisos.js — Role-based access control matrix
 // ════════════════════════════════════════════════════════════════
 
+// Derivado de SIGMA_PAGES (js/core/pages.js): una página declara sus roles
+// una sola vez y la matriz se construye al cargar este archivo.
 var ALLOWED_PAGES = {
-  admin: [
-    'datos','trabajo','analisis','visualizacion','reportes',
-    'firmarReporte','ml','modelo-estadistico',
-    'auditoria','usuarios','dispositivos'
-  ],
-  analista: [
-    'datos','trabajo','analisis','visualizacion','reportes',
-    'firmarReporte','ml','modelo-estadistico'
-  ],
-  user: [
-    'datos','trabajo','analisis','visualizacion','reportes',
-    'firmarReporte','ml','modelo-estadistico'
-  ],
-  supervisor: ['firmarReporte'],
-  gerente:    ['firmarReporte'],
-  coordinador:['firmarReporte'],
-  readonly:   []
+  admin: [], analista: [], user: [],
+  supervisor: [], gerente: [], coordinador: [], readonly: []
 };
+if (typeof SIGMA_PAGES !== 'undefined') {
+  SIGMA_PAGES.forEach(function(page) {
+    (page.roles || []).forEach(function(role) {
+      if (ALLOWED_PAGES[role]) ALLOWED_PAGES[role].push(page.id);
+    });
+  });
+}
 
 function _getSessionRole() {
   if (typeof Auth === 'undefined') return 'readonly';

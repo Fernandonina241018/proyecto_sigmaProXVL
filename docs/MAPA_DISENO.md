@@ -1,7 +1,7 @@
 # Mapa de diseño — StatAnalyzer Pro
 
 Estado del sistema visual y reglas para que los módulos se vean iguales sin romper
-comportamientos. Última actualización: 2026-11-26 (P0 de marca y accesibilidad).
+comportamientos. Última actualización: 2026-11-27 (P1-A, registro de páginas).
 
 ## 1. Tokens (fuente única)
 
@@ -34,6 +34,7 @@ Regla: **no introducir hex nuevos**; si falta un color, se añade token.
 | `.fbandeja-*` | `css/core/indexx.css:1252+` | Bandeja de firmas |
 | `.rep-card` | `css/core/indexx.css` | Reportes (legacy) |
 | Diálogos | `a11yModal()` en `js/core/indexx-ui.js` | role/aria-modal, foco inicial, Tab atrapado, Escape y retorno |
+| Navegación | `SIGMA_PAGES` + `buildSidebarNav()` | `js/core/pages.js`, `js/core/indexx-ui.js` | Fuente única de nav, títulos, iconos, permisos, workflow y lazy |
 
 ### Anatomía de `.side-card`
 
@@ -83,7 +84,15 @@ Estados iniciales: Trabajo solo "Hoja de Trabajo" colapsada; Reportes solo
 - Teclado: tabs (Enter/Espacio, Supr), dots del workflow, ribbon y footer; foco visible tokenizado.
 - Modales: `a11yModal()` (role dialog, aria-modal, nombre, foco inicial, Tab atrapado, Escape y retorno) en análisis, datos, viz, firma y ayuda/configuración; límites con trap manual.
 
-## 6. Pendiente (fases futuras)
+## 6. Registro de páginas (P1-A, 2026-11-27)
+
+- `js/core/pages.js` es la fuente única: `id`, `label`, `title`, `icon`, `desc`, `group`, `roles`, `paneWidth`, `workflow`, `workflowName` y `lazyGroup`.
+- `indexx-ui.js` deriva `pageIcons`, `pageTitles`, `WORKFLOW`, `_SIGMA_PAGE_GROUP` y `paneMinWidthFor`; `buildSidebarNav()` genera la nav en boot.
+- `permisos.js` deriva `ALLOWED_PAGES` de `roles`; ya no hay matriz duplicada.
+- Los renderers `leftPanels`/`rightPanels` siguen en `indexx-ui.js`; `tests/pages-registry.test.js` vigila ids, metadatos, workflow, lazy y permisos.
+- Agregar una página = una entrada en `pages.js` + su renderer. No hay que tocar nav, iconos, títulos, permisos ni workflow.
+
+## 7. Pendiente (fases futuras)
 
 - **F3 · EDA**: quitar gradiente del header, superficies `--surface-2`, iconos SVG.
 - **F4 · Modelo/ML**: sustituir hex por tokens, panel con `.side-card`, migrar
