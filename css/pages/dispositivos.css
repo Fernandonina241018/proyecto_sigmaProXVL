@@ -99,3 +99,12 @@
     font-weight: 500;
     margin-left: auto;
 }
+
+@media (max-width: 600px) {
+    .dsp-grid { grid-template-columns: 1fr; }
+    .dsp-card { padding: 12px; }
+    .dsp-card-header { align-items: flex-start; gap: 8px; }
+    .dsp-info-row { font-size: 0.75rem; }
+    .dsp-fp { max-width: 120px; }
+    .dsp-card-actions { gap: 8px; }
+}
