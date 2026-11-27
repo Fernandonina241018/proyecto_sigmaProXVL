@@ -748,13 +748,6 @@ function closeTab(tabEl, e) {
   var nextPage = nextTab.dataset.pageTab;
   if (nextPage) loadPage(nextPage);
 }
-document.getElementById('tabNew').addEventListener('click', function() {
-  var t = document.createElement('div'); t.className = 'tab';
-  t.innerHTML = '<span class="tab-icon" aria-hidden="true">📄</span> Untitled <span class="tab-close" aria-hidden="true">×</span>';
-  tabbar.insertBefore(t, document.querySelector('.tabbar-spacer')); initTabEl(t); makeTabActive(t); t.focus();
-  t.querySelector('.tab-close').addEventListener('click', function(e){ closeTab(t, e); });
-  t.addEventListener('click', function(e){ if (!e.target.classList.contains('tab-close')) makeTabActive(t); });
-});
 document.querySelectorAll('.ribbon-icon').forEach(function(icon) {
   icon.addEventListener('click', function() { document.querySelectorAll('.ribbon-icon').forEach(function(i){ i.classList.remove('active'); }); icon.classList.add('active'); });
 });

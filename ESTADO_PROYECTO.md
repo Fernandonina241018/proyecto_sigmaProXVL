@@ -39,7 +39,7 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (StatAnalyzer Pro) co
 ## URLs activas
 | Servicio | URL | Estado |
 |----------|-----|--------|
-| Frontend (GitHub Pages) | `https://fernandonina241018.github.io` | ✅ |
+| Frontend (GitHub Pages) | `https://fernandonina241018.github.io/proyecto_sigmaProXVL/` | ✅ |
 | Backend API | `https://sigmaproxvl-backend.fly.dev/api/health` | ✅ `database:"connected"` |
 | ML Service | `https://sigmapro-ml.fly.dev/api/ml/health` | ✅ `{"ok":true}` |
 
@@ -89,6 +89,18 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (StatAnalyzer Pro) co
 | `js/core/indexx-viz.js:996-1013` | `_V_showGalleryChart()` usa hoja original si existe |
 
 ## CAMBIOS RECIENTES
+
+### 2026-11-27 (362): P1-C — legibilidad, responsive y retiro del + de pestañas
+
+**Qué:** cierre de los pendientes visuales acotados.
+- Legibilidad: los 8/9px del shell, perfil y dashboard ML pasan a `--text-2xs` (10px); no se tocaron los 10px/10.5px por densidad.
+- Responsive: Dispositivos pasa a una columna ≤600px; ML apila grid/sidebar, veredicto, stats y factores en 1100/760/520.
+- Tabs: retirado `#tabNew`. Ese `+` creaba pestañas “Untitled” sin página ni visualización; las pestañas se crean al navegar. Los botones “Nueva hoja” del spreadsheet **no** se tocaron: crean hoja con grilla y están testeados.
+- Docs: URL de Pages corregida a `/proyecto_sigmaProXVL/`; `MAPA_DISENO.md` suma Auth v2, Validaciones v7 y Perfil.
+
+**Archivos:** `indexx.html`, `js/core/indexx-ui.js`, `css/core/indexx.css`, `css/core/perfil-modal.css`, `css/pages/ml-predict.css`, `css/pages/dispositivos.css`, `e2e/datos-send.spec.js`, `tests/sidebar-rail.test.js`, `tests/design-system.test.js` (nuevo), `docs/MAPA_DISENO.md`, `ESTADO_PROYECTO.md`.
+
+**Verificación:** `npm run preflight` OK (vitest **1293**, backend **154**, E2E **18**); `#tabNew` ausente en E2E; guard CSS de 8/9px y breakpoints en `tests/design-system.test.js`.
 
 ### 2026-11-27 (361): P1-B — tokens, tema del sistema y reduced motion
 

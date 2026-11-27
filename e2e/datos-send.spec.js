@@ -54,6 +54,7 @@ test('cargar CSV y enviarlo a Hoja de Trabajo con el botón Trabajo', async ({ p
   await expect(page.locator('#panelDatos')).toHaveAttribute('data-datos-init', '1', { timeout: 10000 });
   await expect(page.locator('main#panesContainer')).toHaveCount(1);
   await expect(page.locator('nav[aria-label="Módulos"]')).toHaveCount(1);
+  await expect(page.locator('#tabNew')).toHaveCount(0);
   await expect(page.locator('.snav-card[data-page="datos"]')).toHaveAttribute('aria-current', 'page');
 
   await page.locator('.skip-link').focus();

@@ -74,7 +74,7 @@
   pointer-events: none;
 }
 .ml-predict-dashboard .dp-verdict-icon { font-size: 32px; line-height: 1; }
-.ml-predict-dashboard .dp-verdict-label { font-family: var(--font-mono); font-size: 9px; font-weight: 500; letter-spacing: .15em; color: var(--text-sec); text-transform: uppercase; margin-bottom: 3px; }
+.ml-predict-dashboard .dp-verdict-label { font-family: var(--font-mono); font-size: var(--text-2xs); font-weight: 500; letter-spacing: .15em; color: var(--text-sec); text-transform: uppercase; margin-bottom: 3px; }
 .ml-predict-dashboard .dp-verdict-value { font-size: 28px; font-weight: 600; color: var(--accent-green); letter-spacing: -.01em; }
 .ml-predict-dashboard .dp-conf-block { text-align: center; }
 .ml-predict-dashboard .dp-conf-num {
@@ -98,7 +98,7 @@
 }
 .ml-predict-dashboard .dp-risk-pill {
   display: inline-block;
-  font-family: var(--font-mono); font-size: 9px;
+  font-family: var(--font-mono); font-size: var(--text-2xs);
   padding: 2px 8px; border-radius: 2px;
   margin-top: 6px;
 }
@@ -127,7 +127,7 @@
   box-shadow: 0 0 10px rgba(63,185,80,.38);
 }
 .ml-predict-dashboard .dp-bar-ticks { display: flex; justify-content: space-between; margin-top: 4px; }
-.ml-predict-dashboard .dp-bar-ticks span { font-family: var(--font-mono); font-size: 9px; color: var(--text-dim); }
+.ml-predict-dashboard .dp-bar-ticks span { font-family: var(--font-mono); font-size: var(--text-2xs); color: var(--text-dim); }
 
 /* ─── Stats row ─── */
 .ml-predict-dashboard .dp-stats {
@@ -138,9 +138,9 @@
   border: 1px solid var(--border);
   border-radius: 4px; padding: 14px 16px;
 }
-.ml-predict-dashboard .dp-stat-label { font-size: 9px; color: var(--text-sec); letter-spacing: .1em; text-transform: uppercase; margin-bottom: 6px; }
+.ml-predict-dashboard .dp-stat-label { font-size: var(--text-2xs); color: var(--text-sec); letter-spacing: .1em; text-transform: uppercase; margin-bottom: 6px; }
 .ml-predict-dashboard .dp-stat-value { font-family: var(--font-mono); font-size: 20px; font-weight: 600; color: var(--text-primary); }
-.ml-predict-dashboard .dp-stat-sub { font-size: 9px; color: var(--text-dim); margin-top: 3px; font-family: var(--font-mono); }
+.ml-predict-dashboard .dp-stat-sub { font-size: var(--text-2xs); color: var(--text-dim); margin-top: 3px; font-family: var(--font-mono); }
 
 /* ─── Dashboard grid ─── */
 .ml-predict-dashboard .dp-grid {
@@ -165,7 +165,7 @@
   background: var(--bg-card);
 }
 .ml-predict-dashboard .dp-panel-title {
-  font-size: 9px; font-weight: 600; letter-spacing: .15em;
+  font-size: var(--text-2xs); font-weight: 600; letter-spacing: .15em;
   text-transform: uppercase; color: var(--text-sec);
   display: flex; align-items: center; gap: 6px;
 }
@@ -176,7 +176,7 @@
 }
 .ml-predict-dashboard .dp-panel-body { padding: 16px; }
 .ml-predict-dashboard .dp-panel-badge {
-  font-family: var(--font-mono); font-size: 9px;
+  font-family: var(--font-mono); font-size: var(--text-2xs);
   padding: 2px 6px; border-radius: 2px;
 }
 .ml-predict-dashboard .dp-badge-green { background: var(--ok-bg); color: var(--accent-green); border: 1px solid var(--ok-border); }
@@ -201,13 +201,13 @@
 .ml-predict-dashboard .dp-dot-neu { background: var(--text-dim); }
 .ml-predict-dashboard .dp-dot-pos { background: var(--accent-cyan); box-shadow: 0 0 5px var(--accent-cyan); }
 .ml-predict-dashboard .dp-feat-header { display: grid; grid-template-columns: 120px 1fr 64px 32px; gap: 10px; margin-bottom: 3px; }
-.ml-predict-dashboard .dp-feat-header span { font-size: 8px; letter-spacing: .1em; text-transform: uppercase; color: var(--text-dim); }
+.ml-predict-dashboard .dp-feat-header span { font-size: var(--text-2xs); letter-spacing: .1em; text-transform: uppercase; color: var(--text-dim); }
 .ml-predict-dashboard .dp-feat-header span:nth-child(3) { text-align: right; }
 
 /* ─── Factors ─── */
 .ml-predict-dashboard .dp-factors { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
 .ml-predict-dashboard .dp-factor-group { background: var(--bg-card); border: 1px solid var(--border); border-radius: 4px; padding: 14px; }
-.ml-predict-dashboard .dp-factor-title { font-size: 9px; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; margin-bottom: 10px; display: flex; align-items: center; gap: 5px; }
+.ml-predict-dashboard .dp-factor-title { font-size: var(--text-2xs); font-weight: 600; letter-spacing: .12em; text-transform: uppercase; margin-bottom: 10px; display: flex; align-items: center; gap: 5px; }
 .ml-predict-dashboard .dp-factor-item {
   display: flex; justify-content: space-between; align-items: flex-start;
   padding: 6px 0; border-bottom: 1px solid var(--border);
@@ -215,14 +215,14 @@
 }
 .ml-predict-dashboard .dp-factor-item:last-child { border-bottom: none; padding-bottom: 0; }
 .ml-predict-dashboard .dp-factor-name { color: var(--text-primary); font-family: var(--font-mono); }
-.ml-predict-dashboard .dp-factor-detail { color: var(--text-sec); font-size: 9px; margin-top: 1px; }
+.ml-predict-dashboard .dp-factor-detail { color: var(--text-sec); font-size: var(--text-2xs); margin-top: 1px; }
 .ml-predict-dashboard .dp-factor-impact { font-family: var(--font-mono); font-size: 10px; font-weight: 500; text-align: right; }
 .ml-predict-dashboard .dp-impact-neg { color: var(--accent-red); }
 .ml-predict-dashboard .dp-impact-pos { color: var(--accent-green); }
 
 /* ─── Comparison table ─── */
 .ml-predict-dashboard .dp-comp-table { width: 100%; border-collapse: collapse; }
-.ml-predict-dashboard .dp-comp-table th { font-size: 8px; letter-spacing: .12em; text-transform: uppercase; color: var(--text-dim); padding: 0 0 8px; text-align: left; border-bottom: 1px solid var(--border); }
+.ml-predict-dashboard .dp-comp-table th { font-size: var(--text-2xs); letter-spacing: .12em; text-transform: uppercase; color: var(--text-dim); padding: 0 0 8px; text-align: left; border-bottom: 1px solid var(--border); }
 .ml-predict-dashboard .dp-comp-table th:not(:first-child) { text-align: right; }
 .ml-predict-dashboard .dp-comp-table td { padding: 6px 0; border-bottom: 1px solid var(--border); font-family: var(--font-mono); font-size: 10px; vertical-align: middle; }
 .ml-predict-dashboard .dp-comp-table td:not(:first-child) { text-align: right; }
@@ -238,7 +238,7 @@
 .ml-predict-dashboard .dp-gauge-svg { width: 140px; height: 80px; }
 .ml-predict-dashboard .dp-gauge-val { text-align: center; margin-top: -4px; }
 .ml-predict-dashboard .dp-gauge-num { font-family: var(--font-mono); font-size: 24px; font-weight: 600; color: var(--accent-green); text-shadow: var(--green-glow); }
-.ml-predict-dashboard .dp-gauge-sub { font-size: 9px; color: var(--text-sec); letter-spacing: .1em; margin-top: 1px; }
+.ml-predict-dashboard .dp-gauge-sub { font-size: var(--text-2xs); color: var(--text-sec); letter-spacing: .1em; margin-top: 1px; }
 
 /* ─── Distribution bars ─── */
 .ml-predict-dashboard .dp-dist-list { display: flex; flex-direction: column; gap: 8px; }
@@ -275,7 +275,7 @@
   background: var(--bg-card); border: 1px solid var(--border);
   border-radius: 3px; font-size: 10px; color: var(--text-primary);
 }
-.ml-predict-dashboard .dp-action-num { font-family: var(--font-mono); font-size: 9px; color: var(--accent-green); font-weight: 600; min-width: 14px; }
+.ml-predict-dashboard .dp-action-num { font-family: var(--font-mono); font-size: var(--text-2xs); color: var(--accent-green); font-weight: 600; min-width: 14px; }
 
 /* ─── Anomaly banner ─── */
 .ml-predict-dashboard .dp-anomaly {
@@ -304,3 +304,27 @@
 /* ─── Additional predictions ─── */
 .ml-predict-dashboard .dp-more-pred { margin-top: 14px; }
 .ml-predict-dashboard .dp-more-pred summary { cursor: pointer; font-size: 11px; color: var(--text-sec); padding: 8px 12px; background: var(--bg-card); border: 1px solid var(--border); border-radius: 4px; }
+
+/* P1-C: el dashboard apila sidebar, veredicto, stats y factores en pantallas chicas. */
+@media (max-width: 1100px) {
+  .ml-predict-dashboard .dp-grid { grid-template-columns: 1fr; }
+  .ml-predict-dashboard .dp-sidebar { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
+}
+@media (max-width: 760px) {
+  .ml-predict-dashboard .dp-header { flex-direction: column; align-items: flex-start; gap: 8px; }
+  .ml-predict-dashboard .dp-header-meta { flex-wrap: wrap; gap: 6px 16px; }
+  .ml-predict-dashboard .dp-verdict { grid-template-columns: auto 1fr; gap: 12px; padding: 16px; }
+  .ml-predict-dashboard .dp-verdict::after { width: 100%; }
+  .ml-predict-dashboard .dp-stats { grid-template-columns: repeat(2, 1fr); }
+  .ml-predict-dashboard .dp-factors { grid-template-columns: 1fr; }
+  .ml-predict-dashboard .dp-feat-row,
+  .ml-predict-dashboard .dp-feat-header { grid-template-columns: 90px 1fr 48px 24px; gap: 6px; }
+}
+@media (max-width: 520px) {
+  .ml-predict-dashboard .dp-verdict { grid-template-columns: 1fr; }
+  .ml-predict-dashboard .dp-conf-block,
+  .ml-predict-dashboard .dp-margin-block { text-align: left; }
+  .ml-predict-dashboard .dp-feat-row,
+  .ml-predict-dashboard .dp-feat-header { grid-template-columns: 80px 1fr 44px 20px; }
+  .ml-predict-dashboard .dp-panel-body { padding: 12px; }
+}

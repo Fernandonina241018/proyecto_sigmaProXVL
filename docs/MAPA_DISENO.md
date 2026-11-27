@@ -1,7 +1,7 @@
 # Mapa de diseño — StatAnalyzer Pro
 
 Estado del sistema visual y reglas para que los módulos se vean iguales sin romper
-comportamientos. Última actualización: 2026-11-27 (P1-A/P1-B, registro de páginas y tokens).
+comportamientos. Última actualización: 2026-11-27 (P1-A/P1-B/P1-C).
 
 ## 1. Tokens (fuente única)
 
@@ -104,10 +104,36 @@ Estados iniciales: Trabajo solo "Hoja de Trabajo" colapsada; Reportes solo
 - Reduced motion: guard global para animaciones sin regla propia (`page-card`, `metric-card`, `list-item`, dropdowns, toasts).
 - Zoom propio retirado (`body.zoom`, menú y funciones); queda el zoom del navegador.
 
-## 8. Pendiente (fases futuras)
+## 8. Legibilidad y responsive (P1-C, 2026-11-27)
 
+- Legibilidad: los 8/9px del shell, perfil y dashboard ML pasan a `--text-2xs` (10px). Los labels de 10px/10.5px se mantienen por densidad.
+- Dispositivos: grilla de una columna por debajo de 600px; cards y huellas se ajustan.
+- ML: el dashboard apila `dp-grid`/sidebar en ≤1100, veredicto y stats en ≤760, y veredicto/factores/features en ≤520.
+- Tabs: retirado el `+` (`#tabNew`); creaba una pestaña “Untitled” sin página. Las pestañas se crean al navegar. Los botones “Nueva hoja” del spreadsheet no se tocaron: crean hoja con grilla.
+
+## 9. Módulos fuera del shell
+
+### Auth v2
+
+- Entrada `#auth-overlay.auth-v2` (`js/core/auth.js`) y `css/core/auth-v2.css`; no comparte el layout de dos paneles.
+- Alias `--av2-*` sobre los tokens globales; login, 2FA y passkeys; toggle claro/oscuro; `role=dialog`/`aria-modal`; foco visible con el acento.
+
+### Validaciones v7
+
+- Entrada `#validaciones-app` (`js/core/indexx-validaciones.js`), `css/validaciones-v7.css` + `validaciones-dashboard.css`.
+- Alias `--v7-*`; router por hash (`#/banco`, `#/protocolos`, `#/generador`, etc.); skip link, `<main>`, `<nav>`, `inert` y `aria-current`; responsive propio a 760px; solo admin.
+
+### Perfil y passkeys
+
+- `showPerfilModal()` en `js/core/indexx-ui.js`, `css/core/perfil-modal.css`.
+- Muesca bajo el titlebar; cambio de tema; cambio de módulo Estadística/Validaciones; passkeys y logout; `a11yModal()`/`trapFocus()` para el foco.
+
+## 10. Pendiente (fases futuras)
+
+- Consolidación visual de componentes: `.viz-card`/`.side-card`, patrones de modal, tres navegaciones y emoji vs SVG.
+- Revisar si los labels de 10px/10.5px suben a 11px en el shell.
+- E2E móvil dedicado (hoy el límite de login 20/15m deja poco margen).
 - **F3 · EDA**: quitar gradiente del header, superficies `--surface-2`, iconos SVG.
-- **F4 · Modelo/ML**: sustituir hex por tokens, panel con `.side-card`, migrar
-  `.viz-card` a alias de `.side-card` y normalizar radios/sombras.
+- **F4 · Modelo/ML**: sustituir hex por tokens, panel con `.side-card`, migrar `.viz-card` a alias de `.side-card` y normalizar radios/sombras.
 
 Cada fase va en commit propio y con `npx vitest run` + `backend npm test` verdes.

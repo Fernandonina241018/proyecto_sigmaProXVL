@@ -164,7 +164,7 @@
 }
 .perfil-section-title {
   margin: 0 0 7px;
-  font-size: 9px;
+  font-size: var(--text-2xs);
   font-weight: 850;
   letter-spacing: .13em;
   text-transform: uppercase;
@@ -432,7 +432,7 @@
   .perfil-hero h2 { font-size: 15px; }
   .perfil-hero p { font-size: 11px; margin-top: 1px; }
   .perfil-chips { justify-content: flex-start; margin-top: 5px; gap: 5px; }
-  .perfil-chip { font-size: 9px; padding: 2px 8px; }
+  .perfil-chip { font-size: var(--text-2xs); padding: 2px 8px; }
   .perfil-host { display: none; }
   .perfil-main { padding: 14px 16px; gap: 10px; }
   .perfil-duo { grid-template-columns: 1fr; gap: 10px; }
