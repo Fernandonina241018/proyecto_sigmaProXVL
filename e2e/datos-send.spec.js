@@ -49,5 +49,35 @@ test('cargar CSV y enviarlo a Hoja de Trabajo con el botón Trabajo', async ({ p
   await expect(page.locator('#trabajoTable thead')).toContainText('Grupo');
   await expect(page.locator('body')).toContainText('4 filas');
 
+  // P0 a11y: reutiliza este login para no agotar el rate limit (20/15 min).
+  await page.click('.snav-card[data-page="datos"]');
+  await expect(page.locator('main#panesContainer')).toHaveCount(1);
+  await expect(page.locator('nav[aria-label="Módulos"]')).toHaveCount(1);
+  await expect(page.locator('.snav-card[data-page="datos"]')).toHaveAttribute('aria-current', 'page');
+
+  await page.locator('.skip-link').focus();
+  await expect(page.locator('.skip-link')).toBeFocused();
+  await page.keyboard.press('Enter');
+  await expect(page.locator('#rightPaneTitle')).toBeFocused();
+  await expect(page.locator('#rightPaneTitle')).toHaveText('Gestión de Datos');
+
+  const trabajoTab = page.locator('[data-page-tab="trabajo"]');
+  await trabajoTab.focus();
+  await page.keyboard.press('Enter');
+  await expect(page.locator('#rightPaneTitle')).toHaveText('Hoja de Trabajo');
+  await expect(trabajoTab).toHaveAttribute('aria-selected', 'true');
+  await page.keyboard.press('Delete');
+  await expect(page.locator('[data-page-tab="trabajo"]')).toHaveCount(0);
+  await expect(page.locator('#rightPaneTitle')).toHaveText('Gestión de Datos');
+  await expect(page.locator('[data-page-tab="datos"]')).toBeFocused();
+
+  await page.locator('[data-act="pegar"]').click();
+  const dialog = page.locator('.modal-box[role="dialog"]');
+  await expect(dialog).toBeVisible();
+  await expect(dialog).toBeFocused();
+  await page.keyboard.press('Escape');
+  await expect(dialog).toHaveCount(0);
+  await expect(page.locator('[data-act="pegar"]')).toBeFocused();
+
   expect(fatales).toEqual([]);
 });

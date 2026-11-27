@@ -90,6 +90,19 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (StatAnalyzer Pro) co
 
 ## CAMBIOS RECIENTES
 
+### 2026-11-26 (359): P0 accesibilidad — shell semántico, teclado y foco en modales
+
+**Qué:** segunda tanda de P0 (semántica, teclado y diálogos).
+- Shell: sidebar `<aside>`, navegación `<nav>`, panes `<main>` y títulos `h1/h2`; skip link a `#rightPaneTitle`; `aria-current` en nav y tabs.
+- Teclado: tabs (Enter/Espacio, Supr para cerrar), dots del workflow, ribbon, footer y `tabNew`; `focus-visible` con `--focus-ring`.
+- Modales: helper `a11yModal()` en `indexx-ui.js` (role/aria-modal, nombre desde el título, foco inicial, Tab atrapado, Escape y retorno de foco) aplicado a análisis, datos, viz, firma, ayuda/configuración y `showModalRaw`; límites con trap/restore manual.
+- `trapFocus()` ahora funciona también en contenedores que no son `.modal-overlay` (ayuda, configuración, límites).
+- Test: las comprobaciones de skip link, tabs y modal se integran en `e2e/datos-send.spec.js` para no agregar logins ni agotar el rate limit (20/15 min).
+
+**Archivos:** `indexx.html`, `css/core/indexx.css`, `js/core/indexx-ui.js`, `js/core/indexx-trabajo.js`, `js/core/indexx-datos.js`, `js/core/indexx-analysis.js`, `js/core/indexx-viz.js`, `js/core/indexx-firma.js`, `js/core/indexx-palette.js`, `e2e/datos-send.spec.js`, `docs/MAPA_DISENO.md`, `ESTADO_PROYECTO.md`.
+
+**Verificación:** `npm run preflight` OK (vitest 1287, backend 154, E2E 16).
+
 ### 2026-11-26 (358): P0 diseño — marca azul, foco accesible y chrome muerto
 
 **Qué:** primera tanda de P0 (visual/coherencia).

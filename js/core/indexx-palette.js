@@ -56,7 +56,9 @@ function showModalRaw(html) {
     var temp = document.createElement('div');
     temp.innerHTML = html;
     while (temp.firstChild) {
-        document.body.appendChild(temp.firstChild);
+        var node = temp.firstChild;
+        document.body.appendChild(node);
+        if (node.classList && node.classList.contains('modal-overlay') && typeof a11yModal === 'function') a11yModal(node);
     }
 }
 

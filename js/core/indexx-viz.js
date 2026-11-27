@@ -1886,6 +1886,7 @@ function showBatchGraphModal() {
     '</div>' +
   '</div>';
   document.body.appendChild(modal);
+  if (typeof a11yModal === 'function') a11yModal(modal);
 
   var selected = new Set();
   var MAX = 12;

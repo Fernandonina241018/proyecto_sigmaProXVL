@@ -281,9 +281,11 @@ window.mountPerfilNotch = mountPerfilNotch;
 function trapFocus(container) {
   function onTab(e) {
     if (e.key !== 'Tab') return;
-    var own = container.closest('.modal-overlay') || container;
-    var all = document.querySelectorAll('.modal-overlay');
-    if (!own.isConnected || all[all.length - 1] !== own) return; // hay otro modal encima
+    var own = container.closest('.modal-overlay');
+    if (own) {
+      var all = document.querySelectorAll('.modal-overlay');
+      if (!own.isConnected || all[all.length - 1] !== own) return; // hay otro modal encima
+    } else if (!container.isConnected) return;
     var f = container.querySelectorAll('button:not([disabled]), [href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])');
     if (!f.length) return;
     var first = f[0], last = f[f.length - 1], a = document.activeElement;
@@ -294,6 +296,50 @@ function trapFocus(container) {
   document.addEventListener('keydown', onTab);
   return function () { document.removeEventListener('keydown', onTab); };
 }
+
+// Diálogos creados con innerHTML: nombre accesible, foco inicial, Escape y Tab atrapado.
+function a11yModal(modal) {
+  if (!modal || modal.getAttribute('data-a11y') === '1') return modal;
+  modal.setAttribute('data-a11y', '1');
+  var box = modal.querySelector('.modal-box, .modal, .fbandeja-modal, .fp-panel, .perfil-modal') || modal;
+  var title = modal.querySelector('.modal-title, h1, h2');
+  if (!box.hasAttribute('role')) box.setAttribute('role', 'dialog');
+  box.setAttribute('aria-modal', 'true');
+  if (!box.hasAttribute('aria-label') && !box.hasAttribute('aria-labelledby')) {
+    var label = title && title.textContent ? title.textContent.trim() : '';
+    if (label) box.setAttribute('aria-label', label);
+  }
+  if (!box.hasAttribute('tabindex')) box.setAttribute('tabindex', '-1');
+  var untrap = typeof trapFocus === 'function' ? trapFocus(box) : null;
+  var prevFocus = document.activeElement;
+  var prevRemove = modal.remove;
+  modal.remove = function() {
+    document.removeEventListener('keydown', onKey);
+    if (untrap) untrap();
+    if (typeof prevRemove === 'function') prevRemove.call(modal);
+    try { if (prevFocus && prevFocus.focus) prevFocus.focus(); } catch (e) {}
+  };
+  function onKey(e) { if (e.key === 'Escape') modal.remove(); }
+  document.addEventListener('keydown', onKey);
+  try { box.focus(); } catch (e) {}
+  return modal;
+}
+
+// El foco explícito evita diferencias entre navegadores al saltar por ancla.
+document.querySelector('.skip-link')?.addEventListener('click', function(e) {
+  e.preventDefault();
+  var t = document.getElementById('rightPaneTitle');
+  if (t) t.focus();
+});
+
+// Activa controles no nativos con role=button/tab (Enter/Espacio).
+document.addEventListener('keydown', function(e) {
+  if (e.key !== 'Enter' && e.key !== ' ') return;
+  var el = e.target && e.target.closest ? e.target.closest('[role="button"][tabindex="0"], [role="tab"][tabindex="0"]') : null;
+  if (!el) return;
+  e.preventDefault();
+  el.click();
+});
 
 function showPerfilModal() {
   var session = typeof Auth !== 'undefined' ? Auth.getSession() : null;
@@ -663,7 +709,17 @@ function renderPerfilSimple(box, session, opts) {
 
 // ── Tab management ──
 var tabbar = document.getElementById('tabbar');
-function makeTabActive(tab) { document.querySelectorAll('.tab').forEach(function(t){ t.classList.remove('active'); }); tab.classList.add('active'); }
+function makeTabActive(tab) {
+  document.querySelectorAll('.tab').forEach(function(t){ t.classList.remove('active'); t.setAttribute('aria-selected','false'); });
+  tab.classList.add('active');
+  tab.setAttribute('aria-selected','true');
+}
+function initTabEl(t) {
+  t.setAttribute('role','tab');
+  t.setAttribute('tabindex','0');
+  t.setAttribute('aria-selected','false');
+  t.addEventListener('keydown', function(e){ if (e.key === 'Delete') { e.preventDefault(); closeTab(t, e); } });
+}
 function closeTab(tabEl, e) {
   if (e) e.stopPropagation();
   var allTabs = document.querySelectorAll('.tab');
@@ -685,13 +741,14 @@ function closeTab(tabEl, e) {
   }
   if (!nextTab) nextTab = remaining[0];
   makeTabActive(nextTab);
+  if (typeof nextTab.focus === 'function') nextTab.focus();
   var nextPage = nextTab.dataset.pageTab;
   if (nextPage) loadPage(nextPage);
 }
 document.getElementById('tabNew').addEventListener('click', function() {
   var t = document.createElement('div'); t.className = 'tab';
-  t.innerHTML = '<span class="tab-icon">📄</span> Untitled <span class="tab-close">×</span>';
-  tabbar.insertBefore(t, document.querySelector('.tabbar-spacer')); makeTabActive(t);
+  t.innerHTML = '<span class="tab-icon" aria-hidden="true">📄</span> Untitled <span class="tab-close" aria-hidden="true">×</span>';
+  tabbar.insertBefore(t, document.querySelector('.tabbar-spacer')); initTabEl(t); makeTabActive(t); t.focus();
   t.querySelector('.tab-close').addEventListener('click', function(e){ closeTab(t, e); });
   t.addEventListener('click', function(e){ if (!e.target.classList.contains('tab-close')) makeTabActive(t); });
 });
@@ -1406,14 +1463,15 @@ function loadPage(name, _retry) {
     return;
   }
   currentPage = name;
-  document.querySelectorAll('.snav-card').forEach(function(n){ n.classList.remove('active'); });
+  document.querySelectorAll('.snav-card').forEach(function(n){ n.classList.remove('active'); n.removeAttribute('aria-current'); });
   var navEl = document.querySelector('[data-page="' + name + '"]');
-  if (navEl) navEl.classList.add('active');
+  if (navEl) { navEl.classList.add('active'); navEl.setAttribute('aria-current', 'page'); }
   var pageTab = tabbar.querySelector('[data-page-tab="' + name + '"]');
   if (!pageTab) {
     pageTab = document.createElement('div'); pageTab.className = 'tab'; pageTab.dataset.pageTab = name;
-    pageTab.innerHTML = '<span class="tab-icon">' + pageIcons[name] + '</span> ' + pageTitles[name] + ' <span class="tab-close">×</span>';
+    pageTab.innerHTML = '<span class="tab-icon" aria-hidden="true">' + pageIcons[name] + '</span> ' + pageTitles[name] + ' <span class="tab-close" aria-hidden="true">×</span>';
     tabbar.insertBefore(pageTab, tabbar.querySelector('.tabbar-spacer'));
+    initTabEl(pageTab);
     pageTab.querySelector('.tab-close').addEventListener('click', function(e){ closeTab(pageTab, e); });
     pageTab.addEventListener('click', function(e){ if (!e.target.classList.contains('tab-close')) { makeTabActive(pageTab); try{loadPage(name)}catch(ex){showToast('Error: '+ex.message,1)} } });
   }
@@ -1509,6 +1567,10 @@ function buildRibbonNavPopup() {
     var label = pageTitles[page] || page;
     var el = document.createElement('div');
     el.className = 'ribbon-nav-item' + (currentPage === page ? ' active' : '');
+    el.setAttribute('role', 'button');
+    el.setAttribute('tabindex', '0');
+    el.setAttribute('aria-label', label);
+    if (currentPage === page) el.setAttribute('aria-current', 'page');
     el.innerHTML = '<span>' + icon + '</span> <span>' + label + '</span>';
     el.addEventListener('click', function() {
       loadPage(page);
@@ -1522,6 +1584,8 @@ function updateRibbonNavPopup() {
   document.querySelectorAll('.ribbon-nav-item').forEach(function(el, i) {
     var pages = Object.keys(pageIcons);
     el.classList.toggle('active', pages[i] === currentPage);
+    if (pages[i] === currentPage) el.setAttribute('aria-current', 'page');
+    else el.removeAttribute('aria-current');
   });
 }
 
@@ -1597,6 +1661,10 @@ function updateBottomNav(name) {
       else if (i < idx) dot.classList.add('done');
     }
     dot.title = page.name;
+    dot.setAttribute('role', 'button');
+    dot.setAttribute('tabindex', '0');
+    dot.setAttribute('aria-label', 'Ir a ' + page.name);
+    if (isWorkflowPage && i === idx) dot.setAttribute('aria-current', 'step');
     dot.addEventListener('click', function() { loadPage(page.id); });
     dotsEl.appendChild(dot);
   });

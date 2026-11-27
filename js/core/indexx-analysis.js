@@ -501,6 +501,7 @@ function _mostrarModalConfigTest(nombre, callback, existingConfig) {
       '</div>' +
     '</div>';
   document.body.appendChild(modal);
+  if (typeof a11yModal === 'function') a11yModal(modal);
   if (existingConfig) {
     var _sv = function(id, val) { if (val != null) { var e = document.getElementById(id); if (e) e.value = val; } };
     var _idMap = {
@@ -684,6 +685,7 @@ function _mostrarModalParamConfig(nombre, callback, existingConfig) {
       '</div>' +
     '</div>';
   document.body.appendChild(modal);
+  if (typeof a11yModal === 'function') a11yModal(modal);
   if (existingConfig) {
     if (multi && Array.isArray(existingConfig.columnas)) {
       existingConfig.columnas.forEach(function(c) { var chk = document.querySelector('.cfg-col-chk[value="' + c.replace(/"/g,'&quot;') + '"]'); if (chk) chk.checked = true; });
