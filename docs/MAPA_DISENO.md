@@ -1,7 +1,7 @@
 # Mapa de diseño — StatAnalyzer Pro
 
 Estado del sistema visual y reglas para que los módulos se vean iguales sin romper
-comportamientos. Última actualización: 2026-11-27 (P1-A, registro de páginas).
+comportamientos. Última actualización: 2026-11-27 (P1-A/P1-B, registro de páginas y tokens).
 
 ## 1. Tokens (fuente única)
 
@@ -19,6 +19,10 @@ comportamientos. Última actualización: 2026-11-27 (P1-A, registro de páginas)
 | Sombras | `--shadow-sm`, `--shadow-md`, `--shadow-lg` |
 | Iconos | `--icon-stroke: 1.8` |
 | Foco | `--focus-ring` (alias de `--accent`, contraste ≥3:1 en ambos temas) |
+| Tipografía | `--text-2xs 10`, `--text-xs 11`, `--text-sm 12`, `--text-base 13`, `--text-md 14`, `--text-lg 16` |
+| Capas | `--z-toast 99999`, `--z-skip 100000` |
+| Motion | `--motion-fast .15s`, `--motion-base .22s`, `--ease-standard` |
+| Breakpoints | 640/768/1024/1100 documentados; CSS no permite `var()` en `@media` |
 
 Regla: **no introducir hex nuevos**; si falta un color, se añade token.
 
@@ -92,7 +96,15 @@ Estados iniciales: Trabajo solo "Hoja de Trabajo" colapsada; Reportes solo
 - Los renderers `leftPanels`/`rightPanels` siguen en `indexx-ui.js`; `tests/pages-registry.test.js` vigila ids, metadatos, workflow, lazy y permisos.
 - Agregar una página = una entrada en `pages.js` + su renderer. No hay que tocar nav, iconos, títulos, permisos ni workflow.
 
-## 7. Pendiente (fases futuras)
+## 7. Tokens y tema (P1-B, 2026-11-27)
+
+- Tokens usables: tipografía, `--z-toast`/`--z-skip` y `--motion-*`/`--ease-standard`; aplicados al skip link, toast, sidebar y título de panel. Sin migración masiva de los hex/inline styles existentes.
+- Breakpoints canónicos 640/768/1024/1100 documentados; no se crean variables CSS porque `@media` no las acepta.
+- Tema: si no hay `theme` guardado, se respeta `prefers-color-scheme`; la elección del sistema no se persiste. El toggle manual sí persiste.
+- Reduced motion: guard global para animaciones sin regla propia (`page-card`, `metric-card`, `list-item`, dropdowns, toasts).
+- Zoom propio retirado (`body.zoom`, menú y funciones); queda el zoom del navegador.
+
+## 8. Pendiente (fases futuras)
 
 - **F3 · EDA**: quitar gradiente del header, superficies `--surface-2`, iconos SVG.
 - **F4 · Modelo/ML**: sustituir hex por tokens, panel con `.side-card`, migrar

@@ -90,6 +90,19 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (StatAnalyzer Pro) co
 
 ## CAMBIOS RECIENTES
 
+### 2026-11-27 (361): P1-B — tokens, tema del sistema y reduced motion
+
+**Qué:** segunda tanda de P1.
+- Tokens usables: tipografía (`--text-*`), capas (`--z-toast`, `--z-skip`) y motion (`--motion-*`, `--ease-standard`), aplicados a skip link, toast, sidebar y título de panel. Breakpoints 640/768/1024/1100 documentados; sin variables CSS en `@media`.
+- Tema: si no hay `theme` guardado se respeta `prefers-color-scheme`; la elección del sistema no se persiste. El toggle manual sigue persistiendo.
+- Reduced motion: guard global para animaciones que no tenían regla propia.
+- Zoom propio retirado (`body.zoom`, ítems del menú y funciones); queda el zoom del navegador.
+- Playwright fija `colorScheme: 'dark'` para preservar los E2E; nuevo `e2e/theme-system.spec.js` (2 tests, sin login).
+
+**Archivos:** `css/core/indexx.css`, `indexx.html`, `js/core/indexx-ui.js`, `playwright.config.js`, `e2e/theme-system.spec.js` (nuevo), `docs/MAPA_DISENO.md`, `ESTADO_PROYECTO.md`.
+
+**Verificación:** `npm run preflight` OK (vitest **1290**, backend **154**, E2E **18**); theme-system 2/2 + tema de login-v2 1/1.
+
 ### 2026-11-27 (360): P1-A — registro único de páginas
 
 **Qué:** se elimina la duplicación de metadatos de página en 9–10 lugares.

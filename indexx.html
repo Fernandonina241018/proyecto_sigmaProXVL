@@ -86,11 +86,6 @@
         <div class="dd-item" role="menuitem" onclick="loadPage('visualizacion')">Gráficos <span class="dd-shortcut">⌘ ⇧ G</span></div>
         <div class="dd-separator"></div>
         <div class="dd-item" role="menuitem" onclick="loadPage('trabajo')">Vista datos <span class="dd-shortcut">⌘ E</span></div>
-        <div class="dd-separator"></div>
-        <div class="dd-item" role="menuitem" onclick="zoomIn()">Zoom In <span class="dd-shortcut">⌘ +</span></div>
-        <div class="dd-item" role="menuitem" onclick="zoomOut()">Zoom Out <span class="dd-shortcut">⌘ −</span></div>
-        <div class="dd-separator"></div>
-        <div class="dd-item" style="font-size:11px;color:var(--text-faint);cursor:default;justify-content:center;pointer-events:none" id="zoomLabel">Zoom: <span id="zoomValue">100</span>%</div>
       </div>
     </div>
     <div class="menu-item" data-menu="Navigate" data-submenu="Statistical Analysis" role="menuitem" tabindex="0">Statistical Analysis
@@ -400,14 +395,21 @@ loadList(files, 0, function() { window.__sigmaCoreReady = true; });
 <script>
 (function(){
 var t=document.getElementById('themeToggle'),d=document.documentElement,s=localStorage.getItem('theme');
-function applyTheme(isLight){
-if(isLight){d.setAttribute('data-theme','light');localStorage.setItem('theme','light');if(t)t.textContent='☀️'
+function applyTheme(isLight,persist){
+if(isLight){d.setAttribute('data-theme','light');if(persist!==false)localStorage.setItem('theme','light');if(t)t.textContent='☀️'
 if(typeof Chart!=='undefined'){Chart.defaults.color='#59636e';Chart.defaults.plugins.legend.labels.color='#59636e';Chart.defaults.plugins.title.color='#1f2328'}}
-else{d.removeAttribute('data-theme');localStorage.setItem('theme','dark');if(t)t.textContent='🌙'
+else{d.removeAttribute('data-theme');if(persist!==false)localStorage.setItem('theme','dark');if(t)t.textContent='🌙'
 if(typeof Chart!=='undefined'){Chart.defaults.color='#9aa4b2';Chart.defaults.plugins.legend.labels.color='#9aa4b2';Chart.defaults.plugins.title.color='#e6edf3'}}
 }
 window.__sigmaApplyTheme = applyTheme;
-if(s==='light')applyTheme(true);
+if(s==='light'||s==='dark'){applyTheme(s==='light',false)}
+else if(window.matchMedia&&window.matchMedia('(prefers-color-scheme: light)').matches){applyTheme(true,false)}
+if(window.matchMedia){
+var mq=window.matchMedia('(prefers-color-scheme: light)');
+var onScheme=function(e){if(!localStorage.getItem('theme'))applyTheme(e.matches,false)};
+if(mq.addEventListener)mq.addEventListener('change',onScheme);
+else if(mq.addListener)mq.addListener(onScheme);
+}
 if(t)t.addEventListener('click',function(){var isLight=d.getAttribute('data-theme')==='light';applyTheme(!isLight)})
 })()
 </script>
