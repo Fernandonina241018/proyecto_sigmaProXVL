@@ -308,3 +308,55 @@ describe('analyzeColumns', () => {
     expect(textCol.viable).toBe(false);
   });
 });
+
+describe('numericColumnsForAnalysis (P1 estadística)', () => {
+  const data = {
+    headers: ['nums', 'mix', 'text', 'Row'],
+    data: [
+      ['1', '1', 'a', '1'],
+      ['2', '2', 'b', '2'],
+      ['3', '3', 'c', '3'],
+      ['4', 'x', 'd', '4'],
+      ['5', 'y', 'e', '5'],
+    ],
+  };
+
+  test('aplica el umbral configurado y excluye índices', () => {
+    expect(S.numericColumnsForAnalysis(data, { threshold: 0.5 })).toContain('mix');
+    expect(S.numericColumnsForAnalysis(data, { threshold: 0.8 })).not.toContain('mix');
+    expect(S.numericColumnsForAnalysis(data, { threshold: 0.5 })).not.toContain('Row');
+  });
+
+  test('forceInclude incluye mixtas con al menos un número y respeta exclusiones', () => {
+    const cols = S.numericColumnsForAnalysis(data, { forceInclude: true, excludeColumns: ['text'] });
+    expect(cols).toContain('mix');
+    expect(cols).not.toContain('text');
+    expect(cols).not.toContain('Row');
+  });
+});
+
+describe('resumirResultado (P1 estadística)', () => {
+  test('respeta la decisión del motor aunque el p-valor sea menor que 0.05', () => {
+    const r = S.resumirResultado({ valorP: 0.03, significativo: false }, 0.01);
+    expect(r.pValue).toBe(0.03);
+    expect(r.significativo).toBe(false);
+    expect(r.alfa).toBe(0.01);
+  });
+
+  test('usa alfa cuando el resultado no trae significativo', () => {
+    expect(S.resumirResultado({ prueba: { pValue: 0.03 } }, 0.05).significativo).toBe(true);
+    expect(S.resumirResultado({ prueba: { pValue: 0.03 } }, 0.01).significativo).toBe(false);
+  });
+
+  test('un true anidado gana sobre un false contenedor', () => {
+    const r = S.resumirResultado({ significativo: false, prueba: { valorP: 0.03, significativo: true } }, 0.01);
+    expect(r.pValue).toBe(0.03);
+    expect(r.significativo).toBe(true);
+  });
+
+  test('sin p ni significativo devuelve null', () => {
+    const r = S.resumirResultado({}, 0.05);
+    expect(r.pValue).toBeNull();
+    expect(r.significativo).toBeNull();
+  });
+});

@@ -101,7 +101,7 @@
         var userExcludes = (typeof columnAnalysisConfig !== 'undefined' && columnAnalysisConfig.excludeColumns)
             ? columnAnalysisConfig.excludeColumns
             : [];
-        var baseExcludes = ['#', 'Row', 'row', 'INDEX', 'index', 'row_index', 'No.', 'N°'];
+        var baseExcludes = Stats.BASE_INDEX_COLUMNS || ['#', 'Row', 'row', 'INDEX', 'index', 'row_index', 'No.', 'N°'];
         var mergedExcludes = baseExcludes.concat(userExcludes);
         if (typeof columnAnalysisConfig !== 'undefined' && columnAnalysisConfig.forceInclude) {
             var info = Stats.analyzeColumns(data);

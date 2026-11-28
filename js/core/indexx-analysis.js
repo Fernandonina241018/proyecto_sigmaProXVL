@@ -7,75 +7,20 @@
 // ANALYSIS PAGE - DYNAMIC TESTS
 // ════════════════════════════════════════════════════════════════
 
-function getAnalisisTestsHTML() {
-  var testCategories = {
-    descriptiva: [
-      {id: 'media', name: '📐 Media Aritmética'},
-      {id: 'mediana', name: '📊 Mediana'},
-      {id: 'moda', name: '🎯 Moda'},
-      {id: 'varianza', name: '📈 Varianza'},
-      {id: 'desv', name: '📉 Desv. Estándar'},
-      {id: 'cv', name: '📊 Coef. Variación'},
-      {id: 'asimetria', name: '📐 Asimetría'},
-      {id: 'kurtosis', name: '🔔 Curtosis'}
-    ],
-    hipotesis: [
-      {id: 'ttest', name: '⚖️ t-Test'},
-      {id: 'ztest', name: '📐 z-Test'},
-      {id: 'ftest', name: '📊 F-Test'},
-      {id: 'chisquare', name: '📐 Chi-cuadrado'},
-      {id: 'shapiro', name: '🔔 Shapiro-Wilk'}
-    ],
-    correlacion: [
-      {id: 'pearson', name: '🔗 Pearson'},
-      {id: 'spearman', name: '📈 Spearman'},
-      {id: 'kendall', name: '📊 Kendall'}
-    ],
-    regresion: [
-      {id: 'lineal', name: '📈 Lineal Simple'},
-      {id: 'multiple', name: '📊 Regresión Múltiple'},
-      {id: 'logistica', name: '📦 Regresión Logística'}
-    ],
-    noParametricos: [
-      {id: 'mann', name: '📉 Mann-Whitney'},
-      {id: 'wilcoxon', name: '📊 Wilcoxon'},
-      {id: 'kruskal', name: '📦 Kruskal-Wallis'}
-    ],
-    multivariado: [
-      {id: 'pca', name: '📊 PCA'},
-      {id: 'cluster', name: '📈 Cluster K-Means'},
-      {id: 'lda', name: '📐 LDA'}
-    ]
-  };
-  
-  var tests = testCategories[analisisSelectedCategory] || testCategories.descriptiva;
-  var html = '';
-  tests.forEach(function(t) {
-    var isActive = analisisSelectedTest === t.id ? ' active' : '';
-    // SIN onclick — solo refleja la selección del menú superior
-    html += '<div class="info-item' + isActive + '" style="cursor:default;opacity:' + (isActive ? '1' : '0.7') + '">' + t.name + '</div>';
-  });
-  return html;
-}
-
-function selectAnalisisTest(testId) {
-  analisisSelectedTest = testId;
-  analisisResultContent = null;
-  loadPage('analisis');
-  runSingleStat(testId);
-}
-
 function updateAnalisisLastResult(result) {
   analisisLastResult = result;
   var testEl = document.getElementById('analisisLastTest');
   var pValEl = document.getElementById('analisisLastPVal');
   var decEl = document.getElementById('analisisLastDecision');
+  var alphaEl = document.getElementById('analisisLastAlpha');
   if (testEl) testEl.textContent = result.testName || '—';
-  if (pValEl) pValEl.textContent = result.pValue != null ? result.pValue.toFixed(4) : '—';
+  if (pValEl) pValEl.textContent = formatPValue(result.pValue);
+  if (alphaEl) alphaEl.textContent = result.alfa != null ? String(result.alfa) : '—';
   if (decEl) {
-    var decision = result.significativo ? 'Rechazar H₀' : 'No rechazar H₀';
+    var decision = result.significativo === true ? 'Rechazar H₀'
+      : (result.significativo === false ? 'No rechazar H₀' : '—');
     decEl.textContent = decision;
-    decEl.style.color = result.significativo ? 'var(--accent)' : 'var(--text-faint)';
+    decEl.style.color = result.significativo === true ? 'var(--accent)' : 'var(--text-faint)';
   }
 }
 
@@ -215,17 +160,43 @@ function _numeroAnalisis(v) {
   return isNaN(n) ? null : n;
 }
 
-function _detectColTypes(headers, data) {
-  var catCols = [], numCols = [];
-  headers.forEach(function(h) {
-    var n = 0, t = 0;
-    for (var i = 0; i < Math.min(data.length, 50); i++) {
-      var v = data[i][h];
-      if (v !== '' && v != null) { t++; if (_numeroAnalisis(v) !== null) n++; }
+function formatPValue(p) {
+  if (p == null || !isFinite(p)) return '—';
+  if (p < 0.0001) return '<0.0001';
+  return Number(p).toFixed(4);
+}
+
+function _analysisAlpha(nombre, saved) {
+  var a = saved && saved.nivelAlfa != null ? parseFloat(saved.nivelAlfa) : NaN;
+  if (!isFinite(a) || a <= 0 || a >= 1) {
+    a = (typeof getNivelAlfa === 'function') ? parseFloat(getNivelAlfa(nombre)) : 0.05;
+  }
+  return isFinite(a) && a > 0 && a < 1 ? a : 0.05;
+}
+
+function _numericColsForAnalysis(data) {
+  if (typeof StatsUtils !== 'undefined' && StatsUtils.numericColumnsForAnalysis) {
+    return StatsUtils.numericColumnsForAnalysis(data, (typeof columnAnalysisConfig !== 'undefined' ? columnAnalysisConfig : {}));
+  }
+  var numericCols = [];
+  for (var j = 0; j < data.headers.length; j++) {
+    var numCount = 0, total = 0;
+    for (var i = 0; i < Math.min(data.data.length, 20); i++) {
+      var val = data.data[i][data.headers[j]];
+      if (val !== '' && val != null) {
+        total++;
+        if (_numeroAnalisis(val) !== null) numCount++;
+      }
     }
-    if (t > 0 && n / t >= 0.8) numCols.push(h);
-    else catCols.push(h);
-  });
+    if (total > 0 && numCount / total >= 0.8) numericCols.push(data.headers[j]);
+  }
+  return numericCols;
+}
+
+function _detectColTypes(headers, data) {
+  var numCols = _numericColsForAnalysis({ headers: headers, data: data });
+  var numSet = new Set(numCols);
+  var catCols = headers.filter(function(h) { return !numSet.has(h); });
   return { catCols: catCols, numCols: numCols };
 }
 
@@ -754,29 +725,19 @@ function runSingleStat(nombre) {
   var cfg = getEstadisticoConfig(nombre);
   if (!cfg) { showToast('⚠️ Estadístico no encontrado: ' + nombre); return; }
 
-  var numericCols = [];
-  for (var j = 0; j < data.headers.length; j++) {
-    var numCount = 0, total = 0;
-    for (var i = 0; i < Math.min(data.data.length, 20); i++) {
-      var val = data.data[i][data.headers[j]];
-      if (val !== '' && val != null) {
-        total++;
-        if (_numeroAnalisis(val) !== null) numCount++;
-      }
-    }
-    if (total > 0 && numCount / total >= 0.8) {
-      numericCols.push(data.headers[j]);
-    }
-  }
+  var numericCols = _numericColsForAnalysis(data);
 
-  var values = [];
-  if (numericCols.length > 0) {
+  // El mínimo se valida contra la columna numérica más completa. La columna
+  // configurada la valida el motor al ejecutar.
+  var maxN = 0;
+  numericCols.forEach(function(col) {
+    var n = 0;
     data.data.forEach(function(row) {
-      var v = parseFloat(row[numericCols[0]]);
-      if (!isNaN(v) && isFinite(v)) values.push(v);
+      if (_numeroAnalisis(row[col]) !== null) n++;
     });
-  }
-  if (values.length < cfg.minMuestra) {
+    if (n > maxN) maxN = n;
+  });
+  if (maxN < cfg.minMuestra) {
     showToast('⚠️ ' + nombre + ' requiere al menos ' + cfg.minMuestra + ' observaciones');
     return;
   }
@@ -831,25 +792,22 @@ function runSingleStat(nombre) {
     StateManager.setUltimosResultados(resultados);
     captureAnalisisFocus();
 
-    var resultInfo = { testName: nombre, pValue: null, significativo: false };
     var resObj = resultados.resultados[nombre];
-    // FIX-AUDIT (A8): buscar el p-valor en cualquier nivel (antes leía la primera clave,
-    // que puede ser `prueba`), sin dejarse engañar por `prueba`.
-    var _p = null, _sig = false;
-    (function scanP(o, depth) {
-      if (!o || typeof o !== 'object' || Array.isArray(o) || depth > 3) return;
-      if (_p === null && typeof o.valorP === 'number') _p = o.valorP;
-      if (_p === null && typeof o.p === 'number') _p = o.p;
-      if (o.significativo === true) _sig = true;
-      if (_p === null) Object.keys(o).forEach(function(k) { scanP(o[k], depth + 1); });
-    })(resObj, 0);
-    resultInfo.pValue = _p;
-    resultInfo.significativo = _sig || (_p !== null && _p < 0.05);
+    var alfa = _analysisAlpha(nombre, saved);
+    var resumen = (typeof StatsUtils !== 'undefined' && StatsUtils.resumirResultado)
+      ? StatsUtils.resumirResultado(resObj, alfa)
+      : { pValue: null, significativo: null, alfa: alfa };
+    var resultInfo = {
+      testName: nombre,
+      pValue: resumen.pValue,
+      significativo: resumen.significativo,
+      alfa: resumen.alfa
+    };
     updateAnalisisLastResult(resultInfo);
     try {
       if (typeof Logger !== 'undefined') {
         Logger.log('ANALYSIS:RUN', Logger.MODULES.ANALISIS, {
-          test: nombre, n: values.length, columns: (data.headers || []).length,
+          test: nombre, n: maxN, columns: (data.headers || []).length,
           pValue: resultInfo.pValue, significativo: resultInfo.significativo
         }, { durationMs: Date.now() - _t0 });
       }
@@ -900,6 +858,7 @@ function runEDA() {
     var html = EDAManager.renderDashboard(data);
     analisisResultContent = html;
     StateManager.setUltimosResultados(EDAManager.ejecutarEDA(data));
+    updateAnalisisLastResult({ testName: 'Análisis Exploratorio (EDA)', pValue: null, significativo: null, alfa: null });
     captureAnalisisFocus();
   } catch(e) {
     console.error('EDA Error:', e);
@@ -917,20 +876,7 @@ function runBatchAnalysis() {
   var selected = getSidebarSelectedTests();
   if (selected.length === 0) { showToast('⚠️ Selecciona al menos un test'); return; }
 
-  var numericCols = [];
-  for (var j = 0; j < data.headers.length; j++) {
-    var numCount = 0, total = 0;
-    for (var i = 0; i < Math.min(data.data.length, 20); i++) {
-      var val = data.data[i][data.headers[j]];
-      if (val !== '' && val != null) {
-        total++;
-        if (_numeroAnalisis(val) !== null) numCount++;
-      }
-    }
-    if (total > 0 && numCount / total >= 0.8) {
-      numericCols.push(data.headers[j]);
-    }
-  }
+  var numericCols = _numericColsForAnalysis(data);
   if (numericCols.length === 0) {
     showToast('⚠️ No se encontraron columnas numéricas en la hoja de trabajo');
     return;
@@ -953,7 +899,7 @@ function runBatchAnalysis() {
     analisisSelectedTest = selected.join(', ');
     StateManager.setUltimosResultados(resultados);
     captureAnalisisFocus();
-    updateAnalisisLastResult({ testName: selected.length + ' tests', pValue: null, significativo: false });
+    updateAnalisisLastResult({ testName: selected.length + ' tests', pValue: null, significativo: null, alfa: null });
   } catch(e) {
     console.error('Error in batch analysis:', e);
     analisisResultContent = '<div class="page-card"><div class="page-card-body" style="padding:20px;color:#f87171"><strong>Error:</strong> ' + escapeHtml(e.message) + '</div></div>';
@@ -1160,14 +1106,6 @@ function updateBadge(seccionKey) {
 }
 
 // ── Click en el texto del subitem — ejecuta Y marca el checkbox ──
-function selectAnalisisTestDirect(testId, category) {
-  analisisSelectedCategory = category;
-  analisisSelectedTest = testId;
-  analisisResultContent = null;
-  loadPage('analisis');
-  setTimeout(function() { runSingleStat(testId); }, 50);
-}
-
 function onSubitemClick(event, nombre, seccionKey) {
   if (event.target.classList.contains('stat-check')) { return; }
 
