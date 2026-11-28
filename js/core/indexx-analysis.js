@@ -200,6 +200,31 @@ function _detectColTypes(headers, data) {
   return { catCols: catCols, numCols: numCols };
 }
 
+function _missingValues(data) {
+  var n = 0;
+  data.data.forEach(function(row) {
+    data.headers.forEach(function(h) {
+      var v = row[h];
+      if (v === '' || v == null) n++;
+    });
+  });
+  return n;
+}
+
+function _cfgDataCheckHTML(data, tipos, cfg) {
+  var n = data.rowCount || data.data.length;
+  var missing = _missingValues(data);
+  var min = cfg && cfg.minMuestra != null ? cfg.minMuestra : null;
+  var bad = min != null && n < min;
+  return '<div class="cfg-data-check' + (bad ? ' is-bad' : '') + '">' +
+    '<span><b>' + n + '</b> filas</span>' +
+    '<span><b>' + tipos.numCols.length + '</b> numéricas</span>' +
+    '<span><b>' + tipos.catCols.length + '</b> categóricas</span>' +
+    '<span><b>' + missing + '</b> faltantes</span>' +
+    (min != null ? '<span>mín. <b>' + min + '</b></span>' : '') +
+    '</div>';
+}
+
 function _mostrarModalConfigTest(nombre, callback, existingConfig) {
   var cfg = getEstadisticoConfig(nombre);
   if (!cfg || !HYPOTHESIS_SET.has(nombre)) { callback(); return; }
@@ -463,6 +488,7 @@ function _mostrarModalConfigTest(nombre, callback, existingConfig) {
   modal.innerHTML =
     '<div class="modal-box" style="max-width:480px">' +
       '<div class="modal-title">\u2699\uFE0F Configurar: ' + escapeHtml(nombre) + '</div>' +
+      _cfgDataCheckHTML(data, tipos, cfg) +
       headerInfo +
       modalContent +
       accordionContent +
@@ -647,6 +673,7 @@ function _mostrarModalParamConfig(nombre, callback, existingConfig) {
   modal.innerHTML =
     '<div class="modal-box" style="max-width:480px">' +
       '<div class="modal-title">\u2699\uFE0F Configurar par\u00E1metros: ' + escapeHtml(nombre) + '</div>' +
+      _cfgDataCheckHTML(data, tipos, cfg) +
       descHTML +
       colHTML +
       paramsHTML +
@@ -799,6 +826,7 @@ function runSingleStat(nombre) {
       : { pValue: null, significativo: null, alfa: alfa };
     var resultInfo = {
       testName: nombre,
+      n: maxN,
       pValue: resumen.pValue,
       significativo: resumen.significativo,
       alfa: resumen.alfa
@@ -858,7 +886,11 @@ function runEDA() {
     var html = EDAManager.renderDashboard(data);
     analisisResultContent = html;
     StateManager.setUltimosResultados(EDAManager.ejecutarEDA(data));
-    updateAnalisisLastResult({ testName: 'Análisis Exploratorio (EDA)', pValue: null, significativo: null, alfa: null });
+    updateAnalisisLastResult({
+      testName: 'Análisis Exploratorio (EDA)',
+      n: data.rowCount || data.data.length,
+      pValue: null, significativo: null, alfa: null
+    });
     captureAnalisisFocus();
   } catch(e) {
     console.error('EDA Error:', e);
@@ -899,7 +931,11 @@ function runBatchAnalysis() {
     analisisSelectedTest = selected.join(', ');
     StateManager.setUltimosResultados(resultados);
     captureAnalisisFocus();
-    updateAnalisisLastResult({ testName: selected.length + ' tests', pValue: null, significativo: null, alfa: null });
+    updateAnalisisLastResult({
+      testName: selected.length + ' tests',
+      n: data.rowCount || data.data.length,
+      pValue: null, significativo: null, alfa: null
+    });
   } catch(e) {
     console.error('Error in batch analysis:', e);
     analisisResultContent = '<div class="page-card"><div class="page-card-body" style="padding:20px;color:#f87171"><strong>Error:</strong> ' + escapeHtml(e.message) + '</div></div>';
@@ -919,7 +955,8 @@ function buildStatAnalysisMenu() {
   if (!dropdown) return;
 
   var secciones = getSeccionesSidebar();
-  var html = '<div class="dd-item" role="menuitem" onclick="runEDA()" style="font-weight:600">🔍 Análisis Exploratorio (EDA)</div><div class="dd-separator"></div>';
+  var html = '<div class="stat-menu-search-wrap"><input id="statMenuSearch" class="stat-menu-search" type="search" placeholder="Buscar test…" aria-label="Buscar test"></div>';
+  html += '<div class="dd-item" role="menuitem" data-stat-item="1" onclick="runEDA()" style="font-weight:600">🔍 Análisis Exploratorio (EDA)</div><div class="dd-separator"></div>';
   var isFirst = true;
 
   Object.entries(secciones).forEach(function([seccionKey, seccion]) {
@@ -934,7 +971,7 @@ function buildStatAnalysisMenu() {
       var id = 'chk-' + seccionKey + '-' + nombre.replace(/[^a-zA-Z0-9]/g, '_');
       var nombreEsc = nombre.replace(/'/g, "\\'");
 
-      html += '<div class="dd-item" style="display:flex;align-items:center;gap:6px" '
+      html += '<div class="dd-item" data-stat-item="1" style="display:flex;align-items:center;gap:6px" '
             + 'onclick="onSubitemClick(event,\'' + nombreEsc + '\',\'' + seccionKey + '\')">'
             + '<span style="flex:1;display:flex;align-items:center;gap:6px">'
             + icono + ' ' + nombre
@@ -972,7 +1009,7 @@ function buildStatAnalysisMenu() {
       var id = 'chk-' + seccionKey + '-' + nombre.replace(/[^a-zA-Z0-9]/g, '_');
       var nombreEsc = nombre.replace(/'/g, "\\'");
 
-      html += '<div class="dd-item" style="display:flex;align-items:center;gap:6px" '
+      html += '<div class="dd-item" data-stat-item="1" style="display:flex;align-items:center;gap:6px" '
             + 'onclick="onSubitemClick(event,\'' + nombreEsc + '\',\'' + seccionKey + '\')">'
             + '<span style="flex:1">' + icono + ' ' + nombre + '</span>'
             + '<input type="checkbox" class="stat-check child-check" '
@@ -987,6 +1024,27 @@ function buildStatAnalysisMenu() {
   });
 
   dropdown.innerHTML = html;
+
+  var search = document.getElementById('statMenuSearch');
+  if (search) {
+    search.addEventListener('input', function() {
+      var q = this.value.trim().toLowerCase();
+      dropdown.querySelectorAll('[data-stat-item]').forEach(function(item) {
+        var match = !q || item.textContent.toLowerCase().indexOf(q) !== -1;
+        item.style.display = match ? '' : 'none';
+      });
+      dropdown.querySelectorAll('.submenu-wrapper').forEach(function(wrapper) {
+        var any = Array.prototype.some.call(wrapper.querySelectorAll('[data-stat-item]'), function(item) {
+          return item.style.display !== 'none';
+        });
+        wrapper.style.display = any ? '' : 'none';
+        wrapper.querySelectorAll('.submenu').forEach(function(sub) {
+          sub.style.display = q ? (any ? 'block' : 'none') : '';
+        });
+      });
+    });
+  }
+
   // Restaurar checks guardados
   var saved = null;
   if (typeof StateManager !== 'undefined' && StateManager.getActiveStats) {

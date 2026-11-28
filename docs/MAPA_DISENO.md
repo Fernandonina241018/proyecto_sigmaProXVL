@@ -85,6 +85,15 @@ Estados iniciales: Trabajo solo "Hoja de Trabajo" colapsada; Reportes solo
 - `StatsUtils.numericColumnsForAnalysis`, `resumirResultado` y `BASE_INDEX_COLUMNS` unifican detección y resumen; el run y el modal de configuración usan la misma política.
 - Iconos de tests desde `getEstadisticoConfig`; se eliminó `getAnalisisTestsHTML`/`selectAnalisisTest` (lista legacy de 22 tests).
 
+### P1-I — UI de Análisis y EDA en Reportes (2026-11-28)
+
+- Barra de resumen del resultado con **n, p, α y decisión**; `—` cuando no hay decisión (EDA/batch).
+- Modal de configuración con chequeo de datos: filas, numéricas, categóricas, faltantes y mínimo requerido.
+- Buscador de tests en el menú (62 tests); filtra ítems y abre el submenú con coincidencias.
+- El HTML de resultados ya no fija “p < 0.05” en las etiquetas; los p-valores usan `<0.0001`.
+- EDA → Reportes: el resultado EDA expone `tipo`, `columnasAnalizadas`, totales y `estadisticos`; `ReporteManager` genera HTML/TXT/CSV exploratorios, sin pasar por el pipeline de estadísticos.
+- E2E de Datos cubre buscador, barra de resumen, EDA→Reportes y Análisis a 390px.
+
 ## 5. P0 aplicado (2026-11-26)
 
 - Marca: favicon/PWA en azul, `theme-color` alineado; foco unificado en `--focus-ring`.
@@ -164,6 +173,5 @@ Estados iniciales: Trabajo solo "Hoja de Trabajo" colapsada; Reportes solo
 ### Pendiente
 
 - Rediseño F3/F4 y consolidación de componentes **solo con aprobación de diseño y baseline visual**.
-- Lote 2 de análisis: barra de resumen, chequeo de datos en el modal, buscador de tests y EDA→Reporte.
 
 Cada fase va en commit propio y con `npx vitest run` + `backend npm test` verdes.

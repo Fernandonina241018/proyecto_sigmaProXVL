@@ -638,7 +638,151 @@ const ReporteManager = (() => {
     }
 
     // ── Generador TXT ─────────────────────
+    // ════════════════════════════════════════════════════════════════
+    // EDA — reporte exploratorio (no usa el pipeline de estadísticos)
+    // ════════════════════════════════════════════════════════════════
+    function _edaEsc(v) {
+        return String(v == null ? '' : v).replace(/&/g, '&amp;').replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+    }
+    function _edaNum(v, d) {
+        return (v == null || !isFinite(v)) ? '—' : Number(v).toFixed(d == null ? 4 : d);
+    }
+    function _edaP(p) {
+        return (p == null || !isFinite(p)) ? '—' : (p < 0.0001 ? '<0.0001' : Number(p).toFixed(4));
+    }
+    function _edaTxtClean(html) {
+        return String(html || '').replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim();
+    }
+    function _edaMeta(resultados, meta, hash, es) {
+        return [
+            [es ? 'Documento' : 'Document', 'RPT-' + String(hash || '').slice(0, 12)],
+            [es ? 'Generado' : 'Generated', nowFormatted()],
+            [es ? 'Organización' : 'Organization', meta.organizacion || '—'],
+            [es ? 'Departamento' : 'Department', meta.departamento || '—'],
+            [es ? 'Ubicación' : 'Location', meta.ubicacion || '—'],
+            [es ? 'Dataset' : 'Dataset', meta.nombreDataset || '—'],
+            [es ? 'Preparado por' : 'Prepared by', meta.preparedBy || '—'],
+            [es ? 'Ensayo' : 'Assay', meta.ensayo || '—']
+        ];
+    }
+
+    function generarHTMLEDA(resultados, meta, hash) {
+        meta = meta || {};
+        const es = currentLang === 'es';
+        const r = resultados.resumen || {};
+        const norm = resultados.normalidad || {};
+        const desc = resultados.descriptivas || {};
+        const corr = resultados.correlaciones && resultados.correlaciones.fuertes || [];
+        const recs = resultados.recomendaciones || [];
+        const metaRows = _edaMeta(resultados, meta, hash, es)
+            .map(([k, v]) => '<tr><td>' + _edaEsc(k) + '</td><td>' + _edaEsc(v) + '</td></tr>').join('');
+        const normRows = Object.entries(norm).map(([col, nRes]) => {
+            const p = nRes && (nRes.valorP !== undefined ? nRes.valorP : (nRes.pValue !== undefined ? nRes.pValue : nRes.p));
+            return '<tr><td>' + _edaEsc(col) + '</td><td>' + _edaP(p) + '</td><td>' +
+                (nRes && nRes.esNormal ? (es ? 'Normal' : 'Normal') : (es ? 'No normal' : 'Not normal')) + '</td></tr>';
+        }).join('');
+        const descRows = Object.entries(desc).map(([col, d]) =>
+            '<tr><td>' + _edaEsc(col) + '</td><td>' + _edaNum(d.n, 0) + '</td><td>' + _edaNum(d.media) +
+            '</td><td>' + _edaNum(d.mediana) + '</td><td>' + _edaNum(d.de) + '</td><td>' + _edaNum(d.min) +
+            '</td><td>' + _edaNum(d.max) + '</td></tr>').join('');
+        const corrRows = corr.map(c => '<tr><td>' + _edaEsc(c.col1) + '</td><td>' + _edaEsc(c.col2) +
+            '</td><td>' + _edaNum(c.r, 3) + '</td></tr>').join('');
+        const recsHtml = recs.map(x => '<li>' + (x.texto || '') + '</li>').join('');
+        return '<!DOCTYPE html><html lang="' + (es ? 'es' : 'en') + '"><head><meta charset="utf-8">' +
+            '<title>' + (es ? 'Análisis Exploratorio de Datos' : 'Exploratory Data Analysis') + '</title>' +
+            '<style>body{font-family:Arial,Helvetica,sans-serif;margin:32px;color:#1f2328;font-size:12px;line-height:1.45}' +
+            'h1{font-size:20px;margin:0 0 4px}h2{font-size:14px;margin:20px 0 8px;border-bottom:1px solid #d0d7de;padding-bottom:4px}' +
+            'table{width:100%;border-collapse:collapse;margin:8px 0 16px}th,td{border:1px solid #d0d7de;padding:5px 7px;text-align:left;vertical-align:top}' +
+            'th{background:#f6f8fa;font-size:11px;text-transform:uppercase;letter-spacing:.04em}.meta td:first-child{width:170px;color:#59636e}' +
+            '.muted{color:#59636e}.kpi{display:flex;gap:12px;flex-wrap:wrap;margin:12px 0}.kpi div{border:1px solid #d0d7de;border-radius:6px;padding:8px 12px;min-width:110px}' +
+            '.kpi b{display:block;font-size:18px}.note{font-size:10px;color:#59636e;margin-top:24px}</style></head><body>' +
+            '<h1>' + (es ? 'Análisis Exploratorio de Datos' : 'Exploratory Data Analysis') + '</h1>' +
+            '<p class="muted">StatAnalyzer Pro · RPT-' + _edaEsc(String(hash || '').slice(0, 12)) + ' · ' + nowFormatted() + '</p>' +
+            '<table class="meta">' + metaRows + '</table>' +
+            '<div class="kpi"><div><b>' + _edaNum(r.totalFilas, 0) + '</b>' + (es ? 'Filas' : 'Rows') + '</div>' +
+            '<div><b>' + _edaNum(r.columnasNumericas, 0) + '</b>' + (es ? 'Numéricas' : 'Numeric') + '</div>' +
+            '<div><b>' + _edaNum(r.valoresFaltantes, 0) + '</b>' + (es ? 'Faltantes' : 'Missing') + '</div>' +
+            '<div><b>' + _edaNum(r.totalOutliers, 0) + '</b>Outliers</div></div>' +
+            '<h2>' + (es ? 'Normalidad por columna' : 'Normality by column') + '</h2>' +
+            (normRows ? '<table><thead><tr><th>Columna</th><th>p</th><th>' + (es ? 'Resultado' : 'Result') + '</th></tr></thead><tbody>' + normRows + '</tbody></table>' : '<p class="muted">' + (es ? 'Sin columnas numéricas suficientes.' : 'Not enough numeric columns.') + '</p>') +
+            '<h2>' + (es ? 'Estadísticas descriptivas' : 'Descriptive statistics') + '</h2>' +
+            (descRows ? '<table><thead><tr><th>Columna</th><th>n</th><th>Media</th><th>Mediana</th><th>DE</th><th>Mín</th><th>Máx</th></tr></thead><tbody>' + descRows + '</tbody></table>' : '<p class="muted">—</p>') +
+            '<h2>' + (es ? 'Correlaciones fuertes (|r| ≥ 0.7)' : 'Strong correlations (|r| ≥ 0.7)') + '</h2>' +
+            (corrRows ? '<table><thead><tr><th>Variable 1</th><th>Variable 2</th><th>r</th></tr></thead><tbody>' + corrRows + '</tbody></table>' : '<p class="muted">' + (es ? 'Sin correlaciones fuertes.' : 'No strong correlations.') + '</p>') +
+            '<h2>' + (es ? 'Recomendaciones' : 'Recommendations') + '</h2>' +
+            (recsHtml ? '<ul>' + recsHtml + '</ul>' : '<p class="muted">—</p>') +
+            '<p class="note">' + (es ? 'Reporte exploratorio: no sustituye los estadísticos formales ni los protocolos de validación.' : 'Exploratory report: does not replace formal statistics or validation protocols.') + '</p>' +
+            '</body></html>';
+    }
+
+    function generarTXTEDA(resultados, meta, hash) {
+        meta = meta || {};
+        const es = currentLang === 'es';
+        const W = 80, L = [], p = s => L.push(s);
+        const line = c => String(c).repeat(W);
+        const r = resultados.resumen || {};
+        const norm = resultados.normalidad || {};
+        const desc = resultados.descriptivas || {};
+        const corr = resultados.correlaciones && resultados.correlaciones.fuertes || [];
+        p(line('='));
+        p('  ' + (es ? 'REPORTE DE ANÁLISIS EXPLORATORIO DE DATOS' : 'EXPLORATORY DATA ANALYSIS REPORT'));
+        p(line('=')); p('');
+        _edaMeta(resultados, meta, hash, es).forEach(([k, v]) => p('  ' + String(k + ':').padEnd(24) + ' ' + v));
+        p('');
+        p(line('-')); p('  ' + (es ? 'RESUMEN' : 'SUMMARY')); p(line('-'));
+        p('  ' + (es ? 'Filas' : 'Rows') + ': ' + _edaNum(r.totalFilas, 0) + ' | ' +
+            (es ? 'Columnas' : 'Columns') + ': ' + _edaNum(r.totalColumnas, 0) + ' | ' +
+            (es ? 'Numéricas' : 'Numeric') + ': ' + _edaNum(r.columnasNumericas, 0) + ' | ' +
+            (es ? 'Faltantes' : 'Missing') + ': ' + _edaNum(r.valoresFaltantes, 0) + ' | Outliers: ' + _edaNum(r.totalOutliers, 0));
+        p('');
+        p(line('-')); p('  ' + (es ? 'NORMALIDAD' : 'NORMALITY')); p(line('-'));
+        Object.entries(norm).forEach(([col, nRes]) => {
+            const pv = nRes && (nRes.valorP !== undefined ? nRes.valorP : (nRes.pValue !== undefined ? nRes.pValue : nRes.p));
+            p('  ' + String(col).padEnd(24) + ' p=' + _edaP(pv) + ' ' + (nRes && nRes.esNormal ? 'Normal' : (es ? 'No normal' : 'Not normal')));
+        });
+        p('');
+        p(line('-')); p('  ' + (es ? 'DESCRIPTIVAS' : 'DESCRIPTIVES')); p(line('-'));
+        Object.entries(desc).forEach(([col, d]) => {
+            p('  ' + String(col).padEnd(24) + ' n=' + _edaNum(d.n, 0) + ' media=' + _edaNum(d.media) + ' mediana=' + _edaNum(d.mediana) + ' DE=' + _edaNum(d.de));
+        });
+        p('');
+        p(line('-')); p('  ' + (es ? 'CORRELACIONES FUERTES' : 'STRONG CORRELATIONS')); p(line('-'));
+        if (!corr.length) p('  —');
+        corr.forEach(c => p('  ' + String(c.col1).padEnd(20) + ' ↔ ' + String(c.col2).padEnd(20) + ' r=' + _edaNum(c.r, 3)));
+        p('');
+        p(line('-')); p('  ' + (es ? 'RECOMENDACIONES' : 'RECOMMENDATIONS')); p(line('-'));
+        (resultados.recomendaciones || []).forEach(x => p('  - ' + _edaTxtClean(x.texto)));
+        p('');
+        p('  ' + (es ? 'Reporte exploratorio: no sustituye los estadísticos formales.' : 'Exploratory report: does not replace formal statistics.'));
+        return L.join('\n');
+    }
+
+    function generarCSVEDA(resultados, meta, hash) {
+        meta = meta || {};
+        const es = currentLang === 'es';
+        const r = resultados.resumen || {};
+        const rows = [['Seccion', 'Campo', 'Valor']];
+        _edaMeta(resultados, meta, hash, es).forEach(([k, v]) => rows.push(['Meta', k, v]));
+        [['Filas', r.totalFilas], ['Columnas', r.totalColumnas], ['Numericas', r.columnasNumericas],
+         ['Categoricas', r.columnasCategoricas], ['Faltantes', r.valoresFaltantes], ['Outliers', r.totalOutliers]]
+            .forEach(([k, v]) => rows.push(['Resumen', k, v]));
+        Object.entries(resultados.normalidad || {}).forEach(([col, nRes]) => {
+            const p = nRes && (nRes.valorP !== undefined ? nRes.valorP : (nRes.pValue !== undefined ? nRes.pValue : nRes.p));
+            rows.push(['Normalidad', col, 'p=' + _edaP(p) + '; ' + (nRes && nRes.esNormal ? 'normal' : 'no normal')]);
+        });
+        Object.entries(resultados.descriptivas || {}).forEach(([col, d]) => {
+            rows.push(['Descriptiva', col, 'n=' + _edaNum(d.n, 0) + '; media=' + _edaNum(d.media) + '; mediana=' + _edaNum(d.mediana) + '; DE=' + _edaNum(d.de)]);
+        });
+        ((resultados.correlaciones && resultados.correlaciones.fuertes) || []).forEach(c => {
+            rows.push(['Correlacion', c.col1 + ' / ' + c.col2, 'r=' + _edaNum(c.r, 3)]);
+        });
+        (resultados.recomendaciones || []).forEach((x, i) => rows.push(['Recomendacion', String(i + 1), _edaTxtClean(x.texto)]));
+        return rows.map(row => row.map(v => '"' + String(v == null ? '' : v).replace(/"/g, '""') + '"').join(',')).join('\n');
+    }
+
     function generarTXT(resultados, meta, hash) {
+        if (resultados.tipo === 'EDA') return generarTXTEDA(resultados, meta, hash);
         const ext=computeExtendedStats(resultados);
         const W=80, L=[], p=s=>L.push(s);
         const lang=currentLang;
@@ -1012,6 +1156,7 @@ const ReporteManager = (() => {
 
     // ── Generador CSV ─────────────────────
     function generarCSV(resultados, meta, hash) {
+        if (resultados.tipo === 'EDA') return generarCSVEDA(resultados, meta, hash);
         const ext=computeExtendedStats(resultados);
         const rows=[
             `## ${t('reportTitle')}`,
@@ -1079,6 +1224,7 @@ const ReporteManager = (() => {
 
     // ── Generador HTML ────────────────────
     async function generarHTML(resultados, meta, hash) {
+        if (resultados.tipo === 'EDA') return generarHTMLEDA(resultados, meta, hash);
         const ext=computeExtendedStats(resultados);
         const totalFlags=Object.values(ext).reduce((a,d)=>a+d.flags.length,0);
         const lang=currentLang;

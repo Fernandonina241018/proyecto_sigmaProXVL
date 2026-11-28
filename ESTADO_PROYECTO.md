@@ -90,6 +90,20 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (StatAnalyzer Pro) co
 
 ## CAMBIOS RECIENTES
 
+### 2026-11-28 (368): P1-I — UI de Análisis y EDA en Reportes
+
+**Qué:** lotes 2 y 3 del plan de mejora del módulo de estadística.
+- **Resumen**: barra con n, p, α y decisión; EDA/batch muestran `—` cuando no hay decisión.
+- **Configuración**: los modales muestran filas, numéricas, categóricas, faltantes y mínimo requerido; se marcan en rojo si n < mínimo.
+- **Buscador**: el menú de 62 tests tiene búsqueda; filtra ítems y abre el submenú con coincidencias.
+- **Resultados**: se quitaron las etiquetas fijas “p < 0.05”; los p-valores usan `<0.0001` cuando corresponde.
+- **EDA → Reportes**: el resultado EDA expone `tipo`, `columnasAnalizadas`, totales y `estadisticos`; `ReporteManager` genera HTML/TXT/CSV exploratorios con resumen, normalidad, descriptivas, correlaciones y recomendaciones.
+- **E2E**: buscador, barra de resumen, EDA→Reportes y Análisis a 390px, sin logins nuevos.
+
+**Archivos:** `js/core/indexx-analysis.js`, `js/core/indexx-ui.js`, `js/core/EstadisticaDescriptiva.js`, `css/core/indexx.css`, `js/managers/EDAManager.js`, `js/managers/ReporteManager.js`, `tests/StatsUtils.test.js`, `tests/analisis-panel.test.js`, `tests/EDAManager.test.js`, `e2e/datos-send.spec.js`, `docs/MAPA_DISENO.md`, `ESTADO_PROYECTO.md`.
+
+**Verificación:** `npm run preflight` OK (vitest **1302**, backend **154**, E2E **18**); E2E datos-send **1/1**.
+
 ### 2026-11-28 (367): P1-H — correctitud del flujo de análisis
 
 **Qué:** primera tanda del plan de mejora del módulo de estadística.

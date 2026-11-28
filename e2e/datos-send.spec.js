@@ -35,6 +35,14 @@ test('cargar CSV y enviarlo a Hoja de Trabajo con el botón Trabajo', async ({ p
 
   await loginAdmin(page);
 
+  // P1-L2: el menú de tests se puede buscar.
+  await page.click('.menu-item[data-submenu="Statistical Analysis"]');
+  await expect(page.locator('#statAnalysisDropdown')).toBeVisible();
+  await page.fill('#statMenuSearch', 'shapiro');
+  await expect(page.locator('[data-stat-item]').filter({ hasText: 'Shapiro' })).toBeVisible();
+  await expect(page.locator('[data-stat-item]').filter({ hasText: 'Media Aritmética' })).toBeHidden();
+  await page.evaluate(() => document.body.click());
+
   await page.setInputFiles('#fileInput', {
     name: 'e2e_datos.csv',
     mimeType: 'text/csv',
@@ -89,6 +97,28 @@ test('cargar CSV y enviarlo a Hoja de Trabajo con el botón Trabajo', async ({ p
   await expect(page.locator('.eda-header')).toBeVisible({ timeout: 25000 });
   await expect(page.locator('#analisisLastTest')).toHaveText('Análisis Exploratorio (EDA)');
   await expect(page.locator('#analisisLastDecision')).toHaveText('—');
+  await expect(page.locator('.anl-result-summary .anl-sum-decision')).toHaveText('—');
+
+  const edaReport = await page.evaluate(async () => {
+    if (typeof ReporteManager === 'undefined' && window.__sigmaLoadGroup) {
+      await window.__sigmaLoadGroup('reportes');
+    }
+    const r = StateManager.getUltimosResultados();
+    const meta = { organizacion: 'E2E', nombreDataset: 'viz' };
+    return {
+      tipo: r && r.tipo,
+      columnas: r && r.columnasAnalizadas ? r.columnasAnalizadas.length : 0,
+      html: await ReporteManager.generarHTML(r, meta, 'hash-e2e'),
+      txt: ReporteManager.generarTXT(r, meta, 'hash-e2e'),
+      csv: ReporteManager.generarCSV(r, meta, 'hash-e2e')
+    };
+  });
+  expect(edaReport.tipo).toBe('EDA');
+  expect(edaReport.columnas).toBeGreaterThan(0);
+  expect(edaReport.html).toContain('Análisis Exploratorio');
+  expect(edaReport.txt).toContain('ANÁLISIS EXPLORATORIO');
+  expect(edaReport.csv).toContain('Resumen');
+
   await page.click('.snav-card[data-page="datos"]');
   await expect(page.locator('#panelDatos')).toHaveAttribute('data-datos-init', '1', { timeout: 10000 });
 
@@ -101,6 +131,12 @@ test('cargar CSV y enviarlo a Hoja de Trabajo con el botón Trabajo', async ({ p
   await expect(page.locator('#rightPaneTitle')).toHaveText('Hoja de Trabajo');
   await page.click('#btnPrev');
   await expect(page.locator('#rightPaneTitle')).toHaveText('Gestión de Datos');
+
+  // P1-L3: Análisis también responde a 390px.
+  await page.click('#btnNext');
+  await page.click('#btnNext');
+  await expect(page.locator('#rightPaneTitle')).toHaveText('Análisis Estadístico');
+  expect(await page.evaluate(() => document.documentElement.scrollWidth - window.innerWidth)).toBeLessThanOrEqual(1);
 
   expect(fatales).toEqual([]);
 });

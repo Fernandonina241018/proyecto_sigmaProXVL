@@ -667,6 +667,7 @@ const StatsUtils = (function () {
                 .map(c => c.header)
                 .filter(h => !excludeSet.has(h));
         }
+
         const threshold = Number.isFinite(Number(config.threshold)) ? Number(config.threshold) : 0.5;
         return getNumericColumns(data, { threshold, excludeColumns: excluded });
     }

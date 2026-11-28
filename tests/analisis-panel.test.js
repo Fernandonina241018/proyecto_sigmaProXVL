@@ -10,6 +10,7 @@ const root = join(__dirname, '..');
 // y conservar los IDs que otros módulos actualizan en caliente.
 const ui = readFileSync(join(root, 'js', 'core', 'indexx-ui.js'), 'utf8');
 const css = readFileSync(join(root, 'css', 'core', 'indexx.css'), 'utf8');
+const analysis = readFileSync(join(root, 'js', 'core', 'indexx-analysis.js'), 'utf8');
 
 const start = ui.indexOf('analisis: function() {');
 const end = ui.indexOf('visualizacion: function()', start);
@@ -58,5 +59,18 @@ describe('Resultados de Análisis · F2 (scope propio)', () => {
   it('define los tokens F0', () => {
     ['--radius-sm', '--radius-md', '--radius-lg', '--radius-xl', '--space-3', '--surface-2', '--ok', '--warn', '--danger', '--icon-stroke']
       .forEach((token) => expect(css).toContain(token + ':'));
+  });
+
+  it('muestra barra de resumen con n/p/α/decisión', () => {
+    expect(ui).toContain('anl-result-summary');
+    expect(ui).toContain('anl-sum-decision');
+    expect(ui).toContain('anl-sum-k">α');
+  });
+
+  it('incluye chequeo de datos y buscador de tests', () => {
+    expect(analysis).toContain('cfg-data-check');
+    expect(analysis).toContain('_cfgDataCheckHTML');
+    expect(analysis).toContain('statMenuSearch');
+    expect(analysis).toContain('data-stat-item');
   });
 });
