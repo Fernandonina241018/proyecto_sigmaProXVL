@@ -22,19 +22,19 @@ const MLManager = (() => {
         var s = document.createElement('style');
         s.id = 'ml-model-view-style';
         s.textContent = [
-            '.mlv-wrap{--mlv-bg:#0e0e1c;--mlv-surface:rgba(255,255,255,.038);--mlv-bd:rgba(255,255,255,.08);',
-            '--mlv-purple:#8b5cf6;--mlv-pdim:rgba(139,92,246,.18);--mlv-pbd:rgba(139,92,246,.35);',
-            '--mlv-green:#4ade80;--mlv-yellow:#facc15;--mlv-red:#f87171;--mlv-cyan:#22d3ee;',
-            '--mlv-text:rgba(255,255,255,.82);--mlv-dim:rgba(255,255,255,.42);',
-            '--mlv-faint:rgba(255,255,255,.22);--mlv-mono:"Courier New",Courier,monospace;',
+            '.mlv-wrap{--mlv-bg:var(--bg-primary);--mlv-surface:var(--surface-2);--mlv-bd:var(--border);',
+            '--mlv-purple:var(--accent);--mlv-pdim:var(--bg-accent);--mlv-pbd:var(--border);',
+            '--mlv-green:var(--ok);--mlv-yellow:var(--warn);--mlv-red:var(--danger);--mlv-cyan:var(--data-2);',
+            '--mlv-text:var(--text-primary);--mlv-dim:var(--text-muted);',
+            '--mlv-faint:var(--text-faint);--mlv-mono:"Courier New",Courier,monospace;',
             'color:var(--mlv-text);font-size:13px;line-height:1.5}',
             '.mlv-wrap .mlv-hdr{margin-bottom:22px}',
             '.mlv-wrap .mlv-hdr-top{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:10px}',
             '.mlv-wrap .mlv-mname{display:flex;align-items:center;gap:8px;font-size:17px;font-weight:800;letter-spacing:-.02em}',
             '.mlv-wrap .mlv-bdgs{display:flex;flex-wrap:wrap;gap:6px}',
             '.mlv-wrap .mlv-bdg{padding:3px 10px;border-radius:99px;font-size:11px;font-weight:600;letter-spacing:.02em;border:1px solid}',
-            '.mlv-wrap .mlv-bp{background:rgba(139,92,246,.18);border-color:rgba(139,92,246,.4);color:#c4b5fd}',
-            '.mlv-wrap .mlv-bg{background:rgba(34,197,94,.12);border-color:rgba(34,197,94,.3);color:#86efac}',
+            '.mlv-wrap .mlv-bp{background:rgba(47,129,247,.18);border-color:rgba(47,129,247,.4);color:var(--accent-hover)}',
+            '.mlv-wrap .mlv-bg{background:rgba(63,185,80,.12);border-color:rgba(63,185,80,.3);color:var(--ok)}',
             '.mlv-wrap .mlv-bd{background:rgba(255,255,255,.05);border-color:rgba(255,255,255,.12);color:var(--mlv-dim)}',
             '.mlv-wrap .mlv-meta{text-align:right;font-size:11px;color:var(--mlv-faint);line-height:1.8;flex-shrink:0}',
             '.mlv-wrap .mlv-meta span{font-family:var(--mlv-mono);color:var(--mlv-dim)}',
@@ -43,7 +43,7 @@ const MLManager = (() => {
             'color:var(--mlv-dim);border-bottom:2px solid transparent;margin-bottom:-1px;border-radius:6px 6px 0 0;',
             'transition:all .15s;letter-spacing:.01em}',
             '.mlv-wrap .mlv-tab:hover{color:rgba(255,255,255,.65)}',
-            '.mlv-wrap .mlv-tab.on{color:#c4b5fd;border-bottom-color:var(--mlv-purple);background:rgba(139,92,246,.1)}',
+            '.mlv-wrap .mlv-tab.on{color:var(--accent-hover);border-bottom-color:var(--mlv-purple);background:rgba(47,129,247,.1)}',
             '.mlv-wrap .mlv-panel{display:none}',
             '.mlv-wrap .mlv-panel.on{display:block}',
             '.mlv-wrap .mlv-card{background:var(--mlv-surface);border:1px solid var(--mlv-bd);border-radius:12px;padding:16px}',
@@ -61,7 +61,7 @@ const MLManager = (() => {
             '.mlv-wrap .bar-track{height:3px;border-radius:99px;background:rgba(255,255,255,.08)}',
             '.mlv-wrap .bar-fill{height:100%;border-radius:99px}',
             '.mlv-wrap .tip{display:none;position:absolute;bottom:calc(100% + 8px);left:50%;transform:translateX(-50%);',
-            'background:#1a1a3a;border:1px solid rgba(139,92,246,.35);border-radius:8px;padding:8px 12px;font-size:11px;',
+            'background:var(--surface-2);border:1px solid rgba(47,129,247,.35);border-radius:8px;padding:8px 12px;font-size:11px;',
             'color:var(--mlv-dim);width:200px;text-align:center;z-index:100;line-height:1.5;box-shadow:0 8px 24px rgba(0,0,0,.5);pointer-events:none}',
             '.mlv-wrap .cm-col-hdr{display:flex;margin-bottom:6px}',
             '.mlv-wrap .cm-corner{width:80px;flex-shrink:0}',
@@ -95,8 +95,8 @@ const MLManager = (() => {
             '.mlv-wrap .dr:last-child{border-bottom:none}',
             '.mlv-wrap .dr:hover .tip{display:block}',
             '.mlv-wrap .d-badge{width:22px;height:22px;border-radius:4px;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:13px;flex-shrink:0}',
-            '.mlv-wrap .d-plus{background:rgba(74,222,128,.18);color:#4ade80;border:1px solid rgba(74,222,128,.3)}',
-            '.mlv-wrap .d-minus{background:rgba(248,113,113,.18);color:#f87171;border:1px solid rgba(248,113,113,.3)}',
+            '.mlv-wrap .d-plus{background:rgba(63,185,80,.18);color:var(--ok);border:1px solid rgba(63,185,80,.3)}',
+            '.mlv-wrap .d-minus{background:rgba(248,81,73,.18);color:var(--danger);border:1px solid rgba(248,81,73,.3)}',
             '.mlv-wrap .d-name{flex:1;font-size:12.5px;color:rgba(255,255,255,.68)}',
             '.mlv-wrap .d-pct{font-size:11px;color:var(--mlv-faint);font-family:var(--mlv-mono)}',
             '.mlv-wrap .d-btrack{width:80px;height:5px;background:rgba(255,255,255,.08);border-radius:99px;overflow:hidden}',
@@ -104,7 +104,7 @@ const MLManager = (() => {
             '.mlv-wrap .pr{display:flex;align-items:center;gap:12px;padding:9px 0;border-bottom:1px solid rgba(255,255,255,.05)}',
             '.mlv-wrap .pr:last-child{border-bottom:none}',
             '.mlv-wrap .pr-k{width:150px;font-size:12px;color:var(--mlv-dim);flex-shrink:0}',
-            '.mlv-wrap .pr-v{width:100px;font-size:12px;font-family:var(--mlv-mono);font-weight:700;color:#c4b5fd;flex-shrink:0}',
+            '.mlv-wrap .pr-v{width:100px;font-size:12px;font-family:var(--mlv-mono);font-weight:700;color:var(--accent-hover);flex-shrink:0}',
             '.mlv-wrap .pr-n{font-size:11px;color:var(--mlv-faint);font-style:italic}',
             '.mlv-wrap .kv{display:flex;justify-content:space-between;padding:6px 0;font-size:12px;border-bottom:1px solid rgba(255,255,255,.04)}',
             '.mlv-wrap .kv:last-child{border-bottom:none}',
@@ -117,42 +117,42 @@ const MLManager = (() => {
             '.mlv-wrap .crt td:first-child{text-align:left;color:rgba(255,255,255,.65)}',
             '.mlv-wrap .crt .avg td{color:var(--mlv-faint)!important;font-style:italic}',
             '.mlv-wrap .mlv-notice{border-radius:10px;padding:14px 16px;font-size:12.5px;line-height:1.7}',
-            '.mlv-wrap .mlv-np{background:rgba(139,92,246,.07);border:1px solid rgba(139,92,246,.25)}',
-            '.mlv-wrap .mlv-ng{background:rgba(34,197,94,.06);border:1px solid rgba(34,197,94,.2)}',
+            '.mlv-wrap .mlv-np{background:rgba(47,129,247,.07);border:1px solid rgba(47,129,247,.25)}',
+            '.mlv-wrap .mlv-ng{background:rgba(63,185,80,.06);border:1px solid rgba(63,185,80,.2)}',
             '.mlv-wrap .mlv-n-title{font-size:10px;letter-spacing:.1em;text-transform:uppercase;font-weight:700;margin-bottom:8px;color:rgba(134,239,172,.7)}',
             '.mlv-wrap .mlv-n-body{color:rgba(255,255,255,.55)}',
             '.mlv-wrap .diag-row{display:flex;gap:8px;margin-bottom:6px;font-size:12px}',
             '.mlv-wrap .diag-row:last-child{margin-bottom:0}',
-            '.mlv-wrap .dg-dot{color:#4ade80;flex-shrink:0}',
+            '.mlv-wrap .dg-dot{color:var(--ok);flex-shrink:0}',
             '.mlv-wrap .dg-t{color:rgba(255,255,255,.7);font-weight:600}',
             '.mlv-wrap .dg-d{color:var(--mlv-faint)}',
             '.mlv-wrap .mlv-actions{display:flex;gap:6px;margin-bottom:10px}',
             '.mlv-wrap .mlv-actions .btn{flex:1;justify-content:center;font-size:12px;padding:6px 10px;border-radius:6px;cursor:pointer;border:1px solid var(--mlv-bd);font-weight:600;transition:all .12s}',
-            '.mlv-wrap .mlv-actions .btn-primary{background:rgba(139,92,246,.2);border-color:rgba(139,92,246,.4);color:#c4b5fd}',
-            '.mlv-wrap .mlv-actions .btn-primary:hover{background:rgba(139,92,246,.3)}',
-            '.mlv-wrap .mlv-actions .btn-danger{background:rgba(239,68,68,.12);border-color:rgba(239,68,68,.25);color:#fca5a5}',
+            '.mlv-wrap .mlv-actions .btn-primary{background:rgba(47,129,247,.2);border-color:rgba(47,129,247,.4);color:var(--accent-hover)}',
+            '.mlv-wrap .mlv-actions .btn-primary:hover{background:rgba(47,129,247,.3)}',
+            '.mlv-wrap .mlv-actions .btn-danger{background:rgba(239,68,68,.12);border-color:rgba(239,68,68,.25);color:var(--danger)}',
             '.mlv-wrap .mlv-actions .btn-danger:hover{background:rgba(239,68,68,.22)}',
             '.mlv-wrap .fi-type{display:flex;flex-wrap:wrap;gap:6px;align-items:baseline;margin-bottom:12px}',
             '.mlv-wrap .fi-type-lbl{font-size:10px;font-weight:700;color:var(--mlv-faint);letter-spacing:.08em;text-transform:uppercase;min-width:90px}',
             '.mlv-wrap .fi-tags{display:flex;flex-wrap:wrap;gap:5px}',
             '.mlv-wrap .fi-tag{font-size:11px;padding:2px 8px;border-radius:4px;border:1px solid;font-weight:500;white-space:nowrap}',
-            '.mlv-wrap .fi-tag-num{background:rgba(59,130,246,.12);border-color:rgba(59,130,246,.3);color:#93c5fd}',
-            '.mlv-wrap .fi-tag-cat{background:rgba(251,146,60,.10);border-color:rgba(251,146,60,.25);color:#fdba74;cursor:help}',
-            '.mlv-wrap .fi-tag-val{background:rgba(34,197,94,.08);border-color:rgba(34,197,94,.2);color:#86efac}',
+            '.mlv-wrap .fi-tag-num{background:rgba(47,129,247,.12);border-color:rgba(47,129,247,.3);color:var(--accent-hover)}',
+            '.mlv-wrap .fi-tag-cat{background:rgba(210,153,34,.10);border-color:rgba(210,153,34,.25);color:var(--warn);cursor:help}',
+            '.mlv-wrap .fi-tag-val{background:rgba(63,185,80,.08);border-color:rgba(63,185,80,.2);color:var(--ok)}',
             '.mlv-wrap .drift-global{display:flex;align-items:center;gap:12px;padding:12px 16px;border-radius:8px;margin-bottom:14px;font-size:13px;font-weight:600}',
-            '.mlv-wrap .drift-severity-none{background:rgba(74,222,128,.08);border:1px solid rgba(74,222,128,.2);color:#4ade80}',
-            '.mlv-wrap .drift-severity-low{background:rgba(250,204,21,.08);border:1px solid rgba(250,204,21,.2);color:#facc15}',
-            '.mlv-wrap .drift-severity-medium{background:rgba(251,146,60,.10);border:1px solid rgba(251,146,60,.25);color:#fdba74}',
-            '.mlv-wrap .drift-severity-high{background:rgba(239,68,68,.10);border:1px solid rgba(239,68,68,.25);color:#fca5a5}',
+            '.mlv-wrap .drift-severity-none{background:rgba(63,185,80,.08);border:1px solid rgba(63,185,80,.2);color:var(--ok)}',
+            '.mlv-wrap .drift-severity-low{background:rgba(250,204,21,.08);border:1px solid rgba(250,204,21,.2);color:var(--warn)}',
+            '.mlv-wrap .drift-severity-medium{background:rgba(210,153,34,.10);border:1px solid rgba(210,153,34,.25);color:var(--warn)}',
+            '.mlv-wrap .drift-severity-high{background:rgba(239,68,68,.10);border:1px solid rgba(239,68,68,.25);color:var(--danger)}',
             '.mlv-wrap .df-row{display:flex;align-items:center;gap:8px;padding:8px 0;border-bottom:1px solid rgba(255,255,255,.05)}',
             '.mlv-wrap .df-row:last-child{border-bottom:none}',
             '.mlv-wrap .df-name{width:130px;font-size:11.5px;color:var(--mlv-dim);flex-shrink:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}',
             '.mlv-wrap .df-type{width:50px;font-size:9px;text-transform:uppercase;letter-spacing:.06em;color:var(--mlv-faint);flex-shrink:0;font-weight:600}',
             '.mlv-wrap .df-badge{padding:2px 8px;border-radius:99px;font-size:10px;font-weight:700;white-space:nowrap;flex-shrink:0}',
-            '.mlv-wrap .df-badge-none{background:rgba(74,222,128,.12);color:#4ade80;border:1px solid rgba(74,222,128,.2)}',
-            '.mlv-wrap .df-badge-low{background:rgba(250,204,21,.12);color:#facc15;border:1px solid rgba(250,204,21,.2)}',
-            '.mlv-wrap .df-badge-medium{background:rgba(251,146,60,.12);color:#fdba74;border:1px solid rgba(251,146,60,.25)}',
-            '.mlv-wrap .df-badge-high{background:rgba(239,68,68,.12);color:#fca5a5;border:1px solid rgba(239,68,68,.25)}',
+            '.mlv-wrap .df-badge-none{background:rgba(63,185,80,.12);color:var(--ok);border:1px solid rgba(63,185,80,.2)}',
+            '.mlv-wrap .df-badge-low{background:rgba(250,204,21,.12);color:var(--warn);border:1px solid rgba(250,204,21,.2)}',
+            '.mlv-wrap .df-badge-medium{background:rgba(210,153,34,.12);color:var(--warn);border:1px solid rgba(210,153,34,.25)}',
+            '.mlv-wrap .df-badge-high{background:rgba(239,68,68,.12);color:var(--danger);border:1px solid rgba(239,68,68,.25)}',
             '.mlv-wrap .df-bars{flex:1;display:flex;align-items:center;gap:4px}',
             '.mlv-wrap .df-track{flex:1;height:4px;border-radius:99px;background:rgba(255,255,255,.07);overflow:hidden}',
             '.mlv-wrap .df-fill{height:100%;border-radius:99px;transition:width .3s}',
@@ -175,8 +175,8 @@ const MLManager = (() => {
 
     function _mvColor(v, low) {
         if (v == null) return 'var(--mlv-faint)';
-        if (low) return v <= 0.25 ? '#4ade80' : v <= 0.45 ? '#facc15' : '#f87171';
-        return v >= 0.92 ? '#4ade80' : v >= 0.75 ? '#facc15' : '#f87171';
+        if (low) return v <= 0.25 ? 'var(--ok)' : v <= 0.45 ? 'var(--warn)' : 'var(--danger)';
+        return v >= 0.92 ? 'var(--ok)' : v >= 0.75 ? 'var(--warn)' : 'var(--danger)';
     }
 
     function _mvPct(v) { return (v * 100).toFixed(1) + '%'; }
@@ -405,14 +405,14 @@ const MLManager = (() => {
                     for (var ci = 0; ci < 2; ci++) {
                         var v = cm[ri][ci], ok = ri === ci;
                         var int = v / maxV;
-                        var bg = ok ? 'rgba(139,92,246,' + (0.18 + int * 0.72).toFixed(2) + ')' :
+                        var bg = ok ? 'rgba(47,129,247,' + (0.18 + int * 0.72).toFixed(2) + ')' :
                             'rgba(239,68,68,' + (0.1 + int * 0.5).toFixed(2) + ')';
                         html += '<div class="cm-cell" style="background:' + bg + '"><div class="cm-v">' + v + '</div>' +
                             '<div class="cm-p">' + (v / total * 100).toFixed(1) + '%</div></div>';
                     }
                     html += '</div>';
                 }
-                html += '<div class="cm-legend"><div class="cm-li"><div class="cm-dot" style="background:rgba(139,92,246,.7)"></div>Correcto</div>' +
+                html += '<div class="cm-legend"><div class="cm-li"><div class="cm-dot" style="background:rgba(47,129,247,.7)"></div>Correcto</div>' +
                     '<div class="cm-li"><div class="cm-dot" style="background:rgba(239,68,68,.5)"></div>Error</div></div></div>';
             }
             if (hasROC) {
@@ -450,8 +450,8 @@ const MLManager = (() => {
                     '<text x="' + (PL + pw / 2).toFixed(1) + '" y="' + (H - 2) + '" font-size="8" fill="rgba(255,255,255,.3)" text-anchor="middle">FPR</text>' +
                     '<text x="7" y="' + (PT + ph / 2).toFixed(1) + '" font-size="8" fill="rgba(255,255,255,.3)" text-anchor="middle" transform="rotate(-90,7,' + (PT + ph / 2).toFixed(1) + ')">TPR</text>' +
                     '<line x1="' + PL + '" y1="' + (PT + ph) + '" x2="' + (PL + pw) + '" y2="' + PT + '" stroke="rgba(255,255,255,.14)" stroke-dasharray="4,3" stroke-width="1"/>' +
-                    '<path d="' + area + '" fill="rgba(139,92,246,.14)"/>' +
-                    '<path d="' + line + '" fill="none" stroke="#8b5cf6" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>' +
+                    '<path d="' + area + '" fill="rgba(47,129,247,.14)"/>' +
+                    '<path d="' + line + '" fill="none" stroke="var(--accent)" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>' +
                     '</svg>' +
                     '<div style="font-size:10px;color:var(--mlv-faint);margin-top:6px">Línea punteada = clasificador aleatorio (AUC 0.5)</div></div>';
             }
@@ -460,10 +460,10 @@ const MLManager = (() => {
             if (hasCM) {
                 html += '<div class="mlv-card"><div class="mlv-clabel">Desglose de errores</div><div class="mlv-g4">';
                 var errItems = [
-                    { label: 'Verdadero Positivo', val: cm[1][1], color: '#4ade80', desc: 'Positivos predichos correctamente' },
-                    { label: 'Verdadero Negativo', val: cm[0][0], color: '#818cf8', desc: 'Negativos predichos correctamente' },
-                    { label: 'Falso Positivo', val: cm[0][1], color: '#fb923c', desc: 'Negativos predichos como positivos' },
-                    { label: 'Falso Negativo', val: cm[1][0], color: '#f87171', desc: 'Positivos predichos como negativos' },
+                    { label: 'Verdadero Positivo', val: cm[1][1], color: 'var(--ok)', desc: 'Positivos predichos correctamente' },
+                    { label: 'Verdadero Negativo', val: cm[0][0], color: 'var(--accent)', desc: 'Negativos predichos correctamente' },
+                    { label: 'Falso Positivo', val: cm[0][1], color: 'var(--warn)', desc: 'Negativos predichos como positivos' },
+                    { label: 'Falso Negativo', val: cm[1][0], color: 'var(--danger)', desc: 'Positivos predichos como negativos' },
                 ];
                 for (var ei = 0; ei < errItems.length; ei++) {
                     var e = errItems[ei];
@@ -553,7 +553,7 @@ const MLManager = (() => {
             'Detecta cambios en la distribución de los datos respecto al entrenamiento original. ' +
             'PSI (Population Stability Index) > 0.1 indica deriva moderada, > 0.25 severa.</div>' +
             '<div style="display:flex;gap:8px;margin-bottom:14px">' +
-            '<button class="btn btn-primary" style="font-size:12px;padding:6px 14px;border-radius:6px;border:1px solid rgba(139,92,246,.4);background:rgba(139,92,246,.2);color:#c4b5fd;cursor:pointer;font-weight:600" ' +
+            '<button class="btn btn-primary" style="font-size:12px;padding:6px 14px;border-radius:6px;border:1px solid rgba(47,129,247,.4);background:rgba(47,129,247,.2);color:var(--accent-hover);cursor:pointer;font-weight:600" ' +
             'onclick="MLManager.checkDrift(\'' + escapeHtml(d.id) + '\')">🔍 Ejecutar chequeo</button>' +
             '<button class="btn btn-secondary" style="font-size:12px;padding:6px 14px;border-radius:6px;border:1px solid var(--mlv-bd);background:var(--mlv-surface);color:var(--mlv-dim);cursor:pointer;font-weight:600" ' +
             'onclick="MLManager.loadDriftHistory(\'' + escapeHtml(d.id) + '\')">📊 Historial</button></div>' +
@@ -655,7 +655,7 @@ const MLManager = (() => {
             var w2 = maxV > 0 ? (fv2 / maxV * 100).toFixed(1) : 0;
             html += '<div class="f-row"><div class="f-name" title="' + escapeHtml(fk2) + '">' + escapeHtml(fk2) + '</div>' +
                 '<div class="f-bars"><div class="f-bar-row"><div class="f-track">' +
-                '<div class="f-fill" style="width:' + w2 + '%;background:#8b5cf6"></div></div>' +
+                '<div class="f-fill" style="width:' + w2 + '%;background:var(--accent)"></div></div>' +
                 '<div class="f-pct">' + pct2 + '%</div></div></div></div>';
         }
         html += '</div>';
@@ -716,21 +716,21 @@ const MLManager = (() => {
                     var isPromoted = v.promoted;
                     var dateStr = v.created_at ? v.created_at.slice(0, 10) + ' ' + v.created_at.slice(11, 16) : '—';
                     html += '<div style="display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid rgba(255,255,255,.06);' +
-                        (isCurrent ? 'background:rgba(139,92,246,.08);border-radius:6px;padding:10px 8px;' : '') + '">' +
+                        (isCurrent ? 'background:rgba(47,129,247,.08);border-radius:6px;padding:10px 8px;' : '') + '">' +
                         '<div style="min-width:80px;font-size:11px;font-family:var(--mlv-mono);color:var(--mlv-dim)">' + escapeHtml(v.version) + '</div>' +
                         '<div style="flex:1;min-width:0">' +
                         '<div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap">' +
-                        '<span style="font-size:12px;font-weight:600;color:' + (isCurrent ? '#c4b5fd' : 'var(--mlv-text)') + '">' +
+                        '<span style="font-size:12px;font-weight:600;color:' + (isCurrent ? 'var(--accent-hover)' : 'var(--mlv-text)') + '">' +
                         escapeHtml(v.dataset_name || '—') + '</span>' +
-                        (isPromoted ? '<span style="font-size:9px;padding:1px 6px;border-radius:99px;background:rgba(74,222,128,.15);color:#4ade80;font-weight:700;border:1px solid rgba(74,222,128,.3)">PROD</span>' : '') +
-                        (isCurrent ? '<span style="font-size:9px;padding:1px 6px;border-radius:99px;background:rgba(139,92,246,.15);color:#c4b5fd;font-weight:700;border:1px solid rgba(139,92,246,.3)">ACTUAL</span>' : '') +
+                        (isPromoted ? '<span style="font-size:9px;padding:1px 6px;border-radius:99px;background:rgba(63,185,80,.15);color:var(--ok);font-weight:700;border:1px solid rgba(63,185,80,.3)">PROD</span>' : '') +
+                        (isCurrent ? '<span style="font-size:9px;padding:1px 6px;border-radius:99px;background:rgba(47,129,247,.15);color:var(--accent-hover);font-weight:700;border:1px solid rgba(47,129,247,.3)">ACTUAL</span>' : '') +
                         '</div>' +
                         '<div style="font-size:10px;color:var(--mlv-faint);margin-top:3px">' +
                         escapeHtml(dateStr) + ' · ' + escapeHtml(metricStrs.join(' · ')) +
                         '</div></div>' +
                         '<div style="display:flex;gap:4px;flex-shrink:0">' +
-                        (!isPromoted ? '<button class="btn" style="font-size:10px;padding:3px 8px;border-radius:4px;border:1px solid rgba(74,222,128,.3);background:rgba(74,222,128,.1);color:#4ade80;cursor:pointer;font-weight:600" onclick="MLManager.promoteVersion(\'' + escapeHtml(v.id) + '\',\'' + escapeHtml(modelKey) + '\')">▲ Promover</button>' : '') +
-                        (isCurrent && isPromoted ? '<button class="btn" style="font-size:10px;padding:3px 8px;border-radius:4px;border:1px solid rgba(251,191,36,.3);background:rgba(251,191,36,.1);color:#fbbf24;cursor:pointer;font-weight:600" onclick="MLManager.rollbackVersion(\'' + escapeHtml(modelKey) + '\')">↩ Rollback</button>' : '') +
+                        (!isPromoted ? '<button class="btn" style="font-size:10px;padding:3px 8px;border-radius:4px;border:1px solid rgba(63,185,80,.3);background:rgba(63,185,80,.1);color:var(--ok);cursor:pointer;font-weight:600" onclick="MLManager.promoteVersion(\'' + escapeHtml(v.id) + '\',\'' + escapeHtml(modelKey) + '\')">▲ Promover</button>' : '') +
+                        (isCurrent && isPromoted ? '<button class="btn" style="font-size:10px;padding:3px 8px;border-radius:4px;border:1px solid rgba(210,153,34,.3);background:rgba(210,153,34,.1);color:var(--warn);cursor:pointer;font-weight:600" onclick="MLManager.rollbackVersion(\'' + escapeHtml(modelKey) + '\')">↩ Rollback</button>' : '') +
                         '</div></div>';
                 }
                 html += '</div>';
@@ -758,7 +758,7 @@ const MLManager = (() => {
                             '<th style="text-align:left;padding:6px 8px;color:var(--mlv-faint);font-weight:600">Métrica</th>';
                         for (var vi3 = 0; vi3 < versions.length; vi3++) {
                             var v3 = versions[vi3];
-                            cHtml += '<th style="text-align:center;padding:6px 8px;color:' + (v3.promoted ? '#4ade80' : 'var(--mlv-faint)') + ';font-weight:600">' +
+                            cHtml += '<th style="text-align:center;padding:6px 8px;color:' + (v3.promoted ? 'var(--ok)' : 'var(--mlv-faint)') + ';font-weight:600">' +
                                 escapeHtml(v3.version) + (v3.promoted ? ' ★' : '') + '</th>';
                         }
                         cHtml += '</tr></thead><tbody>';
@@ -784,7 +784,7 @@ const MLManager = (() => {
                                 var valStr = mk2 === 'accuracy' || mk2 === 'f1_score' || mk2 === 'auc_roc' || mk2 === 'precision' || mk2 === 'recall' ?
                                     (entry.val * 100).toFixed(1) + '%' : entry.val.toFixed(4);
                                 cHtml += '<td style="text-align:center;padding:6px 8px;font-family:var(--mlv-mono);' +
-                                    (isBest ? 'color:#4ade80;font-weight:700;background:rgba(74,222,128,.06);border-radius:4px' : 'color:var(--mlv-dim)') + '">' +
+                                    (isBest ? 'color:var(--ok);font-weight:700;background:rgba(63,185,80,.06);border-radius:4px' : 'color:var(--mlv-dim)') + '">' +
                                     valStr + '</td>';
                             }
                             cHtml += '</tr>';
@@ -816,8 +816,8 @@ const MLManager = (() => {
             '◉ Deriva global: ' + (severityLabel[severity] || severity) +
             ' · PSI promedio: ' + (drift.global_avg_psi || 0).toFixed(4) +
             ' · ' + (drift.n_features_checked || 0) + ' features analizadas' +
-            (drift.n_features_drifted_high > 0 ? ' · <span style="color:#fca5a5">' + drift.n_features_drifted_high + ' alta</span>' : '') +
-            (drift.n_features_drifted_medium > 0 ? ' · <span style="color:#fdba74">' + drift.n_features_drifted_medium + ' moderada</span>' : '') +
+            (drift.n_features_drifted_high > 0 ? ' · <span style="color:var(--danger)">' + drift.n_features_drifted_high + ' alta</span>' : '') +
+            (drift.n_features_drifted_medium > 0 ? ' · <span style="color:var(--warn)">' + drift.n_features_drifted_medium + ' moderada</span>' : '') +
             '</div>';
 
         if (features.length === 0) {
@@ -839,7 +839,7 @@ const MLManager = (() => {
                 '<div class="df-type">' + (f.type === 'numerical' ? 'num' : 'cat') + '</div>' +
                 '<div class="df-badge df-badge-' + sev + '">' + sev + '</div>' +
                 '<div class="df-bars"><div class="df-track"><div class="df-fill" style="width:' + barPct.toFixed(1) + '%;background:' +
-                (sev === 'high' ? '#ef4444' : sev === 'medium' ? '#fb923c' : sev === 'low' ? '#facc15' : '#4ade80') + '"></div></div>' +
+                (sev === 'high' ? 'var(--danger)' : sev === 'medium' ? 'var(--warn)' : sev === 'low' ? 'var(--warn)' : 'var(--ok)') + '"></div></div>' +
                 '<div class="df-val">' + psi.toFixed(4) + '</div></div>' +
                 '<div class="df-detail">';
 
@@ -940,7 +940,7 @@ const MLManager = (() => {
         } catch(e) {
             var results = document.getElementById('ml-results');
             if (results) results.innerHTML = '<div style="text-align:center;padding:40px">' +
-                '<div style="color:#f87171;font-size:18px;font-weight:700;margin-bottom:8px">⚠️ Error al cargar modelo</div>' +
+                '<div style="color:var(--danger);font-size:18px;font-weight:700;margin-bottom:8px">⚠️ Error al cargar modelo</div>' +
                 '<div style="color:var(--text-faint);font-size:13px;margin-bottom:16px">' + escapeHtml(e.message) + '</div>' +
                 '<button onclick="MLManager.refreshModels()" style="padding:6px 18px;border-radius:6px;border:1px solid var(--border);background:var(--surface);color:var(--text);cursor:pointer;font-size:13px">Reintentar</button></div>';
         }
@@ -1114,7 +1114,7 @@ const MLManager = (() => {
             '<option value="">— Sin modelos —</option></select>' +
             '<div style="display:flex;gap:6px">' +
             '<button class="btn btn-primary" style="flex:1;justify-content:center;font-size:13px;padding:8px 10px" onclick="MLManager.predictSelectedModel()">🔮 Predecir</button>' +
-            '<button class="btn btn-secondary" style="justify-content:center;font-size:13px;padding:8px 10px;color:#ef4444" onclick="MLManager.deleteSelectedModel()">🗑</button>' +
+            '<button class="btn btn-secondary" style="justify-content:center;font-size:13px;padding:8px 10px;color:var(--danger)" onclick="MLManager.deleteSelectedModel()">🗑</button>' +
             '</div></div></div>' +
             '<div class="info-section" style="flex-shrink:0"><div class="info-section-header">⚠️ Anomalías</div>' +
             '<div class="info-section-body" style="padding:8px 12px">' +
@@ -1263,7 +1263,7 @@ const MLManager = (() => {
             }
         } catch (e) {
             if (results) {
-                results.innerHTML = '<div class="page-card"><div class="page-card-header" style="color:#ef4444">❌ Error al subir</div>' +
+                results.innerHTML = '<div class="page-card"><div class="page-card-header" style="color:var(--danger)">❌ Error al subir</div>' +
                     '<div class="page-card-body" style="padding:12px;font-size:12px">' + escapeHtml(e.message) + '</div></div>';
             }
             showToast('Error: ' + e.message, 'error');
@@ -1469,7 +1469,7 @@ const MLManager = (() => {
             '<div class="page-card-header"><span class="page-card-icon">⏳</span><span class="page-card-title">Entrenando ' + modelLabel + '</span></div>' +
             '<div class="page-card-body" style="padding:16px 14px">' +
             '<div id="ml-progress-bar-container" style="height:6px;background:var(--border);border-radius:3px;overflow:hidden;margin-bottom:8px">' +
-            '<div id="ml-progress-bar" style="height:100%;width:0%;background:linear-gradient(90deg,var(--accent),#10b981);border-radius:3px;transition:width 0.4s ease"></div></div>' +
+            '<div id="ml-progress-bar" style="height:100%;width:0%;background:linear-gradient(90deg,var(--accent),var(--ok));border-radius:3px;transition:width 0.4s ease"></div></div>' +
             '<div id="ml-progress-text" style="font-size:11px;color:var(--text-faint);text-align:center">Iniciando...</div>' +
             '</div></div>';
 
@@ -1510,13 +1510,13 @@ const MLManager = (() => {
                     }
                 } catch (e) {
                     clearInterval(pollInterval);
-                    results.innerHTML = '<div class="page-card"><div class="page-card-header" style="color:#ef4444">❌ Error</div>' +
+                    results.innerHTML = '<div class="page-card"><div class="page-card-header" style="color:var(--danger)">❌ Error</div>' +
                         '<div class="page-card-body" style="padding:12px;font-size:12px">' + escapeHtml(e.message) + '</div></div>';
                     showToast('Error: ' + e.message, 'error');
                 }
             }, 2000);
         } catch (e2) {
-            results.innerHTML = '<div class="page-card"><div class="page-card-header" style="color:#ef4444">❌ Error</div>' +
+            results.innerHTML = '<div class="page-card"><div class="page-card-header" style="color:var(--danger)">❌ Error</div>' +
                 '<div class="page-card-body" style="padding:12px;font-size:12px">' + escapeHtml(e2.message) + '</div></div>';
             showToast('Error: ' + e2.message, 'error');
         }
@@ -1562,7 +1562,7 @@ const MLManager = (() => {
         steps.forEach(function(s, i) {
             var isCurrent = i === current && !s.done;
             var icon = s.done ? '✅' : (isCurrent ? '👉' : '⬜');
-            var color = s.done ? '#10b981' : (isCurrent ? 'var(--text-primary)' : 'var(--text-faint)');
+            var color = s.done ? 'var(--ok)' : (isCurrent ? 'var(--text-primary)' : 'var(--text-faint)');
             html += '<div style="display:flex;align-items:center;gap:6px;padding:3px 0;color:' + color + ';font-weight:' + (isCurrent ? '600' : '400') + '">' +
                 '<span style="min-width:18px;font-size:11px">' + icon + '</span>' +
                 '<span style="min-width:60px;font-weight:600;font-size:11px">' + s.label + '</span>' +
@@ -1667,7 +1667,7 @@ const MLManager = (() => {
             (altLabel ? '<div class="dp-alt-pill"><span style="color:var(--text-faint)">Alt:</span> ' + escapeHtml(altLabel) + ' · ' + altProbPct + '</div>' : '') +
             '</div>' +
             '<div class="dp-conf-block"><div class="dp-conf-num dp-conf-anim" data-target="' + mainProb + '" style="color:' + verColor + '">0.0%</div><div class="dp-conf-label">CONFIANZA</div>' +
-            (useNlp ? '<div style="font-size:9px;color:#00b8d4;margin-top:2px">🤖 ajustado por NLP <span style="color:' + (nlpAjuste >= 0 ? 'var(--accent-alt)' : 'var(--accent-error)') + '">' + (nlpAjuste >= 0 ? '+' : '') + (nlpAjuste * 100).toFixed(1) + ' pts</span></div>' : '') +
+            (useNlp ? '<div style="font-size:9px;color:var(--data-2);margin-top:2px">🤖 ajustado por NLP <span style="color:' + (nlpAjuste >= 0 ? 'var(--accent-alt)' : 'var(--accent-error)') + '">' + (nlpAjuste >= 0 ? '+' : '') + (nlpAjuste * 100).toFixed(1) + ' pts</span></div>' : '') +
             '</div>' +
             '<div class="dp-margin-block"><div class="dp-margin-num" style="color:' + verColor + '">+' + marginPts + ' pts</div>' +
             '<div class="dp-margin-label">MARGEN VS ALT.</div>' +
@@ -1792,7 +1792,7 @@ const MLManager = (() => {
             '<svg class="dp-gauge-svg" viewBox="0 0 160 90">' +
             '<path d="M 20 80 A 60 60 0 0 1 140 80" fill="none" stroke="var(--border)" stroke-width="10" stroke-linecap="round"/>' +
             '<path id="dp-gauge-arc" data-pct="' + gaugePct + '" d="M 20 80 A 60 60 0 0 1 140 80" fill="none" stroke="url(#dpGaugeGrad)" stroke-width="10" stroke-linecap="round" stroke-dasharray="189" stroke-dashoffset="189"/>' +
-            '<defs><linearGradient id="dpGaugeGrad" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="var(--accent-warn)"/><stop offset="60%" stop-color="#00c8e0"/><stop offset="100%" stop-color="var(--accent-alt)"/></linearGradient></defs>' +
+            '<defs><linearGradient id="dpGaugeGrad" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="var(--accent-warn)"/><stop offset="60%" stop-color="var(--data-2)"/><stop offset="100%" stop-color="var(--accent-alt)"/></linearGradient></defs>' +
             '<line id="dp-gauge-needle" data-pct="' + gaugePct + '" x1="80" y1="80" x2="80" y2="28" stroke="var(--accent-alt)" stroke-width="2" stroke-linecap="round" style="transform-origin:80px 80px;transform:rotate(-90deg)"/>' +
             '<circle cx="80" cy="80" r="4" fill="var(--accent-alt)"/>' +
             '<text x="18" y="92" fill="var(--text-faint)" font-size="7" font-family="var(--font-mono)">0</text>' +
@@ -1851,9 +1851,9 @@ const MLManager = (() => {
                 });
             }
             if (infoAnomalies.length) {
-                html += '<div style="margin-top:12px"><div class="dp-anomaly" style="border-left:3px solid #10b981"><span style="font-size:12px">💡</span><span style="font-weight:600;color:#10b981">Valores fuera de rango pero favorables</span></div>';
+                html += '<div style="margin-top:12px"><div class="dp-anomaly" style="border-left:3px solid var(--ok)"><span style="font-size:12px">💡</span><span style="font-weight:600;color:var(--ok)">Valores fuera de rango pero favorables</span></div>';
                 infoAnomalies.forEach(function(a) {
-                    html += '<div class="dp-anomaly-item"><span style="color:#10b981">▸</span> <strong>' + escapeHtml(a.feature) + '</strong>: ' + escapeHtml(a.reason) + '</div>';
+                    html += '<div class="dp-anomaly-item"><span style="color:var(--ok)">▸</span> <strong>' + escapeHtml(a.feature) + '</strong>: ' + escapeHtml(a.reason) + '</div>';
                 });
             }
         }
@@ -1882,7 +1882,7 @@ const MLManager = (() => {
                 html += '<div style="margin-bottom:6px"><span style="font-size:9px;color:var(--text-faint);text-transform:uppercase;letter-spacing:0.5px">Palabras clave</span>' +
                     '<div style="display:flex;flex-wrap:wrap;gap:4px;margin-top:4px">';
                 nlpA.keywords.forEach(function(kw) {
-                    html += '<span style="background:var(--card-bg);padding:2px 8px;border-radius:10px;font-size:10px;color:#00b8d4;border:1px solid var(--border)">' + escapeHtml(kw) + '</span>';
+                    html += '<span style="background:var(--card-bg);padding:2px 8px;border-radius:10px;font-size:10px;color:var(--data-2);border:1px solid var(--border)">' + escapeHtml(kw) + '</span>';
                 });
                 html += '</div></div>';
             }
@@ -1903,7 +1903,7 @@ const MLManager = (() => {
                 var subEmoji = subProb != null && subProb >= 0.5 ? '✅' : '❌';
                 html += '<div style="display:flex;align-items:center;justify-content:space-between;padding:8px 12px;background:var(--card-bg);border:1px solid var(--border);border-radius:4px;margin-bottom:6px;font-size:11px">' +
                     '<span>' + subEmoji + ' ' + escapeHtml(subLabel) + '</span>' +
-                    '<span style="font-family:var(--font-mono);font-weight:600;color:#00b8d4">' + subPct + '</span></div>';
+                    '<span style="font-family:var(--font-mono);font-weight:600;color:var(--data-2)">' + subPct + '</span></div>';
             }
             html += '</div></details>';
         }
@@ -2216,7 +2216,7 @@ const MLManager = (() => {
                 resBody.innerHTML = resultHtml;
                 setTimeout(_animateDashboard, 50);
             } catch (e) {
-                resBody.innerHTML = '<div style="text-align:center;padding:40px;color:#ef4444;font-size:14px;font-weight:500">\u274c ' + escapeHtml(e.message) + '</div>';
+                resBody.innerHTML = '<div style="text-align:center;padding:40px;color:var(--danger);font-size:14px;font-weight:500">\u274c ' + escapeHtml(e.message) + '</div>';
             } finally {
                 btn.disabled = false;
                 btn.innerHTML = '<span class="pd-predict-icon">\ud83d\udd2e</span> Predecir';
@@ -2250,7 +2250,7 @@ const MLManager = (() => {
 .pd-mlabel{font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--text-faint)}
 .pd-mval{font-family:var(--font-mono);font-size:12px;font-weight:500;color:var(--text-primary)}
 .pd-macc{color:var(--accent)}
-.pd-mcya{color:#00b8d4}
+.pd-mcya{color:var(--data-2)}
 .pd-mgrn{color:var(--accent-alt)}
 .pd-mamb{color:var(--accent-warn)}
 .pd-body{flex:1;overflow-y:auto;padding:16px 24px 0}
@@ -2259,7 +2259,7 @@ const MLManager = (() => {
 .pd-section-header.pd-collapsed{border-radius:6px}
 .pd-sleft{display:flex;align-items:center;gap:10px}
 .pd-sdot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
-.pd-scyan{background:#00b8d4;box-shadow:0 0 6px #00b8d4}
+.pd-scyan{background:var(--data-2);box-shadow:0 0 6px var(--data-2)}
 .pd-samb{background:var(--accent-warn);box-shadow:0 0 6px var(--accent-warn)}
 .pd-spur{background:var(--accent);box-shadow:0 0 6px var(--accent)}
 .pd-sname{font-size:11px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--text-muted)}
@@ -2293,7 +2293,7 @@ const MLManager = (() => {
 .pd-semantic:focus{border-color:var(--accent)}
 .pd-semantic::placeholder{color:var(--text-faint)}
 .pd-json-body{background:var(--bg-panel);border:1px solid var(--border);border-top:none;border-radius:0 0 6px 6px;padding:0;overflow:hidden}
-.pd-json{font-family:var(--font-mono);font-size:11px;color:#00b8d4;background:color-mix(in srgb,#00b8d4 3%,var(--bg-panel));padding:14px 16px;margin:0;max-height:160px;overflow-y:auto;white-space:pre;line-height:1.7}
+.pd-json{font-family:var(--font-mono);font-size:11px;color:var(--data-2);background:color-mix(in srgb,var(--data-2) 3%,var(--bg-panel));padding:14px 16px;margin:0;max-height:160px;overflow-y:auto;white-space:pre;line-height:1.7}
 .pd-json-actions{display:flex;align-items:center;justify-content:flex-end;gap:8px;padding:8px 14px;border-top:1px solid var(--border);background:var(--item-bg)}
 .pd-icon-btn{display:flex;align-items:center;gap:5px;font-size:11px;color:var(--text-muted);background:none;border:1px solid var(--border);padding:4px 10px;border-radius:3px;cursor:pointer;transition:background .15s}
 .pd-icon-btn:hover{background:var(--item-bg);color:var(--text-primary)}
@@ -2387,7 +2387,7 @@ const MLManager = (() => {
             });
             renderAnomalyResult(data);
         } catch (e) {
-            results.innerHTML = '<div class="page-card"><div class="page-card-header" style="color:#ef4444">❌ Error</div>' +
+            results.innerHTML = '<div class="page-card"><div class="page-card-header" style="color:var(--danger)">❌ Error</div>' +
                 '<div class="page-card-body" style="padding:12px;font-size:12px">' + escapeHtml(e.message) + '</div></div>';
         }
     }
@@ -2714,7 +2714,7 @@ const MLManager = (() => {
             row.style.cssText = 'display:flex;align-items:center;gap:8px;padding:4px 8px;font-size:10px';
             row.innerHTML = '<span style="min-width:120px">' + labels[mk] + '</span>' +
                 '<div style="flex:1;height:4px;background:var(--border);border-radius:2px;overflow:hidden">' +
-                '<div id="' + modelBarIds[mk] + '" style="height:100%;width:0%;background:linear-gradient(90deg,var(--accent),#10b981);border-radius:2px;transition:width 0.3s ease"></div></div>' +
+                '<div id="' + modelBarIds[mk] + '" style="height:100%;width:0%;background:linear-gradient(90deg,var(--accent),var(--ok));border-radius:2px;transition:width 0.3s ease"></div></div>' +
                 '<span style="color:var(--text-faint);min-width:80px;text-align:right" id="ml-ts-' + mk + '">⏳ esperando...</span>';
             progressDiv.appendChild(row);
         }
@@ -2827,7 +2827,7 @@ const MLManager = (() => {
         var results = document.getElementById('ml-results');
         if (!results) return;
         if (allResults.length === 0) {
-            results.innerHTML = '<div class="page-card"><div class="page-card-header" style="color:#ef4444">❌ Error</div><div class="page-card-body" style="padding:12px;font-size:12px">No se pudo entrenar ningún modelo.</div></div>';
+            results.innerHTML = '<div class="page-card"><div class="page-card-header" style="color:var(--danger)">❌ Error</div><div class="page-card-body" style="padding:12px;font-size:12px">No se pudo entrenar ningún modelo.</div></div>';
             return;
         }
         var meta = allResults[0].data && allResults[0].data.meta || {};
@@ -2881,7 +2881,7 @@ const MLManager = (() => {
         allResults.forEach(function(r) {
             var isBest = r === bestModel;
             var metrics = r.data && r.data.metrics || {};
-            html += '<tr style="' + (isBest ? 'background:rgba(34,197,94,0.08)' : '') + '">' +
+            html += '<tr style="' + (isBest ? 'background:rgba(63,185,80,0.08)' : '') + '">' +
                 '<td style="padding:5px 6px;border-bottom:1px solid var(--border);font-weight:' + (isBest ? '700' : '400') + '">' +
                 (isBest ? '⭐ ' : '') + r.label + '</td>';
             sortedKeys.forEach(function(k) {
@@ -3005,12 +3005,12 @@ const MLManager = (() => {
                         _renderDriftResults(resp.drift, modelId);
                         _mvCheckDrift(modelId);
                     } else {
-                        container.innerHTML = '<div style="text-align:center;padding:30px;color:#f87171">' +
+                        container.innerHTML = '<div style="text-align:center;padding:30px;color:var(--danger)">' +
                             'Error: ' + escapeHtml(resp.error || resp.detail || 'desconocido') + '</div>';
                     }
                 })
                 .catch(function(e) {
-                    container.innerHTML = '<div style="text-align:center;padding:30px;color:#f87171">' +
+                    container.innerHTML = '<div style="text-align:center;padding:30px;color:var(--danger)">' +
                         'Error de conexión: ' + escapeHtml(e.message) + '</div>';
                 });
             } else {
