@@ -90,6 +90,17 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (StatAnalyzer Pro) co
 
 ## CAMBIOS RECIENTES
 
+### 2026-11-27 (364): P1-E — mobile checks de firma y Validaciones
+
+**Qué:** se extienden los checks de overflow móvil sin agregar logins.
+- `e2e/sign-flow.spec.js`: la bandeja `.fbandeja-modal` y el documento no desbordan a 390px tras firmar.
+- `e2e/procesos-formas.spec.js`: Validaciones (entidad cremas) no desborda a 390px.
+- Ambos reutilizan el login existente del test; 0 intentos nuevos.
+
+**Archivos:** `e2e/sign-flow.spec.js`, `e2e/procesos-formas.spec.js`, `docs/MAPA_DISENO.md`, `ESTADO_PROYECTO.md`.
+
+**Verificación:** `npm run preflight` OK (vitest **1293**, backend **154**, E2E **18**); E2E dirigidos sign/procesos **3/3**.
+
 ### 2026-11-27 (363): P1-D — mobile checks sin logins extra
 
 **Qué:** cierre del pendiente de E2E móvil sin tocar el rate limit de login.
