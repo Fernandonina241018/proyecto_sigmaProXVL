@@ -195,7 +195,8 @@ function _numericColsForAnalysis(data) {
 
 function _detectColTypes(headers, data) {
   var numCols = _numericColsForAnalysis({ headers: headers, data: data });
-  var catCols = headers.filter(function(h) { return numCols.indexOf(h) === -1; });
+  var numSet = new Set(numCols);
+  var catCols = headers.filter(function(h) { return !numSet.has(h); });
   return { catCols: catCols, numCols: numCols };
 }
 
