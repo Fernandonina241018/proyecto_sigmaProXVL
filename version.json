@@ -1,1 +1,1 @@
-{"v":"4a35531","t":"2026-11-28T01:15:56Z","m":"test(e2e): mobile interaction y decisiones de diseño (#410)","b":["Documenta que .viz-card/modales/navs/emoji y F3/F4 no se tocan sin baseline","Sin logins nuevos ni cambios de produccion"]}
+{"v":"87e7478","t":"2026-11-28T01:26:00Z","m":"test(e2e): flujo completo de firma a 390px (#412)","b":["Bandeja, firma, verificacion, post-firma y reapertura en movil","Reutiliza el login existente; cero intentos nuevos","Sin cambios de produccion"]}
