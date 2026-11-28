@@ -48,4 +48,11 @@ test('procesos: el combobox solo lista formas del grupo elegido', async ({ page 
   // P1-E: Validaciones no desborda a 390px.
   await page.setViewportSize({ width: 390, height: 844 });
   expect(await page.evaluate(() => document.documentElement.scrollWidth - window.innerWidth)).toBeLessThanOrEqual(1);
+
+  // P1-F: menú móvil de Validaciones (abrir y cerrar tocando el overlay).
+  await page.click('.menu-toggle');
+  await expect(page.locator('.menu-toggle')).toHaveAttribute('aria-expanded', 'true');
+  await expect(page.locator('#vd-sidebar')).toHaveClass(/open/);
+  await page.click('#vd-overlay', { position: { x: 350, y: 400 } });
+  await expect(page.locator('.menu-toggle')).toHaveAttribute('aria-expanded', 'false');
 });

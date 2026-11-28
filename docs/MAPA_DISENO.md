@@ -110,7 +110,7 @@ Estados iniciales: Trabajo solo "Hoja de Trabajo" colapsada; Reportes solo
 - Dispositivos: grilla de una columna por debajo de 600px; cards y huellas se ajustan.
 - ML: el dashboard apila `dp-grid`/sidebar en ≤1100, veredicto y stats en ≤760, y veredicto/factores/features en ≤520.
 - Tabs: retirado el `+` (`#tabNew`); creaba una pestaña “Untitled” sin página. Las pestañas se crean al navegar. Los botones “Nueva hoja” del spreadsheet no se tocaron: crean hoja con grilla.
-- E2E móvil: checks de overflow a 390px en Datos, ML/Dispositivos, firma (bandeja) y Validaciones; reutilizan logins existentes, sin intentos nuevos.
+- E2E móvil: overflow a 390px en Datos, ML/Dispositivos, firma y Validaciones, más interacción con bottom nav en Datos y menú móvil en Validaciones; reutiliza logins existentes, sin intentos nuevos.
 
 ## 9. Módulos fuera del shell
 
@@ -129,12 +129,20 @@ Estados iniciales: Trabajo solo "Hoja de Trabajo" colapsada; Reportes solo
 - `showPerfilModal()` en `js/core/indexx-ui.js`, `css/core/perfil-modal.css`.
 - Muesca bajo el titlebar; cambio de tema; cambio de módulo Estadística/Validaciones; passkeys y logout; `a11yModal()`/`trapFocus()` para el foco.
 
-## 10. Pendiente (fases futuras)
+## 10. Decisiones de diseño y pendiente
 
-- Consolidación visual de componentes: `.viz-card`/`.side-card`, patrones de modal, tres navegaciones y emoji vs SVG.
-- Decisión P1-C/P1-D: los labels de 10px/10.5px se mantienen por densidad; solo se eliminaron los 8/9px. Revisar si una futura escala sube el mínimo a 11px.
-- E2E móvil de interacción completa (hoy hay overflow checks en shell, ML, Dispositivos, firma y Validaciones; el límite de login 20/15m sigue limitando una suite completa).
-- **F3 · EDA**: quitar gradiente del header, superficies `--surface-2`, iconos SVG.
-- **F4 · Modelo/ML**: sustituir hex por tokens, panel con `.side-card`, migrar `.viz-card` a alias de `.side-card` y normalizar radios/sombras.
+### Decisiones (2026-11-28)
+
+- `.viz-card`/`.side-card`: se mantienen separados. `.viz-card` está scoped a `.viz-root` y tiene layout/gradiente propios; aliasarlo cambiaría Visualización sin baseline.
+- Modales: la conducta ya está unificada con `a11yModal()`; las variantes visuales (perfil, firmas, límites) son intencionales.
+- Navegaciones: sidebar, ribbon popup y tabs cubren roles distintos; no se elimina ninguna.
+- Emoji vs SVG: se mantiene el emoji funcional; reemplazarlo requiere un set SVG y revisión visual.
+- 10/10.5px: se mantienen por densidad; los 8/9px se eliminaron.
+- F3/F4: EDA/ML ya aliasan los tokens globales en sus bases; los hex restantes son legado visual, no un defecto de producción. Quedan como backlog estético.
+
+### Pendiente
+
+- E2E móvil del flujo de firma completo (hoy hay overflow y menú móvil de Validaciones/bottom nav).
+- Rediseño F3/F4 y consolidación de componentes **solo con aprobación de diseño y baseline visual**.
 
 Cada fase va en commit propio y con `npx vitest run` + `backend npm test` verdes.
