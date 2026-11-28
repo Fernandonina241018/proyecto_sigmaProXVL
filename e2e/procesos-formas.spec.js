@@ -44,4 +44,8 @@ test('procesos: el combobox solo lista formas del grupo elegido', async ({ page 
   await page.waitForTimeout(300);
   await page.locator('[data-ent="cremas"]').click();
   await expect(page.locator('.v7-field[data-f="tipoGranulacion"]')).toBeHidden();
+
+  // P1-E: Validaciones no desborda a 390px.
+  await page.setViewportSize({ width: 390, height: 844 });
+  expect(await page.evaluate(() => document.documentElement.scrollWidth - window.innerWidth)).toBeLessThanOrEqual(1);
 });

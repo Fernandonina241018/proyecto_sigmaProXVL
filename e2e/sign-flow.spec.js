@@ -182,4 +182,9 @@ test('revisor ve pendiente, abre y firma; sale de sus pendientes', async ({ page
   await openBtn.click();
   await expect(page.locator('#firmaModalList')).toBeVisible({ timeout: 15000 });
   await expect(page.locator('#firmaModalList .fbandeja-record', { hasText: sessionName })).toHaveCount(0, { timeout: 15000 });
+
+  // P1-E: la bandeja de firmas no desborda a 390px.
+  await page.setViewportSize({ width: 390, height: 844 });
+  expect(await page.locator('.fbandeja-modal').evaluate((el) => el.scrollWidth - el.clientWidth)).toBeLessThanOrEqual(1);
+  expect(await page.evaluate(() => document.documentElement.scrollWidth - window.innerWidth)).toBeLessThanOrEqual(1);
 });
