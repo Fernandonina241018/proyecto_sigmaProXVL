@@ -90,6 +90,18 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (StatAnalyzer Pro) co
 
 ## CAMBIOS RECIENTES
 
+### 2026-11-28 (365): P1-F — mobile interaction y cierre de decisiones visuales
+
+**Qué:** se cierra el pendiente móvil seguro y se documentan las decisiones de diseño.
+- `e2e/datos-send.spec.js`: a 390px usa el bottom nav (`#btnNext`/`#btnPrev`) para cambiar Datos ↔ Trabajo. El sidebar no se usa en móvil; su ribbon está oculto.
+- `e2e/procesos-formas.spec.js`: a 390px abre/cierra el menú móvil de Validaciones y verifica `aria-expanded` y el overlay.
+- Decisiones en `MAPA_DISENO.md`: no se consolidan `.viz-card`/`.side-card`, variantes de modal, navegaciones ni emoji/SVG sin baseline; F3/F4 quedan como backlog estético; 10/10.5px se mantienen.
+- Sin logins nuevos y sin cambios de código de producción.
+
+**Archivos:** `e2e/datos-send.spec.js`, `e2e/procesos-formas.spec.js`, `docs/MAPA_DISENO.md`, `ESTADO_PROYECTO.md`.
+
+**Verificación:** `npm run preflight` OK (vitest **1293**, backend **154**, E2E **18**); E2E dirigidos datos/procesos **2/2**.
+
 ### 2026-11-27 (364): P1-E — mobile checks de firma y Validaciones
 
 **Qué:** se extienden los checks de overflow móvil sin agregar logins.

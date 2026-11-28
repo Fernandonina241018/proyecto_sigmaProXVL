@@ -86,5 +86,11 @@ test('cargar CSV y enviarlo a Hoja de Trabajo con el botón Trabajo', async ({ p
   await page.setViewportSize({ width: 390, height: 844 });
   expect(await page.evaluate(() => document.documentElement.scrollWidth - window.innerWidth)).toBeLessThanOrEqual(1);
 
+  // P1-F: interacción móvil real con el bottom nav (el sidebar no se usa en móvil).
+  await page.click('#btnNext');
+  await expect(page.locator('#rightPaneTitle')).toHaveText('Hoja de Trabajo');
+  await page.click('#btnPrev');
+  await expect(page.locator('#rightPaneTitle')).toHaveText('Gestión de Datos');
+
   expect(fatales).toEqual([]);
 });
