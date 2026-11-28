@@ -1,1 +1,1 @@
-{"v":"9a6d071","t":"2026-11-28T00:36:45Z","m":"test(e2e): mobile checks de firma y validaciones (#408)","b":["Bandeja de firmas y documento sin overflow a 390px","Validaciones/cremas sin overflow a 390px","Reutiliza logins existentes; cero intentos nuevos"]}
+{"v":"4a35531","t":"2026-11-28T01:15:56Z","m":"test(e2e): mobile interaction y decisiones de diseño (#410)","b":["Documenta que .viz-card/modales/navs/emoji y F3/F4 no se tocan sin baseline","Sin logins nuevos ni cambios de produccion"]}
