@@ -965,7 +965,7 @@ var leftPanels = {
     },
 
   visualizacion: function()  { return '<div class="left-panel viz-root datos" id="panelViz" aria-label="Visualización" style="gap:12px;padding:8px;overflow:hidden;display:flex;flex-direction:column;overflow-y:auto">' +
-    '<div class="viz-card" id="vizTypeCard">' +
+    '<div class="viz-card side-card" id="vizTypeCard">' +
       '<div class="viz-card-head">' +
         '<div class="viz-card-title-wrap">' +
           '<div class="viz-card-icon" aria-hidden="true">' +
@@ -986,7 +986,7 @@ var leftPanels = {
         '</div>' +
       '</div>' +
     '</div>' +
-    '<div class="viz-card collapsed" id="vizVarsCard">' +
+    '<div class="viz-card side-card collapsed" id="vizVarsCard">' +
       '<div class="viz-card-head">' +
         '<div class="viz-card-title-wrap">' +
           '<div class="viz-card-icon" aria-hidden="true">' +
@@ -1002,7 +1002,7 @@ var leftPanels = {
         '<div class="axis-body" id="vizAxisBody"><div class="axis-hint">Selecciona un tipo de gráfico primero</div></div>' +
       '</div>' +
     '</div>' +
-    '<div class="viz-card collapsed" id="vizStyleCard">' +
+    '<div class="viz-card side-card collapsed" id="vizStyleCard">' +
       '<div class="viz-card-head">' +
         '<div class="viz-card-title-wrap">' +
           '<div class="viz-card-icon" aria-hidden="true">' +
@@ -1029,7 +1029,7 @@ var leftPanels = {
         '</div>' +
       '</div>' +
     '</div>' +
-    '<div class="viz-card collapsed" id="vizActionsCard">' +
+    '<div class="viz-card side-card collapsed" id="vizActionsCard">' +
       '<div class="viz-card-head">' +
         '<div class="viz-card-title-wrap">' +
           '<div class="viz-card-icon" aria-hidden="true">' +

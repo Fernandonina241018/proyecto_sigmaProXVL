@@ -152,7 +152,6 @@ function _V_injectCSS() {
     + '.viz-root .ct-lbl{font-size:10px;font-weight:600;color:var(--t2);text-align:center}'
     + '.viz-root .ct.sel .ct-lbl{color:var(--acc2)}'
     // ── Rediseño "Tipo de gráfico" (mockup) ──
-    + '.viz-root .viz-card{border:1px solid var(--sep);border-radius:16px;padding:16px;background:linear-gradient(145deg,var(--bg2),var(--bg1));box-shadow:0 8px 24px rgba(0,0,0,.18);flex-shrink:0}'
     + '.viz-root .viz-card-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:14px}'
     + '.viz-root .viz-card-title-wrap{display:flex;align-items:center;gap:11px;min-width:0}'
     + '.viz-root .viz-card-icon{width:38px;height:38px;display:grid;place-items:center;border:1px solid var(--accBorder);border-radius:12px;background:var(--accDim);color:var(--acc2);flex-shrink:0}'

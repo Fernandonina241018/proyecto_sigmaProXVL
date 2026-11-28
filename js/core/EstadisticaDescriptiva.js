@@ -2378,7 +2378,7 @@ function generarHTML(analisisResultado) {
                     <td style="padding:4px 8px;border:1px solid var(--border);text-align:right">${c.valor?.toFixed(4) ?? '—'}</td>
                     <td style="padding:4px 8px;border:1px solid var(--border);text-align:right">${c.ee?.toFixed(4) ?? '—'}</td>
                     <td style="padding:4px 8px;border:1px solid var(--border);text-align:right">${c.t?.toFixed(4) ?? '—'}</td>
-                    <td style="padding:4px 8px;border:1px solid var(--border);text-align:right;${c.p < 0.05 ? 'color:var(--text-danger);font-weight:600' : ''}">${fmtP(c.p)}</td>
+                    <td style="padding:4px 8px;border:1px solid var(--border);text-align:right;${(c.significativo !== undefined ? c.significativo : c.p < 0.05) ? 'color:var(--text-danger);font-weight:600' : ''}">${fmtP(c.p)}</td>
                 </tr>`).join('');
             const resRows = (data.residuos || []).map((r, i) => `
                 <tr>
@@ -3079,7 +3079,7 @@ function generarHTML(analisisResultado) {
                         <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">p</span><span class="ar-kpi-sub-v">${data.p}</span></div>
                         <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Accuracy</span><span class="ar-kpi-sub-v">${((data.accuracy||0)*100).toFixed(1)}%</span></div>
                     </div>
-                    <div class="ar-kpi-badge ${data.p < 0.05 ? 'ar-badge-danger' : 'ar-badge-ok'}">${data.p < 0.05 ? '✗ Significativo' : '✓ No significativo'}</div>
+                    <div class="ar-kpi-badge ${(data.significativo !== undefined ? data.significativo : data.p < 0.05) ? 'ar-badge-danger' : 'ar-badge-ok'}">${(data.significativo !== undefined ? data.significativo : data.p < 0.05) ? '✗ Significativo' : '✓ No significativo'}</div>
                     <div class="ar-formula" style="margin-top:12px;"><span class="ar-formula-icon">💬</span><div><div class="ar-formula-desc">${escapeHtml(data.interpretacion || '')}</div></div></div></div>`;
         }
         // MANOVA

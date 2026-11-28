@@ -90,6 +90,19 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (StatAnalyzer Pro) co
 
 ## CAMBIOS RECIENTES
 
+### 2026-11-28 (369): P1-J — F3/F4 EDA/ML y alias `.viz-card`
+
+**Qué:** cierre del rediseño F3/F4 del mapa.
+- **EDA**: header con `--surface-2` y borde, sin gradiente; texto en tokens; iconos SVG en header, KPIs, secciones y export.
+- **Modelo Stats**: 0 hex inline; paneles, KPIs y nota con `.side-card`; estados con tokens.
+- **Detalle ML** (`js/pages/ml.js`): variables y colores directos a tokens; solo `#fff` para texto sobre color.
+- **`.viz-card`**: alias real de `.side-card`; markup con `side-card` y base duplicada eliminada.
+- Capturas after revisadas: EDA, MLStats y Visualización.
+
+**Archivos:** `css/core/eda-dashboard.css`, `js/managers/EDAManager.js`, `js/managers/MLStatsManager.js`, `js/pages/ml.js`, `js/core/indexx-ui.js`, `js/core/indexx-viz.js`, `docs/MAPA_DISENO.md`, `ESTADO_PROYECTO.md`.
+
+**Verificación:** `npm run preflight` OK (vitest **1302**, backend **154**, E2E **18**); E2E datos-send **1/1**; capturas before/after revisadas.
+
 ### 2026-11-28 (368): P1-I — UI de Análisis y EDA en Reportes
 
 **Qué:** lotes 2 y 3 del plan de mejora del módulo de estadística.

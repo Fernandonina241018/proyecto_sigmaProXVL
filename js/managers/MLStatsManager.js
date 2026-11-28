@@ -104,10 +104,10 @@ var MLStatsManager = (function () {
             'rango-intercuartil': 'Rango Intercuartil'
         };
 
-        var html = '<div class="mlrec-wrap" style="margin-top:16px;padding:12px;background:var(--bg-dark,#1e1e2e);border:1px solid #2a2a3a;border-radius:8px;">';
+        var html = '<div class="mlrec-wrap side-card" style="margin-top:16px">';
         html += '<div style="display:flex;align-items:center;gap:8px;margin-bottom:12px;">';
         html += '<span style="font-size:18px;">🧠</span>';
-        html += '<strong style="font-size:13px;color:#dcddde;">Recomendaciones del modelo estadistico</strong>';
+        html += '<strong style="font-size:13px;color:var(--text-primary);">Recomendaciones del modelo estadistico</strong>';
         html += '</div>';
 
         Object.keys(predictions).forEach(function (cat) {
@@ -119,18 +119,18 @@ var MLStatsManager = (function () {
             var displayName = displayNames[pred.recommended] || pred.recommended;
 
             html += '<div class="mlrec-row" style="display:flex;align-items:center;gap:8px;padding:4px 0;font-size:12px;">';
-            html += '<span style="min-width:130px;color:#b0b0b0;">' + (labels[cat] || cat) + ':</span>';
-            html += '<span style="font-weight:600;color:#7ec7ff;">' + escHtml(displayName) + '</span>';
+            html += '<span style="min-width:130px;color:var(--text-muted);">' + (labels[cat] || cat) + ':</span>';
+            html += '<span style="font-weight:600;color:var(--accent-hover);">' + escHtml(displayName) + '</span>';
             html += '<span class="' + confClass + '" style="margin-left:auto;font-size:11px;padding:2px 6px;border-radius:4px;">';
             html += conf + '% confianza</span>';
-            html += '<button class="mlrec-btn mlrec-like" data-cat="' + cat + '" data-opt="' + pred.recommended + '" style="background:none;border:1px solid #3a3a4a;border-radius:4px;padding:2px 6px;cursor:pointer;font-size:11px;color:#8f8;" title="Aceptar recomendacion">👍</button>';
-            html += '<button class="mlrec-btn mlrec-dislike" data-cat="' + cat + '" style="background:none;border:1px solid #3a3a4a;border-radius:4px;padding:2px 6px;cursor:pointer;font-size:11px;color:#f88;" title="Rechazar recomendacion">👎</button>';
+            html += '<button class="mlrec-btn mlrec-like" data-cat="' + cat + '" data-opt="' + pred.recommended + '" style="background:none;border:1px solid var(--border);border-radius:4px;padding:2px 6px;cursor:pointer;font-size:11px;color:var(--ok);" title="Aceptar recomendacion">👍</button>';
+            html += '<button class="mlrec-btn mlrec-dislike" data-cat="' + cat + '" style="background:none;border:1px solid var(--border);border-radius:4px;padding:2px 6px;cursor:pointer;font-size:11px;color:var(--danger);" title="Rechazar recomendacion">👎</button>';
             html += '</div>';
         });
 
-        html += '<div style="margin-top:8px;font-size:10px;color:#666;display:flex;justify-content:space-between;">';
+        html += '<div style="margin-top:8px;font-size:10px;color:var(--text-faint);display:flex;justify-content:space-between;">';
         html += '<span>🤖 Ensemble k-NN + Arbol de decision</span>';
-        html += '<span><a href="#" onclick="loadPage(\'modelo-estadistico\');return false;" style="color:#7ec7ff;">📊 Ver estadisticas del modelo</a></span>';
+        html += '<span><a href="#" onclick="loadPage(\'modelo-estadistico\');return false;" style="color:var(--accent-hover);">📊 Ver estadisticas del modelo</a></span>';
         html += '</div>';
         html += '</div>';
 
@@ -176,15 +176,15 @@ var MLStatsManager = (function () {
     function renderModelPage() {
         var stats = getStats();
         if (!stats) {
-            return '<div style="padding:20px;color:#888;">Modelo no disponible</div>';
+            return '<div style="padding:20px;color:var(--text-muted);">Modelo no disponible</div>';
         }
 
         var html = '<div class="mlstat-wrap" style="padding:16px;max-width:700px;margin:0 auto;">';
 
         html += '<div style="display:flex;align-items:center;gap:10px;margin-bottom:20px;">';
         html += '<span style="font-size:28px;">🧠</span>';
-        html += '<div><h2 style="margin:0;font-size:18px;color:#dcddde;">Modelo Estadistico</h2>';
-        html += '<p style="margin:2px 0 0;font-size:12px;color:#888;">Ensemble k-NN + CART · Aprende de cada analisis</p></div>';
+        html += '<div><h2 style="margin:0;font-size:18px;color:var(--text-primary);">Modelo Estadistico</h2>';
+        html += '<p style="margin:2px 0 0;font-size:12px;color:var(--text-muted);">Ensemble k-NN + CART · Aprende de cada analisis</p></div>';
         html += '</div>';
 
         /* KPI */
@@ -195,25 +195,25 @@ var MLStatsManager = (function () {
         html += '</div>';
 
         /* Precisión por categoría */
-        html += '<div style="background:var(--bg-card,#252535);border-radius:8px;padding:14px;margin-bottom:16px;">';
-        html += '<h3 style="margin:0 0 12px;font-size:14px;color:#dcddde;">Precision por categoria</h3>';
+        html += '<div class="side-card" style="margin-bottom:16px;">';
+        html += '<h3 style="margin:0 0 12px;font-size:14px;color:var(--text-primary);">Precision por categoria</h3>';
         Object.keys(stats.byCategory).forEach(function (cat) {
             var c = stats.byCategory[cat];
             var barW = c.accuracy || 0;
             html += '<div style="margin-bottom:10px;">';
             html += '<div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:3px;">';
-            html += '<span style="color:#b0b0b0;">' + escHtml(c.label) + '</span>';
-            html += '<span style="color:#dcddde;">' + c.accepted + '/' + c.total + ' (' + c.accuracy + '%)</span>';
+            html += '<span style="color:var(--text-muted);">' + escHtml(c.label) + '</span>';
+            html += '<span style="color:var(--text-primary);">' + c.accepted + '/' + c.total + ' (' + c.accuracy + '%)</span>';
             html += '</div>';
-            html += '<div style="height:6px;background:#2a2a3a;border-radius:3px;overflow:hidden;">';
-            html += '<div style="height:100%;width:' + barW + '%;background:linear-gradient(90deg,#4ade80,#22d3ee);border-radius:3px;transition:width 0.5s;"></div>';
+            html += '<div style="height:6px;background:var(--border);border-radius:3px;overflow:hidden;">';
+            html += '<div style="height:100%;width:' + barW + '%;background:linear-gradient(90deg,var(--ok),var(--data-2));border-radius:3px;transition:width 0.5s;"></div>';
             html += '</div></div>';
         });
         html += '</div>';
 
         /* Pesos ensemble */
-        html += '<div style="background:var(--bg-card,#252535);border-radius:8px;padding:14px;margin-bottom:16px;">';
-        html += '<h3 style="margin:0 0 8px;font-size:14px;color:#dcddde;">Pesos del ensemble</h3>';
+        html += '<div class="side-card" style="margin-bottom:16px;">';
+        html += '<h3 style="margin:0 0 8px;font-size:14px;color:var(--text-primary);">Pesos del ensemble</h3>';
         html += '<div style="display:flex;gap:20px;font-size:12px;">';
         html += '<span>k-NN: <strong>' + Math.round(stats.weights.knn * 100) + '%</strong></span>';
         html += '<span>Arbol: <strong>' + Math.round(stats.weights.tree * 100) + '%</strong></span>';
@@ -222,18 +222,18 @@ var MLStatsManager = (function () {
         /* Últimas decisiones */
         var last = getLastDecisions(10);
         if (last && last.length > 0) {
-            html += '<div style="background:var(--bg-card,#252535);border-radius:8px;padding:14px;margin-bottom:16px;">';
-            html += '<h3 style="margin:0 0 12px;font-size:14px;color:#dcddde;">Ultimas decisiones aprendidas</h3>';
+            html += '<div class="side-card" style="margin-bottom:16px;">';
+            html += '<h3 style="margin:0 0 12px;font-size:14px;color:var(--text-primary);">Ultimas decisiones aprendidas</h3>';
             last.forEach(function (rec, idx) {
                 if (!rec.decisions) return;
                 var decs = [];
                 Object.keys(rec.decisions).forEach(function (cat) {
                     decs.push(rec.decisions[cat]);
                 });
-                html += '<div style="display:flex;gap:8px;font-size:11px;padding:4px 0;border-bottom:1px solid #2a2a3a;">';
-                html += '<span style="color:#666;min-width:70px;">#' + (idx + 1) + '</span>';
-                html += '<span style="color:#7ec7ff;">' + escHtml(decs.join(', ')) + '</span>';
-                html += '<span style="margin-left:auto;color:#666;">' + (rec.user_approved ? '✅' : '') + '</span>';
+                html += '<div style="display:flex;gap:8px;font-size:11px;padding:4px 0;border-bottom:1px solid var(--border);">';
+                html += '<span style="color:var(--text-faint);min-width:70px;">#' + (idx + 1) + '</span>';
+                html += '<span style="color:var(--accent-hover);">' + escHtml(decs.join(', ')) + '</span>';
+                html += '<span style="margin-left:auto;color:var(--text-faint);">' + (rec.user_approved ? '✅' : '') + '</span>';
                 html += '</div>';
             });
             html += '</div>';
@@ -247,8 +247,8 @@ var MLStatsManager = (function () {
         html += '<button class="btn btn-danger" onclick="if(confirm(\'Borrar todo el modelo? Perderas todos los analisis aprendidos.\')){MLStatsManager.clearModel();loadPage(\'modelo-estadistico\')}" style="font-size:11px;">🗑 Reiniciar modelo</button>';
         html += '</div>';
 
-        html += '<div style="margin-top:16px;padding:10px;background:#1a1a2a;border-radius:6px;font-size:11px;color:#888;">';
-        html += '<strong style="color:#b0b0b0;">¿Como funciona?</strong><br>';
+        html += '<div class="side-card" style="margin-top:16px;padding:10px;font-size:11px;color:var(--text-muted)">';
+        html += '<strong style="color:var(--text-muted);">¿Como funciona?</strong><br>';
         html += 'Cada vez que ejecutas un analisis, el modelo extrae 11 caracteristicas del dataset (tamaño, distribucion, outliers, etc.) y las compara con analisis previos usando k-NN + CART. Cuando aceptas o rechazas una recomendacion, el modelo aprende y mejora para el proximo analisis.';
         html += '</div>';
 
@@ -257,10 +257,10 @@ var MLStatsManager = (function () {
     }
 
     function kpiBox(icon, label, value) {
-        return '<div style="background:var(--bg-card,#252535);border-radius:8px;padding:12px;text-align:center;">' +
+        return '<div class="side-card" style="padding:12px;text-align:center">' +
             '<div style="font-size:20px;margin-bottom:4px;">' + icon + '</div>' +
-            '<div style="font-size:22px;font-weight:700;color:#dcddde;">' + value + '</div>' +
-            '<div style="font-size:11px;color:#888;margin-top:2px;">' + escHtml(label) + '</div></div>';
+            '<div style="font-size:22px;font-weight:700;color:var(--text-primary);">' + value + '</div>' +
+            '<div style="font-size:11px;color:var(--text-muted);margin-top:2px;">' + escHtml(label) + '</div></div>';
     }
 
     function exportModelAction() {

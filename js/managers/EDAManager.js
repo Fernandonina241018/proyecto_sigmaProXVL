@@ -445,7 +445,7 @@ const EDAManager = (function () {
             <div class="eda-header">
                 <div>
                     <div class="eda-header-title">
-                        <span class="eda-icon">🔍</span>
+                        ${edaIcon('search')}
                         Análisis Exploratorio Completo
                     </div>
                     <div class="eda-header-info">
@@ -453,7 +453,7 @@ const EDAManager = (function () {
                     </div>
                 </div>
                 <div class="eda-header-actions">
-                    <button class="eda-btn-export" onclick="EDAManager.exportarResumen()">📥 Exportar resumen</button>
+                    <button class="eda-btn-export" onclick="EDAManager.exportarResumen()">${edaIcon('download')} Exportar resumen</button>
                 </div>
             </div>`;
 
@@ -461,27 +461,27 @@ const EDAManager = (function () {
         html += `
             <div class="eda-summary-kpis">
                 <div class="eda-summary-kpi">
-                    <div class="eda-kpi-icon">📊</div>
+                    <div class="eda-kpi-icon">${edaIcon('numeric')}</div>
                     <div class="eda-kpi-val">${r.columnasNumericas}</div>
                     <div class="eda-kpi-label">Numéricas</div>
                 </div>
                 <div class="eda-summary-kpi">
-                    <div class="eda-kpi-icon">📋</div>
+                    <div class="eda-kpi-icon">${edaIcon('categorical')}</div>
                     <div class="eda-kpi-val">${r.columnasCategoricas}</div>
                     <div class="eda-kpi-label">Categóricas</div>
                 </div>
                 <div class="eda-summary-kpi ${r.valoresFaltantes > 0 ? 'eda-kpi-warn' : 'eda-kpi-ok'}">
-                    <div class="eda-kpi-icon">${r.valoresFaltantes > 0 ? '⚠️' : '✅'}</div>
+                    <div class="eda-kpi-icon">${r.valoresFaltantes > 0 ? edaIcon('warn') : edaIcon('ok')}</div>
                     <div class="eda-kpi-val">${r.valoresFaltantes}</div>
                     <div class="eda-kpi-label">Faltantes</div>
                 </div>
                 <div class="eda-summary-kpi ${r.totalOutliers > 0 ? 'eda-kpi-warn' : 'eda-kpi-ok'}">
-                    <div class="eda-kpi-icon">${r.totalOutliers > 0 ? '🔴' : '✅'}</div>
+                    <div class="eda-kpi-icon">${r.totalOutliers > 0 ? edaIcon('outlier') : edaIcon('ok')}</div>
                     <div class="eda-kpi-val">${r.totalOutliers}</div>
                     <div class="eda-kpi-label">Outliers</div>
                 </div>
                 <div class="eda-summary-kpi ${r.correlacionesFuertes > 0 ? 'eda-kpi-info' : 'eda-kpi-ok'}">
-                    <div class="eda-kpi-icon">🔗</div>
+                    <div class="eda-kpi-icon">${edaIcon('corr')}</div>
                     <div class="eda-kpi-val">${r.correlacionesFuertes}</div>
                     <div class="eda-kpi-label">Corr. Fuertes</div>
                 </div>
@@ -521,7 +521,7 @@ const EDAManager = (function () {
         const cols = Object.keys(results.descriptivas);
         if (!cols.length) return '';
 
-        let html = buildSectionHeader('📊', 'Estadísticas Descriptivas', `${cols.length} columnas`);
+        let html = buildSectionHeader(edaIcon('section'), 'Estadísticas Descriptivas', `${cols.length} columnas`);
         html += `<div class="eda-section-content"><div style="overflow-x:auto;">
                  <table class="eda-stats-table">
                      <thead><tr>
@@ -549,7 +549,7 @@ const EDAManager = (function () {
         const cols = Object.keys(results.normalidad);
         if (!cols.length) return '';
 
-        let html = buildSectionHeader('🔔', 'Tests de Normalidad (Comparativa)', `${cols.length} columnas`);
+        let html = buildSectionHeader(edaIcon('bell'), 'Tests de Normalidad (Comparativa)', `${cols.length} columnas`);
         html += `<div class="eda-section-content">
                  <p style="font-size:0.72rem;color:var(--text-muted);margin:0 0 12px;">
                      Se aplicaron 5 tests de normalidad. H₀: la distribución es normal. Rechazar si p ≤ 0.05.
@@ -624,7 +624,7 @@ const EDAManager = (function () {
                     const zInfo = o.zScore ? ` (z=${o.zScore})` : '';
                     html += `
                     <div class="eda-outlier-item">
-                        <span class="eda-outlier-icon">⚠️</span>
+                        <span class="eda-outlier-icon">${edaIcon('warn')}</span>
                         <span class="eda-outlier-col">${escHtml(col)}</span>
                         <span class="eda-outlier-val">valor: ${o.value}${zInfo}</span>
                         <span class="eda-outlier-method">Fila ${o.index + 1} · ${o.method}</span>
@@ -645,7 +645,7 @@ const EDAManager = (function () {
 
         const canvasId = `eda-heatmap-${Date.now()}`;
 
-        let html = buildSectionHeader('🔗', 'Matriz de Correlación (Pearson)', `${cols.length}×${cols.length}`);
+        let html = buildSectionHeader(edaIcon('corr'), 'Matriz de Correlación (Pearson)', `${cols.length}×${cols.length}`);
         html += `<div class="eda-section-content">
                  <div class="eda-heatmap-container">
                      <canvas id="${canvasId}" class="eda-heatmap-canvas"></canvas>
@@ -847,6 +847,22 @@ const EDAManager = (function () {
         const d = document.createElement('div');
         d.textContent = String(str);
         return d.innerHTML;
+    }
+
+    function edaIcon(name) {
+        const paths = {
+            search: '<circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>',
+            download: '<path d="M12 3v12"/><path d="m7 10 5 5 5-5"/><path d="M5 21h14"/>',
+            numeric: '<path d="M3 20V10M9 20V4M15 20v-7M21 20V7"/>',
+            categorical: '<rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 10h18M9 10v10"/>',
+            warn: '<path d="M12 3 2 21h20L12 3z"/><path d="M12 9v5M12 18h.01"/>',
+            ok: '<circle cx="12" cy="12" r="9"/><path d="m8 12 3 3 5-6"/>',
+            outlier: '<circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16h.01"/>',
+            corr: '<path d="M10 13a5 5 0 0 0 7 0l2-2a5 5 0 0 0-7-7l-1 1"/><path d="M14 11a5 5 0 0 0-7 0l-2 2a5 5 0 0 0 7 7l1-1"/>',
+            section: '<path d="M4 19V5M4 19h16"/><path d="M8 15l3-4 3 2 4-6"/>',
+            bell: '<path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/>'
+        };
+        return '<svg class="eda-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' + (paths[name] || paths.section) + '</svg>';
     }
 
     function buildSectionHeader(icon, title, badge) {

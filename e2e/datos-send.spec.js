@@ -119,6 +119,11 @@ test('cargar CSV y enviarlo a Hoja de Trabajo con el botón Trabajo', async ({ p
   expect(edaReport.txt).toContain('ANÁLISIS EXPLORATORIO');
   expect(edaReport.csv).toContain('Resumen');
 
+  // El formulario de Reportes acepta el resultado EDA (sin “sin datos”).
+  await page.click('.snav-card[data-page="reportes"]');
+  await expect(page.locator('#reportes-editor-container .rep-layout')).toBeVisible({ timeout: 25000 });
+  await expect(page.locator('.rep-no-data-msg')).toHaveCount(0);
+
   await page.click('.snav-card[data-page="datos"]');
   await expect(page.locator('#panelDatos')).toHaveAttribute('data-datos-init', '1', { timeout: 10000 });
 

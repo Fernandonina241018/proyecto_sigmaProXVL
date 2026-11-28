@@ -1,7 +1,7 @@
 # Mapa de diseño — StatAnalyzer Pro
 
 Estado del sistema visual y reglas para que los módulos se vean iguales sin romper
-comportamientos. Última actualización: 2026-11-27 (P1-A/P1-B/P1-C).
+comportamientos. Última actualización: 2026-11-28 (P1-A…P1-J).
 
 ## 1. Tokens (fuente única)
 
@@ -31,7 +31,7 @@ Regla: **no introducir hex nuevos**; si falta un color, se añade token.
 | Componente | Dónde | Uso |
 |---|---|---|
 | `.side-card` + `_sideCard()` / `sideToggleCard()` | `css/core/indexx.css:1577+`, `js/core/indexx-ui.js:359+` | Cards de sidebar: Trabajo, Reportes, Análisis |
-| `.viz-card` | inyectado en `js/core/indexx-viz.js` | Visualización (pendiente: alias de `.side-card`) |
+| `.viz-card` | inyectado en `js/core/indexx-viz.js` | Visualización; alias de `.side-card` desde P1-J |
 | `.datos .gl` | `css/core/indexx.css:1344+` | Paneles "glass" de Datos (legacy) |
 | `.page-card` | `css/core/indexx.css:314+` | Resultados de página (Análisis) |
 | `.acordeon-*` / `.ar-kpi-*` | `css/core/indexx.css:677+` | Resultados estadísticos |
@@ -94,6 +94,14 @@ Estados iniciales: Trabajo solo "Hoja de Trabajo" colapsada; Reportes solo
 - EDA → Reportes: el resultado EDA expone `tipo`, `columnasAnalizadas`, totales y `estadisticos`; `ReporteManager` genera HTML/TXT/CSV exploratorios, sin pasar por el pipeline de estadísticos.
 - E2E de Datos cubre buscador, barra de resumen, EDA→Reportes y Análisis a 390px.
 
+### P1-J — F3/F4 aplicado (2026-11-28)
+
+- **EDA**: header `--surface-2` con borde, texto en tokens y sin gradiente; iconos SVG en header, KPIs, secciones y export.
+- **Modelo Stats**: 0 hex inline; paneles, KPIs y nota con `.side-card`; tokens en colores/estados.
+- **Detalle ML** (`js/pages/ml.js`): variables y colores directos a tokens; queda solo `#fff` para texto sobre color.
+- **`.viz-card`**: alias real de `.side-card` (clase en el markup + base compartida); se eliminó la base duplicada.
+- Capturas after revisadas: EDA sobrio, MLStats con cards del sistema y Visualización con el alias.
+
 ## 5. P0 aplicado (2026-11-26)
 
 - Marca: favicon/PWA en azul, `theme-color` alineado; foco unificado en `--focus-ring`.
@@ -149,7 +157,7 @@ Estados iniciales: Trabajo solo "Hoja de Trabajo" colapsada; Reportes solo
 
 ### Decisiones (2026-11-28)
 
-- `.viz-card`/`.side-card`: se mantienen separados. `.viz-card` está scoped a `.viz-root` y tiene layout/gradiente propios; aliasarlo cambiaría Visualización sin baseline.
+- `.viz-card`: alias de `.side-card` desde P1-J; conserva sus clases internas y su scope `.viz-root`.
 - Modales: la conducta ya está unificada con `a11yModal()`; las variantes visuales (perfil, firmas, límites) son intencionales.
 - Navegaciones: sidebar, ribbon popup y tabs cubren roles distintos; no se elimina ninguna.
 - Emoji vs SVG: se mantiene el emoji funcional; reemplazarlo requiere un set SVG y revisión visual.
@@ -172,6 +180,6 @@ Estados iniciales: Trabajo solo "Hoja de Trabajo" colapsada; Reportes solo
 
 ### Pendiente
 
-- Rediseño F3/F4 y consolidación de componentes **solo con aprobación de diseño y baseline visual**.
+- Consolidación de navegaciones, variantes de modal y emoji: se mantienen por rol/identidad; no hay rediseño pendiente de F3/F4.
 
 Cada fase va en commit propio y con `npx vitest run` + `backend npm test` verdes.
