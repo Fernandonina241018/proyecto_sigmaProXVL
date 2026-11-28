@@ -110,7 +110,7 @@ Estados iniciales: Trabajo solo "Hoja de Trabajo" colapsada; Reportes solo
 - Dispositivos: grilla de una columna por debajo de 600px; cards y huellas se ajustan.
 - ML: el dashboard apila `dp-grid`/sidebar en ≤1100, veredicto y stats en ≤760, y veredicto/factores/features en ≤520.
 - Tabs: retirado el `+` (`#tabNew`); creaba una pestaña “Untitled” sin página. Las pestañas se crean al navegar. Los botones “Nueva hoja” del spreadsheet no se tocaron: crean hoja con grilla.
-- E2E móvil: overflow a 390px en Datos, ML/Dispositivos, firma y Validaciones, más interacción con bottom nav en Datos y menú móvil en Validaciones; reutiliza logins existentes, sin intentos nuevos.
+- E2E móvil: overflow a 390px en Datos, ML/Dispositivos, firma y Validaciones; interacción con bottom nav en Datos, menú móvil en Validaciones y flujo completo de firma (bandeja → firmar → post-firma → reapertura) a 390px. Reutiliza logins existentes.
 
 ## 9. Módulos fuera del shell
 
@@ -142,7 +142,6 @@ Estados iniciales: Trabajo solo "Hoja de Trabajo" colapsada; Reportes solo
 
 ### Pendiente
 
-- E2E móvil del flujo de firma completo (hoy hay overflow y menú móvil de Validaciones/bottom nav).
 - Rediseño F3/F4 y consolidación de componentes **solo con aprobación de diseño y baseline visual**.
 
 Cada fase va en commit propio y con `npx vitest run` + `backend npm test` verdes.

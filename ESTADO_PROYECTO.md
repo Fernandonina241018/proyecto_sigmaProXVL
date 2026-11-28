@@ -90,6 +90,16 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (StatAnalyzer Pro) co
 
 ## CAMBIOS RECIENTES
 
+### 2026-11-28 (366): P1-G — flujo completo de firma a 390px
+
+**Qué:** `sign-flow` ejecuta todo el flujo de firma en viewport móvil: bandeja, abrir reporte, firmar, verificación, post-firma, reapertura y ausencia en pendientes. El overflow final sigue cubierto.
+- Reutiliza el login existente: cero intentos nuevos.
+- Sin cambios de código de producción.
+
+**Archivos:** `e2e/sign-flow.spec.js`, `docs/MAPA_DISENO.md`, `ESTADO_PROYECTO.md`.
+
+**Verificación:** `npm run preflight` OK (vitest **1293**, backend **154**, E2E **18**); sign-flow **2/2** a 390px.
+
 ### 2026-11-28 (365): P1-F — mobile interaction y cierre de decisiones visuales
 
 **Qué:** se cierra el pendiente móvil seguro y se documentan las decisiones de diseño.
