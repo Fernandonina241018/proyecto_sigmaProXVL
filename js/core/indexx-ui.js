@@ -1292,6 +1292,17 @@ var rightPanels = {
             '<button class="btn btn-secondary anl-btn" onclick="analisisResultContent=null;analisisSelectedTest=null;loadPage(&#39;analisis&#39;)">✕ Cerrar resultado</button>' +
           '</div>' +
         '</div>' +
+        '<div class="anl-result-summary">' +
+          '<span class="anl-sum-item"><span class="anl-sum-k">n</span><span class="anl-sum-v">' +
+            (analisisLastResult && analisisLastResult.n != null ? analisisLastResult.n : '—') + '</span></span>' +
+          '<span class="anl-sum-item"><span class="anl-sum-k">p</span><span class="anl-sum-v anl-num">' +
+            ((typeof formatPValue === 'function') ? formatPValue(analisisLastResult ? analisisLastResult.pValue : null) : '—') + '</span></span>' +
+          '<span class="anl-sum-item"><span class="anl-sum-k">α</span><span class="anl-sum-v anl-num">' +
+            (analisisLastResult && analisisLastResult.alfa != null ? analisisLastResult.alfa : '—') + '</span></span>' +
+          '<span class="anl-sum-decision' + (analisisLastResult && analisisLastResult.significativo === true ? ' is-sig' : '') + '">' +
+            (analisisLastResult && analisisLastResult.significativo === true ? 'Rechazar H₀'
+              : (analisisLastResult && analisisLastResult.significativo === false ? 'No rechazar H₀' : '—')) + '</span>' +
+        '</div>' +
         '<div class="page-card anl-result-card">' +
           '<div class="page-card-body anl-result-body">' + analisisResultContent + '</div>' +
         '</div>' +

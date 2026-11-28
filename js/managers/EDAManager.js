@@ -281,6 +281,13 @@ const EDAManager = (function () {
         });
 
         _edaResults = {
+            tipo: 'EDA',
+            columnasAnalizadas: numericCols,
+            totalFilas: totalRows,
+            totalColumnas: totalCols,
+            totalDatos: totalRows * totalCols,
+            estadisticos: ['Análisis Exploratorio (EDA)'],
+            resultados: {},
             resumen: {
                 totalFilas:           totalRows,
                 totalColumnas:        totalCols,

@@ -38,6 +38,15 @@ describe('EDAManager — ejecutarEDA', () => {
     expect(result.resumen.columnasCategoricas).toBe(1);
   });
 
+  test('expone forma compatible con Reportes', () => {
+    const data = { headers: ['val'], data: [[1], [2], [3]] };
+    const result = EM.ejecutarEDA(data);
+    expect(result.tipo).toBe('EDA');
+    expect(result.columnasAnalizadas).toContain('val');
+    expect(result.totalFilas).toBe(3);
+    expect(result.estadisticos).toContain('Análisis Exploratorio (EDA)');
+  });
+
   test('detects outliers', () => {
     const data = { headers: ['val'], data: [[1],[2],[3],[4],[5],[6],[7],[8],[9],[100]] };
     const result = EM.ejecutarEDA(data);

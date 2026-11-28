@@ -1997,6 +1997,10 @@ function generarHTML(analisisResultado) {
         return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#039;');
     }
 
+    function fmtP(p) {
+        return (p == null || !isFinite(p)) ? '—' : (p < 0.0001 ? '<0.0001' : Number(p).toFixed(4));
+    }
+
     function formatReferencia(ref) {
         if (!ref) return '';
         if (typeof ref === 'string') return ref;
@@ -2114,7 +2118,7 @@ function generarHTML(analisisResultado) {
                         <div style="background:rgba(110,231,183,.12);padding:8px;border-radius:4px;text-align:center;"><div style="color:var(--accent-alt);font-size:0.7rem;">KMO</div><div style="font-weight:bold;font-size:0.95rem;">${kmo > 0 ? kmo.toFixed(3) : '—'}</div></div>
                     </div>
                 </div>
-                ${bartlett && bartlett.chi2 ? `<div class="ar-kpi-card" style="margin-top:8px;"><div class="ar-kpi-col-label" style="font-size:0.9rem;">📐 Test de Bartlett</div><div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;font-size:0.8rem;"><div style="background:var(--item-bg);padding:6px;border-radius:4px;text-align:center;"><div style="color:var(--text-faint);font-size:0.7rem;">χ²</div><div style="font-weight:bold;">${bartlett.chi2?.toFixed(2) || '—'}</div></div><div style="background:var(--item-bg);padding:6px;border-radius:4px;text-align:center;"><div style="color:var(--text-faint);font-size:0.7rem;">gl</div><div style="font-weight:bold;">${bartlett.df || '—'}</div></div><div style="background:rgba(110,231,183,.12);padding:6px;border-radius:4px;text-align:center;"><div style="color:var(--accent-alt);font-size:0.7rem;">Valor p</div><div style="font-weight:bold;">${bartlett.pValue?.toFixed(4) || '—'}</div></div></div></div>` : ''}
+                ${bartlett && bartlett.chi2 ? `<div class="ar-kpi-card" style="margin-top:8px;"><div class="ar-kpi-col-label" style="font-size:0.9rem;">📐 Test de Bartlett</div><div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;font-size:0.8rem;"><div style="background:var(--item-bg);padding:6px;border-radius:4px;text-align:center;"><div style="color:var(--text-faint);font-size:0.7rem;">χ²</div><div style="font-weight:bold;">${bartlett.chi2?.toFixed(2) || '—'}</div></div><div style="background:var(--item-bg);padding:6px;border-radius:4px;text-align:center;"><div style="color:var(--text-faint);font-size:0.7rem;">gl</div><div style="font-weight:bold;">${bartlett.df || '—'}</div></div><div style="background:rgba(110,231,183,.12);padding:6px;border-radius:4px;text-align:center;"><div style="color:var(--accent-alt);font-size:0.7rem;">Valor p</div><div style="font-weight:bold;">${fmtP(bartlett.pValue)}</div></div></div></div>` : ''}
                 <div class="ar-kpi-card" style="margin-top:8px;overflow-x:auto;">
                     <div class="ar-kpi-col-label" style="font-size:0.9rem;">📈 Matriz de Cargas Factoriales</div>
                     <table style="width:100%;border-collapse:collapse;font-size:0.75rem;min-width:300px;">
@@ -2326,7 +2330,7 @@ function generarHTML(analisisResultado) {
                         <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Máx % desviación</span><span class="ar-kpi-sub-v">${data.maxDesviacion ?? '—'}%</span></div>
                         <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">n</span><span class="ar-kpi-sub-v">${data.n ?? '—'}</span></div>
                     </div>
-                    <div class="ar-kpi-badge ${data.significante ? 'ar-badge-danger' : 'ar-badge-ok'}">${data.significante ? '★ Modelo significativo (p < 0.05)' : '✓ Modelo no significativo (p ≥ 0.05)'}</div>
+                    <div class="ar-kpi-badge ${data.significante ? 'ar-badge-danger' : 'ar-badge-ok'}">${data.significante ? '★ Modelo significativo' : '✓ Modelo no significativo'}</div>
                     </div>
                     <div class="ar-formula" style="margin-top:12px;"><span class="ar-formula-icon">📐</span><div><div class="ar-formula-eq">${data.formula || `Y = ${data.a} + ${data.b}X`}</div><div class="ar-formula-desc">${escapeHtml(data.interpretacion || '')}</div></div></div>
                     <div class="ar-kpi-card ar-kpi-multi" style="margin-top:8px">
@@ -2374,7 +2378,7 @@ function generarHTML(analisisResultado) {
                     <td style="padding:4px 8px;border:1px solid var(--border);text-align:right">${c.valor?.toFixed(4) ?? '—'}</td>
                     <td style="padding:4px 8px;border:1px solid var(--border);text-align:right">${c.ee?.toFixed(4) ?? '—'}</td>
                     <td style="padding:4px 8px;border:1px solid var(--border);text-align:right">${c.t?.toFixed(4) ?? '—'}</td>
-                    <td style="padding:4px 8px;border:1px solid var(--border);text-align:right;${c.p < 0.05 ? 'color:var(--text-danger);font-weight:600' : ''}">${c.p?.toFixed(4) ?? '—'}</td>
+                    <td style="padding:4px 8px;border:1px solid var(--border);text-align:right;${c.p < 0.05 ? 'color:var(--text-danger);font-weight:600' : ''}">${fmtP(c.p)}</td>
                 </tr>`).join('');
             const resRows = (data.residuos || []).map((r, i) => `
                 <tr>
@@ -2562,12 +2566,12 @@ function generarHTML(analisisResultado) {
                     <div class="ar-kpi-sub-grid">
                         <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Estadístico t</span><span class="ar-kpi-sub-v">${result.estadisticoT?.toFixed(4) ?? '—'}</span></div>
                         <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Grados de libertad</span><span class="ar-kpi-sub-v">${result.gradosLibertad?.toFixed(2) ?? '—'}</span></div>
-                        <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Valor p</span><span class="ar-kpi-sub-v">${result.valorP?.toFixed(4) ?? '—'}</span></div>
+                        <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Valor p</span><span class="ar-kpi-sub-v">${fmtP(result.valorP)}</span></div>
                         <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Diferencia medias</span><span class="ar-kpi-sub-v">${result.diferenciaMedias?.toFixed(4) ?? '—'}</span></div>
                         <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">IC 95% dif.</span><span class="ar-kpi-sub-v">[${icLower}, ${icUpper}]</span></div>
                         <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">d de Cohen</span><span class="ar-kpi-sub-v">${dCohen?.toFixed(4) ?? '—'} (${cohenLabel})</span></div>
                     </div>
-                    <div class="ar-kpi-badge ${result.significativo ? 'ar-badge-danger' : 'ar-badge-ok'}">${result.significativo ? '✗ Significativo (p < 0.05)' : '✓ No significativo (p ≥ 0.05)'}</div>
+                    <div class="ar-kpi-badge ${result.significativo ? 'ar-badge-danger' : 'ar-badge-ok'}">${result.significativo ? '✗ Significativo' : '✓ No significativo'}</div>
                     </div>
                     ${groupRows ? `<details style="margin-top:8px"><summary style="cursor:pointer;font-size:0.85rem;color:var(--text-muted)">📊 Estadísticos por grupo</summary>${groupRows}</details>` : ''}
                     <div class="ar-formula" style="margin-top:12px;"><span class="ar-formula-icon">💬</span><div><div class="ar-formula-desc">${escapeHtml(result.interpretacion || '')}</div></div></div>`;
@@ -2595,7 +2599,7 @@ function generarHTML(analisisResultado) {
                             <td style="padding:4px 8px;border:1px solid var(--border);text-align:right">${data.dfEntre}</td>
                             <td style="padding:4px 8px;border:1px solid var(--border);text-align:right">${data.MSB?.toFixed(4) ?? '—'}</td>
                             <td style="padding:4px 8px;border:1px solid var(--border);text-align:right;font-weight:600">${data.estadisticoF?.toFixed(4) ?? '—'}</td>
-                            <td style="padding:4px 8px;border:1px solid var(--border);text-align:right;${data.significativo ? 'color:var(--text-danger);font-weight:600' : ''}">${data.valorP?.toFixed(4) ?? '—'}</td></tr>
+                            <td style="padding:4px 8px;border:1px solid var(--border);text-align:right;${data.significativo ? 'color:var(--text-danger);font-weight:600' : ''}">${fmtP(data.valorP)}</td></tr>
                         <tr><td style="padding:4px 8px;border:1px solid var(--border)">Dentro grupos</td>
                             <td style="padding:4px 8px;border:1px solid var(--border);text-align:right">${data.SSW.toFixed(4)}</td>
                             <td style="padding:4px 8px;border:1px solid var(--border);text-align:right">${data.dfDentro}</td>
@@ -2613,14 +2617,14 @@ function generarHTML(analisisResultado) {
             return `<div class="ar-kpi-card ar-kpi-multi"><div class="ar-kpi-col-label">${gruposLabel}</div>
                     <div class="ar-kpi-sub-grid">
                         <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Estadístico F</span><span class="ar-kpi-sub-v">${data.estadisticoF?.toFixed(4) ?? '—'}</span></div>
-                        <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Valor p</span><span class="ar-kpi-sub-v">${data.valorP?.toFixed(4) ?? '—'}</span></div>
+                        <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Valor p</span><span class="ar-kpi-sub-v">${fmtP(data.valorP)}</span></div>
                         <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">η² (Eta-cuadrado)</span><span class="ar-kpi-sub-v">${etaSq} (${etaSqLabel})</span></div>
                         <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Grupos</span><span class="ar-kpi-sub-v">${(data.etiquetasGrupos || []).length || data.grupos || '—'}</span></div>
                         <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Total obs.</span><span class="ar-kpi-sub-v">${data.totalObservaciones ?? '—'}</span></div>
                         <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">df entre</span><span class="ar-kpi-sub-v">${data.dfEntre ?? '—'}</span></div>
                         <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">df dentro</span><span class="ar-kpi-sub-v">${data.dfDentro ?? '—'}</span></div>
                     </div>
-                    <div class="ar-kpi-badge ${data.significativo ? 'ar-badge-danger' : 'ar-badge-ok'}">${data.significativo ? '✗ Significativo (p < 0.05)' : '✓ No significativo (p ≥ 0.05)'}</div>
+                    <div class="ar-kpi-badge ${data.significativo ? 'ar-badge-danger' : 'ar-badge-ok'}">${data.significativo ? '✗ Significativo' : '✓ No significativo'}</div>
                     </div>
                     ${ssRows ? `<details open style="margin-top:8px"><summary style="cursor:pointer;font-size:0.85rem;color:var(--text-muted)">📋 Tabla ANOVA</summary>${ssRows}</details>` : ''}
                     <div class="ar-formula" style="margin-top:12px;"><span class="ar-formula-icon">💬</span><div><div class="ar-formula-desc">${escapeHtml(data.interpretacion || '')}</div></div></div>`;
@@ -2631,11 +2635,11 @@ function generarHTML(analisisResultado) {
             return `<div class="ar-kpi-card ar-kpi-multi"><div class="ar-kpi-col-label">${data.columna1 || ''} vs ${data.columna2 || ''}</div>
                     <div class="ar-kpi-sub-grid">
                         <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Estadístico χ²</span><span class="ar-kpi-sub-v">${data.estadisticoChi2?.toFixed(4) ?? '—'}</span></div>
-                        <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Valor p</span><span class="ar-kpi-sub-v">${data.valorP?.toFixed(4) ?? '—'}</span></div>
+                        <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Valor p</span><span class="ar-kpi-sub-v">${fmtP(data.valorP)}</span></div>
                         <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Grados de libertad</span><span class="ar-kpi-sub-v">${data.gradosLibertad ?? '—'}</span></div>
                         <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">N</span><span class="ar-kpi-sub-v">${data.N ?? '—'}</span></div>
                     </div>
-                    <div class="ar-kpi-badge ${data.significativo ? 'ar-badge-danger' : 'ar-badge-ok'}">${data.significativo ? '✗ Asociación significativa (p < 0.05)' : '✓ Independientes (p ≥ 0.05)'}</div>
+                    <div class="ar-kpi-badge ${data.significativo ? 'ar-badge-danger' : 'ar-badge-ok'}">${data.significativo ? '✗ Asociación significativa' : '✓ Independientes'}</div>
                     </div>
                     <div class="ar-formula" style="margin-top:12px;"><span class="ar-formula-icon">💬</span><div><div class="ar-formula-desc">${escapeHtml(data.interpretacion || '')}</div></div></div>`;
         }
@@ -2669,7 +2673,7 @@ function generarHTML(analisisResultado) {
             return Object.entries(data).filter(([k]) => k !== 'error').map(([col, result]) => `<div class="ar-kpi-card ar-kpi-multi"><div class="ar-kpi-col-label">${escapeHtml(col)}</div>
                     <div class="ar-kpi-sub-grid">
                         <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">JB</span><span class="ar-kpi-sub-v">${result.estadisticoJB?.toFixed(4) ?? '—'}</span></div>
-                        <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Valor p</span><span class="ar-kpi-sub-v">${result.valorP?.toFixed(4) ?? '—'}</span></div>
+                        <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Valor p</span><span class="ar-kpi-sub-v">${fmtP(result.valorP)}</span></div>
                         <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Asimetría</span><span class="ar-kpi-sub-v">${result.asimetria?.toFixed(4) ?? '—'}</span></div>
                         <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Curtosis</span><span class="ar-kpi-sub-v">${result.curtosis?.toFixed(4) ?? '—'}</span></div>
                     </div>
@@ -2681,7 +2685,7 @@ function generarHTML(analisisResultado) {
             return Object.entries(data).filter(([k]) => k !== 'error').map(([col, result]) => `<div class="ar-kpi-card ar-kpi-multi"><div class="ar-kpi-col-label">${escapeHtml(col)}</div>
                     <div class="ar-kpi-sub-grid">
                         <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">t</span><span class="ar-kpi-sub-v">${result.estadisticoT?.toFixed(4) ?? '—'}</span></div>
-                        <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Valor p</span><span class="ar-kpi-sub-v">${result.valorP?.toFixed(4) ?? '—'}</span></div>
+                        <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Valor p</span><span class="ar-kpi-sub-v">${fmtP(result.valorP)}</span></div>
                         <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Media</span><span class="ar-kpi-sub-v">${result.media?.toFixed(4) ?? '—'}</span></div>
                     </div>
                     <div class="ar-kpi-badge ${result.significativo ? 'ar-badge-danger' : 'ar-badge-ok'}">${result.significativo ? '✗ Significativo' : '✓ No significativo'}</div>
@@ -2780,7 +2784,7 @@ function generarHTML(analisisResultado) {
                         <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">IC 95%</span><span class="ar-kpi-sub-v">[${data.ic95Lower ?? '—'}, ${data.ic95Upper ?? '—'}]</span></div>
                         <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">n</span><span class="ar-kpi-sub-v">${data.n ?? '—'}</span></div>
                     </div>
-                    <div class="ar-kpi-badge ${data.significante ? 'ar-badge-danger' : 'ar-badge-ok'}">${data.significante ? '★ Significativo (p < 0.05)' : '✓ No significativo (p ≥ 0.05)'}</div>
+                    <div class="ar-kpi-badge ${data.significante ? 'ar-badge-danger' : 'ar-badge-ok'}">${data.significante ? '★ Significativo' : '✓ No significativo'}</div>
                     </div>
                     <div class="ar-formula" style="margin-top:12px;"><span class="ar-formula-icon">📐</span><div><div class="ar-formula-eq">${data.formula || 'r = cov(X,Y) / (σx × σy)'}</div><div class="ar-formula-desc">${escapeHtml(data.interpretacion || '')}</div></div></div>`;
         }
@@ -2794,7 +2798,7 @@ function generarHTML(analisisResultado) {
                         <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Valor p</span><span class="ar-kpi-sub-v">${data.pValue?.toFixed(6) ?? '—'}</span></div>
                         <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">n</span><span class="ar-kpi-sub-v">${data.n ?? '—'}</span></div>
                     </div>
-                    <div class="ar-kpi-badge ${data.significante ? 'ar-badge-danger' : 'ar-badge-ok'}">${data.significante ? '★ Significativo (p < 0.05)' : '✓ No significativo (p ≥ 0.05)'}</div>
+                    <div class="ar-kpi-badge ${data.significante ? 'ar-badge-danger' : 'ar-badge-ok'}">${data.significante ? '★ Significativo' : '✓ No significativo'}</div>
                     </div>
                     <div class="ar-formula" style="margin-top:12px;"><span class="ar-formula-icon">📐</span><div><div class="ar-formula-eq">${data.formula || 'ρ = correlación de Pearson sobre rangos'}</div><div class="ar-formula-desc">${escapeHtml(data.interpretacion || '')}</div></div></div>`;
         }
@@ -2803,7 +2807,7 @@ function generarHTML(analisisResultado) {
             return Object.entries(data).filter(([k]) => k !== 'error').map(([col, result]) => `<div class="ar-kpi-card ar-kpi-multi"><div class="ar-kpi-col-label">${escapeHtml(col)}</div>
                     <div class="ar-kpi-sub-grid">
                         <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">W</span><span class="ar-kpi-sub-v">${result.estadisticoW?.toFixed(4) ?? '—'}</span></div>
-                        <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Valor p</span><span class="ar-kpi-sub-v">${result.valorP?.toFixed(4) ?? '—'}</span></div>
+                        <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Valor p</span><span class="ar-kpi-sub-v">${fmtP(result.valorP)}</span></div>
                         <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">n</span><span class="ar-kpi-sub-v">${result.n ?? '—'}</span></div>
                     </div>
                     <div class="ar-kpi-badge ${result.esNormal ? 'ar-badge-ok' : 'ar-badge-danger'}">${result.esNormal ? '✓ Distribución normal' : '✗ No normal'}</div>
@@ -2814,7 +2818,7 @@ function generarHTML(analisisResultado) {
             return Object.entries(data).filter(([k]) => k !== 'error').map(([col, result]) => `<div class="ar-kpi-card ar-kpi-multi"><div class="ar-kpi-col-label">${escapeHtml(col)}</div>
                     <div class="ar-kpi-sub-grid">
                         <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">D</span><span class="ar-kpi-sub-v">${result.estadisticoD?.toFixed(4) ?? '—'}</span></div>
-                        <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Valor p</span><span class="ar-kpi-sub-v">${result.valorP?.toFixed(4) ?? '—'}</span></div>
+                        <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Valor p</span><span class="ar-kpi-sub-v">${fmtP(result.valorP)}</span></div>
                         <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">n</span><span class="ar-kpi-sub-v">${result.n ?? '—'}</span></div>
                     </div>
                     <div class="ar-kpi-badge ${result.esNormal ? 'ar-badge-ok' : 'ar-badge-danger'}">${result.esNormal ? '✓ Distribución normal' : '✗ No normal'}</div>
@@ -2826,7 +2830,7 @@ function generarHTML(analisisResultado) {
                     <div class="ar-kpi-sub-grid">
                         <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">A²</span><span class="ar-kpi-sub-v">${result.estadisticoA2?.toFixed(4) ?? '—'}</span></div>
                         <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">A² corr.</span><span class="ar-kpi-sub-v">${result.estadisticoA2_corregido?.toFixed(4) ?? '—'}</span></div>
-                        <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Valor p</span><span class="ar-kpi-sub-v">${result.valorP?.toFixed(4) ?? '—'}</span></div>
+                        <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Valor p</span><span class="ar-kpi-sub-v">${fmtP(result.valorP)}</span></div>
                         <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">n</span><span class="ar-kpi-sub-v">${result.n ?? '—'}</span></div>
                     </div>
                     <div class="ar-kpi-badge ${result.esNormal ? 'ar-badge-ok' : 'ar-badge-danger'}">${result.esNormal ? '✓ Distribución normal' : '✗ No normal'}</div>
@@ -2839,7 +2843,7 @@ function generarHTML(analisisResultado) {
                         <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">K²</span><span class="ar-kpi-sub-v">${result.estadisticoK2?.toFixed(4) ?? '—'}</span></div>
                         <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Z skew</span><span class="ar-kpi-sub-v">${result.Z_asimetria?.toFixed(4) ?? '—'}</span></div>
                         <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Z kurt</span><span class="ar-kpi-sub-v">${result.Z_curtosis?.toFixed(4) ?? '—'}</span></div>
-                        <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Valor p</span><span class="ar-kpi-sub-v">${result.valorP?.toFixed(4) ?? '—'}</span></div>
+                        <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Valor p</span><span class="ar-kpi-sub-v">${fmtP(result.valorP)}</span></div>
                     </div>
                     <div class="ar-kpi-badge ${result.esNormal ? 'ar-badge-ok' : 'ar-badge-danger'}">${result.esNormal ? '✓ Distribución normal' : '✗ No normal'}</div>
                     </div>`).join('');
@@ -2896,7 +2900,7 @@ function generarHTML(analisisResultado) {
                         <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Valor p</span><span class="ar-kpi-sub-v">${data.pValue?.toFixed(6) ?? '—'}</span></div>
                         <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">n</span><span class="ar-kpi-sub-v">${data.n ?? '—'}</span></div>
                     </div>
-                    <div class="ar-kpi-badge ${data.significante ? 'ar-badge-danger' : 'ar-badge-ok'}">${data.significante ? '★ Significativo (p < 0.05)' : '✓ No significativo (p ≥ 0.05)'}</div>
+                    <div class="ar-kpi-badge ${data.significante ? 'ar-badge-danger' : 'ar-badge-ok'}">${data.significante ? '★ Significativo' : '✓ No significativo'}</div>
                     </div>
                     <div class="ar-formula" style="margin-top:12px;"><span class="ar-formula-icon">📐</span><div><div class="ar-formula-eq">${data.formula || 'τ = (C − D) / √[(n₀−n₁)(n₀−n₂)]'}</div><div class="ar-formula-desc">${escapeHtml(data.interpretacion || '')}</div></div></div>`;
         }
@@ -2944,11 +2948,11 @@ function generarHTML(analisisResultado) {
                     <div class="ar-kpi-sub-grid">
                         <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">U</span><span class="ar-kpi-sub-v">${data.U ?? '—'}</span></div>
                         <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">z</span><span class="ar-kpi-sub-v">${data.z ?? '—'}</span></div>
-                        <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Valor p</span><span class="ar-kpi-sub-v">${data.valorP?.toFixed(4) ?? '—'}</span></div>
+                        <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Valor p</span><span class="ar-kpi-sub-v">${fmtP(data.valorP)}</span></div>
                         <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Efecto (r)</span><span class="ar-kpi-sub-v">${data.tamanoEfecto ?? '—'}</span></div>
                         <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Grupos</span><span class="ar-kpi-sub-v">${(data.grupos || []).join(' vs ')}</span></div>
                     </div>
-                    <div class="ar-kpi-badge ${data.significativo ? 'ar-badge-danger' : 'ar-badge-ok'}">${data.significativo ? '✗ Significativo (p < 0.05)' : '✓ No significativo (p ≥ 0.05)'}</div>
+                    <div class="ar-kpi-badge ${data.significativo ? 'ar-badge-danger' : 'ar-badge-ok'}">${data.significativo ? '✗ Significativo' : '✓ No significativo'}</div>
                     </div>
                     <div class="ar-formula" style="margin-top:12px;"><span class="ar-formula-icon">💬</span><div><div class="ar-formula-desc">${escapeHtml(data.interpretacion || '')}</div></div></div>`;
         }
@@ -2958,12 +2962,12 @@ function generarHTML(analisisResultado) {
             return `<div class="ar-kpi-card ar-kpi-multi"><div class="ar-kpi-col-label">📊 ${data.columnaAgrupacion || ''} → ${data.columnaValores || ''}</div>
                     <div class="ar-kpi-sub-grid">
                         <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">H</span><span class="ar-kpi-sub-v">${data.H ?? '—'}</span></div>
-                        <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Valor p</span><span class="ar-kpi-sub-v">${data.valorP?.toFixed(4) ?? '—'}</span></div>
+                        <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Valor p</span><span class="ar-kpi-sub-v">${fmtP(data.valorP)}</span></div>
                         <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">df</span><span class="ar-kpi-sub-v">${data.df ?? '—'}</span></div>
                         <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Grupos</span><span class="ar-kpi-sub-v">${(data.etiquetasGrupos || []).length || data.grupos?.length || '—'}</span></div>
                         <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Total obs.</span><span class="ar-kpi-sub-v">${data.totalObservaciones ?? '—'}</span></div>
                     </div>
-                    <div class="ar-kpi-badge ${data.significativo ? 'ar-badge-danger' : 'ar-badge-ok'}">${data.significativo ? '✗ Significativo (p < 0.05)' : '✓ No significativo (p ≥ 0.05)'}</div>
+                    <div class="ar-kpi-badge ${data.significativo ? 'ar-badge-danger' : 'ar-badge-ok'}">${data.significativo ? '✗ Significativo' : '✓ No significativo'}</div>
                     </div>
                     <div class="ar-formula" style="margin-top:12px;"><span class="ar-formula-icon">💬</span><div><div class="ar-formula-desc">${escapeHtml(data.interpretacion || '')}</div></div></div>`;
         }
@@ -2976,10 +2980,10 @@ function generarHTML(analisisResultado) {
                         <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">W⁺</span><span class="ar-kpi-sub-v">${data.Wpositivo ?? '—'}</span></div>
                         <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">W⁻</span><span class="ar-kpi-sub-v">${data.Wnegativo ?? '—'}</span></div>
                         <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">z</span><span class="ar-kpi-sub-v">${data.z?.toFixed(4) ?? '—'}</span></div>
-                        <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Valor p</span><span class="ar-kpi-sub-v">${data.valorP?.toFixed(4) ?? '—'}</span></div>
+                        <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Valor p</span><span class="ar-kpi-sub-v">${fmtP(data.valorP)}</span></div>
                         <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">n</span><span class="ar-kpi-sub-v">${data.n ?? '—'}</span></div>
                     </div>
-                    <div class="ar-kpi-badge ${data.significativo ? 'ar-badge-danger' : 'ar-badge-ok'}">${data.significativo ? '✗ Significativo (p < 0.05)' : '✓ No significativo (p ≥ 0.05)'}</div>
+                    <div class="ar-kpi-badge ${data.significativo ? 'ar-badge-danger' : 'ar-badge-ok'}">${data.significativo ? '✗ Significativo' : '✓ No significativo'}</div>
                     </div>
                     <div class="ar-formula" style="margin-top:12px;"><span class="ar-formula-icon">💬</span><div><div class="ar-formula-desc">${escapeHtml(data.interpretacion || '')}</div></div></div>`;
         }
@@ -2991,11 +2995,11 @@ function generarHTML(analisisResultado) {
                     <div class="ar-kpi-sub-grid">
                         <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">χ²_r</span><span class="ar-kpi-sub-v">${data.ChiSq ?? '—'}</span></div>
                         <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">df</span><span class="ar-kpi-sub-v">${data.df ?? '—'}</span></div>
-                        <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Valor p</span><span class="ar-kpi-sub-v">${data.valorP?.toFixed(4) ?? '—'}</span></div>
+                        <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Valor p</span><span class="ar-kpi-sub-v">${fmtP(data.valorP)}</span></div>
                         <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Tratamientos</span><span class="ar-kpi-sub-v">${data.tratamientos ?? '—'}</span></div>
                         <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Bloques</span><span class="ar-kpi-sub-v">${data.bloques ?? '—'}</span></div>
                     </div>
-                    <div class="ar-kpi-badge ${data.significativo ? 'ar-badge-danger' : 'ar-badge-ok'}">${data.significativo ? '✗ Significativo (p < 0.05)' : '✓ No significativo (p ≥ 0.05)'}</div>
+                    <div class="ar-kpi-badge ${data.significativo ? 'ar-badge-danger' : 'ar-badge-ok'}">${data.significativo ? '✗ Significativo' : '✓ No significativo'}</div>
                     <div style="margin-top:8px;font-size:0.75rem;color:var(--text-faint);">Rangos: ${tratamientosInfo}</div>
                     </div>
                     <div class="ar-formula" style="margin-top:12px;"><span class="ar-formula-icon">💬</span><div><div class="ar-formula-desc">${escapeHtml(data.interpretacion || '')}</div></div></div>`;
@@ -3011,9 +3015,9 @@ function generarHTML(analisisResultado) {
                         <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">(0)</span><span class="ar-kpi-sub-v">${data.ceros ?? '—'}</span></div>
                         <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">k</span><span class="ar-kpi-sub-v">${data.k ?? '—'}</span></div>
                         <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">z</span><span class="ar-kpi-sub-v">${data.z?.toFixed(4) ?? '—'}</span></div>
-                        <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Valor p</span><span class="ar-kpi-sub-v">${data.valorP?.toFixed(4) ?? '—'}</span></div>
+                        <div class="ar-kpi-sub"><span class="ar-kpi-sub-k">Valor p</span><span class="ar-kpi-sub-v">${fmtP(data.valorP)}</span></div>
                     </div>
-                    <div class="ar-kpi-badge ${data.significativo ? 'ar-badge-danger' : 'ar-badge-ok'}">${data.significativo ? '✗ Significativo (p < 0.05)' : '✓ No significativo (p ≥ 0.05)'}</div>
+                    <div class="ar-kpi-badge ${data.significativo ? 'ar-badge-danger' : 'ar-badge-ok'}">${data.significativo ? '✗ Significativo' : '✓ No significativo'}</div>
                     </div>
                     <div class="ar-formula" style="margin-top:12px;"><span class="ar-formula-icon">💬</span><div><div class="ar-formula-desc">${escapeHtml(data.interpretacion || '')}</div></div></div>`;
         }
