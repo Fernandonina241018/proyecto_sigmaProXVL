@@ -152,6 +152,9 @@ test('revisor ve pendiente, abre y firma; sale de sus pendientes', async ({ page
   let creds = await loginAs(page, E2E_USERS.rev);
   creds = await clickNav(page, 'firmarReporte', creds);
 
+  // P1-G: todo el flujo de firma a 390px (no solo el layout).
+  await page.setViewportSize({ width: 390, height: 844 });
+
   // La bandeja ahora se abre en un modal (reemplaza la pastilla de tabs).
   const openBtn = page.locator('#firmaOpenBandejaBtn');
   await expect(openBtn).toBeVisible({ timeout: 15000 });
