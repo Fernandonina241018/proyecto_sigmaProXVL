@@ -78,6 +78,13 @@ Estados iniciales: Trabajo solo "Hoja de Trabajo" colapsada; Reportes solo
 `analisisExcludedTags`, `analisisLastResultList`, `analisisLastTest`,
 `analisisLastPVal`, `analisisLastDecision`, `analisisSelectedTestsScroll`.
 
+### P1-H — correctitud del flujo de análisis (2026-11-28)
+
+- El resumen de resultado usa el `nivelAlfa` del test y el `significativo` que calcula el motor; no cae a 0.05 fijo. El panel muestra α.
+- EDA y batch actualizan el último resultado; muestran `—` en decisión cuando no hay p-valor.
+- `StatsUtils.numericColumnsForAnalysis`, `resumirResultado` y `BASE_INDEX_COLUMNS` unifican detección y resumen; el run y el modal de configuración usan la misma política.
+- Iconos de tests desde `getEstadisticoConfig`; se eliminó `getAnalisisTestsHTML`/`selectAnalisisTest` (lista legacy de 22 tests).
+
 ## 5. P0 aplicado (2026-11-26)
 
 - Marca: favicon/PWA en azul, `theme-color` alineado; foco unificado en `--focus-ring`.
@@ -140,8 +147,23 @@ Estados iniciales: Trabajo solo "Hoja de Trabajo" colapsada; Reportes solo
 - 10/10.5px: se mantienen por densidad; los 8/9px se eliminaron.
 - F3/F4: EDA/ML ya aliasan los tokens globales en sus bases; los hex restantes son legado visual, no un defecto de producción. Quedan como backlog estético.
 
+### Pestañas del tabbar (sheets)
+
+| Criterio | Bajo demanda (actual) | Todas al inicio |
+|---|---|---|
+| Descubrimiento del flujo | 3/5 (sidebar + bottom nav) | 5/5 |
+| Un clic a cualquier paso | 4/5 | 5/5 |
+| Espacio desktop | 5/5 | 2/5 (6 × 100 px) |
+| Móvil 390px | 5/5 | 1/5 (overflow) |
+| Permisos/roles | 5/5 (solo visitadas) | 2/5 (habría que filtrar) |
+| Ruido/cierre | 5/5 | 2/5 |
+| Persistencia tras reload | 2/5 (ninguna) | 3/5 (siempre) |
+
+**Decisión:** se mantiene la creación bajo demanda. El bottom nav ya es el mapa del flujo de 6 pasos; precrear todas las pestañas duplicaría esa navegación, las haría desbordar en móvil y mostraría páginas no permitidas. Si el descubrimiento es un problema, se mejora el estado vacío/bottom nav, no el tabbar. Las “hojas” del spreadsheet son datos, no pasos del flujo: una hoja por defecto y las nuevas se crean a mano.
+
 ### Pendiente
 
 - Rediseño F3/F4 y consolidación de componentes **solo con aprobación de diseño y baseline visual**.
+- Lote 2 de análisis: barra de resumen, chequeo de datos en el modal, buscador de tests y EDA→Reporte.
 
 Cada fase va en commit propio y con `npx vitest run` + `backend npm test` verdes.

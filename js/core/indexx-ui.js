@@ -884,9 +884,11 @@ var leftPanels = {
       var catIcon = catLabel.split(' ')[0];
       var catText = catLabel.substring(2);
       var lastTest = analisisLastResult ? analisisLastResult.testName : '—';
-      var lastPVal = analisisLastResult && analisisLastResult.pValue != null ? analisisLastResult.pValue.toFixed(4) : '—';
-      var lastDec = analisisLastResult ? (analisisLastResult.significativo ? 'Rechazar H₀' : 'No rechazar H₀') : '—';
-      var decColor = analisisLastResult && analisisLastResult.significativo ? 'var(--accent)' : 'var(--text-faint)';
+      var lastPVal = (typeof formatPValue === 'function') ? formatPValue(analisisLastResult ? analisisLastResult.pValue : null) : '—';
+      var lastAlpha = analisisLastResult && analisisLastResult.alfa != null ? analisisLastResult.alfa : '—';
+      var lastDec = analisisLastResult && analisisLastResult.significativo === true ? 'Rechazar H₀'
+        : (analisisLastResult && analisisLastResult.significativo === false ? 'No rechazar H₀' : '—');
+      var decColor = analisisLastResult && analisisLastResult.significativo === true ? 'var(--accent)' : 'var(--text-faint)';
       
       // Get selected tests from menu checkboxes
       var selectedTests = [];
@@ -897,17 +899,9 @@ var leftPanels = {
       // Build selected tests list with icons
       var selectedTestsHtml = '';
       if (selectedTests.length > 0) {
-        var testIcons = {
-          'Media Aritmética': '📐', 'Mediana': '📊', 'Moda': '🎯', 'Varianza': '📈',
-          'Desv. Estándar': '📉', 'Coef. Variación': '📊', 'Asimetría': '📐', 'Curtosis': '🔔',
-          't-Test': '⚖️', 'z-Test': '📐', 'F-Test': '📊', 'Chi-cuadrado': '📐', 'Shapiro-Wilk': '🔔',
-          'Pearson': '🔗', 'Spearman': '📈', 'Kendall': '📊',
-          'Lineal Simple': '📈', 'Regresión Múltiple': '📊', 'Regresión Logística': '📦',
-          'Mann-Whitney': '📉', 'Wilcoxon': '📊', 'Kruskal-Wallis': '📦',
-          'PCA': '📊', 'Cluster K-Means': '📈', 'LDA': '📐'
-        };
         selectedTests.forEach(function(t) {
-          var icon = testIcons[t] || '📊';
+          var _cfgT = (typeof getEstadisticoConfig === 'function') ? getEstadisticoConfig(t) : null;
+          var icon = _cfgT && _cfgT.icono ? _cfgT.icono : '📊';
           var isCurrent = analisisSelectedTest === t ? ' active' : '';
           selectedTestsHtml += '<div class="info-item anl-test' + isCurrent + '">' +
             '<span class="anl-test-ok">✓</span>' +
@@ -951,6 +945,7 @@ var leftPanels = {
         '<div id="analisisLastResultList" class="anl-last">' +
           '<div class="anl-last-row"><span class="anl-k">Test</span><span id="analisisLastTest" class="anl-v">' + lastTest + '</span></div>' +
           '<div class="anl-last-row"><span class="anl-k">p-valor</span><span id="analisisLastPVal" class="anl-v anl-num">' + lastPVal + '</span></div>' +
+          '<div class="anl-last-row"><span class="anl-k">α</span><span id="analisisLastAlpha" class="anl-v anl-num">' + lastAlpha + '</span></div>' +
           '<div class="anl-last-row"><span class="anl-k">Decisión</span><span id="analisisLastDecision" class="anl-v" style="color:' + decColor + '">' + lastDec + '</span></div>' +
         '</div>';
 

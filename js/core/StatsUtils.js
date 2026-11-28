@@ -32,6 +32,10 @@ const StatsUtils = (function () {
     const _NUM_RE = /^[+-]?(?:\d+(?:\.\d*)?|\.\d+)(?:[eE][+-]?\d+)?$/;
     let _exclusionesParseo = 0;
 
+    // Columnas de índice que nunca son variables de análisis. Fuente única
+    // para StatsUtils y el motor (indexx-stats-core).
+    const BASE_INDEX_COLUMNS = ['#', 'A', 'Row', 'row', 'INDEX', 'index', 'row_index', 'No.', 'N°'];
+
     function parseNumeric(val) {
         if (typeof val === 'number') return isFinite(val) ? val : null;
         if (typeof val !== 'string') return null;
@@ -109,7 +113,7 @@ const StatsUtils = (function () {
 
         const {
             threshold = 0.5,
-            excludeColumns = ['#', 'A', 'Row', 'row', 'INDEX', 'index', 'row_index'],
+            excludeColumns = BASE_INDEX_COLUMNS,
             sampleRows = 0
         } = options;
 
@@ -645,17 +649,65 @@ const StatsUtils = (function () {
         };
     }
 
+    /**
+     * Columnas numéricas con la misma política que el motor de análisis
+     * (umbral, exclusiones y "forzar" de columnAnalysisConfig).
+     */
+    function numericColumnsForAnalysis(data, config) {
+        if (!data || !data.headers) return [];
+        config = config || {};
+        const excluded = BASE_INDEX_COLUMNS.concat(
+            Array.isArray(config.excludeColumns) ? config.excludeColumns : []
+        );
+        if (config.forceInclude) {
+            const info = analyzeColumns(data);
+            const excludeSet = new Set(excluded);
+            return info
+                .filter(c => c.numericRatio > 0)
+                .map(c => c.header)
+                .filter(h => !excludeSet.has(h));
+        }
+        const threshold = Number.isFinite(Number(config.threshold)) ? Number(config.threshold) : 0.5;
+        return getNumericColumns(data, { threshold, excludeColumns: excluded });
+    }
+
+    /**
+     * Resumen de un resultado de test: p-valor y decisión según α.
+     * No genera HTML; lo usan el panel de último resultado y los reportes.
+     */
+    function resumirResultado(resultado, alfa) {
+        let pValue = null, sigTrue = false, sigFalse = false;
+        const seen = new WeakSet();
+        const scan = (o, depth) => {
+            if (!o || typeof o !== 'object' || Array.isArray(o) || depth > 3 || seen.has(o)) return;
+            seen.add(o);
+            if (pValue === null && typeof o.valorP === 'number' && Number.isFinite(o.valorP)) pValue = o.valorP;
+            if (pValue === null && typeof o.pValue === 'number' && Number.isFinite(o.pValue)) pValue = o.pValue;
+            if (pValue === null && typeof o.p === 'number' && Number.isFinite(o.p)) pValue = o.p;
+            if (o.significativo === true || o.significante === true) sigTrue = true;
+            else if (o.significativo === false || o.significante === false) sigFalse = true;
+            if (pValue === null) Object.keys(o).forEach(k => scan(o[k], depth + 1));
+        };
+        scan(resultado, 0);
+        const a = Number.isFinite(Number(alfa)) ? Number(alfa) : 0.05;
+        const significativo = sigTrue ? true : (sigFalse ? false : (pValue !== null ? pValue < a : null));
+        return { pValue, significativo, alfa: a };
+    }
+
     // ========================================
     // API PÚBLICA
     // ========================================
 
     return {
         // Extracción y validación
+        BASE_INDEX_COLUMNS,
         getNumericValues,
         parseNumeric,
         getExclusionesParseo,
         clearExclusionesParseo,
         getNumericColumns,
+        numericColumnsForAnalysis,
+        resumirResultado,
         clearNumericColumnsCache,
         countMissingValues,
 

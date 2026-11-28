@@ -90,6 +90,20 @@ Mantener y mejorar la SPA vanilla-JS de análisis de datos (StatAnalyzer Pro) co
 
 ## CAMBIOS RECIENTES
 
+### 2026-11-28 (367): P1-H — correctitud del flujo de análisis
+
+**Qué:** primera tanda del plan de mejora del módulo de estadística.
+- El resumen del último resultado usa el `nivelAlfa` del test y el `significativo` del motor; se eliminó el fallback fijo a 0.05. El panel muestra α.
+- EDA y batch actualizan el resumen; cuando no hay p-valor muestran `—` en vez de “No rechazar H₀”.
+- `StatsUtils.numericColumnsForAnalysis` y `resumirResultado` centralizan detección y resumen; `BASE_INDEX_COLUMNS` unifica las exclusiones con `indexx-stats-core`.
+- Los iconos de tests seleccionados salen de `getEstadisticoConfig`; se eliminó la lista legacy `getAnalisisTestsHTML`/`selectAnalisisTest` y `selectAnalisisTestDirect`.
+- `e2e/datos-send.spec.js` valida EDA → último resultado y decisión `—`.
+- Decisión de pestañas: se mantiene la creación bajo demanda; el bottom nav es el mapa del flujo (tabla en `MAPA_DISENO.md`).
+
+**Archivos:** `js/core/StatsUtils.js`, `js/core/indexx-stats-core.js`, `js/core/indexx-analysis.js`, `js/core/indexx-ui.js`, `tests/StatsUtils.test.js`, `tests/analisis-panel.test.js`, `e2e/datos-send.spec.js`, `docs/MAPA_DISENO.md`, `ESTADO_PROYECTO.md`.
+
+**Verificación:** `npm run preflight` OK (vitest **1299**, backend **154**, E2E **18**); E2E datos-send **1/1**.
+
 ### 2026-11-28 (366): P1-G — flujo completo de firma a 390px
 
 **Qué:** `sign-flow` ejecuta todo el flujo de firma en viewport móvil: bandeja, abrir reporte, firmar, verificación, post-firma, reapertura y ausencia en pendientes. El overflow final sigue cubierto.

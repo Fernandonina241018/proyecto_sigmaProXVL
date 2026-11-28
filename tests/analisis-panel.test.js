@@ -27,7 +27,7 @@ describe('Panel de Análisis · F1 (.side-card)', () => {
       'analisisDsName', 'analisisDsRows', 'analisisDsCols',
       'analisisStatNumeric', 'colThresholdSlider', 'colThresholdVal',
       'colForceInclude', 'colImputeMissing', 'analisisExcludedTags',
-      'analisisLastResultList', 'analisisLastTest', 'analisisLastPVal', 'analisisLastDecision',
+      'analisisLastResultList', 'analisisLastTest', 'analisisLastPVal', 'analisisLastAlpha', 'analisisLastDecision',
       'analisisSelectedTestsScroll'
     ].forEach((id) => {
       expect(panel).toContain('id="' + id + '"');

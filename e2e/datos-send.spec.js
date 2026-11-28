@@ -82,6 +82,16 @@ test('cargar CSV y enviarlo a Hoja de Trabajo con el botón Trabajo', async ({ p
   await expect(dialog).toHaveCount(0);
   await expect(page.locator('[data-act="pegar"]')).toBeFocused();
 
+  // P1 estadística: EDA actualiza el resumen y no inventa una decisión.
+  await page.click('.snav-card[data-page="analisis"]');
+  await expect(page.locator('#rightPaneTitle')).toHaveText('Análisis Estadístico');
+  await page.evaluate(() => { if (typeof runEDA === 'function') runEDA(); });
+  await expect(page.locator('.eda-header')).toBeVisible({ timeout: 25000 });
+  await expect(page.locator('#analisisLastTest')).toHaveText('Análisis Exploratorio (EDA)');
+  await expect(page.locator('#analisisLastDecision')).toHaveText('—');
+  await page.click('.snav-card[data-page="datos"]');
+  await expect(page.locator('#panelDatos')).toHaveAttribute('data-datos-init', '1', { timeout: 10000 });
+
   // P1-D: el shell no debe desbordar horizontalmente en móvil.
   await page.setViewportSize({ width: 390, height: 844 });
   expect(await page.evaluate(() => document.documentElement.scrollWidth - window.innerWidth)).toBeLessThanOrEqual(1);
